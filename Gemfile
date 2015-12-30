@@ -21,7 +21,7 @@ gem 'devise', github: 'plataformatec/devise'
 
 group :development, :test do
   gem 'byebug'
-  gem 'rspec-core'
+  gem 'rspec-rails'
 end
 
 group :development do
