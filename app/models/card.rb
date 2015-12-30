@@ -8,7 +8,7 @@ class Card < ApplicationRecord
 
   # Validations
   
-  validates :identifier, presence: true, unique: true
+  validates :identifier, presence: true, uniqueness: true
   validates :name, presence: true
   validates :brand, presence: true
   validates :bp, presence: true
