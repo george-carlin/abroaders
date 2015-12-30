@@ -11,10 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151230152711) do
+ActiveRecord::Schema.define(version: 20151230154346) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "card_accounts", force: :cascade do |t|
+    t.integer  "card_id",     null: false
+    t.integer  "user_id",     null: false
+    t.integer  "status",      null: false
+    t.datetime "recommended"
+    t.datetime "applied"
+    t.datetime "opened"
+    t.datetime "earned"
+    t.datetime "closed"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
 
   create_table "cards", force: :cascade do |t|
     t.string   "identifier",       null: false
@@ -50,4 +63,6 @@ ActiveRecord::Schema.define(version: 20151230152711) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
+  add_foreign_key "card_accounts", "cards"
+  add_foreign_key "card_accounts", "users"
 end
