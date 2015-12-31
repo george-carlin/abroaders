@@ -1,5 +1,5 @@
 module Admin
-  class UsersController < ApplicationController
+  class UsersController < AdminController
 
     # GET /admin/users
     def index
