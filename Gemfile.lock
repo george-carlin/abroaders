@@ -86,6 +86,7 @@ GEM
     coffee-script-source (1.10.0)
     concurrent-ruby (1.0.0)
     debug_inspector (0.0.2)
+    devise-bootstrap-views (0.0.7)
     diff-lcs (1.2.5)
     em-hiredis (0.3.0)
       eventmachine (~> 1.0)
@@ -205,6 +206,7 @@ PLATFORMS
 DEPENDENCIES
   byebug
   devise!
+  devise-bootstrap-views
   jbuilder (~> 2.0)
   jquery-rails
   pg (~> 0.18)

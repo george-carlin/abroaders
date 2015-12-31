@@ -12,6 +12,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'puma'
 
 gem 'devise', github: 'plataformatec/devise'
+gem 'devise-bootstrap-views'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
