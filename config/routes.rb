@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   devise_for :users, skip: :sessions
 
   namespace :admin do
+    resources :cards
     resources :users
   end
 
