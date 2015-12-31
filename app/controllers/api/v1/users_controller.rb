@@ -3,7 +3,7 @@ module API
     class UsersController < APIController
 
       def index
-        render json: User.all
+        render json: User.non_admin
       end
 
     end
