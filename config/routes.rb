@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  devise_for :administrators
   devise_for :users, skip: :sessions
 
   devise_scope :user do

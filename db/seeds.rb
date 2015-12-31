@@ -7,13 +7,14 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 ApplicationRecord.transaction do
-  unless Administrator.any?
+  unless User.admin.any?
     %w[Erik AJ George].each do |name|
-      Administrator.create!(
+      User.admin.create!(
         name:  name,
         email: "#{name.downcase}@abroaders.com",
-        password: "abroaders123",
-        password_confirmation: "abroaders123"
+        password:              "abroaders123",
+        password_confirmation: "abroaders123",
+        confirmed_at: Time.now
       )
     end
   end

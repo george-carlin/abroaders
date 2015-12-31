@@ -5,4 +5,6 @@ class User < ApplicationRecord
     :trackable, :validatable, :confirmable
 
   validates :name, presence: true
+
+  scope :admin, -> { where(admin: true) }
 end
