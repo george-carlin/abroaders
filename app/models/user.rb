@@ -6,5 +6,8 @@ class User < ApplicationRecord
 
   validates :name, presence: true
 
+  # Scopes
+
   scope :admin, -> { where(admin: true) }
+  scope :non_admin, -> { where(admin: false) }
 end

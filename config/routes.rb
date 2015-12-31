@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   devise_for :users, skip: :sessions
 
+  namespace :admin do
+    resources :users
+  end
+
   devise_scope :user do
     get    :sign_in, to: "devise/sessions#new",      as: :new_user_session
     post   :sign_in, to: "devise/sessions#create",   as: :user_session

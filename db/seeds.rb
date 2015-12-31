@@ -18,4 +18,15 @@ ApplicationRecord.transaction do
       )
     end
   end
+
+  unless User.non_admin.any?
+    50.times do
+      User.create!(
+        email: Faker::Internet.safe_email,
+        name:  Faker::Name.name,
+        password:              "abroaders123",
+        password_confirmation: "abroaders123"
+      )
+    end
+  end
 end
