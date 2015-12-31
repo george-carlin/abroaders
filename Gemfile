@@ -24,6 +24,7 @@ group :development, :test do
   gem 'byebug'
   gem 'rspec-rails'
   gem 'faker'
+  gem 'quiet_assets'
 end
 
 group :development do
