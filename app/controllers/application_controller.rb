@@ -5,6 +5,13 @@ class ApplicationController < ActionController::Base
 
   # Placeholder page for root path
   def root
+    if current_user
+      if current_user.admin?
+        render "admin/dashboard"
+      else
+        render "users/dashboard"
+      end
+    end
   end
 
 end

@@ -1,4 +1,33 @@
-<p id="notice"><%= notice %></p>
+<h1><%= @user.name %></h1>
 
-<%= link_to 'Edit', edit_admin_user_path(@user) %> |
-<%= link_to 'Back', admin_users_path %>
+<p><%= @user.email %></p>
+<p>Signed up on <%= @user.created_at.strftime("%D") %></p>
+
+<% if @card_accounts.any? %>
+  Customer has been recommended the <b><%= @card_accounts.last.card.name %></b> card
+<% else %>
+
+  <hr>
+
+  <p>Recommend a card to this user</p>
+
+  <%= form_for @new_card_account, url: admin_user_card_accounts_path(@user) do |f| %>
+    <div class="form-group">
+      <%= f.collection_select(
+        :card_id,
+        Card.all,
+        :id,
+        :full_name,
+        {},
+        class: "form-control"
+      ) %>
+    </div>
+
+    <%= f.submit "Save", class: "btn-primary" %>
+  <% end %>
+<% end %>
+
+<% if false %>
+  <%= link_to 'Edit', edit_admin_user_path(@user) %> |
+  <%= link_to 'Back', admin_users_path %>
+<% end %>

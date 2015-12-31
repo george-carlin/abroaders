@@ -9,6 +9,10 @@ module Admin
     # GET /admin/users/1
     def show
       @user = get_user
+      @card_accounts = @user.card_accounts.select(&:persisted?)
+      if @user.card_accounts.none?
+        @new_card_account = @user.card_accounts.new
+      end
     end
 
     # GET /admin/users/new

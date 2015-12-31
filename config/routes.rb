@@ -3,7 +3,9 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :cards
-    resources :users
+    resources :users do
+      resources :card_accounts
+    end
   end
 
   devise_scope :user do

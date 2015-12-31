@@ -7,6 +7,11 @@ class Card < ApplicationRecord
   enum brand: [:visa, :mastercard, :amex]
   enum type: [:credit, :charge, :debit]
 
+  def full_name
+    # Call them all 'Chase' cards until we've added Banks
+    "#{identifier} - Chase - #{name}"
+  end
+
   # Validations
   
   validates :identifier, presence: true, uniqueness: true
