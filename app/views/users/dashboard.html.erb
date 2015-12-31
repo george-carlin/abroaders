@@ -1,6 +1,30 @@
 <h1>Dashboard</h1>
 
-<% if current_user.card_accounts.any? %>
+<% if @card_accounts.any? %>
+
+  <table class="table">
+    <theaD>
+      <tr>
+        <th></th>
+        <th>Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @card_accounts.each do |card_account| %>
+        <tr>
+          <td>
+            <%= image_tag "card-placeholder-img.png" %>
+          </td>
+          <td>
+            <%= card_account.card.name %>
+          </td>
+          <td>
+            <%= card_account.card.name %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
   
 <% else %>
   Thanks for signing up to Abroaders! You will shortly receive your
