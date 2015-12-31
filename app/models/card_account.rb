@@ -8,9 +8,9 @@ class CardAccount < ApplicationRecord
 
   # Validations
 
-  validates :card, presence: false
-  validates :user, presence: false
-  validates :status, presence: false
+  validates :card, presence: true
+  validates :user, presence: true
+  validates :status, presence: true
 
   # Associations
 
