@@ -5,3 +5,15 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+ApplicationRecord.transaction do
+  unless Admin.any?
+    %w[erik aj george].each do |name|
+      Admin.create!(
+        email: "#{name}@abroaders.com",
+        password: "abroaders123",
+        password_confirmation: "abroaders123"
+      )
+    end
+  end
+end
