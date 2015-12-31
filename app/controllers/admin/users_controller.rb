@@ -1,27 +1,27 @@
 module Admin
   class UsersController < ApplicationController
 
-    # GET /admin_panel/users
+    # GET /admin/users
     def index
       @users = User.non_admin
     end
 
-    # GET /admin_panel/users/1
+    # GET /admin/users/1
     def show
       @user = get_user
     end
 
-    # GET /admin_panel/users/new
+    # GET /admin/users/new
     def new
       @user = User.new
     end
 
-    # GET /admin_panel/users/1/edit
+    # GET /admin/users/1/edit
     def edit
       @user = get_user
     end
 
-    # POST /admin_panel/users
+    # POST /admin/users
     def create
       @user = User.new(user_params)
 
@@ -32,7 +32,7 @@ module Admin
       end
     end
 
-    # PATCH/PUT /admin_panel/users/1
+    # PATCH/PUT /admin/users/1
     def update
       @user = get_user
       if @user.update(user_params)
@@ -42,7 +42,7 @@ module Admin
       end
     end
 
-    # DELETE /admin_panel/users/1
+    # DELETE /admin/users/1
     def destroy
       @user = get_user
       @user.destroy
