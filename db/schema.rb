@@ -17,16 +17,16 @@ ActiveRecord::Schema.define(version: 20151230154346) do
   enable_extension "plpgsql"
 
   create_table "card_accounts", force: :cascade do |t|
-    t.integer  "card_id",     null: false
-    t.integer  "user_id",     null: false
-    t.integer  "status",      null: false
-    t.datetime "recommended"
-    t.datetime "applied"
-    t.datetime "opened"
-    t.datetime "earned"
-    t.datetime "closed"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.integer  "card_id",        null: false
+    t.integer  "user_id",        null: false
+    t.integer  "status",         null: false
+    t.datetime "recommended_at"
+    t.datetime "applied_at"
+    t.datetime "opened_at"
+    t.datetime "earned_at"
+    t.datetime "closed_at"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
   create_table "cards", force: :cascade do |t|

@@ -4,11 +4,11 @@ class CreateCardAccounts < ActiveRecord::Migration[5.0]
       t.integer :card_id, null: false
       t.integer :user_id, null: false
       t.integer  :status, null: false
-      t.datetime :recommended
-      t.datetime :applied
-      t.datetime :opened
-      t.datetime :earned
-      t.datetime :closed
+      t.datetime :recommended_at
+      t.datetime :applied_at
+      t.datetime :opened_at
+      t.datetime :earned_at
+      t.datetime :closed_at
 
       t.timestamps
     end
