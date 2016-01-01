@@ -21,9 +21,10 @@ ApplicationRecord.transaction do
 
   unless User.non_admin.any?
     50.times do
+      name = Faker::Name.name
       User.create!(
-        email: Faker::Internet.safe_email,
-        name:  Faker::Name.name,
+        email: "#{name.parameterize}@example.com",
+        name:  name,
         password:              "abroaders123",
         password_confirmation: "abroaders123"
       )
