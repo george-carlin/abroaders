@@ -16,9 +16,10 @@ module Admin
     end
 
     # GET /admin_panel/cards/1/edit
-    def edit
-      @card = get_card
-    end
+    # Unimplemented
+    # def edit
+    #   @card = get_card
+    # end
 
     # POST /admin_panel/cards
     def create
@@ -33,14 +34,15 @@ module Admin
     end
 
     # PATCH/PUT /admin_panel/cards/1
-    def update
-      @card = get_card
-      if @card.update(card_params)
-          redirect_to @card, notice: 'Card was successfully updated.'
-      else
-        render :edit
-      end
-    end
+    # Unimplemented
+    # def update
+    #   @card = get_card
+    #   if @card.update(card_params)
+    #       redirect_to @card, notice: 'Card was successfully updated.'
+    #   else
+    #     render :edit
+    #   end
+    # end
 
     # DELETE /admin_panel/cards/1
     # def destroy

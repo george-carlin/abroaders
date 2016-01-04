@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   devise_for :users, skip: [:sessions, :registrations]
 
   namespace :admin do
-    resources :cards
+    resources :cards, only: [:show, :index, :new, :create]
     resources :users do
       resources :card_accounts
     end
