@@ -12,6 +12,14 @@ class Card < ApplicationRecord
     "#{identifier} - Chase - #{name}"
   end
 
+  def annual_fee
+    annual_fee_cents / 100.0 if annual_fee_cents.present?
+  end
+
+  def annual_fee=(annual_fee_dollars)
+    self.annual_fee_cents = (annual_fee_dollars.to_i * 100).to_i
+  end
+
   # Validations
   
   validates :identifier, presence: true, uniqueness: true
