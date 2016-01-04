@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users, skip: :sessions
+  devise_for :users, skip: [:sessions, :registrations]
 
   namespace :admin do
     resources :cards
@@ -13,6 +13,18 @@ Rails.application.routes.draw do
     post   :sign_in, to: "devise/sessions#create",   as: :user_session
     delete :sign_out, to: "devise/sessions#destroy", as: :destroy_user_session
     get :sign_up, to: "devise/registrations#new"
+
+    post :sign_up, to: "devise/registrations#create", as: :user_registration
+    get :sign_up,  to: "devise/registrations#new", as: :new_user_registration
+
+    get "users/cancel", to: "devise/registrations#cancel",
+                        as: :cancel_user_registration
+
+    # TODO this probably won't work with the default Devise views
+    # post :users, to: "devise/registrations#create", as: :user_registration
+    put  :users, to: "devise/registrations#update"
+    delete :users, to: "devise/registrations#destroy"
+
   end
 
   root to: "application#root"
