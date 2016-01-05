@@ -21,7 +21,7 @@
             <% if current_user %>
               <li>
                 <p class="navbar-text">
-                  <%= current_user.name %>
+                  <%= current_user.email %>
                   <% if current_user.admin? %>
                     &nbsp; (A)
                   <% end %>
