@@ -6,12 +6,12 @@ class User < ApplicationRecord
 
   # Validations
 
-  validates :name, presence: true
-
   # Associations
 
   has_many :card_accounts
   has_many :cards, through: :card_accounts
+
+  has_one :contact_info
 
   # Scopes
 

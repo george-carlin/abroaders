@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151230154346) do
+ActiveRecord::Schema.define(version: 20160105120526) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,9 +41,22 @@ ActiveRecord::Schema.define(version: 20151230154346) do
     t.index ["identifier"], name: "index_cards_on_identifier", unique: true, using: :btree
   end
 
+  create_table "contact_infos", force: :cascade do |t|
+    t.integer  "user_id",                      null: false
+    t.string   "first_name",                   null: false
+    t.string   "middle_names"
+    t.string   "last_name",                    null: false
+    t.string   "phone_number",                 null: false
+    t.boolean  "text_message", default: false, null: false
+    t.boolean  "whatsapp",     default: false, null: false
+    t.boolean  "imessage",     default: false, null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.index ["user_id"], name: "index_contact_infos_on_user_id", using: :btree
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false
-    t.string   "name",                   default: "",    null: false
     t.string   "encrypted_password",     default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
@@ -68,4 +81,5 @@ ActiveRecord::Schema.define(version: 20151230154346) do
 
   add_foreign_key "card_accounts", "cards"
   add_foreign_key "card_accounts", "users"
+  add_foreign_key "contact_infos", "users"
 end
