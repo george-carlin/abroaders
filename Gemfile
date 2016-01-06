@@ -25,6 +25,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'faker'
   gem 'quiet_assets'
+  gem 'factory_girl_rails', '~> 4.5.0'
 end
 
 group :development do
