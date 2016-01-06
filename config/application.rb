@@ -27,5 +27,6 @@ module Abroaders
       ENV[key] = val
     end
 
+    require "modules/bootstrap_overrides/overrides"
   end
 end

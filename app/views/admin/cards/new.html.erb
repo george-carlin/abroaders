@@ -6,27 +6,27 @@
 
   <div class="form-group">
     <%= f.label      :identifier %>
-    <%= f.text_field :identifier, class: "form-control" %>
+    <%= f.text_field :identifier %>
   </div>
 
   <div class="form-group">
     <%= f.label      :name %>
-    <%= f.text_field :name, class: "form-control" %>
+    <%= f.text_field :name %>
   </div>
 
   <div class="form-group">
     <%= f.label  :brand %>
-    <%= f.select :brand, options_for_card_brand_select, {}, class: "form-control" %>
+    <%= f.select :brand, options_for_card_brand_select, {} %>
   </div>
 
   <div class="form-group">
     <%= f.label  :bp %>
-    <%= f.select :bp, options_for_card_bp_select, {}, class: "form-control" %>
+    <%= f.select :bp, options_for_card_bp_select, {} %>
   </div>
 
   <div class="form-group">
     <%= f.label  :type %>
-    <%= f.select :type, options_for_card_type_select, {}, class: "form-control" %>
+    <%= f.select :type, options_for_card_type_select, {} %>
   </div>
 
   <div class="form-group">
@@ -35,7 +35,7 @@
       <div class="input-group-addon">
         $
       </div>
-      <%= f.text_field :annual_fee, class: "form-control" %>
+      <%= f.text_field :annual_fee %>
     </div>
   </div>
 
