@@ -7,6 +7,8 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 ApplicationRecord.transaction do
+  include FactoryGirl::Syntax::Methods
+
   unless User.admin.any?
     %w[Erik AJ George].each do |name|
       User.admin.create!(
@@ -20,16 +22,13 @@ ApplicationRecord.transaction do
 
   unless User.non_admin.any?
     50.times do
-      name = Faker::Name.first_name
-      u = User.create!(
-        email: "#{name.parameterize}@example.com",
-        password:              "abroaders123",
-        password_confirmation: "abroaders123"
-      )
-      if rand > 0.3
+      date = ((500).days + rand(24).hours + rand(60).minutes).ago
+      u = create(:user, created_at: date, confirmed_at: date)
+
+      if rand > 0.2
         u.create_contact_info!(
           phone_number: Faker::PhoneNumber.phone_number,
-          first_name: name,
+          first_name: u.email.split("@").first.capitalize,
           middle_names: (Faker::Name.first_name if rand > 0.1),
           last_name: Faker::Name.last_name,
           whatsapp: rand > 0.4,
