@@ -12,20 +12,21 @@ Rails.application.routes.draw do
     get    :sign_in, to: "devise/sessions#new",      as: :new_user_session
     post   :sign_in, to: "devise/sessions#create",   as: :user_session
     delete :sign_out, to: "devise/sessions#destroy", as: :destroy_user_session
-    get :sign_up, to: "devise/registrations#new"
+    get :sign_up, to: "registrations#new"
 
-    post :sign_up, to: "devise/registrations#create", as: :user_registration
-    get :sign_up,  to: "devise/registrations#new", as: :new_user_registration
+    post :sign_up, to: "registrations#create", as: :user_registration
+    get :sign_up,  to: "registrations#new", as: :new_user_registration
 
-    get "users/cancel", to: "devise/registrations#cancel",
-                        as: :cancel_user_registration
+    get "users/cancel", to: "registrations#cancel", as: :cancel_user_registration
 
     # TODO this probably won't work with the default Devise views
-    # post :users, to: "devise/registrations#create", as: :user_registration
-    put  :users, to: "devise/registrations#update"
-    delete :users, to: "devise/registrations#destroy"
-
+    # post :users, to: "registrations#create", as: :user_registration
+    put  :users, to: "registrations#update"
+    delete :users, to: "registrations#destroy"
   end
+
+  resource :contact_info, except: :new
+  get "add_contact_info", to: "contact_infos#new", as: :new_contact_info
 
   root to: "application#root"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

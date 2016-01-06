@@ -1,0 +1,45 @@
+<h1>Contact Info</h1>
+
+<%= render "shared/model_validation_errors", model: @contact_info %>
+
+<%= form_for @contact_info, url: contact_info_path do |f| %>
+
+  <%# TODO add 'required' star %>
+
+  <% %i[first_name middle_names last_name phone_number].each do |attr| %>
+    <div class="form-group required">
+      <%= f.label attr %>
+      <%= f.text_field attr %>
+    </div>
+  <% end %>
+
+  <p>Which of the following are you capable of receiving at this number?</p>
+
+  <div class="form-inline">
+    <div class="checkbox">
+      <%= f.label :text_message do %>
+        <%= f.check_box :text_message %>
+        Text Message
+      <% end %>
+    </div>
+    &nbsp;
+    <div class="checkbox">
+      <%= f.label :whatsapp do %>
+        <%= f.check_box :whatsapp %>
+        WhatsApp
+      <% end %>
+    </div>
+    &nbsp;
+    <div class="checkbox">
+      <%= f.label :imessage do %>
+        <%= f.check_box :imessage %>
+        iMessage
+      <% end %>
+    </div>
+  </div>
+
+  <br>
+
+  <%= f.submit "Save", class: "btn btn-primary" %>
+
+<% end %>

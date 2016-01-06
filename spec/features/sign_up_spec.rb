@@ -9,7 +9,6 @@ describe "signing up" do
     is_expected.to have_field :user_email
     is_expected.to have_field :user_password
     is_expected.to have_field :user_password_confirmation
-    is_expected.to have_field :user_name
   end
 
   describe "submitting the form" do
@@ -22,7 +21,6 @@ describe "signing up" do
         fill_in :user_email, with: "testuser@example.com"
         fill_in :user_password, with: "password123"
         fill_in :user_password_confirmation, with: "password123"
-        fill_in :user_name, with: "Dave"
       end
 
       it "creates a new user" do
@@ -36,6 +34,14 @@ describe "signing up" do
           user = User.last
           expect(user.email).to eq "testuser@example.com"
           expect(user.name).to eq "Dave"
+        end
+      end
+
+      describe "after submit" do
+        before { submit_form }
+        it "takes me to a page to add my contact details" do
+          should have_field :first_name
+          should have_field :last_name
         end
       end
     end
