@@ -15,6 +15,6 @@ class CreateContactInfos < ActiveRecord::Migration[5.0]
 
     remove_column :users, :name, :string, null: false
 
-    add_foreign_key :contact_infos, :users
+    add_foreign_key :contact_infos, :users, on_delete: :cascade
   end
 end

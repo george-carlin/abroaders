@@ -81,5 +81,5 @@ ActiveRecord::Schema.define(version: 20160105120526) do
 
   add_foreign_key "card_accounts", "cards"
   add_foreign_key "card_accounts", "users"
-  add_foreign_key "contact_infos", "users"
+  add_foreign_key "contact_infos", "users", on_delete: :cascade
 end
