@@ -6,7 +6,19 @@ describe "contact info pages" do
   include_context "logged in"
 
   describe "new page" do
-    before { visit new_contact_info_path }
+    before do
+      extra_setup
+      visit new_contact_info_path
+    end
+
+    let(:extra_setup) { nil }
+
+    context "when I already have provided my contact info" do
+      let(:extra_setup) { create(:contact_info, user: user) }
+      it "redirects to root" do
+        expect(current_path).to eq root_path
+      end
+    end
 
     it "has fields for contact info" do
       should have_field :contact_info_first_name

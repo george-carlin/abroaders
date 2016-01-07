@@ -1,7 +1,7 @@
 class ContactInfosController < AuthenticatedController
 
   def new
-    # TODO redirect if I already have contact info
+    redirect_to root_path and return if current_user.contact_info.present?
     @contact_info = current_user.build_contact_info
   end
 
