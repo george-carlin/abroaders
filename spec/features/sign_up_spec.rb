@@ -33,15 +33,14 @@ describe "signing up" do
         it "has the correct attributes" do
           user = User.last
           expect(user.email).to eq "testuser@example.com"
-          expect(user.name).to eq "Dave"
         end
       end
 
       describe "after submit" do
         before { submit_form }
         it "takes me to a page to add my contact details" do
-          should have_field :first_name
-          should have_field :last_name
+          should have_field :contact_info_first_name
+          should have_field :contact_info_last_name
         end
       end
     end
