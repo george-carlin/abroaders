@@ -28,6 +28,7 @@ describe "contact info pages" do
       should have_field :contact_info_whatsapp
       should have_field :contact_info_text_message
       should have_field :contact_info_imessage
+      should have_field :contact_info_time_zone
     end
 
     describe "submitting the form" do
@@ -38,6 +39,7 @@ describe "contact info pages" do
           fill_in :contact_info_first_name,   with: "Fred"
           fill_in :contact_info_last_name,    with: "Bloggs"
           fill_in :contact_info_phone_number, with: "0123412341"
+          fill_in :contact_info_time_zone,    with: "GMT"
         end
 
         it "creates a new ContactInfo" do

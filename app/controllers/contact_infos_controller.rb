@@ -19,7 +19,7 @@ class ContactInfosController < AuthenticatedController
   def contact_info_params
     params.require(:contact_info).permit(
       :first_name, :middle_names, :last_name, :whatsapp, :imessage,
-      :text_message, :phone_number
+      :text_message, :phone_number, :time_zone
     )
   end
 

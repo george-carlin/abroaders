@@ -9,6 +9,7 @@ class CreateContactInfos < ActiveRecord::Migration[5.0]
       t.boolean :text_message, null: false, default: false
       t.boolean :whatsapp, null: false, default: false
       t.boolean :imessage, null: false, default: false
+      t.string :time_zone, null: false
 
       t.timestamps
     end

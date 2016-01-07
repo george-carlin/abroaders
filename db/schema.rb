@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(version: 20160105120526) do
     t.boolean  "text_message", default: false, null: false
     t.boolean  "whatsapp",     default: false, null: false
     t.boolean  "imessage",     default: false, null: false
+    t.string   "time_zone",                    null: false
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
     t.index ["user_id"], name: "index_contact_infos_on_user_id", using: :btree
