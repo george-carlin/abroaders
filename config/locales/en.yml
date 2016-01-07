@@ -5,3 +5,16 @@ en:
     attributes:
       card:
         bp: "Business / Personal"
+
+      spending_info:
+        citizenship: "Which of the following best describes you?"
+        citizenships:
+          us_citizen: "U.S. Citizen"
+          us_permanent_resident: "U.S. Permanent Resident"
+          neither: "Neither"
+        has_business: "Do you have a business?"
+        has_businesses:
+          with_ein: "I have a business EIN (Employer ID Number)"
+          without_ein: "I do not have an EIN - I am a freelancer or sole proprietor"
+          no_business: "I do not have a business"
+        will_apply_for_loan: "Do you plan to apply for a loan of over $5,000 in the next 12 months?"

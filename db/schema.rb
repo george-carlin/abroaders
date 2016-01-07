@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160105120526) do
+ActiveRecord::Schema.define(version: 20160107113855) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,18 @@ ActiveRecord::Schema.define(version: 20160105120526) do
     t.index ["user_id"], name: "index_contact_infos_on_user_id", using: :btree
   end
 
+  create_table "spending_infos", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "citizenship",                default: 0,     null: false
+    t.integer  "credit_score",                               null: false
+    t.boolean  "will_apply_for_loan",        default: false, null: false
+    t.integer  "spending_per_month_dollars", default: 0,     null: false
+    t.integer  "has_business",               default: 0,     null: false
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+    t.index ["user_id"], name: "index_spending_infos_on_user_id", using: :btree
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false
     t.string   "encrypted_password",     default: "",    null: false
@@ -83,4 +95,5 @@ ActiveRecord::Schema.define(version: 20160105120526) do
   add_foreign_key "card_accounts", "cards"
   add_foreign_key "card_accounts", "users"
   add_foreign_key "contact_infos", "users", on_delete: :cascade
+  add_foreign_key "spending_infos", "users", on_delete: :cascade
 end

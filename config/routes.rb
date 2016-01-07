@@ -28,6 +28,9 @@ Rails.application.routes.draw do
   resource :contact_info, except: :new
   get "add_contact_info", to: "contact_infos#new", as: :new_contact_info
 
+  get  "spending", to: "spending_infos#new", as: :new_spending_info
+  post "spending", to: "spending_infos#create", as: :spending_info
+
   root to: "application#root"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 

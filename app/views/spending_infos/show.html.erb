@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @spending_info.user %>
+</p>
+
+<p>
+  <strong>Citizenship:</strong>
+  <%= @spending_info.citizenship %>
+</p>
+
+<p>
+  <strong>Credit score:</strong>
+  <%= @spending_info.credit_score %>
+</p>
+
+<p>
+  <strong>Will apply for loan:</strong>
+  <%= @spending_info.will_apply_for_loan %>
+</p>
+
+<p>
+  <strong>Spending per month dollars:</strong>
+  <%= @spending_info.spending_per_month_dollars %>
+</p>
+
+<p>
+  <strong>Has business:</strong>
+  <%= @spending_info.has_business %>
+</p>
+
+<%= link_to 'Edit', edit_spending_info_path(@spending_info) %> |
+<%= link_to 'Back', spending_infos_path %>

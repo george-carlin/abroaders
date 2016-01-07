@@ -12,6 +12,7 @@ class User < ApplicationRecord
   has_many :cards, through: :card_accounts
 
   has_one :contact_info
+  has_one :spending_info
 
   # Scopes
 
