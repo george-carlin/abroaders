@@ -1,5 +1,7 @@
 class TravelPlan < ApplicationRecord
 
+  # Validations
+
   # Associations
 
   belongs_to :user

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160108162706) do
+ActiveRecord::Schema.define(version: 20160109141753) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,6 +77,26 @@ ActiveRecord::Schema.define(version: 20160108162706) do
     t.index ["user_id"], name: "index_spending_infos_on_user_id", using: :btree
   end
 
+  create_table "travel_plan_legs", force: :cascade do |t|
+    t.integer  "travel_plan_id",     null: false
+    t.integer  "origin_id",          null: false
+    t.integer  "destination_id",     null: false
+    t.date     "earliest_departure", null: false
+    t.date     "latest_departure",   null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.index ["destination_id"], name: "index_travel_plan_legs_on_destination_id", using: :btree
+    t.index ["origin_id"], name: "index_travel_plan_legs_on_origin_id", using: :btree
+    t.index ["travel_plan_id"], name: "index_travel_plan_legs_on_travel_plan_id", using: :btree
+  end
+
+  create_table "travel_plans", force: :cascade do |t|
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_travel_plans_on_user_id", using: :btree
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false
     t.string   "encrypted_password",     default: "",    null: false
@@ -105,4 +125,8 @@ ActiveRecord::Schema.define(version: 20160108162706) do
   add_foreign_key "card_accounts", "users"
   add_foreign_key "contact_infos", "users", on_delete: :cascade
   add_foreign_key "spending_infos", "users", on_delete: :cascade
+  add_foreign_key "travel_plan_legs", "airports", column: "destination_id"
+  add_foreign_key "travel_plan_legs", "airports", column: "origin_id"
+  add_foreign_key "travel_plan_legs", "travel_plans", on_delete: :cascade
+  add_foreign_key "travel_plans", "users", on_delete: :cascade
 end
