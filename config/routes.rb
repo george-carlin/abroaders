@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :cards, only: [:show, :index, :new, :create]
+    resources :airports, only: :index
     resources :users do
       resources :card_accounts
     end
