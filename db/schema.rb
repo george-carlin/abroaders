@@ -78,15 +78,17 @@ ActiveRecord::Schema.define(version: 20160109141753) do
   end
 
   create_table "travel_plan_legs", force: :cascade do |t|
-    t.integer  "travel_plan_id",     null: false
-    t.integer  "origin_id",          null: false
-    t.integer  "destination_id",     null: false
-    t.date     "earliest_departure", null: false
-    t.date     "latest_departure",   null: false
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.integer  "travel_plan_id",                           null: false
+    t.integer  "position",           limit: 2, default: 0, null: false
+    t.integer  "origin_id",                                null: false
+    t.integer  "destination_id",                           null: false
+    t.date     "earliest_departure",                       null: false
+    t.date     "latest_departure",                         null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
     t.index ["destination_id"], name: "index_travel_plan_legs_on_destination_id", using: :btree
     t.index ["origin_id"], name: "index_travel_plan_legs_on_origin_id", using: :btree
+    t.index ["travel_plan_id", "position"], name: "index_travel_plan_legs_on_travel_plan_id_and_position", unique: true, using: :btree
     t.index ["travel_plan_id"], name: "index_travel_plan_legs_on_travel_plan_id", using: :btree
   end
 

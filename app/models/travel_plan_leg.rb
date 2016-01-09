@@ -7,6 +7,7 @@ class TravelPlanLeg < ApplicationRecord
   validates :destination, presence: false
   validates :earliest_departure, presence: false
   validates :latest_departure, presence: false
+  validates :position, uniqueness: { scope: :travel_plan_id }, null: false
 
   # Associations
 
