@@ -10,6 +10,7 @@ class User < ApplicationRecord
 
   has_many :card_accounts
   has_many :cards, through: :card_accounts
+  has_many :travel_plans
 
   has_one :contact_info
   has_one :spending_info

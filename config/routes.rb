@@ -32,6 +32,8 @@ Rails.application.routes.draw do
   get  "spending", to: "spending_infos#new", as: :new_spending_info
   post "spending", to: "spending_infos#create", as: :spending_info
 
+  resources :travel_plans
+
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       resources :airports

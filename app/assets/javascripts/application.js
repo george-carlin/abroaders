@@ -13,4 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap.min
+//= require bootstrap3-typeahead
+//= require bootstrap-datepicker
 //= require_tree .
