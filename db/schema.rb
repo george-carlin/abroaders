@@ -17,10 +17,10 @@ ActiveRecord::Schema.define(version: 20160109141753) do
   enable_extension "plpgsql"
 
   create_table "airports", force: :cascade do |t|
-    t.string   "name",       null: false
-    t.string   "iata_code",  null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "name",                 null: false
+    t.string   "iata_code",  limit: 3, null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
     t.index ["iata_code"], name: "index_airports_on_iata_code", using: :btree
     t.index ["name"], name: "index_airports_on_name", using: :btree
   end
