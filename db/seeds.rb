@@ -33,7 +33,8 @@ ApplicationRecord.transaction do
           last_name: Faker::Name.last_name,
           whatsapp: rand > 0.4,
           text_message: rand > 0.1,
-          imessage: rand > 0.7
+          imessage: rand > 0.7,
+          time_zone: %w[GMT PDT PST UTC CET MST MDT WST EST].sample
         )
       end
     end
