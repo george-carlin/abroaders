@@ -28,7 +28,7 @@ ApplicationRecord.transaction do
       if rand > 0.2
         u.create_contact_info!(
           phone_number: Faker::PhoneNumber.phone_number,
-          first_name: u.email.split("@").first.capitalize,
+          first_name: u.email.split("@").first.sub(/-\d+/, "").capitalize,
           middle_names: (Faker::Name.first_name if rand > 0.1),
           last_name: Faker::Name.last_name,
           whatsapp: rand > 0.4,
