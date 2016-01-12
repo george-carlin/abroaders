@@ -1,5 +1,11 @@
 class ContactInfo < ApplicationRecord
 
+  # Attributes
+
+  def full_name
+    [first_name, middle_names, last_name].compact.join(" ")
+  end
+
   # Validations
 
   validates :user, presence: true
