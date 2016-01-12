@@ -3,7 +3,7 @@ module API
     class UsersController < APIController
 
       def index
-        render json: User.non_admin
+        render json: User.includes(:contact_info).non_admin
       end
 
     end
