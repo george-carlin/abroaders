@@ -30,6 +30,7 @@ group :development, :test do
   gem 'faker'
   gem 'quiet_assets'
   gem 'factory_girl_rails', '~> 4.5.0'
+  gem 'database_cleaner'
 end
 
 group :development do
@@ -39,6 +40,7 @@ end
 
 group :test do
   gem 'capybara', github: 'jnicklas/capybara'
+  gem 'poltergeist'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
