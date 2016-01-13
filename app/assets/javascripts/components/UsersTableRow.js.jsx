@@ -4,12 +4,14 @@ var UsersTableRow = React.createClass({
   },
 
   render() {
+    var user     = this.props.user,
+        showHref = `/admin/users/${user.id}`;
     return (
       <tr>
-        <td>{this.props.user.attributes.fullName}</td>
-        <td>{this.props.user.attributes.email}</td>
-        <td>{this.props.user.attributes.prettyCreatedAt}</td>
-        <td>{/*<Link to={`admin/users/${this.props.user.id}`}>Show</Link>*/}</td>
+        <td>{user.attributes.fullName}</td>
+        <td>{user.attributes.email}</td>
+        <td>{user.attributes.prettyCreatedAt}</td>
+        <td><a href={showHref}>Show</a></td>
         <td>Edit</td>
         <td>Destroy</td>
       </tr>
