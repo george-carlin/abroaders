@@ -24,17 +24,23 @@ var UsersTableHeader = React.createClass({
     return (
       <thead>
         <tr>
-          <th className="sortable-column-header" data-col-name="fullName"
-                    onClick={this.props.sortFunction}>
+          <th className="sortable-column-header"
+                    onClick={this.props.sortFunction.bind(null, "fullName")}>
             Name
+            &nbsp;
+            <SortIcon column="name" status={nameColStatus} />
           </th>
-          <th className="sortable-column-header" data-col-name="email"
-                    onClick={this.props.sortFunction}>
+          <th className="sortable-column-header"
+                    onClick={this.props.sortFunction.bind(null, "email")}>
             Email
+            &nbsp;
+            <SortIcon column="email" status={emailColStatus} />
           </th>
-          <th className="sortable-column-header" data-col-name="createdAt"
-                    onClick={this.props.sortFunction}>
+          <th className="sortable-column-header"
+                    onClick={this.props.sortFunction.bind(null, "createdAt")}>
             Signed up
+            &nbsp;
+            <SortIcon column="createdAt" status={createdAtColStatus} />
           </th>
           <th colSpan="3"></th>
         </tr>

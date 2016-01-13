@@ -18,16 +18,16 @@ var UsersTable = React.createClass({
   },
 
 
-  _sort(e) {
+  _sortBy(columnName) {
     var newOrder;
 
-    if (this.state.sortKey != newOrder.dataset.colName || this.state.sortOrder == "desc") {
+    if (this.state.sortKey != columnName || this.state.sortOrder == "desc") {
       newOrder = "asc";
     } else {
       newOrder = "desc";
     }
 
-    this.setState({sortKey: key, sortOrder: newOrder});
+    this.setState({sortKey: columnName, sortOrder: newOrder});
   },
 
 
@@ -63,10 +63,9 @@ var UsersTable = React.createClass({
           onChangeHandler={this._filterUsers} />
         <table id="admin_users_table" className="users table table-striped">
           <UsersTableHeader
-            sortKey={true/*this.state.sortKey*/}
-            sortOrder={true/*this.state.sortOrder*/}
-            onSortIconClick={true/*this.handleSortIconClick*/}
-            sortFunction={this._sort} />
+            sortKey={this.state.sortKey}
+            sortOrder={this.state.sortOrder}
+            sortFunction={this._sortBy} />
           <tbody>
             {users.map(function (user) {
               return <UsersTableRow key={user.id} user={user}/>
