@@ -6,5 +6,9 @@ FactoryGirl.define do
     password               "abroaders123"
     password_confirmation  "abroaders123"
     confirmed_at           "2015-01-01"
+
+    factory :admin do
+      admin true
+    end
   end
 end

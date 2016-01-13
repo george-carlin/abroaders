@@ -4,6 +4,10 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :recoverable, :rememberable,
     :trackable, :validatable, :confirmable
 
+  # Attributes
+
+  delegate :full_name, to: :contact_info, allow_nil: true
+
   # Validations
 
   # Associations
