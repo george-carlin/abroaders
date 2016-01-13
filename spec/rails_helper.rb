@@ -56,4 +56,8 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 
+  def t(*args)
+    I18n.t(*args)
+  end
+
 end
