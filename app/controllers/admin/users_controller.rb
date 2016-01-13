@@ -11,7 +11,7 @@ module Admin
       @user = get_user
       @card_accounts = @user.card_accounts.select(&:persisted?)
       if @user.card_accounts.none?
-        @new_card_account = @user.card_accounts.new
+        @card_recommendation = @user.card_accounts.new
       end
     end
 

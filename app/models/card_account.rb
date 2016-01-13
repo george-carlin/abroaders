@@ -6,6 +6,9 @@ class CardAccount < ApplicationRecord
                 :manual_pending, :denied, :manual_denied, :bonus_challenge,
                 :open, :closed, :converted]
 
+  delegate :brand, :type, :bp, :name, :identifier, to: :card,
+    prefix: true
+
   # Validations
 
   validates :card, presence: true

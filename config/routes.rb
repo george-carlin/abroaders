@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     resources :cards, only: [:show, :index, :new, :create]
     resources :airports, only: :index
     resources :users do
-      resources :card_accounts
+      resources :card_accounts, as: :card_recommendations
     end
   end
 
