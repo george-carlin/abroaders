@@ -72,6 +72,12 @@ describe "admin section" do
         end
       end
 
+      it "has a form to recommend a new card" do
+        should have_field :card_account_card_id
+      end
+
+      describe "filtering cards"
+
       def card_account_selector(account)
         "#card_account_#{account.id}"
       end

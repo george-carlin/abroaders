@@ -10,9 +10,7 @@ module Admin
     def show
       @user = get_user
       @card_accounts = @user.card_accounts.select(&:persisted?)
-      if @user.card_accounts.none?
-        @card_recommendation = @user.card_accounts.new
-      end
+      @card_recommendation = @user.card_accounts.new
     end
 
     # GET /admin/users/new

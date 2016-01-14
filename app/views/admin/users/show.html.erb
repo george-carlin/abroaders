@@ -34,23 +34,16 @@
   <%= t("admin.users.card_accounts.none") %>
 
   <hr>
+<% end %>
 
-  <p>Recommend a card to this user</p>
+<h3>New Card Recommendation</h3>
 
-  <%= form_for @card_recommendation, url: admin_user_card_recommendations_path(@user) do |f| %>
-    <div class="form-group">
-      <%= f.collection_select(
-        :card_id,
-        Card.all,
-        :id,
-        :full_name,
-        {},
-        class: "form-control"
-      ) %>
-    </div>
+<%= form_for @card_recommendation, url: admin_user_card_recommendations_path(@user) do |f| %>
+  
+  <%= react_component "CardRecommendationForm" %>
 
-    <%= f.submit "Save", class: "btn-primary" %>
-  <% end %>
+
+  <%= f.submit "Save", class: "btn-primary" %>
 <% end %>
 
 <% if false %>
