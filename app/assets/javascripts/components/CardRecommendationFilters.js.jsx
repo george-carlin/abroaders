@@ -1,7 +1,7 @@
 var CardRecommendationFilters = React.createClass({
 
   propTypes: {
-    updateBrandFilterCallback: React.PropTypes.func.isRequired
+    updateFilterCallback: React.PropTypes.func.isRequired,
   },
 
   render() {
@@ -9,10 +9,24 @@ var CardRecommendationFilters = React.createClass({
       <div className="form-inline">
         {["visa", "mastercard", "amex"].map(function (brand) {
           return (
-            <CardRecommendationFilterBrandCheckbox
-              key={brand}
-              brand={brand}
-              onChangeHandler={this.props.updateBrandFilterCallback}
+            <CardRecommendationFilterCheckbox
+              key={"brand-" + brand}
+              filterType="hiddenBrands"
+              value={brand}
+              onChangeHandler={this.props.updateFilterCallback}
+            />
+          )
+        }.bind(this))}
+
+        &nbsp; | &nbsp;&nbsp;
+
+        {["business", "personal"].map(function (bp) {
+          return (
+            <CardRecommendationFilterCheckbox
+              key={"bp-" + bp}
+              filterType="hiddenBPs"
+              value={bp}
+              onChangeHandler={this.props.updateFilterCallback}
             />
           )
         }.bind(this))}

@@ -1,20 +1,21 @@
 var CardRecommendationOptionsList = React.createClass({
 
   propTypes: {
-    cards:   React.PropTypes.array.isRequired,
-    filters: React.PropTypes.object.isRequired
+    cards:        React.PropTypes.array.isRequired,
+    hiddenBPs:    React.PropTypes.array.isRequired,
+    hiddenBrands: React.PropTypes.array.isRequired
   },
 
   render() {
     var filters = this.props.filters,
+        cards;
 
-        cards = this.props.cards.filter(function (card) {
-          // Filter by brands
-          return (
-            filters.brands.includes(card.brand)
-            // && other filters, once I add them 
-          )
-        });
+    cards = this.props.cards.filter(function (card) {
+      return (
+        !this.props.hiddenBrands.includes(card.brand) &&
+          !this.props.hiddenBPs.includes(card.bp)
+      )
+    }.bind(this));
 
     return (
       <tbody>

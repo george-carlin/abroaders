@@ -2,36 +2,39 @@ var CardRecommendationForm = React.createClass({
 
   getInitialState() {
     return {
-      filters: {
-        brands: ["visa", "mastercard", "amex"]
-      }
+      hiddenBrands: [],
+      hiddenBPs: []
     }
   },
 
-  _updateBrandFilters(brand, e) {
-    var filter = this.state.filters.brands
+
+  _updateFilters(filterType, value, e) {
+    var hiddenValues = this.state[filterType]
     if (e.target.checked) {
-      if (!filter.includes(brand)) {
-        filter.push(brand)
-        this.setState({filters: { brands: filter }});
+      var index;
+      if ( (index = hiddenValues.indexOf(value)) > -1) {
+        hiddenValues.splice(index, 1)
       }
     } else {
-      var index;
-      if ( (index = filter.indexOf(brand)) > -1) {
-        filter.splice(index, 1)
-        this.setState({filters: { brands: filter }});
+      if (!hiddenValues.includes(value)) {
+        hiddenValues.push(value)
       }
     }
+    var newState = {}
+    newState[filterType] = hiddenValues;
+    this.setState(newState);
   },
 
+
   render() {
+    console.log(JSON.stringify(this.state));
     var cards = [
       {
         "id": 1,
         "identifier": "01-CSPV",
         "name": "Sapphire Preferred",
         "brand": "visa",
-        "bp": "personal",
+        "bp": "business",
         "type": "credit",
         "annual_fee_cents": 9500,
       },
@@ -49,7 +52,7 @@ var CardRecommendationForm = React.createClass({
         "identifier": "01-SWPV",
         "name": "Southwest Premier",
         "brand": "mastercard",
-        "bp": "personal",
+        "bp": "business",
         "type": "credit",
         "annual_fee_cents": 9900,
       },
@@ -66,9 +69,7 @@ var CardRecommendationForm = React.createClass({
 
     return (
       <div>
-        <CardRecommendationFilters
-          updateBrandFilterCallback={this._updateBrandFilters}
-        />
+        <CardRecommendationFilters updateFilterCallback={this._updateFilters} />
         <table id="admin_user_card_accounts_table" className="table table-striped">
           <thead>
             <tr>
@@ -82,7 +83,9 @@ var CardRecommendationForm = React.createClass({
           </thead>
           <CardRecommendationOptionsList
             cards={cards}
-            filters={this.state.filters} />
+            hiddenBrands={this.state.hiddenBrands}
+            hiddenBPs={this.state.hiddenBPs}
+          />
         </table>
       </div>
     )
