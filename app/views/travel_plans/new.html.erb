@@ -2,36 +2,6 @@
 
 <%= form_for @travel_plan do |f| %>
 
-  <div class="row">
-    <div class="col-xs-12 col-sm-6">
-      <div class="form-group">
-        <label for="travel_plan_origin_lookup">From: </label>
-        <input id="travel_plan_origin_lookup" type="text"
-                autocomplete="off" class="form-control" >
-      </div>
-    </div><!-- col-xs-12 col-sm-6 -->
-
-    <div class="col-xs-12 col-sm-6">
-      <div class="form-group">
-        <label for="travel_plan_destination_lookup">To: </label>
-        <input id="travel_plan_destination_lookup" type="text"
-                autocomplete="off" class="form-control" >
-      </div>
-    </div><!-- col-xs-12 col-sm-6 -->
-  </div>
-
-  <div class="row">
-    <div class="col-xs-12 col-sm-6">
-      <div class="form-group">
-        <div id="travel_plan_daterange_select" class="input-daterange input-group">
-          <span class="input-group-addon">Between</span>
-          <input type="text" class="form-control" name="start" />
-          <span class="input-group-addon">and</span>
-          <input type="text" class="form-control" name="end" />
-        </div>
-      </div>
-    </div>
-  </div>
+  <%= react_component "NewTravelPlan" %>
 
 <% end %>
-
