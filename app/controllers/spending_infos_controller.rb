@@ -1,4 +1,4 @@
-class SpendingInfosController < ApplicationController
+class SpendingInfosController < NormalUserController
 
   # GET /spending_infos/1
   # GET /spending_infos/1.json

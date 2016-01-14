@@ -1,4 +1,4 @@
-class ContactInfosController < AuthenticatedController
+class ContactInfosController < NormalUserController
 
   def new
     redirect_to root_path and return if current_user.contact_info.present?
