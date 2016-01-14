@@ -8,7 +8,7 @@ class ContactInfosController < NormalUserController
   def create
     @contact_info = current_user.build_contact_info(contact_info_params)
     if @contact_info.save
-      redirect_to root_path
+      redirect_to new_spending_info_path
     else
       render "new"
     end

@@ -3,7 +3,7 @@ require "rails_helper"
 describe "contact info pages" do
   subject { page }
 
-  include_context "logged in"
+  include_context "logged in as new user"
 
   describe "new page" do
     before do
@@ -16,6 +16,8 @@ describe "contact info pages" do
     context "when I already have provided my contact info" do
       let(:extra_setup) { create(:contact_info, user: user) }
       it "redirects to root" do
+        # TODO this should probably be changed once we add the ability to
+        # *edit* contact info
         expect(current_path).to eq root_path
       end
     end
@@ -46,6 +48,11 @@ describe "contact info pages" do
           expect(user.contact_info).not_to be_persisted
           submit_form
           expect(user.reload.contact_info).to be_persisted
+        end
+
+        it "takes me to the 'add spending info' page" do
+          submit_form
+          expect(current_path).to eq new_spending_info_path
         end
       end
     end

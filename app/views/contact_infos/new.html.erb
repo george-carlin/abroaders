@@ -2,6 +2,9 @@
 
 <%= render "shared/model_validation_errors", model: @contact_info %>
 
+<p>Thanks for signing up to Abroaders! Before we can get started, we need
+  some information from you.</p>
+
 <%= form_for @contact_info, url: contact_info_path do |f| %>
 
   <%# TODO add 'required' star %>
@@ -40,7 +43,10 @@
 
   <div class="form-group required">
     <%= f.label :time_zone %>
-    <%= f.text_field :time_zone %>
+    <%= f.time_zone_select :time_zone, nil, {},
+      # For some reason I can't time_zone_select to add the BS class manually
+      # like I can with the overriden methods:
+            class: BootstrapOverrides::Overrides::BOOTSTRAP_CLASS %>
   </div>
 
   <br>
