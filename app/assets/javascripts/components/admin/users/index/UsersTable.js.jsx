@@ -34,7 +34,7 @@ var UsersTable = React.createClass({
   render() {
     var users = humps.camelizeKeys(this.props.users.data).map(function (user) {
       // Convert date strings to Date objects so we can sort by them
-      user.createdAt = new Date(user.createdAt);
+      user.attributes.createdAt = new Date(user.attributes.createdAt);
       return user;
     }).sort(function (user0, user1) {
       var name0 = user0.attributes[this.state.sortKey].toLowerCase();
@@ -51,8 +51,13 @@ var UsersTable = React.createClass({
     var filterText = this.state.filterText.toLowerCase().trim();
     if (filterText) {
       users = users.filter(function (user) {
-        return user.attributes.fullName.toLowerCase().includes(filterText) ||
-                user.attributes.email.toLowerCase().includes(filterText);
+        const name  = user.attributes.fullName.toLowerCase()
+        const email = user.attributes.email.toLowerCase()
+        // String.prototype.includes would be better than indexOf but it's an
+        // ES6 feature and doesn't work in PhantomJS (i.e. in the tests).  TODO
+        // figure out how to make the transpiler work in test as well as dev
+        // modes.
+        return name.indexOf(filterText) > -1 || email.indexOf(filterText) > -1
       });
     }
 

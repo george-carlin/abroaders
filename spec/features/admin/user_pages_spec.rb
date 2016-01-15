@@ -8,7 +8,11 @@ describe "admin section" do
 
     describe "index page", js: true do
       before do
-        @users = create_list(:user, 5)
+        @users = [
+          @user_0 = create(:user, email: "aaaaaa@example.com"),
+          @user_1 = create(:user, email: "bbbbbb@example.com"),
+          @user_2 = create(:user, email: "cccccc@example.com")
+        ]
         visit admin_users_path
       end
 
@@ -29,9 +33,27 @@ describe "admin section" do
 
       it "can be sorted"
 
-      it "can be filtered"
+      describe "typing something into the 'filter' box" do
+        it "filters out users who don't match your query" do
+          fill_in :admin_users_table_filter, with: "aaaaaa"
+          should have_user @user_0
+          should_not have_user @user_1
+          should_not have_user @user_2
+        end
 
+        it "is case insensitive" do
+          fill_in :admin_users_table_filter, with: "AaAAaa"
+          should have_user @user_0
+          should_not have_user @user_1
+          should_not have_user @user_2
+        end
+      end
+
+      def have_user(user)
+        have_selector "#user_#{user.id}"
+      end
     end
+
 
     describe "show page" do
 
