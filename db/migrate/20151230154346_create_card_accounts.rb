@@ -13,7 +13,7 @@ class CreateCardAccounts < ActiveRecord::Migration[5.0]
       t.timestamps
     end
 
-    add_foreign_key :card_accounts, :cards
-    add_foreign_key :card_accounts, :users
+    add_foreign_key :card_accounts, :cards, on_delete: :restrict
+    add_foreign_key :card_accounts, :users, on_delete: :cascade
   end
 end

@@ -123,8 +123,8 @@ ActiveRecord::Schema.define(version: 20160109141753) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
-  add_foreign_key "card_accounts", "cards"
-  add_foreign_key "card_accounts", "users"
+  add_foreign_key "card_accounts", "cards", on_delete: :restrict
+  add_foreign_key "card_accounts", "users", on_delete: :cascade
   add_foreign_key "contact_infos", "users", on_delete: :cascade
   add_foreign_key "spending_infos", "users", on_delete: :cascade
   add_foreign_key "travel_plan_legs", "airports", column: "destination_id"
