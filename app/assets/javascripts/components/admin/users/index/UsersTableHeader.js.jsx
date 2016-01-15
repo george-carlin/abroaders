@@ -9,7 +9,7 @@ var UsersTableHeader = React.createClass({
     var nameColStatus, emailColStatus, createdAtColStatus;
 
     switch (this.props.sortKey) {
-      case "name":
+      case "fullName":
         nameColStatus  = this.props.sortOrder;
         emailColStatus = createdAtColStatus = "hidden";
         break;
@@ -30,7 +30,7 @@ var UsersTableHeader = React.createClass({
                     onClick={this.props.sortFunction.bind(null, "fullName")}>
             Name
             &nbsp;
-            <SortIcon column="name" status={nameColStatus} />
+            <SortIcon column="fullName" status={nameColStatus} />
           </th>
           <th className="sortable-column-header"
                     onClick={this.props.sortFunction.bind(null, "email")}>
