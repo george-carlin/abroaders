@@ -1,4 +1,10 @@
 var CardRecommendationOption = React.createClass({
+
+  propTypes: {
+    card:         React.PropTypes.func.isRequired,
+    clickHandler: React.PropTypes.object.isRequired
+  },
+
   render() {
     return (
       <tr onClick={this.props.clickHandler}>

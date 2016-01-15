@@ -1,7 +1,8 @@
 var TravelPlanFormAddLegBtn = React.createClass({
-  didClick(e) {
-    e.preventDefault();
-    this.props.onClickCallback()
+
+  propTypes: {
+    onClickCallback: React.PropTypes.func.isRequired,
+    hidden:          React.PropTypes.bool
   },
 
   render() {
@@ -9,7 +10,7 @@ var TravelPlanFormAddLegBtn = React.createClass({
       return <div></div>
     } else {
       return (
-        <button onClick={this.didClick}
+        <button onClick={this.props.onClickCallback}
                 className="add-travel-plan-leg-btn btn btn-primary">+</button>
       )
     }

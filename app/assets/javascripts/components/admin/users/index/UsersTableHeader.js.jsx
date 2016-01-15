@@ -1,6 +1,8 @@
 var UsersTableHeader = React.createClass({
   propTypes: {
-    sortFunction: React.PropTypes.func.isRequired
+    sortFunction: React.PropTypes.func.isRequired,
+    sortKey:      React.PropTypes.string.isRequired,
+    sortOrder:    React.PropTypes.string.isRequired
   },
 
   render() {

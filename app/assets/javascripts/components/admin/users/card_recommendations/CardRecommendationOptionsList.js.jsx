@@ -7,8 +7,7 @@ var CardRecommendationOptionsList = React.createClass({
   },
 
   render() {
-    var filters = this.props.filters,
-        cards;
+    var cards;
 
     cards = this.props.cards.filter(function (card) {
       return (

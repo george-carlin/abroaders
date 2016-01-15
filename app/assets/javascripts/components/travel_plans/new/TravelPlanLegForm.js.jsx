@@ -1,4 +1,12 @@
 var TravelPlanLegForm = React.createClass({
+
+  propTypes: {
+    addTravelPlanLegCallback: React.PropTypes.func,
+    showAddBtn:               React.PropTypes.bool,
+    showRemoveBtn:            React.PropTypes.bool,
+    travelPlanType:           React.PropTypes.string
+  },
+
   render() {
     var formGroupClass;
 

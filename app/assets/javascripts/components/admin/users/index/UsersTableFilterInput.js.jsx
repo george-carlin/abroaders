@@ -1,4 +1,9 @@
 var UsersTableFilterInput = React.createClass({
+
+  propTypes: {
+    onChangeHandler: React.PropTypes.func.isRequired
+  },
+
   render() {
     return (
       <input

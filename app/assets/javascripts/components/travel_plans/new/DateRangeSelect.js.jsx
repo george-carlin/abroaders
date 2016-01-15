@@ -1,4 +1,5 @@
 var DateRangeSelect = React.createClass({
+
   propTypes: {
     colClasses: React.PropTypes.string.isRequired,
     hidden:     React.PropTypes.bool

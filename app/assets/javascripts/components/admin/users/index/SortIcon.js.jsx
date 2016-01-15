@@ -1,4 +1,8 @@
 var SortIcon = React.createClass({
+  propTypes: {
+    status: React.PropTypes.string.isRequired,
+  },
+
   render() {
     var className;
     switch(this.props.status) {

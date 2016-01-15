@@ -1,4 +1,9 @@
 var TravelPlanTypeSelect = React.createClass({
+
+  propTypes: {
+    changeTypeCallback: React.PropTypes.func.isRequired
+  },
+
   render() {
     return (
       <div className="row">
