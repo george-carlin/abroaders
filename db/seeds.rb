@@ -23,20 +23,20 @@ ApplicationRecord.transaction do
   unless User.non_admin.any?
     50.times do
       date = ((500).days + rand(24).hours + rand(60).minutes).ago
-      u = create(:user, created_at: date, confirmed_at: date)
+      args = [:user, { created_at: date, confirmed_at: date } ]
+      args.insert(1, :with_contact_info) if rand > 0.2
+      user = build(*args)
 
-      if rand > 0.2
-        u.create_contact_info!(
-          phone_number: Faker::PhoneNumber.phone_number,
-          first_name: u.email.split("@").first.sub(/-\d+/, "").capitalize,
+      if user.contact_info.present?
+        user.contact_info.assign_attributes(
           middle_names: (Faker::Name.first_name if rand > 0.1),
-          last_name: Faker::Name.last_name,
           whatsapp: rand > 0.4,
           text_message: rand > 0.1,
           imessage: rand > 0.7,
-          time_zone: %w[GMT PDT PST UTC CET MST MDT WST EST].sample
         )
       end
+
+      user.save!
     end
   end
 end
