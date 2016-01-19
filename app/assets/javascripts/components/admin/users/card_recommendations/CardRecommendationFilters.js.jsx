@@ -30,6 +30,19 @@ var CardRecommendationFilters = React.createClass({
             />
           )
         }.bind(this))}
+
+        &nbsp; | &nbsp;&nbsp;
+
+        <select id="card_bank_filter" className="form-control input-sm">
+          <option>All Banks</option>
+          <option>Barclays</option>
+          <option>Capital One</option>
+          <option>American Express</option>
+          <option>Chase</option>
+          <option>US Bank</option>
+          <option>Bank Of America</option>
+          <option>Citibank</option>
+        </select>
       </div>
     )
   }

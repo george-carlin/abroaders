@@ -101,6 +101,20 @@ describe "admin section" do
         end
       end
 
+      it "has a dropdown to filter by bank" do
+        is_expected.to have_selector "select#card_bank_filter"
+        within "select#card_bank_filter" do
+          is_expected.to have_text "All Banks"
+          is_expected.to have_text "Barclays"
+          is_expected.to have_text "Capital One"
+          is_expected.to have_text "American Express"
+          is_expected.to have_text "Chase"
+          is_expected.to have_text "US Bank"
+          is_expected.to have_text "Bank Of America"
+          is_expected.to have_text "Citibank"
+        end
+      end
+
       describe "filtering cards"
 
       def card_account_selector(account)
