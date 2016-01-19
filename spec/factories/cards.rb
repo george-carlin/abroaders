@@ -5,6 +5,7 @@ FactoryGirl.define do
     brand { Card.brands.keys.sample }
     bp    { Card.bps.keys.sample }
     type  { Card.types.keys.sample }
+    bank  { Card.banks.keys.sample }
     annual_fee_cents { rand(500_00) + 10_00 }
   end
 end

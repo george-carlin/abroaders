@@ -3,9 +3,17 @@ class Card < ApplicationRecord
 
   # Attributes
 
+  enum bank: %i[chase citibank american_express barclays capital_one
+                us_bank bank_of_america]
   enum bp: [:business, :personal]
   enum brand: [:visa, :mastercard, :amex]
   enum type: [:credit, :charge, :debit]
+
+  def bank_name
+    bank.to_s.gsub(/_/, " ").split.map do |word|
+      word == "us" ? "US" : word.capitalize
+    end.join(" ")
+  end
 
   def full_name
     # Call them all 'Chase' cards until we've added Banks
