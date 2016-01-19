@@ -11,6 +11,7 @@ module Admin
       @user = get_user
       @card_accounts = @user.card_accounts.select(&:persisted?)
       @card_recommendation = @user.card_accounts.new
+      @cards = Card.all
     end
 
     # GET /admin/users/new

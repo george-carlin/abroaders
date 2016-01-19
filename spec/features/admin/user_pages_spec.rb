@@ -55,7 +55,7 @@ describe "admin section" do
     end
 
 
-    describe "show page" do
+    describe "show page", js: true do
 
       before do
         @cards = create_list(:card, 4)
@@ -90,12 +90,15 @@ describe "admin section" do
             is_expected.to have_content @rec.card_type.to_s.capitalize
             is_expected.to have_content @rec.card_brand.to_s.capitalize
             is_expected.to have_content @rec.card_type.to_s.capitalize
+            is_expected.to have_content @rec.card_bank_name
           end
         end
       end
 
       it "has a form to recommend a new card" do
-        should have_field :card_account_card_id
+        @cards.each do |card|
+          should have_selector "input#card_account_card_id_#{card.id}"
+        end
       end
 
       describe "filtering cards"

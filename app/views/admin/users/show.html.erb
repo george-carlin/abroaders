@@ -40,7 +40,7 @@
 
 <%= form_for @card_recommendation, url: admin_user_card_recommendations_path(@user) do |f| %>
   
-  <%= react_component "CardRecommendationForm" %>
+  <%= react_component "CardRecommendationForm", cards: serialize(@cards)  %>
 
 
   <%= f.submit "Save", class: "btn-primary" %>
