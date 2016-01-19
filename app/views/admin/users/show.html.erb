@@ -11,6 +11,7 @@
     <thead>
       <th>ID</th>
       <th>Name</th>
+      <th>Bank</th>
       <th>B/P</th>
       <th>Brand</th>
       <th>Type</th>
@@ -21,6 +22,7 @@
         <tr id="<%= dom_id(account) %>">
           <td><%= account.card_identifier %></td>
           <td><%= account.card_name %></td>
+          <td><%= account.card_bank_name %></td>
           <td><%= account.card_bp.to_s.capitalize %></td>
           <td><%= account.card_brand.to_s.capitalize %></td>
           <td><%= account.card_type.to_s.capitalize %></td>

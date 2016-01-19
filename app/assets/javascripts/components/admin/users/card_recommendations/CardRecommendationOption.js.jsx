@@ -17,6 +17,7 @@ var CardRecommendationOption = React.createClass({
         </td>
         <td>{this.props.card.attributes.identifier}</td>
         <td>{this.props.card.attributes.name}</td>
+        <td>{this.props.card.attributes.bank_name}</td>
         <td>{this.props.card.attributes.bp.capitalize()}</td>
         <td>{this.props.card.attributes.brand.capitalize()}</td>
         <td>{this.props.card.attributes.type.capitalize()}</td>

@@ -40,6 +40,7 @@ var CardRecommendationForm = React.createClass({
               <th></th>
               <th>ID</th>
               <th>Name</th>
+              <th>Bank</th>
               <th>B/P</th>
               <th>Brand</th>
               <th>Type</th>
