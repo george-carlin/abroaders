@@ -2,11 +2,25 @@ module Admin
   class CardAccountsController < AdminController
 
     def create
-      @user   = find_user
-      account = @user.card_accounts.build(card_account_params)
-      account.status = :recommended
-      account.recommended_at = Time.now
-      account.save!
+      @user = find_user
+
+      @account = @user.card_accounts.build(card_account_params)
+      case params[:create_mode]
+      when "recommendation"
+        @account.status = :recommended
+        @account.recommended_at = Time.now
+        message = "Recommended card to user"
+      when "assignment"
+        @account.status = params[:card_account][:status]
+        message = "Assigned card to user"
+      else
+        raise "unrecognized create_mode"
+      end
+
+      @account.save!
+
+      flash[:success] = message
+
       redirect_to admin_user_path(@user)
     end
 

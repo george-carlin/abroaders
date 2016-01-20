@@ -67,17 +67,24 @@ describe "admin section" do
 
     describe "filtering cards"
 
+    describe "the card account status dropdown" do
+      it "is initially hidden" do
+        is_expected.not_to have_field :card_account_status
+      end
+    end
+
     describe "selecting a card" do
       before do
         @card = @cards[2]
         choose :"card_account_card_id_#{@card.id}"
       end
 
+      let(:submit) { click_button "Submit" }
+
       describe "and selecting 'recommend this card'" do
-        before { choose :new_card_account_type_recommendation }
+        before { choose :create_mode_recommendation }
 
         describe "and clicking 'submit'" do
-          let(:submit) { click_button "Submit" }
 
           it "assigns the card to the user in the 'recommendation' stage" do
             expect{submit}.to change{CardAccount.recommended.count}.by(1)
@@ -85,9 +92,45 @@ describe "admin section" do
             account = CardAccount.recommended.last
             expect(account.card).to eq @card
             expect(account.user).to eq @user
+          end
+
+          it "sets 'recommended at' to the current time" do
+            submit
+            account = CardAccount.recommended.last
             expect(account.recommended_at).to be_within(5.seconds).of(
               Time.now
             )
+          end
+
+          pending "notifies the user"
+        end
+      end
+
+      describe "and selecting 'assign this card'", js: true do
+        before { choose :create_mode_assignment }
+
+        it "shows the card account status dropdown" do
+          is_expected.to have_field :card_account_status
+        end
+
+        describe "selecting a status and submitting" do
+          before { select "Denied", from: :card_account_status }
+
+          let(:submit) { click_button "Submit" }
+
+          it "assigns the card to the user in the 'recommendation' stage" do
+            expect{submit}.to change{CardAccount.count}.by(1)
+
+            account = CardAccount.last
+            expect(account.card).to eq @card
+            expect(account.user).to eq @user
+            expect(account.status).to eq "denied"
+          end
+
+          it "doesn't set a 'recommended at' timestamp" do
+            submit
+            account = CardAccount.last
+            expect(account.recommended_at).to be_nil
           end
 
           pending "notifies the user"

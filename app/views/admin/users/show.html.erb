@@ -17,7 +17,7 @@
       <th>B/P</th>
       <th>Brand</th>
       <th>Type</th>
-      <th>Recommended</th>
+      <th>Status</th>
       <th>Recommended at</th>
     </thead>
     <tbody>
@@ -26,11 +26,17 @@
           <td><%= account.card_identifier %></td>
           <td><%= account.card_name %></td>
           <td><%= account.card_bank_name %></td>
-          <td><%= account.card_bank_name %></td>
           <td><%= account.card_bp.to_s.capitalize %></td>
           <td><%= account.card_brand.to_s.capitalize %></td>
           <td><%= account.card_type.to_s.capitalize %></td>
-          <td><%= account.try(:recommended_at).try(:strftime, "%c") %></td>
+          <td><%= account.status.humanize %></td>
+          <td>
+            <% if account.recommended_at %>
+              <%= account.recommended_at.try(:strftime, "%c") %>
+            <% else %>
+              -
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>
@@ -45,7 +51,7 @@
 <h3>New Card Recommendation</h3>
 
 <%= form_for @card_recommendation, url: admin_user_card_recommendations_path(@user) do |f| %>
-  
+
   <%#= react_component "CardRecommendationForm", cards: serialize(@cards)  %>
 
   <div>
@@ -78,24 +84,41 @@
     </table>
   </div>
 
-  <div>
-    Recommend this card to the user
-    <small>User will receive a notification and the card will appear
-      under 'New recommendations'</small>
-    <%= radio_button_tag :new_card_account_type, :recommendation %>
+  <div class="radio">
+    <label>
+      <%= radio_button_tag :create_mode, :recommendation, true %>
+      Recommend this card to the user
+    </label>
+
+    <p class="help-block">
+      <i>
+        User will receive a notification and the card will appear under 'New
+        recommendations'
+      </i>
+    </p>
   </div>
 
-  <div>
-    Assign this card to the user
-    <small>Card will appear in the user's list of cards, but they will not
-      receive a notification. Use this option to e.g. add a card which the user
-      already has but forgot to tell us about in the onboarding survey, or to
-      re-add a card that accidentally got deleted.</small>
-    <%= radio_button_tag :new_card_account_type, :assignment %>
+  <div class="radio">
+    <label>
+      <%= radio_button_tag :create_mode, :assignment %>
+      Assign this card to the user
+    </label>
 
-    <%= select_tag :type, options_for_select(CardAccount.statuses) %>
+    <p class="help-block">
+      <i>
+        Card will appear in the user's list of cards, but they will not receive
+        a notification. Use this option to e.g. add a card which the user
+        already has but forgot to tell us about in the onboarding survey, or to
+        re-add a card that accidentally got deleted.
+      </i>
+    </p>
   </div>
-    
+
+  <div class="form-group">
+    <%= f.select :status, options_for_card_account_status_select, {},
+                          class: "input-sm", style: "display:none" %>
+  </div>
+
   <%= f.submit "Submit", class: "btn-primary" %>
 <% end %>
 
