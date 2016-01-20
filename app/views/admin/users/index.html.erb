@@ -2,7 +2,47 @@
 
 <h1>Users</h1>
 
-<%= react_component "UsersTable", users: serialize(@users) %>
+<div>
+  <input
+    id="admin_users_table_filter"
+    type="text"
+    class="form-control"
+    placeholder="Filter"
+    />
+  <table id="admin_users_table" class="users table table-striped">
+    <thead>
+      <tr>
+        <th class="sortable-column-header" >
+          Name
+          &nbsp;
+          <!-- <i class={class} style={style} > </i> -->
+        </th>
+        <th class="sortable-column-header" >
+          Email
+          &nbsp;
+          <!-- <i class={class} style={style} > </i> -->
+        </th>
+        <th class="sortable-column-header" >
+          Signed up
+          &nbsp;
+          <!-- <i class={class} style={style} > </i> -->
+        </th>
+        <th colSpan="2"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr id="<%= dom_id(user) %>">
+          <td><%= user.full_name %></td>
+          <td><%= user.email %></td>
+          <td><%= user.created_at.strftime("%c") %></td>
+          <td><%= link_to "Show", admin_user_path(user) %></td>
+          <td>Edit</td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
 <br>
 
