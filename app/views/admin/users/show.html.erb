@@ -1,6 +1,6 @@
 <h1>User <%= @user.id %></h1>
 
-<%= link_to "Edit", edit_admin_user_path %>
+<%#= link_to "Edit", edit_admin_user_path %>
 
 <p><%= @user.email %></p>
 <p>Signed up on <%= @user.created_at.strftime("%D") %></p>
@@ -69,9 +69,9 @@
         <th>Type</th>
       </thead>
       <tbody>
-        <% @cards.each do |card| %>
+        <% @cards.each_with_index do |card, i| %>
           <tr>
-            <td><%= f.radio_button :card_id, card.id %></td>
+            <td><%= f.radio_button :card_id, card.id, checked: (i==0) %></td>
             <td><%= card.identifier %></td>
             <td><%= card.name %></td>
             <td><%= card.bank_name %></td>
@@ -114,9 +114,12 @@
     </p>
   </div>
 
-  <div class="form-group">
+  <div id="card_account_status_form_group" class="form-group"
+    style="display:none"
+  >
+    <%= f.label :status %>
     <%= f.select :status, options_for_card_account_status_select, {},
-                          class: "input-sm", style: "display:none" %>
+                          class: "input-sm" %>
   </div>
 
   <%= f.submit "Submit", class: "btn-primary" %>
