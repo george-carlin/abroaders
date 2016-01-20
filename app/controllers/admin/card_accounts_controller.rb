@@ -5,7 +5,7 @@ module Admin
       @user   = find_user
       account = @user.card_accounts.build(card_account_params)
       account.status = :recommended
-      accounts.recommended_at = Time.now
+      account.recommended_at = Time.now
       account.save!
       redirect_to admin_user_path(@user)
     end

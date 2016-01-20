@@ -6,56 +6,7 @@ describe "admin section" do
 
     include_context "logged in as admin"
 
-    describe "index page", js: true do
-      before do
-        @users = [
-          @user_0 = create(:user, email: "aaaaaa@example.com"),
-          @user_1 = create(:user, email: "bbbbbb@example.com"),
-          @user_2 = create(:user, email: "cccccc@example.com")
-        ]
-        visit admin_users_path
-      end
-
-      it "lists information about every user" do
-        within "#admin_users_table" do
-          @users.each do |user|
-            is_expected.to have_content user.email
-            is_expected.to have_content user.full_name if user.full_name.present?
-          end
-        end
-      end
-
-      it "doesn't include information about admins" do
-        within "#admin_users_table" do
-          is_expected.not_to have_content admin.email
-        end
-      end
-
-      it "can be sorted"
-
-      describe "typing something into the 'filter' box" do
-        it "filters out users who don't match your query" do
-          fill_in :admin_users_table_filter, with: "aaaaaa"
-          should have_user @user_0
-          should_not have_user @user_1
-          should_not have_user @user_2
-        end
-
-        it "is case insensitive" do
-          fill_in :admin_users_table_filter, with: "AaAAaa"
-          should have_user @user_0
-          should_not have_user @user_1
-          should_not have_user @user_2
-        end
-      end
-
-      def have_user(user)
-        have_selector "#user_#{user.id}"
-      end
-    end
-
-
-    describe "show page", js: true do
+    describe "show page" do
 
       before do
         @cards = create_list(:card, 4)
@@ -116,6 +67,34 @@ describe "admin section" do
       end
 
       describe "filtering cards"
+
+      describe "selecting a card" do
+        before do
+          @card = @cards[2]
+          choose :"card_account_card_id_#{@card.id}"
+        end
+
+        describe "and selecting 'recommend this card'" do
+          before { choose :new_card_account_type_recommendation }
+
+          describe "and clicking 'submit'" do
+            let(:submit) { click_button "Submit" }
+
+            it "assigns the card to the user in the 'recommendation' stage" do
+              expect{submit}.to change{CardAccount.recommended.count}.by(1)
+
+              account = CardAccount.recommended.last
+              expect(account.card).to eq @card
+              expect(account.user).to eq @user
+              expect(account.recommended_at).to be_within(5.seconds).of(
+                Time.now
+              )
+            end
+
+            pending "notifies the user"
+          end
+        end
+      end
 
       def card_account_selector(account)
         "#card_account_#{account.id}"

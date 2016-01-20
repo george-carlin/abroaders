@@ -16,12 +16,14 @@
       <th>Brand</th>
       <th>Type</th>
       <th>Recommended</th>
+      <th>Recommended at</th>
     </thead>
     <tbody>
       <% @card_accounts.each do |account| %>
         <tr id="<%= dom_id(account) %>">
           <td><%= account.card_identifier %></td>
           <td><%= account.card_name %></td>
+          <td><%= account.card_bank_name %></td>
           <td><%= account.card_bank_name %></td>
           <td><%= account.card_bp.to_s.capitalize %></td>
           <td><%= account.card_brand.to_s.capitalize %></td>
@@ -42,10 +44,57 @@
 
 <%= form_for @card_recommendation, url: admin_user_card_recommendations_path(@user) do |f| %>
   
-  <%= react_component "CardRecommendationForm", cards: serialize(@cards)  %>
+  <%#= react_component "CardRecommendationForm", cards: serialize(@cards)  %>
 
+  <div>
+    <!--
+    <CardRecommendationFilters updateFilterCallback={this._updateFilters} />
+    -->
+    <table id="admin_user_card_accounts_table" class="table table-striped">
+      <thead>
+        <th></th>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Bank</th>
+        <th>B/P</th>
+        <th>Brand</th>
+        <th>Type</th>
+      </thead>
+      <tbody>
+        <% @cards.each do |card| %>
+          <tr>
+            <td><%= f.radio_button :card_id, card.id %></td>
+            <td><%= card.identifier %></td>
+            <td><%= card.name %></td>
+            <td><%= card.bank_name %></td>
+            <td><%= card.bp.capitalize %></td>
+            <td><%= card.brand.capitalize %></td>
+            <td><%= card.type.capitalize %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 
-  <%= f.submit "Save", class: "btn-primary" %>
+  <div>
+    Recommend this card to the user
+    <small>User will receive a notification and the card will appear
+      under 'New recommendations'</small>
+    <%= radio_button_tag :new_card_account_type, :recommendation %>
+  </div>
+
+  <div>
+    Assign this card to the user
+    <small>Card will appear in the user's list of cards, but they will not
+      receive a notification. Use this option to e.g. add a card which the user
+      already has but forgot to tell us about in the onboarding survey, or to
+      re-add a card that accidentally got deleted.</small>
+    <%= radio_button_tag :new_card_account_type, :assignment %>
+
+    <%= select_tag :type, options_for_select(CardAccount.statuses) %>
+  </div>
+    
+  <%= f.submit "Submit", class: "btn-primary" %>
 <% end %>
 
 <% if false %>
