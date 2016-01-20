@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160120152230) do
+ActiveRecord::Schema.define(version: 20160119140523) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -84,13 +84,13 @@ ActiveRecord::Schema.define(version: 20160120152230) do
     t.boolean  "whatsapp",                   default: false, null: false
     t.boolean  "imessage",                   default: false, null: false
     t.string   "time_zone",                                  null: false
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
     t.integer  "citizenship",                default: 0,     null: false
     t.integer  "credit_score",                               null: false
     t.boolean  "will_apply_for_loan",        default: false, null: false
     t.integer  "spending_per_month_dollars", default: 0,     null: false
     t.integer  "has_business",               default: 0,     null: false
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
     t.index ["user_id"], name: "index_user_infos_on_user_id", using: :btree
   end
 
