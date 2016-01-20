@@ -11,7 +11,10 @@ module Admin
       @user = get_user
       @card_accounts = @user.card_accounts.select(&:persisted?)
       @card_recommendation = @user.card_accounts.new
-      @cards = Card.all
+      # Use @user.card_accounts here instead of @card_accounts because
+      # the latter is an Array, not a Relation (because of
+      # `.select(&:persisted?)`)
+      @cards = Card.where.not(id: @user.card_accounts.select(:card_id))
     end
 
     # GET /admin/users/new

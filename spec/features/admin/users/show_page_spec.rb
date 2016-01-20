@@ -42,11 +42,19 @@ describe "admin section" do
           is_expected.to have_content @rec.card_bank_name
         end
       end
+
+      it "doesn't include those cards in the 'new recommendation' form" do
+        within "form#new_card_account" do
+          should_not have_selector card_radio_btn(@recommended_card)
+        end
+      end
     end
 
     it "has a form to recommend a new card" do
-      @cards.each do |card|
-        should have_selector "input#card_account_card_id_#{card.id}"
+      within "form#new_card_account" do
+        @cards.each do |card|
+          should have_selector card_radio_btn(card)
+        end
       end
     end
 
@@ -140,6 +148,10 @@ describe "admin section" do
 
     def card_account_selector(account)
       "#card_account_#{account.id}"
+    end
+
+    def card_radio_btn(card)
+      "input#card_account_card_id_#{card.id}"
     end
 
   end
