@@ -34,6 +34,8 @@ Rails.application.routes.draw do
 
   resources :travel_plans
 
+  get "cards/onboarding", to: "card_accounts#onboarding"
+
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       resources :airports
