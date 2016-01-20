@@ -6,7 +6,7 @@ en:
       card:
         bp: "Business / Personal"
 
-      spending_info:
+      user_info:
         citizenship: "Which of the following best describes you?"
         citizenships:
           us_citizen: "U.S. Citizen"

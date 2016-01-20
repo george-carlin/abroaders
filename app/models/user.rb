@@ -6,7 +6,11 @@ class User < ApplicationRecord
 
   # Attributes
 
-  delegate :full_name, to: :contact_info, allow_nil: true
+  delegate :full_name, :first_name, :middle_names, :last_name, :phone_number,
+    :whatsapp, :text_message, :imessage, :time_zone, :citizenship,
+    :credit_score, :will_apply_for_loan, :spending_per_month_dollars,
+    :has_business,
+    to: :info, allow_nil: true
 
   # Validations
 
@@ -16,8 +20,7 @@ class User < ApplicationRecord
   has_many :cards, through: :card_accounts
   has_many :travel_plans
 
-  has_one :contact_info
-  has_one :spending_info
+  has_one :info, class_name: "UserInfo"
 
   # Scopes
 

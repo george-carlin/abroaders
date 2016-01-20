@@ -1,0 +1,129 @@
+<h1>Contact Info</h1>
+
+<%= render "shared/model_validation_errors", model: @user_info %>
+
+<p>Thanks for signing up to Abroaders! Before we can get started, we need
+  some information from you.</p>
+
+<%= form_for @user_info, url: survey_path do |f| %>
+
+  <%# TODO add 'required' star %>
+
+  <% %i[first_name middle_names last_name phone_number].each do |attr| %>
+    <div class="form-group required">
+      <%= f.label attr %>
+      <%= f.text_field attr %>
+    </div>
+  <% end %>
+
+  <p>Which of the following are you capable of receiving at this number?</p>
+
+  <div class="form-inline">
+    <div class="checkbox">
+      <%= f.label :text_message do %>
+        <%= f.check_box :text_message %>
+        Text Message
+      <% end %>
+    </div>
+    &nbsp;
+    <div class="checkbox">
+      <%= f.label :whatsapp do %>
+        <%= f.check_box :whatsapp %>
+        WhatsApp
+      <% end %>
+    </div>
+    &nbsp;
+    <div class="checkbox">
+      <%= f.label :imessage do %>
+        <%= f.check_box :imessage %>
+        iMessage
+      <% end %>
+    </div>
+  </div>
+
+  <div class="form-group required">
+    <%= f.label :time_zone %>
+    <%= f.time_zone_select :time_zone, nil, {},
+      # For some reason I can't get time_zone_select to add the BS class
+      # manually like I can with the overriden methods:
+            class: BootstrapOverrides::Overrides::BOOTSTRAP_CLASS %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :citizenship %>
+
+    <% UserInfo.citizenships.each do |name, _| %>
+      <div class="radio">
+        <label>
+          <%= f.radio_button(
+                :citizenship,
+                name,
+                checked: f.object.citizenship == name
+              ) %>
+          <%= t("activerecord.attributes.user_info.citizenships.#{name}") %>
+        </label>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :credit_score %>
+    <%= f.number_field :credit_score %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :will_apply_for_loan %>
+    <div class="radio">
+      <label>
+        <%= f.radio_button(
+              :will_apply_for_loan,
+              true,
+              checked: f.object.will_apply_for_loan
+            ) %>
+        Yes
+      </label>
+    </div>
+
+    <div class="radio">
+      <label>
+        <%= f.radio_button(
+              :will_apply_for_loan,
+              false,
+              checked: !f.object.will_apply_for_loan
+            ) %>
+        No
+      </label>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :spending_per_month_dollars %>
+
+    <div class="input-group">
+      <div class="input-group-addon">$</div>
+      <%= f.number_field :spending_per_month_dollars %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :has_business %>
+
+    <% UserInfo.has_businesses.each do |name, _| %>
+      <div class="radio">
+        <label>
+          <%= f.radio_button(
+                :has_business,
+                name,
+                checked: f.object.has_business == name
+              ) %>
+          <%= t("activerecord.attributes.user_info.has_businesses.#{name}") %>
+        </label>
+      </div>
+    <% end %>
+  </div>
+
+  <br>
+
+  <%= f.submit "Save", class: "btn btn-primary" %>
+
+<% end %>

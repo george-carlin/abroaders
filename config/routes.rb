@@ -26,6 +26,8 @@ Rails.application.routes.draw do
     delete :users, to: "registrations#destroy"
   end
 
+  get  :survey, to: "user_infos#new"
+  post :survey, to: "user_infos#create"
   resource :contact_info, except: :new
   get "add_contact_info", to: "contact_infos#new", as: :new_contact_info
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160119140523) do
+ActiveRecord::Schema.define(version: 20160120152230) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,33 +52,6 @@ ActiveRecord::Schema.define(version: 20160119140523) do
     t.index ["identifier"], name: "index_cards_on_identifier", unique: true, using: :btree
   end
 
-  create_table "contact_infos", force: :cascade do |t|
-    t.integer  "user_id",                      null: false
-    t.string   "first_name",                   null: false
-    t.string   "middle_names"
-    t.string   "last_name",                    null: false
-    t.string   "phone_number",                 null: false
-    t.boolean  "text_message", default: false, null: false
-    t.boolean  "whatsapp",     default: false, null: false
-    t.boolean  "imessage",     default: false, null: false
-    t.string   "time_zone",                    null: false
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-    t.index ["user_id"], name: "index_contact_infos_on_user_id", using: :btree
-  end
-
-  create_table "spending_infos", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "citizenship",                default: 0,     null: false
-    t.integer  "credit_score",                               null: false
-    t.boolean  "will_apply_for_loan",        default: false, null: false
-    t.integer  "spending_per_month_dollars", default: 0,     null: false
-    t.integer  "has_business",               default: 0,     null: false
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
-    t.index ["user_id"], name: "index_spending_infos_on_user_id", using: :btree
-  end
-
   create_table "travel_plan_legs", force: :cascade do |t|
     t.integer  "travel_plan_id",                           null: false
     t.integer  "position",           limit: 2, default: 0, null: false
@@ -99,6 +72,26 @@ ActiveRecord::Schema.define(version: 20160119140523) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_travel_plans_on_user_id", using: :btree
+  end
+
+  create_table "user_infos", force: :cascade do |t|
+    t.integer  "user_id",                                    null: false
+    t.string   "first_name",                                 null: false
+    t.string   "middle_names"
+    t.string   "last_name",                                  null: false
+    t.string   "phone_number",                               null: false
+    t.boolean  "text_message",               default: false, null: false
+    t.boolean  "whatsapp",                   default: false, null: false
+    t.boolean  "imessage",                   default: false, null: false
+    t.string   "time_zone",                                  null: false
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+    t.integer  "citizenship",                default: 0,     null: false
+    t.integer  "credit_score",                               null: false
+    t.boolean  "will_apply_for_loan",        default: false, null: false
+    t.integer  "spending_per_month_dollars", default: 0,     null: false
+    t.integer  "has_business",               default: 0,     null: false
+    t.index ["user_id"], name: "index_user_infos_on_user_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|
@@ -127,10 +120,9 @@ ActiveRecord::Schema.define(version: 20160119140523) do
 
   add_foreign_key "card_accounts", "cards", on_delete: :restrict
   add_foreign_key "card_accounts", "users", on_delete: :cascade
-  add_foreign_key "contact_infos", "users", on_delete: :cascade
-  add_foreign_key "spending_infos", "users", on_delete: :cascade
   add_foreign_key "travel_plan_legs", "airports", column: "destination_id"
   add_foreign_key "travel_plan_legs", "airports", column: "origin_id"
   add_foreign_key "travel_plan_legs", "travel_plans", on_delete: :cascade
   add_foreign_key "travel_plans", "users", on_delete: :cascade
+  add_foreign_key "user_infos", "users", on_delete: :cascade
 end

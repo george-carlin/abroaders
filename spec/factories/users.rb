@@ -11,11 +11,11 @@ FactoryGirl.define do
       admin true
     end
 
-    trait :with_contact_info do
+    trait :with_info do
       after(:build) do |user|
-        user.build_contact_info(
+        user.build_info(
           attributes_for(
-            :contact_info,
+            :user_info,
             first_name: user.email.split("@").first.sub(/-\d+/, "").capitalize
           )
         )

@@ -39,8 +39,8 @@ describe "signing up" do
       describe "after submit" do
         before { submit_form }
         it "takes me to a page to add my contact details" do
-          should have_field :contact_info_first_name
-          should have_field :contact_info_last_name
+          should have_field :user_info_first_name
+          should have_field :user_info_last_name
         end
       end
     end

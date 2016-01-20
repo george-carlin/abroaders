@@ -3,7 +3,7 @@ module Admin
 
     # GET /admin/users
     def index
-      @users = User.includes(:contact_info).non_admin
+      @users = User.includes(:info).non_admin
     end
 
     # GET /admin/users/1

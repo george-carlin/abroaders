@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ContactInfo do
+describe UserInfo do
 
   let(:info) { described_class.new }
 
