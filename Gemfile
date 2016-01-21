@@ -21,6 +21,8 @@ gem 'active_model_serializers', '~> 0.10.0.rc3'
 
 gem 'sass-rails'
 
+gem 'acts_as_tree', '~> 2.4.0'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
