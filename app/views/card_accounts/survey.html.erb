@@ -43,7 +43,7 @@
       </ul>
     </p>
 
-    <%= form_tag survey_cards_path do %>
+    <%= form_tag card_survey_path do %>
       <% @cards.group_by(&:bank).each do |bank, cards_for_1_bank| %>
 
         <div id="<%= bank %>_cards">

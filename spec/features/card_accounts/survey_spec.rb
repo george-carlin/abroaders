@@ -14,7 +14,7 @@ describe "onboarding survey - cards" do
       @barclays_b = create(:card, :business, bank: :barclays),
       @barclays_p = create(:card, :personal, bank: :barclays)
     ]
-    visit survey_cards_path
+    visit card_survey_path
   end
 
   HEADER_TYPE = "h3"

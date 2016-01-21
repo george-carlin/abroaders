@@ -33,7 +33,7 @@ Rails.application.routes.draw do
   get  :survey, to: "user_infos#new"
   post :survey, to: "user_infos#create"
 
-  get  "survey/cards", to: "card_accounts#survey"
+  get  "survey/cards", to: "card_accounts#survey", as: :card_survey
   post "survey/cards", to: "card_accounts#save_survey"
 
   resources :travel_plans
