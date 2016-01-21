@@ -50,7 +50,7 @@
         <div class="row">
           <% cards.each do |card| %>
             <div class="card-survey-checkbox">
-              <%= image_tag "card-placeholder-img.png", size: "180x114" %>
+              <%= card_image_tag(card) %>
               <div>
                 <%= check_box_tag card.id %>
                 &nbsp;
