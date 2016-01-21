@@ -5,20 +5,22 @@ module CardsHelper
   end
 
   def options_for_card_brand_select
-    options_for_select(Card.brands.keys.each_with_object({}) do |brand, hash|
-      hash[brand.capitalize] = brand
-    end)
+    options_for_enum_select(Card.brands)
   end
 
   def options_for_card_bp_select
-    options_for_select(Card.bps.keys.each_with_object({}) do |bp, hash|
-      hash[bp.capitalize] = bp
-    end)
+    options_for_enum_select(Card.bps)
   end
 
   def options_for_card_type_select
-    options_for_select(Card.types.keys.each_with_object({}) do |type, hash|
-      hash[type.capitalize] = type
+    options_for_enum_select(Card.types)
+  end
+
+  private
+
+  def options_for_enum_select(enum)
+    options_for_select(enum.keys.each_with_object({}) do |key, hash|
+      hash[key.capitalize] = key
     end)
   end
 
