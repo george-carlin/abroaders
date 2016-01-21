@@ -28,15 +28,11 @@ Rails.application.routes.draw do
 
   get  :survey, to: "user_infos#new"
   post :survey, to: "user_infos#create"
-  resource :contact_info, except: :new
-  get "add_contact_info", to: "contact_infos#new", as: :new_contact_info
 
-  get  "spending", to: "spending_infos#new", as: :new_spending_info
-  post "spending", to: "spending_infos#create", as: :spending_info
+  get "survey/cards", to: "card_accounts#survey"
 
   resources :travel_plans
 
-  get "cards/onboarding", to: "card_accounts#onboarding"
 
   namespace :api, defaults: { format: :json } do
     namespace :v1 do

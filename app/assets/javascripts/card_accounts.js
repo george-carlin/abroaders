@@ -7,4 +7,11 @@ window.ready(function () {
       form_group.style.display = "";
     }
   });
+
+
+  $(".card-survey-checkbox").click(function () {
+    var $checkbox = $(this).find("input[type=checkbox]");
+    $checkbox.prop("checked", !$checkbox.prop("checked"));;
+  });
+
 });

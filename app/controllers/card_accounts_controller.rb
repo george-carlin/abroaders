@@ -1,6 +1,6 @@
 class CardAccountsController < NormalUserController
 
-  def onboarding
+  def survey
     @grouped_cards = Card.all.group_by(&:bank)\
                           .each_with_object({}) do |(bank, cards), hash|
       hash[bank] = cards.group_by(&:bp)
