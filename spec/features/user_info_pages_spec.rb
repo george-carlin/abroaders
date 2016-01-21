@@ -59,12 +59,12 @@ describe "user info pages" do
           expect(user_info.first_name).to eq "Fred"
           expect(user_info.last_name).to eq "Bloggs"
           expect(user_info.phone_number).to eq "0123412341"
-          expect(user_info.time_zone).to eq "GMT"
-          expect(user_info.citizenship).to eq :us_permanent_resident
-          expect(user_info.credit_score).to eq "456"
+          expect(user_info.time_zone).to eq "London"
+          expect(user_info.citizenship).to eq "us_permanent_resident"
+          expect(user_info.credit_score).to eq 456
           expect(user_info.will_apply_for_loan).to be_truthy
-          expect(user_info.spending_per_month_dollars).to eq "1500"
-          expect(user_info.has_business).to eq :without_ein
+          expect(user_info.spending_per_month_dollars).to eq 1500
+          expect(user_info.has_business).to eq "without_ein"
         end
       end
 
