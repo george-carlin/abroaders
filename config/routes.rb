@@ -2,7 +2,11 @@ Rails.application.routes.draw do
   devise_for :users, skip: [:sessions, :registrations]
 
   namespace :admin do
-    resources :cards, only: [:show, :index, :new, :create]
+    resources :cards, only: [:show, :index, :new, :create] do
+      member do
+        put :active
+      end
+    end
     resources :airports, only: :index
     resources :users do
       resources :card_accounts, as: :card_recommendations
@@ -32,7 +36,6 @@ Rails.application.routes.draw do
   get "survey/cards", to: "card_accounts#survey"
 
   resources :travel_plans
-
 
   namespace :api, defaults: { format: :json } do
     namespace :v1 do

@@ -39,16 +39,15 @@ ActiveRecord::Schema.define(version: 20160119140523) do
   end
 
   create_table "cards", force: :cascade do |t|
-    t.string   "identifier",       null: false
-    t.string   "name",             null: false
-    t.integer  "brand",            null: false
-    t.integer  "bp",               null: false
-    t.string   "type",             null: false
-    t.integer  "annual_fee_cents", null: false
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-    t.integer  "bank",             null: false
-    t.index ["bank"], name: "index_cards_on_bank", using: :btree
+    t.string   "identifier",                      null: false
+    t.string   "name",                            null: false
+    t.integer  "brand",                           null: false
+    t.integer  "bp",                              null: false
+    t.string   "type",                            null: false
+    t.integer  "annual_fee_cents",                null: false
+    t.boolean  "active",           default: true, null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
     t.index ["identifier"], name: "index_cards_on_identifier", unique: true, using: :btree
   end
 

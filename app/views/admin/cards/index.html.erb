@@ -4,7 +4,7 @@
 
 <%= link_to "Add New Card", new_admin_card_path %>
 
-<table class="table table-striped">
+<table id="admin_cards_table" class="table table-striped">
   <thead>
     <tr>
       <th>Identifier</th>
@@ -13,18 +13,34 @@
       <th>B/P</th>
       <th>Type</th>
       <th>Annual Fee</th>
+      <th class="is-active"></th>
     </tr>
   </thead>
 
   <tbody>
     <% @cards.each do |card| %>
-      <tr>
+      <tr id="<%= dom_id(card) %>">
         <td><%= card.identifier %></td>
         <td><%= card.name %></td>
         <td><%= card.brand.capitalize %></td>
         <td><%= card.bp.capitalize %></td>
         <td><%= card.type.capitalize %></td>
         <td><%= card_price_formatted(card) %></td>
+        <td class="is-active">
+          <%= form_for card,
+                    remote: true, url: active_admin_card_path(card),
+                    method: :put,
+                    html: {
+                      class: "toggle_active_card",
+                      id: dom_id(card, :toggle_active)
+                    } do |f| %>
+            <%= f.check_box :active %>
+            &nbsp;
+            <span class="active-status">
+              <%= card.active ? "Active" : "Inactive" %>
+            </span>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>

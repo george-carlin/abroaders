@@ -2,7 +2,7 @@ module Admin
   class CardsController < AdminController
     # GET /admin_panel/cards
     def index
-      @cards = Card.all
+      @cards = Card.order(:identifier)
     end
 
     # GET /admin_panel/cards/1
@@ -50,6 +50,15 @@ module Admin
     #   @card.destroy
     #   redirect_to cards_url, notice: 'Card was successfully destroyed.'
     # end
+
+    def active
+      @card = get_card
+      @card.toggle!(:active)
+      respond_to do |f|
+        f.js
+      end
+    end
+
 
     private
 

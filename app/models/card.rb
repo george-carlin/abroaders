@@ -9,6 +9,11 @@ class Card < ApplicationRecord
   enum brand: [:visa, :mastercard, :amex]
   enum type: [:credit, :charge, :debit]
 
+  def inactive
+    !active
+  end
+  alias_method :inactive?, :inactive
+
   def bank_name
     bank.to_s.gsub(/_/, " ").split.map do |word|
       word == "us" ? "US" : word.capitalize
@@ -41,5 +46,9 @@ class Card < ApplicationRecord
 
   # has_many :offers,   class_name: "CardOffer"
   # has_many :accounts, class_name: "CardAccount"
+
+  # Scopes
+
+  scope :inactive, -> { where(active: false) }
 
 end
