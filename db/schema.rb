@@ -48,6 +48,8 @@ ActiveRecord::Schema.define(version: 20160119140523) do
     t.boolean  "active",           default: true, null: false
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
+    t.integer  "bank",                            null: false
+    t.index ["bank"], name: "index_cards_on_bank", using: :btree
     t.index ["identifier"], name: "index_cards_on_identifier", unique: true, using: :btree
   end
 
