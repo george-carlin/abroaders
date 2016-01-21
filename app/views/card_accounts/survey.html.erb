@@ -43,24 +43,41 @@
       </ul>
     </p>
 
-    <% @grouped_cards.each do |bank, cards_grouped_by_bp| %>
-      <% cards_grouped_by_bp.each do |bp, cards| %>
-        <h3><%= cards.first.bank_name %> <%= bp.capitalize %> Cards</h3>
+    <%= form_tag survey_cards_path do %>
+      <% @cards.group_by(&:bank).each do |bank, cards_for_1_bank| %>
 
-        <div class="row">
-          <% cards.each do |card| %>
-            <div class="card-survey-checkbox">
-              <%= card_image_tag(card) %>
-              <div>
-                <%= check_box_tag card.id %>
-                &nbsp;
-                <label><%= card.name %></label>
-              </div>
-            </div>
-          <% end %>
-        </div>
+        <div id="<%= bank %>_cards">
 
-      <% end %>
+          <% cards_for_1_bank.group_by(&:bp).each do |bp, cards| %>
+
+            <div id="<%= bank %>_<%= bp %>_cards">
+              <h3><%= cards.first.bank_name %> <%= bp.capitalize %> Cards</h3>
+
+              <div class="row">
+
+                <%= collection_check_boxes :card_account, :card_ids, cards,
+                                                          :id, :name do |cb| %>
+                  <div class="card-survey-checkbox">
+                    <%= card_image_tag(cb.object) %>
+                    <div>
+                      <%= cb.check_box %>
+                      &nbsp;
+                      <%= cb.label %>
+                    </div>
+                  </div>
+
+                <% end %>
+
+              </div><!-- .row -->
+            </div><!-- #cards_onboarding_<%= bank %>_<%= bp %> -->
+
+          <% end # cards_for_1_bank.group_by(&:bp).each %>
+
+        </div><!-- #cards_onboarding_<%= bank %> -->
+
+      <% end # @cards.group_by(&:bank).each %>
+
+      <%= submit_tag "Save", class: "btn btn-primary" %>
     <% end %>
 
   </div>

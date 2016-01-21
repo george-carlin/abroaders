@@ -11,5 +11,13 @@ FactoryGirl.define do
     factory :inactive_card do
       active false
     end
+
+    trait :business do
+      bp :business
+    end
+
+    trait :personal do
+      bp :personal
+    end
   end
 end

@@ -13,7 +13,7 @@
       <% @card_accounts.each do |card_account| %>
         <tr>
           <td>
-            <%= image_tag "card-placeholder-img.png" %>
+            <%= card_image_tag(card_account.card) %>
           </td>
           <td>
             <%= card_account.card.name %>
