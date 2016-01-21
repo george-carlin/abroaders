@@ -1,6 +1,6 @@
 # Superclass for all controllers whose actions are intended to be used by
-# 'normal', non-admin users.
-class NormalUserController < AuthenticatedController
+# logged-in 'normal', non-admin users.
+class NonAdminController < AuthenticatedController
 
   before_action :redirect_to_survey_if_incomplete
 

@@ -1,4 +1,4 @@
-class UserInfosController < NormalUserController
+class UserInfosController < NonAdminController
 
   def new
     redirect_to root_path and return if current_user.info.present?

@@ -1,4 +1,4 @@
-class CardAccountsController < NormalUserController
+class CardAccountsController < NonAdminController
 
   def survey
     @grouped_cards = Card.all.group_by(&:bank)\
