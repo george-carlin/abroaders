@@ -66,6 +66,11 @@ describe "user info pages" do
           expect(user_info.spending_per_month_dollars).to eq 1500
           expect(user_info.has_business).to eq "without_ein"
         end
+
+        it "takes me to the cards survey page" do
+          submit_form
+          expect(current_path).to eq card_survey_path
+        end
       end
 
       context "with invalid information" do

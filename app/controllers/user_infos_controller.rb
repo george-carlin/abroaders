@@ -8,7 +8,7 @@ class UserInfosController < NonAdminController
   def create
     @user_info = current_user.build_info(user_info_params)
     if @user_info.save
-      redirect_to root_path
+      redirect_to card_survey_path
     else
       render "new"
     end
