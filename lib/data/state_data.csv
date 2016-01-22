@@ -1,0 +1,5073 @@
+name,iso_code,iso_country_code
+Afghanistan,AF-BDS,AF
+Afghanistan,AF-BGL,AF
+Afghanistan,AF-BAL,AF
+Afghanistan,AF-BDG,AF
+Afghanistan,AF-BAM,AF
+Afghanistan,AF-DAY,AF
+Afghanistan,AF-FRA,AF
+Afghanistan,AF-FYB,AF
+Afghanistan,AF-GHA,AF
+Afghanistan,AF-GHO,AF
+Afghanistan,AF-HEL,AF
+Afghanistan,AF-HER,AF
+Afghanistan,AF-JOW,AF
+Afghanistan,AF-KAN,AF
+Afghanistan,AF-KHO,AF
+Afghanistan,AF-KNR,AF
+Afghanistan,AF-KDZ,AF
+Afghanistan,AF-KAB,AF
+Afghanistan,AF-KAP,AF
+Afghanistan,AF-LAG,AF
+Afghanistan,AF-LOW,AF
+Afghanistan,AF-NAN,AF
+Afghanistan,AF-NIM,AF
+Afghanistan,AF-NUR,AF
+Afghanistan,AF-PIA,AF
+Afghanistan,AF-PKA,AF
+Afghanistan,AF-PAN,AF
+Afghanistan,AF-PAR,AF
+Afghanistan,AF-SAM,AF
+Afghanistan,AF-SAR,AF
+Afghanistan,AF-TAK,AF
+Afghanistan,AF-URU,AF
+Afghanistan,AF-ORU,AF
+Afghanistan,AF-WAR,AF
+Afghanistan,AF-ZAB,AF
+Albania,AL-BR,AL
+Albania,AL-01,AL
+Albania,AL-BU,AL
+Albania,AL-DL,AL
+Albania,AL-DV,AL
+Albania,AL-DI,AL
+Albania,AL-09,AL
+Albania,AL-02,AL
+Albania,AL-DR,AL
+Albania,AL-EL,AL
+Albania,AL-03,AL
+Albania,AL-04,AL
+Albania,AL-FR,AL
+Albania,AL-GJ,AL
+Albania,AL-05,AL
+Albania,AL-GR,AL
+Albania,AL-HA,AL
+Albania,AL-KA,AL
+Albania,AL-ER,AL
+Albania,AL-KO,AL
+Albania,AL-06,AL
+Albania,AL-KR,AL
+Albania,AL-KU,AL
+Albania,AL-07,AL
+Albania,AL-KB,AL
+Albania,AL-KC,AL
+Albania,AL-LE,AL
+Albania,AL-08,AL
+Albania,AL-LB,AL
+Albania,AL-LU,AL
+Albania,AL-MK,AL
+Albania,AL-MM,AL
+Albania,AL-MT,AL
+Albania,AL-MR,AL
+Albania,AL-PQ,AL
+Albania,AL-PG,AL
+Albania,AL-PU,AL
+Albania,AL-PR,AL
+Albania,AL-SR,AL
+Albania,AL-SH,AL
+Albania,AL-10,AL
+Albania,AL-SK,AL
+Albania,AL-TE,AL
+Albania,AL-TR,AL
+Albania,AL-11,AL
+Albania,AL-TP,AL
+Albania,AL-12,AL
+Albania,AL-VL,AL
+Algeria,DZ-01,DZ
+Algeria,DZ-16,DZ
+Algeria,DZ-23,DZ
+Algeria,DZ-44,DZ
+Algeria,DZ-46,DZ
+Algeria,DZ-05,DZ
+Algeria,DZ-07,DZ
+Algeria,DZ-09,DZ
+Algeria,DZ-34,DZ
+Algeria,DZ-10,DZ
+Algeria,DZ-35,DZ
+Algeria,DZ-08,DZ
+Algeria,DZ-06,DZ
+Algeria,DZ-02,DZ
+Algeria,DZ-25,DZ
+Algeria,DZ-17,DZ
+Algeria,DZ-32,DZ
+Algeria,DZ-39,DZ
+Algeria,DZ-36,DZ
+Algeria,DZ-47,DZ
+Algeria,DZ-24,DZ
+Algeria,DZ-33,DZ
+Algeria,DZ-18,DZ
+Algeria,DZ-40,DZ
+Algeria,DZ-03,DZ
+Algeria,DZ-29,DZ
+Algeria,DZ-43,DZ
+Algeria,DZ-27,DZ
+Algeria,DZ-28,DZ
+Algeria,DZ-26,DZ
+Algeria,DZ-45,DZ
+Algeria,DZ-31,DZ
+Algeria,DZ-30,DZ
+Algeria,DZ-04,DZ
+Algeria,DZ-48,DZ
+Algeria,DZ-20,DZ
+Algeria,DZ-22,DZ
+Algeria,DZ-21,DZ
+Algeria,DZ-41,DZ
+Algeria,DZ-19,DZ
+Algeria,DZ-11,DZ
+Algeria,DZ-14,DZ
+Algeria,DZ-37,DZ
+Algeria,DZ-42,DZ
+Algeria,DZ-38,DZ
+Algeria,DZ-15,DZ
+Algeria,DZ-13,DZ
+Algeria,DZ-12,DZ
+Andorra,AD-07,AD
+Andorra,AD-02,AD
+Andorra,AD-03,AD
+Andorra,AD-08,AD
+Andorra,AD-04,AD
+Andorra,AD-05,AD
+Andorra,AD-06,AD
+Angola,AO-BGO,AO
+Angola,AO-BGU,AO
+Angola,AO-BIE,AO
+Angola,AO-CAB,AO
+Angola,AO-CCU,AO
+Angola,AO-CNO,AO
+Angola,AO-CUS,AO
+Angola,AO-CNN,AO
+Angola,AO-HUA,AO
+Angola,AO-HUI,AO
+Angola,AO-LUA,AO
+Angola,AO-LNO,AO
+Angola,AO-LSU,AO
+Angola,AO-MAL,AO
+Angola,AO-MOX,AO
+Angola,AO-NAM,AO
+Angola,AO-UIG,AO
+Angola,AO-ZAI,AO
+Antigua and Barbuda,AG-10,AG
+Antigua and Barbuda,AG-11,AG
+Antigua and Barbuda,AG-X2~,AG
+Antigua and Barbuda,AG-03,AG
+Antigua and Barbuda,AG-04,AG
+Antigua and Barbuda,AG-05,AG
+Antigua and Barbuda,AG-06,AG
+Antigua and Barbuda,AG-07,AG
+Antigua and Barbuda,AG-08,AG
+Argentina,AR-B,AR
+Argentina,AR-K,AR
+Argentina,AR-H,AR
+Argentina,AR-U,AR
+Argentina,AR-C,AR
+Argentina,AR-W,AR
+Argentina,AR-X,AR
+Argentina,AR-E,AR
+Argentina,AR-P,AR
+Argentina,AR-Y,AR
+Argentina,AR-L,AR
+Argentina,AR-F,AR
+Argentina,AR-M,AR
+Argentina,AR-N,AR
+Argentina,AR-Q,AR
+Argentina,AR-R,AR
+Argentina,AR-A,AR
+Argentina,AR-J,AR
+Argentina,AR-D,AR
+Argentina,AR-Z,AR
+Argentina,AR-S,AR
+Argentina,AR-G,AR
+Argentina,AR-V,AR
+Argentina,AR-T,AR
+Armenia,AM-AG,AM
+Armenia,AM-AR,AM
+Armenia,AM-AV,AM
+Armenia,AM-ER,AM
+Armenia,AM-GR,AM
+Armenia,AM-KT,AM
+Armenia,AM-LO,AM
+Armenia,AM-SU,AM
+Armenia,AM-TV,AM
+Armenia,AM-VD,AM
+Armenia,AM-SH,AM
+Australia,AU-ACT,AU
+Australia,AU-NSW,AU
+Australia,AU-NT,AU
+Australia,AU-QLD,AU
+Australia,AU-SA,AU
+Australia,AU-TAS,AU
+Australia,AU-VIC,AU
+Australia,AU-WA,AU
+Austria,AT-1,AT
+Austria,AT-2,AT
+Austria,AT-3,AT
+Austria,AT-4,AT
+Austria,AT-5,AT
+Austria,AT-6,AT
+Austria,AT-7,AT
+Austria,AT-8,AT
+Austria,AT-9,AT
+Azerbaijan,AZ-ABS,AZ
+Azerbaijan,AZ-AGC,AZ
+Azerbaijan,AZ-AGM,AZ
+Azerbaijan,AZ-AGS,AZ
+Azerbaijan,AZ-AGA,AZ
+Azerbaijan,AZ-AGU,AZ
+Azerbaijan,AZ-AST,AZ
+Azerbaijan,AZ-BAB,AZ
+Azerbaijan,AZ-BA,AZ
+Azerbaijan,AZ-BAL,AZ
+Azerbaijan,AZ-BEY,AZ
+Azerbaijan,AZ-BIL,AZ
+Azerbaijan,AZ-BAR,AZ
+Azerbaijan,AZ-CUL,AZ
+Azerbaijan,AZ-CAB,AZ
+Azerbaijan,AZ-CAL,AZ
+Azerbaijan,AZ-DAS,AZ
+Azerbaijan,AZ-DAV,AZ
+Azerbaijan,AZ-FUZ,AZ
+Azerbaijan,AZ-GOR,AZ
+Azerbaijan,AZ-GAD,AZ
+Azerbaijan,AZ-GYG,AZ
+Azerbaijan,AZ-GOY,AZ
+Azerbaijan,AZ-GA,AZ
+Azerbaijan,AZ-HAC,AZ
+Azerbaijan,AZ-IMI,AZ
+Azerbaijan,AZ-ISM,AZ
+Azerbaijan,AZ-KAL,AZ
+Azerbaijan,AZ-KUR,AZ
+Azerbaijan,AZ-KAN,AZ
+Azerbaijan,AZ-LAC,AZ
+Azerbaijan,AZ-LER,AZ
+Azerbaijan,AZ-LAN,AZ
+Azerbaijan,AZ-LA,AZ
+Azerbaijan,AZ-MAS,AZ
+Azerbaijan,AZ-MI,AZ
+Azerbaijan,AZ-NA,AZ
+Azerbaijan,AZ-NX,AZ
+Azerbaijan,AZ-NV,AZ
+Azerbaijan,AZ-NEF,AZ
+Azerbaijan,AZ-OGU,AZ
+Azerbaijan,AZ-ORD,AZ
+Azerbaijan,AZ-QAX,AZ
+Azerbaijan,AZ-QAZ,AZ
+Azerbaijan,AZ-QOB,AZ
+Azerbaijan,AZ-QBA,AZ
+Azerbaijan,AZ-QBI,AZ
+Azerbaijan,AZ-QUS,AZ
+Azerbaijan,AZ-QAB,AZ
+Azerbaijan,AZ-SAT,AZ
+Azerbaijan,AZ-SAB,AZ
+Azerbaijan,AZ-SAH,AZ
+Azerbaijan,AZ-SAL,AZ
+Azerbaijan,AZ-SMI,AZ
+Azerbaijan,AZ-SMX,AZ
+Azerbaijan,AZ-SIY,AZ
+Azerbaijan,AZ-SM,AZ
+Azerbaijan,AZ-SUS,AZ
+Azerbaijan,AZ-SS,AZ
+Azerbaijan,AZ-SAD,AZ
+Azerbaijan,AZ-SAK,AZ
+Azerbaijan,AZ-SKR,AZ
+Azerbaijan,AZ-SAR,AZ
+Azerbaijan,AZ-TOV,AZ
+Azerbaijan,AZ-TAR,AZ
+Azerbaijan,AZ-UCA,AZ
+Azerbaijan,AZ-XA,AZ
+Azerbaijan,AZ-XAN,AZ
+Azerbaijan,AZ-XAC,AZ
+Azerbaijan,AZ-XIZ,AZ
+Azerbaijan,AZ-XCI,AZ
+Azerbaijan,AZ-XVD,AZ
+Azerbaijan,AZ-YAR,AZ
+Azerbaijan,AZ-YEV,AZ
+Azerbaijan,AZ-YE,AZ
+Azerbaijan,AZ-ZAQ,AZ
+Azerbaijan,AZ-ZAN,AZ
+Azerbaijan,AZ-ZAR,AZ
+Azerbaijan,AZ-AB,AZ
+Azerbaijan,AZ-SBN,AZ
+Azerbaijan,AZ-SR,AZ
+Azerbaijan,AZ-SA,AZ
+Bahamas,BS-AK,BS
+Bahamas,BS-AC,BS
+Bahamas,BS-BY,BS
+Bahamas,BS-BI,BS
+Bahamas,BS-BP,BS
+Bahamas,BS-CI,BS
+Bahamas,BS-CO,BS
+Bahamas,BS-CS,BS
+Bahamas,BS-CE,BS
+Bahamas,BS-FP,BS
+Bahamas,BS-CK,BS
+Bahamas,BS-EG,BS
+Bahamas,BS-EX,BS
+Bahamas,BS-GH,BS
+Bahamas,BS-GC,BS
+Bahamas,BS-GT,BS
+Bahamas,BS-HI,BS
+Bahamas,BS-HR,BS
+Bahamas,BS-HT,BS
+Bahamas,BS-IN,BS
+Bahamas,BS-KB,BS
+Bahamas,BS-LI,BS
+Bahamas,BS-MC,BS
+Bahamas,BS-MH,BS
+Bahamas,BS-MG,BS
+Bahamas,BS-MI,BS
+Bahamas,BS-NP,BS
+Bahamas,BS-NB,BS
+Bahamas,BS-NO,BS
+Bahamas,BS-NS,BS
+Bahamas,BS-NE,BS
+Bahamas,BS-RI,BS
+Bahamas,BS-RS,BS
+Bahamas,BS-RC,BS
+Bahamas,BS-SS,BS
+Bahamas,BS-SR,BS
+Bahamas,BS-SP,BS
+Bahamas,BS-SO,BS
+Bahamas,BS-SA,BS
+Bahamas,BS-SE,BS
+Bahamas,BS-SW,BS
+Bahamas,BS-WG,BS
+Bahrain,BH-14,BH
+Bahrain,BH-13,BH
+Bahrain,BH-15,BH
+Bahrain,BH-16,BH
+Bahrain,BH-17,BH
+Bangladesh,BD-05,BD
+Bangladesh,BD-01,BD
+Bangladesh,BD-02,BD
+Bangladesh,BD-A,BD
+Bangladesh,BD-06,BD
+Bangladesh,BD-1,BD
+Bangladesh,BD-07,BD
+Bangladesh,BD-03,BD
+Bangladesh,BD-04,BD
+Bangladesh,BD-09,BD
+Bangladesh,BD-2,BD
+Bangladesh,BD-B,BD
+Bangladesh,BD-10,BD
+Bangladesh,BD-12,BD
+Bangladesh,BD-08,BD
+Bangladesh,BD-11,BD
+Bangladesh,BD-13,BD
+Bangladesh,BD-C,BD
+Bangladesh,BD-3,BD
+Bangladesh,BD-14,BD
+Bangladesh,BD-15,BD
+Bangladesh,BD-16,BD
+Bangladesh,BD-19,BD
+Bangladesh,BD-18,BD
+Bangladesh,BD-17,BD
+Bangladesh,BD-20,BD
+Bangladesh,BD-24,BD
+Bangladesh,BD-21,BD
+Bangladesh,BD-22,BD
+Bangladesh,BD-25,BD
+Bangladesh,BD-23,BD
+Bangladesh,BD-29,BD
+Bangladesh,BD-4,BD
+Bangladesh,BD-D,BD
+Bangladesh,BD-27,BD
+Bangladesh,BD-26,BD
+Bangladesh,BD-28,BD
+Bangladesh,BD-30,BD
+Bangladesh,BD-31,BD
+Bangladesh,BD-32,BD
+Bangladesh,BD-36,BD
+Bangladesh,BD-37,BD
+Bangladesh,BD-33,BD
+Bangladesh,BD-39,BD
+Bangladesh,BD-38,BD
+Bangladesh,BD-35,BD
+Bangladesh,BD-34,BD
+Bangladesh,BD-48,BD
+Bangladesh,BD-43,BD
+Bangladesh,BD-40,BD
+Bangladesh,BD-42,BD
+Bangladesh,BD-44,BD
+Bangladesh,BD-45,BD
+Bangladesh,BD-41,BD
+Bangladesh,BD-46,BD
+Bangladesh,BD-47,BD
+Bangladesh,BD-49,BD
+Bangladesh,BD-52,BD
+Bangladesh,BD-51,BD
+Bangladesh,BD-50,BD
+Bangladesh,BD-53,BD
+Bangladesh,BD-54,BD
+Bangladesh,BD-5,BD
+Bangladesh,BD-E,BD
+Bangladesh,BD-56,BD
+Bangladesh,BD-55,BD
+Bangladesh,BD-F,BD
+Bangladesh,BD-58,BD
+Bangladesh,BD-62,BD
+Bangladesh,BD-57,BD
+Bangladesh,BD-59,BD
+Bangladesh,BD-61,BD
+Bangladesh,BD-6,BD
+Bangladesh,BD-60,BD
+Bangladesh,BD-G,BD
+Bangladesh,BD-63,BD
+Bangladesh,BD-64,BD
+Barbados,BB-01,BB
+Barbados,BB-02,BB
+Barbados,BB-03,BB
+Barbados,BB-04,BB
+Barbados,BB-05,BB
+Barbados,BB-06,BB
+Barbados,BB-07,BB
+Barbados,BB-08,BB
+Barbados,BB-09,BB
+Barbados,BB-10,BB
+Barbados,BB-11,BB
+Belarus,BY-BR,BY
+Belarus,BY-HO,BY
+Belarus,BY-HM,BY
+Belarus,BY-X1~,BY
+Belarus,BY-HR,BY
+Belarus,BY-MA,BY
+Belarus,BY-MI,BY
+Belarus,BY-VI,BY
+Belgium,BE-VAN,BE
+Belgium,BE-WBR,BE
+Belgium,BE-BRU,BE
+Belgium,BE-VLG,BE
+Belgium,BE-WHT,BE
+Belgium,BE-VLI,BE
+Belgium,BE-WLG,BE
+Belgium,BE-WLX,BE
+Belgium,BE-WNA,BE
+Belgium,BE-VOV,BE
+Belgium,BE-VBR,BE
+Belgium,BE-WAL,BE
+Belgium,BE-VWV,BE
+Belize,BZ-BZ,BZ
+Belize,BZ-CY,BZ
+Belize,BZ-CZL,BZ
+Belize,BZ-OW,BZ
+Belize,BZ-SC,BZ
+Belize,BZ-TOL,BZ
+Benin,BJ-AL,BJ
+Benin,BJ-AK,BJ
+Benin,BJ-AQ,BJ
+Benin,BJ-BO,BJ
+Benin,BJ-CO,BJ
+Benin,BJ-DO,BJ
+Benin,BJ-KO,BJ
+Benin,BJ-LI,BJ
+Benin,BJ-MO,BJ
+Benin,BJ-OU,BJ
+Benin,BJ-PL,BJ
+Benin,BJ-ZO,BJ
+Bermuda,BM-DEV,BM
+Bermuda,BM-HAM,BM
+Bermuda,BM-HA,BM
+Bermuda,BM-PAG,BM
+Bermuda,BM-PEM,BM
+Bermuda,BM-SGE,BM
+Bermuda,BM-SG,BM
+Bermuda,BM-SAN,BM
+Bermuda,BM-SMI,BM
+Bermuda,BM-SOU,BM
+Bermuda,BM-WAR,BM
+Bhutan,BT-33,BT
+Bhutan,BT-12,BT
+Bhutan,BT-22,BT
+Bhutan,BT-GA,BT
+Bhutan,BT-13,BT
+Bhutan,BT-44,BT
+Bhutan,BT-42,BT
+Bhutan,BT-11,BT
+Bhutan,BT-43,BT
+Bhutan,BT-23,BT
+Bhutan,BT-45,BT
+Bhutan,BT-14,BT
+Bhutan,BT-31,BT
+Bhutan,BT-15,BT
+Bhutan,BT-TY,BT
+Bhutan,BT-41,BT
+Bhutan,BT-32,BT
+Bhutan,BT-21,BT
+Bhutan,BT-24,BT
+Bhutan,BT-34,BT
+"Bolivia, Plurinational State Of",BO-H,BO
+"Bolivia, Plurinational State Of",BO-C,BO
+"Bolivia, Plurinational State Of",BO-B,BO
+"Bolivia, Plurinational State Of",BO-L,BO
+"Bolivia, Plurinational State Of",BO-O,BO
+"Bolivia, Plurinational State Of",BO-N,BO
+"Bolivia, Plurinational State Of",BO-P,BO
+"Bolivia, Plurinational State Of",BO-S,BO
+"Bolivia, Plurinational State Of",BO-T,BO
+"Bonaire, Sint Eustatius and Saba",BQ-BO,BQ
+"Bonaire, Sint Eustatius and Saba",BQ-SA,BQ
+"Bonaire, Sint Eustatius and Saba",BQ-SE,BQ
+Bosnia and Herzegovina,BA-05,BA
+Bosnia and Herzegovina,BA-BRC,BA
+Bosnia and Herzegovina,BA-BIH,BA
+Bosnia and Herzegovina,BA-07,BA
+Bosnia and Herzegovina,BA-10,BA
+Bosnia and Herzegovina,BA-09,BA
+Bosnia and Herzegovina,BA-02,BA
+Bosnia and Herzegovina,BA-SRP,BA
+Bosnia and Herzegovina,BA-06,BA
+Bosnia and Herzegovina,BA-03,BA
+Bosnia and Herzegovina,BA-01,BA
+Bosnia and Herzegovina,BA-08,BA
+Bosnia and Herzegovina,BA-04,BA
+Botswana,BW-CE,BW
+Botswana,BW-GH,BW
+Botswana,BW-KG,BW
+Botswana,BW-KL,BW
+Botswana,BW-KW,BW
+Botswana,BW-NE,BW
+Botswana,BW-NW,BW
+Botswana,BW-SE,BW
+Botswana,BW-SO,BW
+Brazil,BR-AC,BR
+Brazil,BR-AL,BR
+Brazil,BR-AP,BR
+Brazil,BR-AM,BR
+Brazil,BR-BA,BR
+Brazil,BR-CE,BR
+Brazil,BR-DF,BR
+Brazil,BR-ES,BR
+Brazil,BR-GO,BR
+Brazil,BR-MA,BR
+Brazil,BR-MT,BR
+Brazil,BR-MS,BR
+Brazil,BR-MG,BR
+Brazil,BR-PR,BR
+Brazil,BR-PB,BR
+Brazil,BR-PA,BR
+Brazil,BR-PE,BR
+Brazil,BR-PI,BR
+Brazil,BR-RJ,BR
+Brazil,BR-RN,BR
+Brazil,BR-RS,BR
+Brazil,BR-RO,BR
+Brazil,BR-RR,BR
+Brazil,BR-SC,BR
+Brazil,BR-SE,BR
+Brazil,BR-SP,BR
+Brazil,BR-TO,BR
+Brunei Darussalam,BN-BE,BN
+Brunei Darussalam,BN-BM,BN
+Brunei Darussalam,BN-TE,BN
+Brunei Darussalam,BN-TU,BN
+Bulgaria,BG-01,BG
+Bulgaria,BG-02,BG
+Bulgaria,BG-08,BG
+Bulgaria,BG-07,BG
+Bulgaria,BG-26,BG
+Bulgaria,BG-09,BG
+Bulgaria,BG-10,BG
+Bulgaria,BG-11,BG
+Bulgaria,BG-12,BG
+Bulgaria,BG-13,BG
+Bulgaria,BG-14,BG
+Bulgaria,BG-15,BG
+Bulgaria,BG-16,BG
+Bulgaria,BG-17,BG
+Bulgaria,BG-18,BG
+Bulgaria,BG-19,BG
+Bulgaria,BG-20,BG
+Bulgaria,BG-21,BG
+Bulgaria,BG-23,BG
+Bulgaria,BG-22,BG
+Bulgaria,BG-24,BG
+Bulgaria,BG-25,BG
+Bulgaria,BG-03,BG
+Bulgaria,BG-04,BG
+Bulgaria,BG-05,BG
+Bulgaria,BG-06,BG
+Bulgaria,BG-28,BG
+Bulgaria,BG-27,BG
+Burkina Faso,BF-BAL,BF
+Burkina Faso,BF-BAM,BF
+Burkina Faso,BF-BAN,BF
+Burkina Faso,BF-BAZ,BF
+Burkina Faso,BF-01,BF
+Burkina Faso,BF-BGR,BF
+Burkina Faso,BF-BLG,BF
+Burkina Faso,BF-BLK,BF
+Burkina Faso,BF-02,BF
+Burkina Faso,BF-03,BF
+Burkina Faso,BF-04,BF
+Burkina Faso,BF-05,BF
+Burkina Faso,BF-06,BF
+Burkina Faso,BF-07,BF
+Burkina Faso,BF-COM,BF
+Burkina Faso,BF-08,BF
+Burkina Faso,BF-GAN,BF
+Burkina Faso,BF-GNA,BF
+Burkina Faso,BF-GOU,BF
+Burkina Faso,BF-09,BF
+Burkina Faso,BF-HOU,BF
+Burkina Faso,BF-IOB,BF
+Burkina Faso,BF-KAD,BF
+Burkina Faso,BF-KMD,BF
+Burkina Faso,BF-KMP,BF
+Burkina Faso,BF-KOS,BF
+Burkina Faso,BF-KOP,BF
+Burkina Faso,BF-KOT,BF
+Burkina Faso,BF-KOW,BF
+Burkina Faso,BF-KEN,BF
+Burkina Faso,BF-LOR,BF
+Burkina Faso,BF-LER,BF
+Burkina Faso,BF-MOU,BF
+Burkina Faso,BF-NAO,BF
+Burkina Faso,BF-NAM,BF
+Burkina Faso,BF-NAY,BF
+Burkina Faso,BF-10,BF
+Burkina Faso,BF-NOU,BF
+Burkina Faso,BF-OUB,BF
+Burkina Faso,BF-OUD,BF
+Burkina Faso,BF-PAS,BF
+Burkina Faso,BF-11,BF
+Burkina Faso,BF-PON,BF
+Burkina Faso,BF-12,BF
+Burkina Faso,BF-SNG,BF
+Burkina Faso,BF-SMT,BF
+Burkina Faso,BF-SIS,BF
+Burkina Faso,BF-SOM,BF
+Burkina Faso,BF-SOR,BF
+Burkina Faso,BF-13,BF
+Burkina Faso,BF-SEN,BF
+Burkina Faso,BF-TAP,BF
+Burkina Faso,BF-TUI,BF
+Burkina Faso,BF-YAG,BF
+Burkina Faso,BF-YAT,BF
+Burkina Faso,BF-ZIR,BF
+Burkina Faso,BF-ZON,BF
+Burkina Faso,BF-ZOU,BF
+Burundi,BI-BB,BI
+Burundi,BI-BJ,BI
+Burundi,BI-BM,BI
+Burundi,BI-BL,BI
+Burundi,BI-BR,BI
+Burundi,BI-CA,BI
+Burundi,BI-CI,BI
+Burundi,BI-GI,BI
+Burundi,BI-KR,BI
+Burundi,BI-KY,BI
+Burundi,BI-KI,BI
+Burundi,BI-MA,BI
+Burundi,BI-MU,BI
+Burundi,BI-MY,BI
+Burundi,BI-MW,BI
+Burundi,BI-NG,BI
+Burundi,BI-RT,BI
+Burundi,BI-RY,BI
+Cambodia,KH-2,KH
+Cambodia,KH-1,KH
+Cambodia,KH-3,KH
+Cambodia,KH-4,KH
+Cambodia,KH-5,KH
+Cambodia,KH-6,KH
+Cambodia,KH-7,KH
+Cambodia,KH-8,KH
+Cambodia,KH-9,KH
+Cambodia,KH-10,KH
+Cambodia,KH-23,KH
+Cambodia,KH-24,KH
+Cambodia,KH-18,KH
+Cambodia,KH-11,KH
+Cambodia,KH-22,KH
+Cambodia,KH-12,KH
+Cambodia,KH-15,KH
+Cambodia,KH-13,KH
+Cambodia,KH-14,KH
+Cambodia,KH-16,KH
+Cambodia,KH-17,KH
+Cambodia,KH-19,KH
+Cambodia,KH-20,KH
+Cambodia,KH-21,KH
+Cameroon,CM-AD,CM
+Cameroon,CM-CE,CM
+Cameroon,CM-ES,CM
+Cameroon,CM-EN,CM
+Cameroon,CM-LT,CM
+Cameroon,CM-NO,CM
+Cameroon,CM-NW,CM
+Cameroon,CM-SU,CM
+Cameroon,CM-SW,CM
+Cameroon,CM-OU,CM
+Canada,CA-AB,CA
+Canada,CA-BC,CA
+Canada,CA-MB,CA
+Canada,CA-NB,CA
+Canada,CA-NL,CA
+Canada,CA-NT,CA
+Canada,CA-NS,CA
+Canada,CA-NU,CA
+Canada,CA-ON,CA
+Canada,CA-PE,CA
+Canada,CA-QC,CA
+Canada,CA-SK,CA
+Canada,CA-YT,CA
+Cape Verde,CV-BV,CV
+Cape Verde,CV-BR,CV
+Cape Verde,CV-CS,CV
+Cape Verde,CV-B,CV
+Cape Verde,CV-S,CV
+Cape Verde,CV-MA,CV
+Cape Verde,CV-MO,CV
+Cape Verde,CV-PA,CV
+Cape Verde,CV-PN,CV
+Cape Verde,CV-PR,CV
+Cape Verde,CV-RB,CV
+Cape Verde,CV-RG,CV
+Cape Verde,CV-RS,CV
+Cape Verde,CV-SL,CV
+Cape Verde,CV-CA,CV
+Cape Verde,CV-CF,CV
+Cape Verde,CV-CR,CV
+Cape Verde,CV-SD,CV
+Cape Verde,CV-SF,CV
+Cape Verde,CV-SO,CV
+Cape Verde,CV-SM,CV
+Cape Verde,CV-SN,CV
+Cape Verde,CV-SS,CV
+Cape Verde,CV-SV,CV
+Cape Verde,CV-TA,CV
+Cape Verde,CV-TS,CV
+Cayman Islands,KY-01~,KY
+Cayman Islands,KY-02~,KY
+Cayman Islands,KY-03~,KY
+Cayman Islands,KY-04~,KY
+Cayman Islands,Ky-05~,KY
+Cayman Islands,KY-06~,KY
+Cayman Islands,KY-07~,KY
+Central African Republic,CF-BB,CF
+Central African Republic,CF-BGF,CF
+Central African Republic,CF-BK,CF
+Central African Republic,CF-KB,CF
+Central African Republic,CF-HM,CF
+Central African Republic,CF-HK,CF
+Central African Republic,CF-HS,CF
+Central African Republic,CF-KG,CF
+Central African Republic,CF-LB,CF
+Central African Republic,CF-MB,CF
+Central African Republic,CF-NM,CF
+Central African Republic,CF-MP,CF
+Central African Republic,CF-UK,CF
+Central African Republic,CF-AC,CF
+Central African Republic,CF-OP,CF
+Central African Republic,CF-SE,CF
+Central African Republic,CF-VK,CF
+Chad,TD-BA,TD
+Chad,TD-LC,TD
+Chad,TD-BG,TD
+Chad,TD-BET,TD
+Chad,TD-BO,TD
+Chad,TD-EN,TD
+Chad,TD-KA,TD
+Chad,TD-LO,TD
+Chad,TD-LR,TD
+Chad,TD-ND,TD
+Chad,TD-MA,TD
+Chad,TD-MO,TD
+Chad,TD-ME,TD
+Chad,TD-GR,TD
+Chad,TD-SA,TD
+Chad,TD-MC,TD
+Chad,TD-CB,TD
+Chad,TD-SI,TD
+Chad,TD-TI,TD
+Chad,TD-TA,TD
+Chad,TD-OD,TD
+Chad,TD-WF,TD
+Chad,TD-HL,TD
+Chile,CL-AI,CL
+Chile,CL-AN,CL
+Chile,CL-AR,CL
+Chile,CL-AP,CL
+Chile,CL-AT,CL
+Chile,CL-BI,CL
+Chile,CL-CO,CL
+Chile,CL-LI,CL
+Chile,CL-LL,CL
+Chile,CL-LR,CL
+Chile,CL-MA,CL
+Chile,CL-ML,CL
+Chile,CL-RM,CL
+Chile,CL-TA,CL
+Chile,CL-VS,CL
+China,CN-34,CN
+China,CN-92,CN
+China,CN-11,CN
+China,CN-50,CN
+China,CN-35,CN
+China,CN-62,CN
+China,CN-44,CN
+China,CN-45,CN
+China,CN-52,CN
+China,CN-46,CN
+China,CN-13,CN
+China,CN-23,CN
+China,CN-41,CN
+China,CN-42,CN
+China,CN-43,CN
+China,CN-32,CN
+China,CN-36,CN
+China,CN-22,CN
+China,CN-21,CN
+China,CN-15,CN
+China,CN-64,CN
+China,CN-63,CN
+China,CN-61,CN
+China,CN-37,CN
+China,CN-31,CN
+China,CN-14,CN
+China,CN-51,CN
+China,CN-71,CN
+China,CN-12,CN
+China,CN-91,CN
+China,CN-65,CN
+China,CN-54,CN
+China,CN-53,CN
+China,CN-33,CN
+Colombia,CO-AMA,CO
+Colombia,CO-ANT,CO
+Colombia,CO-ARA,CO
+Colombia,CO-ATL,CO
+Colombia,CO-BOL,CO
+Colombia,CO-BOY,CO
+Colombia,CO-CAL,CO
+Colombia,CO-CAQ,CO
+Colombia,CO-CAS,CO
+Colombia,CO-CAU,CO
+Colombia,CO-CES,CO
+Colombia,CO-CHO,CO
+Colombia,CO-CUN,CO
+Colombia,CO-COR,CO
+Colombia,CO-DC,CO
+Colombia,CO-GUA,CO
+Colombia,CO-GUV,CO
+Colombia,CO-HUI,CO
+Colombia,CO-LAG,CO
+Colombia,CO-MAG,CO
+Colombia,CO-MET,CO
+Colombia,CO-NAR,CO
+Colombia,CO-NSA,CO
+Colombia,CO-PUT,CO
+Colombia,CO-QUI,CO
+Colombia,CO-RIS,CO
+Colombia,CO-SAP,CO
+Colombia,CO-SAN,CO
+Colombia,CO-SUC,CO
+Colombia,CO-TOL,CO
+Colombia,CO-VAC,CO
+Colombia,CO-VAU,CO
+Colombia,CO-VID,CO
+Comoros,KM-G,KM
+Comoros,KM-A,KM
+Comoros,KM-M,KM
+Congo,CG-11,CG
+Congo,CG-BZV,CG
+Congo,CG-8,CG
+Congo,CG-15,CG
+Congo,CG-5,CG
+Congo,CG-7,CG
+Congo,CG-2,CG
+Congo,CG-9,CG
+Congo,CG-14,CG
+Congo,CG-12,CG
+Congo,CG-13,CG
+"Congo, The Democratic Republic Of The",CD-BN,CD
+"Congo, The Democratic Republic Of The",CD-BC,CD
+"Congo, The Democratic Republic Of The",CD-KW,CD
+"Congo, The Democratic Republic Of The",CD-KE,CD
+"Congo, The Democratic Republic Of The",CD-KA,CD
+"Congo, The Democratic Republic Of The",CD-KN,CD
+"Congo, The Democratic Republic Of The",CD-MA,CD
+"Congo, The Democratic Republic Of The",CD-NK,CD
+"Congo, The Democratic Republic Of The",CD-OR,CD
+"Congo, The Democratic Republic Of The",CD-SK,CD
+"Congo, The Democratic Republic Of The",CD-EQ,CD
+Costa Rica,CR-A,CR
+Costa Rica,CR-C,CR
+Costa Rica,CR-G,CR
+Costa Rica,CR-H,CR
+Costa Rica,CR-L,CR
+Costa Rica,CR-P,CR
+Costa Rica,CR-SJ,CR
+Croatia,HR-07,HR
+Croatia,HR-12,HR
+Croatia,HR-19,HR
+Croatia,HR-21,HR
+Croatia,HR-18,HR
+Croatia,HR-04,HR
+Croatia,HR-06,HR
+Croatia,HR-02,HR
+Croatia,HR-09,HR
+Croatia,HR-20,HR
+Croatia,HR-14,HR
+Croatia,HR-11,HR
+Croatia,HR-08,HR
+Croatia,HR-03,HR
+Croatia,HR-17,HR
+Croatia,HR-05,HR
+Croatia,HR-10,HR
+Croatia,HR-16,HR
+Croatia,HR-13,HR
+Croatia,HR-01,HR
+Croatia,HR-15,HR
+Cuba,CU-09,CU
+Cuba,CU-08,CU
+Cuba,CU-06,CU
+Cuba,CU-03,CU
+Cuba,CU-12,CU
+Cuba,CU-14,CU
+Cuba,CU-11,CU
+Cuba,CU-99,CU
+Cuba,CU-02,CU
+Cuba,CU-10,CU
+Cuba,CU-04,CU
+Cuba,CU-01,CU
+Cuba,CU-07,CU
+Cuba,CU-13,CU
+Cuba,CU-05,CU
+Cyprus,CY-04,CY
+Cyprus,CY-06,CY
+Cyprus,CY-03,CY
+Cyprus,CY-01,CY
+Cyprus,CY-02,CY
+Cyprus,CY-05,CY
+Czech Republic,CZ-201 ,CZ
+Czech Republic,CZ-202 ,CZ
+Czech Republic,CZ-621 ,CZ
+Czech Republic,CZ-622 ,CZ
+Czech Republic,CZ-623 ,CZ
+Czech Republic,CZ-801 ,CZ
+Czech Republic,CZ-624 ,CZ
+Czech Republic,CZ-411 ,CZ
+Czech Republic,CZ-422 ,CZ
+Czech Republic,CZ-531 ,CZ
+Czech Republic,CZ-321 ,CZ
+Czech Republic,CZ-421 ,CZ
+Czech Republic,CZ-802 ,CZ
+Czech Republic,CZ-611 ,CZ
+Czech Republic,CZ-625 ,CZ
+Czech Republic,CZ-521 ,CZ
+Czech Republic,CZ-512 ,CZ
+Czech Republic,CZ-711 ,CZ
+Czech Republic,CZ-612 ,CZ
+Czech Republic,CZ-JC,CZ
+Czech Republic,CZ-JM,CZ
+Czech Republic,CZ-313 ,CZ
+Czech Republic,CZ-522 ,CZ
+Czech Republic,CZ-KA,CZ
+Czech Republic,CZ-412 ,CZ
+Czech Republic,CZ-803 ,CZ
+Czech Republic,CZ-203 ,CZ
+Czech Republic,CZ-322 ,CZ
+Czech Republic,CZ-204 ,CZ
+Czech Republic,CZ-721 ,CZ
+Czech Republic,CZ-KR,CZ
+Czech Republic,CZ-205 ,CZ
+Czech Republic,CZ-513 ,CZ
+Czech Republic,CZ-LI,CZ
+Czech Republic,CZ-423 ,CZ
+Czech Republic,CZ-424 ,CZ
+Czech Republic,CZ-207 ,CZ
+Czech Republic,CZ-MO,CZ
+Czech Republic,CZ-425 ,CZ
+Czech Republic,CZ-206 ,CZ
+Czech Republic,CZ-804 ,CZ
+Czech Republic,CZ-208 ,CZ
+Czech Republic,CZ-523 ,CZ
+Czech Republic,CZ-712 ,CZ
+Czech Republic,CZ-OL,CZ
+Czech Republic,CZ-805 ,CZ
+Czech Republic,CZ-806 ,CZ
+Czech Republic,CZ-532 ,CZ
+Czech Republic,CZ-PA,CZ
+Czech Republic,CZ-613 ,CZ
+Czech Republic,CZ-PL,CZ
+Czech Republic,CZ-324 ,CZ
+Czech Republic,CZ-323 ,CZ
+Czech Republic,CZ-325 ,CZ
+Czech Republic,CZ-315 ,CZ
+Czech Republic,CZ-101,CZ
+Czech Republic,CZ-10A,CZ
+Czech Republic,CZ-10B,CZ
+Czech Republic,CZ-10C,CZ
+Czech Republic,CZ-10D,CZ
+Czech Republic,CZ-10E,CZ
+Czech Republic,CZ-10F,CZ
+Czech Republic,CZ-102,CZ
+Czech Republic,CZ-103,CZ
+Czech Republic,CZ-104,CZ
+Czech Republic,CZ-105,CZ
+Czech Republic,CZ-106,CZ
+Czech Republic,CZ-107,CZ
+Czech Republic,CZ-108,CZ
+Czech Republic,CZ-109,CZ
+Czech Republic,CZ-209 ,CZ
+Czech Republic,CZ-20A ,CZ
+Czech Republic,CZ-PR,CZ
+Czech Republic,CZ-713 ,CZ
+Czech Republic,CZ-314 ,CZ
+Czech Republic,CZ-714 ,CZ
+Czech Republic,CZ-20B ,CZ
+Czech Republic,CZ-20C ,CZ
+Czech Republic,CZ-326 ,CZ
+Czech Republic,CZ-524 ,CZ
+Czech Republic,CZ-514 ,CZ
+Czech Republic,CZ-413 ,CZ
+Czech Republic,CZ-316 ,CZ
+Czech Republic,CZ-ST,CZ
+Czech Republic,CZ-533 ,CZ
+Czech Republic,CZ-327 ,CZ
+Czech Republic,CZ-426 ,CZ
+Czech Republic,CZ-525 ,CZ
+Czech Republic,CZ-317 ,CZ
+Czech Republic,CZ-614 ,CZ
+Czech Republic,CZ-722 ,CZ
+Czech Republic,CZ-723 ,CZ
+Czech Republic,CZ-VY,CZ
+Czech Republic,CZ-626 ,CZ
+Czech Republic,CZ-724 ,CZ
+Czech Republic,CZ-ZL,CZ
+Czech Republic,CZ-627 ,CZ
+Czech Republic,CZ-US,CZ
+Czech Republic,CZ-427 ,CZ
+Czech Republic,CZ-534 ,CZ
+Czech Republic,CZ-511 ,CZ
+Czech Republic,CZ-311 ,CZ
+Czech Republic,CZ-312 ,CZ
+Czech Republic,CZ-715 ,CZ
+Czech Republic,CZ-615 ,CZ
+Côte D'Ivoire,CI-06,CI
+Côte D'Ivoire,CI-16,CI
+Côte D'Ivoire,CI-17,CI
+Côte D'Ivoire,CI-09,CI
+Côte D'Ivoire,CI-10,CI
+Côte D'Ivoire,CI-18,CI
+Côte D'Ivoire,CI-02,CI
+Côte D'Ivoire,CI-07,CI
+Côte D'Ivoire,CI-01,CI
+Côte D'Ivoire,CI-12,CI
+Côte D'Ivoire,CI-19,CI
+Côte D'Ivoire,CI-05,CI
+Côte D'Ivoire,CI-11,CI
+Côte D'Ivoire,CI-03,CI
+Côte D'Ivoire,CI-15,CI
+Côte D'Ivoire,CI-13,CI
+Côte D'Ivoire,CI-04,CI
+Côte D'Ivoire,CI-14,CI
+Côte D'Ivoire,CI-08,CI
+Denmark,DK-040,DK
+Denmark,DK-84,DK
+Denmark,DK-82,DK
+Denmark,DK-147,DK
+Denmark,DK-020,DK
+Denmark,DK-042,DK
+Denmark,DK-015,DK
+Denmark,DK-101,DK
+Denmark,DK-080,DK
+Denmark,DK-81,DK
+Denmark,DK-055,DK
+Denmark,DK-065,DK
+Denmark,DK-025,DK
+Denmark,DK-83,DK
+Denmark,DK-035,DK
+Denmark,DK-050,DK
+Denmark,DK-060,DK
+Denmark,DK-030,DK
+Denmark,DK-076,DK
+Denmark,DK-85,DK
+Denmark,DK-070,DK
+Djibouti,DJ-AS,DJ
+Djibouti,DJ-AR,DJ
+Djibouti,DJ-DI,DJ
+Djibouti,DJ-DJ,DJ
+Djibouti,DJ-OB,DJ
+Djibouti,DJ-TA,DJ
+Dominica,DM-02,DM
+Dominica,DM-03,DM
+Dominica,DM-04,DM
+Dominica,DM-05,DM
+Dominica,DM-06,DM
+Dominica,DM-07,DM
+Dominica,DM-08,DM
+Dominica,DM-09,DM
+Dominica,DM-10,DM
+Dominica,DM-11,DM
+Dominican Republic,DO-02,DO
+Dominican Republic,DO-03,DO
+Dominican Republic,DO-04,DO
+Dominican Republic,DO-05,DO
+Dominican Republic,DO-01,DO
+Dominican Republic,DO-06,DO
+Dominican Republic,DO-08,DO
+Dominican Republic,DO-09,DO
+Dominican Republic,DO-30,DO
+Dominican Republic,DO-10,DO
+Dominican Republic,DO-11,DO
+Dominican Republic,DO-07,DO
+Dominican Republic,DO-12,DO
+Dominican Republic,DO-13,DO
+Dominican Republic,DO-14,DO
+Dominican Republic,DO-28,DO
+Dominican Republic,DO-15,DO
+Dominican Republic,DO-29,DO
+Dominican Republic,DO-16,DO
+Dominican Republic,DO-17,DO
+Dominican Republic,DO-18,DO
+Dominican Republic,DO-19,DO
+Dominican Republic,DO-20,DO
+Dominican Republic,DO-21,DO
+Dominican Republic,DO-31,DO
+Dominican Republic,DO-22,DO
+Dominican Republic,DO-23,DO
+Dominican Republic,DO-25,DO
+Dominican Republic,DO-26,DO
+Dominican Republic,DO-32,DO
+Dominican Republic,DO-24,DO
+Dominican Republic,DO-27,DO
+Ecuador,EC-A,EC
+Ecuador,EC-B,EC
+Ecuador,EC-C,EC
+Ecuador,EC-F,EC
+Ecuador,EC-H,EC
+Ecuador,EC-X,EC
+Ecuador,EC-O,EC
+Ecuador,EC-E,EC
+Ecuador,EC-W,EC
+Ecuador,EC-G,EC
+Ecuador,EC-I,EC
+Ecuador,EC-L,EC
+Ecuador,EC-R,EC
+Ecuador,EC-M,EC
+Ecuador,EC-S,EC
+Ecuador,EC-N,EC
+Ecuador,EC-D,EC
+Ecuador,EC-Y,EC
+Ecuador,EC-P,EC
+Ecuador,EC-X1~,EC
+Ecuador,EC-SE,EC
+Ecuador,EC-SD,EC
+Ecuador,EC-X2~,EC
+Ecuador,EC-U,EC
+Ecuador,EC-T,EC
+Ecuador,EC-Z,EC
+Egypt,EG-DK,EG
+Egypt,EG-BA,EG
+Egypt,EG-BH,EG
+Egypt,EG-FYM,EG
+Egypt,EG-GH,EG
+Egypt,EG-ALX,EG
+Egypt,EG-IS,EG
+Egypt,EG-GZ,EG
+Egypt,EG-MNF,EG
+Egypt,EG-MN,EG
+Egypt,EG-C,EG
+Egypt,EG-KB,EG
+Egypt,EG-WAD,EG
+Egypt,EG-LX,EG
+Egypt,EG-SUZ,EG
+Egypt,EG-SU,EG
+Egypt,EG-SHR,EG
+Egypt,EG-ASN,EG
+Egypt,EG-AST,EG
+Egypt,EG-BNS,EG
+Egypt,EG-PTS,EG
+Egypt,EG-DT,EG
+Egypt,EG-HU,EG
+Egypt,EG-JS,EG
+Egypt,EG-KFS,EG
+Egypt,EG-MT,EG
+Egypt,EG-KN,EG
+Egypt,EG-SIN,EG
+Egypt,EG-SHG,EG
+El Salvador,SV-AH,SV
+El Salvador,SV-CA,SV
+El Salvador,SV-CH,SV
+El Salvador,SV-CU,SV
+El Salvador,SV-LI,SV
+El Salvador,SV-PA,SV
+El Salvador,SV-UN,SV
+El Salvador,SV-MO,SV
+El Salvador,SV-SM,SV
+El Salvador,SV-SS,SV
+El Salvador,SV-SV,SV
+El Salvador,SV-SA,SV
+El Salvador,SV-SO,SV
+El Salvador,SV-US,SV
+Equatorial Guinea,GQ-AN,GQ
+Equatorial Guinea,GQ-BN,GQ
+Equatorial Guinea,GQ-BS,GQ
+Equatorial Guinea,GQ-CS,GQ
+Equatorial Guinea,GQ-KN,GQ
+Equatorial Guinea,GQ-LI,GQ
+Equatorial Guinea,GQ-C,GQ
+Equatorial Guinea,GQ-I,GQ
+Equatorial Guinea,GQ-WN,GQ
+Eritrea,ER-AN,ER
+Eritrea,ER-DU,ER
+Eritrea,ER-DK,ER
+Eritrea,ER-GB,ER
+Eritrea,ER-MA,ER
+Eritrea,ER-SK,ER
+Estonia,EE-37,EE
+Estonia,EE-39,EE
+Estonia,EE-44,EE
+Estonia,EE-51,EE
+Estonia,EE-49,EE
+Estonia,EE-59,EE
+Estonia,EE-57,EE
+Estonia,EE-67,EE
+Estonia,EE-65,EE
+Estonia,EE-70,EE
+Estonia,EE-74,EE
+Estonia,EE-78,EE
+Estonia,EE-82,EE
+Estonia,EE-84,EE
+Estonia,EE-86,EE
+Ethiopia,ET-AA,ET
+Ethiopia,ET-AF,ET
+Ethiopia,ET-AM,ET
+Ethiopia,ET-BE,ET
+Ethiopia,ET-DD,ET
+Ethiopia,ET-GA,ET
+Ethiopia,ET-HA,ET
+Ethiopia,ET-OR,ET
+Ethiopia,ET-SO,ET
+Ethiopia,ET-TI,ET
+Ethiopia,ET-SN,ET
+Fiji,FJ-C,FJ
+Fiji,FJ-E,FJ
+Fiji,FJ-N,FJ
+Fiji,FJ-R,FJ
+Fiji,FJ-W,FJ
+Finland,FI-AL,FI
+Finland,FI-01,FI
+Finland,FI-02,FI
+Finland,FI-03,FI
+Finland,FI-04,FI
+Finland,FI-ES,FI
+Finland,FI-IS,FI
+Finland,FI-05,FI
+Finland,FI-06,FI
+Finland,FI-07,FI
+Finland,FI-08,FI
+Finland,FI-09,FI
+Finland,FI-LL,FI
+Finland,FI-10,FI
+Finland,FI-LS,FI
+Finland,FI-OL,FI
+Finland,FI-11,FI
+Finland,FI-12,FI
+Finland,FI-13,FI
+Finland,FI-14,FI
+Finland,FI-15,FI
+Finland,FI-16,FI
+Finland,FI-17,FI
+Finland,FI-18,FI
+Finland,FI-19,FI
+France,FR-01,FR
+France,FR-02,FR
+France,FR-03,FR
+France,FR-04,FR
+France,FR-06,FR
+France,FR-A ,FR
+France,FR-B ,FR
+France,FR-08,FR
+France,FR-07,FR
+France,FR-09,FR
+France,FR-10,FR
+France,FR-11,FR
+France,FR-C ,FR
+France,FR-12,FR
+France,FR-67,FR
+France,FR-P ,FR
+France,FR-13,FR
+France,FR-D ,FR
+France,FR-E ,FR
+France,FR-14,FR
+France,FR-15,FR
+France,FR-F ,FR
+France,FR-G ,FR
+France,FR-16,FR
+France,FR-17,FR
+France,FR-18,FR
+France,FR-CP,FR
+France,FR-19,FR
+France,FR-H ,FR
+France,FR-2A,FR
+France,FR-23,FR
+France,FR-21,FR
+France,FR-22,FR
+France,FR-79,FR
+France,FR-24,FR
+France,FR-25,FR
+France,FR-26,FR
+France,FR-91,FR
+France,FR-27,FR
+France,FR-28,FR
+France,FR-29,FR
+France,FR-I ,FR
+France,FR-30,FR
+France,FR-32,FR
+France,FR-33,FR
+France,FR-GP ,FR
+France,FR-GF ,FR
+France,FR-68,FR
+France,FR-2B,FR
+France,FR-31,FR
+France,FR-43,FR
+France,FR-52,FR
+France,FR-Q ,FR
+France,FR-74,FR
+France,FR-70,FR
+France,FR-87,FR
+France,FR-05,FR
+France,FR-65,FR
+France,FR-92,FR
+France,FR-34,FR
+France,FR-35,FR
+France,FR-36,FR
+France,FR-37,FR
+France,FR-38,FR
+France,FR-39,FR
+France,FR-RE ,FR
+France,FR-40,FR
+France,FR-K ,FR
+France,FR-L ,FR
+France,FR-41,FR
+France,FR-42,FR
+France,FR-44,FR
+France,FR-45,FR
+France,FR-M ,FR
+France,FR-46,FR
+France,FR-47,FR
+France,FR-48,FR
+France,FR-49,FR
+France,FR-50,FR
+France,FR-51,FR
+France,FR-MQ ,FR
+France,FR-53,FR
+France,FR-YT,FR
+France,FR-54,FR
+France,FR-55,FR
+France,FR-N ,FR
+France,FR-56,FR
+France,FR-57,FR
+France,FR-58,FR
+France,FR-59,FR
+France,FR-O ,FR
+France,FR-NC,FR
+France,FR-60,FR
+France,FR-61,FR
+France,FR-75,FR
+France,FR-62,FR
+France,FR-R ,FR
+France,FR-S ,FR
+France,FR-T ,FR
+France,FR-PF,FR
+France,FR-U ,FR
+France,FR-63,FR
+France,FR-64,FR
+France,FR-66,FR
+France,FR-69,FR
+France,FR-V ,FR
+France,FR-BL,FR
+France,FR-MF,FR
+France,FR-PM,FR
+France,FR-72,FR
+France,FR-73,FR
+France,FR-71,FR
+France,FR-77,FR
+France,FR-76,FR
+France,FR-93,FR
+France,FR-80,FR
+France,FR-81,FR
+France,FR-82,FR
+France,FR-TF,FR
+France,FR-90,FR
+France,FR-95,FR
+France,FR-94,FR
+France,FR-83,FR
+France,FR-84,FR
+France,FR-85,FR
+France,FR-86,FR
+France,FR-88,FR
+France,FR-WF,FR
+France,FR-89,FR
+France,FR-78,FR
+France,FR-J ,FR
+French Southern Territories,TF-X2~,TF
+French Southern Territories,TF-X1~,TF
+French Southern Territories,TF-X4~,TF
+French Southern Territories,TF-X3~,TF
+Gabon,GA-1,GA
+Gabon,GA-2,GA
+Gabon,GA-3,GA
+Gabon,GA-4,GA
+Gabon,GA-5,GA
+Gabon,GA-6,GA
+Gabon,GA-7,GA
+Gabon,GA-8,GA
+Gabon,GA-9,GA
+Gambia,GM-B,GM
+Gambia,GM-L,GM
+Gambia,GM-M,GM
+Gambia,GM-N,GM
+Gambia,GM-U,GM
+Gambia,GM-W,GM
+Georgia,GE-AB,GE
+Georgia,GE-AJ,GE
+Georgia,GE-GU,GE
+Georgia,GE-IM,GE
+Georgia,GE-KA,GE
+Georgia,GE-KK,GE
+Georgia,GE-MM,GE
+Georgia,GE-RL,GE
+Georgia,GE-SZ,GE
+Georgia,GE-SJ,GE
+Georgia,GE-SK,GE
+Georgia,GE-TB,GE
+Germany,DE-BW,DE
+Germany,DE-BY,DE
+Germany,DE-BE,DE
+Germany,DE-BB,DE
+Germany,DE-HB,DE
+Germany,DE-HH,DE
+Germany,DE-HE,DE
+Germany,DE-MV,DE
+Germany,DE-NI,DE
+Germany,DE-NW,DE
+Germany,DE-RP,DE
+Germany,DE-SL,DE
+Germany,DE-SN,DE
+Germany,DE-ST,DE
+Germany,DE-SH,DE
+Germany,DE-TH,DE
+Ghana,GH-AH,GH
+Ghana,GH-BA,GH
+Ghana,GH-CP,GH
+Ghana,GH-EP,GH
+Ghana,GH-AA,GH
+Ghana,GH-NP,GH
+Ghana,GH-UE,GH
+Ghana,GH-UW,GH
+Ghana,GH-TV,GH
+Ghana,GH-WP,GH
+Greece,GR-13,GR
+Greece,GR-69,GR
+Greece,GR-01,GR
+Greece,GR-A,GR
+Greece,GR-11,GR
+Greece,GR-12,GR
+Greece,GR-31,GR
+Greece,GR-I,GR
+Greece,GR-A1,GR
+Greece,GR-64,GR
+Greece,GR-94,GR
+Greece,GR-85,GR
+Greece,GR-81,GR
+Greece,GR-52,GR
+Greece,GR-G,GR
+Greece,GR-C,GR
+Greece,GR-71,GR
+Greece,GR-05,GR
+Greece,GR-04,GR
+Greece,GR-63,GR
+Greece,GR-07,GR
+Greece,GR-06,GR
+Greece,GR-51,GR
+Greece,GR-14,GR
+Greece,GR-53,GR
+Greece,GR-33,GR
+Greece,GR-F,GR
+Greece,GR-D,GR
+Greece,GR-91,GR
+Greece,GR-41,GR
+Greece,GR-56,GR
+Greece,GR-55,GR
+Greece,GR-23,GR
+Greece,GR-B,GR
+Greece,GR-22,GR
+Greece,GR-57,GR
+Greece,GR-15,GR
+Greece,GR-58,GR
+Greece,GR-M,GR
+Greece,GR-82,GR
+Greece,GR-16,GR
+Greece,GR-42,GR
+Greece,GR-92,GR
+Greece,GR-24,GR
+Greece,GR-83,GR
+Greece,GR-43,GR
+Greece,GR-17,GR
+Greece,GR-L,GR
+Greece,GR-59,GR
+Greece,GR-J,GR
+Greece,GR-61,GR
+Greece,GR-34,GR
+Greece,GR-93,GR
+Greece,GR-73,GR
+Greece,GR-84,GR
+Greece,GR-62,GR
+Greece,GR-H,GR
+Greece,GR-32,GR
+Greece,GR-E,GR
+Greece,GR-54,GR
+Greece,GR-44,GR
+Greece,GR-03,GR
+Greece,GR-K,GR
+Greece,GR-72,GR
+Greece,GR-21,GR
+Greenland,GL-KU,GL
+Greenland,GL-SM,GL
+Greenland,GL-QA,GL
+Greenland,GL-QE,GL
+Grenada,GD-01,GD
+Grenada,GD-02,GD
+Grenada,GD-03,GD
+Grenada,GD-04,GD
+Grenada,GD-05,GD
+Grenada,GD-06,GD
+Grenada,GD-10,GD
+Guatemala,GT-AV,GT
+Guatemala,GT-BV,GT
+Guatemala,GT-CM,GT
+Guatemala,GT-CQ,GT
+Guatemala,GT-PR,GT
+Guatemala,GT-ES,GT
+Guatemala,GT-GU,GT
+Guatemala,GT-HU,GT
+Guatemala,GT-IZ,GT
+Guatemala,GT-JA,GT
+Guatemala,GT-JU,GT
+Guatemala,GT-PE,GT
+Guatemala,GT-QZ,GT
+Guatemala,GT-QC,GT
+Guatemala,GT-RE,GT
+Guatemala,GT-SA,GT
+Guatemala,GT-SM,GT
+Guatemala,GT-SR,GT
+Guatemala,GT-SO,GT
+Guatemala,GT-SU,GT
+Guatemala,GT-TO,GT
+Guatemala,GT-ZA,GT
+Guinea,GN-BE,GN
+Guinea,GN-BF,GN
+Guinea,GN-B,GN
+Guinea,GN-BK,GN
+Guinea,GN-C,GN
+Guinea,GN-CO,GN
+Guinea,GN-DB,GN
+Guinea,GN-DL,GN
+Guinea,GN-DI,GN
+Guinea,GN-DU,GN
+Guinea,GN-FA,GN
+Guinea,GN-F,GN
+Guinea,GN-FO,GN
+Guinea,GN-FR,GN
+Guinea,GN-GA,GN
+Guinea,GN-GU,GN
+Guinea,GN-K,GN
+Guinea,GN-KA,GN
+Guinea,GN-KD,GN
+Guinea,GN-D,GN
+Guinea,GN-KS,GN
+Guinea,GN-KB,GN
+Guinea,GN-KN,GN
+Guinea,GN-KO,GN
+Guinea,GN-KE,GN
+Guinea,GN-L,GN
+Guinea,GN-LA,GN
+Guinea,GN-LO,GN
+Guinea,GN-LE,GN
+Guinea,GN-MC,GN
+Guinea,GN-ML,GN
+Guinea,GN-MM,GN
+Guinea,GN-M,GN
+Guinea,GN-MD,GN
+Guinea,GN-N,GN
+Guinea,GN-NZ,GN
+Guinea,GN-PI,GN
+Guinea,GN-SI,GN
+Guinea,GN-TO,GN
+Guinea,GN-TE,GN
+Guinea,GN-YO,GN
+Guinea-Bissau,GW-BA,GW
+Guinea-Bissau,GW-BM,GW
+Guinea-Bissau,GW-BS,GW
+Guinea-Bissau,GW-BL,GW
+Guinea-Bissau,GW-CA,GW
+Guinea-Bissau,GW-GA,GW
+Guinea-Bissau,GW-L,GW
+Guinea-Bissau,GW-N,GW
+Guinea-Bissau,GW-OI,GW
+Guinea-Bissau,GW-QU,GW
+Guinea-Bissau,GW-S,GW
+Guinea-Bissau,GW-TO,GW
+Guyana,GY-BA,GY
+Guyana,GY-CU,GY
+Guyana,GY-DE,GY
+Guyana,GY-EB,GY
+Guyana,GY-ES,GY
+Guyana,GY-MA,GY
+Guyana,GY-PM,GY
+Guyana,GY-PT,GY
+Guyana,GY-UD,GY
+Guyana,GY-UT,GY
+Haiti,HT-AR,HT
+Haiti,HT-CE,HT
+Haiti,HT-GA,HT
+Haiti,HT-NI,HT
+Haiti,HT-ND,HT
+Haiti,HT-NE,HT
+Haiti,HT-NO,HT
+Haiti,HT-OU,HT
+Haiti,HT-SD,HT
+Haiti,HT-SE,HT
+Honduras,HN-AT,HN
+Honduras,HN-CH,HN
+Honduras,HN-CL,HN
+Honduras,HN-CM,HN
+Honduras,HN-CP,HN
+Honduras,HN-CR,HN
+Honduras,HN-EP,HN
+Honduras,HN-FM,HN
+Honduras,HN-GD,HN
+Honduras,HN-IN,HN
+Honduras,HN-IB,HN
+Honduras,HN-LP,HN
+Honduras,HN-LE,HN
+Honduras,HN-OC,HN
+Honduras,HN-OL,HN
+Honduras,HN-SB,HN
+Honduras,HN-VA,HN
+Honduras,HN-YO,HN
+Hungary,HU-BA,HU
+Hungary,HU-BZ,HU
+Hungary,HU-BU,HU
+Hungary,HU-BK,HU
+Hungary,HU-BE,HU
+Hungary,HU-BC,HU
+Hungary,HU-CS,HU
+Hungary,HU-DE,HU
+Hungary,HU-DU,HU
+Hungary,HU-EG,HU
+Hungary,HU-ER,HU
+Hungary,HU-X1~,HU
+Hungary,HU-FE,HU
+Hungary,HU-GY,HU
+Hungary,HU-GS,HU
+Hungary,HU-HB,HU
+Hungary,HU-HE,HU
+Hungary,HU-HV,HU
+Hungary,HU-JN,HU
+Hungary,HU-KV,HU
+Hungary,HU-KM,HU
+Hungary,HU-KE,HU
+Hungary,HU-MI,HU
+Hungary,HU-NK,HU
+Hungary,HU-NY,HU
+Hungary,HU-NO,HU
+Hungary,HU-PE,HU
+Hungary,HU-PS,HU
+Hungary,HU-ST,HU
+Hungary,HU-SO,HU
+Hungary,HU-SN,HU
+Hungary,HU-SZ,HU
+Hungary,HU-SD,HU
+Hungary,HU-SS,HU
+Hungary,HU-SK,HU
+Hungary,HU-SH,HU
+Hungary,HU-SF,HU
+Hungary,HU-TB,HU
+Hungary,HU-TO,HU
+Hungary,HU-VA,HU
+Hungary,HU-VE,HU
+Hungary,HU-VM,HU
+Hungary,HU-ZA,HU
+Hungary,HU-ZE,HU
+Iceland,IS-7,IS
+Iceland,IS-1,IS
+Iceland,IS-6,IS
+Iceland,IS-5,IS
+Iceland,IS-0,IS
+Iceland,IS-8,IS
+Iceland,IS-2,IS
+Iceland,IS-4,IS
+Iceland,IS-3,IS
+India,IN-AN,IN
+India,IN-AP,IN
+India,IN-AR,IN
+India,IN-AS,IN
+India,IN-BR,IN
+India,IN-CH,IN
+India,IN-CT,IN
+India,IN-DN,IN
+India,IN-DD,IN
+India,IN-DL,IN
+India,IN-GA,IN
+India,IN-GJ,IN
+India,IN-HR,IN
+India,IN-HP,IN
+India,IN-JK,IN
+India,IN-JH,IN
+India,IN-KA,IN
+India,IN-KL,IN
+India,IN-LD,IN
+India,IN-MP,IN
+India,IN-MH,IN
+India,IN-MN,IN
+India,IN-ML,IN
+India,IN-MZ,IN
+India,IN-NL,IN
+India,IN-OR,IN
+India,IN-PY,IN
+India,IN-PB,IN
+India,IN-RJ,IN
+India,IN-SK,IN
+India,IN-TN,IN
+India,IN-TR,IN
+India,IN-UP,IN
+India,IN-UL,IN
+India,IN-WB,IN
+Indonesia,ID-AC,ID
+Indonesia,ID-BA,ID
+Indonesia,ID-BB,ID
+Indonesia,ID-BT,ID
+Indonesia,ID-BE,ID
+Indonesia,ID-GO,ID
+Indonesia,ID-JK,ID
+Indonesia,ID-JA,ID
+Indonesia,ID-JW,ID
+Indonesia,ID-JB,ID
+Indonesia,ID-JT,ID
+Indonesia,ID-JI,ID
+Indonesia,ID-KA,ID
+Indonesia,ID-KB,ID
+Indonesia,ID-KS,ID
+Indonesia,ID-KT,ID
+Indonesia,ID-KI,ID
+Indonesia,ID-KR,ID
+Indonesia,ID-LA,ID
+Indonesia,ID-ML,ID
+Indonesia,ID-MA,ID
+Indonesia,ID-MU,ID
+Indonesia,ID-NU,ID
+Indonesia,ID-NB,ID
+Indonesia,ID-NT,ID
+Indonesia,ID-PA,ID
+Indonesia,ID-IJ,ID
+Indonesia,ID-X1~,ID
+Indonesia,ID-PB,ID
+Indonesia,ID-RI,ID
+Indonesia,ID-SL,ID
+Indonesia,ID-SR,ID
+Indonesia,ID-SN,ID
+Indonesia,ID-ST,ID
+Indonesia,ID-SG,ID
+Indonesia,ID-SA,ID
+Indonesia,ID-SM,ID
+Indonesia,ID-SB,ID
+Indonesia,ID-SS,ID
+Indonesia,ID-SU,ID
+Indonesia,ID-YO,ID
+"Iran, Islamic Republic Of",IR-03,IR
+"Iran, Islamic Republic Of",IR-02,IR
+"Iran, Islamic Republic Of",IR-01,IR
+"Iran, Islamic Republic Of",IR-06,IR
+"Iran, Islamic Republic Of",IR-08,IR
+"Iran, Islamic Republic Of",IR-04,IR
+"Iran, Islamic Republic Of",IR-14,IR
+"Iran, Islamic Republic Of",IR-19,IR
+"Iran, Islamic Republic Of",IR-27,IR
+"Iran, Islamic Republic Of",IR-24,IR
+"Iran, Islamic Republic Of",IR-23,IR
+"Iran, Islamic Republic Of",IR-05,IR
+"Iran, Islamic Republic Of",IR-15,IR
+"Iran, Islamic Republic Of",IR-17,IR
+"Iran, Islamic Republic Of",IR-09,IR
+"Iran, Islamic Republic Of",IR-29,IR
+"Iran, Islamic Republic Of",IR-30,IR
+"Iran, Islamic Republic Of",IR-31,IR
+"Iran, Islamic Republic Of",IR-10,IR
+"Iran, Islamic Republic Of",IR-18,IR
+"Iran, Islamic Republic Of",IR-16,IR
+"Iran, Islamic Republic Of",IR-20,IR
+"Iran, Islamic Republic Of",IR-22,IR
+"Iran, Islamic Republic Of",IR-21,IR
+"Iran, Islamic Republic Of",IR-28,IR
+"Iran, Islamic Republic Of",IR-26,IR
+"Iran, Islamic Republic Of",IR-12,IR
+"Iran, Islamic Republic Of",IR-13,IR
+"Iran, Islamic Republic Of",IR-07,IR
+"Iran, Islamic Republic Of",IR-25,IR
+"Iran, Islamic Republic Of",IR-11,IR
+Iraq,IQ-AN,IQ
+Iraq,IQ-BA,IQ
+Iraq,IQ-MU,IQ
+Iraq,IQ-QA,IQ
+Iraq,IQ-NA,IQ
+Iraq,IQ-AR,IQ
+Iraq,IQ-SU,IQ
+Iraq,IQ-TS,IQ
+Iraq,IQ-BB,IQ
+Iraq,IQ-BG,IQ
+Iraq,IQ-DA,IQ
+Iraq,IQ-DQ,IQ
+Iraq,IQ-DI,IQ
+Iraq,IQ-KA,IQ
+Iraq,IQ-MA,IQ
+Iraq,IQ-NI,IQ
+Iraq,IQ-SD,IQ
+Iraq,IQ-WA,IQ
+Ireland,IE-CW,IE
+Ireland,IE-CN,IE
+Ireland,IE-CE,IE
+Ireland,IE-C,IE
+Ireland,IE-CO,IE
+Ireland,IE-DL,IE
+Ireland,IE-D,IE
+Ireland,IE-G,IE
+Ireland,IE-KY,IE
+Ireland,IE-KE,IE
+Ireland,IE-KK,IE
+Ireland,IE-LS,IE
+Ireland,IE-L,IE
+Ireland,IE-LM,IE
+Ireland,IE-LK,IE
+Ireland,IE-LD,IE
+Ireland,IE-LH,IE
+Ireland,IE-MO,IE
+Ireland,IE-MH,IE
+Ireland,IE-MN,IE
+Ireland,IE-M,IE
+Ireland,IE-OY,IE
+Ireland,IE-RN,IE
+Ireland,IE-SO,IE
+Ireland,IE-TA,IE
+Ireland,IE-U,IE
+Ireland,IE-WD,IE
+Ireland,IE-WH,IE
+Ireland,IE-WX,IE
+Ireland,IE-WW,IE
+Israel,IL-D,IL
+Israel,IL-HA,IL
+Israel,IL-M,IL
+Israel,IL-Z,IL
+Israel,IL-TA,IL
+Israel,IL-JM,IL
+Italy,IT-65,IT
+Italy,IT-AG,IT
+Italy,IT-AL,IT
+Italy,IT-AN,IT
+Italy,IT-AO,IT
+Italy,IT-AR,IT
+Italy,IT-AP,IT
+Italy,IT-AT,IT
+Italy,IT-AV,IT
+Italy,IT-BA,IT
+Italy,IT-BT,IT
+Italy,IT-77,IT
+Italy,IT-BL,IT
+Italy,IT-BN,IT
+Italy,IT-BG,IT
+Italy,IT-BI,IT
+Italy,IT-BO,IT
+Italy,IT-BZ,IT
+Italy,IT-BS,IT
+Italy,IT-BR,IT
+Italy,IT-CA,IT
+Italy,IT-78,IT
+Italy,IT-CL,IT
+Italy,IT-72,IT
+Italy,IT-CB,IT
+Italy,IT-CI,IT
+Italy,IT-CE,IT
+Italy,IT-CT,IT
+Italy,IT-CZ,IT
+Italy,IT-CH,IT
+Italy,IT-CO,IT
+Italy,IT-CS,IT
+Italy,IT-CR,IT
+Italy,IT-KR,IT
+Italy,IT-CN,IT
+Italy,IT-45,IT
+Italy,IT-EN,IT
+Italy,IT-FM,IT
+Italy,IT-FE,IT
+Italy,IT-FI,IT
+Italy,IT-FG,IT
+Italy,IT-FC,IT
+Italy,IT-FO,IT
+Italy,IT-36,IT
+Italy,IT-FR,IT
+Italy,IT-GE,IT
+Italy,IT-GO,IT
+Italy,IT-GR,IT
+Italy,IT-IM,IT
+Italy,IT-IS,IT
+Italy,IT-AQ,IT
+Italy,IT-SP,IT
+Italy,IT-LT,IT
+Italy,IT-62,IT
+Italy,IT-LE,IT
+Italy,IT-LC,IT
+Italy,IT-42,IT
+Italy,IT-LI,IT
+Italy,IT-LO,IT
+Italy,IT-25,IT
+Italy,IT-LU,IT
+Italy,IT-MC,IT
+Italy,IT-MN,IT
+Italy,IT-57,IT
+Italy,IT-MS,IT
+Italy,IT-MT,IT
+Italy,IT-VS,IT
+Italy,IT-MA,IT
+Italy,IT-ME,IT
+Italy,IT-MI,IT
+Italy,IT-MO,IT
+Italy,IT-67,IT
+Italy,IT-MB,IT
+Italy,IT-NA,IT
+Italy,IT-NO,IT
+Italy,IT-NU,IT
+Italy,IT-OG,IT
+Italy,IT-OT,IT
+Italy,IT-OL,IT
+Italy,IT-OR,IT
+Italy,IT-PD,IT
+Italy,IT-PA,IT
+Italy,IT-PR,IT
+Italy,IT-PV,IT
+Italy,IT-PG,IT
+Italy,IT-PS,IT
+Italy,IT-PU,IT
+Italy,IT-PE,IT
+Italy,IT-PC,IT
+Italy,IT-21,IT
+Italy,IT-PI,IT
+Italy,IT-PT,IT
+Italy,IT-PN,IT
+Italy,IT-PZ,IT
+Italy,IT-PO,IT
+Italy,IT-75,IT
+Italy,IT-RG,IT
+Italy,IT-RA,IT
+Italy,IT-RC,IT
+Italy,IT-RE,IT
+Italy,IT-RI,IT
+Italy,IT-RN,IT
+Italy,IT-RM,IT
+Italy,IT-RO,IT
+Italy,IT-SA,IT
+Italy,IT-88,IT
+Italy,IT-SS,IT
+Italy,IT-SV,IT
+Italy,IT-82,IT
+Italy,IT-SI,IT
+Italy,IT-SR,IT
+Italy,IT-SO,IT
+Italy,IT-TA,IT
+Italy,IT-TE,IT
+Italy,IT-TR,IT
+Italy,IT-TO,IT
+Italy,IT-52,IT
+Italy,IT-TP,IT
+Italy,IT-32,IT
+Italy,IT-TN,IT
+Italy,IT-TV,IT
+Italy,IT-TS,IT
+Italy,IT-UD,IT
+Italy,IT-55,IT
+Italy,IT-23,IT
+Italy,IT-VA,IT
+Italy,IT-34,IT
+Italy,IT-VE,IT
+Italy,IT-VB,IT
+Italy,IT-VC,IT
+Italy,IT-VR,IT
+Italy,IT-VV,IT
+Italy,IT-VI,IT
+Italy,IT-VT,IT
+Jamaica,JM-13,JM
+Jamaica,JM-09,JM
+Jamaica,JM-01,JM
+Jamaica,JM-12,JM
+Jamaica,JM-04,JM
+Jamaica,JM-02,JM
+Jamaica,JM-06,JM
+Jamaica,JM-14,JM
+Jamaica,JM-11,JM
+Jamaica,JM-08,JM
+Jamaica,JM-05,JM
+Jamaica,JM-03,JM
+Jamaica,JM-07,JM
+Jamaica,JM-10,JM
+Japan,JP-23,JP
+Japan,JP-05,JP
+Japan,JP-02,JP
+Japan,JP-38,JP
+Japan,JP-21,JP
+Japan,JP-10,JP
+Japan,JP-34,JP
+Japan,JP-01,JP
+Japan,JP-18,JP
+Japan,JP-40,JP
+Japan,JP-07,JP
+Japan,JP-28,JP
+Japan,JP-08,JP
+Japan,JP-17,JP
+Japan,JP-03,JP
+Japan,JP-37,JP
+Japan,JP-46,JP
+Japan,JP-14,JP
+Japan,JP-43,JP
+Japan,JP-26,JP
+Japan,JP-39,JP
+Japan,JP-24,JP
+Japan,JP-04,JP
+Japan,JP-45,JP
+Japan,JP-20,JP
+Japan,JP-42,JP
+Japan,JP-29,JP
+Japan,JP-15,JP
+Japan,JP-33,JP
+Japan,JP-47,JP
+Japan,JP-41,JP
+Japan,JP-11,JP
+Japan,JP-25,JP
+Japan,JP-32,JP
+Japan,JP-22,JP
+Japan,JP-12,JP
+Japan,JP-36,JP
+Japan,JP-09,JP
+Japan,JP-31,JP
+Japan,JP-16,JP
+Japan,JP-13,JP
+Japan,JP-30,JP
+Japan,JP-06,JP
+Japan,JP-35,JP
+Japan,JP-19,JP
+Japan,JP-44,JP
+Japan,JP-27,JP
+Jordan,JO-BA,JO
+Jordan,JO-KA,JO
+Jordan,JO-MA,JO
+Jordan,JO-AQ,JO
+Jordan,JO-AT,JO
+Jordan,JO-AZ,JO
+Jordan,JO-IR,JO
+Jordan,JO-JA,JO
+Jordan,JO-MN,JO
+Jordan,JO-MD,JO
+Jordan,JO-AJ,JO
+Jordan,JO-AM,JO
+Kazakhstan,KZ-ALA,KZ
+Kazakhstan,KZ-ALM,KZ
+Kazakhstan,KZ-AKM,KZ
+Kazakhstan,KZ-AKT,KZ
+Kazakhstan,KZ-AST,KZ
+Kazakhstan,KZ-ATY,KZ
+Kazakhstan,KZ-ZAP,KZ
+Kazakhstan,KZ-BAY,KZ
+Kazakhstan,KZ-MAN,KZ
+Kazakhstan,KZ-YUZ,KZ
+Kazakhstan,KZ-PAV,KZ
+Kazakhstan,KZ-KAR,KZ
+Kazakhstan,KZ-KUS,KZ
+Kazakhstan,KZ-KZY,KZ
+Kazakhstan,KZ-VOS,KZ
+Kazakhstan,KZ-SEV,KZ
+Kazakhstan,KZ-ZHA,KZ
+Kenya,KE-200,KE
+Kenya,KE-300,KE
+Kenya,KE-400,KE
+Kenya,KE-110,KE
+Kenya,KE-500,KE
+Kenya,KE-600,KE
+Kenya,KE-700,KE
+Kenya,KE-900,KE
+Kiribati,KI-G,KI
+Kiribati,KI-L,KI
+Kiribati,KI-P,KI
+"Korea, Democratic People's Republic Of",KP-04,KP
+"Korea, Democratic People's Republic Of",KP-CHA,KP
+"Korea, Democratic People's Republic Of",KP-09,KP
+"Korea, Democratic People's Republic Of",KP-08,KP
+"Korea, Democratic People's Republic Of",KP-HAB,KP
+"Korea, Democratic People's Republic Of",KP-HAN,KP
+"Korea, Democratic People's Republic Of",KP-06,KP
+"Korea, Democratic People's Republic Of",KP-05,KP
+"Korea, Democratic People's Republic Of",KP-HWB,KP
+"Korea, Democratic People's Republic Of",KP-HWN,KP
+"Korea, Democratic People's Republic Of",KP-KAE,KP
+"Korea, Democratic People's Republic Of",KP-KAN,KP
+"Korea, Democratic People's Republic Of",KP-07,KP
+"Korea, Democratic People's Republic Of",KP-NAJ,KP
+"Korea, Democratic People's Republic Of",KP-NAM,KP
+"Korea, Democratic People's Republic Of",KP-13,KP
+"Korea, Democratic People's Republic Of",KP-03,KP
+"Korea, Democratic People's Republic Of",KP-02,KP
+"Korea, Democratic People's Republic Of",KP-PYB,KP
+"Korea, Democratic People's Republic Of",KP-PYN,KP
+"Korea, Democratic People's Republic Of",KP-01,KP
+"Korea, Democratic People's Republic Of",KP-PYO,KP
+"Korea, Democratic People's Republic Of",KP-X1~,KP
+"Korea, Democratic People's Republic Of",KP-10,KP
+"Korea, Democratic People's Republic Of",KP-YAN,KP
+"Korea, Republic of",KR-26,KR
+"Korea, Republic of",KR-43,KR
+"Korea, Republic of",KR-44,KR
+"Korea, Republic of",KR-27,KR
+"Korea, Republic of",KR-30,KR
+"Korea, Republic of",KR-42,KR
+"Korea, Republic of",KR-29,KR
+"Korea, Republic of",KR-41,KR
+"Korea, Republic of",KR-47,KR
+"Korea, Republic of",KR-48,KR
+"Korea, Republic of",KR-28,KR
+"Korea, Republic of",KR-49,KR
+"Korea, Republic of",KR-45,KR
+"Korea, Republic of",KR-46,KR
+"Korea, Republic of",KR-11,KR
+"Korea, Republic of",KR-31,KR
+Kuwait,KW-AH,KW
+Kuwait,KW-FA,KW
+Kuwait,KW-JA,KW
+Kuwait,KW-KU,KW
+Kuwait,KW-HA,KW
+Kuwait,KW-MU,KW
+Kyrgyzstan,KG-B,KG
+Kyrgyzstan,KG-GB,KG
+Kyrgyzstan,KG-C,KG
+Kyrgyzstan,KG-J,KG
+Kyrgyzstan,KG-N,KG
+Kyrgyzstan,KG-O,KG
+Kyrgyzstan,KG-T,KG
+Kyrgyzstan,KG-Y,KG
+Lao People's Democratic Republic,LA-AT,LA
+Lao People's Democratic Republic,LA-BK,LA
+Lao People's Democratic Republic,LA-BL,LA
+Lao People's Democratic Republic,LA-CH,LA
+Lao People's Democratic Republic,LA-HO,LA
+Lao People's Democratic Republic,LA-KH,LA
+Lao People's Democratic Republic,LA-LM,LA
+Lao People's Democratic Republic,LA-LP,LA
+Lao People's Democratic Republic,LA-OU,LA
+Lao People's Democratic Republic,LA-PH,LA
+Lao People's Democratic Republic,LA-SL,LA
+Lao People's Democratic Republic,LA-SV,LA
+Lao People's Democratic Republic,LA-VI,LA
+Lao People's Democratic Republic,LA-VT,LA
+Lao People's Democratic Republic,LA-XA,LA
+Lao People's Democratic Republic,LA-XN,LA
+Lao People's Democratic Republic,LA-XI,LA
+Lao People's Democratic Republic,LA-XE,LA
+Latvia,LV-001,LV
+Latvia,LV-AI,LV
+Latvia,LV-002,LV
+Latvia,LV-003,LV
+Latvia,LV-004,LV
+Latvia,LV-005,LV
+Latvia,LV-006,LV
+Latvia,LV-AL,LV
+Latvia,LV-007,LV
+Latvia,LV-008,LV
+Latvia,LV-009,LV
+Latvia,LV-010,LV
+Latvia,LV-012,LV
+Latvia,LV-013,LV
+Latvia,LV-014,LV
+Latvia,LV-BL,LV
+Latvia,LV-015,LV
+Latvia,LV-BU,LV
+Latvia,LV-016,LV
+Latvia,LV-017,LV
+Latvia,LV-018,LV
+Latvia,LV-019,LV
+Latvia,LV-020,LV
+Latvia,LV-CE,LV
+Latvia,LV-021,LV
+Latvia,LV-023,LV
+Latvia,LV-022,LV
+Latvia,LV-024,LV
+Latvia,LV-DGV,LV
+Latvia,LV-DA,LV
+Latvia,LV-025,LV
+Latvia,LV-DO,LV
+Latvia,LV-026,LV
+Latvia,LV-027,LV
+Latvia,LV-028,LV
+Latvia,LV-029,LV
+Latvia,LV-031,LV
+Latvia,LV-032,LV
+Latvia,LV-GU,LV
+Latvia,LV-033,LV
+Latvia,LV-034,LV
+Latvia,LV-035,LV
+Latvia,LV-036,LV
+Latvia,LV-037,LV
+Latvia,LV-038,LV
+Latvia,LV-039,LV
+Latvia,LV-040,LV
+Latvia,LV-JK,LV
+Latvia,LV-JEL,LV
+Latvia,LV-JL,LV
+Latvia,LV-041,LV
+Latvia,LV-JUR,LV
+Latvia,LV-JKB,LV
+Latvia,LV-042,LV
+Latvia,LV-043,LV
+Latvia,LV-045,LV
+Latvia,LV-046,LV
+Latvia,LV-KR,LV
+Latvia,LV-048,LV
+Latvia,LV-049,LV
+Latvia,LV-047,LV
+Latvia,LV-KU,LV
+Latvia,LV-050,LV
+Latvia,LV-044,LV
+Latvia,LV-053,LV
+Latvia,LV-LPX,LV
+Latvia,LV-LE,LV
+Latvia,LV-LM,LV
+Latvia,LV-054,LV
+Latvia,LV-057,LV
+Latvia,LV-LU,LV
+Latvia,LV-058,LV
+Latvia,LV-055,LV
+Latvia,LV-056,LV
+Latvia,LV-MA,LV
+Latvia,LV-059,LV
+Latvia,LV-060,LV
+Latvia,LV-061,LV
+Latvia,LV-062,LV
+Latvia,LV-063,LV
+Latvia,LV-064,LV
+Latvia,LV-065,LV
+Latvia,LV-066,LV
+Latvia,LV-OG,LV
+Latvia,LV-067,LV
+Latvia,LV-068,LV
+Latvia,LV-069,LV
+Latvia,LV-PR,LV
+Latvia,LV-073,LV
+Latvia,LV-074,LV
+Latvia,LV-075,LV
+Latvia,LV-070,LV
+Latvia,LV-071,LV
+Latvia,LV-072,LV
+Latvia,LV-076,LV
+Latvia,LV-REZ,LV
+Latvia,LV-RE,LV
+Latvia,LV-078,LV
+Latvia,LV-RIX,LV
+Latvia,LV-RI,LV
+Latvia,LV-079,LV
+Latvia,LV-080,LV
+Latvia,LV-081,LV
+Latvia,LV-082,LV
+Latvia,LV-083,LV
+Latvia,LV-077,LV
+Latvia,LV-084,LV
+Latvia,LV-086,LV
+Latvia,LV-085,LV
+Latvia,LV-087,LV
+Latvia,LV-SA,LV
+Latvia,LV-088,LV
+Latvia,LV-089,LV
+Latvia,LV-091,LV
+Latvia,LV-093,LV
+Latvia,LV-092,LV
+Latvia,LV-094,LV
+Latvia,LV-095,LV
+Latvia,LV-096,LV
+Latvia,LV-090,LV
+Latvia,LV-TA,LV
+Latvia,LV-097,LV
+Latvia,LV-TU,LV
+Latvia,LV-099,LV
+Latvia,LV-098,LV
+Latvia,LV-100,LV
+Latvia,LV-VK,LV
+Latvia,LV-101,LV
+Latvia,LV-VMR,LV
+Latvia,LV-VM,LV
+Latvia,LV-102,LV
+Latvia,LV-104,LV
+Latvia,LV-105,LV
+Latvia,LV-VEN,LV
+Latvia,LV-VE,LV
+Latvia,LV-106,LV
+Latvia,LV-107,LV
+Latvia,LV-108,LV
+Latvia,LV-109,LV
+Latvia,LV-103,LV
+Latvia,LV-110,LV
+Latvia,LV-011,LV
+Latvia,LV-030,LV
+Latvia,LV-051,LV
+Latvia,LV-052,LV
+Lebanon,LB-AK,LB
+Lebanon,LB-BH,LB
+Lebanon,LB-BA,LB
+Lebanon,LB-BI,LB
+Lebanon,LB-JL,LB
+Lebanon,LB-AS,LB
+Lebanon,LB-JA,LB
+Lebanon,LB-NA,LB
+Lesotho,LS-D,LS
+Lesotho,LS-B,LS
+Lesotho,LS-C,LS
+Lesotho,LS-E,LS
+Lesotho,LS-A,LS
+Lesotho,LS-F,LS
+Lesotho,LS-J,LS
+Lesotho,LS-H,LS
+Lesotho,LS-G,LS
+Lesotho,LS-K,LS
+Liberia,LR-BM,LR
+Liberia,LR-BG,LR
+Liberia,LR-X1~,LR
+Liberia,LR-GB,LR
+Liberia,LR-CM,LR
+Liberia,LR-GG,LR
+Liberia,LR-GK,LR
+Liberia,LR-LO,LR
+Liberia,LR-MG,LR
+Liberia,LR-MY,LR
+Liberia,LR-MO,LR
+Liberia,LR-NI,LR
+Liberia,LR-X2~,LR
+Liberia,LR-RI,LR
+Liberia,LR-SI,LR
+Libya,LY-AJ,LY
+Libya,LY-HZ,LY
+Libya,LY-BU,LY
+Libya,LY-JA,LY
+Libya,LY-JG,LY
+Libya,LY-JI,LY
+Libya,LY-JU,LY
+Libya,LY-KF,LY
+Libya,LY-MJ,LY
+Libya,LY-MB,LY
+Libya,LY-QT,LY
+Libya,LY-QB,LY
+Libya,LY-WA,LY
+Libya,LY-NQ,LY
+Libya,LY-SH,LY
+Libya,LY-ZA,LY
+Libya,LY-BA,LY
+Libya,LY-BW,LY
+Libya,LY-DR,LY
+Libya,LY-GD,LY
+Libya,LY-GR,LY
+Libya,LY-GT,LY
+Libya,LY-JB,LY
+Libya,LY-MI,LY
+Libya,LY-MZ,LY
+Libya,LY-MQ,LY
+Libya,LY-NL,LY
+Libya,LY-SB,LY
+Libya,LY-SS,LY
+Libya,LY-SR,LY
+Libya,LY-TN,LY
+Libya,LY-TB,LY
+Libya,LY-TM,LY
+Libya,LY-WD,LY
+Libya,LY-WS,LY
+Libya,LY-YJ,LY
+Liechtenstein,LI-01,LI
+Liechtenstein,LI-02,LI
+Liechtenstein,LI-03,LI
+Liechtenstein,LI-04,LI
+Liechtenstein,LI-05,LI
+Liechtenstein,LI-06,LI
+Liechtenstein,LI-07,LI
+Liechtenstein,LI-08,LI
+Liechtenstein,LI-09,LI
+Liechtenstein,LI-10,LI
+Liechtenstein,LI-11,LI
+Lithuania,LT-AL,LT
+Lithuania,LT-KU,LT
+Lithuania,LT-KL,LT
+Lithuania,LT-MR,LT
+Lithuania,LT-PN,LT
+Lithuania,LT-TA,LT
+Lithuania,LT-TE,LT
+Lithuania,LT-UT,LT
+Lithuania,LT-VL,LT
+Lithuania,LT-SA,LT
+Luxembourg,LU-D,LU
+Luxembourg,LU-G,LU
+Luxembourg,LU-L,LU
+Macao,MO-I,MO
+Macao,MO-M,MO
+"Macedonia, the Former Yugoslav Republic Of",MK-01,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-AD,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-AR,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-02,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-BR,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-03,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-04,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-TL,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-05,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-BG,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-06,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-VJ,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-BS,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-07,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-BN,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-08,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-09,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-BU,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-CI,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-CA,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-77,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-CE,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-CZ,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-78,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-CH,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-CS,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-DB,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-21,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-22,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-DA,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-DL,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-23,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-25,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-DM,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-DK,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-24,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-SD,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-26,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-27,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-DE,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-DR,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-28,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-17,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-GB,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-18,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-GV,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-GP,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-29,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-19,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-GT,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-GR,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-20,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-IL,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-34,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-JG,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-35,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-37,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-KB,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-38,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-KX,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-36,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-AV,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-KH,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-39,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-VD,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-40,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-OC,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-KN,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-41,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-42,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-43,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-KY,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-KZ,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-44,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-45,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-KG,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-46,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-KS,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-47,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-UM,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-LI,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-48,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-LO,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-49,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-51,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-MK,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-52,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-MD,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-50,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-MR,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-MG,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-53,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-54,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-NG,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-NV,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-55,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-NS,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-56,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-58,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-OD,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-OS,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-57,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-PH,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-60,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-59,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-PE,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-61,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-PN,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-PP,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-62,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-PT,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-63,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-RV,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-64,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-RN,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-65,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-66,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-RE,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-67,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-RM,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-68,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-AJ,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-X1~,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-70,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-SS,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-NA,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-71,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-UG,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-72,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-73,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-RU,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-SU,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-74,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-SL,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-69,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-75,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-TR,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-ET,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-76,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-10,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-VA,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-11,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-VL,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-VE,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-13,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-VV,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-12,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-14,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-NI,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-15,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-VC,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-VH,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-16,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-31,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-ZA,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-32,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-ZK,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-33,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-ZR,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-79,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-80,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-81,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-82,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-83,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-ST,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-84,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-SO,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-30,MK
+"Macedonia, the Former Yugoslav Republic Of",MK-ZE,MK
+Madagascar,MG-T,MG
+Madagascar,MG-D,MG
+Madagascar,MG-F,MG
+Madagascar,MG-M,MG
+Madagascar,MG-A,MG
+Madagascar,MG-U,MG
+Malawi,MW-BA,MW
+Malawi,MW-BL,MW
+Malawi,MW-C,MW
+Malawi,MW-CK,MW
+Malawi,MW-CR,MW
+Malawi,MW-CT,MW
+Malawi,MW-DE,MW
+Malawi,MW-DO,MW
+Malawi,MW-KR,MW
+Malawi,MW-KS,MW
+Malawi,MW-LK,MW
+Malawi,MW-LI,MW
+Malawi,MW-MH,MW
+Malawi,MW-MG,MW
+Malawi,MW-MC,MW
+Malawi,MW-MU,MW
+Malawi,MW-MW,MW
+Malawi,MW-MZ,MW
+Malawi,MW-NE,MW
+Malawi,MW-NB,MW
+Malawi,MW-NK,MW
+Malawi,MW-N,MW
+Malawi,MW-NS,MW
+Malawi,MW-NU,MW
+Malawi,MW-NI,MW
+Malawi,MW-PH,MW
+Malawi,MW-RU,MW
+Malawi,MW-SA,MW
+Malawi,MW-S,MW
+Malawi,MW-TH,MW
+Malawi,MW-ZO,MW
+Malaysia,MY-01,MY
+Malaysia,MY-02,MY
+Malaysia,MY-03,MY
+Malaysia,MY-04,MY
+Malaysia,MY-05,MY
+Malaysia,MY-06,MY
+Malaysia,MY-08,MY
+Malaysia,MY-09,MY
+Malaysia,MY-07,MY
+Malaysia,MY-12,MY
+Malaysia,MY-13,MY
+Malaysia,MY-10,MY
+Malaysia,MY-11,MY
+Malaysia,MY-14,MY
+Malaysia,MY-15,MY
+Malaysia,MY-16,MY
+Maldives,MV-02,MV
+Maldives,MV-X1~,MV
+Maldives,MV-00,MV
+Maldives,MV-20,MV
+Maldives,MV-CE,MV
+Maldives,MV-17,MV
+Maldives,MV-14,MV
+Maldives,MV-27,MV
+Maldives,MV-28,MV
+Maldives,MV-29,MV
+Maldives,MV-07,MV
+Maldives,MV-23,MV
+Maldives,MV-26,MV
+Maldives,MV-05,MV
+Maldives,MV-03,MV
+Maldives,MV-MLE,MV
+Maldives,MV-12,MV
+Maldives,MV-25,MV
+Maldives,MV-NO,MV
+Maldives,MV-NC,MV
+Maldives,MV-13,MV
+Maldives,MV-01,MV
+Maldives,MV-24,MV
+Maldives,MV-SU,MV
+Maldives,MV-SC,MV
+Maldives,MV-08,MV
+Maldives,MV-UN,MV
+Maldives,MV-US,MV
+Maldives,MV-04,MV
+Mali,ML-BKO,ML
+Mali,ML-7,ML
+Mali,ML-1,ML
+Mali,ML-8,ML
+Mali,ML-2,ML
+Mali,ML-5,ML
+Mali,ML-3,ML
+Mali,ML-4,ML
+Mali,ML-6,ML
+Marshall Islands,MH-ALL,MH
+Marshall Islands,MH-ALK,MH
+Marshall Islands,MH-ARN,MH
+Marshall Islands,MH-AUR,MH
+Marshall Islands,MH-EBO,MH
+Marshall Islands,MH-ENI,MH
+Marshall Islands,MH-JAB,MH
+Marshall Islands,MH-JAL,MH
+Marshall Islands,MH-KIL,MH
+Marshall Islands,MH-KWA,MH
+Marshall Islands,MH-LAE,MH
+Marshall Islands,MH-LIB,MH
+Marshall Islands,MH-LIK,MH
+Marshall Islands,MH-MAJ,MH
+Marshall Islands,MH-MAL,MH
+Marshall Islands,MH-MEJ,MH
+Marshall Islands,MH-MIL,MH
+Marshall Islands,MH-NMK,MH
+Marshall Islands,MH-NMU,MH
+Marshall Islands,MH-L,MH
+Marshall Islands,MH-T,MH
+Marshall Islands,MH-RON,MH
+Marshall Islands,MH-UJA,MH
+Marshall Islands,MH-UJL,MH
+Marshall Islands,MH-UTI,MH
+Marshall Islands,MH-WTH,MH
+Marshall Islands,MH-WTJ,MH
+Mauritania,MR-07,MR
+Mauritania,MR-03,MR
+Mauritania,MR-05,MR
+Mauritania,MR-08,MR
+Mauritania,MR-04,MR
+Mauritania,MR-10,MR
+Mauritania,MR-01,MR
+Mauritania,MR-02,MR
+Mauritania,MR-12,MR
+Mauritania,MR-NKC,MR
+Mauritania,MR-09,MR
+Mauritania,MR-11,MR
+Mauritania,MR-06,MR
+Mauritius,MU-AG,MU
+Mauritius,MU-BR,MU
+Mauritius,MU-BL,MU
+Mauritius,MU-CC,MU
+Mauritius,MU-CU,MU
+Mauritius,MU-FL,MU
+Mauritius,MU-GP,MU
+Mauritius,MU-MO,MU
+Mauritius,MU-PA,MU
+Mauritius,MU-PW,MU
+Mauritius,MU-PL,MU
+Mauritius,MU-PU,MU
+Mauritius,MU-QB,MU
+Mauritius,MU-RR,MU
+Mauritius,MU-RO,MU
+Mauritius,MU-SA,MU
+Mauritius,MU-VP,MU
+Mexico,MX-AGU,MX
+Mexico,MX-BCN,MX
+Mexico,MX-BCS,MX
+Mexico,MX-CAM,MX
+Mexico,MX-CHP,MX
+Mexico,MX-CHH,MX
+Mexico,MX-COA,MX
+Mexico,MX-COL,MX
+Mexico,MX-DIF,MX
+Mexico,MX-DUR,MX
+Mexico,MX-GUA,MX
+Mexico,MX-GRO,MX
+Mexico,MX-HID,MX
+Mexico,MX-JAL,MX
+Mexico,MX-MIC,MX
+Mexico,MX-MOR,MX
+Mexico,MX-MEX,MX
+Mexico,MX-NAY,MX
+Mexico,MX-NLE,MX
+Mexico,MX-OAX,MX
+Mexico,MX-PUE,MX
+Mexico,MX-QUE,MX
+Mexico,MX-ROO,MX
+Mexico,MX-SLP,MX
+Mexico,MX-SIN,MX
+Mexico,MX-SON,MX
+Mexico,MX-TAB,MX
+Mexico,MX-TAM,MX
+Mexico,MX-TLA,MX
+Mexico,MX-VER,MX
+Mexico,MX-YUC,MX
+Mexico,MX-ZAC,MX
+"Micronesia, Federated States Of",FM-TRK,FM
+"Micronesia, Federated States Of",FM-KSA,FM
+"Micronesia, Federated States Of",FM-PNI,FM
+"Micronesia, Federated States Of",FM-YAP,FM
+"Moldova, Republic of",MD-AN,MD
+"Moldova, Republic of",MD-BS,MD
+"Moldova, Republic of",MD-BR,MD
+"Moldova, Republic of",MD-BA,MD
+"Moldova, Republic of",MD-CA,MD
+"Moldova, Republic of",MD-CT,MD
+"Moldova, Republic of",MD-CU,MD
+"Moldova, Republic of",MD-CH,MD
+"Moldova, Republic of",MD-CM,MD
+"Moldova, Republic of",MD-CR,MD
+"Moldova, Republic of",MD-CL,MD
+"Moldova, Republic of",MD-CS,MD
+"Moldova, Republic of",MD-DO,MD
+"Moldova, Republic of",MD-DR,MD
+"Moldova, Republic of",MD-DU,MD
+"Moldova, Republic of",MD-ED,MD
+"Moldova, Republic of",MD-FL,MD
+"Moldova, Republic of",MD-FA,MD
+"Moldova, Republic of",MD-GA,MD
+"Moldova, Republic of",MD-GL,MD
+"Moldova, Republic of",MD-HI,MD
+"Moldova, Republic of",MD-IA,MD
+"Moldova, Republic of",MD-LE,MD
+"Moldova, Republic of",MD-LA,MD
+"Moldova, Republic of",MD-NI,MD
+"Moldova, Republic of",MD-OC,MD
+"Moldova, Republic of",MD-OR,MD
+"Moldova, Republic of",MD-RE,MD
+"Moldova, Republic of",MD-RI,MD
+"Moldova, Republic of",MD-SO,MD
+"Moldova, Republic of",MD-ST,MD
+"Moldova, Republic of",MD-SN,MD
+"Moldova, Republic of",MD-SI,MD
+"Moldova, Republic of",MD-TA,MD
+"Moldova, Republic of",MD-TE,MD
+"Moldova, Republic of",MD-BD,MD
+"Moldova, Republic of",MD-TI,MD
+"Moldova, Republic of",MD-UN,MD
+"Moldova, Republic of",MD-SD,MD
+"Moldova, Republic of",MD-SV,MD
+Monaco,MC-FO,MC
+Monaco,MC-JE,MC
+Monaco,MC-CL,MC
+Monaco,MC-CO,MC
+Monaco,MC-GA,MC
+Monaco,MC-SO,MC
+Monaco,MC-LA,MC
+Monaco,MC-MA,MC
+Monaco,MC-MO,MC
+Monaco,MC-MG,MC
+Monaco,MC-MC,MC
+Monaco,MC-MU,MC
+Monaco,MC-PH,MC
+Monaco,MC-SR,MC
+Monaco,MC-SD,MC
+Monaco,MC-SP,MC
+Monaco,MC-VR,MC
+Mongolia,MN-073,MN
+Mongolia,MN-071,MN
+Mongolia,MN-069,MN
+Mongolia,MN-067,MN
+Mongolia,MN-037,MN
+Mongolia,MN-061,MN
+Mongolia,MN-063,MN
+Mongolia,MN-059,MN
+Mongolia,MN-057,MN
+Mongolia,MN-065,MN
+Mongolia,MN-064,MN
+Mongolia,MN-039,MN
+Mongolia,MN-043,MN
+Mongolia,MN-041,MN
+Mongolia,MN-035,MN
+Mongolia,MN-049,MN
+Mongolia,MN-051,MN
+Mongolia,MN-047,MN
+Mongolia,MN-1,MN
+Mongolia,MN-046,MN
+Mongolia,MN-053,MN
+Mongolia,MN-055,MN
+Montenegro,ME-01,ME
+Montenegro,ME-02,ME
+Montenegro,ME-03,ME
+Montenegro,ME-04,ME
+Montenegro,ME-05,ME
+Montenegro,ME-06,ME
+Montenegro,ME-07,ME
+Montenegro,ME-08,ME
+Montenegro,ME-09,ME
+Montenegro,ME-10,ME
+Montenegro,ME-11,ME
+Montenegro,ME-12,ME
+Montenegro,ME-13,ME
+Montenegro,ME-14,ME
+Montenegro,ME-15,ME
+Montenegro,ME-16,ME
+Montenegro,ME-17,ME
+Montenegro,ME-19,ME
+Montenegro,ME-20,ME
+Montenegro,ME-18,ME
+Montenegro,ME-21,ME
+Morocco,MA-AGD,MA
+Morocco,MA-HAO,MA
+Morocco,MA-HOC,MA
+Morocco,MA-AOU,MA
+Morocco,MA-ASZ,MA
+Morocco,MA-AZI,MA
+Morocco,MA-BAH,MA
+Morocco,MA-MEL,MA
+Morocco,MA-BES,MA
+Morocco,MA-BEM,MA
+Morocco,MA-BER,MA
+Morocco,MA-BOD,MA
+Morocco,MA-BOM,MA
+Morocco,MA-CAS,MA
+Morocco,MA-09,MA
+Morocco,MA-CHE,MA
+Morocco,MA-CHI,MA
+Morocco,MA-CHT,MA
+Morocco,MA-SAL,MA
+Morocco,MA-10,MA
+Morocco,MA-HAJ,MA
+Morocco,MA-JDI,MA
+Morocco,MA-ERR,MA
+Morocco,MA-ESM,MA
+Morocco,MA-ESI,MA
+Morocco,MA-FAH,MA
+Morocco,MA-05,MA
+Morocco,MA-FIG,MA
+Morocco,MA-FES,MA
+Morocco,MA-02,MA
+Morocco,MA-08,MA
+Morocco,MA-GUE,MA
+Morocco,MA-14,MA
+Morocco,MA-IFR,MA
+Morocco,MA-INE,MA
+Morocco,MA-JRA,MA
+Morocco,MA-KES,MA
+Morocco,MA-KHE,MA
+Morocco,MA-KHN,MA
+Morocco,MA-KHO,MA
+Morocco,MA-KEN,MA
+Morocco,MA-04,MA
+Morocco,MA-15,MA
+Morocco,MA-X1~,MA
+Morocco,MA-LAR,MA
+Morocco,MA-LAA,MA
+Morocco,MA-MAR,MA
+Morocco,MA-MMD,MA
+Morocco,MA-MMN,MA
+Morocco,MA-11,MA
+Morocco,MA-MED,MA
+Morocco,MA-06,MA
+Morocco,MA-MEK,MA
+Morocco,MA-MOH,MA
+Morocco,MA-MOU,MA
+Morocco,MA-NAD,MA
+Morocco,MA-NOU,MA
+Morocco,MA-OUA,MA
+Morocco,MA-OUD,MA
+Morocco,MA-16,MA
+Morocco,MA-OUJ,MA
+Morocco,MA-RAB,MA
+Morocco,MA-RBA,MA
+Morocco,MA-07,MA
+Morocco,MA-SAF,MA
+Morocco,MA-SEF,MA
+Morocco,MA-SET,MA
+Morocco,MA-SIK,MA
+Morocco,MA-SYB,MA
+Morocco,MA-SKH,MA
+Morocco,MA-13,MA
+Morocco,MA-12,MA
+Morocco,MA-TNT,MA
+Morocco,MA-TNG,MA
+Morocco,MA-01,MA
+Morocco,MA-TAO,MA
+Morocco,MA-TAI,MA
+Morocco,MA-TAR,MA
+Morocco,MA-TAT,MA
+Morocco,MA-TAZ,MA
+Morocco,MA-03,MA
+Morocco,MA-TIZ,MA
+Morocco,MA-TET,MA
+Morocco,MA-ZAG,MA
+Mozambique,MZ-P,MZ
+Mozambique,MZ-G,MZ
+Mozambique,MZ-I,MZ
+Mozambique,MZ-B,MZ
+Mozambique,MZ-L,MZ
+Mozambique,MZ-MPM,MZ
+Mozambique,MZ-N,MZ
+Mozambique,MZ-A,MZ
+Mozambique,MZ-S,MZ
+Mozambique,MZ-T,MZ
+Mozambique,MZ-Q,MZ
+Myanmar,MM-07,MM
+Myanmar,MM-02,MM
+Myanmar,MM-14,MM
+Myanmar,MM-11,MM
+Myanmar,MM-12,MM
+Myanmar,MM-13,MM
+Myanmar,MM-03,MM
+Myanmar,MM-04,MM
+Myanmar,MM-15,MM
+Myanmar,MM-16,MM
+Myanmar,MM-01,MM
+Myanmar,MM-17,MM
+Myanmar,MM-05,MM
+Myanmar,MM-06,MM
+Namibia,NA-CA,NA
+Namibia,NA-ER,NA
+Namibia,NA-HA,NA
+Namibia,NA-KA,NA
+Namibia,NA-KH,NA
+Namibia,NA-KU,NA
+Namibia,NA-OW,NA
+Namibia,NA-OK,NA
+Namibia,NA-OH,NA
+Namibia,NA-OS,NA
+Namibia,NA-ON,NA
+Namibia,NA-OT,NA
+Namibia,NA-OD,NA
+Nauru,NR-01,NR
+Nauru,NR-02,NR
+Nauru,NR-03,NR
+Nauru,NR-04,NR
+Nauru,NR-05,NR
+Nauru,NR-06,NR
+Nauru,NR-07,NR
+Nauru,NR-08,NR
+Nauru,NR-09,NR
+Nauru,NR-10,NR
+Nauru,NR-11,NR
+Nauru,NR-12,NR
+Nauru,NR-13,NR
+Nauru,NR-14,NR
+Nepal,NP-BA,NP
+Nepal,NP-BH,NP
+Nepal,NP-DH,NP
+Nepal,NP-GA,NP
+Nepal,NP-JA,NP
+Nepal,NP-KA,NP
+Nepal,NP-KO,NP
+Nepal,NP-LU,NP
+Nepal,NP-2,NP
+Nepal,NP-1,NP
+Nepal,NP-MA,NP
+Nepal,NP-ME,NP
+Nepal,NP-NA,NP
+Nepal,NP-3,NP
+Nepal,NP-4,NP
+Nepal,NP-RA,NP
+Nepal,NP-SA,NP
+Nepal,NP-SE,NP
+Nepal,NP-5,NP
+Netherlands,NL-AW,NL
+Netherlands,NL-BQ1,NL
+Netherlands,NL-CW,NL
+Netherlands,NL-DR,NL
+Netherlands,NL-FL,NL
+Netherlands,NL-FR,NL
+Netherlands,NL-GE,NL
+Netherlands,NL-GR,NL
+Netherlands,NL-LI,NL
+Netherlands,NL-NB,NL
+Netherlands,NL-NH,NL
+Netherlands,NL-OV,NL
+Netherlands,NL-BQ2,NL
+Netherlands,NL-BQ3,NL
+Netherlands,NL-SX,NL
+Netherlands,NL-UT,NL
+Netherlands,NL-ZE,NL
+Netherlands,NL-ZH,NL
+New Zealand,NZ-AUK,NZ
+New Zealand,NZ-BOP,NZ
+New Zealand,NZ-CAN,NZ
+New Zealand,NZ-X1~,NZ
+New Zealand,NZ-CIT,NZ
+New Zealand,NZ-GIS,NZ
+New Zealand,NZ-HKB,NZ
+New Zealand,NZ-MWT,NZ
+New Zealand,NZ-MBH,NZ
+New Zealand,NZ-NSN,NZ
+New Zealand,NZ-N,NZ
+New Zealand,NZ-NTL,NZ
+New Zealand,NZ-OTA,NZ
+New Zealand,NZ-S,NZ
+New Zealand,NZ-STL,NZ
+New Zealand,NZ-TKI,NZ
+New Zealand,NZ-TAS,NZ
+New Zealand,NZ-WKO,NZ
+New Zealand,NZ-WGN,NZ
+New Zealand,NZ-WTC,NZ
+Nicaragua,NI-AN,NI
+Nicaragua,NI-AS,NI
+Nicaragua,NI-BO,NI
+Nicaragua,NI-CA,NI
+Nicaragua,NI-CI,NI
+Nicaragua,NI-CO,NI
+Nicaragua,NI-ES,NI
+Nicaragua,NI-GR,NI
+Nicaragua,NI-JI,NI
+Nicaragua,NI-LE,NI
+Nicaragua,NI-MD,NI
+Nicaragua,NI-MN,NI
+Nicaragua,NI-MS,NI
+Nicaragua,NI-MT,NI
+Nicaragua,NI-NS,NI
+Nicaragua,NI-RI,NI
+Nicaragua,NI-SJ,NI
+Niger,NE-1,NE
+Niger,NE-2,NE
+Niger,NE-3,NE
+Niger,NE-4,NE
+Niger,NE-8,NE
+Niger,NE-5,NE
+Niger,NE-6,NE
+Niger,NE-7,NE
+Nigeria,NG-AB,NG
+Nigeria,NG-FC,NG
+Nigeria,NG-AD,NG
+Nigeria,NG-AK,NG
+Nigeria,NG-AN,NG
+Nigeria,NG-BA,NG
+Nigeria,NG-BY,NG
+Nigeria,NG-BE,NG
+Nigeria,NG-BO,NG
+Nigeria,NG-CR,NG
+Nigeria,NG-DE,NG
+Nigeria,NG-EB,NG
+Nigeria,NG-ED,NG
+Nigeria,NG-EK,NG
+Nigeria,NG-EN,NG
+Nigeria,NG-GO,NG
+Nigeria,NG-IM,NG
+Nigeria,NG-JI,NG
+Nigeria,NG-KD,NG
+Nigeria,NG-KN,NG
+Nigeria,NG-KT,NG
+Nigeria,NG-KE,NG
+Nigeria,NG-KO,NG
+Nigeria,NG-KW,NG
+Nigeria,NG-LA,NG
+Nigeria,NG-NA,NG
+Nigeria,NG-NI,NG
+Nigeria,NG-OG,NG
+Nigeria,NG-ON,NG
+Nigeria,NG-OS,NG
+Nigeria,NG-OY,NG
+Nigeria,NG-PL,NG
+Nigeria,NG-RI,NG
+Nigeria,NG-SO,NG
+Nigeria,NG-TA,NG
+Nigeria,NG-YO,NG
+Nigeria,NG-ZA,NG
+Norway,NO-02,NO
+Norway,NO-09,NO
+Norway,NO-06,NO
+Norway,NO-20,NO
+Norway,NO-04,NO
+Norway,NO-12,NO
+Norway,NO-22,NO
+Norway,NO-15,NO
+Norway,NO-17,NO
+Norway,NO-18,NO
+Norway,NO-05,NO
+Norway,NO-03,NO
+Norway,NO-11,NO
+Norway,NO-14,NO
+Norway,NO-21,NO
+Norway,NO-16,NO
+Norway,NO-08,NO
+Norway,NO-19,NO
+Norway,NO-10,NO
+Norway,NO-07,NO
+Norway,NO-01,NO
+Oman,OM-DA,OM
+Oman,OM-BA,OM
+Oman,OM-X1~,OM
+Oman,OM-BU,OM
+Oman,OM-WU,OM
+Oman,OM-SH,OM
+Oman,OM-ZA,OM
+Oman,OM-JA,OM
+Oman,OM-MA,OM
+Oman,OM-MU,OM
+Oman,OM-ZU,OM
+Pakistan,PK-JK,PK
+Pakistan,PK-BA,PK
+Pakistan,PK-TA,PK
+Pakistan,PK-GB,PK
+Pakistan,PK-IS,PK
+Pakistan,PK-KP,PK
+Pakistan,PK-NW,PK
+Pakistan,PK-NA,PK
+Pakistan,PK-PB,PK
+Pakistan,PK-SD,PK
+Palau,PW-002,PW
+Palau,PW-004,PW
+Palau,PW-010,PW
+Palau,PW-050,PW
+Palau,PW-100,PW
+Palau,PW-150,PW
+Palau,PW-212,PW
+Palau,PW-214,PW
+Palau,PW-218,PW
+Palau,PW-222,PW
+Palau,PW-224,PW
+Palau,PW-226,PW
+Palau,PW-227,PW
+Palau,PW-228,PW
+Palau,PW-350,PW
+Palau,PW-370,PW
+"Palestinian Territory, Occupied",PS-BTH,PS
+"Palestinian Territory, Occupied",PS-DEB,PS
+"Palestinian Territory, Occupied",PS-GZA,PS
+"Palestinian Territory, Occupied",PS-HBN,PS
+"Palestinian Territory, Occupied",PS-JEN,PS
+"Palestinian Territory, Occupied",PS-JRH,PS
+"Palestinian Territory, Occupied",PS-JEM,PS
+"Palestinian Territory, Occupied",PS-KYS,PS
+"Palestinian Territory, Occupied",PS-NBS,PS
+"Palestinian Territory, Occupied",PS-NGZ,PS
+"Palestinian Territory, Occupied",PS-QQA,PS
+"Palestinian Territory, Occupied",PS-RFH,PS
+"Palestinian Territory, Occupied",PS-RBH,PS
+"Palestinian Territory, Occupied",PS-SLT,PS
+"Palestinian Territory, Occupied",PS-TBS,PS
+"Palestinian Territory, Occupied",PS-TKM,PS
+Panama,PA-1,PA
+Panama,PA-4,PA
+Panama,PA-2,PA
+Panama,PA-3,PA
+Panama,PA-0,PA
+Panama,PA-5,PA
+Panama,PA-EM,PA
+Panama,PA-6,PA
+Panama,PA-7,PA
+Panama,PA-NB,PA
+Panama,PA-8,PA
+Panama,PA-9,PA
+Papua New Guinea,PG-NSB,PG
+Papua New Guinea,PG-CPM,PG
+Papua New Guinea,PG-CPK,PG
+Papua New Guinea,PG-EBR,PG
+Papua New Guinea,PG-ESW,PG
+Papua New Guinea,PG-EHG,PG
+Papua New Guinea,PG-EPW,PG
+Papua New Guinea,PG-GPK,PG
+Papua New Guinea,PG-MPM,PG
+Papua New Guinea,PG-MRL,PG
+Papua New Guinea,PG-MBA,PG
+Papua New Guinea,PG-MPL,PG
+Papua New Guinea,PG-NCD,PG
+Papua New Guinea,PG-NIK,PG
+Papua New Guinea,PG-NSA,PG
+Papua New Guinea,PG-NPP,PG
+Papua New Guinea,PG-SAN,PG
+Papua New Guinea,PG-SHM,PG
+Papua New Guinea,PG-WBK,PG
+Papua New Guinea,PG-WPD,PG
+Papua New Guinea,PG-WHM,PG
+Paraguay,PY-16,PY
+Paraguay,PY-10,PY
+Paraguay,PY-13,PY
+Paraguay,PY-ASU,PY
+Paraguay,PY-19,PY
+Paraguay,PY-5,PY
+Paraguay,PY-6,PY
+Paraguay,PY-14,PY
+Paraguay,PY-11,PY
+Paraguay,PY-1,PY
+Paraguay,PY-3,PY
+Paraguay,PY-4,PY
+Paraguay,PY-7,PY
+Paraguay,PY-8,PY
+Paraguay,PY-9,PY
+Paraguay,PY-15,PY
+Paraguay,PY-2,PY
+Paraguay,PY-12,PY
+Peru,PE-AMA,PE
+Peru,PE-ANC,PE
+Peru,PE-APU,PE
+Peru,PE-ARE,PE
+Peru,PE-AYA,PE
+Peru,PE-CAJ,PE
+Peru,PE-CUS,PE
+Peru,PE-CAL,PE
+Peru,PE-HUV,PE
+Peru,PE-HUC,PE
+Peru,PE-ICA,PE
+Peru,PE-JUN,PE
+Peru,PE-LAL,PE
+Peru,PE-LAM,PE
+Peru,PE-LIM,PE
+Peru,PE-LOR,PE
+Peru,PE-MDD,PE
+Peru,PE-MOQ,PE
+Peru,PE-LMA,PE
+Peru,PE-X1~,PE
+Peru,PE-PAS,PE
+Peru,PE-PIU,PE
+Peru,PE-PUN,PE
+Peru,PE-SAM,PE
+Peru,PE-TAC,PE
+Peru,PE-TUM,PE
+Peru,PE-UCA,PE
+Philippines,PH-ABR,PH
+Philippines,PH-AGN,PH
+Philippines,PH-AGS,PH
+Philippines,PH-AKL,PH
+Philippines,PH-ALB,PH
+Philippines,PH-ANT,PH
+Philippines,PH-APA,PH
+Philippines,PH-AUR,PH
+Philippines,PH-14,PH
+Philippines,PH-BAS,PH
+Philippines,PH-BAN,PH
+Philippines,PH-BTN,PH
+Philippines,PH-BTG,PH
+Philippines,PH-BEN,PH
+Philippines,PH-05,PH
+Philippines,PH-BIL,PH
+Philippines,PH-BOH,PH
+Philippines,PH-BUK,PH
+Philippines,PH-BUL,PH
+Philippines,PH-CAG,PH
+Philippines,PH-02,PH
+Philippines,PH-40,PH
+Philippines,PH-CAN,PH
+Philippines,PH-CAS,PH
+Philippines,PH-CAM,PH
+Philippines,PH-CAP,PH
+Philippines,PH-13,PH
+Philippines,PH-CAT,PH
+Philippines,PH-CAV,PH
+Philippines,PH-CEB,PH
+Philippines,PH-03,PH
+Philippines,PH-07,PH
+Philippines,PH-COM,PH
+Philippines,PH-15,PH
+Philippines,PH-NCO,PH
+Philippines,PH-11,PH
+Philippines,PH-DAV,PH
+Philippines,PH-DAS,PH
+Philippines,PH-DAO,PH
+Philippines,PH-DIN,PH
+Philippines,PH-X1~,PH
+Philippines,PH-EAS,PH
+Philippines,PH-08,PH
+Philippines,PH-GUI,PH
+Philippines,PH-IFU,PH
+Philippines,PH-01,PH
+Philippines,PH-ILN,PH
+Philippines,PH-ILS,PH
+Philippines,PH-ILI,PH
+Philippines,PH-ISA,PH
+Philippines,PH-KAL,PH
+Philippines,PH-LUN,PH
+Philippines,PH-LAG,PH
+Philippines,PH-LAN,PH
+Philippines,PH-LAS,PH
+Philippines,PH-LEY,PH
+Philippines,PH-MAG,PH
+Philippines,PH-MAD,PH
+Philippines,PH-MAS,PH
+Philippines,PH-41,PH
+Philippines,PH-MDC,PH
+Philippines,PH-MDR,PH
+Philippines,PH-MSC,PH
+Philippines,PH-MSR,PH
+Philippines,PH-MOU,PH
+Philippines,PH-00,PH
+Philippines,PH-NEC,PH
+Philippines,PH-NER,PH
+Philippines,PH-10,PH
+Philippines,PH-NSA,PH
+Philippines,PH-NUE,PH
+Philippines,PH-NUV,PH
+Philippines,PH-PLW,PH
+Philippines,PH-PAM,PH
+Philippines,PH-PAN,PH
+Philippines,PH-QUE,PH
+Philippines,PH-QUI,PH
+Philippines,PH-RIZ,PH
+Philippines,PH-ROM,PH
+Philippines,PH-SAR,PH
+Philippines,PH-X2~,PH
+Philippines,PH-SIG,PH
+Philippines,PH-12,PH
+Philippines,PH-SOR,PH
+Philippines,PH-SCO,PH
+Philippines,PH-SLE,PH
+Philippines,PH-SUK,PH
+Philippines,PH-SLU,PH
+Philippines,PH-SUN,PH
+Philippines,PH-SUR,PH
+Philippines,PH-TAR,PH
+Philippines,PH-TAW,PH
+Philippines,PH-WSA,PH
+Philippines,PH-06,PH
+Philippines,PH-ZMB,PH
+Philippines,PH-ZAN,PH
+Philippines,PH-ZAS,PH
+Philippines,PH-09,PH
+Philippines,PH-ZSI,PH
+Philippines,PH-MNL,PH
+Poland,PL-DS,PL
+Poland,PL-KP,PL
+Poland,PL-LU,PL
+Poland,PL-LB,PL
+Poland,PL-LD,PL
+Poland,PL-MA,PL
+Poland,PL-MZ,PL
+Poland,PL-OP,PL
+Poland,PL-PK,PL
+Poland,PL-PD,PL
+Poland,PL-PM,PL
+Poland,PL-SL,PL
+Poland,PL-SK,PL
+Poland,PL-WN,PL
+Poland,PL-WP,PL
+Poland,PL-ZP,PL
+Portugal,PT-01,PT
+Portugal,PT-02,PT
+Portugal,PT-03,PT
+Portugal,PT-04,PT
+Portugal,PT-05,PT
+Portugal,PT-06,PT
+Portugal,PT-08,PT
+Portugal,PT-09,PT
+Portugal,PT-10,PT
+Portugal,PT-11,PT
+Portugal,PT-12,PT
+Portugal,PT-13,PT
+Portugal,PT-30,PT
+Portugal,PT-20,PT
+Portugal,PT-14,PT
+Portugal,PT-15,PT
+Portugal,PT-16,PT
+Portugal,PT-17,PT
+Portugal,PT-18,PT
+Portugal,PT-07,PT
+Qatar,QA-DA,QA
+Qatar,QA-GH,QA
+Qatar,QA-JU,QA
+Qatar,QA-KH,QA
+Qatar,QA-WA,QA
+Qatar,QA-RA,QA
+Qatar,QA-ZA,QA
+Qatar,QA-JB,QA
+Qatar,QA-MS,QA
+Qatar,QA-X1~,QA
+Qatar,QA-US,QA
+Romania,RO-AB,RO
+Romania,RO-AR,RO
+Romania,RO-AG,RO
+Romania,RO-BC,RO
+Romania,RO-BH,RO
+Romania,RO-BN,RO
+Romania,RO-BT,RO
+Romania,RO-BR,RO
+Romania,RO-BV,RO
+Romania,RO-B,RO
+Romania,RO-BZ,RO
+Romania,RO-CL,RO
+Romania,RO-CS,RO
+Romania,RO-CJ,RO
+Romania,RO-CT,RO
+Romania,RO-CV,RO
+Romania,RO-DJ,RO
+Romania,RO-DB,RO
+Romania,RO-GL,RO
+Romania,RO-GR,RO
+Romania,RO-GJ,RO
+Romania,RO-HR,RO
+Romania,RO-HD,RO
+Romania,RO-IL,RO
+Romania,RO-IS,RO
+Romania,RO-IF,RO
+Romania,RO-MM,RO
+Romania,RO-MH,RO
+Romania,RO-MS,RO
+Romania,RO-NT,RO
+Romania,RO-OT,RO
+Romania,RO-PH,RO
+Romania,RO-SJ,RO
+Romania,RO-SM,RO
+Romania,RO-SB,RO
+Romania,RO-SV,RO
+Romania,RO-TR,RO
+Romania,RO-TM,RO
+Romania,RO-TL,RO
+Romania,RO-VS,RO
+Romania,RO-VN,RO
+Romania,RO-VL,RO
+Russian Federation,RU-AD,RU
+Russian Federation,RU-AGB,RU
+Russian Federation,RU-AL,RU
+Russian Federation,RU-ALT,RU
+Russian Federation,RU-AMU,RU
+Russian Federation,RU-ARK,RU
+Russian Federation,RU-AST,RU
+Russian Federation,RU-BA,RU
+Russian Federation,RU-BEL,RU
+Russian Federation,RU-BRY,RU
+Russian Federation,RU-BU,RU
+Russian Federation,RU-CE,RU
+Russian Federation,RU-CHE,RU
+Russian Federation,RU-CHI,RU
+Russian Federation,RU-CHU,RU
+Russian Federation,RU-CU,RU
+Russian Federation,RU-DA,RU
+Russian Federation,RU-EVE,RU
+Russian Federation,RU-IN,RU
+Russian Federation,RU-IRK,RU
+Russian Federation,RU-IVA,RU
+Russian Federation,RU-KB,RU
+Russian Federation,RU-KGD,RU
+Russian Federation,RU-KL,RU
+Russian Federation,RU-KLU,RU
+Russian Federation,RU-KAM,RU
+Russian Federation,RU-KC,RU
+Russian Federation,RU-KR,RU
+Russian Federation,RU-KEM,RU
+Russian Federation,RU-KHA,RU
+Russian Federation,RU-KK,RU
+Russian Federation,RU-KHM,RU
+Russian Federation,RU-KIR,RU
+Russian Federation,RU-KO,RU
+Russian Federation,RU-X1~,RU
+Russian Federation,RU-KOR,RU
+Russian Federation,RU-KOS,RU
+Russian Federation,RU-KDA,RU
+Russian Federation,RU-KYA,RU
+Russian Federation,RU-KGN,RU
+Russian Federation,RU-KRS,RU
+Russian Federation,RU-LEN,RU
+Russian Federation,RU-LIP,RU
+Russian Federation,RU-MAG,RU
+Russian Federation,RU-ME,RU
+Russian Federation,RU-MO,RU
+Russian Federation,RU-MOS,RU
+Russian Federation,RU-MOW,RU
+Russian Federation,RU-MUR,RU
+Russian Federation,RU-NEN,RU
+Russian Federation,RU-NIZ,RU
+Russian Federation,RU-NGR,RU
+Russian Federation,RU-NVS,RU
+Russian Federation,RU-OMS,RU
+Russian Federation,RU-ORE,RU
+Russian Federation,RU-ORL,RU
+Russian Federation,RU-PNZ,RU
+Russian Federation,RU-PER,RU
+Russian Federation,RU-PRI,RU
+Russian Federation,RU-PSK,RU
+Russian Federation,RU-ROS,RU
+Russian Federation,RU-RYA,RU
+Russian Federation,RU-SA,RU
+Russian Federation,RU-SAK,RU
+Russian Federation,RU-SAM,RU
+Russian Federation,RU-SPE,RU
+Russian Federation,RU-SAR,RU
+Russian Federation,RU-SE,RU
+Russian Federation,RU-SMO,RU
+Russian Federation,RU-STA,RU
+Russian Federation,RU-SVE,RU
+Russian Federation,RU-TAM,RU
+Russian Federation,RU-TA,RU
+Russian Federation,RU-TAY,RU
+Russian Federation,RU-TOM,RU
+Russian Federation,RU-TUL,RU
+Russian Federation,RU-TVE,RU
+Russian Federation,RU-TYU,RU
+Russian Federation,RU-TY,RU
+Russian Federation,RU-UD,RU
+Russian Federation,RU-ULY,RU
+Russian Federation,RU-UOB,RU
+Russian Federation,RU-VLA,RU
+Russian Federation,RU-VGG,RU
+Russian Federation,RU-VLG,RU
+Russian Federation,RU-VOR,RU
+Russian Federation,RU-YAN,RU
+Russian Federation,RU-YAR,RU
+Russian Federation,RU-YEV,RU
+Russian Federation,RU-ZAB,RU
+Rwanda,RW-02,RW
+Rwanda,RW-03,RW
+Rwanda,RW-04,RW
+Rwanda,RW-05,RW
+Rwanda,RW-01,RW
+"Saint Helena, Ascension and Tristan Da Cunha",SH-AC,SH
+"Saint Helena, Ascension and Tristan Da Cunha",SH-HL,SH
+"Saint Helena, Ascension and Tristan Da Cunha",SH-SH,SH
+"Saint Helena, Ascension and Tristan Da Cunha",SH-TA,SH
+Saint Kitts And Nevis,KN-01,KN
+Saint Kitts And Nevis,KN-N,KN
+Saint Kitts And Nevis,KN-02,KN
+Saint Kitts And Nevis,KN-03,KN
+Saint Kitts And Nevis,KN-04,KN
+Saint Kitts And Nevis,KN-05,KN
+Saint Kitts And Nevis,KN-06,KN
+Saint Kitts And Nevis,KN-07,KN
+Saint Kitts And Nevis,KN-K,KN
+Saint Kitts And Nevis,KN-08,KN
+Saint Kitts And Nevis,KN-09,KN
+Saint Kitts And Nevis,KN-10,KN
+Saint Kitts And Nevis,KN-11,KN
+Saint Kitts And Nevis,KN-12,KN
+Saint Kitts And Nevis,KN-13,KN
+Saint Kitts And Nevis,KN-15,KN
+Saint Vincent And The Grenadines,VC-01,VC
+Saint Vincent And The Grenadines,VC-06,VC
+Saint Vincent And The Grenadines,VC-02,VC
+Saint Vincent And The Grenadines,VC-03,VC
+Saint Vincent And The Grenadines,VC-04,VC
+Saint Vincent And The Grenadines,VC-05,VC
+Samoa,WS-AA,WS
+Samoa,WS-AL,WS
+Samoa,WS-AT,WS
+Samoa,WS-FA,WS
+Samoa,WS-GE,WS
+Samoa,WS-GI,WS
+Samoa,WS-PA,WS
+Samoa,WS-SA,WS
+Samoa,WS-TU,WS
+Samoa,WS-VF,WS
+Samoa,WS-VS,WS
+San Marino,SM-01,SM
+San Marino,SM-06,SM
+San Marino,SM-02,SM
+San Marino,SM-03,SM
+San Marino,SM-04,SM
+San Marino,SM-05,SM
+San Marino,SM-08,SM
+San Marino,SM-07,SM
+San Marino,SM-09,SM
+Sao Tome and Principe,ST-P,ST
+Sao Tome and Principe,ST-S,ST
+Saudi Arabia,SA-06,SA
+Saudi Arabia,SA-14,SA
+Saudi Arabia,SA-11,SA
+Saudi Arabia,SA-12,SA
+Saudi Arabia,SA-03,SA
+Saudi Arabia,SA-05,SA
+Saudi Arabia,SA-08,SA
+Saudi Arabia,SA-01,SA
+Saudi Arabia,SA-04,SA
+Saudi Arabia,SA-09,SA
+Saudi Arabia,SA-02,SA
+Saudi Arabia,SA-10,SA
+Saudi Arabia,SA-07,SA
+Senegal,SN-DK,SN
+Senegal,SN-DB,SN
+Senegal,SN-FK,SN
+Senegal,SN-KA,SN
+Senegal,SN-KL,SN
+Senegal,SN-KD,SN
+Senegal,SN-KE,SN
+Senegal,SN-LG,SN
+Senegal,SN-MT,SN
+Senegal,SN-SL,SN
+Senegal,SN-SE,SN
+Senegal,SN-TC,SN
+Senegal,SN-TH,SN
+Senegal,SN-ZG,SN
+Serbia,RS-00,RS
+Serbia,RS-14,RS
+Serbia,RS-11,RS
+Serbia,RS-23,RS
+Serbia,RS-06,RS
+Serbia,RS-04,RS
+Serbia,RS-09,RS
+Serbia,RS-25,RS
+Serbia,RS-28,RS
+Serbia,RS-29,RS
+Serbia,RS-08,RS
+Serbia,RS-17,RS
+Serbia,RS-20,RS
+Serbia,RS-26,RS
+Serbia,RS-22,RS
+Serbia,RS-10,RS
+Serbia,RS-13,RS
+Serbia,RS-27,RS
+Serbia,RS-24,RS
+Serbia,RS-19,RS
+Serbia,RS-18,RS
+Serbia,RS-03,RS
+Serbia,RS-01,RS
+Serbia,RS-02,RS
+Serbia,RS-07,RS
+Serbia,RS-21,RS
+Serbia,RS-15,RS
+Serbia,RS-05,RS
+Serbia,RS-16,RS
+Serbia,RS-12,RS
+Seychelles,SC-01,SC
+Seychelles,SC-02,SC
+Seychelles,SC-05,SC
+Seychelles,SC-03,SC
+Seychelles,SC-04,SC
+Seychelles,SC-06,SC
+Seychelles,SC-07,SC
+Seychelles,SC-08,SC
+Seychelles,SC-09,SC
+Seychelles,SC-10,SC
+Seychelles,SC-11,SC
+Seychelles,SC-16,SC
+Seychelles,SC-12,SC
+Seychelles,SC-13,SC
+Seychelles,SC-14,SC
+Seychelles,SC-15,SC
+Seychelles,SC-24,SC
+Seychelles,SC-17,SC
+Seychelles,SC-18,SC
+Seychelles,SC-19,SC
+Seychelles,SC-20,SC
+Seychelles,SC-21,SC
+Seychelles,SC-25,SC
+Seychelles,SC-22,SC
+Seychelles,SC-23,SC
+Sierra Leone,SL-E,SL
+Sierra Leone,SL-N,SL
+Sierra Leone,SL-S,SL
+Sierra Leone,SL-W,SL
+Singapore,SG-01,SG
+Singapore,SG-02,SG
+Singapore,SG-03,SG
+Singapore,SG-X1~,SG
+Singapore,SG-04,SG
+Singapore,SG-05,SG
+Slovakia,SK-BC,SK
+Slovakia,SK-BL,SK
+Slovakia,SK-KI,SK
+Slovakia,SK-NI,SK
+Slovakia,SK-PV,SK
+Slovakia,SK-TC,SK
+Slovakia,SK-TA,SK
+Slovakia,SK-ZI,SK
+Slovenia,SI-001,SI
+Slovenia,SI-195,SI
+Slovenia,SI-002,SI
+Slovenia,SI-148,SI
+Slovenia,SI-149,SI
+Slovenia,SI-003,SI
+Slovenia,SI-150,SI
+Slovenia,SI-004,SI
+Slovenia,SI-005,SI
+Slovenia,SI-006,SI
+Slovenia,SI-151,SI
+Slovenia,SI-007,SI
+Slovenia,SI-008,SI
+Slovenia,SI-009,SI
+Slovenia,SI-152,SI
+Slovenia,SI-011,SI
+Slovenia,SI-012,SI
+Slovenia,SI-013,SI
+Slovenia,SI-014,SI
+Slovenia,SI-153,SI
+Slovenia,SI-197,SI
+Slovenia,SI-015,SI
+Slovenia,SI-016,SI
+Slovenia,SI-017,SI
+Slovenia,SI-018,SI
+Slovenia,SI-019,SI
+Slovenia,SI-154,SI
+Slovenia,SI-020,SI
+Slovenia,SI-155,SI
+Slovenia,SI-021,SI
+Slovenia,SI-156,SI
+Slovenia,SI-022,SI
+Slovenia,SI-157,SI
+Slovenia,SI-023,SI
+Slovenia,SI-024,SI
+Slovenia,SI-025,SI
+Slovenia,SI-026,SI
+Slovenia,SI-027,SI
+Slovenia,SI-028,SI
+Slovenia,SI-207,SI
+Slovenia,SI-029,SI
+Slovenia,SI-030,SI
+Slovenia,SI-031,SI
+Slovenia,SI-158,SI
+Slovenia,SI-032,SI
+Slovenia,SI-159,SI
+Slovenia,SI-160,SI
+Slovenia,SI-161,SI
+Slovenia,SI-162,SI
+Slovenia,SI-034,SI
+Slovenia,SI-035,SI
+Slovenia,SI-036,SI
+Slovenia,SI-037,SI
+Slovenia,SI-038,SI
+Slovenia,SI-039,SI
+Slovenia,SI-040,SI
+Slovenia,SI-041,SI
+Slovenia,SI-163,SI
+Slovenia,SI-042,SI
+Slovenia,SI-043,SI
+Slovenia,SI-044,SI
+Slovenia,SI-045,SI
+Slovenia,SI-046,SI
+Slovenia,SI-047,SI
+Slovenia,SI-048,SI
+Slovenia,SI-049,SI
+Slovenia,SI-164,SI
+Slovenia,SI-050,SI
+Slovenia,SI-196,SI
+Slovenia,SI-165,SI
+Slovenia,SI-051,SI
+Slovenia,SI-052,SI
+Slovenia,SI-053,SI
+Slovenia,SI-166,SI
+Slovenia,SI-054,SI
+Slovenia,SI-055,SI
+Slovenia,SI-056,SI
+Slovenia,SI-057,SI
+Slovenia,SI-058,SI
+Slovenia,SI-059,SI
+Slovenia,SI-060,SI
+Slovenia,SI-061,SI
+Slovenia,SI-062,SI
+Slovenia,SI-063,SI
+Slovenia,SI-208,SI
+Slovenia,SI-064,SI
+Slovenia,SI-167,SI
+Slovenia,SI-065,SI
+Slovenia,SI-066,SI
+Slovenia,SI-067,SI
+Slovenia,SI-068,SI
+Slovenia,SI-069,SI
+Slovenia,SI-198,SI
+Slovenia,SI-070,SI
+Slovenia,SI-168,SI
+Slovenia,SI-071,SI
+Slovenia,SI-072,SI
+Slovenia,SI-073,SI
+Slovenia,SI-074,SI
+Slovenia,SI-169,SI
+Slovenia,SI-075,SI
+Slovenia,SI-170,SI
+Slovenia,SI-076,SI
+Slovenia,SI-199,SI
+Slovenia,SI-077,SI
+Slovenia,SI-078,SI
+Slovenia,SI-079,SI
+Slovenia,SI-080,SI
+Slovenia,SI-081,SI
+Slovenia,SI-082,SI
+Slovenia,SI-083,SI
+Slovenia,SI-084,SI
+Slovenia,SI-085,SI
+Slovenia,SI-086,SI
+Slovenia,SI-171,SI
+Slovenia,SI-087,SI
+Slovenia,SI-088,SI
+Slovenia,SI-089,SI
+Slovenia,SI-090,SI
+Slovenia,SI-091,SI
+Slovenia,SI-092,SI
+Slovenia,SI-172,SI
+Slovenia,SI-093,SI
+Slovenia,SI-200,SI
+Slovenia,SI-173,SI
+Slovenia,SI-094,SI
+Slovenia,SI-174,SI
+Slovenia,SI-095,SI
+Slovenia,SI-175,SI
+Slovenia,SI-096,SI
+Slovenia,SI-097,SI
+Slovenia,SI-098,SI
+Slovenia,SI-099,SI
+Slovenia,SI-100,SI
+Slovenia,SI-101,SI
+Slovenia,SI-102,SI
+Slovenia,SI-103,SI
+Slovenia,SI-176,SI
+Slovenia,SI-201,SI
+Slovenia,SI-209,SI
+Slovenia,SI-104,SI
+Slovenia,SI-177,SI
+Slovenia,SI-107,SI
+Slovenia,SI-106,SI
+Slovenia,SI-105,SI
+Slovenia,SI-108,SI
+Slovenia,SI-178,SI
+Slovenia,SI-109,SI
+Slovenia,SI-110,SI
+Slovenia,SI-111,SI
+Slovenia,SI-112,SI
+Slovenia,SI-113,SI
+Slovenia,SI-114,SI
+Slovenia,SI-179,SI
+Slovenia,SI-180,SI
+Slovenia,SI-202,SI
+Slovenia,SI-115,SI
+Slovenia,SI-203,SI
+Slovenia,SI-181,SI
+Slovenia,SI-204,SI
+Slovenia,SI-182,SI
+Slovenia,SI-116,SI
+Slovenia,SI-210,SI
+Slovenia,SI-205,SI
+Slovenia,SI-184,SI
+Slovenia,SI-010,SI
+Slovenia,SI-128,SI
+Slovenia,SI-129,SI
+Slovenia,SI-130,SI
+Slovenia,SI-185,SI
+Slovenia,SI-186,SI
+Slovenia,SI-131,SI
+Slovenia,SI-132,SI
+Slovenia,SI-133,SI
+Slovenia,SI-187,SI
+Slovenia,SI-134,SI
+Slovenia,SI-188,SI
+Slovenia,SI-135,SI
+Slovenia,SI-136,SI
+Slovenia,SI-137,SI
+Slovenia,SI-138,SI
+Slovenia,SI-139,SI
+Slovenia,SI-189,SI
+Slovenia,SI-140,SI
+Slovenia,SI-141,SI
+Slovenia,SI-142,SI
+Slovenia,SI-143,SI
+Slovenia,SI-144,SI
+Slovenia,SI-033,SI
+Slovenia,SI-183,SI
+Slovenia,SI-117,SI
+Slovenia,SI-118,SI
+Slovenia,SI-119,SI
+Slovenia,SI-120,SI
+Slovenia,SI-211,SI
+Slovenia,SI-121,SI
+Slovenia,SI-122,SI
+Slovenia,SI-123,SI
+Slovenia,SI-124,SI
+Slovenia,SI-206,SI
+Slovenia,SI-125,SI
+Slovenia,SI-194,SI
+Slovenia,SI-126,SI
+Slovenia,SI-127,SI
+Slovenia,SI-190,SI
+Slovenia,SI-146,SI
+Slovenia,SI-191,SI
+Slovenia,SI-147,SI
+Slovenia,SI-192,SI
+Slovenia,SI-193,SI
+Solomon Islands,SB-CT,SB
+Solomon Islands,SB-CE,SB
+Solomon Islands,SB-CH,SB
+Solomon Islands,SB-GU,SB
+Solomon Islands,SB-IS,SB
+Solomon Islands,SB-MK,SB
+Solomon Islands,SB-ML,SB
+Solomon Islands,SB-RB,SB
+Solomon Islands,SB-TE,SB
+Solomon Islands,SB-WE,SB
+Somalia,SO-AW,SO
+Somalia,SO-BK,SO
+Somalia,SO-BN,SO
+Somalia,SO-BR,SO
+Somalia,SO-BY,SO
+Somalia,SO-GA,SO
+Somalia,SO-GE,SO
+Somalia,SO-HI,SO
+Somalia,SO-JD,SO
+Somalia,SO-JH,SO
+Somalia,SO-MU,SO
+Somalia,SO-NU,SO
+Somalia,SO-SA,SO
+Somalia,SO-SD,SO
+Somalia,SO-SH,SO
+Somalia,SO-SO,SO
+Somalia,SO-TO,SO
+Somalia,SO-WO,SO
+South Africa,ZA-EC,ZA
+South Africa,ZA-FS,ZA
+South Africa,ZA-GT,ZA
+South Africa,ZA-NL,ZA
+South Africa,ZA-LP,ZA
+South Africa,ZA-MP,ZA
+South Africa,ZA-NW,ZA
+South Africa,ZA-NC,ZA
+South Africa,ZA-WC,ZA
+South Sudan,SS-EC,SS
+South Sudan,SS-EE,SS
+South Sudan,SS-JG,SS
+South Sudan,SS-LK,SS
+South Sudan,SS-BN,SS
+South Sudan,SS-UY,SS
+South Sudan,SS-NU,SS
+South Sudan,SS-WR,SS
+South Sudan,SS-BW,SS
+South Sudan,SS-EW,SS
+Spain,ES-C,ES
+Spain,ES-AB,ES
+Spain,ES-A,ES
+Spain,ES-AL,ES
+Spain,ES-AN,ES
+Spain,ES-O,ES
+Spain,ES-AS,ES
+Spain,ES-BA,ES
+Spain,ES-PM,ES
+Spain,ES-B,ES
+Spain,ES-BU,ES
+Spain,ES-CN,ES
+Spain,ES-CB,ES
+Spain,ES-S,ES
+Spain,ES-CS,ES
+Spain,ES-CL,ES
+Spain,ES-CM,ES
+Spain,ES-CT,ES
+Spain,ES-CE,ES
+Spain,ES-CR,ES
+Spain,ES-CU,ES
+Spain,ES-CC,ES
+Spain,ES-CA,ES
+Spain,ES-CO,ES
+Spain,ES-EX,ES
+Spain,ES-GA,ES
+Spain,ES-GI,ES
+Spain,ES-GR,ES
+Spain,ES-GU,ES
+Spain,ES-SS,ES
+Spain,ES-H,ES
+Spain,ES-HU,ES
+Spain,ES-IB,ES
+Spain,ES-J,ES
+Spain,ES-LO,ES
+Spain,ES-GC,ES
+Spain,ES-LE,ES
+Spain,ES-L,ES
+Spain,ES-LU,ES
+Spain,ES-M,ES
+Spain,ES-MD,ES
+Spain,ES-ML,ES
+Spain,ES-MU,ES
+Spain,ES-MC,ES
+Spain,ES-MA,ES
+Spain,ES-NA,ES
+Spain,ES-NC,ES
+Spain,ES-OR,ES
+Spain,ES-P,ES
+Spain,ES-PV,ES
+Spain,ES-PO,ES
+Spain,ES-SA,ES
+Spain,ES-TF,ES
+Spain,ES-SG,ES
+Spain,ES-SE,ES
+Spain,ES-SO,ES
+Spain,ES-T,ES
+Spain,ES-TE,ES
+Spain,ES-TO,ES
+Spain,ES-V,ES
+Spain,ES-VC,ES
+Spain,ES-VA,ES
+Spain,ES-BI,ES
+Spain,ES-ZA,ES
+Spain,ES-Z,ES
+Spain,ES-VI,ES
+Spain,ES-AV,ES
+Spain,ES-AR,ES
+Spain,ES-RI,ES
+Sri Lanka,LK-52,LK
+Sri Lanka,LK-71,LK
+Sri Lanka,LK-81,LK
+Sri Lanka,LK-1,LK
+Sri Lanka,LK-3,LK
+Sri Lanka,LK-12,LK
+Sri Lanka,LK-31,LK
+Sri Lanka,LK-33,LK
+Sri Lanka,LK-13,LK
+Sri Lanka,LK-92,LK
+Sri Lanka,LK-42,LK
+Sri Lanka,LK-61,LK
+Sri Lanka,LK-11,LK
+Sri Lanka,LK-51,LK
+Sri Lanka,LK-2,LK
+Sri Lanka,LK-21,LK
+Sri Lanka,LK-43,LK
+Sri Lanka,LK-5,LK
+Sri Lanka,LK-45,LK
+Sri Lanka,LK-22,LK
+Sri Lanka,LK-32,LK
+Sri Lanka,LK-82,LK
+Sri Lanka,LK-23,LK
+Sri Lanka,LK-62,LK
+Sri Lanka,LK-72,LK
+Sri Lanka,LK-91,LK
+Sri Lanka,LK-9,LK
+Sri Lanka,LK-53,LK
+Sri Lanka,LK-4,LK
+Sri Lanka,LK-7,LK
+Sri Lanka,LK-44,LK
+Sri Lanka,LK-6,LK
+Sri Lanka,LK-41,LK
+Sri Lanka,LK-8,LK
+Sudan,SD-23,SD
+Sudan,SD-26,SD
+Sudan,SD-RS,SD
+Sudan,SD-18,SD
+Sudan,SD-07,SD
+Sudan,SD-GZ,SD
+Sudan,SD-KH,SD
+Sudan,SD-03,SD
+Sudan,SD-06,SD
+Sudan,SD-GD,SD
+Sudan,SD-22,SD
+Sudan,SD-04,SD
+Sudan,SD-NR,SD
+Sudan,SD-NB,SD
+Sudan,SD-24,SD
+Sudan,SD-NW,SD
+Sudan,SD-08,SD
+Sudan,SD-01,SD
+Sudan,SD-NO,SD
+Sudan,SD-17,SD
+Sudan,SD-16,SD
+Sudan,SD-14,SD
+Sudan,SD-DW,SD
+Sudan,SD-12,SD
+Sudan,SD-10,SD
+Sudan,SD-11,SD
+Sudan,SD-DS,SD
+Sudan,SD-KS,SD
+Sudan,SD-13,SD
+Sudan,SD-20,SD
+Sudan,SD-KA,SD
+Sudan,SD-05,SD
+Sudan,SD-15,SD
+Sudan,SD-DN,SD
+Sudan,SD-02,SD
+Sudan,SD-09,SD
+Sudan,SD-KN,SD
+Sudan,SD-19,SD
+Sudan,SD-DE,SD
+Sudan,SD-25,SD
+Sudan,SD-SI,SD
+Sudan,SD-21,SD
+Sudan,SD-DC,SD
+Suriname,SR-BR,SR
+Suriname,SR-CM,SR
+Suriname,SR-CR,SR
+Suriname,SR-MA,SR
+Suriname,SR-NI,SR
+Suriname,SR-PR,SR
+Suriname,SR-PM,SR
+Suriname,SR-SA,SR
+Suriname,SR-SI,SR
+Suriname,SR-WA,SR
+Swaziland,SZ-HH,SZ
+Swaziland,SZ-LU,SZ
+Swaziland,SZ-MA,SZ
+Swaziland,SZ-SH,SZ
+Sweden,SE-K,SE
+Sweden,SE-W,SE
+Sweden,SE-I,SE
+Sweden,SE-X,SE
+Sweden,SE-N,SE
+Sweden,SE-Z,SE
+Sweden,SE-F,SE
+Sweden,SE-H,SE
+Sweden,SE-G,SE
+Sweden,SE-BD,SE
+Sweden,SE-M,SE
+Sweden,SE-AB,SE
+Sweden,SE-D,SE
+Sweden,SE-C,SE
+Sweden,SE-S,SE
+Sweden,SE-AC,SE
+Sweden,SE-Y,SE
+Sweden,SE-U,SE
+Sweden,SE-O,SE
+Sweden,SE-T,SE
+Sweden,SE-E,SE
+Switzerland,CH-AG,CH
+Switzerland,CH-AR,CH
+Switzerland,CH-AI,CH
+Switzerland,CH-BL,CH
+Switzerland,CH-BS,CH
+Switzerland,CH-BE,CH
+Switzerland,CH-FR,CH
+Switzerland,CH-GE,CH
+Switzerland,CH-GL,CH
+Switzerland,CH-GR,CH
+Switzerland,CH-JU,CH
+Switzerland,CH-LU,CH
+Switzerland,CH-NE,CH
+Switzerland,CH-NW,CH
+Switzerland,CH-OW,CH
+Switzerland,CH-SG,CH
+Switzerland,CH-SH,CH
+Switzerland,CH-SZ,CH
+Switzerland,CH-SO,CH
+Switzerland,CH-TG,CH
+Switzerland,CH-TI,CH
+Switzerland,CH-UR,CH
+Switzerland,CH-VS,CH
+Switzerland,CH-VD,CH
+Switzerland,CH-ZG,CH
+Switzerland,CH-ZH,CH
+Syrian Arab Republic,SY-HL,SY
+Syrian Arab Republic,SY-HM,SY
+Syrian Arab Republic,SY-HI,SY
+Syrian Arab Republic,SY-HA,SY
+Syrian Arab Republic,SY-LA,SY
+Syrian Arab Republic,SY-QU,SY
+Syrian Arab Republic,SY-RA,SY
+Syrian Arab Republic,SY-SU,SY
+Syrian Arab Republic,SY-DR,SY
+Syrian Arab Republic,SY-DY,SY
+Syrian Arab Republic,SY-DI,SY
+Syrian Arab Republic,SY-ID,SY
+Syrian Arab Republic,SY-RD,SY
+Syrian Arab Republic,SY-TA,SY
+"Taiwan, Province Of China",TW-CHA,TW
+"Taiwan, Province Of China",TW-CYQ,TW
+"Taiwan, Province Of China",TW-CYI,TW
+"Taiwan, Province Of China",TW-HSQ,TW
+"Taiwan, Province Of China",TW-HSZ,TW
+"Taiwan, Province Of China",TW-HUA,TW
+"Taiwan, Province Of China",TW-ILA,TW
+"Taiwan, Province Of China",TW-KHQ,TW
+"Taiwan, Province Of China",TW-KHH,TW
+"Taiwan, Province Of China",TW-KEE,TW
+"Taiwan, Province Of China",TW-MIA,TW
+"Taiwan, Province Of China",TW-NAN,TW
+"Taiwan, Province Of China",TW-PEN,TW
+"Taiwan, Province Of China",TW-PIF,TW
+"Taiwan, Province Of China",TW-TXQ,TW
+"Taiwan, Province Of China",TW-TXG,TW
+"Taiwan, Province Of China",TW-TNQ,TW
+"Taiwan, Province Of China",TW-TNN,TW
+"Taiwan, Province Of China",TW-TPQ,TW
+"Taiwan, Province Of China",TW-TPE,TW
+"Taiwan, Province Of China",TW-TTT,TW
+"Taiwan, Province Of China",TW-TAO,TW
+"Taiwan, Province Of China",TW-YUN,TW
+Tajikistan,TJ-GB,TJ
+Tajikistan,TJ-KT,TJ
+Tajikistan,TJ-SU,TJ
+Tajikistan,Tj-X1~,TJ
+"Tanzania, United Republic of",TZ-01,TZ
+"Tanzania, United Republic of",TZ-02,TZ
+"Tanzania, United Republic of",TZ-03,TZ
+"Tanzania, United Republic of",TZ-04,TZ
+"Tanzania, United Republic of",TZ-05,TZ
+"Tanzania, United Republic of",TZ-06,TZ
+"Tanzania, United Republic of",TZ-07,TZ
+"Tanzania, United Republic of",TZ-08,TZ
+"Tanzania, United Republic of",TZ-09,TZ
+"Tanzania, United Republic of",TZ-10,TZ
+"Tanzania, United Republic of",TZ-11,TZ
+"Tanzania, United Republic of",TZ-12,TZ
+"Tanzania, United Republic of",TZ-26,TZ
+"Tanzania, United Republic of",TZ-13,TZ
+"Tanzania, United Republic of",TZ-14,TZ
+"Tanzania, United Republic of",TZ-15,TZ
+"Tanzania, United Republic of",TZ-16,TZ
+"Tanzania, United Republic of",TZ-17,TZ
+"Tanzania, United Republic of",TZ-18,TZ
+"Tanzania, United Republic of",TZ-19,TZ
+"Tanzania, United Republic of",TZ-20,TZ
+"Tanzania, United Republic of",TZ-21,TZ
+"Tanzania, United Republic of",TZ-22,TZ
+"Tanzania, United Republic of",TZ-23,TZ
+"Tanzania, United Republic of",TZ-24,TZ
+"Tanzania, United Republic of",TZ-25,TZ
+Thailand,TH-37,TH
+Thailand,TH-15,TH
+Thailand,TH-31,TH
+Thailand,TH-24,TH
+Thailand,TH-18,TH
+Thailand,TH-36,TH
+Thailand,TH-22,TH
+Thailand,TH-50,TH
+Thailand,TH-57,TH
+Thailand,TH-20,TH
+Thailand,TH-86,TH
+Thailand,TH-46,TH
+Thailand,TH-62,TH
+Thailand,TH-71,TH
+Thailand,TH-40,TH
+Thailand,TH-81,TH
+Thailand,TH-10,TH
+Thailand,TH-52,TH
+Thailand,TH-51,TH
+Thailand,TH-42,TH
+Thailand,TH-16,TH
+Thailand,TH-58,TH
+Thailand,TH-44,TH
+Thailand,TH-49,TH
+Thailand,TH-26,TH
+Thailand,TH-73,TH
+Thailand,TH-48,TH
+Thailand,TH-30,TH
+Thailand,TH-60,TH
+Thailand,TH-80,TH
+Thailand,TH-55,TH
+Thailand,TH-96,TH
+Thailand,TH-39,TH
+Thailand,TH-43,TH
+Thailand,TH-12,TH
+Thailand,TH-13,TH
+Thailand,TH-94,TH
+Thailand,TH-82,TH
+Thailand,TH-93,TH
+Thailand,TH-S,TH
+Thailand,TH-56,TH
+Thailand,TH-67,TH
+Thailand,TH-76,TH
+Thailand,TH-66,TH
+Thailand,TH-65,TH
+Thailand,TH-14,TH
+Thailand,TH-54,TH
+Thailand,TH-83,TH
+Thailand,TH-25,TH
+Thailand,TH-77,TH
+Thailand,TH-85,TH
+Thailand,TH-70,TH
+Thailand,TH-21,TH
+Thailand,TH-45,TH
+Thailand,TH-27,TH
+Thailand,TH-47,TH
+Thailand,TH-11,TH
+Thailand,TH-74,TH
+Thailand,TH-75,TH
+Thailand,TH-19,TH
+Thailand,TH-91,TH
+Thailand,TH-33,TH
+Thailand,TH-17,TH
+Thailand,TH-90,TH
+Thailand,TH-64,TH
+Thailand,TH-72,TH
+Thailand,TH-84,TH
+Thailand,TH-32,TH
+Thailand,TH-63,TH
+Thailand,TH-92,TH
+Thailand,TH-23,TH
+Thailand,TH-34,TH
+Thailand,TH-41,TH
+Thailand,TH-61,TH
+Thailand,TH-53,TH
+Thailand,TH-95,TH
+Thailand,TH-35,TH
+Timor-Leste,TL-AL,TL
+Timor-Leste,TL-AN,TL
+Timor-Leste,TL-BA,TL
+Timor-Leste,TL-BO,TL
+Timor-Leste,TL-CO,TL
+Timor-Leste,TL-DI,TL
+Timor-Leste,TL-ER,TL
+Timor-Leste,TL-LA,TL
+Timor-Leste,TL-LI,TL
+Timor-Leste,TL-MT,TL
+Timor-Leste,TL-MF,TL
+Timor-Leste,TL-OE,TL
+Timor-Leste,TL-VI,TL
+Togo,TG-C,TG
+Togo,TG-K,TG
+Togo,TG-M,TG
+Togo,TG-P,TG
+Togo,TG-S,TG
+Tonga,TO-01,TO
+Tonga,TO-02,TO
+Tonga,TO-03,TO
+Tonga,TO-04,TO
+Tonga,TO-05,TO
+Trinidad and Tobago,TT-ARI,TT
+Trinidad and Tobago,TT-CHA,TT
+Trinidad and Tobago,TT-CTT,TT
+Trinidad and Tobago,TT-DMN,TT
+Trinidad and Tobago,TT-ETO,TT
+Trinidad and Tobago,TT-PED,TT
+Trinidad and Tobago,TT-PTF,TT
+Trinidad and Tobago,TT-POS,TT
+Trinidad and Tobago,TT-PRT,TT
+Trinidad and Tobago,TT-RCM,TT
+Trinidad and Tobago,TT-SFO,TT
+Trinidad and Tobago,TT-SJL,TT
+Trinidad and Tobago,TT-SGE,TT
+Trinidad and Tobago,TT-SIP,TT
+Trinidad and Tobago,TT-TUP,TT
+Trinidad and Tobago,TT-WTO,TT
+Tunisia,TN-12,TN
+Tunisia,TN-13,TN
+Tunisia,TN-23,TN
+Tunisia,TN-31,TN
+Tunisia,TN-81,TN
+Tunisia,TN-71,TN
+Tunisia,TN-32,TN
+Tunisia,TN-41,TN
+Tunisia,TN-42,TN
+Tunisia,TN-73,TN
+Tunisia,TN-14,TN
+Tunisia,TN-33,TN
+Tunisia,TN-53,TN
+Tunisia,TN-82,TN
+Tunisia,TN-52,TN
+Tunisia,TN-21,TN
+Tunisia,TN-61,TN
+Tunisia,TN-43,TN
+Tunisia,TN-34,TN
+Tunisia,TN-51,TN
+Tunisia,TN-83,TN
+Tunisia,TN-72,TN
+Tunisia,TN-11,TN
+Tunisia,TN-22,TN
+Turkey,TR-01,TR
+Turkey,TR-02,TR
+Turkey,TR-03,TR
+Turkey,TR-04,TR
+Turkey,TR-68,TR
+Turkey,TR-05,TR
+Turkey,TR-06,TR
+Turkey,TR-07,TR
+Turkey,TR-75,TR
+Turkey,TR-08,TR
+Turkey,TR-09,TR
+Turkey,TR-10,TR
+Turkey,TR-74,TR
+Turkey,TR-72,TR
+Turkey,TR-69,TR
+Turkey,TR-11,TR
+Turkey,TR-12,TR
+Turkey,TR-13,TR
+Turkey,TR-14,TR
+Turkey,TR-15,TR
+Turkey,TR-16,TR
+Turkey,TR-20,TR
+Turkey,TR-21,TR
+Turkey,TR-81,TR
+Turkey,TR-22,TR
+Turkey,TR-23,TR
+Turkey,TR-24,TR
+Turkey,TR-25,TR
+Turkey,TR-26,TR
+Turkey,TR-27,TR
+Turkey,TR-28,TR
+Turkey,TR-29,TR
+Turkey,TR-30,TR
+Turkey,TR-31,TR
+Turkey,TR-76,TR
+Turkey,TR-32,TR
+Turkey,TR-34,TR
+Turkey,TR-35,TR
+Turkey,TR-46,TR
+Turkey,TR-78,TR
+Turkey,TR-70,TR
+Turkey,TR-36,TR
+Turkey,TR-37,TR
+Turkey,TR-38,TR
+Turkey,TR-79,TR
+Turkey,TR-71,TR
+Turkey,TR-39,TR
+Turkey,TR-40,TR
+Turkey,TR-41,TR
+Turkey,TR-42,TR
+Turkey,TR-43,TR
+Turkey,TR-44,TR
+Turkey,TR-45,TR
+Turkey,TR-47,TR
+Turkey,TR-33,TR
+Turkey,TR-48,TR
+Turkey,TR-49,TR
+Turkey,TR-50,TR
+Turkey,TR-51,TR
+Turkey,TR-52,TR
+Turkey,TR-80,TR
+Turkey,TR-53,TR
+Turkey,TR-54,TR
+Turkey,TR-55,TR
+Turkey,TR-63,TR
+Turkey,TR-56,TR
+Turkey,TR-57,TR
+Turkey,TR-73,TR
+Turkey,TR-58,TR
+Turkey,TR-59,TR
+Turkey,TR-60,TR
+Turkey,TR-61,TR
+Turkey,TR-62,TR
+Turkey,TR-64,TR
+Turkey,TR-65,TR
+Turkey,TR-77,TR
+Turkey,TR-66,TR
+Turkey,TR-67,TR
+Turkey,TR-17,TR
+Turkey,TR-18,TR
+Turkey,TR-19,TR
+Turkmenistan,TM-A,TM
+Turkmenistan,TM-B,TM
+Turkmenistan,TM-D,TM
+Turkmenistan,TM-L,TM
+Turkmenistan,TM-M,TM
+Turkmenistan,TM-S,TM
+Turkmenistan,TM-X~,TM
+Tuvalu,TV-FUN,TV
+Tuvalu,TV-NMG,TV
+Tuvalu,TV-NMA,TV
+Tuvalu,TV-NIT,TV
+Tuvalu,TV-NIU,TV
+Tuvalu,TV-NKF,TV
+Tuvalu,TV-NKL,TV
+Tuvalu,TV-VAI,TV
+Uganda,UG-317,UG
+Uganda,UG-301,UG
+Uganda,UG-314,UG
+Uganda,UG-216,UG
+Uganda,UG-319,UG
+Uganda,UG-302,UG
+Uganda,UG-303,UG
+Uganda,UG-217,UG
+Uganda,UG-223,UG
+Uganda,UG-201,UG
+Uganda,UG-224,UG
+Uganda,UG-218,UG
+Uganda,UG-419,UG
+Uganda,UG-401,UG
+Uganda,UG-402,UG
+Uganda,UG-202,UG
+Uganda,UG-219,UG
+Uganda,UG-C,UG
+Uganda,UG-318,UG
+Uganda,UG-E,UG
+Uganda,UG-304,UG
+Uganda,UG-403,UG
+Uganda,UG-416,UG
+Uganda,UG-203,UG
+Uganda,UG-417,UG
+Uganda,UG-204,UG
+Uganda,UG-315,UG
+Uganda,UG-404,UG
+Uganda,UG-405,UG
+Uganda,UG-213,UG
+Uganda,UG-101,UG
+Uganda,UG-220,UG
+Uganda,UG-102,UG
+Uganda,UG-205,UG
+Uganda,UG-413,UG
+Uganda,UG-414,UG
+Uganda,UG-206,UG
+Uganda,UG-406,UG
+Uganda,UG-207,UG
+Uganda,UG-112,UG
+Uganda,UG-407,UG
+Uganda,UG-103,UG
+Uganda,UG-418,UG
+Uganda,UG-408,UG
+Uganda,UG-305,UG
+Uganda,UG-316,UG
+Uganda,UG-306,UG
+Uganda,UG-208,UG
+Uganda,UG-415,UG
+Uganda,UG-307,UG
+Uganda,UG-104,UG
+Uganda,UG-116,UG
+Uganda,UG-221,UG
+Uganda,UG-320,UG
+Uganda,UG-105,UG
+Uganda,UG-409,UG
+Uganda,UG-214,UG
+Uganda,UG-209,UG
+Uganda,UG-410,UG
+Uganda,UG-114,UG
+Uganda,UG-308,UG
+Uganda,UG-309,UG
+Uganda,UG-106,UG
+Uganda,UG-107,UG
+Uganda,UG-108,UG
+Uganda,UG-311,UG
+Uganda,UG-115,UG
+Uganda,UG-109,UG
+Uganda,UG-222,UG
+Uganda,UG-310,UG
+Uganda,UG-N,UG
+Uganda,UG-411,UG
+Uganda,UG-321,UG
+Uganda,UG-312,UG
+Uganda,UG-210,UG
+Uganda,UG-110,UG
+Uganda,UG-412,UG
+Uganda,UG-111,UG
+Uganda,UG-215,UG
+Uganda,UG-211,UG
+Uganda,UG-212,UG
+Uganda,UG-113,UG
+Uganda,UG-W,UG
+Uganda,UG-313,UG
+Ukraine,UA-71,UA
+Ukraine,UA-74,UA
+Ukraine,UA-77,UA
+Ukraine,UA-12,UA
+Ukraine,UA-14,UA
+Ukraine,UA-26,UA
+Ukraine,UA-63,UA
+Ukraine,UA-65,UA
+Ukraine,UA-68,UA
+Ukraine,UA-35,UA
+Ukraine,UA-30,UA
+Ukraine,UA-32,UA
+Ukraine,UA-46,UA
+Ukraine,UA-09,UA
+Ukraine,UA-48,UA
+Ukraine,UA-51,UA
+Ukraine,UA-53,UA
+Ukraine,UA-43,UA
+Ukraine,UA-56,UA
+Ukraine,UA-40,UA
+Ukraine,UA-59,UA
+Ukraine,UA-61,UA
+Ukraine,UA-05,UA
+Ukraine,UA-07,UA
+Ukraine,UA-21,UA
+Ukraine,UA-23,UA
+Ukraine,UA-18,UA
+United Arab Emirates,AE-AZ,AE
+United Arab Emirates,AE-AJ,AE
+United Arab Emirates,AE-FU,AE
+United Arab Emirates,AE-SH,AE
+United Arab Emirates,AE-DU,AE
+United Arab Emirates,AE-RK,AE
+United Arab Emirates,AE-UQ,AE
+United Kingdom,GB-ABE,GB
+United Kingdom,GB-ABD,GB
+United Kingdom,GB-ANS,GB
+United Kingdom,GB-ANT,GB
+United Kingdom,GB-ARD,GB
+United Kingdom,GB-AGB,GB
+United Kingdom,GB-ARM,GB
+United Kingdom,GB-BLA,GB
+United Kingdom,GB-BLY,GB
+United Kingdom,GB-BNB,GB
+United Kingdom,GB-BDG,GB
+United Kingdom,GB-BNE,GB
+United Kingdom,GB-BNS,GB
+United Kingdom,GB-BAS,GB
+United Kingdom,GB-BDF,GB
+United Kingdom,GB-BFS,GB
+United Kingdom,GB-BEX,GB
+United Kingdom,GB-BIR,GB
+United Kingdom,GB-BBD,GB
+United Kingdom,GB-BPL,GB
+United Kingdom,GB-BGW,GB
+United Kingdom,GB-BOL,GB
+United Kingdom,GB-BMH,GB
+United Kingdom,GB-BRC,GB
+United Kingdom,GB-BRD,GB
+United Kingdom,GB-BEN,GB
+United Kingdom,GB-BGE,GB
+United Kingdom,GB-BNH,GB
+United Kingdom,GB-BST,GB
+United Kingdom,GB-BRY,GB
+United Kingdom,GB-BKM,GB
+United Kingdom,GB-BUR,GB
+United Kingdom,GB-CAY,GB
+United Kingdom,GB-CLD,GB
+United Kingdom,GB-CAM,GB
+United Kingdom,GB-CMD,GB
+United Kingdom,GB-CRF,GB
+United Kingdom,GB-CMN,GB
+United Kingdom,GB-CKF,GB
+United Kingdom,GB-CSR,GB
+United Kingdom,GB-CGN,GB
+United Kingdom,GB-CHS,GB
+United Kingdom,GB-CLK,GB
+United Kingdom,GB-CLR,GB
+United Kingdom,GB-CWY,GB
+United Kingdom,GB-CKT,GB
+United Kingdom,GB-CON,GB
+United Kingdom,GB-COV,GB
+United Kingdom,GB-CGV,GB
+United Kingdom,GB-CRY,GB
+United Kingdom,GB-CMA,GB
+United Kingdom,GB-DAL,GB
+United Kingdom,GB-DEN,GB
+United Kingdom,GB-DER,GB
+United Kingdom,GB-DBY,GB
+United Kingdom,GB-DRY,GB
+United Kingdom,GB-DEV,GB
+United Kingdom,GB-DNC,GB
+United Kingdom,GB-DOR,GB
+United Kingdom,GB-DOW,GB
+United Kingdom,GB-DUD,GB
+United Kingdom,GB-DGY,GB
+United Kingdom,GB-DND,GB
+United Kingdom,GB-DGN,GB
+United Kingdom,GB-DUR,GB
+United Kingdom,GB-EAL,GB
+United Kingdom,GB-EAY,GB
+United Kingdom,GB-EDU,GB
+United Kingdom,GB-ELN,GB
+United Kingdom,GB-ERW,GB
+United Kingdom,GB-ERY,GB
+United Kingdom,GB-ESX,GB
+United Kingdom,GB-EDH,GB
+United Kingdom,GB-ELS,GB
+United Kingdom,GB-ENF,GB
+United Kingdom,GB-ESS,GB
+United Kingdom,GB-FAL,GB
+United Kingdom,GB-FER,GB
+United Kingdom,GB-FIF,GB
+United Kingdom,GB-FLN,GB
+United Kingdom,GB-GAT,GB
+United Kingdom,GB-GLG,GB
+United Kingdom,GB-GLS,GB
+United Kingdom,GB-GRE,GB
+United Kingdom,GB-GWN,GB
+United Kingdom,GB-HCK,GB
+United Kingdom,GB-HAL,GB
+United Kingdom,GB-HMF,GB
+United Kingdom,GB-HAM,GB
+United Kingdom,GB-HRY,GB
+United Kingdom,GB-HRW,GB
+United Kingdom,GB-HPL,GB
+United Kingdom,GB-HAV,GB
+United Kingdom,GB-HEF,GB
+United Kingdom,GB-HRT,GB
+United Kingdom,GB-HLD,GB
+United Kingdom,GB-HIL,GB
+United Kingdom,GB-HNS,GB
+United Kingdom,GB-IVC,GB
+United Kingdom,GB-AGY,GB
+United Kingdom,GB-IOW,GB
+United Kingdom,GB-IOS,GB
+United Kingdom,GB-ISL,GB
+United Kingdom,GB-KEC,GB
+United Kingdom,GB-KEN,GB
+United Kingdom,GB-KHL,GB
+United Kingdom,GB-KTT,GB
+United Kingdom,GB-KIR,GB
+United Kingdom,GB-KWL,GB
+United Kingdom,GB-LBH,GB
+United Kingdom,GB-LAN,GB
+United Kingdom,GB-LRN,GB
+United Kingdom,GB-LDS,GB
+United Kingdom,GB-LCE,GB
+United Kingdom,GB-LEC,GB
+United Kingdom,GB-LEW,GB
+United Kingdom,GB-LMV,GB
+United Kingdom,GB-LIN,GB
+United Kingdom,GB-LSB,GB
+United Kingdom,GB-LIV,GB
+United Kingdom,GB-LND,GB
+United Kingdom,GB-LUT,GB
+United Kingdom,GB-MFT,GB
+United Kingdom,GB-MAN,GB
+United Kingdom,GB-MDW,GB
+United Kingdom,GB-MTY,GB
+United Kingdom,GB-MRT,GB
+United Kingdom,GB-MDB,GB
+United Kingdom,GB-MLN,GB
+United Kingdom,GB-MIK,GB
+United Kingdom,GB-MON,GB
+United Kingdom,GB-MRY,GB
+United Kingdom,GB-MYL,GB
+United Kingdom,GB-NTL,GB
+United Kingdom,GB-NET,GB
+United Kingdom,GB-NWM,GB
+United Kingdom,GB-NWP,GB
+United Kingdom,GB-NYM,GB
+United Kingdom,GB-NTA,GB
+United Kingdom,GB-NFK,GB
+United Kingdom,GB-NAY,GB
+United Kingdom,GB-NDN,GB
+United Kingdom,GB-NEL,GB
+United Kingdom,GB-NLK,GB
+United Kingdom,GB-NLN,GB
+United Kingdom,GB-NSM,GB
+United Kingdom,GB-NTY,GB
+United Kingdom,GB-NYK,GB
+United Kingdom,GB-NTH,GB
+United Kingdom,GB-NBL,GB
+United Kingdom,GB-NGM,GB
+United Kingdom,GB-NTT,GB
+United Kingdom,GB-OLD,GB
+United Kingdom,GB-OMH,GB
+United Kingdom,GB-ORK,GB
+United Kingdom,GB-OXF,GB
+United Kingdom,GB-PEM,GB
+United Kingdom,GB-PKN,GB
+United Kingdom,GB-PTE,GB
+United Kingdom,GB-PLY,GB
+United Kingdom,GB-POL,GB
+United Kingdom,GB-POR,GB
+United Kingdom,GB-POW,GB
+United Kingdom,GB-RDG,GB
+United Kingdom,GB-RDB,GB
+United Kingdom,GB-RCC,GB
+United Kingdom,GB-RFW,GB
+United Kingdom,GB-RCT,GB
+United Kingdom,GB-RIC,GB
+United Kingdom,GB-RCH,GB
+United Kingdom,GB-ROT,GB
+United Kingdom,GB-RUT,GB
+United Kingdom,GB-SLF,GB
+United Kingdom,GB-SAW,GB
+United Kingdom,GB-SCB,GB
+United Kingdom,GB-SFT,GB
+United Kingdom,GB-SHF,GB
+United Kingdom,GB-ZET,GB
+United Kingdom,GB-SHR,GB
+United Kingdom,GB-SLG,GB
+United Kingdom,GB-SOL,GB
+United Kingdom,GB-SOM,GB
+United Kingdom,GB-SAY,GB
+United Kingdom,GB-SGC,GB
+United Kingdom,GB-SLK,GB
+United Kingdom,GB-STY,GB
+United Kingdom,GB-STH,GB
+United Kingdom,GB-SOS,GB
+United Kingdom,GB-SWK,GB
+United Kingdom,GB-SHN,GB
+United Kingdom,GB-STS,GB
+United Kingdom,GB-STG,GB
+United Kingdom,GB-SKP,GB
+United Kingdom,GB-STT,GB
+United Kingdom,GB-STE,GB
+United Kingdom,GB-STB,GB
+United Kingdom,GB-SFK,GB
+United Kingdom,GB-SND,GB
+United Kingdom,GB-SRY,GB
+United Kingdom,GB-STN,GB
+United Kingdom,GB-SWA,GB
+United Kingdom,GB-SWD,GB
+United Kingdom,GB-TAM,GB
+United Kingdom,GB-TFW,GB
+United Kingdom,GB-THR,GB
+United Kingdom,GB-TOB,GB
+United Kingdom,GB-TOF,GB
+United Kingdom,GB-TWH,GB
+United Kingdom,GB-TRF,GB
+United Kingdom,GB-VGL,GB
+United Kingdom,GB-WKF,GB
+United Kingdom,GB-WLL,GB
+United Kingdom,GB-WFT,GB
+United Kingdom,GB-WND,GB
+United Kingdom,GB-WRT,GB
+United Kingdom,GB-WAR,GB
+United Kingdom,GB-WBK,GB
+United Kingdom,GB-WDU,GB
+United Kingdom,GB-WLN,GB
+United Kingdom,GB-WSX,GB
+United Kingdom,GB-WSM,GB
+United Kingdom,GB-WGN,GB
+United Kingdom,GB-WIL,GB
+United Kingdom,GB-WNM,GB
+United Kingdom,GB-WRL,GB
+United Kingdom,GB-WOK,GB
+United Kingdom,GB-WLV,GB
+United Kingdom,GB-WOR,GB
+United Kingdom,GB-WRX,GB
+United Kingdom,GB-YOR,GB
+United States,US-AL,US
+United States,US-AK,US
+United States,US-AS,US
+United States,US-AZ,US
+United States,US-AR,US
+United States,US-CA,US
+United States,US-CO,US
+United States,US-CT,US
+United States,US-DE,US
+United States,US-DC,US
+United States,US-FL,US
+United States,US-GA,US
+United States,US-GU,US
+United States,US-HI,US
+United States,US-ID,US
+United States,US-IL,US
+United States,US-IN,US
+United States,US-IA,US
+United States,US-KS,US
+United States,US-KY,US
+United States,US-LA,US
+United States,US-ME,US
+United States,US-MD,US
+United States,US-MA,US
+United States,US-MI,US
+United States,US-MN,US
+United States,US-MS,US
+United States,US-MO,US
+United States,US-MT,US
+United States,US-NE,US
+United States,US-NV,US
+United States,US-NH,US
+United States,US-NJ,US
+United States,US-NM,US
+United States,US-NY,US
+United States,US-NC,US
+United States,US-ND,US
+United States,US-MP,US
+United States,US-OH,US
+United States,US-OK,US
+United States,US-OR,US
+United States,US-PA,US
+United States,US-PR,US
+United States,US-RI,US
+United States,US-SC,US
+United States,US-SD,US
+United States,US-TN,US
+United States,US-TX,US
+United States,US-UM,US
+United States,US-UT,US
+United States,US-VT,US
+United States,US-VI,US
+United States,US-VA,US
+United States,US-WA,US
+United States,US-WV,US
+United States,US-WI,US
+United States,US-WY,US
+United States Minor Outlying Islands,UM-81,UM
+United States Minor Outlying Islands,UM-84,UM
+United States Minor Outlying Islands,UM-86,UM
+United States Minor Outlying Islands,UM-67,UM
+United States Minor Outlying Islands,UM-89,UM
+United States Minor Outlying Islands,UM-71,UM
+United States Minor Outlying Islands,UM-76,UM
+United States Minor Outlying Islands,UM-95,UM
+United States Minor Outlying Islands,UM-79,UM
+Uruguay,UY-AR,UY
+Uruguay,UY-DU,UY
+Uruguay,UY-FS,UY
+Uruguay,UY-FD,UY
+Uruguay,UY-LA,UY
+Uruguay,UY-MA,UY
+Uruguay,UY-MO,UY
+Uruguay,UY-PA,UY
+Uruguay,UY-RV,UY
+Uruguay,UY-RO,UY
+Uruguay,UY-RN,UY
+Uruguay,UY-SA,UY
+Uruguay,UY-SJ,UY
+Uruguay,UY-SO,UY
+Uruguay,UY-TA,UY
+Uruguay,UY-TT,UY
+Uruguay,UY-X1~,UY
+Uruguay,UY-X2~,UY
+Uruguay,UY-X3~,UY
+Uzbekistan,UZ-AN,UZ
+Uzbekistan,UZ-BU,UZ
+Uzbekistan,UZ-FA,UZ
+Uzbekistan,UZ-JI,UZ
+Uzbekistan,UZ-NG,UZ
+Uzbekistan,UZ-NW,UZ
+Uzbekistan,UZ-QA,UZ
+Uzbekistan,UZ-QR,UZ
+Uzbekistan,UZ-SA,UZ
+Uzbekistan,UZ-SI,UZ
+Uzbekistan,UZ-SU,UZ
+Uzbekistan,UZ-TO,UZ
+Uzbekistan,UZ-TK,UZ
+Uzbekistan,UZ-XO,UZ
+Vanuatu,VU-MAP,VU
+Vanuatu,VU-PAM,VU
+Vanuatu,VU-SAM,VU
+Vanuatu,VU-SEE,VU
+Vanuatu,VU-TAE,VU
+Vanuatu,VU-TOB,VU
+"Venezuela, Bolivarian Republic of",VE-Z,VE
+"Venezuela, Bolivarian Republic of",VE-B,VE
+"Venezuela, Bolivarian Republic of",VE-C,VE
+"Venezuela, Bolivarian Republic of",VE-D,VE
+"Venezuela, Bolivarian Republic of",VE-E,VE
+"Venezuela, Bolivarian Republic of",VE-F,VE
+"Venezuela, Bolivarian Republic of",VE-G,VE
+"Venezuela, Bolivarian Republic of",VE-H,VE
+"Venezuela, Bolivarian Republic of",VE-Y,VE
+"Venezuela, Bolivarian Republic of",VE-W,VE
+"Venezuela, Bolivarian Republic of",VE-A,VE
+"Venezuela, Bolivarian Republic of",VE-I,VE
+"Venezuela, Bolivarian Republic of",VE-J,VE
+"Venezuela, Bolivarian Republic of",VE-K,VE
+"Venezuela, Bolivarian Republic of",VE-M,VE
+"Venezuela, Bolivarian Republic of",VE-N,VE
+"Venezuela, Bolivarian Republic of",VE-L,VE
+"Venezuela, Bolivarian Republic of",VE-O,VE
+"Venezuela, Bolivarian Republic of",VE-P,VE
+"Venezuela, Bolivarian Republic of",VE-R,VE
+"Venezuela, Bolivarian Republic of",VE-T,VE
+"Venezuela, Bolivarian Republic of",VE-S,VE
+"Venezuela, Bolivarian Republic of",VE-X,VE
+"Venezuela, Bolivarian Republic of",VE-U,VE
+"Venezuela, Bolivarian Republic of",VE-V,VE
+Viet Nam,VN-44,VN
+Viet Nam,VN-43,VN
+Viet Nam,VN-53,VN
+Viet Nam,VN-54,VN
+Viet Nam,VN-55,VN
+Viet Nam,VN-56,VN
+Viet Nam,VN-50,VN
+Viet Nam,VN-31,VN
+Viet Nam,VN-57,VN
+Viet Nam,VN-58,VN
+Viet Nam,VN-40,VN
+Viet Nam,VN-59,VN
+Viet Nam,VN-CT,VN
+Viet Nam,VN-48,VN
+Viet Nam,VN-04,VN
+Viet Nam,VN-DN,VN
+Viet Nam,VN-60,VN
+Viet Nam,VN-33,VN
+Viet Nam,VN-72,VN
+Viet Nam,VN-71,VN
+Viet Nam,VN-39,VN
+Viet Nam,VN-45,VN
+Viet Nam,VN-30,VN
+Viet Nam,VN-03,VN
+Viet Nam,VN-63,VN
+Viet Nam,VN-HN,VN
+Viet Nam,VN-64,VN
+Viet Nam,VN-15,VN
+Viet Nam,VN-23,VN
+Viet Nam,VN-61,VN
+Viet Nam,VN-HP,VN
+Viet Nam,VN-62,VN
+Viet Nam,VN-73,VN
+Viet Nam,VN-SG,VN
+Viet Nam,VN-65,VN
+Viet Nam,VN-14,VN
+Viet Nam,VN-66,VN
+Viet Nam,VN-34,VN
+Viet Nam,VN-47,VN
+Viet Nam,VN-28,VN
+Viet Nam,VN-01,VN
+Viet Nam,VN-35,VN
+Viet Nam,VN-09,VN
+Viet Nam,VN-02,VN
+Viet Nam,VN-41,VN
+Viet Nam,VN-67,VN
+Viet Nam,VN-22,VN
+Viet Nam,VN-18,VN
+Viet Nam,VN-36,VN
+Viet Nam,VN-68,VN
+Viet Nam,VN-32,VN
+Viet Nam,VN-24,VN
+Viet Nam,VN-27,VN
+Viet Nam,VN-29,VN
+Viet Nam,VN-13,VN
+Viet Nam,VN-25,VN
+Viet Nam,VN-52,VN
+Viet Nam,VN-05,VN
+Viet Nam,VN-37,VN
+Viet Nam,VN-20,VN
+Viet Nam,VN-69,VN
+Viet Nam,VN-21,VN
+Viet Nam,VN-26,VN
+Viet Nam,VN-46,VN
+Viet Nam,VN-51,VN
+Viet Nam,VN-07,VN
+Viet Nam,VN-49,VN
+Viet Nam,VN-70,VN
+Viet Nam,VN-06,VN
+Western Sahara,EH-BOD,EH
+Western Sahara,EH-ESM,EH
+Western Sahara,EH-LAA,EH
+Western Sahara,EH-OUD,EH
+Yemen,YE-AM,YE
+Yemen,YE-AB,YE
+Yemen,YE-DA,YE
+Yemen,YE-HU,YE
+Yemen,YE-BA,YE
+Yemen,YE-JA,YE
+Yemen,YE-MR,YE
+Yemen,YE-MW,YE
+Yemen,YE-DH,YE
+Yemen,YE-HD,YE
+Yemen,YE-HJ,YE
+Yemen,YE-IB,YE
+Yemen,YE-LA,YE
+Yemen,YE-MA,YE
+Yemen,YE-RA,YE
+Yemen,YE-SD,YE
+Yemen,YE-SN,YE
+Yemen,YE-SH,YE
+Yemen,YE-TA,YE
+Yemen,YE-SA,YE
+Yemen,YE-AD,YE
+Zambia,ZM-02,ZM
+Zambia,ZM-08,ZM
+Zambia,ZM-03,ZM
+Zambia,ZM-04,ZM
+Zambia,ZM-09,ZM
+Zambia,ZM-06,ZM
+Zambia,ZM-05,ZM
+Zambia,ZM-07,ZM
+Zambia,ZM-01,ZM
+Zimbabwe,ZW-BU,ZW
+Zimbabwe,ZW-HA,ZW
+Zimbabwe,ZW-MA,ZW
+Zimbabwe,ZW-MC,ZW
+Zimbabwe,ZW-ME,ZW
+Zimbabwe,ZW-MW,ZW
+Zimbabwe,ZW-MV,ZW
+Zimbabwe,ZW-MN,ZW
+Zimbabwe,ZW-MS,ZW
+Zimbabwe,ZW-MI,ZW
+,PA-KY,PA
