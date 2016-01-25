@@ -34,12 +34,15 @@ gem 'figaro', '~> 1.1.1'
 
 # Required to make the app function properly on Heroku:
 gem 'rails_12factor'
+
+# Including these in the production group for now so we can run the seeds file
+# on Heroku. Once we've launched the MVP, move these to development/test only:
 gem 'factory_girl_rails', '~> 4.5.0'
+gem 'faker'
 
 group :development, :test do
   gem 'byebug'
   gem 'rspec-rails'
-  gem 'faker'
   gem 'quiet_assets'
   gem 'database_cleaner'
 end
