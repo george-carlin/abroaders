@@ -2,9 +2,7 @@ class CardAccount < ApplicationRecord
 
   # Attributes
 
-  enum status: [:unknown, :recommended, :declined, :reconsideration,
-                :pending_decision, :manual_pending, :denied, :manual_denied,
-                :bonus_challenge, :open, :closed, :converted]
+  include Statuses
 
   delegate :brand, :type, :bp, :name, :identifier, :bank_name, to: :card,
     prefix: true
