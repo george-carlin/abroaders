@@ -5,7 +5,7 @@ ruby '2.3.0'
 # Use master branch of rails for now because rails_12factor has a bug with
 # rails 5.0.0.beta1. See http://stackoverflow.com/a/34578109/1603071 and
 # https://github.com/rails/rails/pull/22933
-gem 'rails', github: "rails/rails" #'>= 5.0.0.beta1', '< 5.1'
+gem 'rails', '>= 5.0.0.beta1', '< 5.1'
 
 gem 'pg', '~> 0.18'
 gem 'uglifier', '>= 1.3.0'
@@ -33,7 +33,9 @@ gem 'sass-rails'
 gem 'figaro', '~> 1.1.1'
 
 # Required to make the app function properly on Heroku:
-gem 'rails_12factor'
+group :production do
+  gem 'rails_12factor'
+end
 
 # Including these in the production group for now so we can run the seeds file
 # on Heroku. Once we've launched the MVP, move these to development/test only:
