@@ -26,6 +26,9 @@ gem 'sass-rails'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+# Load ENV variables from a gitignored YAML file
+gem 'figaro', '~> 1.1.1'
+
 group :development, :test do
   gem 'byebug'
   gem 'rspec-rails'
