@@ -20,16 +20,14 @@ GIT
       responders
       warden (~> 1.2.3)
 
-GEM
-  remote: https://rubygems.org/
+GIT
+  remote: git://github.com/rails/rails.git
+  revision: 14e92bac1a4c199e5e8936c6bdc64420293ea6d1
   specs:
     actioncable (5.0.0.beta1)
       actionpack (= 5.0.0.beta1)
-      celluloid (~> 0.17.2)
       coffee-rails (~> 4.1.0)
-      em-hiredis (~> 0.3.0)
-      faye-websocket (~> 0.10.0)
-      redis (~> 3.0)
+      nio4r (~> 1.2)
       websocket-driver (~> 0.6.1)
     actionmailer (5.0.0.beta1)
       actionpack (= 5.0.0.beta1)
@@ -50,16 +48,11 @@ GEM
       erubis (~> 2.7.0)
       rails-dom-testing (~> 1.0, >= 1.0.5)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
-    active_model_serializers (0.10.0.rc3)
-      actionpack (>= 4.0)
-      activemodel (>= 4.0)
-      railties (>= 4.0)
     activejob (5.0.0.beta1)
       activesupport (= 5.0.0.beta1)
       globalid (>= 0.3.6)
     activemodel (5.0.0.beta1)
       activesupport (= 5.0.0.beta1)
-      builder (~> 3.1)
     activerecord (5.0.0.beta1)
       activemodel (= 5.0.0.beta1)
       activesupport (= 5.0.0.beta1)
@@ -71,6 +64,32 @@ GEM
       method_source
       minitest (~> 5.1)
       tzinfo (~> 1.1)
+    rails (5.0.0.beta1)
+      actioncable (= 5.0.0.beta1)
+      actionmailer (= 5.0.0.beta1)
+      actionpack (= 5.0.0.beta1)
+      actionview (= 5.0.0.beta1)
+      activejob (= 5.0.0.beta1)
+      activemodel (= 5.0.0.beta1)
+      activerecord (= 5.0.0.beta1)
+      activesupport (= 5.0.0.beta1)
+      bundler (>= 1.3.0, < 2.0)
+      railties (= 5.0.0.beta1)
+      sprockets-rails (>= 2.0.0)
+    railties (5.0.0.beta1)
+      actionpack (= 5.0.0.beta1)
+      activesupport (= 5.0.0.beta1)
+      method_source
+      rake (>= 0.8.7)
+      thor (>= 0.18.1, < 2.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    active_model_serializers (0.10.0.rc3)
+      actionpack (>= 4.0)
+      activemodel (>= 4.0)
+      railties (>= 4.0)
     arel (7.0.0)
     babel-source (5.8.34)
     babel-transpiler (0.7.0)
@@ -79,23 +98,6 @@ GEM
     bcrypt (3.1.10)
     builder (3.2.2)
     byebug (8.2.1)
-    celluloid (0.17.2)
-      celluloid-essentials
-      celluloid-extras
-      celluloid-fsm
-      celluloid-pool
-      celluloid-supervision
-      timers (>= 4.1.1)
-    celluloid-essentials (0.20.5)
-      timers (>= 4.1.1)
-    celluloid-extras (0.20.5)
-      timers (>= 4.1.1)
-    celluloid-fsm (0.20.5)
-      timers (>= 4.1.1)
-    celluloid-pool (0.20.5)
-      timers (>= 4.1.1)
-    celluloid-supervision (0.20.5)
-      timers (>= 4.1.1)
     cliver (0.3.2)
     coffee-rails (4.1.1)
       coffee-script (>= 2.2.0)
@@ -110,11 +112,7 @@ GEM
     debug_inspector (0.0.2)
     devise-bootstrap-views (0.0.7)
     diff-lcs (1.2.5)
-    em-hiredis (0.3.0)
-      eventmachine (~> 1.0)
-      hiredis (~> 0.5.0)
     erubis (2.7.0)
-    eventmachine (1.0.9.1)
     execjs (2.6.0)
     factory_girl (4.5.0)
       activesupport (>= 3.0.0)
@@ -123,15 +121,10 @@ GEM
       railties (>= 3.0.0)
     faker (1.6.1)
       i18n (~> 0.5)
-    faye-websocket (0.10.2)
-      eventmachine (>= 0.12.0)
-      websocket-driver (>= 0.5.1)
     figaro (1.1.1)
       thor (~> 0.14)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
-    hiredis (0.5.2)
-    hitimes (1.2.3)
     i18n (0.7.0)
     jbuilder (2.4.0)
       activesupport (>= 3.0.0, < 5.1)
@@ -148,9 +141,10 @@ GEM
     method_source (0.8.2)
     mime-types (2.99)
     mini_portile2 (2.0.0)
-    minitest (5.8.3)
+    minitest (5.8.4)
     multi_json (1.11.2)
-    nokogiri (1.6.7.1)
+    nio4r (1.2.0)
+    nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
     orm_adapter (0.5.0)
     pg (0.18.4)
@@ -166,18 +160,6 @@ GEM
       json
     rack-test (0.6.3)
       rack (>= 1.0)
-    rails (5.0.0.beta1)
-      actioncable (= 5.0.0.beta1)
-      actionmailer (= 5.0.0.beta1)
-      actionpack (= 5.0.0.beta1)
-      actionview (= 5.0.0.beta1)
-      activejob (= 5.0.0.beta1)
-      activemodel (= 5.0.0.beta1)
-      activerecord (= 5.0.0.beta1)
-      activesupport (= 5.0.0.beta1)
-      bundler (>= 1.3.0, < 2.0)
-      railties (= 5.0.0.beta1)
-      sprockets-rails (>= 2.0.0)
     rails-deprecated_sanitizer (1.0.3)
       activesupport (>= 4.2.0.alpha)
     rails-dom-testing (1.0.7)
@@ -191,12 +173,6 @@ GEM
       rails_stdout_logging
     rails_serve_static_assets (0.0.4)
     rails_stdout_logging (0.0.4)
-    railties (5.0.0.beta1)
-      actionpack (= 5.0.0.beta1)
-      activesupport (= 5.0.0.beta1)
-      method_source
-      rake (>= 0.8.7)
-      thor (>= 0.18.1, < 2.0)
     rake (10.5.0)
     react-rails (1.5.0)
       babel-transpiler (>= 0.7.0)
@@ -205,7 +181,6 @@ GEM
       execjs
       rails (>= 3.2)
       tilt
-    redis (3.2.2)
     responders (2.1.1)
       railties (>= 4.2.0, < 5.1)
     rspec-core (3.1.7)
@@ -241,8 +216,6 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (2.0.2)
-    timers (4.1.1)
-      hitimes
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (2.7.2)
@@ -279,7 +252,7 @@ DEPENDENCIES
   poltergeist
   puma
   quiet_assets
-  rails (>= 5.0.0.beta1, < 5.1)
+  rails!
   rails_12factor
   react-rails
   rspec-rails
