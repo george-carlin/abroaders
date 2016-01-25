@@ -15,9 +15,5 @@
 //= require bootstrap.min
 //= require bootstrap3-typeahead
 //= require bootstrap-datepicker
-//= require humps
-//= require react
-//= require react_ujs
-//= require components
 //= require ready
 //= require_tree .

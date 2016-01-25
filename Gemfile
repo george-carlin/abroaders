@@ -19,8 +19,6 @@ gem 'devise-bootstrap-views'
 
 gem 'active_model_serializers', '~> 0.10.0.rc3'
 
-gem 'react-rails'
-
 gem 'sass-rails'
 
 # Use ActiveModel has_secure_password
