@@ -29,12 +29,15 @@ gem 'sass-rails'
 # Load ENV variables from a gitignored YAML file
 gem 'figaro', '~> 1.1.1'
 
+# Required to make the app function properly on Heroku:
+gem 'rails_12factor'
+gem 'factory_girl_rails', '~> 4.5.0'
+
 group :development, :test do
   gem 'byebug'
   gem 'rspec-rails'
   gem 'faker'
   gem 'quiet_assets'
-  gem 'factory_girl_rails', '~> 4.5.0'
   gem 'database_cleaner'
 end
 
