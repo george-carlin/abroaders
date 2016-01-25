@@ -7,6 +7,7 @@ describe CardAccount do
   let(:account) { described_class.new(card: card, user: user) }
 
   describe "::Statuses" do
+
     describe "#applied_at" do
       subject { account.applied_at }
 
@@ -58,6 +59,17 @@ describe CardAccount do
 
       it "sets 'declined_at' to the current time" do
         expect(account.declined_at).to be_within(5.seconds).of(Time.now)
+      end
+    end
+
+    describe "#declinable?" do
+      it "is true iff 'declining' the account makes sense given its status" do
+        account.status = :recommended
+        expect(account.declinable?).to be_truthy
+        account.status = :declined
+        expect(account.declinable?).to be_falsey
+        account.status = :open
+        expect(account.declinable?).to be_falsey
       end
     end
 

@@ -1,0 +1,49 @@
+<h1>My Cards</h1>
+
+<% if @card_accounts.any? %>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Name</th>
+        <th>Bank</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @card_accounts.each do |card_account| %>
+        <tr id="<%= dom_id(card_account) %>">
+          <td>
+            <%= card_image_tag(card_account.card) %>
+          </td>
+          <td>
+            <%= card_account.card_name %>
+          </td>
+          <td>
+            <%= card_account.card_bank_name %>
+          </td>
+          <td>
+            <% if card_account.declinable? %>
+              <%= button_to "Decline",
+                    decline_card_account_path(card_account),
+                    id: dom_id(card_account, :decline), class: "btn-default" %>
+            <% elsif card_account.declined? %>
+              <% if card_account.declined_at.present? %>
+                You indicated on <%= card_account.declined_at.strftime("%D") %>
+                that you do not wish to apply for this card.
+              <% else %>
+                You declined to apply for this card
+              <% end %>
+            <% end %>
+            <%#= button_to "Decline", decline_card_account_path(card_account), class: "btn-default" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+<% else %>
+  Thanks for signing up to Abroaders! You will shortly receive your
+  first card recommendation
+<% end %>

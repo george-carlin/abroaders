@@ -44,8 +44,8 @@ module CardAccount::Statuses
     enum status: STATUSES
   end
 
-  def declined_at=(*args)
-    self.applied_at = *args
+  def declined_at=(datetime)
+    self.applied_at = datetime
   end
 
   def applied_at
@@ -58,6 +58,10 @@ module CardAccount::Statuses
 
   def decline!
     update_attributes!(applied_at: Time.now, status: :declined)
+  end
+
+  def declinable?
+    status == "recommended"
   end
 
 end

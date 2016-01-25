@@ -23,3 +23,4 @@ en:
     users:
       card_accounts:
         none: "User has no cards on file. Use the form below to recommend them their first card."
+        you_have_declined: "You have indicated that you do not want to apply for this card"

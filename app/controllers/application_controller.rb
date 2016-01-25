@@ -9,7 +9,6 @@ class ApplicationController < ActionController::Base
       if current_user.admin?
         render "admin/dashboard"
       else
-        @card_accounts = current_user.card_accounts
         render "users/dashboard"
       end
     end
