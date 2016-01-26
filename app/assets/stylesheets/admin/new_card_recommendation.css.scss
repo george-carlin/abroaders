@@ -1,0 +1,11 @@
+.new_card_account th {
+  cursor: pointer;
+
+  &:not(.headerSortDown) .fa-sort-asc {
+    display: none;
+  }
+
+  &:not(.headerSortUp) .fa-sort-desc {
+    display: none;
+  }
+}

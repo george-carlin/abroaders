@@ -30,6 +30,8 @@ gem 'sass-rails'
 # Load ENV variables from a gitignored YAML file
 gem 'figaro', '~> 1.1.1'
 
+gem "font-awesome-rails"
+
 # Required to make the app function properly on Heroku:
 group :production do
   gem 'rails_12factor'

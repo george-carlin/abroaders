@@ -9,7 +9,7 @@
 
 <% if @card_accounts.any? %>
 
-  <table id="admin_user_card_accounts_table" class="table table-striped">
+  <table id="admin_user_card_recommendations" class="table table-striped">
     <thead>
       <th>ID</th>
       <th>Name</th>
@@ -58,15 +58,27 @@
     <!--
     <CardRecommendationFilters updateFilterCallback={this._updateFilters} />
     -->
-    <table id="admin_user_card_accounts_table" class="table table-striped">
+    <table class="table table-striped">
       <thead>
         <th></th>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Bank</th>
-        <th>B/P</th>
-        <th>Brand</th>
-        <th>Type</th>
+        <th>
+          ID&nbsp; <%= sort_icons %>
+        </th>
+        <th>
+          Name&nbsp; <%= sort_icons %>
+        </th>
+        <th>
+          Bank&nbsp; <%= sort_icons %>
+        </th>
+        <th>
+          B/P&nbsp; <%= sort_icons %>
+        </th>
+        <th>
+          Brand&nbsp; <%= sort_icons %>
+        </th>
+        <th>
+          Type&nbsp; <%= sort_icons %>
+        </th>
       </thead>
       <tbody>
         <% @cards.each_with_index do |card, i| %>

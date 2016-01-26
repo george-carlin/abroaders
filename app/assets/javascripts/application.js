@@ -15,5 +15,6 @@
 //= require bootstrap.min
 //= require bootstrap3-typeahead
 //= require bootstrap-datepicker
+//= require jquery.tablesorter
 //= require ready
 //= require_tree .
