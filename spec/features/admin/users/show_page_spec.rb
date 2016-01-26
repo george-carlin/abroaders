@@ -66,7 +66,7 @@ describe "admin section" do
       end
     end
 
-    describe "filters" do
+    describe "filters", js: true do
       def should_have_recommendable_cards(*cards)
         cards.each { |card| should have_recommendable_card(card) }
       end
@@ -75,7 +75,7 @@ describe "admin section" do
         cards.each { |card| should_not have_recommendable_card(card) }
       end
 
-      describe "the cards", js: true do
+      describe "the cards" do
         specify "can be filtered by b/p" do
           uncheck :card_bp_filter_business
           should_have_recommendable_cards(@chase_personal, @usb_personal)
@@ -88,20 +88,44 @@ describe "admin section" do
           check :card_bp_filter_personal
           should_have_recommendable_cards(*@cards)
         end
+
+        specify "can be filtered by bank" do
+          Card.banks.keys do |bank|
+            is_expected.to have_field :"card_bank_filter_#{bank}"
+          end
+
+          uncheck :card_bank_filter_chase
+          should_have_recommendable_cards(@usb_business, @usb_personal)
+          should_not_have_recommendable_cards(@chase_business, @chase_personal)
+          uncheck :card_bank_filter_us_bank
+          should_not_have_recommendable_cards(*@cards)
+          check :card_bank_filter_chase
+          should_have_recommendable_cards(@chase_business, @chase_personal)
+          should_not_have_recommendable_cards(@usb_business, @usb_personal)
+          check :card_bank_filter_us_bank
+          should_have_recommendable_cards(*@cards)
+        end
       end
 
-      specify "there is a 'filter by bank' dropdown" do
-        pending
-        is_expected.to have_selector "select#card_bank_filter"
-        within "select#card_bank_filter" do
-          is_expected.to have_text "All Banks"
-          is_expected.to have_text "Barclays"
-          is_expected.to have_text "Capital One"
-          is_expected.to have_text "American Express"
-          is_expected.to have_text "Chase"
-          is_expected.to have_text "US Bank"
-          is_expected.to have_text "Bank Of America"
-          is_expected.to have_text "Citibank"
+      describe "the 'toggle all banks' checkbox" do
+        it "toggles all banks on/off" do
+          uncheck :card_bank_filter_all
+          should_not_have_recommendable_cards(*@cards)
+          Card.banks.keys do |bank|
+            expect(find("#card_bank_filter_#{bank}")).not_to be_checked
+          end
+          check :card_bank_filter_all
+          should_have_recommendable_cards(*@cards)
+          Card.banks.keys do |bank|
+            expect(find("#card_bank_filter_#{bank}")).to be_checked
+          end
+        end
+
+        it "is checked/unchecked automatically as I click other CBs" do
+          uncheck :card_bank_filter_chase
+          expect(find("#card_bank_filter_all")).not_to be_checked
+          check :card_bank_filter_chase
+          expect(find("#card_bank_filter_all")).to be_checked
         end
       end
     end

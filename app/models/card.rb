@@ -15,9 +15,7 @@ class Card < ApplicationRecord
   alias_method :inactive?, :inactive
 
   def bank_name
-    bank.to_s.gsub(/_/, " ").split.map do |word|
-      word == "us" ? "US" : word.capitalize
-    end.join(" ")
+    BankName.new(bank).name
   end
 
   def full_name

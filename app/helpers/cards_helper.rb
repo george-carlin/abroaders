@@ -42,6 +42,20 @@ module CardsHelper
     end
   end
 
+  def card_bank_filter_check_box_tag(bank_id)
+    klass =  :card_bank_filter
+    id    =  :"#{klass}_#{bank_id}"
+    label_tag id do
+      check_box_tag(
+        id,
+        nil,
+        true,
+        class: klass,
+        data: { key: :bank, value: bank_id }
+      ) << raw("&nbsp;&nbsp#{BankName.new(bank_id).name}")
+    end
+  end
+
   private
 
   def options_for_enum_select(enum)
