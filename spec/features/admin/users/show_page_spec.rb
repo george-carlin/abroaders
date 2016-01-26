@@ -78,7 +78,6 @@ describe "admin section" do
       describe "the cards", js: true do
         specify "can be filtered by b/p" do
           uncheck :card_bp_filter_business
-          save_screenshot "1.png"
           should_have_recommendable_cards(@chase_personal, @usb_personal)
           should_not_have_recommendable_cards(@chase_business, @usb_business)
           uncheck :card_bp_filter_personal
