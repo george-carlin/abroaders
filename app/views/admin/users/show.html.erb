@@ -52,12 +52,26 @@
 
 <%= form_for @card_recommendation, url: admin_user_card_recommendations_path(@user) do |f| %>
 
-  <%#= react_component "CardRecommendationForm", cards: serialize(@cards)  %>
-
   <div>
-    <!--
-    <CardRecommendationFilters updateFilterCallback={this._updateFilters} />
-    -->
+    <div class="form-inline">
+      <% Card.bps.keys.each do |bp| %>
+        <%= card_bp_filter_check_box_tag(bp) %>
+      <% end %>
+
+      &nbsp; | &nbsp;&nbsp;
+
+      <select id="card_bank_filter" class="form-control input-sm">
+        <option>All Banks</option>
+        <option>Barclays</option>
+        <option>Capital One</option>
+        <option>American Express</option>
+        <option>Chase</option>
+        <option>US Bank</option>
+        <option>Bank Of America</option>
+        <option>Citibank</option>
+      </select>
+    </div>
+
     <table class="table table-striped">
       <thead>
         <th></th>
@@ -82,7 +96,11 @@
       </thead>
       <tbody>
         <% @cards.each_with_index do |card, i| %>
-          <tr>
+          <tr
+            id="<%= dom_id(card, :admin_recommend) %>"
+            class="<%= dom_class(card, :admin_recommend) %>"
+            data-bp="<%= card.bp %>"
+          >
             <td><%= f.radio_button :card_id, card.id, checked: (i==0) %></td>
             <td><%= card.identifier %></td>
             <td><%= card.name %></td>
