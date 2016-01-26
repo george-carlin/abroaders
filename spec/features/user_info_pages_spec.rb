@@ -28,12 +28,23 @@ describe "user info pages" do
       should have_field :user_info_credit_score
       should have_field :user_info_will_apply_for_loan_true
       should have_field :user_info_will_apply_for_loan_false
-      should have_field :user_info_spending_per_month_dollars
+      should have_field :user_info_personal_spending
       should have_field :user_info_has_business_with_ein
       should have_field :user_info_has_business_without_ein
       should have_field :user_info_has_business_no_business
     end
 
+    describe "the 'business spending' input" do
+      it "appears iff I say that I have a business", js: true do
+        is_expected.not_to have_field :user_info_business_spending
+        choose :user_info_has_business_with_ein
+        is_expected.to have_field :user_info_business_spending
+        choose :user_info_has_business_without_ein
+        is_expected.to have_field :user_info_business_spending
+        choose :user_info_has_business_no_business
+        is_expected.not_to have_field :user_info_business_spending
+      end
+    end
 
     describe "submitting the form" do
       let(:submit_form) { click_button "Save" }
@@ -47,7 +58,7 @@ describe "user info pages" do
           choose :user_info_citizenship_us_permanent_resident
           fill_in :user_info_credit_score, with: "456"
           choose :user_info_will_apply_for_loan_true
-          fill_in :user_info_spending_per_month_dollars, with: "1500"
+          fill_in :user_info_personal_spending, with: "1500"
           choose :user_info_has_business_without_ein
         end
 
@@ -63,7 +74,7 @@ describe "user info pages" do
           expect(user_info.citizenship).to eq "us_permanent_resident"
           expect(user_info.credit_score).to eq 456
           expect(user_info.will_apply_for_loan).to be_truthy
-          expect(user_info.spending_per_month_dollars).to eq 1500
+          expect(user_info.personal_spending).to eq 1500
           expect(user_info.has_business).to eq "without_ein"
         end
 

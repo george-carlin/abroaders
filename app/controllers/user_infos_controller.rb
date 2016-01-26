@@ -18,9 +18,9 @@ class UserInfosController < NonAdminController
 
   def user_info_params
     params.require(:user_info).permit(
-      :first_name, :middle_names, :last_name, :whatsapp, :imessage,
-      :text_message, :phone_number, :time_zone, :citizenship, :credit_score,
-      :will_apply_for_loan, :spending_per_month_dollars, :has_business
+      :first_name, :middle_names, :last_name, :whatsapp, :imessage, :time_zone,
+      :text_message, :phone_number, :credit_score, :business_spending,
+      :will_apply_for_loan, :personal_spending, :has_business, :citizenship
     )
   end
 

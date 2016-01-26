@@ -4,7 +4,7 @@ class UserInfo < ApplicationRecord
 
   enum citizenship:  [ :us_citizen, :us_permanent_resident, :neither]
   # Don't use 'no' as a value because it messes up i18n.t
-  enum has_business: [ :with_ein, :without_ein, :no_business ]
+  enum has_business: [ :no_business, :with_ein, :without_ein ]
 
   def full_name
     [first_name, middle_names, last_name].compact.join(" ")
@@ -25,7 +25,21 @@ class UserInfo < ApplicationRecord
       greater_than_or_equal_to: MINIMUM_CREDIT_SCORE,
       less_than_or_equal_to:    MAXIMUM_CREDIT_SCORE
     }
-  validates :spending_per_month_dollars, presence: true, numericality: true
+
+  # Spending columns = spending per month, in whole US dollars
+
+  validates :personal_spending,
+    presence: true,
+    numericality: {
+      greater_than_or_equal_to: 0,
+      less_than_or_equal_to: POSTGRESQL_MAX_INT_VALUE
+    }
+  validates :business_spending,
+    presence: true,
+    numericality: {
+      greater_than_or_equal_to: 0,
+      less_than_or_equal_to: POSTGRESQL_MAX_INT_VALUE
+    }
 
   # Associations
 

@@ -9,6 +9,6 @@ FactoryGirl.define do
       max = UserInfo::MAXIMUM_CREDIT_SCORE
       min + rand(max - min)
     end
-    spending_per_month_dollars { rand(1000) + 9000 }
+    personal_spending { rand(1000) + 9000 }
   end
 end

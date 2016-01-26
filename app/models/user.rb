@@ -8,7 +8,7 @@ class User < ApplicationRecord
 
   delegate :full_name, :first_name, :middle_names, :last_name, :phone_number,
     :whatsapp, :text_message, :imessage, :time_zone, :citizenship,
-    :credit_score, :will_apply_for_loan, :spending_per_month_dollars,
+    :credit_score, :will_apply_for_loan, :personal_spending,
     :has_business,
     to: :info, allow_nil: true
 
