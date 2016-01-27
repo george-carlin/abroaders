@@ -70,6 +70,13 @@
 
   <div class="form-group">
     <%= f.label :credit_score %>
+
+    <p class="help-block">
+      Your credit score should be a number between
+      <%= UserInfo::MINIMUM_CREDIT_SCORE %> and
+      <%= UserInfo::MAXIMUM_CREDIT_SCORE %>
+    </p>
+
     <%= f.number_field :credit_score %>
   </div>
 
