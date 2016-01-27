@@ -23,5 +23,7 @@ module Abroaders
     # -- all .rb files in that directory are automatically loaded.
 
     require "modules/bootstrap_overrides/overrides"
+    require "modules/auto_strip_attributes"
+
   end
 end

@@ -51,4 +51,9 @@ class UserInfo < ApplicationRecord
   # Associations
 
   belongs_to :user
+
+  # Callbacks
+
+  auto_strip_attributes :first_name, :middle_names, :last_name, :phone_number
+
 end
