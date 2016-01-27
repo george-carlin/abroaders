@@ -26,6 +26,13 @@ class UserInfo < ApplicationRecord
       less_than_or_equal_to:    MAXIMUM_CREDIT_SCORE
     }
 
+  alias :has_business_with_ein? :with_ein?
+  alias :has_business_without_ein? :without_ein?
+
+  def has_business?
+    has_business_with_ein? || has_business_without_ein?
+  end
+
   # Spending columns = spending per month, in whole US dollars
 
   validates :personal_spending,

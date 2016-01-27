@@ -1,0 +1,39 @@
+.user-info-attr {
+  margin-bottom: 10.5px;
+
+  i.contact-info-label {
+    margin-right: 7px;
+  }
+}
+
+.user-personal-spending, .user-business-spending, .user-credit-score {
+  .spending-label {
+    display: inline-block;
+    font-weight: bold;
+    width: 136px;
+  }
+}
+
+@mixin note {
+  position: relative;
+  bottom: 2px;
+  left: 9px;
+  display: inline-block;
+  font-size: 0.7em;
+}
+
+
+.user-phone-can-receive-icons {
+  display: inline-block;
+
+  abbr {
+    @include note;
+    border: none; // Remove the default border that <abbr> tags have.
+    margin-right: 3px;
+  }
+}
+
+.user-business-spending .has-ein {
+  @include note;
+  font-style: italic;
+}

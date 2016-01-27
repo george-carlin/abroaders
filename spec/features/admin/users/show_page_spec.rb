@@ -20,10 +20,59 @@ describe "admin section" do
 
     let(:extra_setup) { nil }
 
+    it "shows the date on which the user signed up" do
+      is_expected.to have_content user.created_at.strftime("%D")
+    end
+
     context "when the user" do
       context "has no existing card accounts/recommendations" do
         it "says so" do
           should have_content t("admin.users.card_accounts.none")
+        end
+      end
+
+      context "has not yet completed the onboarding survey" do
+        it "says so" do
+          should have_content t("admin.users.show.no_survey")
+        end
+
+        it "has 'User (db ID)' as the page header" do
+          is_expected.to have_selector "h1", text: "User ##{@user.id}"
+        end
+
+        it "displays the user's email address" do
+          is_expected.to have_content @user.email
+        end
+      end
+
+      context "has completed the onboarding survey" do
+        let(:phone_number) { "(555) 000-1234" }
+        let(:extra_setup) do
+          @user.create_info!(
+            first_name:   "Fred",
+            middle_names: "R. J.",
+            last_name:    "Smith",
+            phone_number: phone_number,
+            citizenship: :us_permanent_resident,
+            credit_score: 678,
+            personal_spending: 2500,
+            has_business: :with_ein,
+            business_spending: 1500,
+            time_zone: "Eastern Time (US & Canada)"
+          )
+        end
+
+        it "has the user's name as the page header" do
+          is_expected.to have_selector "h1", text: "Fred R. J. Smith"
+        end
+
+        it "displays the relevant survey information" do
+          is_expected.to have_user_info "email", @user.email
+          is_expected.to have_user_info "phone-number", phone_number
+          is_expected.to have_user_info "citizenship", "U.S. Permanent Resident"
+          is_expected.to have_user_info "credit-score", 678
+          is_expected.to have_user_info "personal-spending", "$2500"
+          is_expected.to have_user_info "business-spending", "$1500"
         end
       end
     end
@@ -218,6 +267,9 @@ describe "admin section" do
       "##{dom_id(card, :admin_recommend)}"
     end
 
+    def have_user_info(attr, value)
+      have_selector ".user-info-attr.user-#{attr}", text: value
+    end
+
   end
 end
-

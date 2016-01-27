@@ -13,6 +13,7 @@ en:
           us_citizen: "U.S. Citizen"
           us_permanent_resident: "U.S. Permanent Resident"
           neither: "Neither"
+          not_citizen: "Not a U.S. citizen"
         has_business: "Do you have a business?"
         has_businesses:
           with_ein: "I have a business EIN (Employer ID Number)"
@@ -23,6 +24,9 @@ en:
 
   admin:
     users:
+      show:
+        no_survey: "User has not yet completed the onboarding survey"
+
       card_accounts:
         none: "User has no cards on file. Use the form below to recommend them their first card."
         you_have_declined: "You have indicated that you do not want to apply for this card"
