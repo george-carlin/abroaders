@@ -9,7 +9,7 @@ class User < ApplicationRecord
   delegate(
     *(UserInfo.column_names - %w[id user_id created_at updated_at] +
       %w[whatsapp? text_message? imessage? has_business?
-          has_business_with_ein?  has_business_without_ein?]),
+          has_business_with_ein?  has_business_without_ein? full_name]),
     to: :info, allow_nil: true
   )
 
