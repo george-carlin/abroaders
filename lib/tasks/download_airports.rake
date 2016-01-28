@@ -55,13 +55,6 @@ namespace :ab do
 
     # ----- Combine it all into one dataset -------
 
-    def valid_airport_code?(code)
-    end
-
-    def valid_airport_name?(name)
-      name.present? && !name.include?("[Duplicate]")
-    end
-
     # This dataset is huge and contains info about heliports, private airports,
     # and tiny airports that we don't care about, as some as some
     # duplicate or nonsensical data. Filter out irrelevant stuff.
