@@ -61,7 +61,7 @@ ActiveRecord::Schema.define(version: 20160126162328) do
     t.integer  "children_count", default: 0, null: false
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
-    t.index ["code"], name: "index_destinations_on_code", unique: true, using: :btree
+    t.index ["code", "type"], name: "index_destinations_on_code_and_type", unique: true, using: :btree
     t.index ["name"], name: "index_destinations_on_name", using: :btree
     t.index ["parent_id"], name: "index_destinations_on_parent_id", using: :btree
     t.index ["type"], name: "index_destinations_on_type", using: :btree
@@ -136,6 +136,7 @@ ActiveRecord::Schema.define(version: 20160126162328) do
 
   add_foreign_key "card_accounts", "cards", on_delete: :restrict
   add_foreign_key "card_accounts", "users", on_delete: :cascade
+  add_foreign_key "destinations", "destinations", column: "parent_id", on_delete: :restrict
   add_foreign_key "travel_plan_legs", "airports", column: "destination_id"
   add_foreign_key "travel_plan_legs", "airports", column: "origin_id"
   add_foreign_key "travel_plan_legs", "travel_plans", on_delete: :cascade

@@ -10,8 +10,10 @@ class CreateDestinations < ActiveRecord::Migration[5.0]
       t.timestamps
     end
     add_index :destinations, :name
-    add_index :destinations, :code, unique: true
+    add_index :destinations, [:code, :type], unique: true
     add_index :destinations, :type
     add_index :destinations, :parent_id
+    add_foreign_key :destinations, :destinations, column: :parent_id,
+                    on_delete: :restrict
   end
 end
