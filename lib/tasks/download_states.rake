@@ -23,7 +23,7 @@ namespace :ab do
 
     # Remove all except the columns we actually care about:
 
-    name_col_index = column_headers.index("COUNTRY NAME")
+    name_col_index = column_headers.index("ISO 3166-2 SUBDIVISION/STATE NAME")
     code_col_index = column_headers.index("ISO 3166-2 SUB-DIVISION/STATE CODE")
     country_code_col_index = column_headers.index("COUNTRY ISO CHAR 2 CODE")
 
