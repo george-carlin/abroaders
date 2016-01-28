@@ -45,8 +45,12 @@ Rails.application.routes.draw do
     end
     resources :destinations, only: :index
 
-    Destination.types.keys.each do |type|
-      # airports, cities, countries, etc
+    # This array equals Destination::TYPES, but we can't use that constant to
+    # create the routes dynamically because then the routes file will crash
+    # when pushing the app to a new deployment where the DB migrations haven't
+    # been run yet (thus preventing the migrations from being run, because they
+    # need to load the Rails env including routes)
+    %w[airport city state country region].types.keys.each do |type|
       get type.pluralize, to: "destinations##{type}"
     end
 
