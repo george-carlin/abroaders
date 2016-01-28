@@ -15,7 +15,7 @@ namespace :ab do
 
     city_codes_uri = URI.parse(
       "https://bitbucket.org/!api/2.0/snippets/georgemillo/y8zMo/"\
-      "b15e625b67d4431acd57bb02aff078d514b5152c/files/snippet.txt"
+      "8ec4454bc955b27ee278ad92187e046c548312fb/files/snippet.txt"
     )
 
     raw_city_code_data = Net::HTTP.get_response(city_codes_uri)

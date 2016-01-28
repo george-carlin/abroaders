@@ -6,9 +6,9 @@ Abakan,ABA,RU-KK,RU
 Aberdeen,ABR,US-SD,US
 Aberdeen,ABZ,GB-SCT,GB
 Abha,AHB,SA-14,SA
-Abu Dhabi,AUH,AE-AZ,AE
 Abidjan,ABJ,CI-01,CI
 Abilene,ABI,US-TX,US
+Abu Dhabi,AUH,AE-AZ,AE
 Abuja,ABV,NG-FC,NG
 Acapulco,ACA,MX-GRO,MX
 Acarigua,AGV,VE-P,VE
@@ -26,8 +26,6 @@ Ajaccio,AJA,FR-H,FR
 Akiak,AKI,US-AK,US
 Akita,AXT,JP-05,JP
 Akron/Canton,CAK,US-OH,US
-Al‚ÄêBaha,ABT,SA-11,SA
-Al‚ÄêFujairah,FJR,AE-FU,AE
 Albany,ABY,US-GA,US
 Albany,ALB,US-NY,US
 Albert Bay,YAL,CA-BC,CA
@@ -42,11 +40,53 @@ Allentown,ABE,US-PA,US
 Alma Ata,ALA,KZ-ALM,KZ
 Alor Setar,AOR,MY-02,MY
 Altoona,AOO,US-PA,US
+Alâ€šÃ„ÃªBaha,ABT,SA-11,SA
+Alâ€šÃ„ÃªFujairah,FJR,AE-FU,AE
 Amarillo,AMA,US-TX,US
 Amchitka,AHT,,
 Amman,AMM,JO-AM,JO
 Amritsar,ATQ,IN-PB,IN
 Amsterdam,AMS,NL-NH,NL
+Anchorage,ANC,US-AK,US
+Ancona,AOI,IT-57,IT
+Andahuaylas,ANS,PE-APU,PE
+Anguilla,AZA,US-AZ,US
+Aniak,ANI,US-AK,US
+Ankang,AKA,CN-61,CN
+Ankara,ANK,TR-06,TR
+Annecy,NCY,FR-V,FR
+Antalya,AYT,TR-07,TR
+Antananarivo,TNR,MG-T,MG
+Antigua,ANU,AG-03,AG
+Antofagasta,ANF,CL-AN,CL
+Antwerp,ANR,BE-VAN,BE
+Anvik,ANV,US-AK,US
+Aomori,AOJ,JP-02,JP
+Apia,APW,WS-AA,WS
+Appleton,ATW,US-WI,US
+Aqaba,AQJ,JO-AQ,JO
+"Arcata, Eureka",ACV,US-CA,US
+Arctic Village,ARC,US-AK,US
+Arecibo,ARE,PR-U-A,PR
+Arequipa,AQP,PE-ARE,PE
+Arica,ARI,CL-AP,CL
+Aruba,AUA,AW-U-A,AW
+Ascension,ASC,BO-S,BO
+Asheville,AVL,US-NC,US
+Ashikawa,AKJ,JP-01,JP
+"Ashland, Huntington",HTS,US-WV,US
+Asmara,ASM,ER-SK,ER
+Asturias,OVD,ES-O,ES
+Asuncion,ASU,PY-11,PY
+Aswan,ASW,EG-ASN,EG
+Athens,ATH,GR-A1,GR
+Atlanta,ATL,US-GA,US
+Atlantic City,AIY,US-NJ,US
+Atmautluak,ATT,US-AK,US
+Auckland,AKL,NZ-AUK,NZ
+Augusta,AGS,US-GA,US
+Austin,AUS,,
+Ayacucho,AYP,PE-AYA,PE
 "Baghdad, Al Muthana",BGW,IQ-BG,IQ
 Bahrain,BAH,BH-15,BH
 Bakersfield,BFL,US-CA,US
@@ -97,6 +137,55 @@ Bermuda,BDA,BM-U-A,BM
 Bern,BRN,CH-BE,CH
 Bethel,BET,US-AK,US
 Bettles,BTT,US-AK,US
+Biak,BIK,ID-PA,ID
+Biarritz,BIQ,FR-B,FR
+Bilbao,BIO,ES-PV,ES
+Billings,BIL,US-MT,US
+Billund,BLL,DK-83,DK
+Binghamton,BGM,US-NY,US
+Bintulu,BTU,MY-13,MY
+Birmingham,BHM,US-AL,US
+Birmingham,BHX,GB-ENG,GB
+Bissau,BXO,CH-NW,CH
+Blantyre,BLZ,MW-BL,MW
+Bloemfontein,BFN,ZA-FS,ZA
+Bloomington,BMI,US-IL,US
+Boa Vista,BVB,BR-RR,BR
+Bodo,BOO,NO-18,NO
+Bogota,BOG,CO-CUN,CO
+Boise,BOI,US-ID,US
+Bologna,BLQ,IT-45,IT
+Bombay,BOM,IN-MM,IN
+Bonaire,BON,BQ-U-A,BQ
+Bordeaux,BOD,FR-B,FR
+Boston,BOS,US-MA,US
+Boulder,WBU,US-CO,US
+Bourlamaq/Val D'or,YVO,CA-QC,CA
+Bournemouth,BOH,GB-ENG,GB
+Bozeman,BZN,US-MT,US
+Bradley,BDL,,
+Brainerd,BRD,US-MN,US
+Brasilia,BSB,BR-DF,BR
+Bratislava,BTS,SK-BL,SK
+Brazzaville,BZV,CG-12,CG
+Bremen,BRE,DE-HB,DE
+Brest,BES,FR-E,FR
+Bridgeport,BDR,US-CT,US
+Brisbane,BNE,AU-QLD,AU
+Bristol,BRS,GB-ENG,GB
+Brownsville,BRO,US-TX,US
+Brussels,BRU,BE-BRU,BE
+Bucaramanga,BGA,CO-SAN,CO
+Bucharest,BUH,RO-B,RO
+Budapest,BUD,HU-PE,HU
+Buenos Aires,BUE,AR-B,AR
+Bujumbura,BJM,BI-BJ,BI
+Bulawayo,BUQ,ZW-BU,ZW
+"Bundaberg, Blanding",BDG,US-UT,US
+Burbank,BUR,US-CA,US
+Burlington,BTV,US-VT,US
+Bushehr,BUZ,IR-06,IR
+Butte,BTM,US-MT,US
 Cairns,CNS,AU-QLD,AU
 Cairo,CAI,EG-C,EG
 Cajamarca,CJA,PE-CAJ,PE
@@ -146,10 +235,51 @@ Chignik,KCL,US-AK,US
 Chihuahua,CUU,MX-CHH,MX
 Chisholm,HIB,US-MN,US
 Chittagong,CGP,BD-2,BD
+Chongqing,CKG,CN-50,CN
+Christchurch,CHC,NZ-CAN,NZ
+Chuathbaluk,CHU,US-AK,US
+Cincinnati,CVG,US-KY,US
+Ciudad Del Carmen,CME,MX-CAM,MX
+Cleveland,CLE,US-OH,US
+Cochabamba,CBB,BO-C,BO
+Cochin,COK,IN-KL,IN
+Cold Bay,CDB,US-AK,US
+Colima,CLQ,MX-COL,MX
+College Station,CLL,US-TX,US
+Cologne,CGN,DE-NW,DE
+Colombo,CMB,LK-1,LK
+Colorado Springs,COS,US-CO,US
+Columbia,CAE,US-SC,US
+Columbia,COU,US-MO,US
+Columbus,CMH,US-OH,US
+Columbus,CSG,US-GA,US
+Columbus,UBS,US-MS,US
+Conakry,CKY,GN-C,GN
+Concepcion,CCP,CL-BI,CL
+Copenhagen,CPH,DK-85,DK
+Copiapo,CPO,CL-AT,CL
+Cordova,CDV,US-AK,US
+Cork,ORK,IE-C,IE
+"Corning, Elmira",ELM,US-NY,US
+Coro,CZE,VE-I,VE
+Corpus Christie,CRP,US-TX,US
+Cotonou,COO,BJ-AQ,BJ
+Coyhaique,GXQ,CL-AI,CL
+Cozumel,CZM,MX-ROO,MX
+Crokked Creek,CKD,US-AK,US
+Cruzeiro Do Sul,CZS,BR-AC,BR
+Cuenca,CUE,EC-A,EC
+Cuiaba,CGB,BR-MT,BR
+Culebra,CPX,PR-U-A,PR
+Culiacan,CUL,MX-SIN,MX
+Cumana,CUM,VE-R,VE
+Curacao,CUR,CW-U-A,CW
+Curitiba,CWB,BR-PR,BR
+Cusco,CUZ,PE-CUS,PE
 Dakar,DKR,SN-DK,SN
 Dalaman,DLM,TR-48,TR
-Dallas/Ft. Worth,DFW,US-TX,US
 "Dallas, Love Field",DAL,US-TX,US
+Dallas/Ft. Worth,DFW,US-TX,US
 Damascus,DAM,SY-DI,SY
 Danville,DNV,US-IL,US
 Dar Es Salaam,DAR,TZ-02,TZ
@@ -165,6 +295,23 @@ Denver,DEN,US-CO,US
 Des Moines,DSM,US-IA,US
 Detroit,DTT,US-MI,US
 Dhahran,DHA,SA-04,SA
+Dhaka,DAC,BD-3,BD
+Dillingham,DLG,US-AK,US
+Djerba,DJE,TN-82,TN
+Djibouti,JIB,DJ-DJ,DJ
+Doha,DOH,QA-DA,QA
+"Dominica, Melville Hall",DOM,DM-02,DM
+Dothan,DHN,US-AL,US
+Douala,DLA,CM-LT,CM
+Dresden,DRS,DE-SN,DE
+Dubai,DXB,AE-DU,AE
+Dublin,DUB,IE-D,IE
+Duluth,DLH,US-MN,US
+Durango,DGO,MX-DUR,MX
+Durango,DRO,US-CO,US
+Durban,DUR,ZA-NL,ZA
+Dusseldorf,DUS,DE-NW,DE
+Dutch Harbor,DUT,US-AK,US
 East London,ELS,ZA-EC,ZA
 East Midlands,EMA,GB-ENG,GB
 Easter Island,IPC,CL-VS,CL
@@ -178,6 +325,16 @@ El Salvador,ESR,CL-AT,CL
 Elat,ETH,IL-D,IL
 Elko,EKO,US-NV,US
 Ely,ELY,US-NV,US
+Enschede,ENS,NL-OV,NL
+Entebbe,EBB,UG-102,UG
+Ercan,ECN,CY-02,CY
+Erevan,EVN,AM-ER,AM
+Erfurt,ERF,DE-TH,DE
+Erie,ERI,US-PA,US
+Eugene,EUG,US-OR,US
+Evansville,EVV,US-IN,US
+Evenes,EVE,NO-18,NO
+Exeter,EXT,GB-ENG,GB
 Fairbanks,FAI,US-AK,US
 "Fall River, New Bedford",EWB,US-MA,US
 False Pass,KFP,US-AK,US
@@ -196,6 +353,21 @@ Fort Myers,FMY,US-FL,US
 Fort Nelson,YYE,CA-BC,CA
 Fort St. John,YXJ,CA-BC,CA
 Fortaleza,FOR,BR-CE,BR
+Frankfurt,FRA,DE-HE,DE
+Fredericton,YFC,CA-NB,CA
+Freeport,FPO,BS-FP,BS
+Freetown,FNA,SL-N,SL
+Fresno,FAT,US-CA,US
+Friedrichshafen,FDH,DE-BW,DE
+Ft Pierce,FPR,US-FL,US
+Ft Simpson,YFS,CA-NT,CA
+Ft Smith,FSM,US-AR,US
+Ft Wayne,FWA,US-IN,US
+Ft Yukon,FYU,US-AK,US
+Ft de France,FDF,MQ-U-A,MQ
+Fukuoka,FUK,JP-40,JP
+Funchal,FNC,PT-30,PT
+Fuzhou,FOC,CN-35,CN
 Gainesvile,GNV,US-FL,US
 Galena,GAL,US-AK,US
 Garoua,GOU,CM-NO,CM
@@ -219,6 +391,25 @@ Grand Turk,GDT,TC-GT,TC
 Grande Prairie,YQU,CA-AB,CA
 Grayling,KGX,US-AK,US
 Graz,GRZ,AT-6,AT
+Great Falls,GTF,US-MT,US
+Green Bay,GRB,US-WI,US
+Greensboro,GSO,US-NC,US
+Greenville,GLH,US-MS,US
+Greenville,GSP,US-SC,US
+Greenville,PGV,US-NC,US
+Grenada,GND,GD-GE,GD
+Grenoble,GNB,FR-V,FR
+Groningen,GRQ,NL-DR,NL
+Guadalajara,GDL,MX-JAL,MX
+Guam,GUM,GU-U-A,GU
+Guangzhou,CAN,CN-44,CN
+Guatemala City,GUA,GT-GU,GT
+Guayaquil,GYE,EC-G,EC
+Guernsey,GCI,GG-U-A,GG
+Guilin,KWL,CN-45,CN
+Guiyang,KWE,CN-52,CN
+Gulfport,GPT,US-MS,US
+Gunnison,GUC,US-CO,US
 Hagen,HAG,,
 Haikou,HAK,CN-46,CN
 Hail,HAS,SA-06,SA
@@ -246,6 +437,24 @@ Helsingborg,AGH,SE-M,SE
 Helsinki,HEL,FI-ES,FI
 Heraklion,HER,GR-91,GR
 Hermosillo,HMO,MX-SON,MX
+Hilo,ITO,US-HI,US
+Hiroshima,HIJ,JP-34,JP
+Ho Chi Minh City,SGN,VN-23,VN
+Hohhot,HET,CN-15,CN
+Holy Cross,HCR,US-AK,US
+Homer,HOM,US-AK,US
+Hong Kong,HKG,,
+Honolulu,HNL,US-HI,US
+Hoolehua,MKK,US-HI,US
+Hooper Bay,HPB,US-AK,US
+Hoskins,HKN,PG-WBK,PG
+Houston,HOU,US-TX,US
+Hughes,HUS,US-AK,US
+Humberside,HUY,GB-ENG,GB
+Huntsville,HSV,US-AL,US
+Huslia,HSL,US-AK,US
+Hyannis,HYA,US-MA,US
+Hyderabad,HYD,IN-U-A,IN
 Iguassu Falls,IGU,BR-PR,BR
 Iliamna,ILI,US-AK,US
 Indianapolis,IND,US-IN,US
@@ -259,6 +468,11 @@ Isfahan,IFN,IR-04,IR
 Isiro,IRP,CD-OR,CD
 Islamabad,ISB,PK-IS,PK
 "Isles of Scil, St. Mary's",ISC,GB-ENG,GB
+"Islip, Long Island Macarthur",ISP,US-NY,US
+Istanbul,IST,TR-34,TR
+Ithaca,ITH,US-NY,US
+Ivanoff Bay,KIB,US-AK,US
+Izmir,IZM,TR-35,TR
 Jackson,JAC,US-WY,US
 Jackson,JAN,US-MS,US
 Jacksonville,JAX,US-FL,US
@@ -267,6 +481,15 @@ Jakarta,JKT,ID-BT,ID
 Janesville,JVL,US-WI,US
 Jeddah,JED,SA-02,SA
 Jersey,JER,JE-U-A,JE
+Jinan,TNA,CN-37,CN
+Johannesburg,JNB,ZA-GT,ZA
+Johnston Island,JON,UM-67,UM
+Johor Bahru,JHB,MY-01,MY
+Jonkoping,JKG,SE-F,SE
+Juanjui,JJI,PE-SAM,PE
+Juba,JUB,SS-17,SS
+Juliaca,JUL,PE-PUN,PE
+Juneau,JNU,US-AK,US
 Kabul,KBL,AF-KAB,AF
 Kaduna,KAD,NG-KD,NG
 Kagoshima,KOJ,JP-46,JP
@@ -297,11 +520,42 @@ Kilimanjaro,JRO,TZ-26,TZ
 Killeen,ILE,US-TX,US
 Kimberley,KIM,ZA-NC,ZA
 Kindu,KND,CD-MA,CD
+King Cover,KVC,US-AK,US
+King Salm,AKN,US-AK,US
+Kingston,KIN,JM-02,JM
+Kipnuk,KPN,US-AK,US
+Kiruna,KRN,SE-BD,SE
+Kisangani,FKI,CD-OR,CD
+Klagenfurt,KLU,AT-2,AT
+Knoxville,TYS,US-TN,US
+Kochi,KCZ,JP-39,JP
+Kodiak,ADQ,US-AK,US
+Komatsu,KMQ,JP-17,JP
+Kongiganak,KKH,US-AK,US
+Koror,ROR,PW-004,PW
+Kosrae,KSA,FM-KSA,FM
+Kota Kinabalu,BKI,MY-12,MY
+Kotzebue,OTZ,US-AK,US
+Koyukuk,KYU,US-AK,US
+Krasnoyarsk,KJA,RU-KYA,RU
+Kristiansand,KRS,NO-10,NO
+Kuala Lumpur,KUL,MY-14,MY
+Kuching,KCH,MY-13,MY
+Kumamoto,KMJ,JP-43,JP
+Kunming,KMG,CN-53,CN
+Kuopio,KUO,FI-IS,FI
+Kushiro,KUH,JP-01,JP
+Kuujjuarap,YGW,CA-QC,CA
+Kuwait,KWI,KW-FA,KW
+Kwajalein,KWA,MH-KWA,MH
+Kwangju,KWJ,KR-29,KR
+Kwethluk,KWT,US-AK,US
+Kwigillingok,KWK,US-AK,US
 La Ceiba,LCE,HN-AT,HN
 La Crosse,LSE,US-WI,US
 La Grande,YGL,CA-QC,CA
-La Paz,LPB,BO-L,BO
 La Paz Mex,LAP,MX-BCS,MX
+La Paz,LPB,BO-L,BO
 Labuan,LBU,MY-15,MY
 Lae,LAE,PG-MPL,PG
 Lafayette,LFT,US-LA,US
@@ -334,6 +588,32 @@ Lima,LIM,PE-LIM,PE
 Limoges,LIG,FR-L,FR
 Lincoln,LNK,US-NE,US
 Linz,LNZ,AT-4,AT
+Lisbon,LIS,PT-11,PT
+Little Rock,LIT,US-AR,US
+Liverpool,LPL,GB-ENG,GB
+Livingstone,LVI,ZM-07,ZM
+Ljubljana,LJU,SI-061,SI
+Lobito,LOB,CL-VS,CL
+Lome,LFW,TG-M,TG
+London,LON,GB-ENG,GB
+London,YXU,CA-ON,CA
+Long Beach,LGB,US-CA,US
+Loreto,LTO,MX-BCS,MX
+Los Angeles,LAX,US-CA,US
+Louisville,SDF,US-KY,US
+Lourdes/Tarbes,LDE,FR-N,FR
+Luanda,LAD,AO-LUA,AO
+Lubbock,LBB,US-TX,US
+Lubumbashi,FBM,CD-KA,CD
+Lucknow,LKO,IN-UP,IN
+Ludwigshafen,LUD,NA-KA,NA
+Lugano,LUG,CH-TI,CH
+Lulea,LLA,SE-BD,SE
+Lumid Pau,LUB,GY-UT,GY
+Lusaka,LUN,ZM-09,ZM
+Luxembourg,LUX,LU-L,LU
+Luxor,LXR,EG-KN,EG
+Lyon,LYS,FR-V,FR
 Maastricht,MST,NL-LI,NL
 Macon,MCN,US-GA,US
 Madison,MSN,US-WI,US
@@ -389,504 +669,6 @@ Merida,MID,MX-YUC,MX
 Merida,MRD,VE-L,VE
 Meridian,MEI,US-MS,US
 Mexico City,MEX,MX-DIF,MX
-N'djamena,NDJ,TD-CB,TD
-Nadi,NAN,FJ-W,FJ
-Nagasaki,NGS,JP-42,JP
-Nagoya,NGO,JP-23,JP
-Nairobi,NBO,KE-110,KE
-Nanchang,KHN,CN-36,CN
-Nancy,ENC,FR-M,FR
-Nanisivik,YSR,CA-NU,CA
-Nanjing,NKG,CN-32,CN
-Nanning,NNG,CN-45,CN
-Nantes,NTE,FR-R,FR
-Nantucket,ACK,US-MA,US
-Napakiak,WNA,US-AK,US
-Napaskiak,PKA,US-AK,US
-Naples,APF,US-FL,US
-Nashville,BNA,US-TN,US
-Nassau,NAS,BS-NP,BS
-Natal,NAT,BR-RN,BR
-Neuchatel,NEU,LA-HO,LA
-New Bern,EWN,US-NC,US
-New Orleans,MSY,US-LA,US
-New York,NYC,US-NY,US
-Newburgh,SWF,US-NY,US
-Newcastle,NCL,GB-ENG,GB
-Newtok,WWT,US-AK,US
-Oakland,OAK,US-CA,US
-Oaxaca,OAX,MX-OAX,MX
-Oita,OIT,JP-44,JP
-Okayama,OKJ,JP-33,JP
-Okinawa,OKA,JP-47,JP
-Oklahoma City,OKC,US-OK,US
-Omaha,OMA,US-NE,US
-Ontario,ONT,US-CA,US
-Oran,ORN,DZ-31,DZ
-Orebro,ORB,SE-T,SE
-Osaka,OSA,JP-27,JP
-Pago Pago,PPG,AS-U-A,AS
-Palembang,PLM,ID-SS,ID
-Palermo,PMO,IT-82,IT
-Palm Springs,PSP,US-CA,US
-Palma de Mallorca,PMI,ES-PM,ES
-Panama City,PFN,US-FL,US
-Panama City,PTY,PA-8,PA
-Papeete,PPT,PF-U-A,PF
-Paphos,PFO,CY-06,CY
-Paramaribo,PBM,SR-PM,SR
-Paris,PAR,FR-J,FR
-Pasco,PSC,US-WA,US
-Pau,PUF,FR-B,FR
-Penang,PEN,MY-07,MY
-Peoria,PIA,US-IL,US
-Pereira,PEI,CO-RIS,CO
-Perpignan,PGF,FR-K,FR
-Perryville,KPV,US-AK,US
-Perth,PER,,
-Pescara,PSR,IT-65,IT
-Peshawar,PEW,PK-NW,PK
-Petersburg,PSG,US-AK,US
-Philadelphia,PHL,US-PA,US
-Phnom Penh,PNH,KH-8,KH
-Phoenix,PHX,US-AZ,US
-Phuket,HKT,TH-83,TH
-Pierre,PIR,US-SD,US
-Pisa,PSA,IT-52,IT
-Pittsburgh,PIT,US-PA,US
-Piura,PIU,PE-PIU,PE
-Platinum,PTU,US-AK,US
-Plymouth,PYM,,
-Pocatello,PIH,US-ID,US
-Pohnpei,PNI,FM-PNI,FM
-Point¬†ƒÜ¬†¬†Pitre,PTP,GP-U-A,GP
-Pointe Noire,PNR,CG-5,CG
-Qingdao,TAO,CN-37,CN
-Quebec,YQB,CA-QC,CA
-Quetta,UET,PK-BA,PK
-Rabat,RBA,MA-RBA,MA
-Rabaul,RAB,PG-EBR,PG
-Raleigh/Durham,RDU,US-NC,US
-Rangoon/Yangon,RGN,MM-06,MM
-Rapid City,RAP,US-SD,US
-Rarotonga,RAR,CK-U-A,CK
-Recife,REC,BR-PE,BR
-Red Devil,RDV,US-AK,US
-Redding,RDD,US-CA,US
-Regina,YQR,CA-SK,CA
-Reno,RNO,US-NV,US
-Resolute,YRB,CA-NU,CA
-Reykjavik,REK,,
-Richmond,RIC,US-VA,US
-Riga,RIX,LV-RIX,LV
-Rimini,RMI,IT-45,IT
-Rio de Janeiro,RIO,BR-RJ,BR
-Rio Gallegos,RGL,AR-Z,AR
-Rioja,RIJ,PE-SAM,PE
-Riyadh,RUH,SA-01,SA
-Saarbruecken,SCN,DE-SL,DE
-Saipan,SPN,MP-U-A,MP
-Sal,SID,CV-B,CV
-Salt Lake City,SLC,US-UT,US
-Saltillo,SLW,MX-COA,MX
-Salvador,SSA,BR-BA,BR
-Salzburg,SZG,AT-5,AT
-San Andres Island,ADZ,CO-SAP,CO
-San Angelo,SJT,US-TX,US
-San Antonio,SAT,US-TX,US
-San Antonio,SVZ,VE-S,VE
-San Diego,SAN,US-CA,US
-San Francisco,SFO,US-CA,US
-San Jose,SJC,US-CA,US
-San Jose,SJO,CR-A,CR
-"San Jose, Los Cabos",SJD,MX-BCS,MX
-San Juan,SJU,PR-U-A,PR
-San Luis Potosi,SLP,MX-SLP,MX
-San Pedro Sula,SAP,HN-CR,HN
-San Salvador,SAL,SV-PA,SV
-San Tome,SOM,VE-B,VE
-Sanaa,SAH,YE-SN,YE
-Sand Point,SDP,US-AK,US
-Sandakan,SDK,MY-12,MY
-Santa Barbara,SBA,US-CA,US
-Santa Cruz,SRZ,BO-S,BO
-Santa Maria,SMX,US-CA,US
-Santiago,SCL,CL-RM,CL
-Santiago de Compostela,SCQ,ES-GA,ES
-Santo Domingo,SDQ,DO-01,DO
-Santo Domingo,STD,VE-S,VE
-Sanya,SYX,CN-46,CN
-Sao Luiz,SLZ,BR-MA,BR
-Sao Paulo,SAO,BR-SP,BR
-Sao Tome Island,TMS,ST-S,ST
-Sapporo,SPK,JP-01,JP
-Sarasota/ Bradenton,SRQ,US-FL,US
-Sault Ste. Marie,YAM,CA-ON,CA
-Savannah,SAV,US-GA,US
-Scammon Bay,SCM,US-AK,US
-"Scranton, Wilkes‚ÄêBarre",AVP,US-PA,US
-Seattle,SEA,US-WA,US
-Sedona,SDX,US-AZ,US
-Seldovia,SOV,,
-Sendai,SDJ,JP-04,JP
-Seoul,SEL,,
-Sepulot,SPE,MY-12,MY
-Seville,SVQ,ES-AN,ES
-Seward,SWD,US-AK,US
-Shageluk,SHX,US-AK,US
-Shanghai,SHA,CN-31,CN
-Tabriz,TBZ,IR-01,IR
-Tabuk,TUU,SA-07,SA
-Tacna,TCQ,PE-TAC,PE
-"Taegu, Korea",TAE,KR-27,KR
-Taichung,TXG,TW-TXG,TW
-Taif,TIF,SA-02,SA
-Taipei,TPE,TW-TAO,TW
-Taiyuan,TYN,CN-14,CN
-Takamatsu,TAK,JP-37,JP
-Talara,TYL,PE-PIU,PE
-Tallahassee,TLH,US-FL,US
-Tallinn,TLL,EE-37,EE
-Tamanrasset,TMR,DZ-11,DZ
-Tampa,TPA,US-FL,US
-Tampere,TMP,FI-LS,FI
-Tanana,TAL,US-AK,US
-Tangier,TNG,MA-TNG,MA
-Tarapoto,TPP,PE-SAM,PE
-Tashkent,TAS,UZ-TO,UZ
-Tawau,TWU,MY-12,MY
-Teesside,MME,GB-ENG,GB
-Tegucigalpa,TGU,HN-FM,HN
-Tehran,THR,IR-07,IR
-"Tel Aviv Yafo, Tel Aviv",TLV,IL-TA,IL
-Temuco,ZCO,CL-AR,CL
-Tenerife,TCI,ES-CN,ES
-Terceira,TER,PT-20,PT
-Terrace,YXT,CA-BC,CA
-Texarkana,TXK,US-AR,US
-Thessaloniki,SKG,GR-54,GR
-Thunder Bay,YQT,CA-ON,CA
-Tianjin,TSN,CN-12,CN
-Tijuana,TIJ,MX-BCN,MX
-Timisoara,TSR,RO-TM,RO
-Tingo Maria,TGI,PE-HUC,PE
-Ube,UBJ,JP-35,JP
-Ukiah,UKI,,
-Ulan Bator,ULN,MN-1,MN
-Vaasa,VAA,FI-LS,FI
-Valdosta,VLD,US-GA,US
-Valencia,VLC,ES-V,ES
-Valencia,VLN,VE-G,VE
-Valera,VLV,VE-T,VE
-Valladolid,VLL,ES-CL,ES
-Vancouver,YVR,CA-BC,CA
-Vasteras,VST,SE-U,SE
-Vaxjo,VXO,SE-G,SE
-Venetie,VEE,US-AK,US
-Venice,VCE,IT-34,IT
-Wabush,YWK,CA-NL,CA
-Waco,ACT,US-TX,US
-Warsaw,WAW,PL-MZ,PL
-Washington,WAS,US-DC,US
-Watson Lake,YQH,CA-YT,CA
-Wausau,AUW,US-WI,US
-Wellington,WLG,NZ-WGN,NZ
-Wenatchee,EAT,US-WA,US
-West Palm Beach,PBI,US-FL,US
-Westchester,HPN,US-NY,US
-Xiamen,XMN,CN-35,CN
-Yakima,YKM,US-WA,US
-Yakutat,YAK,US-AK,US
-Yamagata,GAJ,JP-06,JP
-Yantai,YNT,CN-37,CN
-Yap Caroline Island,YAP,FM-YAP,FM
-Zacatecas,ZCL,MX-ZAC,MX
-Zagreb,ZAG,HR-21,HR
-Zahedan,ZAH,IR-13,IR
-Zanzibar,ZNZ,TZ-07,TZ
-Zaragoza,ZAZ,ES-AR,ES
-Location City Airport,,CN-22,CN
-Anchorage,ANC,US-AK,US
-Ancona,AOI,IT-57,IT
-Andahuaylas,ANS,PE-APU,PE
-Anguilla,AZA,US-AZ,US
-Aniak,ANI,US-AK,US
-Ankang,AKA,CN-61,CN
-Ankara,ANK,TR-06,TR
-Annecy,NCY,FR-V,FR
-Antalya,AYT,TR-07,TR
-Antananarivo,TNR,MG-T,MG
-Antigua,ANU,AG-03,AG
-Antofagasta,ANF,CL-AN,CL
-Antwerp,ANR,BE-VAN,BE
-Anvik,ANV,US-AK,US
-Aomori,AOJ,JP-02,JP
-Apia,APW,WS-AA,WS
-Appleton,ATW,US-WI,US
-Aqaba,AQJ,JO-AQ,JO
-"Arcata, Eureka",ACV,US-CA,US
-Arctic Village,ARC,US-AK,US
-Arecibo,ARE,PR-U-A,PR
-Arequipa,AQP,PE-ARE,PE
-Arica,ARI,CL-AP,CL
-Aruba,AUA,AW-U-A,AW
-Ascension,ASC,BO-S,BO
-Asheville,AVL,US-NC,US
-Ashikawa,AKJ,JP-01,JP
-"Ashland, Huntington",HTS,US-WV,US
-Asmara,ASM,ER-SK,ER
-Asturias,OVD,ES-O,ES
-Asuncion,ASU,PY-11,PY
-Aswan,ASW,EG-ASN,EG
-Athens,ATH,GR-A1,GR
-Atlanta,ATL,US-GA,US
-Atlantic City,AIY,US-NJ,US
-Atmautluak,ATT,US-AK,US
-Auckland,AKL,NZ-AUK,NZ
-Augusta,AGS,US-GA,US
-Austin,AUS,,
-Ayacucho,AYP,PE-AYA,PE
-Biak,BIK,ID-PA,ID
-Biarritz,BIQ,FR-B,FR
-Bilbao,BIO,ES-PV,ES
-Billings,BIL,US-MT,US
-Billund,BLL,DK-83,DK
-Binghamton,BGM,US-NY,US
-Bintulu,BTU,MY-13,MY
-Birmingham,BHM,US-AL,US
-Birmingham,BHX,GB-ENG,GB
-Bissau,BXO,CH-NW,CH
-Blantyre,BLZ,MW-BL,MW
-Bloemfontein,BFN,ZA-FS,ZA
-Bloomington,BMI,US-IL,US
-Boa Vista,BVB,BR-RR,BR
-Bodo,BOO,NO-18,NO
-Bogota,BOG,CO-CUN,CO
-Boise,BOI,US-ID,US
-Bologna,BLQ,IT-45,IT
-Bombay,BOM,IN-MM,IN
-Bonaire,BON,BQ-U-A,BQ
-Bordeaux,BOD,FR-B,FR
-Boston,BOS,US-MA,US
-Boulder,WBU,US-CO,US
-Bourlamaq/Val D'or,YVO,CA-QC,CA
-Bournemouth,BOH,GB-ENG,GB
-Bozeman,BZN,US-MT,US
-Bradley,BDL,US-CT,US
-Brainerd,BRD,US-MN,US
-Brasilia,BSB,BR-DF,BR
-Bratislava,BTS,SK-BL,SK
-Brazzaville,BZV,CG-12,CG
-Bremen,BRE,DE-HB,DE
-Brest,BES,FR-E,FR
-Bridgeport,BDR,US-CT,US
-Brisbane,BNE,AU-QLD,AU
-Bristol,BRS,GB-ENG,GB
-Brownsville,BRO,US-TX,US
-Brussels,BRU,BE-BRU,BE
-Bucaramanga,BGA,CO-SAN,CO
-Bucharest,BUH,RO-B,RO
-Budapest,BUD,HU-PE,HU
-Buenos Aires,BUE,AR-B,AR
-Bujumbura,BJM,BI-BJ,BI
-Bulawayo,BUQ,ZW-BU,ZW
-"Bundaberg, Blanding",BDG,US-UT,US
-Burbank,BUR,US-CA,US
-Burlington,BTV,US-VT,US
-Bushehr,BUZ,IR-06,IR
-Butte,BTM,US-MT,US
-Chongqing,CKG,CN-50,CN
-Christchurch,CHC,NZ-CAN,NZ
-Chuathbaluk,CHU,US-AK,US
-Cincinnati,CVG,US-KY,US
-Ciudad Del Carmen,CME,MX-CAM,MX
-Cleveland,CLE,US-OH,US
-Cochabamba,CBB,BO-C,BO
-Cochin,COK,IN-KL,IN
-Cold Bay,CDB,US-AK,US
-Colima,CLQ,MX-COL,MX
-College Station,CLL,US-TX,US
-Cologne,CGN,DE-NW,DE
-Colombo,CMB,LK-1,LK
-Colorado Springs,COS,US-CO,US
-Columbia,CAE,US-SC,US
-Columbia,COU,US-MO,US
-Columbus,CMH,US-OH,US
-Columbus,CSG,US-GA,US
-Columbus,UBS,US-MS,US
-Conakry,CKY,GN-C,GN
-Concepcion,CCP,CL-BI,CL
-Copenhagen,CPH,DK-85,DK
-Copiapo,CPO,CL-AT,CL
-Cordova,CDV,US-AK,US
-Cork,ORK,IE-C,IE
-"Corning, Elmira",ELM,US-NY,US
-Coro,CZE,VE-I,VE
-Corpus Christie,CRP,US-TX,US
-Cotonou,COO,BJ-AQ,BJ
-Coyhaique,GXQ,CL-AI,CL
-Cozumel,CZM,MX-ROO,MX
-Crokked Creek,CKD,US-AK,US
-Cruzeiro Do Sul,CZS,BR-AC,BR
-Cuenca,CUE,EC-A,EC
-Cuiaba,CGB,BR-MT,BR
-Culebra,CPX,PR-U-A,PR
-Culiacan,CUL,MX-SIN,MX
-Cumana,CUM,VE-R,VE
-Curacao,CUR,CW-U-A,CW
-Curitiba,CWB,BR-PR,BR
-Cusco,CUZ,PE-CUS,PE
-Dhahran,DHA,SA-04,SA
-Dhaka,DAC,BD-3,BD
-Dillingham,DLG,US-AK,US
-Djerba,DJE,TN-82,TN
-Djibouti,JIB,DJ-DJ,DJ
-Doha,DOH,QA-DA,QA
-"Dominica, Melville Hall",DOM,DM-02,DM
-Dothan,DHN,US-AL,US
-Douala,DLA,CM-LT,CM
-Dresden,DRS,DE-SN,DE
-Dubai,DXB,AE-DU,AE
-Dublin,DUB,IE-D,IE
-Duluth,DLH,US-MN,US
-Durango,DGO,MX-DUR,MX
-Durango,DRO,US-CO,US
-Durban,DUR,ZA-NL,ZA
-Dusseldorf,DUS,DE-NW,DE
-Dutch Harbor,DUT,US-AK,US
-Enschede,ENS,NL-OV,NL
-Entebbe,EBB,UG-102,UG
-Ercan,ECN,CY-02,CY
-Erevan,EVN,AM-ER,AM
-Erfurt,ERF,DE-TH,DE
-Erie,ERI,US-PA,US
-Eugene,EUG,US-OR,US
-Evansville,EVV,US-IN,US
-Evenes,EVE,NO-18,NO
-Exeter,EXT,GB-ENG,GB
-Frankfurt,FRA,DE-HE,DE
-Fredericton,YFC,CA-NB,CA
-Freeport,FPO,BS-FP,BS
-Freetown,FNA,SL-N,SL
-Fresno,FAT,US-CA,US
-Friedrichshafen,FDH,DE-BW,DE
-Ft de France,FDF,MQ-U-A,MQ
-Ft Pierce,FPR,US-FL,US
-Ft Simpson,YFS,CA-NT,CA
-Ft Smith,FSM,US-AR,US
-Ft Wayne,FWA,US-IN,US
-Ft Yukon,FYU,US-AK,US
-Fukuoka,FUK,JP-40,JP
-Funchal,FNC,PT-30,PT
-Fuzhou,FOC,CN-35,CN
-Great Falls,GTF,US-MT,US
-Green Bay,GRB,US-WI,US
-Greensboro,GSO,US-NC,US
-Greenville,GLH,US-MS,US
-Greenville,GSP,US-SC,US
-Greenville,PGV,US-NC,US
-Grenada,GND,GD-GE,GD
-Grenoble,GNB,FR-V,FR
-Groningen,GRQ,NL-DR,NL
-Guadalajara,GDL,MX-JAL,MX
-Guam,GUM,GU-U-A,GU
-Guangzhou,CAN,CN-44,CN
-Guatemala City,GUA,GT-GU,GT
-Guayaquil,GYE,EC-G,EC
-Guernsey,GCI,GG-U-A,GG
-Guilin,KWL,CN-45,CN
-Guiyang,KWE,CN-52,CN
-Gulfport,GPT,US-MS,US
-Gunnison,GUC,US-CO,US
-Hilo,ITO,US-HI,US
-Hiroshima,HIJ,JP-34,JP
-Ho Chi Minh City,SGN,VN-23,VN
-Hohhot,HET,CN-15,CN
-Holy Cross,HCR,US-AK,US
-Homer,HOM,US-AK,US
-Hong Kong,HKG,,
-Honolulu,HNL,US-HI,US
-Hoolehua,MKK,US-HI,US
-Hooper Bay,HPB,US-AK,US
-Hoskins,HKN,PG-WBK,PG
-Houston,HOU,US-TX,US
-Hughes,HUS,US-AK,US
-Humberside,HUY,GB-ENG,GB
-Huntsville,HSV,US-AL,US
-Huslia,HSL,US-AK,US
-Hyannis,HYA,US-MA,US
-Hyderabad,HYD,IN-U-A,IN
-Istanbul,IST,TR-34,TR
-"Islip, Long Island Macarthur",ISP,US-NY,US
-Ithaca,ITH,US-NY,US
-Ivanoff Bay,KIB,US-AK,US
-Izmir,IZM,TR-35,TR
-Jinan,TNA,CN-37,CN
-Johannesburg,JNB,ZA-GT,ZA
-Johnston Island,JON,UM-67,UM
-Johor Bahru,JHB,MY-01,MY
-Jonkoping,JKG,SE-F,SE
-Juanjui,JJI,PE-SAM,PE
-Juba,JUB,SS-17,SS
-Juliaca,JUL,PE-PUN,PE
-Juneau,JNU,US-AK,US
-King Cover,KVC,US-AK,US
-King Salm,AKN,US-AK,US
-Kingston,KIN,JM-02,JM
-Kipnuk,KPN,US-AK,US
-Kiruna,KRN,SE-BD,SE
-Kisangani,FKI,CD-OR,CD
-Klagenfurt,KLU,AT-2,AT
-Knoxville,TYS,US-TN,US
-Kochi,KCZ,JP-39,JP
-Kodiak,ADQ,US-AK,US
-Komatsu,KMQ,JP-17,JP
-Kongiganak,KKH,US-AK,US
-Koror,ROR,PW-004,PW
-Kosrae,KSA,FM-KSA,FM
-Kota Kinabalu,BKI,MY-12,MY
-Kotzebue,OTZ,US-AK,US
-Koyukuk,KYU,US-AK,US
-Krasnoyarsk,KJA,RU-KYA,RU
-Kristiansand,KRS,NO-10,NO
-Kuala Lumpur,KUL,MY-14,MY
-Kuching,KCH,MY-13,MY
-Kumamoto,KMJ,JP-43,JP
-Kunming,KMG,CN-53,CN
-Kuopio,KUO,FI-IS,FI
-Kushiro,KUH,JP-01,JP
-Kuujjuarap,YGW,CA-QC,CA
-Kuwait,KWI,KW-FA,KW
-Kwajalein,KWA,MH-KWA,MH
-Kwangju,KWJ,KR-29,KR
-Kwethluk,KWT,US-AK,US
-Kwigillingok,KWK,US-AK,US
-Lisbon,LIS,PT-11,PT
-Little Rock,LIT,US-AR,US
-Liverpool,LPL,GB-ENG,GB
-Livingstone,LVI,ZM-07,ZM
-Ljubljana,LJU,SI-061,SI
-Lobito,LOB,CL-VS,CL
-Lome,LFW,TG-M,TG
-London,LON,GB-ENG,GB
-London,YXU,CA-ON,CA
-Long Beach,LGB,US-CA,US
-Loreto,LTO,MX-BCS,MX
-Los Angeles,LAX,US-CA,US
-Louisville,SDF,US-KY,US
-Lourdes/Tarbes,LDE,FR-N,FR
-Luanda,LAD,AO-LUA,AO
-Lubbock,LBB,US-TX,US
-Lubumbashi,FBM,CD-KA,CD
-Lucknow,LKO,IN-UP,IN
-Ludwigshafen,LUD,NA-KA,NA
-Lugano,LUG,CH-TI,CH
-Lulea,LLA,SE-BD,SE
-Lumid Pau,LUB,GY-UT,GY
-Lusaka,LUN,ZM-09,ZM
-Luxembourg,LUX,LU-L,LU
-Luxor,LXR,EG-KN,EG
-Lyon,LYS,FR-V,FR
 Miami,MIA,US-FL,US
 Midland,MAF,US-TX,US
 Milan,MIL,IT-25,IT
@@ -922,6 +704,31 @@ Munich,MUC,,
 Muscat,MCT,OM-MA,OM
 Muskegon,MKG,US-MI,US
 Myrtle Beach,MYR,US-SC,US
+N'djamena,NDJ,TD-CB,TD
+Nadi,NAN,FJ-W,FJ
+Nagasaki,NGS,JP-42,JP
+Nagoya,NGO,JP-23,JP
+Nairobi,NBO,KE-110,KE
+Nanchang,KHN,CN-36,CN
+Nancy,ENC,FR-M,FR
+Nanisivik,YSR,CA-NU,CA
+Nanjing,NKG,CN-32,CN
+Nanning,NNG,CN-45,CN
+Nantes,NTE,FR-R,FR
+Nantucket,ACK,US-MA,US
+Napakiak,WNA,US-AK,US
+Napaskiak,PKA,US-AK,US
+Naples,APF,US-FL,US
+Nashville,BNA,US-TN,US
+Nassau,NAS,BS-NP,BS
+Natal,NAT,BR-RN,BR
+Neuchatel,NEU,LA-HO,LA
+New Bern,EWN,US-NC,US
+New Orleans,MSY,US-LA,US
+New York,NYC,US-NY,US
+Newburgh,SWF,US-NY,US
+Newcastle,NCL,GB-ENG,GB
+Newtok,WWT,US-AK,US
 Niagara Falls,IAG,US-NY,US
 Niamey,NIM,NE-8,NE
 Nice,NCE,FR-U,FR
@@ -943,6 +750,17 @@ Nuevo Laredo,NLD,MX-TAM,MX
 Nulato,NUL,,
 Nunapitchuk,NUP,US-AK,US
 Nuremberg,NUE,DE-BY,DE
+Oakland,OAK,US-CA,US
+Oaxaca,OAX,MX-OAX,MX
+Oita,OIT,JP-44,JP
+Okayama,OKJ,JP-33,JP
+Okinawa,OKA,JP-47,JP
+Oklahoma City,OKC,US-OK,US
+Omaha,OMA,US-NE,US
+Ontario,ONT,US-CA,US
+Oran,ORN,DZ-31,DZ
+Orebro,ORB,SE-T,SE
+Osaka,OSA,JP-27,JP
 Oshkosh,OSH,US-WI,US
 Osijek,OSI,HR-14,HR
 Oslo,OSL,NO-02,NO
@@ -951,11 +769,46 @@ Ostend,OST,BE-VWV,BE
 Ottawa,YOW,CA-ON,CA
 Ouagadougou,OUA,BF-KAD,BF
 Oxnard/Ventura,OXR,US-CA,US
+Pago Pago,PPG,AS-U-A,AS
+Palembang,PLM,ID-SS,ID
+Palermo,PMO,IT-82,IT
+Palm Springs,PSP,US-CA,US
+Palma de Mallorca,PMI,ES-PM,ES
+Panama City,PFN,US-FL,US
+Panama City,PTY,PA-8,PA
+Papeete,PPT,PF-U-A,PF
+Paphos,PFO,CY-06,CY
+Paramaribo,PBM,SR-PM,SR
+Paris,PAR,FR-J,FR
+Pasco,PSC,US-WA,US
+Pau,PUF,FR-B,FR
+Penang,PEN,MY-07,MY
+Peoria,PIA,US-IL,US
+Pereira,PEI,CO-RIS,CO
+Perpignan,PGF,FR-K,FR
+Perryville,KPV,US-AK,US
+Perth,PER,,
+Pescara,PSR,IT-65,IT
+Peshawar,PEW,PK-NW,PK
+Petersburg,PSG,US-AK,US
+Philadelphia,PHL,US-PA,US
+Phnom Penh,PNH,KH-8,KH
+Phoenix,PHX,US-AZ,US
+Phuket,HKT,TH-83,TH
+Pierre,PIR,US-SD,US
+Pisa,PSA,IT-52,IT
+Pittsburgh,PIT,US-PA,US
+Piura,PIU,PE-PIU,PE
+Platinum,PTU,US-AK,US
+Plymouth,PYM,,
+Pocatello,PIH,US-ID,US
+Pohnpei,PNI,FM-PNI,FM
+Pointe Noire,PNR,CG-5,CG
+PointÂ¬â€ Æ’ÃœÂ¬â€ Â¬â€ Pitre,PTP,GP-U-A,GP
 Ponce,PSE,PR-U-A,PR
 Ponta Delgada,PDL,PT-20,PT
 Pori,POR,FI-LS,FI
 Porlamar,PMV,VE-O,VE
-Port au Prince,PAP,HT-OU,HT
 Port Elizabeth,PLZ,ZA-EC,ZA
 Port Gentil,POG,GA-8,GA
 Port Graham,PGM,US-AK,US
@@ -963,13 +816,14 @@ Port Harcourt,PHC,NG-RI,NG
 Port Hedland,PHE,AU-WA,AU
 Port Heiden,PTH,US-AK,US
 Port Moresby,POM,PG-NCD,PG
-"Port of Spain, Trinidad",POS,TT-TUP,TT
 Port Velho,PVH,BR-RO,BR
 Port Vila,VLI,VU-SEE,VU
+Port au Prince,PAP,HT-OU,HT
+"Port of Spain, Trinidad",POS,TT-TUP,TT
 Portland,PDX,US-OR,US
 Portland,PWM,US-ME,US
-Porto,OPO,PT-13,PT
 Porto Alegre,POA,BR-RS,BR
+Porto,OPO,PT-13,PT
 Prague,PRG,CZ-PR,CZ
 Presque Isle,PQI,US-ME,US
 Prince George,YXS,CA-BC,CA
@@ -990,8 +844,31 @@ Puerto Vallarta,PVR,MX-JAL,MX
 Punta Arenas,PUQ,CL-MA,CL
 Pusan,PUS,KR-26,KR
 Pyongyang,FNJ,KP-PYO,KP
+Qingdao,TAO,CN-37,CN
+Quebec,YQB,CA-QC,CA
+Quetta,UET,PK-BA,PK
 Quinhagak,KWN,US-AK,US
 Quito,UIO,EC-P,EC
+Rabat,RBA,MA-RBA,MA
+Rabaul,RAB,PG-EBR,PG
+Raleigh/Durham,RDU,US-NC,US
+Rangoon/Yangon,RGN,MM-06,MM
+Rapid City,RAP,US-SD,US
+Rarotonga,RAR,CK-U-A,CK
+Recife,REC,BR-PE,BR
+Red Devil,RDV,US-AK,US
+Redding,RDD,US-CA,US
+Regina,YQR,CA-SK,CA
+Reno,RNO,US-NV,US
+Resolute,YRB,CA-NU,CA
+Reykjavik,REK,,
+Richmond,RIC,US-VA,US
+Riga,RIX,LV-RIX,LV
+Rimini,RMI,IT-45,IT
+Rio Gallegos,RGL,AR-Z,AR
+Rio de Janeiro,RIO,BR-RJ,BR
+Rioja,RIJ,PE-SAM,PE
+Riyadh,RUH,SA-01,SA
 Roanoke,ROA,US-VA,US
 Roatan,RTB,HN-IB,HN
 Rochester,ROC,US-NY,US
@@ -1006,6 +883,57 @@ Rotterdam,RTM,NL-ZH,NL
 Rouen,URO,FR-Q,FR
 Ruby,RBY,US-AK,US
 Russian Mission,RSH,US-AK,US
+Saarbruecken,SCN,DE-SL,DE
+Saipan,SPN,MP-U-A,MP
+Sal,SID,CV-B,CV
+Salt Lake City,SLC,US-UT,US
+Saltillo,SLW,MX-COA,MX
+Salvador,SSA,BR-BA,BR
+Salzburg,SZG,AT-5,AT
+San Andres Island,ADZ,CO-SAP,CO
+San Angelo,SJT,US-TX,US
+San Antonio,SAT,US-TX,US
+San Antonio,SVZ,VE-S,VE
+San Diego,SAN,US-CA,US
+San Francisco,SFO,US-CA,US
+San Jose,SJC,US-CA,US
+San Jose,SJO,CR-A,CR
+"San Jose, Los Cabos",SJD,MX-BCS,MX
+San Juan,SJU,PR-U-A,PR
+San Luis Potosi,SLP,MX-SLP,MX
+San Pedro Sula,SAP,HN-CR,HN
+San Salvador,SAL,SV-PA,SV
+San Tome,SOM,VE-B,VE
+Sanaa,SAH,YE-SN,YE
+Sand Point,SDP,US-AK,US
+Sandakan,SDK,MY-12,MY
+Santa Barbara,SBA,US-CA,US
+Santa Cruz,SRZ,BO-S,BO
+Santa Maria,SMX,US-CA,US
+Santiago de Compostela,SCQ,ES-GA,ES
+Santiago,SCL,CL-RM,CL
+Santo Domingo,SDQ,DO-01,DO
+Santo Domingo,STD,VE-S,VE
+Sanya,SYX,CN-46,CN
+Sao Luiz,SLZ,BR-MA,BR
+Sao Paulo,SAO,BR-SP,BR
+Sao Tome Island,TMS,ST-S,ST
+Sapporo,SPK,JP-01,JP
+Sarasota/ Bradenton,SRQ,US-FL,US
+Sault Ste. Marie,YAM,CA-ON,CA
+Savannah,SAV,US-GA,US
+Scammon Bay,SCM,US-AK,US
+"Scranton, Wilkesâ€šÃ„ÃªBarre",AVP,US-PA,US
+Seattle,SEA,US-WA,US
+Sedona,SDX,US-AZ,US
+Seldovia,SOV,,
+Sendai,SDJ,JP-04,JP
+Seoul,SEL,,
+Sepulot,SPE,MY-12,MY
+Seville,SVQ,ES-AN,ES
+Seward,SWD,US-AK,US
+Shageluk,SHX,US-AK,US
+Shanghai,SHA,CN-31,CN
 Shannon,SNN,IE-CE,IE
 Shantou/Swatow,SWA,CN-44,CN
 Sharjah,SHJ,AE-SH,AE
@@ -1029,8 +957,8 @@ South Bend,SBN,US-IN,US
 Springfield,SGF,US-MO,US
 Springfield,SPI,US-IL,US
 St. Denis de La Reunion,RUN,RE-U-A,RE
-St. George,SGU,US-UT,US
 St. George Island,STG,US-AK,US
+St. George,SGU,US-UT,US
 St. Johns,YYT,CA-NL,CA
 St. Kitts,SKB,KN-U-A,KN
 St. Louis,STL,US-MO,US
@@ -1057,6 +985,41 @@ Suva,SUV,FJ-C,FJ
 "Sverdlovsk, Ekaterinburg",SVX,RU-SVE,RU
 Sydney,SYD,AU-NSW,AU
 Syracuse,SYR,US-NY,US
+Tabriz,TBZ,IR-01,IR
+Tabuk,TUU,SA-07,SA
+Tacna,TCQ,PE-TAC,PE
+"Taegu, Korea",TAE,KR-27,KR
+Taichung,TXG,TW-TXG,TW
+Taif,TIF,SA-02,SA
+Taipei,TPE,TW-TAO,TW
+Taiyuan,TYN,CN-14,CN
+Takamatsu,TAK,JP-37,JP
+Talara,TYL,PE-PIU,PE
+Tallahassee,TLH,US-FL,US
+Tallinn,TLL,EE-37,EE
+Tamanrasset,TMR,DZ-11,DZ
+Tampa,TPA,US-FL,US
+Tampere,TMP,FI-LS,FI
+Tanana,TAL,US-AK,US
+Tangier,TNG,MA-TNG,MA
+Tarapoto,TPP,PE-SAM,PE
+Tashkent,TAS,UZ-TO,UZ
+Tawau,TWU,MY-12,MY
+Teesside,MME,GB-ENG,GB
+Tegucigalpa,TGU,HN-FM,HN
+Tehran,THR,IR-07,IR
+"Tel Aviv Yafo, Tel Aviv",TLV,IL-TA,IL
+Temuco,ZCO,CL-AR,CL
+Tenerife,TCI,ES-CN,ES
+Terceira,TER,PT-20,PT
+Terrace,YXT,CA-BC,CA
+Texarkana,TXK,US-AR,US
+Thessaloniki,SKG,GR-54,GR
+Thunder Bay,YQT,CA-ON,CA
+Tianjin,TSN,CN-12,CN
+Tijuana,TIJ,MX-BCN,MX
+Timisoara,TSR,RO-TM,RO
+Tingo Maria,TGI,PE-HUC,PE
 Tobago,TAB,TT-WTO,TT
 Toksook Bay,OOK,US-AK,US
 Tokushima,TKS,JP-36,JP
@@ -1073,10 +1036,10 @@ Toulouse,TLS,FR-N,FR
 Toyama,TOY,JP-16,JP
 Traverse City,TVC,US-MI,US
 Trenton,TTN,US-NJ,US
-Tri‚ÄêCity,TRI,US-TN,US
 Trieste,TRS,IT-36,IT
 Tripoli,TIP,LY-TB,LY
 Trivandrum,TRV,IN-KL,IN
+Triâ€šÃ„ÃªCity,TRI,US-TN,US
 Trombetas,TMT,BR-PA,BR
 Tromso,TOS,NO-19,NO
 Trondheim,TRD,NO-17,NO
@@ -1094,9 +1057,23 @@ Tuscaloosa,TCL,US-AL,US
 Tuxtla Gutierrez,TGZ,MX-CHP,MX
 Twin Falls,TWF,US-ID,US
 Tyler,TYR,US-TX,US
+Ube,UBJ,JP-35,JP
+Ukiah,UKI,,
+Ulan Bator,ULN,MN-1,MN
 Umea,UME,SE-AC,SE
 Unalakleet,UNK,US-AK,US
 Urumqi,URC,CN-65,CN
+Vaasa,VAA,FI-LS,FI
+Valdosta,VLD,US-GA,US
+Valencia,VLC,ES-V,ES
+Valencia,VLN,VE-G,VE
+Valera,VLV,VE-T,VE
+Valladolid,VLL,ES-CL,ES
+Vancouver,YVR,CA-BC,CA
+Vasteras,VST,SE-U,SE
+Vaxjo,VXO,SE-G,SE
+Venetie,VEE,US-AK,US
+Venice,VCE,IT-34,IT
 Veracruz,VER,MX-VER,MX
 Vernal,VEL,US-UT,US
 Verona,VRN,IT-34,IT
@@ -1108,21 +1085,42 @@ Villahermosa,VSA,MX-TAB,MX
 Vilnius,VNO,LT-VL,LT
 Vitoria,VIT,ES-PV,ES
 Vladivostok,VVO,RU-PRI,RU
+Wabush,YWK,CA-NL,CA
+Waco,ACT,US-TX,US
+Warsaw,WAW,PL-MZ,PL
+Washington,WAS,US-DC,US
+Watson Lake,YQH,CA-YT,CA
+Wausau,AUW,US-WI,US
+Wellington,WLG,NZ-WGN,NZ
+Wenatchee,EAT,US-WA,US
+West Palm Beach,PBI,US-FL,US
+Westchester,HPN,US-NY,US
 White River,LEB,US-NH,US
 Whitehorse,YXY,CA-YT,CA
-Wichita,ICT,US-KS,US
 Wichita Falls,SPS,US-TX,US
+Wichita,ICT,US-KS,US
 Wilmington,ILM,US-NC,US
 Windhoek,WDH,NA-KH,NA
 Windsor,YQG,CA-ON,CA
 Winnipeg,YWG,CA-MB,CA
 Wrangell,WRG,US-AK,US
 Wuhan,WUH,CN-42,CN
+Xiamen,XMN,CN-35,CN
 Xian,SIA,CN-61,CN
+Yakima,YKM,US-WA,US
+Yakutat,YAK,US-AK,US
+Yamagata,GAJ,JP-06,JP
+Yantai,YNT,CN-37,CN
+Yap Caroline Island,YAP,FM-YAP,FM
 Yellowknife,YZF,CA-NT,CA
 Yinchuang,INC,CN-64,CN
 Yurimaguas,YMS,PE-LOR,PE
-Yuzhno‚ÄêSakhalins kh l k,UUS,RU-SAK,RU
+Yuzhnoâ€šÃ„ÃªSakhalins kh l k,UUS,RU-SAK,RU
+Zacatecas,ZCL,MX-ZAC,MX
+Zagreb,ZAG,HR-21,HR
+Zahedan,ZAH,IR-13,IR
+Zanzibar,ZNZ,TZ-07,TZ
+Zaragoza,ZAZ,ES-AR,ES
 Zhanjiang,ZHA,CN-44,CN
 Zhengzhou,CGO,CN-41,CN
 Zihuatanejo,ZIH,MX-GRO,MX

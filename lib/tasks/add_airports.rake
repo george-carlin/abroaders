@@ -25,10 +25,22 @@ namespace :ab do
       # 'airports_data' is an Array of Arrays. Each inner Array contains data
       # about a single airport (or a 'balloonport', helipad, etc)
 
-      headers = airports_data.shift
+      airport_headers = airports_data.shift
 
-      index_of_name_col = headers.index("name")
-      index_of_iata_col = headers.index("iata_code")
+      uri = "https://raw.githubusercontent.com/datasets/country-codes/master/data/country-codes.csv"
+
+      iso_country_codes = CSV.parse(
+        Net::HTTP.get_response(
+          URI.parse(
+            "https://raw.githubusercontent.com/datasets/country-codes/master/"\
+            "data/country-codes.csv"
+          )
+        ).body
+      )
+
+      index_of_name_col = airport_headers.index("name")
+      index_of_iata_col = airport_headers.index("iata_code")
+      index_of_country_code_col = airport_headers.index("iso_country")
 
       airports_data.select! do |airport_data|
         # Check the IATA code is valid (i.e. is 3 letters), rather than just
