@@ -22,7 +22,7 @@
 
 
 <div class="row">
-  <div class="col-xs-12 col-md-6">
+  <div class="col-xs-12 col-md-8">
     <% if @destinations.any? %>
       <table class="admin-destinations table table-striped">
         <thead>
@@ -31,6 +31,9 @@
               <th class="admin-destination-type">Type</th>
             <% end %>
             <th class="admin-destination-name">Name</th>
+            <% unless @type == "region" %>
+              <th class="admin-destination-parent">Parent</th>
+            <% end %>
             <th class="admin-destination-code">Code</th>
           </tr>
         </thead>
@@ -43,6 +46,11 @@
                   <%= destination.type.to_s.capitalize %>
                 </td>
               <td class="admin-destination-name"><%= destination.name %></td>
+              <% unless @type == "region" %>
+                <td class="admin-destination-parent">
+                  <%= destination.parent_name %>
+                </td>
+              <% end %>
               <td class="admin-destination-code"><%= destination.code %></td>
               <% end %>
             </tr>

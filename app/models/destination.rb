@@ -1,9 +1,19 @@
 class Destination < ApplicationRecord
   self.inheritance_column = :_no_sti
 
+  acts_as_tree
+
   # Attributes
 
-  enum type: [:airport, :city, :state, :country, :region]
+  delegate :name, to: :parent, prefix: true, allow_nil: true
+
+  TYPES = %w[airport city state country region]
+  enum type: TYPES
+
+  # Add .airports, .cities etc as aliases for .airport, .country
+  class << self
+    TYPES.each { |type| alias_method type.pluralize, type }
+  end
 
   # Validations
 

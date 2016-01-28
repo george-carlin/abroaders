@@ -3,13 +3,13 @@ module Admin
 
     def index
       @type = "destination"
-      @destinations = Destination.all
+      @destinations = Destination.includes(:parent).all
     end
 
-    Destination.types.keys.each do |type|
+    Destination::TYPES.each do |type|
       define_method type do
         @type = type
-        @destinations = Destination.send(type)
+        @destinations = Destination.includes(:parent).send(type)
         render :index
       end
     end
