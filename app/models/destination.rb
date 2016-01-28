@@ -18,7 +18,7 @@ class Destination < ApplicationRecord
   # Validations
 
   validates :name, presence: true
-  validates :code, presence: true
-  validates :type, presence: true, uniqueness: { scope: :parent }
+  validates :code, presence: true, uniqueness: { scope: :type }
+  validates :type, presence: true
   validates :parent, presence: { unless: :region? }
 end
