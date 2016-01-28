@@ -1,0 +1,56 @@
+<% provide :title, @type.pluralize.capitalize %>
+
+<h1><%= @type.pluralize.capitalize %></h1>
+
+<div class="row">
+  <div class="col-xs-12">
+    <div class="admin-destinations-type-select">
+      <% (["destinations"] + Destination.types.keys).each_with_index do |type, i| %>
+        <% unless i == 0 %>
+          |
+        <% end %>
+
+        <% if @type == type.singularize %>
+          <span><%= type.pluralize.capitalize %></span>
+        <% else %>
+          <%= link_to type.pluralize.capitalize, :"admin_#{type.pluralize}" %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-xs-12 col-md-6">
+    <% if @destinations.any? %>
+      <table class="admin-destinations table table-striped">
+        <thead>
+          <tr>
+            <% unless @type == "destination" %>
+              <th class="admin-destination-type">Type</th>
+            <% end %>
+            <th class="admin-destination-name">Name</th>
+            <th class="admin-destination-code">Code</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @destinations.each do |destination| %>
+            <tr>
+              <% unless @type == "destination" %>
+                <td class="admin-destination-type">
+                  <%= destination.type.to_s.capitalize %>
+                </td>
+              <td class="admin-destination-name"><%= destination.name %></td>
+              <td class="admin-destination-code"><%= destination.code %></td>
+              <% end %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      Nothing to display!
+    <% end %>
+  </div>
+</div>

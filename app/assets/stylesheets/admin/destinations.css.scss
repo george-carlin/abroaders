@@ -1,0 +1,17 @@
+.admin-destinations-type-select {
+  span {
+    color: #9a9a9a
+  }
+}
+
+table.admin-destinations {
+  th, td {
+    &.admin-destination-name {
+      width: 65%;
+    }
+
+    &.admin-destination-type {
+      width: 15%;
+    }
+  }
+}

@@ -43,7 +43,13 @@ Rails.application.routes.draw do
         put :active
       end
     end
-    resources :airports, only: :index
+    resources :destinations, only: :index
+
+    Destination.types.keys.each do |type|
+      # airports, cities, countries, etc
+      get type.pluralize, to: "destinations##{type}"
+    end
+
     resources :users do
       resources :card_accounts, as: :card_recommendations
     end
