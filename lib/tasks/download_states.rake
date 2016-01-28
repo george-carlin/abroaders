@@ -27,13 +27,18 @@ namespace :ab do
     code_col_index = column_headers.index("ISO 3166-2 SUB-DIVISION/STATE CODE")
     country_code_col_index = column_headers.index("COUNTRY ISO CHAR 2 CODE")
 
-    trimmed_data = data.map do |country|
+    trimmed_data = data.select do |country|
+      # Reject any rows in the CSV which have data missing:
+      country[name_col_index].present? && country[code_col_index].present? &&
+        country[country_code_col_index].present?
+    end.map do |country|
       [
         country[name_col_index],
         country[code_col_index],
         country[country_code_col_index]
       ]
     end
+
 
     trimmed_data.unshift(["name", "iso_code", "iso_country_code"])
 
