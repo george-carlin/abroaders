@@ -6,12 +6,12 @@ class User < ApplicationRecord
 
   # Attributes
 
-  delegate(
-    *(UserInfo.column_names - %w[id user_id created_at updated_at] +
-      %w[whatsapp? text_message? imessage? has_business?
-          has_business_with_ein?  has_business_without_ein? full_name]),
+  delegate :business_spending, :citizenship, :credit_score, :first_name,
+      :full_name, :has_business, :has_business?, :has_business_with_ein?,
+      :has_business_without_ein?, :imessage, :message?, :last_name,
+      :middle_names, :personal_spending, :phone_number, :text_message,
+      :text_message?, :time_zone, :whatsapp,  :whatsapp?, :will_apply_for_loan,
     to: :info, allow_nil: true
-  )
 
   def name
     info.present? ? info.full_name : "#{self.class} ##{id}"
