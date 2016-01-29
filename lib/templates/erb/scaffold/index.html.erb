@@ -1,9 +1,6 @@
-<div class="page-header">
-  <%%= link_to new_<%= singular_table_name %>_path, class: 'btn btn-primary' do %>
-    New <%= human_name %>
-  <%% end %>
-  <h1>Listing <%= plural_table_name %></h1>
-</div>
+<h1>Listing <%= plural_table_name %></h1>
+
+<%%= link_to "New <%= human_name %>", new_<%= singular_table_name %>_path do %>
 
 <div class="table-responsive">
   <table class="table table-striped table-bordered table-hover">
