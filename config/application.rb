@@ -25,5 +25,7 @@ module Abroaders
     require "modules/bootstrap_overrides/overrides"
     require "modules/auto_strip_attributes"
 
+    config.generators.jbuilder = false
+
   end
 end
