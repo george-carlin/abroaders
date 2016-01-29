@@ -1,0 +1,74 @@
+<%= form_for @card_offer,
+  url: (
+    if @card_offer.persisted?
+      admin_card_offer_path(@card_offer)
+    else
+      admin_card_offers_path
+    end
+  ), html: { class: "form-horizontal", role: "form" } do |f| %>
+  <% if @card_offer.errors.any? %>
+    <%= render "shared/model_validation_errors", model: @card_offer %>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :card_id, class: "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.collection_select(
+            :card_id,
+            Card.order("name ASC"),
+            :id,
+            :name,
+            class: "form-control"
+      ) %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :points_awarded, class: "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.number_field :points_awarded, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :spend, class: "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.number_field :spend, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :cost, class: "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.number_field :cost, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :days, class: "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.number_field :days, class: "form-control" %>
+    </div>
+  </div>
+
+  <% if false %>
+    TODO - what's the best way to handle this? Should it be possible to change
+    an offer back from 'expired' to 'live'? Whatever the case, we need to think
+    about the implications for any existing users/cards/card accounts that are
+    set up with the offer in question.
+    <div class="form-group">
+      <%= f.label :status, class: "col-sm-2 control-label" %>
+      <div class="col-sm-10">
+        <%= f.select :status, 
+          options_for_enum_select(CardOffer.statuses),
+          class: "form-control" %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <%= f.submit class: "btn btn-primary" %>
+    </div>
+  </div>
+<% end %>

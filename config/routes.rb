@@ -43,6 +43,7 @@ Rails.application.routes.draw do
         put :active
       end
     end
+    resources :card_offers
     resources :destinations, only: :index
 
     Destination.types.keys.each do |type|

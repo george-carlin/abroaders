@@ -1,0 +1,42 @@
+<h1>Card Offers</h1>
+
+<%= link_to "Add New", new_admin_card_offer_path %>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Card</th>
+        <th>Bank</th>
+        <th>Points awarded</th>
+        <th>Spend</th>
+        <th>Cost</th>
+        <th>Days</th>
+        <th>Status</th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @card_offers.each do |offer| %>
+        <tr id="<%= dom_id(offer) %>" class="<%= dom_class(offer) %>">
+          <td><%= offer.id %></td>
+          <td><%= offer.card_name %></td>
+          <td><%= offer.bank_name %></td>
+          <td><%= number_with_delimiter offer.points_awarded %></td>
+          <td><%= number_to_currency offer.spend %></td>
+          <td><%= number_to_currency offer.cost %></td>
+          <td><%= offer.days %></td>
+          <td><%= offer.status %></td>
+          <td><%= link_to 'Show', admin_card_offer_path(offer) %></td>
+          <td><%= link_to 'Edit', edit_admin_card_offer_path(offer) %></td>
+          <td><%= link_to 'Destroy', admin_card_offer_path(offer),
+                        method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

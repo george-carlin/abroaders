@@ -10,6 +10,7 @@
           <% if current_user.admin? %>
             <li><%= link_to "Destinations", admin_destinations_path %></li>
             <li><%= link_to "Cards", admin_cards_path %></li>
+            <li><%= link_to "Offers", admin_card_offers_path %></li>
             <li><%= link_to "Users", admin_users_path %></li>
           <% else %>
             <li><%= link_to "Cards", card_accounts_path %></li>

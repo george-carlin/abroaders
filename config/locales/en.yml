@@ -6,6 +6,10 @@ en:
       card:
         bp: "Business / Personal"
 
+      card_offer:
+        cost:  "Cost ($)"
+        spend: "Minimum spend ($)"
+
       user_info:
         business_spending: "Business spending per month"
         citizenship: "Which of the following best describes you?"
