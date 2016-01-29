@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.3.0'
+ruby '2.2.4'
 
 # Use master branch of rails for now because rails_12factor has a bug with
 # rails 5.0.0.beta1. See http://stackoverflow.com/a/34578109/1603071 and
