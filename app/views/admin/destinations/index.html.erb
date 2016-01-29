@@ -45,6 +45,7 @@
                 <td class="admin-destination-type">
                   <%= destination.type.to_s.capitalize %>
                 </td>
+              <% end %>
               <td class="admin-destination-name"><%= destination.name %></td>
               <% unless @type == "region" %>
                 <td class="admin-destination-parent">
@@ -52,7 +53,6 @@
                 </td>
               <% end %>
               <td class="admin-destination-code"><%= destination.code %></td>
-              <% end %>
             </tr>
           <% end %>
         </tbody>
