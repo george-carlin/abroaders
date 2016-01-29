@@ -18,17 +18,17 @@
 
   <div class="form-group">
     <%= f.label  :brand %>
-    <%= f.select :brand, options_for_card_brand_select, {} %>
+    <%= f.select :brand, options_for_enum_select(Card.brands), {} %>
   </div>
 
   <div class="form-group">
     <%= f.label  :bp %>
-    <%= f.select :bp, options_for_card_bp_select, {} %>
+    <%= f.select :bp, options_for_enum_select(Card.bps), {} %>
   </div>
 
   <div class="form-group">
     <%= f.label  :type %>
-    <%= f.select :type, options_for_card_type_select, {} %>
+    <%= f.select :type, options_for_enum_select(Card.types), {} %>
   </div>
 
   <div class="form-group">

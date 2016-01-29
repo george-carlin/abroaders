@@ -247,7 +247,7 @@
     style="display:none"
   >
     <%= f.label :status %>
-    <%= f.select :status, options_for_card_account_status_select, {},
+    <%= f.select :status, options_for_enum_select(CardAccount.statuses), {},
                           class: "input-sm" %>
   </div>
 
