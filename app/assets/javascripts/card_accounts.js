@@ -42,4 +42,15 @@ window.ready(function () {
     toggleStage2Btns(accountId, false);
   });
 
+
+  $(".card-account-pending-btn").click(function () {
+    var accountId  = this.dataset.cardAccountId;
+
+    toggleStage2Btns(accountId, false);
+
+    document.getElementById(
+      "card_account_" + accountId + "_pending_notification"
+    ).style.display = "";
+  });
+
 });

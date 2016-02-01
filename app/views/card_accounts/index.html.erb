@@ -47,9 +47,15 @@
           <% if card_account.deniable? %>
             <%= card_account_deny_btn(card_account) %>
           <% end %>
-          <%= link_to "I'm still waiting to hear back",
-                "#", class: "btn btn-default btn-sm" %>
+          <%= card_account_pending_btn(card_account) %>
           <%= card_account_applied_back_btn(card_account) %>
+        </div>
+
+        <div
+          id="<%= dom_id(card_account) %>_pending_notification"
+          style="display:none;"
+        >
+          <%= t("card_accounts.index.application_pending") %>
         </div>
 
         <%#= button_to "Decline", decline_card_account_path(card_account), class: "btn-default" %>

@@ -16,22 +16,22 @@ module CardAccount::Statuses
   #
   # recommended, false
   #     ├─▸ declined, false
-  #     └─▸ (pending_decision, false)
-  #              ├─▸ denied, false
-  #              │     ├─▸ declined, true
-  #              │     └─▸ (pending_decision, true)
-  #              │           ├─▸ denied, true
-  #              │           └─▸ open, true
-  #              │                └─▸ closed, false
-  #              └─▸ open, false
-  #                    └─▸ closed, false
+  #     ├─▸ denied, false
+  #     │     ├─▸ declined, true
+  #     │     ├─▸ denied, true
+  #     │     └─▸ open, true
+  #     │           └─▸ closed, true
+  #     └─▸ open, false
+  #           └─▸ closed, false
   #
+  # TODO confirm with Erik: in previous sketches, we had an extra
+  # stage called 'pending_decision', but for the sake of simplicity
+  # I've decided not to store it. Can we get away with this?
 
 
   STATUSES = %i[
     recommended
     declined
-    pending_decision
     denied
     open
     closed
@@ -68,11 +68,11 @@ module CardAccount::Statuses
     end
 
     def deniable?
-      %w[recommended pending_decision].include?(status)
+      status == "recommended"
     end
 
     def openable?
-      %w[recommended pending_decision].include?(status)
+      status == "recommended"
     end
     alias_method :acceptable?, :openable?
   end

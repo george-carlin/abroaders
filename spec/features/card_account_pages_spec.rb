@@ -146,11 +146,22 @@ describe "card account pages spec" do
         end
 
         describe "clicking 'pending'" do
-          before { pending; click_link _t("was_denied") }
-          it "updates the account's status to 'pending'" do
+          before { click_link _t("still_waiting") }
+
+          it "tells me to come back when I know the result of the app." do
             rec.reload
-            expect(rec.status).to eq "pending_decision"
+            expect(current_path).to eq card_accounts_path
+            expect(rec.status).to eq "recommended"
             expect(rec).not_to be_reconsidered
+            should have_content _t("application_pending")
+            within card_account_selector(rec) do
+              is_expected.not_to have_selector decline_rec_btn(rec)
+              is_expected.not_to have_link "Apply"
+              is_expected.not_to have_link _t("have_applied")
+              is_expected.not_to have_button _t("was_accepted")
+              is_expected.not_to have_button _t("was_denied")
+              is_expected.not_to have_link _t("still_waiting")
+            end
           end
         end
       end
@@ -193,6 +204,7 @@ describe "card account pages spec" do
       "#card_account_#{recommendation.id}_applied_btn"
     end
 
+    # Shortcut for the translations which are relevant to the index page
     def _t(key)
       t("card_accounts.index.#{key}")
     end

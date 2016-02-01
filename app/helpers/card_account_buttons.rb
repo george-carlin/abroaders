@@ -21,6 +21,16 @@ module CardAccountButtons
     )
   end
 
+  def card_account_applied_back_btn(card_account)
+    link_to(
+      "Back",
+      "#",
+      id: "card_account_#{card_account.id}_applied_back_btn",
+      class: "card-account-applied-back-btn",
+      data: { card_account_id: card_account.id }
+    )
+  end
+
   def card_account_apply_btn(card_account)
     raise "#{card_account} can't be applied for" unless card_account.applyable?
     link_to(
@@ -49,14 +59,13 @@ module CardAccountButtons
     )
   end
 
-  def card_account_applied_back_btn(card_account)
+  def card_account_pending_btn(card_account)
     link_to(
-      "Back",
+      t("card_accounts.index.still_waiting"),
       "#",
-      id: "card_account_#{card_account.id}_applied_back_btn",
-      class: "card-account-applied-back-btn",
+      id: "card_account_#{card_account.id}_pending_btn",
+      class: "card-account-pending-btn btn btn-default btn-sm",
       data: { card_account_id: card_account.id }
     )
   end
-
 end

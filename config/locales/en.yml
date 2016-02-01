@@ -32,6 +32,7 @@ en:
       still_waiting: "I'm still waiting to hear back"
       was_accepted: "I was accepted"
       was_denied:   "I was denied"
+      application_pending: "Thanks for taking our recommendation and applying for the card! When you hear back from the bank, please come back and tell us whether or not your application for the card was successful."
 
   admin:
     users:
