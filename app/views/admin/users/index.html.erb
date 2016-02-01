@@ -1,7 +1,5 @@
 <% provide :title, "Users" %>
 
-<p id="notice"><%= notice %></p>
-
 <h1>Users</h1>
 
 <div>
@@ -32,9 +30,14 @@
         <th colSpan="2"></th>
       </tr>
     </thead>
-    <tbody>
+    <tbody id="admin_users_table_body">
       <% @users.each do |user| %>
-        <tr id="<%= dom_id(user) %>">
+        <tr
+          id="<%= dom_id(user) %>"
+          class="<%= dom_class(user) %>"
+          data-full-name="<%= user.full_name %>"
+          data-email="<%= user.email %>"
+        >
           <td><%= user.full_name %></td>
           <td><%= user.email %></td>
           <td><%= user.created_at.strftime("%c") %></td>
