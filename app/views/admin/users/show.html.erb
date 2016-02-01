@@ -173,22 +173,22 @@
     <table class="table table-striped">
       <thead>
         <th></th>
-        <th>
+        <th class="card-identifier">
           ID&nbsp; <%= sort_icons %>
         </th>
-        <th>
+        <th class="card-name">
           Name&nbsp; <%= sort_icons %>
         </th>
-        <th>
+        <th class="card-bank-name">
           Bank&nbsp; <%= sort_icons %>
         </th>
-        <th>
+        <th class="card-bp">
           B/P&nbsp; <%= sort_icons %>
         </th>
-        <th>
+        <th class="card-brand">
           Brand&nbsp; <%= sort_icons %>
         </th>
-        <th>
+        <th class="card-type">
           Type&nbsp; <%= sort_icons %>
         </th>
       </thead>
@@ -201,12 +201,12 @@
             data-bank="<%= card.bank %>"
           >
             <td><%= f.radio_button :card_id, card.id, checked: (i==0) %></td>
-            <td><%= card.identifier %></td>
-            <td><%= card.name %></td>
-            <td><%= card.bank_name %></td>
-            <td><%= card.bp.capitalize %></td>
-            <td><%= card.brand.capitalize %></td>
-            <td><%= card.type.capitalize %></td>
+            <td class="card-identifier"><%= card.identifier %></td>
+            <td class="card-name"><%= card.name %></td>
+            <td class="card-bank-name"><%= card.bank_name %></td>
+            <td class="card-bp"><%= card.bp.capitalize %></td>
+            <td class="card-brand"><%= card.brand.capitalize %></td>
+            <td class="card-type"><%= card.type.capitalize %></td>
           </tr>
         <% end %>
       </tbody>

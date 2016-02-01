@@ -1,11 +1,45 @@
-.new_card_account th {
-  cursor: pointer;
+.new_card_account {
+  th {
+    cursor: pointer;
 
-  &:not(.headerSortDown) .fa-sort-asc {
-    display: none;
+    &:not(.headerSortDown) .fa-sort-asc {
+      display: none;
+    }
+
+    &:not(.headerSortUp) .fa-sort-desc {
+      display: none;
+    }
+
+    &, td {
+      &:first-child {
+        width: 25px;
+      }
+
+      &.card-identifier {
+        width: 120px;
+      }
+
+      &.card-name {
+        width: 40%;
+      }
+
+      &.card-bank-name {
+        width: 200px;
+      }
+
+      &.card-bp {
+        width: 100px;
+      }
+
+      &.card-brand {
+        width: 100px;
+      }
+    }
+
   }
 
-  &:not(.headerSortUp) .fa-sort-desc {
-    display: none;
+  input[name="card_account[card_id]"] {
+    margin: 0;
   }
+
 }
