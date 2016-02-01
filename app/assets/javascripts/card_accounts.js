@@ -1,40 +1,45 @@
 window.ready(function () {
-  $("#new_card_account input[name='create_mode']").click(function () {
-    var form_group = document.getElementById("card_account_status_form_group");
-    if (this.value === "recommendation") {
-      form_group.style.display = "none";
-    } else {
-      form_group.style.display = "";
-    }
-  });
 
+  function toggleStage1Btns(accountId, show) {
+    var css = show ? "" : "none";
 
-  $(".card-survey-checkbox").click(function (e) {
-    var $checkbox = $(this).find("input[type=checkbox]");
-    // The click handler will be called when the user clicks *anywhere* within
-    // the <div>, but if they have clicked specifically on the checkbox, we
-    // DON'T want to check/uncheck it via jQuery, because it's about to be
-    // checked/unchecked anyway. Without wrapping this in a if statement, the
-    // checkbox would be checked and then immediately unchecked.
-    if (e.target.nodeName !== "INPUT") {
-      $checkbox.prop("checked", !$checkbox.prop("checked"));;
-    }
-  });
-
-  function submitActiveCardForm($checkbox, $text) {
-    $checkbox.prop("disabled", true);
-    $text.text("Updating...");
-    $checkbox.closest("form").submit();
+    document.getElementById(
+      "card_account_" + accountId + "_apply_btn"
+    ).style.display = css;
+    document.getElementById(
+      "card_account_" + accountId + "_applied_btn"
+    ).style.display = css;
+    document.getElementById(
+      "card_account_" + accountId + "_decline_btn"
+    ).style.display = css;
   }
 
-  $(".toggle_active_card input[type='checkbox']").click(function () {
-    $checkbox = $(this);
-    submitActiveCardForm($checkbox, $checkbox.siblings(".active-status"));
+
+  function toggleStage2Btns(accountId, show) {
+    var css = show ? "" : "none";
+
+    document.getElementById(
+      "card_account_" + accountId + "_application_result_btns"
+    ).style.display = css;
+  }
+
+
+  // When the user clicks the 'I have applied' button:
+  $(".card-account-have-applied-btn").click(function () {
+    var accountId  = this.dataset.cardAccountId;
+
+    // Hide the current buttons:
+    toggleStage1Btns(accountId, false);
+    toggleStage2Btns(accountId, true);
   });
 
-  $(".toggle_active_card .active-status").click(function () {
-    $text = $(this);
-    submitActiveCardForm($text.siblings("input[type=checkbox]"), $text);
+
+  $(".card-account-applied-back-btn").click(function () {
+    var accountId  = this.dataset.cardAccountId;
+
+    // Hide the current buttons:
+    toggleStage1Btns(accountId, true);
+    toggleStage2Btns(accountId, false);
   });
 
 });

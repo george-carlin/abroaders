@@ -4,46 +4,54 @@
 
 <% if @card_accounts.any? %>
 
-  <table class="table">
-    <thead>
-      <tr>
-        <th></th>
-        <th>Name</th>
-        <th>Bank</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @card_accounts.each do |card_account| %>
-        <tr id="<%= dom_id(card_account) %>">
-          <td>
-            <%= card_image_tag(card_account.card) %>
-          </td>
-          <td>
-            <%= card_account.card_name %>
-          </td>
-          <td>
-            <%= card_account.card_bank_name %>
-          </td>
-          <td>
-            <% if card_account.declinable? %>
-              <%= button_to "Decline",
-                    decline_card_account_path(card_account),
-                    id: dom_id(card_account, :decline), class: "btn-default" %>
-            <% elsif card_account.declined? %>
-              <% if card_account.declined_at.present? %>
-                You indicated on <%= card_account.declined_at.strftime("%D") %>
-                that you do not wish to apply for this card.
-              <% else %>
-                You declined to apply for this card
-              <% end %>
-            <% end %>
-            <%#= button_to "Decline", decline_card_account_path(card_account), class: "btn-default" %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+  <% @card_accounts.each do |card_account| %>
+    <div
+      id="<%= dom_id(card_account) %>"
+      class="<%= dom_class(card_account) %> row"
+    >
+      <div class="col-xs-6 col-md-3">
+        <%= card_image_tag(card_account.card) %>
+      </div>
+      <div class="col-xs-6 col-md-3">
+        <%= card_account.card_name %> -
+        <%= card_account.card_bank_name %>
+      </div>
+      <div class="col-xs-12 col-md-6">
+
+        <% if card_account.applyable? %>
+          <%= card_account_apply_btn(card_account) %>
+        <% end %>
+
+        <% if card_account.applyable? %>
+          <%= card_account_applied_btn(card_account) %>
+        <% end %>
+
+        <% if card_account.declinable? %>
+          <%= card_account_decline_btn(card_account) %>
+        <% elsif card_account.declined? %>
+          <% if card_account.declined_at.present? %>
+            You indicated on <%= card_account.declined_at.strftime("%D") %>
+            that you do not wish to apply for this card.
+          <% else %>
+            You declined to apply for this card
+          <% end %>
+        <% end %>
+
+        <div
+          id="card_account_<%= card_account.id %>_application_result_btns"
+          style="display:none;"
+        >
+          <%= link_to "I was accepted", "#", class: "btn btn-default btn-sm" %>
+          <%= link_to "I was declined", "#", class: "btn btn-default btn-sm" %>
+          <%= link_to "I'm still waiting to hear back",
+                "#", class: "btn btn-default btn-sm" %>
+          <%= card_account_applied_back_btn(card_account) %>
+        </div>
+
+        <%#= button_to "Decline", decline_card_account_path(card_account), class: "btn-default" %>
+      </div>
+    </div><!-- .row -->
+  <% end %>
 
 <% else %>
   Thanks for signing up to Abroaders! You will shortly receive your

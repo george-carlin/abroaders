@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   resources :card_accounts, path: :cards do
     member do
       post :decline
+      get :apply
     end
   end
 

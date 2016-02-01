@@ -64,4 +64,8 @@ module CardAccount::Statuses
     status == "recommended"
   end
 
+  def applyable?
+    status == "recommended"
+  end
+
 end

@@ -73,5 +73,16 @@ describe CardAccount do
       end
     end
 
+    describe "#applyable?" do
+      it "is true if applying for the account makes sense given its status" do
+        account.status = :recommended
+        expect(account.applyable?).to be_truthy
+        account.status = :declined
+        expect(account.applyable?).to be_falsey
+        account.status = :open
+        expect(account.applyable?).to be_falsey
+      end
+    end
+
   end
 end
