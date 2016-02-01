@@ -9,6 +9,7 @@ describe "initial surveys" do
     context "when I have not yet filled in the initial survey" do
       describe "trying to visit any page" do
         it "redirects to the survey" do
+          pending
           [new_travel_plan_path, current_cards_path].each do |path|
             visit path
             expect(current_path).to eq survey_path
