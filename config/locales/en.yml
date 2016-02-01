@@ -26,6 +26,13 @@ en:
         personal_spending: "Personal spending per month"
         will_apply_for_loan: "Do you plan to apply for a loan of over $5,000 in the next 12 months?"
 
+  card_accounts:
+    index:
+      have_applied: "I have applied"
+      still_waiting: "I'm still waiting to hear back"
+      was_accepted: "I was accepted"
+      was_denied:   "I was denied"
+
   admin:
     users:
       show:

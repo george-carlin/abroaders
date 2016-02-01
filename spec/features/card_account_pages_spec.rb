@@ -48,7 +48,7 @@ describe "card account pages spec" do
         it "has a button to say that I've already applied for it" do
           @recommendations.each do |rec|
             within card_account_selector(rec) do
-              is_expected.to have_link "I have applied"
+              is_expected.to have_link _t("have_applied")
             end
           end
         end
@@ -77,7 +77,7 @@ describe "card account pages spec" do
         let(:rec) { @recommendations[0] }
         before do
           within card_account_selector(rec) do
-            click_link "I have applied"
+            click_link _t("have_applied")
           end
         end
 
@@ -85,15 +85,15 @@ describe "card account pages spec" do
           within card_account_selector(rec) do
             is_expected.not_to have_selector decline_rec_btn(rec)
             is_expected.not_to have_link "Apply"
-            is_expected.not_to have_link "I have applied"
+            is_expected.not_to have_link _t("have_applied")
           end
         end
 
         it "shows accepted/denied/pending buttons" do
           within card_account_selector(rec) do
-            is_expected.to have_link "I was accepted"
-            is_expected.to have_link "I was declined"
-            is_expected.to have_link "I'm still waiting to hear back"
+            is_expected.to have_button _t("was_accepted")
+            is_expected.to have_button _t("was_denied")
+            is_expected.to have_link _t("still_waiting")
           end
         end
 
@@ -113,29 +113,45 @@ describe "card account pages spec" do
             within card_account_selector(rec) do
               is_expected.to have_selector decline_rec_btn(rec)
               is_expected.to have_link "Apply"
-              is_expected.to have_link "I have applied"
+              is_expected.to have_link _t("have_applied")
             end
           end
 
           it "hides the accepted/denied/pending buttons" do
             within card_account_selector(rec) do
-              is_expected.not_to have_link "I was accepted"
-              is_expected.not_to have_link "I was declined"
-              is_expected.not_to have_link "I'm still waiting to hear back"
+              is_expected.not_to have_button _t("was_accepted")
+              is_expected.not_to have_button _t("was_denied")
+              is_expected.not_to have_link _t("still_waiting")
             end
           end
         end
 
         describe "clicking 'accepted'" do
-          it "updates the account's status to 'accepted'"
+          before { click_button _t("was_accepted") }
+          it "asks *when* the application was accepted"
+          it "updates the account's status to 'open'" do
+            rec.reload
+            expect(rec.status).to eq "open"
+            expect(rec).not_to be_reconsidered
+          end
         end
 
         describe "clicking 'denied'" do
-          it "updates the account's status to 'denied'"
+          before { click_button _t("was_denied") }
+          it "updates the account's status to 'denied'" do
+            rec.reload
+            expect(rec.status).to eq "denied"
+            expect(rec).not_to be_reconsidered
+          end
         end
 
         describe "clicking 'pending'" do
-          it "updates the account's status to 'pending'"
+          before { pending; click_link _t("was_denied") }
+          it "updates the account's status to 'pending'" do
+            rec.reload
+            expect(rec.status).to eq "pending_decision"
+            expect(rec).not_to be_reconsidered
+          end
         end
       end
     end
@@ -175,6 +191,10 @@ describe "card account pages spec" do
 
     def applied_for_rec_btn(recommendation)
       "#card_account_#{recommendation.id}_applied_btn"
+    end
+
+    def _t(key)
+      t("card_accounts.index.#{key}")
     end
   end
 end

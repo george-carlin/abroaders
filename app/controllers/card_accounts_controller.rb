@@ -31,6 +31,24 @@ class CardAccountsController < NonAdminController
     redirect_to card_accounts_path
   end
 
+  def open
+    @account = get_card_account
+    @account.open!
+    flash[:success] = "Account opened" # TODO give this a better message!
+    # TODO also need to let the user say *when* the card was opened
+    # TODO redirect to the card's individual page once we've added them.
+    redirect_to card_accounts_path
+  end
+
+  def deny
+    @account = get_card_account
+    @account.denied!
+    flash[:success] = "Application denied" # TODO give this a better message!
+    # TODO also need to let the user say *when* the card was opened
+    # TODO redirect to the card's individual page once we've added them.
+    redirect_to card_accounts_path
+  end
+
   private
 
   def get_card_account

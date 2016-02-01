@@ -31,8 +31,10 @@ Rails.application.routes.draw do
   # though we're dealing with the CardAccount model, not the Card model.
   resources :card_accounts, path: :cards do
     member do
+      post :open
+      get  :apply
       post :decline
-      get :apply
+      post :deny
     end
   end
 

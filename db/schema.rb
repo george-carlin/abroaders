@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160129153256) do
+ActiveRecord::Schema.define(version: 20160201155729) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,16 +26,17 @@ ActiveRecord::Schema.define(version: 20160129153256) do
   end
 
   create_table "card_accounts", force: :cascade do |t|
-    t.integer  "card_id",        null: false
-    t.integer  "user_id",        null: false
-    t.integer  "status",         null: false
+    t.integer  "card_id",                        null: false
+    t.integer  "user_id",                        null: false
+    t.integer  "status",                         null: false
     t.datetime "recommended_at"
     t.datetime "applied_at"
     t.datetime "opened_at"
     t.datetime "earned_at"
     t.datetime "closed_at"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.boolean  "reconsidered",   default: false, null: false
   end
 
   create_table "card_offers", force: :cascade do |t|

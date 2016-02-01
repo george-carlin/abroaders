@@ -62,25 +62,64 @@ describe CardAccount do
       end
     end
 
-    describe "#declinable?" do
-      it "is true iff 'declining' the account makes sense given its status" do
-        account.status = :recommended
-        expect(account.declinable?).to be_truthy
-        account.status = :declined
-        expect(account.declinable?).to be_falsey
-        account.status = :open
-        expect(account.declinable?).to be_falsey
-      end
-    end
+    describe "SafetyChecks" do
+      describe "#openable?" do
+        it "is true iff the card account is not opened but can be" do
+          %i[recommended pending_decision].each do |status|
+            account.status = status
+            expect(account.openable?).to be_truthy
+          end
+          %i[declined denied open closed].each do |status|
+            account.status = status
+            expect(account.openable?).to be_falsey
+          end
+        end
 
-    describe "#applyable?" do
-      it "is true if applying for the account makes sense given its status" do
-        account.status = :recommended
-        expect(account.applyable?).to be_truthy
-        account.status = :declined
-        expect(account.applyable?).to be_falsey
-        account.status = :open
-        expect(account.applyable?).to be_falsey
+        it "is aliased as 'acceptable?'" do
+          %i[recommended pending_decision].each do |status|
+            account.status = status
+            expect(account.acceptable?).to be_truthy
+          end
+          %i[declined denied open closed].each do |status|
+            account.status = status
+            expect(account.acceptable?).to be_falsey
+          end
+        end
+      end
+
+      describe "#applyable?" do
+        it "is true if the user can apply for the card" do
+          account.status = :recommended
+          expect(account.applyable?).to be_truthy
+          %i[declined pending_decision denied open closed].each do |status|
+            account.status = status
+            expect(account.applyable?).to be_falsey
+          end
+        end
+      end
+
+      describe "#declinable?" do
+        it "is true if the user can decline to apply for the card" do
+          account.status = :recommended
+          expect(account.declinable?).to be_truthy
+          %i[declined pending_decision denied open closed].each do |status|
+            account.status = status
+            expect(account.declinable?).to be_falsey
+          end
+        end
+      end
+
+      describe "#deniable?" do
+        it "is true iff the card account is not denied but can be" do
+          %i[recommended pending_decision].each do |status|
+            account.status = status
+            expect(account.deniable?).to be_truthy
+          end
+          %i[declined denied open closed].each do |status|
+            account.status = status
+            expect(account.deniable?).to be_falsey
+          end
+        end
       end
     end
 

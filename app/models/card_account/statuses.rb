@@ -11,34 +11,32 @@ module CardAccount::Statuses
   #
   # Here's the way which a card account may pass through the statuses:
   #
-  # (statuses in brackets may be skipped)
+  # (statuses in brackets may be skipped. The boolean after the comma
+  # is the value of the 'reconsidered' column.)
   #
-  # recommended
-  #     ├─▸ declined
-  #     └─▸ (pending_decision)
-  #              ├─▸ denied
-  #              │     ├─▸ declined_to_apply_for_reconsideration
-  #              │     └─▸ (pending_reconsideration_decision)
-  #              │           ├─▸ denied_after_reconsideration
-  #              │           └─▸ approved_after_reconsideration
-  #              └─▸ approved (AKA = currently working on bonus challenge)
-  #                    └─▸ closed
+  # recommended, false
+  #     ├─▸ declined, false
+  #     └─▸ (pending_decision, false)
+  #              ├─▸ denied, false
+  #              │     ├─▸ declined, true
+  #              │     └─▸ (pending_decision, true)
+  #              │           ├─▸ denied, true
+  #              │           └─▸ open, true
+  #              │                └─▸ closed, false
+  #              └─▸ open, false
+  #                    └─▸ closed, false
   #
 
 
   STATUSES = %i[
     recommended
     declined
-    reconsideration
     pending_decision
-    manual_pending
     denied
-    manual_denied
-    bonus_challenge
     open
     closed
-    converted
   ]
+
 
   included do
     enum status: STATUSES
@@ -60,12 +58,23 @@ module CardAccount::Statuses
     update_attributes!(applied_at: Time.now, status: :declined)
   end
 
-  def declinable?
-    status == "recommended"
-  end
+  concerning :SafetyChecks do
+    def applyable?
+      status == "recommended"
+    end
 
-  def applyable?
-    status == "recommended"
+    def declinable?
+      status == "recommended"
+    end
+
+    def deniable?
+      %w[recommended pending_decision].include?(status)
+    end
+
+    def openable?
+      %w[recommended pending_decision].include?(status)
+    end
+    alias_method :acceptable?, :openable?
   end
 
 end

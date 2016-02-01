@@ -41,8 +41,12 @@
           id="card_account_<%= card_account.id %>_application_result_btns"
           style="display:none;"
         >
-          <%= link_to "I was accepted", "#", class: "btn btn-default btn-sm" %>
-          <%= link_to "I was declined", "#", class: "btn btn-default btn-sm" %>
+          <% if card_account.acceptable? %>
+            <%= card_account_accepted_btn(card_account) %>
+          <% end %>
+          <% if card_account.deniable? %>
+            <%= card_account_deny_btn(card_account) %>
+          <% end %>
           <%= link_to "I'm still waiting to hear back",
                 "#", class: "btn btn-default btn-sm" %>
           <%= card_account_applied_back_btn(card_account) %>
