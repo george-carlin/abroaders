@@ -1,27 +1,28 @@
 module Admin
   class CardsController < AdminController
-    # GET /admin_panel/cards
+
+    # GET /admin/cards
     def index
       @cards = Card.order(:identifier)
     end
 
-    # GET /admin_panel/cards/1
+    # GET /admin/cards/1
     def show
       @card = get_card
     end
 
-    # GET /admin_panel/cards/new
+    # GET /admin/cards/new
     def new
       @card = Card.new
     end
 
-    # GET /admin_panel/cards/1/edit
+    # GET /admin/cards/1/edit
     # Unimplemented
     # def edit
     #   @card = get_card
     # end
 
-    # POST /admin_panel/cards
+    # POST /admin/cards
     def create
       @card = Card.new(card_params)
 
@@ -33,7 +34,7 @@ module Admin
       end
     end
 
-    # PATCH/PUT /admin_panel/cards/1
+    # PATCH/PUT /admin/cards/1
     # Unimplemented
     # def update
     #   @card = get_card
@@ -44,7 +45,7 @@ module Admin
     #   end
     # end
 
-    # DELETE /admin_panel/cards/1
+    # DELETE /admin/cards/1
     # def destroy
     #   @card = get_card
     #   @card.destroy

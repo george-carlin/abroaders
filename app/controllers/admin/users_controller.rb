@@ -19,16 +19,19 @@ module Admin
 
     # GET /admin/users/new
     def new
+      raise "not yet implemented"
       @user = User.new
     end
 
     # GET /admin/users/1/edit
     def edit
+      raise "not yet implemented"
       @user = get_user
     end
 
     # POST /admin/users
     def create
+      raise "not yet implemented"
       @user = User.new(user_params)
 
       if @user.save
@@ -40,6 +43,7 @@ module Admin
 
     # PATCH/PUT /admin/users/1
     def update
+      raise "not yet implemented"
       @user = get_user
       if @user.update(user_params)
           redirect_to @user, notice: 'User was successfully updated.'
@@ -50,6 +54,7 @@ module Admin
 
     # DELETE /admin/users/1
     def destroy
+      raise "not yet implemented"
       @user = get_user
       @user.destroy
       redirect_to users_url, notice: 'User was successfully destroyed.'

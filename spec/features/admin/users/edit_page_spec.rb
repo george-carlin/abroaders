@@ -11,8 +11,6 @@ describe "admin section" do
       visit edit_admin_user_path(@user)
     end
 
-    it "has fields for the user's information" do
-      skip
-    end
+    it "has fields for the user's information"
   end
 end

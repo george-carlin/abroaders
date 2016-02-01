@@ -1,14 +1,6 @@
-<%= form_for(admin_panel_user) do |f| %>
-  <% if admin_panel_user.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(admin_panel_user.errors.count, "error") %> prohibited this admin_panel_user from being saved:</h2>
-
-      <ul>
-      <% admin_panel_user.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
+<%= form_for(user) do |f| %>
+  <% if user.errors.any? %>
+    <%= render "shared/model_validation_errors", model: user %>
   <% end %>
 
   <div class="actions">
