@@ -1,5 +1,9 @@
 class TravelPlan < ApplicationRecord
 
+  # Attributes
+
+  DEFAULT_TYPE = :return
+
   # Validations
 
   # Associations

@@ -4,43 +4,46 @@
 
 <%= form_for @travel_plan do |f| %>
 
+  <% if false %>
+    if (this.props.showAddBtn || this.props.showRemoveBtn) {
+      formGroupClass = "col-xs-12 col-sm-5 form-group";
+    } else {
+      formGroupClass = "col-xs-12 col-sm-6 form-group";
+    }
+  <% end %>
+
     <div class="row">
       <div class="col-xs-12">
-        <label>
-          Single
-          &nbsp;
-          <input type="radio" name="travel_plan_type" value="single"
-                     onClick={this.props.changeTypeCallback} />
-        </label>
-        &nbsp;
-        <label>
-          Return
-          &nbsp;
-          <input type="radio" name="travel_plan_type" value="return"
-                     defaultChecked
-                     onClick={this.props.changeTypeCallback} />
-        </label>
-        &nbsp;
-        <label>
-          Multi-city
-          &nbsp;
-          <input type="radio" name="travel_plan_type" value="multicity"
-                     onClick={this.props.changeTypeCallback} />
-        </label>
+        <% %i[ single return multi].each do |type| %>
+          <% label = type == :multi ? "Multi-City" : type.to_s.capitalize %>
+          <label for=<%= "travel_plan_type_#{type}" %>>
+            <%= label %>
+            &nbsp;
+            <%= radio_button_tag(
+                  :travel_plan_type,
+                  type,
+                  type == TravelPlan::DEFAULT_TYPE
+                ) %>
+          </label>
+        <% end %>
       </div>
     </div>
 
     <div class="row">
       <div class={formGroupClass}>
-        <label htmlFor="travel_plan_origin_lookup">From: </label>
-        <input id="travel_plan_origin_lookup" type="text"
-               autoComplete="off" class="form-control" />
+        <%= f.label :from, "From:" %>
+        <%= f.text_field :from %>
+        <!--
+          <input id="travel_plan_origin_lookup" type="text"
+          autoComplete="off" class="form-control" /> -->
       </div>
 
       <div class={formGroupClass}>
-        <label htmlFor="travel_plan_destination_lookup">To: </label>
-        <input id="travel_plan_destination_lookup" type="text"
-               autoComplete="off" class="form-control" />
+        <%= f.label :to, "To:" %>
+        <%= f.text_field :to %>
+        <!--
+          <input id="travel_plan_origin_lookup" type="text"
+          autoComplete="off" class="form-control" /> -->
       </div>
 
       <div class="col-xs-12 col-sm-2">
@@ -48,6 +51,8 @@
         <button class="remove-travel-plan-leg-btn btn btn-default">-</button>
       </div><!-- .col-xs-12.col-sm-1 -->
     </div><!-- .row -->
+
+    <% if false %>
 
     <div class="row">
       <% 2.times do %>
@@ -69,5 +74,7 @@
         <input type="number" class="form-control" />
       </div>
     </div>
+
+    <% end %>
 
 <% end %>

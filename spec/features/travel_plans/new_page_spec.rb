@@ -1,18 +1,32 @@
 require "rails_helper"
 
-describe "new travel plans page", js: true do
+describe "new travel plans page" do
 
   subject { page }
 
   include_context "logged in"
 
   before do
-    visit new_travel_plans_path
+    visit new_travel_plan_path
   end
 
-  it "has a form to add a 'return' travel plan"
+  it "has a selector to choose the travel plan type" do
+    is_expected.to have_field :travel_plan_type_single
+    is_expected.to have_field :travel_plan_type_return
+    is_expected.to have_field :travel_plan_type_multi
+  end
 
-  describe "searching for an airport in the 'from' input" do
+  specify "'return' type is selected by default" do
+    radio = find("#travel_plan_type_multi")
+    expect(radio).to be_checked
+  end
+
+  it "has inputs for journey origin and destination" do
+    is_expected.to have_field :travel_leg_0_from_id
+    is_expected.to have_field :travel_leg_0_to_id
+  end
+
+  describe "searching for an airport in the 'from' input", js: true do
     it "populates the dropdown with suggestions"
 
     describe "and choosing a suggestion" do
@@ -20,7 +34,7 @@ describe "new travel plans page", js: true do
     end
   end
 
-  describe "searching for an airport in the 'to' input" do
+  describe "searching for an airport in the 'to' input", js: true do
     it "populates the dropdown with suggestions"
 
     describe "and choosing a suggestion" do
