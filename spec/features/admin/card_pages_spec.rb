@@ -13,9 +13,20 @@ describe "admin pages" do
       visit admin_cards_path
     end
 
+    let(:cards) { [ @active_card, @inactive_card ] }
+
     it "lists all cards" do
       is_expected.to have_selector card_selector(@active_card)
       is_expected.to have_selector card_selector(@inactive_card)
+    end
+
+    it "displays each card's currency" do
+      within card_selector(@active_card) do
+        is_expected.to have_content @active_card.currency.short_name
+      end
+      within card_selector(@active_card) do
+        is_expected.to have_content @active_card.currency.short_name
+      end
     end
 
     describe "an active card" do

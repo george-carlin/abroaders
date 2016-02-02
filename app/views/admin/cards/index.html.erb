@@ -11,6 +11,7 @@
     <tr>
       <th>Identifier</th>
       <th>Name</th>
+      <th>Currency</th>
       <th>Brand</th>
       <th>B/P</th>
       <th>Type</th>
@@ -24,6 +25,7 @@
       <tr id="<%= dom_id(card) %>">
         <td><%= card.identifier %></td>
         <td><%= card.name %></td>
+        <td><%= card.currency.short_name %></td>
         <td><%= card.brand.capitalize %></td>
         <td><%= card.bp.capitalize %></td>
         <td><%= card.type.capitalize %></td>

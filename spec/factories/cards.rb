@@ -8,6 +8,8 @@ FactoryGirl.define do
     bank  { Card.banks.keys.sample }
     annual_fee_cents { rand(500_00) + 10_00 }
 
+    currency_id { Currency.valid_ids.sample }
+
     factory :inactive_card do
       active false
     end

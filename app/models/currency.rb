@@ -7,6 +7,11 @@ class Currency
 
   attr_reader :id, :name, :short_name
 
+  def self.valid_ids
+    table.keys
+  end
+
+
   def initialize(id)
     @id = id.to_s
     attributes  = self.class.table.fetch(@id)
