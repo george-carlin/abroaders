@@ -31,6 +31,10 @@ class Card < ApplicationRecord
     self.annual_fee_cents = (annual_fee_dollars.to_i * 100).to_i
   end
 
+  def currency
+    Currency.new(currency_id)
+  end
+
   # Validations
   
   validates :identifier, presence: true, uniqueness: true
@@ -39,6 +43,9 @@ class Card < ApplicationRecord
   validates :bp, presence: true
   validates :type, presence: true
   validates :annual_fee_cents, presence: true
+  validates :currency_id,
+    inclusion: { in: Currency.table.keys },
+    presence: true
 
   # Associations
 

@@ -63,9 +63,8 @@ ActiveRecord::Schema.define(version: 20160201234314) do
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
     t.integer  "bank",                            null: false
-    t.integer  "currency_id",                     null: false
+    t.string   "currency_id",                     null: false
     t.index ["bank"], name: "index_cards_on_bank", using: :btree
-    t.index ["currency_id"], name: "index_cards_on_currency_id", using: :btree
     t.index ["identifier"], name: "index_cards_on_identifier", unique: true, using: :btree
   end
 
