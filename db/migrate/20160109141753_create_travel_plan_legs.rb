@@ -5,7 +5,7 @@ class CreateTravelPlanLegs < ActiveRecord::Migration[5.0]
       t.integer    :position, null: false, default: 0, limit: 2
       t.references :from, index: true, null: false
       t.references :to,   index: true, null: false
-      t.daterange  :date, null: false
+      t.daterange  :date_range, null: false
 
       t.index [:travel_plan_id, :position], unique: true
 

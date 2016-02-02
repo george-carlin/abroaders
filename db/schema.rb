@@ -111,7 +111,7 @@ ActiveRecord::Schema.define(version: 20160210011110) do
     t.integer   "position",       limit: 2, default: 0, null: false
     t.integer   "from_id",                              null: false
     t.integer   "to_id",                                null: false
-    t.daterange "date",                                 null: false
+    t.daterange "date_range",                           null: false
     t.datetime  "created_at",                           null: false
     t.datetime  "updated_at",                           null: false
     t.index ["from_id"], name: "index_travel_legs_on_from_id", using: :btree
