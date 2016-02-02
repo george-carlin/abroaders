@@ -139,7 +139,7 @@ describe "admin section" do
         end
 
         specify "can be filtered by bank" do
-          Card.banks.keys do |bank|
+          Card.banks.keys.each do |bank|
             is_expected.to have_field :"card_bank_filter_#{bank}"
           end
 
@@ -160,12 +160,12 @@ describe "admin section" do
         it "toggles all banks on/off" do
           uncheck :card_bank_filter_all
           should_not_have_recommendable_cards(*@cards)
-          Card.banks.keys do |bank|
+          Card.banks.keys.each do |bank|
             expect(find("#card_bank_filter_#{bank}")).not_to be_checked
           end
           check :card_bank_filter_all
           should_have_recommendable_cards(*@cards)
-          Card.banks.keys do |bank|
+          Card.banks.keys.each do |bank|
             expect(find("#card_bank_filter_#{bank}")).to be_checked
           end
         end
