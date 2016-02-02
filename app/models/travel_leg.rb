@@ -1,4 +1,4 @@
-class TravelPlanLeg < ApplicationRecord
+class TravelLeg < ApplicationRecord
 
   # Validations
 

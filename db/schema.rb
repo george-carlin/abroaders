@@ -106,19 +106,18 @@ ActiveRecord::Schema.define(version: 20160210011110) do
     t.index ["type"], name: "index_destinations_on_type", using: :btree
   end
 
-  create_table "travel_plan_legs", force: :cascade do |t|
-    t.integer  "travel_plan_id",                           null: false
-    t.integer  "position",           limit: 2, default: 0, null: false
-    t.integer  "origin_id",                                null: false
-    t.integer  "destination_id",                           null: false
-    t.date     "earliest_departure",                       null: false
-    t.date     "latest_departure",                         null: false
-    t.datetime "created_at",                               null: false
-    t.datetime "updated_at",                               null: false
-    t.index ["destination_id"], name: "index_travel_plan_legs_on_destination_id", using: :btree
-    t.index ["origin_id"], name: "index_travel_plan_legs_on_origin_id", using: :btree
-    t.index ["travel_plan_id", "position"], name: "index_travel_plan_legs_on_travel_plan_id_and_position", unique: true, using: :btree
-    t.index ["travel_plan_id"], name: "index_travel_plan_legs_on_travel_plan_id", using: :btree
+  create_table "travel_legs", force: :cascade do |t|
+    t.integer   "travel_plan_id",                       null: false
+    t.integer   "position",       limit: 2, default: 0, null: false
+    t.integer   "from_id",                              null: false
+    t.integer   "to_id",                                null: false
+    t.daterange "date",                                 null: false
+    t.datetime  "created_at",                           null: false
+    t.datetime  "updated_at",                           null: false
+    t.index ["from_id"], name: "index_travel_legs_on_from_id", using: :btree
+    t.index ["to_id"], name: "index_travel_legs_on_to_id", using: :btree
+    t.index ["travel_plan_id", "position"], name: "index_travel_legs_on_travel_plan_id_and_position", unique: true, using: :btree
+    t.index ["travel_plan_id"], name: "index_travel_legs_on_travel_plan_id", using: :btree
   end
 
   create_table "travel_plans", force: :cascade do |t|
@@ -182,9 +181,9 @@ ActiveRecord::Schema.define(version: 20160210011110) do
   add_foreign_key "card_accounts", "users", on_delete: :cascade
   add_foreign_key "card_offers", "cards", on_delete: :cascade
   add_foreign_key "destinations", "destinations", column: "parent_id", on_delete: :restrict
-  add_foreign_key "travel_plan_legs", "airports", column: "destination_id"
-  add_foreign_key "travel_plan_legs", "airports", column: "origin_id"
-  add_foreign_key "travel_plan_legs", "travel_plans", on_delete: :cascade
+  add_foreign_key "travel_legs", "destinations", column: "from_id", on_delete: :restrict
+  add_foreign_key "travel_legs", "destinations", column: "to_id", on_delete: :restrict
+  add_foreign_key "travel_legs", "travel_plans", on_delete: :cascade
   add_foreign_key "travel_plans", "users", on_delete: :cascade
   add_foreign_key "user_infos", "users", on_delete: :cascade
 end
