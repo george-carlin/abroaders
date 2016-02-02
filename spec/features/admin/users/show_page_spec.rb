@@ -8,11 +8,20 @@ describe "admin section" do
 
     before do
       @cards = [
-        @chase_business = create(:card, :business, bank: :chase),
-        @chase_personal = create(:card, :personal, bank: :chase),
-        @usb_business   = create(:card, :business, bank: :us_bank),
-        @usb_personal   = create(:card, :personal, bank: :us_bank)
+        @chase_business = create(
+          :card, :business, bank: :chase, currency_id: "alaska"
+        ),
+        @chase_personal = create(
+          :card, :personal, bank: :chase, currency_id: "american",
+        ),
+        @usb_business   = create(
+          :card, :business, bank: :us_bank, currency_id: "amex",
+        ),
+        @usb_personal   = create(
+          :card, :personal, bank: :us_bank, currency_id: "ba",
+        )
       ]
+
       @user = create(:user)
       extra_setup
       visit admin_user_path(@user)
@@ -153,6 +162,28 @@ describe "admin section" do
           should_not_have_recommendable_cards(@usb_business, @usb_personal)
           check :card_bank_filter_us_bank
           should_have_recommendable_cards(*@cards)
+        end
+
+        specify "can be filtered by currency" do
+          Currency.keys.each do |currency|
+            is_expected.to have_field :"card_currency_filter_#{currency}"
+          end
+
+          # Alternative variables names for readability:
+          alaska_card   = @chase_business
+          american_card = @chase_personal
+          amex_card     = @usb_business
+          ba_card       = @usb_personal
+
+          uncheck :card_currency_filter_alaska
+          uncheck :card_currency_filter_american
+          should_have_recommendable_cards(amex_card, ba_card)
+          should_not_have_recommendable_cards(alaska_card, american_card)
+          uncheck :card_currency_filter_amex
+          uncheck :card_currency_filter_ba
+          should_not_have_recommendable_cards(*@cards)
+          check :card_currency_filter_american
+          should_have_recommendable_cards(american_card)
         end
       end
 

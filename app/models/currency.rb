@@ -7,8 +7,12 @@ class Currency
 
   attr_reader :id, :name, :short_name
 
-  def self.valid_ids
-    table.keys
+  def self.all
+    keys.map { |key| new(key) }
+  end
+
+  def self.keys
+    table.keys.sort
   end
 
 

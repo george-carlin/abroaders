@@ -36,6 +36,9 @@
       width: 100px;
     }
 
+    &.card-currency {
+      min-width: 180px;
+    }
   }
 
   input[name="card_account[card_id]"] {

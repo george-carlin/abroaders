@@ -6,7 +6,7 @@ $(document).ready(function () {
 
 
   function filterTable() {
-    var checkedBPs, checkedBanks;
+    var checkedBPs, checkedBanks, checkedCurrencies;
 
     checkedBPs = $(".card_bp_filter:checked").map(function (i, cb) {
       return cb.dataset.value;
@@ -16,12 +16,19 @@ $(document).ready(function () {
       return cb.dataset.value;
     }).toArray();
 
+
+    var selector = ".card_currency_filter:checked"
+    checkedCurrencies = $(selector).map(function (i, cb) {
+      return cb.dataset.value;
+    }).toArray();
+
     $("tr.admin_recommend_card").each(function (i, tr) {
-      var bankIsShown = checkedBanks.indexOf(tr.dataset.bank) > -1,
+      var bankIsShown = checkedBanks.indexOf(tr.dataset.bank) > -1;
           bpIsShown   = checkedBPs.indexOf(tr.dataset.bp) > -1;
+          currIsShown = checkedCurrencies.indexOf(tr.dataset.currency) > -1;
           $tr = $(tr);
 
-      if (bankIsShown && bpIsShown) {
+      if (bankIsShown && bpIsShown && currIsShown) {
         // Check whether or not the TR is already visible/hidden
         // before calling show/hide, so the 'dummy' <tr>s get added/removed
         // in the right places.
@@ -43,6 +50,10 @@ $(document).ready(function () {
 
 
   $('.card_bp_filter').click(function (e) {
+    filterTable();
+  });
+
+  $('.card_currency_filter').click(function (e) {
     filterTable();
   });
 

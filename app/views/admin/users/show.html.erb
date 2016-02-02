@@ -170,6 +170,21 @@
       </label>
     </div>
 
+    <div class="form-inline">
+      <b>CURRENCY: </b>&nbsp;
+      <% Currency.all.sort_by(&:short_name).each do |currency| %>
+        <%= card_currency_filter_check_box_tag(currency.id) %>
+      <% end %>
+
+      <!--
+      |
+
+      <label for="card_currency_filter_all">
+        <%#= check_box_tag :card_currency_filter_all, nil, true %>
+        Toggle all
+      </label>-->
+    </div>
+
     <table class="table table-striped">
       <thead>
         <th></th>
@@ -188,6 +203,9 @@
         <th class="card-brand">
           Brand&nbsp; <%= sort_icons %>
         </th>
+        <th class="card-currency">
+          Currency&nbsp; <%= sort_icons %>
+        </th>
         <th class="card-type">
           Type&nbsp; <%= sort_icons %>
         </th>
@@ -199,6 +217,7 @@
             class="<%= dom_class(card, :admin_recommend) %>"
             data-bp="<%= card.bp %>"
             data-bank="<%= card.bank %>"
+            data-currency="<%= card.currency_id %>"
           >
             <td><%= f.radio_button :card_id, card.id, checked: (i==0) %></td>
             <td class="card-identifier"><%= card.identifier %></td>
@@ -206,6 +225,7 @@
             <td class="card-bank-name"><%= card.bank_name %></td>
             <td class="card-bp"><%= card.bp.capitalize %></td>
             <td class="card-brand"><%= card.brand.capitalize %></td>
+            <td class="card-currency"><%= card.currency.short_name %></td>
             <td class="card-type"><%= card.type.capitalize %></td>
           </tr>
         <% end %>
