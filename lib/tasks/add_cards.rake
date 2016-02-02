@@ -30,6 +30,10 @@ namespace :ab do
     Card.transaction do
       before_count = Card.count
 
+      currencies = JSON.parse(
+        File.read(Rails.root.join("lib", "data", "currencies.json"))
+      )
+
       cards.each do |card|
 
         unless name  = card["card_name"]
@@ -49,6 +53,19 @@ namespace :ab do
           next
         end
 
+        currency = if card["currencies"] && card["currencies"].length > 0
+                     # Horribly hacky!
+                     c = currencies.detect do |id, data|
+                       data["name"] == card["currencies"].first["currency_name"]
+                     end
+                     c[0]
+                   end
+
+        unless currency
+          puts "Skipping #{name} as the currency could not be determined"
+          next
+        end
+
         card = Card.create!(
           identifier: card["card_id"],
           name:       card["card_name"],
@@ -56,7 +73,8 @@ namespace :ab do
           bp:         bps.fetch(card["b_p"]),
           type:       card["type"].downcase,
           annual_fee_cents: af * 100,
-          bank:  card["bank"][0]["bank_name"].downcase.gsub(/\s/, "_")
+          bank:  card["bank"][0]["bank_name"].downcase.gsub(/\s/, "_"),
+          currency_id: currency
         )
 
         puts "Created card '#{card.name}'"
