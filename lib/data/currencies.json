@@ -27,9 +27,13 @@
     "name": "Club Carlson Gold",
     "short_name": "Club Carlson Gold"
   },
-  "chase": {
+  "chase_ultimate": {
     "name": "Chase",
     "short_name": "Ultimate Rewards"
+  },
+  "chase_ihg": {
+    "name": "IHG Rewards Club",
+    "short_name": "(Chase) IHG Points"
   },
   "citibank": {
     "name": "Citibank (Thank You Rewards)",
@@ -50,10 +54,6 @@
   "hyatt": {
     "name": "Hyatt Gold Passport",
     "short_name": "Hyatt Gold Passport"
-  },
-  "ihg": {
-    "name": "IHG Rewards Club",
-    "short_name": "(Chase) IHG Points"
   },
   "lufthansa": {
     "name": "Lufthansa (Miles and More)",
