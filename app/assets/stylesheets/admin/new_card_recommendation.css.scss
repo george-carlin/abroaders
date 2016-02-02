@@ -9,31 +9,31 @@
     &:not(.headerSortUp) .fa-sort-desc {
       display: none;
     }
+  }
 
-    &, td {
-      &:first-child {
-        width: 25px;
-      }
+  th, td {
+    &:first-child {
+      width: 25px;
+    }
 
-      &.card-identifier {
-        width: 120px;
-      }
+    &.card-identifier {
+      width: 120px;
+    }
 
-      &.card-name {
-        width: 40%;
-      }
+    &.card-name {
+      width: 40%;
+    }
 
-      &.card-bank-name {
-        width: 200px;
-      }
+    &.card-bank-name {
+      width: 200px;
+    }
 
-      &.card-bp {
-        width: 100px;
-      }
+    &.card-bp {
+      width: 100px;
+    }
 
-      &.card-brand {
-        width: 100px;
-      }
+    &.card-brand {
+      width: 100px;
     }
 
   }
