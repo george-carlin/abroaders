@@ -73,12 +73,10 @@ describe "onboarding survey - cards" do
     end
 
     describe "and clicking 'submit'" do
-      let(:submit) { "Save" }
+      let(:submit) { click_button "Save" }
 
       it "creates the 'existing cards' for the user" do
-        pending
-        # TODO should we add a 'pre-existing' state for CardAccounts?
-        expect { submit }.to change{user.card_accounts.count}.by(3)
+        expect { submit }.to change{user.card_accounts.unknown.count}.by(3)
         accounts = user.card_accounts
         expect(accounts.map(&:card)).to match_array [
           @chase_b, @citibank_p, @citibank_b

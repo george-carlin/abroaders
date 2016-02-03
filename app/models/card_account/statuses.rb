@@ -30,6 +30,7 @@ module CardAccount::Statuses
 
 
   STATUSES = %i[
+    unknown
     recommended
     declined
     denied
