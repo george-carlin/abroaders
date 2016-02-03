@@ -16,15 +16,6 @@ ActiveRecord::Schema.define(version: 20160210011110) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "airports", force: :cascade do |t|
-    t.string   "name",                 null: false
-    t.string   "iata_code",  limit: 3, null: false
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
-    t.index ["iata_code"], name: "index_airports_on_iata_code", using: :btree
-    t.index ["name"], name: "index_airports_on_name", using: :btree
-  end
-
   create_table "balances", force: :cascade do |t|
     t.integer  "user_id",                 null: false
     t.integer  "currency_id",             null: false

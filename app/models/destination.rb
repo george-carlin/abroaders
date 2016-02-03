@@ -5,6 +5,8 @@ class Destination < ApplicationRecord
 
   # Attributes
 
+  IATA_CODE_REGEX = /\A[A-Z]{3}\z/i
+
   delegate :name, to: :parent, prefix: true, allow_nil: true
 
   TYPES = %w[airport city state country region]
