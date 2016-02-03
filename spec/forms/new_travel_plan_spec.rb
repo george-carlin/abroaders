@@ -63,8 +63,6 @@ describe NewTravelPlan do
         ]
       )
 
-      plan.valid?
-      puts plan.errors.full_messages.join(", ")
       expect(plan).to be_valid
 
       legs_before = TravelLeg.count
