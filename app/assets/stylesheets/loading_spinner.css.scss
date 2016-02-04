@@ -1,0 +1,71 @@
+$color: rgb(42, 63, 80);
+
+// From http://projects.lukehaas.me/css-loaders/
+.loading-spinner {
+  font-size: 3px;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  position: relative;
+  text-indent: -9999em;
+  -webkit-animation: load4 1.3s infinite linear;
+  animation: load4 1.3s infinite linear;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+}
+@-webkit-keyframes load4 {
+  0%,
+  100% {
+    box-shadow: 0 -3em 0 0.2em $color, 2em -2em 0 0em $color, 3em 0 0 -1em $color, 2em 2em 0 -1em $color, 0 3em 0 -1em $color, -2em 2em 0 -1em $color, -3em 0 0 -1em $color, -2em -2em 0 0 $color;
+  }
+  12.5% {
+    box-shadow: 0 -3em 0 0 $color, 2em -2em 0 0.2em $color, 3em 0 0 0 $color, 2em 2em 0 -1em $color, 0 3em 0 -1em $color, -2em 2em 0 -1em $color, -3em 0 0 -1em $color, -2em -2em 0 -1em $color;
+  }
+  25% {
+    box-shadow: 0 -3em 0 -0.5em $color, 2em -2em 0 0 $color, 3em 0 0 0.2em $color, 2em 2em 0 0 $color, 0 3em 0 -1em $color, -2em 2em 0 -1em $color, -3em 0 0 -1em $color, -2em -2em 0 -1em $color;
+  }
+  37.5% {
+    box-shadow: 0 -3em 0 -1em $color, 2em -2em 0 -1em $color, 3em 0em 0 0 $color, 2em 2em 0 0.2em $color, 0 3em 0 0em $color, -2em 2em 0 -1em $color, -3em 0em 0 -1em $color, -2em -2em 0 -1em $color;
+  }
+  50% {
+    box-shadow: 0 -3em 0 -1em $color, 2em -2em 0 -1em $color, 3em 0 0 -1em $color, 2em 2em 0 0em $color, 0 3em 0 0.2em $color, -2em 2em 0 0 $color, -3em 0em 0 -1em $color, -2em -2em 0 -1em $color;
+  }
+  62.5% {
+    box-shadow: 0 -3em 0 -1em $color, 2em -2em 0 -1em $color, 3em 0 0 -1em $color, 2em 2em 0 -1em $color, 0 3em 0 0 $color, -2em 2em 0 0.2em $color, -3em 0 0 0 $color, -2em -2em 0 -1em $color;
+  }
+  75% {
+    box-shadow: 0em -3em 0 -1em $color, 2em -2em 0 -1em $color, 3em 0em 0 -1em $color, 2em 2em 0 -1em $color, 0 3em 0 -1em $color, -2em 2em 0 0 $color, -3em 0em 0 0.2em $color, -2em -2em 0 0 $color;
+  }
+  87.5% {
+    box-shadow: 0em -3em 0 0 $color, 2em -2em 0 -1em $color, 3em 0 0 -1em $color, 2em 2em 0 -1em $color, 0 3em 0 -1em $color, -2em 2em 0 0 $color, -3em 0em 0 0 $color, -2em -2em 0 0.2em $color;
+  }
+}
+@keyframes load4 {
+  0%,
+  100% {
+    box-shadow: 0 -3em 0 0.2em $color, 2em -2em 0 0em $color, 3em 0 0 -1em $color, 2em 2em 0 -1em $color, 0 3em 0 -1em $color, -2em 2em 0 -1em $color, -3em 0 0 -1em $color, -2em -2em 0 0 $color;
+  }
+  12.5% {
+    box-shadow: 0 -3em 0 0 $color, 2em -2em 0 0.2em $color, 3em 0 0 0 $color, 2em 2em 0 -1em $color, 0 3em 0 -1em $color, -2em 2em 0 -1em $color, -3em 0 0 -1em $color, -2em -2em 0 -1em $color;
+  }
+  25% {
+    box-shadow: 0 -3em 0 -0.5em $color, 2em -2em 0 0 $color, 3em 0 0 0.2em $color, 2em 2em 0 0 $color, 0 3em 0 -1em $color, -2em 2em 0 -1em $color, -3em 0 0 -1em $color, -2em -2em 0 -1em $color;
+  }
+  37.5% {
+    box-shadow: 0 -3em 0 -1em $color, 2em -2em 0 -1em $color, 3em 0em 0 0 $color, 2em 2em 0 0.2em $color, 0 3em 0 0em $color, -2em 2em 0 -1em $color, -3em 0em 0 -1em $color, -2em -2em 0 -1em $color;
+  }
+  50% {
+    box-shadow: 0 -3em 0 -1em $color, 2em -2em 0 -1em $color, 3em 0 0 -1em $color, 2em 2em 0 0em $color, 0 3em 0 0.2em $color, -2em 2em 0 0 $color, -3em 0em 0 -1em $color, -2em -2em 0 -1em $color;
+  }
+  62.5% {
+    box-shadow: 0 -3em 0 -1em $color, 2em -2em 0 -1em $color, 3em 0 0 -1em $color, 2em 2em 0 -1em $color, 0 3em 0 0 $color, -2em 2em 0 0.2em $color, -3em 0 0 0 $color, -2em -2em 0 -1em $color;
+  }
+  75% {
+    box-shadow: 0em -3em 0 -1em $color, 2em -2em 0 -1em $color, 3em 0em 0 -1em $color, 2em 2em 0 -1em $color, 0 3em 0 -1em $color, -2em 2em 0 0 $color, -3em 0em 0 0.2em $color, -2em -2em 0 0 $color;
+  }
+  87.5% {
+    box-shadow: 0em -3em 0 0 $color, 2em -2em 0 -1em $color, 3em 0 0 -1em $color, 2em 2em 0 -1em $color, 0 3em 0 -1em $color, -2em 2em 0 0 $color, -3em 0em 0 0 $color, -2em -2em 0 0.2em $color;
+  }
+}
+
