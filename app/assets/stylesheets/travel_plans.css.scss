@@ -1,0 +1,15 @@
+.travel-plan-destination-form-group {
+  position: relative;
+
+  .loading-spinner {
+    display: none;
+    position: absolute;
+    right: 34px;
+    top: 43px;
+  }
+}
+
+
+#add-travel-plan-leg-btn {
+  margin-top: 25px;
+}

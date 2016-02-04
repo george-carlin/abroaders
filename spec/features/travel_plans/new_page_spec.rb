@@ -1,6 +1,7 @@
 require "rails_helper"
 
-describe "new travel plans page" do
+# Page is rendered with React.js; all tests must activate Javascript
+describe "new travel plans page", js: true do
 
   subject { page }
 
@@ -30,6 +31,11 @@ describe "new travel plans page" do
     expect(radio).to be_checked
   end
 
+  specify "the 'add/remove leg' buttons are initially hidden" do
+    is_expected.not_to have_selector add_leg_btn
+    is_expected.not_to have_selector remove_leg_btn
+  end
+
   it "has inputs for journey origin and destination" do
     is_expected.to have_field leg_field(0, :from)
     is_expected.to have_field leg_field(0, :to)
@@ -40,7 +46,7 @@ describe "new travel plans page" do
   end
 
   %i[from to].each do |place|
-    describe "searching for an airport in the '#{place}' input", js: true do
+    describe "searching for an airport in the '#{place}' input" do
       before do
         fill_in leg_field(0, place), with: "lond"
         wait_for_ajax
@@ -79,19 +85,13 @@ describe "new travel plans page" do
     end
   end
 
-  describe "searching for an airport in the 'to' input", js: true do
-    it "populates the dropdown with suggestions"
-
-    describe "and choosing a suggestion" do
-      it "fills the input with the chosen suggestion"
-    end
-  end
-
   describe "selecting a departure date"
-  describe "selecting a return date"
 
   describe "filling in the form" do
     describe "with valid details for a 'return' travel plan" do
+      before do
+      end
+
       describe "and clicking 'save'" do
         it "creates a return travel plan"
 
@@ -105,11 +105,7 @@ describe "new travel plans page" do
   end
 
   describe "clicking 'single'" do
-    it "disables the 'return date' input"
-
-    describe "and clicking 'return' again" do
-      it "reenables the 'return date' input"
-    end
+    before { choose :travel_plan_type_single }
 
     describe "and filling in the form" do
       describe "with valid details for a single travel plan" do
@@ -129,27 +125,55 @@ describe "new travel plans page" do
   end
 
   describe "clicking 'multi'" do
-    it "shows the 'add/remove leg' buttons"
+    before { choose :travel_plan_type_multi }
 
-    describe "the first 'remove leg' button" do
-      it "is initially disabled"
+    it "shows the 'add leg' button" do
+      is_expected.to have_selector add_leg_btn
+    end
+
+    it "doesn't shows a 'remove leg' button" do
+      is_expected.not_to have_selector remove_leg_btn
     end
 
     describe "and clicking 'add leg'" do
-      it "adds a form for a second travel leg"
-      it "enables the 'remove leg' buttons"
+      before { find(add_leg_btn).click }
+
+      it "adds a form for a second travel leg" do
+        is_expected.to have_selector leg_form, count: 2
+      end
+
+      it "shows the 'remove leg' buttons" do
+        is_expected.to have_selector remove_leg_btn, count: 2
+      end
 
       describe "and clicking 'remove leg' again" do
-        it "removes the travel leg form"
-        it "disables the 'remove leg' buttons"
+        before { all(remove_leg_btn).first.click }
+
+        it "removes the given travel leg form" do
+          is_expected.to have_selector leg_form, count: 1
+        end
+
+        it "hides the remaining 'remove leg' button" do
+          is_expected.not_to have_selector remove_leg_btn
+        end
+      end
+    end # clicking 'add leg'
+
+    %i[single return].each do |type|
+      describe "then clicking '#{type}'" do
+        before { choose :"travel_plan_type_#{type}" }
+        it "hides the add/remove buttons again" do
+          is_expected.not_to have_selector add_leg_btn
+          is_expected.not_to have_selector remove_leg_btn
+        end
       end
     end
 
     describe "and adding the maximum number of travel legs" do
-      it "disables the 'add leg' buttons"
+      it "disables the 'add leg' button"
 
       describe "and removing a leg again" do
-        it "reenables the 'add leg' buttons"
+        it "reenables the 'add leg' button"
       end
     end
 
@@ -161,6 +185,18 @@ describe "new travel plans page" do
 
   def leg_field(position, attribute)
     :"travel_plan_legs_attributes_#{position}_#{attribute}"
+  end
+
+  def add_leg_btn
+    "#add-travel-plan-leg-btn"
+  end
+
+  def remove_leg_btn
+    ".remove-travel-plan-leg-btn"
+  end
+
+  def leg_form
+    ".travel-leg-form"
   end
 
 end
