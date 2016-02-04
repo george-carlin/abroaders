@@ -6,7 +6,7 @@ describe "new travel plans page" do
 
   include_context "logged in"
 
-  before(:all) do
+  before do
     @destinations = [
       @lhr = create(:airport, name: "London Heathrow",     code: "LHR"),
       @lgw = create(:airport, name: "London Gatwick",      code: "LGW"),
@@ -16,10 +16,6 @@ describe "new travel plans page" do
       @lga = create(:airport, name: "New York La Guardia", code: "LGA"),
       @ltn = create(:airport, name: "London Luton",        code: "LTN")
     ]
-  end
-  after(:all) { Destination.delete_all }
-
-  before do
     visit new_travel_plan_path
   end
 
@@ -43,23 +39,43 @@ describe "new travel plans page" do
     is_expected.to have_field :travel_plan_departure_date_range
   end
 
-  describe "searching for an airport in the 'from' input", js: true do
-    before do
-      fill_in leg_field(0, :from), with: "lond"
-    end
-
-    it "populates the dropdown with suggestions" do
-      css = ".typeahead.dropdown-menu"
-      [@lhr, @lgw, @ltn].each do |a|
-        is_expected.to have_selector css, text: "#{a.name} (#{a.code})"
+  %i[from to].each do |place|
+    describe "searching for an airport in the '#{place}' input", js: true do
+      before do
+        fill_in leg_field(0, place), with: "lond"
+        wait_for_ajax
       end
-      [@yyz, @sgn, @jfk, @lga].each do |a|
-        is_expected.not_to have_selector css, text: "#{a.name} (#{a.code})"
-      end
-    end
 
-    describe "and choosing a suggestion" do
-      it "fills the input with the chosen suggestion"
+      let(:option) { ".typeahead.dropdown-menu > li > a" }
+
+      it "populates the dropdown with suggestions" do
+        [@lhr, @lgw, @ltn].each do |a|
+          is_expected.to have_selector option, text: "#{a.name} (#{a.code})"
+        end
+        [@yyz, @sgn, @jfk, @lga].each do |a|
+          is_expected.not_to have_selector option, text: "#{a.name} (#{a.code})"
+        end
+      end
+
+      describe "and choosing a suggestion" do
+        before do
+          within "#travel_plan_legs_attributes_0_#{place} + .typeahead" do
+            find(option, text: "London Heathrow (LHR)").click
+          end
+        end
+
+        it "fills the input with the chosen suggestion" do
+          wait_for_ajax
+          field = find("#travel_plan_legs_attributes_0_#{place}")
+          expect(field.value).to eq "London Heathrow (LHR)"
+        end
+
+        it "fills in the '#{place}' hidden input with the dest's ID" do
+          hidden_input_selector = "#travel_plan_legs_attributes_0_#{place}_id"
+          field = find(hidden_input_selector, visible: false)
+          expect(field.value).to eq @lhr.id.to_s
+        end
+      end
     end
   end
 

@@ -34,14 +34,16 @@
       <div class="col-xs-12 col-sm-5 form-group">
         <%= leg_fields.label :from %>
         <%= leg_fields.text_field :from, class: "destination-typeahead" %>
+        <%= leg_fields.hidden_field :from_id %>
         <!--
           <input id="travel_plan_origin_lookup" type="text"
           autoComplete="off" class="form-control" /> -->
       </div>
 
       <div class="col-xs-12 col-sm-5 form-group">
-        <%= leg_fields.label :to, "To:" %>
-        <%= leg_fields.text_field :to %>
+        <%= leg_fields.label :to %>
+        <%= leg_fields.text_field :to, class: "destination-typeahead" %>
+        <%= leg_fields.hidden_field :to_id %>
         <!--
           <input id="travel_plan_origin_lookup" type="text"
           autoComplete="off" class="form-control" /> -->

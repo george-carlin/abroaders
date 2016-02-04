@@ -1,5 +1,3 @@
-// TODO the JSON this returns is huge! Probably not a good idea to load
-// everything into memory like this.
 $(document).ready(function () {
   var bloodhound = new Bloodhound({
     datumTokenizer: function (d) {
@@ -16,13 +14,28 @@ $(document).ready(function () {
   });
   bloodhound.initialize();
 
-  $(".destination-typeahead").typeahead({
-    displayText: function (item) { 
-      return item.name + " (" + item.code + ")";
+  var displayText = function (item) {
+    return item.name + " (" + item.code + ")";
+  },
+  source = function (query, process) {
+    return bloodhound.search(query, process, process);
+  };
+
+
+  $("#travel_plan_legs_attributes_0_from").typeahead({
+    afterSelect: function (item) {
+      $("#travel_plan_legs_attributes_0_from_id").val(item.id);
     },
-    source: function (query, process) {
-      return bloodhound.search(query, process, process);
+    displayText: displayText,
+    source: source,
+  });
+
+  $("#travel_plan_legs_attributes_0_to").typeahead({
+    afterSelect: function (item) {
+      $("#travel_plan_legs_attributes_0_to_id").val(item.id);
     },
+    displayText: displayText,
+    source: source,
   });
 });
 
