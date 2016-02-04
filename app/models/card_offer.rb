@@ -21,6 +21,7 @@ class CardOffer < ApplicationRecord
       greater_than_or_equal_to: 0,
       less_than_or_equal_to: POSTGRESQL_MAX_INT_VALUE
     }
+  validates :identifier, presence: true, uniqueness: true
   validates :points_awarded,
     presence: true,
     numericality: {
