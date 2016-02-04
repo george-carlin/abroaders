@@ -17,4 +17,7 @@
 //= require bootstrap-datepicker
 //= require jquery.tablesorter
 //= require ready
+//= require react
+//= require react_ujs
+//= require components
 //= require_tree .
