@@ -99,9 +99,6 @@ describe "admin section" do
         within card_account_selector(@rec) do
           is_expected.to have_content @rec.card_identifier
           is_expected.to have_content @rec.card_name
-          is_expected.to have_content @rec.card_type.to_s.capitalize
-          is_expected.to have_content @rec.card_brand.to_s.capitalize
-          is_expected.to have_content @rec.card_type.to_s.capitalize
           is_expected.to have_content @rec.card_bank_name
         end
       end

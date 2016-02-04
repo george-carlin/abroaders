@@ -111,8 +111,6 @@
       <th>Name</th>
       <th>Bank</th>
       <th>B/P</th>
-      <th>Brand</th>
-      <th>Type</th>
       <th>Status</th>
       <th>Recommended at</th>
     </thead>
@@ -123,8 +121,6 @@
           <td><%= account.card_name %></td>
           <td><%= account.card_bank_name %></td>
           <td><%= account.card_bp.to_s.capitalize %></td>
-          <td><%= account.card_brand.to_s.capitalize %></td>
-          <td><%= account.card_type.to_s.capitalize %></td>
           <td><%= account.status.humanize %></td>
           <td>
             <% if account.recommended_at %>
@@ -200,14 +196,8 @@
         <th class="card-bp">
           B/P&nbsp; <%= sort_icons %>
         </th>
-        <th class="card-brand">
-          Brand&nbsp; <%= sort_icons %>
-        </th>
         <th class="card-currency">
           Currency&nbsp; <%= sort_icons %>
-        </th>
-        <th class="card-type">
-          Type&nbsp; <%= sort_icons %>
         </th>
       </thead>
       <tbody>
@@ -224,9 +214,7 @@
             <td class="card-name"><%= card.name %></td>
             <td class="card-bank-name"><%= card.bank_name %></td>
             <td class="card-bp"><%= card.bp.capitalize %></td>
-            <td class="card-brand"><%= card.brand.capitalize %></td>
             <td class="card-currency"><%= card.currency.short_name %></td>
-            <td class="card-type"><%= card.type.capitalize %></td>
           </tr>
         <% end %>
       </tbody>
