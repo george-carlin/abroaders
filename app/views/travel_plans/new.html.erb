@@ -31,18 +31,24 @@
 
   <%= f.fields_for :legs do |leg_fields| %>
     <div class="row">
-      <div class="col-xs-12 col-sm-5 form-group">
+      <div
+        class="col-xs-12 col-sm-5 form-group travel-plan-destination-form-group"
+      >
         <%= leg_fields.label :from %>
         <%= leg_fields.text_field :from, class: "destination-typeahead" %>
+        <div id="from-loading-spinner" class="loading-spinner">Loading...</div>
         <%= leg_fields.hidden_field :from_id %>
         <!--
           <input id="travel_plan_origin_lookup" type="text"
           autoComplete="off" class="form-control" /> -->
       </div>
 
-      <div class="col-xs-12 col-sm-5 form-group">
+      <div
+        class="col-xs-12 col-sm-5 form-group travel-plan-destination-form-group"
+      >
         <%= leg_fields.label :to %>
         <%= leg_fields.text_field :to, class: "destination-typeahead" %>
+        <div id="to-loading-spinner" class="loading-spinner">Loading...</div>
         <%= leg_fields.hidden_field :to_id %>
         <!--
           <input id="travel_plan_origin_lookup" type="text"

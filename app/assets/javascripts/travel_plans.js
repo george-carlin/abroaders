@@ -17,8 +17,8 @@ $(document).ready(function () {
   var displayText = function (item) {
     return item.name + " (" + item.code + ")";
   },
-  source = function (query, process) {
-    return bloodhound.search(query, process, process);
+  showSpinner = function () {
+    $(this).siblings(".loading-spinner").show();
   };
 
 
@@ -27,16 +27,30 @@ $(document).ready(function () {
       $("#travel_plan_legs_attributes_0_from_id").val(item.id);
     },
     displayText: displayText,
-    source: source,
-  });
+    source: function (query, process) {
+      // Hide the loading spinner when the search is complete.
+      var wrapped = function (results) {
+        $("#to-loading-spinner").hide();
+        process(results);
+      };
+      return bloodhound.search(query, process, wrapped);
+    },
+  }).on("keyup keydown keypress", showSpinner);
 
   $("#travel_plan_legs_attributes_0_to").typeahead({
     afterSelect: function (item) {
       $("#travel_plan_legs_attributes_0_to_id").val(item.id);
     },
     displayText: displayText,
-    source: source,
-  });
+    source: function (query, process) {
+      // Hide the loading spinner when the search is complete.
+      var wrapped = function (results) {
+        $("#to-loading-spinner").hide();
+        process(results);
+      };
+      return bloodhound.search(query, process, wrapped);
+    },
+  }).on("keyup keydown keypress", showSpinner);
 });
 
 $(document).ready(function () {
