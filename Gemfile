@@ -33,6 +33,7 @@ gem 'figaro', '~> 1.1.1'
 
 gem "font-awesome-rails"
 
+gem 'searchlight'
 gem 'virtus'
 
 # Required to make the app function properly on Heroku:

@@ -98,13 +98,12 @@ ActiveRecord::Schema.define(version: 20160210011110) do
   end
 
   create_table "travel_legs", force: :cascade do |t|
-    t.integer   "travel_plan_id",                       null: false
-    t.integer   "position",       limit: 2, default: 0, null: false
-    t.integer   "from_id",                              null: false
-    t.integer   "to_id",                                null: false
-    t.daterange "date_range",                           null: false
-    t.datetime  "created_at",                           null: false
-    t.datetime  "updated_at",                           null: false
+    t.integer  "travel_plan_id",                       null: false
+    t.integer  "position",       limit: 2, default: 0, null: false
+    t.integer  "from_id",                              null: false
+    t.integer  "to_id",                                null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
     t.index ["from_id"], name: "index_travel_legs_on_from_id", using: :btree
     t.index ["to_id"], name: "index_travel_legs_on_to_id", using: :btree
     t.index ["travel_plan_id", "position"], name: "index_travel_legs_on_travel_plan_id_and_position", unique: true, using: :btree
@@ -112,9 +111,12 @@ ActiveRecord::Schema.define(version: 20160210011110) do
   end
 
   create_table "travel_plans", force: :cascade do |t|
-    t.integer  "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer   "user_id"
+    t.integer   "type",                 null: false
+    t.daterange "departure_date_range", null: false
+    t.datetime  "created_at",           null: false
+    t.datetime  "updated_at",           null: false
+    t.index ["type"], name: "index_travel_plans_on_type", using: :btree
     t.index ["user_id"], name: "index_travel_plans_on_user_id", using: :btree
   end
 

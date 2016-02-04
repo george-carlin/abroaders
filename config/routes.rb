@@ -68,6 +68,11 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       resources :users
+      resources :destinations, only: [] do
+        collection do
+          get :typeahead
+        end
+      end
     end
   end
 

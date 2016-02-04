@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require bootstrap.min
 //= require bootstrap3-typeahead
+//= require bloodhound
 //= require bootstrap-datepicker
 //= require jquery.tablesorter
 //= require ready

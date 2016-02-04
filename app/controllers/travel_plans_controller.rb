@@ -1,7 +1,8 @@
 class TravelPlansController < NonAdminController
 
   def new
-    @travel_plan = current_user.travel_plans.new
+    @travel_plan = TravelPlan.new #NewTravelPlan.new(type: :return)
+    @travel_plan.legs.build
   end
 
 end

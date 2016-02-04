@@ -6,6 +6,19 @@ describe "new travel plans page" do
 
   include_context "logged in"
 
+  before(:all) do
+    @destinations = [
+      @lhr = create(:airport, name: "London Heathrow",     code: "LHR"),
+      @lgw = create(:airport, name: "London Gatwick",      code: "LGW"),
+      @yyz = create(:airport, name: "Toronto Pearson",     code: "YYZ"),
+      @sgn = create(:airport, name: "Ho Chi Minh City",    code: "SGN"),
+      @jfk = create(:airport, name: "New York J.F.K.",     code: "JFK"),
+      @lga = create(:airport, name: "New York La Guardia", code: "LGA"),
+      @ltn = create(:airport, name: "London Luton",        code: "LTN")
+    ]
+  end
+  after(:all) { Destination.delete_all }
+
   before do
     visit new_travel_plan_path
   end
@@ -17,17 +30,33 @@ describe "new travel plans page" do
   end
 
   specify "'return' type is selected by default" do
-    radio = find("#travel_plan_type_multi")
+    radio = find("#travel_plan_type_return")
     expect(radio).to be_checked
   end
 
   it "has inputs for journey origin and destination" do
-    is_expected.to have_field :travel_leg_0_from_id
-    is_expected.to have_field :travel_leg_0_to_id
+    is_expected.to have_field leg_field(0, :from)
+    is_expected.to have_field leg_field(0, :to)
+  end
+
+  it "has an input for the departure date range" do
+    is_expected.to have_field :travel_plan_departure_date_range
   end
 
   describe "searching for an airport in the 'from' input", js: true do
-    it "populates the dropdown with suggestions"
+    before do
+      fill_in leg_field(0, :from), with: "lond"
+    end
+
+    it "populates the dropdown with suggestions" do
+      css = ".typeahead.dropdown-menu"
+      [@lhr, @lgw, @ltn].each do |a|
+        is_expected.to have_selector css, text: "#{a.name} (#{a.code})"
+      end
+      [@yyz, @sgn, @jfk, @lga].each do |a|
+        is_expected.not_to have_selector css, text: "#{a.name} (#{a.code})"
+      end
+    end
 
     describe "and choosing a suggestion" do
       it "fills the input with the chosen suggestion"
@@ -112,6 +141,10 @@ describe "new travel plans page" do
       describe "with valid data"
       describe "with invalid data"
     end
+  end
+
+  def leg_field(position, attribute)
+    :"travel_plan_legs_attributes_#{position}_#{attribute}"
   end
 
 end
