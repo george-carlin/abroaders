@@ -45,11 +45,12 @@ gem 'faker'
 
 group :development, :test do
   gem 'byebug'
-  gem 'rspec-rails'
+  gem 'database_cleaner'
+  gem 'guard-rspec', require: false
   # Quiet assets is completely broken with Rails 5, see
   # https://github.com/evrone/quiet_assets/issues/47
   # gem 'quiet_assets', github: "evrone/quiet_assets", ref: "a39a74c4cefd"
-  gem 'database_cleaner'
+  gem 'rspec-rails'
 end
 
 group :development do
