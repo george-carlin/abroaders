@@ -1,6 +1,9 @@
 class CardAccountsController < NonAdminController
   helper CardAccountButtons
 
+  before_action :user_must_have_completed_personal_and_spending_info_survey!,
+    only: [:survey, :save_survey]
+
   def index
     @card_accounts = current_user.card_accounts.order(:created_at)
   end
@@ -11,11 +14,14 @@ class CardAccountsController < NonAdminController
 
   def save_survey
     cards = Card.where(id: params[:card_account][:card_ids])
-    CardAccount.unknown.create!(
-      cards.map do |card|
-        { user: current_user, card: card}
-      end
-    )
+    ActiveRecord::Base.transaction do
+      CardAccount.unknown.create!(
+        cards.map do |card|
+          { user: current_user, card: card}
+        end
+      )
+      current_user.info.update_attributes!(has_completed_card_survey: true)
+    end
     redirect_to root_path
   end
 
@@ -53,6 +59,12 @@ class CardAccountsController < NonAdminController
 
   def get_card_account
     current_user.card_accounts.find(params[:id])
+  end
+
+  def user_must_have_completed_personal_and_spending_info_survey!
+    unless current_user.info.present?
+      redirect_to survey_path
+    end
   end
 
 end
