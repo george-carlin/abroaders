@@ -36,11 +36,11 @@ describe "admin section" do
 
 
     context "when the user" do
-      context "has no existing card accounts/recommendations" do
-        it "says so" do
-          should have_content t("admin.users.card_accounts.none")
-        end
-      end
+      # context "has no existing card accounts/recommendations" do
+      #   it "says so" do
+      #     should have_content t("admin.users.card_accounts.none")
+      #   end
+      # end
 
       context "has not yet completed the onboarding survey" do
         it "says so" do
@@ -88,112 +88,111 @@ describe "admin section" do
       end
     end
 
-    context "has already been recommended at least one card" do
-      let(:extra_setup) do
-        @recommended_card = @cards.first
-        @rec = create(
-          :card_recommendation, user: @user, card: @recommended_card
-        )
-      end
+    # context "has already been recommended at least one card" do
+    #   let(:extra_setup) do
+    #     @recommended_card = @cards.first
+    #     @rec = create(
+    #       :card_recommendation, user: @user, card: @recommended_card
+    #     )
+    #   end
 
-      it "lists existing card recommendations" do
-        should have_selector card_account_selector(@rec)
-        within card_account_selector(@rec) do
-          is_expected.to have_content @rec.card_identifier
-          is_expected.to have_content @rec.card_name
-          is_expected.to have_content @rec.card_bank_name
-        end
-      end
+    #   it "lists existing card recommendations" do
+    #     should have_selector card_account_selector(@rec)
+    #     within card_account_selector(@rec) do
+    #       is_expected.to have_content @rec.card_identifier
+    #       is_expected.to have_content @rec.card_name
+    #       is_expected.to have_content @rec.card_bank_name
+    #     end
+    #   end
 
-      it "doesn't include those cards in the 'new recommendation' form" do
-        within "form#new_card_account" do
-          should_not have_selector card_radio_btn(@recommended_card)
-        end
-      end
-    end
+    #   it "doesn't include those cards in the 'new recommendation' form" do
+    #     within "form#new_card_account" do
+    #       should_not have_selector card_radio_btn(@recommended_card)
+    #     end
+    #   end
+    # end
 
-    it "has a form to recommend a new card" do
-      within "form#new_card_account" do
-        @cards.each do |card|
-          should have_recommendable_card(card)
-          within recommendable_card_selector(card) do
-            should have_selector card_radio_btn(card)
-          end
-        end
-      end
-    end
+    # it "has a form to recommend a new card" do
+    #   within "form#new_card_account" do
+    #     @cards.each do |card|
+    #       should have_recommendable_card(card)
+    #       within recommendable_card_selector(card) do
+    #         should have_selector card_radio_btn(card)
+    #       end
+    #     end
+    #   end
+    # end
 
+    # describe "the card account status dropdown" do
+    #   it "is initially hidden" do
+    #     is_expected.not_to have_field :card_account_status
+    #   end
+    # end
 
-    describe "the card account status dropdown" do
-      it "is initially hidden" do
-        is_expected.not_to have_field :card_account_status
-      end
-    end
+    # describe "selecting a card" do
+    #   before do
+    #     @card = @cards[2]
+    #     choose :"card_account_card_id_#{@card.id}"
+    #   end
 
-    describe "selecting a card" do
-      before do
-        @card = @cards[2]
-        choose :"card_account_card_id_#{@card.id}"
-      end
+    #   let(:submit) { click_button "Submit" }
 
-      let(:submit) { click_button "Submit" }
+    #   describe "and selecting 'recommend this card'" do
+    #     before { choose :create_mode_recommendation }
 
-      describe "and selecting 'recommend this card'" do
-        before { choose :create_mode_recommendation }
+    #     describe "and clicking 'submit'" do
 
-        describe "and clicking 'submit'" do
+    #       it "assigns the card to the user in the 'recommendation' stage" do
+    #         expect{submit}.to change{CardAccount.recommended.count}.by(1)
 
-          it "assigns the card to the user in the 'recommendation' stage" do
-            expect{submit}.to change{CardAccount.recommended.count}.by(1)
+    #         account = CardAccount.recommended.last
+    #         expect(account.card).to eq @card
+    #         expect(account.user).to eq @user
+    #       end
 
-            account = CardAccount.recommended.last
-            expect(account.card).to eq @card
-            expect(account.user).to eq @user
-          end
+    #       it "sets 'recommended at' to the current time" do
+    #         submit
+    #         account = CardAccount.recommended.last
+    #         expect(account.recommended_at).to be_within(5.seconds).of(
+    #           Time.now
+    #         )
+    #       end
 
-          it "sets 'recommended at' to the current time" do
-            submit
-            account = CardAccount.recommended.last
-            expect(account.recommended_at).to be_within(5.seconds).of(
-              Time.now
-            )
-          end
+    #       pending "notifies the user"
+    #     end
+    #   end
 
-          pending "notifies the user"
-        end
-      end
+    #   describe "and selecting 'assign this card'", js: true do
+    #     before { choose :create_mode_assignment }
 
-      describe "and selecting 'assign this card'", js: true do
-        before { choose :create_mode_assignment }
+    #     it "shows the card account status dropdown" do
+    #       is_expected.to have_field :card_account_status
+    #     end
 
-        it "shows the card account status dropdown" do
-          is_expected.to have_field :card_account_status
-        end
+    #     describe "selecting a status and submitting" do
+    #       before { select "Denied", from: :card_account_status }
 
-        describe "selecting a status and submitting" do
-          before { select "Denied", from: :card_account_status }
+    #       let(:submit) { click_button "Submit" }
 
-          let(:submit) { click_button "Submit" }
+    #       it "assigns the card to the user in the 'recommendation' stage" do
+    #         expect{submit}.to change{CardAccount.count}.by(1)
 
-          it "assigns the card to the user in the 'recommendation' stage" do
-            expect{submit}.to change{CardAccount.count}.by(1)
+    #         account = CardAccount.last
+    #         expect(account.card).to eq @card
+    #         expect(account.user).to eq @user
+    #         expect(account.status).to eq "denied"
+    #       end
 
-            account = CardAccount.last
-            expect(account.card).to eq @card
-            expect(account.user).to eq @user
-            expect(account.status).to eq "denied"
-          end
+    #       it "doesn't set a 'recommended at' timestamp" do
+    #         submit
+    #         account = CardAccount.last
+    #         expect(account.recommended_at).to be_nil
+    #       end
 
-          it "doesn't set a 'recommended at' timestamp" do
-            submit
-            account = CardAccount.last
-            expect(account.recommended_at).to be_nil
-          end
-
-          pending "notifies the user"
-        end
-      end
-    end
+    #       pending "notifies the user"
+    #     end
+    #   end
+    # end
 
     def card_account_selector(account)
       "#card_account_#{account.id}"

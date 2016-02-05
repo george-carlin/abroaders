@@ -18,8 +18,10 @@
 <% if @user.info.present? %>
   <hr style="margin-bottom:0;">
 
-  <%= render "user_infos/user", user: @user %>
+  <%= render "user_infos/info", user: @user %>
 <% end %>
+
+<% if false %>
 
 <hr>
 
@@ -142,3 +144,5 @@
 <% end %>
 
 <%= link_to 'Back to all users', admin_users_path %>
+
+<% end %>
