@@ -60,7 +60,7 @@ ActiveRecord::Schema.define(version: 20160205001951) do
     t.string   "name",                            null: false
     t.integer  "brand",                           null: false
     t.integer  "bp",                              null: false
-    t.string   "type",                            null: false
+    t.integer  "type",                            null: false
     t.integer  "annual_fee_cents",                null: false
     t.boolean  "active",           default: true, null: false
     t.datetime "created_at",                      null: false
