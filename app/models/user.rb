@@ -19,6 +19,10 @@ class User < ApplicationRecord
     info.present? ? info.full_name : "#{self.class} ##{id}"
   end
 
+  def has_completed_user_info_survey?
+    !!info.try(:persisted?)
+  end
+
   def has_completed_onboarding_survey?
     info.present? && info.persisted? && info.has_completed_card_survey?
   end

@@ -1,4 +1,5 @@
 class UserInfosController < NonAdminController
+  before_action :redirect_if_survey_already_completed, only: %i[new create]
 
   def new
     redirect_to root_path and return if current_user.info.present?
@@ -22,6 +23,12 @@ class UserInfosController < NonAdminController
       :text_message, :phone_number, :credit_score, :business_spending,
       :will_apply_for_loan, :personal_spending, :has_business, :citizenship
     )
+  end
+
+  def redirect_if_survey_already_completed
+    if current_user.has_completed_user_info_survey?
+      redirect_to root_path
+    end
   end
 
 end

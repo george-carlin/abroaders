@@ -102,8 +102,8 @@ describe "user info pages" do
     end # submitting the form
 
 
-    context "when I already have provided my user  info" do
-      let(:extra_setup) { create(:user_info, user: user) }
+    context "when I already have provided my user info" do
+      let(:extra_setup) { create(:user_info, user: user); user.reload }
       it "redirects to root" do
         # TODO this should probably be changed once we add the ability to
         # *edit* contact info
