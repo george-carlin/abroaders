@@ -19,6 +19,26 @@
   <hr style="margin-bottom:0;">
 
   <%= render "user_infos/info", user: @user %>
+
+  <hr>
+
+  <p>
+    Cards -
+    <%= link_to "Recommend", new_admin_user_card_recommendation_path(@user) %>
+    |
+    <%= link_to "Assign", new_admin_user_card_path(@user) %>
+  </p>
+
+  <p class="help-block">
+    <i>
+      If you 'recommend' a card to a user, they will receive a notification and
+      the card will appear under 'recommended cards', where they will be able
+      to apply for the card, decline the recommendation, etc. If you 'assign' a
+      card then you will be able to choose the exact status (accepted,
+      declined, denied) etc of the account, and the card will appear in the
+      user's list of cards without them receiving a notification.
+    </i>
+  </p>
 <% end %>
 
 <% if false %>

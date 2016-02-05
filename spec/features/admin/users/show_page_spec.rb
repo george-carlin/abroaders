@@ -7,25 +7,25 @@ describe "admin section" do
     include_context "logged in as admin"
 
     before do
-      @cards = [
-        @chase_business = create(
-          :card, :business, bank: :chase, currency_id: "alaska"
-        ),
-        @chase_personal = create(
-          :card, :personal, bank: :chase, currency_id: "american",
-        ),
-        @usb_business   = create(
-          :card, :business, bank: :us_bank, currency_id: "amex",
-        ),
-        @usb_personal   = create(
-          :card, :personal, bank: :us_bank, currency_id: "ba",
-        )
-      ]
+      # @cards = [
+      #   @chase_business = create(
+      #     :card, :business, bank: :chase, currency_id: "alaska"
+      #   ),
+      #   @chase_personal = create(
+      #     :card, :personal, bank: :chase, currency_id: "american",
+      #   ),
+      #   @usb_business   = create(
+      #     :card, :business, bank: :us_bank, currency_id: "amex",
+      #   ),
+      #   @usb_personal   = create(
+      #     :card, :personal, bank: :us_bank, currency_id: "ba",
+      #   )
+      # ]
 
-      create(:card_offer, card: @chase_business)
-      create(:card_offer, card: @chase_business)
-      create(:card_offer, card: @chase_personal)
-      create(:card_offer, card: @usb_business)
+      # create(:card_offer, card: @chase_business)
+      # create(:card_offer, card: @chase_business)
+      # create(:card_offer, card: @chase_personal)
+      # create(:card_offer, card: @usb_business)
 
       @user = create(:user)
       extra_setup
@@ -54,6 +54,13 @@ describe "admin section" do
         it "displays the user's email address" do
           is_expected.to have_content @user.email
         end
+
+        it "does not have links to recommend or assign a card" do
+          is_expected.not_to have_link "Recommend",
+                        href: new_admin_user_card_recommendation_path(@user)
+          is_expected.not_to have_link "Assign",
+                        href: new_admin_user_card_path(@user)
+        end
       end
 
       context "has completed the onboarding survey" do
@@ -80,10 +87,18 @@ describe "admin section" do
         it "displays the relevant survey information" do
           is_expected.to have_user_info "email", @user.email
           is_expected.to have_user_info "phone-number", phone_number
-          is_expected.to have_user_info "citizenship", "U.S. Permanent Resident"
+          is_expected.to have_user_info "citizenship",
+                                              "U.S. Permanent Resident"
           is_expected.to have_user_info "credit-score", 678
           is_expected.to have_user_info "personal-spending", "$2500"
           is_expected.to have_user_info "business-spending", "$1500"
+        end
+
+        it "has links to recommend or assign a card" do
+          is_expected.to have_link "Recommend",
+                        href: new_admin_user_card_recommendation_path(@user)
+          is_expected.to have_link "Assign",
+                        href: new_admin_user_card_path(@user)
         end
       end
     end
