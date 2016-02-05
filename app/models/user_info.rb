@@ -22,11 +22,15 @@ class UserInfo < ApplicationRecord
   MINIMUM_CREDIT_SCORE = 350
   MAXIMUM_CREDIT_SCORE = 850
 
+  VALID_TIME_ZONES = ActiveSupport::TimeZone.all.map(&:name)
+
   validates :user, presence: true
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :phone_number, presence: true
-  validates :time_zone, presence: true
+  validates :time_zone,
+    inclusion: { in: VALID_TIME_ZONES },
+    presence: true
   validates :credit_score, presence: true,
     numericality: {
       greater_than_or_equal_to: MINIMUM_CREDIT_SCORE,

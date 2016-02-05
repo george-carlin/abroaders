@@ -19,6 +19,8 @@ class User < ApplicationRecord
 
   # Validations
 
+  validates :info, associated: true
+
   # Associations
 
   has_many :card_accounts

@@ -3,7 +3,7 @@ FactoryGirl.define do
     first_name   { Faker::Name.first_name }
     last_name    { Faker::Name.last_name  }
     phone_number { Faker::PhoneNumber.phone_number }
-    time_zone    { %w[GMT PDT PST UTC CET MST MDT WST EST].sample }
+    time_zone    { ActiveSupport::TimeZone.us_zones.sample.name }
     credit_score do
       min = UserInfo::MINIMUM_CREDIT_SCORE
       max = UserInfo::MAXIMUM_CREDIT_SCORE
