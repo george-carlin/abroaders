@@ -1,5 +1,5 @@
 class Card < ApplicationRecord
-   self.inheritance_column = :_no_sti
+  self.inheritance_column = :_no_sti
 
   # Attributes
 
