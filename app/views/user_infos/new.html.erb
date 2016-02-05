@@ -45,7 +45,7 @@
 
   <div class="form-group required">
     <%= f.label :time_zone %>
-    <%= f.time_zone_select :time_zone, nil, {},
+    <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, {},
       # For some reason I can't get time_zone_select to add the BS class
       # manually like I can with the overriden methods:
             class: BootstrapOverrides::Overrides::BOOTSTRAP_CLASS %>

@@ -46,6 +46,15 @@ describe "user info pages" do
       end
     end
 
+    describe "the 'time zone' dropdown" do
+      it "has US time zones sorted to the top" do
+        us_zones = ActiveSupport::TimeZone.us_zones.map(&:name)
+        options  = all("select[name='user_info[time_zone]'] > option")
+        expect(options.first(us_zones.length).map(&:value)).to \
+          match_array(us_zones)
+      end
+    end
+
     describe "submitting the form" do
       let(:submit_form) { click_button "Save" }
 
