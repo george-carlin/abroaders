@@ -55,7 +55,8 @@ Rails.application.routes.draw do
     end
 
     resources :users do
-      resources :card_accounts, as: :card_recommendations
+      resources :card_accounts, as: :cards
+      resources :card_recommendations, only: [:new, :create]
     end
   end
 

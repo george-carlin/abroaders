@@ -22,6 +22,11 @@ describe "admin section" do
         )
       ]
 
+      create(:card_offer, card: @chase_business)
+      create(:card_offer, card: @chase_business)
+      create(:card_offer, card: @chase_personal)
+      create(:card_offer, card: @usb_business)
+
       @user = create(:user)
       extra_setup
       visit admin_user_path(@user)
@@ -29,9 +34,6 @@ describe "admin section" do
 
     let(:extra_setup) { nil }
 
-    it "shows the date on which the user signed up" do
-      is_expected.to have_content user.created_at.strftime("%D")
-    end
 
     context "when the user" do
       context "has no existing card accounts/recommendations" do
@@ -121,92 +123,6 @@ describe "admin section" do
       end
     end
 
-    describe "filters", js: true do
-      def should_have_recommendable_cards(*cards)
-        cards.each { |card| should have_recommendable_card(card) }
-      end
-
-      def should_not_have_recommendable_cards(*cards)
-        cards.each { |card| should_not have_recommendable_card(card) }
-      end
-
-      describe "the cards" do
-        specify "can be filtered by b/p" do
-          uncheck :card_bp_filter_business
-          should_have_recommendable_cards(@chase_personal, @usb_personal)
-          should_not_have_recommendable_cards(@chase_business, @usb_business)
-          uncheck :card_bp_filter_personal
-          should_not_have_recommendable_cards(*@cards)
-          check :card_bp_filter_business
-          should_have_recommendable_cards(@chase_business, @usb_business)
-          should_not_have_recommendable_cards(@chase_personal, @usb_personal)
-          check :card_bp_filter_personal
-          should_have_recommendable_cards(*@cards)
-        end
-
-        specify "can be filtered by bank" do
-          Card.banks.keys.each do |bank|
-            is_expected.to have_field :"card_bank_filter_#{bank}"
-          end
-
-          uncheck :card_bank_filter_chase
-          should_have_recommendable_cards(@usb_business, @usb_personal)
-          should_not_have_recommendable_cards(@chase_business, @chase_personal)
-          uncheck :card_bank_filter_us_bank
-          should_not_have_recommendable_cards(*@cards)
-          check :card_bank_filter_chase
-          should_have_recommendable_cards(@chase_business, @chase_personal)
-          should_not_have_recommendable_cards(@usb_business, @usb_personal)
-          check :card_bank_filter_us_bank
-          should_have_recommendable_cards(*@cards)
-        end
-
-        specify "can be filtered by currency" do
-          Currency.keys.each do |currency|
-            is_expected.to have_field :"card_currency_filter_#{currency}"
-          end
-
-          # Alternative variables names for readability:
-          alaska_card   = @chase_business
-          american_card = @chase_personal
-          amex_card     = @usb_business
-          ba_card       = @usb_personal
-
-          uncheck :card_currency_filter_alaska
-          uncheck :card_currency_filter_american
-          should_have_recommendable_cards(amex_card, ba_card)
-          should_not_have_recommendable_cards(alaska_card, american_card)
-          uncheck :card_currency_filter_amex
-          uncheck :card_currency_filter_ba
-          should_not_have_recommendable_cards(*@cards)
-          check :card_currency_filter_american
-          should_have_recommendable_cards(american_card)
-        end
-      end
-
-      describe "the 'toggle all banks' checkbox" do
-        it "toggles all banks on/off" do
-          uncheck :card_bank_filter_all
-          should_not_have_recommendable_cards(*@cards)
-          Card.banks.keys.each do |bank|
-            expect(find("#card_bank_filter_#{bank}")).not_to be_checked
-          end
-          check :card_bank_filter_all
-          should_have_recommendable_cards(*@cards)
-          Card.banks.keys.each do |bank|
-            expect(find("#card_bank_filter_#{bank}")).to be_checked
-          end
-        end
-
-        it "is checked/unchecked automatically as I click other CBs" do
-          uncheck :card_bank_filter_chase
-          expect(find("#card_bank_filter_all")).not_to be_checked
-          check :card_bank_filter_chase
-          expect(find("#card_bank_filter_all")).to be_checked
-        end
-      end
-    end
-
 
     describe "the card account status dropdown" do
       it "is initially hidden" do
@@ -285,14 +201,6 @@ describe "admin section" do
 
     def card_radio_btn(card)
       "input#card_account_card_id_#{card.id}"
-    end
-
-    def have_recommendable_card(card)
-      have_selector recommendable_card_selector(card)
-    end
-
-    def recommendable_card_selector(card)
-      "##{dom_id(card, :admin_recommend)}"
     end
 
     def have_user_info(attr, value)

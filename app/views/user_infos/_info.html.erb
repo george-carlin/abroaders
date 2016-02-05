@@ -1,0 +1,80 @@
+<div class="row">
+  <div class="col-xs-12">
+    <h3>Contact & Spending Info</h3>
+  </div>
+
+  <div class="col-xs-12 col-xs-4">
+    <div class="user-contact-info">
+      <%= user_email_with_icon(user) %>
+
+      <div class="user-info-attr user-phone-number">
+        <%= fa_icon "phone", class: "contact-info-label" %>
+        &nbsp;<%= user.phone_number %>
+
+        <div class="user-phone-can-receive-icons">
+          <% if user.text_message? %>
+            <abbr title="The user can receive text messages on this number">
+              <%= fa_icon "comment fa-inverse"  %>
+            </abbr>
+          <% end %>
+          <% if user.whatsapp? %>
+            <abbr title="The user can receive WhatsApp messages on this number">
+              <%= fa_icon "whatsapp fa-inverse" %>
+            </abbr>
+          <% end %>
+          <%# font awesome doesn't have an icon for imessage, so use the %>
+          <%# 'wechat' icon instead. Shhhh... %>
+          <% if user.imessage? %>
+            <abbr title="The user can receive iMessages on this number">
+              <%= fa_icon "wechat fa-inverse" %>
+            </abbr>
+          <% end %>
+        </div>
+      </div>
+      <div class="user-info-attr user-citizenship">
+        <%= fa_icon "flag", class: "contact-info-label" %>
+        &nbsp;<%= user_pretty_citizenship(user) %>
+      </div>
+      <div class="user-info-attr user-time-zone">
+        <%= fa_icon "globe", class: "contact-info-label" %>
+        &nbsp;<%= ActiveSupport::TimeZone.new(user.time_zone) %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xs-12 col-md-4">
+    <div class="user-spending-info">
+      <div class="user-info-attr user-personal-spending">
+        <div class="spending-label">
+          Personal spending:
+        </div>
+        $<%= user.personal_spending %>
+      </div>
+
+      <% if user.has_business? %>
+        <div class="user-info-attr user-business-spending">
+          <div class="spending-label">
+            Business spending:
+          </div>
+          $<%= user.business_spending %>
+
+          <div class="has-ein">
+            <% if user.has_business_with_ein? %>
+              (Has EIN)
+            <% else %>
+              (Does not have EIN)
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
+      <div class="user-info-attr user-credit-score">
+        <div class="spending-label">
+          Credit Score:
+        </div>
+        <%= user.credit_score %>
+      </div>
+    </div>
+  </div>
+</div>
+

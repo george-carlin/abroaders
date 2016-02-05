@@ -1,0 +1,28 @@
+<table id="admin_user_card_recommendations" class="table table-striped">
+  <thead>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Bank</th>
+    <th>B/P</th>
+    <th>Status</th>
+    <th>Recommended at</th>
+  </thead>
+  <tbody>
+    <% accounts.each do |account| %>
+      <tr id="<%= dom_id(account) %>">
+        <td><%= account.card_identifier %></td>
+        <td><%= account.card_name %></td>
+        <td><%= account.card_bank_name %></td>
+        <td><%= account.card_bp.to_s.capitalize %></td>
+        <td><%= account.status.humanize %></td>
+        <td>
+          <% if account.recommended_at %>
+            <%= account.recommended_at.try(:strftime, "%c") %>
+          <% else %>
+            -
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

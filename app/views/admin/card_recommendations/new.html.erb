@@ -1,0 +1,190 @@
+<% provide :title, "#{@user.name} - Recommend Card" %>
+
+<% raise "user hasn't completed survey yet" unless @user.info.present? # TODO redirect in controller %>
+
+<h1><%= @user.name %> - Recommend Card</h1>
+
+<p>User signed up on <%= @user.created_at.strftime("%D") %></p>
+
+<%= render "user_infos/info", user: @user %>
+
+<table class="table table-striped table-bordered">
+  <tbody>
+    <tr>
+      <table>
+        <tbody>
+          <tr>
+            <td>A</td>
+            <td>B</td>
+            <td>C</td>
+            <td>D</td>
+            <td>E</td>
+            <td>F</td>
+          </tr>
+        </tbody>
+      </table>
+    </tr>
+  </tbody>
+</table>
+
+<% if @card_accounts.any? %>
+  <hr />
+
+  <h3>Existing Cards</h3>
+
+  <%= render "card_accounts/table", accounts: @card_accounts %>
+<% else %>
+  <%= t("admin.users.card_accounts.none") %>
+<% end %>
+
+<hr />
+
+<div class="card-recommendation-filters">
+  <div class="form-inline">
+    <b>B/P: </b>&nbsp;
+    <% Card.bps.keys.each do |bp| %>
+      <%= card_bp_filter_check_box_tag(bp) %>
+    <% end %>
+  </div>
+
+  <div class="form-inline">
+    <b>BANK: </b>&nbsp;
+    <% Card.banks.keys.each do |bank| %>
+      <%= card_bank_filter_check_box_tag(bank) %>
+    <% end %>
+
+    |
+
+    <label for="card_bank_filter_all">
+      <%= check_box_tag :card_bank_filter_all, nil, true %>
+      Toggle all
+    </label>
+  </div>
+
+  <div class="form-inline">
+    <b>CURRENCY: </b>&nbsp;
+    <% Currency.all.sort_by(&:short_name).each do |currency| %>
+      <%= card_currency_filter_check_box_tag(currency.id) %>
+    <% end %>
+
+    <!--
+    |
+
+    <label for="card_currency_filter_all">
+      <%#= check_box_tag :card_currency_filter_all, nil, true %>
+      Toggle all
+    </label>-->
+  </div>
+</div><!-- .card-recommendation-filters -->
+
+<br>
+
+<p class="help-block">
+  <i>
+    User will receive a notification and the card will appear under 'New
+    recommendations'
+  </i>
+</p>
+
+<%# TODO - make the table sortable again %>
+<table class="admin-card-recommendation-table table">
+
+  <thead class="admin-card-recommendations-table-head">
+    <tr>
+      <th class="card-identifier">
+        Identifier
+      </th>
+      <th class="card-name">
+        Name
+      </th>
+      <th class="card-bank-name">
+        Bank
+      </th>
+      <th class="card-bp">
+        B/P
+      </th>
+      <th class="card-currency">
+        Currency
+      </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @card_offers_grouped_by_card.each_with_index do |(card, offers), i| %>
+      <tr
+        id="<%= dom_id(card, :admin_recommend) %>"
+        class="<%= dom_class(card, :admin_recommend) %>"
+        data-bp="<%= card.bp %>"
+        data-bank="<%= card.bank %>"
+        data-currency="<%= card.currency_id %>"
+      >
+        <td class="card-identifier">
+          Card <%= card.identifier %>
+        </td>
+        <td class="card-name">
+          <%= card.name %>
+        </td>
+        <td class="card-bank-name">
+          <%= card.bank_name %>
+        </td>
+        <td class="card-bp">
+          <%= card.bp.capitalize %>
+        </td>
+        <td class="card-currency">
+          <%= card.currency.short_name %>
+        </td>
+      </tr><!-- .admin_recommend_card_(id) -->
+
+      <tr
+        id="<%= dom_id(card, :admin_recommend) %>_offers"
+        class="<%= dom_class(card, :admin_recommend) %>_offers"
+      >
+        <td colspan="5">
+          <table
+            id="<%= dom_id(card, :admin_recommend) %>_offers_table"
+            class="<%= dom_class(card, :admin_recommend) %>_offers_table table"
+          >
+            <tbody>
+              <% offers.each_with_index do |offer, j| %>
+                <tr
+                  id="<%= dom_id(offer, :admin_recommend) %>"
+                  class="<%= dom_class(offer, :admin_recommend) %>"
+                >
+                  <td class="offer-identifier">
+                    Offer <%= offer.identifier %>
+                  </td>
+                  <td class="offer-points-awarded">
+                    Points: &nbsp;
+                    <b><%= number_with_delimiter offer.points_awarded %></b>
+                  </td>
+                  <td class="offer-spend">
+                    Spend:&nbsp;
+                    <b><%= number_to_currency offer.spend %></b>
+                  </td>
+                  <td class="offer-cost">
+                    Cost:&nbsp;
+                    <b><%= number_to_currency offer.cost %></b>
+                  </td>
+                  <td class="offer-days">
+                    Days:&nbsp;
+                    <b><%= offer.days %></b>
+                  </td>
+                  <td class="offer-recommend">
+                    <%= button_to(
+                          "Recommend",
+                          admin_user_card_recommendations_path,
+                          params: { offer_id: offer.id },
+                          id: "recommend_#{dom_id(offer)}_btn",
+                          class: "btn btn-xs btn-primary pull-right"
+                      )
+                    %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </td>
+      </tr><!-- .admin_recommend_card_(id) -->
+    <% end %>
+  </tbody>
+</table><!-- .admin-card-recommendation-table -->

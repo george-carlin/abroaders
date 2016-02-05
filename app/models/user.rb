@@ -22,6 +22,8 @@ class User < ApplicationRecord
   # Associations
 
   has_many :card_accounts
+  has_many :card_recommendations, -> { recommendations },
+                                  class_name: "CardAccount"
   has_many :cards, through: :card_accounts
   has_many :travel_plans
 

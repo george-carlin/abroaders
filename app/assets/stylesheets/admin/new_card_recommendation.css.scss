@@ -1,20 +1,26 @@
-.new_card_account {
-  th {
-    cursor: pointer;
+// The same color that the Bootstrap theme adds to every other row of tables
+// which have the class .table-striped:
+$tableStripeColor: #4e5d6c;
 
-    &:not(.headerSortDown) .fa-sort-asc {
-      display: none;
-    }
+tr.admin_recommend_card {
+  background-color: $tableStripeColor;
+}
 
-    &:not(.headerSortUp) .fa-sort-desc {
-      display: none;
-    }
-  }
+.admin-card-recommendation-table {
+  // TODO make table sortable again (maybe)
+  // th {
+  //   cursor: pointer;
+
+  //   &:not(.headerSortDown) .fa-sort-asc {
+  //     display: none;
+  //   }
+
+  //   &:not(.headerSortUp) .fa-sort-desc {
+  //     display: none;
+  //   }
+  // }
 
   th, td {
-    &:first-child {
-      width: 25px;
-    }
 
     &.card-identifier {
       width: 120px;
@@ -35,10 +41,11 @@
     &.card-currency {
       min-width: 180px;
     }
+
   }
 
-  input[name="card_account[card_id]"] {
-    margin: 0;
-  }
+}
 
+table.admin_recommend_card_offers_table {
+  margin-bottom: 0;
 }

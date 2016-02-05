@@ -78,4 +78,9 @@ module CardAccount::Statuses
     alias_method :acceptable?, :openable?
   end
 
+  module ClassMethods
+    def recommendations
+      recommended
+    end
+  end
 end

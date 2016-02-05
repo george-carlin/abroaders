@@ -26,25 +26,16 @@ $(document).ready(function () {
       var bankIsShown = checkedBanks.indexOf(tr.dataset.bank) > -1;
           bpIsShown   = checkedBPs.indexOf(tr.dataset.bp) > -1;
           currIsShown = checkedCurrencies.indexOf(tr.dataset.currency) > -1;
-          $tr = $(tr);
+          $cardTr  = $(tr),
+          show = bankIsShown && bpIsShown && currIsShown;
 
-      if (bankIsShown && bpIsShown && currIsShown) {
-        // Check whether or not the TR is already visible/hidden
-        // before calling show/hide, so the 'dummy' <tr>s get added/removed
-        // in the right places.
-        if (!$tr.is(":visible")) {
-          // Remove the dummy <tr> added below.
-          $tr.show().next().remove();
-        }
-      } else {
-        if ($tr.is(":visible")) {
-          // Add a dummy element after this one so that the Bootstrap
-          // .table-striped classes don't get messed up. See
-          // http://stackoverflow.com/a/20580140/1603071
-          // $tr.hide();
-          $tr.after('<tr></tr>').hide();
-        }
-      }
+      // Show/hide both the TR which contains information about the card, and
+      // the TR which contains the nested table with the information about the
+      // the card's offers.
+      $cardTr
+        .toggle(show)
+        .next()
+          .toggle(show);
     });
   };
 

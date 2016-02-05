@@ -2,6 +2,10 @@ module Admin
   class CardAccountsController < AdminController
 
     def create
+      raise "Not yet implemented"
+
+      # This is the old implementation from before we split out
+      # CardRecommendationsController:
       @user = find_user
 
       @account = @user.card_accounts.build(card_account_params)

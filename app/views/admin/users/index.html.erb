@@ -27,7 +27,7 @@
           &nbsp;
           <!-- <i class={class} style={style} > </i> -->
         </th>
-        <th colSpan="2"></th>
+        <th colspan="2"></th>
       </tr>
     </thead>
     <tbody id="admin_users_table_body">
@@ -41,8 +41,13 @@
           <td><%= user.full_name %></td>
           <td><%= user.email %></td>
           <td><%= user.created_at.strftime("%c") %></td>
-          <td><%= link_to "Show", admin_user_path(user) %></td>
-          <td>Edit</td>
+          <td><%= link_to "Info", admin_user_path(user) %></td>
+          <td>
+            <%= link_to(
+                  "Recommend Card",
+                  new_admin_user_card_recommendation_path(user)
+              ) %>
+          </td>
         </tr>
       <% end %>
     </tbody>

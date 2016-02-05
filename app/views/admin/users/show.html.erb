@@ -18,85 +18,7 @@
 <% if @user.info.present? %>
   <hr style="margin-bottom:0;">
 
-  <div class="row">
-    <div class="col-xs-12">
-      <h3>Contact & Spending Info</h3>
-    </div>
-
-    <div class="col-xs-12 col-xs-4">
-      <div class="user-contact-info">
-        <%= user_email_with_icon(@user) %>
-
-        <div class="user-info-attr user-phone-number">
-          <%= fa_icon "phone", class: "contact-info-label" %>
-          &nbsp;<%= @user.phone_number %>
-
-          <div class="user-phone-can-receive-icons">
-            <% if @user.text_message? %>
-              <abbr title="The user can receive text messages on this number">
-                <%= fa_icon "comment fa-inverse"  %>
-              </abbr>
-            <% end %>
-            <% if @user.whatsapp? %>
-              <abbr title="The user can receive WhatsApp messages on this number">
-                <%= fa_icon "whatsapp fa-inverse" %>
-              </abbr>
-            <% end %>
-            <%# font awesome doesn't have an icon for imessage, so use the %>
-            <%# 'wechat' icon instead. Shhhh... %>
-            <% if @user.imessage? %>
-              <abbr title="The user can receive iMessages on this number">
-                <%= fa_icon "wechat fa-inverse" %>
-              </abbr>
-            <% end %>
-          </div>
-        </div>
-        <div class="user-info-attr user-citizenship">
-          <%= fa_icon "flag", class: "contact-info-label" %>
-          &nbsp;<%= user_pretty_citizenship(@user) %>
-        </div>
-        <div class="user-info-attr user-time-zone">
-          <%= fa_icon "globe", class: "contact-info-label" %>
-          &nbsp;<%= ActiveSupport::TimeZone.new(@user.time_zone) %>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-xs-12 col-md-4">
-      <div class="user-spending-info">
-        <div class="user-info-attr user-personal-spending">
-          <div class="spending-label">
-            Personal spending:
-          </div>
-          $<%= @user.personal_spending %>
-        </div>
-
-        <% if @user.has_business? %>
-          <div class="user-info-attr user-business-spending">
-            <div class="spending-label">
-              Business spending:
-            </div>
-            $<%= @user.business_spending %>
-
-            <div class="has-ein">
-              <% if @user.has_business_with_ein? %>
-                (Has EIN)
-              <% else %>
-                (Does not have EIN)
-              <% end %>
-            </div>
-          </div>
-        <% end %>
-
-        <div class="user-info-attr user-credit-score">
-          <div class="spending-label">
-            Credit Score:
-          </div>
-          <%= @user.credit_score %>
-        </div>
-      </div>
-    </div>
-  </div>
+  <%= render "user_infos/user", user: @user %>
 <% end %>
 
 <hr>
@@ -105,34 +27,8 @@
 
 <% if @card_accounts.any? %>
 
-  <table id="admin_user_card_recommendations" class="table table-striped">
-    <thead>
-      <th>ID</th>
-      <th>Name</th>
-      <th>Bank</th>
-      <th>B/P</th>
-      <th>Status</th>
-      <th>Recommended at</th>
-    </thead>
-    <tbody>
-      <% @card_accounts.each do |account| %>
-        <tr id="<%= dom_id(account) %>">
-          <td><%= account.card_identifier %></td>
-          <td><%= account.card_name %></td>
-          <td><%= account.card_bank_name %></td>
-          <td><%= account.card_bp.to_s.capitalize %></td>
-          <td><%= account.status.humanize %></td>
-          <td>
-            <% if account.recommended_at %>
-              <%= account.recommended_at.try(:strftime, "%c") %>
-            <% else %>
-              -
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+  <%= render "card_accounts/table", accounts: @card_accounts %>
+
 <% else %>
 
   <%= t("admin.users.card_accounts.none") %>
@@ -145,80 +41,63 @@
 <%= form_for @card_recommendation, url: admin_user_card_recommendations_path(@user) do |f| %>
 
   <div>
-    <div class="form-inline">
-      <b>B/P: </b>&nbsp;
-      <% Card.bps.keys.each do |bp| %>
-        <%= card_bp_filter_check_box_tag(bp) %>
-      <% end %>
-    </div>
-
-    <div class="form-inline">
-      <b>BANK: </b>&nbsp;
-      <% Card.banks.keys.each do |bank| %>
-        <%= card_bank_filter_check_box_tag(bank) %>
-      <% end %>
-
-      |
-
-      <label for="card_bank_filter_all">
-        <%= check_box_tag :card_bank_filter_all, nil, true %>
-        Toggle all
-      </label>
-    </div>
-
-    <div class="form-inline">
-      <b>CURRENCY: </b>&nbsp;
-      <% Currency.all.sort_by(&:short_name).each do |currency| %>
-        <%= card_currency_filter_check_box_tag(currency.id) %>
-      <% end %>
-
-      <!--
-      |
-
-      <label for="card_currency_filter_all">
-        <%#= check_box_tag :card_currency_filter_all, nil, true %>
-        Toggle all
-      </label>-->
-    </div>
-
-    <table class="table table-striped">
-      <thead>
-        <th></th>
-        <th class="card-identifier">
-          ID&nbsp; <%= sort_icons %>
-        </th>
-        <th class="card-name">
-          Name&nbsp; <%= sort_icons %>
-        </th>
-        <th class="card-bank-name">
-          Bank&nbsp; <%= sort_icons %>
-        </th>
-        <th class="card-bp">
-          B/P&nbsp; <%= sort_icons %>
-        </th>
-        <th class="card-currency">
-          Currency&nbsp; <%= sort_icons %>
-        </th>
-      </thead>
-      <tbody>
-        <% @cards.each_with_index do |card, i| %>
-          <tr
-            id="<%= dom_id(card, :admin_recommend) %>"
-            class="<%= dom_class(card, :admin_recommend) %>"
-            data-bp="<%= card.bp %>"
-            data-bank="<%= card.bank %>"
-            data-currency="<%= card.currency_id %>"
-          >
-            <td><%= f.radio_button :card_id, card.id, checked: (i==0) %></td>
-            <td class="card-identifier"><%= card.identifier %></td>
-            <td class="card-name"><%= card.name %></td>
-            <td class="card-bank-name"><%= card.bank_name %></td>
-            <td class="card-bp"><%= card.bp.capitalize %></td>
-            <td class="card-currency"><%= card.currency.short_name %></td>
-          </tr>
+    <div class="card-recommendation-filters">
+      <div class="form-inline">
+        <b>B/P: </b>&nbsp;
+        <% Card.bps.keys.each do |bp| %>
+          <%= card_bp_filter_check_box_tag(bp) %>
         <% end %>
-      </tbody>
-    </table>
+      </div>
+
+      <div class="form-inline">
+        <b>BANK: </b>&nbsp;
+        <% Card.banks.keys.each do |bank| %>
+          <%= card_bank_filter_check_box_tag(bank) %>
+        <% end %>
+
+        |
+
+        <label for="card_bank_filter_all">
+          <%= check_box_tag :card_bank_filter_all, nil, true %>
+          Toggle all
+        </label>
+      </div>
+
+      <div class="form-inline">
+        <b>CURRENCY: </b>&nbsp;
+        <% Currency.all.sort_by(&:short_name).each do |currency| %>
+          <%= card_currency_filter_check_box_tag(currency.id) %>
+        <% end %>
+
+        <!--
+        |
+
+        <label for="card_currency_filter_all">
+          <%#= check_box_tag :card_currency_filter_all, nil, true %>
+          Toggle all
+        </label>-->
+      </div>
+    </div><!-- .card-recommendation-filters -->
+
+    <%# TODO - make the table sortable again %>
+    <div class="admin-card-recommendation-table">
+      <% @cards.each_with_index do |card, i| %>
+        <div
+          id="<%= dom_id(card, :admin_recommend) %>"
+          class="<%= dom_class(card, :admin_recommend) %>"
+          data-bp="<%= card.bp %>"
+          data-bank="<%= card.bank %>"
+          data-currency="<%= card.currency_id %>"
+        >
+          <div><%= f.radio_button :card_id, card.id, checked: (i==0) %></div>
+          <div class="card-identifier"><%= card.identifier %></div>
+          <div class="card-name"><%= card.name %></div>
+          <div class="card-bank-name"><%= card.bank_name %></div>
+          <div class="card-bp"><%= card.bp.capitalize %></div>
+          <div class="card-currency"><%= card.currency.short_name %></div>
+        </div>
+      <% end %>
+    </div><!-- .admin-card-recommendation-table -->
   </div>
 
   <div class="radio">
