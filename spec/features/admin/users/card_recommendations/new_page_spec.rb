@@ -48,12 +48,10 @@ describe "admin section" do
           time_zone: "Eastern Time (US & Canada)"
         )
       end
-      extra_setup
       visit new_admin_user_card_recommendation_path(@user)
     end
 
     let(:completed_survey) { true }
-    let(:extra_setup) { nil }
 
     it "shows the date on which the user signed up" do
       is_expected.to have_content @user.created_at.strftime("%D")
@@ -63,7 +61,12 @@ describe "admin section" do
       context "has not completed the onboarding survey" do
         let(:completed_survey) { false }
 
-        it "redirects away"
+        it "redirects back to the user info page" do
+          raise unless @user.info.nil? # Sanity check
+          expect(current_path).to eq admin_user_path(@user)
+          expect(page).to have_content \
+                      t("admin.users.card_recommendations.no_survey")
+        end
       end
 
       context "has no existing card accounts/recommendations" do

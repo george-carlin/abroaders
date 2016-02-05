@@ -42,3 +42,5 @@ en:
       card_accounts:
         none: "User has no cards on file. Use the form below to recommend them their first card."
         you_have_declined: "You have indicated that you do not want to apply for this card"
+      card_recommendations:
+        no_survey: "User has not yet completed the onboarding survey. You can't recommend them a card until they've completed it."
