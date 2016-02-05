@@ -17,6 +17,9 @@ class UserInfo < ApplicationRecord
     has_business_with_ein? || has_business_without_ein?
   end
 
+  alias_attribute :has_completed_cards_survey,  :has_completed_card_survey
+  alias_attribute :has_completed_cards_survey?, :has_completed_card_survey
+
   # Validations
 
   MINIMUM_CREDIT_SCORE = 350

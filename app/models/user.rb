@@ -9,13 +9,18 @@ class User < ApplicationRecord
   delegate :business_spending, :citizenship, :credit_score, :first_name,
       :full_name, :has_business, :has_business?, :has_business_with_ein?,
       :has_business_without_ein?, :has_completed_card_survey,
-      :has_completed_card_survey?, :imessage, :imessage?, :last_name,
+      :has_completed_card_survey?, :has_completed_cards_survey,
+      :has_completed_cards_survey?, :imessage, :imessage?, :last_name,
       :middle_names, :personal_spending, :phone_number, :text_message,
       :text_message?, :time_zone, :whatsapp, :whatsapp?, :will_apply_for_loan,
     to: :info, allow_nil: true
 
   def name
     info.present? ? info.full_name : "#{self.class} ##{id}"
+  end
+
+  def has_completed_onboarding_survey?
+    info.present? && info.persisted? && info.has_completed_card_survey?
   end
 
   # Validations

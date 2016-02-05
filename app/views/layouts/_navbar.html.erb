@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default">
+<nav id="main_navbar" class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
       <a class="navbar-brand" href="/">Abroaders</a>
@@ -13,8 +13,10 @@
             <li><%= link_to "Offers", admin_card_offers_path %></li>
             <li><%= link_to "Users", admin_users_path %></li>
           <% else %>
-            <li><%= link_to "Cards", card_accounts_path %></li>
-            <li><%= link_to "Travel plans", travel_plans_path %></li>
+            <% if current_user.has_completed_onboarding_survey? %>
+              <li><%= link_to "Cards", card_accounts_path %></li>
+              <li><%= link_to "Travel plans", travel_plans_path %></li>
+            <% end %>
           <% end %>
           <li>
             <p class="navbar-text">

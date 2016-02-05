@@ -125,7 +125,7 @@ ActiveRecord::Schema.define(version: 20160205210207) do
     t.datetime "created_at",                                null: false
     t.datetime "updated_at",                                null: false
     t.integer  "business_spending",         default: 0,     null: false
-    t.boolean  "has_completed_card_survey", default: false
+    t.boolean  "has_completed_card_survey", default: false, null: false
     t.index ["user_id"], name: "index_user_infos_on_user_id", using: :btree
   end
 
