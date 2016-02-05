@@ -43,7 +43,9 @@ class Card < ApplicationRecord
   validates :bp, presence: true
   validates :type, presence: true
   validates :annual_fee_cents, presence: true
-  validates :currency_id, inclusion: { in: Currency.keys }, presence: true
+  validates :currency_id,
+    inclusion: { allow_nil: true, in: Currency.keys },
+    presence: true
 
   # Associations
 
