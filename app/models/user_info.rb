@@ -35,8 +35,7 @@ class UserInfo < ApplicationRecord
     numericality: {
       greater_than_or_equal_to: MINIMUM_CREDIT_SCORE,
       less_than_or_equal_to:    MAXIMUM_CREDIT_SCORE,
-      # nil score will be caught by the presence validation; allow nil here to
-      # avoid getting a duplicate error message.
+      # avoid duplicate error message (from presence validation) when nil:
       allow_nil: true
     }
   # Spending columns = spending per month, in whole US dollars
@@ -45,8 +44,7 @@ class UserInfo < ApplicationRecord
     numericality: {
       greater_than_or_equal_to: 0,
       less_than_or_equal_to: POSTGRESQL_MAX_INT_VALUE,
-      # nil score will be caught by the presence validation; allow nil here to
-      # avoid getting a duplicate error message.
+      # avoid duplicate error message (from presence validation) when nil:
       allow_nil: true
     }
   validates :business_spending,
@@ -54,8 +52,7 @@ class UserInfo < ApplicationRecord
     numericality: {
       greater_than_or_equal_to: 0,
       less_than_or_equal_to: POSTGRESQL_MAX_INT_VALUE,
-      # nil score will be caught by the presence validation; allow nil here to
-      # avoid getting a duplicate error message.
+      # avoid duplicate error message (from presence validation) when nil:
       allow_nil: true
     }
 
