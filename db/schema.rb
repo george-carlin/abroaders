@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 20160205001951) do
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
     t.boolean  "reconsidered",   default: false, null: false
+    t.integer  "offer_id"
   end
 
   create_table "card_offers", force: :cascade do |t|
@@ -151,6 +152,7 @@ ActiveRecord::Schema.define(version: 20160205001951) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
+  add_foreign_key "card_accounts", "card_offers", column: "offer_id", on_delete: :restrict
   add_foreign_key "card_accounts", "cards", on_delete: :restrict
   add_foreign_key "card_accounts", "users", on_delete: :cascade
   add_foreign_key "card_offers", "cards", on_delete: :cascade
