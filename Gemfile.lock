@@ -1,12 +1,4 @@
 GIT
-  remote: git://github.com/evrone/quiet_assets.git
-  revision: a39a74c4cefd561a1068aecbd4ee67756cd38b98
-  ref: a39a74c4cefd
-  specs:
-    quiet_assets (1.1.0)
-      railties (>= 3.1, < 5.0)
-
-GIT
   remote: git://github.com/jnicklas/capybara.git
   revision: 710bc5dca9089438fe0109a5c76ae0538d2d1fd6
   specs:
@@ -240,7 +232,6 @@ DEPENDENCIES
   pg (~> 0.18)
   poltergeist
   puma
-  quiet_assets!
   rails (>= 5.0.0.beta2, < 5.1)
   rails_12factor
   rspec-rails

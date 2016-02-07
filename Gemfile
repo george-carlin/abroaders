@@ -44,7 +44,9 @@ gem 'faker'
 group :development, :test do
   gem 'byebug'
   gem 'rspec-rails'
-  gem 'quiet_assets', github: "evrone/quiet_assets", ref: "a39a74c4cefd"
+  # Quiet assets is completely broken with Rails 5, see
+  # https://github.com/evrone/quiet_assets/issues/47
+  # gem 'quiet_assets', github: "evrone/quiet_assets", ref: "a39a74c4cefd"
   gem 'database_cleaner'
 end
 
