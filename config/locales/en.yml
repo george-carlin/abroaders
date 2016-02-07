@@ -35,6 +35,9 @@ en:
       application_pending: "Thanks for taking our recommendation and applying for the card! When you hear back from the bank, please come back and tell us whether or not your application for the card was successful."
 
   admin:
+    card_offers:
+      submit: "Submit"
+
     users:
       show:
         no_survey: "User has not yet completed the onboarding survey"
