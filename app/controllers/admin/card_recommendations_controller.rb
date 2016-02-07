@@ -1,5 +1,5 @@
 module Admin
-  class CardRecommendationsController < CardAccountsController
+  class CardRecommendationsController < Admin::CardAccountsController
 
     def new
       @user = find_user

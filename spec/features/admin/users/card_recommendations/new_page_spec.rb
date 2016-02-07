@@ -1,4 +1,7 @@
 require "rails_helper"
+# Requiring this file uncovers a bug: the page wasn't working if
+# ::CardAccountsController got loaded before Admin::CardAccountsController
+require Rails.root.join "app", "controllers", "card_accounts_controller"
 
 describe "admin section" do
   include_context "logged in as admin"
