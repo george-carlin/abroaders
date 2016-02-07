@@ -37,7 +37,8 @@ module CardAccountButtons
       "Apply",
       apply_card_account_path(card_account),
       id: "card_account_#{card_account.id}_apply_btn",
-      class: "card-account-apply-btn btn btn-primary btn-sm"
+      class: "card-account-apply-btn btn btn-primary btn-sm",
+      target: "_blank"
     )
   end
 
