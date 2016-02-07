@@ -4,10 +4,11 @@ module Admin
     def new
       @user = find_user
       user_must_have_completed_onboarding_survey!
-      # Call 'to_a' so it doesn't include @card_recommendation
-      @card_accounts = @user.card_accounts.to_a
-      @card_recommendation = @user.card_accounts.recommendations.build
-      @card_offers_grouped_by_card = CardOffer.all.group_by(&:card)
+      accounts = @user.card_accounts.includes(:card)
+      # Call 'to_a' so it doesn't include @card_recommendation:
+      @card_accounts = accounts.to_a
+      @card_recommendation = accounts.recommendations.build
+      @card_offers_grouped_by_card = CardOffer.includes(:card).all.group_by(&:card)
     end
 
     def create

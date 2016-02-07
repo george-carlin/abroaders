@@ -1,7 +1,7 @@
 module Admin
   class CardOffersController < AdminController
     def index
-      @card_offers = CardOffer.all
+      @card_offers = CardOffer.includes(:card)
     end
 
     def show

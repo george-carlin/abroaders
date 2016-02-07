@@ -5,7 +5,8 @@ class CardAccountsController < NonAdminController
     only: [:survey, :save_survey]
 
   def index
-    @card_accounts = current_user.card_accounts.order(:created_at)
+    @card_accounts = current_user\
+                      .card_accounts.includes(:card).order(:created_at)
   end
 
   def survey
