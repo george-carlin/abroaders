@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 20160205210207) do
   end
 
   create_table "card_accounts", force: :cascade do |t|
-    t.integer  "card_id",                        null: false
+    t.integer  "card_id"
     t.integer  "user_id",                        null: false
     t.integer  "status",                         null: false
     t.datetime "recommended_at"
@@ -34,9 +34,9 @@ ActiveRecord::Schema.define(version: 20160205210207) do
     t.datetime "opened_at"
     t.datetime "earned_at"
     t.datetime "closed_at"
+    t.boolean  "reconsidered",   default: false, null: false
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
-    t.boolean  "reconsidered",   default: false, null: false
     t.integer  "offer_id"
   end
 

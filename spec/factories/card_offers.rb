@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :card_offer, aliases: [:live_card_offer] do
+  factory :card_offer, aliases: [:offer, :live_card_offer] do
     card
     sequence(:identifier) do |n|
       letters = ('A'..'Z').to_a.shuffle.first(4).join

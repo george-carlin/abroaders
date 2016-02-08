@@ -18,9 +18,7 @@ module Admin
       @offer =  CardOffer.find(params[:offer_id])
       @user.card_recommendations.create!(
         recommended_at: Time.now,
-        offer: @offer,
-        # TODO figure this out automatically within CardAccount:
-        card:  @offer.card
+        offer: @offer
       )
       flash[:success] = "Recommended card to user!"
       # TODO notify user

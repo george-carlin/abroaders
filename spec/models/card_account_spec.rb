@@ -4,9 +4,11 @@ describe CardAccount do
 
   let(:user)    { build(:user) }
   let(:card)    { build(:card) }
-  let(:account) { described_class.new(card: card, user: user) }
+  let(:offer)   { build(:card_offer, card: card) }
+  let(:account) { described_class.new(user: user) }
 
   describe "::Statuses" do
+    before { account.offer = offer }
 
     describe "#applied_at" do
       subject { account.applied_at }
@@ -117,5 +119,18 @@ describe CardAccount do
       end
     end
 
+  end # ::Statuses
+
+  specify "exactly one of card and offer must be present" do
+    def errors; account.tap(&:valid?).errors; end
+
+    expect(errors[:card]).to include t("errors.messages.blank")
+    account.offer = offer
+    expect(errors[:card]).to be_empty
+    account.card = card
+    expect(errors[:card]).to include t("errors.messages.present")
+    account.offer = nil
+    expect(errors[:card]).to be_empty
   end
+
 end

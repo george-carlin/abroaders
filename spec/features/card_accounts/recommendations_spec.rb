@@ -15,7 +15,6 @@ describe "as a user viewing my card recommendations" do
   context "when I have been recommended some cards" do
     let(:extra_setup) do
       @recommendations = create_list(:card_rec, 2, user: user)
-      debugger
     end
 
     it "lists them all" do
