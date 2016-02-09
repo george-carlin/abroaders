@@ -150,14 +150,15 @@
                     <b><%= offer.days %></b>
                   </td>
                   <td class="offer-recommend">
-                    <%= button_to(
-                          "Recommend",
-                          admin_user_card_recommendations_path,
-                          params: { offer_id: offer.id },
-                          id: "recommend_#{dom_id(offer)}_btn",
-                          class: "btn btn-xs btn-primary pull-right"
-                      )
-                    %>
+                    <%= recommend_card_btn(offer) %>
+
+                    <div
+                      class="confirm_cancel_card_offer_wrapper"
+                      style="display:none;"
+                    >
+                      <%= cancel_recommend_card_btn(offer) %>
+                      <%= confirm_recommend_card_btn(offer) %>
+                    </div>
                   </td>
                 </tr>
               <% end %>

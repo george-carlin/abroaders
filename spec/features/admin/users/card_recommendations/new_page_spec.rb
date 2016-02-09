@@ -190,29 +190,65 @@ describe "admin section" do
         end
       end # filters
 
-      describe "clicking 'recommend' next to a card offer" do
-        let(:selected_offer) { @offers[3] }
-        let(:recommend) do
-          find("#recommend_#{dom_id(selected_offer)}_btn").click
+      describe "clicking 'recommend' next to a card offer", js: true do
+        let(:offer) { @offers[3] }
+        before { find("#recommend_#{dom_id(offer)}_btn").click }
+        let(:offer_tr) { "##{dom_id(offer, :admin_recommend)}" }
+
+        it "shows confirm/cancel buttons" do
+          within offer_tr do
+            is_expected.not_to have_button "Recommend"
+            is_expected.to have_button "Cancel"
+            is_expected.to have_button "Confirm"
+          end
         end
 
-        it "recommends that card to the user" do
-          expect{recommend}.to change{CardAccount.recommended.count}.by(1)
-        end
-
-        describe "the new recommendation" do
-          before { recommend }
-
-          let(:rec) { CardAccount.recommended.last }
-
-          it "has the correct offer, card, and user" do
-            expect(rec.card).to eq selected_offer.card
-            expect(rec.offer).to eq selected_offer
-            expect(rec.user).to eq @user
+        describe "clicking 'Confirm'" do
+          let(:confirm) do
+            within offer_tr do
+              click_button "Confirm"
+            end
           end
 
-          it "has 'recommended at' set to the current time" do
-            expect(rec.recommended_at).to be_within(5.seconds).of Time.now
+          it "recommends that card to the user" do
+            expect{confirm}.to change{CardAccount.recommended.count}.by(1)
+          end
+
+          describe "the new recommendation" do
+            before { confirm }
+
+            let(:rec) { CardAccount.recommended.last }
+
+            it "has the correct offer, card, and user" do
+              expect(rec.card).to eq offer.card
+              expect(rec.offer).to eq offer
+              expect(rec.user).to eq @user
+            end
+
+            it "has 'recommended at' set to the current time" do
+              expect(rec.recommended_at).to be_within(5.seconds).of Time.now
+            end
+          end
+        end # clicking 'Confirm'
+
+        describe "clicking 'Cancel'" do
+          let(:cancel) do
+            within offer_tr do
+              click_button "Cancel"
+            end
+          end
+
+          it "doesn't recommend the card to the user" do
+            expect{cancel}.not_to change{CardAccount.count}
+          end
+
+          it "shows the 'recommend' button again" do
+            cancel
+            within offer_tr do
+              is_expected.to have_button "Recommend"
+              is_expected.not_to have_button "Confirm"
+              is_expected.not_to have_button "Cancel"
+            end
           end
         end
       end

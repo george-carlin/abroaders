@@ -77,4 +77,22 @@ $(document).ready(function () {
   });
 
 
+  $(".recommend_card_offer_btn").click(function (e) {
+    e.preventDefault();
+    $(this)
+      .hide()
+      .siblings(".confirm_cancel_card_offer_wrapper")
+        .show();
+  });
+
+  $(".cancel_recommend_card_offer_btn").click(function (e) {
+    e.preventDefault();
+    $(this)
+      .parent()
+        .hide()
+        .siblings(".recommend_card_offer_btn")
+            .show();
+  });
+
+
 });
