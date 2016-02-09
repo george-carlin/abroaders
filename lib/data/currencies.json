@@ -1,78 +1,78 @@
-{
-  "alaska": {
+[
+  {
     "name": "Alaska Airlines (Mileage Plan)",
-    "short_name": "Mileage Plan"
+    "award_wallet_id": "Mileage Plan"
   },
-  "american": {
+  {
     "name": "American Airlines (AAdvantage)",
-    "short_name": "AAdvantage"
+    "award_wallet_id": "AAdvantage"
   },
-  "amex": {
+  {
     "name": "Amex (Membership Rewards)",
-    "short_name": "Membership Rewards"
+    "award_wallet_id": "Membership Rewards"
   },
-  "ba": {
+  {
     "name": "British Airways (Executive Club)",
-    "short_name": "Avios"
+    "award_wallet_id": "Avios"
   },
-  "barclaycard": {
+  {
     "name": "Barclaycard",
-    "short_name": "Barclay Freedom Rewards"
+    "award_wallet_id": "Barclay Freedom Rewards"
   },
-  "capital_one": {
+  {
     "name": "Capital One (No Hassle)",
-    "short_name": "No Hassle Rewards"
+    "award_wallet_id": "No Hassle Rewards"
   },
-  "carlson": {
+  {
     "name": "Club Carlson Gold",
-    "short_name": "Club Carlson Gold"
+    "award_wallet_id": "Club Carlson Gold"
   },
-  "chase_ultimate": {
+  {
     "name": "Chase",
-    "short_name": "Ultimate Rewards"
+    "award_wallet_id": "Ultimate Rewards"
   },
-  "chase_ihg": {
+  {
     "name": "IHG Rewards Club",
-    "short_name": "(Chase) IHG Points"
+    "award_wallet_id": "(Chase) IHG Points"
   },
-  "citibank": {
+  {
     "name": "Citibank (Thank You Rewards)",
-    "short_name": "Thank You Rewards"
+    "award_wallet_id": "Thank You Rewards"
   },
-  "delta": {
+  {
     "name": "Delta Air Lines (SkyMiles)",
-    "short_name": "Skymiles"
+    "award_wallet_id": "Skymiles"
   },
-  "flex": {
+  {
     "name": "Flex Perks",
-    "short_name": "Flex Perks"
+    "award_wallet_id": "Flex Perks"
   },
-  "hilton": {
+  {
     "name": "Hilton Honors",
-    "short_name": "Hilton Honors"
+    "award_wallet_id": "Hilton Honors"
   },
-  "hyatt": {
+  {
     "name": "Hyatt Gold Passport",
-    "short_name": "Hyatt Gold Passport"
+    "award_wallet_id": "Hyatt Gold Passport"
   },
-  "lufthansa": {
+  {
     "name": "Lufthansa (Miles and More)",
-    "short_name": "Miles & More"
+    "award_wallet_id": "Miles & More"
   },
-  "marriott": {
+  {
     "name": "Marriott Rewards",
-    "short_name": "Marriott Rewards"
+    "award_wallet_id": "Marriott Rewards"
   },
-  "southwest": {
+  {
     "name": "Southwest Airlines (Rapid Rewards)",
-    "short_name": "Rapid Rewards"
+    "award_wallet_id": "Rapid Rewards"
   },
-  "starwood": {
+  {
     "name": "Starwood Hotels",
-    "short_name": "SPG Points"
+    "award_wallet_id": "SPG Points"
   },
-  "united": {
+  {
     "name": "United Airlines (Mileage Plus)",
-    "short_name": "Mileage Plus"
+    "award_wallet_id": "Mileage Plus"
   }
-}
+]

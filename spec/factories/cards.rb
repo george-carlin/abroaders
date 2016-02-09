@@ -8,7 +8,7 @@ FactoryGirl.define do
     bank  { Card.banks.keys.sample }
     annual_fee_cents { rand(500_00) + 10_00 }
 
-    currency_id { Currency.keys.sample }
+    currency { Currency.all.sample || create(:currency) }
 
     factory :inactive_card do
       active false
@@ -20,6 +20,14 @@ FactoryGirl.define do
 
     trait :personal do
       bp :personal
+    end
+
+    trait :chase do
+      bank :chase
+    end
+
+    trait :us_bank do
+      bank :us_bank
     end
   end
 end

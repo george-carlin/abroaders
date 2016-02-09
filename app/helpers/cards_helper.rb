@@ -44,17 +44,17 @@ module CardsHelper
     end
   end
 
-  def card_currency_filter_check_box_tag(currency_id)
+  def card_currency_filter_check_box_tag(currency)
     klass =  :card_currency_filter
-    id    =  :"#{klass}_#{currency_id}"
+    id    =  :"#{klass}_#{currency.id}"
     label_tag id do
       check_box_tag(
         id,
         nil,
         true,
         class: klass,
-        data: { key: :currency, value: currency_id }
-      ) << raw("&nbsp;&nbsp#{Currency.new(currency_id).short_name}")
+        data: { key: :currency, value: currency.id }
+      ) << raw("&nbsp;&nbsp#{Currency.name}")
     end
   end
 

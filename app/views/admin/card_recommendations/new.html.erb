@@ -43,8 +43,8 @@
 
   <div class="form-inline">
     <b>CURRENCY: </b>&nbsp;
-    <% Currency.all.sort_by(&:short_name).each do |currency| %>
-      <%= card_currency_filter_check_box_tag(currency.id) %>
+    <% Currency.order(:name).each do |currency| %>
+      <%= card_currency_filter_check_box_tag(currency) %>
     <% end %>
 
     <!--
@@ -111,7 +111,7 @@
           <%= card.bp.capitalize %>
         </td>
         <td class="card-currency">
-          <%= card.currency.short_name %>
+          <%= card.currency.name %>
         </td>
       </tr><!-- .admin_recommend_card_(id) -->
 

@@ -13,27 +13,21 @@ describe "admin section" do
     let(:phone_number) { "(555) 000-1234" }
 
     before do
+      @currencies = create_list(:currency, 4)
+
       @cards = [
-        @chase_business = create(
-          :card, :business, bank: :chase, currency_id: "alaska"
-        ),
-        @chase_personal = create(
-          :card, :personal, bank: :chase, currency_id: "american",
-        ),
-        @usb_business   = create(
-          :card, :business, bank: :us_bank, currency_id: "amex",
-        ),
-        @usb_personal   = create(
-          :card, :personal, bank: :us_bank, currency_id: "ba",
-        )
+        @chase_b = create(:card, :business, :chase, currency: @currencies[0]),
+        @chase_p = create(:card, :personal, :chase, currency: @currencies[1]),
+        @usb_b = create(:card, :business, :us_bank, currency: @currencies[2]),
+        @usb_p = create(:card, :personal, :us_bank, currency: @currencies[3])
       ]
 
       @offers = [
-        create(:card_offer, card: @chase_business),
-        create(:card_offer, card: @chase_business),
-        create(:card_offer, card: @chase_personal),
-        create(:card_offer, card: @usb_business),
-        create(:card_offer, card: @usb_personal)
+        create(:card_offer, card: @chase_b),
+        create(:card_offer, card: @chase_b),
+        create(:card_offer, card: @chase_p),
+        create(:card_offer, card: @usb_b),
+        create(:card_offer, card: @usb_p)
       ]
 
       @user = create(:user)
@@ -116,13 +110,13 @@ describe "admin section" do
         describe "the cards" do
           specify "can be filtered by b/p" do
             uncheck :card_bp_filter_business
-            should_have_recommendable_cards(@chase_personal, @usb_personal)
-            should_not_have_recommendable_cards(@chase_business, @usb_business)
+            should_have_recommendable_cards(@chase_p, @usb_p)
+            should_not_have_recommendable_cards(@chase_b, @usb_b)
             uncheck :card_bp_filter_personal
             should_not_have_recommendable_cards(*@cards)
             check :card_bp_filter_business
-            should_have_recommendable_cards(@chase_business, @usb_business)
-            should_not_have_recommendable_cards(@chase_personal, @usb_personal)
+            should_have_recommendable_cards(@chase_b, @usb_b)
+            should_not_have_recommendable_cards(@chase_p, @usb_p)
             check :card_bp_filter_personal
             should_have_recommendable_cards(*@cards)
           end
@@ -133,13 +127,13 @@ describe "admin section" do
             end
 
             uncheck :card_bank_filter_chase
-            should_have_recommendable_cards(@usb_business, @usb_personal)
-            should_not_have_recommendable_cards(@chase_business, @chase_personal)
+            should_have_recommendable_cards(@usb_b, @usb_p)
+            should_not_have_recommendable_cards(@chase_b, @chase_p)
             uncheck :card_bank_filter_us_bank
             should_not_have_recommendable_cards(*@cards)
             check :card_bank_filter_chase
-            should_have_recommendable_cards(@chase_business, @chase_personal)
-            should_not_have_recommendable_cards(@usb_business, @usb_personal)
+            should_have_recommendable_cards(@chase_b, @chase_p)
+            should_not_have_recommendable_cards(@usb_b, @usb_p)
             check :card_bank_filter_us_bank
             should_have_recommendable_cards(*@cards)
           end
@@ -150,10 +144,10 @@ describe "admin section" do
             end
 
             # Alternative variables names for readability:
-            alaska_card   = @chase_business
-            american_card = @chase_personal
-            amex_card     = @usb_business
-            ba_card       = @usb_personal
+            alaska_card   = @chase_b
+            american_card = @chase_p
+            amex_card     = @usb_b
+            ba_card       = @usb_p
 
             uncheck :card_currency_filter_alaska
             uncheck :card_currency_filter_american

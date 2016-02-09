@@ -22,10 +22,10 @@ describe "admin pages" do
 
     it "displays each card's currency" do
       within card_selector(@active_card) do
-        is_expected.to have_content @active_card.currency.short_name
+        is_expected.to have_content @active_card.currency.name
       end
       within card_selector(@active_card) do
-        is_expected.to have_content @active_card.currency.short_name
+        is_expected.to have_content @active_card.currency.name
       end
     end
 

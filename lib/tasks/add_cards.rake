@@ -1,8 +1,23 @@
 namespace :ab do
-  task add_cards: :environment do
+  task add_currencies: :environment do
+    Currency.transaction do
+      Currency.raw_data.each do |data|
+        if currency = Currency.find_by_name(data["name"])
+          puts "Currency '#{currency.name}' already exists"
+        else
+          Currency.create!(
+            name: data["name"],
+            award_wallet_id: data["award_wallet_id"]
+          )
+          puts "Created currency '#{data["name"]}'"
+        end
+      end
+    end
+  end
+
+  task add_cards: :add_currencies do
     require "net/http"
     require "uri"
-    require "json"
 
     book_id = "558c49ac95d9a30300e8d8e8"
     url     = "https://api.fieldbook.com/v1/#{book_id}/cards"
@@ -30,10 +45,6 @@ namespace :ab do
     Card.transaction do
       before_count = Card.count
 
-      currencies = JSON.parse(
-        File.read(Rails.root.join("lib", "data", "currencies.json"))
-      )
-
       cards.each do |card|
 
         unless name  = card["card_name"]
@@ -54,11 +65,8 @@ namespace :ab do
         end
 
         currency = if card["currencies"] && card["currencies"].length > 0
-                     # Horribly hacky!
-                     c = currencies.detect do |id, data|
-                       data["name"] == card["currencies"].first["currency_name"]
-                     end
-                     c[0]
+                     name = card["currencies"].first["currency_name"]
+                     Currency.find_by_name(name)
                    end
 
         unless currency
@@ -73,8 +81,8 @@ namespace :ab do
           bp:         bps.fetch(card["b_p"]),
           type:       card["type"].downcase,
           annual_fee_cents: af * 100,
-          bank:  card["bank"][0]["bank_name"].downcase.gsub(/\s/, "_"),
-          currency_id: currency
+          bank:     card["bank"][0]["bank_name"].downcase.gsub(/\s/, "_"),
+          currency: currency
         )
 
         puts "Created card '#{card.name}'"
