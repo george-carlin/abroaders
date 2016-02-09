@@ -10,5 +10,9 @@ FactoryGirl.define do
       min + rand(max - min)
     end
     personal_spending { rand(1000) + 9000 }
+
+    trait :completed_card_survey do
+      has_completed_card_survey true
+    end
   end
 end

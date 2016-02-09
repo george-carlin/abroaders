@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "card account pages spec" do
+describe "card account pages" do
   subject { page }
 
   include_context "logged in"
@@ -188,25 +188,12 @@ describe "card account pages spec" do
       end
     end
 
-    def card_account_selector(account)
-      "##{dom_id(account)}"
-    end
-
-    def have_card_account(account)
-      have_selector card_account_selector(account)
-    end
-
     def decline_rec_btn(recommendation)
       "#card_account_#{recommendation.id}_decline_btn"
     end
 
     def applied_for_rec_btn(recommendation)
       "#card_account_#{recommendation.id}_applied_btn"
-    end
-
-    # Shortcut for the translations which are relevant to the index page
-    def _t(key)
-      t("card_accounts.index.#{key}")
     end
   end
 end

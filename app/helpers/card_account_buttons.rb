@@ -31,26 +31,6 @@ module CardAccountButtons
     )
   end
 
-  def card_account_apply_btn(card_account)
-    raise "#{card_account} can't be applied for" unless card_account.applyable?
-    link_to(
-      "Apply",
-      apply_card_account_path(card_account),
-      id: "card_account_#{card_account.id}_apply_btn",
-      class: "card-account-apply-btn btn btn-primary btn-sm",
-      target: "_blank"
-    )
-  end
-
-  def card_account_decline_btn(card_account)
-    raise "#{card_account} can't be declined" unless card_account.declinable?
-    button_to(
-      "No Thanks",
-      decline_card_account_path(card_account),
-      id: "card_account_#{card_account.id}_decline_btn",
-      class: "card-account-decline-btn btn btn-default btn-sm"
-    )
-  end
 
   def card_account_deny_btn(card_account)
     button_to(

@@ -1,0 +1,91 @@
+<div
+  id="<%= dom_id(recommendation) %>"
+  class="<%= dom_class(recommendation) %> row"
+>
+  <div class="col-xs-6 col-md-2">
+    <%= card_image_tag(recommendation.card, "130x81") %>
+  </div>
+
+  <div class="col-xs-6 col-md-6">
+    <p>
+      <b>Card Name:</b>
+      <span class="card-account-bank">
+        <%= recommendation.card_name %>
+        (<%= recommendation.card_brand.capitalize %>)
+      </span>
+    </p>
+
+    <p>
+      <b>Bank:</b>
+      <span class="card-account-bank">
+        <%= recommendation.card_bank_name %>
+      </span>
+    </p>
+
+    <div class="card_account_offer">
+      Spend <%= number_to_currency(recommendation.offer.spend) %> within
+      <%= recommendation.offer.days %> days to receive a bonus of
+      <%= number_with_delimiter(recommendation.offer.points_awarded) %>
+      <%= recommendation.card_currency %> points
+    </div><!-- .card-account-offer -->
+  </div><!-- .card-account-card -->
+
+  <div class="col-xs-12 col-md-4">
+
+    <%= react_component(
+          "CardRecommendationActions",
+          accountId:   recommendation.id,
+          status:      recommendation.status,
+          applyPath:   apply_card_account_path(recommendation),
+          declinePath: decline_card_account_path(recommendation)
+        ) %>
+
+    <% if false %>
+
+    <% if recommendation.applyable? %>
+      <%= card_account_apply_btn(recommendation) %>
+    <% end %>
+
+    <% if recommendation.applyable? %>
+      <%= card_account_applied_btn(recommendation) %>
+    <% end %>
+
+    <% if recommendation.declinable? %>
+      <%= card_account_decline_btn(recommendation) %>
+    <% elsif recommendation.declined? %>
+      <% if recommendation.declined_at.present? %>
+        You indicated on <%= recommendation.declined_at.strftime("%D") %>
+        that you do not wish to apply for this card.
+      <% else %>
+        You declined to apply for this card
+      <% end %>
+    <% end %>
+
+    <div
+      id="card_account_<%= recommendation.id %>_application_result_btns"
+      style="display:none;"
+    >
+      <% if recommendation.acceptable? %>
+        <%= card_account_accepted_btn(recommendation) %>
+      <% end %>
+      <% if recommendation.deniable? %>
+        <%= card_account_deny_btn(recommendation) %>
+      <% end %>
+      <%= card_account_pending_btn(recommendation) %>
+      <%= card_account_applied_back_btn(recommendation) %>
+    </div>
+
+    <div
+      id="<%= dom_id(recommendation) %>_pending_notification"
+      style="display:none;"
+    >
+      <%= t("card_accounts.index.application_pending") %>
+    </div>
+    <% end %>
+
+    <%#= button_to "Decline", decline_card_account_path(recommendation), class: "btn-default" %>
+  </div>
+
+</div><!-- .row -->
+
+<hr>

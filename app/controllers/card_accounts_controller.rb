@@ -5,8 +5,11 @@ class CardAccountsController < NonAdminController
     only: [:survey, :save_survey]
 
   def index
-    @card_accounts = current_user\
-                      .card_accounts.includes(:card).order(:created_at)
+    @new_recommendations = current_user\
+                    .card_recommendations.includes(:card).order(:created_at)
+    @other_accounts = current_user\
+                    .card_accounts.where.not(id: @new_recommendations)\
+                    .includes(:card).order(:created_at)
   end
 
   def survey
@@ -27,13 +30,26 @@ class CardAccountsController < NonAdminController
   end
 
   def apply
-    @recommendation = get_card_account
+    # They should still be able to access this page if the card is 'applied',
+    # in case they click the 'Apply' button but don't actually apply
+    @recommendation = current_user.card_accounts.where(
+      status: %i[recommended applied]
+    ).find(params[:id])
+
+    # We can't know for sure if the user has actually applied; the most
+    # we can do is note that they've visited this page and (hopefully)
+    # been redirected to the bank's page
+    @recommendation.applied!
+
     @card = @recommendation.card
+    # TODO make the actual redirection work!
   end
 
   def decline
-    @recommendation = get_card_account
-    @recommendation.decline!
+    raise "decline message must be present" unless decline_reason.present?
+
+    @recommendation = get_card_recommendation
+    @recommendation.decline_with_reason!(decline_reason)
     flash[:success] = t("admin.users.card_accounts.you_have_declined")
     redirect_to card_accounts_path
   end
@@ -62,10 +78,18 @@ class CardAccountsController < NonAdminController
     current_user.card_accounts.find(params[:id])
   end
 
+  def get_card_recommendation
+    current_user.card_recommendations.find(params[:id])
+  end
+
   def user_must_have_completed_personal_and_spending_info_survey!
     unless current_user.info.present?
       redirect_to survey_path
     end
+  end
+
+  def decline_reason
+    params[:card_account][:decline_reason]
   end
 
 end

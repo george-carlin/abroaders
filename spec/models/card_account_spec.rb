@@ -52,8 +52,9 @@ describe CardAccount do
       end
     end
 
-    describe "#decline!" do
-      before { account.decline! }
+    describe "#decline_with_reason!" do
+      let(:message) { "Blah blah blah" }
+      before { account.decline_with_reason!(message) }
 
       it "sets the account's status to 'declined'" do
         expect(account).to be_declined
@@ -61,6 +62,10 @@ describe CardAccount do
 
       it "sets 'declined_at' to the current time" do
         expect(account.declined_at).to be_within(5.seconds).of(Time.now)
+      end
+
+      it "saves the decline reason" do
+        expect(account.decline_reason).to eq message
       end
     end
 

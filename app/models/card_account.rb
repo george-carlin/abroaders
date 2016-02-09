@@ -4,7 +4,9 @@ class CardAccount < ApplicationRecord
 
   include Statuses
 
-  delegate :brand, :type, :bp, :name, :identifier, :bank_name, to: :card,
+  delegate :brand, :type, :bp, :name, :identifier, :bank_name, :currency,
+    :currency_name,
+    to: :card,
     prefix: true
 
   # Validations

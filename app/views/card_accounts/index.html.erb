@@ -1,67 +1,14 @@
 <% provide :title, "My Cards" %>
 
-<h1>My Cards</h1>
+<% if @new_recommendations.any? %>
 
-<% if @card_accounts.any? %>
+  <h1>Recommended Cards</h1>
 
-  <% @card_accounts.each do |card_account| %>
-    <div
-      id="<%= dom_id(card_account) %>"
-      class="<%= dom_class(card_account) %> row"
-    >
-      <div class="col-xs-6 col-md-3">
-        <%= card_image_tag(card_account.card) %>
-      </div>
-      <div class="col-xs-6 col-md-3">
-        <%= card_account.card_name %> -
-        <%= card_account.card_bank_name %>
-      </div>
-      <div class="col-xs-12 col-md-6">
-
-        <% if card_account.applyable? %>
-          <%= card_account_apply_btn(card_account) %>
-        <% end %>
-
-        <% if card_account.applyable? %>
-          <%= card_account_applied_btn(card_account) %>
-        <% end %>
-
-        <% if card_account.declinable? %>
-          <%= card_account_decline_btn(card_account) %>
-        <% elsif card_account.declined? %>
-          <% if card_account.declined_at.present? %>
-            You indicated on <%= card_account.declined_at.strftime("%D") %>
-            that you do not wish to apply for this card.
-          <% else %>
-            You declined to apply for this card
-          <% end %>
-        <% end %>
-
-        <div
-          id="card_account_<%= card_account.id %>_application_result_btns"
-          style="display:none;"
-        >
-          <% if card_account.acceptable? %>
-            <%= card_account_accepted_btn(card_account) %>
-          <% end %>
-          <% if card_account.deniable? %>
-            <%= card_account_deny_btn(card_account) %>
-          <% end %>
-          <%= card_account_pending_btn(card_account) %>
-          <%= card_account_applied_back_btn(card_account) %>
-        </div>
-
-        <div
-          id="<%= dom_id(card_account) %>_pending_notification"
-          style="display:none;"
-        >
-          <%= t("card_accounts.index.application_pending") %>
-        </div>
-
-        <%#= button_to "Decline", decline_card_account_path(card_account), class: "btn-default" %>
-      </div>
-    </div><!-- .row -->
-  <% end %>
+  <div id="card_recommendations">
+    <% @new_recommendations.each do |rec| %>
+      <%= render "card_accounts/recommendation", recommendation: rec %>
+    <% end %>
+  </div><!-- #card_recommendations -->
 
 <% else %>
   Thanks for signing up to Abroaders! You will shortly receive your

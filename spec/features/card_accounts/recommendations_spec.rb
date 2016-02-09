@@ -1,6 +1,7 @@
 require "rails_helper"
 
-describe "as a user viewing my card recommendations" do
+describe "as a user viewing my card recommendations", js: true do
+  include ActionView::Helpers::NumberHelper
   subject { page }
 
   include_context "logged in"
@@ -28,15 +29,28 @@ describe "as a user viewing my card recommendations" do
     end
 
     it "shows details of the relevant card offers" do
+      @recommendations.each do |recommendation|
+        offer = recommendation.offer
+        within card_account_selector(recommendation) do
+          is_expected.to have_content(
+            "Spend #{number_to_currency(offer.spend)} within #{offer.days} "\
+            "days to receive a bonus of "\
+            "#{number_with_delimiter(offer.points_awarded)} "\
+            "#{recommendation.card_currency} points"
+          )
+        end
+      end
     end
 
     it "has a button to decline each recommendation" do
       @recommendations.each do |recommendation|
-        is_expected.to have_selector decline_rec_btn(recommendation)
+        is_expected.to have_selector(
+          decline_rec_btn(recommendation), text: "No Thanks"
+        )
       end
     end
 
-    it "has a button to apply for each recommendation" do
+    it "has a link to apply for each recommendation" do
       @recommendations.each do |rec|
         is_expected.to have_link "Apply", href: apply_card_account_path(rec)
       end
@@ -46,32 +60,73 @@ describe "as a user viewing my card recommendations" do
       let(:rec) { @recommendations[0] }
       before { find(decline_rec_btn(rec)).click }
 
-      it "shows a text field asking me why I'm declining"
+      it "shows a text field asking me why I'm declining" do
+        is_expected.to have_field :card_account_decline_reason
+      end
+
+      let(:cancel_btn)  { "#card_account_#{rec.id}_cancel_decline_btn" }
+      let(:confirm_btn) { "#card_account_#{rec.id}_confirm_decline_btn" }
+      let(:confirm) do
+        within(card_account_selector(rec)) { click_button "Confirm" }
+      end
+
+      it "hides the 'apply/decline' buttons" do
+        is_expected.not_to have_link "Apply", href: apply_card_account_path(rec)
+        is_expected.not_to have_selector decline_rec_btn(rec), text: "No Thanks"
+      end
+
+      it "shows a 'cancel' and a 'confirm' button" do
+        within card_account_selector(rec) do
+          is_expected.to have_selector cancel_btn, text: "Cancel"
+          is_expected.to have_selector confirm_btn, text: "Confirm"
+        end
+      end
 
       describe "submitting an empty text field" do
-        # TODO probably validate this via JS
-        it "shows an error message and doesn't save"
+        it "shows an error message and doesn't save" do
+          expect{confirm}.not_to change{rec.reload.attributes}
+          expect(page).to have_content "Please include a message"
+        end
       end
 
       describe "filling in the field and clicking 'confirm" do
-        it "updates the account's status to 'declined'" do
-          pending
-          expect(rec.reload).to be_declined
+        let(:message) { "Because I say so, bitch!" }
+        before do
+          fill_in :card_account_decline_reason, with: message
+          confirm
+          rec.reload
         end
 
-        it "sets the 'denied at' timestamp to the current time"
+        it "updates the account's status to 'declined'" do
+          expect(rec).to be_declined
+        end
+
+        it "sets the 'declined at' timestamp to the current time" do
+          expect(rec.declined_at).to be_within(5.seconds).of Time.now
+        end
       end
 
       describe "clicking 'cancel'" do
-        it "shows the apply/decline buttons again"
-        it "doesn't change the card's status"
+        before do
+          within card_account_selector(rec) do
+            click_button "Cancel"
+          end
+        end
+
+        it "shows the 'apply/decline' buttons again" do
+          is_expected.to have_link "Apply", href: apply_card_account_path(rec)
+          is_expected.to have_selector decline_rec_btn(rec), text: "No Thanks"
+        end
+
+        it "doesn't change the card's status" do
+          expect(rec.reload).to be_recommended
+        end
       end
     end
 
     describe "clicking 'Apply'", js: true do
       let(:rec) { @recommendations[0] }
       before do
-        pending
         within card_account_selector(rec) do
           click_link _t("have_applied")
         end
@@ -79,10 +134,36 @@ describe "as a user viewing my card recommendations" do
 
       # Possibly see https://github.com/teampoltergeist/poltergeist/commit/57f039ec17c6f5786f18d2a43266f79fac57f554
       it "opens the redirect page in a new tab"
+    end
 
-      it "saves the card status as 'applied'"
+    describe "opening the 'apply' page" do
+      let(:rec) { @recommendations[0] }
+      before { visit apply_card_account_path(rec) }
 
-      it "sets the 'applied at' timestamp to the current time"
+      # TODO How can we test this?
+      it "redirects to the bank's page after a delay"
+
+      it "saves the card status as 'applied'" do
+        expect(rec.reload.status).to eq "applied"
+      end
+
+      it "sets the 'applied at' timestamp to the current time" do
+        expect(rec.reload.applied_at).to be_within(5.seconds).of Time.now
+      end
+
+      context "when the recommendation is already 'applied'" do
+        # Page should still work, because they might have clicked the 'Apply'
+        # button but not actually applied
+        let(:rec) do
+          r = @recommendations[0]
+          r.update_attributes!(status: :applied, applied_at: 5.days.ago)
+          r
+        end
+
+        it "updates the 'applied at' timestamp to the current time" do
+          expect(rec.reload.applied_at).to be_within(5.seconds).of Time.now
+        end
+      end
     end
   end
 
@@ -240,5 +321,26 @@ describe "as a user viewing my card recommendations" do
   #  end
   #end
 
+
+  def card_account_selector(account)
+    "##{dom_id(account)}"
+  end
+
+  def have_card_account(account)
+    have_selector card_account_selector(account)
+  end
+
+  def decline_rec_btn(recommendation)
+    "#card_account_#{recommendation.id}_decline_btn"
+  end
+
+  def applied_for_rec_btn(recommendation)
+    "#card_account_#{recommendation.id}_applied_btn"
+  end
+
+    # Shortcut for the translations which are relevant to the index page
+    def _t(key)
+      t("card_accounts.index.#{key}")
+    end
 
 end

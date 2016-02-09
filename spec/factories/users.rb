@@ -16,6 +16,7 @@ FactoryGirl.define do
         user.build_info(
           attributes_for(
             :user_info,
+            :completed_card_survey,
             first_name: user.email.split("@").first.sub(/-\d+/, "").capitalize
           )
         )
