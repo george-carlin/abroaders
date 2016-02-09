@@ -70,7 +70,6 @@ $(document).ready(function () {
 
   $("#card_bank_filter_all").click(function () {
     var that = this;
-    debugger;
     $cardBankFilterCheckboxes.each(function (i, cb) {
       cb.checked = that.checked;
     });
