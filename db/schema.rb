@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160209213521) do
+ActiveRecord::Schema.define(version: 20160209220912) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,17 @@ ActiveRecord::Schema.define(version: 20160209213521) do
     t.datetime "updated_at",           null: false
     t.index ["iata_code"], name: "index_airports_on_iata_code", using: :btree
     t.index ["name"], name: "index_airports_on_name", using: :btree
+  end
+
+  create_table "balances", force: :cascade do |t|
+    t.integer  "user_id",                 null: false
+    t.integer  "currency_id",             null: false
+    t.integer  "value",       default: 0, null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.index ["currency_id"], name: "index_balances_on_currency_id", using: :btree
+    t.index ["user_id", "currency_id"], name: "index_balances_on_user_id_and_currency_id", unique: true, using: :btree
+    t.index ["user_id"], name: "index_balances_on_user_id", using: :btree
   end
 
   create_table "card_accounts", force: :cascade do |t|
@@ -163,6 +174,8 @@ ActiveRecord::Schema.define(version: 20160209213521) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
+  add_foreign_key "balances", "currencies", on_delete: :cascade
+  add_foreign_key "balances", "users", on_delete: :cascade
   add_foreign_key "card_accounts", "card_offers", column: "offer_id", on_delete: :restrict
   add_foreign_key "card_accounts", "cards", on_delete: :restrict
   add_foreign_key "card_accounts", "users", on_delete: :cascade
