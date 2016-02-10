@@ -14,5 +14,10 @@ FactoryGirl.define do
     trait :completed_card_survey do
       has_completed_card_survey true
     end
+
+    trait :complete do
+      has_completed_card_survey true
+      has_completed_balances_survey true
+    end
   end
 end

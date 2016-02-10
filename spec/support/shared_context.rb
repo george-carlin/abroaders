@@ -5,7 +5,7 @@ shared_context "logged in as new user" do
 end
 
 shared_context "logged in" do
-  let(:user) { create(:user, :with_info) } unless defined? user
+  let(:user) { create(:user, :survey_complete) } unless defined? user
   before { login_as user, scope: :user }
   after { Warden.test_reset! }
 end
