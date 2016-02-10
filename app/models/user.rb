@@ -41,6 +41,9 @@ class User < ApplicationRecord
 
   has_one :info, class_name: "UserInfo"
 
+  has_many :balances
+  has_many :currencies, through: :balances
+
   # Scopes
 
   scope :admin, -> { where(admin: true) }

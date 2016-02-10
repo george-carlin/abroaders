@@ -24,6 +24,9 @@ Rails.application.routes.draw do
   get  "survey/cards", to: "card_accounts#survey", as: :card_survey
   post "survey/cards", to: "card_accounts#save_survey"
 
+  get  "survey/balances", to: "balances#survey", as: :balances_survey
+  post "survey/balances", to: "balances#save_survey"
+
   # Note that 'cards' is a fixed list, and 'card accounts' is the join table
   # between a user and a card. But the user doesn't care about anyone's cards
   # except his own, and from his perspective he doesn't have a "card account"

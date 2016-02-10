@@ -1,0 +1,23 @@
+<h1>Balances</h1>
+
+<p>Do you have any existing frequent flyer mile balances?</p>
+
+<%= form_tag balances_survey_path do %>
+  <div class="balances_survey">
+    <% @currencies.each do |currency| %>
+      <div
+        id="<%= dom_id(currency) %>"
+        class="<%= dom_class(currency) %> survey_currency checkbox"
+      >
+        <label>
+          <%= currency_balance_checkbox(currency) %>
+          <%= currency.name %>
+        </label>
+
+        <%= currency_balance_value_field(currency) %>
+      </div>
+    <% end %>
+  </div>
+
+  <%= submit_tag "Submit", class: "btn btn-primary" %>
+<% end %>
