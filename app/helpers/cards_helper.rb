@@ -54,7 +54,7 @@ module CardsHelper
         true,
         class: klass,
         data: { key: :currency, value: currency.id }
-      ) << raw("&nbsp;&nbsp#{Currency.name}")
+      ) << raw("&nbsp;&nbsp#{currency.name}")
     end
   end
 

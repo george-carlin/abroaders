@@ -139,8 +139,8 @@ describe "admin section" do
           end
 
           specify "can be filtered by currency" do
-            Currency.keys.each do |currency|
-              is_expected.to have_field :"card_currency_filter_#{currency}"
+            Currency.pluck(:id).each do |currency_id|
+              is_expected.to have_field :"card_currency_filter_#{currency_id}"
             end
 
             # Alternative variables names for readability:
