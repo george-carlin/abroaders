@@ -8,7 +8,8 @@ class User < ApplicationRecord
 
   delegate :business_spending, :citizenship, :credit_score, :first_name,
       :full_name, :has_business, :has_business?, :has_business_with_ein?,
-      :has_business_without_ein?, :has_completed_card_survey,
+      :has_business_without_ein?, :has_completed_balances_survey,
+      :has_completed_balances_survey?, :has_completed_card_survey,
       :has_completed_card_survey?, :has_completed_cards_survey,
       :has_completed_cards_survey?, :imessage, :imessage?, :last_name,
       :middle_names, :personal_spending, :phone_number, :text_message,
@@ -23,8 +24,8 @@ class User < ApplicationRecord
     !!info.try(:persisted?)
   end
 
-  def has_completed_onboarding_survey?
-    info.present? && info.persisted? && info.has_completed_card_survey?
+  def survey_complete?
+    !!info.try(:complete?)
   end
 
   # Validations

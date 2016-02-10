@@ -129,34 +129,35 @@ ActiveRecord::Schema.define(version: 20160210011110) do
   end
 
   create_table "user_infos", force: :cascade do |t|
-    t.integer  "user_id",                                   null: false
-    t.string   "first_name",                                null: false
+    t.integer  "user_id",                                       null: false
+    t.string   "first_name",                                    null: false
     t.string   "middle_names"
-    t.string   "last_name",                                 null: false
-    t.string   "phone_number",                              null: false
-    t.boolean  "text_message",              default: false, null: false
-    t.boolean  "whatsapp",                  default: false, null: false
-    t.boolean  "imessage",                  default: false, null: false
-    t.string   "time_zone",                                 null: false
-    t.integer  "citizenship",               default: 0,     null: false
-    t.integer  "credit_score",                              null: false
-    t.boolean  "will_apply_for_loan",       default: false, null: false
-    t.integer  "personal_spending",         default: 0,     null: false
-    t.integer  "has_business",              default: 0,     null: false
-    t.datetime "created_at",                                null: false
-    t.datetime "updated_at",                                null: false
-    t.integer  "business_spending",         default: 0,     null: false
-    t.boolean  "has_completed_card_survey", default: false, null: false
+    t.string   "last_name",                                     null: false
+    t.string   "phone_number",                                  null: false
+    t.boolean  "text_message",                  default: false, null: false
+    t.boolean  "whatsapp",                      default: false, null: false
+    t.boolean  "imessage",                      default: false, null: false
+    t.string   "time_zone",                                     null: false
+    t.integer  "citizenship",                   default: 0,     null: false
+    t.integer  "credit_score",                                  null: false
+    t.boolean  "will_apply_for_loan",           default: false, null: false
+    t.integer  "personal_spending",             default: 0,     null: false
+    t.integer  "has_business",                  default: 0,     null: false
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
+    t.integer  "business_spending",             default: 0,     null: false
+    t.boolean  "has_completed_card_survey",     default: false, null: false
+    t.boolean  "has_completed_balances_survey", default: false, null: false
     t.index ["user_id"], name: "index_user_infos_on_user_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                         default: "",    null: false
-    t.string   "encrypted_password",            default: "",    null: false
+    t.string   "email",                  default: "",    null: false
+    t.string   "encrypted_password",     default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                 default: 0,     null: false
+    t.integer  "sign_in_count",          default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -165,10 +166,9 @@ ActiveRecord::Schema.define(version: 20160210011110) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
-    t.boolean  "admin",                         default: false, null: false
-    t.datetime "created_at",                                    null: false
-    t.datetime "updated_at",                                    null: false
-    t.boolean  "has_completed_balances_survey", default: false, null: false
+    t.boolean  "admin",                  default: false, null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
     t.index ["admin"], name: "index_users_on_admin", using: :btree
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree

@@ -1,3 +1,4 @@
+# TODO: rename me to 'Survey'
 class UserInfo < ApplicationRecord
 
   # Attributes
@@ -15,6 +16,10 @@ class UserInfo < ApplicationRecord
 
   def has_business?
     has_business_with_ein? || has_business_without_ein?
+  end
+
+  def complete?
+    persisted? && has_completed_card_survey? && has_completed_balances_survey?
   end
 
   alias_attribute :has_completed_cards_survey,  :has_completed_card_survey

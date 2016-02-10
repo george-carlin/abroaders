@@ -28,9 +28,9 @@ describe User do
     it { is_expected.to delegate_method(method).to(:info) }
   end
 
-  describe "#has_completed_onboarding_survey?" do
+  describe "#survey_complete?" do
     let(:user) { build_stubbed(:user) }
-    subject { user.has_completed_onboarding_survey? }
+    subject { user.survey_complete? }
 
     context "when the user" do
       context "has not completed any part of the survey" do
@@ -49,7 +49,15 @@ describe User do
 
         context "and the cards survey" do
           before { user.info.has_completed_card_survey = true }
-          pending # TODO come back to this when we've added the rest of the survey steps
+
+          context "but not the balances survey" do
+            it { is_expected.to be_falsey }
+          end
+
+          context "and the balances survey" do
+            before { user.info.has_completed_balances_survey = true }
+            it { is_expected.to be_truthy }
+          end
         end
       end
     end

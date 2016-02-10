@@ -18,14 +18,16 @@ Rails.application.routes.draw do
     delete :users, to: "registrations#destroy"
   end
 
-  get  :survey, to: "user_infos#new"
-  post :survey, to: "user_infos#create"
+  scope :survey, controller: :survey, as: :survey do
+    get  :/, action: :user_info,        as: :user_info
+    post :/, action: :create_user_info, as: nil
 
-  get  "survey/cards", to: "card_accounts#survey", as: :card_survey
-  post "survey/cards", to: "card_accounts#save_survey"
+    get  :cards, action: :card_accounts, as: :card_accounts
+    post :cards, action: :create_card_accounts, as: nil
 
-  get  "survey/balances", to: "balances#survey", as: :balances_survey
-  post "survey/balances", to: "balances#save_survey"
+    get  :balances
+    post :balances, action: :create_balances
+  end
 
   # Note that 'cards' is a fixed list, and 'card accounts' is the join table
   # between a user and a card. But the user doesn't care about anyone's cards

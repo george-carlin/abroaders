@@ -13,7 +13,7 @@
             <li><%= link_to "Offers", admin_card_offers_path %></li>
             <li><%= link_to "Users", admin_users_path %></li>
           <% else %>
-            <% if current_user.has_completed_onboarding_survey? %>
+            <% if current_user.survey_complete? %>
               <li><%= link_to "Cards", card_accounts_path %></li>
               <li><%= link_to "Travel plans", travel_plans_path %></li>
             <% end %>

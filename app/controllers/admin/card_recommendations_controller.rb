@@ -28,7 +28,7 @@ module Admin
     private
 
     def user_must_have_completed_onboarding_survey!
-      if @user.info.nil? # TODO change to 'completed onboarding?'
+      unless @user.survey_complete?
         flash[:error] = t("admin.users.card_recommendations.no_survey")
         redirect_to admin_user_path(@user)
       end

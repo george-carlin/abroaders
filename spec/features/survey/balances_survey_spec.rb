@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "onboarding survey - existing balances page", focus: true do
+describe "balances survey" do
   subject { page }
 
   include_context "logged in as new user"
@@ -10,7 +10,7 @@ describe "onboarding survey - existing balances page", focus: true do
       attributes_for(:user_info, :completed_card_survey, user: nil)
     )
     @currencies = create_list(:currency, 3)
-    visit balances_survey_path
+    visit survey_balances_path
   end
 
   let(:submit) { click_button "Submit" }

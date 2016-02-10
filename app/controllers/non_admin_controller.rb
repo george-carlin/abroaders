@@ -8,12 +8,19 @@ class NonAdminController < AuthenticatedController
   protected
 
   def redirect_to_survey_if_incomplete
-    if current_user.has_completed_user_info_survey?
-      if !current_user.info.has_completed_card_survey?
-        redirect_to card_survey_path unless request.path == card_survey_path
-      end
-    elsif controller_name != "user_infos"
-      redirect_to survey_path unless request.path == survey_path
+    # The path to the current stage of the survey that the user needs to
+    # complete. nil if the user has completed all survey stages:
+    current_survey_path = ({
+      # method to test if stage is complete =>
+      #             path to redirect to if stage is not complete
+      :has_completed_user_info_survey? => survey_user_info_path,
+      :has_completed_cards_survey?     => survey_card_accounts_path,
+      :has_completed_balances_survey?  => survey_balances_path,
+    }.detect do |method, path|
+      path if !current_user.send(method)
+    end)[1]
+    if current_survey_path && current_survey_path != request.path
+      redirect_to current_survey_path
     end
   end
 end

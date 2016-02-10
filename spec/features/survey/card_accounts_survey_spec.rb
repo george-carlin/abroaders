@@ -1,20 +1,13 @@
 require "rails_helper"
 
-describe "onboarding survey - cards" do
+describe "card accounts survey" do
   subject { page }
 
   include_context "logged in as new user"
 
   before do
-    if i_have_completed_user_info_survey
-      user.create_info!(
-        attributes_for(
-          :user_info,
-          user: nil,
-          has_completed_card_survey: i_have_completed_cards_survey
-        )
-      )
-    end
+    create(:user_info, user: user)
+    user.reload
 
     @cards = [
       @chase_b    = create(:card, :business, bank: :chase),
@@ -24,11 +17,8 @@ describe "onboarding survey - cards" do
       @barclays_b = create(:card, :business, bank: :barclays),
       @barclays_p = create(:card, :personal, bank: :barclays)
     ]
-    visit card_survey_path
+    visit survey_card_accounts_path
   end
-
-  let(:i_have_completed_user_info_survey) { true }
-  let(:i_have_completed_cards_survey) { false }
 
   let(:submit_form) { click_button "Save" }
 
@@ -44,18 +34,6 @@ describe "onboarding survey - cards" do
 
   def card_checkbox(card)
     :"card_account_card_ids_#{card.id}"
-  end
-
-  describe "when I have not added my contact and spending info" do
-    let(:i_have_completed_user_info_survey) { false }
-    it "redirects to the contact/spending info survey page" do
-      expect(current_path).to eq survey_path
-    end
-  end
-
-  describe "when I have already completed the cards survey" do
-    let(:i_have_completed_cards_survey) { true }
-    it "redirects to the next stage of the survey"
   end
 
 
@@ -97,6 +75,11 @@ describe "onboarding survey - cards" do
       submit_form
       expect(user.reload.has_completed_card_survey?).to be_truthy
     end
+
+    it "takes me to the balances survey page" do
+      submit_form
+      expect(current_path).to eq survey_balances_path
+    end
   end
 
   describe "selecting some cards" do
@@ -130,3 +113,4 @@ describe "onboarding survey - cards" do
   end
 
 end
+
