@@ -10,10 +10,10 @@ class CreateTravelLegs < ActiveRecord::Migration[5.0]
 
       t.timestamps
     end
-    add_foreign_key :travel_legs, :travel_plans, on_delete: :cascade
-    add_foreign_key :travel_legs, :destinations, column: :from_id,
-                                                      on_delete: :restrict
-    add_foreign_key :travel_legs, :destinations, column: :to_id,
-                                                      on_delete: :restrict
+
+    add_foreign_key :travel_legs, :travel_plans,                   on_delete: :cascade
+    add_foreign_key :travel_legs, :destinations, column: :from_id, on_delete: :restrict
+    add_foreign_key :travel_legs, :destinations, column: :to_id,   on_delete: :restrict
+
   end
 end

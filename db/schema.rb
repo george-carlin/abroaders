@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160210011110) do
+ActiveRecord::Schema.define(version: 20160209220912) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 20160210011110) do
   create_table "card_accounts", force: :cascade do |t|
     t.integer  "card_id"
     t.integer  "user_id",                        null: false
+    t.integer  "offer_id"
     t.integer  "status",                         null: false
     t.datetime "recommended_at"
     t.datetime "applied_at"
@@ -37,10 +38,9 @@ ActiveRecord::Schema.define(version: 20160210011110) do
     t.datetime "earned_at"
     t.datetime "closed_at"
     t.boolean  "reconsidered",   default: false, null: false
+    t.string   "decline_reason"
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
-    t.integer  "offer_id"
-    t.string   "decline_reason"
   end
 
   create_table "card_offers", force: :cascade do |t|
@@ -63,14 +63,15 @@ ActiveRecord::Schema.define(version: 20160210011110) do
     t.string   "name",                            null: false
     t.integer  "brand",                           null: false
     t.integer  "bp",                              null: false
+    t.integer  "bank",                            null: false
     t.integer  "type",                            null: false
     t.integer  "annual_fee_cents",                null: false
     t.boolean  "active",           default: true, null: false
+    t.integer  "currency_id",                     null: false
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
-    t.integer  "bank",                            null: false
-    t.integer  "currency_id",                     null: false
     t.index ["bank"], name: "index_cards_on_bank", using: :btree
+    t.index ["currency_id"], name: "index_cards_on_currency_id", using: :btree
     t.index ["identifier"], name: "index_cards_on_identifier", unique: true, using: :btree
   end
 
@@ -134,12 +135,12 @@ ActiveRecord::Schema.define(version: 20160210011110) do
     t.integer  "credit_score",                                  null: false
     t.boolean  "will_apply_for_loan",           default: false, null: false
     t.integer  "personal_spending",             default: 0,     null: false
+    t.integer  "business_spending",             default: 0
     t.integer  "has_business",                  default: 0,     null: false
-    t.datetime "created_at",                                    null: false
-    t.datetime "updated_at",                                    null: false
-    t.integer  "business_spending",             default: 0,     null: false
     t.boolean  "has_completed_card_survey",     default: false, null: false
     t.boolean  "has_completed_balances_survey", default: false, null: false
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
     t.index ["user_id"], name: "index_user_infos_on_user_id", using: :btree
   end
 
@@ -169,10 +170,11 @@ ActiveRecord::Schema.define(version: 20160210011110) do
 
   add_foreign_key "balances", "currencies", on_delete: :cascade
   add_foreign_key "balances", "users", on_delete: :cascade
-  add_foreign_key "card_accounts", "card_offers", column: "offer_id", on_delete: :restrict
+  add_foreign_key "card_accounts", "card_offers", column: "offer_id", on_delete: :cascade
   add_foreign_key "card_accounts", "cards", on_delete: :restrict
   add_foreign_key "card_accounts", "users", on_delete: :cascade
   add_foreign_key "card_offers", "cards", on_delete: :cascade
+  add_foreign_key "cards", "currencies", on_delete: :restrict
   add_foreign_key "destinations", "destinations", column: "parent_id", on_delete: :restrict
   add_foreign_key "travel_legs", "destinations", column: "from_id", on_delete: :restrict
   add_foreign_key "travel_legs", "destinations", column: "to_id", on_delete: :restrict
