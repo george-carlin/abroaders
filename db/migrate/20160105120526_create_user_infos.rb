@@ -1,7 +1,7 @@
 class CreateUserInfos < ActiveRecord::Migration[5.0]
   def change
     create_table :user_infos do |t|
-      t.integer :user_id, null: false, index: :unique
+      t.integer :user_id, null: false, index: { unique: true }
       t.string :first_name, null: false
       t.string :middle_names
       t.string :last_name, null: false

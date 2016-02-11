@@ -54,7 +54,7 @@ ActiveRecord::Schema.define(version: 20160209220912) do
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
     t.index ["card_id"], name: "index_card_offers_on_card_id", using: :btree
-    t.index ["identifier"], name: "index_card_offers_on_identifier", using: :btree
+    t.index ["identifier"], name: "index_card_offers_on_identifier", unique: true, using: :btree
     t.index ["status"], name: "index_card_offers_on_status", using: :btree
   end
 
@@ -141,7 +141,7 @@ ActiveRecord::Schema.define(version: 20160209220912) do
     t.boolean  "has_completed_balances_survey", default: false, null: false
     t.datetime "created_at",                                    null: false
     t.datetime "updated_at",                                    null: false
-    t.index ["user_id"], name: "index_user_infos_on_user_id", using: :btree
+    t.index ["user_id"], name: "index_user_infos_on_user_id", unique: true, using: :btree
   end
 
   create_table "users", force: :cascade do |t|
