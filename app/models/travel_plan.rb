@@ -1,9 +1,10 @@
 class TravelPlan < ApplicationRecord
+  self.inheritance_column = :_no_sti
 
   # Attributes
 
   TYPES = %i[single return multi]
-  enum types: TYPES
+  enum type: TYPES
 
   DEFAULT_TYPE   = :return
   MAX_FLIGHTS    = 20
