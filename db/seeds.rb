@@ -24,7 +24,7 @@ ApplicationRecord.transaction do
     50.times do
       date = ((500).days + rand(24).hours + rand(60).minutes).ago
       args = [:user, { created_at: date, confirmed_at: date } ]
-      args.insert(1, :with_info) if rand > 0.2
+      args.insert(1, :survey_complete) if rand > 0.2
       user = build(*args)
 
       if user.info.present?
