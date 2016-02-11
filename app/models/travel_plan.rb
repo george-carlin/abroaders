@@ -18,11 +18,21 @@ class TravelPlan < ApplicationRecord
       less_than_or_equal_to:    MAX_PASSENGERS,
     }
 
+  validate :number_of_flights_matches_type
+
   # Associations
 
   belongs_to :user
   has_many :flights
 
   accepts_nested_attributes_for :flights
+
+  private
+
+  def number_of_flights_matches_type
+    if (!multi? && flights.size != 1) || (multi? && flights.size <= 1)
+      errors.add(:base, t("activerecord.errors.travel_plan.bad_flight_count"))
+    end
+  end
 
 end
