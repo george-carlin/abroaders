@@ -5,10 +5,11 @@
 <%=
   react_component(
     "TravelPlanForm",
-    planTypes:   TravelPlan::TYPES,
     defaultType: TravelPlan::DEFAULT_TYPE,
     maxFlights:  TravelPlan::MAX_FLIGHTS,
-    travelPlan:  @travel_plan.attributes
+    planTypes:   TravelPlan::TYPES,
+    travelPlan:  @travel_plan.attributes,
+    url:         travel_plans_path
   )
 %>
 

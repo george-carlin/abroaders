@@ -14,6 +14,7 @@ var CardDeclineForm = React.createClass({
     onClickCancel: React.PropTypes.func.isRequired,
   },
 
+  // TODO this is an exact dupe of code in TravelPlanForm. How to DRY this?
   componentDidMount() {
     // Hack to get the csrf-token into the form. `csrf_meta_tags` doesn't
     // output anything in test mode, so only add this hack if the querySelector
@@ -47,11 +48,8 @@ var CardDeclineForm = React.createClass({
         method="post"
         onSubmit={this.submit}
       >
-        <input
-          name="authenticity_token"
-          type="hidden"
-          value={this.state.csrfToken}
-        />
+        <AuthTokenField value={this.state.csrfToken} />
+
         <div className={this.state.showErrorMessage ? "field_with_errors" : ""}>
           <input
             className="form-control input-sm"

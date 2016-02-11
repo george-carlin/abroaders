@@ -12,11 +12,14 @@ class TravelPlan < ApplicationRecord
 
   # Validations
 
+  validates :departure_date_range, presence: true
   validates :no_of_passengers,
     numericality: {
       greater_than_or_equal_to: 1,
       less_than_or_equal_to:    MAX_PASSENGERS,
     }
+  validates :type, presence: true
+  validates :user, presence: true
 
   validate :number_of_flights_matches_type
 

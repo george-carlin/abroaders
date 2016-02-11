@@ -19,7 +19,7 @@ var TravelPlanTypeRadio = React.createClass({
         <input
           id={id}
           defaultChecked={this.props.checked}
-          name="travel_plan_type"
+          name="travel_plan[type]"
           onClick={this.props.onClick}
           type="radio"
           value={type}

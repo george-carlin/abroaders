@@ -42,6 +42,7 @@ describe "new travel plans page", js: true do
   end
 
   it "has an input for the departure date range" do
+    pending
     is_expected.to have_field :travel_plan_departure_date_range
   end
 
@@ -58,21 +59,21 @@ describe "new travel plans page", js: true do
         wait_for_ajax
       end
 
-      let(:option) { ".typeahead.dropdown-menu > li > a" }
-
       it "populates the dropdown with suggestions" do
         [@lhr, @lgw, @ltn].each do |a|
-          is_expected.to have_selector option, text: "#{a.name} (#{a.code})"
+          text = "#{a.name} (#{a.code})"
+          is_expected.to have_selector typeahead_option, text: text
         end
         [@yyz, @sgn, @jfk, @lga].each do |a|
-          is_expected.not_to have_selector option, text: "#{a.name} (#{a.code})"
+          text = "#{a.name} (#{a.code})"
+          is_expected.not_to have_selector typeahead_option, text: text
         end
       end
 
       describe "and choosing a suggestion" do
         before do
-          within "#travel_plan_flights_attributes_0_#{place} + .typeahead" do
-            find(option, text: "London Heathrow (LHR)").click
+          within typeahead_dropdown(place) do
+            find(typeahead_option, text: "London Heathrow (LHR)").click
           end
         end
 
@@ -96,12 +97,25 @@ describe "new travel plans page", js: true do
   describe "filling in the form" do
     describe "with valid details for a 'return' travel plan" do
       before do
+        fill_in flight_field(0, :from), with: "lond"
+        wait_for_ajax
+        within typeahead_dropdown(:from) do
+          find(typeahead_option, text: "London Heathrow (LHR)").click
+        end
+        fill_in flight_field(0, :to), with: "Ho Chi"
+        wait_for_ajax
+        within typeahead_dropdown(:to) do
+          find(typeahead_option, text: "Ho Chi Minh City (SGN)").click
+        end
       end
 
       describe "and clicking 'save'" do
-        it "creates a return travel plan"
+        let(:submit) { click_button "Save" }
 
-        pending "TODO: what does it show me next?"
+        it "creates a 'return'-type travel plan on my account" do
+          expect{submit}.to \
+            change{user.travel_plans.return.count}.by(1)
+        end
       end
     end
 
@@ -203,6 +217,23 @@ describe "new travel plans page", js: true do
 
   def flight_form
     ".flight-form"
+  end
+
+  def typeahead_dropdown(place)
+    raise unless %w[from to].include?(place.to_s)
+    "#travel_plan_flights_attributes_0_#{place} + .typeahead"
+  end
+
+  def from_typeahead_dropdown
+    typeahead_dropdown(:from)
+  end
+
+  def to_typeahead_dropdown
+    typeahead_dropdown(:to)
+  end
+
+  def typeahead_option
+    ".typeahead.dropdown-menu > li > a"
   end
 
 end

@@ -4,13 +4,35 @@ var TravelPlanForm = React.createClass({
     maxFlights:  React.PropTypes.number.isRequired,
     planTypes:   React.PropTypes.array.isRequired,
     travelPlan:  React.PropTypes.object.isRequired,
+    url:         React.PropTypes.string.isRequired,
   },
+
+  getInitialState() {
+    return {
+      csrfToken:        "",
+    }
+  },
+
 
 
   getInitialState() {
     return {
       type: this.props.defaultType,
       flights: [{}],
+    }
+  },
+
+
+  // TODO this is an exact dupe of code in CardDeclineForm. How to DRY this?
+  componentDidMount() {
+    // Hack to get the csrf-token into the form. `csrf_meta_tags` doesn't
+    // output anything in test mode, so only add this hack if the querySelector
+    // returns anything:
+    var csrfMetaTag = document.querySelector('meta[name="csrf-token"]')
+    if (csrfMetaTag) {
+      this.setState({
+        csrfToken: csrfMetaTag.content
+      });
     }
   },
 
@@ -56,18 +78,20 @@ var TravelPlanForm = React.createClass({
     };
 
     return (
-      <div>
-        <div className="row">
+      <form action={this.props.url} method="post">
+        <AuthTokenField value={this.state.csrfToken} />
+
+        <Row>
           <TravelPlanTypeRadios
             types={this.props.planTypes}
             currentType={this.state.type}
             onChange={this.changeType}
           />
-        </div>
+        </Row>
 
         {flights}
 
-        <div className="row">
+        <Row>
           <div className="col-xs-4">
             <label>No of passengers</label>
             <NumberFieldTag
@@ -83,8 +107,14 @@ var TravelPlanForm = React.createClass({
               onClick={this.addFlight}
             />
           </div>
-        </div>
-      </div>
+        </Row>
+
+        <Row>
+          <div className="col-xs-12">
+            <SubmitTag value="Save" />
+          </div>
+        </Row>
+      </form>
     )
   }
 });
