@@ -3,6 +3,7 @@ var TravelPlanForm = React.createClass({
     defaultType: React.PropTypes.string.isRequired,
     maxLegs:     React.PropTypes.number.isRequired,
     planTypes:   React.PropTypes.array.isRequired,
+    travelPlan:  React.PropTypes.object.isRequired,
   },
 
 
@@ -69,7 +70,11 @@ var TravelPlanForm = React.createClass({
         <div className="row">
           <div className="col-xs-4">
             <label>No of passengers</label>
-            <input type="number" className="form-control" />
+            <NumberFieldTag
+              model="travel_plan"
+              field="no_of_passengers"
+              value={this.props.travelPlan.no_of_passengers}
+            />
           </div>
 
           <div className="col-xs-2">

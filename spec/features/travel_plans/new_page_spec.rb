@@ -45,6 +45,12 @@ describe "new travel plans page", js: true do
     is_expected.to have_field :travel_plan_departure_date_range
   end
 
+  describe "the 'number of passengers' input" do
+    it "says '1' by default" do
+      expect(find("#travel_plan_no_of_passengers").value).to eq "1"
+    end
+  end
+
   %i[from to].each do |place|
     describe "searching for an airport in the '#{place}' input" do
       before do

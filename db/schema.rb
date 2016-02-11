@@ -136,10 +136,11 @@ ActiveRecord::Schema.define(version: 20160209220912) do
 
   create_table "travel_plans", force: :cascade do |t|
     t.integer   "user_id"
-    t.integer   "type",                 null: false
-    t.daterange "departure_date_range", null: false
-    t.datetime  "created_at",           null: false
-    t.datetime  "updated_at",           null: false
+    t.integer   "type",                             null: false
+    t.daterange "departure_date_range",             null: false
+    t.integer   "no_of_passengers",     default: 1, null: false
+    t.datetime  "created_at",                       null: false
+    t.datetime  "updated_at",                       null: false
     t.index ["type"], name: "index_travel_plans_on_type", using: :btree
     t.index ["user_id"], name: "index_travel_plans_on_user_id", using: :btree
   end
