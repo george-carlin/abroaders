@@ -1,4 +1,4 @@
-var TravelPlanAddLegBtn = React.createClass({
+var AddFlightBtn = React.createClass({
 
   propTypes: {
     onClick: React.PropTypes.func.isRequired,
@@ -8,7 +8,7 @@ var TravelPlanAddLegBtn = React.createClass({
   render() {
     return (
       <button
-        id="add-travel-plan-leg-btn"
+        id="add-flight-btn"
         onClick={this.props.onClick}
         style={ this.props.hidden ? { display: "none" } : {} }
         className="btn btn-primary"

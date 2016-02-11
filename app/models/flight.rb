@@ -1,4 +1,4 @@
-class TravelLeg < ApplicationRecord
+class Flight < ApplicationRecord
 
 
   # Validations

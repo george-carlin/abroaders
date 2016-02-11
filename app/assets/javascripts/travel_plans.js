@@ -22,9 +22,9 @@ $(document).ready(function () {
   };
 
 
-  $("#travel_plan_legs_attributes_0_from").typeahead({
+  $("#travel_plan_flights_attributes_0_from").typeahead({
     afterSelect: function (item) {
-      $("#travel_plan_legs_attributes_0_from_id").val(item.id);
+      $("#travel_plan_flights_attributes_0_from_id").val(item.id);
     },
     displayText: displayText,
     source: function (query, process) {
@@ -37,9 +37,9 @@ $(document).ready(function () {
     },
   }).on("keyup keydown keypress", showSpinner);
 
-  $("#travel_plan_legs_attributes_0_to").typeahead({
+  $("#travel_plan_flights_attributes_0_to").typeahead({
     afterSelect: function (item) {
-      $("#travel_plan_legs_attributes_0_to_id").val(item.id);
+      $("#travel_plan_flights_attributes_0_to_id").val(item.id);
     },
     displayText: displayText,
     source: function (query, process) {

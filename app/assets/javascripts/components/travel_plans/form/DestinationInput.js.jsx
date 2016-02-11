@@ -2,16 +2,16 @@ var DestinationInput = React.createClass({
 
   propTypes: {
     dest:     React.PropTypes.oneOf(["from", "to"]),
-    legIndex: React.PropTypes.number.isRequired,
+    flightIndex: React.PropTypes.number.isRequired,
   },
 
   render() {
-    var dest     = this.props.dest,
-        legIndex = this.props.legIndex,
+    var dest             = this.props.dest,
+        flightIndex      = this.props.flightIndex,
         formGroupClasses = "col-xs-12 col-sm-5 form-group " +
                            "travel-plan-destination-form-group";
 
-    var key = `travel_plan_legs_attributes_${legIndex}`;
+    var key = `travel_plan_flights_attributes_${flightIndex}`;
 
     return (
       <div className={formGroupClasses}>
@@ -20,7 +20,7 @@ var DestinationInput = React.createClass({
           id={`${key}_${dest}`}
           type="text"
           className="destination-typeahead form-control"
-          name={`travel_plan[legs_attributes][${legIndex}][${dest}]`}
+          name={`travel_plan[flights_attributes][${flightIndex}][${dest}]`}
         />
         <div
           id={`${dest}-loading-spinner`}
@@ -31,7 +31,7 @@ var DestinationInput = React.createClass({
         <input
           id={`${key}_${dest}_id`}
           type="hidden"
-          name={`travel_plan[legs_attributes][${legIndex}][${dest}_id]`}
+          name={`travel_plan[flights_attributes][${flightIndex}][${dest}_id]`}
         />
       </div>
     )

@@ -31,14 +31,14 @@ describe "new travel plans page", js: true do
     expect(radio).to be_checked
   end
 
-  specify "the 'add/remove leg' buttons are initially hidden" do
-    is_expected.not_to have_selector add_leg_btn
-    is_expected.not_to have_selector remove_leg_btn
+  specify "the 'add/remove flight' buttons are initially hidden" do
+    is_expected.not_to have_selector add_flight_btn
+    is_expected.not_to have_selector remove_flight_btn
   end
 
   it "has inputs for journey origin and destination" do
-    is_expected.to have_field leg_field(0, :from)
-    is_expected.to have_field leg_field(0, :to)
+    is_expected.to have_field flight_field(0, :from)
+    is_expected.to have_field flight_field(0, :to)
   end
 
   it "has an input for the departure date range" do
@@ -54,7 +54,7 @@ describe "new travel plans page", js: true do
   %i[from to].each do |place|
     describe "searching for an airport in the '#{place}' input" do
       before do
-        fill_in leg_field(0, place), with: "lond"
+        fill_in flight_field(0, place), with: "lond"
         wait_for_ajax
       end
 
@@ -71,19 +71,19 @@ describe "new travel plans page", js: true do
 
       describe "and choosing a suggestion" do
         before do
-          within "#travel_plan_legs_attributes_0_#{place} + .typeahead" do
+          within "#travel_plan_flights_attributes_0_#{place} + .typeahead" do
             find(option, text: "London Heathrow (LHR)").click
           end
         end
 
         it "fills the input with the chosen suggestion" do
           wait_for_ajax
-          field = find("#travel_plan_legs_attributes_0_#{place}")
+          field = find("#travel_plan_flights_attributes_0_#{place}")
           expect(field.value).to eq "London Heathrow (LHR)"
         end
 
         it "fills in the '#{place}' hidden input with the dest's ID" do
-          hidden_input_selector = "#travel_plan_legs_attributes_0_#{place}_id"
+          hidden_input_selector = "#travel_plan_flights_attributes_0_#{place}_id"
           field = find(hidden_input_selector, visible: false)
           expect(field.value).to eq @lhr.id.to_s
         end
@@ -133,53 +133,53 @@ describe "new travel plans page", js: true do
   describe "clicking 'multi'" do
     before { choose :travel_plan_type_multi }
 
-    it "shows the 'add leg' button" do
-      is_expected.to have_selector add_leg_btn
+    it "shows the 'add flight' button" do
+      is_expected.to have_selector add_flight_btn
     end
 
-    it "doesn't shows a 'remove leg' button" do
-      is_expected.not_to have_selector remove_leg_btn
+    it "doesn't shows a 'remove flight' button" do
+      is_expected.not_to have_selector remove_flight_btn
     end
 
-    describe "and clicking 'add leg'" do
-      before { find(add_leg_btn).click }
+    describe "and clicking 'add flight'" do
+      before { find(add_flight_btn).click }
 
-      it "adds a form for a second travel leg" do
-        is_expected.to have_selector leg_form, count: 2
+      it "adds a form for a second travel flight" do
+        is_expected.to have_selector flight_form, count: 2
       end
 
-      it "shows the 'remove leg' buttons" do
-        is_expected.to have_selector remove_leg_btn, count: 2
+      it "shows the 'remove flight' buttons" do
+        is_expected.to have_selector remove_flight_btn, count: 2
       end
 
-      describe "and clicking 'remove leg' again" do
-        before { all(remove_leg_btn).first.click }
+      describe "and clicking 'remove flight' again" do
+        before { all(remove_flight_btn).first.click }
 
-        it "removes the given travel leg form" do
-          is_expected.to have_selector leg_form, count: 1
+        it "removes the given travel flight form" do
+          is_expected.to have_selector flight_form, count: 1
         end
 
-        it "hides the remaining 'remove leg' button" do
-          is_expected.not_to have_selector remove_leg_btn
+        it "hides the remaining 'remove flight' button" do
+          is_expected.not_to have_selector remove_flight_btn
         end
       end
-    end # clicking 'add leg'
+    end # clicking 'add flight'
 
     %i[single return].each do |type|
       describe "then clicking '#{type}'" do
         before { choose :"travel_plan_type_#{type}" }
         it "hides the add/remove buttons again" do
-          is_expected.not_to have_selector add_leg_btn
-          is_expected.not_to have_selector remove_leg_btn
+          is_expected.not_to have_selector add_flight_btn
+          is_expected.not_to have_selector remove_flight_btn
         end
       end
     end
 
-    describe "and adding the maximum number of travel legs" do
-      it "disables the 'add leg' button"
+    describe "and adding the maximum number of travel flights" do
+      it "disables the 'add flight' button"
 
-      describe "and removing a leg again" do
-        it "reenables the 'add leg' button"
+      describe "and removing a flight again" do
+        it "reenables the 'add flight' button"
       end
     end
 
@@ -189,20 +189,20 @@ describe "new travel plans page", js: true do
     end
   end
 
-  def leg_field(position, attribute)
-    :"travel_plan_legs_attributes_#{position}_#{attribute}"
+  def flight_field(position, attribute)
+    :"travel_plan_flights_attributes_#{position}_#{attribute}"
   end
 
-  def add_leg_btn
-    "#add-travel-plan-leg-btn"
+  def add_flight_btn
+    "#add-flight-btn"
   end
 
-  def remove_leg_btn
-    ".remove-travel-plan-leg-btn"
+  def remove_flight_btn
+    ".remove-flight-btn"
   end
 
-  def leg_form
-    ".travel-leg-form"
+  def flight_form
+    ".flight-form"
   end
 
 end

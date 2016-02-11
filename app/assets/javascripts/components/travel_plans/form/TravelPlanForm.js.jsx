@@ -1,7 +1,7 @@
 var TravelPlanForm = React.createClass({
   propTypes: {
     defaultType: React.PropTypes.string.isRequired,
-    maxLegs:     React.PropTypes.number.isRequired,
+    maxFlights:  React.PropTypes.number.isRequired,
     planTypes:   React.PropTypes.array.isRequired,
     travelPlan:  React.PropTypes.object.isRequired,
   },
@@ -10,20 +10,20 @@ var TravelPlanForm = React.createClass({
   getInitialState() {
     return {
       type: this.props.defaultType,
-      legs: [{}],
+      flights: [{}],
     }
   },
 
 
-  noOfLegs() {
-    return this.state.legs.length;
+  noOfFlights() {
+    return this.state.flights.length;
   },
 
 
-  addLeg() {
-    var legs = this.state.legs;
-    legs.push({})
-    this.setState({legs: legs});
+  addFlight() {
+    var flights = this.state.flights;
+    flights.push({})
+    this.setState({flights: flights});
   },
 
 
@@ -32,25 +32,25 @@ var TravelPlanForm = React.createClass({
   },
 
 
-  removeLeg(e) {
-    var legs = this.state.legs;
-    // remove this leg from the array:
-    legs.splice(e.target.dataset.legIndex, 1)
-    this.setState({ legs: legs });
+  removeFlight(e) {
+    var flights = this.state.flights;
+    // remove this flight from the array:
+    flights.splice(e.target.dataset.flightIndex, 1)
+    this.setState({ flights: flights });
   },
 
 
   render() {
     var that = this;
 
-    var legs = [];
-    for (var i = 0; i < this.noOfLegs(); i++) {
-      legs.push(
-        <TravelPlanLegFields
+    var flights = [];
+    for (var i = 0; i < this.noOfFlights(); i++) {
+      flights.push(
+        <FlightFields
           key={i}
           index={i}
-          showRemoveBtn={this.state.type === "multi" && this.noOfLegs() > 1}
-          onRemoveBtnClick={this.removeLeg}
+          showRemoveBtn={this.state.type === "multi" && this.noOfFlights() > 1}
+          onRemoveBtnClick={this.removeFlight}
         />
       );
     };
@@ -65,7 +65,7 @@ var TravelPlanForm = React.createClass({
           />
         </div>
 
-        {legs}
+        {flights}
 
         <div className="row">
           <div className="col-xs-4">
@@ -78,9 +78,9 @@ var TravelPlanForm = React.createClass({
           </div>
 
           <div className="col-xs-2">
-            <TravelPlanAddLegBtn
+            <AddFlightBtn
               hidden={this.state.type !== "multi"}
-              onClick={this.addLeg}
+              onClick={this.addFlight}
             />
           </div>
         </div>

@@ -1,4 +1,4 @@
-var TravelPlanLegFields = React.createClass({
+var FlightFields = React.createClass({
 
   propTypes: {
     index:            React.PropTypes.number.isRequired,
@@ -10,7 +10,7 @@ var TravelPlanLegFields = React.createClass({
     var that = this;
 
     return (
-      <div className="travel-leg-form row">
+      <div className="flight-form row">
 
         {
           ["from", "to"].map(function (dest, i) {
@@ -18,7 +18,7 @@ var TravelPlanLegFields = React.createClass({
               <DestinationInput
                 key={i}
                 dest={dest}
-                legIndex={that.props.index}
+                flightIndex={that.props.index}
               />
             );
           })
@@ -26,8 +26,8 @@ var TravelPlanLegFields = React.createClass({
 
 
         <div className="col-xs-12 col-sm-2">
-          <TravelPlanRemoveLegBtn
-            legIndex={this.props.index}
+          <RemoveFlightBtn
+            flightIndex={this.props.index}
             onClick={this.props.onRemoveBtnClick}
             hidden={!this.props.showRemoveBtn}
           />

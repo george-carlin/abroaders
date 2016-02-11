@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :travel_plan_leg do
+  factory :flight do
     travel_plan nil
     origin nil
     destination nil
