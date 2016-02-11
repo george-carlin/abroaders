@@ -32,7 +32,7 @@ describe "admin section" do
 
       @user = create(:user)
       if completed_survey
-        @user.create_info!(
+        @user.create_survey!(
           first_name:   "Fred",
           middle_names: "R. J.",
           last_name:    "Smith",
@@ -58,8 +58,8 @@ describe "admin section" do
       context "has not completed the onboarding survey" do
         let(:completed_survey) { false }
 
-        it "redirects back to the user info page" do
-          raise unless @user.info.nil? # Sanity check
+        it "redirects back to the user survey page" do
+          raise unless @user.survey.nil? # Sanity check
           expect(current_path).to eq admin_user_path(@user)
           expect(page).to have_content \
                       t("admin.users.card_recommendations.no_survey")
@@ -72,16 +72,16 @@ describe "admin section" do
     end
 
     it "displays the user's info from the onboarding survey" do
-      def have_user_info(attr, value)
-        have_selector ".user-info-attr.user-#{attr}", text: value
+      def have_survey(attr, value)
+        have_selector ".user-survey-attr.user-#{attr}", text: value
       end
 
-      is_expected.to have_user_info "email", @user.email
-      is_expected.to have_user_info "phone-number", phone_number
-      is_expected.to have_user_info "citizenship", "U.S. Permanent Resident"
-      is_expected.to have_user_info "credit-score", 678
-      is_expected.to have_user_info "personal-spending", "$2500"
-      is_expected.to have_user_info "business-spending", "$1500"
+      is_expected.to have_survey "email", @user.email
+      is_expected.to have_survey "phone-number", phone_number
+      is_expected.to have_survey "citizenship", "U.S. Permanent Resident"
+      is_expected.to have_survey "credit-score", 678
+      is_expected.to have_survey "personal-spending", "$2500"
+      is_expected.to have_survey "business-spending", "$1500"
     end
 
     it "has a form to recommend a new card" do

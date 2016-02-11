@@ -4,7 +4,7 @@ class UserSerializer < ActiveModel::Serializer
   def full_name
     # If no full name is provided, return an empty string instead of nil so we
     # don't have to worry about type-checking when consuming the API
-    object.info.try(:full_name) || ""
+    object.survey.try(:full_name) || ""
   end
 
   def pretty_created_at

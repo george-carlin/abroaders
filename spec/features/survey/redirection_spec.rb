@@ -6,12 +6,12 @@ describe "as a new user" do
   include_context "logged in as new user"
 
   before do
-    if completed_user_info_survey
+    if completed_main_survey
       create(
-        :user_info,
+        :survey,
         :user => user,
-        :has_completed_cards_survey    => completed_card_accounts_survey,
-        :has_completed_balances_survey => completed_balances_survey
+        :has_added_cards    => completed_card_accounts_survey,
+        :has_added_balances => completed_balances_survey
       )
       user.reload
     end
@@ -24,14 +24,14 @@ describe "as a new user" do
       new_travel_plan_path,
       survey_balances_path,
       survey_card_accounts_path,
-      survey_user_info_path,
+      survey_path,
       travel_plans_path
     ]
   end
 
   let(:paths_to_test) { paths - allowed_paths }
 
-  let(:completed_user_info_survey)     { false }
+  let(:completed_main_survey)     { false }
   let(:completed_card_accounts_survey) { false }
   let(:completed_balances_survey)      { false }
 
@@ -46,13 +46,13 @@ describe "as a new user" do
   end
 
   context "who has not completed any part of the survey" do
-    let(:allowed_paths) { [survey_user_info_path] }
+    let(:allowed_paths) { [survey_path] }
 
-    describe "any authenticated page except the user info survey" do
+    describe "any authenticated page except the main survey" do
       it "redirects me to the user info survey" do
         paths_to_test.each do |path|
           visit path
-          expect(current_path).to eq survey_user_info_path
+          expect(current_path).to eq survey_path
         end
       end
     end
@@ -61,7 +61,7 @@ describe "as a new user" do
   end
 
   context "who has not completed the card accounts survey" do
-    let(:completed_user_info_survey) { true }
+    let(:completed_main_survey) { true }
     let(:allowed_paths) { [survey_card_accounts_path] }
 
     describe "any authenticated page except the card accounts survey" do
@@ -77,7 +77,7 @@ describe "as a new user" do
   end
 
   context "who has not completed the balances survey" do
-    let(:completed_user_info_survey) { true }
+    let(:completed_main_survey) { true }
     let(:completed_card_accounts_survey) { true }
     let(:allowed_paths) { [survey_balances_path] }
 

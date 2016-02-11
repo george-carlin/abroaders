@@ -98,6 +98,29 @@ ActiveRecord::Schema.define(version: 20160209220912) do
     t.index ["type"], name: "index_destinations_on_type", using: :btree
   end
 
+  create_table "surveys", force: :cascade do |t|
+    t.integer  "user_id",                             null: false
+    t.string   "first_name",                          null: false
+    t.string   "middle_names"
+    t.string   "last_name",                           null: false
+    t.string   "phone_number",                        null: false
+    t.boolean  "text_message",        default: false, null: false
+    t.boolean  "whatsapp",            default: false, null: false
+    t.boolean  "imessage",            default: false, null: false
+    t.string   "time_zone",                           null: false
+    t.integer  "citizenship",         default: 0,     null: false
+    t.integer  "credit_score",                        null: false
+    t.boolean  "will_apply_for_loan", default: false, null: false
+    t.integer  "personal_spending",   default: 0,     null: false
+    t.integer  "business_spending",   default: 0
+    t.integer  "has_business",        default: 0,     null: false
+    t.boolean  "has_added_cards",     default: false, null: false
+    t.boolean  "has_added_balances",  default: false, null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.index ["user_id"], name: "index_surveys_on_user_id", unique: true, using: :btree
+  end
+
   create_table "travel_legs", force: :cascade do |t|
     t.integer  "travel_plan_id",                       null: false
     t.integer  "position",       limit: 2, default: 0, null: false
@@ -119,29 +142,6 @@ ActiveRecord::Schema.define(version: 20160209220912) do
     t.datetime  "updated_at",           null: false
     t.index ["type"], name: "index_travel_plans_on_type", using: :btree
     t.index ["user_id"], name: "index_travel_plans_on_user_id", using: :btree
-  end
-
-  create_table "user_infos", force: :cascade do |t|
-    t.integer  "user_id",                                       null: false
-    t.string   "first_name",                                    null: false
-    t.string   "middle_names"
-    t.string   "last_name",                                     null: false
-    t.string   "phone_number",                                  null: false
-    t.boolean  "text_message",                  default: false, null: false
-    t.boolean  "whatsapp",                      default: false, null: false
-    t.boolean  "imessage",                      default: false, null: false
-    t.string   "time_zone",                                     null: false
-    t.integer  "citizenship",                   default: 0,     null: false
-    t.integer  "credit_score",                                  null: false
-    t.boolean  "will_apply_for_loan",           default: false, null: false
-    t.integer  "personal_spending",             default: 0,     null: false
-    t.integer  "business_spending",             default: 0
-    t.integer  "has_business",                  default: 0,     null: false
-    t.boolean  "has_completed_card_survey",     default: false, null: false
-    t.boolean  "has_completed_balances_survey", default: false, null: false
-    t.datetime "created_at",                                    null: false
-    t.datetime "updated_at",                                    null: false
-    t.index ["user_id"], name: "index_user_infos_on_user_id", unique: true, using: :btree
   end
 
   create_table "users", force: :cascade do |t|
@@ -176,9 +176,9 @@ ActiveRecord::Schema.define(version: 20160209220912) do
   add_foreign_key "card_offers", "cards", on_delete: :cascade
   add_foreign_key "cards", "currencies", on_delete: :restrict
   add_foreign_key "destinations", "destinations", column: "parent_id", on_delete: :restrict
+  add_foreign_key "surveys", "users", on_delete: :cascade
   add_foreign_key "travel_legs", "destinations", column: "from_id", on_delete: :restrict
   add_foreign_key "travel_legs", "destinations", column: "to_id", on_delete: :restrict
   add_foreign_key "travel_legs", "travel_plans", on_delete: :cascade
   add_foreign_key "travel_plans", "users", on_delete: :cascade
-  add_foreign_key "user_infos", "users", on_delete: :cascade
 end

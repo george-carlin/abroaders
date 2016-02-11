@@ -6,7 +6,7 @@
 
     <p>Signed up on <%= @user.created_at.strftime("%D") %></p>
 
-    <% if @user.info.nil? %>
+    <% if @user.survey.nil? %>
       <%= user_email_with_icon(@user) %>
 
       <%= t("admin.users.show.no_survey") %>
@@ -15,10 +15,10 @@
   </div>
 </div>
 
-<% if @user.info.present? %>
+<% if @user.survey.present? %>
   <hr style="margin-bottom:0;">
 
-  <%= render "user_infos/info", user: @user %>
+  <%= render "surveys/survey", user: @user %>
 
   <hr>
 

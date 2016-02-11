@@ -2,12 +2,12 @@
 
 <h1>Contact Info</h1>
 
-<%= render "shared/model_validation_errors", model: @user_info %>
+<%= render "shared/model_validation_errors", model: @survey %>
 
 <p>Thanks for signing up to Abroaders! Before we can get started, we need
   some information from you.</p>
 
-<%= form_for @user_info, url: survey_user_info_path do |f| %>
+<%= form_for @survey, url: survey_path do |f| %>
 
   <%# TODO add 'required' star %>
 
@@ -54,7 +54,7 @@
   <div class="form-group">
     <%= f.label :citizenship %>
 
-    <% UserInfo.citizenships.each do |name, _| %>
+    <% Survey.citizenships.each do |name, _| %>
       <div class="radio">
         <label>
           <%= f.radio_button(
@@ -62,7 +62,7 @@
                 name,
                 checked: f.object.citizenship == name
               ) %>
-          <%= t("activerecord.attributes.user_info.citizenships.#{name}") %>
+          <%= t("activerecord.attributes.survey.citizenships.#{name}") %>
         </label>
       </div>
     <% end %>
@@ -75,8 +75,8 @@
 
     <p class="help-block">
       Your credit score should be a number between
-      <%= UserInfo::MINIMUM_CREDIT_SCORE %> and
-      <%= UserInfo::MAXIMUM_CREDIT_SCORE %>
+      <%= Survey::MINIMUM_CREDIT_SCORE %> and
+      <%= Survey::MAXIMUM_CREDIT_SCORE %>
     </p>
 
     <%= f.number_field :credit_score %>
@@ -119,7 +119,7 @@
   <div class="form-group">
     <%= f.label :has_business %>
 
-    <% UserInfo.has_businesses.each do |name, _| %>
+    <% Survey.has_businesses.each do |name, _| %>
       <div class="radio">
         <label>
           <%= f.radio_button(
@@ -127,7 +127,7 @@
                 name,
                 checked: f.object.has_business == name
               ) %>
-          <%= t("activerecord.attributes.user_info.has_businesses.#{name}") %>
+          <%= t("activerecord.attributes.survey.has_businesses.#{name}") %>
         </label>
       </div>
     <% end %>

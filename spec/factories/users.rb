@@ -13,10 +13,11 @@ FactoryGirl.define do
 
     trait :survey_complete do
       after(:build) do |user|
-        user.build_info(
+        user.build_survey(
           attributes_for(
-            :user_info,
+            :survey,
             :complete,
+            user: nil,
             first_name: user.email.split("@").first.sub(/-\d+/, "").capitalize
           )
         )

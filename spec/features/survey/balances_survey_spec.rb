@@ -6,8 +6,8 @@ describe "balances survey" do
   include_context "logged in as new user"
 
   before do
-    user.create_info!(
-      attributes_for(:user_info, :completed_card_survey, user: nil)
+    user.create_survey!(
+      attributes_for(:survey, :completed_card_survey, user: nil)
     )
     @currencies = create_list(:currency, 3)
     visit survey_balances_path
@@ -17,10 +17,10 @@ describe "balances survey" do
 
   shared_examples "mark survey as completed" do
     it "marks that the user has completed this part of the survey" do
-      expect(user.has_completed_balances_survey?).to be_falsey
+      expect(user.has_added_balances?).to be_falsey
       submit
       user.reload
-      expect(user.has_completed_balances_survey?).to be_truthy
+      expect(user.has_added_balances?).to be_truthy
     end
   end
 

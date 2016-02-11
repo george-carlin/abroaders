@@ -5,7 +5,7 @@
 
 <p>User signed up on <%= @user.created_at.strftime("%D") %></p>
 
-<%= render "user_infos/info", user: @user %>
+<%= render "surveys/survey", user: @user %>
 
 <% if @card_accounts.any? %>
   <hr />

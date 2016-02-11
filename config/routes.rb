@@ -19,13 +19,13 @@ Rails.application.routes.draw do
   end
 
   scope :survey, controller: :survey, as: :survey do
-    get  :/, action: :user_info,        as: :user_info
-    post :/, action: :create_user_info, as: nil
+    get  :/, action: :new
+    post :/, action: :create
 
-    get  :cards, action: :card_accounts, as: :card_accounts
+    get  :cards, action: :new_card_accounts,    as: :card_accounts
     post :cards, action: :create_card_accounts, as: nil
 
-    get  :balances
+    get  :balances, action: :new_balances
     post :balances, action: :create_balances
   end
 

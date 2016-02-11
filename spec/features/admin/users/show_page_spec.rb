@@ -66,7 +66,7 @@ describe "admin section" do
       context "has completed the onboarding survey" do
         let(:phone_number) { "(555) 000-1234" }
         let(:extra_setup) do
-          @user.create_info!(
+          @user.create_survey!(
             first_name:   "Fred",
             middle_names: "R. J.",
             last_name:    "Smith",
@@ -85,13 +85,13 @@ describe "admin section" do
         end
 
         it "displays the relevant survey information" do
-          is_expected.to have_user_info "email", @user.email
-          is_expected.to have_user_info "phone-number", phone_number
-          is_expected.to have_user_info "citizenship",
+          is_expected.to have_survey "email", @user.email
+          is_expected.to have_survey "phone-number", phone_number
+          is_expected.to have_survey "citizenship",
                                               "U.S. Permanent Resident"
-          is_expected.to have_user_info "credit-score", 678
-          is_expected.to have_user_info "personal-spending", "$2500"
-          is_expected.to have_user_info "business-spending", "$1500"
+          is_expected.to have_survey "credit-score", 678
+          is_expected.to have_survey "personal-spending", "$2500"
+          is_expected.to have_survey "business-spending", "$1500"
         end
 
         it "has links to recommend or assign a card" do
@@ -215,10 +215,6 @@ describe "admin section" do
 
     def card_radio_btn(card)
       "input#card_account_card_id_#{card.id}"
-    end
-
-    def have_user_info(attr, value)
-      have_selector ".user-info-attr.user-#{attr}", text: value
     end
 
   end

@@ -6,7 +6,7 @@ describe "card accounts survey" do
   include_context "logged in as new user"
 
   before do
-    create(:user_info, user: user)
+    create(:survey, user: user)
     user.reload
 
     @cards = [
@@ -71,9 +71,9 @@ describe "card accounts survey" do
 
   shared_examples "saves survey completion" do
     it "saves that I have completed the survey" do
-      expect(user.has_completed_card_survey?).to be_falsey # Sanity check
+      expect(user.has_added_cards?).to be_falsey # Sanity check
       submit_form
-      expect(user.reload.has_completed_card_survey?).to be_truthy
+      expect(user.reload.has_added_cards?).to be_truthy
     end
 
     it "takes me to the balances survey page" do

@@ -10,7 +10,7 @@ en:
         cost:  "Cost ($)"
         spend: "Minimum spend ($)"
 
-      user_info:
+      survey:
         business_spending: "Business spending per month"
         citizenship: "Which of the following best describes you?"
         citizenships:

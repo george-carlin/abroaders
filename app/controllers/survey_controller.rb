@@ -1,18 +1,18 @@
 class SurveyController < NonAdminController
-  def user_info
-    @user_info = current_user.build_info
+  def new
+    @survey = current_user.build_survey
   end
 
-  def create_user_info
-    @user_info = current_user.build_info(user_info_params)
-    if @user_info.save
+  def create
+    @survey = current_user.build_survey(survey_params)
+    if @survey.save
       redirect_to survey_card_accounts_path
     else
-      render "user_info"
+      render "new"
     end
   end
 
-  def card_accounts
+  def new_card_accounts
     @cards = Card.all
   end
 
@@ -24,12 +24,12 @@ class SurveyController < NonAdminController
           { user: current_user, card: card}
         end
       )
-      current_user.info.update_attributes!(has_completed_card_survey: true)
+      current_user.survey.update_attributes!(has_added_cards: true)
     end
     redirect_to survey_balances_path
   end
 
-  def balances
+  def new_balances
     @currencies = Currency.all
   end
 
@@ -39,7 +39,7 @@ class SurveyController < NonAdminController
     # { balances: [{currency_id: 2, value: 100}, {currency_id: 6, value: 500}] }
     ApplicationRecord.transaction do
       current_user.balances.create!(balances_params)
-      current_user.info.update_attributes!(has_completed_balances_survey: true)
+      current_user.survey.update_attributes!(has_added_balances: true)
     end
     redirect_to root_path
   end
@@ -50,8 +50,8 @@ class SurveyController < NonAdminController
     params.permit(balances: [:currency_id, :value])[:balances] || []
   end
 
-  def user_info_params
-    params.require(:user_info).permit(
+  def survey_params
+    params.require(:survey).permit(
       :first_name, :middle_names, :last_name, :whatsapp, :imessage, :time_zone,
       :text_message, :phone_number, :credit_score, :business_spending,
       :will_apply_for_loan, :personal_spending, :has_business, :citizenship

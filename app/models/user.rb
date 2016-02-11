@@ -8,29 +8,27 @@ class User < ApplicationRecord
 
   delegate :business_spending, :citizenship, :credit_score, :first_name,
       :full_name, :has_business, :has_business?, :has_business_with_ein?,
-      :has_business_without_ein?, :has_completed_balances_survey,
-      :has_completed_balances_survey?, :has_completed_card_survey,
-      :has_completed_card_survey?, :has_completed_cards_survey,
-      :has_completed_cards_survey?, :imessage, :imessage?, :last_name,
+      :has_business_without_ein?, :has_added_balances, :has_added_balances?,
+      :has_added_cards, :has_added_cards?, :imessage, :imessage?, :last_name,
       :middle_names, :personal_spending, :phone_number, :text_message,
       :text_message?, :time_zone, :whatsapp, :whatsapp?, :will_apply_for_loan,
-    to: :info, allow_nil: true
+    to: :survey, allow_nil: true
 
   def name
-    info.present? ? info.full_name : "#{self.class} ##{id}"
+    survey.present? ? survey.full_name : "#{self.class} ##{id}"
   end
 
-  def has_completed_user_info_survey?
-    !!info.try(:persisted?)
+  def has_completed_main_survey?
+    !!survey.try(:persisted?)
   end
 
   def survey_complete?
-    !!info.try(:complete?)
+    !!survey.try(:complete?)
   end
 
   # Validations
 
-  validates :info, associated: true
+  validates :survey, associated: true
 
   # Associations
 
@@ -40,7 +38,7 @@ class User < ApplicationRecord
   has_many :cards, through: :card_accounts
   has_many :travel_plans
 
-  has_one :info, class_name: "UserInfo"
+  has_one :survey
 
   has_many :balances
   has_many :currencies, through: :balances
