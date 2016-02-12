@@ -27,4 +27,6 @@ describe Survey do
       end
     end
   end
+
+  pending "it says whether or not the user has added any travel plans"
 end
