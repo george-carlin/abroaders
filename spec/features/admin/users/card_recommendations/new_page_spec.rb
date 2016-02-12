@@ -69,6 +69,14 @@ describe "admin section" do
       context "has no existing card accounts/recommendations" do
         it { is_expected.to have_content t("admin.users.card_accounts.none") }
       end
+
+      context "has no travel plans" do
+        pending { is_expected.to have_content "User has no upcoming travel plans" }
+      end
+
+      context "has added a travel plan" do
+        pending
+      end
     end
 
     it "displays the user's info from the onboarding survey" do
