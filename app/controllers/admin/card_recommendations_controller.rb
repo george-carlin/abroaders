@@ -9,6 +9,7 @@ module Admin
       @card_accounts = accounts.to_a
       @card_recommendation = accounts.recommendations.build
       @card_offers_grouped_by_card = CardOffer.includes(:card).all.group_by(&:card)
+      @balances = @user.balances.includes(:currency)
     end
 
     def create

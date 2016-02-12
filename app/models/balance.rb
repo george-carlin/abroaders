@@ -1,5 +1,9 @@
 class Balance < ApplicationRecord
 
+  # Attributes
+
+  delegate :name, to: :currency, prefix: true
+
   # Validations
 
   validates :currency, presence: true

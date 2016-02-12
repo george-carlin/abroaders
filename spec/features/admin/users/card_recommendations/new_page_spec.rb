@@ -47,10 +47,12 @@ describe "admin section" do
           has_added_balances: true
         )
       end
+      extra_setup
       visit new_admin_user_card_recommendation_path(@user)
     end
 
     let(:completed_survey) { true }
+    let(:extra_setup) { nil }
 
     it "shows the date on which the user signed up" do
       is_expected.to have_content @user.created_at.strftime("%D")
@@ -78,6 +80,30 @@ describe "admin section" do
 
       context "has added a travel plan" do
         pending
+      end
+
+      context "has no existing points balances" do
+        it do
+          is_expected.to have_content \
+            t("admin.users.card_recommendations.no_balances")
+        end
+      end
+
+      context "has existing points balances" do
+        let(:extra_setup) do
+          Balance.create!(user: @user, currency: @currencies[0], value:  5000)
+          Balance.create!(user: @user, currency: @currencies[2], value: 10000)
+        end
+
+        it "lists their balances" do
+          is_expected.to have_selector "##{dom_id(@currencies[0])} .balance",
+                                        text: "5,000"
+          is_expected.to have_selector "##{dom_id(@currencies[2])} .balance",
+                                        text: "10,000"
+
+          is_expected.not_to have_selector "##{dom_id(@currencies[1])}_balance"
+          is_expected.not_to have_selector "##{dom_id(@currencies[3])}_balance"
+        end
       end
     end
 
