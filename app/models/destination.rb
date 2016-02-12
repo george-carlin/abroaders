@@ -22,6 +22,6 @@ class Destination < ApplicationRecord
   validates :name, presence: true
   validates :code, presence: true, uniqueness: { scope: :type }
   validates :type, presence: true
-  # TODO uncomment this once we've added regions:
-  # validates :parent, presence: { unless: :region? }
+  validates :parent, presence: { unless: :region? }
+
 end

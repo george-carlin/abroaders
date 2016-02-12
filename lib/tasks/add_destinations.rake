@@ -8,6 +8,15 @@ namespace :ab do
 
     Destination.transaction do
 
+      # ------ REGIONS ------
+
+      regions_json = File.read(Rails.root.join("lib/data/regions.json"))
+      regions_data = JSON.parse(regions_json)
+      puts "Importing #{regions_data.length} regions..."
+      @regions = regions_data.map do |region|
+        Destination.region.create!(name: region, code: region.first(2).upcase)
+      end
+
       # ------ COUNTRIES ------
 
       countries_csv = File.read(Rails.root.join("lib/data/country_data.csv"))
@@ -17,7 +26,12 @@ namespace :ab do
       @countries = countries_data.map do |country|
         Destination.countries.create!(
           name: country[0],
-          code: country[1]
+          code: country[1],
+          # Assign each country randomly to a region. This is a placeholder
+          # until we get around to the tedious task of assigning all
+          # of the 200+ countries to their correct region, which we're going
+          # to have do manually. TODO
+          parent: @regions.sample
         )
       end
 
