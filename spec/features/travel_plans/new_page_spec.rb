@@ -238,6 +238,16 @@ describe "new travel plans page", js: true do
           is_expected.not_to have_selector remove_flight_btn
         end
       end
+
+      %i[single return].each do |type|
+        describe "and clicking '#{type}'" do
+          before { choose "travel_plan_type_#{type}" }
+
+          it "removes all flights except the first one" do
+            is_expected.to have_selector flight_form, count: 1
+          end
+        end
+      end
     end # clicking 'add flight'
 
     %i[single return].each do |type|

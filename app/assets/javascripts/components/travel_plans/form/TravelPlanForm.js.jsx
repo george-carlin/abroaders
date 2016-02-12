@@ -14,7 +14,6 @@ var TravelPlanForm = React.createClass({
   },
 
 
-
   getInitialState() {
     return {
       type: this.props.defaultType,
@@ -51,7 +50,14 @@ var TravelPlanForm = React.createClass({
 
 
   changeType(e) {
-    this.setState({ type: e.target.value });
+    var flights,
+    type = e.target.value;
+    this.setState({ type: type });
+    if (type === "single" || type === "return") {
+      flights = this.state.flights;
+      flights.splice(1); // Remove all flights except the first one
+      this.setState({ flights: flights });
+    }
   },
 
 
