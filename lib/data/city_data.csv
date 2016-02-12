@@ -43,7 +43,7 @@ Altoona,AOO,US-PA,US
 Alâ€šÃ„ÃªBaha,ABT,SA-11,SA
 Alâ€šÃ„ÃªFujairah,FJR,AE-FU,AE
 Amarillo,AMA,US-TX,US
-Amchitka,AHT,,
+Amchitka,AHT,US-AK,US
 Amman,AMM,JO-AM,JO
 Amritsar,ATQ,IN-PB,IN
 Amsterdam,AMS,NL-NH,NL
@@ -85,7 +85,7 @@ Atlantic City,AIY,US-NJ,US
 Atmautluak,ATT,US-AK,US
 Auckland,AKL,NZ-AUK,NZ
 Augusta,AGS,US-GA,US
-Austin,AUS,,
+Austin,AUS,US-TX,US
 Ayacucho,AYP,PE-AYA,PE
 "Baghdad, Al Muthana",BGW,IQ-BG,IQ
 Bahrain,BAH,BH-15,BH
@@ -128,7 +128,7 @@ Belfast,BFS,GB-NIR,GB
 Belgrade,BEG,RS-00,RS
 Belize,BZE,BZ-BZ,BZ
 Bellingham,BLI,US-WA,US
-Belo Horizonte,BHZ,,
+Belo Horizonte,BHZ,BR-MG,BR
 Benghazi,BEN,LY-BA,LY
 Bergen,BGO,NO-12,NO
 Berlin,BER,DE-BE,DE
@@ -163,7 +163,7 @@ Boulder,WBU,US-CO,US
 Bourlamaq/Val D'or,YVO,CA-QC,CA
 Bournemouth,BOH,GB-ENG,GB
 Bozeman,BZN,US-MT,US
-Bradley,BDL,,
+Bradley,BDL,US-CT,US
 Brainerd,BRD,US-MN,US
 Brasilia,BSB,BR-DF,BR
 Bratislava,BTS,SK-BL,SK
@@ -410,7 +410,7 @@ Guilin,KWL,CN-45,CN
 Guiyang,KWE,CN-52,CN
 Gulfport,GPT,US-MS,US
 Gunnison,GUC,US-CO,US
-Hagen,HAG,,
+Hagen,HAG,DE-NW,DE
 Haikou,HAK,CN-46,CN
 Hail,HAS,SA-06,SA
 Hakodate,HKD,JP-01,JP
@@ -443,7 +443,7 @@ Ho Chi Minh City,SGN,VN-23,VN
 Hohhot,HET,CN-15,CN
 Holy Cross,HCR,US-AK,US
 Homer,HOM,US-AK,US
-Hong Kong,HKG,,
+Hong Kong,HKG,CN-91,CN
 Honolulu,HNL,US-HI,US
 Hoolehua,MKK,US-HI,US
 Hooper Bay,HPB,US-AK,US
@@ -498,7 +498,7 @@ Kalamazoo,AZO,US-MI,US
 Kalispell,FCA,US-MT,US
 Kalskag,KLG,US-AK,US
 Kaltag,KAL,US-AK,US
-Kanab,KNB,,
+Kanab,KNB,US-UT,US
 Kananga,KGA,CD-KW,CD
 Kano,KAN,NG-KN,NG
 Kansas City,MKC,US-MO,US
@@ -625,7 +625,7 @@ Maiduguri,MIU,NG-BO,NG
 Majuro,MAJ,MH-MAJ,MH
 Malaga,AGP,ES-AN,ES
 Male,MLE,MV-MLE,MV
-Malmo,MMA,,
+Malmo,MMA,SE-M,SE
 Malongo,MAL,ID-MU,ID
 Malta,MLA,MT-25,MT
 Manado,MDC,ID-SA,ID
@@ -672,7 +672,7 @@ Mexico City,MEX,MX-DIF,MX
 Miami,MIA,US-FL,US
 Midland,MAF,US-TX,US
 Milan,MIL,IT-25,IT
-Milford,MLF,,
+Milford,MLF,US-UT,US
 Milwaukee,MKE,US-WI,US
 Minatitlan,MTT,MX-VER,MX
 Mineralnye,MRV,RU-STA,RU
@@ -699,8 +699,8 @@ Moroni,YVA,KM-G,KM
 Moscow,MOW,RU-MOS,RU
 Mount Hagen,HGU,PG-WHM,PG
 Muenster,FMO,DE-NW,DE
-Mulhouse,MLH,,
-Munich,MUC,,
+Mulhouse,MLH,FR-68,FR
+Munich,MUC,DE-BY,DE
 Muscat,MCT,OM-MA,OM
 Muskegon,MKG,US-MI,US
 Myrtle Beach,MYR,US-SC,US
@@ -747,7 +747,7 @@ Nouakchott,NKC,MR-NKC,MR
 Noumea,NOU,NC-U-A,NC
 Novosibirsk,OVB,RU-NVS,RU
 Nuevo Laredo,NLD,MX-TAM,MX
-Nulato,NUL,,
+Nulato,NUL,US-AK,US
 Nunapitchuk,NUP,US-AK,US
 Nuremberg,NUE,DE-BY,DE
 Oakland,OAK,US-CA,US
@@ -787,7 +787,7 @@ Peoria,PIA,US-IL,US
 Pereira,PEI,CO-RIS,CO
 Perpignan,PGF,FR-K,FR
 Perryville,KPV,US-AK,US
-Perth,PER,,
+Perth,PER,AU-WA,AU
 Pescara,PSR,IT-65,IT
 Peshawar,PEW,PK-NW,PK
 Petersburg,PSG,US-AK,US
@@ -800,7 +800,7 @@ Pisa,PSA,IT-52,IT
 Pittsburgh,PIT,US-PA,US
 Piura,PIU,PE-PIU,PE
 Platinum,PTU,US-AK,US
-Plymouth,PYM,,
+Plymouth,PYM,US-MA,US
 Pocatello,PIH,US-ID,US
 Pohnpei,PNI,FM-PNI,FM
 Pointe Noire,PNR,CG-5,CG
@@ -861,7 +861,7 @@ Redding,RDD,US-CA,US
 Regina,YQR,CA-SK,CA
 Reno,RNO,US-NV,US
 Resolute,YRB,CA-NU,CA
-Reykjavik,REK,,
+Reykjavik,REK,IS-0,IS
 Richmond,RIC,US-VA,US
 Riga,RIX,LV-RIX,LV
 Rimini,RMI,IT-45,IT
@@ -926,9 +926,9 @@ Scammon Bay,SCM,US-AK,US
 "Scranton, Wilkesâ€šÃ„ÃªBarre",AVP,US-PA,US
 Seattle,SEA,US-WA,US
 Sedona,SDX,US-AZ,US
-Seldovia,SOV,,
+Seldovia,SOV,US-AK,US
 Sendai,SDJ,JP-04,JP
-Seoul,SEL,,
+Seoul,SEL,KR-11,KR
 Sepulot,SPE,MY-12,MY
 Seville,SVQ,ES-AN,ES
 Seward,SWD,US-AK,US
@@ -1058,7 +1058,7 @@ Tuxtla Gutierrez,TGZ,MX-CHP,MX
 Twin Falls,TWF,US-ID,US
 Tyler,TYR,US-TX,US
 Ube,UBJ,JP-35,JP
-Ukiah,UKI,,
+Ukiah,UKI,US-CA,US
 Ulan Bator,ULN,MN-1,MN
 Umea,UME,SE-AC,SE
 Unalakleet,UNK,US-AK,US
@@ -1080,7 +1080,7 @@ Verona,VRN,IT-34,IT
 Victoria,YYJ,CA-BC,CA
 Vienna,VIE,AT-9,AT
 Vientiane,VTE,LA-VT,LA
-Vieques,VQS,,
+Vieques,VQS,,PR
 Villahermosa,VSA,MX-TAB,MX
 Vilnius,VNO,LT-VL,LT
 Vitoria,VIT,ES-PV,ES
