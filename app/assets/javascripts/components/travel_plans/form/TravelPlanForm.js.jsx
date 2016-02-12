@@ -42,7 +42,8 @@ var TravelPlanForm = React.createClass({
   },
 
 
-  addFlight() {
+  addFlight(e) {
+    e.preventDefault();
     var flights = this.state.flights;
     flights.push({})
     this.setState({flights: flights});
@@ -55,6 +56,7 @@ var TravelPlanForm = React.createClass({
 
 
   removeFlight(e) {
+    e.preventDefault();
     var flights = this.state.flights;
     // remove this flight from the array:
     flights.splice(e.target.dataset.flightIndex, 1)

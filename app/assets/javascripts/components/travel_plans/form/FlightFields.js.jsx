@@ -6,6 +6,7 @@ var FlightFields = React.createClass({
     showRemoveBtn:    React.PropTypes.bool.isRequired,
   },
 
+
   render() {
     var that = this;
 

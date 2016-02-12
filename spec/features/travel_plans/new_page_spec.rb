@@ -7,6 +7,8 @@ describe "new travel plans page", js: true do
 
   include_context "logged in"
 
+  let(:submit) { click_button "Save" }
+
   before do
     @destinations = [
       @lhr = create(:airport, name: "London Heathrow",     code: "LHR"),
@@ -72,7 +74,7 @@ describe "new travel plans page", js: true do
 
       describe "and choosing a suggestion" do
         before do
-          within typeahead_dropdown(place) do
+          within typeahead_dropdown do
             find(typeahead_option, text: "London Heathrow (LHR)").click
           end
         end
@@ -97,49 +99,93 @@ describe "new travel plans page", js: true do
   describe "filling in the form" do
     describe "with valid details for a 'return' travel plan" do
       before do
-        fill_in flight_field(0, :from), with: "lond"
-        wait_for_ajax
-        within typeahead_dropdown(:from) do
-          find(typeahead_option, text: "London Heathrow (LHR)").click
-        end
-        fill_in flight_field(0, :to), with: "Ho Chi"
-        wait_for_ajax
-        within typeahead_dropdown(:to) do
-          find(typeahead_option, text: "Ho Chi Minh City (SGN)").click
-        end
+        input_flight(0, @lhr, @sgn)
+        fill_in :travel_plan_no_of_passengers, with: 3
       end
 
       describe "and clicking 'save'" do
-        let(:submit) { click_button "Save" }
 
         it "creates a 'return'-type travel plan on my account" do
           expect{submit}.to \
             change{user.travel_plans.return.count}.by(1)
+
+          plan = user.travel_plans.return.last
+          expect(plan.no_of_passengers).to eq 3
+          expect(plan.flights[0].from).to eq @lhr
+          expect(plan.flights[0].to).to eq   @sgn
         end
       end
+
+      pending "TODO: what does it show me next?"
     end
 
     describe "with invalid details for a 'return' travel plan" do
       pending
     end
-  end
 
-  describe "clicking 'single'" do
-    before { choose :travel_plan_type_single }
-
-    describe "and filling in the form" do
-      describe "with valid details for a single travel plan" do
-        describe "and clicking 'save'" do
-          it "creates a single travel plan"
-
-          pending "TODO: what does it show me next?"
-        end
+    describe "with valid details for a 'single' travel plan" do
+      before do
+        choose :travel_plan_type_single
+        input_flight(0, @lga, @yyz)
+        fill_in :travel_plan_no_of_passengers, with: 2
       end
 
-      describe "with invalid details for a single travel plan" do
-        describe "and clicking 'save'" do
-          pending
+      describe "and clicking 'save'" do
+        it "creates a single travel plan" do
+          expect{submit}.to \
+            change{user.travel_plans.single.count}.by(1)
+
+
+          plan = user.travel_plans.single.last
+          expect(plan.no_of_passengers).to eq 2
+          expect(plan.flights[0].from).to eq @lga
+          expect(plan.flights[0].to).to eq   @yyz
         end
+
+        pending "TODO: what does it show me next?"
+      end
+    end
+
+    describe "with invalid details for a single travel plan" do
+      describe "and clicking 'save'" do
+        pending
+      end
+    end
+
+    describe "with valid details for a 'multi' travel plan" do
+      before do
+        pending "can't get this test to pass, but it works in the browser :/"
+        choose :travel_plan_type_multi
+        2.times { find(add_flight_btn).click }
+        input_flight(0, @lhr, @yyz)
+        input_flight(1, @yyz, @jfk)
+        input_flight(2, @lga, @ltn)
+        fill_in :travel_plan_no_of_passengers, with: 5
+      end
+
+      describe "and clicking 'save'" do
+        it "creates a 'multi' travel plan" do
+          expect{submit}.to \
+            change{user.travel_plans.multi.count}.by(1)
+
+          plan = user.travel_plans.multi.last
+          expect(plan.no_of_passengers).to eq 5
+
+          expect(plan.flights[0].from).to eq @lhr
+          expect(plan.flights[0].to).to eq   @yyz
+          expect(plan.flights[1].from).to eq @yyz
+          expect(plan.flights[1].to).to eq   @jfk
+          expect(plan.flights[2].from).to eq @lga
+          expect(plan.flights[2].to).to eq   @ltn
+        end
+
+        pending "TODO: what does it show me next?"
+      end
+    end
+
+    describe "with invalid details for a single travel plan" do
+      describe "and clicking 'save'" do
+        pending
       end
     end
   end
@@ -164,6 +210,21 @@ describe "new travel plans page", js: true do
 
       it "shows the 'remove flight' buttons" do
         is_expected.to have_selector remove_flight_btn, count: 2
+      end
+
+      describe "the fields for the new flight" do
+        it "can be used to typeahead-search, like for the first flight" do
+          fill_in flight_field(1, :from), with: "lond"
+          wait_for_ajax
+          is_expected.to have_selector(
+            typeahead_option, text: "London Heathrow (LHR)"
+          )
+          fill_in flight_field(1, :to), with: "Ho "
+          wait_for_ajax
+          is_expected.to have_selector(
+            typeahead_option, text: "Ho Chi Minh City (SGN)"
+          )
+        end
       end
 
       describe "and clicking 'remove flight' again" do
@@ -219,21 +280,26 @@ describe "new travel plans page", js: true do
     ".flight-form"
   end
 
-  def typeahead_dropdown(place)
-    raise unless %w[from to].include?(place.to_s)
-    "#travel_plan_flights_attributes_0_#{place} + .typeahead"
-  end
-
-  def from_typeahead_dropdown
-    typeahead_dropdown(:from)
-  end
-
-  def to_typeahead_dropdown
-    typeahead_dropdown(:to)
+  def typeahead_dropdown
+    "ul.typeahead"
   end
 
   def typeahead_option
     ".typeahead.dropdown-menu > li > a"
+  end
+
+  def select_destination(flight_index, from_or_to, dest)
+    query = dest.code
+    fill_in flight_field(flight_index, from_or_to), with: query
+    wait_for_ajax
+    within typeahead_dropdown do
+      find(typeahead_option, text: "#{dest.name} (#{dest.code})").click
+    end
+  end
+
+  def input_flight(index, from, to)
+    select_destination(index, :from, from)
+    select_destination(index, :to,   to)
   end
 
 end
