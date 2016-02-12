@@ -11,6 +11,30 @@ FactoryGirl.define do
       admin true
     end
 
+    trait :completed_main_survey do
+      after(:build) do |user|
+        user.build_survey(
+          attributes_for(
+            :survey, user: nil,
+            first_name: user.email.split("@").first.sub(/-\d+/, "").capitalize
+          )
+        )
+      end
+    end
+
+    trait :completed_card_survey do
+      after(:build) do |user|
+        user.build_survey(
+          attributes_for(
+            :survey,
+            :completed_card_survey,
+            user: nil,
+            first_name: user.email.split("@").first.sub(/-\d+/, "").capitalize
+          )
+        )
+      end
+    end
+
     trait :survey_complete do
       after(:build) do |user|
         user.build_survey(

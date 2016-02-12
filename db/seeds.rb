@@ -7,7 +7,6 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 ApplicationRecord.transaction do
-  include FactoryGirl::Syntax::Methods
 
   unless User.admin.any?
     %w[Erik AJ George].each do |name|
@@ -20,23 +19,6 @@ ApplicationRecord.transaction do
     end
   end
 
-  unless User.non_admin.any?
-    50.times do
-      date = ((500).days + rand(24).hours + rand(60).minutes).ago
-      args = [:user, { created_at: date, confirmed_at: date } ]
-      args.insert(1, :survey_complete) if rand > 0.2
-      user = build(*args)
+  `rake ab:sample_data:users`
 
-      if user.info.present?
-        user.info.assign_attributes(
-          middle_names: (Faker::Name.first_name if rand > 0.1),
-          whatsapp: rand > 0.4,
-          text_message: rand > 0.1,
-          imessage: rand > 0.7,
-        )
-      end
-
-      user.save!
-    end
-  end
 end
