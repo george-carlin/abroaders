@@ -5,16 +5,25 @@ FactoryGirl.define do
             "sub-factories"
     end
 
+    factory :region do
+      type :region
+      sequence(:name) { |n| "Region #{n}" }
+      sequence(:code) do |n|
+        str = "AA"
+        (n-1).times { |i| str.next! }
+        str
+      end
+    end
+
     factory :airport do
       type :airport
       name { Faker::Address.city }
       sequence(:code) do |n|
-        n.times do |i|
-          str = "AAA"
-          i.times { str.next! }
-          str
-        end
+        str = "AA"
+        (n-1).times { |i| str.next! }
+        str
       end
+      association :parent, factory: :region
     end
   end
 end
