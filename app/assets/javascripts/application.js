@@ -17,6 +17,7 @@
 //= require bloodhound
 //= require bootstrap-datepicker
 //= require jquery.tablesorter
+//= require es5-shim
 //= require ready
 //= require react
 //= require react_ujs
