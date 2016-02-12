@@ -11,6 +11,7 @@ module Admin
       @card_offers_grouped_by_card = \
         CardOffer.includes(:card, card: :currency).all.group_by(&:card)
       @balances = @user.balances.includes(:currency)
+      @travel_plans = @user.travel_plans
     end
 
     def create

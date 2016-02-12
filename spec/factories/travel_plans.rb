@@ -11,24 +11,30 @@ FactoryGirl.define do
     trait :single do
       type :single
       after(:build) do |plan|
-        plan.flights.build(attributes_for(:flight, travel_plan: nil))
+        if plan.flights.empty? # If no flights have been passed to the factory
+          plan.flights.build(attributes_for(:flight, travel_plan: nil))
+        end
       end
     end
 
     trait :return do
       type :return
       after(:build) do |plan|
-        plan.flights.build(attributes_for(:flight, travel_plan: nil))
+        if plan.flights.empty? # If no flights have been passed to the factory
+          plan.flights.build(attributes_for(:flight, travel_plan: nil))
+        end
       end
     end
 
     trait :multi do
       type :multi
       after(:build) do |plan|
-        (rand(3)+2).times do |i|
-          plan.flights.build(
-            attributes_for(:flight, travel_plan: nil, position: i)
-          )
+        if plan.flights.empty? # If no flights have been passed to the factory
+          (rand(3)+2).times do |i|
+            plan.flights.build(
+              attributes_for(:flight, travel_plan: nil, position: i)
+            )
+          end
         end
       end
     end

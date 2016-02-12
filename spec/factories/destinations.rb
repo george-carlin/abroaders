@@ -15,6 +15,17 @@ FactoryGirl.define do
       end
     end
 
+    factory :country do
+      type :country
+
+      sequence(:name) { |n| "Country #{n}" }
+      sequence(:code) do |n|
+        str = "AA"
+        (n-1).times { |i| str.next! }
+        str
+      end
+    end
+
     factory :airport do
       type :airport
       name { Faker::Address.city }

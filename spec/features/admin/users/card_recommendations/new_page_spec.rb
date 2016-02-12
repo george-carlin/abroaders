@@ -75,11 +75,94 @@ describe "admin section" do
       end
 
       context "has no travel plans" do
-        pending { is_expected.to have_content "User has no upcoming travel plans" }
+        it { is_expected.to have_content "User has no upcoming travel plans" }
       end
 
-      context "has added a travel plan" do
-        pending
+      context "has added travel plans" do
+        let(:extra_setup) do
+          @eu  = create(:region,  name: "Europe")
+          @uk  = create(:country, name: "UK",       parent: @eu)
+          @lhr = create(:airport, name: "Heathrow", parent: @uk)
+
+          @as  = create(:region,  name: "Asia")
+          @vn  = create(:country, name: "Vietnam", parent: @as)
+          @sgn = create(:airport, name: "HCMC",    parent: @vn)
+
+          @na  = create(:region,  name: "North America")
+          @us  = create(:country, name: "United States", parent: @na)
+          @jfk = create(:airport, name: "JFK",           parent: @us)
+
+          @tp_0 = create(
+            :travel_plan, :single, user: @user,
+            flights: [Flight.new(from: @jfk, to: @lhr)]
+          )
+          @tp_1 = create(
+            :travel_plan, :return, user: @user,
+            flights: [Flight.new(from: @na, to: @as)]
+          )
+          @tp_2 = create(
+            :travel_plan, :multi, user: @user,
+            flights: [
+              Flight.new(from: @jfk, to: @eu, position: 0),
+              Flight.new(from: @eu,  to: @vn, position: 1),
+              Flight.new(from: @sgn, to: @jfk, position: 2)
+            ]
+          )
+        end
+
+        it "displays information about them" do
+          is_expected.not_to have_content "User has no upcoming travel plans"
+
+          # When the destination is a region, just display the region name.
+          # When the destination is anything other than a region, display the
+          # destination name, and the region name, skipping any intermediary
+          # steps. E.g. if the destination is Heathrow, display "Heathrow
+          # (Europe)", and don't bother displaying the intermediary
+          # destinations like London, England, UK, etc.
+
+          within ".user_travel_plans" do
+            is_expected.to have_selector "##{dom_id(@tp_0)}"
+            within "##{dom_id(@tp_0)}" do
+              is_expected.to have_content "Single"
+              is_expected.to have_selector "##{dom_id(@tp_0.flights[0])}"
+              within "##{dom_id(@tp_0.flights[0])}" do
+                is_expected.to have_content "JFK (North America)"
+                is_expected.to have_content "Heathrow (Europe)"
+              end
+            end
+
+            is_expected.to have_selector "##{dom_id(@tp_1)}"
+            within "##{dom_id(@tp_1)}" do
+              is_expected.to have_content "Return"
+              is_expected.to have_selector "##{dom_id(@tp_1.flights[0])}"
+              within "##{dom_id(@tp_1.flights[0])}" do
+                is_expected.to have_content "North America"
+                is_expected.to have_content "Asia"
+              end
+            end
+
+            is_expected.to have_selector "##{dom_id(@tp_2)}"
+            within "##{dom_id(@tp_2)}" do
+              is_expected.to have_content "Multi"
+              is_expected.to have_selector "##{dom_id(@tp_2.flights[0])}"
+              is_expected.to have_selector "##{dom_id(@tp_2.flights[1])}"
+              is_expected.to have_selector "##{dom_id(@tp_2.flights[2])}"
+
+              within "##{dom_id(@tp_2.flights[0])}" do
+                is_expected.to have_content "JFK (North America)"
+                is_expected.to have_content "Europe"
+              end
+              within "##{dom_id(@tp_2.flights[1])}" do
+                is_expected.to have_content "Europe"
+                is_expected.to have_content "Vietnam (Asia)"
+              end
+              within "##{dom_id(@tp_2.flights[2])}" do
+                is_expected.to have_content "HCMC (Asia)"
+                is_expected.to have_content "JFK (North America)"
+              end
+            end
+          end
+        end
       end
 
       context "has no existing points balances" do

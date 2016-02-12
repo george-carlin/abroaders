@@ -9,20 +9,55 @@
 
 <hr>
 
-<% if @balances.any? %>
-  <h3>Existing Balances</h3>
+<div class="row">
+  <div class="col-xs-12 col-md-6">
+    <% if @balances.any? %>
+      <h3>Existing Balances</h3>
 
-  <ul class="user-balances">
-    <% @balances.each do |balance| %>
-      <li id="<%= dom_id(balance.currency) %>">
-        <b><%= balance.currency_name %>:</b>
-        <span class="balance"><%= number_with_delimiter(balance.value) %></span>
-      </li>
+      <ul class="user-balances">
+        <% @balances.each do |balance| %>
+          <li id="<%= dom_id(balance.currency) %>">
+            <b><%= balance.currency_name %>:</b>
+            <span class="balance"><%= number_with_delimiter(balance.value) %></span>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <%= t("admin.users.card_recommendations.no_balances") %>
+    <% end # balances.any? %>
+  </div><!-- .col-xs-12.col-md-6 -->
+
+  <div class="col-xs-12 col-md-6">
+    <% if @travel_plans.any? %>
+      <h3>Travel Plans</h3>
+
+      <div class="user_travel_plans">
+        <% @travel_plans.each do |plan| %>
+          <div id="<%= dom_id(plan) %>" class="<%= dom_class(plan) %>">
+            <% plan.flights.each do |flight| %>
+              <div id="<%= dom_id(flight) %>">
+                <%# use dom_id, even though it's a class, because different %>
+                <%# TPs might use the same destination %>
+                <span class="<%= dom_id(flight.from) %>">
+                  <%= destination_name_with_region(flight.from) %>
+                </span>
+                -
+                <span class="<%= dom_id(flight.to) %>">
+                  <%= destination_name_with_region(flight.to) %>
+                </span>
+              </div><!-- #dom_id(flight) -->
+            <% end %>
+
+            <span class="travel_plan_type">(<%= plan.type.capitalize %>)</span>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      User has no upcoming travel plans
     <% end %>
-  </ul>
-<% else %>
-  <%= t("admin.users.card_recommendations.no_balances") %>
-<% end %>
+  </div><!-- .col-xs-12.col-md-6 -->
+
+</div><!-- .row -->
 
 <% if @card_accounts.any? %>
   <hr />

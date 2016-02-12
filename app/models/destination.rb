@@ -1,7 +1,7 @@
 class Destination < ApplicationRecord
   self.inheritance_column = :_no_sti
 
-  acts_as_tree
+  acts_as_tree # adds belongs_to parent
 
   # Attributes
 
@@ -15,6 +15,12 @@ class Destination < ApplicationRecord
   # Add .airports, .cities etc as aliases for .airport, .country
   class << self
     TYPES.each { |type| alias_method type.pluralize, type }
+  end
+
+  # Assocations
+
+  def region
+    root.region? ? root : nil
   end
 
   # Validations
