@@ -34,7 +34,7 @@ class TravelPlan < ApplicationRecord
 
   def number_of_flights_matches_type
     if (!multi? && flights.size != 1) || (multi? && flights.size <= 1)
-      errors.add(:base, t("activerecord.errors.travel_plan.bad_flight_count"))
+      errors.add(:base, :bad_flight_count)
     end
   end
 
