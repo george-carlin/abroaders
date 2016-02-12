@@ -36,7 +36,7 @@ describe "as a user viewing my card recommendations", js: true do
             "Spend #{number_to_currency(offer.spend)} within #{offer.days} "\
             "days to receive a bonus of "\
             "#{number_with_delimiter(offer.points_awarded)} "\
-            "#{recommendation.card_currency} points"
+            "#{recommendation.card_currency.name} points"
           )
         end
       end

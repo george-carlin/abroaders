@@ -26,7 +26,7 @@
       Spend <%= number_to_currency(recommendation.offer.spend) %> within
       <%= recommendation.offer.days %> days to receive a bonus of
       <%= number_with_delimiter(recommendation.offer.points_awarded) %>
-      <%= recommendation.card_currency %> points
+      <%= recommendation.card_currency.name %> points
     </div><!-- .card-account-offer -->
   </div><!-- .card-account-card -->
 

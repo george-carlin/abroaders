@@ -85,13 +85,17 @@ describe "admin section" do
         end
 
         it "displays the relevant survey information" do
-          is_expected.to have_survey "email", @user.email
-          is_expected.to have_survey "phone-number", phone_number
-          is_expected.to have_survey "citizenship",
+          def have_survey_info(attr, value)
+            have_selector ".user-survey-attr.user-#{attr}", text: value
+          end
+
+          is_expected.to have_survey_info "email", @user.email
+          is_expected.to have_survey_info "phone-number", phone_number
+          is_expected.to have_survey_info "citizenship",
                                               "U.S. Permanent Resident"
-          is_expected.to have_survey "credit-score", 678
-          is_expected.to have_survey "personal-spending", "$2500"
-          is_expected.to have_survey "business-spending", "$1500"
+          is_expected.to have_survey_info "credit-score", 678
+          is_expected.to have_survey_info "personal-spending", "$2500"
+          is_expected.to have_survey_info "business-spending", "$1500"
         end
 
         it "has links to recommend or assign a card" do

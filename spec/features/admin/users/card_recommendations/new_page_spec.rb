@@ -42,7 +42,9 @@ describe "admin section" do
           personal_spending: 2500,
           has_business: :with_ein,
           business_spending: 1500,
-          time_zone: "Eastern Time (US & Canada)"
+          time_zone: "Eastern Time (US & Canada)",
+          has_added_cards: true,
+          has_added_balances: true
         )
       end
       visit new_admin_user_card_recommendation_path(@user)
@@ -80,16 +82,16 @@ describe "admin section" do
     end
 
     it "displays the user's info from the onboarding survey" do
-      def have_survey(attr, value)
+      def have_survey_info(attr, value)
         have_selector ".user-survey-attr.user-#{attr}", text: value
       end
 
-      is_expected.to have_survey "email", @user.email
-      is_expected.to have_survey "phone-number", phone_number
-      is_expected.to have_survey "citizenship", "U.S. Permanent Resident"
-      is_expected.to have_survey "credit-score", 678
-      is_expected.to have_survey "personal-spending", "$2500"
-      is_expected.to have_survey "business-spending", "$1500"
+      is_expected.to have_survey_info "email", @user.email
+      is_expected.to have_survey_info "phone-number", phone_number
+      is_expected.to have_survey_info "citizenship", "U.S. Permanent Resident"
+      is_expected.to have_survey_info "credit-score", 678
+      is_expected.to have_survey_info "personal-spending", "$2500"
+      is_expected.to have_survey_info "business-spending", "$1500"
     end
 
     it "has a form to recommend a new card" do
@@ -151,21 +153,15 @@ describe "admin section" do
               is_expected.to have_field :"card_currency_filter_#{currency_id}"
             end
 
-            # Alternative variables names for readability:
-            alaska_card   = @chase_b
-            american_card = @chase_p
-            amex_card     = @usb_b
-            ba_card       = @usb_p
-
-            uncheck :card_currency_filter_alaska
-            uncheck :card_currency_filter_american
-            should_have_recommendable_cards(amex_card, ba_card)
-            should_not_have_recommendable_cards(alaska_card, american_card)
-            uncheck :card_currency_filter_amex
-            uncheck :card_currency_filter_ba
+            uncheck "card_currency_filter_#{@chase_b.id}"
+            uncheck "card_currency_filter_#{@chase_p.id}"
+            should_have_recommendable_cards(@usb_p, @usb_p)
+            should_not_have_recommendable_cards(@chase_b, @chase_p)
+            uncheck "card_currency_filter_#{@usb_b.id}"
+            uncheck "card_currency_filter_#{@usb_p.id}"
             should_not_have_recommendable_cards(*@cards)
-            check :card_currency_filter_american
-            should_have_recommendable_cards(american_card)
+            check "card_currency_filter_#{@chase_p.id}"
+            should_have_recommendable_cards(@chase_p)
           end
         end
 
