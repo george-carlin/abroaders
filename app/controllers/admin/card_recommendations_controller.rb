@@ -8,7 +8,8 @@ module Admin
       # Call 'to_a' so it doesn't include @card_recommendation:
       @card_accounts = accounts.to_a
       @card_recommendation = accounts.recommendations.build
-      @card_offers_grouped_by_card = CardOffer.includes(:card).all.group_by(&:card)
+      @card_offers_grouped_by_card = \
+        CardOffer.includes(:card, card: :currency).all.group_by(&:card)
       @balances = @user.balances.includes(:currency)
     end
 
