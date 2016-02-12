@@ -13,7 +13,13 @@ describe TravelPlan do
   describe "flights" do
     def errors; travel_plan.tap(&:valid?).errors[:base] end
 
-    let(:message) { t("activerecord.errors.travel_plan.bad_flight_count") }
+    let(:message) do
+      t(
+        "activerecord.errors.models.travel_plan.attributes.base."\
+        "bad_flight_count"
+      )
+    end
+
     before { travel_plan.type = type }
 
     context "when type is 'single'" do
