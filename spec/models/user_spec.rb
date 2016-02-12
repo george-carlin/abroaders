@@ -62,4 +62,19 @@ describe User do
       end
     end
   end
+
+
+  # Scopes
+
+
+  describe ".onboarded" do
+    it "returns only non-admins who have completed the onboarding survey" do
+      create(:user)                         # no survey
+      create(:user, :completed_main_survey) # no card accounts
+      create(:user, :completed_card_survey) # no balances
+      create(:admin)                        # admin
+      onboarded_user = create(:user, :survey_complete)
+      expect(User.onboarded).to match_array [onboarded_user]
+    end
+  end
 end

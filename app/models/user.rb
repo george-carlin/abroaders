@@ -47,4 +47,10 @@ class User < ApplicationRecord
 
   scope :admin, -> { where(admin: true) }
   scope :non_admin, -> { where(admin: false) }
+
+  scope :onboarded, -> do
+    non_admin.joins(:survey).where(
+      surveys: { has_added_cards: true, has_added_balances: true }
+    )
+  end
 end
