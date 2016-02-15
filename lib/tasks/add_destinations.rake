@@ -10,11 +10,11 @@ namespace :ab do
 
       # ------ REGIONS ------
 
-      regions_json = File.read(Rails.root.join("lib/data/regions.json"))
-      regions_data = JSON.parse(regions_json)
+      regions_csv  = File.read(Rails.root.join("lib/data/regions.csv"))
+      regions_data = CSV.parse(regions_csv)
       puts "Importing #{regions_data.length} regions..."
-      @regions = regions_data.map do |region|
-        Destination.region.create!(name: region, code: region.first(2).upcase)
+      @regions = regions_data.map do |name, code|
+        Destination.region.create!(name: name, code: code)
       end
 
       # ------ COUNTRIES ------
