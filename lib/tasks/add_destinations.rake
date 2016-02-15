@@ -17,21 +17,31 @@ namespace :ab do
         Destination.region.create!(name: name, code: code)
       end
 
+      @regions = @regions.index_by(&:name)
+
       # ------ COUNTRIES ------
 
-      countries_csv = File.read(Rails.root.join("lib/data/country_data.csv"))
+      # To see the file where I got the original data from, visit:
+      #
+      # https://bitbucket.org/!api/2.0/snippets/georgemillo/kEb9y/b160569a4ea16a450c4a3aa02b5fcd9865dea269/files/snippet.txt
+      #
+      # Originally I had a rake task at lib/tasks/download_countries.rake (dig
+      # it out of the git history if you're interested) which grabbed this
+      # file, changed a few things, then saved it as a CSV locally, but since
+      # then I've edited the resulting CSV substantially (added some missing
+      # countries, removed some 'countries' that are just uninhabited islands
+      # with no airport, and added regions), to the extent that there's no
+      # point concerning ourselves iwth the original online data anymore.
+
+      countries_csv  = File.read(Rails.root.join("lib/data/countries.csv"))
       countries_data = CSV.parse(countries_csv)
       countries_data.shift # remove the column headers
       puts "Importing #{countries_data.length} countries..."
-      @countries = countries_data.map do |country|
+      @countries = countries_data.map do |name, code, region_name|
         Destination.countries.create!(
-          name: country[0],
-          code: country[1],
-          # Assign each country randomly to a region. This is a placeholder
-          # until we get around to the tedious task of assigning all
-          # of the 200+ countries to their correct region, which we're going
-          # to have do manually. TODO
-          parent: @regions.sample
+          name: name,
+          code: code,
+          parent: @regions.fetch(region_name)
         )
       end
 
