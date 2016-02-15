@@ -1,5 +1,6 @@
 FactoryGirl.define do
   factory :card_account do
+    user
     status :unknown
     card
 
@@ -12,6 +13,7 @@ FactoryGirl.define do
       factory :declined_card_recommendation do
         status :declined
         declined_at { Time.now }
+        decline_reason "You suck!"
       end
     end
   end
