@@ -2,19 +2,32 @@
 
 <p>Do you have any existing frequent flyer mile balances?</p>
 
+<% if @errors %>
+  <div class="alert alert-danger">
+    Could not save your balances:
+
+    <ul>
+      <% @errors.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
 <%= form_tag survey_balances_path do %>
   <div class="balances_survey">
-    <% @currencies.each do |currency| %>
+    <% @balances.each do |balance| %>
+      <% currency = balance.currency %>
       <div
         id="<%= dom_id(currency) %>"
         class="<%= dom_class(currency) %> survey_currency checkbox"
       >
         <label>
-          <%= currency_balance_checkbox(currency) %>
+          <%= currency_balance_checkbox(balance) %>
           <%= currency.name %>
         </label>
 
-        <%= currency_balance_value_field(currency) %>
+        <%= currency_balance_value_field(balance) %>
       </div>
     <% end %>
   </div>
