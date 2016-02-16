@@ -10,14 +10,21 @@ describe "new travel plans page", js: true do
   let(:submit) { click_button "Save" }
 
   before do
+    def create_airport(name, code, parent)
+      create(:airport, name: name, code: code, parent: parent)
+    end
+
+    @eu = create(:region, name: "Europe")
+    @us = create(:region, name: "United States")
+    @as = create(:region, name: "Asia")
     @destinations = [
-      @lhr = create(:airport, name: "London Heathrow",     code: "LHR"),
-      @lgw = create(:airport, name: "London Gatwick",      code: "LGW"),
-      @yyz = create(:airport, name: "Toronto Pearson",     code: "YYZ"),
-      @sgn = create(:airport, name: "Ho Chi Minh City",    code: "SGN"),
-      @jfk = create(:airport, name: "New York J.F.K.",     code: "JFK"),
-      @lga = create(:airport, name: "New York La Guardia", code: "LGA"),
-      @ltn = create(:airport, name: "London Luton",        code: "LTN")
+      @lhr = create_airport("London Heathrow",     :LHR, @eu),
+      @lgw = create_airport("London Gatwick",      :LGW, @eu),
+      @yyz = create_airport("Toronto Pearson",     :YYZ, @us),
+      @sgn = create_airport("Ho Chi Minh City",    :SGN, @as),
+      @jfk = create_airport("New York J.F.K.",     :JFK, @us),
+      @lga = create_airport("New York La Guardia", :LGA, @us),
+      @ltn = create_airport("London Luton",        :LTN, @eu)
     ]
     visit new_travel_plan_path
   end
@@ -72,6 +79,14 @@ describe "new travel plans page", js: true do
         end
       end
 
+      specify "the dropdown has a plane icon next to each airport" do
+        [@lhr, @lgw, @ltn].each do |a|
+          text = "#{a.name} (#{a.code})"
+          option = find(typeahead_option, text: text)
+          expect(option).to have_selector "i.fa.fa-plane"
+        end
+      end
+
       describe "and choosing a suggestion" do
         before do
           within typeahead_dropdown do
@@ -91,6 +106,17 @@ describe "new travel plans page", js: true do
           expect(field.value).to eq @lhr.id.to_s
         end
       end
+    end
+  end
+
+  describe "searching for a region" do
+    before do
+      fill_in flight_field(0, :to), with: "europ"
+      wait_for_ajax
+    end
+
+    it "displays the region's name in the dropdown but no code" do
+      is_expected.to have_selector typeahead_option, text: /\AEurope\z/
     end
   end
 

@@ -13,21 +13,47 @@ var DestinationInput = React.createClass({
   },
 
 
-  displayDestination(searchResult) {
-    return searchResult.name + " (" + searchResult.code + ")";
-  },
-
 
   initializeTypeahead(constructor) {
-    var that  = this,
-    $element  = $(constructor),
-    $input    = $element.find("input[type=text]");
+    var that = this,
+    $element = $(constructor),
+    $input   = $element.find("input[type=text]");
 
     $input.typeahead({
       afterSelect: function (item) {
         that.setState({selectedDestinationId: item.id});
       },
-      displayText: this.displayDestination,
+
+      displayText: function (destination, a, b) {
+        var result = destination.name;
+
+        if (destination.type !== "region") {
+          result += " (" + destination.code + ")";
+        }
+        if (destination.type === "airport") {
+          // The actual <i> tag needs to be added in the `highlighter` function
+          // (so the HTML doesn't get escaped) - but that function has no way
+          // of knowing whether or not the item in question is an airport.  So
+          // add a property to the string. ... Except you can't add properties
+          // to String literals, so we have to do it this hacky way. Ugh. TODO
+          // test me in other browsers:
+          result = new String(result);
+          result.isAirport = true;
+        }
+        return result;
+      },
+
+      highlighter: function (item) {
+        // Get the 'normal' result from the default highlighter function:
+        var result = $.fn.typeahead.Constructor.prototype.highlighter.call(
+          this, item
+        );
+        if (item.isAirport) {
+          // Add the font-awesome icon:
+          result = "<i class='fa fa-plane'> </i> " + result;
+        };
+        return result;
+      },
       // User has to type at least 3 characters for loading to begin:
       minLength: 3,
       source: function (query, processSync) {
