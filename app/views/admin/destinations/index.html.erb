@@ -20,6 +20,7 @@
   </div>
 </div>
 
+<%= will_paginate @destinations %>
 
 <div class="row">
   <div class="col-xs-12 col-md-8">
@@ -27,7 +28,7 @@
       <table class="admin-destinations table table-striped">
         <thead>
           <tr>
-            <% unless @type == "destination" %>
+            <% if @type == "destination" %>
               <th class="admin-destination-type">Type</th>
             <% end %>
             <th class="admin-destination-name">Name</th>
@@ -41,7 +42,7 @@
         <tbody>
           <% @destinations.each do |destination| %>
             <tr>
-              <% unless @type == "destination" %>
+              <% if @type == "destination" %>
                 <td class="admin-destination-type">
                   <%= destination.type.to_s.capitalize %>
                 </td>
