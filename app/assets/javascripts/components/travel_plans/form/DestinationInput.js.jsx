@@ -52,16 +52,11 @@ var DestinationInput = React.createClass({
     var dest             = this.props.dest,
         flightIndex      = this.props.flightIndex,
         formGroupClasses = "col-xs-12 col-sm-5 form-group " +
-                           "travel-plan-destination-form-group";
+                           "DestinationInput";
 
     var key = `travel_plan_flights_attributes_${flightIndex}`;
 
     var spinnerStyle;
-    if (this.state.showSpinner) {
-      spinnerStyle = {};
-    } else {
-      spinnerStyle = { display: "none" };
-    }
 
     return (
       <div
@@ -75,15 +70,11 @@ var DestinationInput = React.createClass({
           type="text"
           className="destination-typeahead form-control"
           name={`travel_plan[flights_attributes][${flightIndex}][${dest}]`}
-          onChange={this.showSpinner}
         />
-        <div
+        <LoadingSpinner
           id={`${dest}-${flightIndex}-loading-spinner`}
-          className="loading-spinner"
-          style={spinnerStyle}
-        >
-          Loading...
-        </div>
+          hidden={this.state.isLoading}
+        />
         <input
           id={`${key}_${dest}_id`}
           type="hidden"
