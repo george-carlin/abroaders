@@ -2,12 +2,12 @@
 
 <p>Do you have any existing frequent flyer mile balances?</p>
 
-<% if @errors %>
+<% if @survey.errors %>
   <div class="alert alert-danger">
     Could not save your balances:
 
     <ul>
-      <% @errors.each do |message| %>
+      <% @survey.errors.each do |message| %>
         <li><%= message %></li>
       <% end %>
     </ul>
@@ -16,7 +16,7 @@
 
 <%= form_tag survey_balances_path do %>
   <div class="balances_survey">
-    <% @balances.each do |balance| %>
+    <% @survey.balances.each do |balance| %>
       <% currency = balance.currency %>
       <div
         id="<%= dom_id(currency) %>"
