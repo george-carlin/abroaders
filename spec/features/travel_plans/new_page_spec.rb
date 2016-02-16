@@ -1,7 +1,7 @@
 require "rails_helper"
 
 # Page is rendered with React.js; all tests must activate Javascript
-describe "new travel plans page", js: true do
+describe "new travel plans page", js: true, manual_clean: true do
 
   subject { page }
 
@@ -9,7 +9,7 @@ describe "new travel plans page", js: true do
 
   let(:submit) { click_button "Save" }
 
-  before do
+  before(:all) do
     def create_airport(name, code, parent)
       create(:airport, name: name, code: code, parent: parent)
     end
@@ -26,8 +26,10 @@ describe "new travel plans page", js: true do
       @lga = create_airport("New York La Guardia", :LGA, @us),
       @ltn = create_airport("London Luton",        :LTN, @eu)
     ]
-    visit new_travel_plan_path
   end
+  after(:all) { DatabaseCleaner.clean_with :truncation }
+
+  before { visit new_travel_plan_path }
 
   it "has a selector to choose the travel plan type" do
     is_expected.to have_field :travel_plan_type_single

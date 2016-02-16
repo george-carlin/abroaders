@@ -45,7 +45,14 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   config.include WaitForAjax, type: :feature
 
+  # Pass 'manual_clean: true' to tests to prevent RSpec from automatically
+  # cleaning the database in between each test run. That way we can create
+  # variables in before(:all) blocks to make tests run faster. USE WITH
+  # CAUTION!
+
   config.before(:each) do |example|
+    next if example.metadata[:manual_clean]
+
     if example.metadata[:js]
       DatabaseCleaner.strategy = :truncation
     else
@@ -54,7 +61,9 @@ RSpec.configure do |config|
     DatabaseCleaner.start
   end
 
-  config.after(:each) do
+  config.after(:each) do |example|
+    next if example.metadata[:manual_clean]
+
     DatabaseCleaner.clean
   end
 
