@@ -13,18 +13,20 @@ var TravelPlanTypeRadio = React.createClass({
         id    = `travel_plan_type_${type}`;
 
     return (
-      <label htmlFor={id}>
-        {label}
-        &nbsp;
-        <input
-          id={id}
-          defaultChecked={this.props.checked}
-          name="travel_plan[type]"
-          onClick={this.props.onClick}
-          type="radio"
-          value={type}
-        />
-      </label>
+      <div className="TravelPlanTypeRadio form-group">
+        <label htmlFor={id}>
+          {label}
+          &nbsp;
+          <input
+            id={id}
+            defaultChecked={this.props.checked}
+            name="travel_plan[type]"
+            onClick={this.props.onClick}
+            type="radio"
+            value={type}
+          />
+        </label>
+      </div>
     );
   }
 

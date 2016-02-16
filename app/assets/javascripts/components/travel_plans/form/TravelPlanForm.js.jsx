@@ -90,11 +90,13 @@ var TravelPlanForm = React.createClass({
         <AuthTokenField value={this.state.csrfToken} />
 
         <Row>
-          <TravelPlanTypeRadios
-            types={this.props.planTypes}
-            currentType={this.state.type}
-            onChange={this.changeType}
-          />
+          <div className="col-xs-12">
+            <TravelPlanTypeRadios
+              types={this.props.planTypes}
+              currentType={this.state.type}
+              onChange={this.changeType}
+            />
+          </div>
         </Row>
 
         {flights}

@@ -11,7 +11,7 @@ var TravelPlanTypeRadios = React.createClass({
     var that = this;
 
     return (
-      <div>
+      <div className="form-inline">
         {
           this.props.types.map(function (type, i) {
             return (
