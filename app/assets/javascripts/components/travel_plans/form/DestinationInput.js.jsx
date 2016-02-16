@@ -56,33 +56,34 @@ var DestinationInput = React.createClass({
       },
       // User has to type at least 3 characters for loading to begin:
       minLength: 3,
-      source: function (query, processSync) {
+      source: function (query, processSynchronously) {
         // This function is called whenever the user types something into
         // the input that requires a search to be made. So turn on the loading
         // spinner:
         that.setState({isLoading: true });
 
-        var processAsync = function (results) {
+        var processAsynchronously = function (results) {
           // Bloodhound calls this once it's finished searching, which
           // means we can now hide the loading spinner:
           that.setState({isLoading: false });
-          processSync(results);
+          processSynchronously(results);
         };
 
         // bloodhound is initialized in
         // app/assets/javascripts/initialize-bloodhound.js
 
-        // The 'processSync' callback will be passed any results that
+        // The 'processSynchronously' callback will be passed any results that
         // bloodhound pulls from the local cache. At the moment we're not
         // caching anything locally (which we should! TODO), so this callback
-        // will always be passed an empty array. The 'processAsync' callback
-        // will be called with the results that bloodhound pulls from the API.
-        bloodhound.search(query, processSync, processAsync);
+        // will always be passed an empty array. The 'processAsynchronously'
+        // callback will be called with the results that bloodhound pulls from
+        // the API.
+        bloodhound.search(query, processSynchronously, processAsynchronously);
 
-        // The actual results will be handled in the 'processSync' and
-        // 'processAsync' callbacks that were passed to `bloodhound` above. In
-        // the meantime just return an empty array (because we haven't loaded
-        // any results at this point):
+        // The actual results will be handled in the 'processSynchronously' and
+        // 'processAsynchronously' callbacks that were passed to `bloodhound`
+        // above. In the meantime just return an empty array (because we
+        // haven't loaded any results at this point):
         return [];
       },
     });
