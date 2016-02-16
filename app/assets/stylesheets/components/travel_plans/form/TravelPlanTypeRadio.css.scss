@@ -1,0 +1,13 @@
+.TravelPlanTypeRadio {
+  $cursor: pointer;
+
+  cursor: $cursor;
+
+  label { cursor: $cursor }
+
+  input[type=radio] {
+    cursor: $cursor;
+    margin-left: 3px;
+    margin-right: 6px;
+  }
+}

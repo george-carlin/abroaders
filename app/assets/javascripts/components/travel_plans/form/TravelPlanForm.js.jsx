@@ -90,11 +90,18 @@ var TravelPlanForm = React.createClass({
         <AuthTokenField value={this.state.csrfToken} />
 
         <Row>
-          <div className="col-xs-12">
+          <div className="col-xs-8">
             <TravelPlanTypeRadios
               types={this.props.planTypes}
               currentType={this.state.type}
               onChange={this.changeType}
+            />
+          </div>
+
+          <div className="col-xs-2">
+            <AddFlightBtn
+              hidden={this.state.type !== "multi"}
+              onClick={this.addFlight}
             />
           </div>
         </Row>
@@ -108,13 +115,6 @@ var TravelPlanForm = React.createClass({
               model="travel_plan"
               field="no_of_passengers"
               value={this.props.travelPlan.no_of_passengers}
-            />
-          </div>
-
-          <div className="col-xs-2">
-            <AddFlightBtn
-              hidden={this.state.type !== "multi"}
-              onClick={this.addFlight}
             />
           </div>
         </Row>

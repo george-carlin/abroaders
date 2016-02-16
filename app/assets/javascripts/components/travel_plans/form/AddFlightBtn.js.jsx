@@ -11,9 +11,9 @@ var AddFlightBtn = React.createClass({
         id="add-flight-btn"
         onClick={this.props.onClick}
         style={ this.props.hidden ? { display: "none" } : {} }
-        className="btn btn-primary"
+        className="AddFlightBtn btn btn-primary"
       >
-        +
+        + Add Flight
       </button>
     )
   }
