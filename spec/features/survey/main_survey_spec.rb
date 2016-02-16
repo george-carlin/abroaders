@@ -33,6 +33,39 @@ describe "user main survey" do
     should have_field :survey_has_business_no_business
   end
 
+  it "has a '*' next to required fields" do
+    required_attrs = %i[
+      first_name last_name phone_number credit_score personal_spending
+      business_spending
+    ]
+
+    def node_parent(node)
+      # See https://makandracards.com/konjoot/20735-get-node-s-parent-element-with-capybara
+      # return nil if we're at the root
+      node.tag_name ? node.find(:xpath, "..", visible: false) : nil
+    end
+
+    def form_group_for_attr(attr)
+      node = find("#survey_#{attr}", visible: false)
+      while node
+        # Go up the DOM until we reach the root or find the form-group
+        if node[:class] =~ /form-group/i
+          return node
+        else
+          node = node_parent(node)
+        end
+      end
+      nil
+    end
+
+    required_attrs.each do |attr|
+      form_group = form_group_for_attr(attr)
+      raise "no form group for #{attr}" unless form_group
+      expect(form_group[:class]).to match(/required/)
+    end
+    expect(form_group_for_attr(:middle_names)[:class]).not_to match(/required/)
+  end
+
   describe "the 'business spending' input" do
     it "appears iff I say that I have a business", js: true do
       is_expected.not_to have_field :survey_business_spending

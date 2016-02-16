@@ -9,14 +9,27 @@
 
 <%= form_for @survey, url: survey_path do |f| %>
 
-  <%# TODO add 'required' star %>
+  <%= render "shared/required_explanation" %>
 
-  <% %i[first_name middle_names last_name phone_number].each do |attr| %>
-    <div class="form-group required">
-      <%= f.label attr %>
-      <%= f.text_field attr %>
-    </div>
-  <% end %>
+  <div class="form-group required">
+    <%= f.label :first_name %>
+    <%= f.text_field :first_name %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :middle_names %>
+    <%= f.text_field :middle_names %>
+  </div>
+
+  <div class="form-group required">
+    <%= f.label :last_name %>
+    <%= f.text_field :last_name %>
+  </div>
+
+  <div class="form-group required">
+    <%= f.label :phone_number %>
+    <%= f.text_field :phone_number %>
+  </div>
 
   <p>Which of the following are you capable of receiving at this number?</p>
 
@@ -70,7 +83,7 @@
 
   <h1>Spending Info</h1>
 
-  <div class="form-group">
+  <div class="form-group required">
     <%= f.label :credit_score %>
 
     <p class="help-block">
@@ -107,7 +120,7 @@
     </div>
   </div>
 
-  <div class="form-group">
+  <div class="form-group required">
     <%= f.label :personal_spending %>
 
     <div class="input-group">
@@ -135,7 +148,7 @@
 
   <div
     id="business_spending_form_group"
-    class="form-group"
+    class="form-group required"
     style="display:none"
   >
     <%= f.label :business_spending %>
