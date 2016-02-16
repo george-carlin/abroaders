@@ -55,11 +55,11 @@ namespace :ab do
       states_data = CSV.parse(states_csv)
       states_data.shift # remove the column headers
       puts "Importing #{states_data.length} states..."
-      @states = states_data.map do |state|
+      @states = states_data.map do |name, code, parent_code|
         Destination.states.create!(
-          name: state[0],
-          code: state[1],
-          parent: @countries.fetch(state[2])
+          name: name,
+          code: code,
+          parent: @countries.fetch(parent_code)
         )
       end
 
@@ -73,15 +73,10 @@ namespace :ab do
       cities_data = CSV.parse(cities_csv)
       cities_data.shift # remove the column headers
       puts "Importing #{cities_data.length} cities..."
-      @cities = cities_data.map do |city|
-        # TODO Some cities in the data don't have a parent state or country -
-        # this is probably due to data being missing in the original CSVs I got
-        # the data from. See the 'download_airports_and_cities' rake task
-        state_code   = city[2]
-        country_code = city[3]
+      @cities = cities_data.map do |name, code, state_code, country_code|
         Destination.cities.create!(
-          name: city[0],
-          code: city[1],
+          name: name,
+          code: code,
           parent: @states[state_code] || @countries[country_code]
         )
       end
@@ -96,18 +91,11 @@ namespace :ab do
       airports_data = CSV.parse(airports_csv)
       airports_data.shift # remove the column headers
       puts "Importing #{airports_data.length} airports..."
-      @airports = airports_data.map do |airport|
-        # TODO Some airports in the data don't have a parent state or country -
-        # this is probably due to data being missing in the original CSVs I got
-        # the data from. See the 'download_airports_and_airports' rake task
-        city_code    = airport[2]
-        state_code   = airport[3]
-        country_code = airport[4]
-        parent = @cities[city_code] || @states[state_code] || @countries[country_code]
+      @airports = airports_data.map do |name, code, city, state, country|
         Destination.airports.create!(
-          name: airport[0],
-          code: airport[1],
-          parent: parent
+          name:   name,
+          code:   code,
+          parent: @cities[city] || @states[state] || @countries[country]
         )
       end
     end # transaction
