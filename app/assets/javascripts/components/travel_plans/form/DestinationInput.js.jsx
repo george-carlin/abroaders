@@ -40,7 +40,8 @@ var DestinationInput = React.createClass({
           that.setState({showSpinner: false });
           process(results);
         };
-        // bloodhound is defined in app/assets/javascripts/bloodhound.js
+        // bloodhound is initialized in
+        // app/assets/javascripts/initialize-bloodhound.js
         return bloodhound.search(query, process, wrapped);
       },
     });
