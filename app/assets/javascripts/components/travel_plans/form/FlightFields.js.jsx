@@ -11,7 +11,7 @@ var FlightFields = React.createClass({
     var that = this;
 
     return (
-      <div className="flight-form row">
+      <div className="FlightFields row">
 
         {
           ["from", "to"].map(function (dest, i) {

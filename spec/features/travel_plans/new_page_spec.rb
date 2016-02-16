@@ -205,7 +205,7 @@ describe "new travel plans page", js: true do
       before { find(add_flight_btn).click }
 
       it "adds a form for a second travel flight" do
-        is_expected.to have_selector flight_form, count: 2
+        is_expected.to have_selector flight_fields, count: 2
       end
 
       it "shows the 'remove flight' buttons" do
@@ -231,7 +231,7 @@ describe "new travel plans page", js: true do
         before { all(remove_flight_btn).first.click }
 
         it "removes the given travel flight form" do
-          is_expected.to have_selector flight_form, count: 1
+          is_expected.to have_selector flight_fields, count: 1
         end
 
         it "hides the remaining 'remove flight' button" do
@@ -244,7 +244,7 @@ describe "new travel plans page", js: true do
           before { choose "travel_plan_type_#{type}" }
 
           it "removes all flights except the first one" do
-            is_expected.to have_selector flight_form, count: 1
+            is_expected.to have_selector flight_fields, count: 1
           end
         end
       end
@@ -286,8 +286,8 @@ describe "new travel plans page", js: true do
     ".remove-flight-btn"
   end
 
-  def flight_form
-    ".flight-form"
+  def flight_fields
+    ".FlightFields"
   end
 
   def typeahead_dropdown
