@@ -1,4 +1,6 @@
 class SurveyController < NonAdminController
+  before_action { redirect_to root_path if current_user.survey_complete? }
+
   def new
     @survey = current_user.build_survey
   end

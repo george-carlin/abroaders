@@ -15,9 +15,9 @@ class NonAdminController < AuthenticatedController
     {
       # method to test if stage is complete =>
       #             path to redirect to if stage is not complete
-      :has_completed_main_survey?     => survey_path,
-      :has_added_cards?    => survey_card_accounts_path,
-      :has_added_balances? => survey_balances_path,
+      :has_completed_main_survey?  => survey_path,
+      :has_added_cards?            => survey_card_accounts_path,
+      :has_added_balances?         => survey_balances_path,
     }.each do |method, path|
       if !current_user.send(method)
         current_survey_path = path

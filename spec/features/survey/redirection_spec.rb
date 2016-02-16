@@ -92,4 +92,17 @@ describe "as a new user" do
 
     include_examples "no cards or travel plans links"
   end
+
+  context "who has completed the balances survey" do
+    let(:completed_main_survey) { true }
+    let(:completed_card_accounts_survey) { true }
+    let(:completed_balances_survey) { true }
+
+    describe "trying to visit the balances survey again" do
+      it "redirects me to the root" do
+        visit survey_balances_path
+        expect(current_path).to eq root_path
+      end
+    end
+  end
 end
