@@ -4,37 +4,28 @@ ruby '2.2.4'
 
 gem 'rails', '>= 5.0.0.beta2', '< 5.1'
 
-gem 'pg', '~> 0.18'
-gem 'uglifier', '>= 1.3.0'
-
-gem 'jquery-rails'
-gem 'jbuilder', '~> 2.0'
-gem 'puma'
-
+gem 'font-awesome-rails'
+gem 'active_model_serializers', '~> 0.10.0.rc3'
+gem 'acts_as_tree', '~> 2.4.0'
 gem 'devise', github: 'plataformatec/devise'
 gem 'devise-bootstrap-views'
-
-gem 'active_model_serializers', '~> 0.10.0.rc3'
-
-gem 'sass-rails'
-
-gem 'acts_as_tree', '~> 2.4.0'
-
+# Load ENV variables from a gitignored YAML file
+gem 'figaro', '~> 1.1.1'
+gem 'jbuilder', '~> 2.0'
+gem 'jquery-rails'
+gem 'pg', '~> 0.18'
+gem 'puma'
 gem 'react-rails'
+gem 'sass-rails'
+gem 'searchlight'
+gem 'uglifier', '>= 1.3.0'
+gem 'virtus'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
-
-# Load ENV variables from a gitignored YAML file
-gem 'figaro', '~> 1.1.1'
-
-gem "font-awesome-rails"
-
-gem 'searchlight'
-gem 'virtus'
 
 # Required to make the app function properly on Heroku:
 group :production do
