@@ -69,6 +69,7 @@ var DestinationInput = React.createClass({
       >
         <label htmlFor={`${key}_${dest}`}>{dest.capitalize()}</label>
         <input
+          autoComplete="off"
           id={`${key}_${dest}`}
           type="text"
           className="destination-typeahead form-control"
