@@ -33,23 +33,7 @@
 
       <div class="user_travel_plans">
         <% @travel_plans.each do |plan| %>
-          <div id="<%= dom_id(plan) %>" class="<%= dom_class(plan) %>">
-            <% plan.flights.each do |flight| %>
-              <div id="<%= dom_id(flight) %>">
-                <%# use dom_id, even though it's a class, because different %>
-                <%# TPs might use the same destination %>
-                <span class="<%= dom_id(flight.from) %>">
-                  <%= destination_name_with_region(flight.from) %>
-                </span>
-                -
-                <span class="<%= dom_id(flight.to) %>">
-                  <%= destination_name_with_region(flight.to) %>
-                </span>
-              </div><!-- #dom_id(flight) -->
-            <% end %>
-
-            <span class="travel_plan_type">(<%= plan.type.capitalize %>)</span>
-          </div>
+          <%= render "admin/travel_plans/travel_plan", plan: plan %>
         <% end %>
       </div>
     <% else %>
