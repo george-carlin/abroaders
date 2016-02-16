@@ -1,6 +1,9 @@
 // Don't name this file 'bloodhound' because then it conflicts with the
 // actual bloodhound source code.
 
+// TODO do we really want to be initializing this on every page, even
+// the ones that don't use it?
+
 window.bloodhound = (function () {
   var bloodhound = new Bloodhound({
     datumTokenizer: function (d) {
@@ -15,6 +18,5 @@ window.bloodhound = (function () {
     },
     limit: 10
   });
-  bloodhound.initialize();
   return bloodhound;
 }());
