@@ -261,10 +261,20 @@ describe "new travel plans page", js: true do
     end
 
     describe "and adding the maximum number of travel flights" do
-      it "disables the 'add flight' button"
+      before do
+        max = TravelPlan::MAX_FLIGHTS
+        (max - 1).times { find(add_flight_btn).click }
+      end
+
+      it "disables the 'add flight' button" do
+        expect(find(add_flight_btn)).to be_disabled
+      end
 
       describe "and removing a flight again" do
-        it "reenables the 'add flight' button"
+        before { all(remove_flight_btn).first.click }
+        it "reenables the 'add flight' button" do
+          expect(find(add_flight_btn)).not_to be_disabled
+        end
       end
     end
 

@@ -102,6 +102,7 @@ var TravelPlanForm = React.createClass({
             <AddFlightBtn
               hidden={this.state.type !== "multi"}
               onClick={this.addFlight}
+              disabled={this.state.flights.length == this.props.maxFlights}
             />
           </div>
         </Row>
