@@ -16,7 +16,7 @@ var SubmitTag = React.createClass({
       <input
         type="submit"
         defaultValue={this.props.value}
-        className="btn btn-primary"
+        className="SubmitTag btn btn-primary"
       />
     );
   },

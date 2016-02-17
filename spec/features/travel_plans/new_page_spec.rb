@@ -42,6 +42,10 @@ describe "new travel plans page", js: true, manual_clean: true do
     expect(radio).to be_checked
   end
 
+  specify "the 'submit' button is initially disabled" do
+    expect(find(".SubmitTag")).to be_disabled
+  end
+
   specify "the 'add/remove flight' buttons are initially hidden" do
     is_expected.not_to have_selector add_flight_btn
     is_expected.not_to have_selector remove_flight_btn
