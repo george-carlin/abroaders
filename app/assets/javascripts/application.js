@@ -13,7 +13,7 @@
 //= require jquery2
 //= require jquery_ujs
 //= require bootstrap.min
-//= require bootstrap3-typeahead
+//= require bootstrap3-typeahead-custom
 //= require bloodhound
 //= require bootstrap-datepicker
 //= require jquery.tablesorter

@@ -71,7 +71,7 @@ describe "new travel plans page", js: true, manual_clean: true do
     describe "searching for an airport in the '#{place}' input" do
       before do
         fill_in flight_field(0, place), with: "lond"
-        wait_for_ajax
+        wait_for_typeahead
       end
 
       it "populates the dropdown with suggestions" do
@@ -101,7 +101,7 @@ describe "new travel plans page", js: true, manual_clean: true do
         end
 
         it "fills the input with the chosen suggestion" do
-          wait_for_ajax
+          wait_for_typeahead
           field = find("#travel_plan_flights_attributes_0_#{place}")
           expect(field.value).to eq "London Heathrow (LHR)"
         end
@@ -118,10 +118,27 @@ describe "new travel plans page", js: true, manual_clean: true do
   describe "searching for a region" do
     before do
       fill_in flight_field(0, :to), with: "europ"
-      wait_for_ajax
+      wait_for_typeahead
     end
 
     it "displays the region's name in the dropdown but no code" do
+      is_expected.to have_selector typeahead_option, text: /\AEurope\z/
+    end
+  end
+
+  describe "typing in a query, deleting it, then adding it again" do
+    before do
+      field = find("##{flight_field(0, :to)}")
+      field.send_keys("europ")
+      wait_for_typeahead
+      5.times { field.send_keys(:backspace) }
+      wait_for_typeahead
+      field.send_keys("europ")
+      wait_for_typeahead
+    end
+
+    # Bug fix
+    it "shows the results dropdown the same as the first time" do
       is_expected.to have_selector typeahead_option, text: /\AEurope\z/
     end
   end
@@ -247,12 +264,12 @@ describe "new travel plans page", js: true, manual_clean: true do
       describe "the fields for the new flight" do
         it "can be used to typeahead-search, like for the first flight" do
           fill_in flight_field(1, :from), with: "lond"
-          wait_for_ajax
+          wait_for_typeahead
           is_expected.to have_selector(
             typeahead_option, text: "London Heathrow (LHR)"
           )
           fill_in flight_field(1, :to), with: "Ho "
-          wait_for_ajax
+          wait_for_typeahead
           is_expected.to have_selector(
             typeahead_option, text: "Ho Chi Minh City (SGN)"
           )
@@ -343,8 +360,10 @@ describe "new travel plans page", js: true, manual_clean: true do
   def select_destination(flight_index, from_or_to, dest)
     query = dest.code
     fill_in flight_field(flight_index, from_or_to), with: query
-    wait_for_ajax
+    wait_for_typeahead
     within typeahead_dropdown do
+      # TODO: not every destination gets displayed in this way anymore,
+      # if your tests are failing you might need to udpate this method:
       find(typeahead_option, text: "#{dest.name} (#{dest.code})").click
     end
   end
@@ -352,6 +371,16 @@ describe "new travel plans page", js: true, manual_clean: true do
   def input_flight(index, from, to)
     select_destination(index, :from, from)
     select_destination(index, :to,   to)
+  end
+
+  def wait_for_typeahead
+    # wait_for_ajax doesn't always work by itself because $.ajax isn't the only
+    # asynchronous method being called. bloodhound also defers execution of
+    # some methods using its internal '_.debounce' function. Since the 'wait'
+    # period in debounce is 300ms by default (see the bloodhound source code),
+    # waiting for 300ms in the tests should be enough to avoid these issues.
+    sleep 0.3
+    wait_for_ajax
   end
 
 end

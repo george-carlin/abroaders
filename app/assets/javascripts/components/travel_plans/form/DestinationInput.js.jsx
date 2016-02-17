@@ -78,7 +78,10 @@ var DestinationInput = React.createClass({
         // will always be passed an empty array. The 'processAsynchronously'
         // callback will be called with the results that bloodhound pulls from
         // the API.
-        bloodhound.search(query, processSynchronously, processAsynchronously);
+        bloodhound.search(
+          query, $.noop /*processSynchronously*/, processAsynchronously
+        );
+
 
         // The actual results will be handled in the 'processSynchronously' and
         // 'processAsynchronously' callbacks that were passed to `bloodhound`
