@@ -9,7 +9,7 @@ var TravelPlanForm = React.createClass({
 
   getInitialState() {
     return {
-      csrfToken:        "",
+      csrfToken: "",
     }
   },
 
