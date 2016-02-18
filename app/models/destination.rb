@@ -1,7 +1,9 @@
 class Destination < ApplicationRecord
   self.inheritance_column = :_no_sti
 
-  acts_as_tree # adds belongs_to parent
+  # From the `acts_as_tree` gem. Like adding `belongs_to :parent`, but with
+  # some bells and whistles:
+  acts_as_tree counter_cache: true
 
   # Attributes
 
