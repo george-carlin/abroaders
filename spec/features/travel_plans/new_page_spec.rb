@@ -43,7 +43,7 @@ describe "new travel plans page", js: true, manual_clean: true do
   end
 
   specify "the 'submit' button is initially disabled" do
-    expect(find(".SubmitTag")).to be_disabled
+    expect(submit_tag).to be_disabled
   end
 
   specify "the 'add/remove flight' buttons are initially hidden" do
@@ -110,6 +110,21 @@ describe "new travel plans page", js: true, manual_clean: true do
           hidden_input_selector = "#travel_plan_flights_attributes_0_#{place}_id"
           field = find(hidden_input_selector, visible: false)
           expect(field.value).to eq @lhr.id.to_s
+        end
+
+        it "doesn't enable the submit button" do
+          expect(submit_tag).to be_disabled
+        end
+
+        describe "and adding the other flight" do
+          before do
+            other_place = (%i[from to] - [place])[0]
+            select_destination 0, other_place, @sgn
+          end
+
+          it "enables the submit button" do
+            expect(submit_tag).not_to be_disabled
+          end
         end
       end
     end
@@ -383,6 +398,10 @@ describe "new travel plans page", js: true, manual_clean: true do
     # waiting for 300ms in the tests should be enough to avoid these issues.
     sleep 0.3
     wait_for_ajax
+  end
+
+  def submit_tag
+    find(".SubmitTag")
   end
 
 end

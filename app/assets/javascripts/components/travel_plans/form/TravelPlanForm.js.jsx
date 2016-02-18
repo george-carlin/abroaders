@@ -41,17 +41,13 @@ var TravelPlanForm = React.createClass({
   },
 
 
-  noOfFlights() {
-    return this.state.flights.length;
-  },
-
 
   addFlight(e) {
     if (e) {
       e.preventDefault();
     }
     var flights = this.state.flights;
-    flights.push({})
+    flights.push({ fromId: null, toId: null })
     this.setState({flights: flights});
   },
 
@@ -77,20 +73,24 @@ var TravelPlanForm = React.createClass({
   },
 
 
+  didSelectDestination(flightIndex, dest, id) {
+    // dest = one of 'from' or 'to'
+    var flights = this.state.flights,
+    stateKey    = dest + "Id";
+    flights[flightIndex][stateKey] = id;
+    this.setState({flights: flights});
+  },
+
+
+  isFormEnabled() {
+    return _.all(this.state.flights, function (flight) {
+      return flight.fromId && flight.toId;
+    });
+  },
+
+
   render() {
     var that = this;
-
-    var flights = [];
-    for (var i = 0; i < this.noOfFlights(); i++) {
-      flights.push(
-        <FlightFields
-          key={i}
-          index={i}
-          showRemoveBtn={this.state.type === "multi" && this.noOfFlights() > 1}
-          onRemoveBtnClick={this.removeFlight}
-        />
-      );
-    };
 
     return (
       <form action={this.props.url} method="post">
@@ -109,12 +109,28 @@ var TravelPlanForm = React.createClass({
             <AddFlightBtn
               hidden={this.state.type !== "multi"}
               onClick={this.addFlight}
-              disabled={this.state.flights.length == this.props.maxFlights}
+              disabled={this.state.flights.length >= this.props.maxFlights}
             />
           </div>
         </Row>
 
-        {flights}
+        {(function () {
+          return _(that.state.flights.length).times(function (i) {
+            return (
+              <FlightFields
+                key={i}
+                index={i}
+                showRemoveBtn={
+                  that.state.type === "multi" && that.state.flights.length > 1
+                }
+                onRemoveBtnClick={that.removeFlight}
+                onSelectDestination={that.didSelectDestination}
+                fromId={that.state.flights[i].fromId}
+                toId={that.state.flights[i].toId}
+              />
+            );
+          });
+        })()}
 
         <Row>
           <div className="col-xs-4">
@@ -129,7 +145,7 @@ var TravelPlanForm = React.createClass({
 
         <Row>
           <div className="col-xs-12">
-            <SubmitTag value="Save" />
+            <SubmitTag value="Save" disabled={!this.isFormEnabled()}/>
           </div>
         </Row>
       </form>

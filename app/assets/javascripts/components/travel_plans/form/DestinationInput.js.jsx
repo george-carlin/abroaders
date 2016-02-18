@@ -1,17 +1,18 @@
 var DestinationInput = React.createClass({
 
   propTypes: {
-    dest:     React.PropTypes.oneOf(["from", "to"]),
-    flightIndex: React.PropTypes.number.isRequired,
+    dest: React.PropTypes.oneOf(["from", "to"]).isRequired,
+    destinationId: React.PropTypes.number,
+    flightIndex:   React.PropTypes.number.isRequired,
+    onSelect:      React.PropTypes.func.isRequired,
   },
+
 
   getInitialState() {
     return {
-      selectedDestinationId: undefined,
       isLoading: false,
     }
   },
-
 
 
   initializeTypeahead(constructor) {
@@ -21,7 +22,7 @@ var DestinationInput = React.createClass({
 
     $input.typeahead({
       afterSelect: function (item) {
-        that.setState({selectedDestinationId: item.id});
+        that.props.onSelect(that.props.flightIndex, that.props.dest, item.id);
       },
 
       displayText: function (destination, a, b) {
@@ -124,7 +125,7 @@ var DestinationInput = React.createClass({
           id={`${key}_${dest}_id`}
           type="hidden"
           name={`travel_plan[flights_attributes][${flightIndex}][${dest}_id]`}
-          value={this.state.selectedDestinationId}
+          value={this.props.destinationId}
         />
       </div>
     )
