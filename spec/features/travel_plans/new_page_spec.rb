@@ -115,6 +115,8 @@ describe "new travel plans page", js: true, manual_clean: true do
     end
   end
 
+  pending "TODO bug: pressing 'enter' in the destination input adds a new flight, even in single and return modes"
+
   describe "searching for a region" do
     before do
       fill_in flight_field(0, :to), with: "europ"
