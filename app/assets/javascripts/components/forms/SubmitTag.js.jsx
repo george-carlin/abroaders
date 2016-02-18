@@ -1,13 +1,15 @@
 var SubmitTag = React.createClass({
   getDefaultProps: function() {
     return {
-      value: "Save changes",
+      disabled: false,
+      value:    "Save changes",
     };
   },
 
 
   propTypes: {
-    value: React.PropTypes.string
+    disabled: React.PropTypes.bool,
+    value:    React.PropTypes.string,
   },
 
 
@@ -17,6 +19,7 @@ var SubmitTag = React.createClass({
         type="submit"
         defaultValue={this.props.value}
         className="SubmitTag btn btn-primary"
+        disabled={this.props.disabled}
       />
     );
   },
