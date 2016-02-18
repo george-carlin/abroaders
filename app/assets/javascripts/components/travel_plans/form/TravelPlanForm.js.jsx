@@ -17,8 +17,13 @@ var TravelPlanForm = React.createClass({
   getInitialState() {
     return {
       type: this.props.defaultType,
-      flights: [{}],
+      flights: [],
     }
+  },
+
+
+  componentWillMount() {
+    this.addFlight();
   },
 
 
@@ -42,7 +47,9 @@ var TravelPlanForm = React.createClass({
 
 
   addFlight(e) {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
     var flights = this.state.flights;
     flights.push({})
     this.setState({flights: flights});
