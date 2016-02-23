@@ -2,4 +2,8 @@
 
 <h1>My Travel Plans</h1>
 
+<% @travel_plans.each do |plan| %>
+  <%= render "admin/travel_plans/travel_plan", plan: plan %>
+<% end %>
+
 <%= link_to "Add new", new_travel_plan_path %>

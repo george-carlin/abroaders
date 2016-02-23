@@ -1,7 +1,8 @@
 class TravelPlansController < NonAdminController
 
   def index
-    @travel_plans = current_user.travel_plans
+    # TODO big N+1 queries problem here:
+    @travel_plans = current_user.travel_plans.includes(:flights)
   end
 
   def new
