@@ -1,22 +1,19 @@
-var AddFlightBtn = React.createClass({
+function AddFlightBtn(props) {
+  return (
+    <button
+      className="AddFlightBtn btn btn-primary"
+      disabled={props.disabled}
+      id="add-flight-btn"
+      onClick={props.onClick}
+      style={props.hidden ? { display: "none" } : {}}
+    >
+      + Add Flight
+    </button>
+  )
+};
 
-  propTypes: {
-    onClick:  React.PropTypes.func.isRequired,
-    hidden:   React.PropTypes.bool,
-    disabled: React.PropTypes.bool,
-  },
-
-  render() {
-    return (
-      <button
-        id="add-flight-btn"
-        onClick={this.props.onClick}
-        style={ this.props.hidden ? { display: "none" } : {} }
-        className="AddFlightBtn btn btn-primary"
-        disabled={this.props.disabled}
-      >
-        + Add Flight
-      </button>
-    )
-  }
-});
+AddFlightBtn.propTypes = {
+  disabled: React.PropTypes.bool,
+  hidden:   React.PropTypes.bool,
+  onClick:  React.PropTypes.func.isRequired,
+};

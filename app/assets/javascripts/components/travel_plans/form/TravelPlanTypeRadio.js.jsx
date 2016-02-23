@@ -1,33 +1,26 @@
-var TravelPlanTypeRadio = React.createClass({
+function TravelPlanTypeRadio(props) {
+  var id = `travel_plan_type_${props.type}`;
 
-  propTypes: {
-    checked: React.PropTypes.bool.isRequired,
-    onClick: React.PropTypes.func.isRequired,
-    type:    React.PropTypes.string.isRequired,
-  },
+  return (
+    <div className="TravelPlanTypeRadio form-group">
+      <label htmlFor={id}>
+        {props.type === "multi" ? "Multi-City" : props.type.capitalize()}
+        &nbsp;
+        <input
+          defaultChecked={props.checked}
+          id={id}
+          name="travel_plan[type]"
+          onClick={props.onClick}
+          type="radio"
+          value={props.type}
+        />
+      </label>
+    </div>
+  );
+};
 
-
-  render() {
-    var type  = this.props.type,
-        label = type === "multi" ? "Multi-City" : type.capitalize(),
-        id    = `travel_plan_type_${type}`;
-
-    return (
-      <div className="TravelPlanTypeRadio form-group">
-        <label htmlFor={id}>
-          {label}
-          &nbsp;
-          <input
-            id={id}
-            defaultChecked={this.props.checked}
-            name="travel_plan[type]"
-            onClick={this.props.onClick}
-            type="radio"
-            value={type}
-          />
-        </label>
-      </div>
-    );
-  }
-
-});
+TravelPlanTypeRadio.propTypes = {
+  checked: React.PropTypes.bool.isRequired,
+  onClick: React.PropTypes.func.isRequired,
+  type:    React.PropTypes.string.isRequired,
+};

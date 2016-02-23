@@ -117,10 +117,7 @@ var DestinationInput = React.createClass({
           className="destination-typeahead form-control"
           name={`travel_plan[flights_attributes][${flightIndex}][${dest}]`}
         />
-        <LoadingSpinner
-          id={`${dest}-${flightIndex}-loading-spinner`}
-          hidden={!this.state.isLoading}
-        />
+        <LoadingSpinner hidden={!this.state.isLoading} />
         <input
           id={`${key}_${dest}_id`}
           type="hidden"

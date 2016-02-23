@@ -1,16 +1,13 @@
-var AuthTokenField = React.createClass({
-  propTypes: {
-    value: React.PropTypes.string
-  },
+function AuthTokenField(props) {
+  return (
+    <input
+      name="authenticity_token"
+      type="hidden"
+      value={props.value}
+    />
+  );
+};
 
-  render() {
-    return (
-      <input
-        name="authenticity_token"
-        type="hidden"
-        value={this.props.value}
-      />
-    )
-  },
-
-});
+AuthTokenField.propTypes = {
+  value: React.PropTypes.string
+};

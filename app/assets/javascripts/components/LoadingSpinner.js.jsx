@@ -1,33 +1,13 @@
-var LoadingSpinner = React.createClass({
+function LoadingSpinner(props) {
+  return (
+    <div
+      className="LoadingSpinner"
+      style={props.hidden ? { display: "none" } : {}}
+    >
+      Loading...
+    </div>
+  );
+}
 
-  getDefaultProps() {
-    return { hidden: false };
-  },
-
-
-  propTypes: {
-    hidden: React.PropTypes.bool,
-    id:     React.PropTypes.string,
-  },
-
-
-  render() {
-    var style;
-
-    if (this.props.hidden) {
-      style = { display: "none" };
-    } else {
-      style = {};
-    }
-
-    return (
-      <div
-        className="LoadingSpinner"
-        style={style}
-      >
-        Loading...
-      </div>
-    );
-  },
-
-});
+LoadingSpinner.propTypes    = { hidden: React.PropTypes.bool };
+LoadingSpinner.defaultProps = { hidden: false };

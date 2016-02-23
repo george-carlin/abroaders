@@ -1,9 +1,7 @@
-var Row = React.createClass({
-  render() {
-    return (
-      <div className="row">
-        {this.props.children}
-      </div>
-    )
-  },
-});
+function Row(props) {
+  return (
+    <div className="row">
+      {props.children}
+    </div>
+  );
+};
