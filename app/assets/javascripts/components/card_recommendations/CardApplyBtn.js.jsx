@@ -7,7 +7,7 @@ var CardApplyBtn = React.createClass({
   render() {
     return (
       <a
-        id={`card_account_${this.context.accountId}_apply_btn`}
+        id={`card_account_${this.props.accountId}_apply_btn`}
         href={this.props.path}
         className="card_account_apply_btn btn btn-primary btn-sm"
         target="_blank"
