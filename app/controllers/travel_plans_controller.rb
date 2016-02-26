@@ -1,8 +1,13 @@
 class TravelPlansController < NonAdminController
 
   def index
-    # TODO big N+1 queries problem here:
-    @travel_plans = current_user.travel_plans.includes(:flights)
+    @travel_plans = current_user.travel_plans.includes(
+      flights: {
+        # Is there really not a better way of doing this?
+        from: { parent: { parent: { parent: :parent } } },
+        to:   { parent: { parent: { parent: :parent } } }
+      }
+    )
   end
 
   def new
