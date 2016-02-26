@@ -89,8 +89,20 @@ var TravelPlanForm = React.createClass({
   },
 
 
+  getAddFlightBtnStatus() {
+    if (this.state.type !== "multi") {
+      return "hidden";
+    } else if (this.state.flights.length >= this.props.maxFlights) {
+      return "disabled";
+    } else {
+      return "active";
+    }
+  },
+
+
   render() {
-    var that = this;
+    var that = this,
+    addFlightBtnStatus = this.getAddFlightBtnStatus();
 
     return (
       <form action={this.props.url} method="post">
@@ -107,9 +119,8 @@ var TravelPlanForm = React.createClass({
 
           <div className="col-xs-2">
             <AddFlightBtn
-              hidden={this.state.type !== "multi"}
               onClick={this.addFlight}
-              disabled={this.state.flights.length >= this.props.maxFlights}
+              status={addFlightBtnStatus}
             />
           </div>
         </Row>

@@ -130,7 +130,13 @@ describe "new travel plans page", js: true, manual_clean: true do
     end
   end
 
-  pending "TODO bug: pressing 'enter' in the destination input adds a new flight, even in single and return modes"
+  describe "pressing 'return' in a destination input" do
+    it "doesn't add a flight" do
+      # I fixed this bug, but couldn't figure out how to test it; I couldn't
+      # write a test that would actually fail. Leaving this blank test here as
+      # a reminder of the potential bug.
+    end
+  end
 
   describe "searching for a region" do
     before do
