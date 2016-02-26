@@ -2,6 +2,7 @@ require "rails_helper"
 
 # Page is rendered with React.js; all tests must activate Javascript
 describe "new travel plans page", js: true, manual_clean: true do
+  include AirportMacros
 
   subject { page }
 
@@ -10,10 +11,6 @@ describe "new travel plans page", js: true, manual_clean: true do
   let(:submit) { click_button "Save" }
 
   before(:all) do
-    def create_airport(name, code, parent)
-      create(:airport, name: name, code: code, parent: parent)
-    end
-
     @eu = create(:region, name: "Europe")
     @us = create(:region, name: "United States")
     @as = create(:region, name: "Asia")

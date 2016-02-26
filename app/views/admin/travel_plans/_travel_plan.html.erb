@@ -17,7 +17,7 @@
   </div>
 
   <% plan.flights.each do |flight| %>
-    <div id="<%= dom_id(flight) %>">
+    <div id="<%= dom_id(flight) %>" class="<%= dom_class(flight) %>">
       <%= fa_icon "plane" %>
 
       <%# use `dom_id`, even though it's for the HTML class, because %>

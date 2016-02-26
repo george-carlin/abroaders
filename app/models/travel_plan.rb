@@ -26,7 +26,7 @@ class TravelPlan < ApplicationRecord
   # Associations
 
   belongs_to :user
-  has_many :flights
+  has_many :flights, -> { order("position ASC") }
 
   accepts_nested_attributes_for :flights
 
