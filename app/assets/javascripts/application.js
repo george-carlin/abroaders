@@ -19,7 +19,6 @@
 //= require jquery.tablesorter
 //= require es5-shim
 //= require underscore
-//= require ready
 //= require react
 //= require react_ujs
 //= require components

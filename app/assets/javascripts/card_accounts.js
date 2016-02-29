@@ -1,4 +1,4 @@
-window.ready(function () {
+$(document).ready(function () {
 
   function toggleStage1Btns(accountId, show) {
     var css = show ? "" : "none";
