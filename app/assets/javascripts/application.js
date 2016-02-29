@@ -10,16 +10,17 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+// TODO we're loading too much goddam javascript! And I'm sure some
+// of this isn't even being used.
+//
 //= require jquery2
 //= require jquery_ujs
 //= require bootstrap.min
-//= require bootstrap3-typeahead-custom
 //= require bloodhound
 //= require bootstrap-datepicker
 //= require jquery.tablesorter
 //= require es5-shim
 //= require underscore
-//= require react
-//= require react_ujs
-//= require components
-//= require_tree .
+//= require_tree ./extensions
+//= require components/load
+//= require_tree ./other

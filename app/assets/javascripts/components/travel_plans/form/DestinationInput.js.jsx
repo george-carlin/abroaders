@@ -1,3 +1,5 @@
+var React = require('react');
+
 var DestinationInput = React.createClass({
 
   propTypes: {
@@ -129,3 +131,5 @@ var DestinationInput = React.createClass({
   }
 
 });
+
+module.exports = DestinationInput;

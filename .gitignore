@@ -19,3 +19,5 @@
 config/application.yml
 
 spec/.examples.txt
+
+node_modules

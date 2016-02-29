@@ -7,9 +7,8 @@ var CardRecommendationActions = React.createClass({
     accountId:   React.PropTypes.number.isRequired,
     applyPath:   React.PropTypes.string.isRequired,
     declinePath: React.PropTypes.string.isRequired,
-    status: React.PropTypes.oneOf([
-      <%= CardAccount.statuses.keys.map { |s| "'#{s}'" }.join(",") %>
-    ]).isRequired,
+    // CardAccountStatuses is defined in load.js.erb:
+    status: React.PropTypes.oneOf([CardAccountStatuses]).isRequired,
   },
 
   clickedDecline() {

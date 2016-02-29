@@ -1,17 +1,26 @@
-function CardApplyBtn(props) {
-  return (
-    <a
-      id={`card_account_${props.accountId}_apply_btn`}
-      href={props.path}
-      className="card_account_apply_btn btn btn-primary btn-sm"
-      target="_blank"
-    >
-      Apply
-    </a>
-  );
-};
+var React = require('react');
 
-CardApplyBtn.propTypes = {
-  accountId: React.PropTypes.number.isRequired,
-  path:      React.PropTypes.string.isRequired,
-};
+var CardApplyBtn = React.createClass({
+
+  propTypes: {
+    accountId: React.PropTypes.number.isRequired,
+    path:      React.PropTypes.string.isRequired,
+  },
+
+
+  render() {
+    return (
+      <a
+        id={`card_account_${this.props.accountId}_apply_btn`}
+        href={this.props.path}
+        className="card_account_apply_btn btn btn-primary btn-sm"
+        target="_blank"
+      >
+        Apply
+      </a>
+    );
+  },
+
+});
+
+module.exports = CardApplyBtn;

@@ -17,6 +17,7 @@ class TravelPlansController < NonAdminController
 
   def create
     @travel_plan = current_user.travel_plans.new(travel_plan_params)
+    @travel_plan.flights.each_with_index { |f, i| f.position = i }
     # TODO replace this hardcoded value!
     @travel_plan.departure_date_range = Date.today..Date.tomorrow
     if @travel_plan.save

@@ -1,0 +1,25 @@
+//= require_self
+//= require react_ujs
+
+window.React = require("react");
+
+var CardAccountStatuses = [
+  <%= CardAccount.statuses.keys.map { |s| "'#{s}'" }.join(",") %>
+]
+
+window.LoadingSpinner     = require("./LoadingSpinner.js.jsx");
+window.CardApplyBtn       = require("./card_recommendations/CardApplyBtn");
+window.CardDeclineActions = require("./card_recommendations/CardDeclineActions");
+window.CardDeclineForm    = require("./card_recommendations/CardDeclineForm");
+window.SubmitTag          = require("./forms/SubmitTag");
+window.AuthTokenField     = require("./forms/fields/AuthTokenField");
+window.NumberFieldTag     = require("./forms/fields/NumberFieldTag");
+window.Row                = require("./grid/Row");
+window.AddFlightBtn       = require("./travel_plans/form/AddFlightBtn");
+window.DateRangeSelect    = require("./travel_plans/form/DateRangeSelect");
+window.DestinationInput   = require("./travel_plans/form/DestinationInput");
+window.FlightFields       = require("./travel_plans/form/FlightFields");
+window.RemoveFlightBtn    = require("./travel_plans/form/RemoveFlightBtn");
+window.TravelPlanForm     = require("./travel_plans/form/TravelPlanForm");
+window.TravelPlanTypeRadio  = require("./travel_plans/form/TravelPlanTypeRadio");
+window.TravelPlanTypeRadios = require("./travel_plans/form/TravelPlanTypeRadios");

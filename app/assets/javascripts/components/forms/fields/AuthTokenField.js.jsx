@@ -1,13 +1,20 @@
-function AuthTokenField(props) {
-  return (
-    <input
-      name="authenticity_token"
-      type="hidden"
-      value={props.value}
-    />
-  );
-};
+var React = require('react');
 
-AuthTokenField.propTypes = {
-  value: React.PropTypes.string
-};
+var AuthTokenField = React.createClass({
+
+  propTypes: {
+    value: React.PropTypes.string
+  },
+
+  render() {
+    return (
+      <input
+        name="authenticity_token"
+        type="hidden"
+        value={this.props.value}
+      />
+    );
+  },
+});
+
+module.exports = AuthTokenField;

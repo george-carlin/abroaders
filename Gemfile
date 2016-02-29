@@ -28,6 +28,8 @@ gem 'virtus'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+gem 'browserify-rails'
+
 # Required to make the app function properly on Heroku:
 group :production do
   gem 'rails_12factor'

@@ -1,3 +1,5 @@
+var React = require('react');
+
 var CardDeclineForm = React.createClass({
   getInitialState() {
     return {
@@ -84,3 +86,5 @@ var CardDeclineForm = React.createClass({
 
 });
 
+
+module.exports = CardDeclineForm;

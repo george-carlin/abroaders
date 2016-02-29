@@ -1,3 +1,5 @@
+var React = require('react');
+
 var TravelPlanForm = React.createClass({
   propTypes: {
     defaultType: React.PropTypes.string.isRequired,
@@ -163,3 +165,5 @@ var TravelPlanForm = React.createClass({
     )
   }
 });
+
+module.exports = TravelPlanForm;

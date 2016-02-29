@@ -1,20 +1,29 @@
-function SubmitTag(props) {
-  return (
-    <input
-      className="SubmitTag btn btn-primary"
-      defaultValue={props.value}
-      disabled={props.disabled}
-      type="submit"
-    />
-  );
-};
+var React = require('react');
 
-SubmitTag.defaultProps = {
-  disabled: false,
-  value:    "Save changes",
-};
+var SubmitTag = React.createClass({
 
-SubmitTag.propTypes = {
-  disabled: React.PropTypes.bool,
-  value:    React.PropTypes.string,
-};
+  propTypes: {
+    disabled: React.PropTypes.bool,
+    value:    React.PropTypes.string,
+  },
+
+  getDefaultProps() {
+    return {
+      disabled: false,
+      value:    "Save changes",
+    };
+  },
+
+  render() {
+    return (
+      <input
+        className="SubmitTag btn btn-primary"
+        defaultValue={this.props.value}
+        disabled={this.props.disabled}
+        type="submit"
+      />
+    );
+  },
+});
+
+module.exports = SubmitTag;

@@ -27,5 +27,9 @@ module Abroaders
 
     config.generators.jbuilder = false
 
+    config.react.addons = true
+
+    config.browserify_rails.commandline_options = "--transform reactify --extension=\".jsx\""
+    config.browserify_rails.commandline_options = "--transform reactify --extension=\".js.jsx\""
   end
 end
