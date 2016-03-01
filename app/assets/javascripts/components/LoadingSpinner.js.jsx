@@ -18,4 +18,4 @@ var LoadingSpinner = React.createClass({
   },
 })
 
-module.exports = LoadingSpinner
+module.exports = LoadingSpinner;
