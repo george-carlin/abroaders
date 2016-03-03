@@ -1,9 +1,16 @@
-var sampleData = [
+const sampleData = [
   "Dave", "Robert", "Jimmy", "John", "Paul", "Kevin", "Mike", "Sarah", "Susan",
   "Drew", "Taylor", "Sue", "Claire", "Joanna",
 ];
 
-var TypeaheadDropdownMenu = React.createClass({
+window.React    = require("react");
+window.ReactDOM = require("react-dom");
+window.React     = require("react/addons");
+window.TestUtils = React.addons.TestUtils;
+
+console.log(ReactDOM);
+
+const TypeaheadDropdownMenu = React.createClass({
 
   propTypes: {
     activeItemIndex: React.PropTypes.number.isRequired,
