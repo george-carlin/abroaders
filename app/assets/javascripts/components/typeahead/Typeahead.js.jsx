@@ -4,7 +4,11 @@ const Typeahead = React.createClass({
 
   propTypes: {
     maxItemsToShow: React.PropTypes.number,
-    minLength:      React.PropTypes.number,
+    minLength: (props, propName, componentName) => {
+      if (!(typeof props[propName] === "number" && props[propName] >= 1)) {
+        return new Error(propName + " must be greater than 0");
+      }
+    },
   },
 
 
