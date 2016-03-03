@@ -1,0 +1,6 @@
+{
+  "name": "TypeaheadDropdownMenu",
+  "version": "0.0.1",
+  "private": true,
+  "main": "./TypeaheadDropdownMenu.js.jsx"
+}
