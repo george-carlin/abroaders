@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.3.0'
 
-gem 'rails', '>= 5.0.0.beta2', '< 5.1'
+gem 'rails', '>= 5.0.0.beta3', '< 5.1'
 
 gem 'font-awesome-rails'
 gem 'active_model_serializers', '~> 0.10.0.rc3'
