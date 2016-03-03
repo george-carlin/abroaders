@@ -13,24 +13,26 @@ const TypeaheadItem = React.createClass({
     const query = this.props.query;
     var   item  = this.props.text;
 
-    var   i = item.toLowerCase().indexOf(query.toLowerCase());
-    var   leftPart, middlePart, rightPart, els;
+    var i = item.toLowerCase().indexOf(query.toLowerCase());
+    var leftPart, middlePart, rightPart, key;
     const len = query.length;
 
     if (len === 0){
       els = item;
     } else {
+      key = 0;
       els = [];
       while (i > -1) {
         leftPart   = item.substr(0, i);
         middlePart = item.substr(i, len);
         rightPart  = item.substr(i + len);
-        els.push(leftPart);
-        els.push(<strong>{middlePart}</strong>);
+        els.push(<span key={key}>{leftPart}</span>);
+        els.push(<strong key={key + 1}>{middlePart}</strong>);
+        key += 2;
         item = rightPart;
         i = item.toLowerCase().indexOf(query.toLowerCase());
       }
-      els.push(item);
+      els.push(<span key={key}>{item}</span>);
     }
     return els;
   },
@@ -39,7 +41,7 @@ const TypeaheadItem = React.createClass({
   render() {
     return (
       <li
-        className={this.props.active ? "active" : ""}
+        className={`TypeaheadItem ${this.props.active ? "active" : ""}`}
         {...this.props}
       >
         <a className="dropdown-item" href="#" role="option">
