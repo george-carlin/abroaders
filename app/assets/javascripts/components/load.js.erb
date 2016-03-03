@@ -7,7 +7,7 @@ var CardAccountStatuses = [
   <%= CardAccount.statuses.keys.map { |s| "'#{s}'" }.join(",") %>
 ]
 
-window.LoadingSpinner     = require("./LoadingSpinner.js.jsx");
+window.LoadingSpinner     = require("./LoadingSpinner");
 window.CardApplyBtn       = require("./card_recommendations/CardApplyBtn");
 window.CardDeclineActions = require("./card_recommendations/CardDeclineActions");
 window.CardDeclineForm    = require("./card_recommendations/CardDeclineForm");
