@@ -1,4 +1,6 @@
-var Typeahead = React.createClass({
+const React = require("react");
+
+const Typeahead = React.createClass({
 
   propTypes: {
     maxItemsToShow: React.PropTypes.number,

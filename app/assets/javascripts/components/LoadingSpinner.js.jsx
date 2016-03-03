@@ -1,10 +1,10 @@
-var React = require('react');
+const React = require("react");
 
-var LoadingSpinner = React.createClass({
+const LoadingSpinner = React.createClass({
 
   propTypes: { hidden: React.PropTypes.bool },
 
-  getDefaultProps() { return { hidden: false } },
+  getDefaultProps() { return { hidden: false }; },
 
   render() {
     return (
@@ -16,6 +16,6 @@ var LoadingSpinner = React.createClass({
       </div>
     );
   },
-})
+});
 
 module.exports = LoadingSpinner;

@@ -14,7 +14,7 @@ var TypeaheadDropdownMenu = React.createClass({
     items: React.PropTypes.array.isRequired,
   },
 
-  
+
   getDefaultProps() {
     return {
       hidden: true,
@@ -90,7 +90,7 @@ var TypeaheadDropdownMenu = React.createClass({
     });
 
     // We need to clone the style object or React raises an error:
-    var style = _.clone(this.getStyle());
+    const style = _.clone(this.getStyle());
 
     return (
       <ul
