@@ -1,4 +1,8 @@
 const React = require("react");
+const $     = require("jquery");
+
+const LoadingSpinner = require("../LoadingSpinner");
+const TypeaheadDropdownMenu = require("../TypeaheadDropdownMenu");
 
 const Typeahead = React.createClass({
 
@@ -36,7 +40,6 @@ const Typeahead = React.createClass({
 
 
   onInputBlur() {
-    console.log("onInputBlur");
     var newState = { inputFocused: false };
     if (!this.state.inputMousedover) newState.showDropdown = false;
     this.setState(newState);
@@ -49,7 +52,6 @@ const Typeahead = React.createClass({
 
 
   onInputFocus() {
-    console.log("onInputFocus");
     this.setState({ inputFocused: true });
   },
 
@@ -70,12 +72,16 @@ const Typeahead = React.createClass({
       }
 
       if (e.keyCode === 38) { // up arrow
+        // Highlight the next item up. If the top item is highlighted, loop
+        // around to the bottom item.
         if (this.state.activeItemIndex === 0) {
           this.setState({ activeItemIndex: resultsLength - 1 });
         } else {
           this.setState({ activeItemIndex: this.state.activeItemIndex - 1 })
         }
       } else if (e.keyCode === 40) { // down arrow
+        // Highlight the next item down. If the bottom item is highlighted,
+        // loop around to the top item.
         if (this.state.activeItemIndex == resultsLength - 1) {
           this.setState({ activeItemIndex: 0 })
         } else {
@@ -89,7 +95,6 @@ const Typeahead = React.createClass({
   onInputKeyPress(e) {
     // Remember, the input is the one that receives the keys, even when
     // scrolling up and down the menu and selecting a result.
-    // console.log("keypress: " + e.keyCode);
     switch (e.charCode) {
       case 38: // up arrow
       case 40: // down arrow
@@ -100,10 +105,8 @@ const Typeahead = React.createClass({
 
       case  9: // tab
       case 13: // enter
-        console.log("tab or enter");
         if (!this.state.showDropdown) return;
-        console.log("about to select:")
-        this.select();
+        this.select(this.state.items[this.state.activeItemIndex]);
         break;
 
       case 27: // escape
@@ -114,15 +117,12 @@ const Typeahead = React.createClass({
 
 
   onMenuClick(e) {
-    console.log("onMenuClick");
     e.preventDefault();
-    this.select();
+    this.select(e.target.textContent);
   },
 
 
   onMenuItemMouseEnter(e) {
-    // console.log("onMenuItemMouseEnter");
-    // console.log("setting activeItemIndex to " + $(e.currentTarget).index());
     this.setState({
       activeItemIndex: $(e.currentTarget).index(),
       inputMousedover: true,
@@ -131,7 +131,7 @@ const Typeahead = React.createClass({
 
 
   onMenuItemMouseLeave() {
-    var newState = { inputMousedover: false }; 
+    var newState = { inputMousedover: false };
     if (!this.state.inputFocused) newState.showDropdown = false;
     this.setState(newState);
   },
@@ -146,22 +146,19 @@ const Typeahead = React.createClass({
   },
 
 
-  select() {
+  select(item) {
     this.setState({
       activeItemIndex: 0,
       isSearching:  false,
       items:        [],
-      result:      this.state.items[this.state.activeItemIndex],
+      result:       item,
       showDropdown: false,
     });
   },
 
 
   render() {
-    // console.log(JSON.stringify(this.state));
     var value = this.state.isSearching ? this.state.query : this.state.result;
-    // console.log("isSearching: " + this.state.isSearching)
-    // console.log("value: " + value)
     return (
       <div className="Typeahead">
         <input
@@ -174,6 +171,7 @@ const Typeahead = React.createClass({
           onKeyPress={this.onInputKeyPress}
           value={value}
         />
+        <LoadingSpinner hidden={!this.state.isLoading} />
 
         <TypeaheadDropdownMenu
           activeItemIndex={this.state.activeItemIndex}
@@ -191,3 +189,5 @@ const Typeahead = React.createClass({
   },
 
 });
+
+module.exports = Typeahead;
