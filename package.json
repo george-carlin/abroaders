@@ -19,17 +19,28 @@
   "jest": {
     "rootDir": "./app/assets/javascripts/components",
     "scriptPreprocessor": "<rootDir>/__tests__/preprocessor.js",
-    "moduleFileExtensions": [ "js", "jsx"],
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
     "unmockedModulePathPatterns": [
       "react",
       "fbjs",
       "react-dom",
       "react-addons-test-utils"
     ],
-    "testFileExtensions": ["js", "jsx"],
-    "testPathIgnorePatterns": [ "preprocessor.js" ]
+    "testFileExtensions": [
+      "js",
+      "jsx"
+    ],
+    "testPathIgnorePatterns": [
+      "preprocessor.js"
+    ]
   },
   "engines": {
     "node": ">=0.10.0"
+  },
+  "dependencies": {
+    "bloodhound-js": "^1.2.1"
   }
 }
