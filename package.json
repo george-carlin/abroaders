@@ -24,10 +24,12 @@
       "jsx"
     ],
     "unmockedModulePathPatterns": [
-      "react",
       "fbjs",
+      "jquery",
+      "react",
+      "react-addons-test-utils",
       "react-dom",
-      "react-addons-test-utils"
+      "underscore"
     ],
     "testFileExtensions": [
       "js",

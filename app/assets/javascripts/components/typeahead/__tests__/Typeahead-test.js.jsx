@@ -5,8 +5,6 @@ jest.dontMock("../Typeahead.js.jsx");
 jest.dontMock("../../LoadingSpinner/LoadingSpinner.js.jsx");
 jest.dontMock("../../TypeaheadDropdownMenu/TypeaheadDropdownMenu.js.jsx");
 jest.dontMock("../../TypeaheadItem/TypeaheadItem.js.jsx");
-jest.dontMock("underscore");
-jest.dontMock("jquery");
 
 const Typeahead = require("../Typeahead.js.jsx");
 

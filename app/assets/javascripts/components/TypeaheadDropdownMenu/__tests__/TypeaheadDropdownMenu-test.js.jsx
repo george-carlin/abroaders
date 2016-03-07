@@ -1,6 +1,3 @@
-jest.dontMock("underscore");
-jest.dontMock("jquery");
-
 jest.dontMock("../TypeaheadDropdownMenu.js.jsx");
 jest.dontMock("../../TypeaheadItem")
 
