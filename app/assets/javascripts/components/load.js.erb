@@ -1,7 +1,8 @@
 //= require_self
 //= require react_ujs
 
-window.React = require("react");
+window.React     = require("react");
+window.ReactDOM  = require("react-dom");
 
 var CardAccountStatuses = [
   <%= CardAccount.statuses.keys.map { |s| "'#{s}'" }.join(",") %>
@@ -23,3 +24,7 @@ window.RemoveFlightBtn    = require("./travel_plans/form/RemoveFlightBtn");
 window.TravelPlanForm     = require("./travel_plans/form/TravelPlanForm");
 window.TravelPlanTypeRadio  = require("./travel_plans/form/TravelPlanTypeRadio");
 window.TravelPlanTypeRadios = require("./travel_plans/form/TravelPlanTypeRadios");
+
+window.Typeahead             = require("./Typeahead");
+window.TypeaheadDropdownMenu = require("./TypeaheadDropdownMenu");
+window.TypeaheadItem         = require("./TypeaheadItem");

@@ -1,8 +1,10 @@
 const React = require("react");
 const $     = require("jquery");
 
-const LoadingSpinner = require("../LoadingSpinner");
-const TypeaheadDropdownMenu = require("../TypeaheadDropdownMenu");
+const DestinationSearchEngine =
+  require("../../modules/DestinationSearchEngine");
+const LoadingSpinner          = require("../LoadingSpinner");
+const TypeaheadDropdownMenu   = require("../TypeaheadDropdownMenu");
 
 const Typeahead = React.createClass({
 
@@ -18,8 +20,15 @@ const Typeahead = React.createClass({
 
   getDefaultProps() {
     return {
+      // Note: if you change this, you'll probably need to change the 'limit'
+      // line in DestinationSearchEngine too:
       maxItemsToShow: 8,
       minLength:      1,
+      // Use a default prop for this so we can override it with a mock
+      // during testing:
+      source: (a,b,c,d,e) => {
+        DestinationSearchEngine.search(a,b,c,d,e);
+      },
     };
   },
 
@@ -31,6 +40,7 @@ const Typeahead = React.createClass({
       inputMousedover: false, // TODO what if m is over when component renders?
       result:          "",
       query:           "",
+      isLoading:       false,
       isSearching:     false,
       items:           [],
       showDropdown:    false,
@@ -47,7 +57,14 @@ const Typeahead = React.createClass({
 
 
   onInputChange(e) {
-    this.setState({ isSearching: true, query: e.target.value });
+    var query = e.target.value.trim().toLowerCase();
+
+    // skip if query is unchanged
+    if (this.state.query.trim().toLowerCase === query) return;
+
+    if (query.length < this.props.queryMinLength) return;
+
+    this.search(query);
   },
 
 
@@ -56,7 +73,6 @@ const Typeahead = React.createClass({
   },
 
 
-  // TODO what to do with this?
   onInputKeyDown(e) {
     var suppress = ~$.inArray(e.keyCode, [40,38,9,13,27]);
     this.setState({ suppressKeyPressRepeat: suppress });
@@ -93,6 +109,7 @@ const Typeahead = React.createClass({
 
 
   onInputKeyPress(e) {
+    if (this.state.suppressKeyPressRepeat) return;
     // Remember, the input is the one that receives the keys, even when
     // scrolling up and down the menu and selecting a result.
     switch (e.charCode) {
@@ -157,6 +174,39 @@ const Typeahead = React.createClass({
   },
 
 
+  search(query) {
+    const that = this;
+
+    this.setState({
+      isLoading:   true,
+      isSearching: true,
+      query:       query,
+    });
+
+    this.props.source(
+      query,
+      // This first callback is passed any results that bloodhound pulls from
+      // the local cache. At the moment we're not caching anything locally
+      // (which we should! TODO), so this callback will always be passed an
+      // empty array; so just make it a noop for now:
+      $.noop,
+      // This callback will be called asynchronously with any results that
+      // DestinationSearchEngine pulls from the API (via bloodhound).
+      (results) => {
+        // Bloodhound is done searching, so hide the loading spinner:
+        this.setState({isLoading: false });
+        this.processSearchResults(results);
+      }
+    )
+
+    // The actual results will be handled in the 'processSynchronously' and
+    // 'processAsynchronously' callbacks that were passed to `bloodhound`
+    // above. In the meantime just return an empty array (because we
+    // haven't loaded any results at this point):
+    return [];
+  },
+
+
   render() {
     var value = this.state.isSearching ? this.state.query : this.state.result;
     return (
@@ -177,7 +227,7 @@ const Typeahead = React.createClass({
           activeItemIndex={this.state.activeItemIndex}
           hidden={!this.state.showDropdown}
           items={this.state.items}
-          processSearchResults={this.processSearchResults}
+          maxItemsToShow={this.props.maxItemsToShow}
           onClick={this.onMenuClick}
           onItemMouseEnter={this.onMenuItemMouseEnter}
           onItemMouseLeave={this.onMenuItemMouseLeave}

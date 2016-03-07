@@ -16,7 +16,6 @@
 //= require jquery2
 //= require jquery_ujs
 //= require bootstrap.min
-//= require bloodhound
 //= require bootstrap-datepicker
 //= require jquery.tablesorter
 //= require es5-shim

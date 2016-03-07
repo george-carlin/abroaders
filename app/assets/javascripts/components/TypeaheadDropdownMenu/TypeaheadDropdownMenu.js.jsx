@@ -2,13 +2,6 @@ const React = require("react");
 const _ = require("underscore");
 const $ = require("jquery");
 
-// TODO delete me once we've set 'source' up properly:
-
-const sampleData = [
-  "Dave", "Robert", "Jimmy", "John", "Paul", "Kevin", "Mike", "Sarah", "Susan",
-  "Drew", "Taylor", "Sue", "Claire", "Joanna",
-];
-
 const TypeaheadItem = require("../TypeaheadItem")
 
 const TypeaheadDropdownMenu = React.createClass({
@@ -39,25 +32,6 @@ const TypeaheadDropdownMenu = React.createClass({
     };
   },
 
-
-  componentWillReceiveProps(newProps) {
-    const source = (query) => {
-      var items = _.select(sampleData, (name) => {
-        return name.toLowerCase().indexOf(query.toLowerCase()) > -1;
-      });
-      this.props.processSearchResults(items);
-    };
-
-    const query = newProps.query;
-    if (newProps.query === this.props.query) return; // query is unchanged
-
-    if (newProps.query.length < this.props.queryMinLength) {
-      return this;
-      // TODO return this.shown ? this.hide() : this;
-    }
-
-    source(newProps.query);
-  },
 
 
   getStyle() {
@@ -97,7 +71,7 @@ const TypeaheadDropdownMenu = React.createClass({
                 key={index}
                 onMouseEnter={this.props.onItemMouseEnter}
                 onMouseLeave={this.props.onItemMouseLeave}
-                text={item}
+                text={item.name}
                 query={this.props.query}
               />
             );
