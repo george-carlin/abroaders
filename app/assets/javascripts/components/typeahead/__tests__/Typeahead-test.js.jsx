@@ -51,7 +51,7 @@ describe("Typeahead", () => {
     TestUtils.Simulate.keyPress(input, getKeyEvent(key));
   };
 
-  var typeahead, props, menu, input;
+  var typeahead, props, menu, input, loadingSpinner;
 
   beforeEach(() => {
     jasmine.clock().uninstall();
@@ -100,6 +100,7 @@ describe("Typeahead", () => {
     );
     menu  = typeahead.querySelector(".TypeaheadDropdownMenu");
     input = typeahead.querySelector(".TypeaheadInput");
+    loadingSpinner = typeahead.querySelector(".LoadingSpinner");
   });
 
 
@@ -110,6 +111,23 @@ describe("Typeahead", () => {
 
 
   describe("typing in a search query", () => {
+    xit("shows the loading spinner", (done) => {
+      // // TODO it's working, but can't figure out how to test it. Below is my
+      // // aborted attempt at an extremely hacky solution:
+      //
+      // const realClock = jasmine.clock;
+      // jasmine.clock = () => {
+      //   return {
+      //     tick() {
+      //       expect(loadingSpinner.style.display).not.toEqual("none");
+      //       realClock().tick(1);
+      //     }
+      //   };
+      // };
+      // typeQuery("a");
+      // jasmine.clock = realClock;
+    });
+
     describe("that returns no results", () => {
       it("does not show the dropdown menu", (done) => {
         this.globalDone = done;
