@@ -20,7 +20,6 @@ gem 'sass-rails'
 gem 'searchlight'
 gem 'uglifier', '>= 1.3.0'
 gem 'will_paginate-bootstrap', '~> 1.0.1'
-gem 'virtus'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
