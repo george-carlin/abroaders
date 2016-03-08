@@ -1,6 +1,9 @@
-var React = require('react');
+const React = require('react');
 
-var CardDeclineForm = React.createClass({
+const AuthTokenField = require("../AuthTokenField");
+const Button          = require("../Button");
+
+const CardDeclineForm = React.createClass({
   getInitialState() {
     return {
       csrfToken:        "",
@@ -62,19 +65,23 @@ var CardDeclineForm = React.createClass({
             value={this.state.declineMessage}
           />
         </div>
-        <button
-          className="btn btn-default btn-sm"
+        <Button
+          className="card_account_cancel_decline_btn"
+          default
           id={`card_account_${this.props.accountId}_cancel_decline_btn`}
           onClick={this.props.onClickCancel}
+          small
         >
           Cancel
-        </button>
-        <button
-          className="btn btn-primary btn-sm"
+        </Button>
+        <Button
+          className="card_account_confirm_decline_btn"
           id={`card_account_${this.props.accountId}_confirm_decline_btn`}
+          primary
+          small
         >
           Confirm
-        </button>
+        </Button>
 
         {this.state.showErrorMessage ?
           <span className="decline_card_recommendation_error_message">
@@ -85,6 +92,5 @@ var CardDeclineForm = React.createClass({
   }
 
 });
-
 
 module.exports = CardDeclineForm;

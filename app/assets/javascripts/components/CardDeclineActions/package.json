@@ -1,0 +1,6 @@
+{
+  "name": "CardDeclineActions",
+  "version": "0.0.1",
+  "private": true,
+  "main": "./CardDeclineActions.js.jsx"
+}

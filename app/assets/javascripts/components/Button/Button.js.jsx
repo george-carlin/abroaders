@@ -11,7 +11,7 @@ const Button = React.createClass({
     if (!props.className) props.className = "";
 
     const classes = props.className.split(/\s+/)
-    
+
     if (!_.includes(classes, "btn")) props.className += " btn";
 
     if (props.small && !_.includes(classes, "btn-sm")) {

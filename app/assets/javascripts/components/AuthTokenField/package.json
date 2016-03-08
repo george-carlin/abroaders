@@ -1,0 +1,6 @@
+{
+  "name": "AuthTokenField",
+  "version": "0.0.1",
+  "private": true,
+  "main": "./AuthTokenField.js.jsx"
+}

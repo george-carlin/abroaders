@@ -1,6 +1,9 @@
-var React = require('react');
+const React = require('react');
 
-var CardDeclineActions = React.createClass({
+const Button          = require("../Button");
+const CardDeclineForm = require("../CardDeclineForm");
+
+const CardDeclineActions = React.createClass({
 
   propTypes: {
     accountId:       React.PropTypes.number.isRequired,
@@ -12,10 +15,8 @@ var CardDeclineActions = React.createClass({
 
 
   render() {
-    var formOrButton;
-
     if (this.props.isDeclining) {
-      formOrButton = (
+      return (
         <CardDeclineForm
           accountId={this.props.accountId}
           declinePath={this.props.declinePath}
@@ -23,20 +24,18 @@ var CardDeclineActions = React.createClass({
         />
       );
     } else {
-      formOrButton = (
-        <button
+      return (
+        <Button
+          className="card_account_decline_btn"
+          default
           id={`card_account_${this.props.accountId}_decline_btn`}
-          className="card_account_decline_btn btn btn-default btn-sm"
           onClick={this.props.onClickDecline}
+          small
         >
           No Thanks
-        </button>
+        </Button>
       );
     }
-
-    return (
-      <div>{formOrButton}</div>
-    );
   },
 
 });

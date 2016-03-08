@@ -1,4 +1,11 @@
-var CardRecommendationActions = React.createClass({
+const React = require("react");
+
+const CardApplyBtn       = require("../CardApplyBtn");
+const CardDeclineActions = require("../CardDeclineActions");
+
+const CardAccountStatuses = ["unknown", "recommended", "declined", "applied", "denied", "open", "closed"];
+
+const CardRecommendationActions = React.createClass({
   getInitialState() {
     return { isDeclining: false }
   },
@@ -8,7 +15,7 @@ var CardRecommendationActions = React.createClass({
     applyPath:   React.PropTypes.string.isRequired,
     declinePath: React.PropTypes.string.isRequired,
     // CardAccountStatuses is defined in load.js.erb:
-    status: React.PropTypes.oneOf([CardAccountStatuses]).isRequired,
+    status: React.PropTypes.oneOf(CardAccountStatuses).isRequired,
   },
 
   clickedDecline() {
@@ -22,7 +29,7 @@ var CardRecommendationActions = React.createClass({
 
   render() {
     return (
-      <div>
+      <div className="CardRecommendationActions">
         {this.state.isDeclining ? false :
           <CardApplyBtn
             accountId={this.props.accountId}
@@ -43,3 +50,4 @@ var CardRecommendationActions = React.createClass({
 
 })
 
+module.exports = CardRecommendationActions;
