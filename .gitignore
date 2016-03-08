@@ -21,3 +21,5 @@ config/application.yml
 spec/.examples.txt
 
 node_modules
+
+config/database.yml
