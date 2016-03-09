@@ -10,7 +10,6 @@
   ]
 
   window.SubmitTag          = require("./forms/SubmitTag");
-  window.AuthTokenField     = require("./forms/fields/AuthTokenField");
   window.NumberFieldTag     = require("./forms/fields/NumberFieldTag");
   window.Row                = require("./grid/Row");
   window.AddFlightBtn       = require("./travel_plans/form/AddFlightBtn");
@@ -25,6 +24,7 @@
   // We don't need to require *every* React component in this file, just the
   // ones that are required at the 'top level' by the react_component ruby
   // helper:
+  w.AuthTokenField            = require("./AuthTokenField");
   w.Button                    = require("./Button");
   w.CardRecommendationActions = require("./CardRecommendationActions");
   w.LoadingSpinner            = require("./LoadingSpinner");

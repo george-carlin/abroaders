@@ -1,7 +1,7 @@
 {
   "name": "Abroaders",
   "devDependencies": {
-    "browserify": "~>6.3",
+    "browserify": "~>10.2.4",
     "browserify-incremental": "^1.4.0",
     "eslint": "^2.2.0",
     "eslint-config-airbnb": "^6.0.2",
