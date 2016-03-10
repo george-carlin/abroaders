@@ -14,8 +14,6 @@ describe "signing up" do
   describe "submitting the form" do
     let(:submit_form) { click_button "Sign up" }
 
-    # The external HTTP calls to Stripe on the front and back ends are all
-    # stubbed out with the magic of stripe-ruby-mock.
     describe "with valid user information" do
       before do
         fill_in :user_email, with: "testuser@example.com"
