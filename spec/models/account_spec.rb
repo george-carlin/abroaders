@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe User do
+describe Account do
 
   %i[
     business_spending
@@ -29,18 +29,18 @@ describe User do
   end
 
   describe "#survey_complete?" do
-    let(:user) { build_stubbed(:user) }
-    subject { user.survey_complete? }
+    let(:account) { build_stubbed(:account) }
+    subject { account.survey_complete? }
 
-    context "when the user" do
+    context "when the account" do
       context "has not completed any part of the survey" do
         it { is_expected.to be_falsey }
       end
 
       context "has completed the main survey" do
         before do
-          user.build_survey
-          allow(user.survey).to receive(:persisted?).and_return true
+          account.build_survey
+          allow(account.survey).to receive(:persisted?).and_return true
         end
 
         context "but not the cards survey" do
@@ -48,14 +48,14 @@ describe User do
         end
 
         context "and the cards survey" do
-          before { user.survey.has_added_cards = true }
+          before { account.survey.has_added_cards = true }
 
           context "but not the balances survey" do
             it { is_expected.to be_falsey }
           end
 
           context "and the balances survey" do
-            before { user.survey.has_added_balances = true }
+            before { account.survey.has_added_balances = true }
             it { is_expected.to be_truthy }
           end
         end
@@ -69,12 +69,12 @@ describe User do
 
   describe ".onboarded" do
     it "returns only non-admins who have completed the onboarding survey" do
-      create(:user)                         # no survey
-      create(:user, :completed_main_survey) # no card accounts
-      create(:user, :completed_card_survey) # no balances
+      create(:account)                         # no survey
+      create(:account, :completed_main_survey) # no card accounts
+      create(:account, :completed_card_survey) # no balances
       create(:admin)                        # admin
-      onboarded_user = create(:user, :survey_complete)
-      expect(User.onboarded).to match_array [onboarded_user]
+      onboarded_account = create(:account, :survey_complete)
+      expect(User.onboarded).to match_array [onboarded_account]
     end
   end
 end

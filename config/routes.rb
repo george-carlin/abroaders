@@ -1,21 +1,21 @@
 Rails.application.routes.draw do
-  devise_for :users, skip: [:sessions, :registrations]
+  devise_for :accounts, skip: [:sessions, :registrations]
 
-  devise_scope :user do
-    get    :sign_in, to: "devise/sessions#new",      as: :new_user_session
-    post   :sign_in, to: "devise/sessions#create",   as: :user_session
-    delete :sign_out, to: "devise/sessions#destroy", as: :destroy_user_session
+  devise_scope :account do
+    get    :sign_in, to: "devise/sessions#new",      as: :new_account_session
+    post   :sign_in, to: "devise/sessions#create",   as: :account_session
+    delete :sign_out, to: "devise/sessions#destroy", as: :destroy_account_session
     get :sign_up, to: "registrations#new"
 
-    post :sign_up, to: "registrations#create", as: :user_registration
-    get :sign_up,  to: "registrations#new", as: :new_user_registration
+    post :sign_up, to: "registrations#create", as: :account_registration
+    get :sign_up,  to: "registrations#new", as: :new_account_registration
 
-    get "users/cancel", to: "registrations#cancel", as: :cancel_user_registration
+    get "accounts/cancel", to: "registrations#cancel", as: :cancel_account_registration
 
     # TODO this probably won't work with the default Devise views
-    # post :users, to: "registrations#create", as: :user_registration
-    put  :users, to: "registrations#update"
-    delete :users, to: "registrations#destroy"
+    # post :accounts, to: "registrations#create", as: :account_registration
+    put  :accounts, to: "registrations#update"
+    delete :accounts, to: "registrations#destroy"
   end
 
   scope :survey, controller: :survey, as: :survey do
@@ -59,7 +59,7 @@ Rails.application.routes.draw do
       get type.pluralize, to: "destinations##{type}"
     end
 
-    resources :users do
+    resources :accounts do
       resources :card_accounts, as: :cards
       resources :card_recommendations, only: [:new, :create]
     end
@@ -67,7 +67,7 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
-      resources :users
+      resources :accounts
       resources :destinations, only: [] do
         collection do
           get :typeahead

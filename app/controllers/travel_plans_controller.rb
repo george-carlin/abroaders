@@ -1,7 +1,7 @@
 class TravelPlansController < NonAdminController
 
   def index
-    @travel_plans = current_user.travel_plans.includes(
+    @travel_plans = current_account.travel_plans.includes(
       flights: {
         # Is there really not a better way of doing this?
         from: { parent: { parent: { parent: :parent } } },
@@ -11,12 +11,12 @@ class TravelPlansController < NonAdminController
   end
 
   def new
-    @travel_plan = current_user.travel_plans.new
+    @travel_plan = current_account.travel_plans.new
     @travel_plan.flights.build
   end
 
   def create
-    @travel_plan = current_user.travel_plans.new(travel_plan_params)
+    @travel_plan = current_account.travel_plans.new(travel_plan_params)
     @travel_plan.flights.each_with_index { |f, i| f.position = i }
     # TODO replace this hardcoded value!
     @travel_plan.departure_date_range = Date.today..Date.tomorrow

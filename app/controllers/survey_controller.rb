@@ -1,12 +1,12 @@
 class SurveyController < NonAdminController
-  before_action { redirect_to root_path if current_user.survey_complete? }
+  before_action { redirect_to root_path if current_account.survey_complete? }
 
   def new
-    @survey = current_user.build_survey
+    @survey = current_account.build_survey
   end
 
   def create
-    @survey = current_user.build_survey(survey_params)
+    @survey = current_account.build_survey(survey_params)
     if @survey.save
       redirect_to survey_card_accounts_path
     else
@@ -23,23 +23,23 @@ class SurveyController < NonAdminController
     ActiveRecord::Base.transaction do
       CardAccount.unknown.create!(
         cards.map do |card|
-          { user: current_user, card: card}
+          { user: current_account, card: card}
         end
       )
-      current_user.survey.update_attributes!(has_added_cards: true)
+      current_account.survey.update_attributes!(has_added_cards: true)
     end
     redirect_to survey_balances_path
   end
 
   def new_balances
-    @survey = BalancesSurvey.new(current_user)
+    @survey = BalancesSurvey.new(current_account)
   end
 
   def create_balances
     # Example params:
     # { balances: [{currency_id: 2, value: 100}, {currency_id: 6, value: 500}] }
 
-    @survey = BalancesSurvey.new(current_user, balances_params)
+    @survey = BalancesSurvey.new(current_account, balances_params)
 
     if @survey.save
       redirect_to root_path

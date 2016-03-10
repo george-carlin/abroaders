@@ -6,7 +6,7 @@
     <h4><%= t('.sign_up', :default => "Sign up") %></h4>
   </div>
   <div class="panel-body">
-    <%= form_for resource, as: resource_name, url: user_registration_path,
+    <%= form_for resource, as: resource_name, url: account_registration_path,
                                               html: { role: "form" } do |f| %>
 
       <div class="form-group">
@@ -23,6 +23,7 @@
         <%= f.label :password_confirmation %>
         <%= f.password_field :password_confirmation %>
       </div>
+
       <%= f.submit "Sign up", class: "btn btn-primary" %>
     <% end %>
   </div>

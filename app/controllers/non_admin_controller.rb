@@ -1,8 +1,8 @@
 # Superclass for all controllers whose actions are intended to be used by
-# logged-in 'normal', non-admin users.
+# logged-in 'normal', non-admin accounts.
 class NonAdminController < AuthenticatedController
 
-  before_action { redirect_to root_path if current_user.try(:admin?) }
+  before_action { redirect_to root_path if current_account.try(:admin?) }
   before_action :redirect_to_survey_if_incomplete
 
   protected
@@ -19,7 +19,7 @@ class NonAdminController < AuthenticatedController
       :has_added_cards?            => survey_card_accounts_path,
       :has_added_balances?         => survey_balances_path,
     }.each do |method, path|
-      if !current_user.send(method)
+      if !current_account.send(method)
         current_survey_path = path
         break
       end

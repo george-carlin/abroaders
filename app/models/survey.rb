@@ -63,7 +63,7 @@ class Survey < ApplicationRecord
 
   # Associations
 
-  belongs_to :user
+  belongs_to :account, foreign_key: :user_id
 
   # Callbacks
 

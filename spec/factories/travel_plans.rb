@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :travel_plan do
-    user
+    account
     no_of_passengers { rand(2) + 1 }
     departure_date_range do
       earliest = rand(5)

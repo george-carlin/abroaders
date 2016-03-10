@@ -6,22 +6,22 @@
 
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav navbar-right">
-        <% if current_user %>
-          <% if current_user.admin? %>
+        <% if current_account %>
+          <% if current_account.admin? %>
             <li><%= link_to "Destinations", admin_destinations_path %></li>
             <li><%= link_to "Cards", admin_cards_path %></li>
             <li><%= link_to "Offers", admin_card_offers_path %></li>
-            <li><%= link_to "Users", admin_users_path %></li>
+            <li><%= link_to "Users", admin_accounts_path %></li>
           <% else %>
-            <% if current_user.survey_complete? %>
+            <% if current_account.survey_complete? %>
               <li><%= link_to "Cards", card_accounts_path %></li>
               <li><%= link_to "Travel plans", travel_plans_path %></li>
             <% end %>
           <% end %>
           <li>
             <p class="navbar-text">
-              <%= current_user.email %>
-              <% if current_user.admin? %>
+              <%= current_account.email %>
+              <% if current_account.admin? %>
                 &nbsp; (A)
               <% end %>
             </p>
@@ -29,13 +29,13 @@
           <li>
             <%= link_to(
                   "Sign out",
-                  destroy_user_session_path,
+                  destroy_account_session_path,
                   method: :delete
             ) %>
           </li>
         <% else %>
-          <li><%= link_to "Sign in", new_user_session_path %></li>
-          <li><%= link_to "Sign up", new_user_registration_path %></li>
+          <li><%= link_to "Sign in", new_account_session_path %></li>
+          <li><%= link_to "Sign up", new_account_registration_path %></li>
         <% end %>
       </ul>
     </div>

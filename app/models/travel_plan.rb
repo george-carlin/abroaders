@@ -19,13 +19,13 @@ class TravelPlan < ApplicationRecord
       less_than_or_equal_to:    MAX_PASSENGERS,
     }
   validates :type, presence: true
-  validates :user, presence: true
+  validates :account, presence: true
 
   validate :number_of_flights_matches_type
 
   # Associations
 
-  belongs_to :user
+  belongs_to :account
   has_many :flights, -> { order("position ASC") }
 
   accepts_nested_attributes_for :flights

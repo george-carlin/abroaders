@@ -1,74 +1,74 @@
 module Admin
-  class UsersController < AdminController
+  class AccountsController < AdminController
 
-    # GET /admin/users
+    # GET /admin/accounts
     def index
-      @users = User.includes(:survey).non_admin
+      @accounts = Account.includes(:survey).non_admin
     end
 
-    # GET /admin/users/1
+    # GET /admin/accounts/1
     def show
-      @user = get_user
-      @card_accounts = @user.card_accounts.select(&:persisted?)
-      @card_recommendation = @user.card_accounts.new
-      # Use @user.card_accounts here instead of @card_accounts because
+      @account = get_account
+      @card_accounts = @account.card_accounts.select(&:persisted?)
+      @card_recommendation = @account.card_accounts.new
+      # Use @account.card_accounts here instead of @card_accounts because
       # the latter is an Array, not a Relation (because of
       # `.select(&:persisted?)`)
-      @cards = Card.where.not(id: @user.card_accounts.select(:card_id))
+      @cards = Card.where.not(id: @account.card_accounts.select(:card_id))
     end
 
-    # GET /admin/users/new
+    # GET /admin/accounts/new
     def new
       raise "not yet implemented"
-      @user = User.new
+      @account = Account.new
     end
 
-    # GET /admin/users/1/edit
+    # GET /admin/accounts/1/edit
     def edit
       raise "not yet implemented"
-      @user = get_user
+      @account = get_account
     end
 
-    # POST /admin/users
+    # POST /admin/accounts
     def create
       raise "not yet implemented"
-      @user = User.new(user_params)
+      @account = Account.new(account_params)
 
-      if @user.save
-        redirect_to @user, notice: 'User was successfully created.'
+      if @account.save
+        redirect_to @account, notice: 'Account was successfully created.'
       else
         render :new
       end
     end
 
-    # PATCH/PUT /admin/users/1
+    # PATCH/PUT /admin/accounts/1
     def update
       raise "not yet implemented"
-      @user = get_user
-      if @user.update(user_params)
-          redirect_to @user, notice: 'User was successfully updated.'
+      @account = get_account
+      if @account.update(account_params)
+          redirect_to @account, notice: 'Account was successfully updated.'
       else
         render :edit
       end
     end
 
-    # DELETE /admin/users/1
+    # DELETE /admin/accounts/1
     def destroy
       raise "not yet implemented"
-      @user = get_user
-      @user.destroy
-      redirect_to users_url, notice: 'User was successfully destroyed.'
+      @account = get_account
+      @account.destroy
+      redirect_to accounts_url, notice: 'Account was successfully destroyed.'
     end
 
     private
 
-    def get_user
-      User.find(params[:id])
+    def get_account
+      Account.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def user_params
-      params[:user]
+    def account_params
+      params[:account]
     end
   end
 end

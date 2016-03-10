@@ -1,9 +1,9 @@
 module API
   module V1
-    class UsersController < APIController
+    class AccountsController < APIController
 
       def index
-        render json: User.includes(:survey).non_admin
+        render json: Account.includes(:survey).non_admin
       end
 
     end
