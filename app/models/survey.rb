@@ -29,7 +29,7 @@ class Survey < ApplicationRecord
 
   VALID_TIME_ZONES = ActiveSupport::TimeZone.all.map(&:name)
 
-  validates :user, presence: true
+  validates :account, presence: true
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :phone_number, presence: true
@@ -63,7 +63,7 @@ class Survey < ApplicationRecord
 
   # Associations
 
-  belongs_to :account, foreign_key: :user_id
+  belongs_to :account
 
   # Callbacks
 
