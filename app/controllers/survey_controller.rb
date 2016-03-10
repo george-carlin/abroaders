@@ -1,12 +1,13 @@
 class SurveyController < NonAdminController
-  before_action { redirect_to root_path if current_account.survey_complete? }
+  #before_action { redirect_to root_path if current_account.survey_complete? }
 
-  def new
-    @survey = current_account.build_survey
+  def new_passengers
+    @main_passenger = current_account.build_main_passenger
+    @companion      = current_account.build_companion
   end
 
-  def create
-    @survey = current_account.build_survey(survey_params)
+  def create_passengers
+    @survey = PassengerSurvey.new(current_account, passenger_survey_params)
     if @survey.save
       redirect_to survey_card_accounts_path
     else

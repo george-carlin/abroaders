@@ -38,8 +38,7 @@ describe "the sign up page" do
         before { submit_form }
 
         it "shows me the first page of the onboarding survey" do
-          should have_field :survey_first_name
-          should have_field :survey_last_name
+          expect(current_path).to eq survey_passengers_path
         end
       end
     end

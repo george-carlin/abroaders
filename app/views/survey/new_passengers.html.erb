@@ -1,0 +1,170 @@
+<% provide(:title, "Survey - Passenger Info") %>
+
+<h1>Contact Info</h1>
+
+<%= render "shared/model_validation_errors", model: current_account %>
+
+<p>Thanks for signing up to Abroaders! Before we can get started, we need
+  some information from you.</p>
+
+<%= form_for current_account, url: survey_passengers_path do |f| %>
+
+  <%= render "shared/required_explanation" %>
+
+  <%= f.fields_for :main_passenger do |mpf| %>
+    <div class="form-group required">
+      <%= mpf.label :first_name %>
+      <%= mpf.text_field :first_name %>
+    </div>
+
+    <div class="form-group">
+      <%= mpf.label :middle_names %>
+      <%= mpf.text_field :middle_names %>
+    </div>
+
+    <div class="form-group required">
+      <%= mpf.label :last_name %>
+      <%= mpf.text_field :last_name %>
+    </div>
+
+    <div class="form-group required">
+      <%= mpf.label :phone_number %>
+      <%= mpf.text_field :phone_number %>
+    </div>
+
+    <p>Which of the following are you capable of receiving at this number?</p>
+
+    <div class="form-inline">
+      <div class="checkbox">
+        <%= mpf.label :text_message do %>
+          <%= mpf.check_box :text_message %>
+          Text Message
+        <% end %>
+      </div>
+      &nbsp;
+      <div class="checkbox">
+        <%= mpf.label :whatsapp do %>
+          <%= mpf.check_box :whatsapp %>
+          WhatsApp
+        <% end %>
+      </div>
+      &nbsp;
+      <div class="checkbox">
+        <%= mpf.label :imessage do %>
+          <%= mpf.check_box :imessage %>
+          iMessage
+        <% end %>
+      </div>
+    </div>
+
+    <div class="form-group required">
+      <%= mpf.label :time_zone %>
+      <%= mpf.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, {},
+        # For some reason I can't get time_zone_select to add the BS class
+        # manually like I can with the overriden methods:
+              class: BootstrapOverrides::Overrides::BOOTSTRAP_CLASS %>
+    </div>
+
+    <div class="form-group">
+      <%= mpf.label :citizenship %>
+
+      <% Passenger.citizenships.each do |name, _| %>
+        <div class="radio">
+          <label>
+            <%= mpf.radio_button(
+                  :citizenship,
+                  name,
+                  checked: mpf.object.citizenship == name
+                ) %>
+            <%= t("activerecord.attributes.survey.citizenships.#{name}") %>
+          </label>
+        </div>
+      <% end %>
+    </div>
+
+    <h1>Spending Info</h1>
+
+    <div class="form-group required">
+      <%= mpf.label :credit_score %>
+
+      <p class="help-block">
+        Your credit score should be a number between
+        <%= Passenger::MINIMUM_CREDIT_SCORE %> and
+        <%= Passenger::MAXIMUM_CREDIT_SCORE %>
+      </p>
+
+      <%= mpf.number_field :credit_score %>
+    </div>
+
+    <div class="form-group">
+      <%= mpf.label :will_apply_for_loan %>
+      <div class="radio">
+        <label>
+          <%= mpf.radio_button(
+                :will_apply_for_loan,
+                true,
+                checked: mpf.object.will_apply_for_loan
+              ) %>
+          Yes
+        </label>
+      </div>
+
+      <div class="radio">
+        <label>
+          <%= mpf.radio_button(
+                :will_apply_for_loan,
+                false,
+                checked: !mpf.object.will_apply_for_loan
+              ) %>
+          No
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group required">
+      <%= mpf.label :personal_spending %>
+
+      <div class="input-group">
+        <div class="input-group-addon">$</div>
+        <%= mpf.number_field :personal_spending %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= mpf.label :has_business %>
+
+      <% Passenger.has_businesses.each do |name, _| %>
+        <div class="radio">
+          <label>
+            <%= mpf.radio_button(
+                  :has_business,
+                  name,
+                  checked: mpf.object.has_business == name
+                ) %>
+            <%= t("activerecord.attributes.survey.has_businesses.#{name}") %>
+          </label>
+        </div>
+      <% end %>
+    </div>
+
+    <div
+      id="business_spending_form_group"
+      class="form-group required"
+      style="display:none"
+    >
+      <%= mpf.label :business_spending %>
+
+      <div class="input-group">
+        <div class="input-group-addon">$</div>
+        <%= mpf.number_field :business_spending %>
+      </div>
+    </div>
+
+  <% end # accepts_nested_attributes_for %>
+
+
+  <br>
+
+  <%= f.submit "Save", class: "btn btn-primary" %>
+
+<% end%>

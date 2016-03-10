@@ -6,29 +6,31 @@ class Account < ApplicationRecord
 
   # Attributes
 
-  delegate :business_spending, :citizenship, :credit_score, :first_name,
-      :full_name, :has_business, :has_business?, :has_business_with_ein?,
-      :has_business_without_ein?, :has_added_balances, :has_added_balances?,
-      :has_added_cards, :has_added_cards?, :imessage, :imessage?, :last_name,
-      :middle_names, :personal_spending, :phone_number, :text_message,
-      :text_message?, :time_zone, :whatsapp, :whatsapp?, :will_apply_for_loan,
-    to: :survey, allow_nil: true
+  # delegate :business_spending, :citizenship, :credit_score, :first_name,
+  #     :full_name, :has_business, :has_business?, :has_business_with_ein?,
+  #     :has_business_without_ein?, :has_added_balances, :has_added_balances?,
+  #     :has_added_cards, :has_added_cards?, :imessage, :imessage?, :last_name,
+  #     :middle_names, :personal_spending, :phone_number, :text_message,
+  #     :text_message?, :time_zone, :whatsapp, :whatsapp?, :will_apply_for_loan,
+  #   to: :survey, allow_nil: true
 
-  def name
-    survey.present? ? survey.full_name : "#{self.class} ##{id}"
-  end
+  # def name
+  #   survey.present? ? survey.full_name : "#{self.class} ##{id}"
+  # end
 
-  def has_completed_main_survey?
-    !!survey.try(:persisted?)
-  end
+  # def has_completed_main_survey?
+  #   !!survey.try(:persisted?)
+  # end
 
   def survey_complete?
-    !!survey.try(:complete?)
+    # SURVEYTODO
+    # !!survey.try(:complete?)
+    false
   end
 
   # Validations
 
-  validates :survey, associated: true
+  # validates :survey, associated: true
 
   # Associations
 
@@ -38,10 +40,14 @@ class Account < ApplicationRecord
   has_many :cards, through: :card_accounts
   has_many :travel_plans
 
-  has_one :survey
+  has_one :main_passenger, -> { main }, class_name: "Passenger"
+  has_one :companion, -> { companion }, class_name: "Passenger"
 
   has_many :balances
   has_many :currencies, through: :balances
+
+  accepts_nested_attributes_for :main_passenger
+  accepts_nested_attributes_for :companion
 
   # Scopes
 

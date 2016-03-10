@@ -1,4 +1,4 @@
-class Survey < ApplicationRecord
+class Passenger < ApplicationRecord
 
   # Attributes
 
@@ -21,6 +21,9 @@ class Survey < ApplicationRecord
     persisted? && has_added_cards? && has_added_balances?
   end
 
+  def companion?
+    !main
+  end
 
   # Validations
 
@@ -29,7 +32,7 @@ class Survey < ApplicationRecord
 
   VALID_TIME_ZONES = ActiveSupport::TimeZone.all.map(&:name)
 
-  validates :account, presence: true
+  validates :account, presence: true, uniqueness: { scope: :main }
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :phone_number, presence: true
@@ -68,5 +71,10 @@ class Survey < ApplicationRecord
   # Callbacks
 
   auto_strip_attributes :first_name, :middle_names, :last_name, :phone_number
+
+  # Scopes
+
+  scope :main,      -> { where(main: true) }
+  scope :companion, -> { where(main: false) }
 
 end

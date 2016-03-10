@@ -19,8 +19,8 @@ Rails.application.routes.draw do
   end
 
   scope :survey, controller: :survey, as: :survey do
-    get  :/, action: :new
-    post :/, action: :create
+    get  :passengers, action: :new_passengers, as: :passengers
+    post :passengers, action: :create_passengers, as: nil
 
     get  :cards, action: :new_card_accounts,    as: :card_accounts
     post :cards, action: :create_card_accounts, as: nil

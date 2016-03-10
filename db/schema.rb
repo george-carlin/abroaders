@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160310104932) do
+ActiveRecord::Schema.define(version: 20160310114511) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -142,7 +142,7 @@ ActiveRecord::Schema.define(version: 20160310104932) do
   add_index "flights", ["travel_plan_id", "position"], name: "index_flights_on_travel_plan_id_and_position", unique: true, using: :btree
   add_index "flights", ["travel_plan_id"], name: "index_flights_on_travel_plan_id", using: :btree
 
-  create_table "surveys", force: :cascade do |t|
+  create_table "passengers", force: :cascade do |t|
     t.integer  "account_id",                          null: false
     t.string   "first_name",                          null: false
     t.string   "middle_names"
@@ -162,9 +162,11 @@ ActiveRecord::Schema.define(version: 20160310104932) do
     t.boolean  "has_added_balances",  default: false, null: false
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.boolean  "main",                default: true,  null: false
   end
 
-  add_index "surveys", ["account_id"], name: "index_surveys_on_account_id", unique: true, using: :btree
+  add_index "passengers", ["account_id", "main"], name: "index_passengers_on_account_id_and_main", unique: true, using: :btree
+  add_index "passengers", ["account_id"], name: "index_passengers_on_account_id", unique: true, using: :btree
 
   create_table "travel_plans", force: :cascade do |t|
     t.integer   "account_id",                       null: false
@@ -189,6 +191,6 @@ ActiveRecord::Schema.define(version: 20160310104932) do
   add_foreign_key "flights", "destinations", column: "from_id", on_delete: :restrict
   add_foreign_key "flights", "destinations", column: "to_id", on_delete: :restrict
   add_foreign_key "flights", "travel_plans", on_delete: :cascade
-  add_foreign_key "surveys", "accounts", on_delete: :cascade
+  add_foreign_key "passengers", "accounts", on_delete: :cascade
   add_foreign_key "travel_plans", "accounts", on_delete: :cascade
 end

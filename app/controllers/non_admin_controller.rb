@@ -3,7 +3,7 @@
 class NonAdminController < AuthenticatedController
 
   before_action { redirect_to root_path if current_account.try(:admin?) }
-  before_action :redirect_to_survey_if_incomplete
+  # before_action :redirect_to_survey_if_incomplete
 
   protected
 
