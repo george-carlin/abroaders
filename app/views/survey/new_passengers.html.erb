@@ -1,170 +1,176 @@
 <% provide(:title, "Survey - Passenger Info") %>
 
-<h1>Contact Info</h1>
+<div class="row">
+  <div class="col-xs-12 col-md-10 col-md-offset-1">
 
-<%= render "shared/model_validation_errors", model: current_account %>
+    <h1>Let's Get Started!</h1>
 
-<p>Thanks for signing up to Abroaders! Before we can get started, we need
-  some information from you.</p>
+    <%= render "shared/model_validation_errors", model: current_account %>
 
-<%= form_for current_account, url: survey_passengers_path do |f| %>
+    <p>Thanks for signing up to Abroaders! Before we can get started, we need
+      some information from you.</p>
 
-  <%= render "shared/required_explanation" %>
+    <%= passenger_survey_form @survey do |f, main_passenger_f, companion_f| %>
 
-  <%= f.fields_for :main_passenger do |mpf| %>
-    <div class="form-group required">
-      <%= mpf.label :first_name %>
-      <%= mpf.text_field :first_name %>
-    </div>
+      <%= render "passengers/contact_info_fields", f: main_passenger_f %>
 
-    <div class="form-group">
-      <%= mpf.label :middle_names %>
-      <%= mpf.text_field :middle_names %>
-    </div>
-
-    <div class="form-group required">
-      <%= mpf.label :last_name %>
-      <%= mpf.text_field :last_name %>
-    </div>
-
-    <div class="form-group required">
-      <%= mpf.label :phone_number %>
-      <%= mpf.text_field :phone_number %>
-    </div>
-
-    <p>Which of the following are you capable of receiving at this number?</p>
-
-    <div class="form-inline">
-      <div class="checkbox">
-        <%= mpf.label :text_message do %>
-          <%= mpf.check_box :text_message %>
-          Text Message
-        <% end %>
-      </div>
-      &nbsp;
-      <div class="checkbox">
-        <%= mpf.label :whatsapp do %>
-          <%= mpf.check_box :whatsapp %>
-          WhatsApp
-        <% end %>
-      </div>
-      &nbsp;
-      <div class="checkbox">
-        <%= mpf.label :imessage do %>
-          <%= mpf.check_box :imessage %>
-          iMessage
-        <% end %>
-      </div>
-    </div>
-
-    <div class="form-group required">
-      <%= mpf.label :time_zone %>
-      <%= mpf.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, {},
-        # For some reason I can't get time_zone_select to add the BS class
-        # manually like I can with the overriden methods:
+      <div class="form-group required">
+        <%= f.label :time_zone, "What's your current time zone?" %>
+        <%= f.time_zone_select :time_zone,
+              ActiveSupport::TimeZone.us_zones, {},
+              # For some reason I can't get time_zone_select to add the BS
+              # class manually like I can with the overriden methods:
               class: BootstrapOverrides::Overrides::BOOTSTRAP_CLASS %>
-    </div>
+      </div>
 
-    <div class="form-group">
-      <%= mpf.label :citizenship %>
+      
+      <div class="form-group">
+        <%= f.label :citizenship, "Which most accurately describes you?" %>
+        <% Passenger.citizenships.each do |name, _| %>
+          <div class="radio">
+            <label>
+              <%= main_passenger_f.radio_button(
+                    :citizenship,
+                    name,
+                    checked: main_passenger_f.object.citizenship == name
+                  ) %>
+              <%= t("activerecord.attributes.survey.citizenships.#{name}") %>
+            </label>
+          </div>
+        <% end %>
+      </div>
 
-      <% Passenger.citizenships.each do |name, _| %>
-        <div class="radio">
-          <label>
-            <%= mpf.radio_button(
-                  :citizenship,
-                  name,
-                  checked: mpf.object.citizenship == name
-                ) %>
-            <%= t("activerecord.attributes.survey.citizenships.#{name}") %>
-          </label>
-        </div>
-      <% end %>
-    </div>
+      <h3>Add a Travel Companion</h3>
 
-    <h1>Spending Info</h1>
-
-    <div class="form-group required">
-      <%= mpf.label :credit_score %>
-
-      <p class="help-block">
-        Your credit score should be a number between
-        <%= Passenger::MINIMUM_CREDIT_SCORE %> and
-        <%= Passenger::MAXIMUM_CREDIT_SCORE %>
+      <p>
+        Would you like to add a travel companion? (TODO add text encouraging
+        them to do so.)
       </p>
 
-      <%= mpf.number_field :credit_score %>
-    </div>
-
-    <div class="form-group">
-      <%= mpf.label :will_apply_for_loan %>
-      <div class="radio">
-        <label>
-          <%= mpf.radio_button(
-                :will_apply_for_loan,
-                true,
-                checked: mpf.object.will_apply_for_loan
-              ) %>
-          Yes
-        </label>
+      <div class="form-group checkbox">
+        <%= f.label :has_companion do %>
+          <%= f.check_box :has_companion %>
+          Yes, I would like to add a travel companion
+        <% end %>
       </div>
 
-      <div class="radio">
-        <label>
-          <%= mpf.radio_button(
-                :will_apply_for_loan,
-                false,
-                checked: !mpf.object.will_apply_for_loan
-              ) %>
-          No
-        </label>
-      </div>
-    </div>
+      <div id="passenger_survey_willing_to_apply" style="display:none;">
+        <p>Are you willing to apply for cards to earn points for travel?</p>
 
-    <div class="form-group required">
-      <%= mpf.label :personal_spending %>
-
-      <div class="input-group">
-        <div class="input-group-addon">$</div>
-        <%= mpf.number_field :personal_spending %>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <%= mpf.label :has_business %>
-
-      <% Passenger.has_businesses.each do |name, _| %>
         <div class="radio">
-          <label>
-            <%= mpf.radio_button(
-                  :has_business,
-                  name,
-                  checked: mpf.object.has_business == name
-                ) %>
-            <%= t("activerecord.attributes.survey.has_businesses.#{name}") %>
-          </label>
+          <%= main_passenger_f.label :willing_to_apply_true do %>
+            <%= main_passenger_f.radio_button :willing_to_apply, true %>
+            Yes
+          <% end %>
         </div>
-      <% end %>
-    </div>
 
-    <div
-      id="business_spending_form_group"
-      class="form-group required"
-      style="display:none"
-    >
-      <%= mpf.label :business_spending %>
+        <div class="radio">
+          <%= main_passenger_f.label :willing_to_apply_false do %>
+            <%= main_passenger_f.radio_button :willing_to_apply, false %>
+            No
+          <% end %>
+        </div>
 
-      <div class="input-group">
-        <div class="input-group-addon">$</div>
-        <%= mpf.number_field :business_spending %>
+        <p>
+          Is your travel companion willing to apply for cards to earn points
+          for travel?
+        </p>
+
+        <div class="radio">
+          <%= companion_f.label :willing_to_apply_true do %>
+            <%= companion_f.radio_button :willing_to_apply, true %>
+            Yes
+          <% end %>
+        </div>
+
+        <div class="radio">
+          <%= companion_f.label :willing_to_apply_false do %>
+            <%= companion_f.radio_button :willing_to_apply, false %>
+            No
+          <% end %>
+        </div>
+
+        <div
+          id="unwilling_to_apply_err_msg"
+          class="alert alert-danger"
+          style="display:none;"
+        >
+          You cannot proceed unless at least one of you is willing to apply for
+          credit cards to earn points for travel.
+        </div>
+
+        <h4>Do you and your travel partner share expenses?</h4>
+
+        <p>
+          If you choose yes, we will use your combined spending to recommend a
+          combination of cards to maximize your points as a team. You will work
+          together to meet the spending requirements on the cards we recommend. 
+        </p>
+
+        <p>
+          If you choose no, we will ask for each person's spending separately.
+          Each of you will work toward the spending requirements on your own
+          cards separately. 
+        </p>
+
+        <p>
+          Choosing yes will generally result in more points.
+        </p>
+
+        <div class="form-group radio">
+          <%= f.label :shares_expenses_true do %>
+            <%= f.radio_button :shares_expenses, true %>
+            Yes - my travel companion and I share expenses
+          <% end %>
+        </div>
+
+        <div class="form-group radio">
+          <%= f.label :shares_expenses_false do %>
+            <%= f.radio_button :shares_expenses, false %>
+            No - my travel companion and I do not share expenses
+          <% end %>
+        </div>
       </div>
-    </div>
 
-  <% end # accepts_nested_attributes_for %>
+      <div id="passenger_survey_companion_contact_info" style="display: none;">
+        <%= render "passengers/contact_info_fields", f: companion_f %>
 
+        <div class="form-group">
+          <%= companion_f.label(
+            :citizenship,
+            "Which most accurately describes your travel companion?"
+          ) %>
 
-  <br>
+          <% Passenger.citizenships.each do |name, _| %>
+            <div class="radio">
+              <label>
+                <%= companion_f.radio_button(
+                      :citizenship,
+                      name,
+                      checked: companion_f.object.citizenship == name
+                    ) %>
+                <%= t("activerecord.attributes.survey.citizenships.#{name}") %>
+              </label>
+            </div>
+          <% end %>
+        </div>
+      </div>
 
-  <%= f.submit "Save", class: "btn btn-primary" %>
+      <% if false %>
 
-<% end%>
+      <h1>Spending Info</h1>
+
+      <%= render "passengers/spending_info_fields", f: main_passenger_f %>
+
+      <div id="passenger_survey_companion_spending_info" style="display: none;">
+        <%= render "passengers/spending_info_fields", f: companion_f %>
+      </div>
+      <br>
+
+      <% end %>
+
+      <%= f.submit "Save", class: "btn btn-primary" %>
+    <% end %>
+
+  </div>
+</div>

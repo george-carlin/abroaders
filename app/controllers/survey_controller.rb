@@ -1,9 +1,9 @@
 class SurveyController < NonAdminController
+  # SURVEYTODO uncomment me
   #before_action { redirect_to root_path if current_account.survey_complete? }
 
   def new_passengers
-    @main_passenger = current_account.build_main_passenger
-    @companion      = current_account.build_companion
+    @survey = PassengerSurvey.new(current_account)
   end
 
   def create_passengers
@@ -11,8 +11,14 @@ class SurveyController < NonAdminController
     if @survey.save
       redirect_to survey_card_accounts_path
     else
-      render "new"
+      render "new_passengers"
     end
+  end
+
+  def new_spending_info
+  end
+
+  def create_spending_info
   end
 
   def new_card_accounts
@@ -55,12 +61,17 @@ class SurveyController < NonAdminController
     params.permit(balances: [:currency_id, :value]).fetch(:balances, [])
   end
 
-  def survey_params
-    params.require(:survey).permit(
-      :first_name, :middle_names, :last_name, :whatsapp, :imessage, :time_zone,
-      :text_message, :phone_number, :credit_score, :business_spending,
-      :will_apply_for_loan, :personal_spending, :has_business, :citizenship
+  def passenger_survey_params
+    params.require(:passenger_survey).permit(
+      :time_zone, :shares_expenses,
+      main_passenger_attributes: PassengerSurvey::PASSENGER_ATTRS,
+      companion_attributes:      PassengerSurvey::PASSENGER_ATTRS
     )
   end
+
+
+  # SURVEYTODO:
+  #  :credit_score, :business_spending, :will_apply_for_loan,
+  #  :personal_spending, :has_business, :citizenship
 
 end

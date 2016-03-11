@@ -28,6 +28,10 @@ class Account < ApplicationRecord
     false
   end
 
+  def has_companion
+    !!companion.try(:persisted?)
+  end
+
   # Validations
 
   # validates :survey, associated: true
@@ -40,6 +44,7 @@ class Account < ApplicationRecord
   has_many :cards, through: :card_accounts
   has_many :travel_plans
 
+  has_many :passengers
   has_one :main_passenger, -> { main }, class_name: "Passenger"
   has_one :companion, -> { companion }, class_name: "Passenger"
 

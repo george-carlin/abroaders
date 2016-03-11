@@ -22,4 +22,5 @@
 //= require underscore
 //= require_tree ./extensions
 //= require components/load
+//= require modules/load
 //= require_tree ./other

@@ -21,8 +21,10 @@ class Passenger < ApplicationRecord
     persisted? && has_added_cards? && has_added_balances?
   end
 
+  alias_attribute :main_passenger?, :main
+
   def companion?
-    !main
+    !main?
   end
 
   # Validations
@@ -36,33 +38,31 @@ class Passenger < ApplicationRecord
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :phone_number, presence: true
-  validates :time_zone,
-    inclusion: { in: VALID_TIME_ZONES },
-    presence: true
-  validates :credit_score, presence: true,
-    numericality: {
-      greater_than_or_equal_to: MINIMUM_CREDIT_SCORE,
-      less_than_or_equal_to:    MAXIMUM_CREDIT_SCORE,
-      # avoid duplicate error message (from presence validation) when nil:
-      allow_nil: true
-    }
-  # Spending columns = spending per month, in whole US dollars
-  validates :personal_spending,
-    presence: true,
-    numericality: {
-      greater_than_or_equal_to: 0,
-      less_than_or_equal_to: POSTGRESQL_MAX_INT_VALUE,
-      # avoid duplicate error message (from presence validation) when nil:
-      allow_nil: true
-    }
-  validates :business_spending,
-    presence: true,
-    numericality: {
-      greater_than_or_equal_to: 0,
-      less_than_or_equal_to: POSTGRESQL_MAX_INT_VALUE,
-      # avoid duplicate error message (from presence validation) when nil:
-      allow_nil: true
-    }
+
+  # validates :credit_score, presence: true,
+  #   numericality: {
+  #     greater_than_or_equal_to: MINIMUM_CREDIT_SCORE,
+  #     less_than_or_equal_to:    MAXIMUM_CREDIT_SCORE,
+  #     # avoid duplicate error message (from presence validation) when nil:
+  #     allow_nil: true
+  #   }
+  # # Spending columns = spending per month, in whole US dollars
+  # validates :personal_spending,
+  #   presence: true,
+  #   numericality: {
+  #     greater_than_or_equal_to: 0,
+  #     less_than_or_equal_to: POSTGRESQL_MAX_INT_VALUE,
+  #     # avoid duplicate error message (from presence validation) when nil:
+  #     allow_nil: true
+  #   }
+  # validates :business_spending,
+  #   presence: true,
+  #   numericality: {
+  #     greater_than_or_equal_to: 0,
+  #     less_than_or_equal_to: POSTGRESQL_MAX_INT_VALUE,
+  #     # avoid duplicate error message (from presence validation) when nil:
+  #     allow_nil: true
+  #   }
 
   # Associations
 
