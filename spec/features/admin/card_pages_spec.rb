@@ -37,7 +37,7 @@ describe "admin pages" do
         end
       end
 
-      describe "clicking the checkbox", js: true do
+      describe "clicking the checkbox", :js do
         before do
           within card_selector(@active_card) do
             find("input[type=checkbox]").click
@@ -65,7 +65,7 @@ describe "admin pages" do
         end
       end
 
-      describe "clicking the checkbox", js: true do
+      describe "clicking the checkbox", :js do
         before do
           within card_selector(@inactive_card) do
             find("input[type=checkbox]").click

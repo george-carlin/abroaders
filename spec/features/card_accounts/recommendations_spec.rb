@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "as a user viewing my card recommendations", js: true do
+describe "as a user viewing my card recommendations", :js do
   include ActionView::Helpers::NumberHelper
   subject { page }
 
@@ -56,7 +56,7 @@ describe "as a user viewing my card recommendations", js: true do
       end
     end
 
-    describe "clicking the 'decline' button", js: true do
+    describe "clicking the 'decline' button", :js do
       let(:rec) { @recommendations[0] }
       before { find(decline_rec_btn(rec)).click }
 
@@ -124,7 +124,7 @@ describe "as a user viewing my card recommendations", js: true do
       end
     end
 
-    describe "clicking 'Apply'", js: true do
+    describe "clicking 'Apply'", :js do
       let(:rec) { @recommendations[0] }
       before do
         within card_account_selector(rec) do
@@ -180,7 +180,7 @@ describe "as a user viewing my card recommendations", js: true do
 
     it "asks me if I have been approved"
 
-    describe "clicking 'I have been approved'", js: true do
+    describe "clicking 'I have been approved'", :js do
       it "asks me to confirm"
 
       describe "clicking 'confirm'" do
@@ -200,7 +200,7 @@ describe "as a user viewing my card recommendations", js: true do
       end
     end
 
-    describe "clicking 'I have not yet been approved'", js: true do
+    describe "clicking 'I have not yet been approved'", :js do
       it "asks if I was denied, or if I haven't heard back yet"
 
       describe "saying I was denied" do

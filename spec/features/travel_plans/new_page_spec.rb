@@ -1,7 +1,7 @@
 require "rails_helper"
 
 # Page is rendered with React.js; all tests must activate Javascript
-describe "new travel plans page", js: true, manual_clean: true do
+describe "new travel plans page", :js, manual_clean: true do
   include AirportMacros
 
   subject { page }

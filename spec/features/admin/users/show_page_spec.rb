@@ -181,7 +181,7 @@ describe "admin section" do
     #     end
     #   end
 
-    #   describe "and selecting 'assign this card'", js: true do
+    #   describe "and selecting 'assign this card'", :js do
     #     before { choose :create_mode_assignment }
 
     #     it "shows the card account status dropdown" do

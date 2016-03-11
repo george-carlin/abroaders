@@ -32,7 +32,7 @@ describe "balances survey" do
     end
   end
 
-  describe "clicking a check box next to a currency", js: true do
+  describe "clicking a check box next to a currency", :js do
     let(:currency) { @currencies.first }
 
     before { currency_check_box(currency).click }
@@ -85,7 +85,7 @@ describe "balances survey" do
     include_examples "mark survey as completed"
   end
 
-  describe "submitting a blank balance input", js: true do
+  describe "submitting a blank balance input", :js do
     before do
       currency_check_box(@currencies[0]).click
       currency_check_box(@currencies[1]).click
@@ -99,7 +99,7 @@ describe "balances survey" do
     end
   end
 
-  describe "submitting a negative balance", js: true do
+  describe "submitting a negative balance", :js do
     before do
       currency_check_box(@currencies[0]).click
       currency_check_box(@currencies[1]).click
@@ -126,7 +126,7 @@ describe "balances survey" do
     end
   end
 
-  describe "submitting a balance of 0 for a currency", js: true do
+  describe "submitting a balance of 0 for a currency", :js do
     before do
       currency_check_box(@currencies[0]).click
       currency_check_box(@currencies[1]).click

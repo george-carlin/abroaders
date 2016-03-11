@@ -217,7 +217,7 @@ describe "admin section" do
         end
       end
 
-      describe "filters", js: true do
+      describe "filters", :js do
         def should_have_recommendable_cards(*cards)
           cards.each { |card| should have_recommendable_card(card) }
         end
@@ -297,7 +297,7 @@ describe "admin section" do
         end
       end # filters
 
-      describe "clicking 'recommend' next to a card offer", js: true do
+      describe "clicking 'recommend' next to a card offer", :js do
         let(:offer) { @offers[3] }
         before { find("#recommend_#{dom_id(offer)}_btn").click }
         let(:offer_tr) { "##{dom_id(offer, :admin_recommend)}" }

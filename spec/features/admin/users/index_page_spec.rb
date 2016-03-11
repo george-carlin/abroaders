@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe "admin section" do
-  describe "user pages index page", js: true do
+  describe "user pages index page", :js do
     subject { page }
 
     include_context "logged in as admin"
