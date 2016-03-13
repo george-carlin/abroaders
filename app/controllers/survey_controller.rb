@@ -63,7 +63,7 @@ class SurveyController < NonAdminController
 
   def passenger_survey_params
     params.require(:passenger_survey).permit(
-      :time_zone, :shares_expenses,
+      :time_zone, :shares_expenses, :has_companion,
       main_passenger_attributes: PassengerSurvey::PASSENGER_ATTRS,
       companion_attributes:      PassengerSurvey::PASSENGER_ATTRS
     )

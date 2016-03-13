@@ -158,12 +158,11 @@ ActiveRecord::Schema.define(version: 20160310183236) do
     t.boolean  "has_added_balances", default: false, null: false
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
-    t.boolean  "main",               default: true,  null: false
     t.boolean  "willing_to_apply",   default: true,  null: false
+    t.boolean  "main",               default: true,  null: false
   end
 
   add_index "passengers", ["account_id", "main"], name: "index_passengers_on_account_id_and_main", unique: true, using: :btree
-  add_index "passengers", ["account_id"], name: "index_passengers_on_account_id", unique: true, using: :btree
 
   create_table "travel_plans", force: :cascade do |t|
     t.integer   "account_id",                       null: false

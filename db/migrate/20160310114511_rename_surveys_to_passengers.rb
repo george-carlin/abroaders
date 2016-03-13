@@ -5,6 +5,7 @@ class RenameSurveysToPassengers < ActiveRecord::Migration[5.0]
     # There are two types of passengers: 'main' and 'companion'. An account
     # will always have one main passenger, and optionally one companion
     # passenger.
+    remove_index :passengers, :account_id
     add_index :passengers, [:account_id, :main], unique: true
   end
 end

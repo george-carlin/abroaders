@@ -13,6 +13,8 @@ describe "as a new user" do
     let(:mp_prefix) { "#{ps_prefix}_main_passenger_attributes" }
     let(:co_prefix) { "#{ps_prefix}_companion_attributes" }
 
+    let(:submit_form) { click_button "Save" }
+
     DEFAULT_PASSENGER_FIELDS = %i[
       first_name
       middle_names
@@ -97,7 +99,6 @@ describe "as a new user" do
       before do
         check "#{ps_prefix}_has_companion"
         wait_for_slide
-        sleep 1 # TODO is this necessary?
       end
 
       it "shows the fields for a travel companion" do
@@ -159,25 +160,74 @@ describe "as a new user" do
             expect(radio_btns.none?   { |i| i[:disabled] }).to be_truthy
           end
         end
-      end
+      end # saying that neither I nor my companion are willing to apply
 
       describe "and submitting the form" do
         describe "with valid information about both passengers" do
-          it "saves information about me"
-          it "saves information about my travel companion"
+          before do
+            fill_in_valid_main_passenger
+            fill_in "#{co_prefix}_first_name",   with: "Steve"
+            fill_in "#{co_prefix}_middle_names", with: "Peter"
+            fill_in "#{co_prefix}_last_name",    with: "Jones"
+            fill_in "#{co_prefix}_phone_number", with: "091827364650"
+            choose "#{co_prefix}_citizenship_neither"
+            check  "#{co_prefix}_text_message"
+            check  "#{co_prefix}_imessage"
+            check  "#{co_prefix}_whatsapp"
+            choose "#{ps_prefix}_shares_expenses_true"
+          end
+
+          it "saves information about my travel companion and I" do
+            expect{submit_form}.to change{account.passengers.count}.by(2)
+
+            account.reload
+            expect(account.time_zone).to eq "London"
+            expect(account.shares_expenses).to be_truthy
+
+            mp = account.main_passenger
+            expect(mp).to be_persisted
+            expect(mp.first_name).to eq   "Fred"
+            expect(mp.middle_names).to eq "James"
+            expect(mp.last_name).to eq    "Bloggs"
+            expect(mp.phone_number).to eq "0123412341"
+            expect(mp.citizenship).to eq  "us_permanent_resident"
+            expect(mp.text_message).to be_truthy
+            expect(mp.imessage).to be_truthy
+            expect(mp.whatsapp).to be_truthy
+            expect(mp.willing_to_apply).to be_truthy
+
+            co = account.companion
+            expect(co).to be_persisted
+            expect(co.first_name).to eq   "Steve"
+            expect(co.middle_names).to eq "Peter"
+            expect(co.last_name).to eq    "Jones"
+            expect(co.phone_number).to eq "091827364650"
+            expect(co.citizenship).to eq  "neither"
+            expect(co.text_message).to be_truthy
+            expect(co.imessage).to be_truthy
+            expect(co.whatsapp).to be_truthy
+            expect(co.willing_to_apply).to be_truthy
+          end
+
           it "takes me to the next stage of the survey"
         end
 
         describe "with invalid information" do
-          it "doesn't save information about me or my travel companion"
-          it "shows the form again"
+          it "doesn't save information about me or my travel companion" do
+            updated_at_before = account.updated_at
+            expect{submit_form}.not_to change{Passenger.count}
+            expect(account.reload.updated_at).to eq updated_at_before
+          end
+
+          it "shows the form again" do
+            submit_form
+            expect(current_path).to eq survey_passengers_path
+          end
         end
       end
     end # checking the 'I have a travel companion' checkbox
 
     describe "submitting the form" do
-      let(:submit_form) { click_button "Save" }
-
       context "with valid information about myself" do
         before { fill_in_valid_main_passenger }
 
