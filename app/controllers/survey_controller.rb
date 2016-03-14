@@ -7,8 +7,8 @@ class SurveyController < NonAdminController
   end
 
   def create_passengers
-    @survey = PassengerSurvey.new(current_account, passenger_survey_params)
-    if @survey.save
+    @survey = PassengerSurvey.new(current_account)
+    if @survey.update_attributes(passenger_survey_params)
       redirect_to survey_spending_path
     else
       render "new_passengers"
@@ -70,15 +70,16 @@ class SurveyController < NonAdminController
 
   def passenger_survey_params
     params.require(:passenger_survey).permit(
-      :time_zone, :shares_expenses, :has_companion,
-      main_passenger_attributes: PassengerSurvey::PASSENGER_ATTRS,
-      companion_attributes:      PassengerSurvey::PASSENGER_ATTRS
+      :companion_citizenship, :companion_first_name, :companion_imessage,
+      :companion_last_name, :companion_middle_names, :companion_phone_number,
+      :companion_text_message, :companion_whatsapp,
+      :companion_willing_to_apply, :has_companion, :main_passenger_citizenship,
+      :main_passenger_first_name, :main_passenger_imessage,
+      :main_passenger_last_name, :main_passenger_middle_names,
+      :main_passenger_phone_number, :main_passenger_text_message,
+      :main_passenger_whatsapp, :main_passenger_willing_to_apply,
+      :shares_expenses, :time_zone,
     )
   end
-
-
-  # SURVEYTODO:
-  #  :credit_score, :business_spending, :will_apply_for_loan,
-  #  :personal_spending, :has_business, :citizenship
 
 end

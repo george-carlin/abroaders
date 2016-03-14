@@ -1,6 +1,10 @@
 class PassengerSurvey < Form
 
-  PASSENGER_ATTRS = %i[
+  ACCOUNT_GETTERS   = %i[time_zone shares_expenses]
+  ACCOUNT_SETTERS   = ACCOUNT_GETTERS.map { |g| "#{g}=" }
+  ACCOUNT_ACCESSORS = ACCOUNT_GETTERS + ACCOUNT_SETTERS
+
+  PASSENGER_GETTERS = %i[
     first_name
     middle_names
     last_name
@@ -11,6 +15,9 @@ class PassengerSurvey < Form
     citizenship
     willing_to_apply
   ]
+
+  PASSENGER_SETTERS   = PASSENGER_GETTERS.map { |g| "#{g}=" }
+  PASSENGER_ACCESSORS = PASSENGER_GETTERS + PASSENGER_SETTERS
 
   attr_accessor :account, :main_passenger, :companion
   attr_reader :has_companion
@@ -28,30 +35,29 @@ class PassengerSurvey < Form
 
   delegate :shares_expenses, :shares_expenses=, :time_zone, :time_zone=,
             to: :account
-  delegate(*PASSENGER_ATTRS, to: :main_passenger, prefix: true)
-  delegate(*PASSENGER_ATTRS, to: :companion, prefix: true)
+  delegate(*PASSENGER_ACCESSORS, to: :main_passenger, prefix: true)
+  delegate(*PASSENGER_ACCESSORS, to: :companion, prefix: true)
 
-  def initialize(account, params={})
+  def initialize(account)
+    # Make a sanity checks that the passengers have not already been added:
+    raise if account.main_passenger.try(:persisted?)
+    raise if account.companion.try(:persisted?)
+
     account.build_main_passenger if account.main_passenger.nil?
     account.build_companion      if account.companion.nil?
     self.main_passenger = account.main_passenger
     self.companion      = account.companion
 
-    self.has_companion = params.delete(:has_companion)
-
-    if mpp = params.delete(:main_passenger_attributes)
-      account.main_passenger.assign_attributes(mpp)
-    end
-    if has_companion? && cop = params.delete(:companion_attributes)
-      account.companion.assign_attributes(cop)
-    end
-    account.assign_attributes(params)
-
     self.account = account
 
-    self.time_zone       = params[:time_zone]
-    if params.key?(:shares_expenses)
-      self.shares_expenses = params[:shares_expenses]
+    self.has_companion = false
+  end
+
+  def assign_attributes(attributes)
+    self.has_companion = attributes.delete(:has_companion)
+    attributes.each do |key, value|
+      next if !has_companion && /^companion_/ =~ key.to_s
+      self.send "#{key}=", value
     end
   end
 
@@ -64,12 +70,19 @@ class PassengerSurvey < Form
           # it with invalid attributes, raising an error.
           self.account.companion = nil
         end
+        # As well as saving the account, this  will automatically save the
+        # associated passenger(s):
         self.account.save(validate: false)
         true
       else
         false
       end
     end
+  end
+
+  def update_attributes(attributes)
+    assign_attributes(attributes)
+    save
   end
 
   # Validations

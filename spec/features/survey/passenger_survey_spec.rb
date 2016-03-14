@@ -10,8 +10,8 @@ describe "as a new user" do
 
     # Stop the lines from being so long!
     let(:ps_prefix) { :passenger_survey }
-    let(:mp_prefix) { "#{ps_prefix}_main_passenger_attributes" }
-    let(:co_prefix) { "#{ps_prefix}_companion_attributes" }
+    let(:mp_prefix) { "#{ps_prefix}_main_passenger" }
+    let(:co_prefix) { "#{ps_prefix}_companion" }
 
     let(:submit_form) { click_button "Save" }
 

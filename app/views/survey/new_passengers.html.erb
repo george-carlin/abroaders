@@ -7,12 +7,14 @@
 
     <%= render "shared/model_validation_errors", model: current_account %>
 
-    <p>Thanks for signing up to Abroaders! Before we can get started, we need
-      some information from you.</p>
+    <p>
+      Thanks for signing up to Abroaders! Before we can get started, we need
+      some information from you.
+    </p>
 
-    <%= passenger_survey_form @survey do |f, main_passenger_f, companion_f| %>
+    <%= form_for @survey, url: survey_passengers_path do |f| %>
 
-      <%= render "passengers/fields", f: main_passenger_f %>
+      <%= render "passengers/fields", f: f, main: true %>
 
       <div class="form-group required">
         <%= f.label :time_zone, "What's your current time zone?" %>
@@ -25,14 +27,15 @@
 
       
       <div class="form-group">
-        <%= f.label :citizenship, "Which most accurately describes you?" %>
+        <%= f.label :main_passenger_citizenship,
+          "Which most accurately describes you?" %>
         <% Passenger.citizenships.each do |name, _| %>
           <div class="radio">
             <label>
-              <%= main_passenger_f.radio_button(
-                    :citizenship,
+              <%= f.radio_button(
+                    :main_passenger_citizenship,
                     name,
-                    checked: main_passenger_f.object.citizenship == name
+                    checked: f.object.main_passenger_citizenship == name
                   ) %>
               <%= t("activerecord.attributes.passenger.citizenships.#{name}") %>
             </label>
@@ -58,15 +61,15 @@
         <p>Are you willing to apply for cards to earn points for travel?</p>
 
         <div class="radio">
-          <%= main_passenger_f.label :willing_to_apply_true do %>
-            <%= main_passenger_f.radio_button :willing_to_apply, true %>
+          <%= f.label :main_passenger_willing_to_apply_true do %>
+            <%= f.radio_button :main_passenger_willing_to_apply, true %>
             Yes
           <% end %>
         </div>
 
         <div class="radio">
-          <%= main_passenger_f.label :willing_to_apply_false do %>
-            <%= main_passenger_f.radio_button :willing_to_apply, false %>
+          <%= f.label :main_passenger_willing_to_apply_false do %>
+            <%= f.radio_button :main_passenger_willing_to_apply, false %>
             No
           <% end %>
         </div>
@@ -77,15 +80,15 @@
         </p>
 
         <div class="radio">
-          <%= companion_f.label :willing_to_apply_true do %>
-            <%= companion_f.radio_button :willing_to_apply, true %>
+          <%= f.label :companion_willing_to_apply_true do %>
+            <%= f.radio_button :companion_willing_to_apply, true %>
             Yes
           <% end %>
         </div>
 
         <div class="radio">
-          <%= companion_f.label :willing_to_apply_false do %>
-            <%= companion_f.radio_button :willing_to_apply, false %>
+          <%= f.label :companion_willing_to_apply_false do %>
+            <%= f.radio_button :companion_willing_to_apply, false %>
             No
           <% end %>
         </div>
@@ -133,21 +136,21 @@
       </div>
 
       <div id="passenger_survey_companion_contact_info" style="display: none;">
-        <%= render "passengers/fields", f: companion_f %>
+        <%= render "passengers/fields", f: f, main: false %>
 
         <div class="form-group">
-          <%= companion_f.label(
-            :citizenship,
+          <%= f.label(
+            :companion_citizenship,
             "Which most accurately describes your travel companion?"
           ) %>
 
           <% Passenger.citizenships.each do |name, _| %>
             <div class="radio">
               <label>
-                <%= companion_f.radio_button(
-                      :citizenship,
+                <%= f.radio_button(
+                      :companion_citizenship,
                       name,
-                      checked: companion_f.object.citizenship == name
+                      checked: f.object.companion_citizenship == name
                     ) %>
                 <%= t("activerecord.attributes.passenger.citizenships.#{name}") %>
               </label>
