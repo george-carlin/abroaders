@@ -231,11 +231,6 @@ describe "as a new user" do
           expect(me.last_name).to eq "Bloggs"
           expect(me.phone_number).to eq "0123412341"
           expect(me.citizenship).to eq "us_permanent_resident"
-          # SURVEYTODO move to other spec:
-          # expect(me.credit_score).to eq 456
-          # expect(me.will_apply_for_loan).to be_truthy
-          # expect(me.personal_spending).to eq 1500
-          # expect(me.has_business).to eq "without_ein"
         end
 
         it "saves that I am willing to apply for cards" do
