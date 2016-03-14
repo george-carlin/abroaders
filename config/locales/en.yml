@@ -10,6 +10,13 @@ en:
         cost:  "Cost ($)"
         spend: "Minimum spend ($)"
 
+      passenger:
+        citizenships:
+          us_citizen: "U.S. Citizen"
+          us_permanent_resident: "U.S. Permanent Resident"
+          neither: "Neither"
+          not_citizen: "Not a U.S. citizen"
+
     errors:
       models:
         travel_plan:
