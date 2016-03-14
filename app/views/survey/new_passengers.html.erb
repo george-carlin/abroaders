@@ -12,7 +12,7 @@
 
     <%= passenger_survey_form @survey do |f, main_passenger_f, companion_f| %>
 
-      <%= render "passengers/contact_info_fields", f: main_passenger_f %>
+      <%= render "passengers/fields", f: main_passenger_f %>
 
       <div class="form-group required">
         <%= f.label :time_zone, "What's your current time zone?" %>
@@ -133,7 +133,7 @@
       </div>
 
       <div id="passenger_survey_companion_contact_info" style="display: none;">
-        <%= render "passengers/contact_info_fields", f: companion_f %>
+        <%= render "passengers/fields", f: companion_f %>
 
         <div class="form-group">
           <%= companion_f.label(
@@ -155,19 +155,6 @@
           <% end %>
         </div>
       </div>
-
-      <% if false %>
-
-      <h1>Spending Info</h1>
-
-      <%= render "passengers/spending_info_fields", f: main_passenger_f %>
-
-      <div id="passenger_survey_companion_spending_info" style="display: none;">
-        <%= render "passengers/spending_info_fields", f: companion_f %>
-      </div>
-      <br>
-
-      <% end %>
 
       <%= f.submit "Save", class: "btn btn-primary" %>
     <% end %>

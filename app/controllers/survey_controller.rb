@@ -15,10 +15,16 @@ class SurveyController < NonAdminController
     end
   end
 
-  def new_spending_info
+  def new_spending
+    @survey = SpendingSurvey.new(
+      current_account.main_passenger,
+      current_account.companion
+    )
   end
 
-  def create_spending_info
+  def create_spending
+    @survey = SpendingSurvey.new(current_account)
+    raise "not yet implemented"
   end
 
   def new_card_accounts

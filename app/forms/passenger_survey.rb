@@ -1,4 +1,4 @@
-class PassengerSurvey
+class PassengerSurvey < Form
 
   PASSENGER_ATTRS = %i[
     first_name
@@ -31,10 +31,6 @@ class PassengerSurvey
   delegate(*PASSENGER_ATTRS, to: :main_passenger, prefix: true)
   delegate(*PASSENGER_ATTRS, to: :companion, prefix: true)
 
-  extend ActiveModel::Naming
-  include ActiveModel::Conversion
-  include ActiveModel::Validations
-
   def initialize(account, params={})
     account.build_main_passenger if account.main_passenger.nil?
     account.build_companion      if account.companion.nil?
@@ -54,12 +50,13 @@ class PassengerSurvey
     self.account = account
 
     self.time_zone       = params[:time_zone]
-    self.shares_expenses = !!params[:shares_expenses]
+    if params.key?(:shares_expenses)
+      self.shares_expenses = params[:shares_expenses]
+    end
   end
 
   def save
     Passenger.transaction do
-      # debugger
       if valid?
         unless has_companion?
           # Remove the blank Passenger that was created earlier by

@@ -18,10 +18,6 @@ class Account < ApplicationRecord
   #   survey.present? ? survey.full_name : "#{self.class} ##{id}"
   # end
 
-  # def has_completed_main_survey?
-  #   !!survey.try(:persisted?)
-  # end
-
   def survey_complete?
     # SURVEYTODO
     # !!survey.try(:complete?)
@@ -31,6 +27,7 @@ class Account < ApplicationRecord
   def has_companion
     !!companion.try(:persisted?)
   end
+  alias_attribute :has_companion?, :has_companion
 
   # Validations
 

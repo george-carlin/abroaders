@@ -1,0 +1,59 @@
+<div class="row">
+  <div class="col-xs-12 col-md-10 col-md-offset-1">
+
+    <h1>Spending</h1>
+
+    <p>
+      Welcome, <%= current_main_passenger.first_name %>! In order to help
+      you apply for the right cards, we need to get some financial information
+      about
+      <% if has_companion? %>
+        you and your travel companion.
+      <% else %>
+        you.
+      <% end %>
+    </p>
+
+    <%= spending_survey_form @survey do |main_f, companion_f| %>
+
+      <% if current_account.shares_expenses? %>
+        <%= main_f.label(
+          :personal_spending,
+          "What is you and #{current_companion.first_name}'s normal combined"\
+          "spending per month?"
+        ) %>
+        <p class="help-block">
+          You have indicated that you and <%= current_companion.first_name %>
+          share expenses
+        </p>
+        <%= main_f.number_field :personal_spending %>
+      <% end %>
+
+      <% if has_companion? %>
+        <h2><%= current_main_passenger.first_name %>'s Spending Info</h2>
+      <% end %>
+
+      <%= render(
+        "spending_info/fields",
+        f:    main_f,
+        name: (current_main_passenger.first_name if has_companion?),
+        show_personal_spending: !current_account.shares_expenses?
+      ) %>
+
+      <% if has_companion? %>
+        <h2><%= current_companion.first_name %>'s Spending Info</h2>
+
+        <%= render(
+          "spending_info/fields",
+          f:    companion_f,
+          name: current_companion.first_name,
+          show_personal_spending: !current_account.shares_expenses?
+        ) %>
+      <% end %>
+
+      <%= submit_tag "Save", class: "btn btn-primary" %>
+
+    <% end %>
+
+  </div>
+</div>

@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Passenger do
-
   let(:passenger) { described_class.new }
 
   describe "#full_name" do
@@ -21,7 +20,7 @@ describe Passenger do
 
     %w[first_name middle_names last_name phone_number].each do |attr|
       it "strips trailing whitespace from #{attr}" do
-        passenger.send :"#{attr}=", "   string    "
+        passenger.send :"#{attr}=", "  string    "
         passenger.save!
         expect(passenger.send(attr)).to eq "string"
       end

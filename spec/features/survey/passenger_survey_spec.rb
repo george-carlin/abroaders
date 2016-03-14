@@ -38,21 +38,7 @@ describe "as a new user" do
       check  "#{mp_prefix}_text_message"
       check  "#{mp_prefix}_imessage"
       check  "#{mp_prefix}_whatsapp"
-      # SURVEYTODO move to other spec:
-      # fill_in "#{mp_prefix}_credit_score", with: "456"
-      # choose  "#{mp_prefix}_will_apply_for_loan_true"
-      # fill_in "#{mp_prefix}_personal_spending", with: "1500"
-      # choose  "#{mp_prefix}_has_business_without_ein"
     end
-
-    # SURVEYTODO: fields to move from Passenger to SpendingInfo:
-    # credit_score
-    # will_apply_for_loan_true
-    # will_apply_for_loan_false
-    # personal_spending
-    # has_business_with_ein
-    # has_business_without_ein
-    # has_business_no_business
 
     JQUERY_DEFAULT_SLIDE_DURATION = 0.4
     # Some elements on the page are hidden/shown using jQuery's 'slide' methods,
