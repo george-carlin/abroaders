@@ -247,7 +247,7 @@ describe "as a new user" do
 
         it "takes me to the cards survey page" do
           submit_form
-          expect(current_path).to eq survey_card_accounts_path
+          expect(current_path).to eq survey_spending_path
         end
       end
 
