@@ -22,10 +22,12 @@ describe "the spending info survey" do
   ]
 
   let(:ps_prefix) { "spending_survey" }
-  let(:mp_prefix) { "#{ps_prefix}_main_spending_info_attributes" }
-  let(:co_prefix) { "#{ps_prefix}_companion_spending_info_attributes" }
+  let(:mp_prefix) { "#{ps_prefix}_main_info" }
+  let(:co_prefix) { "#{ps_prefix}_companion_info" }
 
   let(:shares_expenses) { false }
+
+  let(:submit_form) { click_button "Save" }
 
   shared_examples "business spending input" do |opts={}|
     my        = opts[:companion] ? "my" : "my companion's"
@@ -58,6 +60,14 @@ describe "the spending info survey" do
     end
   end
 
+  def fill_in_valid_main_passenger_spending_info
+    fill_in "#{mp_prefix}_credit_score", with: 456
+    fill_in "#{mp_prefix}_personal_spending", with: 6789
+    choose  "#{mp_prefix}_will_apply_for_loan_true"
+    choose  "#{mp_prefix}_has_business_without_ein"
+    fill_in "#{mp_prefix}_business_spending", with: 5000
+  end
+
   describe "when I don't have a travel companion" do
     let(:has_companion) { false }
 
@@ -75,7 +85,29 @@ describe "the spending info survey" do
 
     include_examples "business spending input"
 
-    pending "submitting the form"
+    describe "submitting the form", :js do
+      describe "with valid information" do
+        before { fill_in_valid_main_passenger_spending_info }
+
+        it "saves information about my spending" do
+          expect{submit_form}.to change{SpendingInfo.count}.by(1)
+
+          account.reload
+
+          info = account.main_passenger.spending_info
+          expect(info).to be_persisted
+          expect(info.credit_score).to eq 456
+          expect(info.will_apply_for_loan).to be_truthy
+          expect(info.has_business).to eq "without_ein"
+          expect(info.personal_spending).to eq 6789
+          expect(info.business_spending).to eq 5000
+        end
+
+        it "takes me to the next stage of the survey"
+
+        pending "with invalid information"
+      end
+    end
   end # when I don't have a travel companion
 
   describe "when I have a travel companion" do
@@ -109,6 +141,40 @@ describe "the spending info survey" do
     include_examples "business spending input"
     include_examples "business spending input", companion: true
 
-    pending "submitting the form"
+    describe "submitting the form", :js do
+      describe "with valid information about my and my partner's spending" do
+        before do
+          fill_in_valid_main_passenger_spending_info
+          fill_in "#{co_prefix}_credit_score", with: 654
+          fill_in "#{co_prefix}_personal_spending", with: 8000
+          choose  "#{co_prefix}_has_business_with_ein"
+          fill_in "#{co_prefix}_business_spending", with: 4500
+        end
+
+        it "saves the spending information" do
+          expect{submit_form}.to change{SpendingInfo.count}.by(2)
+
+          account.reload
+
+          main_info = account.main_passenger.spending_info
+          expect(main_info).to be_persisted
+          expect(main_info.credit_score).to eq 456
+          expect(main_info.will_apply_for_loan).to be_truthy
+          expect(main_info.has_business).to eq "without_ein"
+          expect(main_info.personal_spending).to eq 6789
+          expect(main_info.business_spending).to eq 5000
+
+          companion_info = account.companion_info.spending_info
+          expect(companion_info).to be_persisted
+          expect(companion_info.credit_score).to eq 654
+          expect(companion_info.will_apply_for_loan).to be_falsey
+          expect(companion_info.has_business).to eq "with_ein"
+          expect(companion_info.personal_spending).to eq 8000
+          expect(companion_info.business_spending).to eq 4500
+        end
+
+        it "takes me to the next stage of the survey"
+      end
+    end
   end
 end

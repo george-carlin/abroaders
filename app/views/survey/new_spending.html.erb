@@ -14,19 +14,20 @@
       <% end %>
     </p>
 
-    <%= spending_survey_form @survey do |main_f, companion_f| %>
+    <%= form_for @survey, url: survey_spending_path do |f| %>
 
       <% if current_account.shares_expenses? %>
-        <%= main_f.label(
-          :personal_spending,
+        <%= f.label(
+          :main_info_personal_spending,
           "What is you and #{current_companion.first_name}'s normal combined"\
           "spending per month?"
         ) %>
+
         <p class="help-block">
           You have indicated that you and <%= current_companion.first_name %>
           share expenses
         </p>
-        <%= main_f.number_field :personal_spending %>
+        <%= f.number_field :main_info_personal_spending %>
       <% end %>
 
       <% if has_companion? %>
@@ -35,9 +36,8 @@
 
       <%= render(
         "spending_info/fields",
-        f:    main_f,
-        name: (current_main_passenger.first_name if has_companion?),
-        show_personal_spending: !current_account.shares_expenses?
+        f:    f,
+        info: f.object.main_info
       ) %>
 
       <% if has_companion? %>
@@ -45,9 +45,8 @@
 
         <%= render(
           "spending_info/fields",
-          f:    companion_f,
-          name: current_companion.first_name,
-          show_personal_spending: !current_account.shares_expenses?
+          f:    f,
+          info: f.object.companion_info
         ) %>
       <% end %>
 

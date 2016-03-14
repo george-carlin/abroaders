@@ -19,21 +19,6 @@ module SurveyHelper
     end
   end
 
-  def spending_survey_form(survey)
-    raise unless survey.is_a?(SpendingSurvey) # sanity check
-    fields_for(
-      "spending_survey[main_spending_info_attributes]",
-      survey.main_spending_info
-    ) do |mp_fields|
-      fields_for(
-        "spending_survey[companion_spending_info_attributes]",
-        survey.companion_spending_info
-      ) do |co_fields|
-        yield mp_fields, co_fields
-      end
-    end
-  end
-
   def has_business_label_text(value, user_name)
     case value
     when "with_ein"

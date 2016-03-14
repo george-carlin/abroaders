@@ -12,38 +12,16 @@ class SpendingInfo < ActiveRecord::Base
     has_business_with_ein? || has_business_without_ein?
   end
 
+  delegate :main, :main?, to: :passenger
+
   # Associations
 
   belongs_to :passenger
+  has_one :account, through: :passenger
 
   # Validations
 
   MINIMUM_CREDIT_SCORE = 350
   MAXIMUM_CREDIT_SCORE = 850
-
-  validates :credit_score, presence: true,
-    numericality: {
-      greater_than_or_equal_to: MINIMUM_CREDIT_SCORE,
-      less_than_or_equal_to:    MAXIMUM_CREDIT_SCORE,
-      # avoid duplicate error message (from presence validation) when nil:
-      allow_nil: true
-    }
-  # Spending columns = spending per month, in whole US dollars
-  validates :personal_spending,
-    presence: true,
-    numericality: {
-      greater_than_or_equal_to: 0,
-      less_than_or_equal_to: POSTGRESQL_MAX_INT_VALUE,
-      # avoid duplicate error message (from presence validation) when nil:
-      allow_nil: true
-    }
-  validates :business_spending,
-    presence: true,
-    numericality: {
-      greater_than_or_equal_to: 0,
-      less_than_or_equal_to: POSTGRESQL_MAX_INT_VALUE,
-      # avoid duplicate error message (from presence validation) when nil:
-      allow_nil: true
-    }
 
 end

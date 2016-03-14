@@ -9,22 +9,23 @@ class SurveyController < NonAdminController
   def create_passengers
     @survey = PassengerSurvey.new(current_account, passenger_survey_params)
     if @survey.save
-      redirect_to survey_card_accounts_path
+      redirect_to survey_spending_path
     else
       render "new_passengers"
     end
   end
 
   def new_spending
-    @survey = SpendingSurvey.new(
-      current_account.main_passenger,
-      current_account.companion
-    )
+    @survey = SpendingSurvey.new(current_account)
   end
 
   def create_spending
     @survey = SpendingSurvey.new(current_account)
-    raise "not yet implemented"
+    if @survey.save
+      redirect_to survey_card_accounts_path
+    else
+      render "new_spending"
+    end
   end
 
   def new_card_accounts
