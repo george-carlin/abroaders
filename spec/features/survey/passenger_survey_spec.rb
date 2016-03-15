@@ -208,9 +208,10 @@ describe "as a new user" do
             expect(account.reload.updated_at).to eq updated_at_before
           end
 
-          it "shows the form again" do
+          it "shows the form again with an error message" do
             submit_form
             expect(current_path).to eq survey_passengers_path
+            expect(page).to have_error_message
           end
         end
       end
@@ -249,11 +250,13 @@ describe "as a new user" do
 
       context "with invalid information" do
         it "doesn't save my information" do
-          expect{submit_form}.not_to change{Passenger.count} end
+          expect{submit_form}.not_to change{Passenger.count}
+        end
 
-        it "shows the form again" do
+        it "shows the form again with an error message" do
           submit_form
           expect(current_path).to eq survey_passengers_path
+          expect(page).to have_error_message
         end
       end
     end # submitting the form
