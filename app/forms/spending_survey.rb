@@ -1,6 +1,45 @@
 class SpendingSurvey < Form
 
-  SPENDING_INFO_GETTERS = %i[
+  def initialize(account)
+    @account = account
+    # Sanity checks:
+    raise if !@account.main_passenger.try(:persisted?)
+    raise if @account.main_passenger.spending_info.try(:persisted?)
+
+    @main_passenger = @account.main_passenger
+    @main_info      = @main_passenger.build_spending_info
+
+    @has_companion  = @account.has_companion?
+
+    if @account.has_companion?
+      raise if @account.companion.spending_info.try(:persisted?)
+      @companion      = account.companion
+      @companion_info = @companion.build_spending_info
+    end
+  end
+
+  # ----- ATTRIBUTES -----
+
+  attr_reader :main_info, :companion_info
+
+  delegate :has_business?, to: :main_info,      prefix: true
+  delegate :has_business?, to: :companion_info, prefix: true, allow_nil: true
+  alias_method :main_passenger_has_business?, :main_info_has_business?
+  alias_method :companion_has_business?,      :companion_info_has_business?
+
+  def account_shares_expenses?
+    @account.shares_expenses
+  end
+
+  def main_passenger_first_name
+    @main_passenger.first_name
+  end
+
+  def companion_first_name
+    @companion.first_name
+  end
+
+  SPENDING_INFO_ATTRS = %i[
     business_spending
     credit_score
     has_business
@@ -8,35 +47,50 @@ class SpendingSurvey < Form
     will_apply_for_loan
   ]
 
-  SPENDING_INFO_SETTERS = SPENDING_INFO_GETTERS.map { |g| :"#{g}=" }
-
-  SPENDING_INFO_ACCESSORS = SPENDING_INFO_GETTERS + SPENDING_INFO_SETTERS
-
-  attr_accessor :account, :main_passenger, :companion, :main_info,
-    :companion_info, :has_companion
-
-  delegate(*SPENDING_INFO_ACCESSORS, to: :main_info, prefix: true)
-  delegate(*SPENDING_INFO_ACCESSORS, to: :companion_info, prefix: true)
-
-  alias_attribute "has_companio", :has_companion
-
-  def initialize(account, params={})
-    self.account = account
-    # Sanity checks:
-    raise unless account.main_passenger.try(:persisted?)
-    raise if account.main_passenger.spending_info.try(:persisted?)
-
-    self.main_passenger = account.main_passenger
-    self.main_info      = main_passenger.build_spending_info
-
-    self.has_companion  = account.has_companion?
-
-    if account.has_companion?
-      raise if account.companion.spending_info.try(:persisted?)
-      self.companion      = account.companion
-      self.companion_info = companion.build_spending_info
+  %i[main_info companion_info].each do |info|
+    SPENDING_INFO_ATTRS.each do |attr|
+      attr_accessor :"#{info}_#{attr}"
     end
   end
+
+  # An empty checkbox in Rails submits "0", while a radio button with
+  # value 'false' submits "false" (a string, not a bool) - both of which Ruby
+  # will treat as truthy - so sanitize boolean setters:
+  #
+  # TODO this a semi-duplicate of PassengerSurvey#has_companion= - is
+  # there any way this can be DRYed e.g. converted into a class method
+  # on Form?
+  def main_info_will_apply_for_loan=(bool)
+    @main_info_will_apply_for_loan = %w[false 0].include?(bool) ? false : !!bool
+  end
+
+  def companion_info_will_apply_for_loan=(bool)
+    @companion_info_will_apply_for_loan = \
+      %w[false 0].include?(bool) ? false : !!bool
+  end
+
+  def has_companion?
+    @account.has_companion?
+  end
+
+  def assign_attributes(attributes)
+    attributes.each { |key, value| self.send "#{key}=", value }
+  end
+
+  def save
+    super do
+      SPENDING_INFO_ATTRS.each do |attr|
+        main_info.send("#{attr}=",      self.send("main_info_#{attr}"))
+        if has_companion?
+          companion_info.send("#{attr}=", self.send("companion_info_#{attr}"))
+        end
+      end
+      main_info.save!
+      companion_info.save! if has_companion?
+    end
+  end
+
+  # Validations
 
   CREDIT_SCORE_VALIDATIONS = {
     numericality: {
@@ -47,7 +101,7 @@ class SpendingSurvey < Form
     }
   }
 
-  SPENDING_VALIDATIONS = {
+  SPENDING_NUMERICALITY_VALIDATIONS = {
     numericality: {
       greater_than_or_equal_to: 0,
       less_than_or_equal_to: POSTGRESQL_MAX_INT_VALUE,
@@ -58,17 +112,33 @@ class SpendingSurvey < Form
 
   validates :main_info_credit_score,
     CREDIT_SCORE_VALIDATIONS.merge(presence: true)
-  validates :main_info_personal_spending,
-    SPENDING_VALIDATIONS.merge(presence: true)
-  validates :main_info_business_spending,
-    SPENDING_VALIDATIONS.merge(presence: true)
+  validates :main_info_personal_spending, {
+    numericality: SPENDING_NUMERICALITY_VALIDATIONS,
+    presence: true
+  }
 
-  validates :companion_spending_credit_score,
-    CREDIT_SCORE_VALIDATIONS.merge(presence: :has_companion?)
-  validates :companion_spending_personal_spending,
-    SPENDING_VALIDATIONS.merge(presence: :has_companion?)
-  validates :companion_spending_business_spending,
-    # TODO will this cause an error when the input is blank?
-    SPENDING_VALIDATIONS.merge(presence: :has_companion?)
+  with_options if: :main_passenger_has_business? do |survey|
+    survey.validates :main_info_business_spending, {
+      numericality: SPENDING_NUMERICALITY_VALIDATIONS,
+      presence: true
+    }
+  end
+
+  with_options if: :has_companion? do |survey|
+    survey.validates :companion_info_credit_score,
+      CREDIT_SCORE_VALIDATIONS.merge(presence: true)
+
+    survey.validates :companion_info_personal_spending, {
+      numericality: SPENDING_NUMERICALITY_VALIDATIONS,
+      presence: true
+    }
+  end
+
+  with_options if: "has_companion? && companion_has_business?" do |survey|
+    survey.validates :companion_info_business_spending, {
+      numericality: SPENDING_NUMERICALITY_VALIDATIONS,
+      presence: true
+    }
+  end
 
 end

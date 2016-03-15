@@ -55,6 +55,7 @@ class PassengerSurvey < Form
 
   def assign_attributes(attributes)
     self.has_companion = attributes.delete(:has_companion)
+    # TODO is this secure? Potentially passing user input to `send`?
     attributes.each do |key, value|
       next if !has_companion && /^companion_/ =~ key.to_s
       self.send "#{key}=", value
@@ -62,27 +63,17 @@ class PassengerSurvey < Form
   end
 
   def save
-    Passenger.transaction do
-      if valid?
-        unless has_companion?
-          # Remove the blank Passenger that was created earlier by
-          # `build_companion` - otherwise `account.save` will attempt to save
-          # it with invalid attributes, raising an error.
-          self.account.companion = nil
-        end
-        # As well as saving the account, this  will automatically save the
-        # associated passenger(s):
-        self.account.save(validate: false)
-        true
-      else
-        false
+    super do
+      unless has_companion?
+        # Remove the blank Passenger that was created earlier by
+        # `build_companion` - otherwise `account.save` will attempt to save
+        # it with invalid attributes, raising an error.
+        self.account.companion = nil
       end
+      # As well as saving the account, this  will automatically save the
+      # associated passenger(s):
+      self.account.save!(validate: false)
     end
-  end
-
-  def update_attributes(attributes)
-    assign_attributes(attributes)
-    save
   end
 
   # Validations

@@ -3,6 +3,8 @@
 
     <h1>Spending</h1>
 
+    <%= render "shared/model_validation_errors", model: @survey %>
+
     <p>
       Welcome, <%= current_main_passenger.first_name %>! In order to help
       you apply for the right cards, we need to get some financial information
@@ -37,7 +39,7 @@
       <%= render(
         "spending_info/fields",
         f:    f,
-        info: f.object.main_info
+        main: true
       ) %>
 
       <% if has_companion? %>
@@ -46,7 +48,7 @@
         <%= render(
           "spending_info/fields",
           f:    f,
-          info: f.object.companion_info
+          main: false
         ) %>
       <% end %>
 

@@ -21,7 +21,7 @@ class SurveyController < NonAdminController
 
   def create_spending
     @survey = SpendingSurvey.new(current_account)
-    if @survey.save
+    if @survey.update_attributes(spending_survey_params)
       redirect_to survey_card_accounts_path
     else
       render "new_spending"
@@ -79,6 +79,22 @@ class SurveyController < NonAdminController
       :main_passenger_phone_number, :main_passenger_text_message,
       :main_passenger_whatsapp, :main_passenger_willing_to_apply,
       :shares_expenses, :time_zone,
+    )
+  end
+
+  def spending_survey_params
+    params.require(:spending_survey).permit(
+      :companion_info_business_spending,
+      :companion_info_credit_score,
+      :companion_info_has_business,
+      :companion_info_info,
+      :companion_info_personal_spending,
+      :companion_info_will_apply_for_loan,
+      :main_info_business_spending,
+      :main_info_credit_score,
+      :main_info_has_business,
+      :main_info_personal_spending,
+      :main_info_will_apply_for_loan
     )
   end
 

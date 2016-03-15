@@ -1,5 +1,9 @@
-<% if current_account.has_companion? %>
-  <% name       = info.passenger.first_name %>
+<% if f.object.has_companion? %>
+  <% if main %>
+    <% name = f.object.main_passenger_first_name %>
+  <% else %>
+    <% name = f.object.companion_first_name %>
+  <% end %>
   <% possessive = "#{name}'s" %>
   <% does       = "does" %>
 <% else %>
@@ -8,7 +12,7 @@
   <% does       = "do"   %>
 <% end %>
 
-<% attr_prefix = info.main ? :main_info : :companion_info %>
+<% attr_prefix = main ? :main_info : :companion_info %>
 
 <div class="spending-info-fields">
   <div class="form-group required">
@@ -55,7 +59,7 @@
     </div>
   </div>
 
-  <% if !f.object.account.shares_expenses? %>
+  <% if !f.object.account_shares_expenses? %>
     <div class="form-group required">
       <%= f.label(
         "#{attr_prefix}_personal_spending",
@@ -81,7 +85,7 @@
           <%= f.radio_button(
             "#{attr_prefix}_has_business",
                 value,
-                checked: f.object.send("#{attr_prefix}_has_business") == value
+                checked: f.object.send("#{attr_prefix}").has_business == value
               ) %>
           <%= has_business_label_text(value, name) %>
         </label>
