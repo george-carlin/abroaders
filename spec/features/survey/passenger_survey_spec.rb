@@ -195,7 +195,10 @@ describe "as a new user" do
             expect(co.willing_to_apply).to be_truthy
           end
 
-          it "takes me to the next stage of the survey"
+          it "takes me to the spending survey page" do
+            submit_form
+            expect(current_path).to eq survey_spending_path
+          end
         end
 
         describe "with invalid information" do
@@ -216,8 +219,6 @@ describe "as a new user" do
     describe "submitting the form" do
       context "with valid information about myself" do
         before { fill_in_valid_main_passenger }
-
-        pending "strip trailing whitespace"
 
         it "saves my information" do
           expect(account.main_passenger).not_to be_persisted
@@ -240,7 +241,7 @@ describe "as a new user" do
           expect(account.reload.main_passenger).to be_willing_to_apply
         end
 
-        it "takes me to the cards survey page" do
+        it "takes me to the spending survey page" do
           submit_form
           expect(current_path).to eq survey_spending_path
         end
