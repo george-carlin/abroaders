@@ -99,9 +99,6 @@ class PassengerSurvey < Form
 
   validate :at_least_one_passenger_is_willing_to_apply, if: :has_companion?
 
-  # TODO validate phone number looks like a valid phone number
-  # TODO strip leading/trailing whitespace from string cols
-
   private
 
   def at_least_one_passenger_is_willing_to_apply
