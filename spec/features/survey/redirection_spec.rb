@@ -7,13 +7,27 @@ describe "as a new user" do
     account = build(:account)
 
     if completed_passengers_survey
-      if completed_spending_survey
-        create(:passenger, :with_spending_info, account: account)
-      else
-        create(:passenger, account: account)
+      passenger = if completed_spending_survey
+                    create(:passenger, :with_spending_info, account: account)
+                  else
+                    create(:passenger, account: account)
+                  end
+
+      # Whether or not the account has a travel companion is irrelevant in the
+      # context of this spec, *unless* we're testing the redirection to the
+      # card accounts survey
+      if has_companion
+        companion_opts = [:companion, :with_spending_info, { account: account }]
+        if completed_companion_cards_survey
+          companion_opts[2][:has_added_cards] = true
+        end
+        create(:passenger, *companion_opts)
       end
 
-      account.has_added_cards    = completed_cards_survey
+      if completed_main_cards_survey
+        passenger.update_attributes!(has_added_cards: true)
+      end
+
       account.has_added_balances = completed_balances_survey
     end
     account.save!
@@ -26,23 +40,24 @@ describe "as a new user" do
       card_accounts_path,
       new_travel_plan_path,
       survey_balances_path,
-      survey_card_accounts_path,
+      survey_card_accounts_path(:main),
+      survey_card_accounts_path(:companion),
       survey_passengers_path,
       survey_spending_path,
       travel_plans_path
     ]
   end
 
-  let(:paths_to_test) { paths - allowed_paths }
-
-  let(:completed_passengers_survey) { false }
-  let(:completed_spending_survey)   { false }
-  let(:completed_cards_survey)      { false }
-  let(:completed_balances_survey)   { false }
+  let(:completed_passengers_survey)      { false }
+  let(:completed_spending_survey)        { false }
+  let(:completed_main_cards_survey)      { false }
+  let(:completed_companion_cards_survey) { false }
+  let(:completed_balances_survey)        { false }
+  let(:has_companion)                    { false }
 
   shared_examples "no cards or travel plans links" do
     specify "navbar does not contain links to 'Cards' or 'Travel Plans'" do
-      visit allowed_paths.first
+      visit root_path
       within "#main_navbar" do
         is_expected.not_to have_link "Cards"
         is_expected.not_to have_link "Travel Plans"
@@ -50,18 +65,25 @@ describe "as a new user" do
     end
   end
 
-  context "who has not completed any part of the survey" do
-    let(:allowed_paths) { [survey_passengers_path] }
+  def self.it_redirects_to(route_name, description)
+    # the route helpers, e.g. survey_spending_path, aren't available in the
+    # scope of a 'describe' block (i.e. in the scope from which
+    # `it_redirects_to` will be called. So pass the method name as a string and
+    # get the route using some eval hackery:
+    let(:survey_path) { eval(route_name.to_s)  }
 
-    describe "any authenticated page except the passengers survey" do
-      it "redirects me to the passengers survey" do
-        paths_to_test.each do |path|
+    describe "any authenticated page except #{description}" do
+      it "redirects me to #{description}" do
+        (paths - [survey_path]).each do |path|
           visit path
-          expect(current_path).to eq survey_passengers_path
+          expect(current_path).to eq survey_path
         end
       end
     end
+  end
 
+  context "who has not completed any part of the survey" do
+    it_redirects_to(:survey_passengers_path, "the passengers survey")
     include_examples "no cards or travel plans links"
   end
 
@@ -69,17 +91,7 @@ describe "as a new user" do
     let(:completed_passengers_survey) { true }
 
     context "but not the spending info survey" do
-      let(:allowed_paths) { [survey_spending_path] }
-
-      describe "any authenticated page except the spending survey" do
-        it "redirects me to the spending survey" do
-          paths_to_test.each do |path|
-            visit path
-            expect(current_path).to eq survey_spending_path
-          end
-        end
-      end
-
+      it_redirects_to(:survey_spending_path, "the spending survey")
       include_examples "no cards or travel plans links"
     end
 
@@ -87,34 +99,51 @@ describe "as a new user" do
       let(:completed_spending_survey) { true }
 
       context "but not the card accounts survey" do
-        let(:allowed_paths) { [survey_card_accounts_path] }
-        describe "any authenticated page except the card accounts survey" do
-          it "redirects me to the card accounts survey" do
-            paths_to_test.each do |path|
-              visit path
-              expect(current_path).to eq survey_card_accounts_path
-            end
-          end
+        context "when the account has no travel companion" do
+          it_redirects_to(
+            "survey_card_accounts_path(:main)",
+            "the main passenger card account survey"
+          )
+
+          include_examples "no cards or travel plans links"
         end
 
-        include_examples "no cards or travel plans links"
+        context "when the account has a travel companion" do
+          let(:has_companion) { true }
+
+          context "and I have not added anyone's cards" do
+            it_redirects_to(
+              "survey_card_accounts_path(:main)",
+              "the main passenger card account survey"
+            )
+          end
+
+          context "and I have added my cards" do
+            let(:completed_main_cards_survey) { true }
+
+            context "but not my companion's cards" do
+              let(:completed_companion_cards_survey) { false }
+              it_redirects_to(
+                "survey_card_accounts_path(:companion)",
+                "the companion passenger card account survey"
+              )
+            end
+
+            context "and my companion's cards" do
+              let(:completed_companion_cards_survey) { true }
+              it_redirects_to "survey_balances_path", "the balances survey"
+            end
+          end
+
+          include_examples "no cards or travel plans links"
+        end
       end
 
       context "and the card accounts survey" do
-        let(:completed_cards_survey) { true }
+        let(:completed_main_cards_survey) { true }
 
         context "but not the balances survey" do
-          let(:allowed_paths) { [survey_balances_path] }
-
-          describe "any authenticated page except the balances survey" do
-            it "redirects me to the balances survey" do
-              paths_to_test.each do |path|
-                visit path
-                expect(current_path).to eq survey_balances_path
-              end
-            end
-          end
-
+          it_redirects_to("survey_balances_path", "the balances survey")
           include_examples "no cards or travel plans links"
         end
 

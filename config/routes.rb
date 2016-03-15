@@ -25,8 +25,11 @@ Rails.application.routes.draw do
     get  :spending, action: :new_spending
     post :spending, action: :create_spending
 
-    get  :cards, action: :new_card_accounts,    as: :card_accounts
-    post :cards, action: :create_card_accounts, as: nil
+    card_survey_page_constraints = { passenger: /(main)|(companion)/ }
+    get  "cards/(:passenger)", action: :new_card_accounts,
+          as: :card_accounts, constraints: card_survey_page_constraints
+    post "cards/(:passenger)", action: :create_card_accounts,
+          as: nil,            constraints: card_survey_page_constraints
 
     get  :balances, action: :new_balances
     post :balances, action: :create_balances

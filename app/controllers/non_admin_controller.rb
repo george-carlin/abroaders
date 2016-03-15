@@ -8,26 +8,39 @@ class NonAdminController < AuthenticatedController
   protected
 
   def redirect_to_survey_if_incomplete
-    # The path to the current stage of the survey that the user needs to
-    # complete. nil if the user has completed all survey stages:
-    current_survey_path = nil
-
-    {
-      # method to test if stage is complete =>
-      #             path to redirect to if stage is not complete
-      :has_added_passengers?  => survey_passengers_path,
-      :has_added_spending?    => survey_spending_path,
-      :has_added_cards?       => survey_card_accounts_path,
-      :has_added_balances?    => survey_balances_path,
-    }.each do |method, path|
-      if !current_account.send(method)
-        current_survey_path = path
-        break
+    if !current_account.has_added_passengers?
+      if request.path != survey_passengers_path
+        redirect_to survey_passengers_path
       end
+      return
     end
 
-    if current_survey_path && current_survey_path != request.path
-      redirect_to current_survey_path
+    if !current_account.has_added_spending?
+      if request.path != survey_spending_path
+        redirect_to survey_spending_path
+      end
+      return
+    end
+
+    if !current_account.has_added_cards?
+      if current_account.has_companion? && \
+            current_main_passenger.has_added_cards?
+        if request.path != survey_card_accounts_path(:companion)
+          redirect_to survey_card_accounts_path(:companion)
+        end
+      else
+        if request.path != survey_card_accounts_path(:main)
+          redirect_to survey_card_accounts_path(:main)
+        end
+      end
+      return
+    end
+
+    if !current_account.has_added_balances?
+      if request.path != survey_balances_path
+        redirect_to survey_balances_path
+      end
+      return
     end
   end
 end

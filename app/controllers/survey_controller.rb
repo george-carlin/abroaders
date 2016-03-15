@@ -28,6 +28,7 @@ class SurveyController < NonAdminController
   end
 
   def new_card_accounts
+    redirect_to card_account_passenger_path and return unless params[:passenger]
     @cards = Card.all
   end
 
@@ -95,6 +96,20 @@ class SurveyController < NonAdminController
       :main_info_personal_spending,
       :main_info_will_apply_for_loan
     )
+  end
+
+  def card_account_passenger_path
+    account = current_account # for the sake of short lines
+    if account.main_passenger.has_added_cards?
+      if account.has_companion? && !account.companion.has_added_cards?
+        result = survey_card_accounts_path(:companion)
+      else
+        raise "this should never happen"
+      end
+    else
+      result = survey_card_accounts_path(:main)
+    end
+    result
   end
 
 end

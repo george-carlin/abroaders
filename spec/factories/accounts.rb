@@ -12,6 +12,7 @@ FactoryGirl.define do
     end
 
     trait :completed_main_survey do
+      # SURVEYTODO
       after(:build) do |account|
         account.build_survey(
           attributes_for(

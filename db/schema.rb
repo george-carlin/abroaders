@@ -37,7 +37,6 @@ ActiveRecord::Schema.define(version: 20160310183236) do
     t.string   "time_zone"
     t.boolean  "shares_expenses",        default: false, null: false
     t.boolean  "has_added_balances",     default: false, null: false
-    t.boolean  "has_added_cards",        default: false, null: false
   end
 
   add_index "accounts", ["admin"], name: "index_accounts_on_admin", using: :btree
@@ -160,6 +159,7 @@ ActiveRecord::Schema.define(version: 20160310183236) do
     t.datetime "updated_at",                       null: false
     t.boolean  "main",             default: true,  null: false
     t.boolean  "willing_to_apply", default: true,  null: false
+    t.boolean  "has_added_cards",  default: false, null: false
   end
 
   add_index "passengers", ["account_id", "main"], name: "index_passengers_on_account_id_and_main", unique: true, using: :btree

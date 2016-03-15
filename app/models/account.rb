@@ -27,9 +27,13 @@ class Account < ApplicationRecord
     passengers.any? && passengers.all?(&:has_added_spending?)
   end
 
+  def has_added_cards?
+    passengers.any? && passengers.all?(&:has_added_cards?)
+  end
+
   def survey_complete?
-    has_added_passengers? && has_added_spending? && has_added_balances? &&
-      has_added_cards?
+    has_added_passengers? && has_added_spending? && has_added_cards? &&
+      has_added_balances?
   end
 
   def has_companion
