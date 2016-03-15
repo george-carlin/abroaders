@@ -29,23 +29,30 @@ class SurveyController < NonAdminController
 
   def new_card_accounts
     redirect_to card_account_passenger_path and return unless params[:passenger]
+    @name  = load_name(params[:passenger])
     @cards = Card.all
   end
 
   def create_card_accounts
-    cards = Card.where(id: params[:card_account][:card_ids])
-    ActiveRecord::Base.transaction do
-      CardAccount.unknown.create!(
-        cards.map do |card|
-          { user: current_account, card: card}
-        end
-      )
-      current_account.survey.update_attributes!(has_added_cards: true)
+    @survey = case params[:passenger]
+              when "main"      then CardsSurvey.new(current_main_passenger)
+              when "companion" then CardsSurvey.new(current_companion)
+              end
+    if @survey.update_attributes(card_survey_params)
+      if params[:passenger] == "main" && has_companion?
+        redirect_to survey_card_accounts_path(:companion)
+      else
+        redirect_to survey_balances_path
+      end
+    else
+      # As it stands, there's no way the user can submit the existing
+      # survey in a way that would fail validations.
+      raise "this should never happen"
     end
-    redirect_to survey_balances_path
   end
 
   def new_balances
+    render plain: "TODO" and return
     @survey = BalancesSurvey.new(current_account)
   end
 
@@ -98,6 +105,10 @@ class SurveyController < NonAdminController
     )
   end
 
+  def card_survey_params
+    { card_ids: params[:card_account][:card_ids] }
+  end
+
   def card_account_passenger_path
     account = current_account # for the sake of short lines
     if account.main_passenger.has_added_cards?
@@ -110,6 +121,18 @@ class SurveyController < NonAdminController
       result = survey_card_accounts_path(:main)
     end
     result
+  end
+
+  def load_name(passenger_type)
+    if passenger_type == "main"
+      if has_companion?
+        Name.new(current_main_passenger.first_name)
+      else
+        Name.you
+      end
+    else
+      Name.new(current_companion.first_name)
+    end
   end
 
 end

@@ -4,10 +4,16 @@
   <div class="col-xs-12 col-md-10 col-md-offset-1">
     <h1>Your Cards</h1>
 
-    <p>Before we can recommend you a credit card to apply for, we need to
-      know which cards you already have.</p>
+    <p>
+      Before we can recommend <%= @name.name %> a credit card to apply for, we
+      need to know which cards <%= @name.he_she %> already <%= @name.has %>.
+    </p>
 
-    <p>Please select <strong>all</strong> of the credit/debit cards below for which you have been the <strong>primary cardholder in the past 24 months</strong>.</p>
+    <p>
+      Please select <strong>all</strong> of the credit/debit cards below for
+      which <%= @name.name %> <%= @name.has %> been the <strong>primary
+      cardholder in the past 24 months</strong>.
+    </p>
 
     <p>
       For this question, you <strong>should</strong> include:
@@ -17,8 +23,8 @@
           Accounts that were opened in the last 24 months, but are now closed.
         </li>
         <li>
-          Accounts that were opened in the last 24 months, but have been changed
-          into another type of card.
+          Accounts that were opened in the last 24 months, but have been
+          changed into another type of card.
         </li>
       </ul>
     </p>
@@ -27,7 +33,8 @@
       Please <strong>do not</strong> include:
       <ul>
         <li>
-          Cards for which you were not the primary cardholder.
+          Cards for which <%= @name.name %> <%= @name.was %> not the primary
+          cardholder.
           <br />
           <i>
             Example: Your spouse added you as an additional cardholder on his or
@@ -35,7 +42,8 @@
           </i>
         </li>
         <li>
-          Any card you opened more than 24 months ago that is not currently open.
+          Any card <%= @name.name %> opened more than 24 months ago that is
+          not currently open.
           <br />
           <i>
             Example: You opened a card 3 years ago, and you closed the account
@@ -45,7 +53,7 @@
       </ul>
     </p>
 
-    <%= form_tag survey_card_accounts_path do %>
+    <%= form_tag survey_card_accounts_path(params[:passenger]) do %>
       <% @cards.group_by(&:bank).each do |bank, cards_for_1_bank| %>
 
         <div id="<%= bank %>_cards">

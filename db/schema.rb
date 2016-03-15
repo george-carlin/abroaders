@@ -189,9 +189,9 @@ ActiveRecord::Schema.define(version: 20160310183236) do
 
   add_foreign_key "balances", "accounts", column: "user_id", on_delete: :cascade
   add_foreign_key "balances", "currencies", on_delete: :cascade
-  add_foreign_key "card_accounts", "accounts", column: "passenger_id", on_delete: :cascade
   add_foreign_key "card_accounts", "card_offers", column: "offer_id", on_delete: :cascade
   add_foreign_key "card_accounts", "cards", on_delete: :restrict
+  add_foreign_key "card_accounts", "passengers", on_delete: :cascade
   add_foreign_key "card_offers", "cards", on_delete: :cascade
   add_foreign_key "cards", "currencies", on_delete: :restrict
   add_foreign_key "destinations", "destinations", column: "parent_id", on_delete: :restrict

@@ -30,6 +30,11 @@ class Passenger < ApplicationRecord
   belongs_to :account
   has_one :spending_info
 
+  has_many :card_accounts
+  has_many :card_recommendations, -> { recommendations },
+                                  class_name: "CardAccount"
+  has_many :cards, through: :card_accounts
+
   # Callbacks
 
   auto_strip_attributes :first_name, :middle_names, :last_name, :phone_number
