@@ -1,6 +1,5 @@
 class SurveyController < NonAdminController
-  # SURVEYTODO uncomment me
-  #before_action { redirect_to root_path if current_account.survey_complete? }
+  before_action { redirect_to root_path if current_account.survey_complete? }
 
   def new_passengers
     @survey = PassengerSurvey.new(current_account)

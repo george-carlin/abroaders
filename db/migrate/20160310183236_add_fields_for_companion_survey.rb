@@ -16,6 +16,15 @@ class AddFieldsForCompanionSurvey < ActiveRecord::Migration[5.0]
     remove_column :passengers, :has_business,
                                       :integer, default: 0,     null: false
 
+    remove_column :passengers, :has_added_balances,
+                              :boolean, default: false, null: false
+    remove_column :passengers, :has_added_cards,
+                              :boolean, default: false, null: false
+    add_column :accounts, :has_added_balances,
+                              :boolean, default: false, null: false
+    add_column :accounts, :has_added_cards,
+                              :boolean, default: false, null: false
+
     create_table :spending_infos do |t|
       t.integer :passenger_id,                        null: false
       t.integer :credit_score,                        null: false

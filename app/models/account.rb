@@ -6,6 +6,7 @@ class Account < ApplicationRecord
 
   # Attributes
 
+  # SURVEYTODO what to do with all of this?
   # delegate :business_spending, :citizenship, :credit_score, :first_name,
   #     :full_name, :has_business, :has_business?, :has_business_with_ein?,
   #     :has_business_without_ein?, :has_added_balances, :has_added_balances?,
@@ -18,10 +19,17 @@ class Account < ApplicationRecord
   #   survey.present? ? survey.full_name : "#{self.class} ##{id}"
   # end
 
+  def has_added_passengers?
+    passengers.any? && passengers.all?(&:persisted?)
+  end
+
+  def has_added_spending?
+    passengers.any? && passengers.all?(&:has_added_spending?)
+  end
+
   def survey_complete?
-    # SURVEYTODO
-    # !!survey.try(:complete?)
-    false
+    has_added_passengers? && has_added_spending? && has_added_balances? &&
+      has_added_cards?
   end
 
   def has_companion

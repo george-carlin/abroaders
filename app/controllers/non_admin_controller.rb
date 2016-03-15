@@ -3,7 +3,7 @@
 class NonAdminController < AuthenticatedController
 
   before_action { redirect_to root_path if current_account.try(:admin?) }
-  # before_action :redirect_to_survey_if_incomplete
+  before_action :redirect_to_survey_if_incomplete
 
   protected
 
@@ -15,9 +15,10 @@ class NonAdminController < AuthenticatedController
     {
       # method to test if stage is complete =>
       #             path to redirect to if stage is not complete
-      :has_completed_main_survey?  => survey_path,
-      :has_added_cards?            => survey_card_accounts_path,
-      :has_added_balances?         => survey_balances_path,
+      :has_added_passengers?  => survey_passengers_path,
+      :has_added_spending?    => survey_spending_path,
+      :has_added_cards?       => survey_card_accounts_path,
+      :has_added_balances?    => survey_balances_path,
     }.each do |method, path|
       if !current_account.send(method)
         current_survey_path = path

@@ -10,6 +10,10 @@ FactoryGirl.define do
       main false
     end
 
+    trait :with_spending_info do
+      spending_info
+    end
+
     trait :completed_card_survey do
       has_added_cards true
     end

@@ -8,8 +8,8 @@ class Passenger < ApplicationRecord
     [first_name, middle_names, last_name].compact.join(" ")
   end
 
-  def complete?
-    persisted? && has_added_cards? && has_added_balances?
+  def has_added_spending?
+    spending_info.try(:persisted?)
   end
 
   alias_attribute :main_passenger?, :main
