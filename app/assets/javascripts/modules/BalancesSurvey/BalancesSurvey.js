@@ -1,3 +1,5 @@
+const $ = require("jquery");
+
 $(document).ready(function () {
 
   $(".currency_balance_checkbox").click(function () {
@@ -13,3 +15,5 @@ $(document).ready(function () {
   });
   
 });
+
+// Nothing to export
