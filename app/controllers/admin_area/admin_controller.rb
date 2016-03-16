@@ -1,6 +1,5 @@
 module AdminArea
-  class AdminController < ::AuthenticatedController
-
-    before_action { redirect_to root_path unless current_account.try(:admin?) }
+  class AdminController < ::ApplicationController
+    before_action :authenticate_admin!
   end
 end
