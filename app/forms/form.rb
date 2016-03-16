@@ -26,7 +26,9 @@ class Form
   end
 
   def assign_attributes(attributes)
-    raise NotImplementedError, "subclasses must define #assign_attributes"
+    attributes.each do |key, value|
+      self.send "#{key}=", value
+    end
   end
 
   def update_attributes(attributes)
