@@ -13,31 +13,24 @@ describe "as a new user" do
     ]
 
     @account = create(:account)
-    acc = account # anti-long-line pedanty
     @main_passenger = create(
-      :main_passenger_with_spending, account: acc, first_name: "Steve"
+      :main_passenger_with_spending, account: @account, first_name: "Steve"
     )
     if has_companion
       if main_passenger_has_added_cards
         @main_passenger.update_attributes!(has_added_cards: true)
       end
       @companion = create(
-        :companion_with_spending, account: acc, first_name: "Pete"
+        :companion_with_spending, account: @account, first_name: "Pete"
       )
     end
     @account.reload
 
     login_as @account, scope: :account
   end
-  after { @account.destroy }
 
-  let(:account) { @account }
-
-  let(:companion_page) { false }
   let(:has_companion) { false }
   let(:submit_form) { click_button "Save" }
-
-  H = "h3"
 
   def bank_div_selector(bank)
     "##{bank}_cards"
@@ -49,42 +42,6 @@ describe "as a new user" do
 
   def card_checkbox(card)
     :"card_account_card_ids_#{card.id}"
-  end
-
-
-  shared_examples "card accounts survey" do
-    it "lists cards grouped by bank, then B/P" do
-      is_expected.to have_selector H, text: "Chase Personal Cards"
-      is_expected.to have_selector bank_div_selector(:chase)
-      is_expected.to have_selector bank_bp_div_selector(:chase, :personal)
-
-      is_expected.to have_selector H, text: "Chase Business Cards"
-      is_expected.to have_selector bank_div_selector(:chase)
-      is_expected.to have_selector bank_bp_div_selector(:chase, :business)
-
-      is_expected.to have_selector H, text: "Citibank Personal Cards"
-      is_expected.to have_selector bank_div_selector(:citibank)
-      is_expected.to have_selector \
-                                  bank_bp_div_selector(:citibank, :personal)
-
-      is_expected.to have_selector H, text: "Citibank Business Cards"
-      is_expected.to have_selector bank_div_selector(:citibank)
-      is_expected.to have_selector bank_bp_div_selector(:citibank, :business)
-
-      is_expected.to have_selector H, text: "Barclays Personal Cards"
-      is_expected.to have_selector bank_div_selector(:barclays)
-      is_expected.to have_selector bank_bp_div_selector(:barclays, :personal)
-
-      is_expected.to have_selector H, text: "Barclays Business Cards"
-      is_expected.to have_selector bank_div_selector(:barclays)
-      is_expected.to have_selector bank_bp_div_selector(:barclays, :business)
-    end
-
-    it "has a checkbox for each card" do
-      @cards.each do |card|
-        is_expected.to have_field card_checkbox(card)
-      end
-    end
   end
 
   def select_cards
@@ -99,6 +56,23 @@ describe "as a new user" do
     expect(passenger.card_accounts.map(&:card)).to match_array [
       @chase_b, @citibank_p, @citibank_b
     ]
+  end
+
+  shared_examples "card accounts survey" do
+    it "lists cards grouped by bank, then B/P" do
+      %w[chase citibank barclays].each do |bank|
+        %w[personal business].each do |type|
+          header = "#{bank.capitalize} #{type.capitalize} Cards"
+          is_expected.to have_selector "h3", text: header
+          is_expected.to have_selector bank_div_selector(bank)
+          is_expected.to have_selector bank_bp_div_selector(bank, type)
+        end
+      end
+    end
+
+    it "has a checkbox for each card" do
+      @cards.each { |card| is_expected.to have_field card_checkbox(card) }
+    end
   end
 
   shared_examples "saves survey completion" do |opts={}|
@@ -174,7 +148,6 @@ describe "as a new user" do
     end
   end
 
-
   describe "the 'companion' cards survey" do
     let(:has_companion) { true }
     let(:main_passenger_has_added_cards) { true }
@@ -194,9 +167,9 @@ describe "as a new user" do
       before { select_cards }
 
       describe "and clicking 'Save'" do
-        # it "assigns the cards to the companion" do
-        #   expect_to_assign_cards_to(@companion)
-        # end
+        it "assigns the cards to the companion" do
+          expect_to_assign_cards_to(@companion)
+        end
 
         include_examples "saves survey completion", companion: true
       end
