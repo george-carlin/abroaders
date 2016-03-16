@@ -54,7 +54,19 @@ Rails.application.routes.draw do
 
   resources :travel_plans
 
-  namespace :admin do
+  # ---- ADMINS -----
+
+  devise_for :admins, skip: [:registrations, :sessions]
+  devise_scope :admin do
+    get    :"admin/sign_in",  to: "devise/sessions#new",
+                                              as: :new_admin_session
+    post   :"admin/sign_in",  to: "devise/sessions#create",
+                                              as: :admin_session
+    delete :"admin/sign_out", to: "devise/sessions#destroy",
+                                              as: :destroy_admin_session
+  end
+
+  namespace :admin, module: :admin_area do
     resources :cards, only: [:show, :index, :new, :create] do
       member do
         put :active
@@ -73,6 +85,8 @@ Rails.application.routes.draw do
       resources :card_recommendations, only: [:new, :create]
     end
   end
+
+  # ---- /ADMINS -----
 
   namespace :api, defaults: { format: :json } do
     namespace :v1 do

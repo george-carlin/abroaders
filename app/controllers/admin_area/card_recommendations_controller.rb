@@ -1,4 +1,4 @@
-module Admin
+module AdminArea
   class CardRecommendationsController < Admin::CardAccountsController
 
     def new

@@ -1,5 +1,5 @@
 class Account < ApplicationRecord
-  # Include default devise modules. Others available are:
+  # Include devise modules. Others available are:
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable,
     :trackable, :validatable, :confirmable
@@ -16,6 +16,9 @@ class Account < ApplicationRecord
     :companion_balances,
     :onboarded
   ]
+
+  def admin; false; end
+  alias_method :admin?, :admin
 
   def has_companion
     !!companion.try(:persisted?)
@@ -43,8 +46,5 @@ class Account < ApplicationRecord
   accepts_nested_attributes_for :companion
 
   # Scopes
-
-  scope :admin, -> { where(admin: true) }
-  scope :non_admin, -> { where(admin: false) }
 
 end

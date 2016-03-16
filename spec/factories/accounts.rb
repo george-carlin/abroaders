@@ -7,10 +7,6 @@ FactoryGirl.define do
     password_confirmation  "abroaders123"
     confirmed_at           "2015-01-01"
 
-    factory :admin do
-      admin true
-    end
-
     trait :with_passenger do
       after(:build) do |account|
         account.build_main_passenger(

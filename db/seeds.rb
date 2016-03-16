@@ -8,17 +8,17 @@
 
 ApplicationRecord.transaction do
 
-  unless User.admin.any?
-    %w[Erik AJ George].each do |name|
-      User.admin.create!(
-        email: "#{name.downcase}@abroaders.com",
+  %w[Erik AJ George].each do |name|
+    email = "#{name.downcase}@abroaders.com"
+    unless Admin.exists?(email: email)
+      Admin.create!(
+        email: email,
         password:              "abroaders123",
-        password_confirmation: "abroaders123",
-        confirmed_at: Time.now
+        password_confirmation: "abroaders123"
       )
     end
   end
 
-  `rake ab:sample_data:users`
+  # `rake ab:sample_data:users`
 
 end

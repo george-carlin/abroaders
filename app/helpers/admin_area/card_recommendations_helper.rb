@@ -1,4 +1,4 @@
-module Admin
+module AdminArea
   module CardRecommendationsHelper
 
     def confirm_recommend_card_btn(offer)

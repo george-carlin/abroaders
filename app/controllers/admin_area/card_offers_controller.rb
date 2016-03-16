@@ -1,4 +1,4 @@
-module Admin
+module AdminArea
   class CardOffersController < AdminController
     def index
       @card_offers = CardOffer.includes(:card)

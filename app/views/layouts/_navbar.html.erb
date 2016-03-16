@@ -6,13 +6,13 @@
 
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav navbar-right">
-        <% if current_account %>
-          <% if current_account.admin? %>
+        <% if current_account || current_admin %>
+          <% if current_admin %>
             <li><%= link_to "Destinations", admin_destinations_path %></li>
             <li><%= link_to "Cards", admin_cards_path %></li>
             <li><%= link_to "Offers", admin_card_offers_path %></li>
             <li><%= link_to "Users", admin_accounts_path %></li>
-          <% else %>
+          <% else # current_account %>
             <% if current_account.onboarded? %>
               <li><%= link_to "Cards", card_accounts_path %></li>
               <li><%= link_to "Travel plans", travel_plans_path %></li>
@@ -20,19 +20,11 @@
           <% end %>
           <li>
             <p class="navbar-text">
-              <%= current_account.email %>
-              <% if current_account.admin? %>
-                &nbsp; (A)
-              <% end %>
+              <%= (current_account || current_admin).email %>
+              <% if current_admin %> &nbsp; (A) <% end %>
             </p>
           </li>
-          <li>
-            <%= link_to(
-                  "Sign out",
-                  destroy_account_session_path,
-                  method: :delete
-            ) %>
-          </li>
+          <li><%= link_to_sign_out %></li>
         <% else %>
           <li><%= link_to "Sign in", new_account_session_path %></li>
           <li><%= link_to "Sign up", new_account_registration_path %></li>

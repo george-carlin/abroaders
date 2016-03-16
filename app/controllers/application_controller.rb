@@ -7,12 +7,10 @@ class ApplicationController < ActionController::Base
 
   # Placeholder page for root path
   def root
-    if current_account
-      if current_account.admin?
-        render "admin/dashboard"
-      else
-        render "users/dashboard"
-      end
+    if current_admin
+      render "admin/dashboard"
+    elsif current_account
+      render "accounts/dashboard"
     end
   end
 

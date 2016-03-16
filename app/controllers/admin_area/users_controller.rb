@@ -1,4 +1,4 @@
-module Admin
+module AdminArea
   class AccountsController < AdminController
 
     # GET /admin/accounts

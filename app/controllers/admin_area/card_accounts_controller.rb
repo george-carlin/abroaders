@@ -1,4 +1,4 @@
-module Admin
+module AdminArea
   class CardAccountsController < AdminController
 
     def create

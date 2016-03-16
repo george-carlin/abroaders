@@ -1,4 +1,4 @@
-module Admin
+module AdminArea
   class DestinationsController < AdminController
 
     def index
