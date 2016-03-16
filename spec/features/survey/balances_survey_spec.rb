@@ -115,6 +115,21 @@ describe "as a new user" do
       end
     end
 
+    describe "submitting a balance that contains commas", :js do
+      let(:currency) { @currencies.first }
+      before do
+        currency_check_box(currency).click
+        fill_in balance_field(currency), with: "50,000"
+        submit_form
+      end
+
+      it "strips the commas before saving" do
+        balance = passenger.reload.balances.last
+        expect(balance.currency).to eq currency
+        expect(balance.value).to eq 50_000
+      end
+    end
+
     describe "clicking 'Submit' without adding any balances" do
       it "doesn't create any balances" do
         expect{submit_form}.not_to change{Balance.count}

@@ -4,6 +4,9 @@ class BalancesSurvey
   def initialize(passenger, balances_params=nil)
     @passenger = passenger
     if balances_params
+      # If the user has types in values with commas, make sure that Ruby
+      # treats this as the correct number:
+      balances_params.each { |balance| balance[:value].try :gsub!, /,/, '' }
       # if the value they submitted is '0', or if they left the text field
       # empty, then don't create a Balance object, but don't make the whole
       # form submission fail. If they submitted a value that's less than 0,
