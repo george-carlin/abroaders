@@ -1,3 +1,7 @@
+# Note: This class was created before I invented the 'Form' abstraction. As
+# such, it works very differently from the other '*Survey' classes in app/forms.
+# I attempted to refactor it to make things more consistent, but decided it
+# wasn't worth the trouble.
 class BalancesSurvey
   attr_reader :balances, :errors
 
