@@ -52,19 +52,26 @@ class SurveyController < NonAdminController
   end
 
   def new_balances
-    render plain: "TODO" and return
-    @survey = BalancesSurvey.new(current_account)
+    redirect_to balances_passenger_path and return unless params[:passenger]
+    @survey = case params[:passenger]
+              when "main"      then BalancesSurvey.new(current_main_passenger)
+              when "companion" then BalancesSurvey.new(current_companion)
+              end
+    @name  = load_name(params[:passenger])
   end
 
   def create_balances
     # Example params:
     # { balances: [{currency_id: 2, value: 100}, {currency_id: 6, value: 500}] }
-
-    @survey = BalancesSurvey.new(current_account, balances_params)
-
+    passenger = case params[:passenger]
+                when "main"      then current_main_passenger
+                when "companion" then current_companion
+                end
+    @survey = BalancesSurvey.new(passenger, balances_params)
     if @survey.save
       redirect_to root_path
     else
+      @name  = load_name(params[:passenger])
       render "new_balances"
     end
   end
@@ -119,6 +126,20 @@ class SurveyController < NonAdminController
       end
     else
       result = survey_card_accounts_path(:main)
+    end
+    result
+  end
+
+  def balances_passenger_path
+    account = current_account # for the sake of short lines
+    if account.main_passenger.has_added_balances?
+      if account.has_companion? && !account.companion.has_added_balances?
+        result = survey_balances_path(:companion)
+      else
+        raise "this should never happen"
+      end
+    else
+      result = survey_balances_path(:main)
     end
     result
   end

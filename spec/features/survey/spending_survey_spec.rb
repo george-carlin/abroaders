@@ -121,7 +121,7 @@ describe "the spending info survey" do
 
           it "takes me to the card accounts survey" do
             submit_form
-            expect(current_path).to eq survey_card_accounts_path
+            expect(current_path).to eq survey_card_accounts_path(:main)
           end
         end
 
@@ -147,7 +147,7 @@ describe "the spending info survey" do
 
           it "takes me to the card accounts survey" do
             submit_form
-            expect(current_path).to eq survey_card_accounts_path
+            expect(current_path).to eq survey_card_accounts_path(:main)
           end
         end
       end
@@ -236,7 +236,7 @@ describe "the spending info survey" do
 
         it "takes me to the card accounts survey" do
           submit_form
-          expect(current_path).to eq survey_card_accounts_path
+          expect(current_path).to eq survey_card_accounts_path(:main)
         end
       end
 

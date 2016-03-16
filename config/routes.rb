@@ -25,14 +25,17 @@ Rails.application.routes.draw do
     get  :spending, action: :new_spending
     post :spending, action: :create_spending
 
-    card_survey_page_constraints = { passenger: /(main)|(companion)/ }
-    get  "cards/(:passenger)", action: :new_card_accounts,
-          as: :card_accounts, constraints: card_survey_page_constraints
-    post "cards/(:passenger)", action: :create_card_accounts,
-          as: nil,            constraints: card_survey_page_constraints
+    passenger_constraints = { passenger: /(main)|(companion)/ }
 
-    get  :balances, action: :new_balances
-    post :balances, action: :create_balances
+    get  "cards/(:passenger)", action: :new_card_accounts,
+          as: :card_accounts, constraints: passenger_constraints
+    post "cards/:passenger",  action: :create_card_accounts,
+          as: nil,            constraints: passenger_constraints
+
+    get  "balances/(:passenger)", action: :new_balances,
+          as: :balances, constraints: passenger_constraints
+    post "balances/:passenger", action: :create_balances,
+          as: nil,       constraints: passenger_constraints
   end
 
   # Note that 'cards' is a fixed list, and 'card accounts' is the join table

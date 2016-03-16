@@ -35,6 +35,9 @@ class Passenger < ApplicationRecord
                                   class_name: "CardAccount"
   has_many :cards, through: :card_accounts
 
+  has_many :balances
+  has_many :currencies, through: :balances
+
   # Callbacks
 
   auto_strip_attributes :first_name, :middle_names, :last_name, :phone_number

@@ -1,36 +1,32 @@
 require "rails_helper"
 
-describe "as a new user" do
+describe "as a new user who has" do
   subject { page }
 
   before do
-    account = build(:account)
+    account = create(:account)
 
-    if completed_passengers_survey
-      passenger = if completed_spending_survey
-                    create(:passenger, :with_spending_info, account: account)
-                  else
-                    create(:passenger, account: account)
-                  end
+    if has_added_passengers
+      create(
+        "main_passenger#{"_with_spending"if has_added_spending_info}",
+        account: account,
+        has_added_cards:    main_passenger_has_added_cards,
+        has_added_balances: main_passenger_has_added_balances,
+      )
 
       # Whether or not the account has a travel companion is irrelevant in the
       # context of this spec, *unless* we're testing the redirection to the
-      # card accounts survey
+      # card accounts and balances surveys
       if has_companion
-        companion_opts = [:companion, :with_spending_info, { account: account }]
-        if completed_companion_cards_survey
-          companion_opts[2][:has_added_cards] = true
-        end
-        create(:passenger, *companion_opts)
+        create(
+          :companion_with_spending,
+          account: account,
+          has_added_cards:    companion_has_added_cards,
+          has_added_balances: companion_has_added_balances
+        )
       end
-
-      if completed_main_cards_survey
-        passenger.update_attributes!(has_added_cards: true)
-      end
-
-      account.has_added_balances = completed_balances_survey
     end
-    account.save!
+    account.reload
     login_as account, scope: :account
   end
 
@@ -39,7 +35,8 @@ describe "as a new user" do
     [
       card_accounts_path,
       new_travel_plan_path,
-      survey_balances_path,
+      survey_balances_path(:main),
+      survey_balances_path(:companion),
       survey_card_accounts_path(:main),
       survey_card_accounts_path(:companion),
       survey_passengers_path,
@@ -48,12 +45,13 @@ describe "as a new user" do
     ]
   end
 
-  let(:completed_passengers_survey)      { false }
-  let(:completed_spending_survey)        { false }
-  let(:completed_main_cards_survey)      { false }
-  let(:completed_companion_cards_survey) { false }
-  let(:completed_balances_survey)        { false }
-  let(:has_companion)                    { false }
+  let(:companion_has_added_balances)      { false }
+  let(:companion_has_added_cards)         { false }
+  let(:has_added_passengers)              { false }
+  let(:has_added_spending_info)           { false }
+  let(:has_companion)                     { false }
+  let(:main_passenger_has_added_balances) { false }
+  let(:main_passenger_has_added_cards)    { false }
 
   shared_examples "no cards or travel plans links" do
     specify "navbar does not contain links to 'Cards' or 'Travel Plans'" do
@@ -65,13 +63,7 @@ describe "as a new user" do
     end
   end
 
-  def self.it_redirects_to(route_name, description)
-    # the route helpers, e.g. survey_spending_path, aren't available in the
-    # scope of a 'describe' block (i.e. in the scope from which
-    # `it_redirects_to` will be called. So pass the method name as a string and
-    # get the route using some eval hackery:
-    let(:survey_path) { eval(route_name.to_s)  }
-
+  shared_examples "redirects" do |description|
     describe "any authenticated page except #{description}" do
       it "redirects me to #{description}" do
         (paths - [survey_path]).each do |path|
@@ -82,77 +74,84 @@ describe "as a new user" do
     end
   end
 
-  context "who has not completed any part of the survey" do
-    it_redirects_to(:survey_passengers_path, "the passengers survey")
+  context "not completed any part of the survey" do
+    let(:survey_path) { survey_passengers_path }
+    include_examples "redirects", "the passengers survey"
     include_examples "no cards or travel plans links"
   end
 
-  context "who has completed the passengers survey" do
-    let(:completed_passengers_survey) { true }
+  context "added passenger but not spending info" do
+    let(:has_added_passengers) { true }
+    let(:survey_path) { survey_spending_path }
+    include_examples "redirects", "the spending survey"
+    include_examples "no cards or travel plans links"
+  end
 
-    context "but not the spending info survey" do
-      it_redirects_to(:survey_spending_path, "the spending survey")
+  context "added passenger and spending info but not cards" do
+    let(:has_added_passengers) { true }
+    let(:has_added_spending_info) { true }
+
+    context "when the account has no travel companion" do
+      let(:survey_path) { survey_card_accounts_path(:main) }
+      include_examples "redirects", "the main passenger card account survey"
       include_examples "no cards or travel plans links"
     end
 
-    context "and the spending info survey" do
-      let(:completed_spending_survey) { true }
+    context "when the account has a travel companion" do
+      let(:has_companion) { true }
 
-      context "but not the card accounts survey" do
-        context "when the account has no travel companion" do
-          it_redirects_to(
-            "survey_card_accounts_path(:main)",
-            "the main passenger card account survey"
-          )
-
-          include_examples "no cards or travel plans links"
-        end
-
-        context "when the account has a travel companion" do
-          let(:has_companion) { true }
-
-          context "and I have not added anyone's cards" do
-            it_redirects_to(
-              "survey_card_accounts_path(:main)",
-              "the main passenger card account survey"
-            )
-          end
-
-          context "and I have added my cards" do
-            let(:completed_main_cards_survey) { true }
-
-            context "but not my companion's cards" do
-              let(:completed_companion_cards_survey) { false }
-              it_redirects_to(
-                "survey_card_accounts_path(:companion)",
-                "the companion passenger card account survey"
-              )
-            end
-
-            context "and my companion's cards" do
-              let(:completed_companion_cards_survey) { true }
-              it_redirects_to "survey_balances_path", "the balances survey"
-            end
-          end
-
-          include_examples "no cards or travel plans links"
-        end
+      context "and I have not added anyone's cards" do
+        let(:survey_path) { survey_card_accounts_path(:main) }
+        include_examples "redirects", "the main passenger cards survey"
+        include_examples "no cards or travel plans links"
       end
 
-      context "and the card accounts survey" do
-        let(:completed_main_cards_survey) { true }
-
-        context "but not the balances survey" do
-          it_redirects_to("survey_balances_path", "the balances survey")
-          include_examples "no cards or travel plans links"
-        end
-
-        context "and the balances survey" do
-          let(:completed_balances_survey) { true }
-          pending
-        end
+      context "and I have added my cards but not my companion's" do
+        let(:main_passenger_has_added_cards) { true }
+        let(:companion_has_added_cards) { false }
+        let(:survey_path) { survey_card_accounts_path(:companion) }
+        include_examples "redirects", "the companion cards survey"
+        include_examples "no cards or travel plans links"
       end
     end
-  end # who has completed the passengers survey
+  end
 
+  context "added passenger, spending, & card info but not balances" do
+    let(:has_added_passengers)           { true }
+    let(:has_added_spending_info)        { true }
+    let(:main_passenger_has_added_cards) { true }
+    let(:companion_has_added_cards)      { true }
+
+    context "when the account has no travel companion" do
+      let(:has_companion) { false }
+      let(:survey_path) { survey_balances_path(:main) }
+      include_examples "redirects", "the main passenger balances survey"
+      # include_examples "no cards or travel plans links"
+    end
+
+    context "when the account has a travel companion" do
+      let(:has_companion) { true }
+
+      context "and I have not added anyone's balances" do
+        let(:survey_path) { survey_balances_path(:main) }
+        include_examples "redirects", "the main passenger balances survey"
+        include_examples "no cards or travel plans links"
+      end
+
+      context "and I have added my balances but not my companion's" do
+        let(:main_passenger_has_added_balances) { true }
+        let(:survey_path) { survey_balances_path(:companion) }
+        include_examples "redirects", "the companion balances survey"
+        include_examples "no cards or travel plans links"
+      end
+    end
+  end
+
+  context "added passenger, spending, card, & balance info" do
+    let(:has_added_passengers)              { true }
+    let(:has_added_spending_info)           { true }
+    let(:main_passenger_has_added_cards)    { true }
+    let(:main_passenger_has_added_balances) { true }
+    it "redirects to the next stage of the survey"
+  end
 end

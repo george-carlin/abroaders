@@ -36,7 +36,6 @@ ActiveRecord::Schema.define(version: 20160310183236) do
     t.datetime "updated_at",                             null: false
     t.string   "time_zone"
     t.boolean  "shares_expenses",        default: false, null: false
-    t.boolean  "has_added_balances",     default: false, null: false
   end
 
   add_index "accounts", ["admin"], name: "index_accounts_on_admin", using: :btree
@@ -45,16 +44,16 @@ ActiveRecord::Schema.define(version: 20160310183236) do
   add_index "accounts", ["reset_password_token"], name: "index_accounts_on_reset_password_token", unique: true, using: :btree
 
   create_table "balances", force: :cascade do |t|
-    t.integer  "user_id",     null: false
-    t.integer  "currency_id", null: false
-    t.integer  "value",       null: false
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.integer  "passenger_id", null: false
+    t.integer  "currency_id",  null: false
+    t.integer  "value",        null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   add_index "balances", ["currency_id"], name: "index_balances_on_currency_id", using: :btree
-  add_index "balances", ["user_id", "currency_id"], name: "index_balances_on_user_id_and_currency_id", unique: true, using: :btree
-  add_index "balances", ["user_id"], name: "index_balances_on_user_id", using: :btree
+  add_index "balances", ["passenger_id", "currency_id"], name: "index_balances_on_passenger_id_and_currency_id", unique: true, using: :btree
+  add_index "balances", ["passenger_id"], name: "index_balances_on_passenger_id", using: :btree
 
   create_table "card_accounts", force: :cascade do |t|
     t.integer  "card_id"
@@ -146,20 +145,21 @@ ActiveRecord::Schema.define(version: 20160310183236) do
   add_index "flights", ["travel_plan_id"], name: "index_flights_on_travel_plan_id", using: :btree
 
   create_table "passengers", force: :cascade do |t|
-    t.integer  "account_id",                       null: false
-    t.string   "first_name",                       null: false
+    t.integer  "account_id",                         null: false
+    t.string   "first_name",                         null: false
     t.string   "middle_names"
-    t.string   "last_name",                        null: false
-    t.string   "phone_number",                     null: false
-    t.boolean  "text_message",     default: false, null: false
-    t.boolean  "whatsapp",         default: false, null: false
-    t.boolean  "imessage",         default: false, null: false
-    t.integer  "citizenship",      default: 0,     null: false
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
-    t.boolean  "main",             default: true,  null: false
-    t.boolean  "willing_to_apply", default: true,  null: false
-    t.boolean  "has_added_cards",  default: false, null: false
+    t.string   "last_name",                          null: false
+    t.string   "phone_number",                       null: false
+    t.boolean  "text_message",       default: false, null: false
+    t.boolean  "whatsapp",           default: false, null: false
+    t.boolean  "imessage",           default: false, null: false
+    t.integer  "citizenship",        default: 0,     null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.boolean  "main",               default: true,  null: false
+    t.boolean  "willing_to_apply",   default: true,  null: false
+    t.boolean  "has_added_cards",    default: false, null: false
+    t.boolean  "has_added_balances", default: false, null: false
   end
 
   add_index "passengers", ["account_id", "main"], name: "index_passengers_on_account_id_and_main", unique: true, using: :btree
@@ -187,8 +187,8 @@ ActiveRecord::Schema.define(version: 20160310183236) do
   add_index "travel_plans", ["account_id"], name: "index_travel_plans_on_account_id", using: :btree
   add_index "travel_plans", ["type"], name: "index_travel_plans_on_type", using: :btree
 
-  add_foreign_key "balances", "accounts", column: "user_id", on_delete: :cascade
   add_foreign_key "balances", "currencies", on_delete: :cascade
+  add_foreign_key "balances", "passengers", on_delete: :cascade
   add_foreign_key "card_accounts", "card_offers", column: "offer_id", on_delete: :cascade
   add_foreign_key "card_accounts", "cards", on_delete: :restrict
   add_foreign_key "card_accounts", "passengers", on_delete: :cascade

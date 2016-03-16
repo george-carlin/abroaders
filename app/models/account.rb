@@ -19,22 +19,7 @@ class Account < ApplicationRecord
   #   survey.present? ? survey.full_name : "#{self.class} ##{id}"
   # end
 
-  def has_added_passengers?
-    passengers.any? && passengers.all?(&:persisted?)
-  end
-
-  def has_added_spending?
-    passengers.any? && passengers.all?(&:has_added_spending?)
-  end
-
-  def has_added_cards?
-    passengers.any? && passengers.all?(&:has_added_cards?)
-  end
-
-  def survey_complete?
-    has_added_passengers? && has_added_spending? && has_added_cards? &&
-      has_added_balances?
-  end
+  include Account::SurveyCompletion
 
   def has_companion
     !!companion.try(:persisted?)
@@ -57,9 +42,6 @@ class Account < ApplicationRecord
             through: :main_passenger, source: :spending_info
   has_one :companion_spending_info,
             through: :main_passenger, source: :spending_info
-
-  has_many :balances
-  has_many :currencies, through: :balances
 
   accepts_nested_attributes_for :main_passenger
   accepts_nested_attributes_for :companion

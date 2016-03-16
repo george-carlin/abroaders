@@ -101,7 +101,7 @@ describe "as a new user" do
       describe "submitting the form" do
         before { submit_form }
         it "takes me to the balances survey page" do
-          expect(current_path).to eq survey_balances_path
+          expect(current_path).to eq survey_balances_path(:main)
         end
       end
     end

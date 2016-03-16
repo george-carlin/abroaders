@@ -11,13 +11,13 @@ FactoryGirl.define do
       admin true
     end
 
-    trait :completed_main_survey do
-      # SURVEYTODO
+    trait :with_passenger do
       after(:build) do |account|
-        account.build_survey(
+        account.build_main_passenger(
           attributes_for(
-            :survey, account: nil,
-            first_name: account.email.split("@").first.sub(/-\d+/, "").capitalize
+            :passenger, account: nil,
+            first_name: account.email.split("@")\
+                          .first.sub(/-\d+/, "").capitalize
           )
         )
       end

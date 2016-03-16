@@ -37,8 +37,15 @@ class NonAdminController < AuthenticatedController
     end
 
     if !current_account.has_added_balances?
-      if request.path != survey_balances_path
-        redirect_to survey_balances_path
+      if current_account.has_companion? && \
+            current_main_passenger.has_added_balances?
+        if request.path != survey_balances_path(:companion)
+          redirect_to survey_balances_path(:companion)
+        end
+      else
+        if request.path != survey_balances_path(:main)
+          redirect_to survey_balances_path(:main)
+        end
       end
       return
     end

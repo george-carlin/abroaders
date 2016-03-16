@@ -1,144 +1,34 @@
 require "rails_helper"
 
-describe "balances survey" do
+describe "as a new user" do
   subject { page }
 
-  include_context "logged in as new user"
-
   before do
-    user.create_survey!(
-      attributes_for(:survey, :completed_card_survey, user: nil)
+    @account = create(:account)
+    @main_passenger = create(
+      :main_passenger_with_spending,
+      account:         @account,
+      first_name:     "Steve",
+      has_added_cards: true
     )
+    if has_companion
+      if main_passenger_has_added_balances
+        @main_passenger.update_attributes!(has_added_balances: true)
+      end
+      @companion = create(
+        :companion_with_spending, 
+        account:         @account,
+        first_name:      "Pete",
+        has_added_cards: true
+      )
+    end
+
     @currencies = create_list(:currency, 3)
-    visit survey_balances_path
+    login_as @account, scope: :account
   end
 
-  let(:submit) { click_button "Submit" }
-
-  shared_examples "mark survey as completed" do
-    it "marks that the user has completed this part of the survey" do
-      expect(user.has_added_balances?).to be_falsey
-      submit
-      expect(user.reload.has_added_balances?).to be_truthy
-    end
-  end
-
-  it "shows a list of currencies with a checkbox next to each name" do
-    @currencies.each do |currency|
-      is_expected.to have_content currency.name
-      within_currency(currency) do
-        is_expected.to have_selector "input[type='checkbox']"
-      end
-    end
-  end
-
-  describe "clicking a check box next to a currency", :js do
-    let(:currency) { @currencies.first }
-
-    before { currency_check_box(currency).click }
-
-    it "shows a field to input my balance in that currency" do
-      within_currency(currency) do
-        is_expected.to have_field balance_field(currency)
-      end
-    end
-
-    describe "and unchecking the check box" do
-      before { currency_check_box(currency).click }
-
-      it "hides the balance field" do
-        is_expected.not_to have_field balance_field(currency)
-      end
-    end
-
-    describe "and typing in a balance" do
-      before { fill_in balance_field(currency), with: 50_000 }
-
-      describe "and clicking 'Submit'" do
-        it "creates a balance for the user and the currency" do
-          expect{submit}.to change{user.balances.count}.by(1)
-          balance = user.reload.balances.last
-          expect(balance.currency).to eq currency
-          expect(balance.user).to eq user
-        end
-
-        include_examples "mark survey as completed"
-      end
-
-      describe "and unchecking the check box" do
-        before { currency_check_box(currency).click }
-
-        describe "and clicking 'submit'" do
-          it "doesn't create a balance for that currency" do
-            expect{submit}.not_to change{Balance.count}
-          end
-        end
-      end
-    end
-  end
-
-  describe "clicking 'Submit' without adding any balances" do
-    it "doesn't create any balances" do
-      expect{submit}.not_to change{Balance.count}
-    end
-
-    include_examples "mark survey as completed"
-  end
-
-  describe "submitting a blank balance input", :js do
-    before do
-      currency_check_box(@currencies[0]).click
-      currency_check_box(@currencies[1]).click
-      fill_in balance_field(@currencies[0]), with: ""
-      fill_in balance_field(@currencies[1]), with: 5000
-    end
-
-    it "doesn't create a balance for that currency" do
-      expect{submit}.to change{user.balances.count}.by(1)
-      expect(user.balances.first.currency).to eq @currencies[1]
-    end
-  end
-
-  describe "submitting a negative balance", :js do
-    before do
-      currency_check_box(@currencies[0]).click
-      currency_check_box(@currencies[1]).click
-      fill_in balance_field(@currencies[0]), with: -5000
-      fill_in balance_field(@currencies[1]), with: 5000
-    end
-
-    it "doesn't create any balances" do
-      expect{submit}.not_to change{Balance.count}
-    end
-
-    it "shows the form again with an error message" do
-      submit
-      expect(page).to have_selector ".balances_survey"
-      expect(page).to have_selector ".alert.alert-danger"
-    end
-
-    it "preserves the values I'd previously submitted in the form" do
-      expect(currency_check_box(@currencies[0])).to be_checked
-      expect(find("##{balance_field(@currencies[0])}").value).to eq "-5000"
-      expect(currency_check_box(@currencies[1])).to be_checked
-      expect(find("##{balance_field(@currencies[1])}").value).to eq "5000"
-      expect(currency_check_box(@currencies[2])).not_to be_checked
-    end
-  end
-
-  describe "submitting a balance of 0 for a currency", :js do
-    before do
-      currency_check_box(@currencies[0]).click
-      currency_check_box(@currencies[1]).click
-      fill_in balance_field(@currencies[0]), with: 15000
-      fill_in balance_field(@currencies[1]), with: 0
-    end
-
-    it "doesn't create a balance for that currency" do
-      expect{submit}.to change{user.balances.count}.by(1)
-      expect(user.balances.first.currency).to eq @currencies[0]
-    end
-  end
+  let(:has_companion) { false }
+  let(:submit_form) { click_button "Submit" }
 
   def currency_selector(currency)
     "##{dom_id(currency)}"
@@ -158,4 +48,131 @@ describe "balances survey" do
     end
   end
 
+  shared_examples "mark survey as completed" do |opts={}|
+    let(:passenger) { opts[:companion] ? @companion : @main_passenger }
+
+    it "marks that the passenger has completed this part of the survey" do
+      expect(passenger.has_added_balances?).to be_falsey
+      submit_form
+      expect(passenger.reload.has_added_balances?).to be_truthy
+    end
+  end
+
+  shared_examples "balances survey" do |opts={}|
+    let(:passenger) { opts[:companion] ? @companion : @main_passenger }
+
+    it "shows a list of currencies with a checkbox next to each name" do
+      @currencies.each do |currency|
+        is_expected.to have_content currency.name
+        within_currency(currency) do
+          is_expected.to have_selector "input[type='checkbox']"
+        end
+      end
+    end
+
+    describe "clicking a check box next to a currency", :js do
+      let(:currency) { @currencies.first }
+
+      before { currency_check_box(currency).click }
+
+      it "shows a field to input my balance in that currency" do
+        within_currency(currency) do
+          is_expected.to have_field balance_field(currency)
+        end
+      end
+
+      describe "and unchecking the check box" do
+        before { currency_check_box(currency).click }
+
+        it "hides the balance field" do
+          is_expected.not_to have_field balance_field(currency)
+        end
+      end
+
+      describe "and typing in a balance" do
+        before { fill_in balance_field(currency), with: 50_000 }
+
+        describe "and clicking 'Submit'" do
+          it "creates a balance for the passenger and the currency" do
+            expect{submit_form}.to change{passenger.balances.count}.by(1)
+            balance = passenger.reload.balances.last
+            expect(balance.currency).to eq currency
+            expect(balance.passenger).to eq passenger
+          end
+
+          include_examples "mark survey as completed", opts
+        end
+
+        describe "and unchecking the check box" do
+          before { currency_check_box(currency).click }
+
+          describe "and clicking 'submit'" do
+            it "doesn't create a balance for that currency" do
+              expect{submit_form}.not_to change{Balance.count}
+            end
+          end
+        end
+      end
+    end
+
+    describe "clicking 'Submit' without adding any balances" do
+      it "doesn't create any balances" do
+        expect{submit_form}.not_to change{Balance.count}
+      end
+
+      include_examples "mark survey as completed", opts
+    end
+  end # shared_examples 'balances survey'
+
+  describe "the 'main passenger' balances survey" do
+    before { visit survey_balances_path(:main) }
+
+    context "when I do not have a travel companion on my account" do
+      let(:has_companion) { false }
+
+      it "asks me about “your” balances" do
+        is_expected.to have_content "Do you have any existing"
+      end
+    end
+
+    context "when I have a travel companion on my account" do
+      let(:has_companion) { true }
+      let(:main_passenger_has_added_balances) { false }
+
+      it "asks me for “Name's” cards" do
+        is_expected.to have_content "Does Steve have any existing"
+      end
+    end
+
+    describe "submitting the form" do
+      before { submit_form }
+      it "takes me to the next stage of the survey" do
+        skip
+        expect(current_path).to eq # ???
+      end
+    end
+
+    include_examples "balances survey"
+  end # the 'main passenger' balances survey
+
+  describe "the 'companion' balances survey" do
+    let(:has_companion) { true }
+    let(:main_passenger_has_added_balances) { true }
+
+    before { visit survey_balances_path(:companion) }
+
+    it "asks me for “Companion's Name's” cards" do
+      is_expected.to have_content "Does Pete have any existing"
+    end
+
+    describe "submitting the form" do
+      before { submit_form }
+      it "takes me to the next stage of the survey" do
+        skip
+        expect(current_path).to eq # ???
+      end
+    end
+
+    include_examples "balances survey", companion: true
+  end # the 'main passenger' balances survey
 end
