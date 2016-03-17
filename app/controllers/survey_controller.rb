@@ -69,7 +69,12 @@ class SurveyController < NonAdminController
                 end
     @survey = BalancesSurvey.new(passenger, balances_params)
     if @survey.save
-      redirect_to root_path
+      if params[:passenger] == "main" && has_companion?
+        redirect_to survey_card_accounts_path(:companion)
+      else
+        # TODO redirect to travel plan form when it's ready
+        redirect_to root_path
+      end
     else
       @name  = load_name(params[:passenger])
       render "new_balances"

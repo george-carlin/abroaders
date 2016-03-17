@@ -26,7 +26,6 @@ describe "as a new user" do
     @currencies = create_list(:currency, 3)
     login_as @account, scope: :account
   end
-
   let(:has_companion) { false }
   let(:submit_form) { click_button "Submit" }
 
@@ -139,6 +138,16 @@ describe "as a new user" do
     end
   end # shared_examples 'balances survey'
 
+  shared_examples "submitting final form" do
+    describe "submitting the form" do
+      before { submit_form }
+      it "takes me to the next stage of the survey" do
+        skip
+        expect(current_path).to eq # ???
+      end
+    end
+  end
+
   describe "the 'main passenger' balances survey" do
     before { visit survey_balances_path(:main) }
 
@@ -148,6 +157,8 @@ describe "as a new user" do
       it "asks me about “your” balances" do
         is_expected.to have_content "Do you have any existing"
       end
+
+      include_examples "submitting final form"
     end
 
     context "when I have a travel companion on my account" do
@@ -157,13 +168,12 @@ describe "as a new user" do
       it "asks me for “Name's” cards" do
         is_expected.to have_content "Does Steve have any existing"
       end
-    end
 
-    describe "submitting the form" do
-      before { submit_form }
-      it "takes me to the next stage of the survey" do
-        skip
-        expect(current_path).to eq # ???
+      describe "submitting the form" do
+        before { submit_form }
+        it "takes me to the companion balances survey" do
+          expect(current_path).to eq survey_balances_path(:companion)
+        end
       end
     end
 
@@ -180,13 +190,7 @@ describe "as a new user" do
       is_expected.to have_content "Does Pete have any existing"
     end
 
-    describe "submitting the form" do
-      before { submit_form }
-      it "takes me to the next stage of the survey" do
-        skip
-        expect(current_path).to eq # ???
-      end
-    end
+    include_examples "submitting final form"
 
     include_examples "balances survey", companion: true
   end # the 'main passenger' balances survey
