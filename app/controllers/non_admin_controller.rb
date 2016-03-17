@@ -3,51 +3,24 @@
 class NonAdminController < AuthenticatedController
 
   before_action { redirect_to root_path if current_account.try(:admin?) }
-  before_action :redirect_to_survey_if_incomplete
+  before_action :redirect_to_survey, unless: "current_account.onboarded?"
 
   protected
 
-  def redirect_to_survey_if_incomplete
-    if !current_account.has_added_passengers?
-      if request.path != survey_passengers_path
-        redirect_to survey_passengers_path
+  def redirect_to_survey
+    {
+      # Value of account.onboarding_stage =>
+      #       the path to redirect to if they're at this stage
+      "passengers"              => survey_passengers_path,
+      "spending"                => survey_spending_path,
+      "main_passenger_cards"    => survey_card_accounts_path(:main),
+      "companion_cards"         => survey_card_accounts_path(:companion),
+      "main_passenger_balances" => survey_balances_path(:main),
+      "companion_balances"      => survey_balances_path(:companion)
+    }.each do |stage, path|
+      if current_account.onboarding_stage == stage && request.path != path
+        redirect_to path and return
       end
-      return
-    end
-
-    if !current_account.has_added_spending?
-      if request.path != survey_spending_path
-        redirect_to survey_spending_path
-      end
-      return
-    end
-
-    if !current_account.has_added_cards?
-      if current_account.has_companion? && \
-            current_main_passenger.has_added_cards?
-        if request.path != survey_card_accounts_path(:companion)
-          redirect_to survey_card_accounts_path(:companion)
-        end
-      else
-        if request.path != survey_card_accounts_path(:main)
-          redirect_to survey_card_accounts_path(:main)
-        end
-      end
-      return
-    end
-
-    if !current_account.has_added_balances?
-      if current_account.has_companion? && \
-            current_main_passenger.has_added_balances?
-        if request.path != survey_balances_path(:companion)
-          redirect_to survey_balances_path(:companion)
-        end
-      else
-        if request.path != survey_balances_path(:main)
-          redirect_to survey_balances_path(:main)
-        end
-      end
-      return
     end
   end
 end

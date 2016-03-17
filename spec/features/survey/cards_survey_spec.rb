@@ -12,14 +12,20 @@ describe "as a new user" do
       @barclays_p = create(:card, :personal, bank: :barclays)
     ]
 
-    @account = create(:account)
+    @account = create(
+      :account,
+      onboarding_stage: if has_companion && main_passenger_has_added_cards
+                          "companion_cards"
+                        else
+                          "main_passenger_cards"
+                        end
+    )
     @main_passenger = create(
-      :main_passenger_with_spending, account: @account, first_name: "Steve"
+      :main_passenger_with_spending,
+      account: @account,
+      first_name: "Steve"
     )
     if has_companion
-      if main_passenger_has_added_cards
-        @main_passenger.update_attributes!(has_added_cards: true)
-      end
       @companion = create(
         :companion_with_spending, account: @account, first_name: "Pete"
       )
@@ -28,6 +34,7 @@ describe "as a new user" do
 
     login_as @account, scope: :account
   end
+  let(:account) { @account }
 
   let(:has_companion) { false }
   let(:submit_form) { click_button "Save" }
@@ -75,16 +82,6 @@ describe "as a new user" do
     end
   end
 
-  shared_examples "saves survey completion" do |opts={}|
-    passenger = opts[:companion] ? "companion" : "main passenger"
-    it "saves that the #{passenger} has added his/her cards" do
-      passenger = opts[:companion] ? @companion : @main_passenger
-      expect(passenger.has_added_cards?).to be_falsey # Sanity check
-      submit_form
-      expect(passenger.reload.has_added_cards?).to be_truthy
-    end
-  end
-
   describe "the 'main passenger' cards survey" do
     before { visit survey_card_accounts_path(:main) }
 
@@ -103,6 +100,11 @@ describe "as a new user" do
         it "takes me to the balances survey page" do
           expect(current_path).to eq survey_balances_path(:main)
         end
+      end
+
+      it "marks my 'onboarding stage' as 'main passenger balances'" do
+        submit_form
+        expect(account.reload.onboarding_stage).to eq "main_passenger_balances"
       end
     end
 
@@ -123,6 +125,11 @@ describe "as a new user" do
           expect(current_path).to eq survey_card_accounts_path(:companion)
         end
       end
+
+      it "marks my 'onboarding stage' as 'companion balances'" do
+        submit_form
+        expect(account.reload.onboarding_stage).to eq "companion_cards"
+      end
     end
 
     include_examples "card accounts survey"
@@ -134,8 +141,6 @@ describe "as a new user" do
         it "assigns the cards to the main passenger" do
           expect_to_assign_cards_to(@main_passenger)
         end
-
-        include_examples "saves survey completion"
       end
     end # selecting some cards
 
@@ -143,8 +148,6 @@ describe "as a new user" do
       it "doesn't assign any cards to any account" do
         expect { submit_form }.not_to change{CardAccount.count}
       end
-
-      include_examples "saves survey completion"
     end
   end
 
@@ -171,7 +174,11 @@ describe "as a new user" do
           expect_to_assign_cards_to(@companion)
         end
 
-        include_examples "saves survey completion", companion: true
+        it "marks my 'onboarding stage' as 'main passenger balances'" do
+          submit_form
+          expect(account.reload.onboarding_stage).to eq \
+                                            "main_passenger_balances"
+        end
       end
     end
 
@@ -179,8 +186,6 @@ describe "as a new user" do
       it "doesn't assign any cards to any account" do
         expect { submit_form }.not_to change{CardAccount.count}
       end
-
-      include_examples "saves survey completion", companion: true
     end
   end
 end

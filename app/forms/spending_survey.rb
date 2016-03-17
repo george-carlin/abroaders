@@ -2,9 +2,8 @@ class SpendingSurvey < Form
 
   def initialize(account)
     @account = account
-    # Sanity checks:
-    raise if !@account.main_passenger.try(:persisted?)
-    raise if @account.main_passenger.spending_info.try(:persisted?)
+    # Sanity check:
+    raise unless @account.onboarding_stage == "spending"
 
     @main_passenger = @account.main_passenger
     @main_info      = @main_passenger.build_spending_info
@@ -85,8 +84,10 @@ class SpendingSurvey < Form
           companion_info.send("#{attr}=", self.send("companion_info_#{attr}"))
         end
       end
-      main_info.save!
-      companion_info.save! if has_companion?
+      @account.onboarding_stage = "main_passenger_cards"
+      @account.save!(validate: false)
+      main_info.save!(validate: false)
+      companion_info.save!(validate: false) if has_companion?
     end
   end
 

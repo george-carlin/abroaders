@@ -42,9 +42,7 @@ describe "admin section" do
           personal_spending: 2500,
           has_business: :with_ein,
           business_spending: 1500,
-          time_zone: "Eastern Time (US & Canada)",
-          has_added_cards: true,
-          has_added_balances: true
+          time_zone: "Eastern Time (US & Canada)"
         )
       end
       extra_setup

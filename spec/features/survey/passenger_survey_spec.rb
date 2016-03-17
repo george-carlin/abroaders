@@ -195,6 +195,11 @@ describe "as a new user" do
             expect(co.willing_to_apply).to be_truthy
           end
 
+          it "marks my 'onboarding stage' as 'spending'" do
+            submit_form
+            expect(account.reload.onboarding_stage).to eq "spending"
+          end
+
           it "takes me to the spending survey page" do
             submit_form
             expect(current_path).to eq survey_spending_path
@@ -206,6 +211,11 @@ describe "as a new user" do
             updated_at_before = account.updated_at
             expect{submit_form}.not_to change{Passenger.count}
             expect(account.reload.updated_at).to eq updated_at_before
+          end
+
+          it "doesn't change my 'onboarding stage'" do
+            submit_form
+            expect(account.reload.onboarding_stage).to eq "passengers"
           end
 
           it "shows the form again with an error message" do
@@ -242,6 +252,11 @@ describe "as a new user" do
           expect(account.reload.main_passenger).to be_willing_to_apply
         end
 
+        it "marks my 'onboarding stage' as 'spending'" do
+          submit_form
+          expect(account.reload.onboarding_stage).to eq "spending"
+        end
+
         it "takes me to the spending survey page" do
           submit_form
           expect(current_path).to eq survey_spending_path
@@ -251,6 +266,11 @@ describe "as a new user" do
       context "with invalid information" do
         it "doesn't save my information" do
           expect{submit_form}.not_to change{Passenger.count}
+        end
+
+        it "doesn't change my 'onboarding stage'" do
+          submit_form
+          expect(account.reload.onboarding_stage).to eq "passengers"
         end
 
         it "shows the form again with an error message" do

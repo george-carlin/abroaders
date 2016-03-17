@@ -1,5 +1,5 @@
 class SurveyController < NonAdminController
-  before_action { redirect_to root_path if current_account.survey_complete? }
+  before_action { redirect_to root_path if current_account.onboarded? }
 
   def new_passengers
     @survey = PassengerSurvey.new(current_account)
@@ -42,7 +42,7 @@ class SurveyController < NonAdminController
       if params[:passenger] == "main" && has_companion?
         redirect_to survey_card_accounts_path(:companion)
       else
-        redirect_to survey_balances_path
+        redirect_to survey_balances_path(:main)
       end
     else
       # As it stands, there's no way the user can submit the existing
@@ -122,31 +122,23 @@ class SurveyController < NonAdminController
   end
 
   def card_account_passenger_path
-    account = current_account # for the sake of short lines
-    if account.main_passenger.has_added_cards?
-      if account.has_companion? && !account.companion.has_added_cards?
-        result = survey_card_accounts_path(:companion)
-      else
-        raise "this should never happen"
-      end
-    else
-      result = survey_card_accounts_path(:main)
+    case current_account.onboarding_stage
+    when "main_passenger_cards"
+      survey_card_accounts_path(:main)
+    when "companion_cards"
+      survey_card_accounts_path(:companion)
+    else raise "this should never happen"
     end
-    result
   end
 
   def balances_passenger_path
-    account = current_account # for the sake of short lines
-    if account.main_passenger.has_added_balances?
-      if account.has_companion? && !account.companion.has_added_balances?
-        result = survey_balances_path(:companion)
-      else
-        raise "this should never happen"
-      end
-    else
-      result = survey_balances_path(:main)
+    case current_account.onboarding_stage
+    when "main_passenger_balances"
+      survey_balances_path(:main)
+    when "companion_balances"
+      survey_balances_path(:companion)
+    else raise "this should never happen"
     end
-    result
   end
 
   def load_name(passenger_type)

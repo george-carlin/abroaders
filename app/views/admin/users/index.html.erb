@@ -43,7 +43,7 @@
           <td><%= user.created_at.strftime("%c") %></td>
           <td><%= link_to "Info", admin_user_path(user) %></td>
           <td>
-            <% if user.survey_complete? %>
+            <% if user.onboarded? %>
               <%=
                 link_to(
                     "Recommend Card",

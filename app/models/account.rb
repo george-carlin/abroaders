@@ -6,20 +6,16 @@ class Account < ApplicationRecord
 
   # Attributes
 
-  # SURVEYTODO what to do with all of this?
-  # delegate :business_spending, :citizenship, :credit_score, :first_name,
-  #     :full_name, :has_business, :has_business?, :has_business_with_ein?,
-  #     :has_business_without_ein?, :has_added_balances, :has_added_balances?,
-  #     :has_added_cards, :has_added_cards?, :imessage, :imessage?, :last_name,
-  #     :middle_names, :personal_spending, :phone_number, :text_message,
-  #     :text_message?, :time_zone, :whatsapp, :whatsapp?, :will_apply_for_loan,
-  #   to: :survey, allow_nil: true
-
-  # def name
-  #   survey.present? ? survey.full_name : "#{self.class} ##{id}"
-  # end
-
-  include Account::SurveyCompletion
+  # The next stage of the onboarding survey that this account needs to complete:
+  enum onboarding_stage: [
+    :passengers,
+    :spending,
+    :main_passenger_cards,
+    :companion_cards,
+    :main_passenger_balances,
+    :companion_balances,
+    :onboarded
+  ]
 
   def has_companion
     !!companion.try(:persisted?)
@@ -51,9 +47,4 @@ class Account < ApplicationRecord
   scope :admin, -> { where(admin: true) }
   scope :non_admin, -> { where(admin: false) }
 
-  scope :onboarded, -> do
-    non_admin.joins(:survey).where(
-      surveys: { has_added_cards: true, has_added_balances: true }
-    )
-  end
 end

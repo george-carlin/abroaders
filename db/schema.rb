@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160310183236) do
+ActiveRecord::Schema.define(version: 20160316170137) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 20160310183236) do
     t.datetime "updated_at",                             null: false
     t.string   "time_zone"
     t.boolean  "shares_expenses",        default: false, null: false
+    t.integer  "onboarding_stage",       default: 0,     null: false
   end
 
   add_index "accounts", ["admin"], name: "index_accounts_on_admin", using: :btree
@@ -145,21 +146,19 @@ ActiveRecord::Schema.define(version: 20160310183236) do
   add_index "flights", ["travel_plan_id"], name: "index_flights_on_travel_plan_id", using: :btree
 
   create_table "passengers", force: :cascade do |t|
-    t.integer  "account_id",                         null: false
-    t.string   "first_name",                         null: false
+    t.integer  "account_id",                       null: false
+    t.string   "first_name",                       null: false
     t.string   "middle_names"
-    t.string   "last_name",                          null: false
-    t.string   "phone_number",                       null: false
-    t.boolean  "text_message",       default: false, null: false
-    t.boolean  "whatsapp",           default: false, null: false
-    t.boolean  "imessage",           default: false, null: false
-    t.integer  "citizenship",        default: 0,     null: false
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
-    t.boolean  "main",               default: true,  null: false
-    t.boolean  "willing_to_apply",   default: true,  null: false
-    t.boolean  "has_added_cards",    default: false, null: false
-    t.boolean  "has_added_balances", default: false, null: false
+    t.string   "last_name",                        null: false
+    t.string   "phone_number",                     null: false
+    t.boolean  "text_message",     default: false, null: false
+    t.boolean  "whatsapp",         default: false, null: false
+    t.boolean  "imessage",         default: false, null: false
+    t.integer  "citizenship",      default: 0,     null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.boolean  "main",             default: true,  null: false
+    t.boolean  "willing_to_apply", default: true,  null: false
   end
 
   add_index "passengers", ["account_id", "main"], name: "index_passengers_on_account_id_and_main", unique: true, using: :btree

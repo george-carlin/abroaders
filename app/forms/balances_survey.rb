@@ -3,10 +3,12 @@
 # I attempted to refactor it to make things more consistent, but decided it
 # wasn't worth the trouble.
 class BalancesSurvey
+
   attr_reader :balances, :errors
 
   def initialize(passenger, balances_params=nil)
     @passenger = passenger
+    raise_unless_at_correct_onboarding_stage!
     if balances_params
       # If the user has types in values with commas, make sure that Ruby
       # treats this as the correct number:
@@ -29,26 +31,27 @@ class BalancesSurvey
 
 
   def save
-    ApplicationRecord.transaction do
-      if valid?
+    if valid?
+      ApplicationRecord.transaction do
         @balances.each { |balance| balance.save(validate: false) }
-        @passenger.update_attributes!(has_added_balances: true)
+        @passenger.account.onboarding_stage = next_stage
+        @passenger.account.save!(validate: false)
         true
-      else
-        @errors = @balances.flat_map do |balance|
-          balance.errors.full_messages.map do |message|
-            "#{balance.currency_name} #{message.downcase}"
-          end
-        end
-        # Build balances for other currencies so they appear on the form:
-        Currency.all.each do |currency|
-          unless @balances.find { |b| b.currency_id == currency.id }
-            @balances.push(@passenger.balances.build(currency: currency))
-          end
-        end
-        @balances.sort_by! { |b| b.currency_name }
-        false
       end
+    else
+      @errors = @balances.flat_map do |balance|
+        balance.errors.full_messages.map do |message|
+          "#{balance.currency_name} #{message.downcase}"
+        end
+      end
+      # Build balances for other currencies so they appear on the form:
+      Currency.all.each do |currency|
+        unless @balances.find { |b| b.currency_id == currency.id }
+          @balances.push(@passenger.balances.build(currency: currency))
+        end
+      end
+      @balances.sort_by! { |b| b.currency_name }
+      false
     end
   end
 
@@ -58,5 +61,25 @@ class BalancesSurvey
     result = true
     @balances.each { |b| result = false unless b.valid? }
     result
+  end
+
+  private
+
+  # Sanity check to make sure we're at the right stage of the survey:
+  def raise_unless_at_correct_onboarding_stage!
+    onboarding_stage = @passenger.account.onboarding_stage
+    if @passenger.main?
+      raise unless onboarding_stage == "main_passenger_balances"
+    else
+      raise unless onboarding_stage == "companion_balances"
+    end
+  end
+
+  def next_stage
+    if @passenger.main? && @passenger.account.has_companion?
+      "companion_balances"
+    else
+      "onboarded"
+    end
   end
 end

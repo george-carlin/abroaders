@@ -1,7 +1,13 @@
 require "rails_helper"
 
 describe "the spending info survey" do
-  let(:account) { create(:account, shares_expenses: shares_expenses) }
+  let(:account) do
+    create(
+      :account,
+      shares_expenses: shares_expenses,
+      onboarding_stage: "spending"
+    )
+  end
   before do
     create(:main_passenger, account: account)
     if has_companion
@@ -70,6 +76,10 @@ describe "the spending info survey" do
     describe "with invalid information" do
       it "doesn't save any spending info" do
         expect{submit_form}.not_to change{SpendingInfo.count}
+      end
+
+      it "doesn't change my 'onboarding stage'" do
+        expect{submit_form}.not_to change{account.reload.onboarding_stage}
       end
 
       it "shows the form again with an error message" do
@@ -149,6 +159,11 @@ describe "the spending info survey" do
             submit_form
             expect(current_path).to eq survey_card_accounts_path(:main)
           end
+        end
+
+        it "marks my 'onboarding stage' as 'main passenger cards'" do
+          submit_form
+          expect(account.reload.onboarding_stage).to eq "main_passenger_cards"
         end
       end
 
@@ -237,6 +252,11 @@ describe "the spending info survey" do
         it "takes me to the card accounts survey" do
           submit_form
           expect(current_path).to eq survey_card_accounts_path(:main)
+        end
+
+        it "marks my 'onboarding stage' as 'main passenger cards'" do
+          submit_form
+          expect(account.reload.onboarding_stage).to eq "main_passenger_cards"
         end
       end
 

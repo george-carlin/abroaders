@@ -1,6 +1,8 @@
 class PassengerSurvey < Form
 
   def initialize(account)
+    raise unless account.onboarding_stage == "passengers"
+
     account.build_main_passenger if account.main_passenger.nil?
     account.build_companion      if account.companion.nil?
 
@@ -48,8 +50,9 @@ class PassengerSurvey < Form
 
   def save
     super do
-      @account.time_zone       = time_zone
-      @account.shares_expenses = shares_expenses
+      @account.time_zone        = time_zone
+      @account.shares_expenses  = shares_expenses
+      @account.onboarding_stage = "spending"
 
       PASSENGER_ATTRS.each do |attr|
         @account.main_passenger.send(

@@ -31,7 +31,7 @@ module Admin
     private
 
     def user_must_have_completed_onboarding_survey!
-      unless @user.survey_complete?
+      unless @user.onboarded?
         flash[:error] = t("admin.users.card_recommendations.no_survey")
         redirect_to admin_user_path(@user)
       end

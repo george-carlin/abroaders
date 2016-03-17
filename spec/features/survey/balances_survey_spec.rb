@@ -4,28 +4,31 @@ describe "as a new user" do
   subject { page }
 
   before do
-    @account = create(:account)
+    @account = create(
+      :account,
+      onboarding_stage: if has_companion && main_passenger_has_added_balances
+                          "companion_balances"
+                        else
+                          "main_passenger_balances"
+                        end
+    )
     @main_passenger = create(
       :main_passenger_with_spending,
       account:         @account,
-      first_name:     "Steve",
-      has_added_cards: true
+      first_name:     "Steve"
     )
     if has_companion
-      if main_passenger_has_added_balances
-        @main_passenger.update_attributes!(has_added_balances: true)
-      end
       @companion = create(
         :companion_with_spending, 
         account:         @account,
-        first_name:      "Pete",
-        has_added_cards: true
+        first_name:      "Pete"
       )
     end
 
     @currencies = create_list(:currency, 3)
     login_as @account, scope: :account
   end
+  let(:account) { @account }
   let(:has_companion) { false }
   let(:submit_form) { click_button "Submit" }
 
@@ -44,16 +47,6 @@ describe "as a new user" do
   def currency_check_box(currency)
     within_currency(currency) do
       find("input[type='checkbox']")
-    end
-  end
-
-  shared_examples "mark survey as completed" do |opts={}|
-    let(:passenger) { opts[:companion] ? @companion : @main_passenger }
-
-    it "marks that the passenger has completed this part of the survey" do
-      expect(passenger.has_added_balances?).to be_falsey
-      submit_form
-      expect(passenger.reload.has_added_balances?).to be_truthy
     end
   end
 
@@ -98,8 +91,6 @@ describe "as a new user" do
             expect(balance.currency).to eq currency
             expect(balance.passenger).to eq passenger
           end
-
-          include_examples "mark survey as completed", opts
         end
 
         describe "and unchecking the check box" do
@@ -133,8 +124,6 @@ describe "as a new user" do
       it "doesn't create any balances" do
         expect{submit_form}.not_to change{Balance.count}
       end
-
-      include_examples "mark survey as completed", opts
     end
   end # shared_examples 'balances survey'
 
@@ -144,6 +133,10 @@ describe "as a new user" do
       it "takes me to the next stage of the survey" do
         skip
         expect(current_path).to eq # ???
+      end
+
+      it "marks my 'onboarding stage' as 'onboarded'" do
+        expect(account.reload.onboarding_stage).to eq "onboarded"
       end
     end
   end
@@ -173,6 +166,10 @@ describe "as a new user" do
         before { submit_form }
         it "takes me to the companion balances survey" do
           expect(current_path).to eq survey_balances_path(:companion)
+        end
+
+        it "marks my 'onboarding stage' as 'companion balances'" do
+          expect(account.reload.onboarding_stage).to eq "companion_balances"
         end
       end
     end

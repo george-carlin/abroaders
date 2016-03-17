@@ -22,17 +22,9 @@ FactoryGirl.define do
       spending_info
     end
 
-    trait :completed_card_survey do
-      has_added_cards true
-    end
-
+    factory :companion,                    traits: [:companion]
     factory :passenger_with_spending,      traits: [:with_spending]
     factory :main_passenger_with_spending, traits: [:with_spending, :main]
     factory :companion_with_spending,      traits: [:with_spending, :companion]
-
-    # trait :complete do
-    #   has_added_cards    true
-    #   has_added_balances true
-    # end
   end
 end
