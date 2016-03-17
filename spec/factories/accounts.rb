@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :account, aliases: [:confirmed_account] do
+  factory :account do
     sequence(:email) do |n|
       "#{Faker::Name.first_name.downcase}-#{rand(1000)}#{n}@example.com"
     end
@@ -7,42 +7,59 @@ FactoryGirl.define do
     password_confirmation  "abroaders123"
     confirmed_at           "2015-01-01"
 
-    trait :with_passenger do
+    trait :passenger do
+      onboarding_stage "spending"
       after(:build) do |account|
-        account.build_main_passenger(
-          attributes_for(
-            :passenger, account: nil,
-            first_name: account.email.split("@")\
-                          .first.sub(/-\d+/, "").capitalize
-          )
+        account.build_main_passenger(attributes_for(:passenger, account: nil))
+      end
+    end
+
+    trait :companion do
+      onboarding_stage "spending"
+      after(:build) do |account|
+        account.build_companion(attributes_for(:companion, account: nil))
+      end
+    end
+
+    # This line won't work:
+    #
+    #   FactoryGirl.create(:account, :spending)
+    #
+    # But this will:
+    #
+    #   FactoryGirl.create(:account, :passenger, :spending)
+    #
+    # Note that order matters. This will fail:
+    #
+    #   FactoryGirl.create(:account, :spending, :passenger)
+    #
+    trait :spending do
+      onboarding_stage "main_passenger_cards"
+      after(:build) do |account|
+        account.main_passenger.build_spending_info(
+          attributes_for(:spending_info, passenger: nil)
         )
       end
     end
 
-    trait :completed_card_survey do
+    trait :companion_spending do
+      onboarding_stage "main_passenger_cards"
       after(:build) do |account|
-        account.build_survey(
-          attributes_for(
-            :survey,
-            :completed_card_survey,
-            account: nil,
-            first_name: account.email.split("@").first.sub(/-\d+/, "").capitalize
-          )
+        account.companion.build_spending_info(
+          attributes_for(:spending_info, passenger: nil)
         )
       end
     end
 
-    trait :survey_complete do
-      after(:build) do |account|
-        account.build_survey(
-          attributes_for(
-            :survey,
-            :complete,
-            account: nil,
-            first_name: account.email.split("@").first.sub(/-\d+/, "").capitalize
-          )
-        )
-      end
+    factory :onboarded_account, traits: [:passenger, :spending] do
+      onboarding_stage "onboarded"
+    end
+
+    factory(
+      :onboarded_companion_account,
+      traits: [:passenger, :spending, :companion, :companion_spending]
+    ) do
+      onboarding_stage "onboarded"
     end
   end
 end
