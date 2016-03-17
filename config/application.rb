@@ -25,8 +25,6 @@ module Abroaders
     require "modules/bootstrap_overrides/overrides"
     require "modules/auto_strip_attributes"
 
-    config.autoload_paths += ["app/forms", "app/forms/concerns"]
-
     config.generators.jbuilder = false
 
     config.browserify_rails.commandline_options = [
