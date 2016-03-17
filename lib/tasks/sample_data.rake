@@ -4,26 +4,48 @@ namespace :ab do
       include FactoryGirl::Syntax::Methods
     end
 
-    task all: [:users, :travel_plans, :card_offers]
+    task all: [:accounts, :travel_plans, :card_offers]
 
-    task users: :setup do
+    task accounts: :setup do
       ApplicationRecord.transaction do
-        if User.non_admin.any? && !ENV["CONFIRM_SAMPLE_DATA"]
-          puts "There are already users in the database. Are you sure you want"\
-               "to add sample users? Please run the task again with "\
-               "CONFIRM_SAMPLE_DATA set to true to continue"
+        if Account.any? && !ENV["CONFIRM_SAMPLE_DATA"]
+          puts "There are already accounts in the database. Are you sure "\
+               "you want to add sample accounts? Please run the task again "\
+               "with CONFIRM_SAMPLE_DATA set to true to continue"
           next
         end
 
-        count = 50
-        count.times do
-          date = ((500).days + rand(24).hours + rand(60).minutes).ago
-          args = [:user, { created_at: date, confirmed_at: date } ]
-          args.insert(1, :survey_complete) if rand > 0.2
-          user = build(*args)
+        (no_of_accounts = 50).times do
+          random = rand()
+          # Create a sample of accounts in different stages of the onboarding
+          # process:
+          account = if random > 0.95
+                      create(:account)
+                    elsif random > 0.85
+                      create(:account, :passenger)
+                    elsif random > 0.8
+                      create(:account, :companion)
+                    elsif random > 0.7
+                      create(:account, :passenger, :spending)
+                    elsif random > 0.3
+                      create(:onboarded_account)
+                    else
+                      create(:onboarded_companion_account)
+                    end
 
-          if user.survey.present?
-            user.survey.assign_attributes(
+          # Make the main passenger's first name match the account's email
+          # address:
+          if account.main_passenger
+            account.main_passenger.first_name = \
+              account.email.split("@").first.sub(/-\d+/, "").capitalize
+          end
+
+          date = ((500).days + rand(24).hours + rand(60).minutes).ago
+          account.created_at = account.confirmed_at = date
+
+          # Add some more variety to the passengers:
+          account.passengers.each do |passenger|
+            passenger.assign_attributes(
               middle_names: (Faker::Name.first_name if rand > 0.1),
               whatsapp: rand > 0.4,
               text_message: rand > 0.1,
@@ -31,25 +53,30 @@ namespace :ab do
             )
           end
 
-          user.save!
+          account.save!
         end
 
-        puts "Created #{count} sample users"
+        puts "Created #{no_of_accounts} sample accounts"
       end # transaction
-    end # :users
+    end # :account
 
     task travel_plans: :setup do
       count_before = TravelPlan.count
 
       ApplicationRecord.transaction do
-        if User.onboarded.none?
-          puts "Can't add travel plans; no onboarded users in the database to "\
-               "add them to"
+        if Account.onboarded.none?
+          puts "Can't add travel plans; no onboarded account in the database "\
+               "to add them to"
           next
         end
 
-        User.onboarded.find_each do |user|
-          next if user.travel_plans.any?
+        unless Destination.any?
+          puts "Can't add travel plans; no destinations in the database "
+          next
+        end
+
+        Account.onboarded.find_each do |account|
+          next if account.travel_plans.any?
 
           rand(4).times do
             # Most travel plans will be 'return', and few will be 'multi',
@@ -62,7 +89,7 @@ namespace :ab do
                     else
                       :multi
                     end
-            create(:travel_plan, type, user: user)
+            create(:travel_plan, type, account: account)
           end
         end
 

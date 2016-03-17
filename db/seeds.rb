@@ -19,6 +19,6 @@ ApplicationRecord.transaction do
     end
   end
 
-  # `rake ab:sample_data:users`
+  `rake ab:sample_data:all`
 
 end
