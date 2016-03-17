@@ -26,5 +26,7 @@ class AddFieldsForCompanionSurvey < ActiveRecord::Migration[5.0]
 
       t.index :passenger_id, unique: true
     end
+
+    add_foreign_key :spending_infos, :passengers, on_delete: :cascade
   end
 end

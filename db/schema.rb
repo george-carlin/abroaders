@@ -214,5 +214,6 @@ ActiveRecord::Schema.define(version: 20160316170137) do
   add_foreign_key "flights", "destinations", column: "to_id", on_delete: :restrict
   add_foreign_key "flights", "travel_plans", on_delete: :cascade
   add_foreign_key "passengers", "accounts", on_delete: :cascade
+  add_foreign_key "spending_infos", "passengers", on_delete: :cascade
   add_foreign_key "travel_plans", "accounts", on_delete: :cascade
 end

@@ -24,7 +24,7 @@ class Passenger < ApplicationRecord
   # Associations
 
   belongs_to :account
-  has_one :spending_info
+  has_one :spending_info, dependent: :destroy
 
   has_many :card_accounts
   has_many :card_recommendations, -> { recommendations },
