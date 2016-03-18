@@ -27,27 +27,29 @@
           &nbsp;
           <!-- <i class={class} style={style} > </i> -->
         </th>
+        <th>Companion name</th>
         <th colspan="2"></th>
       </tr>
     </thead>
     <tbody id="admin_accounts_table_body">
       <% @accounts.each do |account| %>
         <tr
-          id="<%= dom_id(user) %>"
-          class="<%= dom_class(user) %>"
-          data-full-name="<%= user.full_name %>"
-          data-email="<%= user.email %>"
+          id="<%= dom_id(account) %>"
+          class="<%= dom_class(account) %>"
+          data-full-name="<%= account.main_passenger_full_name %>"
+          data-email="<%= account.email %>"
         >
-          <td><%= user.full_name %></td>
-          <td><%= user.email %></td>
-          <td><%= user.created_at.strftime("%c") %></td>
-          <td><%= link_to "Info", admin_user_path(user) %></td>
+          <td><%= account.main_passenger_full_name %></td>
+          <td><%= account.email %></td>
+          <td><%= account.created_at.strftime("%c") %></td>
+          <td><%= account.companion_full_name %></td>
+          <td><%= link_to "Info", admin_account_path(account) %></td>
           <td>
-            <% if user.onboarded? %>
+            <% if account.onboarded? %>
               <%=
                 link_to(
                     "Recommend Card",
-                    new_admin_user_card_recommendation_path(user)
+                    new_admin_account_card_recommendation_path(account)
                 )
               %>
             <% end %>
@@ -60,4 +62,4 @@
 
 <br>
 
-<%= link_to 'New User', new_admin_user_path %>
+<%= link_to 'New User', new_admin_account_path %>

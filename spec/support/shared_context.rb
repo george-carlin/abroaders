@@ -9,7 +9,6 @@ shared_context "logged in" do
 end
 
 shared_context "logged in as admin" do
-  let(:account) { create(:admin) } unless defined? account
-  let(:admin) { account }
-  before { login_as account, scope: :account }
+  let(:admin) { create(:admin) }
+  before { login_as admin, scope: :admin }
 end

@@ -16,7 +16,7 @@ class Passenger < ApplicationRecord
 
   # Validations
 
-  validates :account, presence: true, uniqueness: { scope: :main }
+  validates :account, uniqueness: { scope: :main }
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :phone_number, presence: true

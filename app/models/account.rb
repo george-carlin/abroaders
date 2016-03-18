@@ -17,6 +17,9 @@ class Account < ApplicationRecord
     :onboarded
   ]
 
+  delegate :full_name, to: :main_passenger, prefix: true, allow_nil: true
+  delegate :full_name, to: :companion, prefix: true, allow_nil: true
+
   def admin; false; end
   alias_method :admin?, :admin
 
