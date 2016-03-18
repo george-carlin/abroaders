@@ -1,7 +1,14 @@
-<nav id="main_navbar" class="navbar navbar-default">
+<nav id="main_navbar"
+  class="<%= "admin-navbar" if current_admin %> navbar navbar-default"
+>
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="/">Abroaders</a>
+      <a class="navbar-brand" href="/">
+        Abroaders&nbsp
+        <% if current_admin %>
+          <small>(Admin Panel)</small>
+        <% end %>
+      </a>
     </div>
 
     <div class="collapse navbar-collapse">
@@ -21,7 +28,6 @@
           <li>
             <p class="navbar-text">
               <%= (current_account || current_admin).email %>
-              <% if current_admin %> &nbsp; (A) <% end %>
             </p>
           </li>
           <li><%= link_to_sign_out %></li>

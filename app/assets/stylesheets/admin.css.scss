@@ -1,0 +1,9 @@
+.admin-navbar {
+  background-color: #8A1414;
+
+  .navbar-nav>li>a {
+    &:hover, &:focus {
+      background-color: #9C4949;
+    }
+  }
+}
