@@ -1,8 +1,8 @@
 $(document).ready(function () {
 
-  var $rows = $("#admin_users_table_body > tr.user");
+  var $rows = $("#admin_accounts_table_body > tr.account");
 
-  $("#admin_users_table_filter").on(
+  $("#admin_accounts_table_filter").on(
     "change keyup keydown keypress",
     function filterUsers() {
       var filterString = this.value.toLowerCase().trim();

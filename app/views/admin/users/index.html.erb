@@ -4,12 +4,12 @@
 
 <div>
   <input
-    id="admin_users_table_filter"
+    id="admin_accounts_table_filter"
     type="text"
     class="form-control"
     placeholder="Filter"
     />
-  <table id="admin_users_table" class="users table table-striped">
+  <table id="admin_accounts_table" class="accounts table table-striped">
     <thead>
       <tr>
         <th class="sortable-column-header" >
@@ -30,8 +30,8 @@
         <th colspan="2"></th>
       </tr>
     </thead>
-    <tbody id="admin_users_table_body">
-      <% @users.each do |user| %>
+    <tbody id="admin_accounts_table_body">
+      <% @accounts.each do |account| %>
         <tr
           id="<%= dom_id(user) %>"
           class="<%= dom_class(user) %>"
