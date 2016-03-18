@@ -7,33 +7,26 @@ FactoryGirl.define do
     password_confirmation  "abroaders123"
     confirmed_at           "2015-01-01"
 
-    trait :passenger do
+    # We can't name this trait 'passenger' because it conflicts with
+    # the 'passenger' factory, causing subtle errors. I raised this as
+    # an issue with FactoryGirl, see
+    # https://github.com/thoughtbot/factory_girl/issues/885
+    trait :with_passenger do
       onboarding_stage "spending"
       after(:build) do |account|
         account.build_main_passenger(attributes_for(:passenger, account: nil))
       end
     end
 
-    trait :companion do
-      onboarding_stage "spending"
+    trait :with_companion do
+      with_passenger
       after(:build) do |account|
         account.build_companion(attributes_for(:companion, account: nil))
       end
     end
 
-    # This line won't work:
-    #
-    #   FactoryGirl.create(:account, :spending)
-    #
-    # But this will:
-    #
-    #   FactoryGirl.create(:account, :passenger, :spending)
-    #
-    # Note that order matters. This will fail:
-    #
-    #   FactoryGirl.create(:account, :spending, :passenger)
-    #
     trait :spending do
+      with_passenger
       onboarding_stage "main_passenger_cards"
       after(:build) do |account|
         account.main_passenger.build_spending_info(
@@ -43,7 +36,8 @@ FactoryGirl.define do
     end
 
     trait :companion_spending do
-      onboarding_stage "main_passenger_cards"
+      spending
+      with_companion
       after(:build) do |account|
         account.companion.build_spending_info(
           attributes_for(:spending_info, passenger: nil)
@@ -51,15 +45,21 @@ FactoryGirl.define do
       end
     end
 
-    factory :onboarded_account, traits: [:passenger, :spending] do
+    # Note: using this trait in isolation is probably a bad idea as you'll get
+    # an account whose onboarding_stage is 'onboarded' but who doesn't have any
+    # Passengers or SpendingInfos (i.e. an account that couldn't actually exist
+    # given the normal operation of the app)
+    trait :onboarded do
+      spending
       onboarding_stage "onboarded"
     end
 
-    factory(
-      :onboarded_companion_account,
-      traits: [:passenger, :spending, :companion, :companion_spending]
-    ) do
-      onboarding_stage "onboarded"
+    trait :onboarded_companion do
+      companion_spending
+      onboarded
     end
+
+    factory :onboarded_account, traits: [:onboarded]
+    factory :onboarded_companion_account, traits: [:onboarded_companion]
   end
 end
