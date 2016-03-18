@@ -1,0 +1,47 @@
+<% provide :title, @passenger.full_name %>
+
+<div class="row">
+  <div class="col-xs-12">
+    <h1><%= @passenger.full_name %></h1>
+
+    <p>Signed up on <%= @passenger.created_at.strftime("%D") %></p>
+  </div>
+
+  <%= render "passengers/info", passenger: @passenger %>
+
+  <% if @passenger.has_added_spending? %>
+    <%= render "passengers/spending_info", passenger: @passenger %>
+  <% end %>
+</div>
+
+<% if !@passenger.onboarded? %>
+  <% if @passenger.has_added_spending? %>
+    <%= t("admin.passengers.show.not_onboarded") %>
+  <% else %>
+    <%= t("admin.passengers.show.no_spending") %>
+  <% end %>
+<% end %>
+
+<% if @passenger.onboarded? %>
+  <hr>
+
+  <p>
+    Cards -
+    <%= link_to "Recommend", new_admin_passenger_card_recommendation_path(@passenger) %>
+    |
+    <%= link_to "Assign", new_admin_passenger_card_path(@passenger) %>
+  </p>
+
+  <p class="help-block">
+    <i>
+      If you 'recommend' a card to a user, they will receive a notification and
+      the card will appear under 'recommended cards', where they will be able
+      to apply for the card, decline the recommendation, etc. If you 'assign' a
+      card then you will be able to choose the exact status (accepted,
+      declined, denied) etc of the account, and the card will appear in the
+      user's list of cards without them receiving a notification.
+    </i>
+  </p>
+<% end %>
+
+<%#= link_to 'Back to all users', admin_accounts_path %>

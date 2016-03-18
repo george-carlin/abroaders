@@ -3,10 +3,12 @@
 
   i.contact-info-label {
     margin-right: 7px;
+    width: 9px;
   }
 }
 
-.user-personal-spending, .user-business-spending, .user-credit-score {
+.passenger-personal-spending, .passenger-business-spending,
+      .passenger-credit-score {
   .spending-label {
     display: inline-block;
     font-weight: bold;
@@ -23,7 +25,7 @@
 }
 
 
-.user-phone-can-receive-icons {
+.passenger-phone-can-receive-icons {
   display: inline-block;
 
   abbr {
@@ -33,7 +35,7 @@
   }
 }
 
-.user-business-spending .has-ein {
+.passenger-business-spending .has-ein {
   @include note;
   font-style: italic;
 }

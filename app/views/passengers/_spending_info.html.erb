@@ -1,0 +1,32 @@
+<div class="passenger-spending-info col-xs-12 col-md-4">
+  <div class="survey-attr passenger-personal-spending">
+    <div class="spending-label">
+      Personal spending:
+    </div>
+    $<%= passenger.personal_spending %>
+  </div>
+
+  <% if passenger.has_business? %>
+    <div class="survey-attr passenger-business-spending">
+      <div class="spending-label">
+        Business spending:
+      </div>
+      $<%= passenger.business_spending %>
+
+      <div class="has-ein">
+        <% if passenger.has_business_with_ein? %>
+          (Has EIN)
+        <% else %>
+          (Does not have EIN)
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="survey-attr passenger-credit-score">
+    <div class="spending-label">
+      Credit Score:
+    </div>
+    <%= passenger.credit_score %>
+  </div>
+</div>

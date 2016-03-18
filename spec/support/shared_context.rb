@@ -4,7 +4,7 @@ shared_context "logged in as new user" do
 end
 
 shared_context "logged in" do
-  let(:account) { create(:account, :survey_complete) } unless defined? account
+  let(:account) { create(:account, :onboarded) } unless defined? account
   before { login_as account, scope: :account }
 end
 

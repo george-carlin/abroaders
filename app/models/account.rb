@@ -28,9 +28,10 @@ class Account < ApplicationRecord
   end
   alias_attribute :has_companion?, :has_companion
 
-  # Validations
+  delegate :full_name, to: :main_passenger, prefix: true, allow_nil: true
+  delegate :full_name, to: :companion, prefix: true, allow_nil: true
 
-  # validates :survey, associated: true
+  # Validations
 
   # Associations
 

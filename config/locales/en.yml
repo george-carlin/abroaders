@@ -52,13 +52,15 @@ en:
     card_offers:
       submit: "Submit"
 
-    users:
-      show:
-        no_survey: "User has not yet completed the onboarding survey"
-
+    accounts:
       card_accounts:
         none: "User has no cards on file. Use the form below to recommend them their first card."
         you_have_declined: "You have indicated that you do not want to apply for this card"
       card_recommendations:
         no_survey: "User has not yet completed the onboarding survey. You can't recommend them a card until they've completed it."
         no_balances: "User does not have any existing points/miles balances"
+
+    passengers:
+      show:
+        no_spending: "Spending info for this user has not yet been added"
+        not_onboarded: "This user has not fully completed the onboarding process; you can't recommend them a card yet"

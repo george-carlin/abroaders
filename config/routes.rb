@@ -80,7 +80,8 @@ Rails.application.routes.draw do
       get type.pluralize, to: "destinations##{type}"
     end
 
-    resources :accounts do
+    resources :accounts
+    resources :passengers do
       resources :card_accounts, as: :cards
       resources :card_recommendations, only: [:new, :create]
     end

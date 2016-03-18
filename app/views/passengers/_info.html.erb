@@ -1,0 +1,47 @@
+<div class="passenger-contact-info col-xs-12 col-md-4">
+  <div class="survey-attr passenger-email">
+    <%= fa_icon "envelope", class: "contact-info-label" %>
+    &nbsp;
+    <%= passenger.email %>
+  </div>
+
+  <div class="survey-attr passenger-phone-number">
+    <%= fa_icon "phone", class: "contact-info-label" %>
+    &nbsp;<%= passenger.phone_number %>
+
+    <div class="passenger-phone-can-receive-icons">
+      <% if passenger.text_message? %>
+        <abbr title="The user can receive text messages on this number">
+          <%= fa_icon "comment fa-inverse"  %>
+        </abbr>
+      <% end %>
+      <% if passenger.whatsapp? %>
+        <abbr title="The user can receive WhatsApp messages on this number">
+          <%= fa_icon "whatsapp fa-inverse" %>
+        </abbr>
+      <% end %>
+      <%# font awesome doesn't have an icon for imessage, so use the %>
+      <%# 'wechat' icon instead. Shhhh... %>
+      <% if passenger.imessage? %>
+        <abbr title="The user can receive iMessages on this number">
+          <%= fa_icon "wechat fa-inverse" %>
+        </abbr>
+      <% end %>
+    </div>
+  </div><!-- .survey-attr passenger-phone-number -->
+
+  <div class="survey-attr passenger-citizenship">
+    <%= fa_icon "flag", class: "contact-info-label" %>
+    &nbsp;
+    <% key = if passenger.citizenship == "neither"
+               "not_citizen"
+             else 
+               passenger.citizenship
+             end %>
+    <%= t("activerecord.attributes.passenger.citizenships.#{key}") %>
+  </div>
+  <div class="survey-attr passenger-time-zone">
+    <%= fa_icon "globe", class: "contact-info-label" %>
+    &nbsp;<%= ActiveSupport::TimeZone.new(passenger.time_zone) %>
+  </div>
+</div>
