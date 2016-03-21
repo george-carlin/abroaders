@@ -62,10 +62,8 @@ RSpec.configure do |config|
   end
 
   config.after(:each) do |example|
-    next if example.metadata[:manual_clean]
-
     Warden.test_reset!
-    DatabaseCleaner.clean
+    DatabaseCleaner.clean unless example.metadata[:manual_clean]
   end
 
   def t(*args)
