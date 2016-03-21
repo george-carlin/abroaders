@@ -13,7 +13,7 @@ describe "travel plans page" do
     @cdg = create_airport("Paris",           :CDG, @eu)
 
     def create_travel_plan(type, flights)
-      user.travel_plans.create!(
+      account.travel_plans.create!(
         departure_date_range: Date.today..Date.tomorrow,
         flights_attributes:   flights,
         type:                 type
