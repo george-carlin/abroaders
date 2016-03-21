@@ -25,7 +25,7 @@ module AdminArea
 
       flash[:success] = message
 
-      redirect_to admin_user_path(@user)
+      redirect_to admin_account_path(@user)
     end
 
     private
