@@ -208,6 +208,10 @@ describe "as a new user" do
 
         describe "with invalid information" do
           it "doesn't save information about me or my travel companion" do
+            # The test fails on Codeship unless you reload account first
+            # (something to do with millisecond/second precision in the
+            # timestamps on Codeship's env)
+            account.reload
             updated_at_before = account.updated_at
             expect{submit_form}.not_to change{Passenger.count}
             expect(account.reload.updated_at).to eq updated_at_before
