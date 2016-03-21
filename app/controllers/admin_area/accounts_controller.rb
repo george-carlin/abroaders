@@ -3,7 +3,7 @@ module AdminArea
 
     # GET /admin/accounts
     def index
-      @accounts = Account.includes(:passengers)
+      @accounts = Account.includes(:passengers, :main_passenger, :companion)
     end
 
     # GET /admin/accounts/1
