@@ -72,8 +72,16 @@ RSpec.configure do |config|
     I18n.t(*args)
   end
 
-  def have_error_message
-    have_selector(".alert.alert-danger")
+  def have_error_message(opts={})
+    have_selector(".alert.alert-danger", opts)
+  end
+
+  def have_info_message(opts={})
+    have_selector(".alert.alert-info", opts)
+  end
+
+  def have_success_message(opts={})
+    have_selector(".alert.alert-success", opts)
   end
 
 end
