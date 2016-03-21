@@ -1,11 +1,7 @@
-<% provide :title, "#{@user.name} - Recommend Card" %>
+<% provide :title, "#{@passenger.full_name} - Recommend Card" %>
 
 
-<h1><%= @user.name %> - Recommend Card</h1>
-
-<p>User signed up on <%= @user.created_at.strftime("%D") %></p>
-
-<%= render "surveys/survey", user: @user %>
+<%= render "passengers/full_info", passenger: @passenger, subtitle: "Recommend Card" %>
 
 <hr>
 
@@ -14,7 +10,7 @@
     <% if @balances.any? %>
       <h3>Existing Balances</h3>
 
-      <ul class="user-balances">
+      <ul class="passenger-balances">
         <% @balances.each do |balance| %>
           <li id="<%= dom_id(balance.currency) %>">
             <b><%= balance.currency_name %>:</b>
@@ -23,7 +19,7 @@
         <% end %>
       </ul>
     <% else %>
-      <%= t("admin.users.card_recommendations.no_balances") %>
+      <%= t("admin.passengers.card_recommendations.no_balances") %>
     <% end # balances.any? %>
   </div><!-- .col-xs-12.col-md-6 -->
 
@@ -31,10 +27,8 @@
     <% if @travel_plans.any? %>
       <h3>Travel Plans</h3>
 
-      <div class="user_travel_plans">
-        <% @travel_plans.each do |plan| %>
-          <%= render "admin/travel_plans/travel_plan", plan: plan %>
-        <% end %>
+      <div class="account_travel_plans">
+        <%= render collection: @travel_plans, partial: "travel_plans/travel_plan" %>
       </div>
     <% else %>
       User has no upcoming travel plans
@@ -50,7 +44,7 @@
 
   <%= render "card_accounts/table", accounts: @card_accounts %>
 <% else %>
-  <%= t("admin.users.card_accounts.none") %>
+  <%= t("admin.passengers.card_accounts.none") %>
 <% end %>
 
 <hr />

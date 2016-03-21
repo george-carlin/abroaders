@@ -1,39 +1,45 @@
 module AdminArea
-  class CardRecommendationsController < Admin::CardAccountsController
+  class CardRecommendationsController < AdminArea::CardAccountsController
 
     def new
-      @user = find_user
-      user_must_have_completed_onboarding_survey!
-      accounts = @user.card_accounts.includes(:card)
+      @passenger = find_passenger
+      @account   = @passenger.account
+      # passenger_must_have_completed_onboarding_survey!
+      accounts = @passenger.card_accounts.includes(:card)
       # Call 'to_a' so it doesn't include @card_recommendation:
       @card_accounts = accounts.to_a
       @card_recommendation = accounts.recommendations.build
       @card_offers_grouped_by_card = \
         CardOffer.includes(:card, card: :currency).all.group_by(&:card)
-      @balances = @user.balances.includes(:currency)
-      @travel_plans = @user.travel_plans
+      @balances     = @passenger.balances.includes(:currency)
+      @travel_plans = @account.travel_plans
     end
 
     def create
-      @user  = find_user
-      user_must_have_completed_onboarding_survey!
+      @passenger = find_passenger
+      @account   = @passenger.account
+      passenger_must_have_completed_onboarding_survey!
       # TODO don't allow expired/inactive offers to be assigned:
       @offer =  CardOffer.find(params[:offer_id])
-      @user.card_recommendations.create!(
+      @passenger.card_recommendations.create!(
         recommended_at: Time.now,
         offer: @offer
       )
-      flash[:success] = "Recommended card to user!"
-      # TODO notify user
-      redirect_to new_admin_user_card_recommendation_path(@user)
+      flash[:success] = "Recommended card to passenger!"
+      # TODO notify passenger
+      redirect_to new_admin_passenger_card_recommendation_path(@passenger)
     end
 
     private
 
-    def user_must_have_completed_onboarding_survey!
-      unless @user.onboarded?
-        flash[:error] = t("admin.users.card_recommendations.no_survey")
-        redirect_to admin_user_path(@user)
+    def find_passenger
+      Passenger.find(params[:passenger_id])
+    end
+
+    def passenger_must_have_completed_onboarding_survey!
+      unless @account.onboarded?
+        flash[:error] = t("admin.passengers.card_recommendations.no_survey")
+        redirect_to admin_passenger_path(@passenger)
       end
     end
   end

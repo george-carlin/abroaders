@@ -24,6 +24,13 @@ class Passenger < ApplicationRecord
     :has_business_without_ein?, :no_business?,
     to: :spending_info, allow_nil: true
 
+  # The passenger signed up on the date their *account* was created, not on the
+  # date which they added their passenger info in the survey. (In practice this
+  # will usually be on the same date anyway, but bear it in mind.)
+  def signed_up
+    account.created_at
+  end
+
   # Validations
 
   validates :account, uniqueness: { scope: :main }

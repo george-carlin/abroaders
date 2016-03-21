@@ -7,7 +7,7 @@ describe "admin section" do
   include_context "logged in as admin"
   subject { page }
 
-  describe "user recommend card page" do
+  describe "passenger recommend card page" do
     subject { page }
 
     let(:phone_number) { "(555) 000-1234" }
@@ -30,46 +30,58 @@ describe "admin section" do
         create(:card_offer, card: @usb_p)
       ]
 
-      @user = create(:user)
-      if completed_survey
-        @user.create_survey!(
-          first_name:   "Fred",
-          middle_names: "R. J.",
-          last_name:    "Smith",
-          phone_number: phone_number,
-          citizenship: :us_permanent_resident,
+      # Make the account created_at stamp different from the passenger's:
+      @account   = create(
+        :account,
+        time_zone: "Eastern Time (US & Canada)",
+        created_at: 4.days.ago
+      )
+      @passenger = @account.create_main_passenger!(
+        first_name:   "Fred",
+        middle_names: "R. J.",
+        last_name:    "Smith",
+        phone_number: phone_number,
+        citizenship: :us_permanent_resident
+      )
+      if onboarded
+        @passenger.create_spending_info!(
           credit_score: 678,
           personal_spending: 2500,
           has_business: :with_ein,
-          business_spending: 1500,
-          time_zone: "Eastern Time (US & Canada)"
+          business_spending: 1500
         )
+        @account.update_attributes!(onboarding_stage: "onboarded")
       end
+      @account.reload
       extra_setup
-      visit new_admin_user_card_recommendation_path(@user)
+      visit new_admin_passenger_card_recommendation_path(@passenger)
     end
 
-    let(:completed_survey) { true }
+    let(:onboarded) { true }
     let(:extra_setup) { nil }
 
-    it "shows the date on which the user signed up" do
-      is_expected.to have_content @user.created_at.strftime("%D")
+    context "for a passenger who has not been fully onboarded" do
+      let(:onboarded) { false }
+
+      it "redirects back to... somewhere" do
+        skip
+        # TODO
+        # raise unless @passenger.survey.nil? # Sanity check
+        # expect(current_path).to eq admin_passenger_path(@passenger)
+        # expect(page).to have_content \
+        #             t("admin.passengers.card_recommendations.no_survey")
+      end
     end
 
-    context "when the user" do
-      context "has not completed the onboarding survey" do
-        let(:completed_survey) { false }
+    it "shows the date on which the account was created" do
+      is_expected.to have_content @account.created_at.strftime("%D")
+    end
 
-        it "redirects back to the user survey page" do
-          raise unless @user.survey.nil? # Sanity check
-          expect(current_path).to eq admin_user_path(@user)
-          expect(page).to have_content \
-                      t("admin.users.card_recommendations.no_survey")
+    context "when the passenger" do
+      context "has no existing card accounts or recommendations" do
+        it do
+          is_expected.to have_content t("admin.passengers.card_accounts.none")
         end
-      end
-
-      context "has no existing card accounts/recommendations" do
-        it { is_expected.to have_content t("admin.users.card_accounts.none") }
       end
 
       context "has no travel plans" do
@@ -91,15 +103,15 @@ describe "admin section" do
           @jfk = create(:airport, name: "JFK",           parent: @us)
 
           @tp_0 = create(
-            :travel_plan, :single, user: @user,
+            :travel_plan, :single, account: @account,
             flights: [Flight.new(from: @jfk, to: @lhr)]
           )
           @tp_1 = create(
-            :travel_plan, :return, user: @user,
+            :travel_plan, :return, account: @account,
             flights: [Flight.new(from: @na, to: @as)]
           )
           @tp_2 = create(
-            :travel_plan, :multi, user: @user,
+            :travel_plan, :multi, account: @account,
             flights: [
               Flight.new(from: @jfk, to: @eu, position: 0),
               Flight.new(from: @eu,  to: @vn, position: 1),
@@ -118,7 +130,7 @@ describe "admin section" do
           # (Europe)", and don't bother displaying the intermediary
           # destinations like London, England, UK, etc.
 
-          within ".user_travel_plans" do
+          within ".account_travel_plans" do
             is_expected.to have_selector "##{dom_id(@tp_0)}"
             within "##{dom_id(@tp_0)}" do
               is_expected.to have_content "Single"
@@ -166,14 +178,18 @@ describe "admin section" do
       context "has no existing points balances" do
         it do
           is_expected.to have_content \
-            t("admin.users.card_recommendations.no_balances")
+            t("admin.passengers.card_recommendations.no_balances")
         end
       end
 
       context "has existing points balances" do
         let(:extra_setup) do
-          Balance.create!(user: @user, currency: @currencies[0], value:  5000)
-          Balance.create!(user: @user, currency: @currencies[2], value: 10000)
+          Balance.create!(
+            passenger: @passenger, currency: @currencies[0], value:  5000
+          )
+          Balance.create!(
+            passenger: @passenger, currency: @currencies[2], value: 10000
+          )
         end
 
         it "lists their balances" do
@@ -188,17 +204,17 @@ describe "admin section" do
       end
     end
 
-    it "displays the user's info from the onboarding survey" do
-      def have_survey_info(attr, value)
-        have_selector ".user-survey-attr.user-#{attr}", text: value
+    it "displays the passenger's info from the onboarding survey" do
+      def have_passenger_info(attr, value)
+        have_selector ".passenger-#{attr}", text: value
       end
 
-      is_expected.to have_survey_info "email", @user.email
-      is_expected.to have_survey_info "phone-number", phone_number
-      is_expected.to have_survey_info "citizenship", "U.S. Permanent Resident"
-      is_expected.to have_survey_info "credit-score", 678
-      is_expected.to have_survey_info "personal-spending", "$2500"
-      is_expected.to have_survey_info "business-spending", "$1500"
+      is_expected.to have_passenger_info "email", @passenger.email
+      is_expected.to have_passenger_info "phone-number", phone_number
+      is_expected.to have_passenger_info "citizenship", "U.S. Permanent Resident"
+      is_expected.to have_passenger_info "credit-score", 678
+      is_expected.to have_passenger_info "personal-spending", "$2500"
+      is_expected.to have_passenger_info "business-spending", "$1500"
     end
 
     it "has a form to recommend a new card" do
@@ -315,7 +331,7 @@ describe "admin section" do
             end
           end
 
-          it "recommends that card to the user" do
+          it "recommends that card to the passenger" do
             expect{confirm}.to change{CardAccount.recommended.count}.by(1)
           end
 
@@ -324,10 +340,10 @@ describe "admin section" do
 
             let(:rec) { CardAccount.recommended.last }
 
-            it "has the correct offer, card, and user" do
+            it "has the correct offer, card, and passenger" do
               expect(rec.card).to eq offer.card
               expect(rec.offer).to eq offer
-              expect(rec.user).to eq @user
+              expect(rec.passenger).to eq @passenger
             end
 
             it "has 'recommended at' set to the current time" do
@@ -343,7 +359,7 @@ describe "admin section" do
             end
           end
 
-          it "doesn't recommend the card to the user" do
+          it "doesn't recommend the card to the passenger" do
             expect{cancel}.not_to change{CardAccount.count}
           end
 

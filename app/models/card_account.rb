@@ -18,7 +18,7 @@ class CardAccount < ApplicationRecord
   # In practice, all card accounts created through the recommendation system
   # will have an offer; the only times we *won't* know the offer are:
   #
-  # a) when the user tells about his pre-existing card accounts on signup.
+  # a) when the user tells us about his pre-existing card accounts on signup.
   # b) for the legacy data we had when the app was first created.
 
   validates :passenger, presence: true
