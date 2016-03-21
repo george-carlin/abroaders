@@ -60,4 +60,10 @@ class Passenger < ApplicationRecord
   scope :main,      -> { where(main: true) }
   scope :companion, -> { where(main: false) }
 
+  scope :onboarded, -> do
+    joins(:account).where(
+      accounts: { onboarding_stage: Account.onboarding_stages["onboarded"] }
+    )
+  end
+
 end
