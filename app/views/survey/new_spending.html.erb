@@ -20,8 +20,8 @@
 
       <% if current_account.shares_expenses? %>
         <%= f.label(
-          :main_info_personal_spending,
-          "What is you and #{current_companion.first_name}'s normal combined"\
+          :shared_spending,
+          "What is you and #{current_companion.first_name}'s normal combined "\
           "spending per month?"
         ) %>
 
@@ -29,7 +29,10 @@
           You have indicated that you and <%= current_companion.first_name %>
           share expenses
         </p>
-        <%= f.number_field :main_info_personal_spending %>
+        <div class="input-group">
+          <div class="input-group-addon">$</div>
+          <%= f.number_field :shared_spending %>
+        </div>
       <% end %>
 
       <% if has_companion? %>

@@ -113,7 +113,8 @@ class SurveyController < NonAdminController
       :main_info_credit_score,
       :main_info_has_business,
       :main_info_personal_spending,
-      :main_info_will_apply_for_loan
+      :main_info_will_apply_for_loan,
+      :shared_spending
     )
   end
 

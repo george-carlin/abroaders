@@ -31,6 +31,14 @@ class Account < ApplicationRecord
   delegate :full_name, to: :main_passenger, prefix: true, allow_nil: true
   delegate :full_name, to: :companion, prefix: true, allow_nil: true
 
+  def shared_spending
+    # To eliminate the need for an extra DB column that will be null most of
+    # the time: when spending is shared, it's stored internally under
+    # main_passenger.personal_spending, and companion.personal_spending is left
+    # blank.
+    shares_expenses ?  main_passenger.personal_spending : nil
+  end
+
   # Validations
 
   # Associations

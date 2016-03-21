@@ -10,10 +10,16 @@ class SpendingSurvey < Form
 
     @has_companion  = @account.has_companion?
 
+    self.companion_info_personal_spending = 0
+
     if @account.has_companion?
       raise if @account.companion.spending_info.try(:persisted?)
       @companion      = account.companion
       @companion_info = @companion.build_spending_info
+    else
+      # Another sanity check: you can't share expenses if you don't have a
+      # companion
+      raise if @account.shares_expenses?
     end
   end
 
@@ -25,6 +31,8 @@ class SpendingSurvey < Form
   delegate :has_business?, to: :companion_info, prefix: true, allow_nil: true
   alias_method :main_passenger_has_business?, :main_info_has_business?
   alias_method :companion_has_business?,      :companion_info_has_business?
+
+  attr_accessor :shared_spending
 
   def account_shares_expenses?
     @account.shares_expenses
@@ -84,6 +92,18 @@ class SpendingSurvey < Form
           companion_info.send("#{attr}=", self.send("companion_info_#{attr}"))
         end
       end
+
+      if has_companion? && account_shares_expenses?
+        # To eliminate the need for an extra DB column that will be null
+        # most of the time: when spending is shared, it's stored internally
+        # under main_passenger.personal_spending, and
+        # companion.personal_spending is left blank.
+        main_info.personal_spending      = self.shared_spending
+        # Except we have to make it 0, not nil, because the DB column isn't
+        # nullable :(
+        companion_info.personal_spending = 0
+      end
+
       @account.onboarding_stage = "main_passenger_cards"
       @account.save!(validate: false)
       main_info.save!(validate: false)
@@ -114,8 +134,10 @@ class SpendingSurvey < Form
   validates :main_info_credit_score,
     CREDIT_SCORE_VALIDATIONS.merge(presence: true)
   validates :main_info_personal_spending, {
-    numericality: SPENDING_NUMERICALITY_VALIDATIONS,
-    presence: true
+    numericality: SPENDING_NUMERICALITY_VALIDATIONS.merge(
+      unless: "has_companion? && account_shares_expenses?"
+    ),
+    presence: { unless: "has_companion? && account_shares_expenses?" }
   }
 
   with_options if: :main_passenger_has_business? do |survey|
@@ -131,7 +153,7 @@ class SpendingSurvey < Form
 
     survey.validates :companion_info_personal_spending, {
       numericality: SPENDING_NUMERICALITY_VALIDATIONS,
-      presence: true
+      presence: { if: "has_companion? && !account_shares_expenses?" }
     }
   end
 
@@ -140,6 +162,12 @@ class SpendingSurvey < Form
       numericality: SPENDING_NUMERICALITY_VALIDATIONS,
       presence: true
     }
+  end
+
+  with_options if: :account_shares_expenses? do
+    validates :shared_spending,
+      numericality: SPENDING_NUMERICALITY_VALIDATIONS,
+      presence: true
   end
 
 end

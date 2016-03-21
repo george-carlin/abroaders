@@ -201,8 +201,36 @@ describe "the spending info survey" do
       let(:shares_expenses) { true }
 
       it "has a single input for our shared personal spending" do
-        is_expected.to have_field "#{mp_prefix}_personal_spending"
+        is_expected.to have_field "#{ps_prefix}_shared_spending"
+        is_expected.not_to have_field "#{mp_prefix}_personal_spending"
         is_expected.not_to have_field "#{co_prefix}_personal_spending"
+      end
+
+      describe "submitting the form" do
+        before do
+          fill_in "#{mp_prefix}_credit_score", with: 456
+          choose  "#{mp_prefix}_will_apply_for_loan_true"
+          fill_in "#{co_prefix}_credit_score", with: 654
+        end
+
+        describe "with valid information" do
+          before do
+            fill_in "#{ps_prefix}_shared_spending", with: 6789
+            submit_form
+          end
+
+          it "saves the shared spending info" do
+            expect(account.reload.shared_spending).to eq 6789
+          end
+        end
+
+        describe "leaving the shared spending blank" do
+          it "doesn't save, and shows the form again with an error message" do
+            expect{submit_form}.not_to change{SpendingInfo.count}
+            expect(current_path).to eq survey_spending_path
+            expect(page).to have_error_message
+          end
+        end
       end
     end
 
@@ -210,6 +238,7 @@ describe "the spending info survey" do
       let(:shares_expenses) { false }
 
       it "has two inputs, one for each of our personal spending" do
+        is_expected.not_to have_field :shared_spending
         is_expected.to have_field "#{mp_prefix}_personal_spending"
         is_expected.to have_field "#{co_prefix}_personal_spending"
       end
