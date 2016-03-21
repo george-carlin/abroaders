@@ -1,3 +1,5 @@
+"use strict";
+
 $(document).ready(function () {
   $(".new_card_account table").tablesorter({
     // The table can't be sorted by the first column:
@@ -23,9 +25,9 @@ $(document).ready(function () {
     }).toArray();
 
     $("tr.admin_recommend_card").each(function (i, tr) {
-      var bankIsShown = checkedBanks.indexOf(tr.dataset.bank) > -1;
-          bpIsShown   = checkedBPs.indexOf(tr.dataset.bp) > -1;
-          currIsShown = checkedCurrencies.indexOf(tr.dataset.currency) > -1;
+      var bankIsShown = checkedBanks.indexOf(tr.dataset.bank) > -1,
+          bpIsShown   = checkedBPs.indexOf(tr.dataset.bp) > -1,
+          currIsShown = checkedCurrencies.indexOf(tr.dataset.currency) > -1,
           $cardTr  = $(tr),
           show = bankIsShown && bpIsShown && currIsShown;
 
@@ -96,3 +98,5 @@ $(document).ready(function () {
 
 
 });
+
+// Nothing to export
