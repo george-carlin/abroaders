@@ -96,18 +96,34 @@ describe "as a user viewing my card recommendations", :js do
 
       describe "filling in the field and clicking 'confirm'" do
         let(:message) { "Because I say so, bitch!" }
-        before do
-          fill_in :card_account_decline_reason, with: message
+        before { fill_in :card_account_decline_reason, with: message }
+
+        let(:submit) do
           confirm
           rec.reload
         end
 
         it "updates the card account's status to 'declined'" do
+          submit
           expect(rec).to be_declined
         end
 
         it "sets the 'declined at' timestamp to the current time" do
+          submit
           expect(rec.declined_at).to be_within(5.seconds).of Time.now
+        end
+
+        context "when the card is no longer 'declinable'" do
+          before { rec.applied! }
+
+          # This could happen if e.g. they have the same window open in two
+          # tabs, and decline the card in one tab before clicking 'decline'
+          # again in the other tab
+          it "fails gracefully" do
+            submit
+            expect(current_path).to eq card_accounts_path
+            expect(page).to have_info_message text: t("card_accounts.index.couldnt_decline")
+          end
         end
       end
 
@@ -139,6 +155,15 @@ describe "as a user viewing my card recommendations", :js do
 
       # Possibly see https://github.com/teampoltergeist/poltergeist/commit/57f039ec17c6f5786f18d2a43266f79fac57f554
       it "opens the redirect page in a new tab"
+
+      it "prevents me from clicking 'Apply' a second time"
+      # TODO we need to do something here, because 'Apply' opens a window
+      # in a new tab, meaning that the tab with the Apply/Decline buttons
+      # will still be open, but the buttons won't work anymore (but currently
+      # they raise a noisy error). This needs to be made more user-friendly,
+      # but let's wait until we've figured out exactly how we're going
+      # to display recommendations that have already been applied/declined
+      # on card_accounts_path
     end
 
     describe "opening the 'apply' page" do

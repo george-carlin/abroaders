@@ -42,6 +42,7 @@ en:
 
   card_accounts:
     index:
+      couldnt_decline: "Couldn't decline card recommendation. This may happen if you already declined or accepted the recommendation in a different browser window, or if you hit the 'back' button after accepting or declining the first time."
       have_applied: "I have applied"
       still_waiting: "I'm still waiting to hear back"
       was_accepted: "I was accepted"

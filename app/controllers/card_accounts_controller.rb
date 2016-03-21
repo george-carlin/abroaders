@@ -29,10 +29,14 @@ class CardAccountsController < NonAdminController
   def decline
     raise "decline message must be present" unless decline_reason.present?
 
-    @recommendation = get_card_recommendation
-    @recommendation.decline_with_reason!(decline_reason)
-    flash[:success] = t("admin.passengers.card_accounts.you_have_declined")
-    redirect_to card_accounts_path
+    if @recommendation = get_card_recommendation
+      @recommendation.decline_with_reason!(decline_reason)
+      flash[:success] = t("admin.passengers.card_accounts.you_have_declined")
+      redirect_to card_accounts_path
+    else
+      flash[:info] = t("card_accounts.index.couldnt_decline")
+      redirect_to card_accounts_path
+    end
   end
 
   def open
@@ -60,7 +64,7 @@ class CardAccountsController < NonAdminController
   end
 
   def get_card_recommendation
-    current_main_passenger.card_recommendations.find(params[:id])
+    current_main_passenger.card_recommendations.find_by(id: params[:id])
   end
 
   def decline_reason
