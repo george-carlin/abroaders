@@ -2,33 +2,8 @@
   id="<%= dom_id(recommendation) %>"
   class="<%= dom_class(recommendation) %> row"
 >
-  <div class="col-xs-6 col-md-2">
-    <%= card_image_tag(recommendation.card, "130x81") %>
-  </div>
 
-  <div class="col-xs-6 col-md-6">
-    <p>
-      <b>Card Name:</b>
-      <span class="card-account-bank">
-        <%= recommendation.card_name %>
-        (<%= recommendation.card_brand.capitalize %>)
-      </span>
-    </p>
-
-    <p>
-      <b>Bank:</b>
-      <span class="card-account-bank">
-        <%= recommendation.card_bank_name %>
-      </span>
-    </p>
-
-    <div class="card_account_offer">
-      Spend <%= number_to_currency(recommendation.offer.spend) %> within
-      <%= recommendation.offer.days %> days to receive a bonus of
-      <%= number_with_delimiter(recommendation.offer.points_awarded) %>
-      <%= recommendation.card_currency.name %> points
-    </div><!-- .card-account-offer -->
-  </div><!-- .card-account-card -->
+  <%= render "card_accounts/card_information", card_account: recommendation %>
 
   <div class="col-xs-12 col-md-4">
 

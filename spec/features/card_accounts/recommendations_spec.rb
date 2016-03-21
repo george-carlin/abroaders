@@ -197,26 +197,60 @@ describe "as a user viewing my card recommendations", :js do
     end
   end
 
-  describe "when I have applied for a card" do
+  describe "when I have applied for a card", :focus do
     let(:extra_setup) do
+      @offer = create(:card_offer)
+      @card  = @offer.card
       @card_account = create(
         :card_account,
-        passenger: passenger,
-        status: :applied,
-        applied_at: applied_at
+        passenger:  passenger,
+        status:    :applied,
+        applied_at: applied_at,
+        offer: @offer,
+        card: nil
       )
     end
-    let(:applied_at) { 5.minutes.ago }
+    let(:applied_at) { 5.days.ago }
+    let(:card_account) { @card_account }
+    let(:offer) { @offer }
+    let(:card)  { @card }
 
-    it "asks me if I have been approved"
+    it "displays the card" do
+      is_expected.to have_card_account(card_account)
+    end
+
+    it "says when I applied" do
+      within card_account_selector(card_account) do
+        is_expected.to have_content "You indicated on #{applied_at.strftime("%D")} that you had applied for this card"
+      end
+    end
+
+    it "asks me if I have been approved" do
+      within card_account_selector(card_account) do
+        is_expected.to have_content "When you hear back from the bank, tell us whether or not you were approved for the card"
+      end
+    end
 
     describe "clicking 'I have been approved'", :js do
-      it "asks me to confirm"
+      before { click_button "I have been approved" }
+
+      it "asks me to confirm" do
+        is_expected.not_to have_button "I have been approved"
+        is_expected.to have_button "Cancel"
+        is_expected.to have_button "Confirm"
+      end
 
       describe "clicking 'confirm'" do
+        before { pending; click_button "Confirm" }
+
         context "if I applied today" do
-          it "updates card status to 'open'"
-          it "saves 'opened at' to today"
+          it "updates card status to 'open'" do
+            expect(card_account.reload).to be_open
+          end
+
+          it "saves 'opened at' to today" do
+            expect(card_account.opened_at.to_date).to eq Date.today
+          end
         end
 
         context "when I applied more than one day ago" do
@@ -226,6 +260,16 @@ describe "as a user viewing my card recommendations", :js do
             it "updates card status to 'open'"
             it "saves 'opened at' to today"
           end
+        end
+      end
+
+      describe "clicking 'cancel'" do
+        before { click_button "Cancel" }
+
+        it "hides the confirm/cancel buttons" do
+          is_expected.to have_button "I have been approved"
+          is_expected.not_to have_button "Cancel"
+          is_expected.not_to have_button "Confirm"
         end
       end
     end

@@ -1,0 +1,27 @@
+<div class="col-xs-6 col-md-2">
+  <%= card_image_tag(card_account.card, "130x81") %>
+</div>
+
+<div class="col-xs-6 col-md-6">
+  <p>
+    <b>Card Name:</b>
+    <span class="card-account-bank">
+      <%= card_account.card_name %>
+      (<%= card_account.card_brand.capitalize %>)
+    </span>
+  </p>
+
+  <p>
+    <b>Bank:</b>
+    <span class="card-account-bank">
+      <%= card_account.card_bank_name %>
+    </span>
+  </p>
+
+  <div class="card_account_offer">
+    Spend <%= number_to_currency(card_account.offer.spend) %> within
+    <%= card_account.offer.days %> days to receive a bonus of
+    <%= number_with_delimiter(card_account.offer.points_awarded) %>
+    <%= card_account.card_currency.name %> points
+  </div><!-- .card-account-offer -->
+</div>

@@ -2,15 +2,26 @@
 
 <% if @new_recommendations.any? %>
 
-  <h1>Recommended Cards</h1>
+  <h1>Card Recommendations</h1>
 
   <div id="card_recommendations">
     <% @new_recommendations.each do |rec| %>
       <%= render "card_accounts/recommendation", recommendation: rec %>
     <% end %>
   </div><!-- #card_recommendations -->
-
 <% else %>
   Thanks for signing up to Abroaders! You will shortly receive your
   first card recommendation
+<% end %>
+
+<% if @other_accounts.any? %>
+  <h1>Your Cards</h1>
+
+  <div id="card_recommendations">
+    <%= render(
+      collection: @other_accounts,
+      partial: "card_accounts/card_account",
+    ) %>
+  </div><!-- #card_recommendations -->
+
 <% end %>
