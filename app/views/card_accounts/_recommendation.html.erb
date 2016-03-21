@@ -32,13 +32,13 @@
 
   <div class="col-xs-12 col-md-4">
 
-    <%= react_component(
-          "CardRecommendationActions",
-          accountId:   recommendation.id,
-          status:      recommendation.status,
-          applyPath:   apply_card_account_path(recommendation),
-          declinePath: decline_card_account_path(recommendation)
-        ) %>
+    <div
+      data-react-component="CardRecommendationActions"
+      data-account-id="<%= recommendation.id %>"
+      data-status="<%= recommendation.status %>"
+      data-apply-path="<%= apply_card_account_path(recommendation) %>"
+      data-decline-path="<%= decline_card_account_path(recommendation) %>"
+    > </div>
 
     <% if false %>
 

@@ -13,9 +13,14 @@ describe "as a user viewing my card recommendations", :js do
 
   let(:extra_setup) { nil }
 
+  # TODO - right now the page only shows me the main passenger's recommendations.
+  # Needs some serious rethinking
+
+  let(:passenger) { account.main_passenger }
+
   context "when I have been recommended some cards" do
     let(:extra_setup) do
-      @recommendations = create_list(:card_rec, 2, user: user)
+      @recommendations = create_list(:card_rec, 2, passenger: passenger)
     end
 
     it "lists them all" do
@@ -89,7 +94,7 @@ describe "as a user viewing my card recommendations", :js do
         end
       end
 
-      describe "filling in the field and clicking 'confirm" do
+      describe "filling in the field and clicking 'confirm'" do
         let(:message) { "Because I say so, bitch!" }
         before do
           fill_in :card_account_decline_reason, with: message
@@ -97,7 +102,7 @@ describe "as a user viewing my card recommendations", :js do
           rec.reload
         end
 
-        it "updates the account's status to 'declined'" do
+        it "updates the card account's status to 'declined'" do
           expect(rec).to be_declined
         end
 
@@ -169,9 +174,9 @@ describe "as a user viewing my card recommendations", :js do
 
   describe "when I have applied for a card" do
     let(:extra_setup) do
-      @account = create(
+      @card_account = create(
         :card_account,
-        user: user,
+        passenger: passenger,
         status: :applied,
         applied_at: applied_at
       )
@@ -207,7 +212,7 @@ describe "as a user viewing my card recommendations", :js do
         it "asks me to confirm"
 
         describe "and confirming" do
-          it "sets account status to 'denied'"
+          it "sets card account status to 'denied'"
           it "sets 'denied at' timestamp to the current time"
           it "tells me to call the bank"
         end
@@ -221,7 +226,7 @@ describe "as a user viewing my card recommendations", :js do
         it "asks me to confirm"
 
         describe "and confirming" do
-          it "sets account status to 'pending decision'"
+          it "sets card account status to 'pending decision'"
 
           it "tells me to call the bank"
         end
@@ -283,7 +288,7 @@ describe "as a user viewing my card recommendations", :js do
   #    describe "clicking 'accepted'" do
   #      before { click_button _t("was_accepted") }
   #      it "asks *when* the application was accepted"
-  #      it "updates the account's status to 'open'" do
+  #      it "updates the card account's status to 'open'" do
   #        rec.reload
   #        expect(rec.status).to eq "open"
   #        expect(rec).not_to be_reconsidered
@@ -322,12 +327,12 @@ describe "as a user viewing my card recommendations", :js do
   #end
 
 
-  def card_account_selector(account)
-    "##{dom_id(account)}"
+  def card_account_selector(card_account)
+    "##{dom_id(card_account)}"
   end
 
-  def have_card_account(account)
-    have_selector card_account_selector(account)
+  def have_card_account(card_account)
+    have_selector card_account_selector(card_account)
   end
 
   def decline_rec_btn(recommendation)

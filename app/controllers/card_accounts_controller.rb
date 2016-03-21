@@ -2,9 +2,10 @@ class CardAccountsController < NonAdminController
   helper CardAccountButtons
 
   def index
-    @new_recommendations = current_account\
+    # Just show main passenger recommendations for now:
+    @new_recommendations = current_main_passenger\
                     .card_recommendations.includes(:card).order(:created_at)
-    @other_accounts = current_account\
+    @other_accounts = current_main_passenger\
                     .card_accounts.where.not(id: @new_recommendations)\
                     .includes(:card).order(:created_at)
   end
@@ -12,7 +13,7 @@ class CardAccountsController < NonAdminController
   def apply
     # They should still be able to access this page if the card is 'applied',
     # in case they click the 'Apply' button but don't actually apply
-    @recommendation = current_account.card_accounts.where(
+    @recommendation = current_main_passenger.card_accounts.where(
       status: %i[recommended applied]
     ).find(params[:id])
 
@@ -30,7 +31,7 @@ class CardAccountsController < NonAdminController
 
     @recommendation = get_card_recommendation
     @recommendation.decline_with_reason!(decline_reason)
-    flash[:success] = t("admin.users.card_accounts.you_have_declined")
+    flash[:success] = t("admin.passengers.card_accounts.you_have_declined")
     redirect_to card_accounts_path
   end
 
@@ -55,11 +56,11 @@ class CardAccountsController < NonAdminController
   private
 
   def get_card_account
-    current_account.card_accounts.find(params[:id])
+    current_main_passenger.card_accounts.find(params[:id])
   end
 
   def get_card_recommendation
-    current_account.card_recommendations.find(params[:id])
+    current_main_passenger.card_recommendations.find(params[:id])
   end
 
   def decline_reason
