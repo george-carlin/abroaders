@@ -89,7 +89,7 @@ describe "as a new user" do
       let(:has_companion) { false }
 
       it "asks me for “your” cards" do
-        is_expected.to have_selector "h1", "Your Cards"
+        is_expected.to have_selector "h1", text: "Your Cards"
         is_expected.to have_content "recommend you a credit card"
         is_expected.to have_content "which cards you already have"
         is_expected.to have_content "you have been the primary cardholder"
@@ -113,7 +113,7 @@ describe "as a new user" do
       let(:main_passenger_has_added_cards) { false }
 
       it "asks me for “Name's” cards" do
-        is_expected.to have_selector "h1", "Steve's Cards"
+        is_expected.to have_selector "h1", text: "Steve's Cards"
         is_expected.to have_content "recommend Steve a credit card"
         is_expected.to have_content "which cards he/she already has"
         is_expected.to have_content "Steve has been the primary cardholder"
@@ -158,7 +158,7 @@ describe "as a new user" do
     before { visit survey_card_accounts_path(:companion) }
 
     it "asks me for “Name's” cards" do
-      is_expected.to have_selector "h1", "Pete's Cards"
+      is_expected.to have_selector "h1", text: "Pete's Cards"
       is_expected.to have_content "recommend Pete a credit card"
       is_expected.to have_content "which cards he/she already has"
       is_expected.to have_content "Pete has been the primary cardholder"

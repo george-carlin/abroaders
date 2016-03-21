@@ -6,13 +6,13 @@ class Name
     new("you")
   end
 
-  attr_reader :name, :possesive, :has, :is, :doesnt_have, :isnt, :was, :he_she,
+  attr_reader :name, :possessive, :has, :is, :doesnt_have, :isnt, :was, :he_she,
     :does
 
   def initialize(name)
     if name == "you"
       @name        = "you"
-      @possesive   = "your"
+      @possessive  = "your"
       @does        = "do"
       @doesnt_have = "don't have"
       @has         = "have"
@@ -22,7 +22,7 @@ class Name
       @was         = "were"
     else
       @name        = name
-      @possesive   = name + "'s"
+      @possessive  = name + "'s"
       @does        = "does"
       @doesnt_have = "doesn't have"
       @has         = "has"
