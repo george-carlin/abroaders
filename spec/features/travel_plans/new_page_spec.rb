@@ -2,6 +2,7 @@ require "rails_helper"
 
 # Page is rendered with React.js; all tests must activate Javascript
 describe "new travel plans page", :js, manual_clean: true do
+  before { skip }
   include AirportMacros
 
   subject { page }
