@@ -286,7 +286,7 @@ describe "as a user viewing my card recommendations", :js do
           it "tells me to call the bank"
         end
 
-        describe "and clicking 'cancel" do
+        describe "and clicking 'cancel'" do
           it "shows the 'denied/pending' buttons again"
         end
       end
