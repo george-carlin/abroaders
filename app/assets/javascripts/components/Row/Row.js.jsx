@@ -1,6 +1,6 @@
-var React = require('react');
+const React = require('react');
 
-var Row = React.createClass({
+const Row = React.createClass({
   render() {
     return (
       <div className="row">
