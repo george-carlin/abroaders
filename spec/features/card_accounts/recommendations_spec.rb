@@ -412,9 +412,9 @@ describe "as a user viewing my card recommendations", :js do
     "#card_account_#{recommendation.id}_applied_btn"
   end
 
-    # Shortcut for the translations which are relevant to the index page
-    def _t(key)
-      t("card_accounts.index.#{key}")
-    end
+  # Shortcut for the translations which are relevant to the index page
+  def _t(key)
+    t("card_accounts.index.#{key}")
+  end
 
 end
