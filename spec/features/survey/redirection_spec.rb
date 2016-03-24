@@ -27,6 +27,7 @@ describe "as a new user" do
       survey_card_accounts_path(:main),
       survey_card_accounts_path(:companion),
       survey_passengers_path,
+      survey_readiness_path,
       survey_spending_path,
       travel_plans_path
     ]
@@ -98,8 +99,15 @@ describe "as a new user" do
   end
 
   context "added passenger, spending, card, & balance info" do
-    let(:onboarding_stage) { "onboarded" }
-    it "redirects to the next stage of the survey"
+    let(:onboarding_stage) { "travel_plans" }
+    it "redirects to the travel plan survey"
     # TODO (whichever stage that is)
+  end
+
+  context "added passenger, spending, card, balance, and travel plan info" do
+    let(:onboarding_stage) { "readiness" }
+    let(:survey_path) { survey_readiness_path }
+    include_examples "redirects", "the readiness survey"
+    include_examples "no cards or travel plans links"
   end
 end

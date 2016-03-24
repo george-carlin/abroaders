@@ -17,7 +17,8 @@ class NonAdminController < ApplicationController
       "main_passenger_cards"    => survey_card_accounts_path(:main),
       "companion_cards"         => survey_card_accounts_path(:companion),
       "main_passenger_balances" => survey_balances_path(:main),
-      "companion_balances"      => survey_balances_path(:companion)
+      "companion_balances"      => survey_balances_path(:companion),
+      "readiness"               => survey_readiness_path
     }.each do |stage, path|
       if current_account.onboarding_stage == stage && request.path != path
         redirect_to path and return

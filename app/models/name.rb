@@ -33,4 +33,12 @@ class Name
     end
   end
 
+  def he_she_isnt
+    if name == "you"
+      "you're not"
+    else
+      "he/she isn't"
+    end
+  end
+
 end

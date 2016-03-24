@@ -36,6 +36,9 @@ Rails.application.routes.draw do
           as: :balances, constraints: passenger_constraints
     post "balances/:passenger", action: :create_balances,
           as: nil,       constraints: passenger_constraints
+
+    get  :ready, action: :new_readiness,    as: :readiness
+    post :ready, action: :create_readiness, as: nil
   end
 
   # Note that 'cards' is a fixed list, and 'card accounts' is the join table

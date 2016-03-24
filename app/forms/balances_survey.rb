@@ -79,7 +79,7 @@ class BalancesSurvey
     if @passenger.main? && @passenger.account.has_companion?
       "companion_balances"
     else
-      "onboarded"
+      "readiness" # TODO change me to travel_plans once that form is ready
     end
   end
 end

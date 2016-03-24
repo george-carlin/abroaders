@@ -73,12 +73,28 @@ class SurveyController < NonAdminController
         redirect_to survey_card_accounts_path(:companion)
       else
         # TODO redirect to travel plan form when it's ready
-        redirect_to root_path
+        redirect_to survey_readiness_path
       end
     else
       @name  = load_name(params[:passenger])
       render "new_balances"
     end
+  end
+
+  def new_readiness
+    @survey = ReadinessSurvey.new(current_account)
+    if has_companion?
+      @mp_name = Name.new(current_main_passenger.first_name)
+      @co_name = Name.new(current_companion.first_name)
+    else
+      @mp_name = Name.you
+    end
+  end
+
+  def create_readiness
+    @survey = ReadinessSurvey.new(current_account)
+    @survey.update_attributes!(readiness_survey_params)
+    redirect_to root_path
   end
 
   private
@@ -152,6 +168,13 @@ class SurveyController < NonAdminController
     else
       Name.new(current_companion.first_name)
     end
+  end
+
+  def readiness_survey_params
+    params.require(:readiness_survey).permit(
+      :main_passenger_ready, :main_passenger_unreadiness_reason,
+      :companion_ready,      :companion_unreadiness_reason
+    )
   end
 
 end

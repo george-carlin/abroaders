@@ -7,9 +7,10 @@ const Button = React.createClass({
   propTypes: {
     className: React.PropTypes.string,
     default:   React.PropTypes.bool,
+    hidden:    React.PropTypes.bool,
+    large:     React.PropTypes.bool,
     primary:   React.PropTypes.bool,
     small:     React.PropTypes.bool,
-    large:     React.PropTypes.bool,
   },
 
   render() {

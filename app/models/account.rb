@@ -14,7 +14,9 @@ class Account < ApplicationRecord
     :companion_cards,
     :main_passenger_balances,
     :companion_balances,
-    :onboarded
+    :travel_plans,
+    :readiness,
+    :onboarded # This status means they've fully completed the onboarding survey
   ]
 
   delegate :full_name, to: :main_passenger, prefix: true, allow_nil: true

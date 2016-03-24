@@ -51,6 +51,26 @@ class Passenger < ApplicationRecord
   has_many :balances
   has_many :currencies, through: :balances
 
+  concerning :Readiness do
+    included do
+      has_one :readiness_status
+      delegate :unreadiness_reason, to: :readiness_status, allow_nil: true
+    end
+
+    def readiness_status_given?
+      !!readiness_status.try(:persisted?)
+    end
+
+    def ready_to_apply?
+      !!readiness_status.try(:ready?)
+    end
+
+    def unready_to_apply?
+      !ready_to_apply?
+    end
+  end
+
+
   # Callbacks
 
   auto_strip_attributes :first_name, :middle_names, :last_name, :phone_number

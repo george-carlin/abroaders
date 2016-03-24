@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160316170137) do
+ActiveRecord::Schema.define(version: 20160325145539) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -179,6 +179,16 @@ ActiveRecord::Schema.define(version: 20160316170137) do
 
   add_index "passengers", ["account_id", "main"], name: "index_passengers_on_account_id_and_main", unique: true, using: :btree
 
+  create_table "readiness_statuses", force: :cascade do |t|
+    t.integer  "passenger_id",       null: false
+    t.boolean  "ready",              null: false
+    t.string   "unreadiness_reason"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "readiness_statuses", ["passenger_id"], name: "index_readiness_statuses_on_passenger_id", unique: true, using: :btree
+
   create_table "spending_infos", force: :cascade do |t|
     t.integer "passenger_id",                        null: false
     t.integer "credit_score",                        null: false
@@ -214,6 +224,6 @@ ActiveRecord::Schema.define(version: 20160316170137) do
   add_foreign_key "flights", "destinations", column: "to_id", on_delete: :restrict
   add_foreign_key "flights", "travel_plans", on_delete: :cascade
   add_foreign_key "passengers", "accounts", on_delete: :cascade
-  add_foreign_key "spending_infos", "passengers", on_delete: :cascade
+  add_foreign_key "readiness_statuses", "passengers", on_delete: :cascade
   add_foreign_key "travel_plans", "accounts", on_delete: :cascade
 end
