@@ -1,5 +1,8 @@
 {
   "name": "Abroaders",
+  "repository" : "https://bitbucket.org/georgemillo/abroaders",
+  "license" : "UNLICENSED",
+  "private" : true,
   "devDependencies": {
     "eslint": "^2.2.0",
     "eslint-config-airbnb": "^6.0.2",
