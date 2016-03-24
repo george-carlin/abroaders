@@ -1,0 +1,26 @@
+<div
+  id="<%= dom_id(applied_card_account) %>"
+  class="<%= dom_class(applied_card_account) %> row"
+>
+
+  <%= render "card_accounts/card_information", card_account: applied_card_account %>
+
+  <div class="col-xs-12 col-md-4">
+    <p>
+      You indicated on <%= applied_card_account.applied_at.strftime("%D") %> that you
+      had applied for this card.
+    </p>
+
+    <p>
+      When you hear back from the bank, tell us whether or not you were
+      approved for the card
+    </p>
+
+    <div
+      data-react-component="CardAppliedActions"
+    >
+    </div>
+  </div>
+</div><!-- .row -->
+
+<hr>

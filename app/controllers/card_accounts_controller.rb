@@ -7,9 +7,13 @@ class CardAccountsController < NonAdminController
                     .card_accounts.includes(:card).order(:created_at)
     @recommended_card_accounts = scope.recommended
     @unknown_card_accounts     = scope.unknown
+    @applied_card_accounts     = scope.applied
 
     @other_card_accounts = scope.where.not(
-      id: [@recommended_card_accounts + @unknown_card_accounts]
+      id: [
+        @recommended_card_accounts + @unknown_card_accounts + \
+        @applied_card_accounts
+      ]
     )
   end
 

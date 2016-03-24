@@ -14,7 +14,23 @@
   first card recommendation
 <% end %>
 
-<% if @other_card_accounts.any? %>
+<!-- TODO hide this header where appropriate -->
+<h2>Other Cards</h2>
+
+<% if @applied_card_accounts.any? %>
+  <div id="applied_card_accounts">
+    <%= render @applied_card_accounts %>
+  </div>
+<% end %>
+
+<% if @unknown_card_accounts.any? %>
+
+  <div id="unknown_card_accounts">
+    <%= render @unknown_card_accounts %>
+  </div>
+<% end %>
+
+<% if false && @other_card_accounts.any? %>
   <!-- ??? <h2>Other Cards</h2> -->
 
   <!-- this is really just a placeholder for now until we've got a system
@@ -22,12 +38,4 @@
   <div id="other_card_accounts">
     <%= render @other_card_accounts, partial: "card_accounts/card_account" %>
   </div><!-- #other_card_accounts -->
-<% end %>
-
-<% if @unknown_card_accounts.any? %>
-  <h2>Other Cards</h2>
-
-  <div id="unknown_card_accounts">
-    <%= render @unknown_card_accounts %>
-  </div>
 <% end %>
