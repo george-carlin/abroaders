@@ -9,6 +9,7 @@ const Button = React.createClass({
     default:   React.PropTypes.bool,
     primary:   React.PropTypes.bool,
     small:     React.PropTypes.bool,
+    large:     React.PropTypes.bool,
   },
 
   render() {
@@ -23,6 +24,10 @@ const Button = React.createClass({
 
     if (props.small && !_.includes(classes, "btn-sm")) {
       props.className += " btn-sm";
+    }
+
+    if (props.large && !_.includes(classes, "btn-lg")) {
+      props.className += " btn-lg";
     }
 
     if (props.default && !_.includes(classes, "btn-default")) {
