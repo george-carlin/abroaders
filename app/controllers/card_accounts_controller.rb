@@ -2,12 +2,15 @@ class CardAccountsController < NonAdminController
   helper CardAccountButtons
 
   def index
-    # Just show main passenger recommendations for now:
-    @new_recommendations = current_main_passenger\
-                    .card_recommendations.includes(:card).order(:created_at)
-    @other_accounts = current_main_passenger\
-                    .card_accounts.where.not(id: @new_recommendations)\
-                    .includes(:card).order(:created_at)
+    # Just show main passenger card accounts for now:
+    scope = current_main_passenger\
+                    .card_accounts.includes(:card).order(:created_at)
+    @recommended_card_accounts = scope.recommended
+    @unknown_card_accounts     = scope.unknown
+
+    @other_card_accounts = scope.where.not(
+      id: [@recommended_card_accounts + @unknown_card_accounts]
+    )
   end
 
   def apply

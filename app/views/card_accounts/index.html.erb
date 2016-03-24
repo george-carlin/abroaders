@@ -1,27 +1,33 @@
 <% provide :title, "My Cards" %>
 
-<% if @new_recommendations.any? %>
+<h1>Your Cards</h1>
 
-  <h1>Card Recommendations</h1>
+<% if @recommended_card_accounts.any? %>
 
-  <div id="card_recommendations">
-    <% @new_recommendations.each do |rec| %>
-      <%= render "card_accounts/recommendation", recommendation: rec %>
-    <% end %>
-  </div><!-- #card_recommendations -->
+  <h2>Card Recommendations</h2>
+
+  <div id="recommended_card_accounts">
+    <%= render @recommended_card_accounts %>
+  </div><!-- #recommended_card_accounts -->
 <% else %>
   Thanks for signing up to Abroaders! You will shortly receive your
   first card recommendation
 <% end %>
 
-<% if @other_accounts.any? %>
-  <h1>Your Cards</h1>
+<% if @other_card_accounts.any? %>
+  <!-- ??? <h2>Other Cards</h2> -->
 
-  <div id="card_recommendations">
-    <%= render(
-      collection: @other_accounts,
-      partial: "card_accounts/card_account",
-    ) %>
-  </div><!-- #card_recommendations -->
+  <!-- this is really just a placeholder for now until we've got a system
+  set up that handles cards of every status -->
+  <div id="other_card_accounts">
+    <%= render @other_card_accounts, partial: "card_accounts/card_account" %>
+  </div><!-- #other_card_accounts -->
+<% end %>
 
+<% if @unknown_card_accounts.any? %>
+  <h2>Other Cards</h2>
+
+  <div id="unknown_card_accounts">
+    <%= render @unknown_card_accounts %>
+  </div>
 <% end %>

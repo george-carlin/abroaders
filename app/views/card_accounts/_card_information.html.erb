@@ -18,10 +18,12 @@
     </span>
   </p>
 
-  <div class="card_account_offer">
-    Spend <%= number_to_currency(card_account.offer.spend) %> within
-    <%= card_account.offer.days %> days to receive a bonus of
-    <%= number_with_delimiter(card_account.offer.points_awarded) %>
-    <%= card_account.card_currency.name %> points
-  </div><!-- .card-account-offer -->
+  <% if card_account.offer.present? %>
+    <div class="card_account_offer">
+      Spend <%= number_to_currency(card_account.offer.spend) %> within
+      <%= card_account.offer.days %> days to receive a bonus of
+      <%= number_with_delimiter(card_account.offer.points_awarded) %>
+      <%= card_account.card_currency.name %> points
+    </div><!-- .card-account-offer -->
+  <% end %>
 </div>

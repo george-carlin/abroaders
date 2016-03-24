@@ -18,17 +18,42 @@ describe "as a user viewing my card recommendations", :js do
 
   let(:passenger) { account.main_passenger }
 
+  context "when there are cards I added in the onboarding survey" do
+    let(:extra_setup) do
+      @card_accounts = create_list(
+        :card_account,
+        2,
+        status: :unknown,
+        passenger: passenger
+      )
+    end
+
+    it "lists them all" do
+      within "#unknown_card_accounts" do
+        @card_accounts.each do |account|
+          is_expected.to have_card_account(account)
+          within card_account_selector(account) do
+            is_expected.to have_content account.card_name
+            is_expected.to have_content account.card_bank_name
+          end
+        end
+      end
+    end
+  end
+
   context "when I have been recommended some cards" do
     let(:extra_setup) do
       @recommendations = create_list(:card_rec, 2, passenger: passenger)
     end
 
     it "lists them all" do
-      @recommendations.each do |recommendation|
-        is_expected.to have_card_account(recommendation)
-        within card_account_selector(recommendation) do
-          is_expected.to have_content recommendation.card_name
-          is_expected.to have_content recommendation.card_bank_name
+      within "#recommended_card_accounts" do
+        @recommendations.each do |recommendation|
+          is_expected.to have_card_account(recommendation)
+          within card_account_selector(recommendation) do
+            is_expected.to have_content recommendation.card_name
+            is_expected.to have_content recommendation.card_bank_name
+          end
         end
       end
     end
@@ -197,7 +222,7 @@ describe "as a user viewing my card recommendations", :js do
     end
   end
 
-  describe "when I have applied for a card", :focus do
+  describe "when I have applied for a card" do
     let(:extra_setup) do
       @offer = create(:card_offer)
       @card  = @offer.card

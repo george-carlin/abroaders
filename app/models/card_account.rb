@@ -37,6 +37,10 @@ class CardAccount < ApplicationRecord
     offer.present? ? offer.card : original_card
   end
 
+  def to_partial_path
+    "card_accounts/#{status}_card_account"
+  end
+
   private
 
   def exactly_one_of_card_and_offer_is_present
