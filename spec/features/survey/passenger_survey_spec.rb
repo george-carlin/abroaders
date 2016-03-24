@@ -66,7 +66,7 @@ describe "as a new user" do
 
     it "doesn't have fields for a travel companion" do
       DEFAULT_PASSENGER_FIELDS.each do |field|
-        is_expected.not_to have_field "#{co_prefix}_#{field}"
+        is_expected.to have_no_field "#{co_prefix}_#{field}"
       end
     end
 
@@ -75,10 +75,10 @@ describe "as a new user" do
     end
 
     it "doesn't ask if I or my companion are willing to apply for cards" do
-      is_expected.not_to have_field "#{mp_prefix}_willing_to_apply_true"
-      is_expected.not_to have_field "#{mp_prefix}_willing_to_apply_false"
-      is_expected.not_to have_field "#{co_prefix}_willing_to_apply_true"
-      is_expected.not_to have_field "#{co_prefix}_willing_to_apply_false"
+      is_expected.to have_no_field "#{mp_prefix}_willing_to_apply_true"
+      is_expected.to have_no_field "#{mp_prefix}_willing_to_apply_false"
+      is_expected.to have_no_field "#{co_prefix}_willing_to_apply_true"
+      is_expected.to have_no_field "#{co_prefix}_willing_to_apply_false"
     end
 
     describe "checking the 'I have a travel companion' checkbox", :js do
@@ -138,7 +138,7 @@ describe "as a new user" do
         describe "and undoing" do
           before { choose "#{mp_prefix}_willing_to_apply_true" }
           it "hides the error message" do
-            is_expected.not_to have_selector "#unwilling_to_apply_err_msg"
+            is_expected.to have_no_selector "#unwilling_to_apply_err_msg"
           end
 
           it "reenables the form" do

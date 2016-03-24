@@ -76,7 +76,7 @@ describe "admin section" do
 
       context "has not completed the onboarding survey" do
         it "does not have a link to recommend them a card" do
-          is_expected.not_to have_link "Recommend Card",
+          is_expected.to have_no_link "Recommend Card",
             href: new_admin_account_card_recommendation_path(@accounts[3])
         end
       end

@@ -48,9 +48,9 @@ describe "admin section" do
 
     shared_examples "does not have recommend or assign links" do
       it "does not have links to recommend or assign a card" do
-        is_expected.not_to have_link "Recommend",
+        is_expected.to have_no_link "Recommend",
               href: new_admin_passenger_card_recommendation_path(@passenger)
-        is_expected.not_to have_link "Assign",
+        is_expected.to have_no_link "Assign",
               href: new_admin_passenger_card_path(@passenger)
       end
     end
@@ -71,7 +71,7 @@ describe "admin section" do
       context "has not yet added their spending info" do
         it "says so" do
           is_expected.to have_content t("admin.passengers.show.no_spending")
-          is_expected.not_to have_content \
+          is_expected.to have_no_content \
                                   t("admin.passengers.show.not_onboarded")
         end
 
@@ -100,7 +100,7 @@ describe "admin section" do
 
         context "but the account is still not fully onboarded" do
           it "says so" do
-            is_expected.not_to have_content \
+            is_expected.to have_no_content \
                                         t("admin.passengers.show.no_spending")
             is_expected.to have_content t("admin.passengers.show.not_onboarded")
           end

@@ -49,7 +49,7 @@ describe "the spending info survey" do
     end
 
     it "does not have a field for #{my} business spending" do
-      is_expected.not_to have_field "#{prefix}_business_spending"
+      is_expected.to have_no_field "#{prefix}_business_spending"
     end
 
     {
@@ -65,7 +65,7 @@ describe "the spending info survey" do
         describe "and selecting '#{dont_have} a business' again" do
           before { choose "#{prefix}_has_business_no_business" }
           it "hides the 'business spending' input again" do
-            is_expected.not_to have_field "#{prefix}_business_spending"
+            is_expected.to have_no_field "#{prefix}_business_spending"
           end
         end
       end
@@ -106,7 +106,7 @@ describe "the spending info survey" do
 
     it "doesn't ask anything about a travel companion" do
       DEFAULT_SPENDING_FIELDS.each do |field|
-        is_expected.not_to have_field "#{co_prefix}_#{field}"
+        is_expected.to have_no_field "#{co_prefix}_#{field}"
       end
     end
 
@@ -202,8 +202,8 @@ describe "the spending info survey" do
 
       it "has a single input for our shared personal spending" do
         is_expected.to have_field "#{ps_prefix}_shared_spending"
-        is_expected.not_to have_field "#{mp_prefix}_personal_spending"
-        is_expected.not_to have_field "#{co_prefix}_personal_spending"
+        is_expected.to have_no_field "#{mp_prefix}_personal_spending"
+        is_expected.to have_no_field "#{co_prefix}_personal_spending"
       end
 
       describe "submitting the form" do
@@ -238,7 +238,7 @@ describe "the spending info survey" do
       let(:shares_expenses) { false }
 
       it "has two inputs, one for each of our personal spending" do
-        is_expected.not_to have_field :shared_spending
+        is_expected.to have_no_field :shared_spending
         is_expected.to have_field "#{mp_prefix}_personal_spending"
         is_expected.to have_field "#{co_prefix}_personal_spending"
       end

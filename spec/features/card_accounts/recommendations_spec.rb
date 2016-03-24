@@ -101,8 +101,8 @@ describe "as a user viewing my card recommendations", :js do
       end
 
       it "hides the 'apply/decline' buttons" do
-        is_expected.not_to have_link "Apply", href: apply_card_account_path(rec)
-        is_expected.not_to have_selector decline_rec_btn(rec), text: "No Thanks"
+        is_expected.to have_no_link "Apply", href: apply_card_account_path(rec)
+        is_expected.to have_no_selector decline_rec_btn(rec), text: "No Thanks"
       end
 
       it "shows a 'cancel' and a 'confirm' button" do
@@ -260,7 +260,7 @@ describe "as a user viewing my card recommendations", :js do
       before { click_button "I have been approved" }
 
       it "asks me to confirm" do
-        is_expected.not_to have_button "I have been approved"
+        is_expected.to have_no_button "I have been approved"
         is_expected.to have_button "Cancel"
         is_expected.to have_button "Confirm"
       end
@@ -293,8 +293,8 @@ describe "as a user viewing my card recommendations", :js do
 
         it "hides the confirm/cancel buttons" do
           is_expected.to have_button "I have been approved"
-          is_expected.not_to have_button "Cancel"
-          is_expected.not_to have_button "Confirm"
+          is_expected.to have_no_button "Cancel"
+          is_expected.to have_no_button "Confirm"
         end
       end
     end
@@ -372,9 +372,9 @@ describe "as a user viewing my card recommendations", :js do
 
   #      it "hides the accepted/denied/pending buttons" do
   #        within card_account_selector(rec) do
-  #          is_expected.not_to have_button _t("was_accepted")
-  #          is_expected.not_to have_button _t("was_denied")
-  #          is_expected.not_to have_link _t("still_waiting")
+  #          is_expected.to have_no_button _t("was_accepted")
+  #          is_expected.to have_no_button _t("was_denied")
+  #          is_expected.to have_no_link _t("still_waiting")
   #        end
   #      end
   #    end
@@ -408,12 +408,12 @@ describe "as a user viewing my card recommendations", :js do
   #        expect(rec).not_to be_reconsidered
   #        should have_content _t("application_pending")
   #        within card_account_selector(rec) do
-  #          is_expected.not_to have_selector decline_rec_btn(rec)
-  #          is_expected.not_to have_link "Apply"
-  #          is_expected.not_to have_link _t("have_applied")
-  #          is_expected.not_to have_button _t("was_accepted")
-  #          is_expected.not_to have_button _t("was_denied")
-  #          is_expected.not_to have_link _t("still_waiting")
+  #          is_expected.to have_no_selector decline_rec_btn(rec)
+  #          is_expected.to have_no_link "Apply"
+  #          is_expected.to have_no_link _t("have_applied")
+  #          is_expected.to have_no_button _t("was_accepted")
+  #          is_expected.to have_no_button _t("was_denied")
+  #          is_expected.to have_no_link _t("still_waiting")
   #        end
   #      end
   #    end

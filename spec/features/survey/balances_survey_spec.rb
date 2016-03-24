@@ -77,7 +77,7 @@ describe "as a new user" do
         before { currency_check_box(currency).click }
 
         it "hides the balance field" do
-          is_expected.not_to have_field balance_field(currency)
+          is_expected.to have_no_field balance_field(currency)
         end
       end
 

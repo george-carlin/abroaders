@@ -27,7 +27,7 @@ describe "the admin sign in page" do
       it "signs me in" do
         expect(page).to have_content "Sign out"
         expect(page).to have_content @admin.email
-        expect(page).not_to have_content "Sign in"
+        expect(page).to have_no_content "Sign in"
       end
     end
 
@@ -35,8 +35,8 @@ describe "the admin sign in page" do
       before { submit_form }
       it "doesn't sign me in" do
         expect(page).to have_content "Sign in"
-        expect(page).not_to have_content "Sign out"
-        expect(page).not_to have_content @admin.email
+        expect(page).to have_no_content "Sign out"
+        expect(page).to have_no_content @admin.email
       end
     end
   end

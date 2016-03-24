@@ -45,8 +45,8 @@ describe "new travel plans page", :js, manual_clean: true do
   end
 
   specify "the 'add/remove flight' buttons are initially hidden" do
-    is_expected.not_to have_selector add_flight_btn
-    is_expected.not_to have_selector remove_flight_btn
+    is_expected.to have_no_selector add_flight_btn
+    is_expected.to have_no_selector remove_flight_btn
   end
 
   it "has inputs for journey origin and destination" do
@@ -79,7 +79,7 @@ describe "new travel plans page", :js, manual_clean: true do
         end
         [@yyz, @sgn, @jfk, @lga].each do |a|
           text = "#{a.name} (#{a.code})"
-          is_expected.not_to have_selector typeahead_option, text: text
+          is_expected.to have_no_selector typeahead_option, text: text
         end
       end
 
@@ -268,7 +268,7 @@ describe "new travel plans page", :js, manual_clean: true do
     end
 
     it "doesn't shows a 'remove flight' button" do
-      is_expected.not_to have_selector remove_flight_btn
+      is_expected.to have_no_selector remove_flight_btn
     end
 
     describe "and clicking 'add flight'" do
@@ -305,7 +305,7 @@ describe "new travel plans page", :js, manual_clean: true do
         end
 
         it "hides the remaining 'remove flight' button" do
-          is_expected.not_to have_selector remove_flight_btn
+          is_expected.to have_no_selector remove_flight_btn
         end
       end
 
@@ -324,8 +324,8 @@ describe "new travel plans page", :js, manual_clean: true do
       describe "then clicking '#{type}'" do
         before { choose :"travel_plan_type_#{type}" }
         it "hides the add/remove buttons again" do
-          is_expected.not_to have_selector add_flight_btn
-          is_expected.not_to have_selector remove_flight_btn
+          is_expected.to have_no_selector add_flight_btn
+          is_expected.to have_no_selector remove_flight_btn
         end
       end
     end

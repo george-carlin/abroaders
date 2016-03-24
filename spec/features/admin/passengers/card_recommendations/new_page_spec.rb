@@ -121,7 +121,7 @@ describe "admin section" do
         end
 
         it "displays information about them" do
-          is_expected.not_to have_content "User has no upcoming travel plans"
+          is_expected.to have_no_content "User has no upcoming travel plans"
 
           # When the destination is a region, just display the region name.
           # When the destination is anything other than a region, display the
@@ -198,8 +198,8 @@ describe "admin section" do
           is_expected.to have_selector "##{dom_id(@currencies[2])} .balance",
                                         text: "10,000"
 
-          is_expected.not_to have_selector "##{dom_id(@currencies[1])}_balance"
-          is_expected.not_to have_selector "##{dom_id(@currencies[3])}_balance"
+          is_expected.to have_no_selector "##{dom_id(@currencies[1])}_balance"
+          is_expected.to have_no_selector "##{dom_id(@currencies[3])}_balance"
         end
       end
     end
@@ -318,7 +318,7 @@ describe "admin section" do
 
         it "shows confirm/cancel buttons" do
           within offer_tr do
-            is_expected.not_to have_button "Recommend"
+            is_expected.to have_no_button "Recommend"
             is_expected.to have_button "Cancel"
             is_expected.to have_button "Confirm"
           end
@@ -367,8 +367,8 @@ describe "admin section" do
             cancel
             within offer_tr do
               is_expected.to have_button "Recommend"
-              is_expected.not_to have_button "Confirm"
-              is_expected.not_to have_button "Cancel"
+              is_expected.to have_no_button "Confirm"
+              is_expected.to have_no_button "Cancel"
             end
           end
         end

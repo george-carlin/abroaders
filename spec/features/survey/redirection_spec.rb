@@ -38,8 +38,8 @@ describe "as a new user" do
     specify "navbar does not contain links to 'Cards' or 'Travel Plans'" do
       visit root_path
       within "#main_navbar" do
-        is_expected.not_to have_link "Cards"
-        is_expected.not_to have_link "Travel Plans"
+        is_expected.to have_no_link "Cards"
+        is_expected.to have_no_link "Travel Plans"
       end
     end
   end
