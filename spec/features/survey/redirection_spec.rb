@@ -32,6 +32,8 @@ describe "as a new user" do
     ]
   end
 
+  pending "root path must also redirect"
+
   shared_examples "no cards or travel plans links" do
     specify "navbar does not contain links to 'Cards' or 'Travel Plans'" do
       visit root_path
