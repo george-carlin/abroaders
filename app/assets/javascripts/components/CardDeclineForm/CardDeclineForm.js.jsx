@@ -6,7 +6,6 @@ const Button         = require("../Button");
 const CardDeclineForm = React.createClass({
   getInitialState() {
     return {
-      csrfToken:        "",
       declineMessage:   "",
       isDeclining:      false,
       showErrorMessage: false
@@ -19,18 +18,6 @@ const CardDeclineForm = React.createClass({
     onClickCancel: React.PropTypes.func.isRequired,
   },
 
-  // TODO this is an exact dupe of code in TravelPlanForm. How to DRY this?
-  componentDidMount() {
-    // Hack to get the csrf-token into the form. `csrf_meta_tags` doesn't
-    // output anything in test mode, so only add this hack if the querySelector
-    // returns anything:
-    var csrfMetaTag = document.querySelector('meta[name="csrf-token"]')
-    if (csrfMetaTag) {
-      this.setState({
-        csrfToken: csrfMetaTag.content
-      });
-    }
-  },
 
   submit(e) {
     if (this.state.declineMessage.trim()) {
@@ -53,7 +40,7 @@ const CardDeclineForm = React.createClass({
         method="post"
         onSubmit={this.submit}
       >
-        <AuthTokenField value={this.state.csrfToken} />
+        <AuthTokenField />
 
         <div className={this.state.showErrorMessage ? "field_with_errors" : ""}>
           <input

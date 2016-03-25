@@ -13,12 +13,6 @@ const TravelPlanForm = React.createClass({
     url:         React.PropTypes.string.isRequired,
   },
 
-  getInitialState() {
-    return {
-      csrfToken: "",
-    }
-  },
-
 
   getInitialState() {
     return {
@@ -31,21 +25,6 @@ const TravelPlanForm = React.createClass({
   componentWillMount() {
     this.addFlight();
   },
-
-
-  // TODO this is an exact dupe of code in CardDeclineForm. How to DRY this?
-  componentDidMount() {
-    // Hack to get the csrf-token into the form. `csrf_meta_tags` doesn't
-    // output anything in test mode, so only add this hack if the querySelector
-    // returns anything:
-    var csrfMetaTag = document.querySelector('meta[name="csrf-token"]')
-    if (csrfMetaTag) {
-      this.setState({
-        csrfToken: csrfMetaTag.content
-      });
-    }
-  },
-
 
 
   addFlight(e) {
@@ -112,7 +91,7 @@ const TravelPlanForm = React.createClass({
 
     return (
       <form action={this.props.url} method="post">
-        <AuthTokenField value={this.state.csrfToken} />
+        <AuthTokenField />
 
         <Row>
           <div className="col-xs-8">
