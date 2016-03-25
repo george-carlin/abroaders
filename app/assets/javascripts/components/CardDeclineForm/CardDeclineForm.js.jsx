@@ -1,7 +1,7 @@
 const React = require('react');
 
 const AuthTokenField = require("../AuthTokenField");
-const Button         = require("../Button");
+const ConfirmOrCancelBtns = require("../ConfirmOrCancelBtns")
 
 const CardDeclineForm = React.createClass({
   getInitialState() {
@@ -52,23 +52,15 @@ const CardDeclineForm = React.createClass({
             value={this.state.declineMessage}
           />
         </div>
-        <Button
-          className="card_account_cancel_decline_btn"
-          default
-          id={`card_account_${this.props.accountId}_cancel_decline_btn`}
-          onClick={this.props.onClickCancel}
+
+        <ConfirmOrCancelBtns
+          confirmBtnClass="card_account_cancel_decline_btn"
+          confirmBtnId={`card_account_${this.props.accountId}_confirm_decline_btn`}
+          cancelBtnClass="card_account_confirm_decline_btn"
+          cancelBtnId={`card_account_${this.props.accountId}_cancel_decline_btn`}
+          onClickCancel={this.props.onClickCancel}
           small
-        >
-          Cancel
-        </Button>
-        <Button
-          className="card_account_confirm_decline_btn"
-          id={`card_account_${this.props.accountId}_confirm_decline_btn`}
-          primary
-          small
-        >
-          Confirm
-        </Button>
+        />
 
         {this.state.showErrorMessage ?
           <span className="decline_card_recommendation_error_message">
