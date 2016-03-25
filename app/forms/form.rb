@@ -25,6 +25,14 @@ class Form
     end
   end
 
+  def save!
+    if save
+      true
+    else
+      raise ActiveRecord::RecordInvalid.new(errors.full_messages.join(", "))
+    end
+  end
+
   def assign_attributes(attributes)
     attributes.each do |key, value|
       self.send "#{key}=", value
@@ -34,6 +42,14 @@ class Form
   def update_attributes(attributes)
     assign_attributes(attributes)
     save
+  end
+
+  def update_attributes!(attributes)
+    if update_attributes(attributes)
+      true
+    else
+      raise ActiveRecord::RecordInvalid.new(errors.full_messages.join(", "))
+    end
   end
 
 end
