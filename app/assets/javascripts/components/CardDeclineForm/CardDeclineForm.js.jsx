@@ -1,7 +1,7 @@
 const React = require('react');
 
 const AuthTokenField = require("../AuthTokenField");
-const Button          = require("../Button");
+const Button         = require("../Button");
 
 const CardDeclineForm = React.createClass({
   getInitialState() {

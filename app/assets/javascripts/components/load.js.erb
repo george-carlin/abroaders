@@ -9,25 +9,10 @@
     <%= CardAccount.statuses.keys.map { |s| "'#{s}'" }.join(",") %>
   ]
 
-
-  window.SubmitTag          = require("./forms/SubmitTag");
-  window.NumberFieldTag     = require("./forms/fields/NumberFieldTag");
-  window.AddFlightBtn       = require("./travel_plans/form/AddFlightBtn");
-  window.DateRangeSelect    = require("./travel_plans/form/DateRangeSelect");
-  window.DestinationInput   = require("./travel_plans/form/DestinationInput");
-  window.FlightFields       = require("./travel_plans/form/FlightFields");
-  window.RemoveFlightBtn    = require("./travel_plans/form/RemoveFlightBtn");
-  window.TravelPlanForm     = require("./travel_plans/form/TravelPlanForm");
-  window.TravelPlanTypeRadio  = require("./travel_plans/form/TravelPlanTypeRadio");
-  window.TravelPlanTypeRadios = require("./travel_plans/form/TravelPlanTypeRadios");
-
   // We don't need to require *every* React component in this file, just the
-  // ones that are required at the 'top level' by the react_component ruby
-  // helper:
-  w.AuthTokenField            = require("./AuthTokenField");
-  w.Button                    = require("./Button");
+  // ones that are required at the 'top level' by react_ujs
   w.CardAppliedActions        = require("./CardAppliedActions");
   w.CardRecommendationActions = require("./CardRecommendationActions");
-  w.LoadingSpinner            = require("./LoadingSpinner");
   w.Typeahead                 = require("./Typeahead");
+  w.TravelPlanForm            = require("./travel_plans/form/TravelPlanForm");
 }(window));

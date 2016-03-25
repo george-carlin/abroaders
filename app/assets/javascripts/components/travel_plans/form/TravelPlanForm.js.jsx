@@ -1,9 +1,10 @@
 const React = require('react');
 const _ = require("underscore");
 
-const Row = require("../../Row");
+const AuthTokenField = require("AuthTokenField");
+const Row            = require("../../Row");
 
-var TravelPlanForm = React.createClass({
+const TravelPlanForm = React.createClass({
   propTypes: {
     defaultType: React.PropTypes.string.isRequired,
     maxFlights:  React.PropTypes.number.isRequired,

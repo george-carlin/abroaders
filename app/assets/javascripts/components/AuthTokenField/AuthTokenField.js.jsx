@@ -1,6 +1,6 @@
-var React = require('react');
+const React = require('react');
 
-var AuthTokenField = React.createClass({
+const AuthTokenField = React.createClass({
 
   propTypes: {
     value: React.PropTypes.string
