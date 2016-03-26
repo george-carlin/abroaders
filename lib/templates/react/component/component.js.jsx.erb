@@ -1,13 +1,11 @@
 const React = require("react");
 
 const <%= file_name.camelize %> = React.createClass({
-<% if attributes.size > 0 -%>
   propTypes: {
   <% attributes.each do |attribute| -%>
     <%= attribute[:name].camelize(:lower) %>: <%= attribute[:type] %>,
-  <% end -%>
+  <% end %>
   },
-<% end -%>
 
   render() {
 <% if attributes.size > 0 -%>
