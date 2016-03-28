@@ -112,7 +112,25 @@ describe "as a new user" do
         expect(yes[:checked]).to be_truthy
       end
 
-      pending "unchecking the box hides everything and doesn't fuck up the form submit later"
+      describe "unchecking 'I have a travel companion'" do
+        before do
+          uncheck "#{ps_prefix}_has_companion"
+          wait_for_slide
+        end
+
+        it "hides the companion fields again" do
+          DEFAULT_PASSENGER_FIELDS.each do |field|
+            is_expected.to have_no_field "#{co_prefix}_#{field}"
+          end
+        end
+
+        describe "and submitting info for the main passenger" do
+          before { fill_in_valid_main_passenger }
+          it "creates the main passenger" do
+            expect{submit_form}.to change{Passenger.count}.by(1)
+          end
+        end
+      end
 
       describe "saying that neither I nor my companion are willing to apply" do
         before do
