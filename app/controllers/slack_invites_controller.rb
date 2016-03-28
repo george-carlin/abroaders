@@ -6,6 +6,11 @@
 # how to make a Heroku dyno simultaneously respond to some requests via the
 # Rails server and other requests via Express, I elected to just rewrite the
 # express app in Ruby:
+#
+# Further references:
+#   https://ruby.unicorn.tv/screencasts/automatically-send-slack-invitations
+#   https://levels.io/slack-typeform-auto-invite-sign-ups/
+#
 class SlackInvitesController < ApplicationController
   layout "slack_invites"
   skip_before_action :verify_authenticity_token
