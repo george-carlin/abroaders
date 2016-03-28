@@ -18,6 +18,9 @@ Rails.application.routes.draw do
     delete :accounts, to: "registrations#destroy"
   end
 
+  get :slack, to: "slack_invites#new"
+  post "slack/invite", to: "slack_invites#create"
+
   scope :survey, controller: :survey, as: :survey do
     get  :passengers, action: :new_passengers
     post :passengers, action: :create_passengers

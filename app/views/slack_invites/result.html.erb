@@ -1,0 +1,11 @@
+<div class="header">
+  <h1><strong>Abroaders Community</strong></h1>
+
+  <h2 class="<%= "error" if @failed %>">
+    <%= raw(@message) %>
+
+    <% if @failed %>
+      <small><%= link_to "Go back", slack_path %></small>
+    <% end %>
+  </h2>
+</div>

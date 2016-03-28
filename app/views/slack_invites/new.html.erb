@@ -1,0 +1,33 @@
+<div class="header">
+  <h1><strong>Abroaders Community</strong></h1>
+  <h2>Enter your email below to join the Abroaders community on slack!</h2>
+</div>
+<div class="content">
+  <div class="information">
+    <form
+      id="join-form"
+      class="form"
+      method="POST"
+      action="<%= slack_invite_path %>"
+    >
+      <input
+        type="text"
+        name="email"
+        placeholder="Enter Your Email Address"
+        id="slack-email"
+        class="field"
+      />
+      <input type="submit" value="Join" class="submit" />
+    </form>
+  </div>
+</div>
+
+<script>
+  var form  = document.getElementById('join-form');
+  var email = document.getElementById('slack-email');
+  form.addEventListener('submit', function (evt) {
+    if (!email.value) {
+      evt.preventDefault();
+    }
+  });
+</script>
