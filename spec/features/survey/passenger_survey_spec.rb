@@ -227,6 +227,14 @@ describe "as a new user" do
             expect(current_path).to eq survey_passengers_path
             expect(page).to have_error_message
           end
+
+          it "still displays the 'companion' fields" do # bug fix
+            submit_form
+            expect(find("#passenger_survey_has_companion")).to be_checked
+            DEFAULT_PASSENGER_FIELDS.each do |field|
+              is_expected.to have_field "#{co_prefix}_#{field}"
+            end
+          end
         end
       end
     end # checking the 'I have a travel companion' checkbox

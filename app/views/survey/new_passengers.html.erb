@@ -57,7 +57,7 @@
         <% end %>
       </div>
 
-      <div id="companion_survey" style="display:none;">
+      <div id="companion_survey" style="<%= "display:none;" unless @survey.has_companion? %>">
         <div id="passenger_survey_willing_to_apply">
           <p>Are you willing to apply for cards to earn points for travel?</p>
 
