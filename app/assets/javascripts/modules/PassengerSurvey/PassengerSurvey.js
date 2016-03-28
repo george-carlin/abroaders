@@ -4,16 +4,11 @@ const _ = require("underscore");
 $(document).ready(function () {
 
   $("#passenger_survey_has_companion").click(function () {
-    var slideFunc;
     if ($(this).is(":checked")) {
-      slideFunc = "slideDown";
+      $("#companion_survey").slideDown();
     } else {
-      slideFunc = "slideUp";
+      $("#companion_survey").slideUp();
     }
-    $(
-      "#passenger_survey_willing_to_apply, " +     
-      "#passenger_survey_companion_contact_info"
-    )[slideFunc]()
   });
 
   // The four 'are you/is your companion willing to apply for cards' radios:

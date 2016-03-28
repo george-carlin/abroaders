@@ -25,7 +25,7 @@
               class: BootstrapOverrides::Overrides::BOOTSTRAP_CLASS %>
       </div>
 
-      
+
       <div class="form-group">
         <%= f.label :main_passenger_citizenship,
           "Which most accurately describes you?" %>
@@ -57,105 +57,107 @@
         <% end %>
       </div>
 
-      <div id="passenger_survey_willing_to_apply" style="display:none;">
-        <p>Are you willing to apply for cards to earn points for travel?</p>
+      <div id="companion_survey" style="display:none;">
+        <div id="passenger_survey_willing_to_apply">
+          <p>Are you willing to apply for cards to earn points for travel?</p>
 
-        <div class="radio">
-          <%= f.label :main_passenger_willing_to_apply_true do %>
-            <%= f.radio_button :main_passenger_willing_to_apply, true %>
-            Yes
-          <% end %>
+          <div class="radio">
+            <%= f.label :main_passenger_willing_to_apply_true do %>
+              <%= f.radio_button :main_passenger_willing_to_apply, true %>
+              Yes
+            <% end %>
+          </div>
+
+          <div class="radio">
+            <%= f.label :main_passenger_willing_to_apply_false do %>
+              <%= f.radio_button :main_passenger_willing_to_apply, false %>
+              No
+            <% end %>
+          </div>
+
+          <p>
+            Is your travel companion willing to apply for cards to earn points
+            for travel?
+          </p>
+
+          <div class="radio">
+            <%= f.label :companion_willing_to_apply_true do %>
+              <%= f.radio_button :companion_willing_to_apply, true %>
+              Yes
+            <% end %>
+          </div>
+
+          <div class="radio">
+            <%= f.label :companion_willing_to_apply_false do %>
+              <%= f.radio_button :companion_willing_to_apply, false %>
+              No
+            <% end %>
+          </div>
+
+          <div
+            id="unwilling_to_apply_err_msg"
+            class="alert alert-danger"
+            style="display:none;"
+          >
+            You cannot proceed unless at least one of you is willing to apply for
+            credit cards to earn points for travel.
+          </div>
+
+          <h4>Do you and your travel partner share expenses?</h4>
+
+          <p>
+            If you choose yes, we will use your combined spending to recommend a
+            combination of cards to maximize your points as a team. You will work
+            together to meet the spending requirements on the cards we recommend.
+          </p>
+
+          <p>
+            If you choose no, we will ask for each person's spending separately.
+            Each of you will work toward the spending requirements on your own
+            cards separately.
+          </p>
+
+          <p>
+            Choosing yes will generally result in more points.
+          </p>
+
+          <div class="form-group radio">
+            <%= f.label :shares_expenses_true do %>
+              <%= f.radio_button :shares_expenses, true %>
+              Yes - my travel companion and I share expenses
+            <% end %>
+          </div>
+
+          <div class="form-group radio">
+            <%= f.label :shares_expenses_false do %>
+              <%= f.radio_button :shares_expenses, false %>
+              No - my travel companion and I do not share expenses
+            <% end %>
+          </div>
         </div>
 
-        <div class="radio">
-          <%= f.label :main_passenger_willing_to_apply_false do %>
-            <%= f.radio_button :main_passenger_willing_to_apply, false %>
-            No
-          <% end %>
-        </div>
+        <div id="passenger_survey_companion_contact_info">
+          <%= render "passengers/fields", f: f, main: false %>
 
-        <p>
-          Is your travel companion willing to apply for cards to earn points
-          for travel?
-        </p>
+          <div class="form-group">
+            <%= f.label(
+              :companion_citizenship,
+              "Which most accurately describes your travel companion?"
+            ) %>
 
-        <div class="radio">
-          <%= f.label :companion_willing_to_apply_true do %>
-            <%= f.radio_button :companion_willing_to_apply, true %>
-            Yes
-          <% end %>
-        </div>
-
-        <div class="radio">
-          <%= f.label :companion_willing_to_apply_false do %>
-            <%= f.radio_button :companion_willing_to_apply, false %>
-            No
-          <% end %>
-        </div>
-
-        <div
-          id="unwilling_to_apply_err_msg"
-          class="alert alert-danger"
-          style="display:none;"
-        >
-          You cannot proceed unless at least one of you is willing to apply for
-          credit cards to earn points for travel.
-        </div>
-
-        <h4>Do you and your travel partner share expenses?</h4>
-
-        <p>
-          If you choose yes, we will use your combined spending to recommend a
-          combination of cards to maximize your points as a team. You will work
-          together to meet the spending requirements on the cards we recommend. 
-        </p>
-
-        <p>
-          If you choose no, we will ask for each person's spending separately.
-          Each of you will work toward the spending requirements on your own
-          cards separately. 
-        </p>
-
-        <p>
-          Choosing yes will generally result in more points.
-        </p>
-
-        <div class="form-group radio">
-          <%= f.label :shares_expenses_true do %>
-            <%= f.radio_button :shares_expenses, true %>
-            Yes - my travel companion and I share expenses
-          <% end %>
-        </div>
-
-        <div class="form-group radio">
-          <%= f.label :shares_expenses_false do %>
-            <%= f.radio_button :shares_expenses, false %>
-            No - my travel companion and I do not share expenses
-          <% end %>
-        </div>
-      </div>
-
-      <div id="passenger_survey_companion_contact_info" style="display: none;">
-        <%= render "passengers/fields", f: f, main: false %>
-
-        <div class="form-group">
-          <%= f.label(
-            :companion_citizenship,
-            "Which most accurately describes your travel companion?"
-          ) %>
-
-          <% Passenger.citizenships.each do |name, _| %>
-            <div class="radio">
-              <label>
-                <%= f.radio_button(
-                      :companion_citizenship,
-                      name,
-                      checked: f.object.companion_citizenship == name
-                    ) %>
-                <%= t("activerecord.attributes.passenger.citizenships.#{name}") %>
-              </label>
-            </div>
-          <% end %>
+            <% Passenger.citizenships.each do |name, _| %>
+              <div class="radio">
+                <label>
+                  <%= f.radio_button(
+                        :companion_citizenship,
+                        name,
+                        checked: f.object.companion_citizenship == name
+                      ) %>
+                  <%= t("activerecord.attributes.passenger.citizenships.#{name}") %>
+                </label>
+              </div>
+            <% end %>
+          </div>
         </div>
       </div>
 
