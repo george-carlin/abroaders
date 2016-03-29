@@ -1,10 +1,7 @@
 class ReadinessSurvey < Form
 
   attr_accessor :main_passenger_unreadiness_reason, :companion_unreadiness_reason
-  attr_reader   :main_passenger_ready, :companion_ready
-
-  alias_method :main_passenger_ready?, :main_passenger_ready
-  alias_method :companion_ready?,      :companion_ready
+  attr_boolean_accessor :main_passenger_ready, :companion_ready
 
   def initialize(account)
     # Sanity check:
@@ -17,16 +14,6 @@ class ReadinessSurvey < Form
 
   def has_companion?
     @account.has_companion?
-  end
-
-  # TODO DRY me
-  def main_passenger_ready=(bool)
-    @main_passenger_ready = %w[false 0].include?(bool) ? false : !!bool
-  end
-
-  # TODO DRY me
-  def companion_ready=(bool)
-    @companion_ready = %w[false 0].include?(bool) ? false : !!bool
   end
 
   def main_passenger_unready?

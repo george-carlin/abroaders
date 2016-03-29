@@ -56,24 +56,12 @@ class SpendingSurvey < Form
 
   %i[main_info companion_info].each do |info|
     SPENDING_INFO_ATTRS.each do |attr|
-      attr_accessor :"#{info}_#{attr}"
+      if attr == :will_apply_for_loan
+        attr_boolean_accessor :"#{info}_#{attr}"
+      else
+        attr_accessor :"#{info}_#{attr}"
+      end
     end
-  end
-
-  # An empty checkbox in Rails submits "0", while a radio button with
-  # value 'false' submits "false" (a string, not a bool) - both of which Ruby
-  # will treat as truthy - so sanitize boolean setters:
-  #
-  # TODO this a semi-duplicate of PassengerSurvey#has_companion= - is
-  # there any way this can be DRYed e.g. converted into a class method
-  # on Form?
-  def main_info_will_apply_for_loan=(bool)
-    @main_info_will_apply_for_loan = %w[false 0].include?(bool) ? false : !!bool
-  end
-
-  def companion_info_will_apply_for_loan=(bool)
-    @companion_info_will_apply_for_loan = \
-      %w[false 0].include?(bool) ? false : !!bool
   end
 
   def has_companion?
