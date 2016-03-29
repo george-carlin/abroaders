@@ -19,9 +19,6 @@ class Account < ApplicationRecord
     :onboarded # This status means they've fully completed the onboarding survey
   ]
 
-  delegate :full_name, to: :main_passenger, prefix: true, allow_nil: true
-  delegate :full_name, to: :companion, prefix: true, allow_nil: true
-
   def admin; false; end
   alias_method :admin?, :admin
 
@@ -30,8 +27,10 @@ class Account < ApplicationRecord
   end
   alias_attribute :has_companion?, :has_companion
 
-  delegate :full_name, to: :main_passenger, prefix: true, allow_nil: true
-  delegate :full_name, to: :companion, prefix: true, allow_nil: true
+  with_options prefix: true, allow_nil: true do
+    delegate :full_name, to: :main_passenger
+    delegate :full_name, to: :companion
+  end
 
   def shared_spending
     # To eliminate the need for an extra DB column that will be null most of
