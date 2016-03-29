@@ -72,7 +72,6 @@ class SurveyController < NonAdminController
       if params[:passenger] == "main" && has_companion?
         redirect_to survey_card_accounts_path(:companion)
       else
-        # TODO redirect to travel plan form when it's ready
         redirect_to survey_readiness_path
       end
     else

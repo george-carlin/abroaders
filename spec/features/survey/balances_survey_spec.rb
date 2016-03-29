@@ -130,13 +130,12 @@ describe "as a new user" do
   shared_examples "submitting final form" do
     describe "submitting the form" do
       before { submit_form }
-      it "takes me to the next stage of the survey" do
-        skip
-        expect(current_path).to eq # ???
+      it "takes me to the readiness survey" do
+        expect(current_path).to eq survey_readiness_path
       end
 
-      it "marks my 'onboarding stage' as 'onboarded'" do
-        expect(account.reload.onboarding_stage).to eq "onboarded"
+      it "marks my 'onboarding stage' as 'readiness'" do
+        expect(account.reload.onboarding_stage).to eq "readiness"
       end
     end
   end
