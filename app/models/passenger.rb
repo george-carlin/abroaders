@@ -34,9 +34,9 @@ class Passenger < ApplicationRecord
   # Validations
 
   validates :account, uniqueness: { scope: :main }
-  validates :first_name, presence: true
-  validates :last_name, presence: true
-  validates :phone_number, presence: true
+
+  NAME_MAX_LENGTH  = 50
+  PHONE_MAX_LENGTH = 20
 
   # Associations
 

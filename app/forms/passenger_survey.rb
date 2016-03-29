@@ -75,13 +75,25 @@ class PassengerSurvey < Form
 
   validates :time_zone, presence: true
 
-  validates :main_passenger_first_name,   presence: true
-  validates :main_passenger_last_name,    presence: true
-  validates :main_passenger_phone_number, presence: true
+  validates :main_passenger_first_name,
+    length: { maximum: Passenger::NAME_MAX_LENGTH }, presence: true
+  validates :main_passenger_middle_names,
+    length: { maximum: Passenger::NAME_MAX_LENGTH }
+  validates :main_passenger_last_name,
+    length: { maximum: Passenger::NAME_MAX_LENGTH }, presence: true
+  validates :main_passenger_phone_number,
+    length: { maximum: Passenger::PHONE_MAX_LENGTH }, presence: true
 
-  validates :companion_first_name,   presence: { if: :has_companion? }
-  validates :companion_last_name,    presence: { if: :has_companion? }
-  validates :companion_phone_number, presence: { if: :has_companion? }
+  with_options if: :has_companion? do
+    validates :companion_first_name,
+     length: { maximum: Passenger::NAME_MAX_LENGTH }, presence: true
+    validates :companion_middle_names,
+      length: { maximum: Passenger::NAME_MAX_LENGTH }
+    validates :companion_last_name,
+      length: { maximum: Passenger::NAME_MAX_LENGTH }, presence: true
+    validates :companion_phone_number,
+      length: { maximum: Passenger::PHONE_MAX_LENGTH }, presence: true
+  end
 
   validate :at_least_one_passenger_is_willing_to_apply, if: :has_companion?
 
