@@ -44,6 +44,7 @@ RSpec.configure do |config|
   config.include ActionView::RecordIdentifier, type: :feature
   config.include FactoryGirl::Syntax::Methods
   config.include WaitForAjax, type: :feature
+  config.include AlertsHelper, type: :feature
 
   # Pass 'manual_clean: true' to tests to prevent RSpec from automatically
   # cleaning the database in between each test run. That way we can create
@@ -68,18 +69,6 @@ RSpec.configure do |config|
 
   def t(*args)
     I18n.t(*args)
-  end
-
-  def have_error_message(opts={})
-    have_selector(".alert.alert-danger", opts)
-  end
-
-  def have_info_message(opts={})
-    have_selector(".alert.alert-info", opts)
-  end
-
-  def have_success_message(opts={})
-    have_selector(".alert.alert-success", opts)
   end
 
 end
