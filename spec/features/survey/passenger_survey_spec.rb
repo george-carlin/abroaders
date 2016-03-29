@@ -246,6 +246,20 @@ describe "as a new user" do
             expect(page).to have_error_message
           end
 
+          it "has descriptive error messages for the missing fields" do
+            # Bug fix - previously it was just saying e.g. 'first name' without
+            # specifying which passenger needed a first name
+            submit_form
+            within error_message do
+              is_expected.to have_content "Main passenger first name can't be blank"
+              is_expected.to have_content "Main passenger last name can't be blank"
+              is_expected.to have_content "Main passenger phone number can't be blank"
+              is_expected.to have_content "Companion first name can't be blank"
+              is_expected.to have_content "Companion last name can't be blank"
+              is_expected.to have_content "Companion phone number can't be blank"
+            end
+          end
+
           it "still displays the 'companion' fields" do # bug fix
             submit_form
             expect(find("#passenger_survey_has_companion")).to be_checked
@@ -307,6 +321,18 @@ describe "as a new user" do
           submit_form
           expect(current_path).to eq survey_passengers_path
           expect(page).to have_error_message
+        end
+
+        it "has descriptive error messages for the missing fields" do
+          # Don't say 'main passenger' when there's only one passenger
+          submit_form
+          within error_message do
+            is_expected.to have_content "First name can't be blank"
+            is_expected.to have_content "Last name can't be blank"
+            is_expected.to have_content "Phone number can't be blank"
+            is_expected.not_to have_content "Main passenger"
+            is_expected.not_to have_content "Companion"
+          end
         end
       end
     end # submitting the form

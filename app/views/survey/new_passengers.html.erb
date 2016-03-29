@@ -5,7 +5,33 @@
 
     <h1>Let's Get Started!</h1>
 
-    <%= render "shared/model_validation_errors", model: @survey %>
+    <%# We can't use the regular 'model_validation_errors' partial here   %>
+    <%# because we need a bit more flexibility in the error messages;     %>
+    <%# i18n defaults aren't enough.                                      %>
+    <% if @survey.errors.any? %>
+      <%= render "shared/error_message", model: @survey do %>
+        There
+        <% if @survey.errors.count > 1 %>
+          were <%= @survey.errors.count %> errors
+        <% else %>
+          was an error
+        <% end %>
+        and the <%= @survey.model_name.name.downcase %> could not be saved:
+
+        <ul>
+          <% @survey.errors.each do |attr, message| %>
+            <li>
+              <% if @survey.has_companion? %>
+                <%= attr.to_s.humanize %>
+              <% else %>
+                <%= attr.to_s.sub(/main_passenger_/, '').humanize %>
+              <% end %>
+              <%= message %>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+    <% end %>
 
     <p>
       Thanks for signing up to Abroaders! Before we can get started, we need
