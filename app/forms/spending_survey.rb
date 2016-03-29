@@ -2,100 +2,80 @@ class SpendingSurvey < Form
 
   def initialize(account)
     @account = account
-    # Sanity check:
-    raise unless @account.onboarding_stage == "spending"
+    account_must_be_in_correct_onboarding_stage!
 
-    @main_passenger = @account.main_passenger
-    @main_info      = @main_passenger.build_spending_info
+    self.main_passenger_has_business = "no_business"
 
-    @has_companion  = @account.has_companion?
-
-    self.companion_info_personal_spending = 0
-
-    if @account.has_companion?
-      raise if @account.companion.spending_info.try(:persisted?)
-      @companion      = account.companion
-      @companion_info = @companion.build_spending_info
-    else
-      # Another sanity check: you can't share expenses if you don't have a
-      # companion
-      raise if @account.shares_expenses?
+    if has_companion?
+      self.companion_has_business = "no_business"
     end
   end
 
   # ----- ATTRIBUTES -----
 
-  attr_reader :main_info, :companion_info
+  attr_reader :account
+  delegate :has_companion?, to: :account
+  delegate :shares_expenses?, to: :account, prefix: true
 
-  delegate :has_business?, to: :main_info,      prefix: true
-  delegate :has_business?, to: :companion_info, prefix: true, allow_nil: true
-  alias_method :main_passenger_has_business?, :main_info_has_business?
-  alias_method :companion_has_business?,      :companion_info_has_business?
+  attr_accessor :companion_business_spending,
+                :companion_credit_score,
+                :companion_has_business,
+                :companion_personal_spending,
+                :main_passenger_business_spending,
+                :main_passenger_credit_score,
+                :main_passenger_has_business,
+                :main_passenger_personal_spending,
+                :shared_spending
 
-  attr_accessor :shared_spending
-
-  def account_shares_expenses?
-    @account.shares_expenses
+  def companion_has_business?
+    %w[with_ein without_ein].include?(main_passenger_has_business)
   end
 
-  def main_passenger_first_name
-    @main_passenger.first_name
+  def main_passenger_has_business?
+    %w[with_ein without_ein].include?(main_passenger_has_business)
   end
 
-  def companion_first_name
-    @companion.first_name
-  end
-
-  SPENDING_INFO_ATTRS = %i[
-    business_spending
-    credit_score
-    has_business
-    personal_spending
-    will_apply_for_loan
-  ]
-
-  %i[main_info companion_info].each do |info|
-    SPENDING_INFO_ATTRS.each do |attr|
-      if attr == :will_apply_for_loan
-        attr_boolean_accessor :"#{info}_#{attr}"
-      else
-        attr_accessor :"#{info}_#{attr}"
-      end
-    end
-  end
-
-  def has_companion?
-    @account.has_companion?
-  end
-
-  def assign_attributes(attributes)
-    attributes.each { |key, value| self.send "#{key}=", value }
-  end
+  attr_boolean_accessor :companion_will_apply_for_loan,
+                        :main_passenger_will_apply_for_loan
 
   def save
     super do
-      SPENDING_INFO_ATTRS.each do |attr|
-        main_info.send("#{attr}=",      self.send("main_info_#{attr}"))
-        if has_companion?
-          companion_info.send("#{attr}=", self.send("companion_info_#{attr}"))
+      main = account.main_passenger.build_spending_info
+      main.business_spending   = main_passenger_business_spending
+      main.credit_score        = main_passenger_credit_score
+      main.has_business        = main_passenger_has_business
+      main.will_apply_for_loan = main_passenger_will_apply_for_loan
+
+      if has_companion?
+        comp = account.companion.build_spending_info
+
+        if account_shares_expenses?
+          # To eliminate the need for an extra DB column that will be null
+          # most of the time: when spending is shared, it's stored internally
+          # under main_passenger.personal_spending, and
+          # companion.personal_spending is left blank.
+          main.personal_spending = shared_spending
+          # Except we have to make it 0, not nil, because the DB column isn't
+          # nullable :(
+          comp.personal_spending = 0
+        else
+          comp.personal_spending = companion_personal_spending
         end
+
+        comp.business_spending   = companion_business_spending
+        comp.credit_score        = companion_credit_score
+        comp.has_business        = companion_has_business
+        comp.will_apply_for_loan = companion_will_apply_for_loan
       end
 
-      if has_companion? && account_shares_expenses?
-        # To eliminate the need for an extra DB column that will be null
-        # most of the time: when spending is shared, it's stored internally
-        # under main_passenger.personal_spending, and
-        # companion.personal_spending is left blank.
-        main_info.personal_spending      = self.shared_spending
-        # Except we have to make it 0, not nil, because the DB column isn't
-        # nullable :(
-        companion_info.personal_spending = 0
+      if !(has_companion? && account_shares_expenses?)
+        main.personal_spending = main_passenger_personal_spending
       end
 
       @account.onboarding_stage = "main_passenger_cards"
       @account.save!(validate: false)
-      main_info.save!(validate: false)
-      companion_info.save!(validate: false) if has_companion?
+      main.save!(validate: false)
+      comp.save!(validate: false) if has_companion?
     end
   end
 
@@ -119,9 +99,9 @@ class SpendingSurvey < Form
     }
   }
 
-  validates :main_info_credit_score,
+  validates :main_passenger_credit_score,
     CREDIT_SCORE_VALIDATIONS.merge(presence: true)
-  validates :main_info_personal_spending, {
+  validates :main_passenger_personal_spending, {
     numericality: SPENDING_NUMERICALITY_VALIDATIONS.merge(
       unless: "has_companion? && account_shares_expenses?"
     ),
@@ -129,24 +109,24 @@ class SpendingSurvey < Form
   }
 
   with_options if: :main_passenger_has_business? do |survey|
-    survey.validates :main_info_business_spending, {
+    survey.validates :main_passenger_business_spending, {
       numericality: SPENDING_NUMERICALITY_VALIDATIONS,
       presence: true
     }
   end
 
   with_options if: :has_companion? do |survey|
-    survey.validates :companion_info_credit_score,
+    survey.validates :companion_credit_score,
       CREDIT_SCORE_VALIDATIONS.merge(presence: true)
 
-    survey.validates :companion_info_personal_spending, {
+    survey.validates :companion_personal_spending, {
       numericality: SPENDING_NUMERICALITY_VALIDATIONS,
       presence: { if: "has_companion? && !account_shares_expenses?" }
     }
   end
 
   with_options if: "has_companion? && companion_has_business?" do |survey|
-    survey.validates :companion_info_business_spending, {
+    survey.validates :companion_business_spending, {
       numericality: SPENDING_NUMERICALITY_VALIDATIONS,
       presence: true
     }
@@ -156,6 +136,20 @@ class SpendingSurvey < Form
     validates :shared_spending,
       numericality: SPENDING_NUMERICALITY_VALIDATIONS,
       presence: true
+  end
+
+  private
+
+  def account_must_be_in_correct_onboarding_stage!
+    # Sanity checks:
+    raise unless @account.onboarding_stage == "spending"
+    raise if @account.main_passenger.spending_info&.persisted?
+    if @account.has_companion?
+      raise if @account.companion.spending_info&.persisted?
+    else
+      # you can't share expenses if you don't have a companion:
+      raise if @account.shares_expenses?
+    end
   end
 
 end

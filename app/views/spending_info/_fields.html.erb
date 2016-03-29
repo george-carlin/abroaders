@@ -1,8 +1,8 @@
 <% if f.object.has_companion? %>
   <% if main %>
-    <% name = f.object.main_passenger_first_name %>
+    <% name = f.object.account.main_passenger.first_name %>
   <% else %>
-    <% name = f.object.companion_first_name %>
+    <% name = f.object.account.companion.first_name %>
   <% end %>
   <% possessive = "#{name}'s" %>
   <% does       = "does" %>
@@ -12,12 +12,12 @@
   <% does       = "do"   %>
 <% end %>
 
-<% attr_prefix = main ? :main_info : :companion_info %>
+<% passenger = main ? :main_passenger : :companion %>
 
 <div class="spending-info-fields">
   <div class="form-group required">
     <%= f.label(
-      "#{attr_prefix}_credit_score",
+      "#{passenger}_credit_score",
       "What's #{possessive} credit score?"
     ) %>
 
@@ -27,13 +27,13 @@
       <%= SpendingInfo::MAXIMUM_CREDIT_SCORE %>
     </p>
 
-    <%= f.number_field "#{attr_prefix}_credit_score" %>
+    <%= f.number_field "#{passenger}_credit_score" %>
   </div>
 
   <div class="form-group">
 
     <%= f.label(
-      "#{attr_prefix}_will_apply_for_loan",
+      "#{passenger}_will_apply_for_loan",
       "#{does.capitalize} #{name} plan to apply for a loan of over $5,000 in"\
       " the next 12 months?"
     ) %>
@@ -41,9 +41,9 @@
     <div class="radio">
       <label>
         <%= f.radio_button(
-          "#{attr_prefix}_will_apply_for_loan",
+          "#{passenger}_will_apply_for_loan",
           true,
-          checked: f.object.send("#{attr_prefix}_will_apply_for_loan")
+          checked: f.object.send("#{passenger}_will_apply_for_loan")
         ) %> Yes
       </label>
     </div>
@@ -51,31 +51,31 @@
     <div class="radio">
       <label>
         <%= f.radio_button(
-          "#{attr_prefix}_will_apply_for_loan",
+          "#{passenger}_will_apply_for_loan",
           false,
-          checked: !f.object.send("#{attr_prefix}_will_apply_for_loan")
+          checked: !f.object.send("#{passenger}_will_apply_for_loan")
         ) %> No
       </label>
     </div>
   </div>
 
-  <% if !f.object.account_shares_expenses? %>
+  <% if !f.object.account.shares_expenses? %>
     <div class="form-group required">
       <%= f.label(
-        "#{attr_prefix}_personal_spending",
+        "#{passenger}_personal_spending",
         "What is #{possessive} normal personal spending per month?"
       ) %>
 
       <div class="input-group">
         <div class="input-group-addon">$</div>
-        <%= f.number_field "#{attr_prefix}_personal_spending" %>
+        <%= f.number_field "#{passenger}_personal_spending" %>
       </div>
     </div>
   <% end %>
 
   <div class="form-group">
     <%= f.label(
-      "#{attr_prefix}_has_business",
+      "#{passenger}_has_business",
       "#{does.capitalize} #{name} have a business?"
     ) %>
 
@@ -83,9 +83,9 @@
       <div class="radio">
         <label>
           <%= f.radio_button(
-            "#{attr_prefix}_has_business",
+            "#{passenger}_has_business",
                 value,
-                checked: f.object.send("#{attr_prefix}").has_business == value
+                checked: f.object.send("#{passenger}_has_business") == value
               ) %>
           <%= has_business_label_text(value, name) %>
         </label>
@@ -98,13 +98,13 @@
     style="display:none"
   >
     <%= f.label(
-      "#{attr_prefix}_business_spending",
+      "#{passenger}_business_spending",
       "What is the average monthly spending of #{possessive} business?"
     ) %>
 
     <div class="input-group">
       <div class="input-group-addon">$</div>
-      <%= f.number_field "#{attr_prefix}_business_spending" %>
+      <%= f.number_field "#{passenger}_business_spending" %>
     </div>
   </div>
 </div>

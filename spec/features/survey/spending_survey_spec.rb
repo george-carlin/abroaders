@@ -28,8 +28,8 @@ describe "the spending info survey" do
   ]
 
   let(:ps_prefix) { "spending_survey" }
-  let(:mp_prefix) { "#{ps_prefix}_main_info" }
-  let(:co_prefix) { "#{ps_prefix}_companion_info" }
+  let(:mp_prefix) { "#{ps_prefix}_main_passenger" }
+  let(:co_prefix) { "#{ps_prefix}_companion" }
 
   let(:shares_expenses) { false }
 

@@ -118,17 +118,17 @@ class SurveyController < NonAdminController
 
   def spending_survey_params
     params.require(:spending_survey).permit(
-      :companion_info_business_spending,
-      :companion_info_credit_score,
-      :companion_info_has_business,
-      :companion_info_info,
-      :companion_info_personal_spending,
-      :companion_info_will_apply_for_loan,
-      :main_info_business_spending,
-      :main_info_credit_score,
-      :main_info_has_business,
-      :main_info_personal_spending,
-      :main_info_will_apply_for_loan,
+      :companion_business_spending,
+      :companion_credit_score,
+      :companion_has_business,
+      :companion_info,
+      :companion_personal_spending,
+      :companion_will_apply_for_loan,
+      :main_passenger_business_spending,
+      :main_passenger_credit_score,
+      :main_passenger_has_business,
+      :main_passenger_personal_spending,
+      :main_passenger_will_apply_for_loan,
       :shared_spending
     )
   end
