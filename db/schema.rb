@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160325145539) do
+ActiveRecord::Schema.define(version: 20160329103014) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -190,12 +190,14 @@ ActiveRecord::Schema.define(version: 20160325145539) do
   add_index "readiness_statuses", ["passenger_id"], name: "index_readiness_statuses_on_passenger_id", unique: true, using: :btree
 
   create_table "spending_infos", force: :cascade do |t|
-    t.integer "passenger_id",                        null: false
-    t.integer "credit_score",                        null: false
-    t.boolean "will_apply_for_loan", default: false, null: false
-    t.integer "personal_spending",   default: 0,     null: false
-    t.integer "business_spending",   default: 0
-    t.integer "has_business",        default: 0,     null: false
+    t.integer  "passenger_id",                        null: false
+    t.integer  "credit_score",                        null: false
+    t.boolean  "will_apply_for_loan", default: false, null: false
+    t.integer  "personal_spending",   default: 0,     null: false
+    t.integer  "business_spending",   default: 0
+    t.integer  "has_business",        default: 0,     null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
   end
 
   add_index "spending_infos", ["passenger_id"], name: "index_spending_infos_on_passenger_id", unique: true, using: :btree
