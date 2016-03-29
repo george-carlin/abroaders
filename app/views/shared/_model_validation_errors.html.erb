@@ -1,10 +1,5 @@
 <% if model.errors.any? %>
-  <div class="alert alert-danger alert-dismissable" role="aert">
-    <button type="button" class="close" data-dismiss="alert">
-      <span aria-hidden="true">&times;</span>
-      <span class="sr-only">Close</span>
-    </button>
-
+  <%= render "shared/error_message" do %>
     There
     <% if model.errors.count > 1 %>
       were <%= model.errors.count %> errors
@@ -18,5 +13,5 @@
         <li><%= error %></li>
       <% end %>
     </ul>
-  </div>
+  <% end  %>
 <% end %>
