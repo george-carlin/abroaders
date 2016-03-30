@@ -62,6 +62,32 @@ describe "the spending info survey" do
           is_expected.to have_field "#{prefix}_business_spending"
         end
 
+        describe "and typing a value into 'business spending'" do
+          before { fill_in "#{prefix}_business_spending", with: 1234 }
+          describe "and selecting '#{dont_have} a business' again" do
+            before { choose "#{prefix}_has_business_no_business" }
+            describe "and submitting the form with valid data" do
+              before do
+                fill_in_valid_main_passenger_spending_info
+                if has_companion
+                  fill_in "#{co_prefix}_credit_score", with: 654
+                  fill_in "#{co_prefix}_personal_spending", with: 8000
+                end
+                submit_form
+              end
+
+              it "doesn't save what I'd typed for 'business spending'" do
+                account.reload
+                if opts[:companion]
+                  expect(account.companion.business_spending).to be_blank
+                else
+                  expect(account.main_passenger.business_spending).to be_blank
+                end
+              end
+            end
+          end
+        end
+
         describe "and selecting '#{dont_have} a business' again" do
           before { choose "#{prefix}_has_business_no_business" }
           it "hides the 'business spending' input again" do

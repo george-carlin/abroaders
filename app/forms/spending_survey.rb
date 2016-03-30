@@ -41,10 +41,15 @@ class SpendingSurvey < Form
   def save
     super do
       main = account.main_passenger.build_spending_info
-      main.business_spending   = main_passenger_business_spending
       main.credit_score        = main_passenger_credit_score
       main.has_business        = main_passenger_has_business
       main.will_apply_for_loan = main_passenger_will_apply_for_loan
+
+      if main_passenger_has_business?
+        main.business_spending = main_passenger_business_spending
+      else
+        main.business_spending = nil
+      end
 
       if has_companion?
         comp = account.companion.build_spending_info
@@ -62,7 +67,12 @@ class SpendingSurvey < Form
           comp.personal_spending = companion_personal_spending
         end
 
-        comp.business_spending   = companion_business_spending
+        if companion_has_business?
+          comp.business_spending = companion_business_spending
+        else
+          comp.business_spending = nil
+        end
+
         comp.credit_score        = companion_credit_score
         comp.has_business        = companion_has_business
         comp.will_apply_for_loan = companion_will_apply_for_loan
