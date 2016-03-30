@@ -11,6 +11,7 @@ gem 'devise', github: 'plataformatec/devise'
 gem 'devise-bootstrap-views'
 # Load ENV variables from a gitignored YAML file
 gem 'figaro', '~> 1.1.1'
+gem 'httparty', '~> 0.13.7'
 gem 'jbuilder', '~> 2.0'
 gem 'jquery-rails'
 gem 'pg', '~> 0.18'
