@@ -38,8 +38,15 @@ module BootstrapOverrides
       super
     end
 
-    def collection_select(object, method, collection, value_method, text_method,
-                                                  options = {}, html_options = {})
+    def collection_select(
+      object,
+      method,
+      collection,
+      value_method,
+      text_method,
+      options = {},
+      html_options = {}
+    )
       html_options[:class] = add_class(html_options[:class], BOOTSTRAP_CLASS)
       super
     end
