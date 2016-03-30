@@ -28,7 +28,7 @@ class SpendingSurvey < Form
                 :shared_spending
 
   def companion_has_business?
-    %w[with_ein without_ein].include?(main_passenger_has_business)
+    %w[with_ein without_ein].include?(companion_has_business)
   end
 
   def main_passenger_has_business?
@@ -81,62 +81,53 @@ class SpendingSurvey < Form
 
   # Validations
 
-  CREDIT_SCORE_VALIDATIONS = {
-    numericality: {
-      greater_than_or_equal_to: SpendingInfo::MINIMUM_CREDIT_SCORE,
-      less_than_or_equal_to:    SpendingInfo::MAXIMUM_CREDIT_SCORE,
-      # avoid duplicate error message (from presence validation) when nil:
-      allow_nil: true
-    }
+  CREDIT_SCORE_NUMERICALITY_VALIDATIONS = {
+    # avoid duplicate error message (from presence validation) when nil:
+    allow_blank: true,
+    greater_than_or_equal_to: SpendingInfo::MINIMUM_CREDIT_SCORE,
+    less_than_or_equal_to:    SpendingInfo::MAXIMUM_CREDIT_SCORE,
   }
 
   SPENDING_NUMERICALITY_VALIDATIONS = {
-    numericality: {
-      greater_than_or_equal_to: 0,
-      less_than_or_equal_to: POSTGRESQL_MAX_INT_VALUE,
-      # avoid duplicate error message (from presence validation) when nil:
-      allow_nil: true
-    }
+    # avoid duplicate error message (from presence validation) when nil:
+    allow_blank: true,
+    greater_than_or_equal_to: 0,
+    less_than_or_equal_to: POSTGRESQL_MAX_INT_VALUE,
   }
 
   validates :main_passenger_credit_score,
-    CREDIT_SCORE_VALIDATIONS.merge(presence: true)
-  validates :main_passenger_personal_spending, {
-    numericality: SPENDING_NUMERICALITY_VALIDATIONS.merge(
-      unless: "has_companion? && account_shares_expenses?"
-    ),
-    presence: { unless: "has_companion? && account_shares_expenses?" }
-  }
+    numericality: CREDIT_SCORE_NUMERICALITY_VALIDATIONS,
+    presence: true
 
-  with_options if: :main_passenger_has_business? do |survey|
-    survey.validates :main_passenger_business_spending, {
-      numericality: SPENDING_NUMERICALITY_VALIDATIONS,
-      presence: true
-    }
-  end
+  validates :main_passenger_personal_spending,
+    numericality: SPENDING_NUMERICALITY_VALIDATIONS,
+    presence: true,
+    unless: "has_companion? && account_shares_expenses?"
 
-  with_options if: :has_companion? do |survey|
-    survey.validates :companion_credit_score,
-      CREDIT_SCORE_VALIDATIONS.merge(presence: true)
+  validates :main_passenger_business_spending,
+    numericality: SPENDING_NUMERICALITY_VALIDATIONS,
+    presence: true,
+    if: :main_passenger_has_business?
 
-    survey.validates :companion_personal_spending, {
-      numericality: SPENDING_NUMERICALITY_VALIDATIONS,
-      presence: { if: "has_companion? && !account_shares_expenses?" }
-    }
-  end
+  validates :companion_credit_score,
+    numericality: CREDIT_SCORE_NUMERICALITY_VALIDATIONS,
+    presence: true,
+    if: :has_companion?
 
-  with_options if: "has_companion? && companion_has_business?" do |survey|
-    survey.validates :companion_business_spending, {
-      numericality: SPENDING_NUMERICALITY_VALIDATIONS,
-      presence: true
-    }
-  end
+  validates :companion_personal_spending,
+    numericality: SPENDING_NUMERICALITY_VALIDATIONS,
+    presence: true,
+    if: "has_companion? && !account_shares_expenses?"
 
-  with_options if: :account_shares_expenses? do
-    validates :shared_spending,
-      numericality: SPENDING_NUMERICALITY_VALIDATIONS,
-      presence: true
-  end
+  validates :companion_business_spending,
+    numericality: SPENDING_NUMERICALITY_VALIDATIONS,
+    presence: true,
+    if: "has_companion? && companion_has_business?"
+
+  validates :shared_spending,
+    numericality: SPENDING_NUMERICALITY_VALIDATIONS,
+    presence: true,
+    if: :account_shares_expenses?
 
   private
 

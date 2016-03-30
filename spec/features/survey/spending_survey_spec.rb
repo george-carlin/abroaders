@@ -68,6 +68,14 @@ describe "the spending info survey" do
             is_expected.to have_no_field "#{prefix}_business_spending"
           end
         end
+
+        context "and submitting the form with invalid data" do
+          before { submit_form }
+          it "remembers my previous selection for 'I have a business'" do
+            expect(find("##{prefix}_has_business_#{key}")).to be_checked
+            expect(page).to have_field "#{prefix}_business_spending"
+          end
+        end
       end
     end
   end
@@ -169,7 +177,33 @@ describe "the spending info survey" do
 
       include_examples "with invalid information"
 
+      describe "when I try to save a blank credit score" do
+        before { submit_form }
+        it "only gives me one error message" do
+          # Bug fix: previously it was giving me both "can't be blank"
+          # and "not a number"
+          within ".alert.alert-danger" do
+            is_expected.to have_content "Credit score can't be blank"
+            is_expected.not_to have_content "Credit score is not a number"
+          end
+        end
+      end
+
       context "after an invalid submission" do
+        context "the error message" do
+          before { submit_form }
+
+          it { is_expected.to have_content "your info could not be saved" }
+
+          it "doesn't mention 'main passenger' or 'companion'" do
+            within ".alert.alert-danger" do
+              is_expected.not_to have_content "Main passenger"
+              is_expected.not_to have_content "Companion"
+              is_expected.to have_content "Credit score can't be blank"
+            end
+          end
+        end
+
         it "remembers what I had selected for 'will apply for loan'" do
           # Bug fix
           yes = find("##{mp_prefix}_will_apply_for_loan_false")

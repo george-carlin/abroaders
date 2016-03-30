@@ -95,7 +95,7 @@
 
   <div
     class="business_spending_form_group form-group required"
-    style="display:none"
+    style="<%= "display:none" unless f.object.send("#{passenger}_has_business?") %>"
   >
     <%= f.label(
       "#{passenger}_business_spending",
