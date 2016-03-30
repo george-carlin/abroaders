@@ -2,7 +2,8 @@ require "rails_helper"
 
 describe PassengerSurvey, type: :model do
 
-  let(:survey) { described_class.new(Account.new) }
+  let(:account) { Account.new(onboarding_stage: "passengers") }
+  let(:survey) { described_class.new(account) }
   subject { survey }
 
   it { is_expected.to validate_presence_of(:main_passenger_first_name) }

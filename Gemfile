@@ -7,6 +7,7 @@ gem 'rails', '>= 5.0.0.beta3', '< 5.1'
 gem 'font-awesome-rails'
 gem 'active_model_serializers', '~> 0.10.0.rc3'
 gem 'acts_as_tree', '~> 2.4.0'
+gem 'bitmask_attributes'
 gem 'devise', github: 'plataformatec/devise'
 gem 'devise-bootstrap-views'
 # Load ENV variables from a gitignored YAML file

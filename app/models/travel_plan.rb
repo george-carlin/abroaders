@@ -10,6 +10,31 @@ class TravelPlan < ApplicationRecord
   MAX_FLIGHTS    = 20
   MAX_PASSENGERS = 20
 
+  concerning :AcceptableClasses do
+    # Warning: NEVER edit this array except to append new values to the end,
+    # or you'll mess up all the existing data in the DB.
+    # See https://github.com/joelmoss/bitmask_attributes
+    CLASSES = %i[economy premium_economy business_class first_class]
+
+    included do
+      bitmask :acceptable_classes, as:  CLASSES
+    end
+
+    CLASSES.each do |klass|
+      define_method :"will_accept_#{klass}?" do
+        acceptable_classes.include?(klass)
+      end
+    end
+  end
+
+  def earliest_departure
+    departure_date_range.first
+  end
+
+  def latest_departure
+    departure_date_range.last
+  end
+
   # Validations
 
   validates :departure_date_range, presence: true

@@ -16,7 +16,8 @@ describe "travel plans page" do
       account.travel_plans.create!(
         departure_date_range: Date.today..Date.tomorrow,
         flights_attributes:   flights,
-        type:                 type
+        type:                 type,
+        acceptable_classes:   [:economy]
       )
     end
     @tp_single = create_travel_plan(:single, [ { from: @lhr, to: @cdg }])

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "as a new user" do
+describe "as a new user who" do
   subject { page }
 
   let(:account) { create(:account, onboarding_stage: onboarding_stage) }
@@ -29,6 +29,7 @@ describe "as a new user" do
       survey_passengers_path,
       survey_readiness_path,
       survey_spending_path,
+      survey_travel_plan_path,
       travel_plans_path
     ]
   end
@@ -57,13 +58,20 @@ describe "as a new user" do
   end
 
   context "who has not completed any part of the survey" do
+    let(:onboarding_stage) { "travel_plans" }
+    let(:survey_path) { survey_travel_plan_path }
+    include_examples "redirects", "the travel plan survey"
+    include_examples "no cards or travel plans links"
+  end
+
+  context "who has added travel plans" do
     let(:onboarding_stage) { "passengers" }
     let(:survey_path) { survey_passengers_path }
     include_examples "redirects", "the passengers survey"
     include_examples "no cards or travel plans links"
   end
 
-  context "who needs to add spending info" do
+  context "who has added travel plans and passengers" do
     let(:onboarding_stage) { "spending" }
     let(:survey_path) { survey_spending_path }
     include_examples "redirects", "the spending survey"
@@ -98,13 +106,7 @@ describe "as a new user" do
     include_examples "no cards or travel plans links"
   end
 
-  context "added passenger, spending, card, & balance info" do
-    let(:onboarding_stage) { "travel_plans" }
-    it "redirects to the travel plan survey"
-    # TODO (whichever stage that is)
-  end
-
-  context "added passenger, spending, card, balance, and travel plan info" do
+  context "has added travel plan, passenger, spending, card, & balance info" do
     let(:onboarding_stage) { "readiness" }
     let(:survey_path) { survey_readiness_path }
     include_examples "redirects", "the readiness survey"

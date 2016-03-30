@@ -12,6 +12,7 @@ class NonAdminController < ApplicationController
     {
       # Value of account.onboarding_stage =>
       #       the path to redirect to if they're at this stage
+      "travel_plans"            => survey_travel_plan_path,
       "passengers"              => survey_passengers_path,
       "spending"                => survey_spending_path,
       "main_passenger_cards"    => survey_card_accounts_path(:main),

@@ -1,0 +1,6 @@
+{
+  "name": "NewTravelPlan",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./NewTravelPlan.js"
+}
