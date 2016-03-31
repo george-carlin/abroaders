@@ -18,6 +18,8 @@ describe "admin section" do
       visit admin_accounts_path
     end
 
+    let(:onboarded_accounts) { @accounts.slice(0,3) }
+
     it "lists every account" do
       within "#admin_accounts_table" do
         @accounts.each do |account|
@@ -27,20 +29,25 @@ describe "admin section" do
     end
 
     describe "for accounts which have added a main passenger" do
-      it "lists the passenger's names" do
-        @accounts.slice(0,3).each do |account|
+      it "links to the passenger's info page" do
+        onboarded_accounts.slice(0,3).each do |account|
           within account_selector(account) do
-            is_expected.to have_content(account.main_passenger_full_name)
+            is_expected.to have_link(
+              account.main_passenger_full_name,
+              href: admin_passenger_path(account.main_passenger)
+            )
           end
         end
       end
     end
 
     describe "for accounts which have added a companion" do
-      it "lists the companion's names" do
-        account = @accounts[3]
-        within account_selector(account) do
-          is_expected.to have_content(account.companion_full_name)
+      it "links to the companion's info page" do
+        within account_selector(@accounts[2]) do
+          is_expected.to have_link(
+            @accounts[2].companion_full_name,
+            href: admin_passenger_path(@accounts[2].companion)
+          )
         end
       end
     end
@@ -64,20 +71,25 @@ describe "admin section" do
     end
 
     context "when an account" do
-      before { skip "needes updating to work with passengers, not accounts" }
       context "has completed the onboarding survey" do
-        it "has a link to recommend them a card" do
-          is_expected.to have_link "Recommend Card",
-            href: new_admin_passenger_card_recommendation_path(@accounts[0])
-          is_expected.to have_link "Recommend Card",
-            href: new_admin_passenger_card_recommendation_path(@accounts[1])
+        it "has a link to recommend the main passenger a card" do
+          onboarded_accounts.each do |account|
+            passenger = account.main_passenger
+            is_expected.to have_link(
+              "", # actually a font-awesome icon
+              href: new_admin_passenger_card_recommendation_path(passenger)
+            )
+          end
         end
-      end
 
-      context "has not completed the onboarding survey" do
-        it "does not have a link to recommend them a card" do
-          is_expected.to have_no_link "Recommend Card",
-            href: new_admin_account_card_recommendation_path(@accounts[3])
+        context "and has a companion" do
+          it "has a link to recommend the main passenger a card" do
+            passenger = @accounts[2].companion
+            is_expected.to have_link(
+              "", # actually a font-awesome icon
+              href: new_admin_passenger_card_recommendation_path(passenger)
+            )
+          end
         end
       end
     end

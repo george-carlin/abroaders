@@ -1,61 +1,130 @@
 <% provide :title, "Users" %>
 
-<h1>Users</h1>
+<h1>User accounts</h1>
 
-<div>
-  <input
-    id="admin_accounts_table_filter"
-    type="text"
-    class="form-control"
-    placeholder="Filter"
-    />
-  <table id="admin_accounts_table" class="accounts table table-striped">
-    <thead>
-      <tr>
-        <th class="sortable-column-header" >
-          Name
-          &nbsp;
-          <!-- <i class={class} style={style} > </i> -->
-        </th>
-        <th class="sortable-column-header" >
-          Email
-          &nbsp;
-          <!-- <i class={class} style={style} > </i> -->
-        </th>
-        <th class="sortable-column-header" >
-          Signed up
-          &nbsp;
-          <!-- <i class={class} style={style} > </i> -->
-        </th>
-        <th>Companion name</th>
-        <th colspan="2"></th>
-      </tr>
-    </thead>
-    <tbody id="admin_accounts_table_body">
-      <% @accounts.each do |account| %>
-        <tr
-          id="<%= dom_id(account) %>"
-          class="<%= dom_class(account) %>"
-          data-full-name="<%= account.main_passenger_full_name %>"
-          data-email="<%= account.email %>"
-        >
-          <td><%= account.main_passenger_full_name %></td>
-          <td><%= account.email %></td>
-          <td><%= account.created_at.strftime("%c") %></td>
-          <td><%= account.companion_full_name %></td>
-          <td><%= link_to "Info", admin_account_path(account) %></td>
-          <td>
-            <% if account.onboarded? %>
-              <%=
-                link_to(
-                  "Recommend Card",
-                  new_admin_passenger_card_recommendation_path(account)
-                )
-              %>
-            <% end %>
-          </td>
+<div class="row">
+  <div class="form-group col-xs-12 col-md-8">
+    <input
+      id="admin_accounts_table_filter"
+      type="text"
+      class="form-control"
+      placeholder="Filter by name or email..."
+      />
+  </div>
+
+  <div class="form-inline">
+    <div class="form-group col-xs-12 col-md-4">
+
+      <div class="radio">
+        <label>
+          <input
+            checked
+            name="admin_accounts_filter_onboarded"
+            type="radio"
+            value="all"
+          />
+          All
+        </label>
+      </div>
+
+      <div class="radio">
+        <label>
+          <input
+            name="admin_accounts_filter_onboarded"
+            type="radio"
+            value="onboarded"
+          />
+          Onboarded
+        </label>
+      </div>
+
+      <div class="radio">
+        <label>
+          <input
+            name="admin_accounts_filter_onboarded"
+            type="radio"
+            value="not_onboarded"
+          />
+          Not onboarded
+        </label>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-12">
+    <table id="admin_accounts_table" class="accounts table table-striped">
+      <thead>
+        <tr>
+          <th>O?</th>
+          <th class="sortable-column-header" >
+            Email
+            &nbsp;
+            <!-- <i class={class} style={style} > </i> -->
+          </th>
+          <th class="sortable-column-header" >
+            Main Passenger
+            &nbsp;
+            <!-- <i class={class} style={style} > </i> -->
+          </th>
+          <th class="sortable-column-header">
+            Companion
+            &nbsp;
+            <!-- <i class={class} style={style} > </i> -->
+          </th>
+          <th class="sortable-column-header" >
+            Signed up
+            &nbsp;
+            <!-- <i class={class} style={style} > </i> -->
+          </th>
+          <!-- <th colspan="2"></th> -->
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody id="admin_accounts_table_body">
+        <% @accounts.each do |account| %>
+          <tr
+            id="<%= dom_id(account) %>"
+            class="<%= dom_class(account) %>"
+            data-companion-name="<%= account.companion_full_name %>"
+            data-email="<%= account.email %>"
+            data-main-passenger-name="<%= account.main_passenger_full_name %>"
+            data-onboarded="<%= account.onboarded? %>"
+          >
+            <td>
+              <% if account.onboarded? %>
+                <i class="fa fa-check"> </i>
+              <% end %>
+            </td>
+            <td><%= account.email %></td>
+            <td>
+              <% if account.main_passenger.present? %>
+                <%= link_to_admin_passenger(account.main_passenger) %>
+
+                <% if account.onboarded? %>
+                  <%= link_to_admin_passenger_recommend_card(account.main_passenger) %>
+                <% end %>
+              <% else %>
+                -
+              <% end %>
+            </td>
+            <td>
+              <% if account.companion.present? %>
+                <%= link_to_admin_passenger(account.companion) %>
+
+                <% if account.onboarded? %>
+                  <%= link_to_admin_passenger_recommend_card(account.companion) %>
+                <% end %>
+              <% else %>
+                -
+              <% end %>
+            </td>
+            <td><%= account.created_at.strftime("%D") %></td>
+            <!-- <td><%= link_to "Info", admin_account_path(account) %></td> -->
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>

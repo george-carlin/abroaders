@@ -1,0 +1,16 @@
+.admin_passenger_recommend_card_link {
+  text-decoration: none !important;
+  opacity: 0.6;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+#admin_accounts_table {
+  th, td {
+    &:first-child {
+      width: 10px;
+    }
+  }
+}
