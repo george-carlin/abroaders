@@ -76,6 +76,7 @@ Rails.application.routes.draw do
   end
 
   namespace :admin, module: :admin_area do
+    resources :accounts, only: [ :index, :show ]
     resources :cards, only: [:show, :index, :new, :create] do
       member do
         put :active
@@ -83,14 +84,11 @@ Rails.application.routes.draw do
     end
     resources :card_offers
     resources :destinations, only: :index
-
     Destination.types.keys.each do |type|
       # airports, cities, countries, etc
       get type.pluralize, to: "destinations##{type}"
     end
-
-    resources :accounts
-    resources :passengers do
+    resources :passengers, only: :show do
       resources :card_accounts, as: :cards
       resources :card_recommendations, only: [:new, :create]
     end
