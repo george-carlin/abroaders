@@ -67,8 +67,8 @@ class SurveyController < NonAdminController
                 when "main"      then current_main_passenger
                 when "companion" then current_companion
                 end
-    @survey = BalancesSurvey.new(passenger, balances_params)
-    if @survey.save
+    @survey = BalancesSurvey.new(passenger)
+    if @survey.update_attributes(balances_params)
       if params[:passenger] == "main" && has_companion?
         redirect_to survey_balances_path(:companion)
       else

@@ -2,33 +2,35 @@
 # such, it works very differently from the other '*Survey' classes in app/forms.
 # I attempted to refactor it to make things more consistent, but decided it
 # wasn't worth the trouble.
+#
+# I'm not even sure *how* to make this behave like a normal 'Form', because,
+# unlike the other Forms, we won't know the exact list of fields until runtime
+# (because it depends on what's in the Currencies table in the DB).
 class BalancesSurvey
 
   attr_reader :balances, :errors
 
-  def initialize(passenger, balances_params=nil)
+  def initialize(passenger)
     @passenger = passenger
     raise_unless_at_correct_onboarding_stage!
-    if balances_params
-      # If the user has types in values with commas, make sure that Ruby
-      # treats this as the correct number:
-      balances_params.each { |balance| balance[:value].try :gsub!, /,/, '' }
-      # if the value they submitted is '0', or if they left the text field
-      # empty, then don't create a Balance object, but don't make the whole
-      # form submission fail. If they submitted a value that's less than 0,
-      # then this is a validation error, so don't create anything, and show the
-      # form again.
-      balances_params.reject! do |balance|
-        balance[:value].blank? || balance[:value].to_i == 0
-      end
-      @balances = @passenger.balances.build(balances_params).to_a
-    else
-      @balances = Currency.order("name ASC").map do |currency|
-        @passenger.balances.build(currency: currency)
-      end.to_a
-    end
+    @balances = Currency.order("name ASC").map do |currency|
+      @passenger.balances.build(currency: currency)
+    end.to_a
   end
 
+  def assign_attributes(params)
+    # If the user has typed in values with commas, make sure that Ruby treats
+    # this as the correct number:
+    params.each { |balance| balance[:value].try :gsub!, /,/, '' }
+    # if the value they submitted is '0', or if they left the text field empty,
+    # then don't create a Balance object, but don't make the whole form
+    # submission fail. If they submitted a value that's less than 0, then this
+    # is a validation error, so don't create anything, and show the form again.
+    params.reject! do |balance|
+      balance[:value].blank? || balance[:value].to_i == 0
+    end
+    @balances = @passenger.balances.build(params).to_a
+  end
 
   def save
     if valid?
@@ -62,6 +64,24 @@ class BalancesSurvey
     @balances.each { |b| result = false unless b.valid? }
     result
   end
+
+  # ---------------- DUPE METHODS ----------------
+  # If we ever make this into a proper subclass of `Form`, then the following
+  # few methods are exact duplicates of code in that class, and can be removed
+  # from this file:
+  def self.transaction(&block)
+    ActiveRecord::Base.transaction(&block)
+  end
+
+  def transaction(&block)
+    self.class.transaction(&block)
+  end
+
+  def update_attributes(attributes)
+    assign_attributes(attributes)
+    save
+  end
+  # ---------------- /DUPE METHODS ---------------
 
   private
 
