@@ -34,6 +34,4 @@ describe Destination do
     end
   end
 
-  pending "validate parent hierarchy follows the right order; airport.parent can't be an airport, city.parent can't be a state etc"
-
 end

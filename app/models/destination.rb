@@ -32,4 +32,16 @@ class Destination < ApplicationRecord
   validates :type, presence: true
   validates :parent, presence: { unless: :region? }
 
+  validate :parent_is_correct_type
+
+  private
+
+  def parent_is_correct_type
+    if parent&.type.present? && type?
+      unless TYPES[(TYPES.index(type)+1)..-1].include?(parent.type)
+        errors.add(:parent, "type is invalid")
+      end
+    end
+  end
+
 end
