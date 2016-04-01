@@ -5,8 +5,7 @@ class ApplicationController < ActionController::Base
 
   include CurrentUserHelper
 
-  # Placeholder page for root path
-  def root
+  def dashboard
     if current_admin
       render "admin_area/dashboard"
     elsif current_account

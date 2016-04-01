@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   devise_for :accounts, skip: [:sessions, :registrations]
 
+  root to: "application#dashboard"
+
   match "/accounts/connect/awardwallet", to: "application#placeholder", via: %i[get post]
 
   devise_scope :account do
@@ -108,7 +110,5 @@ Rails.application.routes.draw do
       end
     end
   end
-
-  root to: "application#root"
 
 end

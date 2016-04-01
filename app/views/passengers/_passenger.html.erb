@@ -1,9 +1,7 @@
 <div class="passenger-contact-info col-xs-12 col-md-4">
-  <div class="survey-attr passenger-email">
-    <%= fa_icon "envelope", class: "contact-info-label" %>
-    &nbsp;
-    <%= passenger.email %>
-  </div>
+  <% if local_assigns[:email] %>
+    <%= render "accounts/email", account: passenger.account %>
+  <% end %>
 
   <div class="survey-attr passenger-phone-number">
     <%= fa_icon "phone", class: "contact-info-label" %>
@@ -40,8 +38,8 @@
              end %>
     <%= t("activerecord.attributes.passenger.citizenships.#{key}") %>
   </div>
-  <div class="survey-attr passenger-time-zone">
-    <%= fa_icon "globe", class: "contact-info-label" %>
-    &nbsp;<%= ActiveSupport::TimeZone.new(passenger.time_zone) %>
-  </div>
+
+  <% if local_assigns[:time_zone] %>
+    <%= render "accounts/time_zone", account: passenger.account %>
+  <% end %>
 </div>

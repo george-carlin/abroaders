@@ -6,7 +6,12 @@
     <p>Account created on <%= @passenger.signed_up.strftime("%D") %></p>
   </div>
 
-  <%= render "passengers/passenger", passenger: @passenger %>
+  <%= render(
+    "passengers/passenger",
+    passenger: @passenger,
+    email:     true,
+    time_zone: true,
+  ) %>
 
   <% if @spending_info %>
     <%= render "spending_infos/spending_info", spending_info: @spending_info %>
