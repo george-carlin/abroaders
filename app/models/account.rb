@@ -51,6 +51,8 @@ class Account < ApplicationRecord
 
   # Validations
 
+  validates :time_zone, presence: { unless: "travel_plans? || passengers?" }
+
   # Associations
 
   has_many :travel_plans
