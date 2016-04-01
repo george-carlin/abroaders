@@ -3,7 +3,7 @@ module AdminArea
 
     def new
       @passenger = find_passenger
-      # passenger_must_have_completed_onboarding_survey!
+      passenger_must_be_onboarded!
       @account       = @passenger.account
       @spending_info = @passenger.spending_info
       accounts = @passenger.card_accounts.includes(:card)
@@ -18,8 +18,8 @@ module AdminArea
 
     def create
       @passenger = find_passenger
+      passenger_must_be_onboarded!
       @account   = @passenger.account
-      passenger_must_have_completed_onboarding_survey!
       # TODO don't allow expired/inactive offers to be assigned:
       @offer =  CardOffer.find(params[:offer_id])
       @passenger.card_recommendations.create!(
@@ -37,11 +37,12 @@ module AdminArea
       Passenger.find(params[:passenger_id])
     end
 
-    def passenger_must_have_completed_onboarding_survey!
-      unless @account.onboarded?
-        flash[:error] = t("admin.passengers.card_recommendations.no_survey")
+    def passenger_must_be_onboarded!
+      unless @passenger.account.onboarded?
+        flash[:error] = t("admin.passengers.card_recommendations.not_onboarded")
         redirect_to admin_passenger_path(@passenger)
       end
     end
+
   end
 end

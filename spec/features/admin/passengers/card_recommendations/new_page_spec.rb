@@ -62,14 +62,8 @@ describe "admin section" do
 
     context "for a passenger who has not been fully onboarded" do
       let(:onboarded) { false }
-
-      it "redirects back to... somewhere" do
-        skip
-        # TODO
-        # raise unless @passenger.survey.nil? # Sanity check
-        # expect(current_path).to eq admin_passenger_path(@passenger)
-        # expect(page).to have_content \
-        #             t("admin.passengers.card_recommendations.no_survey")
+      it "redirects back to the passenger show page" do
+        expect(current_path).to eq admin_passenger_path(@passenger)
       end
     end
 
