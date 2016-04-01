@@ -1,4 +1,4 @@
-module AlertsHelper
+module AlertsMacros
 
   def error_message
     ".alert.alert-danger"
