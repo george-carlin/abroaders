@@ -1,6 +1,17 @@
 <% provide :title, @passenger.full_name %>
 
-<%= render "passengers/full_info", passenger: @passenger %>
+<div class="row">
+  <div class="col-xs-12">
+    <h1><%= @passenger.full_name %></h1>
+    <p>Account created on <%= @passenger.signed_up.strftime("%D") %></p>
+  </div>
+
+  <%= render "passengers/passenger", passenger: @passenger %>
+
+  <% if @spending_info %>
+    <%= render "spending_infos/spending_info", spending_info: @spending_info %>
+  <% end %>
+</div>
 
 <% if !@passenger.onboarded? %>
   <% if @passenger.has_added_spending? %>

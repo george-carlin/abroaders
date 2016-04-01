@@ -1,7 +1,17 @@
 <% provide :title, "#{@passenger.full_name} - Recommend Card" %>
 
+<div class="row">
+  <div class="col-xs-12">
+    <h1><%= @passenger.full_name %> - Recommend Card</h1>
+    <p>Account created on <%= @passenger.signed_up.strftime("%D") %></p>
+  </div>
 
-<%= render "passengers/full_info", passenger: @passenger, subtitle: "Recommend Card" %>
+  <%= render "passengers/passenger", passenger: @passenger %>
+
+  <% if @spending_info %>
+    <%= render "spending_infos/spending_info", spending_info: @spending_info %>
+  <% end %>
+</div>
 
 <hr>
 

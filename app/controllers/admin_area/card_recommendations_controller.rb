@@ -3,8 +3,9 @@ module AdminArea
 
     def new
       @passenger = find_passenger
-      @account   = @passenger.account
       # passenger_must_have_completed_onboarding_survey!
+      @account       = @passenger.account
+      @spending_info = @passenger.spending_info
       accounts = @passenger.card_accounts.includes(:card)
       # Call 'to_a' so it doesn't include @card_recommendation:
       @card_accounts = accounts.to_a

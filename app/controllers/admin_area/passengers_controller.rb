@@ -3,8 +3,9 @@ module AdminArea
 
     # GET /admin/passengers/1
     def show
-      @passenger           = get_passenger
-      @card_accounts       = @passenger.card_accounts.select(&:persisted?)
+      @passenger     = get_passenger
+      @spending_info = @passenger.spending_info
+      @card_accounts = @passenger.card_accounts.select(&:persisted?)
       @card_recommendation = @passenger.card_accounts.new
       # Use @passenger.card_accounts here instead of @card_accounts because
       # the latter is an Array, not a Relation (because of
