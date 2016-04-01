@@ -15,7 +15,7 @@ describe "travel plans survey" do
       @tl = create(:country, name: "Thailand",       parent: @as),
       @fr = create(:country, name: "France",         parent: @eu),
     ]
-    login_as @account, scope: :account
+    login_as(@account)
     visit survey_travel_plan_path
   end
 

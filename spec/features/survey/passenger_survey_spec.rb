@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe "as a new user" do
   let(:account) { create(:account, onboarding_stage: "passengers") }
-  before { login_as account, scope: :account }
+  before { login_as(account) }
   subject { page }
 
   describe "the passengers survey" do

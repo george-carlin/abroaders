@@ -14,7 +14,7 @@ describe "as a new user who" do
     end
 
     account.reload
-    login_as account, scope: :account
+    login_as(account)
   end
 
   let(:paths) do

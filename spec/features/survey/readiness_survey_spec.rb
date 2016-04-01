@@ -18,7 +18,7 @@ describe "as a new user", :js do
       )
     end
 
-    login_as @account, scope: :account
+    login_as(@account)
     visit survey_readiness_path
   end
   let(:account)        { @account }

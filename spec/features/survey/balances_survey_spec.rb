@@ -26,7 +26,7 @@ describe "as a new user" do
     end
 
     @currencies = create_list(:currency, 3)
-    login_as @account, scope: :account
+    login_as_account(account)
   end
   let(:account) { @account }
   let(:has_companion) { false }

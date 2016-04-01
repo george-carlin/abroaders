@@ -13,7 +13,7 @@ describe "the spending info survey" do
     if has_companion
       create(:passenger, :companion, account: account)
     end
-    login_as account, scope: :account
+    login_as(account)
     visit survey_spending_path
   end
   subject { page }

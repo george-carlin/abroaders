@@ -32,7 +32,7 @@ describe "as a new user" do
     end
     @account.reload
 
-    login_as @account, scope: :account
+    login_as(@account)
   end
   let(:account) { @account }
 

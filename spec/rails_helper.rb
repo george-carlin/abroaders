@@ -71,4 +71,12 @@ RSpec.configure do |config|
     I18n.t(*args)
   end
 
+  def login_as_account(account)
+    login_as account, scope: :account
+  end
+
+  def login_as_admin(admin)
+    login_as admin, scope: :admin
+  end
+
 end
