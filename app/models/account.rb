@@ -20,9 +20,6 @@ class Account < ApplicationRecord
     onboarded:               8,
   }
 
-  def admin; false; end
-  alias_method :admin?, :admin
-
   def has_companion
     !!companion.try(:persisted?)
   end
