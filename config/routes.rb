@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   devise_for :accounts, skip: [:sessions, :registrations]
 
+  match "/accounts/connect/awardwallet", to: "application#placeholder", via: %i[get post]
+
   devise_scope :account do
     get    :sign_in, to: "devise/sessions#new",      as: :new_account_session
     post   :sign_in, to: "devise/sessions#create",   as: :account_session
