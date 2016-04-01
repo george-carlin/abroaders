@@ -27,5 +27,4 @@ describe Passenger do
     end
   end
 
-  pending "it says whether or not the user has added any travel plans"
 end
