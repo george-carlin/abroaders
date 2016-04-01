@@ -3,18 +3,18 @@
     <div class="spending-label">
       Personal spending:
     </div>
-    $<%= passenger.personal_spending %>
+    $<%= spending_info.personal_spending %>
   </div>
 
-  <% if passenger.has_business? %>
+  <% if spending_info.has_business? %>
     <div class="survey-attr passenger-business-spending">
       <div class="spending-label">
         Business spending:
       </div>
-      $<%= passenger.business_spending %>
+      $<%= spending_info.business_spending %>
 
       <div class="has-ein">
-        <% if passenger.has_business_with_ein? %>
+        <% if spending_info.has_business_with_ein? %>
           (Has EIN)
         <% else %>
           (Does not have EIN)
@@ -27,6 +27,6 @@
     <div class="spending-label">
       Credit Score:
     </div>
-    <%= passenger.credit_score %>
+    <%= spending_info.credit_score %>
   </div>
 </div>

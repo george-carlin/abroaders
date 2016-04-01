@@ -11,9 +11,9 @@
     <p>Account created on <%= passenger.signed_up.strftime("%D") %></p>
   </div>
 
-  <%= render "passengers/info", passenger: passenger %>
+  <%= render "passengers/passenger", passenger: passenger %>
 
   <% if passenger.has_added_spending? %>
-    <%= render "passengers/spending_info", passenger: passenger %>
+    <%= render "spending_infos/spending_info", spending_info: passenger.spending_info %>
   <% end %>
 </div>
