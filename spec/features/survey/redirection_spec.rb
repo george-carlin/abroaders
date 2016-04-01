@@ -30,15 +30,14 @@ describe "as a new user who" do
       survey_readiness_path,
       survey_spending_path,
       survey_travel_plan_path,
-      travel_plans_path
+      travel_plans_path,
+      #root_path,
     ]
   end
 
-  pending "root path must also redirect"
-
   shared_examples "no cards or travel plans links" do
     specify "navbar does not contain links to 'Cards' or 'Travel Plans'" do
-      visit root_path
+      visit survey_path
       within "#main_navbar" do
         is_expected.to have_no_link "Cards"
         is_expected.to have_no_link "Travel Plans"
