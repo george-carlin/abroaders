@@ -65,20 +65,12 @@
         <h2><%= current_main_passenger.first_name %>'s Spending Info</h2>
       <% end %>
 
-      <%= render(
-        "spending_info/fields",
-        f:    f,
-        main: true
-      ) %>
+      <%= render "spending_infos/fields", f: f, main: true %>
 
       <% if has_companion? %>
         <h2><%= current_companion.first_name %>'s Spending Info</h2>
 
-        <%= render(
-          "spending_info/fields",
-          f:    f,
-          main: false
-        ) %>
+        <%= render "spending_infos/fields", f: f, main: false %>
       <% end %>
 
       <%= submit_tag "Save", class: "btn btn-primary" %>
