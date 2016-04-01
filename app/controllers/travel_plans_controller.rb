@@ -11,11 +11,17 @@ class TravelPlansController < NonAdminController
   end
 
   def new
+    raise "not yet implemented"
+    # This is the old stuff and has been replaced with the system that
+    # currently only lives on the travel plan survey.
     @travel_plan = current_account.travel_plans.new
     @travel_plan.flights.build
   end
 
   def create
+    raise "not yet implemented"
+    # This is the old stuff and has been replaced with the system that
+    # currently only lives on the travel plan survey.
     @travel_plan = current_account.travel_plans.new(travel_plan_params)
     @travel_plan.flights.each_with_index { |f, i| f.position = i }
     # TODO replace this hardcoded value!
