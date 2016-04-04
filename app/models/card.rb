@@ -3,8 +3,6 @@ class Card < ApplicationRecord
 
   # Attributes
 
-  enum bank: %i[chase citibank american_express barclays capital_one
-                us_bank bank_of_america]
   enum bp: [:business, :personal]
   enum brand: [:visa, :mastercard, :amex]
   enum type: [:credit, :charge, :debit]
@@ -14,9 +12,23 @@ class Card < ApplicationRecord
   end
   alias_method :inactive?, :inactive
 
-  def bank_name
-    BankName.new(bank).name
+  # Don't call this 'Bank' because that would clash with '::Bank'
+  concerning :Banks do
+    included do
+      delegate :name, to: :bank, prefix: true
+    end
+
+    def bank
+      @bank ||= Bank.new(bank_id)
+    end
+
+    def bank_id=(bank_id)
+      @bank = nil
+      super
+    end
   end
+
+
 
   def full_name
     # Call them all 'Chase' cards until we've added Banks

@@ -3,13 +3,16 @@ require "rails_helper"
 describe "as a new user" do
   subject { page }
   before do
+    chase    = Bank.find_by(name: "Chase")
+    citibank = Bank.find_by(name: "Citibank")
+    barclays = Bank.find_by(name: "Barclays")
     @cards = [
-      @chase_b    = create(:card, :business, bank: :chase),
-      @chase_p    = create(:card, :personal, bank: :chase),
-      @citibank_b = create(:card, :business, bank: :citibank),
-      @citibank_p = create(:card, :personal, bank: :citibank),
-      @barclays_b = create(:card, :business, bank: :barclays),
-      @barclays_p = create(:card, :personal, bank: :barclays)
+      @chase_b    = create(:card, :business, bank_id: chase.id),
+      @chase_p    = create(:card, :personal, bank_id: chase.id),
+      @citibank_b = create(:card, :business, bank_id: citibank.id),
+      @citibank_p = create(:card, :personal, bank_id: citibank.id),
+      @barclays_b = create(:card, :business, bank_id: barclays.id),
+      @barclays_p = create(:card, :personal, bank_id: barclays.id)
     ]
 
     @account = create(
@@ -40,7 +43,7 @@ describe "as a new user" do
   let(:submit_form) { click_button "Save" }
 
   def bank_div_selector(bank)
-    "##{bank}_cards"
+    "##{bank.to_param}_cards"
   end
 
   def bank_bp_div_selector(bank, bp)

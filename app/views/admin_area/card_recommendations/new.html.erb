@@ -72,7 +72,7 @@
 
   <div class="form-inline">
     <b>BANK: </b>&nbsp;
-    <% Card.banks.keys.each do |bank| %>
+    <% Bank.all.each do |bank| %>
       <%= card_bank_filter_check_box_tag(bank) %>
     <% end %>
 
@@ -138,7 +138,7 @@
         id="<%= dom_id(card, :admin_recommend) %>"
         class="<%= dom_class(card, :admin_recommend) %>"
         data-bp="<%= card.bp %>"
-        data-bank="<%= card.bank %>"
+        data-bank="<%= card.bank_id %>"
         data-currency="<%= card.currency_id %>"
       >
         <td class="card-identifier">

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160329152928) do
+ActiveRecord::Schema.define(version: 20160404110917) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -109,16 +109,16 @@ ActiveRecord::Schema.define(version: 20160329152928) do
     t.string   "name",                            null: false
     t.integer  "brand",                           null: false
     t.integer  "bp",                              null: false
-    t.integer  "bank",                            null: false
     t.integer  "type",                            null: false
     t.integer  "annual_fee_cents",                null: false
     t.boolean  "active",           default: true, null: false
     t.integer  "currency_id",                     null: false
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
+    t.integer  "bank_id",                         null: false
   end
 
-  add_index "cards", ["bank"], name: "index_cards_on_bank", using: :btree
+  add_index "cards", ["bank_id"], name: "index_cards_on_bank_id", using: :btree
   add_index "cards", ["currency_id"], name: "index_cards_on_currency_id", using: :btree
   add_index "cards", ["identifier"], name: "index_cards_on_identifier", unique: true, using: :btree
 

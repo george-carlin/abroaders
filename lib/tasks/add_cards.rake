@@ -81,7 +81,7 @@ namespace :ab do
           bp:         bps.fetch(card["b_p"]),
           type:       card["type"].downcase,
           annual_fee_cents: af * 100,
-          bank:     card["bank"][0]["bank_name"].downcase.gsub(/\s/, "_"),
+          bank_id:  Bank.find_by(name: card["bank"][0]["bank_name"]).id,
           currency: currency
         )
 

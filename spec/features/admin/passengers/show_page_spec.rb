@@ -10,19 +10,18 @@ describe "admin section" do
 
     before do
       @currencies = create_list(:currency, 4)
+      chase   = Bank.find_by(name: "Chase")
+      us_bank = Bank.find_by(name: "US Bank")
+
+      def create_card(bp, bank, currency)
+        create(:card, bp, bank_id: bank.id, currency: currency)
+      end
+
       @cards = [
-        @chase_business = create(
-          :card, :business, bank: :chase, currency: @currencies[0]
-        ),
-        @chase_personal = create(
-          :card, :personal, bank: :chase, currency: @currencies[1]
-        ),
-        @usb_business   = create(
-          :card, :business, bank: :us_bank, currency: @currencies[2]
-        ),
-        @usb_personal   = create(
-          :card, :personal, bank: :us_bank, currency: @currencies[3]
-        )
+        @chase_business = create_card(:business, chase,   @currencies[0]),
+        @chase_personal = create_card(:personal, chase,   @currencies[1]),
+        @usb_business   = create_card(:business, us_bank, @currencies[2]),
+        @usb_personal   = create_card(:personal, us_bank, @currencies[3]),
       ]
 
       # create(:card_offer, card: @chase_business)

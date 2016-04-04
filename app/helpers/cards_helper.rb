@@ -30,17 +30,17 @@ module CardsHelper
     end
   end
 
-  def card_bank_filter_check_box_tag(bank_id)
+  def card_bank_filter_check_box_tag(bank)
     klass =  :card_bank_filter
-    id    =  :"#{klass}_#{bank_id}"
+    id    =  :"#{klass}_#{bank.id}"
     label_tag id do
       check_box_tag(
         id,
         nil,
         true,
         class: klass,
-        data: { key: :bank, value: bank_id }
-      ) << raw("&nbsp;&nbsp#{BankName.new(bank_id).name}")
+        data: { key: :bank, value: bank.id }
+      ) << raw("&nbsp;&nbsp#{bank.name}")
     end
   end
 
