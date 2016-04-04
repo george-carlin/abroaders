@@ -7,10 +7,22 @@ class CardOffer < ApplicationRecord
   delegate :name, to: :card, prefix: true
   delegate :bank_name, to: :card
 
+  # A shorthand code that identifies the offer based on the points awarded,
+  # minimum spend, and days. Note that this isn't necessarily unique per offer.
+  def identifier
+    [ # Show points and spend as multiples of 1000, but don't print the decimal
+      # point if it's an exact multiple:
+      (points_awarded / 1000.0).to_s.sub(/\.0+\z/, ''),
+      (spend / 1000.0).to_s.sub(/\.0+\z/, ''),
+      days,
+    ].join("/")
+    # Note - we might eventually want to add a unique code per affiliate
+    # to the end of this identifier.
+  end
+
   # Validations
 
   with_options presence: true do
-    validates :identifier, uniqueness: true
     validates :status
 
     with_options numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: POSTGRESQL_MAX_INT_VALUE } do

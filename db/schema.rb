@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160404110917) do
+ActiveRecord::Schema.define(version: 20160404125558) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,7 +90,6 @@ ActiveRecord::Schema.define(version: 20160404110917) do
 
   create_table "card_offers", force: :cascade do |t|
     t.integer  "card_id",                     null: false
-    t.string   "identifier",                  null: false
     t.integer  "points_awarded",              null: false
     t.integer  "spend",                       null: false
     t.integer  "cost",           default: 0,  null: false
@@ -101,7 +100,6 @@ ActiveRecord::Schema.define(version: 20160404110917) do
   end
 
   add_index "card_offers", ["card_id"], name: "index_card_offers_on_card_id", using: :btree
-  add_index "card_offers", ["identifier"], name: "index_card_offers_on_identifier", unique: true, using: :btree
   add_index "card_offers", ["status"], name: "index_card_offers_on_status", using: :btree
 
   create_table "cards", force: :cascade do |t|
