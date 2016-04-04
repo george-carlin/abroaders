@@ -31,7 +31,7 @@ describe "as a new user who" do
       survey_spending_path,
       survey_travel_plan_path,
       travel_plans_path,
-      #root_path,
+      root_path,
     ]
   end
 
@@ -74,7 +74,7 @@ describe "as a new user who" do
     let(:onboarding_stage) { "spending" }
     let(:survey_path) { survey_spending_path }
     include_examples "redirects", "the spending survey"
-    #include_examples "no cards or travel plans links"
+    include_examples "no cards or travel plans links"
   end
 
   context "who needs to add the main passenger's cards" do
