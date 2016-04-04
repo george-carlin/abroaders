@@ -36,8 +36,7 @@ class Card < ApplicationRecord
 
 
   def full_name
-    # Call them all 'Chase' cards until we've added Banks
-    "#{identifier} - Chase - #{name}"
+    "TODO - complete Card#full_name method"
   end
 
   def annual_fee
