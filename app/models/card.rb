@@ -84,12 +84,14 @@ class Card < ApplicationRecord
   # Validations
   
   validates :code, format: { with: /\A[A-Z]{2,4}\z/, message: "must be 2-4 capital letters" }
-  validates :name, presence: true
-  validates :network, presence: true
-  validates :bp, presence: true
-  validates :type, presence: true
-  validates :annual_fee_cents, presence: true
-  validates :currency, presence: true
+  with_options presence: true do
+    validates :annual_fee_cents
+    validates :bp
+    validates :currency
+    validates :name
+    validates :network
+    validates :type
+  end
 
   # Associations
 
