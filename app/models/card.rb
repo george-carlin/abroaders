@@ -4,7 +4,7 @@ class Card < ApplicationRecord
   # Attributes
 
   enum bp: [:business, :personal]
-  enum brand: [:visa, :mastercard, :amex]
+  enum network: [:visa, :mastercard, :amex]
   enum type: [:credit, :charge, :debit]
 
   def inactive
@@ -47,7 +47,7 @@ class Card < ApplicationRecord
   
   validates :identifier, presence: true, uniqueness: true
   validates :name, presence: true
-  validates :brand, presence: true
+  validates :network, presence: true
   validates :bp, presence: true
   validates :type, presence: true
   validates :annual_fee_cents, presence: true

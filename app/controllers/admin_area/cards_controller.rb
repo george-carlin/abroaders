@@ -69,7 +69,7 @@ module AdminArea
 
     def card_params
       params.require(:card).permit(
-        :identifier, :name, :brand, :bp, :type, :annual_fee
+        :identifier, :name, :network, :bp, :type, :annual_fee
       )
     end
 

@@ -12,7 +12,7 @@
       <th>Identifier</th>
       <th>Name</th>
       <th>Currency</th>
-      <th>Brand</th>
+      <th>Network</th>
       <th>B/P</th>
       <th>Type</th>
       <th>Annual Fee</th>
@@ -26,7 +26,7 @@
         <td><%= card.identifier %></td>
         <td><%= card.name %></td>
         <td><%= card.currency.name %></td>
-        <td><%= card.brand.capitalize %></td>
+        <td><%= card.network.capitalize %></td>
         <td><%= card.bp.capitalize %></td>
         <td><%= card.type.capitalize %></td>
         <td><%= card_price_formatted(card) %></td>
