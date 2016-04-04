@@ -12,7 +12,6 @@ describe "admin section" do
 
       describe "submitting the form with valid information" do
         before do
-          fill_in :card_offer_identifier, with: "ID-123"
           select @cards[1].name, from: :card_offer_card_id
           fill_in :card_offer_points_awarded, with: 40_000
           fill_in :card_offer_spend, with: 5000

@@ -1,10 +1,6 @@
 FactoryGirl.define do
   factory :card_offer, aliases: [:offer, :live_card_offer] do
     card
-    sequence(:identifier) do |n|
-      letters = ('A'..'Z').to_a.shuffle.first(4).join
-      "%02d-#{letters}" % n
-    end
     points_awarded { rand(20) * 5_000 }
     spend { rand(10) * 500 }
     cost { rand(20) * 5 }

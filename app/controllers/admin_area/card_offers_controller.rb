@@ -52,7 +52,7 @@ module AdminArea
 
     def card_offer_params
       params.require(:card_offer).permit(:card_id, :points_awarded, :spend,
-                                         :cost, :days, :status, :identifier)
+                                         :cost, :days, :status)
     end
   end
 end
