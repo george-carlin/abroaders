@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :card, aliases: [:active_card] do
-    sequence(:identifier) { |n| "EXMPL-#{n}" }
+    sequence(:code) { |n| str = "AAA"; n.times { str.next! }; str }
     sequence(:name) { |n| "Example Card #{n}" }
     network { Card.networks.keys.sample }
     bp      { Card.bps.keys.sample }

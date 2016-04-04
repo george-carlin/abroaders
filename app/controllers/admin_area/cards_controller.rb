@@ -3,7 +3,7 @@ module AdminArea
 
     # GET /admin/cards
     def index
-      @cards = Card.order(:identifier)
+      @cards = Card.all.sort_by(&:identifier)
     end
 
     # GET /admin/cards/1
