@@ -5,12 +5,16 @@
   we'll help you get a great deal on the flight.
 </p>
 
-<%= render "shared/model_validation_errors", model: @survey %>
+<%= render "shared/model_validation_errors", model: @form %>
 
-<%= form_for @survey, url: request.path, as: :travel_plan do |f| %>
+<%= form_for(
+  @form,
+  url: current_account.onboarded? ? travel_plans_path : survey_travel_plan_path,
+  as: :travel_plan
+  ) do |f| %>
 
   <div class="form-inline">
-    <% @survey.class.types.each do |type, _| %>
+    <% @form.class.types.each do |type, _| %>
       <div class="form-group">
         <label>
           <%= type.capitalize %>

@@ -25,9 +25,10 @@ Rails.application.routes.draw do
   get :slack, to: "slack_invites#new"
   post "slack/invite", to: "slack_invites#create"
 
+  get  "survey/travel_plan", to: "travel_plans#new"
+  post "survey/travel_plan", to: "travel_plans#create"
+
   scope :survey, controller: :survey, as: :survey do
-    get  :travel_plan, action: :new_travel_plan
-    post :travel_plan, action: :create_travel_plan
 
     get  :passengers, action: :new_passengers
     post :passengers, action: :create_passengers

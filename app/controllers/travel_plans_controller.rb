@@ -11,26 +11,17 @@ class TravelPlansController < NonAdminController
   end
 
   def new
-    raise "not yet implemented"
-    # This is the old stuff and has been replaced with the system that
-    # currently only lives on the travel plan survey.
-    @travel_plan = current_account.travel_plans.new
-    @travel_plan.flights.build
+    @form      = NewTravelPlanForm.new(current_account)
+    @countries = load_countries
   end
 
   def create
-    raise "not yet implemented"
-    # This is the old stuff and has been replaced with the system that
-    # currently only lives on the travel plan survey.
-    @travel_plan = current_account.travel_plans.new(travel_plan_params)
-    @travel_plan.flights.each_with_index { |f, i| f.position = i }
-    # TODO replace this hardcoded value!
-    @travel_plan.departure_date_range = Date.today..Date.tomorrow
-    if @travel_plan.save
-      flash[:success] = "Created travel plan!"
-      redirect_to travel_plans_path
+    @form = NewTravelPlanForm.new(current_account)
+    if @form.update_attributes(travel_plan_params)
+      redirect_to after_create_path
     else
-      raise "TODO: handle errors"
+      @countries = load_countries
+      render "new"
     end
   end
 
@@ -38,8 +29,22 @@ class TravelPlansController < NonAdminController
 
   def travel_plan_params
     params.require(:travel_plan).permit(
-      :type, :no_of_passengers, flights_attributes: [:from_id, :to_id]
+      :type, :from_id, :to_id, :earliest_departure, :further_information,
+      :no_of_passengers, :will_accept_economy, :will_accept_premium_economy,
+      :will_accept_business_class, :will_accept_first_class
     )
+  end
+
+  def load_countries
+    Destination.country.order("name ASC")
+  end
+
+  def after_create_path
+    if current_account.onboarded?
+      travel_plans_path
+    else
+      survey_passengers_path
+    end
   end
 
 end

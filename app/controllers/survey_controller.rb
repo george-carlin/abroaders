@@ -96,21 +96,6 @@ class SurveyController < NonAdminController
     redirect_to root_path
   end
 
-  def new_travel_plan
-    @survey    = NewTravelPlanForm.new(current_account)
-    @countries = Destination.country.order("name ASC")
-  end
-
-  def create_travel_plan
-    @survey = NewTravelPlanForm.new(current_account)
-    if @survey.update_attributes(travel_plan_params)
-      redirect_to survey_passengers_path
-    else
-      @countries = Destination.country.order("name ASC")
-      render "new_travel_plan"
-    end
-  end
-
   private
 
   def balances_params
@@ -188,14 +173,6 @@ class SurveyController < NonAdminController
     params.require(:readiness_survey).permit(
       :main_passenger_ready, :main_passenger_unreadiness_reason,
       :companion_ready,      :companion_unreadiness_reason
-    )
-  end
-
-  def travel_plan_params
-    params.require(:travel_plan).permit(
-      :type, :from_id, :to_id, :earliest_departure, :further_information,
-      :no_of_passengers, :will_accept_economy, :will_accept_premium_economy,
-      :will_accept_business_class, :will_accept_first_class
     )
   end
 
