@@ -4,7 +4,12 @@ class Card < ApplicationRecord
   # Attributes
 
   enum bp: [:business, :personal]
-  enum network: [:visa, :mastercard, :amex]
+  enum network: {
+    unknown:    0,
+    visa:       1,
+    mastercard: 2,
+    amex:       3,
+  }
   enum type: [:credit, :charge, :debit]
 
   def inactive
