@@ -4,6 +4,9 @@ ApplicationRecord.transaction do
     next
   end
 
+  # TODO this still doesn't import destinations, you'll need to call those rake
+  # tasks separately.
+
   %w[Erik AJ George].each do |name|
     email = "#{name.downcase}@abroaders.com"
     unless Admin.exists?(email: email)
