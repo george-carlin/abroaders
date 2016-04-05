@@ -1,12 +1,8 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
-
 ApplicationRecord.transaction do
+  if Currency.any? || Admin.any? || CardOffer.any? || Card.any?
+    puts "you already have data in the DB"
+    next
+  end
 
   %w[Erik AJ George].each do |name|
     email = "#{name.downcase}@abroaders.com"
@@ -18,7 +14,25 @@ ApplicationRecord.transaction do
       )
     end
   end
+  puts "created #{Admin.count} admins"
 
-  `rake ab:sample_data:all`
+  seeds_dir = Rails.root.join("lib", "seeds")
 
+  # Import currencies
+  JSON.parse(File.read(seeds_dir.join("currencies.json"))).each do |data|
+    Currency.create!(data)
+  end
+  puts "created #{Currency.count} currencies"
+
+  # Import cards
+  JSON.parse(File.read(seeds_dir.join("cards.json"))).each do |data|
+    Card.create!(data)
+  end
+  puts "created #{Card.count} cards"
+
+  # Import offers
+  JSON.parse(File.read(seeds_dir.join("card_offers.json"))).each do |data|
+    CardOffer.create!(data)
+  end
+  puts "created #{CardOffer.count} cards"
 end
