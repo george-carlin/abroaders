@@ -28,6 +28,7 @@ class CardOffer < ApplicationRecord
 
   with_options presence: true do
     validates :status
+    validates :link # TODO validate it looks like a valid link
 
     with_options numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: POSTGRESQL_MAX_INT_VALUE } do
       validates :cost

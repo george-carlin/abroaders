@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160404162023) do
+ActiveRecord::Schema.define(version: 20160405135043) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -97,6 +97,9 @@ ActiveRecord::Schema.define(version: 20160404162023) do
     t.integer  "status",         default: 0,  null: false
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
+    t.string   "link",                        null: false
+    t.text     "notes"
+    t.integer  "condition",      default: 0,  null: false
   end
 
   add_index "card_offers", ["card_id"], name: "index_card_offers_on_card_id", using: :btree
@@ -114,10 +117,12 @@ ActiveRecord::Schema.define(version: 20160404162023) do
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
     t.integer  "bank_id",                         null: false
+    t.string   "wallaby_id"
   end
 
   add_index "cards", ["bank_id"], name: "index_cards_on_bank_id", using: :btree
   add_index "cards", ["currency_id"], name: "index_cards_on_currency_id", using: :btree
+  add_index "cards", ["wallaby_id"], name: "index_cards_on_wallaby_id", using: :btree
 
   create_table "currencies", force: :cascade do |t|
     t.string   "name",            null: false

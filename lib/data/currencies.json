@@ -1,78 +1,114 @@
 [
   {
     "name": "Alaska Airlines (Mileage Plan)",
-    "award_wallet_id": "Mileage Plan"
+    "award_wallet_id": "Alaska Airlines (Mileage Plan)"
   },
   {
     "name": "American Airlines (AAdvantage)",
-    "award_wallet_id": "AAdvantage"
+    "award_wallet_id": "American Airlines (AAdvantage)"
   },
   {
     "name": "Amex (Membership Rewards)",
-    "award_wallet_id": "Membership Rewards"
+    "award_wallet_id": "Amex (Membership Rewards)"
+  },
+  {
+    "name": "AviancaTaca (LifeMiles)",
+    "award_wallet_id": "AviancaTaca (LifeMiles)"
+  },
+  {
+    "name": "Bank Of America (Americard Points)",
+    "award_wallet_id": "Bank Of America (Americard Points)"
+  },
+  {
+    "name": "Barclaycard (Arrival Points)",
+    "award_wallet_id": "Barclaycard"
   },
   {
     "name": "British Airways (Executive Club)",
-    "award_wallet_id": "Avios"
+    "award_wallet_id": "British Airways (Executive Club)"
   },
   {
-    "name": "Barclaycard",
-    "award_wallet_id": "Barclay Freedom Rewards"
+    "name": "Capital One (Credit Cards)",
+    "award_wallet_id": "Capital One (Credit Cards)"
   },
   {
-    "name": "Capital One (No Hassle)",
-    "award_wallet_id": "No Hassle Rewards"
-  },
-  {
-    "name": "Club Carlson Gold",
-    "award_wallet_id": "Club Carlson Gold"
-  },
-  {
-    "name": "Chase",
-    "award_wallet_id": "Ultimate Rewards"
-  },
-  {
-    "name": "IHG Rewards Club",
-    "award_wallet_id": "(Chase) IHG Points"
+    "name": "Chase (Ultimate Rewards)",
+    "award_wallet_id": "Chase"
   },
   {
     "name": "Citibank (Thank You Rewards)",
-    "award_wallet_id": "Thank You Rewards"
+    "award_wallet_id": "Citibank (Thank You Rewards)"
+  },
+  {
+    "name": "Club Carlson Hotels",
+    "award_wallet_id": "Club Carlson Hotels"
   },
   {
     "name": "Delta Air Lines (SkyMiles)",
-    "award_wallet_id": "Skymiles"
+    "award_wallet_id": "Delta Air Lines (SkyMiles)"
   },
   {
-    "name": "Flex Perks",
-    "award_wallet_id": "Flex Perks"
+    "name": "Frontier Airlines (EarlyReturns)",
+    "award_wallet_id": "Frontier Airlines (EarlyReturns)"
   },
   {
-    "name": "Hilton Honors",
-    "award_wallet_id": "Hilton Honors"
+    "name": "Hawaiian Airlines (HawaiianMiles)",
+    "award_wallet_id": "Hawaiian Airlines (HawaiianMiles)"
+  },
+  {
+    "name": "Hilton (HHonors)",
+    "award_wallet_id": "Hilton (HHonors)"
   },
   {
     "name": "Hyatt Gold Passport",
     "award_wallet_id": "Hyatt Gold Passport"
   },
   {
+    "name": "IHG Rewards Club",
+    "award_wallet_id": "IHG Rewards Club"
+  },
+  {
+    "name": "JetBlue Airways (trueBlue)",
+    "award_wallet_id": "JetBlue Airways (trueBlue)"
+  },
+  {
+    "name": "Korean Air (SkyPass)",
+    "award_wallet_id": "Korean Air (SkyPass)"
+  },
+  {
+    "name": "LAN (LANPASS)",
+    "award_wallet_id": "LAN (LANPASS)"
+  },
+  {
     "name": "Lufthansa (Miles and More)",
-    "award_wallet_id": "Miles & More"
+    "award_wallet_id": "Lufthansa (Miles and More)"
   },
   {
     "name": "Marriott Rewards",
     "award_wallet_id": "Marriott Rewards"
   },
   {
-    "name": "Southwest Airlines (Rapid Rewards)",
-    "award_wallet_id": "Rapid Rewards"
+    "name": "Ritz-Carlton Rewards",
+    "award_wallet_id": "(not on awardwallet)"
   },
   {
-    "name": "Starwood Hotels",
-    "award_wallet_id": "SPG Points"
+    "name": "Southwest Airlines (Rapid Rewards)",
+    "award_wallet_id": "Southwest Airlines (Rapid Rewards)"
+  },
+  {
+    "name": "Starwood Hotels (Preferred Guest)",
+    "award_wallet_id": "Starwood Hotels, etc. (Preferred Guest)"
   },
   {
     "name": "United Airlines (Mileage Plus)",
-    "award_wallet_id": "Mileage Plus"
+    "award_wallet_id": "United Airlines (Mileage Plus)"
+  },
+  {
+    "name": "US Bank (FlexPerks)",
+    "award_wallet_id": "US Bank (FlexPerks)"
+  },
+  {
+    "name": "Virgin Atlantic (Flying Club)",
+    "award_wallet_id": "Virgin Atlantic (Flying Club)"
   }
 ]

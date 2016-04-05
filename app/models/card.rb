@@ -4,6 +4,13 @@ class Card < ApplicationRecord
   # Attributes
 
   enum bp: [:business, :personal]
+
+  # condition = what does the customer have to do to receive the points?
+  enum condition: {
+    on_minimum_spend:  0, # points awarded if you spend $X within Y days
+    on_approval:       1, # points awarded as soon as approved for card
+    on_first_purchase: 2, # points awarded once you make 1st purchase with card
+  }
   enum network: {
     unknown:    0,
     visa:       1,
@@ -97,6 +104,7 @@ class Card < ApplicationRecord
     validates :bank_id
     validates :bp
     validates :currency
+    validates :link
     validates :name
     validates :network
     validates :type
