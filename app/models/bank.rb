@@ -46,6 +46,21 @@ class Bank
     all.last
   end
 
+  # There's only one column that can be sorted by, so the 'column' parameter is
+  # rather redundant here - but allow it anyway so that Bank quacks more like
+  # an ActiveRecord model.
+  def self.order(column="name")
+    column = column.to_s.downcase
+    unless column.include?("name")
+      raise "Bank.order can currently only order banks by name"
+    end
+    if column.include?("desc")
+      all.sort_by(&:name).reverse
+    else
+      all.sort_by(&:name)
+    end
+  end
+
   def self.find_by(query)
     query.symbolize_keys!
 

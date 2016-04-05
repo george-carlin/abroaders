@@ -87,7 +87,7 @@ Rails.application.routes.draw do
         put :active
       end
     end
-    resources :card_offers
+    resources :card_offers, only: [:index, :new, :create]
     resources :destinations, only: :index
     Destination.types.keys.each do |type|
       # airports, cities, countries, etc

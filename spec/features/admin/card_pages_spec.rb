@@ -1,12 +1,11 @@
 require "rails_helper"
 
 describe "admin pages" do
+  include_context "logged in as admin"
+
   subject { page }
 
   describe "cards index page" do
-
-    include_context "logged in as admin"
-
     before do
       @active_card   = create(:active_card)
       @inactive_card = create(:inactive_card)
@@ -88,6 +87,51 @@ describe "admin pages" do
 
     def card_selector(card)
       "##{dom_id(card)}"
+    end
+  end
+
+  describe "new card page" do
+    before do
+      @currencies = create_list(:currency, 2)
+      visit new_admin_card_path
+    end
+
+    it "has fields for a new card" do
+      expect(page).to have_field :card_code
+      expect(page).to have_field :card_name
+      expect(page).to have_field :card_network
+      expect(page).to have_field :card_bp
+      expect(page).to have_field :card_type
+      expect(page).to have_field :card_annual_fee
+      expect(page).to have_field :card_currency_id
+      expect(page).to have_field :card_bank_id
+    end
+
+    describe "submitting the form" do
+      let(:submit_form) { click_button "Save Card" }
+
+      describe "with valid information" do
+        before do
+          fill_in :card_code, with: "XXX"
+          fill_in :card_name, with: "Chase Visa Something"
+          select "Mastercard", from: :card_network
+          select "Business",   from: :card_bp
+          select "Credit",     from: :card_type
+          fill_in :card_annual_fee, with: 549.99
+          select @currencies[0].name, from: :card_currency_id
+          select "Wells Fargo", from: :card_bank_id
+        end
+
+        it "creates a card" do
+          expect{submit_form}.to change{Card.count}.by(1)
+        end
+      end
+
+      describe "with invalid information" do
+        it "doesn't create a card" do
+          expect{submit_form}.not_to change{Card.count}
+        end
+      end
     end
   end
 end

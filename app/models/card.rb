@@ -88,9 +88,13 @@ class Card < ApplicationRecord
 
   # Validations
   
-  validates :code, format: { with: /\A[A-Z]{2,4}\z/, message: "must be 2-4 capital letters" }
+  validates :code, format: {
+    message: "must consist only of capital letters and be 2-4 letters long",
+    with: /\A[A-Z]{2,4}\z/,
+  }
   with_options presence: true do
     validates :annual_fee_cents
+    validates :bank_id
     validates :bp
     validates :currency
     validates :name

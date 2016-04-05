@@ -7,8 +7,13 @@
 <%= form_for [:admin, @card] do |f| %>
 
   <div class="form-group">
-    <%= f.label      :identifier %>
-    <%= f.text_field :identifier %>
+    <%= f.label      :code %>
+    <p class="help-block">
+      A short label to help you identify the card at a glance. Will never
+      be displayed to users, only to admins. Must consist only of capital
+      letters, and be 2-4 letters long.
+    </p>
+    <%= f.text_field :code %>
   </div>
 
   <div class="form-group">
@@ -32,7 +37,17 @@
   </div>
 
   <div class="form-group">
-    <%= f.label      :annual_fee %>
+    <%= f.label  :currency_id %>
+    <%= f.collection_select :currency_id, Currency.order("name ASC"), :id, :name %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :bank_id %>
+    <%= f.collection_select :bank_id, Bank.order("name ASC"), :id, :name %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :annual_fee %>
     <div class="input-group">
       <div class="input-group-addon">
         $

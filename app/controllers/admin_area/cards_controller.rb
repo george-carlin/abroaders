@@ -1,5 +1,6 @@
 module AdminArea
   class CardsController < AdminController
+    before_action :check_currencies!, if: "Rails.env.development?"
 
     # GET /admin/cards
     def index
@@ -69,8 +70,12 @@ module AdminArea
 
     def card_params
       params.require(:card).permit(
-        :identifier, :name, :network, :bp, :type, :annual_fee
+        :code, :name, :network, :bp, :type, :annual_fee, :bank_id, :currency_id
       )
+    end
+
+    def check_currencies!
+      raise "no Currencies in the database" unless Currency.any?
     end
 
   end
