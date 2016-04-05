@@ -12,13 +12,13 @@ class Card < ApplicationRecord
     on_first_purchase: 2, # points awarded once you make 1st purchase with card
   }
   enum network: {
-    unknown:    0,
-    visa:       1,
-    mastercard: 2,
-    amex:       3,
+    unknown_network: 0,
+    visa:            1,
+    mastercard:      2,
+    amex:            3,
   }
   enum type: {
-    unidentified: 0, # can't use 'unknown' as that's already used by 'network'
+    unknown_type: 0, # can't use 'unknown' as that's already used by 'network'
     credit:  1,
     charge:  2,
     debit:   3,
@@ -77,7 +77,7 @@ class Card < ApplicationRecord
     [
       "%.2d" % bank_number,
       code,
-      network == "unknown" ? "?" : network.upcase[0]
+      unknown_network? ? "?" : network.upcase[0]
     ].join("-")
   end
 

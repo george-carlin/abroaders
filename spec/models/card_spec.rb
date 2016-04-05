@@ -37,7 +37,7 @@ describe Card do
       expect(card.identifier).to eq "02-ABC-A"
       card.network = :mastercard
       expect(card.identifier).to eq "02-ABC-M"
-      card.network = :unknown
+      card.network = :unknown_network
       expect(card.identifier).to eq "02-ABC-?"
     end
   end
