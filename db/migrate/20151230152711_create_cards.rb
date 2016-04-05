@@ -5,7 +5,7 @@ class CreateCards < ActiveRecord::Migration[5.0]
       t.string  :name, null: false
       t.integer :brand, null: false
       t.integer :bp, null: false
-      t.integer :bank, null: false, index: true
+      t.integer :bank, null: false
       t.integer :type, null: false
       t.integer :annual_fee_cents, null: false
       t.boolean :active, null: false, default: true
