@@ -5,14 +5,13 @@ module CardsHelper
   end
 
   def card_image_tag(card, size="180x114")
-    id  = card.identifier
     dir = Rails.root.join("app", "assets", "images", "cards")
-    if File.exists?(dir.join("#{id}.png"))
-      image_tag "cards/#{id}.png", size: size
-    elsif File.exists?(dir.join("#{id}.jpg"))
-      image_tag "cards/#{id}.jpg", size: size
+    if File.exists?(dir.join(card.image_name))
+      puts "success!"
+      image_tag "cards/#{card.image_name}", size: size
     else
-      "Not found - #{id}"
+      # raise dir.join(card.image_name).to_s
+      raise "no image for card #{card.id} - #{card.name}"
     end
   end
 
