@@ -4,7 +4,7 @@ namespace :ab do
       include FactoryGirl::Syntax::Methods
     end
 
-    task all: [:accounts, :travel_plans, :card_offers]
+    task all: [:accounts, :travel_plans]
 
     task accounts: :setup do
       ApplicationRecord.transaction do
@@ -97,18 +97,5 @@ namespace :ab do
 
       puts "created #{TravelPlan.count - count_before} new travel plans"
     end # :travel_plan
-
-    task card_offers: :setup do
-      ApplicationRecord.transaction do
-        unless Card.any?
-          puts "Can't add card offers; no cards in the database to add them to"
-          next
-        end
-
-        Card.all.each do |card|
-          rand(3).times { create(:card_offer, card: card) }
-        end
-      end
-    end
   end
 end
