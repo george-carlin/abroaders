@@ -104,7 +104,6 @@ class Card < ApplicationRecord
     validates :bank_id
     validates :bp
     validates :currency
-    validates :link
     validates :name
     validates :network
     validates :type
