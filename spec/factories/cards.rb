@@ -7,6 +7,7 @@ FactoryGirl.define do
     type    { Card.types.keys.sample }
     bank_id { Bank.all.sample.id }
     annual_fee_cents { rand(500_00) + 10_00 }
+    image_name "placeholder-factory-this-sucks-change-me.png"
 
     currency { Currency.all.sample || create(:currency) }
 
