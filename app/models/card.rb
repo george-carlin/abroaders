@@ -10,7 +10,12 @@ class Card < ApplicationRecord
     mastercard: 2,
     amex:       3,
   }
-  enum type: [:credit, :charge, :debit]
+  enum type: {
+    unidentified: 0, # can't use 'unknown' as that's already used by 'network'
+    credit:  1,
+    charge:  2,
+    debit:   3,
+  }
 
   def inactive
     !active
