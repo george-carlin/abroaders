@@ -4,6 +4,13 @@ class CardOffer < ApplicationRecord
 
   enum status: [:live, :expired]
 
+  # condition = what does the customer have to do to receive the points?
+  enum condition: {
+    on_minimum_spend:  0, # points awarded if you spend $X within Y days
+    on_approval:       1, # points awarded as soon as approved for card
+    on_first_purchase: 2, # points awarded once you make 1st purchase with card
+  }
+
   delegate :name, to: :card, prefix: true
   delegate :bank_name, to: :card
 
