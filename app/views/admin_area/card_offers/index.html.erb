@@ -20,7 +20,7 @@
     <tbody>
       <% @card_offers.each do |offer| %>
         <tr id="<%= dom_id(offer) %>" class="<%= dom_class(offer) %>">
-          <td><%= offer.id %></td>
+          <td><%= offer.full_identifier %></td>
           <td><%= offer.card_name %></td>
           <td><%= offer.bank_name %></td>
           <td><%= number_with_delimiter offer.points_awarded %></td>
