@@ -21,6 +21,13 @@ namespace :ab do
       json = JSON.pretty_generate(card_data)
 
       if ENV["PRINT_ON_EXPORT"]
+        puts "WARNING: Using this rake task on Heroku may not do what you "\
+             "think it does. See comment in code."
+        # Turns out that Heroku has some kind of upper limit on how many
+        # characters can be printed and returned to your local terminal when
+        # you use `heroku run`... so if you have too many cards/offers in the
+        # DB then not all of them will be printed by Heroku. You have been
+        # warned.
         puts json.gsub( /\r\n?/, "\n")
       else
         path = Rails.root.join("lib/data/cards.json")
@@ -48,6 +55,13 @@ namespace :ab do
       json = JSON.pretty_generate(offer_data)
 
       if ENV["PRINT_ON_EXPORT"]
+        puts "WARNING: Using this rake task on Heroku may not do what you "\
+             "think it does. See comment in code."
+        # Turns out that Heroku has some kind of upper limit on how many
+        # characters can be printed and returned to your local terminal when
+        # you use `heroku run`... so if you have too many cards/offers in the
+        # DB then not all of them will be printed by Heroku. You have been
+        # warned.
         puts json.gsub( /\r\n?/, "\n")
       else
         path = Rails.root.join("lib/data/card_offers.json")
