@@ -149,12 +149,36 @@ describe "admin pages" do
   describe "edit card page" do
     before do
       @currencies = create_list(:currency, 2)
-      @card = create(:card, currency: @currencies[0])
+      @card = create(
+        :card,
+        currency: @currencies[0],
+        bp:      :personal,
+        network: :visa,
+        type:    :credit,
+      )
       visit edit_admin_card_path(@card)
     end
 
     it "has fields to edit the card" do
       it_has_fields_for_card
+    end
+
+    describe "the 'b/p' input" do
+      it "correctly defaults to the card's current BP" do # bug fix
+        expect(page).to have_select :card_bp, selected: "Personal"
+      end
+    end
+
+    describe "the 'network' input" do
+      it "correctly defaults to the card's current network" do # bug fix
+        expect(page).to have_select :card_network, selected: "Visa"
+      end
+    end
+
+    describe "the 'type' input" do
+      it "correctly defaults to the card's current type" do # bug fix
+        expect(page).to have_select :card_type, selected: "Credit"
+      end
     end
 
     describe "submitting the form" do
