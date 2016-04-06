@@ -1,0 +1,30 @@
+<% provide :title, @card.name %>
+
+<p>
+  This is just a crappy placeholder page that I threw together in five minutes
+  so that non-technical admins can look at the internals of card objects
+  without having to dig around in the database. We can make it prettier later
+  but it's not urgent.
+</p>
+
+<div class="row">
+  <div class="col-xs-12">
+    <h1><%= @card.name %></h1>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-7">
+    <pre><%= JSON.pretty_generate(@card.attributes.as_json) %></pre>
+  </div>
+
+  <div class="col-xs-5">
+    <p>
+      <%= card_image_tag(@card) %>
+    </p>
+
+    <p>
+      <%= link_to "Edit", edit_admin_card_path(@card) %>
+    </p>
+  </div>
+</div>

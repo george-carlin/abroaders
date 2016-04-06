@@ -25,7 +25,7 @@
     <% @cards.each do |card| %>
       <tr id="<%= dom_id(card) %>">
         <td><%= card.identifier %></td>
-        <td><%= card.name %></td>
+        <td><%= link_to card.name, admin_card_path(card) %></td>
         <td><%= card.currency.name %></td>
         <td><%= card.network.capitalize %></td>
         <td><%= card.bp.capitalize %></td>
