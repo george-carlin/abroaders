@@ -17,12 +17,6 @@ module AdminArea
       @card = Card.new
     end
 
-    # GET /admin/cards/1/edit
-    # Unimplemented
-    # def edit
-    #   @card = get_card
-    # end
-
     # POST /admin/cards
     def create
       @card = Card.new(card_params)
@@ -35,23 +29,21 @@ module AdminArea
       end
     end
 
-    # PATCH/PUT /admin/cards/1
-    # Unimplemented
-    # def update
-    #   @card = get_card
-    #   if @card.update(card_params)
-    #       redirect_to @card, notice: 'Card was successfully updated.'
-    #   else
-    #     render :edit
-    #   end
-    # end
+    # GET /admin/cards/1/edit
+    def edit
+      @card = get_card
+    end
 
-    # DELETE /admin/cards/1
-    # def destroy
-    #   @card = get_card
-    #   @card.destroy
-    #   redirect_to cards_url, notice: 'Card was successfully destroyed.'
-    # end
+    # PATCH/PUT /admin/cards/1
+    def update
+      @card = get_card
+      if @card.update(card_params)
+        # TODO redirect to @card once that page is ready
+        redirect_to admin_cards_path, notice: 'Card was successfully updated.'
+      else
+        render :edit
+      end
+    end
 
     def active
       @card = get_card

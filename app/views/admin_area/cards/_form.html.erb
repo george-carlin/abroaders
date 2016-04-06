@@ -1,0 +1,62 @@
+<%= render "shared/model_validation_errors", model: card %>
+
+<%= form_for [:admin, card] do |f| %>
+
+  <div class="form-group">
+    <%= f.label      :code %>
+    <p class="help-block">
+      A short label to help you identify the card at a glance. Will never
+      be displayed to users, only to admins. Must consist only of capital
+      letters, and be 2-4 letters long.
+    </p>
+    <%= f.text_field :code %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label      :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label  :network %>
+    <%= f.select :network, options_for_enum_select(Card.networks), {} %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label  :bp %>
+    <%= f.select :bp, options_for_enum_select(Card.bps), {} %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label  :type %>
+    <%= f.select :type, options_for_enum_select(Card.types), {} %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label  :currency_id %>
+    <%= f.collection_select :currency_id, Currency.order("name ASC"), :id, :name %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :bank_id %>
+    <%= f.collection_select :bank_id, Bank.order("name ASC"), :id, :name %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :annual_fee %>
+    <div class="input-group">
+      <div class="input-group-addon">
+        $
+      </div>
+      <%= f.text_field :annual_fee %>
+    </div>
+  </div>
+
+  <%= f.submit "Save Card", class: "btn btn-primary" %>
+
+  &nbsp;&nbsp;
+
+  <%= link_to "Cancel", admin_cards_path %>
+
+<% end %>
+

@@ -17,6 +17,7 @@
       <th>Type</th>
       <th>Annual Fee</th>
       <th class="is-active"></th>
+      <th></th>
     </tr>
   </thead>
 
@@ -44,6 +45,9 @@
               <%= card.active ? "Active" : "Inactive" %>
             </span>
           <% end %>
+        </td>
+        <td>
+          <%= link_to "Edit", edit_admin_card_path(card) %>
         </td>
       </tr>
     <% end %>

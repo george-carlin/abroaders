@@ -82,7 +82,7 @@ Rails.application.routes.draw do
 
   namespace :admin, module: :admin_area do
     resources :accounts, only: [ :index, :show ]
-    resources :cards, only: [:show, :index, :new, :create] do
+    resources :cards, only: %i[show index new create edit update] do
       member do
         put :active
       end
