@@ -10,9 +10,10 @@
   <thead>
     <tr>
       <th>Identifier</th>
+      <th>Bank</th>
       <th>Name</th>
-      <th>Currency</th>
       <th>Network</th>
+      <th>Currency</th>
       <th>B/P</th>
       <th>Type</th>
       <th>Annual Fee</th>
@@ -25,9 +26,10 @@
     <% @cards.each do |card| %>
       <tr id="<%= dom_id(card) %>">
         <td><%= card.identifier %></td>
+        <td><%= card.bank_name %></td>
         <td><%= link_to card.name, admin_card_path(card) %></td>
-        <td><%= card.currency.name %></td>
         <td><%= t("activerecord.attributes.card.network.#{card.network}") %></td>
+        <td><%= card.currency.name %></td>
         <td><%= card.bp.capitalize %></td>
         <td><%= t("activerecord.attributes.card.type.#{card.type}") %></td>
         <td><%= card_price_formatted(card) %></td>
