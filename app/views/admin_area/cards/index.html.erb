@@ -27,9 +27,9 @@
         <td><%= card.identifier %></td>
         <td><%= link_to card.name, admin_card_path(card) %></td>
         <td><%= card.currency.name %></td>
-        <td><%= card.network.capitalize %></td>
+        <td><%= t("activerecord.attributes.card.network.#{card.network}") %></td>
         <td><%= card.bp.capitalize %></td>
-        <td><%= card.type.capitalize %></td>
+        <td><%= t("activerecord.attributes.card.type.#{card.type}") %></td>
         <td><%= card_price_formatted(card) %></td>
         <td class="is-active">
           <%= form_for card,
