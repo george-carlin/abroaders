@@ -18,7 +18,15 @@ namespace :ab do
         )
       end
 
-      File.write(Rails.root.join("lib/data/cards.json"), JSON.pretty_generate(card_data))
+      json = JSON.pretty_generate(card_data)
+
+      if ENV["PRINT_ON_EXPORT"]
+        puts json.gsub( /\r\n?/, "\n")
+      else
+        path = Rails.root.join("lib/data/cards.json")
+        File.write(path, json)
+        puts "cards data saved to #{path}"
+      end
     end
 
     task offers: :environment do
@@ -37,7 +45,15 @@ namespace :ab do
         )
       end
 
-      File.write(Rails.root.join("lib/data/card_offers.json"), JSON.pretty_generate(offer_data))
+      json = JSON.pretty_generate(offer_data)
+
+      if ENV["PRINT_ON_EXPORT"]
+        puts json.gsub( /\r\n?/, "\n")
+      else
+        path = Rails.root.join("lib/data/card_offers.json")
+        File.write(path, json)
+        puts "cards data saved to #{path}"
+      end
     end
   end
 end
