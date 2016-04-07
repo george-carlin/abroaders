@@ -54,9 +54,7 @@
     </p>
 
     <%= form_tag survey_card_accounts_path(params[:passenger]) do %>
-      <% @cards.group_by(&:bank_id).each do |bank_id, cards_for_1_bank| %>
-        <% bank = Bank.find(bank_id) %>
-
+      <% @cards.group_by(&:bank).each do |bank, cards_for_1_bank| %>
         <div id="<%= bank.to_param %>_cards">
 
           <% cards_for_1_bank.group_by(&:bp).each do |bp, cards| %>
