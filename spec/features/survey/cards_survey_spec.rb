@@ -12,7 +12,8 @@ describe "as a new user" do
       @citibank_b = create(:card, :business, bank_id: citibank.id),
       @citibank_p = create(:card, :personal, bank_id: citibank.id),
       @barclays_b = create(:card, :business, bank_id: barclays.id),
-      @barclays_p = create(:card, :personal, bank_id: barclays.id)
+      @barclays_p = create(:card, :personal, bank_id: barclays.id),
+      @hidden_card = create(:card, active: false)
     ]
 
     @account = create(
@@ -37,6 +38,8 @@ describe "as a new user" do
 
     login_as(@account)
   end
+  let(:hidden_card)   { @hidden_card }
+  let(:visible_cards) { @cards - [hidden_card] }
   let(:account) { @account }
 
   let(:has_companion) { false }
@@ -81,7 +84,19 @@ describe "as a new user" do
     end
 
     it "has a checkbox for each card" do
-      @cards.each { |card| is_expected.to have_field card_checkbox(card) }
+      visible_cards.each do |card|
+        is_expected.to have_field card_checkbox(card)
+      end
+    end
+
+    it "doesn't display in a checkbox for each card" do
+      visible_cards.each do |card|
+        is_expected.to have_field card_checkbox(card)
+      end
+    end
+
+    it "doesn't show cards which the admin has opted to hide" do
+      expect(page).not_to have_field card_checkbox(hidden_card)
     end
   end
 

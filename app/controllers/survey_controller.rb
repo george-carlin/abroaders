@@ -30,7 +30,7 @@ class SurveyController < NonAdminController
   def new_card_accounts
     redirect_to card_account_passenger_path and return unless params[:passenger]
     @name  = load_name(params[:passenger])
-    @cards = Card.all
+    @cards = Card.survey
   end
 
   def create_card_accounts

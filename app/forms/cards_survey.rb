@@ -14,7 +14,7 @@ class CardsSurvey < Form
   def save
     super do
       CardAccount.unknown.create!(
-        Card.where(id: @card_ids).find_each.map do |card|
+        Card.survey.where(id: @card_ids).find_each.map do |card|
           { passenger: passenger, card: card }
         end
       )

@@ -117,5 +117,6 @@ class Card < ApplicationRecord
   # Scopes
 
   scope :inactive, -> { where(active: false) }
+  scope :survey, -> { where(active: true) }
 
 end
