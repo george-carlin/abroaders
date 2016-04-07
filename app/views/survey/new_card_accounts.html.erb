@@ -60,13 +60,17 @@
           <% cards_for_1_bank.group_by(&:bp).each do |bp, cards| %>
 
             <div id="<%= bank.to_param %>_<%= bp %>_cards">
-              <h3><%= cards.first.bank_name %> <%= bp.capitalize %> Cards</h3>
+              <h3><%= bank.name %> <%= bp.capitalize %> Cards</h3>
 
               <div class="row">
-
-                <%= collection_check_boxes :card_account, :card_ids, cards,
-                                                          :id, :name do |cb| %>
-                  <div class="card-survey-checkbox">
+                <%= collection_check_boxes(
+                    :card_account,
+                    :card_ids,
+                    cards,
+                    :id,
+                    :name
+                ) do |cb| %>
+                  <div id="<%= dom_id(cb.object) %>" class="card-survey-checkbox">
                     <%= card_image_tag(cb.object) %>
                     <div>
                       <%= cb.check_box %>

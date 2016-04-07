@@ -5,13 +5,13 @@ describe "as a new user" do
 
   # Setup
   before do
-    chase    = Bank.find_by(name: "Chase")
-    citibank = Bank.find_by(name: "Citibank")
+    chase = Bank.find_by(name: "Chase")
+    citi  = Bank.find_by(name: "Citibank")
     @visible_cards = [
-      create(:card, :business, bank_id: chase.id),
-      create(:card, :personal, bank_id: chase.id),
-      create(:card, :business, bank_id: citibank.id),
-      create(:card, :personal, bank_id: citibank.id),
+      create(:card, :business, :visa,       bank_id: chase.id, name: "Card 0"),
+      create(:card, :personal, :mastercard, bank_id: chase.id, name: "Card 1"),
+      create(:card, :business, :mastercard, bank_id: citi.id,  name: "Card 2"),
+      create(:card, :personal, :visa,       bank_id: citi.id,  name: "Card 3"),
     ]
     @hidden_card = create(:card, shown_on_survey: false)
 
@@ -67,6 +67,29 @@ describe "as a new user" do
         is_expected.to have_field card_checkbox(card)
       end
     end
+
+    describe "a business card's displayed name" do
+      it "follows the format 'card name, BUSINESS, network, annual fee'" do
+        within "##{dom_id(@visible_cards[0])}" do
+          expect(page).to have_content "Card 0 business Visa"
+        end
+        within "##{dom_id(@visible_cards[2])}" do
+          expect(page).to have_content "Card 2 business MasterCard"
+        end
+      end
+    end
+
+    describe "a personal card's displayed name" do
+      it "follows the format 'card name, network, annual fee'" do
+        within "##{dom_id(@visible_cards[1])}" do
+          expect(page).to have_content "Card 1 MasterCard"
+        end
+        within "##{dom_id(@visible_cards[3])}" do
+          expect(page).to have_content "Card 3 Visa"
+        end
+      end
+    end
+
 
     it "doesn't show cards which the admin has opted to hide" do
       expect(page).not_to have_field card_checkbox(@hidden_card)

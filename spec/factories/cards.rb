@@ -11,6 +11,14 @@ FactoryGirl.define do
 
     currency { Currency.all.sample || create(:currency) }
 
+    trait :visa do
+      network "visa"
+    end
+
+    trait :mastercard do
+      network "mastercard"
+    end
+
     trait :business do
       bp :business
     end
