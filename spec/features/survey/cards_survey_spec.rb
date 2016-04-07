@@ -2,95 +2,74 @@ require "rails_helper"
 
 describe "as a new user" do
   subject { page }
+
+  # Setup
   before do
     chase    = Bank.find_by(name: "Chase")
     citibank = Bank.find_by(name: "Citibank")
-    barclays = Bank.find_by(name: "Barclays")
-    @cards = [
-      @chase_b    = create(:card, :business, bank_id: chase.id),
-      @chase_p    = create(:card, :personal, bank_id: chase.id),
-      @citibank_b = create(:card, :business, bank_id: citibank.id),
-      @citibank_p = create(:card, :personal, bank_id: citibank.id),
-      @barclays_b = create(:card, :business, bank_id: barclays.id),
-      @barclays_p = create(:card, :personal, bank_id: barclays.id),
-      @hidden_card = create(:card, shown_on_survey: false)
+    @visible_cards = [
+      create(:card, :business, bank_id: chase.id),
+      create(:card, :personal, bank_id: chase.id),
+      create(:card, :business, bank_id: citibank.id),
+      create(:card, :personal, bank_id: citibank.id),
     ]
+    @hidden_card = create(:card, shown_on_survey: false)
 
-    @account = create(
-      :account,
-      onboarding_stage: if has_companion && main_passenger_has_added_cards
-                          "companion_cards"
-                        else
-                          "main_passenger_cards"
-                        end
-    )
-    @main_passenger = create(
-      :main_passenger_with_spending,
-      account: @account,
-      first_name: "Steve"
-    )
+    onboarding_stage = \
+      has_companion && mp_has_added_cards ? "companion_cards" : "main_passenger_cards"
+
+    @account = create(:account, onboarding_stage: onboarding_stage)
+    @main_passenger = \
+      create(:main_passenger_with_spending, account: @account, first_name: "Steve")
     if has_companion
-      @companion = create(
-        :companion_with_spending, account: @account, first_name: "Pete"
-      )
+      @companion = \
+        create(:companion_with_spending, account: @account, first_name: "Pete")
     end
-    @account.reload
-
-    login_as(@account)
+    login_as @account.reload
   end
-  let(:hidden_card)   { @hidden_card }
-  let(:visible_cards) { @cards - [hidden_card] }
-  let(:account) { @account }
 
-  let(:has_companion) { false }
+  # Helpers
   let(:submit_form) { click_button "Save" }
-
-  def bank_div_selector(bank)
-    "##{bank.to_param}_cards"
-  end
-
-  def bank_bp_div_selector(bank, bp)
-    "##{bank}_#{bp}_cards"
-  end
 
   def card_checkbox(card)
     :"card_account_card_ids_#{card.id}"
   end
 
+  let(:selected_cards) { @visible_cards.values_at(0, 2, 3) }
+
   def select_cards
-    check card_checkbox(@chase_b)
-    check card_checkbox(@citibank_b)
-    check card_checkbox(@citibank_p)
+    selected_cards.each { |card| check card_checkbox(card) }
   end
 
   def expect_to_assign_cards_to(passenger)
     expect { submit_form }.to \
-        change{passenger.card_accounts.unknown.count}.by(3)
-    expect(passenger.card_accounts.map(&:card)).to match_array [
-      @chase_b, @citibank_p, @citibank_b
-    ]
+        change{passenger.card_accounts.unknown.count}.by selected_cards.length
+    expect(passenger.card_accounts.map(&:card)).to match_array selected_cards
   end
+
+  # Config
+  let(:has_companion) { false }
 
   shared_examples "card accounts survey" do
     it "lists cards grouped by bank, then B/P" do
-      %w[chase citibank barclays].each do |bank|
+      %w[chase citibank].each do |bank|
         %w[personal business].each do |type|
           header = "#{bank.capitalize} #{type.capitalize} Cards"
           is_expected.to have_selector "h3", text: header
-          is_expected.to have_selector bank_div_selector(bank)
-          is_expected.to have_selector bank_bp_div_selector(bank, type)
+          is_expected.to have_selector "##{bank.to_param}_cards"
+          is_expected.to have_selector "##{bank}_#{type}_cards"
         end
       end
     end
 
     it "has a checkbox for each card" do
-      visible_cards.each do |card|
+      @visible_cards.each do |card|
         is_expected.to have_field card_checkbox(card)
       end
     end
 
     it "doesn't show cards which the admin has opted to hide" do
-      expect(page).not_to have_field card_checkbox(hidden_card)
+      expect(page).not_to have_field card_checkbox(@hidden_card)
     end
   end
 
@@ -116,13 +95,13 @@ describe "as a new user" do
 
       it "marks my 'onboarding stage' as 'main passenger balances'" do
         submit_form
-        expect(account.reload.onboarding_stage).to eq "main_passenger_balances"
+        expect(@account.reload.onboarding_stage).to eq "main_passenger_balances"
       end
     end
 
     context "when I have a travel companion on my account" do
       let(:has_companion) { true }
-      let(:main_passenger_has_added_cards) { false }
+      let(:mp_has_added_cards) { false }
 
       it "asks me for “Name's” cards" do
         is_expected.to have_selector "h1", text: "Steve's Cards"
@@ -140,7 +119,7 @@ describe "as a new user" do
 
       it "marks my 'onboarding stage' as 'companion balances'" do
         submit_form
-        expect(account.reload.onboarding_stage).to eq "companion_cards"
+        expect(@account.reload.onboarding_stage).to eq "companion_cards"
       end
     end
 
@@ -165,7 +144,7 @@ describe "as a new user" do
 
   describe "the 'companion' cards survey" do
     let(:has_companion) { true }
-    let(:main_passenger_has_added_cards) { true }
+    let(:mp_has_added_cards) { true }
 
     before { visit survey_card_accounts_path(:companion) }
 
@@ -188,7 +167,7 @@ describe "as a new user" do
 
         it "marks my 'onboarding stage' as 'main passenger balances'" do
           submit_form
-          expect(account.reload.onboarding_stage).to eq \
+          expect(@account.reload.onboarding_stage).to eq \
                                             "main_passenger_balances"
         end
       end
