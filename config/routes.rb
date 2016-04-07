@@ -6,9 +6,9 @@ Rails.application.routes.draw do
   match "/accounts/connect/awardwallet", to: "application#placeholder", via: %i[get post]
 
   devise_scope :account do
-    get    :sign_in, to: "devise/sessions#new",      as: :new_account_session
-    post   :sign_in, to: "devise/sessions#create",   as: :account_session
-    delete :sign_out, to: "devise/sessions#destroy", as: :destroy_account_session
+    get    :sign_in,  to: "sessions#new",     as: :new_account_session
+    post   :sign_in,  to: "sessions#create",  as: :account_session
+    delete :sign_out, to: "sessions#destroy", as: :destroy_account_session
     get :sign_up, to: "registrations#new"
 
     post :sign_up, to: "registrations#create", as: :account_registration
@@ -72,9 +72,9 @@ Rails.application.routes.draw do
 
   devise_for :admins, skip: [:registrations, :sessions]
   devise_scope :admin do
-    get    :"admin/sign_in",  to: "devise/sessions#new",
+    get    :"admin/sign_in",  to: "admin_area/sessions#new",
                                               as: :new_admin_session
-    post   :"admin/sign_in",  to: "devise/sessions#create",
+    post   :"admin/sign_in",  to: "admin_area/sessions#create",
                                               as: :admin_session
     delete :"admin/sign_out", to: "devise/sessions#destroy",
                                               as: :destroy_admin_session
