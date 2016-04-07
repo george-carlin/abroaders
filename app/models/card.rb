@@ -84,10 +84,6 @@ class Card < ApplicationRecord
     ].join("-")
   end
 
-  def full_name
-    "TODO - complete Card#full_name method"
-  end
-
   def annual_fee
     annual_fee_cents / 100.0 if annual_fee_cents.present?
   end
