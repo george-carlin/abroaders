@@ -1,0 +1,45 @@
+.card-survey-checkbox {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255,255,255, 0.4);
+  border-style: inset;
+  border-width: 1px;
+  cursor: pointer;
+  float: left;
+  height: 190px;
+  margin-bottom: 20px;
+  margin-right: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 12px;
+  text-align: center;
+  width: 200px;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  &:active {
+    background-color: rgba(255, 255, 255, 0.28);
+  }
+
+  &.selected {
+    background-color: rgba(255, 255, 255, 0.35);
+
+    &:active {
+      background-color: rgba(255, 255, 255, 0.28);
+    }
+  }
+
+  * {
+    cursor: pointer;
+  }
+
+  label {
+    font-size: inherit;
+  }
+
+  img {
+    margin-bottom: 20px;
+  }
+}
