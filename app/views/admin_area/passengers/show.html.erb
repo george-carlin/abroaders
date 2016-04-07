@@ -29,6 +29,9 @@
 <% if @passenger.onboarded? %>
   <hr>
 
+  <%= link_to "Recommend a card", new_admin_passenger_card_recommendation_path(@passenger) %>
+
+  <% if false %>
   <p>
     Cards -
     <%= link_to "Recommend", new_admin_passenger_card_recommendation_path(@passenger) %>
@@ -46,6 +49,7 @@
       user's list of cards without them receiving a notification.
     </i>
   </p>
+  <% end %>
 <% end %>
 
 <%#= link_to 'Back to all users', admin_accounts_path %>

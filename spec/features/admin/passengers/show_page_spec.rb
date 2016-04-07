@@ -44,13 +44,12 @@ describe "admin section" do
     end
 
     let(:extra_setup) { nil }
+    let(:recommend_link_text) { "Recommend a card" }
 
     shared_examples "does not have recommend or assign links" do
       it "does not have links to recommend or assign a card" do
-        is_expected.to have_no_link "Recommend",
+        is_expected.to have_no_link recommend_link_text,
               href: new_admin_passenger_card_recommendation_path(@passenger)
-        is_expected.to have_no_link "Assign",
-              href: new_admin_passenger_card_path(@passenger)
       end
     end
 
@@ -110,10 +109,8 @@ describe "admin section" do
         context "and the account is fully onboarded" do
           let(:onboarded) { true }
           it "has links to recommend or assign a card" do
-            is_expected.to have_link "Recommend",
+            is_expected.to have_link recommend_link_text,
                 href: new_admin_passenger_card_recommendation_path(@passenger)
-            is_expected.to have_link "Assign",
-                href: new_admin_passenger_card_path(@passenger)
           end
         end
       end

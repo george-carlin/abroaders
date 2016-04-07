@@ -1,5 +1,5 @@
 module AdminArea
-  class CardRecommendationsController < AdminArea::CardAccountsController
+  class CardRecommendationsController < AdminController
 
     def new
       @passenger = find_passenger
