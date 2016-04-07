@@ -27,10 +27,18 @@ class Card < ApplicationRecord
   #
   # We should switch to Paperclip for images pronto.
 
-  def not_on_survey
-    !shown_on_survey
+  concerning :Survey do
+    def not_on_survey
+      !shown_on_survey
+    end
+
+    included do
+      scope :survey,        -> { where(shown_on_survey: true) }
+      scope :not_on_survey, -> { where(shown_on_survey: false) }
+
+      alias_method :not_on_survey?, :not_on_survey
+    end
   end
-  alias_method :not_on_survey?, :not_on_survey
 
   # Don't call this 'Bank' because that would clash with '::Bank'
   concerning :Banks do
@@ -115,8 +123,5 @@ class Card < ApplicationRecord
   belongs_to :currency
 
   # Scopes
-
-  scope :survey,        -> { where(shown_on_survey: true) }
-  scope :not_on_survey, -> { where(shown_on_survey: false) }
 
 end
