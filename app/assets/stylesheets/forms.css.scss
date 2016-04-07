@@ -6,3 +6,9 @@
 .required-explanation {
   font-style: italic;
 }
+
+.field_with_errors {
+  input {
+    border-color: #d9534f;
+  }
+}
