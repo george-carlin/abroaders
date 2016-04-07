@@ -25,6 +25,15 @@ describe "as a new user", :js do
   let(:main_passenger) { @main_passenger }
   let(:companion)      { @companion }
 
+  shared_examples "survey complete" do
+    it "marks my account as onboarded" do
+      expect(account.reload).to be_onboarded
+    end
+
+    it "takes me to my dashboard" do
+      expect(current_path).to eq root_path
+    end
+  end
 
   describe "the 'are you ready to apply?' survey page" do
     context "when I don't have a companion" do
@@ -53,11 +62,7 @@ describe "as a new user", :js do
           expect(main_passenger).to be_ready_to_apply
         end
 
-        it "marks my account as onboarded" do
-          expect(account.reload).to be_onboarded
-        end
-
-        it "takes me to my dashboard"
+        include_examples "survey complete"
       end
 
       describe "selecting 'I'm not ready'" do
@@ -78,17 +83,13 @@ describe "as a new user", :js do
           describe "and clicking 'confirm'" do
             before { click_button "Confirm" }
 
-            it "marks my account as onboarded" do
-              expect(account.reload).to be_onboarded
-            end
+            include_examples "survey complete"
 
             it "saves my status as 'not ready to reply'" do
               main_passenger.reload
               expect(main_passenger.readiness_status_given?).to be_truthy
               expect(main_passenger).to be_unready_to_apply
             end
-
-            it "takes me to my dashboard"
           end
         end
 
@@ -115,12 +116,9 @@ describe "as a new user", :js do
             expect(main_passenger.unreadiness_reason).to be_blank
           end
 
-          it "marks my account as onboarded" do
-            expect(account.reload).to be_onboarded
-          end
+          include_examples "survey complete"
 
           it "queues a reminder email"
-          it "takes me to my dashboard"
         end
       end
     end # when I don't have a companion
@@ -156,11 +154,7 @@ describe "as a new user", :js do
             expect(companion).to be_ready_to_apply
           end
 
-          it "marks my account as onboarded" do
-            expect(account.reload).to be_onboarded
-          end
-
-          it "takes me to my dashboard"
+          include_examples "survey complete"
         end
 
         describe "and saying my companion is not ready" do
@@ -178,13 +172,9 @@ describe "as a new user", :js do
             expect(companion).to be_unready_to_apply
           end
 
-          it "marks my account as onboarded" do
-            expect(account.reload).to be_onboarded
-          end
+          include_examples "survey complete"
 
           it "queues a reminder email"
-
-          it "takes me to my dashboard"
         end
       end
 
@@ -204,11 +194,7 @@ describe "as a new user", :js do
             expect(companion).to be_ready_to_apply
           end
 
-          it "marks my account as onboarded" do
-            expect(account.reload).to be_onboarded
-          end
-
-          it "takes me to my dashboard"
+          include_examples "survey complete"
         end
 
         describe "and saying my companion is not ready" do
@@ -226,13 +212,9 @@ describe "as a new user", :js do
             expect(companion).to be_unready_to_apply
           end
 
-          it "marks my account as onboarded" do
-            expect(account.reload).to be_onboarded
-          end
+          include_examples "survey complete"
 
           it "queues reminder emails"
-
-          it "takes me to my dashboard"
         end
       end
     end # when I have a companion
