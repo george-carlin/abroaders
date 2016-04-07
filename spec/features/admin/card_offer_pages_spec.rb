@@ -15,6 +15,7 @@ describe "admin section" do
           select @cards[1].name, from: :card_offer_card_id
           fill_in :card_offer_points_awarded, with: 40_000
           fill_in :card_offer_spend, with: 5000
+          fill_in :card_offer_link, with: "http://something.com"
         end
 
         let(:submit) { click_button t("admin.card_offers.submit") }
