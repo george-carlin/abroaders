@@ -5,14 +5,14 @@
   border-width: 1px;
   cursor: pointer;
   float: left;
-  height: 190px;
+  height: 224px;
   margin-bottom: 20px;
   margin-right: 10px;
   padding-left: 10px;
   padding-right: 10px;
   padding-top: 12px;
   text-align: center;
-  width: 200px;
+  width: 210px;
 
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -24,7 +24,7 @@
   }
 
   &.selected {
-    background-color: rgba(255, 255, 255, 0.35);
+    background-color: rgba(255, 255, 255, 0.4);
 
     &:active {
       background-color: rgba(255, 255, 255, 0.28);
@@ -40,6 +40,6 @@
   }
 
   img {
-    margin-bottom: 20px;
+    margin-bottom: 4px;
   }
 }

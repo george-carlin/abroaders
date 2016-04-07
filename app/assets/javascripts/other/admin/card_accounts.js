@@ -1,15 +1,21 @@
 $(document).ready(function () {
 
+  // Allow the user to check/uncheck the box by clicking anywhere within the
+  // picture/description of the card:
   $(".card-survey-checkbox").click(function (e) {
-    var $checkbox = $(this).find("input[type=checkbox]");
-    // The click handler will be called when the user clicks *anywhere* within
-    // the <div>, but if they have clicked specifically on the checkbox, we
-    // DON'T want to check/uncheck it via jQuery, because it's about to be
-    // checked/unchecked anyway. Without wrapping this in a if statement, the
-    // checkbox would be checked and then immediately unchecked.
-    if (e.target.nodeName !== "INPUT") {
-      $checkbox.prop("checked", !$checkbox.prop("checked"));;
+    var $this = $(this);
+    var $checkbox = $this.find("input[type=checkbox]");
+    var checked = $checkbox.prop("checked")
+    // If the user has clicked on the checkbox or it's label, then the checkbox
+    // will be toggled on/off as per normal HTML behaviour. But if they've
+    // clicked elsewhere in the div, toggle the checkbox for them too:
+    var nodeName = e.target.nodeName;
+    if (!(nodeName === "INPUT" && nodeName === "LABEL")) {
+      checked = !checked;
+      $checkbox.prop("checked", checked);
     }
+
+    $(this).toggleClass("selected", checked);
   });
 
 });
