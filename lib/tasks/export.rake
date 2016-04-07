@@ -3,7 +3,7 @@ namespace :ab do
     task cards: :environment do
       card_data = Card.find_each.map do |card|
         card.as_json.slice(
-          "active",
+          "shown_on_survey",
           "annual_fee_cents",
           "bank_id",
           "bp",

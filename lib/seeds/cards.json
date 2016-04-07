@@ -1,6 +1,6 @@
 [
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 45000,
     "bank_id": 7,
     "bp": "personal",
@@ -14,7 +14,7 @@
     "wallaby_id": "90690f08716d45d403c612dff10b13f7"
   },
   {
-    "active": false,
+    "shown_on_survey": false,
     "annual_fee_cents": 0,
     "bank_id": 7,
     "bp": "personal",
@@ -28,7 +28,7 @@
     "wallaby_id": "037628b53e51e6e2a1a622ae4cf2d790"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 19500,
     "bank_id": 7,
     "bp": "personal",
@@ -42,7 +42,7 @@
     "wallaby_id": "3eb93f93a5c9daeaa24a05b3b12e76b9"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 45000,
     "bank_id": 7,
     "bp": "business",
@@ -56,7 +56,7 @@
     "wallaby_id": "60bbe9cd0cae0cae8a76f8b45ea743d3"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 0,
     "bank_id": 7,
     "bp": "personal",
@@ -70,7 +70,7 @@
     "wallaby_id": "f90eb9233311516b59b502b045daf8c4"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 9500,
     "bank_id": 7,
     "bp": "personal",
@@ -84,7 +84,7 @@
     "wallaby_id": "8ea8380ce13e03901df12b615a95cc7b"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 47500,
     "bank_id": 7,
     "bp": "personal",
@@ -98,7 +98,7 @@
     "wallaby_id": "62a38bfcf25e39031d7f2821f88519da"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 17500,
     "bank_id": 7,
     "bp": "business",
@@ -112,7 +112,7 @@
     "wallaby_id": "a79795f0ad59c6484d55f5c2fde6cb57"
   },
   {
-    "active": false,
+    "shown_on_survey": false,
     "annual_fee_cents": 45000,
     "bank_id": 7,
     "bp": "personal",
@@ -126,7 +126,7 @@
     "wallaby_id": "c6917b11b1812d14c95acba647c890c5"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 19500,
     "bank_id": 7,
     "bp": "personal",
@@ -140,7 +140,7 @@
     "wallaby_id": "e79539355504e4fefe482d09cec301c4"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 9500,
     "bank_id": 7,
     "bp": "personal",
@@ -154,7 +154,7 @@
     "wallaby_id": "7490ee229a50b80713fd5c387155116f"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 9500,
     "bank_id": 7,
     "bp": "business",
@@ -168,7 +168,7 @@
     "wallaby_id": "5d1f1b6dd21c84d7302f1908b0a70d24"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 19500,
     "bank_id": 7,
     "bp": "business",
@@ -182,7 +182,7 @@
     "wallaby_id": "e28d2ad9ce1d755d75cb3ec89872b604"
   },
   {
-    "active": false,
+    "shown_on_survey": false,
     "annual_fee_cents": 45000,
     "bank_id": 7,
     "bp": "business",
@@ -196,7 +196,7 @@
     "wallaby_id": "36464cbcf75c1b6e52b3d3223046e046"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 7500,
     "bank_id": 7,
     "bp": "personal",
@@ -210,7 +210,7 @@
     "wallaby_id": "df75f364f5f9e19476823f0f3b97fa7f"
   },
   {
-    "active": false,
+    "shown_on_survey": false,
     "annual_fee_cents": 0,
     "bank_id": 7,
     "bp": "personal",
@@ -224,7 +224,7 @@
     "wallaby_id": "0ed919dbeb28f1e743fc5707c99801c3"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 9500,
     "bank_id": 7,
     "bp": "personal",
@@ -238,7 +238,7 @@
     "wallaby_id": "eedcd878c4f674cf80e354b26e11643c"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 9500,
     "bank_id": 7,
     "bp": "business",
@@ -252,7 +252,7 @@
     "wallaby_id": "ef0d666cfbd2410df9d162c3b1873eb1"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 7500,
     "bank_id": 11,
     "bp": "personal",
@@ -266,7 +266,7 @@
     "wallaby_id": "a92b67487406b115417229788a784fd0"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 5000,
     "bank_id": 11,
     "bp": "business",
@@ -280,7 +280,7 @@
     "wallaby_id": "be839be6ba7f0660cb6f0c97891c69a4"
   },
   {
-    "active": false,
+    "shown_on_survey": false,
     "annual_fee_cents": 5000,
     "bank_id": 11,
     "bp": "personal",
@@ -294,7 +294,7 @@
     "wallaby_id": "c708e1032e6fa2d2db6bee4c7844f4d4"
   },
   {
-    "active": false,
+    "shown_on_survey": false,
     "annual_fee_cents": 0,
     "bank_id": 11,
     "bp": "personal",
@@ -308,7 +308,7 @@
     "wallaby_id": "39c1358d7814a17ab982e77e493d98e4"
   },
   {
-    "active": false,
+    "shown_on_survey": false,
     "annual_fee_cents": 0,
     "bank_id": 11,
     "bp": "personal",
@@ -322,7 +322,7 @@
     "wallaby_id": "fb4adfe12e5d203ccd915b262bc4001e"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 9000,
     "bank_id": 11,
     "bp": "personal",
@@ -336,7 +336,7 @@
     "wallaby_id": "fb5b203d0f3f4853582c3e6621af4401"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 4900,
     "bank_id": 11,
     "bp": "personal",
@@ -350,7 +350,7 @@
     "wallaby_id": "77aeac83d7c85af5e47f9b5155703cbb"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 19500,
     "bank_id": 5,
     "bp": "personal",
@@ -364,7 +364,7 @@
     "wallaby_id": "331cb279b85ab38396aa1ab815f80496"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 8900,
     "bank_id": 5,
     "bp": "personal",
@@ -378,7 +378,7 @@
     "wallaby_id": "a6ee80baaf63eed85277051871a9ba5f"
   },
   {
-    "active": false,
+    "shown_on_survey": false,
     "annual_fee_cents": 4900,
     "bank_id": 5,
     "bp": "personal",
@@ -392,7 +392,7 @@
     "wallaby_id": "07d32ad0dffd0dc7e7c25f1b56e57235"
   },
   {
-    "active": false,
+    "shown_on_survey": false,
     "annual_fee_cents": 8900,
     "bank_id": 5,
     "bp": "business",
@@ -406,7 +406,7 @@
     "wallaby_id": "471741fc1527f644ab686a7c33695199"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 0,
     "bank_id": 5,
     "bp": "personal",
@@ -420,7 +420,7 @@
     "wallaby_id": "5f984e5416b5bcdb30de042c917e81d9"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 8900,
     "bank_id": 5,
     "bp": "personal",
@@ -434,7 +434,7 @@
     "wallaby_id": "e0608ea0665454594b81aecc7cf8ea4d"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 6900,
     "bank_id": 5,
     "bp": "personal",
@@ -448,7 +448,7 @@
     "wallaby_id": "54e5d35f6fbe1f6f19a0555b2ee02c8b"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 6900,
     "bank_id": 5,
     "bp": "business",
@@ -462,7 +462,7 @@
     "wallaby_id": "8f9bd6012422f080cdd700bd417fc4fa"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 8900,
     "bank_id": 5,
     "bp": "personal",
@@ -476,7 +476,7 @@
     "wallaby_id": "b4993a23457e89303630f0ad9f43dbbe"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 8900,
     "bank_id": 5,
     "bp": "business",
@@ -490,7 +490,7 @@
     "wallaby_id": "b37432b388ee930a8cfc0447da1866c1"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 9900,
     "bank_id": 5,
     "bp": "personal",
@@ -504,7 +504,7 @@
     "wallaby_id": "custom"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 9900,
     "bank_id": 5,
     "bp": "business",
@@ -518,7 +518,7 @@
     "wallaby_id": "custom"
   },
   {
-    "active": false,
+    "shown_on_survey": false,
     "annual_fee_cents": 7900,
     "bank_id": 5,
     "bp": "personal",
@@ -532,7 +532,7 @@
     "wallaby_id": "4dfeade8b5423634f2c2a7d5bacd70cf"
   },
   {
-    "active": false,
+    "shown_on_survey": false,
     "annual_fee_cents": 7900,
     "bank_id": 5,
     "bp": "personal",
@@ -546,7 +546,7 @@
     "wallaby_id": "791bf7c069f462f204e6c767cc63c46c"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 8900,
     "bank_id": 5,
     "bp": "personal",
@@ -560,7 +560,7 @@
     "wallaby_id": "custom"
   },
   {
-    "active": false,
+    "shown_on_survey": false,
     "annual_fee_cents": 0,
     "bank_id": 9,
     "bp": "personal",
@@ -574,7 +574,7 @@
     "wallaby_id": "6262b057016bf7128d6a045f41334264"
   },
   {
-    "active": false,
+    "shown_on_survey": false,
     "annual_fee_cents": 0,
     "bank_id": 9,
     "bp": "personal",
@@ -588,7 +588,7 @@
     "wallaby_id": "b9dd3948213bc0be97313dc61d80071d"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 5900,
     "bank_id": 9,
     "bp": "business",
@@ -602,7 +602,7 @@
     "wallaby_id": "0e17966ac003aecf147c5298d36d161f"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 5900,
     "bank_id": 9,
     "bp": "personal",
@@ -616,7 +616,7 @@
     "wallaby_id": "8cd80c5ce9a17198378e53a003bb79d9"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 0,
     "bank_id": 9,
     "bp": "personal",
@@ -630,7 +630,7 @@
     "wallaby_id": "68a72c13db033355bc3053dd470799db"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 5900,
     "bank_id": 9,
     "bp": "personal",
@@ -644,7 +644,7 @@
     "wallaby_id": "7089beec56608b1ffa49443d88636b98"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 0,
     "bank_id": 9,
     "bp": "personal",
@@ -658,7 +658,7 @@
     "wallaby_id": "f242b494a62389e0ec49fc94f3f4b21c"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 9500,
     "bank_id": 1,
     "bp": "personal",
@@ -672,7 +672,7 @@
     "wallaby_id": "0a370e1caf5256c719cf3a03384e9992"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 0,
     "bank_id": 1,
     "bp": "personal",
@@ -686,7 +686,7 @@
     "wallaby_id": "9b6dd404a0111935aea674124f6ca0a1"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 0,
     "bank_id": 1,
     "bp": "personal",
@@ -700,7 +700,7 @@
     "wallaby_id": "716e2a34707a91250374790d67e950bd"
   },
   {
-    "active": false,
+    "shown_on_survey": false,
     "annual_fee_cents": 0,
     "bank_id": 1,
     "bp": "business",
@@ -714,7 +714,7 @@
     "wallaby_id": "0c4ff79851719c1f232bc5e4ea649170"
   },
   {
-    "active": false,
+    "shown_on_survey": false,
     "annual_fee_cents": 0,
     "bank_id": 1,
     "bp": "business",
@@ -728,7 +728,7 @@
     "wallaby_id": "0c4ff79851719c1f232bc5e4ea649170"
   },
   {
-    "active": false,
+    "shown_on_survey": false,
     "annual_fee_cents": 0,
     "bank_id": 1,
     "bp": "business",
@@ -742,7 +742,7 @@
     "wallaby_id": "a7c3de8504bdad3c0d73c6ef1555558e"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 9500,
     "bank_id": 1,
     "bp": "personal",
@@ -756,7 +756,7 @@
     "wallaby_id": "bf51e60da5f1fc094c18ef49e0c227ac"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 0,
     "bank_id": 1,
     "bp": "personal",
@@ -770,7 +770,7 @@
     "wallaby_id": "a69a1e8dcf7ef0b9e8a319f1e5077ae7"
   },
   {
-    "active": false,
+    "shown_on_survey": false,
     "annual_fee_cents": 0,
     "bank_id": 1,
     "bp": "personal",
@@ -784,7 +784,7 @@
     "wallaby_id": "39893c70324c77f919db0fe3d4d50752"
   },
   {
-    "active": false,
+    "shown_on_survey": false,
     "annual_fee_cents": 9500,
     "bank_id": 1,
     "bp": "personal",
@@ -798,7 +798,7 @@
     "wallaby_id": "0d9c507bb626b96de217f916715eb617"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 9500,
     "bank_id": 1,
     "bp": "personal",
@@ -812,7 +812,7 @@
     "wallaby_id": "0d9c507bb626b96de217f916715eb617"
   },
   {
-    "active": false,
+    "shown_on_survey": false,
     "annual_fee_cents": 9500,
     "bank_id": 1,
     "bp": "business",
@@ -826,7 +826,7 @@
     "wallaby_id": "270618f2966d7b3f2db3013dfc48f109"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 9500,
     "bank_id": 1,
     "bp": "business",
@@ -840,7 +840,7 @@
     "wallaby_id": "270618f2966d7b3f2db3013dfc48f109"
   },
   {
-    "active": false,
+    "shown_on_survey": false,
     "annual_fee_cents": 9500,
     "bank_id": 1,
     "bp": "business",
@@ -854,7 +854,7 @@
     "wallaby_id": "bcbf354fbe006b93db040ed6771f9778"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 9500,
     "bank_id": 1,
     "bp": "business",
@@ -868,7 +868,7 @@
     "wallaby_id": "1af9076f4816aa03c5a82e2f2cd0f572"
   },
   {
-    "active": false,
+    "shown_on_survey": false,
     "annual_fee_cents": 9500,
     "bank_id": 1,
     "bp": "business",
@@ -882,7 +882,7 @@
     "wallaby_id": "9263ebc8f5e417271807edc8e9aa5694"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 7500,
     "bank_id": 1,
     "bp": "personal",
@@ -896,7 +896,7 @@
     "wallaby_id": "63d073b7caf632792d6f91dcaf1e2626"
   },
   {
-    "active": false,
+    "shown_on_survey": false,
     "annual_fee_cents": 4900,
     "bank_id": 1,
     "bp": "personal",
@@ -910,7 +910,7 @@
     "wallaby_id": "28de8eed5ee552285b398f5200a0a0a3"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 4900,
     "bank_id": 1,
     "bp": "personal",
@@ -924,7 +924,7 @@
     "wallaby_id": "f5bef52e238ef146808bafa23d80e487"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 8500,
     "bank_id": 1,
     "bp": "personal",
@@ -938,7 +938,7 @@
     "wallaby_id": "c0ad07f53afe4dbe36cbd1f2a503d1d0"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 9900,
     "bank_id": 1,
     "bp": "business",
@@ -952,7 +952,7 @@
     "wallaby_id": "74c40a3a5543a5852857047007e1c60f"
   },
   {
-    "active": false,
+    "shown_on_survey": false,
     "annual_fee_cents": 39500,
     "bank_id": 1,
     "bp": "personal",
@@ -966,7 +966,7 @@
     "wallaby_id": "aa7c29875d72c7d65f35cb863149aa60"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 6900,
     "bank_id": 1,
     "bp": "personal",
@@ -980,7 +980,7 @@
     "wallaby_id": "122610bd944631cab73b3d9290b0a69e"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 9900,
     "bank_id": 1,
     "bp": "personal",
@@ -994,7 +994,7 @@
     "wallaby_id": "19455f28e58828e838dad37673d39694"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 6900,
     "bank_id": 1,
     "bp": "business",
@@ -1008,7 +1008,7 @@
     "wallaby_id": "8d8fe1e1307113583b4f7b442980e68a"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 9900,
     "bank_id": 1,
     "bp": "business",
@@ -1022,7 +1022,7 @@
     "wallaby_id": "d4d36b0d23a320268d5bb5a2b278ab14"
   },
   {
-    "active": false,
+    "shown_on_survey": false,
     "annual_fee_cents": 9500,
     "bank_id": 1,
     "bp": "personal",
@@ -1036,7 +1036,7 @@
     "wallaby_id": "f4980937f57fe5e08deed51de892c242"
   },
   {
-    "active": false,
+    "shown_on_survey": false,
     "annual_fee_cents": 45000,
     "bank_id": 1,
     "bp": "personal",
@@ -1050,7 +1050,7 @@
     "wallaby_id": "b79e8eeba0698fda58340100905a4336"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 9500,
     "bank_id": 1,
     "bp": "personal",
@@ -1064,7 +1064,7 @@
     "wallaby_id": "bd86e5f5d4b3f104eb3f0a483bdc6eb5"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 9500,
     "bank_id": 1,
     "bp": "business",
@@ -1078,7 +1078,7 @@
     "wallaby_id": "a4de8e8bebdbd0d5e93c124546a53173"
   },
   {
-    "active": false,
+    "shown_on_survey": false,
     "annual_fee_cents": 45000,
     "bank_id": 1,
     "bp": "business",
@@ -1092,7 +1092,7 @@
     "wallaby_id": "ddb03b5968e5a39ab4c907f2fd229e16"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 9500,
     "bank_id": 3,
     "bp": "personal",
@@ -1106,7 +1106,7 @@
     "wallaby_id": "ea579f182f4bb1d6f1eae48499106b7c"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 9500,
     "bank_id": 3,
     "bp": "personal",
@@ -1120,7 +1120,7 @@
     "wallaby_id": "90281ea6d62ac42d4b195926dc8f36e7"
   },
   {
-    "active": false,
+    "shown_on_survey": false,
     "annual_fee_cents": 5000,
     "bank_id": 3,
     "bp": "personal",
@@ -1134,7 +1134,7 @@
     "wallaby_id": "7f83da3287b3b076aadf3f38f4bd97a4"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 9500,
     "bank_id": 3,
     "bp": "business",
@@ -1148,7 +1148,7 @@
     "wallaby_id": "3275b5ef3ecda36414563984795c91a3"
   },
   {
-    "active": false,
+    "shown_on_survey": false,
     "annual_fee_cents": 0,
     "bank_id": 3,
     "bp": "personal",
@@ -1162,7 +1162,7 @@
     "wallaby_id": "5013e4a65b310e016d42c61e23e2037c"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 45000,
     "bank_id": 3,
     "bp": "personal",
@@ -1176,7 +1176,7 @@
     "wallaby_id": "d5d879f9eed5a88c006c3ee983d4cd55"
   },
   {
-    "active": false,
+    "shown_on_survey": false,
     "annual_fee_cents": 0,
     "bank_id": 3,
     "bp": "personal",
@@ -1190,7 +1190,7 @@
     "wallaby_id": "a3ce074fcb5f1539665d5ecdc2ea071b"
   },
   {
-    "active": false,
+    "shown_on_survey": false,
     "annual_fee_cents": 5000,
     "bank_id": 3,
     "bp": "personal",
@@ -1204,7 +1204,7 @@
     "wallaby_id": "a8f8f9af2b8a39c842c48949da4558b6"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 9500,
     "bank_id": 3,
     "bp": "personal",
@@ -1218,7 +1218,7 @@
     "wallaby_id": "fba05cb22e3679bdfcb03afebec13cb7"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 9500,
     "bank_id": 3,
     "bp": "personal",
@@ -1232,7 +1232,7 @@
     "wallaby_id": "567736f85d5ddf846b9cb2a9150aac09"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 45000,
     "bank_id": 3,
     "bp": "personal",
@@ -1246,7 +1246,7 @@
     "wallaby_id": "2801c815cbc8ef7d1f9b6455f59030bf"
   },
   {
-    "active": false,
+    "shown_on_survey": false,
     "annual_fee_cents": 0,
     "bank_id": 3,
     "bp": "personal",
@@ -1260,7 +1260,7 @@
     "wallaby_id": "6b4e9f2929fb17b1b165bcfd8a520e8b"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 9500,
     "bank_id": 3,
     "bp": "personal",
@@ -1274,7 +1274,7 @@
     "wallaby_id": "f4e51e10e410bcf2145307175d604dac"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 7500,
     "bank_id": 13,
     "bp": "personal",
@@ -1288,7 +1288,7 @@
     "wallaby_id": "09b1b4f37d0653ad93d70e1ff718ad48"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 7500,
     "bank_id": 13,
     "bp": "personal",
@@ -1302,7 +1302,7 @@
     "wallaby_id": "594f7423979bd7c42e8eb2d7dbf78c68"
   },
   {
-    "active": false,
+    "shown_on_survey": false,
     "annual_fee_cents": 0,
     "bank_id": 13,
     "bp": "personal",
@@ -1316,7 +1316,7 @@
     "wallaby_id": "165ae0d5e6e0fe458d1d4a928ac39c50"
   },
   {
-    "active": false,
+    "shown_on_survey": false,
     "annual_fee_cents": 5000,
     "bank_id": 13,
     "bp": "personal",
@@ -1330,7 +1330,7 @@
     "wallaby_id": "7c19add5b5d2fd7e3b8f150fe79fb7c4"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 6000,
     "bank_id": 13,
     "bp": "business",
@@ -1344,7 +1344,7 @@
     "wallaby_id": "e8c819948335cd325f848a91e8067654"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 8000,
     "bank_id": 13,
     "bp": "personal",
@@ -1358,7 +1358,7 @@
     "wallaby_id": "05cdd92bf4636c2197776e653f0b8be5"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 7500,
     "bank_id": 13,
     "bp": "personal",
@@ -1372,7 +1372,7 @@
     "wallaby_id": "28bdda2a93ce7c5a58ae49680c2be161"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 4900,
     "bank_id": 13,
     "bp": "personal",
@@ -1386,7 +1386,7 @@
     "wallaby_id": "c78e458547734c8d57c27c4f5bc7ee02"
   },
   {
-    "active": true,
+    "shown_on_survey": true,
     "annual_fee_cents": 4900,
     "bank_id": 13,
     "bp": "personal",
