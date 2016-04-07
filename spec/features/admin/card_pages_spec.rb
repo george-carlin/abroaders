@@ -18,20 +18,21 @@ describe "admin pages" do
     expect(page).to have_field :card_annual_fee
     expect(page).to have_field :card_currency_id
     expect(page).to have_field :card_bank_id
+    expect(page).to have_field :card_shown_on_survey
   end
 
   describe "cards index page" do
     before do
-      @active_card   = create(:active_card)
-      @inactive_card = create(:inactive_card)
+      @survey_card     = create(:card)
+      @non_survey_card = create(:card, shown_on_survey: false)
       visit admin_cards_path
     end
 
-    let(:cards) { [ @active_card, @inactive_card ] }
+    let(:cards) { [ @survey_card, @non_survey_card ] }
 
     it "lists all cards" do
-      is_expected.to have_selector card_selector(@active_card)
-      is_expected.to have_selector card_selector(@inactive_card)
+      expect(page).to have_selector card_selector(@survey_card)
+      expect(page).to have_selector card_selector(@non_survey_card)
     end
 
     it "has a link to edit each card" do
@@ -43,68 +44,18 @@ describe "admin pages" do
     end
 
     it "displays each card's currency" do
-      within card_selector(@active_card) do
-        is_expected.to have_content @active_card.currency.name
-      end
-      within card_selector(@active_card) do
-        is_expected.to have_content @active_card.currency.name
-      end
-    end
-
-    describe "an active card" do
-      it "has a checked checkbox and the text 'active'" do
-        within card_selector(@active_card) do
-          is_expected.to have_selector ".active-status", text: "Active"
-          expect(find("input[type='checkbox']")).to be_checked
-        end
-      end
-
-      describe "clicking the checkbox", :js do
-        before do
-          within card_selector(@active_card) do
-            find("input[type=checkbox]").click
-          end
-        end
-
-        it "saves the card as inactive" do
-          wait_for_ajax
-          expect(@active_card.reload).to be_inactive
-        end
-
-        it "updates the display" do
-          within card_selector(@active_card) do
-            is_expected.to have_selector ".active-status", text: "Inactive"
-          end
+      cards.each do |card|
+        within card_selector(card) do
+          is_expected.to have_content card.currency.name
         end
       end
     end
 
-    describe "an inactive card" do
-      it "has a checked checkbox and the text 'inactive'" do
-        within card_selector(@inactive_card) do
-          is_expected.to have_selector ".active-status", text: "Inactive"
-          expect(find("input[type='checkbox']")).not_to be_checked
-        end
-      end
-
-      describe "clicking the checkbox", :js do
-        before do
-          within card_selector(@inactive_card) do
-            find("input[type=checkbox]").click
-          end
-        end
-
-        it "saves the card as active" do
-          wait_for_ajax
-          expect(@inactive_card.reload).to be_active
-        end
-
-        it "updates the display" do
-          within card_selector(@inactive_card) do
-            is_expected.to have_selector ".active-status", text: "Active"
-          end
-        end
-      end
+    it "says whether or not the card is shown on the survey" do
+      expect(page).to have_selector \
+        "##{dom_id(@survey_card)} .card_shown_on_survey .fa.fa-check"
+      expect(page).not_to have_selector \
+        "##{dom_id(@non_survey_card)} .card_shown_on_survey .fa.fa-check"
     end
   end
 
@@ -132,6 +83,7 @@ describe "admin pages" do
           fill_in :card_annual_fee, with: 549.99
           select @currencies[0].name, from: :card_currency_id
           select "Wells Fargo", from: :card_bank_id
+          uncheck :card_shown_on_survey
         end
 
         it "creates a card" do
@@ -156,6 +108,7 @@ describe "admin pages" do
         bp:      :personal,
         network: :visa,
         type:    :credit,
+        shown_on_survey: false
       )
       visit edit_admin_card_path(@card)
     end
@@ -196,6 +149,7 @@ describe "admin pages" do
           fill_in :card_annual_fee, with: 549
           select @currencies[1].name, from: :card_currency_id
           select "Wells Fargo", from: :card_bank_id
+          check :card_shown_on_survey
           submit_form
         end
 
@@ -209,6 +163,7 @@ describe "admin pages" do
           expect(@card.annual_fee).to eq 549
           expect(@card.currency).to eq @currencies[1]
           expect(@card.bank).to eq Bank.find_by(name: "Wells Fargo")
+          expect(@card).to be_shown_on_survey
         end
       end
 

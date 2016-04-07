@@ -21,20 +21,4 @@ $(document).ready(function () {
     }
   });
 
-  function submitActiveCardForm($checkbox, $text) {
-    $checkbox.prop("disabled", true);
-    $text.text("Updating...");
-    $checkbox.closest("form").submit();
-  }
-
-  $(".toggle_active_card input[type='checkbox']").click(function () {
-    $checkbox = $(this);
-    submitActiveCardForm($checkbox, $checkbox.siblings(".active-status"));
-  });
-
-  $(".toggle_active_card .active-status").click(function () {
-    $text = $(this);
-    submitActiveCardForm($text.siblings("input[type=checkbox]"), $text);
-  });
-
 });

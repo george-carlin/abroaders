@@ -27,10 +27,10 @@ class Card < ApplicationRecord
   #
   # We should switch to Paperclip for images pronto.
 
-  def inactive
-    !active
+  def not_on_survey
+    !shown_on_survey
   end
-  alias_method :inactive?, :inactive
+  alias_method :not_on_survey?, :not_on_survey
 
   # Don't call this 'Bank' because that would clash with '::Bank'
   concerning :Banks do
@@ -116,7 +116,7 @@ class Card < ApplicationRecord
 
   # Scopes
 
-  scope :inactive, -> { where(active: false) }
-  scope :survey, -> { where(active: true) }
+  scope :survey,        -> { where(shown_on_survey: true) }
+  scope :not_on_survey, -> { where(shown_on_survey: false) }
 
 end

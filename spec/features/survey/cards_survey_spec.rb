@@ -13,7 +13,7 @@ describe "as a new user" do
       @citibank_p = create(:card, :personal, bank_id: citibank.id),
       @barclays_b = create(:card, :business, bank_id: barclays.id),
       @barclays_p = create(:card, :personal, bank_id: barclays.id),
-      @hidden_card = create(:card, active: false)
+      @hidden_card = create(:card, shown_on_survey: false)
     ]
 
     @account = create(

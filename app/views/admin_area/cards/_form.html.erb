@@ -52,6 +52,11 @@
     </div>
   </div>
 
+  <div class="form-group">
+    <%= f.label :shown_on_survey, "Ask about this card on the onboarding survey?" %>
+    <%= f.check_box :shown_on_survey %>
+  </div>
+
   <%= f.submit "Save Card", class: "btn btn-primary" %>
 
   &nbsp;&nbsp;

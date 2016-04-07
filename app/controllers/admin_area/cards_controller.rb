@@ -45,15 +45,6 @@ module AdminArea
       end
     end
 
-    def active
-      @card = get_card
-      @card.toggle!(:active)
-      respond_to do |f|
-        f.js
-      end
-    end
-
-
     private
 
     def get_card
@@ -62,7 +53,8 @@ module AdminArea
 
     def card_params
       params.require(:card).permit(
-        :code, :name, :network, :bp, :type, :annual_fee, :bank_id, :currency_id
+        :code, :name, :network, :bp, :type, :annual_fee, :bank_id, :currency_id,
+        :shown_on_survey
       )
     end
 

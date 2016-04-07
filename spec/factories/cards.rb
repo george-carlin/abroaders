@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :card, aliases: [:active_card] do
+  factory :card do
     sequence(:code) { |n| str = "AAA"; n.times { str.next! }; str }
     sequence(:name) { |n| "Example Card #{n}" }
     network { Card.networks.keys.sample }
@@ -10,10 +10,6 @@ FactoryGirl.define do
     image_name "placeholder-factory-this-sucks-change-me.png"
 
     currency { Currency.all.sample || create(:currency) }
-
-    factory :inactive_card do
-      active false
-    end
 
     trait :business do
       bp :business
