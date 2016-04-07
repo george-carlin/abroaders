@@ -89,12 +89,6 @@ describe "as a new user" do
       end
     end
 
-    it "doesn't display in a checkbox for each card" do
-      visible_cards.each do |card|
-        is_expected.to have_field card_checkbox(card)
-      end
-    end
-
     it "doesn't show cards which the admin has opted to hide" do
       expect(page).not_to have_field card_checkbox(hidden_card)
     end
