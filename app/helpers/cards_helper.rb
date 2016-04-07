@@ -10,8 +10,7 @@ module CardsHelper
       puts "success!"
       image_tag "cards/#{card.image_name}", size: size
     else
-      # raise dir.join(card.image_name).to_s
-      raise "no image for card #{card.id} - #{card.name}"
+      Rails.logger.warn "no image for card #{card.id} - #{card.name}"
     end
   end
 
