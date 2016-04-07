@@ -4,8 +4,16 @@ module AdminArea
       @card_offers = CardOffer.includes(:card)
     end
 
+    def show
+      @card_offer = get_card_offer
+    end
+
     def new
       @card_offer = CardOffer.new
+    end
+
+    def edit
+      @card_offer = get_card_offer
     end
 
     def create
@@ -16,6 +24,16 @@ module AdminArea
         redirect_to admin_card_offer_path(@card_offer)
       else
         render :new
+      end
+    end
+
+    def update
+      @card_offer = get_card_offer
+      if @card_offer.update_attributes(card_offer_params)
+        flash[:success] = "Card offer was successfully updated."
+        redirect_to admin_card_offer_path(@card_offer)
+      else
+        render :edit
       end
     end
 
