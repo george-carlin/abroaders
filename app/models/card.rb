@@ -27,6 +27,21 @@ class Card < ApplicationRecord
   #
   # We should switch to Paperclip for images pronto.
 
+  concerning :Image do
+    included do
+      # Standard credit card dimensions are 85.60 × 53.98mm, which gives the
+      # following aspect ratio:
+      ASPECT_RATIO = 1.586
+
+      has_attached_file :image, styles: {
+        large:  "350x#{350 / ASPECT_RATIO}>",
+        medium: "210x#{210 / ASPECT_RATIO}>",
+        small:  "140x#{140 / ASPECT_RATIO}>",
+      }, default_url: "/images/:style/missing.png"
+      validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
+    end
+  end
+
   concerning :Survey do
     def not_on_survey
       !shown_on_survey
@@ -121,7 +136,5 @@ class Card < ApplicationRecord
   has_many :offers,   class_name: "CardOffer"
   has_many :accounts, class_name: "CardAccount"
   belongs_to :currency
-
-  # Scopes
 
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160407173154) do
+ActiveRecord::Schema.define(version: 20160407212200) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -106,19 +106,22 @@ ActiveRecord::Schema.define(version: 20160407173154) do
   add_index "card_offers", ["status"], name: "index_card_offers_on_status", using: :btree
 
   create_table "cards", force: :cascade do |t|
-    t.string   "code",                            null: false
-    t.string   "name",                            null: false
-    t.integer  "network",                         null: false
-    t.integer  "bp",                              null: false
-    t.integer  "type",                            null: false
-    t.integer  "annual_fee_cents",                null: false
-    t.boolean  "shown_on_survey",  default: true, null: false
-    t.integer  "currency_id",                     null: false
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
-    t.integer  "bank_id",                         null: false
+    t.string   "code",                              null: false
+    t.string   "name",                              null: false
+    t.integer  "network",                           null: false
+    t.integer  "bp",                                null: false
+    t.integer  "type",                              null: false
+    t.integer  "annual_fee_cents",                  null: false
+    t.boolean  "shown_on_survey",    default: true, null: false
+    t.integer  "currency_id",                       null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.integer  "bank_id",                           null: false
     t.string   "wallaby_id"
-    t.string   "image_name",                      null: false
+    t.string   "image_file_name",                   null: false
+    t.string   "image_content_type",                null: false
+    t.integer  "image_file_size",                   null: false
+    t.datetime "image_updated_at",                  null: false
   end
 
   add_index "cards", ["bank_id"], name: "index_cards_on_bank_id", using: :btree

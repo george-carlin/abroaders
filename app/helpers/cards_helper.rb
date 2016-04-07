@@ -5,13 +5,7 @@ module CardsHelper
   end
 
   def card_image_tag(card, size="180x114")
-    dir = Rails.root.join("app", "assets", "images", "cards")
-    if File.exists?(dir.join(card.image_name))
-      puts "success!"
-      image_tag "cards/#{card.image_name}", size: size
-    else
-      Rails.logger.warn "no image for card #{card.id} - #{card.name}"
-    end
+    image_tag card.image.url, size: size
   end
 
   def card_bp_filter_check_box_tag(bp)

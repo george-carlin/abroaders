@@ -15,6 +15,7 @@ gem 'figaro', '~> 1.1.1'
 gem 'httparty', '~> 0.13.7'
 gem 'jbuilder', '~> 2.0'
 gem 'jquery-rails'
+gem "paperclip", "~> 5.0.0.beta1"
 gem 'pg', '~> 0.18'
 gem 'puma'
 gem 'sass-rails'
