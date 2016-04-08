@@ -24,10 +24,6 @@ class PassengerSurvey < Form
 
   PASSENGER_ATTRS = %i[
     first_name
-    phone_number
-    whatsapp
-    text_message
-    imessage
     citizenship
     willing_to_apply
   ]
@@ -71,14 +67,10 @@ class PassengerSurvey < Form
 
   validates :main_passenger_first_name,
     length: { maximum: Passenger::NAME_MAX_LENGTH }, presence: true
-  validates :main_passenger_phone_number,
-    length: { maximum: Passenger::PHONE_MAX_LENGTH }, presence: true
 
   with_options if: :has_companion? do
     validates :companion_first_name,
      length: { maximum: Passenger::NAME_MAX_LENGTH }, presence: true
-    validates :companion_phone_number,
-      length: { maximum: Passenger::PHONE_MAX_LENGTH }, presence: true
   end
 
   validate :at_least_one_passenger_is_willing_to_apply, if: :has_companion?

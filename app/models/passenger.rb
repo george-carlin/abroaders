@@ -32,7 +32,6 @@ class Passenger < ApplicationRecord
   validates :account, uniqueness: { scope: :main }
 
   NAME_MAX_LENGTH  = 50
-  PHONE_MAX_LENGTH = 20
 
   # Associations
 
@@ -69,7 +68,7 @@ class Passenger < ApplicationRecord
 
   # Callbacks
 
-  auto_strip_attributes :first_name, :phone_number
+  auto_strip_attributes :first_name
 
   # Scopes
 

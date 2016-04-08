@@ -1,7 +1,6 @@
 FactoryGirl.define do
   factory :passenger, aliases: [:main_passenger] do
     association :account, factory: :account, onboarding_stage: "spending"
-    phone_number { Faker::PhoneNumber.phone_number }
     main true
 
     trait :main do

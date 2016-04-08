@@ -6,8 +6,6 @@ describe "admin section" do
 
     include_context "logged in as admin"
 
-    let(:phone_number) { "(555) 000-1234" }
-
     before do
       @currencies = create_list(:currency, 4)
       chase   = Bank.find_by(name: "Chase")
@@ -32,7 +30,6 @@ describe "admin section" do
       @passenger = create(
         :passenger,
         first_name:   "Fred",
-        phone_number: phone_number,
         citizenship: :us_permanent_resident
       )
       @account   = @passenger.account.reload
@@ -58,7 +55,6 @@ describe "admin section" do
 
     it "displays the passenger's info" do
       is_expected.to have_info "email", @passenger.email
-      is_expected.to have_info "phone-number", phone_number
       is_expected.to have_info "citizenship", "U.S. Permanent Resident"
     end
 

@@ -11,10 +11,6 @@ context "as an onboarded user" do
     )
     @account.build_main_passenger(
       first_name:   "James",
-      phone_number: "(555) 000 1234",
-      text_message: true,
-      whatsapp:     true,
-      imessage:     true,
       citizenship: :us_citizen,
       willing_to_apply: true,
     )
@@ -22,7 +18,6 @@ context "as an onboarded user" do
     if has_companion
       @account.build_companion(
         first_name:   "Luke",
-        phone_number: "(098) 555 5432",
         citizenship: :us_permanent_resident,
         willing_to_apply: false
       )
@@ -56,14 +51,6 @@ context "as an onboarded user" do
     it "shows me information about the main passenger" do
       within_main_passenger do
         expect(page).to have_selector "h2", text: "James"
-        expect(page).to have_content "(555) 000 1234"
-        expect(page).to have_selector \
-          ".passenger-phone-can-receive-icons .fa-comment" # text messages
-        expect(page).to have_selector \
-          ".passenger-phone-can-receive-icons .fa-whatsapp" # WhatsApp
-        expect(page).to have_selector \
-          ".passenger-phone-can-receive-icons .fa-wechat" # iMessage
-        expect(page).to have_content "U.S. Citizen"
       end
     end
 
@@ -84,14 +71,6 @@ context "as an onboarded user" do
       it "shows me information about my companion" do
         within_companion do
           expect(page).to have_selector "h2", text: "Luke"
-          expect(page).to have_content "(098) 555 5432"
-          expect(page).not_to have_selector \
-            ".passenger-phone-can-receive-icons .fa-comment" # text messages
-          expect(page).not_to have_selector \
-            ".passenger-phone-can-receive-icons .fa-whatsapp" # WhatsApp
-          expect(page).not_to have_selector \
-            ".passenger-phone-can-receive-icons .fa-wechat" # iMessage
-          expect(page).to have_content "U.S. Permanent Resident"
         end
       end
 

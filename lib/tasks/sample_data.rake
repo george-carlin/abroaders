@@ -43,15 +43,6 @@ namespace :ab do
           date = ((500).days + rand(24).hours + rand(60).minutes).ago
           account.created_at = account.confirmed_at = date
 
-          # Add some more variety to the passengers:
-          account.passengers.each do |passenger|
-            passenger.assign_attributes(
-              whatsapp: rand > 0.4,
-              text_message: rand > 0.1,
-              imessage: rand > 0.7,
-            )
-          end
-
           account.save!
         end
 

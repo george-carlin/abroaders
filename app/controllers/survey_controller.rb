@@ -104,13 +104,9 @@ class SurveyController < NonAdminController
 
   def passenger_survey_params
     params.require(:passenger_survey).permit(
-      :companion_citizenship, :companion_first_name, :companion_imessage,
-      :companion_phone_number,
-      :companion_text_message, :companion_whatsapp,
+      :companion_citizenship, :companion_first_name,
       :companion_willing_to_apply, :has_companion, :main_passenger_citizenship,
-      :main_passenger_first_name, :main_passenger_imessage,
-      :main_passenger_phone_number, :main_passenger_text_message,
-      :main_passenger_whatsapp, :main_passenger_willing_to_apply,
+      :main_passenger_first_name, :main_passenger_willing_to_apply,
       :shares_expenses,
     )
   end

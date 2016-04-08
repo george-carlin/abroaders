@@ -3,31 +3,6 @@
     <%= render "accounts/email", account: passenger.account %>
   <% end %>
 
-  <div class="survey-attr passenger-phone-number">
-    <%= fa_icon "phone", class: "contact-info-label" %>
-    &nbsp;<%= passenger.phone_number %>
-
-    <div class="passenger-phone-can-receive-icons">
-      <% if passenger.text_message? %>
-        <abbr title="The user can receive text messages on this number">
-          <%= fa_icon "comment fa-inverse"  %>
-        </abbr>
-      <% end %>
-      <% if passenger.whatsapp? %>
-        <abbr title="The user can receive WhatsApp messages on this number">
-          <%= fa_icon "whatsapp fa-inverse" %>
-        </abbr>
-      <% end %>
-      <%# font awesome doesn't have an icon for imessage, so use the %>
-      <%# 'wechat' icon instead. Shhhh... %>
-      <% if passenger.imessage? %>
-        <abbr title="The user can receive iMessages on this number">
-          <%= fa_icon "wechat fa-inverse" %>
-        </abbr>
-      <% end %>
-    </div>
-  </div><!-- .survey-attr passenger-phone-number -->
-
   <div class="survey-attr passenger-citizenship">
     <%= fa_icon "flag", class: "contact-info-label" %>
     &nbsp;

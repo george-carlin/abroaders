@@ -5,9 +5,7 @@ en:
     attributes:
       passenger_survey:
         main_passenger_first_name:   "First name"
-        main_passenger_phone_number: "Phone number"
         companion_first_name:   "First name"
-        companion_phone_number: "Phone number"
 
 
   activerecord:

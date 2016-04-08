@@ -16,26 +16,13 @@
   }
 }
 
-@mixin note {
+
+
+.passenger-business-spending .has-ein {
   position: relative;
   bottom: 2px;
   left: 9px;
   display: inline-block;
   font-size: 0.7em;
-}
-
-
-.passenger-phone-can-receive-icons {
-  display: inline-block;
-
-  abbr {
-    @include note;
-    border: none; // Remove the default border that <abbr> tags have.
-    margin-right: 3px;
-  }
-}
-
-.passenger-business-spending .has-ein {
-  @include note;
   font-style: italic;
 }

@@ -7,8 +7,6 @@ describe "admin section" do
   describe "passenger recommend card page" do
     subject { page }
 
-    let(:phone_number) { "(555) 000-1234" }
-
     let(:chase)   { Bank.find_by(name: "Chase")   }
     let(:us_bank) { Bank.find_by(name: "US Bank") }
 
@@ -38,7 +36,6 @@ describe "admin section" do
       )
       @passenger = @account.create_main_passenger!(
         first_name:   "Fred",
-        phone_number: phone_number,
         citizenship: :us_permanent_resident
       )
       if onboarded
@@ -210,7 +207,6 @@ describe "admin section" do
       end
 
       is_expected.to have_passenger_info "email", @passenger.email
-      is_expected.to have_passenger_info "phone-number", phone_number
       is_expected.to have_passenger_info "citizenship", "U.S. Permanent Resident"
       is_expected.to have_passenger_info "credit-score", 678
       is_expected.to have_passenger_info "personal-spending", "$2500"

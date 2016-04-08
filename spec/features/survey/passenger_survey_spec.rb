@@ -17,10 +17,6 @@ describe "as a new user" do
 
     DEFAULT_PASSENGER_FIELDS = %i[
       first_name
-      phone_number
-      whatsapp
-      text_message
-      imessage
       citizenship_us_citizen
       citizenship_us_permanent_resident
       citizenship_neither
@@ -28,11 +24,7 @@ describe "as a new user" do
 
     def fill_in_valid_main_passenger
       fill_in "#{mp_prefix}_first_name",   with: "Fred"
-      fill_in "#{mp_prefix}_phone_number", with: "0123412341"
       choose "#{mp_prefix}_citizenship_us_permanent_resident"
-      check  "#{mp_prefix}_text_message"
-      check  "#{mp_prefix}_imessage"
-      check  "#{mp_prefix}_whatsapp"
     end
 
     JQUERY_DEFAULT_SLIDE_DURATION = 0.4
@@ -156,11 +148,7 @@ describe "as a new user" do
           before do
             fill_in_valid_main_passenger
             fill_in "#{co_prefix}_first_name",   with: "Steve"
-            fill_in "#{co_prefix}_phone_number", with: "091827364650"
             choose "#{co_prefix}_citizenship_neither"
-            check  "#{co_prefix}_text_message"
-            check  "#{co_prefix}_imessage"
-            check  "#{co_prefix}_whatsapp"
             choose "#{ps_prefix}_shares_expenses_true"
           end
 
@@ -173,21 +161,13 @@ describe "as a new user" do
             mp = account.main_passenger
             expect(mp).to be_persisted
             expect(mp.first_name).to eq   "Fred"
-            expect(mp.phone_number).to eq "0123412341"
             expect(mp.citizenship).to eq  "us_permanent_resident"
-            expect(mp.text_message).to be_truthy
-            expect(mp.imessage).to be_truthy
-            expect(mp.whatsapp).to be_truthy
             expect(mp.willing_to_apply).to be_truthy
 
             co = account.companion
             expect(co).to be_persisted
             expect(co.first_name).to eq   "Steve"
-            expect(co.phone_number).to eq "091827364650"
             expect(co.citizenship).to eq  "neither"
-            expect(co.text_message).to be_truthy
-            expect(co.imessage).to be_truthy
-            expect(co.whatsapp).to be_truthy
             expect(co.willing_to_apply).to be_truthy
           end
 
@@ -231,10 +211,8 @@ describe "as a new user" do
             within error_message do
               is_expected.to have_content "Main passenger first name can't be blank"
               is_expected.to have_content "Main passenger last name can't be blank"
-              is_expected.to have_content "Main passenger phone number can't be blank"
               is_expected.to have_content "Companion first name can't be blank"
               is_expected.to have_content "Companion last name can't be blank"
-              is_expected.to have_content "Companion phone number can't be blank"
             end
           end
 
@@ -260,7 +238,6 @@ describe "as a new user" do
           me = account.main_passenger
           expect(me).to be_persisted
           expect(me.first_name).to eq "Fred"
-          expect(me.phone_number).to eq "0123412341"
           expect(me.citizenship).to eq "us_permanent_resident"
         end
 
@@ -304,7 +281,6 @@ describe "as a new user" do
           within error_message do
             is_expected.to have_content "First name can't be blank"
             is_expected.to have_content "Last name can't be blank"
-            is_expected.to have_content "Phone number can't be blank"
             is_expected.not_to have_content "Main passenger"
             is_expected.not_to have_content "Companion"
           end
