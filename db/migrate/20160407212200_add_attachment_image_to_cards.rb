@@ -13,6 +13,7 @@ class AddAttachmentImageToCards < ActiveRecord::Migration
 
     validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
 
+    # So that paperclip will save images in the correct directory:
     def self.name
       "Card"
     end
@@ -44,8 +45,10 @@ class AddAttachmentImageToCards < ActiveRecord::Migration
   end
 
   def down
-    #  add_column :cards, :image_name, :string
-    ##raise ActiveRecord::IrreversibleMigration
-    #remove_attachment :cards, :image
+    # Note: this will make you lose all the image data! Be careful. Also
+    # it's not an exact reverse as image_name was non-nullable before the 'up'
+    # migration, but it'll be nullable if you migrate then rollback
+    remove_attachment :cards, :image
+    add_column :cards, :image_name, :string
   end
 end
