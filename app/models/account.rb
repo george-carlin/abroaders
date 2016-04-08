@@ -51,6 +51,12 @@ class Account < ApplicationRecord
   accepts_nested_attributes_for :main_passenger
   accepts_nested_attributes_for :companion
 
+  # Callbacks
+
+  # The uniqueness validation on #email assumes that all email are lowercase -
+  # so make sure that they actually are lowercase, or bad things will happen
+  before_save { self.email = email.downcase if email.present? }
+
   # Scopes
 
 end

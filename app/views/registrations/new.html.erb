@@ -1,13 +1,28 @@
 <% provide :title, "Sign Up" %>
 
-<%= bootstrap_devise_error_messages! %>
+<% if @form.errors.any? %>
+  <%= render "shared/error_message" do %>
+    Couldn't create an account:
+
+    <ul>
+      <% @form.errors.full_messages.each do |error| %>
+        <li><%= error %></li>
+      <% end %>
+    </ul>
+  <% end  %>
+<% end %>
+
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h4><%= t('.sign_up', :default => "Sign up") %></h4>
+    <h4>Sign up</h4>
   </div>
+
   <div class="panel-body">
-    <%= form_for resource, as: resource_name, url: account_registration_path,
-                                              html: { role: "form" } do |f| %>
+    <%= form_for(
+      @form,
+      url: account_registration_path,
+      html: { role: "form" }
+    ) do |f| %>
 
       <div class="form-group">
         <%= f.label :email %>
@@ -15,7 +30,12 @@
       </div>
 
       <div class="form-group">
-        <%= f.label :password %><br />
+        <%= f.label :first_name %>
+        <%= f.text_field :first_name %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :password %>
         <%= f.password_field :password %>
       </div>
 
