@@ -2,7 +2,7 @@ module AdminArea
   module PassengersHelper
 
     def link_to_admin_passenger(passenger)
-      link_to(passenger.full_name, admin_passenger_path(passenger))
+      link_to(passenger.first_name, admin_passenger_path(passenger))
     end
 
     def link_to_admin_passenger_recommend_card(passenger)

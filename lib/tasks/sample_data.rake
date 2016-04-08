@@ -46,7 +46,6 @@ namespace :ab do
           # Add some more variety to the passengers:
           account.passengers.each do |passenger|
             passenger.assign_attributes(
-              middle_names: (Faker::Name.first_name if rand > 0.1),
               whatsapp: rand > 0.4,
               text_message: rand > 0.1,
               imessage: rand > 0.7,

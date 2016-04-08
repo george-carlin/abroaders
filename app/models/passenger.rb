@@ -4,10 +4,6 @@ class Passenger < ApplicationRecord
 
   enum citizenship:  [ :us_citizen, :us_permanent_resident, :neither]
 
-  def full_name
-    [first_name, middle_names, last_name].compact.join(" ")
-  end
-
   alias_attribute :main_passenger?, :main
 
   def companion?
@@ -73,7 +69,7 @@ class Passenger < ApplicationRecord
 
   # Callbacks
 
-  auto_strip_attributes :first_name, :middle_names, :last_name, :phone_number
+  auto_strip_attributes :first_name, :phone_number
 
   # Scopes
 

@@ -11,8 +11,6 @@ context "as an onboarded user" do
     )
     @account.build_main_passenger(
       first_name:   "James",
-      middle_names: "Earl",
-      last_name:    "Jones",
       phone_number: "(555) 000 1234",
       text_message: true,
       whatsapp:     true,
@@ -24,8 +22,6 @@ context "as an onboarded user" do
     if has_companion
       @account.build_companion(
         first_name:   "Luke",
-        middle_names: "George",
-        last_name:    "Skywalker",
         phone_number: "(098) 555 5432",
         citizenship: :us_permanent_resident,
         willing_to_apply: false
@@ -59,7 +55,7 @@ context "as an onboarded user" do
 
     it "shows me information about the main passenger" do
       within_main_passenger do
-        expect(page).to have_selector "h2", text: "James Earl Jones"
+        expect(page).to have_selector "h2", text: "James"
         expect(page).to have_content "(555) 000 1234"
         expect(page).to have_selector \
           ".passenger-phone-can-receive-icons .fa-comment" # text messages
@@ -87,7 +83,7 @@ context "as an onboarded user" do
 
       it "shows me information about my companion" do
         within_companion do
-          expect(page).to have_selector "h2", text: "Luke George Skywalker"
+          expect(page).to have_selector "h2", text: "Luke"
           expect(page).to have_content "(098) 555 5432"
           expect(page).not_to have_selector \
             ".passenger-phone-can-receive-icons .fa-comment" # text messages

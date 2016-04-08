@@ -1,8 +1,8 @@
-<% provide :title, "#{@passenger.full_name} - Recommend Card" %>
+<% provide :title, "#{@passenger.first_name} - Recommend Card" %>
 
 <div class="row">
   <div class="col-xs-12">
-    <h1><%= @passenger.full_name %> - Recommend Card</h1>
+    <h1><%= @passenger.first_name %> - Recommend Card</h1>
     <p>Account created on <%= @passenger.signed_up.strftime("%D") %></p>
   </div>
 

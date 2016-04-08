@@ -33,7 +33,7 @@ describe "admin section" do
         onboarded_accounts.slice(0,3).each do |account|
           within account_selector(account) do
             is_expected.to have_link(
-              account.main_passenger_full_name,
+              account.main_passenger_first_name,
               href: admin_passenger_path(account.main_passenger)
             )
           end
@@ -45,7 +45,7 @@ describe "admin section" do
       it "links to the companion's info page" do
         within account_selector(@accounts[2]) do
           is_expected.to have_link(
-            @accounts[2].companion_full_name,
+            @accounts[2].companion_first_name,
             href: admin_passenger_path(@accounts[2].companion)
           )
         end

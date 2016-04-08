@@ -38,8 +38,6 @@ describe "admin section" do
       )
       @passenger = @account.create_main_passenger!(
         first_name:   "Fred",
-        middle_names: "R. J.",
-        last_name:    "Smith",
         phone_number: phone_number,
         citizenship: :us_permanent_resident
       )

@@ -32,8 +32,6 @@ describe "admin section" do
       @passenger = create(
         :passenger,
         first_name:   "Fred",
-        middle_names: "R. J.",
-        last_name:    "Smith",
         phone_number: phone_number,
         citizenship: :us_permanent_resident
       )
@@ -55,7 +53,7 @@ describe "admin section" do
     it "says whether this is the main or companion passenger"
 
     it "has the passenger's name as the page header" do
-      is_expected.to have_selector "h1", text: "Fred R. J. Smith"
+      is_expected.to have_selector "h1", text: "Fred"
     end
 
     it "displays the passenger's info" do

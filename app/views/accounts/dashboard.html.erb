@@ -13,7 +13,7 @@
 <% current_account.passengers.each do |passenger| %>
   <div id="<%= dom_id(passenger) %>" class="<%= dom_class(passenger) %> row">
     <div class="col-xs-12">
-      <h2><%= passenger.full_name %></h2>
+      <h2><%= passenger.first_name %></h2>
     </div>
 
     <%= render(

@@ -25,11 +25,6 @@ class Account < ApplicationRecord
   end
   alias_attribute :has_companion?, :has_companion
 
-  with_options prefix: true, allow_nil: true do
-    delegate :full_name, to: :main_passenger
-    delegate :full_name, to: :companion
-  end
-
   def shared_spending
     # To eliminate the need for an extra DB column that will be null most of
     # the time: when spending is shared, it's stored internally under

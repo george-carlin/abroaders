@@ -17,8 +17,6 @@ describe "as a new user" do
 
     DEFAULT_PASSENGER_FIELDS = %i[
       first_name
-      middle_names
-      last_name
       phone_number
       whatsapp
       text_message
@@ -30,8 +28,6 @@ describe "as a new user" do
 
     def fill_in_valid_main_passenger
       fill_in "#{mp_prefix}_first_name",   with: "Fred"
-      fill_in "#{mp_prefix}_middle_names", with: "James"
-      fill_in "#{mp_prefix}_last_name",    with: "Bloggs"
       fill_in "#{mp_prefix}_phone_number", with: "0123412341"
       choose "#{mp_prefix}_citizenship_us_permanent_resident"
       check  "#{mp_prefix}_text_message"
@@ -160,8 +156,6 @@ describe "as a new user" do
           before do
             fill_in_valid_main_passenger
             fill_in "#{co_prefix}_first_name",   with: "Steve"
-            fill_in "#{co_prefix}_middle_names", with: "Peter"
-            fill_in "#{co_prefix}_last_name",    with: "Jones"
             fill_in "#{co_prefix}_phone_number", with: "091827364650"
             choose "#{co_prefix}_citizenship_neither"
             check  "#{co_prefix}_text_message"
@@ -179,8 +173,6 @@ describe "as a new user" do
             mp = account.main_passenger
             expect(mp).to be_persisted
             expect(mp.first_name).to eq   "Fred"
-            expect(mp.middle_names).to eq "James"
-            expect(mp.last_name).to eq    "Bloggs"
             expect(mp.phone_number).to eq "0123412341"
             expect(mp.citizenship).to eq  "us_permanent_resident"
             expect(mp.text_message).to be_truthy
@@ -191,8 +183,6 @@ describe "as a new user" do
             co = account.companion
             expect(co).to be_persisted
             expect(co.first_name).to eq   "Steve"
-            expect(co.middle_names).to eq "Peter"
-            expect(co.last_name).to eq    "Jones"
             expect(co.phone_number).to eq "091827364650"
             expect(co.citizenship).to eq  "neither"
             expect(co.text_message).to be_truthy
@@ -270,8 +260,6 @@ describe "as a new user" do
           me = account.main_passenger
           expect(me).to be_persisted
           expect(me.first_name).to eq "Fred"
-          expect(me.middle_names).to eq "James"
-          expect(me.last_name).to eq "Bloggs"
           expect(me.phone_number).to eq "0123412341"
           expect(me.citizenship).to eq "us_permanent_resident"
         end

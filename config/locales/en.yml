@@ -5,12 +5,8 @@ en:
     attributes:
       passenger_survey:
         main_passenger_first_name:   "First name"
-        main_passenger_middle_names: "Middle names"
-        main_passenger_last_name:    "Last name"
         main_passenger_phone_number: "Phone number"
         companion_first_name:   "First name"
-        companion_middle_names: "Middle names"
-        companion_last_name:    "Last name"
         companion_phone_number: "Phone number"
 
 
