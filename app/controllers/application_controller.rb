@@ -9,7 +9,9 @@ class ApplicationController < ActionController::Base
     if current_admin
       render "admin_area/dashboard"
     elsif current_account
-      redirect_to_survey and return unless current_account.onboarded?
+      # Forget the survey redirection until we've got the individual forms working
+      # etc TODO
+      # redirect_to_survey and return unless current_account.onboarded?
       render "accounts/dashboard"
     end
   end
