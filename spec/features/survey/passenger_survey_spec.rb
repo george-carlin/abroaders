@@ -33,7 +33,6 @@ describe "as a new user" do
       fill_in "#{mp_prefix}_middle_names", with: "James"
       fill_in "#{mp_prefix}_last_name",    with: "Bloggs"
       fill_in "#{mp_prefix}_phone_number", with: "0123412341"
-      select "(GMT+00:00) London", from: "#{ps_prefix}_time_zone"
       choose "#{mp_prefix}_citizenship_us_permanent_resident"
       check  "#{mp_prefix}_text_message"
       check  "#{mp_prefix}_imessage"
@@ -51,16 +50,6 @@ describe "as a new user" do
     it "has inputs for the main passenger's attributes" do
       DEFAULT_PASSENGER_FIELDS.each do |field|
         is_expected.to have_field "#{mp_prefix}_#{field}"
-      end
-    end
-
-    describe "the 'time zone' dropdown" do
-      it "has US time zones sorted to the top" do
-        input_name = "passenger_survey[time_zone]"
-        us_zones   = ActiveSupport::TimeZone.us_zones.map(&:name)
-        options  = all("select[name='#{input_name}'] > option")
-        expect(options.first(us_zones.length).map(&:value)).to \
-          match_array(us_zones)
       end
     end
 
@@ -185,7 +174,6 @@ describe "as a new user" do
             expect{submit_form}.to change{account.passengers.count}.by(2)
 
             account.reload
-            expect(account.time_zone).to eq "London"
             expect(account.shares_expenses).to be_truthy
 
             mp = account.main_passenger
@@ -279,7 +267,6 @@ describe "as a new user" do
           expect(account.main_passenger).not_to be_persisted
           expect{submit_form}.to change{account.passengers.count}.by(1)
           account.reload
-          expect(account.time_zone).to eq "London"
           me = account.main_passenger
           expect(me).to be_persisted
           expect(me.first_name).to eq "Fred"

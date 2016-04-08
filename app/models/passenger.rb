@@ -18,7 +18,7 @@ class Passenger < ApplicationRecord
     spending_info.try(:persisted?)
   end
 
-  delegate :time_zone, :onboarded?, :email, to: :account
+  delegate :onboarded?, :email, to: :account
   delegate :credit_score, :will_apply_for_loan, :personal_spending,
     :business_spending, :has_business, :has_business?, :has_business_with_ein?,
     :has_business_without_ein?, :no_business?,

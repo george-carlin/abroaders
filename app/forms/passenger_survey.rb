@@ -15,12 +15,11 @@ class PassengerSurvey < Form
       send :"companion_#{attr}=", @account.companion.send(attr)
     end
     self.shares_expenses = @account.shares_expenses
-    self.time_zone       = @account.time_zone
   end
 
   # ---- Attributes ----
 
-  attr_accessor :time_zone, :shares_expenses, :has_companion
+  attr_accessor :shares_expenses, :has_companion
   alias_method :has_companion?, :has_companion
 
   PASSENGER_ATTRS = %i[
@@ -45,7 +44,6 @@ class PassengerSurvey < Form
 
   def save
     super do
-      @account.time_zone        = time_zone
       @account.shares_expenses  = shares_expenses
       @account.onboarding_stage = "spending"
 
@@ -72,8 +70,6 @@ class PassengerSurvey < Form
   end
 
   # Validations
-
-  validates :time_zone, presence: true
 
   validates :main_passenger_first_name,
     length: { maximum: Passenger::NAME_MAX_LENGTH }, presence: true

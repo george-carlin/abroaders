@@ -38,8 +38,4 @@
              end %>
     <%= t("activerecord.attributes.passenger.citizenships.#{key}") %>
   </div>
-
-  <% if local_assigns[:time_zone] %>
-    <%= render "accounts/time_zone", account: passenger.account %>
-  <% end %>
 </div>

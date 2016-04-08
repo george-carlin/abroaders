@@ -37,8 +37,7 @@ describe "admin section" do
         phone_number: phone_number,
         citizenship: :us_permanent_resident
       )
-      @account   = @passenger.account
-      @account.update_attributes!(time_zone: "Eastern Time (US & Canada)")
+      @account   = @passenger.account.reload
       extra_setup
       visit admin_passenger_path(@passenger)
     end

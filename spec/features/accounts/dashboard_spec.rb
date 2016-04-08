@@ -7,7 +7,6 @@ context "as an onboarded user" do
     @account = create(
       :account,
       email: email,
-      time_zone: time_zone,
       shares_expenses: shares_expenses,
     )
     @account.build_main_passenger(
@@ -40,7 +39,6 @@ context "as an onboarded user" do
 
   let(:account) { @account }
   let(:email) { "thedude@lebowski.com" }
-  let(:time_zone) { "London" }
   let(:shares_expenses) { false }
   let(:has_companion)   { true }
 
@@ -56,10 +54,7 @@ context "as an onboarded user" do
     before { visit root_path }
 
     it "shows me the basic information about my account" do
-      within ".container" do
-        is_expected.to have_content email
-        is_expected.to have_content ActiveSupport::TimeZone.new(time_zone).to_s
-      end
+      within(".container") { is_expected.to have_content email }
     end
 
     it "shows me information about the main passenger" do

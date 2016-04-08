@@ -34,7 +34,6 @@ describe "admin section" do
       # Make the account created_at stamp different from the passenger's:
       @account   = create(
         :account,
-        time_zone: "Eastern Time (US & Canada)",
         created_at: 4.days.ago
       )
       @passenger = @account.create_main_passenger!(

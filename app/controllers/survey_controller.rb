@@ -112,7 +112,7 @@ class SurveyController < NonAdminController
       :main_passenger_last_name, :main_passenger_middle_names,
       :main_passenger_phone_number, :main_passenger_text_message,
       :main_passenger_whatsapp, :main_passenger_willing_to_apply,
-      :shares_expenses, :time_zone,
+      :shares_expenses,
     )
   end
 

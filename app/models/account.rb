@@ -30,14 +30,6 @@ class Account < ApplicationRecord
     delegate :full_name, to: :companion
   end
 
-  def time_zone_name
-    if time_zone?
-      ActiveSupport::TimeZone.new(time_zone).to_s
-    else
-      "Unknown"
-    end
-  end
-
   def shared_spending
     # To eliminate the need for an extra DB column that will be null most of
     # the time: when spending is shared, it's stored internally under
@@ -47,8 +39,6 @@ class Account < ApplicationRecord
   end
 
   # Validations
-
-  validates :time_zone, presence: { unless: "travel_plans? || passengers?" }
 
   # Associations
 
