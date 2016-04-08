@@ -15,7 +15,41 @@
 
 <div class="row">
   <div class="col-xs-7">
-    <pre><%= JSON.pretty_generate(@card.attributes.as_json) %></pre>
+    <dt>Code</dt>
+    <dd><%= @card.code %></dd>
+
+    <dt>Name</dt>
+    <dd><%= @card.name %></dd>
+
+    <dt>Network</dt>
+    <dd><%= t("activerecord.attributes.card.networks.#{@card.network}") %></dd>
+
+    <dt>B/P</dt>
+    <dd><%= @card.bp.capitalize %></dd>
+
+    <dt>Type</dt>
+    <dd><%= t("activerecord.attributes.card.types.#{@card.type}") %></dd>
+
+    <dt>Annual fee</dt>
+    <dd><%= "$%.2f" % @card.annual_fee %></dd>
+
+    <dt>Currency</dt>
+    <dd><%= @card.currency.name %></dd>
+
+    <dt>Bank</dt>
+    <dd><%= @card.bank_name %></dd>
+
+    <dt>Wallaby ID</dt>
+    <dd><%= @card.wallaby_id %></dd>
+
+    <dt>Shown on survey?</dt>
+    <dd><%= @card.shown_on_survey %></dd>
+
+    <dt>Created at</dt>
+    <dd><%= @card.created_at %></dd>
+
+    <dt>Last updated at</dt>
+    <dd><%= @card.updated_at %></dd>
   </div>
 
   <div class="col-xs-5">
@@ -25,6 +59,8 @@
 
     <p>
       <%= link_to "Edit", edit_admin_card_path(@card) %>
+      |
+      <%= link_to "Back to all cards", admin_cards_path %>
     </p>
   </div>
 </div>

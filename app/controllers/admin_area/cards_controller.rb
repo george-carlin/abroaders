@@ -23,7 +23,7 @@ module AdminArea
 
       if @card.save
         flash[:success] = "Card was successfully created."
-        redirect_to admin_cards_path
+        redirect_to admin_card_path(@card)
       else
         render :new
       end
@@ -39,7 +39,7 @@ module AdminArea
       @card = get_card
       if @card.update(card_params)
         # TODO redirect to @card once that page is ready
-        redirect_to admin_cards_path, notice: 'Card was successfully updated.'
+        redirect_to admin_card_path(@card), notice: 'Card was successfully updated.'
       else
         render :edit
       end
@@ -54,7 +54,7 @@ module AdminArea
     def card_params
       params.require(:card).permit(
         :code, :name, :network, :bp, :type, :annual_fee, :bank_id, :currency_id,
-        :shown_on_survey
+        :shown_on_survey, :image
       )
     end
 

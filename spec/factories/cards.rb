@@ -7,7 +7,8 @@ FactoryGirl.define do
     type    { Card.types.keys.sample }
     bank_id { Bank.all.sample.id }
     annual_fee_cents { rand(500_00) + 10_00 }
-    image { File.open(Rails.root.join("app/assets/images/example_card_image.png")) }
+    # TODO this has to be a big performance drain. Any way this can be stubbed?
+    image { File.open(Rails.root.join("spec","support","example_card_image.png")) }
 
     currency { Currency.all.sample || create(:currency) }
 

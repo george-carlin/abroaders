@@ -2,6 +2,8 @@
 
 <%= form_for [:admin, card] do |f| %>
 
+  <p>All fields are required</p>
+
   <div class="form-group">
     <%= f.label      :code %>
     <p class="help-block">
@@ -19,7 +21,7 @@
 
   <div class="form-group">
     <%= f.label  :network %>
-    <%= f.select :network, options_for_enum_select(Card.networks, f.object.network) %>
+    <%= f.select :network, options_for_card_network_select(f.object.network) %>
   </div>
 
   <div class="form-group">
@@ -29,7 +31,7 @@
 
   <div class="form-group">
     <%= f.label  :type %>
-    <%= f.select :type, options_for_enum_select(Card.types, f.object.type) %>
+    <%= f.select :type, options_for_card_type_select(f.object.type) %>
   </div>
 
   <div class="form-group">
@@ -53,6 +55,11 @@
   </div>
 
   <div class="form-group">
+    <%= f.label :image %>
+    <%= f.file_field :image %>
+  </div>
+
+  <div class="form-group">
     <%= f.label :shown_on_survey, "Ask about this card on the onboarding survey?" %>
     <%= f.check_box :shown_on_survey %>
   </div>
@@ -61,7 +68,7 @@
 
   &nbsp;&nbsp;
 
-  <%= link_to "Cancel", admin_cards_path %>
+  <%= link_to "Cancel", @card.persisted? ? admin_card_path(@card) : admin_cards_path %>
 
 <% end %>
 
