@@ -29,6 +29,9 @@ ApplicationRecord.transaction do
 
   # Import cards
   JSON.parse(File.read(seeds_dir.join("cards.json"))).each do |data|
+    data["image"] = File.open(
+      Rails.root.join("lib", "seeds", "cards", data.delete("image_name"))
+    )
     Card.create!(data)
   end
   puts "created #{Card.count} cards"
