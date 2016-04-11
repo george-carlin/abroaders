@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "travel plans page" do
+describe "new travel plan page", :onboarding do
 
   let(:account) { create(:account) }
   let!(:me) { create(:person, account: account) }

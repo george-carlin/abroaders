@@ -1,7 +1,9 @@
 require "rails_helper"
 
-describe "as a new user", :js do
+describe "as a new user", :js, :onboarding do
   subject { page }
+
+  before { skip }
 
   before do
     @account = create(:account, onboarding_stage: :readiness)

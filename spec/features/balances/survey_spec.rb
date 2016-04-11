@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "as a new user" do
+describe "the balance survey page", :onboarding do
   subject { page }
 
   let!(:account) { create(:account) }

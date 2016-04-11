@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "the spending info survey" do
+describe "the spending info survey", :onboarding do
   subject { page }
 
   let!(:account) { create(:account) }

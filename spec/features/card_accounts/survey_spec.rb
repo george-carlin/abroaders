@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "as a new user" do
+describe "card accounts survey", :onboarding do
   subject { page }
 
   let!(:account) { create(:account) }

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "travel plans page" do
+describe "travel plans index page" do
   include AirportMacros
   subject { page }
 

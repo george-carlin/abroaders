@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "new companion page" do
+describe "new companion page", :onboarding do
   subject { page }
 
   let!(:account) { create(:account) }

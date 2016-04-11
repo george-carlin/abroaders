@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "the sign up page" do
+describe "the sign up page", :onboarding do
   subject { page }
 
   before { visit new_account_registration_path }
