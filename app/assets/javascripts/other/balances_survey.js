@@ -1,5 +1,3 @@
-const $ = require("jquery");
-
 $(document).ready(function () {
 
   $(".currency_balance_checkbox").click(function () {
@@ -13,7 +11,5 @@ $(document).ready(function () {
       .prop("disabled", !checked)
       .toggle(checked);
   });
-  
-});
 
-// Nothing to export
+});
