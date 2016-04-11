@@ -21,7 +21,7 @@ class CardAccount < ApplicationRecord
   # a) when the user tells us about his pre-existing card accounts on signup.
   # b) for the legacy data we had when the app was first created.
 
-  validates :passenger, presence: true
+  validates :person, presence: true
   validates :status, presence: true
 
   validate :exactly_one_of_card_and_offer_is_present
@@ -29,7 +29,7 @@ class CardAccount < ApplicationRecord
   # Associations
 
   belongs_to :card
-  belongs_to :passenger
+  belongs_to :person
   belongs_to :offer, class_name: "CardOffer"
 
   alias_method :original_card, :card

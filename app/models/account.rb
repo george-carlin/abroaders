@@ -39,9 +39,9 @@ class Account < ApplicationRecord
 
   has_many :travel_plans
 
-  has_many :passengers
-  has_one :main_passenger, -> { main }, class_name: "Passenger"
-  has_one :companion, -> { companion }, class_name: "Passenger"
+  has_many :people
+  has_one :main_passenger, -> { main }, class_name: "Person"
+  has_one :companion, -> { companion }, class_name: "Person"
 
   has_one :main_passenger_spending_info,
             through: :main_passenger, source: :spending_info

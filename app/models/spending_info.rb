@@ -12,12 +12,12 @@ class SpendingInfo < ActiveRecord::Base
     has_business_with_ein? || has_business_without_ein?
   end
 
-  delegate :main, :main?, to: :passenger
+  delegate :main, :main?, to: :person
 
   # Associations
 
-  belongs_to :passenger
-  has_one :account, through: :passenger
+  belongs_to :person
+  has_one :account, through: :person
 
   # Validations
 

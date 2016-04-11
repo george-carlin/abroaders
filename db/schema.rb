@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160408171829) do
+ActiveRecord::Schema.define(version: 20160411084330) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,8 +33,8 @@ ActiveRecord::Schema.define(version: 20160408171829) do
     t.string   "unconfirmed_email"
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
-    t.boolean  "shares_expenses",        default: false, null: false
     t.integer  "onboarding_stage",       default: 0,     null: false
+    t.boolean  "shares_expenses",        default: false, null: false
   end
 
   add_index "accounts", ["confirmation_token"], name: "index_accounts_on_confirmation_token", unique: true, using: :btree
@@ -60,20 +60,20 @@ ActiveRecord::Schema.define(version: 20160408171829) do
   add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
 
   create_table "balances", force: :cascade do |t|
-    t.integer  "passenger_id", null: false
-    t.integer  "currency_id",  null: false
-    t.integer  "value",        null: false
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.integer  "person_id",   null: false
+    t.integer  "currency_id", null: false
+    t.integer  "value",       null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   add_index "balances", ["currency_id"], name: "index_balances_on_currency_id", using: :btree
-  add_index "balances", ["passenger_id", "currency_id"], name: "index_balances_on_passenger_id_and_currency_id", unique: true, using: :btree
-  add_index "balances", ["passenger_id"], name: "index_balances_on_passenger_id", using: :btree
+  add_index "balances", ["person_id", "currency_id"], name: "index_balances_on_person_id_and_currency_id", unique: true, using: :btree
+  add_index "balances", ["person_id"], name: "index_balances_on_person_id", using: :btree
 
   create_table "card_accounts", force: :cascade do |t|
     t.integer  "card_id"
-    t.integer  "passenger_id",                   null: false
+    t.integer  "person_id",                      null: false
     t.integer  "offer_id"
     t.integer  "status",                         null: false
     t.datetime "recommended_at"
@@ -166,40 +166,40 @@ ActiveRecord::Schema.define(version: 20160408171829) do
   add_index "flights", ["travel_plan_id", "position"], name: "index_flights_on_travel_plan_id_and_position", unique: true, using: :btree
   add_index "flights", ["travel_plan_id"], name: "index_flights_on_travel_plan_id", using: :btree
 
-  create_table "passengers", force: :cascade do |t|
+  create_table "people", force: :cascade do |t|
     t.integer  "account_id",                      null: false
     t.string   "first_name",                      null: false
-    t.integer  "citizenship",      default: 0,    null: false
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
     t.boolean  "main",             default: true, null: false
     t.boolean  "willing_to_apply", default: true, null: false
+    t.integer  "citizenship",      default: 0,    null: false
   end
 
-  add_index "passengers", ["account_id", "main"], name: "index_passengers_on_account_id_and_main", unique: true, using: :btree
+  add_index "people", ["account_id", "main"], name: "index_people_on_account_id_and_main", unique: true, using: :btree
 
   create_table "readiness_statuses", force: :cascade do |t|
-    t.integer  "passenger_id",       null: false
+    t.integer  "person_id",          null: false
     t.boolean  "ready",              null: false
     t.string   "unreadiness_reason"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
   end
 
-  add_index "readiness_statuses", ["passenger_id"], name: "index_readiness_statuses_on_passenger_id", unique: true, using: :btree
+  add_index "readiness_statuses", ["person_id"], name: "index_readiness_statuses_on_person_id", unique: true, using: :btree
 
   create_table "spending_infos", force: :cascade do |t|
-    t.integer  "passenger_id",                        null: false
+    t.integer  "person_id",                           null: false
     t.integer  "credit_score",                        null: false
     t.boolean  "will_apply_for_loan", default: false, null: false
-    t.integer  "personal_spending",   default: 0,     null: false
     t.integer  "business_spending",   default: 0
     t.integer  "has_business",        default: 0,     null: false
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.integer  "personal_spending",   default: 0,     null: false
   end
 
-  add_index "spending_infos", ["passenger_id"], name: "index_spending_infos_on_passenger_id", unique: true, using: :btree
+  add_index "spending_infos", ["person_id"], name: "index_spending_infos_on_person_id", unique: true, using: :btree
 
   create_table "travel_plans", force: :cascade do |t|
     t.integer   "account_id",                       null: false
@@ -216,17 +216,17 @@ ActiveRecord::Schema.define(version: 20160408171829) do
   add_index "travel_plans", ["type"], name: "index_travel_plans_on_type", using: :btree
 
   add_foreign_key "balances", "currencies", on_delete: :cascade
-  add_foreign_key "balances", "passengers", on_delete: :cascade
+  add_foreign_key "balances", "people", on_delete: :cascade
   add_foreign_key "card_accounts", "card_offers", column: "offer_id", on_delete: :cascade
   add_foreign_key "card_accounts", "cards", on_delete: :restrict
-  add_foreign_key "card_accounts", "passengers", on_delete: :cascade
+  add_foreign_key "card_accounts", "people", on_delete: :cascade
   add_foreign_key "card_offers", "cards", on_delete: :cascade
   add_foreign_key "cards", "currencies", on_delete: :restrict
   add_foreign_key "destinations", "destinations", column: "parent_id", on_delete: :restrict
   add_foreign_key "flights", "destinations", column: "from_id", on_delete: :restrict
   add_foreign_key "flights", "destinations", column: "to_id", on_delete: :restrict
   add_foreign_key "flights", "travel_plans", on_delete: :cascade
-  add_foreign_key "passengers", "accounts", on_delete: :cascade
-  add_foreign_key "readiness_statuses", "passengers", on_delete: :cascade
+  add_foreign_key "people", "accounts", on_delete: :cascade
+  add_foreign_key "readiness_statuses", "people", on_delete: :cascade
   add_foreign_key "travel_plans", "accounts", on_delete: :cascade
 end

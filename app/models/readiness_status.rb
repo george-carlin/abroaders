@@ -1,5 +1,5 @@
 class ReadinessStatus < ApplicationRecord
 
-  belongs_to :passenger
+  belongs_to :person
 
 end

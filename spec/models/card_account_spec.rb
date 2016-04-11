@@ -3,10 +3,10 @@ require 'rails_helper'
 describe CardAccount do
 
   let(:account)   { build(:account) }
-  let(:passenger) { build(:passenger, account: account) }
+  let(:person)    { build(:person, account: account) }
   let(:card)      { build(:card) }
   let(:offer)     { build(:card_offer, card: card) }
-  let(:card_account) { described_class.new(passenger: passenger) }
+  let(:card_account) { described_class.new(person: person) }
 
   describe "::Statuses" do
     before { card_account.offer = offer }
@@ -92,7 +92,7 @@ describe CardAccount do
       end
 
       describe "#applyable?" do
-        it "is true if the passenger can apply for the card" do
+        it "is true if the person can apply for the card" do
           card_account.status = :recommended
           expect(card_account.applyable?).to be_truthy
           %i[declined denied open closed].each do |status|
@@ -103,7 +103,7 @@ describe CardAccount do
       end
 
       describe "#declinable?" do
-        it "is true if the passenger can decline to apply for the card" do
+        it "is true if the person can decline to apply for the card" do
           card_account.status = :recommended
           expect(card_account.declinable?).to be_truthy
           %i[declined denied open closed].each do |status|

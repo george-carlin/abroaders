@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :passenger, aliases: [:main_passenger] do
+  factory :person, aliases: [:main_passenger] do
     association :account, factory: :account, onboarding_stage: "spending"
     main true
 
@@ -27,7 +27,7 @@ FactoryGirl.define do
     end
 
     factory :companion,                    traits: [:companion]
-    factory :passenger_with_spending,      traits: [:with_spending]
+    factory :person_with_spending,         traits: [:with_spending]
     factory :main_passenger_with_spending, traits: [:with_spending, :main]
     factory :companion_with_spending,      traits: [:with_spending, :companion]
   end
