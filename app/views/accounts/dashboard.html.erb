@@ -113,37 +113,3 @@
     <% end %>
   </div>
 </div>
-
-
-<% if false %>
-<% current_account.passengers.each do |passenger| %>
-  <div id="<%= dom_id(passenger) %>" class="<%= dom_class(passenger) %> row">
-    <div class="col-xs-12">
-      <h2><%= passenger.first_name %></h2>
-    </div>
-
-    <%= render(
-      "passengers/passenger",
-      passenger: passenger,
-      email:     true,
-    ) %>
-
-    <%= render(
-      "spending_infos/spending_info",
-      spending_info: passenger.spending_info
-    ) %>
-
-    <% if has_companion? %>
-      <div class="col-xs-12">
-        <p>
-          <i>
-            You have indicated that <%= passenger.first_name %> is
-            <%= "not" unless passenger.willing_to_apply? %> willing to apply
-            for cards
-          </i>
-        </p>
-      </div>
-    <% end %>
-  </div>
-<% end %>
-<% end %>
