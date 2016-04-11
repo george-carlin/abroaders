@@ -31,9 +31,12 @@ describe "the sign up page" do
     describe "with valid information for a new account" do
       before { fill_in_valid_info }
 
-      it "creates a new account with 1 passenger" do
+      let(:new_account) { Account.last }
+      let(:new_person)  { new_account.people.first }
+
+      it "creates a new account with 1 person" do
         expect{ submit_form }.to change{Account.count}.by(1)
-        expect(Account.last.passengers.count).to eq 1
+        expect(new_account.people.count).to eq 1
       end
 
       it "saves my email in lower case" do
@@ -43,16 +46,15 @@ describe "the sign up page" do
         # Account#email. If you allow non-lowercase emails to be saved in the
         # DB, we may end up with accounts with duplicate emails!
         submit_form
-        expect(Account.last.email).to eq "testaccount@example.com"
+        expect(new_account.email).to eq "testaccount@example.com"
       end
 
       describe "the created account" do
         before { submit_form }
 
         it "has the attributes I provided in the form" do
-          account = Account.last
-          expect(account.email).to eq "testaccount@example.com"
-          expect(account.main_passenger.first_name).to eq "Luke"
+          expect(new_account.email).to eq "testaccount@example.com"
+          expect(new_person.first_name).to eq "Luke"
         end
       end
 
@@ -72,9 +74,8 @@ describe "the sign up page" do
         end
 
         it "strips the whitespace before save" do
-          account = Account.last
-          expect(account.email).to eq "testaccount@example.com"
-          expect(account.main_passenger.first_name).to eq "Luke"
+          expect(new_account.email).to eq "testaccount@example.com"
+          expect(new_person.first_name).to eq "Luke"
         end
       end
     end

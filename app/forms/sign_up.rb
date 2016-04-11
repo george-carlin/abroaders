@@ -23,8 +23,8 @@ class SignUp < Form
       )
       account.save!(validate: false)
 
-      passenger = account.build_main_passenger(first_name: first_name.strip)
-      passenger.save!(validate: false)
+      person = account.people.build(first_name: first_name.strip)
+      person.save!(validate: false)
     end
   end
 
@@ -37,7 +37,7 @@ class SignUp < Form
 
   validates :first_name,
     presence: true,
-    length: { maximum: Passenger::NAME_MAX_LENGTH }
+    length: { maximum: Person::NAME_MAX_LENGTH }
   validates :password,
     confirmation: true,
     presence: true,

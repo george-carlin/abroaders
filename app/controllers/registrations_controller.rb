@@ -11,7 +11,7 @@ class RegistrationsController < Devise::RegistrationsController
     if @form.save
       set_flash_message! :notice, :signed_up
       sign_in(:account, @form.account)
-      respond_with resource, location: survey_passengers_path
+      respond_with resource, location: survey_travel_plan_path
     else
       @form.account.clean_up_passwords
       set_minimum_password_length
