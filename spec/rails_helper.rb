@@ -79,4 +79,12 @@ RSpec.configure do |config|
     login_as admin, scope: :admin
   end
 
+  JQUERY_DEFAULT_SLIDE_DURATION = 0.4
+  # Some elements on the page are hidden/shown using jQuery's 'slide' methods,
+  # which by default take 400ms to complete. So use this method to wait
+  # for a slideUp/slideDown to finish:
+  def wait_for_slide
+    sleep JQUERY_DEFAULT_SLIDE_DURATION
+  end
+
 end

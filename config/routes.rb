@@ -36,12 +36,6 @@ Rails.application.routes.draw do
 
   scope :survey, controller: :survey, as: :survey do
 
-    get  :passengers, action: :new_passengers
-    post :passengers, action: :create_passengers
-
-    get  :spending, action: :new_spending
-    post :spending, action: :create_spending
-
     passenger_constraints = { passenger: /(main)|(companion)/ }
 
     get  "cards/(:passenger)", action: :new_card_accounts,
