@@ -7,9 +7,12 @@ describe "the spending info survey" do
   let!(:me) { create(:person, account: account) }
 
   before do
+    create(:spending_info, person: me) if already_added
     login_as(account, scope: :account)
     visit new_person_spending_info_path(me)
   end
+
+  let(:already_added) { false }
 
   let(:submit_form) { click_button "Save" }
 
@@ -26,6 +29,13 @@ describe "the spending info survey" do
   end
 
   pending "it asks me about the total spending for the account... sometimes"
+
+  describe "when I have already added spending info" do
+    let(:already_added) { true }
+    it "redirects me to the cards survey" do
+      expect(current_path).to eq survey_person_card_accounts_path(me)
+    end
+  end
 
   describe "'I have a business'" do
     it "is 'no' by default" do
@@ -101,12 +111,6 @@ describe "the spending info survey" do
           expect(new_info.will_apply_for_loan).to be_truthy
           expect(new_info.has_business).to eq "no_business"
         end
-
-        it "takes me to the card accounts survey" do
-          pending "needs fixing once onboarding flow has been rethought"
-          submit_form
-          expect(current_path).to eq survey_card_accounts_path(:main)
-        end
       end
 
       context "saying I do have a business" do
@@ -124,31 +128,17 @@ describe "the spending info survey" do
           expect(new_info.has_business).to eq "without_ein"
           expect(new_info.business_spending_usd).to eq 5000
         end
-
-        it "takes me to the card accounts survey" do
-          pending "needs fixing once onboarding flow has been rethought"
-          submit_form
-          expect(current_path).to eq survey_card_accounts_path(:main)
-        end
       end
 
-      it "marks my 'onboarding stage' as 'main passenger cards'" do
-        pending "the whole 'onboarding stage' thing needs serious rethinking"
+      it "takes me to the card survey page" do
         submit_form
-        expect(account.reload.onboarding_stage).to eq "main_passenger_cards"
+        expect(current_path).to eq survey_person_card_accounts_path(me)
       end
-
-      it "redirects me to... somewhere"
     end
 
     describe "with invalid information" do
       it "doesn't save any spending info" do
         expect{submit_form}.not_to change{SpendingInfo.count}
-      end
-
-      it "doesn't change my 'onboarding stage'" do
-        skip "needs fixing once onboarding flow has been rethought"
-        expect{submit_form}.not_to change{account.reload.onboarding_stage}
       end
 
       it "shows the form again with an error message" do

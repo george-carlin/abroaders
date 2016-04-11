@@ -7,11 +7,7 @@
 
 <%= render "shared/model_validation_errors", model: @form %>
 
-<%= form_for(
-  @form,
-  url: current_account.onboarded? ? travel_plans_path : survey_travel_plan_path,
-  as: :travel_plan
-  ) do |f| %>
+<%= form_for @form, url: travel_plans_path, as: :travel_plan do |f| %>
 
   <div class="form-inline">
     <% @form.class.types.each do |type, _| %>

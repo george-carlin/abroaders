@@ -2,14 +2,16 @@ class SpendingInfosController < NonAdminController
 
   def new
     @person = load_person
+    redirect_if_already_added_spending!
     @spending_info = @person.build_spending_info
   end
 
   def create
     @person = load_person
+    redirect_if_already_added_spending!
     @spending_info = @person.build_spending_info(spending_info_params)
     if @spending_info.save
-      render plain: "TODO: where to redirect to?"
+      redirect_to survey_person_card_accounts_path(@person)
     else
       render "new"
     end
@@ -29,6 +31,13 @@ class SpendingInfosController < NonAdminController
       :has_business,
       :will_apply_for_loan,
     )
+  end
+
+  def redirect_if_already_added_spending!
+    if @person.onboarded_spending?
+      flash[:info] = "This person has already added their financial information"
+      redirect_to survey_person_card_accounts_path(@person)
+    end
   end
 
 end

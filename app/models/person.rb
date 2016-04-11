@@ -25,6 +25,10 @@ class Person < ApplicationRecord
     account.created_at
   end
 
+  def onboarded_spending?
+    !!spending_info&.persisted?
+  end
+
   # Validations
 
   validates :account, uniqueness: { scope: :main }

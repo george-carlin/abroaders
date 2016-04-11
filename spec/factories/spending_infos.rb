@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :spending_info do
-    passenger
+    person
 
     credit_score do
       min = SpendingInfo::MINIMUM_CREDIT_SCORE
