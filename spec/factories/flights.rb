@@ -1,6 +1,18 @@
 FactoryGirl.define do
   factory :flight do
-    from { Destination.order("random()").first }
-    to   { Destination.order("random()").first }
+    from do
+      if Destination.any?
+        Destination.order("random()").first
+      else
+        create(:region)
+      end
+    end
+    to do
+      if Destination.any?
+        Destination.order("random()").first
+      else
+        create(:region)
+      end
+    end
   end
 end
