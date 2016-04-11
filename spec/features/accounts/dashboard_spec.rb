@@ -131,4 +131,38 @@ describe "account dashboard" do
       end
     end
   end
+
+  context "when I have not said whether or not I'm ready" do
+    it { is_expected.to have_link "Update readiness status",
+            href: new_person_readiness_status_path(me) }
+  end
+
+  context "when I have said I'm not ready" do
+    let(:extra_setup) do
+      create(:readiness_status, person: me, ready: true, created_at: "2016-02-03")
+    end
+
+    it "says so" do
+      within_my_info do
+        expect(page).to have_content "ready"
+        expect(page).to have_content "02/03/16"
+      end
+    end
+  end
+
+  context "when I have said I'm not ready" do
+    let(:reason) { "just because" }
+    let(:extra_setup) do
+      create(:readiness_status, person: me, ready: false, unreadiness_reason: reason)
+    end
+
+    it "says so" do
+      within_my_info do
+        expect(page).to have_content "not ready"
+        expect(page).to have_content reason
+      end
+    end
+
+    it "lets me now say that I'm ready"
+  end
 end

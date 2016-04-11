@@ -109,6 +109,26 @@
             <%= link_to "Add balances", survey_person_balances_path(person) %>
           </p>
         <% end %>
+
+        <hr>
+
+        <% if person.readiness_status_given? %>
+          <p>
+            You indicated on <%= person.readiness_status.created_at.strftime("%D") %>
+            that <%= person.first_name %> is <%= "not" if person.unready_to_apply? %>
+            ready to apply for cards.
+          </p>
+
+          <% if person.unready_to_apply? && person.unreadiness_reason.present? %>
+            <p>Reason given: <i><%= person.unreadiness_reason %></i></p>
+          <% end %>
+              
+        <% else %>
+          <p>
+            Please tell us when you're ready to apply for cards.
+            <%= link_to "Update readiness status", new_person_readiness_status_path(person) %>
+          </p>
+        <% end %>
       </div>
     </div>
   <% end %>
