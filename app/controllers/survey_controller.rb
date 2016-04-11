@@ -18,18 +18,6 @@ class SurveyController < NonAdminController
 
   private
 
-  def load_name(passenger_type)
-    if passenger_type == "main"
-      if has_companion?
-        Name.new(current_main_passenger.first_name)
-      else
-        Name.you
-      end
-    else
-      Name.new(current_companion.first_name)
-    end
-  end
-
   def readiness_survey_params
     params.require(:readiness_survey).permit(
       :main_passenger_ready, :main_passenger_unreadiness_reason,
