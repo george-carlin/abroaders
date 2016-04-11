@@ -25,33 +25,4 @@ class SpendingInfo < ActiveRecord::Base
   MINIMUM_CREDIT_SCORE = 350
   MAXIMUM_CREDIT_SCORE = 850
 
-  validates :credit_score,
-    numericality: {
-      # avoid duplicate error message (from presence validation) when nil:
-      allow_blank: true,
-      greater_than_or_equal_to: MINIMUM_CREDIT_SCORE,
-      less_than_or_equal_to:    MAXIMUM_CREDIT_SCORE,
-    },
-    presence: true
-
-  validates :business_spending_usd,
-    numericality: {
-      # avoid duplicate error message (from presence validation) when nil:
-      allow_blank: true,
-      greater_than_or_equal_to: 0,
-      less_than_or_equal_to: POSTGRESQL_MAX_INT_VALUE,
-    },
-    presence: true,
-    if: :has_business?
-
-  before_save :sanitize_business_spending
-
-  private
-
-  def sanitize_business_spending
-    unless has_business?
-      self.business_spending_usd = nil
-    end
-  end
-
 end
