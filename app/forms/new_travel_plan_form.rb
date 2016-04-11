@@ -34,8 +34,12 @@ class NewTravelPlanForm < Form
     @earliest_departure = Date.today.strftime("%m/%d/%Y")
   end
 
+  def self.name
+    "TravelPlan"
+  end
+
   def self.types
-    TravelPlan.types.slice("single", "return")
+    ::TravelPlan.types.slice("single", "return")
   end
 
   def save
