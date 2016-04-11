@@ -3,35 +3,11 @@
 
     <h1>Spending</h1>
 
-    <%= render "shared/model_validation_errors", model: @spending_info %>
-
-    <%# We can't use the regular 'model_validation_errors' partial here   %>
-    <%# because we need a bit more flexibility in the error messages;     %>
-    <%# i18n defaults aren't enough.                                      %>
-    <% if false && @survey.errors.any? %>
-      <%= render "shared/error_message", model: @survey do %>
-        There
-        <% if @survey.errors.count > 1 %>
-          were <%= @survey.errors.count %> errors
-        <% else %>
-          was an error
-        <% end %>
-        and your info could not be saved:
-
-        <ul>
-          <% @survey.errors.each do |attr, message| %>
-            <li>
-              <% if @survey.has_companion? %>
-                <%= attr.to_s.humanize %>
-              <% else %>
-                <%= attr.to_s.sub(/main_passenger/, '').humanize %>
-              <% end %>
-              <%= message %>
-            </li>
-          <% end %>
-        </ul>
-      <% end %>
-    <% end %>
+    <%= render(
+      "shared/model_validation_errors",
+      model: @spending_info,
+      model_name: "information"
+    ) %>
 
     <p>
       Welcome, <%= @person.first_name %>! In order to help you apply for the
