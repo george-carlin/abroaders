@@ -28,6 +28,7 @@ en:
         spend: "Minimum spend ($)"
 
       spending_info:
+        business_spending_usd: "Business spending"
         citizenships:
           us_citizen: "U.S. Citizen"
           us_permanent_resident: "U.S. Permanent Resident"
