@@ -29,8 +29,11 @@ Rails.application.routes.draw do
   post "survey/travel_plan", to: "travel_plans#create"
 
   resources :people, only: [:index] do
-    resource :spending_info, path: :spending, except: :new do
-      get :survey, action: :new, as: :new
+    resources :balances, only: [] do
+      collection do
+        get  :survey
+        post :survey, action: :save_survey
+      end
     end
     resources :card_accounts, path: :cards, only: [] do
       collection do
@@ -38,17 +41,12 @@ Rails.application.routes.draw do
         post :survey, action: :save_survey
       end
     end
+    resource :spending_info, path: :spending, except: :new do
+      get :survey, action: :new, as: :new
+    end
   end
 
   scope :survey, controller: :survey, as: :survey do
-
-    passenger_constraints = { passenger: /(main)|(companion)/ }
-
-    get  "balances/(:passenger)", action: :new_balances,
-          as: :balances, constraints: passenger_constraints
-    post "balances/:passenger", action: :create_balances,
-          as: nil,       constraints: passenger_constraints
-
     get  :ready, action: :new_readiness,    as: :readiness
     post :ready, action: :create_readiness, as: nil
   end

@@ -10,11 +10,10 @@ class BalancesSurvey
 
   attr_reader :balances, :errors
 
-  def initialize(passenger)
-    @passenger = passenger
-    raise_unless_at_correct_onboarding_stage!
+  def initialize(person)
+    @person = person
     @balances = Currency.order("name ASC").map do |currency|
-      @passenger.balances.build(currency: currency)
+      @person.balances.build(currency: currency)
     end.to_a
   end
 
@@ -29,15 +28,13 @@ class BalancesSurvey
     params.reject! do |balance|
       balance[:value].blank? || balance[:value].to_i == 0
     end
-    @balances = @passenger.balances.build(params).to_a
+    @balances = @person.balances.build(params).to_a
   end
 
   def save
     if valid?
       ApplicationRecord.transaction do
-        @balances.each { |balance| balance.save(validate: false) }
-        @passenger.account.onboarding_stage = next_stage
-        @passenger.account.save!(validate: false)
+        @balances.each { |balance| balance.save!(validate: false) }
         true
       end
     else
@@ -49,7 +46,7 @@ class BalancesSurvey
       # Build balances for other currencies so they appear on the form:
       Currency.all.each do |currency|
         unless @balances.find { |b| b.currency_id == currency.id }
-          @balances.push(@passenger.balances.build(currency: currency))
+          @balances.push(@person.balances.build(currency: currency))
         end
       end
       @balances.sort_by! { |b| b.currency_name }
@@ -83,23 +80,4 @@ class BalancesSurvey
   end
   # ---------------- /DUPE METHODS ---------------
 
-  private
-
-  # Sanity check to make sure we're at the right stage of the survey:
-  def raise_unless_at_correct_onboarding_stage!
-    onboarding_stage = @passenger.account.onboarding_stage
-    if @passenger.main?
-      raise unless onboarding_stage == "main_passenger_balances"
-    else
-      raise unless onboarding_stage == "companion_balances"
-    end
-  end
-
-  def next_stage
-    if @passenger.main? && @passenger.account.has_companion?
-      "companion_balances"
-    else
-      "readiness" # TODO change me to travel_plans once that form is ready
-    end
-  end
 end

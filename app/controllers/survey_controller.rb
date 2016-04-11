@@ -2,35 +2,6 @@ class SurveyController < NonAdminController
   before_action { redirect_to root_path if current_account.onboarded? }
 
 
-  def new_balances
-    redirect_to balances_passenger_path and return unless params[:passenger]
-    @survey = case params[:passenger]
-              when "main"      then BalancesSurvey.new(current_main_passenger)
-              when "companion" then BalancesSurvey.new(current_companion)
-              end
-    @name  = load_name(params[:passenger])
-  end
-
-  def create_balances
-    # Example params:
-    # { balances: [{currency_id: 2, value: 100}, {currency_id: 6, value: 500}] }
-    passenger = case params[:passenger]
-                when "main"      then current_main_passenger
-                when "companion" then current_companion
-                end
-    @survey = BalancesSurvey.new(passenger)
-    if @survey.update_attributes(balances_params)
-      if params[:passenger] == "main" && has_companion?
-        redirect_to survey_balances_path(:companion)
-      else
-        redirect_to survey_readiness_path
-      end
-    else
-      @name  = load_name(params[:passenger])
-      render "new_balances"
-    end
-  end
-
   def new_readiness
     @survey = ReadinessSurvey.new(current_account)
     if has_companion?
@@ -48,20 +19,6 @@ class SurveyController < NonAdminController
   end
 
   private
-
-  def balances_params
-    params.permit(balances: [:currency_id, :value]).fetch(:balances, [])
-  end
-
-  def balances_passenger_path
-    case current_account.onboarding_stage
-    when "main_passenger_balances"
-      survey_balances_path(:main)
-    when "companion_balances"
-      survey_balances_path(:companion)
-    else raise "this should never happen"
-    end
-  end
 
   def load_name(passenger_type)
     if passenger_type == "main"

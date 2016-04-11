@@ -1,8 +1,8 @@
 <h1>Balances</h1>
 
 <p>
-  <%= @name.does.capitalize %> <%= @name.name %> have any existing frequent
-  flyer mile balances?
+  Does <%= @person.first_name %> have any existing frequent flyer mile
+  balances?
 </p>
 
 <% if @survey.errors %>
@@ -17,7 +17,7 @@
   </div>
 <% end %>
 
-<%= form_tag survey_balances_path(params[:passenger]) do %>
+<%= form_tag (params[:passenger]) do %>
   <div class="balances_survey">
     <% @survey.balances.each do |balance| %>
       <% currency = balance.currency %>
