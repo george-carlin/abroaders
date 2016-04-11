@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe NewTravelPlanForm, type: :model do
 
-  let(:account) { Account.new(onboarding_stage: "travel_plans") }
+  let(:account) { Account.new }
   let(:form)  { described_class.new(account) }
   subject { form }
 
