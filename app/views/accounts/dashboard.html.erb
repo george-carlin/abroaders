@@ -35,9 +35,9 @@
 </div>
 
 <div class="row">
-  <div class="col-xs-12 col-md-6">
-    <% @people.each do |person| %>
-      <div id="<%= dom_id(person) %>" class="<%= dom_class(person) %> well">
+  <% @people.each do |person| %>
+    <div id="<%= dom_id(person) %>" class="<%= dom_class(person) %> col-xs-12 col-md-6">
+      <div class="well">
         <h3><%= person.first_name %></h3>
 
         <% if person.spending_info.present? %>
@@ -110,6 +110,7 @@
           </p>
         <% end %>
       </div>
-    <% end %>
+    </div>
+  <% end %>
   </div>
 </div>
