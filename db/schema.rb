@@ -11,18 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160411084330) do
+ActiveRecord::Schema.define(version: 20160411090712) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "accounts", force: :cascade do |t|
-    t.string   "email",                  default: "",    null: false
-    t.string   "encrypted_password",     default: "",    null: false
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,     null: false
+    t.integer  "sign_in_count",          default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -31,10 +31,10 @@ ActiveRecord::Schema.define(version: 20160411084330) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
-    t.integer  "onboarding_stage",       default: 0,     null: false
-    t.boolean  "shares_expenses",        default: false, null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.integer  "onboarding_stage",       default: 0,  null: false
+    t.integer  "monthly_spending_usd"
   end
 
   add_index "accounts", ["confirmation_token"], name: "index_accounts_on_confirmation_token", unique: true, using: :btree
@@ -167,13 +167,11 @@ ActiveRecord::Schema.define(version: 20160411084330) do
   add_index "flights", ["travel_plan_id"], name: "index_flights_on_travel_plan_id", using: :btree
 
   create_table "people", force: :cascade do |t|
-    t.integer  "account_id",                      null: false
-    t.string   "first_name",                      null: false
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
-    t.boolean  "main",             default: true, null: false
-    t.boolean  "willing_to_apply", default: true, null: false
-    t.integer  "citizenship",      default: 0,    null: false
+    t.integer  "account_id",                null: false
+    t.string   "first_name",                null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.boolean  "main",       default: true, null: false
   end
 
   add_index "people", ["account_id", "main"], name: "index_people_on_account_id_and_main", unique: true, using: :btree
@@ -189,14 +187,14 @@ ActiveRecord::Schema.define(version: 20160411084330) do
   add_index "readiness_statuses", ["person_id"], name: "index_readiness_statuses_on_person_id", unique: true, using: :btree
 
   create_table "spending_infos", force: :cascade do |t|
-    t.integer  "person_id",                           null: false
-    t.integer  "credit_score",                        null: false
-    t.boolean  "will_apply_for_loan", default: false, null: false
-    t.integer  "business_spending",   default: 0
-    t.integer  "has_business",        default: 0,     null: false
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
-    t.integer  "personal_spending",   default: 0,     null: false
+    t.integer  "person_id",                             null: false
+    t.integer  "credit_score",                          null: false
+    t.boolean  "will_apply_for_loan",   default: false, null: false
+    t.integer  "business_spending_usd"
+    t.integer  "has_business",          default: 0,     null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+    t.integer  "citizenship",           default: 0,     null: false
   end
 
   add_index "spending_infos", ["person_id"], name: "index_spending_infos_on_person_id", unique: true, using: :btree

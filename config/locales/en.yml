@@ -27,7 +27,7 @@ en:
         cost:  "Cost ($)"
         spend: "Minimum spend ($)"
 
-      passenger:
+      spending_info:
         citizenships:
           us_citizen: "U.S. Citizen"
           us_permanent_resident: "U.S. Permanent Resident"

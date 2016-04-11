@@ -1,0 +1,150 @@
+<div class="row">
+  <div class="col-xs-12 col-md-10 col-md-offset-1">
+
+    <h1>Spending</h1>
+
+    <%= render "shared/model_validation_errors", model: @spending_info %>
+
+    <%# We can't use the regular 'model_validation_errors' partial here   %>
+    <%# because we need a bit more flexibility in the error messages;     %>
+    <%# i18n defaults aren't enough.                                      %>
+    <% if false && @survey.errors.any? %>
+      <%= render "shared/error_message", model: @survey do %>
+        There
+        <% if @survey.errors.count > 1 %>
+          were <%= @survey.errors.count %> errors
+        <% else %>
+          was an error
+        <% end %>
+        and your info could not be saved:
+
+        <ul>
+          <% @survey.errors.each do |attr, message| %>
+            <li>
+              <% if @survey.has_companion? %>
+                <%= attr.to_s.humanize %>
+              <% else %>
+                <%= attr.to_s.sub(/main_passenger/, '').humanize %>
+              <% end %>
+              <%= message %>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+    <% end %>
+
+    <p>
+      Welcome, <%= @person.first_name %>! In order to help you apply for the
+      right cards, we need to get some financial information about you.
+    </p>
+
+    <%= form_for @spending_info, url: person_spending_info_path(@person) do |f| %>
+
+      <div class="form-group">
+        <%= f.label :main_passenger_citizenship,
+          "Which most accurately describes you?" %>
+        <% SpendingInfo.citizenships.each do |name, _| %>
+          <div class="radio">
+            <label>
+              <%= f.radio_button(
+                    :citizenship,
+                    name
+                  ) %>
+              <%= t("activerecord.attributes.spending_info.citizenships.#{name}") %>
+            </label>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="form-group required">
+        <%= f.label(
+          :credit_score,
+          "What's your credit score?",
+          min: SpendingInfo::MINIMUM_CREDIT_SCORE,
+          max: SpendingInfo::MAXIMUM_CREDIT_SCORE,
+        ) %>
+
+        <p class="help-block">
+          A credit score should be a number between
+          <%= SpendingInfo::MINIMUM_CREDIT_SCORE %> and
+          <%= SpendingInfo::MAXIMUM_CREDIT_SCORE %>
+        </p>
+
+        <%= f.number_field :credit_score %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label(
+          :will_apply_for_loan,
+          "Do you plan to apply for a loan of over $5,000 in the next 12 months?"
+        ) %>
+
+        <div class="radio">
+          <label>
+            <%= f.radio_button(
+              :will_apply_for_loan,
+              true,
+              checked: f.object.will_apply_for_loan,
+            ) %> Yes
+          </label>
+        </div>
+
+        <div class="radio">
+          <label>
+            <%= f.radio_button(
+              :will_apply_for_loan,
+              false,
+              checked: !f.object.send(:will_apply_for_loan)
+            ) %> No
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :has_business, "Do you have a business?" %>
+
+        <% SpendingInfo.has_businesses.each do |value, _| %>
+          <div class="radio">
+            <label>
+              <%= f.radio_button(
+                :has_business,
+                value,
+                checked: f.object.send(:has_business) == value
+              ) %>
+              <%= has_business_label_text(value) %>
+            </label>
+          </div>
+        <% end %>
+      </div>
+
+      <div
+        id="business_spending_form_group"
+        class="form-group required"
+        style="<%= "display:none" unless f.object.send(:has_business?) %>"
+      >
+        <%= f.label(
+          :business_spending_usd,
+          "What is the average monthly spending of your business?"
+        ) %>
+
+        <div class="input-group">
+          <div class="input-group-addon">$</div>
+          <%# Adding min: 0 causes an interesting bug. Set the value      %>
+          <%# to a number lower than 0 (e.g. by c&ping it into the field  %>
+          <%# which `min` won't stop you from doing, at least in the      %>
+          <%# current version of Chrome, then click 'no business' (hiding %>
+          <%# the input), then click 'save' - and nothing will happen.    %>
+          <%# Then look in the Chrome console and you'll see the error    %>
+          <%# 'An invalid form control..' is not focusable. Rather than   %>
+          <%# hacking a fix to this error, I'm just going to leave 'min'  %>
+          <%# off for now and let negative values be caught server-side   %>
+          <%= f.number_field :business_spending_usd %>
+        </div>
+      </div>
+
+      <%= f.submit "Save", class: "btn btn-primary" %>
+
+    <% end %>
+
+  </div>
+</div>

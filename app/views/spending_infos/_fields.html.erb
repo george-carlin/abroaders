@@ -14,97 +14,97 @@
 
 <% passenger = main ? :main_passenger : :companion %>
 
-<div class="spending-info-fields">
-  <div class="form-group required">
-    <%= f.label(
-      "#{passenger}_credit_score",
-      "What's #{possessive} credit score?"
-    ) %>
+        <div class="spending-info-fields">
+          <div class="form-group required">
+            <%= f.label(
+              "#{passenger}_credit_score",
+              "What's #{possessive} credit score?"
+            ) %>
 
-    <p class="help-block">
-      A credit score should be a number between
-      <%= SpendingInfo::MINIMUM_CREDIT_SCORE %> and
-      <%= SpendingInfo::MAXIMUM_CREDIT_SCORE %>
-    </p>
+            <p class="help-block">
+              A credit score should be a number between
+              <%= SpendingInfo::MINIMUM_CREDIT_SCORE %> and
+              <%= SpendingInfo::MAXIMUM_CREDIT_SCORE %>
+            </p>
 
-    <%= f.number_field "#{passenger}_credit_score" %>
-  </div>
+            <%= f.number_field "#{passenger}_credit_score" %>
+          </div>
 
-  <div class="form-group">
+          <div class="form-group">
 
-    <%= f.label(
-      "#{passenger}_will_apply_for_loan",
-      "#{does.capitalize} #{name} plan to apply for a loan of over $5,000 in"\
-      " the next 12 months?"
-    ) %>
+            <%= f.label(
+              "#{passenger}_will_apply_for_loan",
+              "Do you plan to apply for a loan of over $5,000 in"\
+              " the next 12 months?"
+            ) %>
 
-    <div class="radio">
-      <label>
-        <%= f.radio_button(
-          "#{passenger}_will_apply_for_loan",
-          true,
-          checked: f.object.send("#{passenger}_will_apply_for_loan")
-        ) %> Yes
-      </label>
-    </div>
+            <div class="radio">
+              <label>
+                <%= f.radio_button(
+                  "#{passenger}_will_apply_for_loan",
+                  true,
+                  checked: f.object.send("#{passenger}_will_apply_for_loan")
+                ) %> Yes
+              </label>
+            </div>
 
-    <div class="radio">
-      <label>
-        <%= f.radio_button(
-          "#{passenger}_will_apply_for_loan",
-          false,
-          checked: !f.object.send("#{passenger}_will_apply_for_loan")
-        ) %> No
-      </label>
-    </div>
-  </div>
+            <div class="radio">
+              <label>
+                <%= f.radio_button(
+                  "#{passenger}_will_apply_for_loan",
+                  false,
+                  checked: !f.object.send("#{passenger}_will_apply_for_loan")
+                ) %> No
+              </label>
+            </div>
+          </div>
 
-  <% if !f.object.account.shares_expenses? %>
-    <div class="form-group required">
-      <%= f.label(
-        "#{passenger}_personal_spending",
-        "What is #{possessive} normal personal spending per month?"
-      ) %>
-
-      <div class="input-group">
-        <div class="input-group-addon">$</div>
-        <%= f.number_field "#{passenger}_personal_spending" %>
-      </div>
-    </div>
-  <% end %>
-
-  <div class="form-group">
-    <%= f.label(
-      "#{passenger}_has_business",
-      "#{does.capitalize} #{name} have a business?"
-    ) %>
-
-    <% SpendingInfo.has_businesses.each do |value, _| %>
-      <div class="radio">
-        <label>
-          <%= f.radio_button(
-            "#{passenger}_has_business",
-                value,
-                checked: f.object.send("#{passenger}_has_business") == value
+          <% if !f.object.account.shares_expenses? %>
+            <div class="form-group required">
+              <%= f.label(
+                "#{passenger}_personal_spending",
+                "What is #{possessive} normal personal spending per month?"
               ) %>
-          <%= has_business_label_text(value, name) %>
-        </label>
-      </div>
-    <% end %>
-  </div>
 
-  <div
-    class="business_spending_form_group form-group required"
-    style="<%= "display:none" unless f.object.send("#{passenger}_has_business?") %>"
-  >
-    <%= f.label(
-      "#{passenger}_business_spending",
-      "What is the average monthly spending of #{possessive} business?"
-    ) %>
+              <div class="input-group">
+                <div class="input-group-addon">$</div>
+                <%= f.number_field "#{passenger}_personal_spending" %>
+              </div>
+            </div>
+          <% end %>
 
-    <div class="input-group">
-      <div class="input-group-addon">$</div>
-      <%= f.number_field "#{passenger}_business_spending" %>
-    </div>
-  </div>
-</div>
+          <div class="form-group">
+            <%= f.label(
+              "#{passenger}_has_business",
+              "Do you  have a business?"
+            ) %>
+
+            <% SpendingInfo.has_businesses.each do |value, _| %>
+              <div class="radio">
+                <label>
+                  <%= f.radio_button(
+                    "#{passenger}_has_business",
+                        value,
+                        checked: f.object.send("#{passenger}_has_business") == value
+                      ) %>
+                  <%= has_business_label_text(value, name) %>
+                </label>
+              </div>
+            <% end %>
+          </div>
+
+          <div
+            class="business_spending_form_group form-group required"
+            style="<%= "display:none" unless f.object.send("#{passenger}_has_business?") %>"
+          >
+            <%= f.label(
+              "#{passenger}_business_spending",
+              "What is the average monthly spending of #{possessive} business?"
+            ) %>
+
+            <div class="input-group">
+              <div class="input-group-addon">$</div>
+              <%= f.number_field "#{passenger}_business_spending" %>
+            </div>
+          </div>
+        </div>

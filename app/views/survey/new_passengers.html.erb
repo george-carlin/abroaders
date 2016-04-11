@@ -42,23 +42,6 @@
 
       <%= render "passengers/fields", f: f, main: true %>
 
-      <div class="form-group">
-        <%= f.label :main_passenger_citizenship,
-          "Which most accurately describes you?" %>
-        <% Passenger.citizenships.each do |name, _| %>
-          <div class="radio">
-            <label>
-              <%= f.radio_button(
-                    :main_passenger_citizenship,
-                    name,
-                    checked: f.object.main_passenger_citizenship == name
-                  ) %>
-              <%= t("activerecord.attributes.passenger.citizenships.#{name}") %>
-            </label>
-          </div>
-        <% end %>
-      </div>
-
       <h3>Add a Travel Companion</h3>
 
       <p>

@@ -1,26 +1,13 @@
 module SurveyHelper
 
-  def has_business_label_text(value, user_name)
+  def has_business_label_text(value)
     case value
     when "with_ein"
-      if user_name == "you"
-        "I have a business EIN (Employer ID Number)"
-      else
-        "#{user_name} has a business EIN (Employer ID Number)"
-      end
+      "Yes, and I have an EIN (Employer ID Number)"
     when "without_ein"
-      if user_name == "you"
-        "I do not have an EIN - I am a freelancer or sole proprietor"
-      else
-        "#{user_name} does not have an EIN - he/she is a freelancer or "\
-        "sole proprietor"
-      end
+      "Yes, but I do not have an EIN - I am a freelancer or sole proprietor"
     when "no_business"
-      if user_name == "you"
-        "I do not have a business"
-      else
-        "#{user_name} does not have a business"
-      end
+      "I do not have a business"
     end
   end
 

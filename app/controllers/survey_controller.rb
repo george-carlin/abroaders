@@ -113,7 +113,7 @@ class SurveyController < NonAdminController
 
   def spending_survey_params
     params.require(:spending_survey).permit(
-      :companion_business_spending,
+      :companion_business_spending_usd,
       :companion_credit_score,
       :companion_has_business,
       :companion_info,

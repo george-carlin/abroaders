@@ -28,7 +28,11 @@ Rails.application.routes.draw do
   get  "survey/travel_plan", to: "travel_plans#new"
   post "survey/travel_plan", to: "travel_plans#create"
 
-  resources :people, only: [:index]
+  resources :people, only: [:index] do
+    resource :spending_info, path: :spending, except: :new do
+      get :survey, action: :new, as: :new
+    end
+  end
 
   scope :survey, controller: :survey, as: :survey do
 

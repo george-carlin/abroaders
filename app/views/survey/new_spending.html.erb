@@ -44,7 +44,6 @@
 
     <%= form_for @survey, url: survey_spending_path do |f| %>
 
-      <% if current_account.shares_expenses? %>
         <%= f.label(
           :shared_spending,
           "What is you and #{current_companion.first_name}'s normal combined "\

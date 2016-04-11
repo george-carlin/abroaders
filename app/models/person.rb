@@ -2,8 +2,6 @@ class Person < ApplicationRecord
 
   # Attributes
 
-  enum citizenship:  [ :us_citizen, :us_permanent_resident, :neither]
-
   alias_attribute :main_passenger?, :main
 
   def companion?
@@ -16,7 +14,7 @@ class Person < ApplicationRecord
 
   delegate :onboarded?, :email, to: :account
   delegate :credit_score, :will_apply_for_loan, :personal_spending,
-    :business_spending, :has_business, :has_business?, :has_business_with_ein?,
+    :business_spending_usd, :has_business, :has_business?, :has_business_with_ein?,
     :has_business_without_ein?, :no_business?,
     to: :spending_info, allow_nil: true
 
@@ -37,7 +35,6 @@ class Person < ApplicationRecord
 
   belongs_to :account
   has_one :spending_info, dependent: :destroy
-
   has_many :card_accounts
   has_many :card_recommendations, -> { recommendations },
                                   class_name: "CardAccount"

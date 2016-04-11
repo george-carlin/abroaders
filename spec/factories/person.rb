@@ -1,5 +1,6 @@
 FactoryGirl.define do
   factory :person, aliases: [:main_passenger] do
+    first_name { Faker::Name.first_name }
     association :account, factory: :account, onboarding_stage: "spending"
     main true
 

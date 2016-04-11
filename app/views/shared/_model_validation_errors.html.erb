@@ -6,7 +6,8 @@
     <% else %>
       was an error
     <% end %>
-    and the <%= model.model_name.name.downcase %> could not be saved:
+    and the <%= local_assigns[:model_name] || model.model_name.name.downcase %>
+    could not be saved:
 
     <ul>
       <% model.errors.full_messages.each do |error| %>
