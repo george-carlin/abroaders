@@ -30,7 +30,11 @@ Rails.application.routes.draw do
 
   resource :companion, only: [:new, :create]
 
+  # Note that 'cards' is a fixed list, and 'card accounts' is the join table
+
   resources :people, only: [] do
+    resource :readiness_status, path: :readiness
+
     resources :balances, only: [] do
       collection do
         get  :survey
@@ -46,11 +50,6 @@ Rails.application.routes.draw do
     resource :spending_info, path: :spending, except: :new do
       get :survey, action: :new, as: :new
     end
-  end
-
-  scope :survey, controller: :survey, as: :survey do
-    get  :ready, action: :new_readiness,    as: :readiness
-    post :ready, action: :create_readiness, as: nil
   end
 
   # Note that 'cards' is a fixed list, and 'card accounts' is the join table

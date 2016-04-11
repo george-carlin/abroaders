@@ -39,7 +39,7 @@ describe "new companion page", :onboarding do
         expect(companion.first_name).to eq "Steve"
       end
 
-      it "takes me to the spending info for the companion" do
+      it "takes me to the spending info survey for the companion" do
         click_yes
         expect(current_path).to eq new_person_spending_info_path(companion)
       end
@@ -62,9 +62,9 @@ describe "new companion page", :onboarding do
       expect{click_no}.not_to change{Person.count}
     end
 
-    it "takes me to the readiness survey" do
+    it "takes me to my dashboard" do
       click_no
-      expect(current_path).to eq survey_readiness_path
+      expect(current_path).to eq root_path
     end
   end
 

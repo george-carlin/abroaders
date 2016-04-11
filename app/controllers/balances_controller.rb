@@ -11,11 +11,7 @@ class BalancesController < NonAdminController
     redirect_if_already_completed_survey!
     @survey = BalancesSurvey.new(@person)
     if @survey.update_attributes(balances_params)
-      if current_account.people.count > 1
-        redirect_to survey_readiness_path
-      else
-        redirect_to new_companion_path
-      end
+      redirect_to new_person_readiness_status_path(@person)
     else
       render "survey"
     end

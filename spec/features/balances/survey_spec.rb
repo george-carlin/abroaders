@@ -8,7 +8,6 @@ describe "the balance survey page", :onboarding do
 
   before do
     @currencies = create_list(:currency, 3)
-    create(:person, main: false, account: account) if already_has_companion
     login_as_account(account)
     visit survey_person_balances_path(me)
   end
@@ -33,7 +32,6 @@ describe "the balance survey page", :onboarding do
   end
 
   let(:onboarded) { false }
-  let(:already_has_companion) { false }
 
   context "when the person has already completed this survey" do
     let(:onboarded) { true }
@@ -54,17 +52,8 @@ describe "the balance survey page", :onboarding do
   describe "submitting the form" do
     before { submit_form }
 
-    context "when I don't have a companion" do
-      it "takes me to the new companion page" do
-        expect(current_path).to eq new_companion_path
-      end
-    end
-
-    context "when I have a companion" do
-      let(:already_has_companion) { true }
-      it "takes me to the readiness sureey" do
-        expect(current_path).to eq survey_readiness_path
-      end
+    it "asks me if this person is ready to apply" do
+      expect(current_path).to eq new_person_readiness_status_path(me)
     end
 
     it "marks this person as having completed the balances survey" do
