@@ -3,6 +3,8 @@ en:
 
   activemodel:
     attributes:
+      companion:
+        first_name: "Name"
       passenger_survey:
         main_passenger_first_name:   "First name"
         companion_first_name:   "First name"

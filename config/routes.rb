@@ -28,6 +28,8 @@ Rails.application.routes.draw do
   get  "survey/travel_plan", to: "travel_plans#new"
   post "survey/travel_plan", to: "travel_plans#create"
 
+  resource :companion, only: [:new, :create]
+
   resources :people, only: [] do
     resources :balances, only: [] do
       collection do

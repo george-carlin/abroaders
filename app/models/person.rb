@@ -31,9 +31,9 @@ class Person < ApplicationRecord
 
   # Validations
 
-  validates :account, uniqueness: { scope: :main }
-
   NAME_MAX_LENGTH  = 50
+
+  validates :account, uniqueness: { scope: :main }
 
   # Associations
 

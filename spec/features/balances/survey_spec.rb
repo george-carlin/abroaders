@@ -8,6 +8,7 @@ describe "as a new user" do
 
   before do
     @currencies = create_list(:currency, 3)
+    create(:person, main: false, account: account) if already_has_companion
     login_as_account(account)
     visit survey_person_balances_path(me)
   end
@@ -32,6 +33,7 @@ describe "as a new user" do
   end
 
   let(:onboarded) { false }
+  let(:already_has_companion) { false }
 
   context "when the person has already completed this survey" do
     let(:onboarded) { true }
@@ -52,8 +54,17 @@ describe "as a new user" do
   describe "submitting the form" do
     before { submit_form }
 
-    it "takes me to my dashboard" do
-      expect(current_path).to eq root_path
+    context "when I don't have a companion" do
+      it "takes me to the new companion page" do
+        expect(current_path).to eq new_companion_path
+      end
+    end
+
+    context "when I have a companion" do
+      let(:already_has_companion) { true }
+      it "takes me to the readiness sureey" do
+        expect(current_path).to eq survey_readiness_path
+      end
     end
 
     it "marks this person as having completed the balances survey" do

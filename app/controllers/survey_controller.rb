@@ -1,6 +1,7 @@
 class SurveyController < NonAdminController
 
   def new_readiness
+    render plain: "TODO" and return
     @survey = ReadinessSurvey.new(current_account)
     if has_companion?
       @mp_name = Name.new(current_main_passenger.first_name)
