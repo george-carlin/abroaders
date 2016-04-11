@@ -28,6 +28,8 @@ Rails.application.routes.draw do
   get  "survey/travel_plan", to: "travel_plans#new"
   post "survey/travel_plan", to: "travel_plans#create"
 
+  resources :people, only: [:index]
+
   scope :survey, controller: :survey, as: :survey do
 
     get  :passengers, action: :new_passengers
