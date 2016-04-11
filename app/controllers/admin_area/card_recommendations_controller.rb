@@ -38,6 +38,7 @@ module AdminArea
     end
 
     def passenger_must_be_onboarded!
+      raise "TODO: needs updating to reflect the new onboarding system"
       unless @passenger.account.onboarded?
         flash[:error] = t("admin.passengers.card_recommendations.not_onboarded")
         redirect_to admin_passenger_path(@passenger)

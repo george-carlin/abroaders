@@ -12,7 +12,7 @@ class Person < ApplicationRecord
     spending_info.try(:persisted?)
   end
 
-  delegate :onboarded?, :email, to: :account
+  delegate :email, to: :account
   delegate :credit_score, :will_apply_for_loan, :personal_spending,
     :business_spending_usd, :has_business, :has_business?, :has_business_with_ein?,
     :has_business_without_ein?, :no_business?, :citizenship,
@@ -24,12 +24,6 @@ class Person < ApplicationRecord
   def signed_up
     account.created_at
   end
-
-  # TODO make me into DB attributes
-  attr_accessor :has_added_cards
-  def has_added_cards?; has_added_cards; end
-  attr_accessor :has_added_balances
-  def has_added_balances?; has_added_balances; end
 
   # Validations
 
@@ -77,11 +71,5 @@ class Person < ApplicationRecord
 
   scope :main,      -> { where(main: true) }
   scope :companion, -> { where(main: false) }
-
-  scope :onboarded, -> do
-    joins(:account).where(
-      accounts: { onboarding_stage: Account.onboarding_stages["onboarded"] }
-    )
-  end
 
 end

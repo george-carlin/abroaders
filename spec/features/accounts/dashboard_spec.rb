@@ -89,7 +89,15 @@ describe "account dashboard" do
   end
 
   context "when I have added my cards" do
-    pending
+    let(:extra_setup) do
+      me.update_attributes!(onboarded_cards: true)
+      create_list(:card_account, 2, person: me)
+    end
+
+    it "displays info about them" do
+      # TODO this is just a placeholder for now; should show more
+      expect(page).to have_content "2 cards on file"
+    end
   end
 
   context "when I have not added any balances" do
@@ -98,6 +106,29 @@ describe "account dashboard" do
         "You have not added any frequent flyer balances"
       expect(page).to have_link "Add balances",
           href: survey_person_balances_path(me)
+    end
+  end
+
+  context "when I have completed the balances survey" do
+    let(:onboard!) { me.update_attributes!(onboarded_balances: true) }
+    let(:extra_setup) { onboard! }
+
+    context "but said I have no balances" do
+      it { is_expected.to have_content "This person has no existing frequent flyer balances" }
+    end
+
+    context "and added some balances" do
+      let!(:currencies) { create_list(:currency, 2) }
+      let(:extra_setup) do
+        onboard!
+        create(:balance, person: me, currency: currencies[0], value: 12_345)
+        create(:balance, person: me, currency: currencies[1], value: 543_543)
+      end
+
+      it "displays info about them" do
+        expect(page).to have_content "#{currencies[0].name}: 12,345"
+        expect(page).to have_content "#{currencies[1].name}: 543,543"
+      end
     end
   end
 end

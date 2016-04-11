@@ -2,14 +2,16 @@ class BalancesController < NonAdminController
 
   def survey
     @person = load_person
+    redirect_if_already_completed_survey!
     @survey = BalancesSurvey.new(@person)
   end
 
   def save_survey
     @person = load_person
+    redirect_if_already_completed_survey!
     @survey = BalancesSurvey.new(@person)
     if @survey.update_attributes(balances_params)
-      render plain: "TODO: where to redirect to?"
+      redirect_to root_path
     else
       render "survey"
     end
@@ -23,5 +25,12 @@ class BalancesController < NonAdminController
 
   def load_person
     current_account.people.find(params[:person_id])
+  end
+
+  def redirect_if_already_completed_survey!
+    if @person.onboarded_balances?
+      flash[:info] = "This person has already added their balances"
+      redirect_to root_path
+    end
   end
 end

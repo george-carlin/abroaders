@@ -17,6 +17,7 @@ class CardsSurvey < Form
           { person: person, card: card }
         end
       )
+      person.update_attributes!(onboarded_cards: true)
     end
   end
 

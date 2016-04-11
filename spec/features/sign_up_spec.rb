@@ -62,7 +62,7 @@ describe "the sign up page" do
         before { submit_form }
 
         it "shows me the first page of the onboarding survey" do
-          expect(current_path).to eq survey_travel_plan_path
+          expect(current_path).to eq new_travel_plan_path
         end
       end
 

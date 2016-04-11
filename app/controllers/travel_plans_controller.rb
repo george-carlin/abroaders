@@ -18,7 +18,13 @@ class TravelPlansController < NonAdminController
   def create
     @form = NewTravelPlanForm.new(current_account)
     if @form.update_attributes(travel_plan_params)
-      redirect_to after_create_path
+      if current_account.travel_plans.count > 1
+        redirect_to travel_plans_path
+      else
+        # If this is the first travel plan they've added, it means they've just
+        # signed up, so need to complete the rest of the onboarding process:
+        redirect_to new_person_spending_info_path(current_account.people.first)
+      end
     else
       @countries = load_countries
       render "new"
@@ -40,11 +46,6 @@ class TravelPlansController < NonAdminController
   end
 
   def after_create_path
-    if current_account.onboarded?
-      travel_plans_path
-    else
-      survey_passengers_path
-    end
   end
 
 end

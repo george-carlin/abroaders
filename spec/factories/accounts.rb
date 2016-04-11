@@ -7,6 +7,8 @@ FactoryGirl.define do
     password_confirmation  "abroaders123"
     confirmed_at           "2015-01-01"
 
+    # TODO everything below this line needs a serious audit!
+
     # We can't name this trait 'passenger' because it conflicts with
     # the 'passenger' factory, causing subtle errors. I raised this as
     # an issue with FactoryGirl, see

@@ -38,7 +38,6 @@ class ReadinessSurvey < Form
           unreadiness_reason: companion_unreadiness_reason
         )
       end
-      @account.onboarded!
     end
   end
 

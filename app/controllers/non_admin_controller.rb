@@ -3,8 +3,4 @@
 class NonAdminController < ApplicationController
   before_action :authenticate_account!
 
-  # Forget the survey redirection until we've got the individual forms working
-  # etc TODO
-  # before_action :redirect_to_survey, unless: "current_account.onboarded?"
-
 end

@@ -1,6 +1,4 @@
 class SurveyController < NonAdminController
-  before_action { redirect_to root_path if current_account.onboarded? }
-
 
   def new_readiness
     @survey = ReadinessSurvey.new(current_account)

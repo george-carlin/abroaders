@@ -1,7 +1,9 @@
 FactoryGirl.define do
   factory :person, aliases: [:main_passenger] do
+    account
     first_name { Faker::Name.first_name }
-    association :account, factory: :account, onboarding_stage: "spending"
+
+    # TODO everything below this line needs a serious audit!
     main true
 
     trait :main do

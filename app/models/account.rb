@@ -6,20 +6,6 @@ class Account < ApplicationRecord
 
   # Attributes
 
-  # The next stage of the onboarding survey that this account needs to complete:
-  enum onboarding_stage: {
-    travel_plans:            0,
-    passengers:              1,
-    spending:                2,
-    main_passenger_cards:    3,
-    companion_cards:         4,
-    main_passenger_balances: 5,
-    companion_balances:      6,
-    readiness:               7,
-    # This status means they've fully completed the onboarding survey:
-    onboarded:               8,
-  }
-
   def has_companion
     !!companion.try(:persisted?)
   end

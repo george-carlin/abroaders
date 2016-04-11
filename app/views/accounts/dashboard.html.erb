@@ -38,7 +38,7 @@
   <div class="col-xs-12 col-md-6">
     <% @people.each do |person| %>
       <div id="<%= dom_id(person) %>" class="<%= dom_class(person) %> well">
-        <h4><%= person.first_name %></h4>
+        <h3><%= person.first_name %></h3>
 
         <% if person.spending_info.present? %>
           <%= render person.spending_info %>
@@ -59,11 +59,16 @@
           </p>
         <% end %>
 
-        <% if person.has_added_cards? %>
-          TODO display existing cards
-        <% else %>
-          <hr>
+        <hr style="margin-top:0">
 
+        <h4>Cards</h4>
+
+        <% if person.onboarded_cards? %>
+          <p>
+            <%= pluralize(person.card_accounts.count, "card") %> on file.
+            <%= link_to "View", "#" %>
+          </p>
+        <% else %>
           <p>
             Before we can recommend any credit cards to this person,
             we need to know which cards they already have.
@@ -72,12 +77,27 @@
           <p>
             <%= link_to "Add existing cards", survey_person_card_accounts_path(person) %>
           </p>
+
         <% end %>
 
-        <% if person.has_added_balances? %>
-          TODO display existing balances
+        <hr style="margin-top:0">
+
+        <h4>Balances</h4>
+
+        <% if person.onboarded_balances? %>
+          <% if person.balances.any? %>
+            <% person.balances.includes(:currency).each do |balance| %>
+              <li id="<%= dom_id(balance.currency) %>">
+                <b><%= balance.currency_name %>:</b>
+                <span class="balance">
+                  <%= number_with_delimiter(balance.value) %>
+                </span>
+              </li>
+            <% end %>
+          <% else %>
+            <p>This person has no existing frequent flyer balances</p>
+          <% end %>
         <% else %>
-          <hr>
 
           <p>
             You have not added any frequent flyer balances for this person.  In

@@ -4,7 +4,7 @@ describe "as a new user" do
   subject { page }
 
   let!(:account) { create(:account) }
-  let!(:me) { create(:person, account: account) }
+  let!(:me) { create(:person, account: account, onboarded_cards: onboarded_cards) }
 
   # Setup
   before do
@@ -22,10 +22,31 @@ describe "as a new user" do
     visit survey_person_card_accounts_path(me)
   end
 
+  let(:onboarded_cards) { false }
+
   let(:submit_form) { click_button "Save" }
 
   def card_checkbox(card)
     :"card_account_card_ids_#{card.id}"
+  end
+
+  shared_examples "submitting the form" do
+    it "takes me to the balances survey" do
+      submit_form
+      expect(current_path).to eq survey_person_balances_path(me)
+    end
+
+    it "marks this person as having completed the cards survey" do
+      submit_form
+      expect(me.reload.onboarded_cards?).to be true
+    end
+  end
+
+  context "when the person has already completed this survey" do
+    let(:onboarded_cards) { true }
+    it "redirects to their balances survey" do
+      expect(current_path).to eq survey_person_balances_path(me)
+    end
   end
 
   it "lists cards grouped by bank, then B/P" do
@@ -83,7 +104,7 @@ describe "as a new user" do
         expect(me.card_accounts.map(&:card)).to match_array selected_cards
       end
 
-      it "redirects me to... somewhere"
+      include_examples "submitting the form"
     end
   end # selecting some cards
 
@@ -92,6 +113,6 @@ describe "as a new user" do
       expect{submit_form}.not_to change{CardAccount.count}
     end
 
-    it "redirects me to... somewhere"
+    include_examples "submitting the form"
   end
 end

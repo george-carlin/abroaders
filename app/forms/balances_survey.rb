@@ -35,6 +35,8 @@ class BalancesSurvey
     if valid?
       ApplicationRecord.transaction do
         @balances.each { |balance| balance.save!(validate: false) }
+        @person.onboarded_balances = true
+        @person.save(validate: false)
         true
       end
     else

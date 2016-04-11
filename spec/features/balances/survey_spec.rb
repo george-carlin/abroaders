@@ -4,7 +4,7 @@ describe "as a new user" do
   subject { page }
 
   let!(:account) { create(:account) }
-  let!(:me) { create(:person, account: account) }
+  let!(:me) { create(:person, account: account, onboarded_balances: onboarded) }
 
   before do
     @currencies = create_list(:currency, 3)
@@ -31,6 +31,15 @@ describe "as a new user" do
     end
   end
 
+  let(:onboarded) { false }
+
+  context "when the person has already completed this survey" do
+    let(:onboarded) { true }
+    it "redirects to my dashboard" do
+      expect(current_path).to eq root_path
+    end
+  end
+
   it "shows a list of currencies with a checkbox next to each name" do
     @currencies.each do |currency|
       is_expected.to have_content currency.name
@@ -42,7 +51,14 @@ describe "as a new user" do
 
   describe "submitting the form" do
     before { submit_form }
-    it "redirects me to... somewhere"
+
+    it "takes me to my dashboard" do
+      expect(current_path).to eq root_path
+    end
+
+    it "marks this person as having completed the balances survey" do
+      expect(me.reload.onboarded_balances?).to be true
+    end
   end
 
   describe "clicking a check box next to a currency", :js do

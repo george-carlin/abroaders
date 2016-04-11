@@ -19,14 +19,17 @@ class CardAccountsController < NonAdminController
 
   def survey
     @person = load_person
+    redirect_if_already_completed_survey!
     @cards  = SurveyCard.all
   end
 
   def save_survey
+    @person = load_person
+    redirect_if_already_completed_survey!
     # There's currently no way that survey_params can be invalid, so this
     # should never fail:
-    CardsSurvey.new(load_person).update_attributes(survey_params)
-    render plain: "TODO: where to redirect to?"
+    CardsSurvey.new(@person).update_attributes(survey_params)
+    redirect_to survey_person_balances_path(@person)
   end
 
   def apply
@@ -96,6 +99,13 @@ class CardAccountsController < NonAdminController
 
   def survey_params
     { card_ids: params[:card_account][:card_ids] }
+  end
+
+  def redirect_if_already_completed_survey!
+    if @person.onboarded_cards?
+      flash[:info] = "This person has already added their cards"
+      redirect_to survey_person_balances_path(@person)
+    end
   end
 
 

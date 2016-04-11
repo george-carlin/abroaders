@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160411090712) do
+ActiveRecord::Schema.define(version: 20160411143353) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,7 +33,6 @@ ActiveRecord::Schema.define(version: 20160411090712) do
     t.string   "unconfirmed_email"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
-    t.integer  "onboarding_stage",       default: 0,  null: false
     t.integer  "monthly_spending_usd"
   end
 
@@ -167,11 +166,13 @@ ActiveRecord::Schema.define(version: 20160411090712) do
   add_index "flights", ["travel_plan_id"], name: "index_flights_on_travel_plan_id", using: :btree
 
   create_table "people", force: :cascade do |t|
-    t.integer  "account_id",                null: false
-    t.string   "first_name",                null: false
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
-    t.boolean  "main",       default: true, null: false
+    t.integer  "account_id",                         null: false
+    t.string   "first_name",                         null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.boolean  "main",               default: true,  null: false
+    t.boolean  "onboarded_cards",    default: false, null: false
+    t.boolean  "onboarded_balances", default: false, null: false
   end
 
   add_index "people", ["account_id", "main"], name: "index_people_on_account_id_and_main", unique: true, using: :btree

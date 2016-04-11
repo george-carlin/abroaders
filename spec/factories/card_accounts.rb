@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :card_account do
-    passenger
+    person
     status :unknown
     card
 

@@ -9,11 +9,10 @@ class ApplicationController < ActionController::Base
     if current_admin
       render "admin_area/dashboard"
     elsif current_account
-      # Forget the survey redirection until we've got the individual forms working
-      # etc TODO
-      # redirect_to_survey and return unless current_account.onboarded?
-      @people = current_account.people.includes(:balances, :spending_info)
-      @travel_plans = current_account.travel_plans
+      @people = current_account.people.includes(
+        :balances, :spending_info, card_accounts: :card
+      )
+      @travel_plans  = current_account.travel_plans
       render "accounts/dashboard"
     end
   end

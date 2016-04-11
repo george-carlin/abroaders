@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :balance do
-    user
+    person
     currency
     value 1
   end

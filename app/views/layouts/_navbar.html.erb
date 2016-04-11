@@ -20,10 +20,8 @@
             <li><%= link_to "Offers", admin_card_offers_path %></li>
             <li><%= link_to "Users", admin_accounts_path %></li>
           <% else # current_account %>
-            <% if current_account.onboarded? %>
-              <li><%= link_to "Cards", card_accounts_path %></li>
-              <li><%= link_to "Travel plans", travel_plans_path %></li>
-            <% end %>
+            <li><%= link_to "Cards", card_accounts_path %></li>
+            <li><%= link_to "Travel plans", travel_plans_path %></li>
           <% end %>
           <li>
             <p class="navbar-text">
