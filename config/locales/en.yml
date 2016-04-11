@@ -34,16 +34,6 @@ en:
           neither: "Neither"
           not_citizen: "Not a U.S. citizen"
 
-    errors:
-      models:
-        travel_plan:
-          attributes:
-            base:
-              # Users should never see this error; if you see it then there's
-              # been a programmer error.
-              bad_flight_count: "No of associated flights does not match type"
-
-
   card_accounts:
     index:
       couldnt_decline: "Couldn't decline card recommendation. This may happen if you already declined or accepted the recommendation in a different browser window, or if you hit the 'back' button after accepting or declining the first time."

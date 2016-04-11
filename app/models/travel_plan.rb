@@ -46,8 +46,6 @@ class TravelPlan < ApplicationRecord
   validates :type, presence: true
   validates :account, presence: true
 
-  validate :number_of_flights_matches_type
-
   # Associations
 
   belongs_to :account
@@ -56,11 +54,5 @@ class TravelPlan < ApplicationRecord
   accepts_nested_attributes_for :flights
 
   private
-
-  def number_of_flights_matches_type
-    if (!multi? && flights.size != 1) || (multi? && flights.size <= 1)
-      errors.add(:base, :bad_flight_count)
-    end
-  end
 
 end
