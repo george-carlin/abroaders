@@ -17,6 +17,18 @@ class CardAccountsController < NonAdminController
     )
   end
 
+  def survey
+    @person = load_person
+    @cards  = SurveyCard.all
+  end
+
+  def save_survey
+    # There's currently no way that survey_params can be invalid, so this
+    # should never fail:
+    CardsSurvey.new(load_person).update_attributes(survey_params)
+    render plain: "TODO: where to redirect to?"
+  end
+
   def apply
     # They should still be able to access this page if the card is 'applied',
     # in case they click the 'Apply' button but don't actually apply
@@ -77,5 +89,14 @@ class CardAccountsController < NonAdminController
   def decline_reason
     params[:card_account][:decline_reason]
   end
+
+  def load_person
+    current_account.people.find(params[:person_id])
+  end
+
+  def survey_params
+    { card_ids: params[:card_account][:card_ids] }
+  end
+
 
 end

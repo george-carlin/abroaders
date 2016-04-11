@@ -1,5 +1,7 @@
 # Object to be used in views to display things like 'you/your' or
 # 'Steve/Steve's"
+#
+# TODO can this be deleted?
 class Name
 
   def self.you

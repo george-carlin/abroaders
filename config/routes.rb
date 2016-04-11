@@ -32,16 +32,17 @@ Rails.application.routes.draw do
     resource :spending_info, path: :spending, except: :new do
       get :survey, action: :new, as: :new
     end
+    resources :card_accounts, path: :cards, only: [] do
+      collection do
+        get  :survey
+        post :survey, action: :save_survey
+      end
+    end
   end
 
   scope :survey, controller: :survey, as: :survey do
 
     passenger_constraints = { passenger: /(main)|(companion)/ }
-
-    get  "cards/(:passenger)", action: :new_card_accounts,
-          as: :card_accounts, constraints: passenger_constraints
-    post "cards/:passenger",  action: :create_card_accounts,
-          as: nil,            constraints: passenger_constraints
 
     get  "balances/(:passenger)", action: :new_balances,
           as: :balances, constraints: passenger_constraints

@@ -2,17 +2,17 @@
 
 <div class="row">
   <div class="col-xs-12 col-md-10 col-md-offset-1">
-    <h1><%= @name.possessive.capitalize %> Cards</h1>
+    <h1><%= @person.first_name %>'s Cards</h1>
 
     <p>
-      Before we can recommend <%= @name.name %> a credit card to apply for, we
-      need to know which cards <%= @name.he_she %> already <%= @name.has %>.
+      Before we can recommend <%= @person.first_name %> a credit card to apply
+      for, we need to know which cards he/she already has.
     </p>
 
     <p>
       Please select <strong>all</strong> of the credit/debit cards below for
-      which <%= @name.name %> <%= @name.has %> been the <strong>primary
-      cardholder in the past 24 months</strong>.
+      which <%= @person.first_name %> has been the <strong>primary cardholder
+      in the past 24 months</strong>.
     </p>
 
     <p>
@@ -33,7 +33,7 @@
       Please <strong>do not</strong> include:
       <ul>
         <li>
-          Cards for which <%= @name.name %> <%= @name.was %> not the primary
+          Cards for which <%= @person.first_name %> was not the primary
           cardholder.
           <br />
           <i>
@@ -42,8 +42,8 @@
           </i>
         </li>
         <li>
-          Any card <%= @name.name %> opened more than 24 months ago that is
-          not currently open.
+          Any card <%= @person.first_name %> opened more than 24 months ago
+          that is not currently open.
           <br />
           <i>
             Example: You opened a card 3 years ago, and you closed the account
@@ -53,7 +53,7 @@
       </ul>
     </p>
 
-    <%= form_tag survey_card_accounts_path(params[:passenger]) do %>
+    <%= form_tag survey_person_card_accounts_path(@person) do %>
       <% @cards.group_by(&:bank).each do |bank, cards_for_1_bank| %>
         <div id="<%= bank.to_param %>_cards">
 
@@ -89,7 +89,9 @@
 
       <% end # @cards.group_by(&:bank).each %>
 
-      <%= submit_tag "Save", class: "btn btn-primary" %>
+      <div class="row">
+        <%= submit_tag "Save", class: "btn btn-primary" %>
+      </div>
     <% end %>
 
   </div>

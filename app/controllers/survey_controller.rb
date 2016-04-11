@@ -1,29 +1,6 @@
 class SurveyController < NonAdminController
   before_action { redirect_to root_path if current_account.onboarded? }
 
-  def new_card_accounts
-    redirect_to card_account_passenger_path and return unless params[:passenger]
-    @name  = load_name(params[:passenger])
-    @cards = SurveyCard.all
-  end
-
-  def create_card_accounts
-    @survey = case params[:passenger]
-              when "main"      then CardsSurvey.new(current_main_passenger)
-              when "companion" then CardsSurvey.new(current_companion)
-              end
-    if @survey.update_attributes(card_survey_params)
-      if params[:passenger] == "main" && has_companion?
-        redirect_to survey_card_accounts_path(:companion)
-      else
-        redirect_to survey_balances_path(:main)
-      end
-    else
-      # As it stands, there's no way the user can submit the existing
-      # survey in a way that would fail validations.
-      raise "this should never happen"
-    end
-  end
 
   def new_balances
     redirect_to balances_passenger_path and return unless params[:passenger]
@@ -74,20 +51,6 @@ class SurveyController < NonAdminController
 
   def balances_params
     params.permit(balances: [:currency_id, :value]).fetch(:balances, [])
-  end
-
-  def card_survey_params
-    { card_ids: params[:card_account][:card_ids] }
-  end
-
-  def card_account_passenger_path
-    case current_account.onboarding_stage
-    when "main_passenger_cards"
-      survey_card_accounts_path(:main)
-    when "companion_cards"
-      survey_card_accounts_path(:companion)
-    else raise "this should never happen"
-    end
   end
 
   def balances_passenger_path
