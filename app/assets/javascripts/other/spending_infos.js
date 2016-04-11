@@ -1,5 +1,3 @@
-const $ = require("jquery");
-
 $(document).ready(function () {
   $("input[name*=has_business]").click(function () {
     $("#business_spending_form_group")
