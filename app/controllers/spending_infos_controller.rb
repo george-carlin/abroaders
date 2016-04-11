@@ -35,7 +35,6 @@ class SpendingInfosController < NonAdminController
 
   def redirect_if_already_added_spending!
     if @person.onboarded_spending?
-      flash[:info] = "This person has already added their financial information"
       redirect_to survey_person_card_accounts_path(@person)
     end
   end

@@ -29,7 +29,6 @@ class BalancesController < NonAdminController
 
   def redirect_if_already_completed_survey!
     if @person.onboarded_balances?
-      flash[:info] = "This person has already added their balances"
       redirect_to root_path
     end
   end

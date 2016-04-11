@@ -103,7 +103,6 @@ class CardAccountsController < NonAdminController
 
   def redirect_if_already_completed_survey!
     if @person.onboarded_cards?
-      flash[:info] = "This person has already added their cards"
       redirect_to survey_person_balances_path(@person)
     end
   end
