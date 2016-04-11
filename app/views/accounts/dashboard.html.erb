@@ -1,15 +1,101 @@
 <div class="row">
   <div class="col-xs-12">
-    <h1>Your Account</h1>
+    <h1>Dashboard</h1>
   </div>
 </div>
 
 <div class="row">
   <div class="col-xs-12">
-    <%= current_account.email %>
+    <h2>
+      Travel Plans
+      <% if @travel_plans.any? %>
+        <small>
+          <%= link_to "Add new", new_travel_plan_path %>
+        </small>
+      <% end %>
+    </h2>
+
+    <% if @travel_plans.any? %>
+      <div class="account_travel_plans">
+        <%= render collection: @travel_plans, partial: "travel_plans/travel_plan" %>
+      </div>
+    <% else %>
+      You have no upcoming travel plans.
+      <%= link_to "Add one", new_travel_plan_path %>
+    <% end %>
+  </div>
+
+  <hr>
+</div>
+
+<div class="row">
+  <div class="col-xs-12">
+    <h2>Points Earning</h2>
   </div>
 </div>
 
+<div class="row">
+  <div class="col-xs-12 col-md-6">
+    <% @people.each do |person| %>
+      <div id="<%= dom_id(person) %>" class="<%= dom_class(person) %> well">
+        <h4><%= person.first_name %></h4>
+
+        <% if person.spending_info.present? %>
+          <%= render person.spending_info %>
+          <div class="clearfix"></div>
+        <% else %>
+          <hr>
+
+          <p>
+            You have not added this person's financial details. We can't
+            recommend a credit card until you provide this information.
+          </p>
+
+          <p>
+            <%= link_to(
+              "Add financial information",
+              new_person_spending_info_path(person)
+            ) %>
+          </p>
+        <% end %>
+
+        <% if person.has_added_cards? %>
+          TODO display existing cards
+        <% else %>
+          <hr>
+
+          <p>
+            Before we can recommend any credit cards to this person,
+            we need to know which cards they already have.
+          </p>
+
+          <p>
+            <%= link_to "Add existing cards", survey_person_card_accounts_path(person) %>
+          </p>
+        <% end %>
+
+        <% if person.has_added_balances? %>
+          TODO display existing balances
+        <% else %>
+          <hr>
+
+          <p>
+            You have not added any frequent flyer balances for this person.  In
+            order to make the best credit card recommendation, we need to know
+            if this person already has any existing frequent flyer balances.
+          </p>
+
+          <p>
+            <%= link_to "Add balances", survey_person_balances_path(person) %>
+          </p>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+
+<% if false %>
 <% current_account.passengers.each do |passenger| %>
   <div id="<%= dom_id(passenger) %>" class="<%= dom_class(passenger) %> row">
     <div class="col-xs-12">
@@ -39,4 +125,5 @@
       </div>
     <% end %>
   </div>
+<% end %>
 <% end %>

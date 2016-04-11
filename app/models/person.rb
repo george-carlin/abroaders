@@ -15,7 +15,7 @@ class Person < ApplicationRecord
   delegate :onboarded?, :email, to: :account
   delegate :credit_score, :will_apply_for_loan, :personal_spending,
     :business_spending_usd, :has_business, :has_business?, :has_business_with_ein?,
-    :has_business_without_ein?, :no_business?,
+    :has_business_without_ein?, :no_business?, :citizenship,
     to: :spending_info, allow_nil: true
 
   # The person signed up on the date their *account* was created, not on the
@@ -24,6 +24,12 @@ class Person < ApplicationRecord
   def signed_up
     account.created_at
   end
+
+  # TODO make me into DB attributes
+  attr_accessor :has_added_cards
+  def has_added_cards?; has_added_cards; end
+  attr_accessor :has_added_balances
+  def has_added_balances?; has_added_balances; end
 
   # Validations
 

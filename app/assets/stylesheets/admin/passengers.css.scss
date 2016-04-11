@@ -1,26 +1,10 @@
-.survey-attr {
-  margin-bottom: 10.5px;
-
-  i.contact-info-label {
-    margin-right: 7px;
-    width: 9px;
-  }
+.spending-info-label {
+  font-weight: bold;
 }
 
-.passenger-personal-spending, .passenger-business-spending,
-      .passenger-credit-score {
-  .spending-label {
-    display: inline-block;
-    font-weight: bold;
-    width: 136px;
-  }
-}
-
-
-
-.passenger-business-spending .has-ein {
+.spending-info-business-spending .has-ein {
   position: relative;
-  bottom: 2px;
+  bottom: 1px;
   left: 9px;
   display: inline-block;
   font-size: 0.7em;

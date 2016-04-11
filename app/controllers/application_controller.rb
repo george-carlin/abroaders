@@ -12,6 +12,8 @@ class ApplicationController < ActionController::Base
       # Forget the survey redirection until we've got the individual forms working
       # etc TODO
       # redirect_to_survey and return unless current_account.onboarded?
+      @people = current_account.people.includes(:balances, :spending_info)
+      @travel_plans = current_account.travel_plans
       render "accounts/dashboard"
     end
   end

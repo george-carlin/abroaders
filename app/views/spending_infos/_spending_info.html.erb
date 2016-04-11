@@ -1,32 +1,57 @@
-<div class="passenger-spending-info col-xs-12 col-md-4">
-  <div class="survey-attr passenger-personal-spending">
-    <div class="spending-label">
-      Personal spending:
-    </div>
-    $<%= spending_info.personal_spending %>
-  </div>
+<div id="<%= dom_id(spending_info) %>" class="<%= dom_class(spending_info) %>">
+  <table class="table table-condensed">
+    <tbody>
+      <tr>
+        <td class="spending-info-label">
+          Citizenship:
+        </td>
+        <td>
+          <% key = if spending_info.citizenship == "neither"
+                     "not_citizen"
+                   else
+                     spending_info.citizenship
+                   end %>
+          <%= t("activerecord.attributes.spending_info.citizenships.#{key}") %>
+        </td>
+      </tr>
 
-  <% if spending_info.has_business? %>
-    <div class="survey-attr passenger-business-spending">
-      <div class="spending-label">
-        Business spending:
-      </div>
-      $<%= spending_info.business_spending %>
+      <% if spending_info.has_business? %>
+        <tr>
+          <td class="spending-info-label">
+            Business spending:
+          </td>
+          <td class="spending-info-business-spending">
+            <%= number_to_currency(spending_info.business_spending_usd) %>
+            &nbsp;
+            <span class="has-ein">
+              <% if spending_info.has_business_with_ein? %>
+                (Has EIN)
+              <% else %>
+                (Does not have EIN)
+              <% end %>
+            </span>
+          </td>
+        </tr>
+      <% end %>
 
-      <div class="has-ein">
-        <% if spending_info.has_business_with_ein? %>
-          (Has EIN)
-        <% else %>
-          (Does not have EIN)
-        <% end %>
-      </div>
-    </div>
-  <% end %>
+      <tr>
+        <td class="spending-info-label">
+          Credit score:
+        </td>
+        <td>
+          <%= spending_info.credit_score %>
+        </td>
+      </td>
 
-  <div class="survey-attr passenger-credit-score">
-    <div class="spending-label">
-      Credit Score:
-    </div>
-    <%= spending_info.credit_score %>
-  </div>
+      <tr>
+        <td class="spending-info-label">
+          Will apply for loan in next 6 months:
+        </td>
+        <td>
+          <%= spending_info.will_apply_for_loan ? "Yes" : "No" %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
 </div>
