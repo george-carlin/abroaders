@@ -50,7 +50,7 @@ en:
     card_offers:
       submit: "Submit"
 
-    passengers:
+    people:
       card_accounts:
         none: "User has no cards on file. Use the form below to recommend them their first card."
         you_have_declined: "You have indicated that you do not want to apply for this card"
@@ -60,5 +60,4 @@ en:
         no_balances: "User does not have any existing points/miles balances"
 
       show:
-        no_spending: "Spending info for this passenger has not yet been added"
         not_onboarded: "This user has not fully completed the onboarding process; you can't recommend them a card yet"

@@ -1,0 +1,12 @@
+<div class="person-contact-info col-xs-12 col-md-4">
+  <div class="survey-attr person-citizenship">
+    <%= fa_icon "flag", class: "contact-info-label" %>
+    &nbsp;
+    <% key = if person.citizenship == "neither"
+               "not_citizen"
+             else 
+               person.citizenship
+             end %>
+    <%= t("activerecord.attributes.person.citizenships.#{key}") %>
+  </div>
+</div>

@@ -59,15 +59,19 @@ class Person < ApplicationRecord
     end
 
     def readiness_status_given?
-      !!readiness_status.try(:persisted?)
+      !!readiness_status&.persisted?
     end
 
     def ready_to_apply?
-      !!readiness_status.try(:ready?)
+      !!readiness_status&.ready?
     end
 
     def unready_to_apply?
       !ready_to_apply?
+    end
+
+    def readiness_status_given_at
+      readiness_status&.created_at
     end
   end
 

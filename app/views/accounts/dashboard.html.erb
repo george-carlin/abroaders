@@ -86,21 +86,14 @@
 
         <% if person.onboarded_balances? %>
           <% if person.balances.any? %>
-            <ul>
-              <% person.balances.includes(:currency).each do |balance| %>
-                <li id="<%= dom_id(balance.currency) %>">
-                  <b><%= balance.currency_name %>:</b>
-                  <span class="balance">
-                    <%= number_with_delimiter(balance.value) %>
-                  </span>
-                </li>
-              <% end %>
-            </ul>
+            <%= render(
+              "balances/list",
+              balances: person.balances.includes(:currency)
+            ) %>
           <% else %>
             <p>This person has no existing frequent flyer balances</p>
           <% end %>
         <% else %>
-
           <p>
             You have not added any frequent flyer balances for this person.  In
             order to make the best credit card recommendation, we need to know

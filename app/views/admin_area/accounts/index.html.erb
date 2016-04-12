@@ -65,7 +65,7 @@
             <!-- <i class={class} style={style} > </i> -->
           </th>
           <th class="sortable-column-header" >
-            Main Passenger
+            Name
             &nbsp;
             <!-- <i class={class} style={style} > </i> -->
           </th>
@@ -102,23 +102,17 @@
             </td>
             <td><%= account.email %></td>
             <td>
-              <% if account.main_passenger.present? %>
-                <%= link_to_admin_passenger(account.main_passenger) %>
-
-                <% if account.onboarded? %>
-                  <%= link_to_admin_passenger_recommend_card(account.main_passenger) %>
-                <% end %>
-              <% else %>
-                -
-              <% end %>
+              <%= render(
+                "admin_area/people/table_cell",
+                person: account.main_passenger
+              ) %>
             </td>
             <td>
               <% if account.companion.present? %>
-                <%= link_to_admin_passenger(account.companion) %>
-
-                <% if account.onboarded? %>
-                  <%= link_to_admin_passenger_recommend_card(account.companion) %>
-                <% end %>
+                <%= render(
+                  "admin_area/people/table_cell",
+                  person: account.companion
+                ) %>
               <% else %>
                 -
               <% end %>

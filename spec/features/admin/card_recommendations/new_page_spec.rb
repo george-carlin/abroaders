@@ -4,7 +4,7 @@ describe "admin section" do
   include_context "logged in as admin"
   subject { page }
 
-  describe "passenger recommend card page" do
+  describe "person recommend card page" do
     subject { page }
 
     let(:chase)   { Bank.find_by(name: "Chase")   }
@@ -29,17 +29,17 @@ describe "admin section" do
         create(:card_offer, card: @usb_p)
       ]
 
-      # Make the account created_at stamp different from the passenger's:
+      # Make the account created_at stamp different from the person's:
       @account   = create(
         :account,
         created_at: 4.days.ago
       )
-      @passenger = @account.create_main_passenger!(
+      @person = @account.people.create!(
         first_name:   "Fred",
         citizenship: :us_permanent_resident
       )
       if onboarded
-        @passenger.create_spending_info!(
+        @person.create_spending_info!(
           credit_score: 678,
           personal_spending: 2500,
           has_business: :with_ein,
@@ -49,7 +49,7 @@ describe "admin section" do
       end
       @account.reload
       extra_setup
-      visit new_admin_passenger_card_recommendation_path(@passenger)
+      visit new_admin_person_card_recommendation_path(@person)
     end
 
     let(:onboarded) { true }
@@ -63,10 +63,10 @@ describe "admin section" do
       "##{dom_id(card, :admin_recommend)}"
     end
 
-    context "for a passenger who has not been fully onboarded" do
+    context "for a person who has not been fully onboarded" do
       let(:onboarded) { false }
-      it "redirects back to the passenger show page" do
-        expect(current_path).to eq admin_passenger_path(@passenger)
+      it "redirects back to the person show page" do
+        expect(current_path).to eq admin_person_path(@person)
       end
     end
 
@@ -74,10 +74,10 @@ describe "admin section" do
       is_expected.to have_content @account.created_at.strftime("%D")
     end
 
-    context "when the passenger" do
+    context "when the person" do
       context "has no existing card accounts or recommendations" do
         it do
-          is_expected.to have_content t("admin.passengers.card_accounts.none")
+          is_expected.to have_content t("admin.people.card_accounts.none")
         end
       end
 
@@ -175,17 +175,17 @@ describe "admin section" do
       context "has no existing points balances" do
         it do
           is_expected.to have_content \
-            t("admin.passengers.card_recommendations.no_balances")
+            t("admin.people.card_recommendations.no_balances")
         end
       end
 
       context "has existing points balances" do
         let(:extra_setup) do
           Balance.create!(
-            passenger: @passenger, currency: @currencies[0], value:  5000
+            person: @person, currency: @currencies[0], value:  5000
           )
           Balance.create!(
-            passenger: @passenger, currency: @currencies[2], value: 10000
+            person: @person, currency: @currencies[2], value: 10000
           )
         end
 
@@ -201,16 +201,16 @@ describe "admin section" do
       end
     end
 
-    it "displays the passenger's info from the onboarding survey" do
-      def have_passenger_info(attr, value)
-        have_selector ".passenger-#{attr}", text: value
+    it "displays the person's info from the onboarding survey" do
+      def have_person_info(attr, value)
+        have_selector ".person-#{attr}", text: value
       end
 
-      is_expected.to have_passenger_info "email", @passenger.email
-      is_expected.to have_passenger_info "citizenship", "U.S. Permanent Resident"
-      is_expected.to have_passenger_info "credit-score", 678
-      is_expected.to have_passenger_info "personal-spending", "$2500"
-      is_expected.to have_passenger_info "business-spending", "$1500"
+      is_expected.to have_person_info "email", @person.email
+      is_expected.to have_person_info "citizenship", "U.S. Permanent Resident"
+      is_expected.to have_person_info "credit-score", 678
+      is_expected.to have_person_info "personal-spending", "$2500"
+      is_expected.to have_person_info "business-spending", "$1500"
     end
 
     it "has a form to recommend a new card" do
@@ -333,7 +333,7 @@ describe "admin section" do
             end
           end
 
-          it "recommends that card to the passenger" do
+          it "recommends that card to the person" do
             expect{confirm}.to change{CardAccount.recommended.count}.by(1)
           end
 
@@ -342,10 +342,10 @@ describe "admin section" do
 
             let(:rec) { CardAccount.recommended.last }
 
-            it "has the correct offer, card, and passenger" do
+            it "has the correct offer, card, and person" do
               expect(rec.card).to eq offer.card
               expect(rec.offer).to eq offer
-              expect(rec.passenger).to eq @passenger
+              expect(rec.person).to eq @person
             end
 
             it "has 'recommended at' set to the current time" do
@@ -361,7 +361,7 @@ describe "admin section" do
             end
           end
 
-          it "doesn't recommend the card to the passenger" do
+          it "doesn't recommend the card to the person" do
             expect{cancel}.not_to change{CardAccount.count}
           end
 

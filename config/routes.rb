@@ -89,7 +89,7 @@ Rails.application.routes.draw do
       # airports, cities, countries, etc
       get type.pluralize, to: "destinations##{type}"
     end
-    resources :passengers, only: :show do
+    resources :people, only: :show do
       resources :card_recommendations, only: [:new, :create]
     end
   end
