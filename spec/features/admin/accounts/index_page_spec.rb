@@ -10,9 +10,9 @@ describe "admin section" do
       @accounts = [
         # Specify the email addresses so we have something to test the filtering
         # with:
-        create(:account, :onboarded, email: "aaaaaa@example.com"),
-        create(:account, :onboarded, email: "bbbbbb@example.com"),
-        create(:account, :onboarded_companion, email: "ccccccc@example.com"),
+        create(:onboarded_account, email: "aaaaaa@example.com"),
+        create(:onboarded_account, email: "bbbbbb@example.com"),
+        create(:onboarded_account_with_companion, email: "ccccccc@example.com"),
         create(:account, email: "ddddddd@example.com")
       ]
       visit admin_accounts_path
@@ -33,7 +33,7 @@ describe "admin section" do
         onboarded_accounts.slice(0,3).each do |account|
           within account_selector(account) do
             is_expected.to have_link(
-              account.main_passenger_first_name,
+              account.main_passenger.first_name,
               href: admin_passenger_path(account.main_passenger)
             )
           end
@@ -45,7 +45,7 @@ describe "admin section" do
       it "links to the companion's info page" do
         within account_selector(@accounts[2]) do
           is_expected.to have_link(
-            @accounts[2].companion_first_name,
+            @accounts[2].companion.first_name,
             href: admin_passenger_path(@accounts[2].companion)
           )
         end

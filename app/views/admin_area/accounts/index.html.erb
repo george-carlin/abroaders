@@ -90,7 +90,7 @@
           <tr
             id="<%= dom_id(account) %>"
             class="<%= dom_class(account) %>"
-            data-companion-name="<%= account.companion.first_name %>"
+            data-companion-name="<%= account.companion&.first_name %>"
             data-email="<%= account.email %>"
             data-main-passenger-name="<%= account.main_passenger.first_name %>"
             data-onboarded="<%= account.onboarded? %>"
