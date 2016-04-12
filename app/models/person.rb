@@ -29,6 +29,11 @@ class Person < ApplicationRecord
     !!spending_info&.persisted?
   end
 
+  def onboarded?
+    onboarded_spending? && onboarded_cards? && onboarded_balances? &&
+      ready_to_apply?
+  end
+
   # Validations
 
   NAME_MAX_LENGTH  = 50

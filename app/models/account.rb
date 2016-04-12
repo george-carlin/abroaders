@@ -19,6 +19,10 @@ class Account < ApplicationRecord
     shares_expenses ?  main_passenger.personal_spending : nil
   end
 
+  def onboarded?
+    people.all?(&:onboarded?)
+  end
+
   # Validations
 
   # Associations
