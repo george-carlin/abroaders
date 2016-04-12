@@ -14,19 +14,19 @@ FactoryGirl.define do
       main false
     end
 
-    trait :with_spending_info do
-      association :account, factory: :account, onboarding_stage: "cards"
-      spending_info
-    end
-    # Potential contribution to FactoryGirl, allow for traits to be aliased
     trait :with_spending do
-      association :account, factory: :account, onboarding_stage: "cards"
-      spending_info
+      after(:build) do |person|
+        person.build_spending_info(attributes_for(:spending_info, person: nil))
+      end
     end
 
     trait :onboarded do
       with_spending_info
-      association :account, factory: :account, onboarding_stage: "onboarded"
+      onboarded_balances true
+      onboarded_cards true
+      after(:build) do |person|
+        person.build_readiness_status(ready: true)
+      end
     end
 
     factory :companion,                    traits: [:companion]

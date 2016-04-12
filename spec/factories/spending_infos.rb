@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :spending_info do
+  factory :spending_info, aliases: [:spending] do
     person
 
     credit_score do
