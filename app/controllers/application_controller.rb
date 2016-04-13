@@ -17,8 +17,4 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def placeholder
-    head :ok
-  end
-
 end
