@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   root to: "application#dashboard"
 
-  match "/accounts/connect/awardwallet", to: "oauth#award_wallet", via: %i[get post]
+  get "/accounts/connect/awardwallet", to: "oauth#award_wallet"
 
   devise_scope :account do
     get    :sign_in,  to: "sessions#new",     as: :new_account_session
