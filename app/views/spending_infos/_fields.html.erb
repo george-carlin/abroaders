@@ -59,20 +59,6 @@
             </div>
           </div>
 
-          <% if !f.object.account.shares_expenses? %>
-            <div class="form-group required">
-              <%= f.label(
-                "#{passenger}_personal_spending",
-                "What is #{possessive} normal personal spending per month?"
-              ) %>
-
-              <div class="input-group">
-                <div class="input-group-addon">$</div>
-                <%= f.number_field "#{passenger}_personal_spending" %>
-              </div>
-            </div>
-          <% end %>
-
           <div class="form-group">
             <%= f.label(
               "#{passenger}_has_business",

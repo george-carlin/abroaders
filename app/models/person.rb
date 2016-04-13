@@ -13,7 +13,7 @@ class Person < ApplicationRecord
   end
 
   delegate :email, to: :account
-  delegate :credit_score, :will_apply_for_loan, :personal_spending,
+  delegate :credit_score, :will_apply_for_loan,
     :business_spending_usd, :has_business, :has_business?, :has_business_with_ein?,
     :has_business_without_ein?, :no_business?, :citizenship,
     to: :spending_info, allow_nil: true
@@ -72,6 +72,10 @@ class Person < ApplicationRecord
 
     def readiness_status_given_at
       readiness_status&.created_at
+    end
+
+    def ready_to_apply!
+      create_readiness_status!(ready: true)
     end
   end
 

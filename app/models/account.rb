@@ -11,14 +11,6 @@ class Account < ApplicationRecord
   end
   alias_attribute :has_companion?, :has_companion
 
-  def shared_spending
-    # To eliminate the need for an extra DB column that will be null most of
-    # the time: when spending is shared, it's stored internally under
-    # main_passenger.personal_spending, and companion.personal_spending is left
-    # blank.
-    shares_expenses ?  main_passenger.personal_spending : nil
-  end
-
   def onboarded?
     people.all?(&:onboarded?)
   end

@@ -69,7 +69,6 @@ describe "admin section" do
             citizenship: :us_permanent_resident,
             credit_score: 678,
             has_business: :with_ein,
-            personal_spending: 2500,
           )
           if onboarded
             @account.update_attributes!(onboarding_stage: :onboarded)
