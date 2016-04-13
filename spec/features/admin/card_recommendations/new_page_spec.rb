@@ -30,24 +30,18 @@ describe "admin section" do
       ]
 
       # Make the account created_at stamp different from the person's:
-      @account   = create(
-        :account,
-        created_at: 4.days.ago
-      )
-      @person = @account.people.create!(
-        first_name:   "Fred",
-        citizenship: :us_permanent_resident
-      )
+      @account = create(:account, created_at: 4.days.ago)
+      @person  = @account.people.first
       if onboarded
         @person.create_spending_info!(
+          citizenship: :us_permanent_resident,
           credit_score: 678,
-          personal_spending: 2500,
           has_business: :with_ein,
-          business_spending: 1500
+          business_spending_usd: 1500
         )
-        @account.update_attributes!(onboarding_stage: "onboarded")
+        @person.update_attributes!(onboarded_cards: true, onboarded_balances: true)
+        @person.ready_to_apply!
       end
-      @account.reload
       extra_setup
       visit new_admin_person_card_recommendation_path(@person)
     end
@@ -202,15 +196,10 @@ describe "admin section" do
     end
 
     it "displays the person's info from the onboarding survey" do
-      def have_person_info(attr, value)
-        have_selector ".person-#{attr}", text: value
-      end
-
-      is_expected.to have_person_info "email", @person.email
-      is_expected.to have_person_info "citizenship", "U.S. Permanent Resident"
-      is_expected.to have_person_info "credit-score", 678
-      is_expected.to have_person_info "personal-spending", "$2500"
-      is_expected.to have_person_info "business-spending", "$1500"
+      is_expected.to have_content "Citizenship: U.S. Permanent Resident"
+      is_expected.to have_content "Credit score: 678"
+      is_expected.to have_content "Will apply for loan in next 6 months: No"
+      is_expected.to have_content "Business spending: $1,500.00 (Has EIN)"
     end
 
     it "has a form to recommend a new card" do

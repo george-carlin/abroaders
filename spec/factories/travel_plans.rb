@@ -12,8 +12,16 @@ FactoryGirl.define do
       earliest.days.from_now..latest.days.from_now
     end
 
+    trait :single do
+      type :single
+    end
+
     trait :return do
       type :return
+    end
+
+    trait :multi do
+      type :multi
     end
 
     after(:build) do |travel_plan, _|

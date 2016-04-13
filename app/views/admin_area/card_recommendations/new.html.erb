@@ -1,18 +1,14 @@
-<% provide :title, "#{@passenger.first_name} - Recommend Card" %>
+<% provide :title, "#{@person.first_name} - Recommend Card" %>
 
 <div class="row">
   <div class="col-xs-12">
-    <h1><%= @passenger.first_name %> - Recommend Card</h1>
-    <p>Account created on <%= @passenger.signed_up.strftime("%D") %></p>
+    <h1><%= @person.first_name %> - Recommend Card</h1>
+    <p>Account created on <%= @person.signed_up.strftime("%D") %></p>
   </div>
 
-  <%= render(
-    "passengers/passenger",
-    passenger: @passenger,
-    email:     true,
-  ) %>
-
-  <%= render "spending_infos/spending_info", spending_info: @spending_info %>
+  <div class="col-xs-12 col-md-6">
+    <%= render "spending_infos/spending_info", spending_info: @spending_info %>
+  </div>
 </div>
 
 <hr>
@@ -22,7 +18,7 @@
     <% if @balances.any? %>
       <h3>Existing Balances</h3>
 
-      <ul class="passenger-balances">
+      <ul class="person-balances">
         <% @balances.each do |balance| %>
           <li id="<%= dom_id(balance.currency) %>">
             <b><%= balance.currency_name %>:</b>
@@ -31,7 +27,7 @@
         <% end %>
       </ul>
     <% else %>
-      <%= t("admin.passengers.card_recommendations.no_balances") %>
+      <%= t("admin.people.card_recommendations.no_balances") %>
     <% end # balances.any? %>
   </div><!-- .col-xs-12.col-md-6 -->
 
@@ -56,7 +52,7 @@
 
   <%= render "card_accounts/table", accounts: @card_accounts %>
 <% else %>
-  <%= t("admin.passengers.card_accounts.none") %>
+  <%= t("admin.people.card_accounts.none") %>
 <% end %>
 
 <hr />

@@ -65,7 +65,7 @@ describe "admin section" do
       context "has added their spending info" do
         let(:extra_setup) do
           @person.create_spending_info!(
-            business_spending: 1500,
+            business_spending_usd: 1500,
             citizenship: :us_permanent_resident,
             credit_score: 678,
             has_business: :with_ein,

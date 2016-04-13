@@ -84,13 +84,13 @@
             style="<%= "display:none" unless f.object.send("#{passenger}_has_business?") %>"
           >
             <%= f.label(
-              "#{passenger}_business_spending",
+              "#{passenger}_business_spending_usd",
               "What is the average monthly spending of #{possessive} business?"
             ) %>
 
             <div class="input-group">
               <div class="input-group-addon">$</div>
-              <%= f.number_field "#{passenger}_business_spending" %>
+              <%= f.number_field "#{passenger}_business_spending_usd" %>
             </div>
           </div>
         </div>
