@@ -1,7 +1,5 @@
 require "rails_helper"
 
-puts "loaded"
-
 describe "factories" do
 
   describe "account factory" do
@@ -102,6 +100,15 @@ describe "factories" do
         end
         expect(account.onboarded?).to be true
       end
+    end
+  end
+
+
+  describe "person factory" do
+    it "creates a person with an account" do
+      create(:person)
+      expect(Account.count).to eq 1
+      expect(Person.count).to eq 1
     end
   end
 end

@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :person, aliases: [:main_passenger] do
-    account
+    association(:account, factory: :account, with_person: false)
     first_name { Faker::Name.first_name }
 
     # TODO everything below this line needs a serious audit!

@@ -1,5 +1,9 @@
 FactoryGirl.define do
   factory :account do
+    transient do
+      with_person true
+    end
+
     sequence(:email) do |n|
       "#{Faker::Name.first_name.downcase}-#{rand(1000)}#{n}@example.com"
     end
@@ -7,8 +11,10 @@ FactoryGirl.define do
     password_confirmation  "abroaders123"
     confirmed_at           "2015-01-01"
 
-    after(:build) do |acc|
-      acc.people.build(first_name: Faker::Name.first_name)
+    after(:build) do |account, evaluator|
+      if evaluator.with_person
+        account.people.build(first_name: Faker::Name.first_name)
+      end
     end
 
     # Make sure you put this trait *before* the other traits
