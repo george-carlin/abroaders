@@ -4,7 +4,7 @@ describe "new companion page", :onboarding do
   subject { page }
 
   let!(:account) { create(:account) }
-  let!(:me) { create(:person, account: account) }
+  let!(:me) { account.people.first }
 
   before do
     create(:person, main: false, account: account) if already_has_companion

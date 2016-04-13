@@ -4,10 +4,11 @@ describe "card accounts survey", :onboarding do
   subject { page }
 
   let!(:account) { create(:account) }
-  let!(:me) { create(:person, account: account, onboarded_cards: onboarded_cards) }
+  let!(:me) { account.people.first }
 
   # Setup
   before do
+    me.update_attributes!(onboarded_cards: onboarded_cards)
     chase = Bank.find_by(name: "Chase")
     citi  = Bank.find_by(name: "Citibank")
     @visible_cards = [

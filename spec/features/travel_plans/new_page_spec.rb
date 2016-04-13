@@ -3,7 +3,7 @@ require "rails_helper"
 describe "new travel plan page", :onboarding do
 
   let(:account) { create(:account) }
-  let!(:me) { create(:person, account: account) }
+  let!(:me) { account.people.first }
 
   subject { page }
 

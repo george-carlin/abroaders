@@ -13,10 +13,10 @@ describe "as a user viewing my card recommendations", :js do
 
   let(:extra_setup) { nil }
 
-  # TODO - right now the page only shows me the main passenger's recommendations.
+  # TODO - right now the page only shows me the main person's recommendations.
   # Needs some serious rethinking
 
-  let(:passenger) { account.main_passenger }
+  let(:person) { account.people.first }
 
   context "when there are cards I added in the onboarding survey" do
     let(:extra_setup) do
@@ -24,7 +24,7 @@ describe "as a user viewing my card recommendations", :js do
         :card_account,
         2,
         status: :unknown,
-        passenger: passenger
+        person: person
       )
     end
 
@@ -43,7 +43,7 @@ describe "as a user viewing my card recommendations", :js do
 
   context "when I have been recommended some cards" do
     let(:extra_setup) do
-      @recommendations = create_list(:card_rec, 2, passenger: passenger)
+      @recommendations = create_list(:card_rec, 2, person: person)
     end
 
     it "lists them all" do
@@ -228,7 +228,7 @@ describe "as a user viewing my card recommendations", :js do
       @card  = @offer.card
       @card_account = create(
         :card_account,
-        passenger:  passenger,
+        person:  person,
         status:    :applied,
         applied_at: applied_at,
         offer: @offer,

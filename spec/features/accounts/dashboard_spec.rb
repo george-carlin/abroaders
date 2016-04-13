@@ -5,7 +5,7 @@ describe "account dashboard" do
 
   let(:email) { "thedude@lebowski.com" }
   let!(:account) { create(:account, email: email) }
-  let!(:me) { account.people.create!(first_name: "Adam") }
+  let!(:me) { account.people.first }
 
   before do
     extra_setup
@@ -14,11 +14,6 @@ describe "account dashboard" do
   end
 
   let(:extra_setup) { nil }
-
-  # if two_applicants
-  #   @him = account.people.create!(first_name: "Bob")
-  #   create(:spending_info, person: @him)
-  # end
 
   def within_my_info
     within("##{dom_id(me)}") { yield }

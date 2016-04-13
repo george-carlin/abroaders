@@ -4,7 +4,7 @@ describe "the 'are you ready to apply?' survey page", :js, :onboarding do
   subject { page }
 
   let!(:account) { create(:account) }
-  let!(:me) { create(:person, account: account) }
+  let!(:me) { account.people.first }
 
   before do
     if already_ready?

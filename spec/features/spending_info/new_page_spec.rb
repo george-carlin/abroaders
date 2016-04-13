@@ -4,7 +4,7 @@ describe "the spending info survey", :onboarding do
   subject { page }
 
   let!(:account) { create(:account) }
-  let!(:me) { create(:person, account: account) }
+  let!(:me) { account.people.first }
 
   before do
     create(:spending_info, person: me) if already_added

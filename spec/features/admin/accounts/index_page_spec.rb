@@ -28,13 +28,13 @@ describe "admin section" do
       end
     end
 
-    describe "for accounts which have added a main passenger" do
-      it "links to the passenger's info page" do
+    describe "for accounts which have added a main person" do
+      it "links to the person's info page" do
         onboarded_accounts.slice(0,3).each do |account|
           within account_selector(account) do
             is_expected.to have_link(
               account.main_passenger.first_name,
-              href: admin_passenger_path(account.main_passenger)
+              href: admin_person_path(account.main_passenger)
             )
           end
         end
@@ -46,7 +46,7 @@ describe "admin section" do
         within account_selector(@accounts[2]) do
           is_expected.to have_link(
             @accounts[2].companion.first_name,
-            href: admin_passenger_path(@accounts[2].companion)
+            href: admin_person_path(@accounts[2].companion)
           )
         end
       end
@@ -72,22 +72,22 @@ describe "admin section" do
 
     context "when an account" do
       context "has completed the onboarding survey" do
-        it "has a link to recommend the main passenger a card" do
+        it "has a link to recommend the main person a card" do
           onboarded_accounts.each do |account|
-            passenger = account.main_passenger
+            person = account.main_passenger
             is_expected.to have_link(
               "", # actually a font-awesome icon
-              href: new_admin_passenger_card_recommendation_path(passenger)
+              href: new_admin_person_card_recommendation_path(person)
             )
           end
         end
 
         context "and has a companion" do
-          it "has a link to recommend the main passenger a card" do
-            passenger = @accounts[2].companion
+          it "has a link to recommend the main person a card" do
+            person = @accounts[2].companion
             is_expected.to have_link(
               "", # actually a font-awesome icon
-              href: new_admin_passenger_card_recommendation_path(passenger)
+              href: new_admin_person_card_recommendation_path(person)
             )
           end
         end

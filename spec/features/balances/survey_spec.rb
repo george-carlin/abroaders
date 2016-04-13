@@ -4,9 +4,10 @@ describe "the balance survey page", :onboarding do
   subject { page }
 
   let!(:account) { create(:account) }
-  let!(:me) { create(:person, account: account, onboarded_balances: onboarded) }
+  let!(:me) { account.people.first }
 
   before do
+    me.update_attributes!(onboarded_balances: onboarded)
     @currencies = create_list(:currency, 3)
     login_as_account(account)
     visit survey_person_balances_path(me)
