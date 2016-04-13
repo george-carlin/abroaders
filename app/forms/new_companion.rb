@@ -25,6 +25,6 @@ class NewCompanion < Form
 
   validates :first_name,
     presence: true,
-    length: { maximum: Person::NAME_MAX_LENGTH }
+    length: { maximum: ::Person::NAME_MAX_LENGTH }
 
 end
