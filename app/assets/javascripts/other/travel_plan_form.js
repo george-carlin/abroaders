@@ -15,7 +15,7 @@ $(document).ready(function () {
    */
   var $countable = $("#travel_plan_further_information");
   if ($countable.length) {
-    var maxCount   = 1000,
+    var maxCount   = 500,
         $counter   = $("#travel_plan_further_information_counter");
 
     var countCheck = function () {
