@@ -45,7 +45,4 @@ class TravelPlansController < NonAdminController
     Destination.country.order("name ASC")
   end
 
-  def after_create_path
-  end
-
 end
