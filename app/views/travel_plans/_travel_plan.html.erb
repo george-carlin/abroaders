@@ -4,9 +4,8 @@
 
     &nbsp;&nbsp;&nbsp;&nbsp;
 
-    <%# TODO this is a 'dummy' placeholder date range: %>
     <span class="travel_plan_departure_date_range">
-      2/15/2015 - 2/17/2019
+      <%= travel_plan.earliest_departure.strftime("%D") %>
     </span>
 
     &nbsp;&nbsp;&nbsp;&nbsp;
@@ -32,4 +31,22 @@
       <%= render "travel_plans/destination", destination: flight.to %>
     </div><!-- #dom_id(flight) -->
   <% end %>
+
+  <% if travel_plan.further_information.present? %>
+    <div>Notes: <%= travel_plan.further_information %></div>
+  <% end %>
+
+  <div>
+    Acceptable classes:
+    <b>
+      <% if travel_plan.acceptable_classes.any? %>
+        <%= "E"   if travel_plan.will_accept_economy? %>
+        <%= "PE"  if travel_plan.will_accept_premium_economy? %>
+        <%= "B"   if travel_plan.will_accept_business_class? %>
+        <%= "1st" if travel_plan.will_accept_first_class? %>
+      <% else %>
+        None given
+      <% end %>
+    </b>
+  </div>
 </div>

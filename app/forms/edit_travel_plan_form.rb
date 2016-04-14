@@ -11,6 +11,7 @@ class EditTravelPlanForm < TravelPlanForm
     @will_accept_business_class  = @travel_plan.will_accept_business_class?
     @will_accept_first_class     = @travel_plan.will_accept_first_class?
     @earliest_departure = @travel_plan.departure_date_range.first.strftime("%m/%d/%Y")
+    @further_information = @travel_plan.further_information
   end
 
   def to_param
