@@ -14,6 +14,11 @@
     <span class="travel_plan_no_of_passengers">
       <%= fa_icon "male" %> &times; <%= travel_plan.no_of_passengers %>
     </span>
+
+    <% if local_assigns[:show_links] %>
+      &nbsp;
+      <%= link_to "Edit", edit_travel_plan_path(travel_plan) %>
+    <% end %>
   </div>
 
   <% travel_plan.flights.each do |flight| %>

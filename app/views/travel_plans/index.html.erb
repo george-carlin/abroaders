@@ -5,4 +5,8 @@
   <small><%= link_to "Add new", new_travel_plan_path %></small>
 </h1>
 
-<%= render @travel_plans %>
+<%= render(
+  partial: "travel_plan",
+  collection: @travel_plans,
+  locals: { show_links: true }
+) %>

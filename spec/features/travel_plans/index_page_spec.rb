@@ -22,24 +22,34 @@ describe "travel plans index page" do
     end
     @tp_single = create_travel_plan(:single, [ { from: @lhr, to: @cdg }])
     @tp_return = create_travel_plan(:return, [ { from: @lgw, to: @cdg }])
-    @tp_multi  = create_travel_plan(
-      :multi,
-      [
-        { from: @cdg, to: @lhr, position: 1 },
-        { from: @lgw, to: @cdg, position: 0 },
-        { from: @lhr, to: @cdg, position: 2 }
-      ]
-    )
+
+    # We're forggeting about 'multi' plans for the time being'
+    # @tp_multi  = create_travel_plan(
+    #   :multi,
+    #   [
+    #     { from: @cdg, to: @lhr, position: 1 },
+    #     { from: @lgw, to: @cdg, position: 0 },
+    #     { from: @lhr, to: @cdg, position: 2 }
+    #   ]
+    # )
     visit travel_plans_path
   end
 
   it "lists my travel plans" do
     is_expected.to have_selector "##{dom_id(@tp_single)}"
     is_expected.to have_selector "##{dom_id(@tp_return)}"
-    is_expected.to have_selector "##{dom_id(@tp_multi)}"
+    # is_expected.to have_selector "##{dom_id(@tp_multi)}"
+  end
+
+  it "has a link to edit each plan" do
+    is_expected.to have_link "Edit",
+                      href: edit_travel_plan_path(@tp_single)
+    is_expected.to have_link "Edit",
+                      href: edit_travel_plan_path(@tp_return)
   end
 
   context "a multi travel plan" do
+    before { skip "ignore multi plans for now" }
     it "lists the flights in the right order" do
       within "##{dom_id(@tp_multi)}" do
         dom_flights = all(".flight")

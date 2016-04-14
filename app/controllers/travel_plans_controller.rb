@@ -11,13 +11,13 @@ class TravelPlansController < NonAdminController
   end
 
   def new
-    @form      = NewTravelPlanForm.new(current_account)
-    @countries = load_countries
+    @travel_plan = NewTravelPlanForm.new(current_account)
+    @countries   = load_countries
   end
 
   def create
-    @form = NewTravelPlanForm.new(current_account)
-    if @form.update_attributes(travel_plan_params)
+    @travel_plan = NewTravelPlanForm.new(current_account)
+    if @travel_plan.update_attributes(travel_plan_params)
       if current_account.travel_plans.count > 1
         redirect_to travel_plans_path
       else
@@ -28,6 +28,22 @@ class TravelPlansController < NonAdminController
     else
       @countries = load_countries
       render "new"
+    end
+  end
+
+  def edit
+    @travel_plan = EditTravelPlanForm.new(load_travel_plan)
+    @countries   = load_countries
+  end
+
+  def update
+    @travel_plan = EditTravelPlanForm.new(load_travel_plan)
+    if @travel_plan.update_attributes(travel_plan_params)
+      flash[:success] = "Updated travel plan"
+      redirect_to travel_plans_path
+    else
+      @countries = load_countries
+      render "edit"
     end
   end
 
@@ -43,6 +59,10 @@ class TravelPlansController < NonAdminController
 
   def load_countries
     Destination.country.order("name ASC")
+  end
+
+  def load_travel_plan
+    current_account.travel_plans.find(params[:id])
   end
 
 end
