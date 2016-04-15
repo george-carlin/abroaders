@@ -16,22 +16,6 @@
 
     <%= form_for @spending_info, url: person_spending_info_path(@person) do |f| %>
 
-      <div class="form-group">
-        <%= f.label :main_passenger_citizenship,
-          "Which most accurately describes you?" %>
-        <% SpendingInfo.citizenships.each do |name, _| %>
-          <div class="radio">
-            <label>
-              <%= f.radio_button(
-                    :citizenship,
-                    name
-                  ) %>
-              <%= t("activerecord.attributes.spending_info.citizenships.#{name}") %>
-            </label>
-          </div>
-        <% end %>
-      </div>
-
       <div class="form-group required">
         <%= f.label(
           :monthly_spending_usd,

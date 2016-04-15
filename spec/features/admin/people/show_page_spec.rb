@@ -66,7 +66,6 @@ describe "admin section" do
         let(:extra_setup) do
           @person.create_spending_info!(
             business_spending_usd: 1500,
-            citizenship: :us_permanent_resident,
             credit_score: 678,
             has_business: :with_ein,
           )
@@ -80,7 +79,6 @@ describe "admin section" do
           is_expected.to have_info "credit-score", 678
           is_expected.to have_info "personal-spending", "$2500"
           is_expected.to have_info "business-spending", "$1500"
-          is_expected.to have_info "citizenship", "U.S. Permanent Resident"
         end
 
         context "but the account is still not fully onboarded" do

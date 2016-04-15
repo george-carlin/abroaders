@@ -3,7 +3,6 @@ class SpendingSurvey < Form
   def initialize(person)
     @person = person
     # default values:
-    self.citizenship         = "us_citizen"
     self.has_business        = "no_business"
     self.will_apply_for_loan = false
   end
@@ -13,7 +12,6 @@ class SpendingSurvey < Form
   attr_reader :person
 
   attr_accessor :business_spending_usd,
-                :citizenship,
                 :credit_score,
                 :has_business,
                 :monthly_spending_usd
@@ -33,7 +31,6 @@ class SpendingSurvey < Form
       person.create_spending_info!(
         business_spending_usd: has_business? ? business_spending_usd : nil,
         credit_score:          credit_score,
-        citizenship:           citizenship,
         has_business:          has_business,
         will_apply_for_loan:   will_apply_for_loan,
       )

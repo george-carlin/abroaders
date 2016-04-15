@@ -34,7 +34,6 @@ describe "admin section" do
       @person  = @account.people.first
       if onboarded
         @person.create_spending_info!(
-          citizenship: :us_permanent_resident,
           credit_score: 678,
           has_business: :with_ein,
           business_spending_usd: 1500

@@ -58,7 +58,6 @@ describe "account dashboard" do
         will_apply_for_loan: true,
         has_business: "without_ein",
         business_spending_usd: 1234,
-        citizenship: "us_permanent_resident",
       )
     end
 

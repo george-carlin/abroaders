@@ -2,7 +2,6 @@ class SpendingInfo < ActiveRecord::Base
 
   # Attributes
 
-  enum citizenship:  [ :us_citizen, :us_permanent_resident, :neither]
   # Don't use 'no' as a value because it messes up i18n.t
   enum has_business: [ :no_business, :with_ein, :without_ein ]
 

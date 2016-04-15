@@ -18,9 +18,6 @@ describe "the spending info survey", :onboarding do
 
   it "asks me for my financial info" do
     is_expected.to have_field :spending_info_monthly_spending_usd
-    is_expected.to have_field :spending_info_citizenship_us_citizen
-    is_expected.to have_field :spending_info_citizenship_us_permanent_resident
-    is_expected.to have_field :spending_info_citizenship_neither
     is_expected.to have_field :spending_info_credit_score
     is_expected.to have_field :spending_info_will_apply_for_loan_true
     is_expected.to have_field :spending_info_will_apply_for_loan_false
@@ -96,7 +93,6 @@ describe "the spending info survey", :onboarding do
         fill_in :spending_info_monthly_spending_usd, with: 6546
         fill_in :spending_info_credit_score, with: 456
         choose  :spending_info_will_apply_for_loan_true
-        choose  :spending_info_citizenship_us_permanent_resident
       end
 
       let(:new_info) { me.reload.spending_info }
@@ -107,7 +103,6 @@ describe "the spending info survey", :onboarding do
 
           expect(new_info).to be_persisted
           expect(new_info.credit_score).to eq 456
-          expect(new_info.citizenship).to eq "us_permanent_resident"
           expect(new_info.will_apply_for_loan).to be_truthy
           expect(new_info.has_business).to eq "no_business"
         end

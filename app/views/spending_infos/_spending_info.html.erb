@@ -1,20 +1,6 @@
 <div id="<%= dom_id(spending_info) %>" class="<%= dom_class(spending_info) %>">
   <table class="table table-condensed">
     <tbody>
-      <tr>
-        <td class="spending-info-label">
-          Citizenship:
-        </td>
-        <td>
-          <% key = if spending_info.citizenship == "neither"
-                     "not_citizen"
-                   else
-                     spending_info.citizenship
-                   end %>
-          <%= t("activerecord.attributes.spending_info.citizenships.#{key}") %>
-        </td>
-      </tr>
-
       <% if spending_info.has_business? %>
         <tr>
           <td class="spending-info-label">

@@ -15,7 +15,7 @@ class Person < ApplicationRecord
   delegate :email, to: :account
   delegate :credit_score, :will_apply_for_loan,
     :business_spending_usd, :has_business, :has_business?, :has_business_with_ein?,
-    :has_business_without_ein?, :no_business?, :citizenship,
+    :has_business_without_ein?, :no_business?,
     to: :spending_info, allow_nil: true
 
   # The person signed up on the date their *account* was created, not on the

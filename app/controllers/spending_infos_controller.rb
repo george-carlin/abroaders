@@ -27,7 +27,6 @@ class SpendingInfosController < NonAdminController
   def spending_survey_params
     params.require(:spending_info).permit(
       :business_spending_usd,
-      :citizenship,
       :credit_score,
       :has_business,
       :monthly_spending_usd,
