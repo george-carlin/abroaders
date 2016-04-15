@@ -83,6 +83,7 @@ describe "travel plans" do
       context "with valid information" do
         let(:date) { 5.months.from_now.to_date }
         let(:first_travel_plan) { true }
+        let(:further_info) { "Something" }
         before do
           create(:travel_plan, account: account) unless first_travel_plan
           select "United States", from: :travel_plan_from_id
@@ -90,7 +91,7 @@ describe "travel plans" do
           # Don't test the JS datepicker for now
           fill_in :travel_plan_earliest_departure, with: date.strftime("%m/%d/%Y")
           fill_in :travel_plan_no_of_passengers, with: 2
-          fill_in :travel_plan_further_information, with: "Something"
+          fill_in :travel_plan_further_information, with: further_info
           check :travel_plan_will_accept_economy
           check :travel_plan_will_accept_premium_economy
           check :travel_plan_will_accept_business_class
@@ -108,6 +109,13 @@ describe "travel plans" do
             plan = account.reload.travel_plans.last
             expect(plan.earliest_departure).to eq date
             expect(plan.further_information).to eq "Something"
+          end
+        end
+
+        context "when further information is blank" do
+          let(:further_info) { "" }
+          it "is valid" do
+            expect{submit_form}.to change{account.travel_plans.count}.by(1)
           end
         end
 

@@ -51,9 +51,9 @@ class TravelPlanForm < Form
           numericality: { greater_than_or_equal_to: 1 }
         validates :to_id
         validates :type, inclusion: { in: %w[single return] }
-        validates :further_information, length: { maximum: 500 }
       end
 
+      validates :further_information, length: { maximum: 500 }
       validate :earliest_departure_is_in_the_future
     end
 
