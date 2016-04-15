@@ -15,6 +15,9 @@ describe NewTravelPlanForm, type: :model do
   it { is_expected.to validate_inclusion_of(:type)
                                   .in_array(["return", "single"]) }
 
+  it { is_expected.to validate_length_of(:further_information).
+                        is_at_most(500) }
+
   context "iff earliest departure is in the past" do
     it "is invalid" do
       def errors; form.tap(&:valid?).errors[:earliest_departure] end
