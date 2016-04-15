@@ -1,5 +1,5 @@
 class PartnerAccountForm < Form
-  attr_accessor :monthly_spending_usd, :partner_first_name, :eligibility
+  attr_accessor :account, :monthly_spending_usd, :partner_first_name, :eligibility
 
   def self.name
     "PartnerAccount"
@@ -8,8 +8,10 @@ class PartnerAccountForm < Form
   ELIGIBILITY = %w[both person_0 person_1 neither]
 
   def initialize(attributes={})
-    attributes = attributes.with_indifferent_access
-    self.eligibility = attributes.fetch(:eligibility, "both")
+    assign_attributes(attributes)
+
+    # Set default:
+    self.eligibility = "both" if self.eligibility.nil?
   end
 
   def eligibility=(new_eligibility)
@@ -18,6 +20,14 @@ class PartnerAccountForm < Form
       raise "unrecognized eligibility #{new_el}"
     end
     @eligibility = new_el
+  end
+
+  def person_0_eligible_to_apply?
+    %w[both person_0].include?(eligibility)
+  end
+
+  def person_1_eligible_to_apply?
+    %w[both person_1].include?(eligibility)
   end
 
   def neither_eligible_to_apply?
@@ -29,11 +39,24 @@ class PartnerAccountForm < Form
     numericality: { greater_than_or_equal_to: 0 },
     unless: :neither_eligible_to_apply?
 
-  validates :partner_first_name,
-    presence: true
+  validates :partner_first_name, presence: true
 
   def save
-    raise "not yet implemented"
+    super do
+      account.update_attributes!(monthly_spending_usd: monthly_spending_usd)
+      person_0 = account.people.first
+      if person_0_eligible_to_apply?
+        person_0.eligible_to_apply!
+      else
+        person_0.ineligible_to_apply!
+      end
+      person_1 = account.people.create!(first_name: partner_first_name, main: false)
+      if person_1_eligible_to_apply?
+        person_1.eligible_to_apply!
+      else
+        person_1.ineligible_to_apply!
+      end
+    end
   end
 
 end

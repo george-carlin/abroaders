@@ -59,7 +59,7 @@ describe "account type select page", :onboarding do
           expect{click_confirm}.not_to change{Person.count}
           account.reload
           expect(account.monthly_spending_usd).to be_nil
-          expect(me).to be_ineligible_to_apply
+          expect(me.reload).to be_ineligible_to_apply
         end
 
         it "takes me to the spending survey" do
@@ -229,8 +229,9 @@ describe "account type select page", :onboarding do
 
             it "saves my partner's and my eligibility to apply" do
               click_confirm
-              expect(account.people[0]).to be_eligible_to_apply
-              expect(account.people[1]).to be_ineligible_to_apply
+              account.reload
+              expect(account.people.find_by(main: true)).to be_eligible_to_apply
+              expect(account.people.find_by(main: false)).to be_ineligible_to_apply
             end
 
             it "takes me to the spending survey" do
@@ -243,7 +244,7 @@ describe "account type select page", :onboarding do
             it "doesn't save any information" do
               expect{click_confirm}.not_to change{account.people.count}
               expect(account.reload.monthly_spending_usd).to be_nil
-              expect(me.reload).not_to be_eligible_to_apply
+              expect(me.reload.eligibility_known?).to be false
             end
 
             it "shows the form again with an error message" do
@@ -284,7 +285,7 @@ describe "account type select page", :onboarding do
             it "doesn't save any information" do
               expect{click_confirm}.not_to change{account.people.count}
               expect(account.reload.monthly_spending_usd).to be_nil
-              expect(me.reload).not_to be_eligible_to_apply
+              expect(me.reload.eligibility_known?).to be false
             end
 
             it "shows the form again with an error message" do

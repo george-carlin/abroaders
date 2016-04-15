@@ -1,6 +1,6 @@
 class SoloAccountForm < Form
-  attr_accessor :monthly_spending_usd
-
+  attr_accessor :account
+  attr_reader :monthly_spending_usd
   attr_boolean_accessor :eligible_to_apply
 
   def self.name
@@ -8,12 +8,14 @@ class SoloAccountForm < Form
   end
 
   def initialize(attributes={})
-    attributes = attributes.with_indifferent_access
-    if attributes[:eligible_to_apply].nil?
-      self.eligible_to_apply = true
-    else
-      self.eligible_to_apply = attributes[:eligible_to_apply]
-    end
+    assign_attributes(attributes)
+
+    # Set default:
+    self.eligible_to_apply = true if self.eligible_to_apply.nil?
+  end
+
+  def monthly_spending_usd=(new_spending)
+    @monthly_spending_usd = new_spending.present? ? new_spending.to_i : nil
   end
 
   validates :monthly_spending_usd,
@@ -22,7 +24,15 @@ class SoloAccountForm < Form
     if: :eligible_to_apply?
 
   def save
-    raise "not yet implemented"
+    super do
+      account.update_attributes!(monthly_spending_usd: monthly_spending_usd)
+      person = account.people.first
+      if eligible_to_apply?
+        person.eligible_to_apply!
+      else
+        person.ineligible_to_apply!
+      end
+    end
   end
 
 end

@@ -24,7 +24,8 @@ Rails.application.routes.draw do
 
   resource :account, only: [] do
     get  :type
-    post :type, action: :choose_type
+    post :solo,    action: :create_solo_account
+    post :partner, action: :create_partner_account
   end
 
   get :slack, to: "slack_invites#new"

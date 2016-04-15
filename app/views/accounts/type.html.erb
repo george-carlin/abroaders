@@ -21,7 +21,6 @@
     needs to be displayed within HTML that's returned by I18n.t. This is hacky,
     but passing the name to t with an interpolated %{} string will leave us
     open to XSS when the i18n string contains HTML %>
-
   <%= hidden_field_tag :person_0_name_hidden_input, @person_0.first_name %>
 
   <div
@@ -31,8 +30,7 @@
     <h2>Solo Earning</h2>
 
 
-    <%= form_for @solo_account, url: type_account_path do |f| %>
-      <%= hidden_field_tag :type, "solo" %>
+    <%= form_for @solo_account, url: solo_account_path do |f| %>
 
       <div
         id="solo_account_step_0"
@@ -136,8 +134,7 @@
   >
     <h2>Partner Earning</h2>
 
-    <%= form_for @partner_account, url: type_account_path do |f| %>
-      <%= hidden_field_tag :type, :solo %>
+    <%= form_for @partner_account, url: partner_account_path do |f| %>
 
       <div
         id="partner_account_step_0"

@@ -34,12 +34,14 @@ $(document).ready(function () {
 
 
   $("#solo_account_submit_btn").click(function (e) {
-    var monthlySpendVal = $("#solo_account_monthly_spending_usd").val();
-    if (isValidMonthlySpend(monthlySpendVal)) {
-      $("#solo_account_invalid_monthly_spending_alert").hide();
-    } else {
+    var $monthlySpend   = $("#solo_account_monthly_spending_usd");
+    var monthlySpendVal = $monthlySpend.val();
+
+    if ($monthlySpend.is(":visible") && !isValidMonthlySpend(monthlySpendVal)) {
       $("#solo_account_invalid_monthly_spending_alert").show();
       e.preventDefault();
+    } else {
+      $("#solo_account_invalid_monthly_spending_alert").hide();
     }
   });
 

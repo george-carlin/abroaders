@@ -95,7 +95,7 @@ class Person < ApplicationRecord
     end
 
     def eligibility_known?
-      eligibility&.persisted?
+      !!eligibility&.persisted?
     end
 
     def eligible_to_apply?
