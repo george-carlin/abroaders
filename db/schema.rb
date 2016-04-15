@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160411143353) do
+ActiveRecord::Schema.define(version: 20160415183518) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -151,6 +151,15 @@ ActiveRecord::Schema.define(version: 20160411143353) do
   add_index "destinations", ["parent_id"], name: "index_destinations_on_parent_id", using: :btree
   add_index "destinations", ["type"], name: "index_destinations_on_type", using: :btree
 
+  create_table "eligibilities", force: :cascade do |t|
+    t.integer  "person_id",  null: false
+    t.boolean  "eligible",   null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "eligibilities", ["person_id"], name: "index_eligibilities_on_person_id", using: :btree
+
   create_table "flights", force: :cascade do |t|
     t.integer  "travel_plan_id",                       null: false
     t.integer  "position",       limit: 2, default: 0, null: false
@@ -222,6 +231,7 @@ ActiveRecord::Schema.define(version: 20160411143353) do
   add_foreign_key "card_offers", "cards", on_delete: :cascade
   add_foreign_key "cards", "currencies", on_delete: :restrict
   add_foreign_key "destinations", "destinations", column: "parent_id", on_delete: :restrict
+  add_foreign_key "eligibilities", "people", on_delete: :cascade
   add_foreign_key "flights", "destinations", column: "from_id", on_delete: :restrict
   add_foreign_key "flights", "destinations", column: "to_id", on_delete: :restrict
   add_foreign_key "flights", "travel_plans", on_delete: :cascade

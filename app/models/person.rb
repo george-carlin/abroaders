@@ -79,6 +79,41 @@ class Person < ApplicationRecord
     end
   end
 
+  concerning :EligibleToApply do
+    included do
+      has_one :eligibility
+    end
+
+    class EligibilityNotKnownError < StandardError; end
+
+    def eligible_to_apply!
+      create_eligibility!(eligible: true)
+    end
+
+    def ineligible_to_apply!
+      create_eligibility!(eligible: false)
+    end
+
+    def eligibility_known?
+      eligibility&.persisted?
+    end
+
+    def eligible_to_apply?
+      if eligibility_known?
+        eligibility.eligible?
+      else
+        raise EligibilityNotKnownError
+      end
+    end
+
+    def ineligible_to_apply?
+      if eligibility_known?
+        !eligibility.eligible?
+      else
+        raise EligibilityNotKnownError
+      end
+    end
+  end
 
   # Callbacks
 
