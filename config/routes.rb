@@ -25,9 +25,6 @@ Rails.application.routes.draw do
   get :slack, to: "slack_invites#new"
   post "slack/invite", to: "slack_invites#create"
 
-  get  "survey/travel_plan", to: "travel_plans#new"
-  post "survey/travel_plan", to: "travel_plans#create"
-
   resource :companion, only: [:new, :create]
 
   # Note that 'cards' is a fixed list, and 'card accounts' is the join table
