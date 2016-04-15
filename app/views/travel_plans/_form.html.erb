@@ -6,7 +6,7 @@
     <% travel_plan.class.types.each do |type, _| %>
       <div class="form-group">
         <label>
-          <%= type.capitalize %>
+          <%= t("activerecord.attributes.travel_plan.types.#{type}") %>
           &nbsp;
           <%= f.radio_button(
             :type,

@@ -34,6 +34,11 @@ en:
           neither: "Neither"
           not_citizen: "Not a U.S. citizen"
 
+      travel_plan:
+        types:
+          single: "One way"
+          return: "Return"
+
   card_accounts:
     index:
       couldnt_decline: "Couldn't decline card recommendation. This may happen if you already declined or accepted the recommendation in a different browser window, or if you hit the 'back' button after accepting or declining the first time."
