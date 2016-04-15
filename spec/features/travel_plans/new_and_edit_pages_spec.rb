@@ -131,12 +131,12 @@ describe "travel plans" do
           before { submit_form }
 
           context "if this is my first ever travel plan" do
-            it "takes me to the spending survey" do
-              expect(current_path).to eq new_person_spending_info_path(me)
+            it "takes me to account type select page" do
+              expect(current_path).to eq type_account_path
             end
           end
 
-          context "if this is not my first ever travel plan" do
+          context "if this is not my first ever travel plan", onboarding: false do
             let(:first_travel_plan) { false }
             it "takes me to the travel plans index" do
               expect(current_path).to eq travel_plans_path

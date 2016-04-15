@@ -39,6 +39,19 @@ en:
           single: "One way"
           return: "Return"
 
+  accounts:
+    type:
+      abroaders_will_help: "Abroaders will help you maximize the points you earn with your regular monthly spending."
+      are_you_and_partner_eligible: "Are you and your partner eligible to apply for credit cards issued by banks in the United States?"
+      are_you_eligible: "Are you eligible to apply for credit cards issued by banks in the United States?"
+      estimate_combined_spending_html: "Please estimate the combined monthly spending for <span class='partner_account_person_0_first_name'></span> and <span class='partner_account_person_1_first_name'></span> that could be charged to a credit card account."
+      only_one_eligible_help_text_html: "At this time, we are only able to recommend cards issued by banks in the United States. Only <span id='only_one_eligible_person_0_name' class='partner_account_person_0_first_name'></span><span id='only_one_eligible_person_1_name' class='partner_account_person_1_first_name'></span> will receive credit card recommendations, but we'll use your combined spending to make sure you earn points as fast as possible."
+      partner_earning_disclaimer: "Partner earning only works if you pay your bills together. If you would prefer to keep your expenses separate and pay separately for your own monthly purchases, you should create two solo accounts."
+      this_option_is_ideal: "This option is ideal if you share monthly spending with a spouse or partner. Abroaders will help you maximize your points as a team."
+      we_can_only_recommend: "At this time, we are only able to recommend cards issued by banks in the United States. Don't worry, there are still tons of other opportunities to reduce the cost of travel."
+      whats_your_monthly_spend: "What is your average monthly spending that could be charged to a credit card account?"
+      you_need_to_be: "You generally need to be either a U.S. citizen or a permanent resident to be approved for cards issued by U.S. Banks."
+      you_should_exclude: "You should exclude rent, mortage, and car payments unless you are certain you can use a credit card as the payment method."
   card_accounts:
     index:
       couldnt_decline: "Couldn't decline card recommendation. This may happen if you already declined or accepted the recommendation in a different browser window, or if you hit the 'back' button after accepting or declining the first time."

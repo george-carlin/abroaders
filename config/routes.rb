@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  devise_for :accounts, skip: [:sessions, :registrations]
-
   root to: "application#dashboard"
+
+  devise_for :accounts, skip: [:sessions, :registrations]
 
   get "/accounts/connect/awardwallet", to: "oauth#award_wallet"
 
@@ -20,6 +20,11 @@ Rails.application.routes.draw do
     # post :accounts, to: "registrations#create", as: :account_registration
     put  :accounts, to: "registrations#update"
     delete :accounts, to: "registrations#destroy"
+  end
+
+  resource :account, only: [] do
+    get  :type
+    post :type, action: :choose_type
   end
 
   get :slack, to: "slack_invites#new"

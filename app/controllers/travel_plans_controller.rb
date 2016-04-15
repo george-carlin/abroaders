@@ -23,7 +23,7 @@ class TravelPlansController < NonAdminController
       else
         # If this is the first travel plan they've added, it means they've just
         # signed up, so need to complete the rest of the onboarding process:
-        redirect_to new_person_spending_info_path(current_account.people.first)
+        redirect_to type_account_path
       end
     else
       @countries = load_countries
