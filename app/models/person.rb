@@ -94,12 +94,12 @@ class Person < ApplicationRecord
       create_eligibility!(eligible: false)
     end
 
-    def eligibility_known?
+    def eligibility_given?
       !!eligibility&.persisted?
     end
 
     def eligible_to_apply?
-      if eligibility_known?
+      if eligibility_given?
         eligibility.eligible?
       else
         raise EligibilityNotKnownError
@@ -107,7 +107,7 @@ class Person < ApplicationRecord
     end
 
     def ineligible_to_apply?
-      if eligibility_known?
+      if eligibility_given?
         !eligibility.eligible?
       else
         raise EligibilityNotKnownError
