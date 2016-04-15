@@ -195,7 +195,6 @@ describe "admin section" do
     end
 
     it "displays the person's info from the onboarding survey" do
-      is_expected.to have_content "Citizenship: U.S. Permanent Resident"
       is_expected.to have_content "Credit score: 678"
       is_expected.to have_content "Will apply for loan in next 6 months: No"
       is_expected.to have_content "Business spending: $1,500.00 (Has EIN)"
