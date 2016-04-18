@@ -11,8 +11,8 @@ describe "account type select page", :onboarding do
     visit type_account_path
   end
 
-  let(:solo_btn) { "Sign up for solo earning" }
-  let(:partner_btn) { "Sign up for partner earning" }
+  let(:partner_btn) { t("accounts.type.sign_up_for_couples_earning") }
+  let(:solo_btn)    { t("accounts.type.sign_up_for_solo_earning") }
 
   it "gives me the option to choose a 'Solo' or 'Partner' account" do
     is_expected.to have_button solo_btn
