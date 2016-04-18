@@ -62,7 +62,7 @@ describe "account type select page", :onboarding do
           expect(me.reload).to be_ineligible_to_apply
         end
 
-        it "takes me to the spending survey" do
+        it "takes me to my spending survey" do
           click_confirm
           expect(current_path).to eq new_person_spending_info_path(me)
         end
@@ -96,7 +96,7 @@ describe "account type select page", :onboarding do
           expect(me).to be_eligible_to_apply
         end
 
-        it "takes me to the spending survey page" do
+        it "takes me to my spending survey page" do
           click_confirm
           expect(current_path).to eq new_person_spending_info_path(me)
         end
