@@ -2,7 +2,7 @@ class Account < ApplicationRecord
   # Include devise modules. Others available are:
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable,
-    :trackable, :validatable, :confirmable
+    :trackable, :validatable
 
   # Attributes
 
