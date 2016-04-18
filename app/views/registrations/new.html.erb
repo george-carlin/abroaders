@@ -36,6 +36,9 @@
 
       <div class="form-group">
         <%= f.label :password %>
+        <p class="help-block">
+          Minimum length <%= @minimum_password_length %> characters
+        </p>
         <%= f.password_field :password %>
       </div>
 
