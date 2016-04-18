@@ -7,7 +7,7 @@ module SurveyHelper
     when "without_ein"
       "Yes, but I do not have an EIN - I am a freelancer or sole proprietor"
     when "no_business"
-      "I do not have a business"
+      "I do not own a business"
     end
   end
 
