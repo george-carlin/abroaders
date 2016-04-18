@@ -132,7 +132,7 @@
     id="partner_earning_select"
     class="account_type_select well col-xs-12 col-md-4"
   >
-    <h2>Partner Earning</h2>
+    <h2><%= t(".couples_earning") %></h2>
 
     <%= form_for @partner_account, url: partner_account_path do |f| %>
 
@@ -148,13 +148,13 @@
           class="alert alert-danger"
           style="display:none;"
         >
-          Please enter a valid name
+          <%= t(".please_enter_a_valid_name") %>
         </div>
 
         <div class="form-group">
           <%= f.text_field(
             :partner_first_name,
-            placeholder: "What's your partner's first name?"
+            placeholder: t(".whats_your_partners_first_name")
           ) %>
         </div>
 
@@ -162,7 +162,7 @@
           id="partner_account_step_0_submit_btn"
           class="btn btn-primary"
         >
-          Sign up for partner earning
+          <%= t(".sign_up_for_couples_earning") %>
         </button> </div>
 
       <div
