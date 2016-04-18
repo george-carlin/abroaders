@@ -17,7 +17,6 @@ describe "the spending info survey", :onboarding do
   let(:submit_form) { click_button "Save" }
 
   it "asks me for my financial info" do
-    is_expected.to have_field :spending_info_monthly_spending_usd
     is_expected.to have_field :spending_info_credit_score
     is_expected.to have_field :spending_info_will_apply_for_loan_true
     is_expected.to have_field :spending_info_will_apply_for_loan_false
@@ -90,7 +89,6 @@ describe "the spending info survey", :onboarding do
   describe "submitting the form", :js do
     describe "with valid information" do
       before do
-        fill_in :spending_info_monthly_spending_usd, with: 6546
         fill_in :spending_info_credit_score, with: 456
         choose  :spending_info_will_apply_for_loan_true
       end
@@ -128,11 +126,6 @@ describe "the spending info survey", :onboarding do
       it "takes me to the card survey page" do
         submit_form
         expect(current_path).to eq survey_person_card_accounts_path(me)
-      end
-
-      it "saves my account's monthly spending" do
-        submit_form
-        expect(account.reload.monthly_spending_usd).to eq 6546
       end
     end
 

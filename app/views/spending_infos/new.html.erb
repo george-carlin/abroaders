@@ -18,18 +18,6 @@
 
       <div class="form-group required">
         <%= f.label(
-          :monthly_spending_usd,
-          "What is your normal personal spending per month?"
-        ) %>
-
-        <div class="input-group">
-          <div class="input-group-addon">$</div>
-          <%= f.number_field :monthly_spending_usd, min: 0 %>
-        </div>
-      </div>
-
-      <div class="form-group required">
-        <%= f.label(
           :credit_score,
           "What's your credit score?",
           min: SpendingInfo::MINIMUM_CREDIT_SCORE,

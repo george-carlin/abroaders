@@ -29,7 +29,6 @@ class SpendingInfosController < NonAdminController
       :business_spending_usd,
       :credit_score,
       :has_business,
-      :monthly_spending_usd,
       :will_apply_for_loan,
     )
   end

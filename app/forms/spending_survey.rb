@@ -13,8 +13,7 @@ class SpendingSurvey < Form
 
   attr_accessor :business_spending_usd,
                 :credit_score,
-                :has_business,
-                :monthly_spending_usd
+                :has_business
   attr_boolean_accessor :will_apply_for_loan
 
   # Make form_for play nicely:
@@ -34,9 +33,6 @@ class SpendingSurvey < Form
         has_business:          has_business,
         will_apply_for_loan:   will_apply_for_loan,
       )
-      person.account.update_attributes!(
-        monthly_spending_usd: monthly_spending_usd
-      )
     end
   end
 
@@ -51,17 +47,14 @@ class SpendingSurvey < Form
     },
     presence: true
 
-  with_options(
+  validates :business_spending_usd,
     numericality: {
       # avoid duplicate error message (from presence validation) when nil:
       allow_blank: true,
       greater_than_or_equal_to: 0,
       less_than_or_equal_to: POSTGRESQL_MAX_INT_VALUE,
     },
-    presence: true
-  ) do
-    validates :monthly_spending_usd
-    validates :business_spending_usd, if: :has_business?
-  end
+    presence: true,
+    if: :has_business?
 
 end
