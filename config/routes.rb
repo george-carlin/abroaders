@@ -81,6 +81,10 @@ Rails.application.routes.draw do
                                               as: :admin_session
     delete :"admin/sign_out", to: "devise/sessions#destroy",
                                               as: :destroy_admin_session
+    get :"admin/edit", to: "devise/registrations#edit",
+                                              as: :edit_admin_registration
+    put   :admin, to: "devise/registrations#update", as: :admin_registration
+    patch :admin, to: "devise/registrations#update"
   end
 
   namespace :admin, module: :admin_area do
