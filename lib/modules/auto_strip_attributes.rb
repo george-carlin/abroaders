@@ -10,7 +10,7 @@ module AutoStripAttributes
 
     attributes.each do |attribute|
       send(callback) do |record|
-        value = record[attribute]&.strip!
+        value = record[attribute]&.strip
         value = nil if value.blank?
         record[attribute] = value
       end
