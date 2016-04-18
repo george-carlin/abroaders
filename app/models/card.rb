@@ -137,4 +137,7 @@ class Card < ApplicationRecord
   has_many :accounts, class_name: "CardAccount"
   belongs_to :currency
 
+  # Callbacks
+
+  auto_strip_attributes :code, :name, callback: :before_validation
 end

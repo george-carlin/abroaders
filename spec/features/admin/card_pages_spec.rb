@@ -93,13 +93,14 @@ describe "admin pages" do
           attach_file :card_image, image_path
         end
 
+        let(:card) { Card.last }
+
         it "creates a card" do
           expect{submit_form}.to change{Card.count}.by(1)
         end
 
         it "shows me the newly created card" do
           submit_form
-          card = Card.last
           expect(page).to have_selector "h1", text: "Chase Visa Something"
           expect(page).to have_content "XXX"
           expect(page).to have_content "MasterCard"
@@ -109,6 +110,15 @@ describe "admin pages" do
           expect(page).to have_content @currencies[0].name
           expect(page).to have_content "Wells Fargo"
           expect(page).to have_selector "img[src='#{card.image.url}']"
+        end
+
+        it "strips trailing whitespace from text inputs" do
+          fill_in :card_code, with: "   ABC   "
+          fill_in :card_name, with: "    something  "
+          submit_form
+
+          expect(card.code).to eq "ABC"
+          expect(card.name).to eq "something"
         end
       end
 
