@@ -50,8 +50,4 @@ class BalancesController < NonAdminController
       survey_person_balances_path(partner)
     end
   end
-
-  def redirect_if_account_type_not_selected!
-    redirect_to type_account_path unless current_account.onboarded_account_type?
-  end
 end
