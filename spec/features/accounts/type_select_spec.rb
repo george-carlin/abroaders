@@ -25,7 +25,7 @@ describe "account type select page", :onboarding do
 
   context "when I have already chosen an account type" do
     let(:extra_setup) do
-      allow(account).to receive(:has_chosen_account_type?).and_return(true)
+      allow(account).to receive(:onboarded_account_type?).and_return(true)
     end
 
     it "doesn't allow access" do

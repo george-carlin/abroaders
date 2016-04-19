@@ -19,8 +19,8 @@ class Account < ApplicationRecord
   # the 'account type' survey if monthly_spending_usd is not nil, even though
   # the two 'attributes' aren't really logically related. In future if the way
   # the survey changes we may need to change things to add a boolean DB column
-  # to store 'has_chosen_account_type' as its own seperate.
-  def has_chosen_account_type?
+  # to store 'onboarded_account_type' in its own seperate place.
+  def onboarded_account_type?
     monthly_spending_usd.present?
   end
 
