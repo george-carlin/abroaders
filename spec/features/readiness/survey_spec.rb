@@ -7,19 +7,30 @@ describe "the 'are you ready to apply?' survey page", :js, :onboarding do
   let!(:me) { account.people.first }
 
   before do
-    if already_ready?
-      create(:readiness_status, person: me, ready: true)
-      me.reload
-    end
-    if has_companion?
-      create(:person, account: account, main: false)
-    end
+    # if already_ready?
+    #   create(:readiness_status, person: me, ready: true)
+    #   me.reload
+    # end
+    # if has_companion?
+    #   create(:person, account: account, main: false)
+    # end
     login_as(account.reload)
-    visit new_person_readiness_status_path(me)
   end
 
-  let(:already_ready?) { false }
-  let(:has_companion?) { false }
+  context "when I'm not eligible to apply for cards" do
+    let(:already_ready?) { true }
+    it "redirects to the dashboard" do
+      expect(current_path).to eq root_path
+    end
+  end
+
+    visit new_person_readiness_status_path(me)
+
+  let(:i_have_already_answered_this_survey?) { false }
+  let(:i_am_eligible_to_apply?)              { true }
+  let(:i_am_companion?)                      { false }
+  let(:i_have_companion?)                    { false }
+  let(:companion_is_eligible_to_apply?)      { false }
 
   shared_examples "survey complete" do
     context "when I've already added a companion" do
@@ -33,13 +44,6 @@ describe "the 'are you ready to apply?' survey page", :js, :onboarding do
       it "takes me to the new companion page" do
         expect(current_path).to eq new_companion_path
       end
-    end
-  end
-
-  context "when I've already said I'm ready" do
-    let(:already_ready?) { true }
-    it "redirects to the dashboard" do
-      expect(current_path).to eq root_path
     end
   end
 

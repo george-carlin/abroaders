@@ -3,8 +3,12 @@ require "rails_helper"
 describe "the balance survey page", :onboarding do
   subject { page }
 
-  let!(:account) { create(:account) }
-  let!(:me) { account.people.first }
+  let!(:account) do
+    create(:account, monthly_spending_usd: chosen_type ? 1000 : nil)
+  end
+  let!(:me) { account.people.find_by(main: true) }
+
+  let!(:chosen_type) { true }
 
   before do
     me.update_attributes!(onboarded_balances: onboarded)
@@ -34,6 +38,13 @@ describe "the balance survey page", :onboarding do
 
   let(:onboarded) { false }
 
+  context "when I haven't chosen an account type" do
+    let(:chosen_type) { false }
+    it "redirects me to the account type page" do
+      expect(current_path).to eq type_account_path
+    end
+  end
+
   context "when the person has already completed this survey" do
     let(:onboarded) { true }
     it "redirects to my dashboard" do
@@ -54,17 +65,87 @@ describe "the balance survey page", :onboarding do
 
   describe "submitting the form" do
     before do
+      if i_am_eligible_to_apply
+        me.eligible_to_apply!
+      end
+      if i_am_the_partner
+        me.update_attributes!(main: false)
+      elsif i_have_a_partner
+        @partner = account.create_companion!(first_name: "Somebody")
+        if partner_is_eligible_to_apply
+          @partner.eligible_to_apply!
+        end
+      end
+
       pre_submit
       submit_form
     end
 
+    let(:i_am_eligible_to_apply) { false }
+    let(:i_am_the_partner) { false }
+    let(:i_have_a_partner) { false }
+    let(:partner) { @partner }
+
     let(:pre_submit) { nil }
 
-    it "asks me if this person is ready to apply" do
-      expect(current_path).to eq new_person_readiness_status_path(me)
+    context "when I am the main person on the account" do
+      let(:i_am_the_partner) { false }
+
+      context "and I am eligible to apply for cards" do
+        let(:i_am_eligible_to_apply) { true }
+        it "takes me to the readiness survey" do
+          expect(current_path).to eq new_person_readiness_status_path(me)
+        end
+      end
+
+      context "and I am ineligible to apply for cards" do
+        let(:i_am_eligible_to_apply) { false }
+
+        context "and I have a partner on the account" do
+          let(:i_have_a_partner) { true }
+          context "who is eligible to apply for cards" do
+            let(:partner_is_eligible_to_apply) { true }
+            it "takes me to the partner's spending survey" do
+              expect(current_path).to eq new_person_spending_info_path(partner)
+            end
+          end
+
+          context "who is ineligible to apply for cards" do
+            let(:partner_is_eligible_to_apply) { false }
+            it "takes me to the partner's balances survey" do
+              expect(current_path).to eq survey_person_balances_path(partner)
+            end
+          end
+        end
+
+        context "and I don't have a partner on the account" do
+          it "takes me to my dashboard" do
+            expect(current_path).to eq root_path
+          end
+        end
+      end
     end
 
-    it "marks this person as having completed the balances survey" do
+    context "when I am the partner on the account" do
+      let(:i_am_the_partner) { true }
+
+      context "and I am eligible to apply for cards" do
+        let(:i_am_eligible_to_apply) { true }
+        it "takes me to the readiness survey" do
+          expect(current_path).to eq new_person_readiness_status_path(me)
+        end
+      end
+
+      context "and I am ineligible to apply for cards" do
+        let(:i_am_eligible_to_apply) { false }
+
+        it "takes me to the dashboard" do
+          expect(current_path).to eq root_path
+        end
+      end
+    end
+
+    it "marks me as having completed the balances survey" do
       expect(me.reload.onboarded_balances?).to be true
     end
 
