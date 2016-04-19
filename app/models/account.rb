@@ -15,6 +15,15 @@ class Account < ApplicationRecord
     people.all?(&:onboarded?)
   end
 
+  # The way the onboarding survey currently works, we know they've completed
+  # the 'account type' survey if monthly_spending_usd is not nil, even though
+  # the two 'attributes' aren't really logically related. In future if the way
+  # the survey changes we may need to change things to add a boolean DB column
+  # to store 'has_chosen_account_type' as its own seperate.
+  def has_chosen_account_type?
+    monthly_spending_usd.present?
+  end
+
   # Validations
 
   # Associations

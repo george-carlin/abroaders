@@ -8,16 +8,32 @@ describe "account type select page", :onboarding do
 
   before do
     login_as_account(account)
+    extra_setup
     visit type_account_path
   end
 
   let(:partner_btn) { t("accounts.type.sign_up_for_couples_earning") }
   let(:solo_btn)    { t("accounts.type.sign_up_for_solo_earning") }
 
+  let(:extra_setup) { nil }
+
   it "gives me the option to choose a 'Solo' or 'Partner' account" do
     is_expected.to have_button solo_btn
     is_expected.to have_button partner_btn
     is_expected.to have_field :partner_account_partner_first_name
+  end
+
+  context "when I have already chosen an account type" do
+    let(:extra_setup) do
+      allow(account).to receive(:has_chosen_account_type?).and_return(true)
+    end
+
+    it "doesn't allow access" do
+      expect(current_path).not_to eq type_account_path
+      expect(page).not_to have_button solo_btn
+      expect(page).not_to have_button partner_btn
+      expect(page).not_to have_field :partner_account_partner_first_name
+    end
   end
 
   describe "clicking 'solo'", :js do

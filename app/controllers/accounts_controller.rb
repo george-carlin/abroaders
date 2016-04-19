@@ -1,4 +1,5 @@
 class AccountsController < NonAdminController
+  before_action :redirect_if_type_already_given!
 
   def type
     @travel_plan     = current_account.travel_plans.last
@@ -26,6 +27,12 @@ class AccountsController < NonAdminController
   end
 
   private
+
+  def redirect_if_type_already_given!
+    if current_account.has_chosen_account_type?
+      redirect_to new_person_spending_info_path(current_account.people.first)
+    end
+  end
 
   def solo_account_params
     params.require(:solo_account).permit(:monthly_spending_usd, :eligible_to_apply)
