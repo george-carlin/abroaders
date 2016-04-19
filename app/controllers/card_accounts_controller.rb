@@ -1,6 +1,9 @@
 class CardAccountsController < NonAdminController
   helper CardAccountButtons
 
+  before_action :redirect_if_account_type_not_selected!,
+                                      only: [:survey, :save_survey]
+
   def index
     # Just show main passenger card accounts for now:
     scope = current_main_passenger\
@@ -102,9 +105,7 @@ class CardAccountsController < NonAdminController
   end
 
   def redirect_if_survey_is_inaccessible!
-    if !current_account.onboarded_account_type?
-      redirect_to type_account_path and return true
-    elsif !@person.onboarded_spending?
+    if !@person.onboarded_spending?
       redirect_to new_person_spending_info_path(@person) and return true
     elsif !@person.eligible_to_apply? || @person.onboarded_cards?
       redirect_to survey_person_balances_path(@person) and return true

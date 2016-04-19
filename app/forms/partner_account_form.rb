@@ -44,7 +44,10 @@ class PartnerAccountForm < Form
 
   def save
     super do
-      account.update_attributes!(monthly_spending_usd: monthly_spending_usd)
+      account.update_attributes!(
+        monthly_spending_usd: monthly_spending_usd,
+        onboarded_type:       true,
+      )
       @person_0 = account.people.first
       if person_0_eligible_to_apply?
         person_0.eligible_to_apply!

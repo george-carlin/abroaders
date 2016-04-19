@@ -3,13 +3,10 @@ require "rails_helper"
 describe "the 'are you ready to apply?' survey page", :js, :onboarding do
   subject { page }
 
-  let!(:account) do
-    create(:account, monthly_spending_usd: chosen_type ? 1000 : nil)
-  end
+  let!(:account) { create(:account, onboarded_type: onboarded_type) }
   let!(:me) { account.people.first }
 
   before do
-    raise unless chosen_type == account.onboarded_account_type? # sanity check
     eligible ?  me.eligible_to_apply! : me.ineligible_to_apply!
     if already_ready
       create(:readiness_status, person: me, ready: true)
@@ -19,9 +16,9 @@ describe "the 'are you ready to apply?' survey page", :js, :onboarding do
     visit new_person_readiness_status_path(me)
   end
 
-  let(:eligible)      { true }
-  let(:chosen_type)   { true }
-  let(:already_ready) { false }
+  let(:eligible)       { true }
+  let(:onboarded_type) { true }
+  let(:already_ready)  { false }
 
   context "when I've already said I'm ready" do
     let(:already_ready) { true }
@@ -38,7 +35,7 @@ describe "the 'are you ready to apply?' survey page", :js, :onboarding do
   end
 
   context "when I haven't chosen an account type yet" do
-    let(:chosen_type) { false }
+    let(:onboarded_type) { false }
     it "redirects me to the accounts type survey" do
       expect(current_path).to eq type_account_path
     end

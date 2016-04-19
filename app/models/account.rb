@@ -12,16 +12,7 @@ class Account < ApplicationRecord
   alias_attribute :has_companion?, :has_companion
 
   def onboarded?
-    people.all?(&:onboarded?)
-  end
-
-  # The way the onboarding survey currently works, we know they've completed
-  # the 'account type' survey if monthly_spending_usd is not nil, even though
-  # the two 'attributes' aren't really logically related. In future if the way
-  # the survey changes we may need to change things to add a boolean DB column
-  # to store 'onboarded_account_type' in its own seperate place.
-  def onboarded_account_type?
-    monthly_spending_usd.present?
+    onboarded_type? && people.all?(&:onboarded?)
   end
 
   # Validations

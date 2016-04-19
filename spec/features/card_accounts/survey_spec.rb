@@ -3,9 +3,7 @@ require "rails_helper"
 describe "card accounts survey", :onboarding do
   subject { page }
 
-  let!(:account) do
-    create(:account, monthly_spending_usd: chosen_type ? 1000 : nil)
-  end
+  let!(:account) { create(:account, onboarded_type: onboarded_type) }
   let!(:me) { account.people.first }
 
   before do
@@ -25,17 +23,16 @@ describe "card accounts survey", :onboarding do
     login_as account.reload
 
     # Sanity checks:
-    raise unless chosen_type == account.onboarded_account_type?
     raise unless eligible == me.eligible_to_apply?
     raise unless onboarded_cards == me.onboarded_cards?
     raise unless onboarded_spending == me.onboarded_spending?
     visit survey_person_card_accounts_path(me)
   end
 
-  let(:chosen_type) { true }
-  let(:eligible)    { true }
-  let(:onboarded_cards) { false }
+  let(:eligible)           { true }
+  let(:onboarded_cards)    { false }
   let(:onboarded_spending) { true }
+  let(:onboarded_type)     { true }
 
   let(:submit_form) { click_button "Save" }
 
@@ -56,7 +53,7 @@ describe "card accounts survey", :onboarding do
   end
 
   context "when I haven't chosen an account type yet" do
-    let(:chosen_type) { false }
+    let(:onboarded_type) { false }
     it "redirects me to the accounts type survey" do
       expect(current_path).to eq type_account_path
     end

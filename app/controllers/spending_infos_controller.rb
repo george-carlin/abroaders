@@ -1,4 +1,5 @@
 class SpendingInfosController < NonAdminController
+  before_action :redirect_if_account_type_not_selected!
 
   def new
     @person = load_person
@@ -34,9 +35,7 @@ class SpendingInfosController < NonAdminController
   end
 
   def redirect_if_inaccessible!
-    if !current_account.onboarded_account_type?
-      redirect_to type_account_path and return true
-    elsif !@person.eligible_to_apply?
+    if !@person.eligible_to_apply?
       redirect_to survey_person_balances_path(@person) and return true
     elsif @person.onboarded_spending?
       redirect_to survey_person_card_accounts_path(@person) and return true

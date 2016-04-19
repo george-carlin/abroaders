@@ -39,6 +39,7 @@ FactoryGirl.define do
     end
 
     trait :onboarded do
+      onboarded_type true
       with_spending
       after(:build) do |acc|
         acc.people.each do |p|

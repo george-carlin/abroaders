@@ -39,7 +39,7 @@ class AccountsController < NonAdminController
   private
 
   def redirect_if_type_already_given!
-    if current_account.onboarded_account_type?
+    if current_account.onboarded_type?
       redirect_to new_person_spending_info_path(current_account.people.first)
     end
   end

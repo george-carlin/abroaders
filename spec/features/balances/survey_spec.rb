@@ -3,12 +3,10 @@ require "rails_helper"
 describe "the balance survey page", :onboarding do
   subject { page }
 
-  let!(:account) do
-    create(:account, monthly_spending_usd: chosen_type ? 1000 : nil)
-  end
+  let!(:account) { create(:account, onboarded_type: onboarded_type) }
   let!(:me) { account.people.find_by(main: true) }
 
-  let!(:chosen_type) { true }
+  let!(:onboarded_type) { true }
 
   before do
     me.update_attributes!(onboarded_balances: onboarded)
@@ -39,7 +37,7 @@ describe "the balance survey page", :onboarding do
   let(:onboarded) { false }
 
   context "when I haven't chosen an account type" do
-    let(:chosen_type) { false }
+    let(:onboarded_type) { false }
     it "redirects me to the account type page" do
       expect(current_path).to eq type_account_path
     end

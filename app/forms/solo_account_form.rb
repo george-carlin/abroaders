@@ -25,7 +25,10 @@ class SoloAccountForm < Form
 
   def save
     super do
-      account.update_attributes!(monthly_spending_usd: monthly_spending_usd)
+      account.update_attributes!(
+        monthly_spending_usd: monthly_spending_usd,
+        onboarded_type:       true,
+      )
       @person = account.people.first
       if eligible_to_apply?
         @person.eligible_to_apply!

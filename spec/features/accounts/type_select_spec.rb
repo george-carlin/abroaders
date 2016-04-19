@@ -17,6 +17,19 @@ describe "account type select page", :onboarding do
 
   let(:extra_setup) { nil }
 
+  def self.it_marks_survey_as_complete
+    it "marks my account as having completed this part of the survey" do
+      click_confirm
+      expect(account.reload.onboarded_type?).to be true
+    end
+  end
+
+  def self.it_doesnt_mark_survey_as_complete
+    it "doesn't mark my account as having completed this part of the survey" do
+      expect(account.reload.onboarded_type?).to be false
+    end
+  end
+
   it "gives me the option to choose a 'Solo' or 'Partner' account" do
     is_expected.to have_button solo_btn
     is_expected.to have_button partner_btn
@@ -25,7 +38,7 @@ describe "account type select page", :onboarding do
 
   context "when I have already chosen an account type" do
     let(:extra_setup) do
-      allow(account).to receive(:onboarded_account_type?).and_return(true)
+      account.update_attributes!(onboarded_type: true)
     end
 
     it "doesn't allow access" do
@@ -77,6 +90,8 @@ describe "account type select page", :onboarding do
           expect(account.monthly_spending_usd).to be_nil
           expect(me.reload).to be_ineligible_to_apply
         end
+
+        it_marks_survey_as_complete
       end
     end
 
@@ -95,6 +110,8 @@ describe "account type select page", :onboarding do
           is_expected.to have_field :solo_account_eligible_to_apply_false
           is_expected.to have_button confirm_btn
         end
+
+        it_doesnt_mark_survey_as_complete
       end
 
       describe "after adding a monthly spend" do
@@ -121,6 +138,8 @@ describe "account type select page", :onboarding do
             click_confirm
             expect(current_path).to eq survey_person_balances_path(me)
           end
+
+          it_marks_survey_as_complete
         end
       end
     end
@@ -225,6 +244,8 @@ describe "account type select page", :onboarding do
             click_confirm
             expect(current_path).to eq survey_person_balances_path(me)
           end
+
+          it_marks_survey_as_complete
         end
       end
 
@@ -276,6 +297,8 @@ describe "account type select page", :onboarding do
                 expect(current_path).to eq new_person_spending_info_path(partner)
               end
             end
+
+            it_marks_survey_as_complete
           end
 
           context "without adding monthly spending" do
@@ -288,6 +311,8 @@ describe "account type select page", :onboarding do
             it "shows the form again with an error message" do
               expect(current_path).to eq type_account_path
             end
+
+            it_doesnt_mark_survey_as_complete
           end
         end
       end
