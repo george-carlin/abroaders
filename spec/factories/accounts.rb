@@ -9,7 +9,6 @@ FactoryGirl.define do
     end
     password               "abroaders123"
     password_confirmation  "abroaders123"
-    confirmed_at           "2015-01-01"
 
     after(:build) do |account, evaluator|
       if evaluator.with_person

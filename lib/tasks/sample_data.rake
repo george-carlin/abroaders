@@ -41,7 +41,7 @@ namespace :ab do
           end
 
           date = ((500).days + rand(24).hours + rand(60).minutes).ago
-          account.created_at = account.confirmed_at = date
+          account.created_at = date
 
           account.save!
         end
