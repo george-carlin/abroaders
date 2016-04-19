@@ -10,10 +10,10 @@
     </p>
 
     <p>
-      If you're able to apply for the card within the next few days, click "Yes"
-      below and we'll get working on the card recommendation immediately. If, for
-      whatever reason, you're not ready right now, click "No" below and we'll
-      ask you again in a week.
+      If <%= @person.first_name %> is able to apply for the card within the
+      next few days, click "Yes" below and we'll get working on the card
+      recommendation immediately. If, for whatever reason, he/she isn't ready
+      right now, click "No" below and we'll ask again in a week.
     </p>
 
     <%= form_for [@person, @status], url: person_readiness_status_path(@person) do |f| %>
