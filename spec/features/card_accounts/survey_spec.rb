@@ -123,6 +123,36 @@ describe "card accounts survey", :onboarding do
     expect(page).not_to have_field card_checkbox(@hidden_card)
   end
 
+  describe "clicking on a card", :js do
+    let(:card) { @visible_cards[0] }
+    let(:card_selector) { "##{dom_id(card)}" }
+
+    let(:checkbox) { find(card_selector + " input[type=checkbox]") }
+
+    before { raise if checkbox[:checked] } # sanity check
+
+    describe "on the checkbox itself" do
+      before { checkbox.click }
+      it "checks the checkbox" do
+        expect(checkbox.reload[:checked]).to be true
+      end
+    end
+
+    describe "on the label" do
+      before { find(card_selector + " label").click }
+      it "checks the checkbox" do
+        expect(checkbox.reload[:checked]).to be true
+      end
+    end
+
+    describe "anywhere else in the card's box" do
+      before { find(card_selector).click }
+      it "checks the checkbox" do
+        expect(checkbox.reload[:checked]).to be true
+      end
+    end
+  end
+
   describe "selecting some cards" do
     let(:selected_cards) { @visible_cards.values_at(0, 2, 3) }
     before { selected_cards.each { |card| check card_checkbox(card) } }

@@ -10,7 +10,7 @@ $(document).ready(function () {
     // will be toggled on/off as per normal HTML behaviour. But if they've
     // clicked elsewhere in the div, toggle the checkbox for them too:
     var nodeName = e.target.nodeName;
-    if (!(nodeName === "INPUT" && nodeName === "LABEL")) {
+    if (!(nodeName === "INPUT" || nodeName === "LABEL")) {
       checked = !checked;
       $checkbox.prop("checked", checked);
     }
