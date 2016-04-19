@@ -5,6 +5,9 @@ en:
     attributes:
       companion:
         first_name: "Name"
+      spending_info:
+        business_spending_usd: "Business spending"
+
 
 
   activerecord:
@@ -25,9 +28,6 @@ en:
       card_offer:
         cost:  "Cost ($)"
         spend: "Minimum spend ($)"
-
-      spending_info:
-        business_spending_usd: "Business spending"
 
       travel_plan:
         types:

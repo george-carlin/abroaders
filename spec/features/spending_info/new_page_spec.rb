@@ -164,5 +164,18 @@ describe "the spending info survey", :onboarding do
         expect(no).to be_checked
       end
     end
+
+    describe "with an invalid value for 'business spending'" do
+      before do
+        choose :spending_info_has_business_with_ein
+        submit_form
+      end
+
+      it "displays a human-friendly error message" do # bug fix
+        within ".alert.alert-danger" do
+          expect(page).to have_content "Business spending can't be blank"
+        end
+      end
+    end
   end
 end

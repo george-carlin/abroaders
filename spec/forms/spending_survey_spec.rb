@@ -22,4 +22,12 @@ describe SpendingSurvey, type: :model do
     it { expect(survey).not_to validate_presence_of(:business_spending_usd) }
   end
 
+  context "when business spending is invalid" do
+    before { survey.has_business = "with_ein" }
+    it "has a human-friendly error message" do # bug fix
+      expect(survey.tap(&:validate).errors.full_messages).to include \
+        "Business spending can't be blank"
+    end
+  end
+
 end
