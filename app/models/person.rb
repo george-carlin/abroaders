@@ -84,8 +84,6 @@ class Person < ApplicationRecord
       has_one :eligibility
     end
 
-    class EligibilityNotKnownError < StandardError; end
-
     def eligible_to_apply!
       create_eligibility!(eligible: true)
     end
@@ -99,19 +97,11 @@ class Person < ApplicationRecord
     end
 
     def eligible_to_apply?
-      if eligibility_given?
-        eligibility.eligible?
-      else
-        raise EligibilityNotKnownError
-      end
+      !!eligibility&.eligible?
     end
 
     def ineligible_to_apply?
-      if eligibility_given?
-        !eligibility.eligible?
-      else
-        raise EligibilityNotKnownError
-      end
+      !eligible_to_apply?
     end
   end
 
