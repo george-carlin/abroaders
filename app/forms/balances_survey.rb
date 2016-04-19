@@ -8,6 +8,7 @@
 # (because it depends on what's in the Currencies table in the DB).
 class BalancesSurvey
 
+  attr_accessor :award_wallet_email
   attr_reader :balances, :errors
 
   def initialize(person)
@@ -36,6 +37,9 @@ class BalancesSurvey
       ApplicationRecord.transaction do
         @balances.each { |balance| balance.save!(validate: false) }
         @person.onboarded_balances = true
+        if award_wallet_email.present?
+          @person.award_wallet_email = award_wallet_email
+        end
         @person.save(validate: false)
         true
       end

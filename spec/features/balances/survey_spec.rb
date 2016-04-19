@@ -50,8 +50,15 @@ describe "the balance survey page", :onboarding do
     end
   end
 
+  it { is_expected.to have_field :balances_survey_award_wallet_email }
+
   describe "submitting the form" do
-    before { submit_form }
+    before do
+      pre_submit
+      submit_form
+    end
+
+    let(:pre_submit) { nil }
 
     it "asks me if this person is ready to apply" do
       expect(current_path).to eq new_person_readiness_status_path(me)
@@ -59,6 +66,16 @@ describe "the balance survey page", :onboarding do
 
     it "marks this person as having completed the balances survey" do
       expect(me.reload.onboarded_balances?).to be true
+    end
+
+    context "providing an award wallet email" do
+      let(:pre_submit) do
+        fill_in :balances_survey_award_wallet_email, with: "a@b.com"
+      end
+
+      it "saves the email" do
+        expect(me.reload.award_wallet_email).to eq "a@b.com"
+      end
     end
   end
 

@@ -10,7 +10,10 @@ class BalancesController < NonAdminController
     @person = load_person
     redirect_if_already_completed_survey!
     @survey = BalancesSurvey.new(@person)
-    if @survey.update_attributes(balances_params)
+    # Bleeargh technical debt
+    @survey.assign_attributes(balances_params)
+    @survey.award_wallet_email = params[:balances_survey_award_wallet_email]
+    if @survey.save
       redirect_to new_person_readiness_status_path(@person)
     else
       render "survey"
@@ -20,7 +23,9 @@ class BalancesController < NonAdminController
   private
 
   def balances_params
-    params.permit(balances: [:currency_id, :value]).fetch(:balances, [])
+    params.permit(
+      balances: [:currency_id, :value]
+    ).fetch(:balances, [])
   end
 
   def load_person

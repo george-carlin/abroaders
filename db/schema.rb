@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160418210346) do
+ActiveRecord::Schema.define(version: 20160419133246) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -177,6 +177,7 @@ ActiveRecord::Schema.define(version: 20160418210346) do
     t.boolean  "main",               default: true,  null: false
     t.boolean  "onboarded_cards",    default: false, null: false
     t.boolean  "onboarded_balances", default: false, null: false
+    t.string   "award_wallet_email"
   end
 
   add_index "people", ["account_id", "main"], name: "index_people_on_account_id_and_main", unique: true, using: :btree

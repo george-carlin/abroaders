@@ -1,39 +1,78 @@
-<h1>Balances</h1>
+<div class="row">
+  <div class="col-xs-12 col-md-10 col-md-offset-1">
+    <h1><%= @person.first_name %>'s Existing Balances</h1>
 
-<p>
-  Does <%= @person.first_name %> have any existing frequent flyer mile
-  balances?
-</p>
+    <% if @survey.errors %>
+      <div class="alert alert-danger">
+        Could not save balances:
 
-<% if @survey.errors %>
-  <div class="alert alert-danger">
-    Could not save your balances:
-
-    <ul>
-      <% @survey.errors.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-    </ul>
-  </div>
-<% end %>
-
-<%= form_tag (params[:passenger]) do %>
-  <div class="balances_survey">
-    <% @survey.balances.each do |balance| %>
-      <% currency = balance.currency %>
-      <div
-        id="<%= dom_id(currency) %>"
-        class="<%= dom_class(currency) %> survey_currency checkbox"
-      >
-        <label>
-          <%= currency_balance_checkbox(balance) %>
-          <%= currency.name %>
-        </label>
-
-        <%= currency_balance_value_field(balance) %>
+        <ul>
+          <% @survey.errors.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
       </div>
     <% end %>
-  </div>
 
-  <%= submit_tag "Submit", class: "btn btn-primary" %>
-<% end %>
+    <%= form_tag (params[:passenger]) do %>
+
+      <p>
+        We need to know <%= @person.first_name %>'s existing frequent flyer mile
+        balances, if he/she has any, in order to give the best card
+        recommendations.
+      </p>
+
+      <p>
+        We recommend tracking your balances through
+        <%= link_to "AwardWallet.com", "https://awardwallet.com", target: "_blank" %>.
+        If you already have an AwardWallet account, please tell us what email
+        address you used to sign up for it:
+      </p>
+
+      <div class="form-group">
+        <%= email_field_tag(
+          :balances_survey_award_wallet_email,
+          @survey.award_wallet_email,
+          placeholder: "#{@person.first_name}'s login email for AwardWallet"
+        ) %>
+      </div>
+
+      <p>
+        We are working on integrating our app with AwardWallet so that we
+        can keep track of your loyalty points automatically. For now (or if you
+        don't have AwardWallet, please estimate (to the nearest 1,000)
+        <b><%= @person.first_name %>'s</b> current balances for the programs below.
+      </p>
+
+      <p>
+        (You can always edit your balances, or add new ones, later - but the sooner
+        and the more accurately we know your existing awards balances, the
+        sooner we can help you save money on travel.)
+      </p>
+
+      <div class="balances_survey well">
+        <h4>
+          Which of the following awards programs does
+          <%= @person.first_name %> use, if any?
+        </h4>
+
+        <% @survey.balances.each do |balance| %>
+          <% currency = balance.currency %>
+          <div
+            id="<%= dom_id(currency) %>"
+            class="<%= dom_class(currency) %> survey_currency checkbox"
+          >
+            <label>
+              <%= currency_balance_checkbox(balance) %>
+              <%= currency.name %>
+            </label>
+
+            <%= currency_balance_value_field(balance) %>
+          </div>
+        <% end %>
+      </div>
+
+      <%= submit_tag "Submit", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>
