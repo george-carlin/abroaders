@@ -2,13 +2,13 @@ class SpendingInfosController < NonAdminController
 
   def new
     @person = load_person
-    redirect_if_already_added_spending!
+    redirect_if_inaccessible! and return
     @spending_info = SpendingSurvey.new(@person)
   end
 
   def create
     @person = load_person
-    redirect_if_already_added_spending!
+    redirect_if_inaccessible! and return
     @spending_info = SpendingSurvey.new(@person)
     if @spending_info.update_attributes(spending_survey_params)
       current_account.save!
@@ -33,9 +33,13 @@ class SpendingInfosController < NonAdminController
     )
   end
 
-  def redirect_if_already_added_spending!
-    if @person.onboarded_spending?
-      redirect_to survey_person_card_accounts_path(@person)
+  def redirect_if_inaccessible!
+    if !current_account.onboarded_account_type?
+      redirect_to type_account_path and return true
+    elsif !@person.eligible_to_apply?
+      redirect_to survey_person_balances_path(@person) and return true
+    elsif @person.onboarded_spending?
+      redirect_to survey_person_card_accounts_path(@person) and return true
     end
   end
 

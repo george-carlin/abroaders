@@ -3,16 +3,22 @@ require "rails_helper"
 describe "the spending info survey", :onboarding do
   subject { page }
 
-  let!(:account) { create(:account) }
+  let!(:account) do
+    create(:account, monthly_spending_usd: chosen_type ? 1000 : nil)
+  end
   let!(:me) { account.people.first }
 
   before do
+    raise unless chosen_type == account.onboarded_account_type? # sanity check
     create(:spending_info, person: me) if already_added
+    eligible ?  me.eligible_to_apply! : me.ineligible_to_apply!
     login_as(account, scope: :account)
     visit new_person_spending_info_path(me)
   end
 
   let(:already_added) { false }
+  let(:chosen_type)   { true }
+  let(:eligible)      { true }
 
   let(:submit_form) { click_button "Save" }
 
@@ -25,10 +31,24 @@ describe "the spending info survey", :onboarding do
     is_expected.to have_field :spending_info_has_business_no_business
   end
 
-  describe "when I have already added spending info" do
+  context "when I have already added spending info" do
     let(:already_added) { true }
-    it "redirects me to the cards survey" do
+    it "redirects me to my cards survey" do
       expect(current_path).to eq survey_person_card_accounts_path(me)
+    end
+  end
+
+  context "when I haven't chosen an account type yet" do
+    let(:chosen_type) { false }
+    it "redirects me to the accounts type survey" do
+      expect(current_path).to eq type_account_path
+    end
+  end
+
+  context "when I'm not eligible to apply" do
+    let(:eligible) { false }
+    it "redirects me to my balances survey" do
+      expect(current_path).to eq survey_person_balances_path(me)
     end
   end
 
@@ -123,7 +143,7 @@ describe "the spending info survey", :onboarding do
         end
       end
 
-      it "takes me to the card survey page" do
+      it "takes me to my card survey page" do
         submit_form
         expect(current_path).to eq survey_person_card_accounts_path(me)
       end
