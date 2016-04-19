@@ -1,6 +1,6 @@
 class SoloAccountForm < Form
   attr_accessor :account
-  attr_reader :monthly_spending_usd
+  attr_reader :monthly_spending_usd, :person
   attr_boolean_accessor :eligible_to_apply
 
   def self.name
@@ -26,11 +26,11 @@ class SoloAccountForm < Form
   def save
     super do
       account.update_attributes!(monthly_spending_usd: monthly_spending_usd)
-      person = account.people.first
+      @person = account.people.first
       if eligible_to_apply?
-        person.eligible_to_apply!
+        @person.eligible_to_apply!
       else
-        person.ineligible_to_apply!
+        @person.ineligible_to_apply!
       end
     end
   end

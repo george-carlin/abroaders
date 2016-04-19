@@ -14,7 +14,11 @@ class AccountsController < NonAdminController
     # The front-end should prevent invalid data from being submitted. If they
     # bypass the JS, fuck 'em.
     @solo_account.save!
-    redirect_to new_person_spending_info_path(current_account.people.first)
+    if @solo_account.eligible_to_apply?
+      redirect_to new_person_spending_info_path(@solo_account.person)
+    else
+      redirect_to survey_person_balances_path(@solo_account.person)
+    end
   end
 
   def create_partner_account
@@ -23,7 +27,13 @@ class AccountsController < NonAdminController
     # The front-end should prevent invalid data from being submitted. If they
     # bypass the JS, fuck 'em.
     @partner_account.save!
-    redirect_to new_person_spending_info_path(current_account.people.first)
+    if @partner_account.person_0_eligible_to_apply?
+      redirect_to new_person_spending_info_path(@partner_account.person_0)
+    elsif @partner_account.person_1_eligible_to_apply?
+      redirect_to new_person_spending_info_path(@partner_account.person_1)
+    else
+      redirect_to survey_person_balances_path(@partner_account.person_0)
+    end
   end
 
   private

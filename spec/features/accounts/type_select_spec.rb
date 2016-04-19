@@ -77,11 +77,6 @@ describe "account type select page", :onboarding do
           expect(account.monthly_spending_usd).to be_nil
           expect(me.reload).to be_ineligible_to_apply
         end
-
-        it "takes me to my spending survey" do
-          click_confirm
-          expect(current_path).to eq new_person_spending_info_path(me)
-        end
       end
     end
 
@@ -112,9 +107,20 @@ describe "account type select page", :onboarding do
           expect(me).to be_eligible_to_apply
         end
 
-        it "takes me to my spending survey page" do
-          click_confirm
-          expect(current_path).to eq new_person_spending_info_path(me)
+        context "when I have said I am eligible to apply" do
+          before { choose :solo_account_eligible_to_apply_true }
+          it "takes me to my spending survey page" do
+            click_confirm
+            expect(current_path).to eq new_person_spending_info_path(me)
+          end
+        end
+
+        context "when I have said I am not eligible to apply" do
+          before { choose :solo_account_eligible_to_apply_false }
+          it "takes me to my balances survey" do
+            click_confirm
+            expect(current_path).to eq survey_person_balances_path(me)
+          end
         end
       end
     end
@@ -214,6 +220,11 @@ describe "account type select page", :onboarding do
             click_confirm
             expect(account.people.all?(&:ineligible_to_apply?)).to be true
           end
+
+          it "takes me to my balances survey" do
+            click_confirm
+            expect(current_path).to eq survey_person_balances_path(me)
+          end
         end
       end
 
@@ -250,9 +261,20 @@ describe "account type select page", :onboarding do
               expect(account.people.find_by(main: false)).to be_ineligible_to_apply
             end
 
-            it "takes me to the spending survey" do
-              click_confirm
-              expect(current_path).to eq new_person_spending_info_path(me)
+            context "when I am the one eligible to apply" do
+              it "takes me to the spending survey" do
+                click_confirm
+                expect(current_path).to eq new_person_spending_info_path(me)
+              end
+            end
+
+            context "when my partner is the one eligible to apply" do
+              before { choose :partner_account_eligibility_person_1 }
+              it "takes me to my partner's spending survey" do
+                click_confirm
+                partner = account.people.find_by(main: false)
+                expect(current_path).to eq new_person_spending_info_path(partner)
+              end
             end
           end
 
@@ -291,7 +313,7 @@ describe "account type select page", :onboarding do
               expect(account.people[1]).to be_eligible_to_apply
             end
 
-            it "takes me to the spending survey" do
+            it "takes me to my spending survey" do
               click_confirm
               expect(current_path).to eq new_person_spending_info_path(me)
             end

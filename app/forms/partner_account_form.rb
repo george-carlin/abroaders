@@ -1,5 +1,6 @@
 class PartnerAccountForm < Form
   attr_accessor :account, :monthly_spending_usd, :partner_first_name, :eligibility
+  attr_reader :person_0, :person_1
 
   def self.name
     "PartnerAccount"
@@ -44,13 +45,13 @@ class PartnerAccountForm < Form
   def save
     super do
       account.update_attributes!(monthly_spending_usd: monthly_spending_usd)
-      person_0 = account.people.first
+      @person_0 = account.people.first
       if person_0_eligible_to_apply?
         person_0.eligible_to_apply!
       else
         person_0.ineligible_to_apply!
       end
-      person_1 = account.people.create!(first_name: partner_first_name, main: false)
+      @person_1 = account.create_companion!(first_name: partner_first_name)
       if person_1_eligible_to_apply?
         person_1.eligible_to_apply!
       else
