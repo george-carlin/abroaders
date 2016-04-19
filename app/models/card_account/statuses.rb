@@ -29,15 +29,15 @@ module CardAccount::Statuses
   # I've decided not to store it. Can we get away with this?
 
 
-  STATUSES = %i[
-    unknown
-    recommended
-    declined
-    applied
-    denied
-    open
-    closed
-  ]
+  STATUSES = {
+    unknown:     0,
+    recommended: 1,
+    declined:    2,
+    applied:     3,
+    denied:      4,
+    open:        5,
+    closed:      6,
+  }
 
 
   included do
