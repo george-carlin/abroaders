@@ -3,12 +3,15 @@ require "rails_helper"
 describe "card accounts survey", :onboarding do
   subject { page }
 
-  let!(:account) { create(:account) }
+  let!(:account) do
+    create(:account, monthly_spending_usd: chosen_type ? 1000 : nil)
+  end
   let!(:me) { account.people.first }
 
-  # Setup
   before do
+    create(:spending_info, person: me) if onboarded_spending
     me.update_attributes!(onboarded_cards: onboarded_cards)
+    eligible ?  me.eligible_to_apply! : me.ineligible_to_apply!
     chase = Bank.find_by(name: "Chase")
     citi  = Bank.find_by(name: "Citibank")
     @visible_cards = [
@@ -20,10 +23,19 @@ describe "card accounts survey", :onboarding do
     @hidden_card = create(:card, shown_on_survey: false)
 
     login_as account.reload
+
+    # Sanity checks:
+    raise unless chosen_type == account.onboarded_account_type?
+    raise unless eligible == me.eligible_to_apply?
+    raise unless onboarded_cards == me.onboarded_cards?
+    raise unless onboarded_spending == me.onboarded_spending?
     visit survey_person_card_accounts_path(me)
   end
 
+  let(:chosen_type) { true }
+  let(:eligible)    { true }
   let(:onboarded_cards) { false }
+  let(:onboarded_spending) { true }
 
   let(:submit_form) { click_button "Save" }
 
@@ -43,7 +55,28 @@ describe "card accounts survey", :onboarding do
     end
   end
 
-  context "when the person has already completed this survey" do
+  context "when I haven't chosen an account type yet" do
+    let(:chosen_type) { false }
+    it "redirects me to the accounts type survey" do
+      expect(current_path).to eq type_account_path
+    end
+  end
+
+  context "when I'm not eligible to apply for cards" do
+    let(:eligible) { false }
+    it "redirects me to my balances survey" do
+      expect(current_path).to eq survey_person_balances_path(me)
+    end
+  end
+
+  context "when I need to complete the spending survey" do
+    let(:onboarded_spending) { false }
+    it "redirects me to the spending survey" do
+      expect(current_path).to eq new_person_spending_info_path(me)
+    end
+  end
+
+  context "when I've already completed this survey" do
     let(:onboarded_cards) { true }
     it "redirects to their balances survey" do
       expect(current_path).to eq survey_person_balances_path(me)
