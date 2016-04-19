@@ -327,7 +327,9 @@ describe "account type select page", :onboarding do
             end
 
             it "shows the form again with an error message" do
+              click_confirm
               expect(current_path).to eq type_account_path
+              expect(page).to have_error_message
             end
           end
         end
