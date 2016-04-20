@@ -45,20 +45,17 @@
   <div class="row">
     <div class="form-group col-xs-12 col-md-6">
       <%= f.label        :no_of_passengers, "# of passengers" %>
-      <p class="help-block">
-        How many people will be going on this trip?
-      </p>
       <%= f.number_field :no_of_passengers,
                             min: 1, max: TravelPlan::MAX_FLIGHTS %>
     </div>
 
     <div class="form-group col-xs-12 col-md-6">
       <%= f.label :earliest_departure, "Departure date" %>
+      <%= f.text_field :earliest_departure %>
       <p class="help-block">
         If you don’t yet know exactly when you want to fly, please input the
         <i>earliest</i> possible date which it might be.
       </p>
-      <%= f.text_field :earliest_departure %>
     </div>
   </div>
 
