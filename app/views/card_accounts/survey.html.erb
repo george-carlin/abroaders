@@ -4,7 +4,7 @@
   <div class="col-xs-12 col-md-10 col-md-offset-1">
     <h1><%= @person.first_name %>'s Cards</h1>
 
-    <p>
+    <!--<p>
       Before we can recommend <%= @person.first_name %> a credit card to apply
       for, we need to know which cards he/she already has.
     </p>
@@ -51,42 +51,21 @@
           </i>
         </li>
       </ul>
-    </p>
+    </p>-->
 
-    <%= form_tag survey_person_card_accounts_path(@person) do %>
-      <% @cards.group_by(&:bank).each do |bank, cards_for_1_bank| %>
+    <%= form_tag survey_person_card_accounts_path(@person) do |f| %>
+      <% @survey.each_section do |bank, cards_grouped_by_bp| %>
         <div id="<%= bank.to_param %>_cards">
-
-          <% cards_for_1_bank.group_by(&:bp).each do |bp, cards| %>
-
+          <% cards_grouped_by_bp.each do |bp, cards| %>
             <div id="<%= bank.to_param %>_<%= bp %>_cards">
               <h3><%= bank.name %> <%= bp.capitalize %> Cards</h3>
 
               <div class="row">
-                <%= collection_check_boxes(
-                    :card_account,
-                    :card_ids,
-                    cards,
-                    :id,
-                    :name
-                ) do |cb| %>
-                  <div id="<%= dom_id(cb.object) %>" class="card-survey-checkbox">
-                    <%= card_image_tag(cb.object) %>
-                    <div>
-                      <div><%= cb.check_box %></div>
-                      <div><%= cb.label %></div>
-                    </div>
-                  </div>
-
-                <% end %>
-
-              </div><!-- .row -->
+                <%= render partial: "card_accounts/survey_card", collection: cards %>
+              </div>
             </div><!-- #cards_onboarding_<%= bank.to_param %>_<%= bp %> -->
-
           <% end # cards_for_1_bank.group_by(&:bp).each %>
-
         </div><!-- #cards_onboarding_<%= bank.to_param %> -->
-
       <% end # @cards.group_by(&:bank).each %>
 
       <div class="row">

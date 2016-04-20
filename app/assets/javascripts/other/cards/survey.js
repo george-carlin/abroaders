@@ -2,20 +2,21 @@ $(document).ready(function () {
 
   // Allow the user to check/uncheck the box by clicking anywhere within the
   // picture/description of the card:
-  $(".card-survey-checkbox").click(function (e) {
+  $(".cards_survey_card_account_opened").click(function (e) {
     var $this = $(this);
-    var $checkbox = $this.find("input[type=checkbox]");
-    var checked = $checkbox.prop("checked")
-    // If the user has clicked on the checkbox or it's label, then the checkbox
-    // will be toggled on/off as per normal HTML behaviour. But if they've
-    // clicked elsewhere in the div, toggle the checkbox for them too:
-    var nodeName = e.target.nodeName;
-    if (!(nodeName === "INPUT" || nodeName === "LABEL")) {
-      checked = !checked;
-      $checkbox.prop("checked", checked);
-    }
+    var checked = $this.prop("checked")
 
-    $(this).toggleClass("selected", checked);
+    // Toggling this class will show/hide the 'opened at' and 'closed' inputs
+    // via CSS.
+    $this.closest(".card-survey-checkbox").toggleClass("opened", checked);
+  });
+
+
+  $(".cards_survey_card_account_closed").click(function () {
+    var $this = $(this);
+    var checked = $this.prop("checked")
+
+    $this.closest(".card-survey-checkbox").toggleClass("closed", checked);
   });
 
 });

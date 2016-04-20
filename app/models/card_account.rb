@@ -4,8 +4,8 @@ class CardAccount < ApplicationRecord
 
   include Statuses
 
-  delegate :network, :type, :bp, :name, :identifier, :bank_name, :currency,
-    :currency_name,
+  delegate :network, :type, :bp, :name, :identifier, :bank, :bank_name, :currency,
+    :currency_name, :annual_fee,
     to: :card,
     prefix: true
 

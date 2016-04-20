@@ -4,31 +4,32 @@
   border-style: inset;
   border-width: 1px;
   cursor: pointer;
-  float: left;
-  height: 224px;
-  margin-bottom: 20px;
+  height: 430px;
+  margin-left:  10px;
   margin-right: 10px;
+  margin-bottom: 20px;
+  // margin-right: 10px;
   padding-left: 10px;
   padding-right: 10px;
   padding-top: 12px;
   text-align: center;
-  width: 210px;
+  // width: 210px;
+
+  .input-lg {
+    height: 25px;
+  }
+
+  hr {
+    margin: 12px 0 9px;
+  }
 
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
 
-  &:active {
-    background-color: rgba(255, 255, 255, 0.28);
-  }
-
-  &.selected {
+  &.opened {
     background-color: rgba(255, 255, 255, 0.4);
-
-    &:active {
-      background-color: rgba(255, 255, 255, 0.28);
-    }
   }
 
   * {
@@ -42,4 +43,51 @@
   img {
     margin-bottom: 4px;
   }
+
+  .cards_survey_card_account_closed {
+    height: 25px;
+    position: relative;
+    left: 5px;
+    top: 7px;
+  }
+
+}
+
+.cards_survey_card_account_opened_at_wrapper, .cards_survey_card_account_closed_wrapper {
+  display: none;
+
+  label {
+    font-size: 0.8em;
+    font-weight: normal;
+  }
+
+  .card-survey-checkbox.opened & {
+    display: block;
+  }
+}
+
+.cards_survey_card_account_closed_at_wrapper {
+  display: none;
+
+  label {
+    font-size: 0.8em;
+    font-weight: normal;
+  }
+
+  .card-survey-checkbox.opened.closed & {
+    display: block;
+  }
+}
+
+
+.cards_survey_month {
+  width: 39%;
+  float:left;
+  margin-top: 5px;
+}
+
+.cards_survey_year {
+  width: 59%;
+  float:right;
+  margin-top: 5px;
 }

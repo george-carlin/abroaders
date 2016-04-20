@@ -9,17 +9,18 @@ class SurveyCard
     Card.survey.map { |card| new(card) }
   end
 
+  def annual_fee
+    "#{"$%.2f" % @card.annual_fee}/yr"
+  end
+
   def name
-    parts = [@card.name, "- #{"$%.2f" % annual_fee}/yr"]
+    parts = [@card.name]
+    if business?
+      parts.push("business")
+    end
     unless bank_name == "American Express"
       # Amex will already be displayed as the bank name, so don't be redundant
-      parts.insert(
-        1,
-        I18n.t("activerecord.attributes.card.networks.#{network}"),
-      )
-    end
-    if business?
-      parts.insert(1, "business")
+      parts.push(I18n.t("activerecord.attributes.card.networks.#{network}"))
     end
     parts.join(" ")
   end

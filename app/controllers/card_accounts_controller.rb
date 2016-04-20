@@ -23,7 +23,7 @@ class CardAccountsController < NonAdminController
   def survey
     @person = load_person
     redirect_if_survey_is_inaccessible! and true
-    @cards  = SurveyCard.all
+    @survey = CardsSurvey.new(person: @person)# SurveyCard.all
   end
 
   def save_survey
@@ -31,7 +31,7 @@ class CardAccountsController < NonAdminController
     redirect_if_survey_is_inaccessible! and true
     # There's currently no way that survey_params can be invalid, so this
     # should never fail:
-    CardsSurvey.new(@person).update_attributes(survey_params)
+    CardsSurvey.new(survey_params.merge(person: @person)).save!
     redirect_to survey_person_balances_path(@person)
   end
 
@@ -100,8 +100,9 @@ class CardAccountsController < NonAdminController
     current_account.people.find(params[:person_id])
   end
 
+  # WARNING non-strong-parameters hackery
   def survey_params
-    { card_ids: params[:card_account][:card_ids] }
+    { card_accounts: params[:cards_survey][:card_accounts] }
   end
 
   def redirect_if_survey_is_inaccessible!
