@@ -4,54 +4,28 @@
   <div class="col-xs-12 col-md-10 col-md-offset-1">
     <h1><%= @person.first_name %>'s Cards</h1>
 
-    <!--<p>
+    <p>
       Before we can recommend <%= @person.first_name %> a credit card to apply
       for, we need to know which cards he/she already has.
     </p>
 
     <p>
       Please select <strong>all</strong> of the credit/debit cards below for
-      which <%= @person.first_name %> has been the <strong>primary cardholder
-      in the past 24 months</strong>.
+      which <%= @person.first_name %> has <strong>ever</strong> been the
+      <strong>primary cardholder</strong>.
     </p>
 
     <p>
-      For this question, you <strong>should</strong> include:
-      <ul>
-        <li>Accounts that are currently open.</li>
-        <li>
-          Accounts that were opened in the last 24 months, but are now closed.
-        </li>
-        <li>
-          Accounts that were opened in the last 24 months, but have been
-          changed into another type of card.
-        </li>
-      </ul>
+      Primary cardholder means that the credit card account was opened using
+      your name and social security number. You are not considered a primary
+      cardholder of a card if someone else adds you as an authorized user on
+      their account.
     </p>
 
     <p>
-      Please <strong>do not</strong> include:
-      <ul>
-        <li>
-          Cards for which <%= @person.first_name %> was not the primary
-          cardholder.
-          <br />
-          <i>
-            Example: Your spouse added you as an additional cardholder on his or
-            her account.
-          </i>
-        </li>
-        <li>
-          Any card <%= @person.first_name %> opened more than 24 months ago
-          that is not currently open.
-          <br />
-          <i>
-            Example: You opened a card 3 years ago, and you closed the account
-            yesterday.
-          </i>
-        </li>
-      </ul>
-    </p>-->
+      <strong>Only</strong> select cards for which <%= @person.first_name %>
+      is or was the primary cardholder.
+    </p>
 
     <%= form_tag survey_person_card_accounts_path(@person) do |f| %>
       <% @survey.each_section do |bank, cards_grouped_by_bp| %>
