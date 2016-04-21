@@ -28,6 +28,8 @@ describe "admin section" do
         visit new_admin_card_offer_path
       end
 
+      let(:submit) { click_button t("admin.card_offers.submit") }
+
       describe "submitting the form with valid information" do
         before do
           select @cards[1].name, from: :card_offer_card_id
@@ -36,10 +38,23 @@ describe "admin section" do
           fill_in :card_offer_link, with: "http://something.com"
         end
 
-        let(:submit) { click_button t("admin.card_offers.submit") }
-
         it "creates a new card offer" do
           expect{submit}.to change{CardOffer.count}.by(1)
+        end
+      end
+
+      describe "submitting the form with invalid information" do
+        before { submit }
+
+        it "shows the form again with an error message" do
+          expect(page).to have_selector "form#new_card_offer"
+          expect(page).to have_error_message
+        end
+
+        specify "the error message talks about the 'card offer'" do # bug fix
+          within ".alert.alert-danger" do
+            expect(page).to have_content "card offer"
+          end
         end
       end
 
