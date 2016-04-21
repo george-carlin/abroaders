@@ -25,6 +25,12 @@ describe "admin section" do
         end
       end
 
+      describe "the 'Link' input" do
+        let(:input) { find("#card_offer_link") }
+        it "is a text field" do # bug fix
+          expect(input[:type]).to eq "text"
+        end
+      end
     end
   end
 end
