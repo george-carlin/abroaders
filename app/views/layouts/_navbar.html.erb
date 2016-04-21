@@ -14,6 +14,7 @@
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav navbar-right">
         <% if current_account || current_admin %>
+          <li><%= link_to "Dashboard", root_path %></li>
           <% if current_admin %>
             <li><%= link_to "Destinations", admin_destinations_path %></li>
             <li><%= link_to "Cards", admin_cards_path %></li>
