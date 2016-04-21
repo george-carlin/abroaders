@@ -22,6 +22,24 @@ describe Card do
     end
   end
 
+  describe "#bank=" do
+    let(:bank_0) { Bank.find(1) }
+    let(:bank_1) { Bank.find(3) }
+
+    it "sets the bank and bank_id" do
+      card.bank = bank_0
+      expect(card.bank_id).to eq bank_0.id
+      expect(card.bank).to eq bank_0
+    end
+
+    it "resets any memoized bank" do
+      card.bank = bank_0
+      card.bank = bank_1
+      expect(card.bank_id).to eq bank_1.id
+      expect(card.bank).to eq bank_1
+    end
+  end
+
   describe "#identifier" do
     it "generates an identifier using the bank ID, code, and network" do
       card.bank_id = 1

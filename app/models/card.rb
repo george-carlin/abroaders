@@ -65,6 +65,10 @@ class Card < ApplicationRecord
       @bank ||= Bank.new(bank_id)
     end
 
+    def bank=(new_bank)
+      self.bank_id = new_bank.id
+    end
+
     def bank_id=(bank_id)
       @bank = nil
       super
