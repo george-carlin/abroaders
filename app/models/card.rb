@@ -18,15 +18,6 @@ class Card < ApplicationRecord
     debit:   3,
   }
 
-  # NOTE: For now, we're storing card images in app/assets/images and looking
-  # them up with a simple string column in 'cards'. This is a crappy solution
-  # as it couples the filenames within the repo to the contents of the DB (plus
-  # serving images from within the app in general sucks for all kinds of
-  # performance reasons and we should switch to a CDN sooner rather than later
-  # anyway.)
-  #
-  # We should switch to Paperclip for images pronto.
-
   concerning :Image do
     included do
       # Standard credit card dimensions are 85.60 × 53.98mm, which gives the
