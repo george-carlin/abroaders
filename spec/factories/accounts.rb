@@ -30,7 +30,7 @@ FactoryGirl.define do
       end
     end
 
-    trait :with_spending do
+    trait :onboarded_spending do
       after(:build) do |acc|
         acc.people.each do |p|
           p.build_spending_info(attributes_for(:spending, person: nil))
@@ -40,7 +40,7 @@ FactoryGirl.define do
 
     trait :onboarded do
       onboarded_type true
-      with_spending
+      onboarded_spending
       after(:build) do |acc|
         acc.people.each do |p|
           p.onboarded_cards = p.onboarded_balances = true

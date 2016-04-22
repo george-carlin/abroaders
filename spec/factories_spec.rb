@@ -37,8 +37,8 @@ describe "factories" do
         end
       end
 
-      context "and :with_spending trait" do
-        let(:traits) { [:with_companion, :with_spending] }
+      context "and :onboarded_spending trait" do
+        let(:traits) { [:with_companion, :onboarded_spending] }
         it "creates an account with two people and their spending" do
           expect(Account.count).to eq 1
           expect(Person.count).to eq 2
@@ -70,8 +70,8 @@ describe "factories" do
       end
     end
 
-    context "with :with_spending trait" do
-      let(:traits) { [:with_spending] }
+    context "with :onboarded_spending trait" do
+      let(:traits) { [:onboarded_spending] }
       it "creates an account with one person and his spending" do
         expect(Account.count).to eq 1
         expect(Person.count).to eq 1
@@ -141,8 +141,8 @@ describe "factories" do
       end
     end
 
-    context "with :with_spending trait" do
-      let(:traits) { :with_spending }
+    context "with :onboarded_spending trait" do
+      let(:traits) { :onboarded_spending }
       it "creates an eligible person with spending info" do
         create_person
         expect(Person.count).to eq 1
