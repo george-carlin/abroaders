@@ -1,5 +1,6 @@
 class Person < ApplicationRecord
   include EligibleToApply
+  include ReadyToApply
 
   # Attributes
 
@@ -52,33 +53,6 @@ class Person < ApplicationRecord
 
   has_many :balances
   has_many :currencies, through: :balances
-
-  concerning :Readiness do
-    included do
-      has_one :readiness_status
-      delegate :unreadiness_reason, to: :readiness_status, allow_nil: true
-    end
-
-    def readiness_given?
-      !!readiness_status&.persisted?
-    end
-
-    def ready_to_apply?
-      !!readiness_status&.ready?
-    end
-
-    def unready_to_apply?
-      !ready_to_apply?
-    end
-
-    def readiness_given_at
-      readiness_status&.created_at
-    end
-
-    def ready_to_apply!
-      create_readiness_status!(ready: true)
-    end
-  end
 
   # Callbacks
 
