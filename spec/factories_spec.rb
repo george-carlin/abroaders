@@ -136,7 +136,7 @@ describe "factories" do
       let(:traits) { :ineligible }
       it "creates a person who is ineligible to apply for cards" do
         expect{create_person}.to change{Eligibility.count}.by(1)
-        expect(person.eligibility_given?).to be true
+        expect(person.onboarded_eligibility?).to be true
         expect(person).to be_ineligible_to_apply
       end
     end

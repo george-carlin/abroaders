@@ -15,8 +15,8 @@ module Person::EligibleToApply
     eligibility.save! if persisted?
   end
 
-  def eligibility_given?
-    !!eligibility&.persisted?
+  def onboarded_eligibility?
+    eligibility.present?
   end
 
   def eligible_to_apply?

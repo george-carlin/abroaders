@@ -305,7 +305,7 @@ describe "account type select page", :onboarding do
             it "doesn't save any information" do
               expect{click_confirm}.not_to change{account.people.count}
               expect(account.reload.monthly_spending_usd).to be_nil
-              expect(me.reload.eligibility_given?).to be false
+              expect(me.reload.onboarded_eligibility?).to be false
             end
 
             it "shows the form again with an error message" do
@@ -348,7 +348,7 @@ describe "account type select page", :onboarding do
             it "doesn't save any information" do
               expect{click_confirm}.not_to change{account.people.count}
               expect(account.reload.monthly_spending_usd).to be_nil
-              expect(me.reload.eligibility_given?).to be false
+              expect(me.reload.onboarded_eligibility?).to be false
             end
 
             it "shows the form again with an error message" do

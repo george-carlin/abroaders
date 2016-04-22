@@ -10,7 +10,7 @@ describe Person::EligibleToApply do
       end
 
       it "marks the person as eligible to apply" do
-        expect(person.eligibility_given?).to be false
+        expect(person.onboarded_eligibility?).to be false
         person.eligible_to_apply!
         expect(person).to be_eligible_to_apply
       end
@@ -25,7 +25,7 @@ describe Person::EligibleToApply do
       let(:person) { create(:person) }
 
       it "marks the person as eligible to apply" do
-        expect(person.eligibility_given?).to be false
+        expect(person.onboarded_eligibility?).to be false
         person.eligible_to_apply!
         expect(person).to be_eligible_to_apply
       end
@@ -45,7 +45,7 @@ describe Person::EligibleToApply do
       end
 
       it "marks the person as ineligible to apply" do
-        expect(person.eligibility_given?).to be false
+        expect(person.onboarded_eligibility?).to be false
         person.ineligible_to_apply!
         expect(person).to be_ineligible_to_apply
       end
@@ -60,7 +60,7 @@ describe Person::EligibleToApply do
       let(:person) { create(:person) }
 
       it "marks the person as ineligible to apply" do
-        expect(person.eligibility_given?).to be false
+        expect(person.onboarded_eligibility?).to be false
         person.ineligible_to_apply!
         expect(person).to be_ineligible_to_apply
       end
@@ -69,6 +69,18 @@ describe Person::EligibleToApply do
         person.ineligible_to_apply!
         expect(person.eligibility).to be_persisted
       end
+    end
+  end
+
+  describe "#onboarded_eligibility?" do
+    let(:person) { build(:person) }
+    it "returns true iff eligibility is present (persisted or not)" do
+      expect(person.onboarded_eligibility?).to be false
+      person.ineligible_to_apply!
+      expect(person.onboarded_eligibility?).to be true
+      person.save!
+      expect(person.eligibility).to be_persisted
+      expect(person.onboarded_eligibility?).to be true
     end
   end
 
