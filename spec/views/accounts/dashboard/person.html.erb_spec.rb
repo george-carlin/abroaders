@@ -20,6 +20,54 @@ describe "accounts/dashboard/person" do
   end
   subject { rendered }
 
+  shared_examples "balances" do
+    context "and hasn't completed the balances survey" do
+      before { raise if person.onboarded_balances? } # sanity check
+      it "says to do so before cards can be recommended" do
+        is_expected.to have_content \
+          "You have not added any frequent flyer balances for this "\
+          "person. In order to make the best credit card recommendation, "\
+          "we need to know if this person already has any existing "\
+          "frequent flyer balances."
+        is_expected.to have_link "Add balances",
+          href: survey_person_balances_path(person)
+      end
+    end
+
+    context "and has completed the balances survey" do
+      before { person.update_attributes!(onboarded_balances: true) }
+
+      it "doesn't have a link to add balances" do
+        is_expected.not_to have_content \
+          "You have not added any frequent flyer balances for this "\
+          "person. In order to make the best credit card recommendation, "\
+          "we need to know if this person already has any existing "\
+          "frequent flyer balances."
+        is_expected.not_to have_link "Add balances",
+          href: survey_person_balances_path(person)
+      end
+
+      context "but has no balances" do
+        it {
+          is_expected.to have_content "No existing frequent flyer balances"
+        }
+      end
+
+      context "and added some balances" do
+        let!(:currencies) { create_list(:currency, 2) }
+        before do
+          create(:balance, person: person, currency: currencies[0], value: 12_345)
+          create(:balance, person: person, currency: currencies[1], value: 543_543)
+        end
+
+        it "displays info about them" do
+          is_expected.to have_content "#{currencies[0].name}: 12,345"
+          is_expected.to have_content "#{currencies[1].name}: 543,543"
+        end
+      end
+    end
+  end # shared_examples: balances
+
   context "when the account needs to add its first travel plan" do
     let(:onboarded_travel_plans) { false }
     it "has a link to add a travel plan" do
@@ -58,7 +106,7 @@ describe "accounts/dashboard/person" do
       is_expected.to have_content "Ineligible to apply for cards"
     end
 
-    pending "and has/hasn't added balances"
+    include_examples "balances"
   end
 
   context "when the person is eligible to apply for cards" do
@@ -118,50 +166,10 @@ describe "accounts/dashboard/person" do
 
         pending "it displays a summary of the person's card info"
 
-        context "and hasn't completed the balances survey" do
-          before { raise if person.onboarded_balances? } # sanity check
-          it "says to do so before cards can be recommended" do
-            is_expected.to have_content \
-              "You have not added any frequent flyer balances for this "\
-              "person. In order to make the best credit card recommendation, "\
-              "we need to know if this person already has any existing "\
-              "frequent flyer balances."
-            is_expected.to have_link "Add balances",
-                href: survey_person_balances_path(person)
-          end
-        end
+        include_examples "balances"
 
-        context "and has completed the balances survey" do
+        context "and has added balances" do
           before { person.update_attributes!(onboarded_balances: true) }
-
-          it "doesn't have a link to add balances" do
-            is_expected.not_to have_content \
-              "You have not added any frequent flyer balances for this "\
-              "person. In order to make the best credit card recommendation, "\
-              "we need to know if this person already has any existing "\
-              "frequent flyer balances."
-            is_expected.not_to have_link "Add balances",
-                href: survey_person_balances_path(person)
-          end
-
-          context "but has no balances" do
-            it {
-              is_expected.to have_content "No existing frequent flyer balances"
-            }
-          end
-
-          context "and added some balances" do
-            let!(:currencies) { create_list(:currency, 2) }
-            before do
-              create(:balance, person: person, currency: currencies[0], value: 12_345)
-              create(:balance, person: person, currency: currencies[1], value: 543_543)
-            end
-
-            it "displays info about them" do
-              is_expected.to have_content "#{currencies[0].name}: 12,345"
-              is_expected.to have_content "#{currencies[1].name}: 543,543"
-            end
-          end
 
           context "and hasn't said whether or not they're ready to apply" do
             before { raise if person.readiness_given? } # sanity check
