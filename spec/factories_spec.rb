@@ -108,6 +108,8 @@ describe "factories" do
     let(:create_person) { create(:person, *traits) }
     let(:traits) { [] }
 
+    let(:person) { Person.last }
+
     it "creates a person with an account" do
       create_person
       expect(Account.count).to eq 1
@@ -115,14 +117,18 @@ describe "factories" do
     end
 
     it "doesn't set the person's eligibilty" do
-      expect{create_person}.not_to change{Eligibility}
+      expect{create_person}.not_to change{Eligibility.count}
+    end
+
+    it "doesn't create any SpendingInfos" do
+      expect{create_person}.not_to change{SpendingInfo.count}
     end
 
     context "with :eligible trait" do
       let(:traits) { :eligible }
       it "creates a person who is eligible to apply for cards" do
         expect{create_person}.to change{Eligibility.count}.by(1)
-        expect(Person.last).to be_eligible_to_apply
+        expect(person).to be_eligible_to_apply
       end
     end
 
@@ -130,9 +136,22 @@ describe "factories" do
       let(:traits) { :ineligible }
       it "creates a person who is ineligible to apply for cards" do
         expect{create_person}.to change{Eligibility.count}.by(1)
-        person = Person.last
         expect(person.eligibility_given?).to be true
         expect(person).to be_ineligible_to_apply
+      end
+    end
+
+    context "with :with_spending trait" do
+      let(:traits) { :with_spending }
+      it "creates an eligible person with spending info" do
+        create_person
+        expect(Person.count).to eq 1
+        expect(Account.count).to eq 1
+        expect(Eligibility.count).to eq 1
+        expect(SpendingInfo.count).to eq 1
+        expect(person.spending_info).to be_present
+        expect(person.spending_info).to be_persisted
+        expect(person).to be_eligible_to_apply
       end
     end
   end

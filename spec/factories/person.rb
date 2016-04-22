@@ -21,13 +21,14 @@ FactoryGirl.define do
       main false
     end
 
-    # TODO everything below this line needs a serious audit!
-
     trait :with_spending do
+      eligible
       after(:build) do |person|
         person.build_spending_info(attributes_for(:spending_info, person: nil))
       end
     end
+
+    # TODO everything below this line needs a serious audit!
 
     trait :onboarded do
       with_spending_info
