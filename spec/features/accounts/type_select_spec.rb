@@ -3,8 +3,12 @@ require "rails_helper"
 describe "account type select page", :onboarding do
   subject { page }
 
-  let!(:account) { create(:account) }
+  let!(:account) do
+    create(:account, onboarded_travel_plans: onboarded_travel_plans)
+  end
   let!(:me) { account.people.first }
+
+  let(:onboarded_travel_plans) { true }
 
   before do
     login_as_account(account)
@@ -34,6 +38,13 @@ describe "account type select page", :onboarding do
     is_expected.to have_button solo_btn
     is_expected.to have_button partner_btn
     is_expected.to have_field :partner_account_partner_first_name
+  end
+
+  context "when I have not added my first travel plan yet" do
+    let(:onboarded_travel_plans) { false }
+    it "redirects me to the travel plan form" do
+      expect(current_path).to eq new_travel_plan_path
+    end
   end
 
   context "when I have already chosen an account type" do

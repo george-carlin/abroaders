@@ -1,4 +1,5 @@
 class AccountsController < NonAdminController
+  before_action :redirect_if_not_onboarded_travel_plans!
   before_action :redirect_if_type_already_given!
 
   def type
@@ -37,6 +38,12 @@ class AccountsController < NonAdminController
   end
 
   private
+
+  def redirect_if_not_onboarded_travel_plans!
+    if !current_account.onboarded_travel_plans?
+      redirect_to new_travel_plan_path
+    end
+  end
 
   def redirect_if_type_already_given!
     if current_account.onboarded_type?
