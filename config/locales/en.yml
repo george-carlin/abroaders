@@ -32,7 +32,7 @@ en:
       travel_plan:
         types:
           single: "One way"
-          return: "Return"
+          return: "Round trip"
 
   accounts:
     type:
