@@ -2,7 +2,11 @@ require "rails_helper"
 
 describe "travel plans" do
 
-  let(:account) { create(:account) }
+  let(:onboarded_travel_plans) { false }
+  let(:account) do
+    create(:account, onboarded_travel_plans: onboarded_travel_plans)
+  end
+
   let!(:me) { account.people.first }
 
   subject { page }
@@ -82,10 +86,9 @@ describe "travel plans" do
     describe "filling in the form" do
       context "with valid information" do
         let(:date) { 5.months.from_now.to_date }
-        let(:first_travel_plan) { true }
         let(:further_info) { "Something" }
         before do
-          create(:travel_plan, account: account) unless first_travel_plan
+          create(:travel_plan, account: account)
           select "United States", from: :travel_plan_from_id
           select "Vietnam",       from: :travel_plan_to_id
           # Don't test the JS datepicker for now
@@ -138,16 +141,25 @@ describe "travel plans" do
         describe "after submit" do
           before { submit_form }
 
-          context "if this is my first ever travel plan" do
+          context "if I'm not already marked as 'onboarded travel plans'" do
+            let(:onboarded_travel_plans) { false }
             it "takes me to account type select page" do
               expect(current_path).to eq type_account_path
+            end
+
+            it "marks my account as 'onboarded travel plans'" do
+              expect(account.reload).to be_onboarded_travel_plans
             end
           end
 
           context "if this is not my first ever travel plan", onboarding: false do
-            let(:first_travel_plan) { false }
+            let(:onboarded_travel_plans) { true }
             it "takes me to the travel plans index" do
               expect(current_path).to eq travel_plans_path
+            end
+
+            it "keeps my account marked as 'onboarded travel plans'" do
+              expect(account.reload).to be_onboarded_travel_plans
             end
           end
         end

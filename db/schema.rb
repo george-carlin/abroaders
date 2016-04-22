@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160419151437) do
+ActiveRecord::Schema.define(version: 20160422160958) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 20160419151437) do
     t.datetime "updated_at",                             null: false
     t.integer  "monthly_spending_usd"
     t.boolean  "onboarded_type",         default: false, null: false
+    t.boolean  "onboarded_travel_plans", default: false, null: false
   end
 
   add_index "accounts", ["email"], name: "index_accounts_on_email", unique: true, using: :btree

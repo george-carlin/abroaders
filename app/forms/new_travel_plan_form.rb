@@ -28,6 +28,9 @@ class NewTravelPlanForm < TravelPlanForm
       acceptable_classes << :first_class     if will_accept_first_class?
       plan.acceptable_classes = acceptable_classes
       plan.save!
+      unless @account.onboarded_travel_plans?
+        @account.update_attributes!(onboarded_travel_plans: true)
+      end
     end
   end
 end
