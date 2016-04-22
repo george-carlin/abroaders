@@ -46,10 +46,10 @@
 
   <div class="col-xs-12">
     <hr>
-    <% if @person.readiness_status_given? %>
+    <% if @person.readiness_given? %>
       <p>
         This person indicated on
-        <%= @person.readiness_status_given_at.strftime("%D") %> that they are
+        <%= @person.readiness_given_at.strftime("%D") %> that they are
         <%= "not" if @person.unready_to_apply? %> ready to apply for cards.
       </p>
 

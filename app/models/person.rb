@@ -59,7 +59,7 @@ class Person < ApplicationRecord
       delegate :unreadiness_reason, to: :readiness_status, allow_nil: true
     end
 
-    def readiness_status_given?
+    def readiness_given?
       !!readiness_status&.persisted?
     end
 
@@ -71,7 +71,7 @@ class Person < ApplicationRecord
       !ready_to_apply?
     end
 
-    def readiness_status_given_at
+    def readiness_given_at
       readiness_status&.created_at
     end
 

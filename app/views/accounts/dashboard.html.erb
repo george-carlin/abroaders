@@ -107,7 +107,7 @@
 
         <hr>
 
-        <% if person.readiness_status_given? %>
+        <% if person.readiness_given? %>
           <p>
             You indicated on <%= person.readiness_status.created_at.strftime("%D") %>
             that <%= person.first_name %> is <%= "not" if person.unready_to_apply? %>
