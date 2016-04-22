@@ -3,7 +3,14 @@ FactoryGirl.define do
     association(:account, factory: :account, with_person: false)
     first_name { Faker::Name.first_name }
 
-    # TODO everything below this line needs a serious audit!
+    trait :eligible do
+      after(:build) { |person| person.eligible_to_apply! }
+    end
+
+    trait :ineligible do
+      after(:build) { |person| person.ineligible_to_apply! }
+    end
+
     main true
 
     trait :main do
@@ -13,6 +20,8 @@ FactoryGirl.define do
     trait :companion do
       main false
     end
+
+    # TODO everything below this line needs a serious audit!
 
     trait :with_spending do
       after(:build) do |person|

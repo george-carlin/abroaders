@@ -1,4 +1,5 @@
 class Person < ApplicationRecord
+  include EligibleToApply
 
   # Attributes
 
@@ -76,32 +77,6 @@ class Person < ApplicationRecord
 
     def ready_to_apply!
       create_readiness_status!(ready: true)
-    end
-  end
-
-  concerning :EligibleToApply do
-    included do
-      has_one :eligibility
-    end
-
-    def eligible_to_apply!
-      create_eligibility!(eligible: true)
-    end
-
-    def ineligible_to_apply!
-      create_eligibility!(eligible: false)
-    end
-
-    def eligibility_given?
-      !!eligibility&.persisted?
-    end
-
-    def eligible_to_apply?
-      !!eligibility&.eligible?
-    end
-
-    def ineligible_to_apply?
-      !eligible_to_apply?
     end
   end
 

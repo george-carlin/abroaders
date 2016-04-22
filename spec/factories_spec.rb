@@ -105,10 +105,35 @@ describe "factories" do
 
 
   describe "person factory" do
+    let(:create_person) { create(:person, *traits) }
+    let(:traits) { [] }
+
     it "creates a person with an account" do
-      create(:person)
+      create_person
       expect(Account.count).to eq 1
       expect(Person.count).to eq 1
+    end
+
+    it "doesn't set the person's eligibilty" do
+      expect{create_person}.not_to change{Eligibility}
+    end
+
+    context "with :eligible trait" do
+      let(:traits) { :eligible }
+      it "creates a person who is eligible to apply for cards" do
+        expect{create_person}.to change{Eligibility.count}.by(1)
+        expect(Person.last).to be_eligible_to_apply
+      end
+    end
+
+    context "with :ineligible trait" do
+      let(:traits) { :ineligible }
+      it "creates a person who is ineligible to apply for cards" do
+        expect{create_person}.to change{Eligibility.count}.by(1)
+        person = Person.last
+        expect(person.eligibility_given?).to be true
+        expect(person).to be_ineligible_to_apply
+      end
     end
   end
 end
