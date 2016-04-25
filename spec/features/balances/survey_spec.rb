@@ -3,10 +3,17 @@ require "rails_helper"
 describe "the balance survey page", :onboarding do
   subject { page }
 
-  let!(:account) { create(:account, onboarded_type: onboarded_type) }
+  let!(:account) do
+    create(
+      :account,
+      :onboarded_travel_plans => onboarded_travel_plans,
+      :onboarded_type         => onboarded_type,
+    )
+  end
   let!(:me) { account.people.find_by(main: true) }
 
   let!(:onboarded_type) { true }
+  let!(:onboarded_travel_plans) { true }
 
   before do
     me.update_attributes!(onboarded_balances: onboarded)
@@ -35,6 +42,13 @@ describe "the balance survey page", :onboarding do
   end
 
   let(:onboarded) { false }
+
+  context "when I haven't completed the travel plans survey" do
+    let(:onboarded_travel_plans) { false }
+    it "redirects me to the travel plan survey" do
+      expect(current_path).to eq new_travel_plan_path
+    end
+  end
 
   context "when I haven't chosen an account type" do
     let(:onboarded_type) { false }

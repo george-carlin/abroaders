@@ -3,7 +3,13 @@ require "rails_helper"
 describe "the spending info survey", :onboarding do
   subject { page }
 
-  let!(:account) { create(:account, onboarded_type: onboarded_type) }
+  let!(:account) do
+    create(
+      :account,
+      :onboarded_travel_plans => onboarded_travel_plans,
+      :onboarded_type         => onboarded_type,
+    )
+  end
   let!(:me) { account.people.first }
 
   before do
@@ -15,7 +21,8 @@ describe "the spending info survey", :onboarding do
 
   let(:already_added)  { false }
   let(:onboarded_type) { true }
-  let(:eligible)       { true }
+  let(:onboarded_travel_plans) { true }
+  let(:eligible) { true }
 
   let(:submit_form) { click_button "Save" }
 
@@ -39,6 +46,13 @@ describe "the spending info survey", :onboarding do
     let(:onboarded_type) { false }
     it "redirects me to the accounts type survey" do
       expect(current_path).to eq type_account_path
+    end
+  end
+
+  context "when I haven't completed the travel plans survey" do
+    let(:onboarded_travel_plans) { false }
+    it "redirects me to the travel plan survey" do
+      expect(current_path).to eq new_travel_plan_path
     end
   end
 

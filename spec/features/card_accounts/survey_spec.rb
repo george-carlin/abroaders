@@ -3,7 +3,13 @@ require "rails_helper"
 describe "card accounts survey", :onboarding do
   subject { page }
 
-  let!(:account) { create(:account, onboarded_type: onboarded_type) }
+  let!(:account) do
+    create(
+      :account,
+      :onboarded_travel_plans => onboarded_travel_plans,
+      :onboarded_type         => onboarded_type,
+    )
+  end
   let!(:me) { account.people.first }
 
   before do
@@ -33,6 +39,7 @@ describe "card accounts survey", :onboarding do
   let(:onboarded_cards)    { false }
   let(:onboarded_spending) { true }
   let(:onboarded_type)     { true }
+  let(:onboarded_travel_plans) { true }
 
   let(:submit_form) { click_button "Save" }
 
@@ -69,6 +76,13 @@ describe "card accounts survey", :onboarding do
     it "marks me as having completed the cards survey" do
       submit_form
       expect(me.reload.onboarded_cards?).to be true
+    end
+  end
+
+  context "when I haven't completed the travel plans survey" do
+    let(:onboarded_travel_plans) { false }
+    it "redirects me to the travel plan survey" do
+      expect(current_path).to eq new_travel_plan_path
     end
   end
 

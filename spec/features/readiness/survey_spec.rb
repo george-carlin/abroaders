@@ -3,7 +3,13 @@ require "rails_helper"
 describe "the 'are you ready to apply?' survey page", :js, :onboarding do
   subject { page }
 
-  let!(:account) { create(:account, onboarded_type: onboarded_type) }
+  let!(:account) do
+    create(
+      :account,
+      :onboarded_travel_plans  => onboarded_travel_plans,
+      :onboarded_type          => onboarded_type,
+    )
+  end
   let!(:me) { account.people.first }
 
   before do
@@ -17,6 +23,7 @@ describe "the 'are you ready to apply?' survey page", :js, :onboarding do
   end
 
   let(:eligible)       { true }
+  let(:onboarded_travel_plans) { true }
   let(:onboarded_type) { true }
   let(:already_ready)  { false }
 
@@ -31,6 +38,13 @@ describe "the 'are you ready to apply?' survey page", :js, :onboarding do
     let(:eligible) { false }
     it "redirects to the dashboard" do
       expect(current_path).to eq root_path
+    end
+  end
+
+  context "when I haven't completed the travel plans survey" do
+    let(:onboarded_travel_plans) { false }
+    it "redirects me to the travel plan survey" do
+      expect(current_path).to eq new_travel_plan_path
     end
   end
 
