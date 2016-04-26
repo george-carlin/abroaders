@@ -50,6 +50,8 @@ describe "travel plans" do
 
     it_behaves_like "a travel plan form"
 
+    it { is_expected.to have_title full_title("Add a Travel Plan") }
+
     it "lists countries in the 'from/to' dropdowns" do
       from_options = all("#travel_plan_from_id > option")
       to_options   = all("#travel_plan_to_id   > option")
@@ -183,6 +185,8 @@ describe "travel plans" do
     before { visit edit_travel_plan_path(travel_plan) }
 
     it_behaves_like "a travel plan form"
+
+    it { is_expected.to have_title full_title("Edit Travel Plan") }
 
     it "lists countries in the 'from/to' dropdowns" do
       from_options = all("#travel_plan_from_id > option")

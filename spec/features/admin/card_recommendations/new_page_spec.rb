@@ -5,7 +5,6 @@ describe "admin section" do
   subject { page }
 
   describe "person recommend card page" do
-    subject { page }
 
     let(:chase)   { Bank.find_by(name: "Chase")   }
     let(:us_bank) { Bank.find_by(name: "US Bank") }
@@ -54,6 +53,11 @@ describe "admin section" do
 
     def recommendable_card_selector(card)
       "##{dom_id(card, :admin_recommend)}"
+    end
+
+    it do
+      title = "#{@person.first_name} - Recommend Card"
+      is_expected.to have_title full_title(title)
     end
 
     context "for a person who has not been fully onboarded" do

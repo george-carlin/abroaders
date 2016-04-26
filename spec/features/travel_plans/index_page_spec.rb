@@ -39,6 +39,8 @@ describe "travel plans index page" do
     visit travel_plans_path
   end
 
+  it { is_expected.to have_title full_title("Travel Plans") }
+
   it "lists my travel plans" do
     is_expected.to have_selector "##{dom_id(@tp_single)}"
     is_expected.to have_selector "##{dom_id(@tp_return)}"

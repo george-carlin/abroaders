@@ -20,6 +20,8 @@ describe "admin section" do
 
     let(:onboarded_accounts) { @accounts.slice(0,3) }
 
+    it { is_expected.to have_title full_title("Accounts") }
+
     it "lists every account" do
       within "#admin_accounts_table" do
         @accounts.each do |account|

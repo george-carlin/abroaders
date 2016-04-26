@@ -34,6 +34,8 @@ describe "account type select page", :onboarding do
     end
   end
 
+  it { is_expected.to have_title full_title("Select Account Type") }
+
   it "gives me the option to choose a 'Solo' or 'Partner' account" do
     is_expected.to have_button solo_btn
     is_expected.to have_button partner_btn

@@ -36,6 +36,8 @@ describe "admin pages" do
 
     let(:cards) { [ @survey_card, @non_survey_card ] }
 
+    it { is_expected.to have_title full_title("Cards") }
+
     it "lists all cards" do
       expect(page).to have_selector card_selector(@survey_card)
       expect(page).to have_selector card_selector(@non_survey_card)

@@ -2,6 +2,7 @@ require "rails_helper"
 
 describe "admin section" do
   include_context "logged in as admin"
+  subject { page }
 
   describe "card offers pages" do
     describe "new page" do
@@ -29,6 +30,8 @@ describe "admin section" do
       end
 
       let(:submit) { click_button t("admin.card_offers.submit") }
+
+      it { is_expected.to have_title full_title("New Card Offer") }
 
       describe "submitting the form with valid information" do
         before do

@@ -35,6 +35,8 @@ describe "admin section" do
     let(:extra_setup) { nil }
     let(:recommend_link_text) { "Recommend a card" }
 
+    it { is_expected.to have_title full_title(@person.first_name) }
+
     shared_examples "does not have recommend or assign links" do
       it "does not have links to recommend or assign a card" do
         is_expected.to have_no_link recommend_link_text,

@@ -43,6 +43,8 @@ describe "the balance survey page", :onboarding do
 
   let(:onboarded) { false }
 
+  it { is_expected.to have_title full_title("Balances") }
+
   context "when I haven't completed the travel plans survey" do
     let(:onboarded_travel_plans) { false }
     it "redirects me to the travel plan survey" do
