@@ -12,6 +12,8 @@
  *
  *= require bootstrap
  *= require homer
+ *= require pe-icon-7-stroke
+ *= require helper
  *= require bootstrap-datepicker3
  *= require font-awesome
  *= require_tree .
