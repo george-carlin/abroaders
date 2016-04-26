@@ -1,24 +1,23 @@
 <%= render "shared/model_validation_errors", model: travel_plan %>
+<div class="panel-body">
+  <%= form_for travel_plan, html: { class: "row" } do |f| %>
 
-<%= form_for travel_plan do |f| %>
+    <div class="form-inline col-xs-12 form-group">
+      <% travel_plan.class.types.each do |type, _| %>
+        <div class="form-group">
+          <label>
+            <%= t("activerecord.attributes.travel_plan.types.#{type}") %>
+            &nbsp;
+            <%= f.radio_button(
+              :type,
+              type,
+              checked: type == f.object.type
+            ) %>
+          </label>
+        </div>
+      <% end %>
+    </div>
 
-  <div class="form-inline">
-    <% travel_plan.class.types.each do |type, _| %>
-      <div class="form-group">
-        <label>
-          <%= t("activerecord.attributes.travel_plan.types.#{type}") %>
-          &nbsp;
-          <%= f.radio_button(
-            :type,
-            type,
-            checked: type == f.object.type
-          ) %>
-        </label>
-      </div>
-    <% end %>
-  </div>
-
-  <div class="row">
     <div class="form-group col-xs-12 col-md-6">
       <%= f.label :from %>
       <%= f.collection_select(
@@ -40,9 +39,7 @@
         prompt: "Select a destination country"
       ) %>
     </div>
-  </div>
 
-  <div class="row">
     <div class="form-group col-xs-12 col-md-6">
       <%= f.label        :no_of_passengers, "# of passengers" %>
       <%= f.number_field :no_of_passengers,
@@ -52,14 +49,12 @@
     <div class="form-group col-xs-12 col-md-6">
       <%= f.label :earliest_departure, "Departure date" %>
       <%= f.text_field :earliest_departure %>
-      <p class="help-block">
+      <p class="help-block small">
         If you don’t yet know exactly when you want to fly, please input the
         <i>earliest</i> possible date which it might be.
       </p>
     </div>
-  </div>
 
-  <div class="row">
     <div class="col-xs-12 col-md-6">
       <label>What class(es) of service would you consider for this trip?</label>
 
@@ -103,8 +98,9 @@
         <span id="travel_plan_further_information_counter"></span>
       </div>
     </div>
-  </div>
 
-  <%= f.submit "Save", class: "btn-primary" %>
-
-<% end %>
+    <div class="col-xs-12">
+      <%= f.submit "Save", class: "btn-primary" %>
+    </div>
+  <% end %>
+</div><!-- .panel-body -->

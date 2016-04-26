@@ -2,6 +2,8 @@ module AdminArea
   class SessionsController < Devise::SessionsController
     before_action :redirect_non_admins!
 
+    layout "basic"
+
     private
 
     def redirect_non_admins!

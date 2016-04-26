@@ -1,10 +1,18 @@
 <% provide :title, "Add a Travel Plan" %>
 
-<h1>Add a Travel Plan</h1>
+<div class="hpanel">
+  <div class="panel-heading hbuilt">
+    <div class="row">
+      <div class="col-xs-12">
+        <h2>Add a Travel Plan</h2>
 
-<p>
-  Where do you want to go, and when? Let us know your travel plans and
-  we'll help you get a great deal on the flight.
-</p>
+        <p>
+          Where do you want to go, and when? Let us know your travel plans and
+          we'll help you get a great deal on the flight.
+        </p>
+      </div>
+    </div><!-- .row -->
+  </div>
 
-<%= render "travel_plans/form", travel_plan: @travel_plan %>
+  <%= render "travel_plans/form", travel_plan: @travel_plan %>
+</div>

@@ -1,0 +1,16 @@
+.navbar-nav > li > a.text {
+  font-size: 13px;
+}
+
+.login-container {
+  padding-top: 30px;
+}
+
+.footer {
+  position: fixed;
+}
+
+// Hacky solution to prevent the footer from overallping any real content:
+.footer-spacer {
+  height: 39px;
+}

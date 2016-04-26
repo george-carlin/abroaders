@@ -1,39 +1,52 @@
 <% provide :title, resource_name == :admin ? "Admin Sign In" : "Sign In" %>
 
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h4>Sign in<%= " as admin" if resource_name == :admin %></h4>
+<div class="login-container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="text-center m-b-md">
+        <h4>SIGN IN<%= " AS ADMIN" if resource_name == :admin %></h4>
+      </div>
+      <div class="hpanel">
+        <div class="panel-body">
+          <%= form_for(
+            resource,
+            as: resource_name,
+            url: session_path(resource_name),
+            html: { role: "form" }
+          ) do |f| %>
+            <div class="form-group">
+              <%= f.label :email, class: "control-label" %>
+              <%= f.email_field :email, autofocus: true %>
+            </div>
+
+            <div class="form-group">
+              <%= f.label :password %>
+              <%= f.password_field :password, autocomplete: "off", placeholder: "******" %>
+            </div>
+
+            <div class="checkbox">
+              <label>
+                <%= f.check_box :remember_me %>
+                <%= f.label :remember_me %>
+              </label>
+            </div>
+            <%= f.submit "Sign in", class: "btn btn-success btn-block" %>
+            <%= link_to(
+              "Register",
+              new_account_registration_path,
+              class: "btn btn-default btn-block"
+            ) %>
+          <% end %>
+
+          <br>
+          <%= link_to "Forgot your password?", new_password_path(resource_name) %>
+        </div><!-- .panel-body -->
+      </div><!-- .hpanel -->
+    </div><!-- .text-center -->
   </div>
-
-  <div class="panel-body">
-    <%= form_for(
-      resource,
-      as: resource_name,
-      url: session_path(resource_name),
-      html: { role: "form" }
-    ) do |f| %>
-      <div class="form-group">
-        <%= f.label :email %>
-        <%= f.email_field :email, autofocus: true %>
-      </div>
-
-      <div class="form-group">
-        <%= f.label :password %>
-        <%= f.password_field :password, autocomplete: "off" %>
-      </div>
-
-      <div class="checkbox">
-        <label>
-          <%= f.check_box :remember_me %>
-          <%= f.label :remember_me %>
-        </label>
-      </div>
-
-      <%= f.submit(
-        t('.sign_in', default: "Sign in"),
-        class: "btn btn-primary"
-      ) %>
-    <% end %>
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <br/> © <%= Date.today.year %> Abroaders
+    </div>
   </div>
 </div>
-<%= render "devise/shared/links" %>
