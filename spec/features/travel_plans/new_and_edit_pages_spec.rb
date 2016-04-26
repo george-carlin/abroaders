@@ -3,6 +3,7 @@ require "rails_helper"
 describe "travel plans" do
 
   let(:onboarded_travel_plans) { false }
+  let(:fully_onboarded) { false }
   let(:account) do
     create(:account, onboarded_travel_plans: onboarded_travel_plans)
   end
@@ -22,6 +23,15 @@ describe "travel plans" do
       @tl = create(:country, name: "Thailand",       parent: @as),
       @fr = create(:country, name: "France",         parent: @eu),
     ]
+    if fully_onboarded
+      account.update_attributes!(onboarded_type: true)
+      create(:spending_info, person: account.people.first)
+      account.people.first.update_attributes!(
+        onboarded_balances: true,
+        onboarded_cards:    true,
+      )
+      account.people.first.ready_to_apply! # TODO this line will need changing soon:
+    end
     login_as(account)
   end
 
@@ -47,6 +57,25 @@ describe "travel plans" do
 
   describe "new page", :onboarding do
     before { visit new_travel_plan_path }
+
+    context "when I have already onboarded my first travel plan" do
+      let(:onboarded_travel_plans) { true }
+      context "but have not completed the rest of the onboarding process" do
+        let(:fully_onboarded) { false }
+        it "doesn't allow access" do
+          raise if account.onboarded? # sanity check
+          expect(current_path).not_to eq new_travel_plan_path
+        end
+      end
+
+      context "and have completed the rest of the onboarding process" do
+        let(:fully_onboarded) { true }
+        it "allows access" do
+          raise unless account.onboarded? # sanity check
+          expect(current_path).to eq new_travel_plan_path
+        end
+      end
+    end
 
     it_behaves_like "a travel plan form"
 
@@ -156,6 +185,7 @@ describe "travel plans" do
 
           context "if this is not my first ever travel plan", onboarding: false do
             let(:onboarded_travel_plans) { true }
+            let(:fully_onboarded) { true }
             it "takes me to the travel plans index" do
               expect(current_path).to eq travel_plans_path
             end
