@@ -37,13 +37,14 @@ describe "admin section" do
           business_spending_usd: 1500
         )
         @person.update_attributes!(onboarded_cards: true, onboarded_balances: true)
-        @person.ready_to_apply!
+        @person.ready_to_apply! if ready_to_apply
       end
       extra_setup
       visit new_admin_person_card_recommendation_path(@person)
     end
 
     let(:onboarded) { true }
+    let(:ready_to_apply) { true }
     let(:extra_setup) { nil }
 
     def have_recommendable_card(card)
@@ -58,10 +59,20 @@ describe "admin section" do
 
     it { is_expected.to have_title full_title "#{name} - Recommend Card" }
 
-    context "for a person who has not been fully onboarded" do
+    context "for a person who has not completed the onboarding survey" do
       let(:onboarded) { false }
       it "redirects back to the person show page" do
         expect(current_path).to eq admin_person_path(@person)
+      end
+    end
+
+    context "for a person who has completed the onboarding survey" do
+      let(:onboarded) { true }
+      context "but is not ready to apply" do
+        let(:ready_to_apply) { false }
+        it "redirects back to the person show page" do
+          expect(current_path).to eq admin_person_path(@person)
+        end
       end
     end
 
