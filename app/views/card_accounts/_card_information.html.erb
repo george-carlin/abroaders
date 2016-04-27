@@ -7,7 +7,7 @@
     <b>Card Name:</b>
     <span class="card-account-bank">
       <%= card_account.card_name %>
-      (<%= card_account.card_network.capitalize %>)
+      (<%= I18n.t("activerecord.attributes.card.networks.#{card_account.card_network}") %>)
     </span>
   </p>
 
