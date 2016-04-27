@@ -2,6 +2,9 @@ class SpendingInfo < ActiveRecord::Base
 
   # Attributes
 
+  delegate :has_companion?, to: :account, prefix: true
+  delegate :monthly_spending_usd, to: :account
+
   # Don't use 'no' as a value because it messes up i18n.t
   enum has_business: [ :no_business, :with_ein, :without_ein ]
 

@@ -6,14 +6,17 @@ describe "accounts/dashboard/person" do
   let(:account) { person.account }
 
   before do
-    account.update_attributes!(
-      onboarded_travel_plans: onboarded_travel_plans,
-      onboarded_type:         onboarded_type
-    )
+    account.onboarded_travel_plans = onboarded_travel_plans
+    account.onboarded_type         = onboarded_type
+    account.monthly_spending_usd   = 1500 if onboarded_type
+    account.save!
+
+    create(:person, account: account, main: false) if partner_account
   end
 
   let(:onboarded_travel_plans) { true }
   let(:onboarded_type) { true }
+  let(:partner_account) { false }
 
   let(:rendered) do
     render partial: "accounts/dashboard/person", locals: { person: person }
@@ -125,8 +128,6 @@ describe "accounts/dashboard/person" do
       end
     end
 
-    pending "shows shared spending"
-
     context "and has completed the spending survey" do
       before do
         person.create_spending_info!(
@@ -141,6 +142,20 @@ describe "accounts/dashboard/person" do
         is_expected.to have_content "Credit score: 456"
         is_expected.to have_content "Business spending: $1,234.00 (Does not have EIN)"
         is_expected.to have_content "Will apply for loan in next 6 months: Yes"
+      end
+
+      context "when the account is a Solo Account" do
+        let(:partner_account) { false }
+        it "displays the 'personal spending'" do
+          is_expected.to have_content "Personal spending: $1,500.00/month"
+        end
+      end
+
+      context "when the account is a Partner Account" do
+        let(:partner_account) { true }
+        it "displays the 'shared spending'" do
+          is_expected.to have_content "Shared spending: $1,500.00/month"
+        end
       end
 
       pending do
