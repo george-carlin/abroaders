@@ -32,7 +32,7 @@ describe "accounts/dashboard/person" do
           "person. In order to make the best credit card recommendation, "\
           "we need to know if this person already has any existing "\
           "frequent flyer balances."
-        is_expected.to have_link "Add balances",
+        is_expected.to have_link add_balances,
           href: survey_person_balances_path(person)
       end
     end
@@ -46,7 +46,7 @@ describe "accounts/dashboard/person" do
           "person. In order to make the best credit card recommendation, "\
           "we need to know if this person already has any existing "\
           "frequent flyer balances."
-        is_expected.not_to have_link "Add balances",
+        is_expected.not_to have_link add_balances,
           href: survey_person_balances_path(person)
       end
 
@@ -71,17 +71,33 @@ describe "accounts/dashboard/person" do
     end
   end # shared_examples: balances
 
+  let(:add_travel_plan)  { "Add your first travel plan" }
+  let(:choose_type)      { "Choose account type" }
+  let(:add_spending)     { "Add financial information" }
+  let(:add_cards)        { "Add existing cards" }
+  let(:add_balances)     { "Add balances" }
+  let(:update_readiness) { "Update readiness status" }
+
   context "when the account needs to add its first travel plan" do
     let(:onboarded_travel_plans) { false }
+    let(:onboarded_type) { false }
     it "has a link to add a travel plan" do
       is_expected.to have_link "Add your first travel plan", href: new_travel_plan_path
+    end
+
+    it "doesn't have links to other parts of the survey" do
+      is_expected.not_to have_link choose_type
+      is_expected.not_to have_link add_spending
+      is_expected.not_to have_link add_cards
+      is_expected.not_to have_link add_balances
+      is_expected.not_to have_link update_readiness
     end
   end
 
   context "when the account has added its first travel plan" do
     before { raise unless account.onboarded_travel_plans? } # sanity check
     it "doesn't have a link to add a travel plan" do
-      is_expected.not_to have_link "Add your first travel plan"
+      is_expected.not_to have_link add_travel_plan
     end
   end
 
@@ -90,14 +106,14 @@ describe "accounts/dashboard/person" do
   context "when the account needs to select its type" do
     let(:onboarded_type) { false }
     it "has a link to choose the type" do
-      is_expected.to have_link "Choose account type", href: type_account_path
+      is_expected.to have_link choose_type, href: type_account_path
     end
   end
 
   context "when the account has selected its type" do
     before { raise unless account.onboarded_type? } # sanity check
     it "doesn't have a link to choose the type" do
-      is_expected.not_to have_link "Choose account type"
+      is_expected.not_to have_link choose_type
     end
   end
 
@@ -123,7 +139,7 @@ describe "accounts/dashboard/person" do
       it "says to do so before cards can be recommended" do
         is_expected.to have_content \
           "You have not added this person's financial details"
-        is_expected.to have_link "Add financial information",
+        is_expected.to have_link add_spending,
             href: new_person_spending_info_path(person)
       end
     end
@@ -168,7 +184,7 @@ describe "accounts/dashboard/person" do
           is_expected.to have_content \
             "Before we can recommend any credit cards to this person, "\
             "we need to know which cards they already have."
-          is_expected.to have_link "Add existing cards",
+          is_expected.to have_link add_cards,
               href: survey_person_card_accounts_path(person)
         end
       end
@@ -189,7 +205,7 @@ describe "accounts/dashboard/person" do
           context "and hasn't said whether or not they're ready to apply" do
             before { raise if person.readiness_given? } # sanity check
             it "has a link to say when they're ready" do
-              is_expected.to have_link "Update readiness status",
+              is_expected.to have_link update_readiness,
                 href: new_person_readiness_status_path(person)
             end
           end
@@ -197,7 +213,7 @@ describe "accounts/dashboard/person" do
           context "and has said that they're not ready to apply" do
             before { person.unready_to_apply! }
             it "has a link to say when they're ready" do
-              is_expected.to have_link "Update readiness status",
+              is_expected.to have_link update_readiness,
                 href: new_person_readiness_status_path(person)
             end
           end
@@ -205,7 +221,7 @@ describe "accounts/dashboard/person" do
           context "and has said that they're ready to apply" do
             before { person.ready_to_apply! }
             it "doesn't have a link to say they're ready" do
-              is_expected.not_to have_link "Update readiness status"
+              is_expected.not_to have_link update_readiness
             end
           end
         end
