@@ -77,7 +77,10 @@ describe "the balance survey page", :onboarding do
 
   it { is_expected.to have_field :balances_survey_award_wallet_email }
 
-  describe "submitting the form" do
+  # Technically these tests don't need to be JS... but for reasons I can't
+  # fathom, they fail if they're not JS (they started failing when we switched
+  # to the Homer there; no idea why)
+  describe "submitting the form", :js do
     before do
       if i_am_eligible_to_apply
         me.eligible_to_apply!

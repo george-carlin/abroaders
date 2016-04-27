@@ -8,11 +8,11 @@ $darkBlue: #34495e;
   padding-top: 30px;
 }
 
-.footer {
+footer.footer {
   position: fixed;
 }
 
-// Hacky solution to prevent the footer from overallping any real content:
+// Hacky solution to prevent the footer from overlapping any real content:
 .footer-spacer {
   height: 39px;
 }
@@ -35,10 +35,6 @@ $darkBlue: #34495e;
   input {
     border-color: #d9534f;
   }
-}
-
-footer.footer {
-  z-index: 1000;
 }
 
 // SURVEY //

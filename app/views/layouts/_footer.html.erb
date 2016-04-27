@@ -1,7 +1,12 @@
-<footer class="footer">
-  <span class="pull-right">
-    <!-- Example text -->
-  </span>
-  Abroaders <%= Date.today.year %>
-</footer>
-<div class="footer-spacer"></div>
+<%# The fixed position footer messes up the tests because Capybara/Poltergeist %>
+<%# sometimes tries to click on the footer instead of the button/link whatever %>
+<%# hidden beneath the footer. So don't show it in tests: %>
+<% unless Rails.env.test? %>
+  <footer class="footer">
+    <span class="pull-right">
+      <!-- Example text -->
+    </span>
+    Abroaders <%= Date.today.year %>
+  </footer>
+  <div class="footer-spacer"></div>
+<% end %>
