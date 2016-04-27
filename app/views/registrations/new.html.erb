@@ -1,17 +1,5 @@
 <% provide :title, "Sign Up" %>
 
-<% if @form.errors.any? %>
-  <%= render "shared/error_message" do %>
-    Couldn't create an account:
-
-    <ul>
-      <% @form.errors.full_messages.each do |error| %>
-        <li><%= error %></li>
-      <% end %>
-    </ul>
-  <% end  %>
-<% end %>
-
 <div class="login-container">
   <div class="row">
 
@@ -21,6 +9,18 @@
       </div>
 
       <div class="hpanel">
+        <% if @form.errors.any? %>
+          <%= render "shared/error_message" do %>
+            Couldn't create an account:
+
+            <ul>
+              <% @form.errors.full_messages.each do |error| %>
+                <li><%= error %></li>
+              <% end %>
+            </ul>
+          <% end  %>
+        <% end %>
+
         <div class="panel-body">
           <%= form_for(
             @form,

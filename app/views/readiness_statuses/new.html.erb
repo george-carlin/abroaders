@@ -2,51 +2,56 @@
 
 <div class="row">
   <div class="col-xs-12 col-md-8 col-md-offset-2">
-    <h1>Is <%= @person.first_name %> ready to apply for cards now?</h1>
+    <div class="hpanel">
+      <div class="panel-heading hbuilt">
+        <h1>Is <%= @person.first_name %> ready to apply for cards now?</h1>
 
-    <p>
-      Banks and credit card companies are constantly changing their
-      offers, and sometimes great deals will disappear without prior
-      notice. When we recommend a credit card to you, it's important that
-      you're willing and able to apply for the card as soon as possible.
-    </p>
+        <p>
+          Banks and credit card companies are constantly changing their
+          offers, and sometimes great deals will disappear without prior
+          notice. When we recommend a credit card to you, it's important that
+          you're willing and able to apply for the card as soon as possible.
+        </p>
 
-    <p>
-      If <%= @person.first_name %> is able to apply for the card within the
-      next few days, click "Yes" below and we'll get working on the card
-      recommendation immediately. If, for whatever reason, he/she isn't ready
-      right now, click "No" below and we'll ask again in a week.
-    </p>
+        <p>
+          If <%= @person.first_name %> is able to apply for the card within the
+          next few days, click "Yes" below and we'll get working on the card
+          recommendation immediately. If, for whatever reason, he/she isn't ready
+          right now, click "No" below and we'll ask again in a week.
+        </p>
+      </div><!-- .panel-heading -->
 
-    <%= form_for [@person, @status], url: person_readiness_status_path(@person) do |f| %>
+      <div class="panel-body">
 
-      <div class="radio">
-        <label>
-          <%= f.radio_button :ready, true, checked: f.object.ready? %>
-          Yes
-        </label>
-      </div>
+        <%= form_for [@person, @status], url: person_readiness_status_path(@person) do |f| %>
 
-      <div class="radio">
-        <label>
-          <%= f.radio_button :ready, false, checked: !f.object.ready? %>
-          No - ask again later
-        </label>
-      </div>
+          <div class="radio">
+            <label>
+              <%= f.radio_button :ready, true, checked: f.object.ready? %>
+              Yes
+            </label>
+          </div>
 
-      <div
-        id="unreadiness_reason_form_group"
-        class="form-group"
-        style="display:none;" 
-      >
-        <%= f.text_field(
-          :unreadiness_reason,
-          placeholder: "Optional: tell us why #{@person.first_name} isn't ready to apply just yet"
-        ) %>
-      </div>
+          <div class="radio">
+            <label>
+              <%= f.radio_button :ready, false, checked: !f.object.ready? %>
+              No - ask again later
+            </label>
+          </div>
 
-      <%= f.submit "Confirm", class: "btn-primary" %>
+          <div
+            id="unreadiness_reason_form_group"
+            class="form-group"
+            style="display:none;">
+            <%= f.text_field(
+              :unreadiness_reason,
+              placeholder: "Optional: tell us why #{@person.first_name} isn't ready to apply just yet"
+            ) %>
+          </div>
 
-    <% end %>
+          <%= f.submit "Confirm", class: "btn-primary" %>
+        </div><!-- .panel-body -->
+      <% end %>
+    </div><!-- .hpanel -->
   </div>
 </div>

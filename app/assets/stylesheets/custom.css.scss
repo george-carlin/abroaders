@@ -1,10 +1,49 @@
+$darkBlue: #34495e;
+
+.navbar-nav > li > a.text {
+  font-size: 13px;
+}
+
+.login-container {
+  padding-top: 30px;
+}
+
+.footer {
+  position: fixed;
+}
+
+// Hacky solution to prevent the footer from overallping any real content:
+.footer-spacer {
+  height: 39px;
+}
+
+.well .input-group-addon {
+  background-color: $darkBlue;
+  color: white;
+}
+
+.form-group.required label:after, .required-explanation:before {
+  content: "*";
+  color: $darkBlue;
+}
+
+.required-explanation {
+  font-style: italic;
+}
+
+.field_with_errors {
+  input {
+    border-color: #d9534f;
+  }
+}
+
+// SURVEY //
+
 .card-survey-checkbox {
-  background-color: rgba(255, 255, 255, 0.3);
-  border-color: rgba(255,255,255, 0.4);
-  border-style: inset;
-  border-width: 1px;
+  background-color: rgb(247, 249, 250);;
+  border: 1px solid rgb(228, 229, 231);
   cursor: pointer;
-  height: 430px;
+  height: 395px;
   margin-left:  10px;
   margin-right: 10px;
   margin-bottom: 20px;
@@ -29,7 +68,7 @@
   user-select: none;
 
   &.opened {
-    background-color: rgba(255, 255, 255, 0.4);
+    background-color: white;
   }
 
   * {
@@ -90,4 +129,33 @@
   width: 59%;
   float:right;
   margin-top: 5px;
+}
+
+// SURVEY: balances
+
+.balances_survey {
+  input[type='checkbox'] {
+    margin-top: -5px;
+  }
+
+  label {
+    width: 45%;
+    font-size: 1.1em;
+  }
+
+  .currency {
+    height: 40px;
+    line-height: 40px;
+  }
+
+  .currency_balance_value {
+    display: inline-block;
+    width: 230px;
+  }
+}
+
+// ???? //
+
+.card_account .card_account_offer {
+  font-size: 0.8em;
 }
