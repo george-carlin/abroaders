@@ -10,9 +10,17 @@ class CardAccountsController < NonAdminController
     # Just show main passenger card accounts for now:
     scope = current_main_passenger\
                     .card_accounts.includes(:card).order(:created_at)
-    @recommended_card_accounts = scope.recommended
-    @unknown_card_accounts     = scope.unknown
-    @applied_card_accounts     = scope.applied
+    @recommended_card_accounts = scope.recommended.load
+    @unknown_card_accounts     = scope.unknown.load
+    @applied_card_accounts     = scope.applied.load
+
+    if has_companion?
+      partner_scope = current_companion\
+                        .card_accounts.includes(:card).order(:created_at)
+      @p_recommended_card_accounts = partner_scope.recommended.load
+      @p_unknown_card_accounts     = partner_scope.unknown.load
+      @p_applied_card_accounts     = partner_scope.applied.load
+    end
 
     @other_card_accounts = scope.where.not(
       id: [
@@ -38,9 +46,14 @@ class CardAccountsController < NonAdminController
   end
 
   def apply
+    unless params[:person_id]
+      account = CardAccount.find(params[:id])
+      redirect_to apply_person_card_account_path(account.person, account) and return
+    end
+
     # They should still be able to access this page if the card is 'applied',
     # in case they click the 'Apply' button but don't actually apply
-    @recommendation = current_main_passenger.card_accounts.where(
+    @recommendation = current_account.people.find(params[:person_id]).card_accounts.where(
       status: %i[recommended applied]
     ).find(params[:id])
 

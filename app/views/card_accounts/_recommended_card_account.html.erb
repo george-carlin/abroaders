@@ -7,6 +7,15 @@
 
   <div class="col-xs-12 col-md-4">
 
+    <%= link_to(
+      "Apply",
+      apply_card_account_path(recommended_card_account),
+      id: "card_account_#{recommended_card_account.id}_apply_btn",
+      class: "CardApplyBtn card_account_apply_btn btn btn-primary btn-sm",
+      target: "_blank"
+    ) %>
+
+    <% if false %>
     <div
       data-react-component="CardRecommendationActions"
       data-account-id="<%= recommended_card_account.id %>"
@@ -14,8 +23,6 @@
       data-apply-path="<%= apply_card_account_path(recommended_card_account) %>"
       data-decline-path="<%= decline_card_account_path(recommended_card_account) %>"
     > </div>
-
-    <% if false %>
 
     <% if recommended_card_account.applyable? %>
       <%= card_account_apply_btn(recommended_card_account) %>

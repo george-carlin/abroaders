@@ -2,24 +2,35 @@
 
 <h1>Your Cards</h1>
 
-<% if @recommended_card_accounts.any? %>
+<% if (@recommended_card_accounts + @applied_card_accounts).any? %>
 
-  <h2>Card Recommendations</h2>
+  <h2><%= current_main_passenger.first_name %>'s Card Recommendations</h2>
 
   <div id="recommended_card_accounts">
     <%= render @recommended_card_accounts %>
+    <%= render @applied_card_accounts %>
   </div><!-- #recommended_card_accounts -->
 <% else %>
   Thanks for signing up to Abroaders! You will shortly receive your
   first card recommendation
 <% end %>
 
+<% if has_companion? && (@p_recommended_card_accounts + @p_applied_card_accounts).any? %>
+
+  <h2><%= current_companion.first_name %>'s Card Recommendations</h2>
+
+  <div id="recommended_card_accounts">
+    <%= render @p_recommended_card_accounts %>
+    <%= render @p_applied_card_accounts %>
+  </div><!-- #recommended_card_accounts -->
+<% end %>
+
+<% if false %>
 <!-- TODO hide this header where appropriate -->
 <h2>Other Cards</h2>
 
 <% if @applied_card_accounts.any? %>
   <div id="applied_card_accounts">
-    <%= render @applied_card_accounts %>
   </div>
 <% end %>
 
@@ -38,4 +49,5 @@
   <div id="other_card_accounts">
     <%= render @other_card_accounts, partial: "card_accounts/card_account" %>
   </div><!-- #other_card_accounts -->
+<% end %>
 <% end %>

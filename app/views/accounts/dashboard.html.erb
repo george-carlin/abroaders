@@ -6,8 +6,9 @@
   <% if current_account.onboarded? %>
     <div class="col-xs-12">
       <div class="alert alert-info">
-        <% if current_account.people.any? { |p| p.card_accounts.recommendations.any? } %>
-          Your card recommendations are ready
+        <% if current_account.people.any? { |p| p.card_accounts.where(status: %i[recommended applied]).any? } %>
+          Your card recommendations are ready.
+          <%= link_to "Click here to view", card_accounts_path %>
         <% else %>
           The Abroaders team is hand selecting the ideal rewards cards based on
           your current points, travel plans and spending. We’ll let you know as
