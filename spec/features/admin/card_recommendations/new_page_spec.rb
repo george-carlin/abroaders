@@ -55,10 +55,9 @@ describe "admin section" do
       "##{dom_id(card, :admin_recommend)}"
     end
 
-    it do
-      title = "#{@person.first_name} - Recommend Card"
-      is_expected.to have_title full_title(title)
-    end
+    let(:name) { @person.first_name }
+
+    it { is_expected.to have_title full_title "#{name} - Recommend Card" }
 
     context "for a person who has not been fully onboarded" do
       let(:onboarded) { false }
@@ -170,10 +169,8 @@ describe "admin section" do
       end
 
       context "has no existing points balances" do
-        it do
-          is_expected.to have_content \
-            t("admin.people.card_recommendations.no_balances")
-        end
+        let(:no_balances) { t("admin.people.card_recommendations.no_balances") }
+        it { is_expected.to have_content no_balances }
       end
 
       context "has existing points balances" do

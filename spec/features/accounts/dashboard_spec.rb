@@ -25,5 +25,4 @@ describe "account dashboard" do
     within("##{dom_id(account.companion)}") { yield }
   end
 
-
 end
