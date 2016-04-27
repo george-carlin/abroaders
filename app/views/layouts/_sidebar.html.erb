@@ -28,6 +28,13 @@
             <span class="nav-label">Dashboard</span>
           <% end %>
         </li>
+        <% if current_account.onboarded? %>
+          <li class="active">
+            <%= link_to travel_plans_path do %>
+              <span class="nav-label">Travel Plans</span>
+            <% end %>
+          </li>
+        <% end %>
       <% end %>
     </ul>
   </div>

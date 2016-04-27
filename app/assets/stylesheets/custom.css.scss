@@ -1,7 +1,20 @@
 $darkBlue: #34495e;
 
-.navbar-nav > li > a.text {
-  font-size: 13px;
+.navbar-nav {
+  > li {
+    &.text {
+      height: 52px;
+      line-height: 52px;
+      padding-left:  10px;
+      padding-right: 10px;
+    }
+
+    > a.text {
+      padding-left:  -10px;
+      padding-right: -10px;
+      font-size: 13px;
+    }
+  }
 }
 
 .login-container {
@@ -36,6 +49,8 @@ footer.footer {
     border-color: #d9534f;
   }
 }
+
+
 
 // SURVEY //
 

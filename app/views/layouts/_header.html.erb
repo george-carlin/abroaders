@@ -11,11 +11,6 @@
     <div class="small-logo">
       <span class="text-primary">Abroaders</span>
     </div>
-    <form role="search" class="navbar-form-custom" method="post" action="#">
-      <div class="form-group">
-        <input type="text" placeholder="Search something special" class="form-control" name="search">
-      </div>
-    </form>
     <div class="mobile-menu">
       <button type="button" class="navbar-toggle mobile-menu-toggle" data-toggle="collapse" data-target="#mobile-collapse">
         <i class="fa fa-chevron-down"></i>
@@ -148,16 +143,19 @@
           </li>
         <% end %>
         <% if current_account || current_admin %>
-          <li class="dropdown">
-            <%= link_to sign_out_path, method: :delete do %>
+          <li class="text">
+            <%= current_account ? current_account.email : current_admin.email? %>
+          </li>
+          <li>
+            <%= link_to sign_out_path, method: :delete, id: "sign_out_link" do %>
               <i class="pe-7s-upload pe-rotate-90"></i>
             <% end %>
           </li>
         <% else %>
-          <li class="dropdown">
+          <li>
             <%= link_to "Sign in", new_account_session_path, class: "text" %>
           </li>
-          <li class="dropdown">
+          <li>
             <%= link_to "Sign up", new_account_registration_path, class: "text" %>
           </li>
         <% end %>
