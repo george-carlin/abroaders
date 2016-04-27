@@ -174,7 +174,7 @@ describe "travel plans" do
 
         it "shows me the form again" do
           submit_form
-          expect(page).to have_selector "h1", text: "Add a Travel Plan"
+          expect(page).to have_selector "h2", text: "Add a Travel Plan"
         end
       end
     end

@@ -1,27 +1,27 @@
 <% provide :title, "Balances" %>
 
-<div class="row">
-  <div class="col-xs-12 col-md-10 col-md-offset-1">
-    <div class="hpanel">
-      <div class="panel-heading">
-        <h1><%= @person.first_name %>'s Existing Balances</h1>
-      </div>
+<%= form_tag (params[:passenger]) do %>
 
-      <% if @survey.errors %>
-        <div class="alert alert-danger">
-          Could not save balances:
-
-          <ul>
-            <% @survey.errors.each do |message| %>
-              <li><%= message %></li>
-            <% end %>
-          </ul>
+  <div class="row">
+    <div class="col-xs-12 col-md-10 col-md-offset-1">
+      <div class="hpanel">
+        <div class="panel-heading">
+          <h1><%= @person.first_name %>'s Existing Balances</h1>
         </div>
-      <% end %>
 
-      <div class="panel-body">
-        <%= form_tag (params[:passenger]) do %>
+        <% if @survey.errors %>
+          <div class="alert alert-danger">
+            Could not save balances:
 
+            <ul>
+              <% @survey.errors.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <div class="panel-body">
           <p>
             We need to know <%= @person.first_name %>'s existing frequent flyer mile
             balances, if he/she has any, in order to give the best card
@@ -41,59 +41,62 @@
               @survey.award_wallet_email,
               placeholder: "#{@person.first_name}'s login email for AwardWallet"
             ) %>
-        </div>
+          </div><!-- .form-group -->
 
-        <p>
-          We are working on integrating our app with AwardWallet so that we
-          can keep track of your loyalty points automatically. For now (or if you
-          don't have AwardWallet, please estimate (to the nearest 1,000)
-          <b><%= @person.first_name %>'s</b> current balances for the programs below.
-        </p>
+          <p>
+            We are working on integrating our app with AwardWallet so that we
+            can keep track of your loyalty points automatically. For now (or if you
+            don't have AwardWallet, please estimate (to the nearest 1,000)
+            <b><%= @person.first_name %>'s</b> current balances for the programs below.
+          </p>
 
-        <p>
-          (You can always edit your balances, or add new ones, later - but the sooner
-          and the more accurately we know your existing awards balances, the
-          sooner we can help you save money on travel.)
-        </p>
+          <p>
+            (You can always edit your balances, or add new ones, later - but the sooner
+            and the more accurately we know your existing awards balances, the
+            sooner we can help you save money on travel.)
+          </p>
+        </div><!-- .panel-body -->
+      </div><!-- .hpanel -->
 
-      </div>
-    </div>
+      <div class="hpanel">
+        <div class="panel-body">
+          <div class="balances_survey">
+            <h4>
+              Which of the following awards programs does
+              <%= @person.first_name %> use, if any?
+            </h4>
 
-    <div class="hpanel">
-      <div class="panel-body">
-        <div class="balances_survey">
-          <h4>
-            Which of the following awards programs does
-            <%= @person.first_name %> use, if any?
-          </h4>
-
-          <% @survey.balances.each do |balance| %>
-            <% currency = balance.currency %>
-            <div
-              id="<%= dom_id(currency) %>"
-              class="<%= dom_class(currency) %> survey_currency"
-            >
-              <div class="row">
-                <div class="col-xs-12 col-sm-6">
-                  <div class="checkbox">
-                    <label>
-                      <%= currency_balance_checkbox(balance) %>
-                      <%= currency.name %>
-                    </label>
+            <% @survey.balances.each do |balance| %>
+              <% currency = balance.currency %>
+              <div
+                id="<%= dom_id(currency) %>"
+                class="<%= dom_class(currency) %> survey_currency"
+              >
+                <div class="row">
+                  <div class="col-xs-12 col-sm-6">
+                    <div class="checkbox">
+                      <label>
+                        <%= currency_balance_checkbox(balance) %>
+                        <%= currency.name %>
+                      </label>
+                    </div>
                   </div>
-                </div>
-                <div class="col-xs-12 col-sm-6">
-                  <%= currency_balance_value_field(balance) %>
-                </div>
-              </div><!-- .row -->
-            </div><!-- .survey_currency -->
-          <% end %>
-        </div>
-      </div>
+                  <div class="col-xs-12 col-sm-6">
+                    <%= currency_balance_value_field(balance) %>
+                  </div>
+                </div><!-- .row -->
+              </div><!-- .survey_currency -->
+            <% end %>
+          </div><!-- .balances-survey -->
+        </div><!-- .panel-body -->
+      </div><!-- .hpanel -->
     </div>
+  </div>
 
-    <%= submit_tag "Submit", class: "btn btn-primary" %>
+  <div class="row">
+    <div class="col-xs-12 col-md-10 col-md-offset-1">
+      <%= submit_tag "Submit", class: "btn btn-primary" %>
+    </div>
+  </div>
 
-  <% end %>
-</div>
-</div>
+<% end %>

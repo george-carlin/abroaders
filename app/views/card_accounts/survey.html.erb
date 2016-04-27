@@ -42,10 +42,7 @@
         </div><!-- #cards_onboarding_<%= bank.to_param %> -->
       <% end # @cards.group_by(&:bank).each %>
 
-      <div class="row">
-        <%= submit_tag "Save", class: "btn btn-primary" %>
-      </div>
+      <%= submit_tag "Save", class: "btn btn-primary", style: "margin-left: -15px" %>
     <% end %>
-
   </div>
 </div>
