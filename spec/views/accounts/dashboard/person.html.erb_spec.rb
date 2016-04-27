@@ -125,6 +125,19 @@ describe "accounts/dashboard/person" do
       is_expected.to have_content "Ineligible to apply for cards"
     end
 
+    it "doesn't have links to eligible-only parts of the survey" do
+      is_expected.not_to have_link add_spending
+      is_expected.not_to have_link add_cards
+      is_expected.not_to have_link update_readiness
+    end
+
+    context "when the person has added their balances" do
+      before { person.update_attributes!(onboarded_balances: true) }
+      it "doesn't have a links to the readiness survey" do # bug fix
+        is_expected.not_to have_link update_readiness
+      end
+    end
+
     include_examples "balances"
   end
 

@@ -17,7 +17,7 @@ class DashboardPerson
   end
 
   def show_spending_link?
-    onboarded_type? && !onboarded_spending?
+    onboarded_type? && eligible? && !onboarded_spending?
   end
 
   def show_cards_link?
@@ -33,7 +33,7 @@ class DashboardPerson
   end
 
   def show_readiness_link?
-    onboarded_balances? && !(readiness_given? && ready_to_apply?)
+    onboarded_balances? && eligible? && !(readiness_given? && ready_to_apply?)
   end
 
   def method_missing(meth, *args, &block)
