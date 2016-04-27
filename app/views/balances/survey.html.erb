@@ -55,6 +55,7 @@
           and the more accurately we know your existing awards balances, the
           sooner we can help you save money on travel.)
         </p>
+
       </div>
     </div>
 
@@ -70,21 +71,29 @@
             <% currency = balance.currency %>
             <div
               id="<%= dom_id(currency) %>"
-              class="<%= dom_class(currency) %> survey_currency checkbox"
-              >
-              <label>
-                <%= currency_balance_checkbox(balance) %>
-                <%= currency.name %>
-              </label>
-
-              <%= currency_balance_value_field(balance) %>
-            </div>
+              class="<%= dom_class(currency) %> survey_currency"
+            >
+              <div class="row">
+                <div class="col-xs-12 col-sm-6">
+                  <div class="checkbox">
+                    <label>
+                      <%= currency_balance_checkbox(balance) %>
+                      <%= currency.name %>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                  <%= currency_balance_value_field(balance) %>
+                </div>
+              </div><!-- .row -->
+            </div><!-- .survey_currency -->
           <% end %>
         </div>
       </div>
     </div>
 
     <%= submit_tag "Submit", class: "btn btn-primary" %>
+
   <% end %>
 </div>
 </div>
