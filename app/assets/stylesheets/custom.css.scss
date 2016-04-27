@@ -23,6 +23,7 @@ $darkBlue: #34495e;
 
 footer.footer {
   position: fixed;
+  z-index: 1000;
 }
 
 // Hacky solution to prevent the footer from overlapping any real content:
@@ -49,7 +50,6 @@ footer.footer {
     border-color: #d9534f;
   }
 }
-
 
 
 // SURVEY //
