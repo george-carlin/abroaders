@@ -203,6 +203,79 @@ describe "admin section" do
           is_expected.to have_no_selector "##{dom_id(@currencies[3])}_balance"
         end
       end
+
+      context "has existing cards", :focus do
+        let(:jan) { Date.parse("2015-01-01") }
+        let(:mar) { Date.parse("2015-03-01") }
+        let(:oct) { Date.parse("2015-10-01") }
+        let(:dec) { Date.parse("2015-12-01") }
+
+        let(:extra_setup) do
+          def add_card(card, status, other_attrs={})
+            create(
+              :card_account,
+              other_attrs.merge(card: card, person: @person, status: status),
+            )
+          end
+
+          @card_accounts = [
+            add_card(@chase_b, :unknown),
+            add_card(@chase_p, :recommended, recommended_at: jan, applied_at: mar),
+            add_card(@usb_b, :open,   applied_at: mar, opened_at: oct),
+            add_card(@usb_p, :closed, applied_at: oct, closed_at: dec),
+          ]
+        end
+
+        it "lists them" do
+          within "#admin_person_card_accounts" do
+            @card_accounts.each do |account|
+              is_expected.to have_selector "#card_account_#{account.id}"
+            end
+          end
+        end
+
+        it "shows each card's status" do
+          within "#card_account_#{@card_accounts[0].id}" do
+            is_expected.to have_selector ".card_account_status", text: "Unknown"
+          end
+          within "#card_account_#{@card_accounts[1].id}" do
+            is_expected.to have_selector ".card_account_status", text: "Recommended"
+          end
+          within "#card_account_#{@card_accounts[2].id}" do
+            is_expected.to have_selector ".card_account_status", text: "Open"
+          end
+          within "#card_account_#{@card_accounts[3].id}" do
+            is_expected.to have_selector ".card_account_status", text: "Closed"
+          end
+        end
+
+        it "shows the recommended/applied/opened/closed dates for each card" do
+          within "#card_account_#{@card_accounts[0].id}" do
+            is_expected.to have_selector ".card_account_recommended_at", text: "-"
+            is_expected.to have_selector ".card_account_applied_at",     text: "-"
+            is_expected.to have_selector ".card_account_opened_at",      text: "-"
+            is_expected.to have_selector ".card_account_closed_at",      text: "-"
+          end
+          within "#card_account_#{@card_accounts[1].id}" do
+            is_expected.to have_selector ".card_account_recommended_at", text: "Jan 2015"
+            is_expected.to have_selector ".card_account_applied_at",     text: "Mar 2015"
+            is_expected.to have_selector ".card_account_opened_at",      text: "-"
+            is_expected.to have_selector ".card_account_closed_at",      text: "-"
+          end
+          within "#card_account_#{@card_accounts[2].id}" do
+            is_expected.to have_selector ".card_account_recommended_at", text: "-"
+            is_expected.to have_selector ".card_account_applied_at",     text: "Mar 2015"
+            is_expected.to have_selector ".card_account_opened_at",      text: "Oct 2015"
+            is_expected.to have_selector ".card_account_closed_at",      text: "-"
+          end
+          within "#card_account_#{@card_accounts[3].id}" do
+            is_expected.to have_selector ".card_account_recommended_at", text: "-"
+            is_expected.to have_selector ".card_account_applied_at",     text: "Oct 2015"
+            is_expected.to have_selector ".card_account_opened_at",      text: "-"
+            is_expected.to have_selector ".card_account_closed_at",      text: "Dec 2015"
+          end
+        end
+      end
     end
 
     it "displays the person's info from the onboarding survey" do
