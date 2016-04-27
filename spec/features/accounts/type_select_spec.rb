@@ -304,10 +304,9 @@ describe "account type select page", :onboarding do
 
             context "when my partner is the one eligible to apply" do
               before { choose :partner_account_eligibility_person_1 }
-              it "takes me to my partner's spending survey" do
+              it "takes me to my balances survey" do
                 click_confirm
-                partner = account.people.find_by(main: false)
-                expect(current_path).to eq new_person_spending_info_path(partner)
+                expect(current_path).to eq survey_person_balances_path(me)
               end
             end
 
