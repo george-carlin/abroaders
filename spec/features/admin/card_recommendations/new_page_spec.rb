@@ -5,7 +5,6 @@ describe "admin section" do
   subject { page }
 
   describe "person recommend card page" do
-
     let(:chase)   { Bank.find_by(name: "Chase")   }
     let(:us_bank) { Bank.find_by(name: "US Bank") }
 

@@ -13,7 +13,7 @@
     <h2>Spending/Financial Information</h2>
 
     <% if @person.spending_info.present? %>
-      <%= render @person.spending_info %>
+      <%= render "spending_infos/spending_info", spending_info: @spending_info %>
       <div class="clearfix"></div>
     <% else %>
       <p>This person hasn't added any spending/financial information.</p>
