@@ -32,14 +32,25 @@ class CardOffer < ApplicationRecord
 
     with_options numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: POSTGRESQL_MAX_INT_VALUE } do
       validates :cost
-      validates :days
+      validates :days, unless: :on_approval?
       validates :points_awarded
-      validates :spend
+      validates :spend, if: :on_minimum_spend?
     end
   end
 
   # Associations
 
   belongs_to :card
+
+  # Callbacks
+
+  before_save :nullify_irrelevant_columns
+
+  private
+
+  def nullify_irrelevant_columns
+    self.days  = nil if on_approval?
+    self.spend = nil unless on_minimum_spend?
+  end
 
 end
