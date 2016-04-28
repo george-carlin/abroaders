@@ -187,6 +187,9 @@
                     Days:&nbsp;
                     <b><%= offer.days %></b>
                   </td>
+                  <td class="offer-link">
+                    <b><%= link_to "Link", offer.link, target: "_blank" %></b>
+                  </td>
                   <td class="offer-recommend">
                     <%= recommend_card_btn(offer) %>
 

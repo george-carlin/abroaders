@@ -55,6 +55,10 @@ describe "admin section" do
       "##{dom_id(card, :admin_recommend)}"
     end
 
+    def offer_selector(offer)
+      "#" << dom_id(offer, :admin_recommend)
+    end
+
     let(:name) { @person.first_name }
 
     it { is_expected.to have_title full_title "#{name} - Recommend Card" }
@@ -292,8 +296,24 @@ describe "admin section" do
       it "has an option to recommend each card offer" do
         within ".admin-card-recommendation-table" do
           @offers.each do |offer|
-            is_expected.to have_selector "##{dom_id(offer, :admin_recommend)}"
+            is_expected.to have_selector offer_selector(offer)
             is_expected.to have_selector "#recommend_#{dom_id(offer)}_btn"
+          end
+        end
+      end
+
+      it "has a link to each offer" do
+        @offers.each do |offer|
+          within offer_selector(offer) do
+            is_expected.to have_link "Link", offer.link
+          end
+        end
+      end
+
+      specify "offer links open in a new tab" do
+        @offers.each do |offer|
+          within offer_selector(offer) do
+            expect(find("a[href='#{offer.link}']")[:target]).to eq "_blank"
           end
         end
       end
