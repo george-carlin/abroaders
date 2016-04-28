@@ -2,6 +2,10 @@ class CardOffer < ApplicationRecord
 
   # Attributes
 
+  # 'spend' = the minimum amount that the person has to spened using the card
+  #           to get the bonus (not relevant for 'on approval' cards)
+  # 'cost'  = the card's annual fee
+
   enum status: [:live, :expired]
 
   # condition = what does the customer have to do to receive the points?
