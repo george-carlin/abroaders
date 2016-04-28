@@ -13,6 +13,12 @@ describe CardOffer do
     end
   end
 
+  describe "#condition" do
+    it "is 'on minimum spend' by default" do
+      expect(offer).to be_on_minimum_spend
+    end
+  end
+
   describe "#identifier" do
     it "is generated deterministically from points, spend, & days" do
       offer.points_awarded = 10_000
@@ -26,6 +32,22 @@ describe CardOffer do
       offer.spend = 4_500
       offer.days  = 40
       expect(offer.identifier).to eq "10.25/4.5/40"
+    end
+
+    context "when 'condition' is 'on approval'" do
+      it "ignores spend and days and includes 'A'" do
+        offer.condition = "on_approval"
+        offer.points_awarded = 10_000
+        expect(offer.identifier).to eq "10/A"
+      end
+    end
+
+    context "when 'condition' is 'on first purchase'" do
+      it "ignores spend and days and includes 'P'" do
+        offer.condition = "on_first_purchase"
+        offer.points_awarded = 10_000
+        expect(offer.identifier).to eq "10/P"
+      end
     end
   end
 end

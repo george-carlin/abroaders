@@ -11,24 +11,13 @@ class CardOffer < ApplicationRecord
     on_first_purchase: 2, # points awarded once you make 1st purchase with card
   }
 
-  delegate :name, to: :card, prefix: true
+  delegate :name, :identifier, to: :card, prefix: true
   delegate :bank_name, to: :card
-
-  def full_identifier
-    "#{card.identifier}-#{identifier}"
-  end
 
   # A shorthand code that identifies the offer based on the points awarded,
   # minimum spend, and days. Note that this isn't necessarily unique per offer.
   def identifier
-    [ # Show points and spend as multiples of 1000, but don't print the decimal
-      # point if it's an exact multiple:
-      (points_awarded / 1000.0).to_s.sub(/\.0+\z/, ''),
-      (spend / 1000.0).to_s.sub(/\.0+\z/, ''),
-      days,
-    ].join("/")
-    # Note - we might eventually want to add a unique code per affiliate
-    # to the end of this identifier.
+    Identifier.new(self)
   end
 
   # Validations
