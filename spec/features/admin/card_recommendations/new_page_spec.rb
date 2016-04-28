@@ -204,7 +204,7 @@ describe "admin section" do
         end
       end
 
-      context "has existing cards", :focus do
+      context "has existing cards" do
         let(:jan) { Date.parse("2015-01-01") }
         let(:mar) { Date.parse("2015-03-01") }
         let(:oct) { Date.parse("2015-10-01") }
