@@ -8,6 +8,8 @@ describe "admin section" do
     let(:chase)   { Bank.find_by(name: "Chase")   }
     let(:us_bank) { Bank.find_by(name: "US Bank") }
 
+    let(:aw_email) { "totallyawesomedude@example.com" }
+
     before do
       @currencies = create_list(:currency, 4)
       curr0, curr1, curr2, curr3 = @currencies;
@@ -37,7 +39,11 @@ describe "admin section" do
           has_business: :with_ein,
           business_spending_usd: 1500
         )
-        @person.update_attributes!(onboarded_cards: true, onboarded_balances: true)
+        @person.update_attributes!(
+          onboarded_cards: true,
+          onboarded_balances: true,
+          award_wallet_email: aw_email,
+        )
         @person.ready_to_apply! if ready_to_apply
       end
       extra_setup
@@ -89,6 +95,13 @@ describe "admin section" do
       context "has no existing card accounts or recommendations" do
         it do
           is_expected.to have_content t("admin.people.card_accounts.none")
+        end
+      end
+
+      context "has added an award wallet email" do
+        it "displays it" do
+          is_expected.to have_content "Award Wallet email"
+          is_expected.to have_content aw_email
         end
       end
 

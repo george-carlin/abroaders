@@ -51,6 +51,18 @@
           <%= spending_info.will_apply_for_loan ? "Yes" : "No" %>
         </td>
       </tr>
+
+      <% if spending_info.person.award_wallet_email.present? %>
+        <tr>
+          <td class="spending-info-label">
+            Award Wallet email:
+          </td>
+          <td>
+            <%= spending_info.person.award_wallet_email %>
+          </td>
+        </tr>
+      <% end %>
+
     </tbody>
   </table>
 </div>
