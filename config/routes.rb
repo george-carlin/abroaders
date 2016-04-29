@@ -22,6 +22,11 @@ Rails.application.routes.draw do
     delete :accounts, to: "registrations#destroy"
   end
 
+  controller :static_pages do
+    get :privacy_policy
+    get :terms_and_conditions
+  end
+
   resource :account, only: [] do
     get  :type
     post :solo,    action: :create_solo_account
