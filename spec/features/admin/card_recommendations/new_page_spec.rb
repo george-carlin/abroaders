@@ -26,6 +26,7 @@ describe "admin section" do
         create(:card_offer, card: @usb_b),
         create(:card_offer, card: @usb_p)
       ]
+      @dead_offer = create(:dead_offer, card: @chase_b)
 
       # Make the account created_at stamp different from the person's:
       @account = create(:account, created_at: 4.days.ago)
@@ -299,6 +300,13 @@ describe "admin section" do
             is_expected.to have_selector offer_selector(offer)
             is_expected.to have_selector "#recommend_#{dom_id(offer)}_btn"
           end
+        end
+      end
+
+      it "doesn't have links to recommend dead offers" do
+        within ".admin-card-recommendation-table" do
+          is_expected.to have_no_selector offer_selector(@dead_offer)
+          is_expected.to have_no_selector "#recommend_#{dom_id(@dead_offer)}_btn"
         end
       end
 

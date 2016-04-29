@@ -44,8 +44,10 @@ module AdminArea
     end
 
     def card_offer_params
-      params.require(:card_offer).permit(:card_id, :points_awarded, :spend,
-                                         :cost, :days, :status, :link)
+      params.require(:card_offer).permit(
+        :card_id, :condition, :points_awarded, :spend, :cost, :days, :live,
+        :link, :notes,
+      )
     end
   end
 end

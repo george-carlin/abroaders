@@ -11,7 +11,7 @@ module AdminArea
       @card_accounts = accounts.to_a
       @card_recommendation = accounts.recommendations.build
       @card_offers_grouped_by_card = \
-        CardOffer.includes(:card, card: :currency).all.group_by(&:card)
+        CardOffer.includes(:card, card: :currency).live.group_by(&:card)
       @balances     = @person.balances.includes(:currency)
       @travel_plans = @account.travel_plans
     end

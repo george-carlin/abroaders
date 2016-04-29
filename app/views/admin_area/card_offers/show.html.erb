@@ -6,26 +6,33 @@
   <dt>Card:</dt>
   <dd><%= @card_offer.card_name %></dd>
 
+  <dt>Condition:</dt>
+  <dd><%= @card_offer.condition.humanize %></dd>
+
   <dt>Bank:</dt>
   <dd><%= @card_offer.bank_name %></dd>
 
   <dt>Points awarded:</dt>
   <dd><%= @card_offer.points_awarded %></dd>
 
-  <dt>Spend:</dt>
-  <dd><%= number_to_currency @card_offer.spend %></dd>
+  <% if @card_offer.on_minimum_spend? %>
+    <dt>Spend:</dt>
+    <dd><%= number_to_currency @card_offer.spend %></dd>
+  <% end %>
 
   <dt>Cost:</dt>
   <dd><%= number_to_currency @card_offer.cost %></dd>
 
-  <dt>Days:</dt>
-  <dd><%= @card_offer.days %></dd>
-
-  <dt>Status:</dt>
-  <dd><%= @card_offer.status %></dd>
+  <% unless @card_offer.on_approval? %>
+    <dt>Days:</dt>
+    <dd><%= @card_offer.days %></dd>
+  <% end %>
 
   <dt>Link:</dt>
   <dd><%= link_to @card_offer.link, @card_offer.link %></dd>
+
+  <dt>Live:</dt>
+  <dd><%= @card_offer.live ? "Yes" : "No" %></dd>
 
 </dl>
 
