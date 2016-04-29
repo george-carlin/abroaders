@@ -6,9 +6,5 @@ FactoryGirl.define do
     cost { rand(20) * 5 }
     days { [30, 60, 90, 90, 90, 90, 90, 90, 120].sample }
     link { Faker::Internet.url("example.com") }
-
-    factory :expired_card_offer do
-      status :expired
-    end
   end
 end

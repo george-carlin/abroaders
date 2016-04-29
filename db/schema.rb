@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160428131640) do
+ActiveRecord::Schema.define(version: 20160428133906) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -84,21 +84,21 @@ ActiveRecord::Schema.define(version: 20160428131640) do
   end
 
   create_table "card_offers", force: :cascade do |t|
-    t.integer  "card_id",                     null: false
-    t.integer  "points_awarded",              null: false
+    t.integer  "card_id",                       null: false
+    t.integer  "points_awarded",                null: false
     t.integer  "spend",          default: 0
-    t.integer  "cost",           default: 0,  null: false
+    t.integer  "cost",           default: 0,    null: false
     t.integer  "days",           default: 90
-    t.integer  "status",         default: 0,  null: false
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
-    t.string   "link",                        null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.string   "link",                          null: false
     t.text     "notes"
-    t.integer  "condition",      default: 0,  null: false
+    t.integer  "condition",      default: 0,    null: false
+    t.boolean  "live",           default: true, null: false
   end
 
   add_index "card_offers", ["card_id"], name: "index_card_offers_on_card_id", using: :btree
-  add_index "card_offers", ["status"], name: "index_card_offers_on_status", using: :btree
+  add_index "card_offers", ["live"], name: "index_card_offers_on_live", using: :btree
 
   create_table "cards", force: :cascade do |t|
     t.string   "code",                              null: false

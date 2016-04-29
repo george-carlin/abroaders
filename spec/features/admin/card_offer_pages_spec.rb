@@ -172,6 +172,14 @@ describe "admin section" do
           expect{submit}.to change{CardOffer.count}.by(1)
           expect(new_offer.condition).to eq "on_minimum_spend"
         end
+
+        context "and marking the card as not live" do
+          before { uncheck :card_offer_live }
+          it "saves the card as live" do
+            submit
+            expect(new_offer).not_to be_live
+          end
+        end
       end
 
       describe "submitting the form with invalid information" do

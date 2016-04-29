@@ -6,8 +6,6 @@ class CardOffer < ApplicationRecord
   #           to get the bonus (not relevant for 'on approval' cards)
   # 'cost'  = the card's annual fee
 
-  enum status: [:live, :expired]
-
   # condition = what does the customer have to do to receive the points?
   enum condition: {
     on_minimum_spend:  0, # points awarded if you spend $X within Y days
@@ -27,7 +25,6 @@ class CardOffer < ApplicationRecord
   # Validations
 
   with_options presence: true do
-    validates :status
     validates :link # TODO validate it looks like a valid link
 
     with_options numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: POSTGRESQL_MAX_INT_VALUE } do
@@ -41,6 +38,7 @@ class CardOffer < ApplicationRecord
   # Associations
 
   belongs_to :card
+  has_many :card_accounts, foreign_key: :offer_id
 
   # Callbacks
 
