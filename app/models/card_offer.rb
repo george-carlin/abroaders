@@ -51,4 +51,8 @@ class CardOffer < ApplicationRecord
     self.spend = nil unless on_minimum_spend?
   end
 
+  # Scopes
+
+  scope :live, -> { where(live: true) }
+  scope :dead, -> { where(dead: true) }
 end
