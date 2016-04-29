@@ -3,9 +3,11 @@ module AdminArea
 
     # GET /admin/accounts
     def index
-      @accounts = Account\
-        .includes(:people, :main_passenger, :companion)\
-        .order("email ASC")
+      person_assocs = [:spending_info, :readiness_status]
+      @accounts = Account.includes(
+        people: person_assocs,
+        main_passenger: person_assocs, companion: person_assocs,
+      ).order("email ASC")
     end
 
     # GET /admin/accounts/1
