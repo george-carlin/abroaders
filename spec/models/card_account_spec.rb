@@ -6,7 +6,7 @@ describe CardAccount do
   let(:person)    { account.people.first }
   let(:card)      { build(:card) }
   let(:offer)     { build(:card_offer, card: card) }
-  let(:card_account) { described_class.new(person: person) }
+  let(:card_account) { described_class.from_survey.new(person: person) }
 
   describe "::Statuses" do
     before { card_account.offer = offer }

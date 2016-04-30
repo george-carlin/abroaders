@@ -4,6 +4,11 @@ class CardAccount < ApplicationRecord
 
   include Statuses
 
+  enum source: {
+    from_survey:    0,
+    recommendation: 1,
+  }
+
   delegate :network, :type, :bp, :name, :identifier, :bank, :bank_name, :currency,
     :currency_name, :annual_fee,
     to: :card,

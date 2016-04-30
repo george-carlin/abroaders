@@ -3,12 +3,14 @@ FactoryGirl.define do
     person
     status :unknown
     card
+    source :from_survey
 
     factory :card_recommendation, aliases: [:card_rec] do
       status :recommended
       recommended_at { Time.now }
       card nil
       offer
+      source :recommendation
 
       factory :declined_card_recommendation do
         status :declined

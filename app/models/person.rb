@@ -36,6 +36,13 @@ class Person < ApplicationRecord
       ready_to_apply?
   end
 
+  def recommend_offer!(offer)
+    card_recommendations.recommended.create!(
+      offer:          offer,
+      recommended_at: Time.now,
+    )
+  end
+
   # Validations
 
   NAME_MAX_LENGTH  = 50
@@ -47,8 +54,7 @@ class Person < ApplicationRecord
   belongs_to :account
   has_one :spending_info, dependent: :destroy
   has_many :card_accounts
-  has_many :card_recommendations, -> { recommendations },
-                                  class_name: "CardAccount"
+  has_many :card_recommendations, -> { recommendation }, class_name: "CardAccount"
   has_many :cards, through: :card_accounts
 
   has_many :balances

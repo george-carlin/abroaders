@@ -463,6 +463,10 @@ describe "admin section" do
             it "has 'recommended at' set to the current time" do
               expect(rec.recommended_at).to be_within(5.seconds).of Time.now
             end
+
+            it "'s source is 'recommendation'" do
+              expect(rec.source).to eq "recommendation"
+            end
           end
         end # clicking 'Confirm'
 

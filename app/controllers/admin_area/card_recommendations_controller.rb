@@ -22,10 +22,7 @@ module AdminArea
       @account   = @person.account
       # TODO don't allow expired/inactive offers to be assigned:
       @offer =  CardOffer.find(params[:offer_id])
-      @person.card_recommendations.create!(
-        recommended_at: Time.now,
-        offer: @offer
-      )
+      @person.recommend_offer!(@offer)
       flash[:success] = "Recommended card!"
       # TODO notify person
       redirect_to new_admin_person_card_recommendation_path(@person)

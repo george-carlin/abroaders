@@ -55,7 +55,7 @@ class CardsSurvey < Form
           attributes["status"] = "open"
         end
 
-        @person.card_accounts.create!(attributes)
+        @person.card_accounts.from_survey.create!(attributes)
       end
       person.update_attributes!(onboarded_cards: true)
     end
