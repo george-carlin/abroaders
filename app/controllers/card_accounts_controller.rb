@@ -7,7 +7,6 @@ class CardAccountsController < NonAdminController
                                       only: [:survey, :save_survey]
 
   def index
-    # Just show main passenger card accounts for now:
     scope = current_main_passenger\
                     .card_accounts.includes(:card).order(:created_at)
     @recommended_card_accounts = scope.recommended.load
