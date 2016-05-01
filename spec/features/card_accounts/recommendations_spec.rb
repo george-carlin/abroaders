@@ -18,29 +18,6 @@ describe "as a user viewing my card recommendations", :js do
 
   let(:person) { account.people.first }
 
-  context "when there are cards I added in the onboarding survey" do
-    let(:extra_setup) do
-      @card_accounts = create_list(
-        :card_account,
-        2,
-        status: :unknown,
-        person: person
-      )
-    end
-
-    it "lists them all" do
-      within "#unknown_card_accounts" do
-        @card_accounts.each do |account|
-          is_expected.to have_card_account(account)
-          within card_account_selector(account) do
-            is_expected.to have_content account.card_name
-            is_expected.to have_content account.card_bank_name
-          end
-        end
-      end
-    end
-  end
-
   context "when I have been recommended some cards" do
     let(:extra_setup) do
       @recommendations = create_list(:card_rec, 2, person: person)

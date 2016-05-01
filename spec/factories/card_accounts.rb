@@ -5,8 +5,23 @@ FactoryGirl.define do
     card
     source :from_survey
 
+    trait :open do
+      status :open
+      opened_at { 2.years.ago }
+    end
+
+    trait :closed do
+      open
+      status :closed
+      closed_at { 1.year.ago }
+    end
+
+    trait :survey do
+      source :from_survey
+    end
+
     factory :card_recommendation, aliases: [:card_rec] do
-      status :recommended
+      source :recommended
       recommended_at { Time.now }
       card nil
       offer

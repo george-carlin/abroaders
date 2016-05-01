@@ -6,6 +6,8 @@
   <p>
     <b>Card Name:</b>
     <span class="card-account-bank">
+      <%# TODO another occurence of mashed together card names. This must %>
+      <%# be standardized! %>
       <%= card_account.card_name %>
       (<%= I18n.t("activerecord.attributes.card.networks.#{card_account.card_network}") %>)
     </span>

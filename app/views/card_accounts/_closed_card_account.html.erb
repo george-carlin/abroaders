@@ -1,0 +1,4 @@
+<%= render_card_account(closed_card_account) do %>
+  <p><b>Opened:</b> <%= closed_card_account.opened_at.strftime("%b %Y") %></p>
+  <p><b>Closed:</b> <%= closed_card_account.closed_at.strftime("%b %Y") %></p>
+<% end %>

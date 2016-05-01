@@ -1,5 +1,6 @@
-<% provide :title, "My Cards" %>
+<% provide :title, "Your Cards" %>
 
+<% if false %>
 <h1>Your Cards</h1>
 
 <% if (@recommended_card_accounts + @applied_card_accounts).any? %>
@@ -24,10 +25,18 @@
     <%= render @p_applied_card_accounts %>
   </div><!-- #recommended_card_accounts -->
 <% end %>
+<% end %>
 
+<% if @person.added_cards_in_survey? %>
+  <div id="card_accounts_from_survey">
+    <h2>Other Cards</h2>
+
+    <p>You told us when you signed up that you already had these cards:</p>
+
+    <%= render @person.card_accounts_from_survey %>
+  </div>
+<% end %>
 <% if false %>
-<!-- TODO hide this header where appropriate -->
-<h2>Other Cards</h2>
 
 <% if @applied_card_accounts.any? %>
   <div id="applied_card_accounts">
