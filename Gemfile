@@ -19,7 +19,6 @@ gem "paperclip", "~> 4.3.1"
 gem 'pg', '~> 0.18'
 gem 'puma'
 gem 'sass-rails'
-gem 'searchlight'
 gem 'uglifier', '>= 1.3.0'
 gem 'will_paginate-bootstrap', '~> 1.0.1'
 
