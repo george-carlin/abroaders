@@ -112,15 +112,4 @@ Rails.application.routes.draw do
 
   # ---- /ADMINS -----
 
-  namespace :api, defaults: { format: :json } do
-    namespace :v1 do
-      resources :accounts
-      resources :destinations, only: [] do
-        collection do
-          get :typeahead
-        end
-      end
-    end
-  end
-
 end
