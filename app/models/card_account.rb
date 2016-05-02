@@ -9,6 +9,10 @@ class CardAccount < ApplicationRecord
     recommendation: 1,
   }
 
+  class << self
+    alias_method :recommendations, :recommendation
+  end
+
   delegate :network, :type, :bp, :name, :identifier, :bank, :bank_name, :currency,
     :currency_name, :annual_fee,
     to: :card,

@@ -1,20 +1,7 @@
-<div
-  id="<%= dom_id(recommended_card_account) %>"
-  class="<%= dom_class(recommended_card_account) %> row"
->
+<%= render "card_accounts/card_account", card_account: recommended_card_account do %>
+  <%= render "card_accounts/recommendation_actions", card_account: recommended_card_account %>
 
-  <%= render "card_accounts/card_information", card_account: recommended_card_account %>
-
-  <div class="col-xs-12 col-md-4">
-
-    <div class="card_recommendation_actions">
-      <%= apply_to_card_recommendation_btn(recommended_card_account) %>
-      <%= decline_card_recommendation_btn(recommended_card_account) %>
-    </div>
-    <%= decline_card_recommendation_form(recommended_card_account) %>
-
-    <% if false %>
-
+  <% if false %>
     <% if recommended_card_account.declinable? %>
       <%= card_account_decline_btn(recommended_card_account) %>
     <% elsif recommended_card_account.declined? %>
@@ -46,9 +33,5 @@
     >
       <%= t("card_accounts.index.application_pending") %>
     </div>
-    <% end %>
-  </div>
-
-</div><!-- .row -->
-
-<hr>
+  <% end %>
+<% end %>

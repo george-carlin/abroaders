@@ -19,6 +19,8 @@ describe "as a user viewing my cards" do
 
   let(:extra_setup) { nil }
 
+  let(:card_recommendations_selector) { "#card_recommendations" }
+
   context "when I didn't add any cards in the onboarding survey" do
     before { raise if me.card_accounts.from_survey.any? } # Sanity check
 
@@ -77,11 +79,11 @@ describe "as a user viewing my cards" do
 
   context "when I have been recommended some cards" do
     let(:extra_setup) do
-      @recs = create_list(:card_rec, 2, person: me)
+      @recs = create_list(:card_recommendation, 2, person: me)
     end
 
     it "lists them all" do
-      within "#card_recommendations" do
+      within card_recommendations_selector do
         @recs.each do |recommendation|
           is_expected.to have_card_account(recommendation)
           within card_account_selector(recommendation) do
@@ -176,6 +178,7 @@ describe "as a user viewing my cards" do
           # tabs, and decline the card in one tab before clicking 'decline'
           # again in the other tab
           it "fails gracefully" do
+            pending
             submit
             expect(current_path).to eq card_accounts_path
             expect(page).to have_info_message text: t("card_accounts.index.couldnt_decline")
@@ -203,5 +206,35 @@ describe "as a user viewing my cards" do
 
     # Possibly see https://github.com/teampoltergeist/poltergeist/commit/57f039ec17c6f5786f18d2a43266f79fac57f554
     pending "the 'apply' btn opens in a new tab"
+  end
+
+
+  context "when I have clicked 'Apply' on a recommendation" do
+    let(:extra_setup) { @rec = create(:clicked_card_recommendation, person: me) }
+    let(:rec)   { @rec }
+    let(:offer) { rec.offer }
+
+    it "still shows the card under 'recommendations'" do
+      within card_recommendations_selector do
+        is_expected.to have_card_account(rec)
+        within card_account_selector(rec) do
+          # Card details:
+          is_expected.to have_content rec.card_name
+          is_expected.to have_content rec.card_bank_name
+          # Offer details:
+          is_expected.to have_content(
+            "Spend #{number_to_currency(offer.spend)} within #{offer.days} "\
+            "days to receive a bonus of "\
+            "#{number_with_delimiter(offer.points_awarded)} "\
+            "#{rec.card_currency.name} points"
+          )
+          # Apply/decline btns:
+          is_expected.to have_apply_btn(rec)
+          is_expected.to have_decline_btn(rec)
+        end
+      end
+    end
+
+    it "asks me whether I applied etc"
   end
 end

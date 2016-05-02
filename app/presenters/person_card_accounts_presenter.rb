@@ -10,7 +10,9 @@ class PersonCardAccountsPresenter < Struct.new(:person)
   end
 
   def card_recommendations
-    card_accounts.recommendations
+    # Temporarily exclude declined cards because we haven't set up a way to
+    # display them:
+    card_accounts.recommendations.where.not(status: "declined")
   end
 
   private

@@ -16,27 +16,37 @@ FactoryGirl.define do
       closed_at { 1.year.ago }
     end
 
+    trait :clicked do
+      status :clicked
+      clicked_at { 3.days.ago }
+    end
+
     trait :survey do
       open
       source :from_survey
     end
 
-    factory :card_recommendation, aliases: [:card_rec] do
+    trait :recommendation do
       status :recommended
       recommended_at { Time.now }
       card nil
       offer
       source :recommendation
+    end
 
-      factory :declined_card_recommendation do
-        status :declined
-        declined_at { Time.now }
-        decline_reason "You suck!"
-      end
+    trait :declined do
+      recommendation
+      status :declined
+      declined_at { Time.now }
+      decline_reason "You suck!"
     end
 
     factory :open_survey_card_account, traits: [:survey]
     # The order of the traits is important here:
     factory :closed_survey_card_account, traits: [:survey, :closed]
+
+    factory :card_recommendation, traits: [:recommendation]
+    factory :clicked_card_recommendation, traits: [:recommendation, :clicked]
+    factory :declined_card_recommendation, traits: [:recommendation, :declined]
   end
 end
