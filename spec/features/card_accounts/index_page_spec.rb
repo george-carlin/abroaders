@@ -148,7 +148,7 @@ describe "as a user viewing my cards" do
           expect{confirm}.not_to change{rec.reload.attributes}
           expect(page).to have_content "Please include a message"
           field_wrapper = find("##{decline_reason_field}").find(:xpath, '..')
-          expect(field_wrapper[:class]).to match(/\<field_with_errors\>/)
+          expect(field_wrapper[:class]).to match(/\bfield_with_errors\b/)
         end
       end
 
