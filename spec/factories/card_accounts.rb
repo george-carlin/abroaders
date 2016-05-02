@@ -34,5 +34,9 @@ FactoryGirl.define do
         decline_reason "You suck!"
       end
     end
+
+    factory :open_survey_card_account, traits: [:survey]
+    # The order of the traits is important here:
+    factory :closed_survey_card_account, traits: [:survey, :closed]
   end
 end

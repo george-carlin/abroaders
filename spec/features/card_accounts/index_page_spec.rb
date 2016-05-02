@@ -30,8 +30,8 @@ describe "as a user viewing my cards" do
 
   context "when I added cards in the onboarding survey" do
     let(:extra_setup) do
-      @open_account   = create(:card_account, :open, :survey, person: me, card: @cards[0])
-      @closed_account = create(:card_account, :closed, :survey, person: me, card: @cards[1])
+      @open_account   = create(:open_survey_card_account,   person: me, card: @cards[0])
+      @closed_account = create(:closed_survey_card_account, person: me, card: @cards[1])
     end
 
     it "has a section for them" do
