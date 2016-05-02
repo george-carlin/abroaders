@@ -30,22 +30,15 @@ class CardAccountsController < NonAdminController
   end
 
   def apply
-    unless params[:person_id]
-      account = CardAccount.find(params[:id])
-      redirect_to apply_person_card_account_path(account.person, account) and return
-    end
+    @recommendation = current_account.card_accounts.find(params[:id])
 
-    # They should still be able to access this page if the card is 'applied',
-    # in case they click the 'Apply' button but don't actually apply
-    @recommendation = current_account.people.find(params[:person_id]).card_accounts.where(
-      status: %i[recommended applied]
-    ).find(params[:id])
+    # Make sure this is the right type of card account:
+    redirect_to card_accounts_path and return unless @recommendation.recommendation?
 
     # We can't know for sure if the user has actually applied; the most
     # we can do is note that they've visited this page and (hopefully)
     # been redirected to the bank's page
-    @recommendation.applied!
-
+    @recommendation.clicked!
     @card = @recommendation.card
   end
 

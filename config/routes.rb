@@ -56,12 +56,6 @@ Rails.application.routes.draw do
     resource :spending_info, path: :spending, except: :new do
       get :survey, action: :new, as: :new
     end
-
-    resources :card_accounts, path: :cards do
-      member do
-        get :apply
-      end
-    end
   end
 
   # Note that 'cards' is a fixed list, and 'card accounts' is the join table

@@ -70,6 +70,18 @@ describe CardAccount do
       end
     end
 
+    describe "#clicked!" do
+      it "sets status to 'clicked'" do
+        card_account.clicked!
+        expect(card_account.status).to eq "clicked"
+      end
+
+      it "sets 'clicked at' to the current time" do
+        card_account.clicked!
+        expect(card_account.clicked_at).to be_within(2.seconds).of(Time.now)
+      end
+    end
+
     describe "SafetyChecks" do
       describe "#openable?" do
         it "is true iff the card card_account is not opened but can be" do

@@ -17,7 +17,7 @@
       <%= link_to "click here", @recommendation.offer.link %>
     </p>
 
-    <script>
+    <script type="text/javascript">
       window.setTimeout(function () {
         window.location = "<%= @recommendation.offer.link %>";
       }, 5000);

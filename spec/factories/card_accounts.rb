@@ -17,11 +17,12 @@ FactoryGirl.define do
     end
 
     trait :survey do
+      open
       source :from_survey
     end
 
     factory :card_recommendation, aliases: [:card_rec] do
-      source :recommended
+      status :recommended
       recommended_at { Time.now }
       card nil
       offer
