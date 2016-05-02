@@ -128,7 +128,7 @@ class Card < ApplicationRecord
 
   # Associations
 
-  has_many :offers,   class_name: "CardOffer"
+  has_many :offers
   has_many :accounts, class_name: "CardAccount"
   belongs_to :currency
 

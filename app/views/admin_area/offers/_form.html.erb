@@ -1,19 +1,19 @@
-<%= form_for [:admin, @card_offer], html: { class: "form-horizontal", role: "form" } do |f| %>
-  <% if @card_offer.errors.any? %>
-    <%= render "shared/model_validation_errors", model: @card_offer %>
+<%= form_for [:admin, @offer], html: { class: "form-horizontal", role: "form" } do |f| %>
+  <% if @offer.errors.any? %>
+    <%= render "shared/model_validation_errors", model: @offer %>
   <% end %>
 
   <div class="form-group">
     <%= f.label :card_id, class: "col-sm-2 control-label" %>
     <div class="col-sm-10">
-      <%= f.select :card_id, options_for_card_offer_card_select %>
+      <%= f.select :card_id, options_for_offer_card_select %>
     </div>
   </div>
 
   <div class="form-group">
     <%= f.label :condition, class: "col-sm-2 control-label" %>
     <div class="col-sm-10">
-      <%= f.select :condition, options_for_card_offer_condition_select(f.object) %>
+      <%= f.select :condition, options_for_offer_condition_select(f.object) %>
     </div>
   </div>
 
@@ -25,7 +25,7 @@
   </div>
 
   <div
-    id="card_offer_spend_form_group"
+    id="offer_spend_form_group"
     class="form-group"
     style="<%= "display:none" unless f.object.on_minimum_spend? %>"
   >
@@ -35,7 +35,7 @@
     </div>
   </div>
 
-  <div id="card_offer_cost_form_group" class="form-group">
+  <div id="offer_cost_form_group" class="form-group">
     <%= f.label :cost, class: "col-sm-2 control-label" %>
     <div class="col-sm-10">
       <%= f.number_field :cost, class: "form-control" %>
@@ -43,7 +43,7 @@
   </div>
 
   <div
-    id="card_offer_days_form_group"
+    id="offer_days_form_group"
     class="form-group"
     style="<%= "display:none" if f.object.on_approval? %>"
   >
@@ -92,7 +92,7 @@
 
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-      <%= f.submit t("admin.card_offers.submit"), class: "btn btn-primary" %>
+      <%= f.submit t("admin.offers.submit"), class: "btn btn-primary" %>
     </div>
   </div>
 <% end %>

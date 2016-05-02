@@ -31,12 +31,12 @@ namespace :ab do
       end
     end
 
-    task card_offers: :environment do
+    task offers: :environment do
       ApplicationRecord.transaction do
-        load_data_for("card_offers").each do |data|
-          CardOffer.create!(data)
+        load_data_for("offers").each do |data|
+          Offer.create!(data)
         end
-        puts "created #{CardOffer.count} cards"
+        puts "created #{Offer.count} cards"
       end
     end
 
@@ -51,6 +51,6 @@ namespace :ab do
 
     # TODO this still doesn't import destinations, you'll need to call those
     # rake tasks separately.
-    task all: [:admins, :currencies, :cards, :card_offers]
+    task all: [:admins, :currencies, :cards, :offers]
   end
 end

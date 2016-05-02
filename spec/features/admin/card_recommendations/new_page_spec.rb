@@ -22,11 +22,11 @@ describe "admin section" do
       ]
 
       @offers = [
-        create(:card_offer, card: @chase_b),
-        create(:card_offer, card: @chase_b),
-        create(:card_offer, card: @chase_p),
-        create(:card_offer, card: @usb_b),
-        create(:card_offer, card: @usb_p)
+        create(:offer, card: @chase_b),
+        create(:offer, card: @chase_b),
+        create(:offer, card: @chase_p),
+        create(:offer, card: @usb_b),
+        create(:offer, card: @usb_p)
       ]
       @dead_offer = create(:dead_offer, card: @chase_b)
 
@@ -307,7 +307,7 @@ describe "admin section" do
     end
 
     describe "the card recommendation form" do
-      it "has an option to recommend each card offer" do
+      it "has an option to recommend each offer" do
         within ".admin-card-recommendation-table" do
           @offers.each do |offer|
             is_expected.to have_selector offer_selector(offer)
@@ -425,7 +425,7 @@ describe "admin section" do
         end
       end # filters
 
-      describe "clicking 'recommend' next to a card offer", :js do
+      describe "clicking 'recommend' next to an offer", :js do
         let(:offer) { @offers[3] }
         before { find("#recommend_#{dom_id(offer)}_btn").click }
         let(:offer_tr) { "##{dom_id(offer, :admin_recommend)}" }

@@ -5,7 +5,7 @@ describe CardAccount do
   let(:account)   { build(:account) }
   let(:person)    { account.people.first }
   let(:card)      { build(:card) }
-  let(:offer)     { build(:card_offer, card: card) }
+  let(:offer)     { build(:offer, card: card) }
   let(:card_account) { described_class.from_survey.new(person: person) }
 
   describe "::Statuses" do

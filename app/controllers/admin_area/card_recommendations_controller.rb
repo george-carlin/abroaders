@@ -10,8 +10,8 @@ module AdminArea
       # Call 'to_a' so it doesn't include @card_recommendation:
       @card_accounts = accounts.to_a
       @card_recommendation = accounts.recommendations.build
-      @card_offers_grouped_by_card = \
-        CardOffer.includes(:card, card: :currency).live.group_by(&:card)
+      @offers_grouped_by_card = \
+        Offer.includes(:card, card: :currency).live.group_by(&:card)
       @balances     = @person.balances.includes(:currency)
       @travel_plans = @account.travel_plans
     end
@@ -21,7 +21,7 @@ module AdminArea
       person_must_be_onboarded! and return
       @account   = @person.account
       # TODO don't allow expired/inactive offers to be assigned:
-      @offer =  CardOffer.find(params[:offer_id])
+      @offer =  Offer.find(params[:offer_id])
       @person.recommend_offer!(@offer)
       flash[:success] = "Recommended card!"
       # TODO notify person

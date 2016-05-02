@@ -128,7 +128,7 @@
   </thead>
 
   <tbody>
-    <% @card_offers_grouped_by_card.each_with_index do |(card, offers), i| %>
+    <% @offers_grouped_by_card.each_with_index do |(card, offers), i| %>
       <tr
         id="<%= dom_id(card, :admin_recommend) %>"
         class="<%= dom_class(card, :admin_recommend) %>"
@@ -194,7 +194,7 @@
                     <%= recommend_card_btn(offer) %>
 
                     <div
-                      class="confirm_cancel_card_offer_wrapper"
+                      class="confirm_cancel_offer_wrapper"
                       style="display:none;"
                     >
                       <%= cancel_recommend_card_btn(offer) %>

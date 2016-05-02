@@ -35,7 +35,7 @@ class CardAccount < ApplicationRecord
 
   belongs_to :card
   belongs_to :person
-  belongs_to :offer, class_name: "CardOffer"
+  belongs_to :offer
 
   alias_method :original_card, :card
   def card

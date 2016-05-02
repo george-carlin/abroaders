@@ -1,6 +1,6 @@
 # Note - we might eventually want to add a unique code per affiliate
 # to the end of this identifier.
-class CardOffer::Identifier
+class Offer::Identifier
   def initialize(offer)
     @offer = offer
   end

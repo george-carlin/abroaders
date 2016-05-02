@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :card_offer, aliases: [:offer, :live_offer] do
+  factory :offer, aliases: [:live_offer] do
     card
     points_awarded { rand(20) * 5_000 }
     spend { rand(10) * 500 }

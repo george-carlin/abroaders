@@ -1,4 +1,4 @@
-class CardOffer < ApplicationRecord
+class Offer < ApplicationRecord
 
   # Attributes
 

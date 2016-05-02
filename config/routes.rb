@@ -99,7 +99,7 @@ Rails.application.routes.draw do
   namespace :admin, module: :admin_area do
     resources :accounts, only: [ :index, :show ]
     resources :cards, only: %i[show index new create edit update]
-    resources :card_offers, only: %i[show index new create edit update]
+    resources :offers, only: %i[show index new create edit update]
     resources :destinations, only: :index
     Destination.types.keys.each do |type|
       # airports, cities, countries, etc

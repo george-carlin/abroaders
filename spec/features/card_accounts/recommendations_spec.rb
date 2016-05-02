@@ -58,7 +58,7 @@ describe "as a user viewing my card recommendations", :js do
       end
     end
 
-    it "shows details of the relevant card offers" do
+    it "shows details of the relevant offers" do
       @recommendations.each do |recommendation|
         offer = recommendation.offer
         within card_account_selector(recommendation) do
@@ -224,7 +224,7 @@ describe "as a user viewing my card recommendations", :js do
 
   describe "when I have applied for a card" do
     let(:extra_setup) do
-      @offer = create(:card_offer)
+      @offer = create(:offer)
       @card  = @offer.card
       @card_account = create(
         :card_account,
