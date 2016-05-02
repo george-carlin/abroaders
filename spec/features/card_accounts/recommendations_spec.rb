@@ -402,10 +402,6 @@ describe "as a user viewing my card recommendations", :js do
     "##{dom_id(card_account)}"
   end
 
-  def have_card_account(card_account)
-    have_selector card_account_selector(card_account)
-  end
-
   def decline_rec_btn(recommendation)
     "#card_account_#{recommendation.id}_decline_btn"
   end

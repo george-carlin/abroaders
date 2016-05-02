@@ -31,6 +31,7 @@ class Account < ApplicationRecord
   has_one :main_passenger, -> { main }, class_name: "Person"
   has_one :companion, -> { companion }, class_name: "Person"
   has_many :card_accounts, through: :people
+  has_many :cards, through: :card_accounts
 
   has_one :main_passenger_spending_info,
             through: :main_passenger, source: :spending_info

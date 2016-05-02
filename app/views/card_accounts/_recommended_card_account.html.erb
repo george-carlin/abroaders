@@ -7,13 +7,11 @@
 
   <div class="col-xs-12 col-md-4">
 
-    <%= link_to(
-      "Apply",
-      apply_card_account_path(recommended_card_account),
-      id: "card_account_#{recommended_card_account.id}_apply_btn",
-      class: "CardApplyBtn card_account_apply_btn btn btn-primary btn-sm",
-      target: "_blank"
-    ) %>
+    <div class="card_recommendation_actions">
+      <%= apply_to_card_recommendation_btn(recommended_card_account) %>
+      <%= decline_card_recommendation_btn(recommended_card_account) %>
+    </div>
+    <%= decline_card_recommendation_form(recommended_card_account) %>
 
     <% if false %>
     <div

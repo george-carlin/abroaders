@@ -1,5 +1,5 @@
 # See http://nithinbekal.com/posts/rails-presenters/
-class PersonCardAccountsPresenter < Struct.new(:person, :view)
+class PersonCardAccountsPresenter < Struct.new(:person)
 
   def card_accounts_from_survey
     card_accounts.from_survey
@@ -7,6 +7,10 @@ class PersonCardAccountsPresenter < Struct.new(:person, :view)
 
   def added_cards_in_survey?
     card_accounts_from_survey.any?
+  end
+
+  def card_recommendations
+    card_accounts.recommendations
   end
 
   private

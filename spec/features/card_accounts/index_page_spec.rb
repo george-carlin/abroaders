@@ -2,6 +2,8 @@ require "rails_helper"
 
 describe "as a user viewing my cards" do
   include ActionView::Helpers::NumberHelper
+  include CardAccountsIndexPageMacros
+
   subject { page }
 
   include_context "logged in"
@@ -16,38 +18,6 @@ describe "as a user viewing my cards" do
   end
 
   let(:extra_setup) { nil }
-
-  def card_account_selector(account)
-    "##{dom_id(account)}"
-  end
-
-  def have_survey_cards_header(have=true)
-    send("have_#{"no_" unless have}selector", "h2", text: "Other Cards")
-  end
-
-  def survey_cards_section
-    "#card_accounts_from_survey"
-  end
-
-  def have_apply_btn(rec, have=true)
-    send("have_#{"no_"unless have}link", "Apply", href: apply_card_account_path(rec))
-  end
-
-  def have_no_apply_btn(rec)
-    have_apply_btn(rec, false)
-  end
-
-  def decline_btn(recommendation)
-    "#card_account_#{recommendation.id}_decline_btn"
-  end
-
-  def have_decline_btn(rec, have=true)
-    send("have_#{"no_"unless have}selector", decline_btn(recommendation), text: "No Thanks")
-  end
-
-  def have_no_decline_btn(rec, have=true)
-    have_decline_btn(rec, false)
-  end
 
   context "when I didn't add any cards in the onboarding survey" do
     before { raise if me.card_accounts.from_survey.any? } # Sanity check
@@ -104,4 +74,134 @@ describe "as a user viewing my cards" do
     pending
   end
 
+
+  context "when I have been recommended some cards" do
+    let(:extra_setup) do
+      @recs = create_list(:card_rec, 2, person: me)
+    end
+
+    it "lists them all" do
+      within "#card_recommendations" do
+        @recs.each do |recommendation|
+          is_expected.to have_card_account(recommendation)
+          within card_account_selector(recommendation) do
+            is_expected.to have_content recommendation.card_name
+            is_expected.to have_content recommendation.card_bank_name
+          end
+        end
+      end
+    end
+
+    it "shows details of the relevant card offers" do
+      @recs.each do |recommendation|
+        offer = recommendation.offer
+        within card_account_selector(recommendation) do
+          is_expected.to have_content(
+            "Spend #{number_to_currency(offer.spend)} within #{offer.days} "\
+            "days to receive a bonus of "\
+            "#{number_with_delimiter(offer.points_awarded)} "\
+            "#{recommendation.card_currency.name} points"
+          )
+        end
+      end
+    end
+
+    it "has buttons to apply for or decline each recommendation" do
+      @recs.each do |recommendation|
+        is_expected.to have_apply_btn(recommendation)
+        is_expected.to have_decline_btn(recommendation)
+      end
+    end
+
+    describe "clicking the 'decline' button", :js do
+      let(:rec) { @recs[0] }
+      before { find(decline_btn(rec)).click }
+
+      let(:decline_reason_field) { "card_account_#{rec.id}_decline_reason" }
+
+      it "shows a text field asking me why I'm declining" do
+        is_expected.to have_field decline_reason_field
+      end
+
+      let(:cancel_btn)  { "#card_recommendation_#{rec.id}_cancel_decline_btn" }
+      let(:confirm_btn) { "#card_recommendation_#{rec.id}_confirm_decline_btn" }
+      let(:confirm) do
+        within(card_account_selector(rec)) { click_button "Confirm" }
+      end
+
+      it "hides the 'apply/decline' buttons" do
+        is_expected.to have_no_apply_btn(rec)
+        is_expected.to have_no_decline_btn(rec)
+      end
+
+      it "shows a 'cancel' and a 'confirm' button" do
+        within card_account_selector(rec) do
+          is_expected.to have_selector cancel_btn, text: "Cancel"
+          is_expected.to have_selector confirm_btn, text: "Confirm"
+        end
+      end
+
+      describe "submitting an empty text field" do
+        it "shows an error message and doesn't save" do
+          expect{confirm}.not_to change{rec.reload.attributes}
+          expect(page).to have_content "Please include a message"
+          field_wrapper = find("##{decline_reason_field}").find(:xpath, '..')
+          expect(field_wrapper[:classes]).to match(/\<field_with_errors\>/)
+        end
+      end
+
+      describe "filling in the field and clicking 'confirm'" do
+        let(:message) { "Because I say so, bitch!" }
+        before { fill_in decline_reason_field, with: message }
+
+        let(:submit) do
+          confirm
+          rec.reload
+        end
+
+        it "updates the card account's status to 'declined'" do
+          submit
+          expect(rec).to be_declined
+        end
+
+        it "sets the 'declined at' timestamp to the current time" do
+          submit
+          expect(rec.declined_at).to be_within(5.seconds).of Time.now
+        end
+
+        context "when the card is no longer 'declinable'" do
+          before { rec.applied! }
+
+          # This could happen if e.g. they have the same window open in two
+          # tabs, and decline the card in one tab before clicking 'decline'
+          # again in the other tab
+          it "fails gracefully" do
+            submit
+            expect(current_path).to eq card_accounts_path
+            expect(page).to have_info_message text: t("card_accounts.index.couldnt_decline")
+          end
+        end
+      end
+
+      describe "clicking 'cancel'" do
+        before do
+          within card_account_selector(rec) do
+            click_button "Cancel"
+          end
+        end
+
+        it "shows the 'apply/decline' buttons again" do
+          is_expected.to have_apply_btn(rec)
+          is_expected.to have_decline_btn(rec)
+        end
+
+        it "doesn't change the card's status" do
+          expect(rec.reload).to be_recommended
+        end
+      end
+    end
+
+    # Possibly see https://github.com/teampoltergeist/poltergeist/commit/57f039ec17c6f5786f18d2a43266f79fac57f554
+    pending "the 'apply' btn opens in a new tab"
+  end
 end
