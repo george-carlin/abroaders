@@ -47,7 +47,6 @@ class CardAccountsController < NonAdminController
     @recommendation.applied!
 
     @card = @recommendation.card
-    # TODO make the actual redirection work!
   end
 
   def decline
