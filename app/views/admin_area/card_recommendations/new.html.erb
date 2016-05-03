@@ -136,21 +136,23 @@
         data-bank="<%= card.bank_id %>"
         data-currency="<%= card.currency_id %>"
       >
-        <td class="card-identifier">
-          Card <%= card.identifier %>
-        </td>
-        <td class="card-name">
-          <%= card.name %>
-        </td>
-        <td class="card-bank-name">
-          <%= card.bank_name %>
-        </td>
-        <td class="card-bp">
-          <%= card.bp.capitalize %>
-        </td>
-        <td class="card-currency">
-          <%= card.currency.name %>
-        </td>
+        <% present card do |card_p| %>
+          <td class="card-identifier">
+            Card <%= card_p.identifier %>
+          </td>
+          <td class="card-name">
+            <%= card_p.name %>
+          </td>
+          <td class="card-bank-name">
+            <%= card_p.bank_name %>
+          </td>
+          <td class="card-bp">
+            <%= card_p.bp %>
+          </td>
+          <td class="card-currency">
+            <%= card_p.currency_name %>
+          </td>
+        <% end %>
       </tr><!-- .admin_recommend_card_(id) -->
 
       <tr

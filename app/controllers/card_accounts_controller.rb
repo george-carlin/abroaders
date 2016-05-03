@@ -12,7 +12,7 @@ class CardAccountsController < NonAdminController
   def survey
     @person = load_person
     redirect_if_survey_is_inaccessible! and true
-    @survey = CardsSurvey.new(person: @person)# SurveyCard.all
+    @survey = CardsSurvey.new(person: @person)
   end
 
   def save_survey

@@ -3,7 +3,7 @@ class CardsSurvey < Form
   attr_accessor :person
 
   def initialize(attributes={})
-    @available_cards = SurveyCard.all
+    @available_cards = Card.survey
     assign_attributes(attributes)
     @cards = {}
   end

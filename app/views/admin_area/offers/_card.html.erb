@@ -1,20 +1,22 @@
-<div class="col-sm-2 col-sm-offset-2">
-  <%= card_image_tag(card, "130x81") %>
-  <br><br>
-  <%= link_to "View all offers", admin_card_offers_path(card) %> |
-  <%= link_to "Edit card", edit_admin_card_path(card) %>
-</div>
+<% present card do |card| %>
+  <div class="col-sm-2 col-sm-offset-2">
+    <%= card.image("130x81") %>
+    <br><br>
+    <%= link_to "View all offers", admin_card_offers_path(card) %> |
+    <%= link_to "Edit card", edit_admin_card_path(card) %>
+  </div>
 
-<div class="col-sm-4">
-  <p><b>Code:</b> <%= card.code %></p>
-  <p><b>Bank:</b> <%= card.bank_name %></p>
-  <p><b>Name:</b> <%= card.name %></p>
-  <p><b>Network:</b> <%= I18n.t("activerecord.attributes.card.networks.#{card.network}") %></p>
-</div>
+  <div class="col-sm-4">
+    <p><b>Code:</b> <%= card.code %></p>
+    <p><b>Bank:</b> <%= card.bank_name %></p>
+    <p><b>Name:</b> <%= card.name %></p>
+    <p><b>Network:</b> <%= card.network %></p>
+  </div>
 
-<div class="col-sm-4">
-  <p><b>B/P:</b> <%= card.bp.humanize %></p>
-  <p><b>Type:</b> <%= card.type.humanize %></p>
-  <p><b>Annual Fee:</b> <%= number_to_currency(card.annual_fee_cents / 100) %></p>
-  <p><b>Currency:</b> <%= card.currency_name %></p>
-</div>
+  <div class="col-sm-4">
+    <p><b>B/P:</b> <%= card.bp %></p>
+    <p><b>Type:</b> <%= card.type %></p>
+    <p><b>Annual Fee:</b> <%= card.annual_fee %></p>
+    <p><b>Currency:</b> <%= card.currency_name %></p>
+  </div>
+<% end %>

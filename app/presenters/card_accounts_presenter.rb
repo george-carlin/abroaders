@@ -16,7 +16,7 @@ class CardAccountsPresenter < ApplicationPresenter
   # --- Methods only relevant when model is a Person: ---
 
   def subheading
-    "#{@model.first_name}'s Cards"
+    "#{first_name}'s Cards"
   end
 
   def recommendations

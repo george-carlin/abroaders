@@ -1,31 +1,33 @@
-<div class="col-xs-6 col-md-2">
-  <%= card_image_tag(card_account.card, "130x81") %>
-</div>
+<%# TODO move me to offers/offer %>
+<% present card_account.card do |card| %>
+  <div class="col-xs-6 col-md-2">
+    <%= card.image("130x81") %>
+  </div>
 
-<div class="col-xs-6 col-md-6">
-  <p>
-    <b>Card Name:</b>
-    <span class="card-account-card-name">
-      <%# TODO another occurence of mashed together card names. This must %>
-      <%# be standardized! %>
-      <%= card_account.card_name %>
-      (<%= I18n.t("activerecord.attributes.card.networks.#{card_account.card_network}") %>)
-    </span>
-  </p>
+  <div class="col-xs-6 col-md-6">
+    <p>
+      <b>Card Name:</b>
+      <span class="card-account-card-name">
+        <%= card.name %>
+        (<%= card.network %>)
+      </span>
+    </p>
 
-  <p>
-    <b>Bank:</b>
-    <span class="card-account-bank">
-      <%= card_account.card_bank_name %>
-    </span>
-  </p>
+    <p>
+      <b>Bank:</b>
+      <span class="card-account-bank">
+        <%= card.bank_name %>
+      </span>
+    </p>
 
-  <% if card_account.offer.present? %>
-    <div class="card_account_offer">
-      Spend <%= number_to_currency(card_account.offer.spend) %> within
-      <%= card_account.offer.days %> days to receive a bonus of
-      <%= number_with_delimiter(card_account.offer.points_awarded) %>
-      <%= card_account.card_currency.name %> points
-    </div><!-- .card-account-offer -->
-  <% end %>
-</div>
+    <% if card_account.offer.present? %>
+      <div class="card_account_offer">
+        <% # TODO replace me with a presenter %>
+        Spend <%= number_to_currency(card_account.offer.spend) %> within
+        <%= card_account.offer.days %> days to receive a bonus of
+        <%= number_with_delimiter(card_account.offer.points_awarded) %>
+        <%= card.currency_name %> points
+      </div><!-- .card-account-offer -->
+    <% end %>
+  </div>
+<% end %>

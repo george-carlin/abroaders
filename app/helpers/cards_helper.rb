@@ -1,13 +1,5 @@
 module CardsHelper
 
-  def card_price_formatted(card)
-    "$%.2f" % (card.annual_fee_cents / 100.0)
-  end
-
-  def card_image_tag(card, size="180x114")
-    image_tag card.image.url, size: size
-  end
-
   def card_bp_filter_check_box_tag(bp)
     klass =  :card_bp_filter
     id    =  :"#{klass}_#{bp}"
