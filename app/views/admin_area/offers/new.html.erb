@@ -1,7 +1,7 @@
 <% provide :title, "New Offer" %>
 
 <% present @card do |card| %>
-  <h1><%= card.full_name(bank: true) %> - New Card Offer</h1>
+  <h1><%= card.full_name(with_bank: true) %> - New Card Offer</h1>
 <% end %>
 
 <div class="row">

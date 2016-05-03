@@ -10,10 +10,10 @@ class CardPresenter < ApplicationPresenter
     t("activerecord.attributes.card.networks.#{super()}")
   end
 
-  def full_name(bank: false)
+  def full_name(with_bank: false)
     @full_name ||= begin
       parts = [name]
-      parts.unshift(bank_name) if bank
+      parts.unshift(bank_name) if with_bank
       parts.push("business") if business?
       # Amex will already be displayed as the bank name, so don't be redundant
       parts.push(network) unless bank_name == "American Express"
