@@ -165,7 +165,7 @@
             class="<%= dom_class(card, :admin_recommend) %>_offers_table table"
           >
             <tbody>
-              <% offers.each do |offer| %>
+              <% present_each offers do |offer| %>
                 <tr
                   id="<%= dom_id(offer, :admin_recommend) %>"
                   class="<%= dom_class(offer, :admin_recommend) %>"
@@ -175,15 +175,15 @@
                   </td>
                   <td class="offer-points-awarded">
                     Points: &nbsp;
-                    <b><%= number_with_delimiter offer.points_awarded %></b>
+                    <b><%= offer.points_awarded %></b>
                   </td>
                   <td class="offer-spend">
                     Spend:&nbsp;
-                    <b><%= number_to_currency offer.spend %></b>
+                    <b><%= offer.spend %></b>
                   </td>
                   <td class="offer-cost">
                     Cost:&nbsp;
-                    <b><%= number_to_currency offer.cost %></b>
+                    <b><%= offer.cost %></b>
                   </td>
                   <td class="offer-days">
                     Days:&nbsp;
@@ -193,14 +193,14 @@
                     <b><%= link_to "Link", offer.link, target: "_blank" %></b>
                   </td>
                   <td class="offer-recommend">
-                    <%= recommend_card_btn(offer) %>
+                    <%= offer.recommend_btn %>
 
                     <div
                       class="confirm_cancel_offer_wrapper"
                       style="display:none;"
                     >
-                      <%= cancel_recommend_card_btn(offer) %>
-                      <%= confirm_recommend_card_btn(offer) %>
+                      <%= offer.confirm_recommend_btn(@person) %>
+                      <%= offer.cancel_recommend_btn %>
                     </div>
                   </td>
                 </tr>

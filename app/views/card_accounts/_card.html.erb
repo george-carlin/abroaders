@@ -20,13 +20,11 @@
     </p>
 
     <% if card_account.offer.present? %>
-      <div class="card_account_offer">
-        <% # TODO replace me with a presenter %>
-        Spend <%= number_to_currency(card_account.offer.spend) %> within
-        <%= card_account.offer.days %> days to receive a bonus of
-        <%= number_with_delimiter(card_account.offer.points_awarded) %>
-        <%= card.currency_name %> points
-      </div><!-- .card-account-offer -->
+      <% present card_account.offer do |offer| %>
+        <div class="card_account_offer">
+          <%= offer.description %>
+        </div><!-- .card-account-offer -->
+      <% end %>
     <% end %>
   </div>
 <% end %>

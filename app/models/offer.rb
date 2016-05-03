@@ -16,12 +16,6 @@ class Offer < ApplicationRecord
   delegate :name, :identifier, to: :card, prefix: true
   delegate :bank_name, to: :card
 
-  # A shorthand code that identifies the offer based on the points awarded,
-  # minimum spend, and days. Note that this isn't necessarily unique per offer.
-  def identifier
-    Identifier.new(self)
-  end
-
   # Validations
 
   with_options presence: true do
