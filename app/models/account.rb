@@ -30,7 +30,13 @@ class Account < ApplicationRecord
   has_many :people
   has_one :main_passenger, -> { main }, class_name: "Person"
   has_one :companion, -> { companion }, class_name: "Person"
+
+  # TODO move away from 'passenger' and 'companion' terminology.
+  alias_method :main_person, :main_passenger
+  alias_method :partner, :companion
+
   has_many :card_accounts, through: :people
+  has_many :card_recommendations, through: :people
   has_many :cards, through: :card_accounts
 
   has_one :main_passenger_spending_info,

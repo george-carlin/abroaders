@@ -12,70 +12,29 @@ describe "as a user viewing my cards" do
   let(:partner) { account.companion }
 
   before do
-    @cards = create_list(:card, 5)
+    create(:companion, account: account) if has_partner
     extra_setup
     visit card_accounts_path
   end
 
   let(:extra_setup) { nil }
+  let(:has_partner) { false }
 
-  let(:card_recommendations_selector) { "#card_recommendations" }
+  let(:card_recommendations_selector)    { "#card_recommendations" }
+  let(:main_recommendations_selector)    { "#main_person_card_recommendations" }
+  let(:partner_recommendations_selector) { "#partner_card_recommendations" }
 
-  context "when I didn't add any cards in the onboarding survey" do
-    before { raise if me.card_accounts.from_survey.any? } # Sanity check
-
-    it "doesn't have a section for them" do
-      is_expected.to have_survey_cards_header(false)
-      is_expected.to have_no_selector survey_cards_section
-    end
+  let(:pending_recs_notice) do
+    "The Abroaders team is hand selecting the ideal rewards cards based "\
+    "on your current points, travel plans and spending. We’ll let you "\
+    "know as soon as the card recommendations are ready to view."
   end
 
-  context "when I added cards in the onboarding survey" do
-    let(:extra_setup) do
-      @open_account   = create(:open_survey_card_account,   person: me, card: @cards[0])
-      @closed_account = create(:closed_survey_card_account, person: me, card: @cards[1])
-    end
-
-    it "has a section for them" do
-      is_expected.to have_selector "h2", "Other Cards"
-      is_expected.to have_selector "#card_accounts_from_survey"
-    end
-
-    it "lists them" do
-      within "#card_accounts_from_survey" do
-        is_expected.to have_selector card_account_selector(@open_account)
-        is_expected.to have_selector card_account_selector(@closed_account)
-      end
-
-      within card_account_selector(@open_account) do
-        is_expected.to have_content "Card Name: #{@cards[0].name}"
-        is_expected.to have_content "Bank: #{@cards[0].bank_name}"
-        is_expected.to have_content "Open"
-        is_expected.to have_content @open_account.opened_at.strftime("%b %Y")
-        is_expected.not_to have_content "Closed"
-      end
-
-      within card_account_selector(@closed_account) do
-        is_expected.to have_content "Card Name: #{@cards[1].name}"
-        is_expected.to have_content "Bank: #{@cards[1].bank_name}"
-        is_expected.to have_content "Closed"
-        is_expected.to have_content @closed_account.opened_at.strftime("%b %Y")
-        is_expected.to have_content @closed_account.closed_at.strftime("%b %Y")
-      end
-    end
-
-    it "doesn't have apply/decline btns for them" do
-      is_expected.to have_no_apply_btn(@open_account)
-      is_expected.to have_no_decline_btn(@open_account)
-      is_expected.to have_no_apply_btn(@closed_account)
-      is_expected.to have_no_decline_btn(@closed_account)
+  context "when I have not been recommended any cards" do
+    it "tells me that recs are coming" do
+      is_expected.to have_content pending_recs_notice
     end
   end
-
-  context "when I have a companion" do
-    pending
-  end
-
 
   context "when I have been recommended some cards" do
     let(:extra_setup) do
@@ -83,7 +42,7 @@ describe "as a user viewing my cards" do
     end
 
     it "lists them all" do
-      within card_recommendations_selector do
+      within main_recommendations_selector do
         @recs.each do |recommendation|
           is_expected.to have_card_account(recommendation)
           within card_account_selector(recommendation) do
@@ -91,27 +50,6 @@ describe "as a user viewing my cards" do
             is_expected.to have_content recommendation.card_bank_name
           end
         end
-      end
-    end
-
-    it "shows details of the relevant card offers" do
-      @recs.each do |recommendation|
-        offer = recommendation.offer
-        within card_account_selector(recommendation) do
-          is_expected.to have_content(
-            "Spend #{number_to_currency(offer.spend)} within #{offer.days} "\
-            "days to receive a bonus of "\
-            "#{number_with_delimiter(offer.points_awarded)} "\
-            "#{recommendation.card_currency.name} points"
-          )
-        end
-      end
-    end
-
-    it "has buttons to apply for or decline each recommendation" do
-      @recs.each do |recommendation|
-        is_expected.to have_apply_btn(recommendation)
-        is_expected.to have_decline_btn(recommendation)
       end
     end
 
@@ -204,37 +142,87 @@ describe "as a user viewing my cards" do
       end
     end
 
-    # Possibly see https://github.com/teampoltergeist/poltergeist/commit/57f039ec17c6f5786f18d2a43266f79fac57f554
-    pending "the 'apply' btn opens in a new tab"
-  end
+    describe "each card recommendation" do
+      it "shows details of its card offer" do
+        @recs.each do |recommendation|
+          offer = recommendation.offer
+          within card_account_selector(recommendation) do
+            is_expected.to have_content(
+              "Spend #{number_to_currency(offer.spend)} within #{offer.days} "\
+              "days to receive a bonus of "\
+              "#{number_with_delimiter(offer.points_awarded)} "\
+              "#{recommendation.card_currency.name} points"
+            )
+          end
+        end
+      end
 
-
-  context "when I have clicked 'Apply' on a recommendation" do
-    let(:extra_setup) { @rec = create(:clicked_card_recommendation, person: me) }
-    let(:rec)   { @rec }
-    let(:offer) { rec.offer }
-
-    it "still shows the card under 'recommendations'" do
-      within card_recommendations_selector do
-        is_expected.to have_card_account(rec)
-        within card_account_selector(rec) do
-          # Card details:
-          is_expected.to have_content rec.card_name
-          is_expected.to have_content rec.card_bank_name
-          # Offer details:
-          is_expected.to have_content(
-            "Spend #{number_to_currency(offer.spend)} within #{offer.days} "\
-            "days to receive a bonus of "\
-            "#{number_with_delimiter(offer.points_awarded)} "\
-            "#{rec.card_currency.name} points"
-          )
-          # Apply/decline btns:
-          is_expected.to have_apply_btn(rec)
-          is_expected.to have_decline_btn(rec)
+      it "has buttons to apply or decline " do
+        @recs.each do |recommendation|
+          is_expected.to have_apply_btn(recommendation)
+          is_expected.to have_decline_btn(recommendation)
         end
       end
     end
 
-    it "asks me whether I applied etc"
+    # Possibly see https://github.com/teampoltergeist/poltergeist/commit/57f039ec17c6f5786f18d2a43266f79fac57f554
+    pending "the 'apply' btn opens in a new tab"
+
+    context "when I have clicked 'Apply' on a recommendation" do
+      let(:extra_setup) { @rec = create(:clicked_card_recommendation, person: me) }
+      let(:rec)   { @rec }
+      let(:offer) { rec.offer }
+
+      it "still shows the card under 'recommendations'" do
+        within card_recommendations_selector do
+          is_expected.to have_card_account(rec)
+          within card_account_selector(rec) do
+            # Card details:
+            is_expected.to have_content rec.card_name
+            is_expected.to have_content rec.card_bank_name
+            # Offer details:
+            is_expected.to have_content(
+              "Spend #{number_to_currency(offer.spend)} within #{offer.days} "\
+              "days to receive a bonus of "\
+              "#{number_with_delimiter(offer.points_awarded)} "\
+              "#{rec.card_currency.name} points"
+            )
+            # Apply/decline btns:
+            is_expected.to have_apply_btn(rec)
+            is_expected.to have_decline_btn(rec)
+          end
+        end
+      end
+
+      it "asks me whether I applied etc"
+    end
+  end
+
+  context "when I have a partner" do
+    let(:has_partner) { true }
+
+    context "and neither of us have been recommended any cards" do
+      it "tells me that recs are coming" do
+        is_expected.to have_content pending_recs_notice
+      end
+    end
+
+    context "and my partner has been recommended some cards" do
+      let(:extra_setup) do
+        @recs = create_list(:card_recommendation, 2, person: partner)
+      end
+
+      it "lists them all" do
+        within partner_recommendations_selector do
+          @recs.each do |recommendation|
+            is_expected.to have_card_account(recommendation)
+            within card_account_selector(recommendation) do
+              is_expected.to have_content recommendation.card_name
+              is_expected.to have_content recommendation.card_bank_name
+            end
+          end
+        end
+      end
+    end
   end
 end

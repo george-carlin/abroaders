@@ -4,14 +4,6 @@ module CardAccountsIndexPageMacros
     "##{dom_id(account)}"
   end
 
-  def have_survey_cards_header(have=true)
-    send("have_#{"no_" unless have}selector", "h2", text: "Other Cards")
-  end
-
-  def survey_cards_section
-    "#card_accounts_from_survey"
-  end
-
   def have_apply_btn(rec, have=true)
     send("have_#{"no_"unless have}link", "Apply", href: apply_card_account_path(rec))
   end

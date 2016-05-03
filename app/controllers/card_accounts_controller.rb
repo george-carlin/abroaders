@@ -7,11 +7,6 @@ class CardAccountsController < NonAdminController
                                       only: [:survey, :save_survey]
 
   def index
-    @person = PersonCardAccountsPresenter.new(current_main_passenger)
-    if has_companion?
-      @companion = PersonCardAccountsPresenter.new(current_companion)
-    end
-
   end
 
   def survey
