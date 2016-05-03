@@ -128,7 +128,7 @@
   </thead>
 
   <tbody>
-    <% @offers_grouped_by_card.each_with_index do |(card, offers), i| %>
+    <% @offers_grouped_by_card.each do |card, offers| %>
       <tr
         id="<%= dom_id(card, :admin_recommend) %>"
         class="<%= dom_class(card, :admin_recommend) %>"
@@ -165,7 +165,7 @@
             class="<%= dom_class(card, :admin_recommend) %>_offers_table table"
           >
             <tbody>
-              <% offers.each_with_index do |offer, j| %>
+              <% offers.each do |offer| %>
                 <tr
                   id="<%= dom_id(offer, :admin_recommend) %>"
                   class="<%= dom_class(offer, :admin_recommend) %>"
