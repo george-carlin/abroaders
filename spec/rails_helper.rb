@@ -42,6 +42,8 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
 
   config.include ActionView::RecordIdentifier, type: :feature
+  config.include ControllerMacros, type: :controller
+  config.include Devise::TestHelpers, type: :controller
   config.include FactoryGirl::Syntax::Methods
   config.include WaitForAjax, type: :feature
   config.include AlertsMacros, type: :feature

@@ -2,9 +2,13 @@
 
 <h1>Offer #<%= @offer.id %></h1>
 
+<div class="row">
+  <%= render "admin_area/offers/card", card: @card %>
+</div>
+
+  <hr>
+
 <dl class="dl-horizontal">
-  <dt>Card:</dt>
-  <dd><%= @offer.card_name %></dd>
 
   <dt>Condition:</dt>
   <dd><%= @offer.condition.humanize %></dd>
@@ -33,6 +37,9 @@
 
   <dt>Live:</dt>
   <dd><%= @offer.live ? "Yes" : "No" %></dd>
+
+  <dt>Notes:</dt>
+  <dd><%= @offer.notes %></dd>
 
 </dl>
 

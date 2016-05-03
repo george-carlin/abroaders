@@ -19,6 +19,7 @@
       <th>Annual Fee</th>
       <th>On survey?</th>
       <th></th>
+      <th>Offers</th>
     </tr>
   </thead>
 
@@ -40,6 +41,10 @@
         </td>
         <td>
           <%= link_to "Edit", edit_admin_card_path(card) %>
+        </td>
+        <td>
+          <%= link_to "View", admin_card_offers_path(card) %> |
+          <%= link_to "New", new_admin_card_offer_path(card) %>
         </td>
       </tr>
     <% end %>

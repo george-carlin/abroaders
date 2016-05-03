@@ -92,8 +92,11 @@ Rails.application.routes.draw do
 
   namespace :admin, module: :admin_area do
     resources :accounts, only: [ :index, :show ]
-    resources :cards, only: %i[show index new create edit update]
-    resources :offers, only: %i[show index new create edit update]
+    resources :cards, except: :destroy do
+      resources :offers, except: :destroy
+    end
+    # show and edit redirect to the nested action:
+    resources :offers, only: [:show, :edit, :index]
     resources :destinations, only: :index
     Destination.types.keys.each do |type|
       # airports, cities, countries, etc

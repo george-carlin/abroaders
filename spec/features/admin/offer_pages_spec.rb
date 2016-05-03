@@ -7,34 +7,31 @@ describe "admin section" do
   describe "offers pages" do
     describe "new page" do
       before do
-        @cards = [
-          create(
-            :card,
-            name:    "Sapphire Preferred",
-            network: :visa,
-            annual_fee_cents: 1500,
-            bp:   :business,
-            bank: Bank.find_by(name: "Chase")
-          ),
-          create(
-            :card,
-            name:    "Premier",
-            network: :mastercard,
-            annual_fee_cents: 500,
-            bp:   :personal,
-            bank: Bank.find_by(name: "Citibank")
-          ),
-        ]
+        @card = create(
+          :card,
+          name:    "Sapphire Preferred",
+          network: :visa,
+          annual_fee_cents: 1500_00,
+          bp:   :business,
+          bank: Bank.find_by(name: "Chase")
+        )
 
-        visit new_admin_offer_path
+        visit new_admin_card_offer_path(@card)
       end
 
       let(:submit) { click_button t("admin.offers.submit") }
 
       it { is_expected.to have_title full_title("New Offer") }
 
+      it "displays information about the card" do
+        is_expected.to have_content "Chase"
+        is_expected.to have_content "Sapphire Preferred"
+        is_expected.to have_content "Visa"
+        is_expected.to have_content "$1,500"
+        is_expected.to have_content "business"
+      end
+
       it "has fields for an offer" do
-        is_expected.to have_field :offer_card_id
         is_expected.to have_field :offer_condition
         is_expected.to have_field :offer_points_awarded
         is_expected.to have_field :offer_spend
@@ -74,7 +71,6 @@ describe "admin section" do
 
         describe "and submitting the form with valid info" do
           before do
-            select @cards[1].name, from: :offer_card_id
             fill_in :offer_points_awarded, with: 40_000
             fill_in :offer_link, with: "http://something.com"
           end
@@ -82,7 +78,7 @@ describe "admin section" do
           it "creates an offer" do
             expect{submit}.to change{Offer.count}.by 1
             expect(new_offer.condition).to eq "on_approval"
-            expect(new_offer.card).to eq @cards[1]
+            expect(new_offer.card).to eq @card
             expect(new_offer.points_awarded).to eq 40_000
             expect(new_offer.link).to eq "http://something.com"
           end
@@ -97,7 +93,6 @@ describe "admin section" do
         describe "and submitting the form with invalid info" do
           before { submit }
           it "shows the form again with the correct fields hidden/shown" do
-            is_expected.to have_field :offer_card_id
             is_expected.to have_field :offer_condition
             is_expected.to have_field :offer_points_awarded
             is_expected.not_to have_field :offer_spend
@@ -124,7 +119,6 @@ describe "admin section" do
 
         describe "and submitting the form with valid info" do
           before do
-            select @cards[1].name, from: :offer_card_id
             fill_in :offer_points_awarded, with: 40_000
             fill_in :offer_link, with: "http://something.com"
             fill_in :offer_days, with: 120
@@ -133,7 +127,7 @@ describe "admin section" do
           it "creates an offer" do
             expect{submit}.to change{Offer.count}.by 1
             expect(new_offer.condition).to eq "on_first_purchase"
-            expect(new_offer.card).to eq @cards[1]
+            expect(new_offer.card).to eq @card
             expect(new_offer.days).to eq 120
             expect(new_offer.points_awarded).to eq 40_000
             expect(new_offer.link).to eq "http://something.com"
@@ -148,7 +142,6 @@ describe "admin section" do
         describe "and submitting the form with invalid info" do
           before { submit }
           it "shows the form again with the correct fields hidden/shown" do
-            is_expected.to have_field :offer_card_id
             is_expected.to have_field :offer_condition
             is_expected.to have_field :offer_points_awarded
             is_expected.not_to have_field :offer_spend
@@ -162,7 +155,6 @@ describe "admin section" do
 
       describe "submitting the form with valid information" do
         before do
-          select @cards[1].name, from: :offer_card_id
           fill_in :offer_points_awarded, with: 40_000
           fill_in :offer_spend, with: 5000
           fill_in :offer_link, with: "http://something.com"
@@ -171,6 +163,16 @@ describe "admin section" do
         it "creates a new offer" do
           expect{submit}.to change{Offer.count}.by(1)
           expect(new_offer.condition).to eq "on_minimum_spend"
+        end
+
+        describe "the created offer" do
+          before { submit }
+          it "has the correct attributes" do
+            expect(new_offer.card).to eq @card
+            expect(new_offer.points_awarded).to eq 40_000
+            expect(new_offer.spend).to eq 5_000
+            expect(new_offer.link).to eq "http://something.com"
+          end
         end
 
         context "and marking the card as not live" do
@@ -203,15 +205,46 @@ describe "admin section" do
           expect(input[:type]).to eq "text"
         end
       end
+    end # new page
 
-      describe "the 'card' dropdown" do
-        it "gives a full description of each card" do
-          expect(all("#offer_card_id > option").map(&:text)).to \
-            match_array([
-              "Chase Sapphire Preferred business Visa",
-              "Citibank Premier personal MasterCard",
-            ])
+
+    describe "show page" do
+      let(:offer)  { create(:offer, notes: 'aisjhdoifajsdf') }
+      let(:card)   { offer.card }
+      before { visit route }
+
+      let(:route) { admin_card_offer_path(card, offer) }
+
+      describe "when accessing the shallow path" do
+        let(:route) { admin_offer_path(offer) }
+        it "redirects to the nested path" do
+          expect(current_path).to eq admin_card_offer_path(card, offer)
         end
+      end
+
+      it "displays information about the offer and card" do
+        is_expected.to have_content card.name
+        is_expected.to have_content offer.notes
+      end
+    end # show page
+
+
+    describe "edit page" do
+      let(:offer) { create(:offer) }
+      let(:card)  { offer.card }
+      before { visit route }
+
+      let(:route) { edit_admin_card_offer_path(card, offer) }
+
+      describe "when accessing the shallow path" do
+        let(:route) { edit_admin_offer_path(offer) }
+        it "redirects to the nested path" do
+          expect(current_path).to eq edit_admin_card_offer_path(card, offer)
+        end
+      end
+
+      it "displays information about the card" do
+        is_expected.to have_content card.name
       end
     end
   end

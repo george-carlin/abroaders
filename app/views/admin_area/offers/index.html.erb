@@ -1,8 +1,23 @@
 <% provide :title, "Offers" %>
 
-<h1>Offers</h1>
+<% if @card.present? %>
+  <%# TODO this 'full name' shouldn't just belong to SurveyCard - move it back into Card#full_name %>
+  <%# (this probably means the SurveyCard class doesn't even need to exist) %>
+  <%# look for other places which need the card's full name at the same time %>
+  <%# you make this change%>
+  <h1><%= SurveyCard.new(@card).name %> - Card Offers</h1>
 
-<%= link_to "Add New", new_admin_offer_path %>
+  <p>
+    <%= link_to "Add a new offer for this card", new_admin_card_offer_path(@card) %>
+  </p>
+<% else %>
+  <h1>All Card Offers</h1>
+
+  <p>
+    To add a new offer, find the card on the
+    <%= link_to "cards page", admin_cards_path %> and click 'New Offer'
+  </p>
+<% end %>
 
 <div class="table-responsive">
   <table class="table table-striped table-bordered table-hover">

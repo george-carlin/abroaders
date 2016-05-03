@@ -1,23 +1,43 @@
 module AdminArea
   class OffersController < AdminController
+
     def index
-      @offers = Offer.includes(:card)
+      if params[:card_id]
+        @card   = load_card
+        @offers = @card.offers
+      else
+        @offers = Offer.includes(:card)
+      end
     end
 
     def show
-      @offer = get_offer
+      if params[:card_id]
+        @card  = load_card
+        @offer = @card.offers.find(params[:id])
+      else
+        @offer = Offer.find(params[:id])
+        redirect_to admin_card_offer_path(@offer.card, @offer)
+      end
     end
 
     def new
-      @offer = Offer.new
+      @card  = load_card
+      @offer = @card.offers.build
     end
 
     def edit
-      @offer = get_offer
+      if params[:card_id]
+        @card  = load_card
+        @offer = @card.offers.find(params[:id])
+      else
+        @offer = Offer.find(params[:id])
+        redirect_to edit_admin_card_offer_path(@offer.card, @offer)
+      end
     end
 
     def create
-      @offer = Offer.new(offer_params)
+      @card  = load_card
+      @offer = @card.offers.build(offer_params)
 
       if @offer.save
         flash[:success] = "Offer was successfully created."
@@ -28,7 +48,7 @@ module AdminArea
     end
 
     def update
-      @offer = get_offer
+      @offer = load_offer
       if @offer.update_attributes(offer_params)
         flash[:success] = "Offer was successfully updated."
         redirect_to admin_offer_path(@offer)
@@ -39,13 +59,17 @@ module AdminArea
 
     private
 
-    def get_offer
+    def load_card
+      Card.find(params[:card_id])
+    end
+
+    def load_offer
       Offer.find(params[:id])
     end
 
     def offer_params
       params.require(:offer).permit(
-        :card_id, :condition, :points_awarded, :spend, :cost, :days, :live,
+        :condition, :points_awarded, :spend, :cost, :days, :live,
         :link, :notes,
       )
     end

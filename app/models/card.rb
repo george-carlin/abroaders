@@ -18,6 +18,8 @@ class Card < ApplicationRecord
     debit:   3,
   }
 
+  delegate :name, to: :currency, prefix: true
+
   concerning :Image do
     included do
       # Standard credit card dimensions are 85.60 × 53.98mm, which gives the

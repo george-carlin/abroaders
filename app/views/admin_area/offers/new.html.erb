@@ -1,7 +1,17 @@
 <% provide :title, "New Offer" %>
 
-<h1>New Offer</h1>
+<%# TODO this 'full name' shouldn't just belong to SurveyCard - move it back into Card#full_name %>
+<%# (this probably means the SurveyCard class doesn't even need to exist) %>
+<%# look for other places which need the card's full name at the same time %>
+<%# you make this change%>
+<h1><%= SurveyCard.new(@card).name %> - New Card Offer</h1>
 
-<%= render 'form' %>
+<div class="row">
+  <%= render "admin_area/offers/card", card: @card %>
+</div>
 
-<%= link_to "Back", admin_offers_path %>
+<hr>
+
+<div class="row">
+  <%= render 'form' %>
+</div>

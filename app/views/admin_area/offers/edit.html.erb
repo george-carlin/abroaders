@@ -2,7 +2,14 @@
 
 <h1>Edit Offer</h1>
 
-<%= render 'form' %>
+<div class="row">
+  <%= render "admin_area/offers/card", card: @card %>
+</div>
 
-<%= link_to "Back", admin_offers_path %> |
-<%= link_to "Show", admin_offer_path(@offer) %>
+<hr>
+
+<div class="row">
+  <%= render 'form' %>
+
+  <%= link_to "Show offer", admin_offer_path(@offer) %>
+</div>
