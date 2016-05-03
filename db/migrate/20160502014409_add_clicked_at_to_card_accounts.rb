@@ -1,4 +1,6 @@
 class AddClickedAtToCardAccounts < ActiveRecord::Migration[5.0]
+  class CardAccount < ActiveRecord::Base
+  end
   def change
     CardAccount.transaction do
       add_column :card_accounts, :clicked_at, :datetime
