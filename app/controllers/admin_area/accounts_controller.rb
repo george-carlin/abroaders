@@ -12,7 +12,7 @@ module AdminArea
 
     # GET /admin/accounts/1
     def show
-      @account = get_account
+      @account = load_account
       @card_accounts = @account.card_accounts.select(&:persisted?)
       @card_recommendation = @account.card_accounts.new
       # Use @account.card_accounts here instead of @card_accounts because
@@ -23,7 +23,7 @@ module AdminArea
 
     private
 
-    def get_account
+    def load_account
       Account.find(params[:id])
     end
 

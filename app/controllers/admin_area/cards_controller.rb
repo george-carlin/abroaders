@@ -9,7 +9,7 @@ module AdminArea
 
     # GET /admin/cards/1
     def show
-      @card = get_card
+      @card = load_card
     end
 
     # GET /admin/cards/new
@@ -31,12 +31,12 @@ module AdminArea
 
     # GET /admin/cards/1/edit
     def edit
-      @card = get_card
+      @card = load_card
     end
 
     # PATCH/PUT /admin/cards/1
     def update
-      @card = get_card
+      @card = load_card
       if @card.update(card_params)
         # TODO redirect to @card once that page is ready
         redirect_to admin_card_path(@card), notice: 'Card was successfully updated.'
@@ -47,7 +47,7 @@ module AdminArea
 
     private
 
-    def get_card
+    def load_card
       Card.find(params[:id])
     end
 

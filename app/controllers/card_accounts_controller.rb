@@ -40,7 +40,7 @@ class CardAccountsController < NonAdminController
   def decline
     raise "decline message must be present" unless decline_reason.present?
 
-    if @recommendation = get_card_recommendation
+    if @recommendation = load_card_recommendation
       @recommendation.decline_with_reason!(decline_reason)
       flash[:success] = t("admin.passengers.card_accounts.you_have_declined")
       redirect_to card_accounts_path
@@ -51,7 +51,7 @@ class CardAccountsController < NonAdminController
   end
 
   def open
-    @account = get_card_account
+    @account = load_card_account
     @account.open!
     flash[:success] = "Account opened" # TODO give this a better message!
     # TODO also need to let the user say *when* the card was opened
@@ -60,7 +60,7 @@ class CardAccountsController < NonAdminController
   end
 
   def deny
-    @account = get_card_account
+    @account = load_card_account
     @account.denied!
     flash[:success] = "Application denied" # TODO give this a better message!
     # TODO also need to let the user say *when* the card was opened
@@ -70,11 +70,11 @@ class CardAccountsController < NonAdminController
 
   private
 
-  def get_card_account
+  def load_card_account
     current_main_passenger.card_accounts.find(params[:id])
   end
 
-  def get_card_recommendation
+  def load_card_recommendation
     current_main_passenger.card_recommendations.find_by(id: params[:id])
   end
 
