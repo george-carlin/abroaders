@@ -15,6 +15,10 @@
     To add a new offer, find the card on the
     <%= link_to "cards page", admin_cards_path %> and click 'New Offer'
   </p>
+
+  <p>
+    Click on a card's name below to see all existing offers for that card.
+  </p>
 <% end %>
 
 <div class="table-responsive">
@@ -38,7 +42,7 @@
       <% @offers.each do |offer| %>
         <tr id="<%= dom_id(offer) %>" class="<%= dom_class(offer) %>">
           <td><%= offer.identifier.full %></td>
-          <td><%= offer.card_name %></td>
+          <td><%= link_to offer.card_name, admin_card_offers_path(offer.card) %></td>
           <td><%= offer.bank_name %></td>
           <td><%= number_with_delimiter offer.points_awarded %></td>
           <td><%= number_to_currency offer.spend %></td>
