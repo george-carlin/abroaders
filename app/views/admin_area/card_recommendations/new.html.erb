@@ -97,12 +97,31 @@
 
 <br>
 
-<p class="help-block">
-  <i>
-    User will receive a notification and the card will appear under 'New
-    recommendations'
-  </i>
-</p>
+
+<div class="row">
+  <div class="col-xs-12">
+    <p>
+      When you're finished recommending cards to this user, click 'Done' to
+      send them a notification.
+    </p>
+
+    <% if @person.last_recommendations_at.present? %>
+      Person last received recommendations at:
+      <span class="person_last_recommendations_at">
+        <%= @person.last_recommendations_at.strftime("%D") %>
+      </span>
+    <% end %>
+
+    <%= button_to(
+      "Done",
+      complete_admin_person_card_recommendations_path(@person),
+      class: "btn btn-primary",
+      style: "float:right;"
+    ) %>
+  </div>
+</div>
+
+<hr>
 
 <%# TODO - make the table sortable again %>
 <table class="admin-card-recommendation-table table">

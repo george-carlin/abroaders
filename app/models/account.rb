@@ -44,8 +44,24 @@ class Account < ApplicationRecord
   has_one :companion_spending_info,
             through: :main_passenger, source: :spending_info
 
+  # TODO are these still necessary?
   accepts_nested_attributes_for :main_passenger
   accepts_nested_attributes_for :companion
+
+  has_many :notifications
+  has_many :unseen_notifications, -> { unseen }, class_name: "Notification" do
+    def count
+      proxy_association.owner.unseen_notifications_count
+    end
+  end
+
+  def increment_unseen_notifications_count
+    self.class.increment_counter(:unseen_notifications_count, id)
+  end
+
+  def decrement_unseen_notifications_count
+    self.class.decrement_counter(:unseen_notifications_count, id)
+  end
 
   # Callbacks
 

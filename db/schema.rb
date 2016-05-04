@@ -11,27 +11,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160502020653) do
+ActiveRecord::Schema.define(version: 20160504132126) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "accounts", force: :cascade do |t|
-    t.string   "email",                  default: "",    null: false
-    t.string   "encrypted_password",     default: "",    null: false
+    t.string   "email",                      default: "",    null: false
+    t.string   "encrypted_password",         default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,     null: false
+    t.integer  "sign_in_count",              default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
     t.integer  "monthly_spending_usd"
-    t.boolean  "onboarded_type",         default: false, null: false
-    t.boolean  "onboarded_travel_plans", default: false, null: false
+    t.boolean  "onboarded_type",             default: false, null: false
+    t.boolean  "onboarded_travel_plans",     default: false, null: false
+    t.integer  "unseen_notifications_count", default: 0,     null: false
   end
 
   add_index "accounts", ["email"], name: "index_accounts_on_email", unique: true, using: :btree
@@ -158,6 +159,20 @@ ActiveRecord::Schema.define(version: 20160502020653) do
   add_index "flights", ["travel_plan_id", "position"], name: "index_flights_on_travel_plan_id_and_position", unique: true, using: :btree
   add_index "flights", ["travel_plan_id"], name: "index_flights_on_travel_plan_id", using: :btree
 
+  create_table "notifications", force: :cascade do |t|
+    t.integer  "account_id"
+    t.integer  "record_id",                  null: false
+    t.boolean  "seen",       default: false, null: false
+    t.string   "type",                       null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "notifications", ["account_id", "seen"], name: "index_notifications_on_account_id_and_seen", using: :btree
+  add_index "notifications", ["account_id"], name: "index_notifications_on_account_id", using: :btree
+  add_index "notifications", ["record_id"], name: "index_notifications_on_record_id", using: :btree
+  add_index "notifications", ["seen"], name: "index_notifications_on_seen", using: :btree
+
   create_table "offers", force: :cascade do |t|
     t.integer  "card_id",                       null: false
     t.integer  "points_awarded",                null: false
@@ -176,14 +191,15 @@ ActiveRecord::Schema.define(version: 20160502020653) do
   add_index "offers", ["live"], name: "index_offers_on_live", using: :btree
 
   create_table "people", force: :cascade do |t|
-    t.integer  "account_id",                         null: false
-    t.string   "first_name",                         null: false
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
-    t.boolean  "main",               default: true,  null: false
-    t.boolean  "onboarded_cards",    default: false, null: false
-    t.boolean  "onboarded_balances", default: false, null: false
+    t.integer  "account_id",                              null: false
+    t.string   "first_name",                              null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.boolean  "main",                    default: true,  null: false
+    t.boolean  "onboarded_cards",         default: false, null: false
+    t.boolean  "onboarded_balances",      default: false, null: false
     t.string   "award_wallet_email"
+    t.datetime "last_recommendations_at"
   end
 
   add_index "people", ["account_id", "main"], name: "index_people_on_account_id_and_main", unique: true, using: :btree
@@ -235,6 +251,7 @@ ActiveRecord::Schema.define(version: 20160502020653) do
   add_foreign_key "flights", "destinations", column: "from_id", on_delete: :restrict
   add_foreign_key "flights", "destinations", column: "to_id", on_delete: :restrict
   add_foreign_key "flights", "travel_plans", on_delete: :cascade
+  add_foreign_key "notifications", "accounts"
   add_foreign_key "offers", "cards", on_delete: :cascade
   add_foreign_key "people", "accounts", on_delete: :cascade
   add_foreign_key "readiness_statuses", "people", on_delete: :cascade

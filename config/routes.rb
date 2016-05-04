@@ -103,7 +103,11 @@ Rails.application.routes.draw do
       get type.pluralize, to: "destinations##{type}"
     end
     resources :people, only: :show do
-      resources :card_recommendations, only: [:new, :create]
+      resources :card_recommendations, only: [:new, :create] do
+        collection do
+          post :complete
+        end
+      end
     end
   end
 
