@@ -8,7 +8,7 @@ module AdminArea
       @spending_info = @person.spending_info
       accounts = @person.card_accounts.includes(:card)
       # Call 'to_a' so it doesn't include @card_recommendation:
-      @card_accounts = accounts.to_a
+      @card_accounts = accounts.includes(:card, offer: :card).to_a
       @card_recommendation = accounts.recommendations.build
       @offers_grouped_by_card = \
         Offer.includes(:card, card: :currency).live.group_by(&:card)
