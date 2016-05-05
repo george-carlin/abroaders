@@ -1,4 +1,4 @@
-class ReadinessSurvey < Form
+class ReadinessSurvey < ApplicationForm
 
   attr_accessor :main_passenger_unreadiness_reason, :companion_unreadiness_reason
   attr_boolean_accessor :main_passenger_ready, :companion_ready

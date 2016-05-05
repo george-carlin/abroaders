@@ -1,4 +1,4 @@
-class SignUp < Form
+class SignUp < ApplicationForm
   include ActiveModel::Dirty
 
   attr_reader :account

@@ -1,4 +1,4 @@
-class SpendingSurvey < Form
+class SpendingSurvey < ApplicationForm
 
   def initialize(person)
     @person = person

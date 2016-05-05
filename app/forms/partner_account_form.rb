@@ -1,4 +1,4 @@
-class PartnerAccountForm < Form
+class PartnerAccountForm < ApplicationForm
   attr_accessor :account, :monthly_spending_usd, :partner_first_name, :eligibility
   attr_reader :person_0, :person_1
 

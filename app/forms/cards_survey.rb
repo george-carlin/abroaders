@@ -1,4 +1,4 @@
-class CardsSurvey < Form
+class CardsSurvey < ApplicationForm
 
   attr_accessor :person
 

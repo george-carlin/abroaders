@@ -1,4 +1,4 @@
-class TravelPlanForm < Form
+class TravelPlanForm < ApplicationForm
 
   attr_accessor :earliest_departure,
                 :from_id,

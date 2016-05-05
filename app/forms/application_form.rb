@@ -1,4 +1,4 @@
-class Form
+class ApplicationForm
   include ActiveModel::Model
 
   # An empty checkbox in Rails submits "0", while a radio button with
