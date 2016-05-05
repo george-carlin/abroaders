@@ -58,6 +58,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :notifications, only: :show
+
   # Note that 'cards' is a fixed list, and 'card accounts' is the join table
   # between a user and a card. But the user doesn't care about anyone's cards
   # except his own, and from his perspective he doesn't have a "card account"
@@ -103,7 +105,11 @@ Rails.application.routes.draw do
       get type.pluralize, to: "destinations##{type}"
     end
     resources :people, only: :show do
-      resources :card_recommendations, only: [:new, :create]
+      resources :card_recommendations, only: [:new, :create] do
+        collection do
+          post :complete
+        end
+      end
     end
   end
 

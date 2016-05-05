@@ -1,9 +1,9 @@
 module AdminArea
   class CardRecommendationsController < AdminController
+    before_action :set_person
+    before_action :person_must_be_onboarded!
 
     def new
-      @person = find_person
-      person_must_be_onboarded! and return
       @account       = @person.account
       @spending_info = @person.spending_info
       accounts = @person.card_accounts.includes(:card)
@@ -17,8 +17,6 @@ module AdminArea
     end
 
     def create
-      @person = find_person
-      person_must_be_onboarded! and return
       @account   = @person.account
       # TODO don't allow expired/inactive offers to be assigned:
       @offer =  Offer.find(params[:offer_id])
@@ -28,19 +26,22 @@ module AdminArea
       redirect_to new_admin_person_card_recommendation_path(@person)
     end
 
+    def complete
+      CompleteCardRecommendations.new(@person).complete!
+      flash[:success] = "Sent notification!"
+      redirect_to new_admin_person_card_recommendation_path(@person)
+    end
+
     private
 
-    def find_person
-      Person.find(params[:person_id])
+    def set_person
+      @person = Person.find(params[:person_id])
     end
 
     def person_must_be_onboarded!
-      if @person.onboarded?
-        false
-      else
+      unless @person.onboarded?
         flash[:error] = t("admin.people.card_recommendations.not_onboarded")
         redirect_to admin_person_path(@person)
-        true
       end
     end
 

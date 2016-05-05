@@ -32,7 +32,7 @@ describe "admin section" do
 
       # Make the account created_at stamp different from the person's:
       @account = create(:account, created_at: 4.days.ago)
-      @person  = @account.people.first
+      @person  = @account.main_passenger
       if onboarded
         @person.create_spending_info!(
           credit_score: 678,
@@ -50,6 +50,8 @@ describe "admin section" do
       visit new_admin_person_card_recommendation_path(@person)
     end
 
+    let(:account) { @account }
+    let(:person)  { @person }
     let(:onboarded) { true }
     let(:ready_to_apply) { true }
     let(:extra_setup) { nil }
@@ -493,5 +495,57 @@ describe "admin section" do
       end
     end
 
+    it "has a button to mark recommendations as complete" do
+      is_expected.to have_selector "input[value=Done][type=submit]"
+    end
+
+    context "when the person has not received any recommendations before" do
+      before { raise if person.last_recommendations_at.present? }
+      it "doesn't display a 'last recs' timestamp" do
+        is_expected.to have_no_selector ".person_last_recommendations_at"
+      end
+    end
+
+    context "when the person has received recommendations before" do
+      let(:date) { 5.days.ago }
+      let(:extra_setup) { person.update_attributes!(last_recommendations_at: date) }
+
+      it "displays a 'last recs' timestamp" do
+        is_expected.to have_selector(
+          ".person_last_recommendations_at",
+          text: date.strftime("%D"),
+        )
+      end
+    end
+
+    describe "clicking 'Done'" do
+      let(:click_done) { click_button "Done" }
+      let(:new_notification) { account.notifications.last }
+
+      it "sends a notification to the user" do
+        expect{click_done}.to change{account.notifications.count}.by(1)
+        expect(new_notification).to be_a(Notifications::NewRecommendations)
+        expect(new_notification.record).to eq person
+      end
+
+      it "sends an email to the user" do
+        pending
+        expect{click_done}.to change{ApplicationMailer.deliveries.length}.by(1)
+        email = ApplicationMailer.deliveries.last
+        expect(email.subject).to eq "something"
+      end
+
+      it "updates the person's 'last recs' timestamp" do
+        click_done
+        expect(person.reload.last_recommendations_at).to be_within(5.seconds).of(Time.now)
+      end
+
+      it "increments the account's unseen_notifications_count" do
+        expect do
+          click_done
+          account.reload
+        end.to change{account.unseen_notifications_count}.by(1)
+      end
+    end
   end
 end

@@ -22,6 +22,34 @@
             <li><%= link_to "Users", admin_accounts_path %></li>
             <li><%= link_to "My Account", edit_admin_registration_path %></li>
           <% elsif current_account.onboarded? %>
+            <li class="dropdown
+              <% if current_account.unseen_notifications_count.nonzero? %>
+                unseen_notifications
+              <% end %>"
+            >
+              <a
+                href="#"
+                class="dropdown-toggle"
+                data-toggle="dropdown"
+                role="button"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                Notifications
+                <% if current_account.unseen_notifications_count.nonzero? %>
+                  (<%= current_account.unseen_notifications_count %>)
+                <% end %>
+              <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <% present_each current_account.unseen_notifications do |notification| %>
+                  <li
+                    id="<%= dom_id(notification) %>"
+                    class="<%= dom_class(notification) %>"
+                  ><%= notification.link %></li>
+                <% end %>
+              </ul>
+            </li>
             <li><%= link_to "Cards", card_accounts_path %></li>
             <li><%= link_to "Travel plans", travel_plans_path %></li>
           <% end %>
