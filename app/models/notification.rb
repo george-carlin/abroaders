@@ -1,5 +1,9 @@
 class Notification < ApplicationRecord
 
+  def unseen?
+    !seen?
+  end
+
   # Associations
 
   belongs_to :account
@@ -11,7 +15,16 @@ class Notification < ApplicationRecord
 
   # Callbacks
 
-  after_create  { account.increment_unseen_notifications_count }
-  after_destroy { account.decrement_unseen_notifications_count }
+  after_create  { account.increment_unseen_notifications_count if unseen? }
+  after_destroy { account.decrement_unseen_notifications_count if unseen? }
+  after_update :update_account_unseen_notifications_count
+
+  private
+
+  def update_account_unseen_notifications_count
+    if seen_changed?
+      account.send("#{seen ? "de" : "in"}crement_unseen_notifications_count")
+    end
+  end
 
 end

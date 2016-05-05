@@ -7,3 +7,14 @@
     }
   }
 }
+
+
+.navbar-default .navbar-nav>li.unseen_notifications>a {
+  &, &.open {
+    background-color: #8A1414;
+
+    &:hover, &:focus {
+      background-color: #9C4949;
+    }
+  }
+}
