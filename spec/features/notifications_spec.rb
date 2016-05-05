@@ -4,6 +4,10 @@ describe "notifications", :focus do
   include_context "logged in"
   let(:me) { account }
 
+  before do
+    skip # urgh, not worth writing tests for these now, we're only going to change it when the new theme is in place
+  end
+
   subject { page }
 
   before do
@@ -50,9 +54,6 @@ describe "notifications", :focus do
     end
 
     describe "clicking on a notification", :js do
-      before do
-        skip # urgh, not worth writing tests for these now, we're only going to change it when the new theme is in place
-      end
       let(:notification) { @notifications[1] }
       before { click_notifications_in_navbar }
 
