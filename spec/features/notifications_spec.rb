@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "notifications", :focus do
+describe "notifications" do
   include_context "logged in"
   let(:me) { account }
 
