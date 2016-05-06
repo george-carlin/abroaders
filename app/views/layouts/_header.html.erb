@@ -144,7 +144,7 @@
         <% end %>
         <% if current_account || current_admin %>
           <li class="text">
-            <%= current_account ? current_account.email : current_admin.email? %>
+            <%= current_account ? current_account.email : current_admin.email %>
           </li>
           <li>
             <%= link_to sign_out_path, method: :delete, id: "sign_out_link" do %>
