@@ -1,4 +1,5 @@
 <% provide :title, "Add a Travel Plan" %>
+<% provide :no_sidebar, true unless current_account.onboarded_travel_plans? %>
 
 <div class="hpanel">
   <div class="panel-heading hbuilt">

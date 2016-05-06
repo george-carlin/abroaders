@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html>
   <%= render "layouts/head" %>
-  <body>
+  <body class="<%= "blank" unless sidebar? %>">
     <%= render "layouts/header" %>
-    <%= render "layouts/sidebar" %>
 
-    <div id="wrapper">
+    <% if sidebar? %>
+      <%= render "layouts/sidebar" %>
+    <% end %>
+
+    <div id="<%= "wrapper" if sidebar? %>">
       <div class="content">
         <%= flash_alerts %>
         <%= yield %>
