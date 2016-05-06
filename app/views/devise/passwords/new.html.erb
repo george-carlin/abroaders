@@ -1,19 +1,38 @@
 <% provide :title, "Reset Password" %>
 
 <%= bootstrap_devise_error_messages! %>
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h4><%= t('.forgot_your_password', :default => 'Forgot your password?') %></h4>
-  </div>
-  <div class="panel-body">
-    <%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post, role: "form" }) do |f| %>
-      <div class="form-group">
-        <%= f.label :email %>
-        <%= f.email_field :email, autofocus: true %>
+
+<div class="login-container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="text-center m-b-md">
+        <h4>FORGOT YOUR PASSWORD?</h4>
       </div>
 
-      <%= f.submit t('.send_me_reset_password_instructions', :default => "Send me reset password instructions"), class: "btn btn-primary" %>
-    <% end %>
+      <% present resource, PasswordPresenter do |password| %>
+        <div class="hpanel">
+          <div class="panel-body">
+            <%= password.recover_form do |f|  %>
+              <div class="form-group">
+                <%= f.label :email, class: "control-label" %>
+                <%= f.email_field :email, autofocus: true %>
+              </div>
+
+              <%= f.submit t('.send_me_reset_password_instructions', :default => "Send me reset password instructions"), class: "btn btn-success btn-block" %>
+
+            <% end # recover_form %>
+            <br>
+            <%= link_to "Sign in", new_account_session_path %> |
+            <%= link_to "Sign up", new_account_registration_path %>
+          </div><!-- .panel-body -->
+        </div><!-- .hpanel -->
+      <% end # present %>
+    </div><!-- .col-md-12 -->
+  </div><!-- .row -->
+
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <br/> © <%= Date.today.year %> Abroaders
+    </div>
   </div>
-</div>
-<%= render "devise/shared/links" %>
+</div><!-- login-container -->

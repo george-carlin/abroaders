@@ -1,26 +1,44 @@
 <% provide :title, "Update Password" %>
 
 <%= bootstrap_devise_error_messages! %>
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h4><%= t('.change_your_password', :default => 'Change your password') %></h4>
-  </div>
-  <div class="panel-body">
-    <%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put, role: "form" }) do |f| %>
-      <%= f.hidden_field :reset_password_token %>
 
-      <div class="form-group">
-        <%= f.label :password, t('.new_password', :default => 'New password') %>
-        <%= f.password_field :password, autofocus: true  %>
+<div class="login-container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="text-center m-b-md">
+        <h4>CHANGE YOUR PASSWORD</h4>
       </div>
 
-      <div class="form-group">
-        <%= f.label :password_confirmation, t('.confirm_new_password', :default => 'Confirm new password') %>
-        <%= f.password_field :password_confirmation  %>
-      </div>
+      <% present resource, PasswordPresenter do |password| %>
+        <div class="hpanel">
+          <div class="panel-body">
+            <%= password.update_form do |f|  %>
+              <%= f.hidden_field :reset_password_token %>
 
-      <%= f.submit t('.change_my_password', :default => 'Change my password'), class: "btn btn-primary" %>
-    <% end %>
+              <div class="form-group">
+                <%= f.label :password, t('.new_password', :default => 'New password') %>
+                <%= f.password_field :password, autofocus: true  %>
+              </div>
+
+              <div class="form-group">
+                <%= f.label :password_confirmation, t('.confirm_new_password', :default => 'Confirm new password') %>
+                <%= f.password_field :password_confirmation  %>
+              </div>
+
+              <%= f.submit t('.change_my_password', :default => 'Change my password'), class: "btn btn-success btn-block" %>
+            <% end # update_form %>
+            <br>
+            <%= link_to  "Sign in", new_account_session_path %> |
+            <%= link_to "Sign up", new_account_registration_path %>
+          </div><!-- .panel-body -->
+        </div><!-- .hpanel -->
+      <% end # present %>
+    </div><!-- .col-md-12 -->
+  </div><!-- .row -->
+
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <br/> © <%= Date.today.year %> Abroaders
+    </div>
   </div>
-</div>
-<%= render "devise/shared/links" %>
+</div><!-- login-container -->

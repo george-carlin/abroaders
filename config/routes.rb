@@ -1,8 +1,6 @@
 Rails.application.routes.draw do
   root to: "application#dashboard"
 
-  devise_for :accounts, skip: [:sessions, :registrations]
-
   get "/accounts/connect/awardwallet", to: "oauth#award_wallet"
 
   devise_scope :account do
@@ -15,6 +13,10 @@ Rails.application.routes.draw do
     get :sign_up,  to: "registrations#new", as: :new_account_registration
 
     get "accounts/cancel", to: "registrations#cancel", as: :cancel_account_registration
+
+    post "accounts/password",     to: "passwords#cancel", as: :account_password
+    get "accounts/password/new",  to: "passwords#new",    as: :new_account_password
+    get "accounts/password/edit", to: "passwords#edit",   as: :edit_account_password
 
     # TODO this probably won't work with the default Devise views
     # post :accounts, to: "registrations#create", as: :account_registration
