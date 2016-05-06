@@ -17,9 +17,8 @@ module CardAccountsHelper
   def decline_card_recommendation_btn(card_rec)
     button_tag(
       "No Thanks",
-      class: "card_recommendation_decline_btn btn btn-default btn-sm",
+      class: "card_recommendation_decline_btn btn btn-danger2 btn-sm",
       id:    "card_recommendation_#{card_rec.id}_decline_btn",
-      # onClick={this.props.onClickDecline},
     )
   end
 

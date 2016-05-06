@@ -1,5 +1,7 @@
 <div class="card_recommendation_actions">
-  <%= apply_to_card_recommendation_btn(card_account) %>
-  <%= decline_card_recommendation_btn(card_account) %>
+  <div class="btn-group pull-right" role="group" >
+    <%= apply_to_card_recommendation_btn(card_account) %>
+    <%= decline_card_recommendation_btn(card_account) %>
+  </div>
 </div>
-<%= decline_card_recommendation_form(card_account) %>
+<%= render "card_accounts/decline_card_form", card_rec: card_account %>
