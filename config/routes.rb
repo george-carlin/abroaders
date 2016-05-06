@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
   root to: "application#dashboard"
 
+  # Even though we're overriding all the generated routes, we still need to
+  # include the devise_for call to get access to methods like
+  # `authenticate_account!`
+  devise_for :account, only: []
+
   get "/accounts/connect/awardwallet", to: "oauth#award_wallet"
 
   devise_scope :account do
