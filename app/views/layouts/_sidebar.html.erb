@@ -22,16 +22,22 @@
     <% end %>
 
     <ul class="nav" id="side-menu">
+      <%# TODO all this `if request.path == X` nonsense should be DRYed %>
       <% if current_account %>
-        <li class="active">
+        <li class="<%= "active" if request.path == root_path %>">
           <%= link_to root_path do %>
             <span class="nav-label">Dashboard</span>
           <% end %>
         </li>
         <% if current_account.onboarded? %>
-          <li class="active">
+          <li class="<%= "active" if request.path == travel_plans_path %>">
             <%= link_to travel_plans_path do %>
               <span class="nav-label">Travel Plans</span>
+            <% end %>
+          </li>
+          <li class="<%= "active" if request.path == card_accounts_path %>">
+            <%= link_to card_accounts_path do %>
+              <span class="nav-label">Cards</span>
             <% end %>
           </li>
         <% end %>
