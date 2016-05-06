@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
   root to: "application#dashboard"
 
-  devise_for :accounts, skip: [:sessions, :registrations]
+  # Even though we're overriding all the generated routes, we still need to
+  # include the devise_for call to get access to methods like
+  # `authenticate_account!`
+  devise_for :account, only: []
 
   get "/accounts/connect/awardwallet", to: "oauth#award_wallet"
 
@@ -15,6 +18,12 @@ Rails.application.routes.draw do
     get :sign_up,  to: "registrations#new", as: :new_account_registration
 
     get "accounts/cancel", to: "registrations#cancel", as: :cancel_account_registration
+
+    post "accounts/password",     to: "passwords#create", as: :account_password
+    get "accounts/password/new",  to: "passwords#new",    as: :new_account_password
+    get "accounts/password/edit", to: "passwords#edit",   as: :edit_account_password
+    put   "accounts/password",    to: "passwords#update"
+    patch "accounts/password",    to: "passwords#update"
 
     # TODO this probably won't work with the default Devise views
     # post :accounts, to: "registrations#create", as: :account_registration

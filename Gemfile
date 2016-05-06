@@ -18,6 +18,7 @@ gem 'jquery-rails'
 gem "paperclip", "~> 4.3.1"
 gem 'pg', '~> 0.18'
 gem 'puma'
+gem 'record_tag_helper'
 gem 'sass-rails'
 gem 'uglifier', '>= 1.3.0'
 gem 'will_paginate-bootstrap', '~> 1.0.1'

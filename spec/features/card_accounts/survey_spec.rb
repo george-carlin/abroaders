@@ -41,7 +41,7 @@ describe "card accounts survey", :onboarding do
   let(:onboarded_type)     { true }
   let(:onboarded_travel_plans) { true }
 
-  let(:submit_form) { click_button "Save" }
+  let(:submit_form) { click_button "Submit" }
 
   def card_opened_checkbox(card)
     "cards_survey_#{card.id}_card_account_opened"
@@ -114,11 +114,15 @@ describe "card accounts survey", :onboarding do
     end
   end
 
+  it "doesn't show the sidebar" do
+    is_expected.to have_no_selector "#menu"
+  end
+
   it "lists cards grouped by bank, then B/P" do
     %w[chase citibank].each do |bank|
       %w[personal business].each do |type|
         header = "#{bank.capitalize} #{type.capitalize} Cards"
-        is_expected.to have_selector "h3", text: header
+        is_expected.to have_selector "h2", text: header
         is_expected.to have_selector "##{bank.to_param}_cards"
         is_expected.to have_selector "##{bank}_#{type}_cards"
       end
@@ -283,7 +287,7 @@ describe "card accounts survey", :onboarding do
       select last_year, from: card_closed_at_year_select(closed_card)
     end
 
-    describe "and clicking 'Save'" do
+    describe "and submitting the form" do
       it "assigns the cards to me" do
         expect do
           submit_form

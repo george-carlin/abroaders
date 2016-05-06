@@ -4,10 +4,20 @@ module Notifications
     # Right now we only have one kind of notification, so let's keep it super
     # simple for now and wait until the new theme is in place before adding
     # any more:
-    def link
-      h.content_tag :li do
-        h.link_to "New recommendations", h.notification_path(self)
+    def list_item
+      h.content_tag_for :li, self, class: "notification" do
+        h.link_to(
+          "You have received new recommendations - Click to view",
+          h.notification_path(self)
+        )
       end
+    end
+
+    # SimpleDelegator doesn't forward private methods, but content_tag_for
+    # relies on the private method to_ary. Make to_ary public to prevent
+    # content_tag_for from displaying a warning:
+    def to_ary
+      @model.send(:to_ary)
     end
 
   end

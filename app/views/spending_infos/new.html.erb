@@ -1,16 +1,22 @@
 <% provide :title, "Spending" %>
+<% provide :no_sidebar, true %>
 
-<div class="row">
-  <div class="col-xs-12 col-md-10 col-md-offset-1">
+<div class="hpanel">
+  <div class="panel-heading hbuilt">
+    <div class="row">
+      <div class="col-xs-12">
+        <h1>Spending</h1>
+      </div>
+    </div><!-- .row -->
+  </div><!-- .panel-heading.hbuilt -->
 
-    <h1>Spending</h1>
+  <%= render(
+    "shared/model_validation_errors",
+    model: @spending_info,
+    model_name: "information"
+  ) %>
 
-    <%= render(
-      "shared/model_validation_errors",
-      model: @spending_info,
-      model_name: "information"
-    ) %>
-
+  <div class="panel-body">
     <p>
       Welcome, <%= @person.first_name %>! In order to help you apply for the
       right cards, we need to get some financial information about you.
@@ -18,7 +24,7 @@
 
     <%= form_for @spending_info, url: person_spending_info_path(@person) do |f| %>
 
-      <div class="form-group required">
+      <div class="form-group">
         <%= f.label(
           :credit_score,
           "What's your credit score?",
@@ -108,5 +114,5 @@
 
     <% end %>
 
-  </div>
+  </div><!-- .panel-body -->
 </div>

@@ -14,6 +14,12 @@ module ApplicationHelper
     end
   end
 
+  def sidebar?
+    # Urgh... this probably isn't the best way to handle sidebar-less layouts
+    # but it'll do for now.
+    !content_for?(:no_sidebar)
+  end
+
   private
 
   def get_presenter(model, klass=nil)

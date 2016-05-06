@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= full_title(yield(:title)) %></title>
-    <%= csrf_meta_tags %>
-    <%#= action_cable_meta_tag %>
+  <%= render "layouts/head" %>
+  <body class="<%= "blank" unless sidebar? %>">
+    <%= render "layouts/header" %>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <% if sidebar? %>
+      <%= render "layouts/sidebar" %>
+    <% end %>
 
-    <%= stylesheet_link_tag    'application', media: 'all' %>
-    <%= javascript_include_tag 'application' %>
+    <div id="<%= "wrapper" if sidebar? %>">
+      <% if content_for?(:header_panel) %>
+        <div class="normalheader">
+          <div class="hpanel">
+            <%= yield(:header_panel) %>
+          </div>
+        </div>
+      <% end %>
 
-    <%= favicon_link_tag %>
-
-    <%= render "layouts/google_analytics" %>
-  </head>
-
-  <body>
-    <%= render "layouts/navbar" %>
-
-    <div class="container">
-      <%= flash_alerts %>
-
-      <%= yield %>
+      <div class="content">
+        <%= flash_alerts %>
+        <%= yield %>
+      </div><!-- content -->
+      <%= render "layouts/footer" %>
     </div>
   </body>
 </html>

@@ -4,10 +4,6 @@ describe "notifications" do
   include_context "logged in"
   let(:me) { account }
 
-  before do
-    skip # urgh, not worth writing tests for these now, we're only going to change it when the new theme is in place
-  end
-
   subject { page }
 
   before do
@@ -16,11 +12,11 @@ describe "notifications" do
   end
 
   def within_navbar
-    within("#main_navbar") { yield }
+    within("#header") { yield }
   end
 
   def click_notifications_in_navbar
-    find("li.dropdown").click
+    find("li.dropdown.unseen_notifications").click
   end
 
   def notification_selector(notification)
@@ -44,13 +40,13 @@ describe "notifications" do
     it "says so in the navbar" do
       raise unless account.unseen_notifications_count == 2 # sanity check
       within_navbar do
-        is_expected.to have_content "Notifications (2)"
+        is_expected.to have_selector ".unseen_notifications .label", text: 2
       end
     end
 
     it "lists my notifications in the dropdown menu", :js do
       click_notifications_in_navbar
-      is_expected.to have_selector ".notification", count: 3
+      is_expected.to have_selector ".notification", count: 2
     end
 
     describe "clicking on a notification", :js do
@@ -80,9 +76,9 @@ describe "notifications" do
       2.times { create(:seen_notification, account: me) }
     end
 
-    it "says so in the header" do
+    it "doesn't mention them in the header" do
       within_navbar do
-        is_expected.to have_selector something, text: /\ANotifications\z/
+        is_expected.to have_no_selector ".unseen_notifications .label"
       end
     end
   end

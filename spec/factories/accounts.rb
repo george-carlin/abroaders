@@ -30,7 +30,19 @@ FactoryGirl.define do
       end
     end
 
+    trait :onboarded_travel_plans do
+      onboarded_travel_plans true
+    end
+
+    trait :onboarded_type do
+      # You can't select your account type until you've added a travel plan:
+      onboarded_travel_plans
+      onboarded_type true
+    end
+
     trait :onboarded_spending do
+      # You can't add your spending info until you've picked an account type:
+      onboarded_type
       after(:build) do |acc|
         acc.people.each do |p|
           p.build_spending_info(attributes_for(:spending, person: nil))
@@ -39,7 +51,6 @@ FactoryGirl.define do
     end
 
     trait :onboarded do
-      onboarded_type true
       onboarded_spending
       after(:build) do |acc|
         acc.people.each do |p|

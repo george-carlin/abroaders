@@ -1,6 +1,8 @@
 class SessionsController < Devise::SessionsController
   before_action :redirect_admins!
 
+  layout "basic"
+
   private
 
   def redirect_admins!

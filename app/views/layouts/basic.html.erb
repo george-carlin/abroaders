@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+  <%= render "layouts/head" %>
+  <body class="blank">
+    <%= render "layouts/header" %>
+
+    <%= flash_alerts %>
+    <%= yield %>
+
+    <%= render "layouts/footer" %>
+  </body>
+</html>

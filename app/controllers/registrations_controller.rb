@@ -1,5 +1,7 @@
 class RegistrationsController < Devise::RegistrationsController
 
+  layout "basic"
+
   def new
     @form = SignUp.new
     set_minimum_password_length

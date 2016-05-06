@@ -74,6 +74,18 @@ describe "travel plans" do
           raise unless account.onboarded? # sanity check
           expect(current_path).to eq new_travel_plan_path
         end
+
+        it "shows the sidebar" do
+          is_expected.to have_selector "#menu"
+        end
+      end
+    end
+
+    context "when I have not onboarded my first travel plan" do
+      let(:onboarded_travel_plans) { false }
+
+      it "doesn't show the sidebar" do
+        is_expected.to have_no_selector "#menu"
       end
     end
 
@@ -204,7 +216,7 @@ describe "travel plans" do
 
         it "shows me the form again" do
           submit_form
-          expect(page).to have_selector "h1", text: "Add a Travel Plan"
+          expect(page).to have_selector "h2", text: "Add a Travel Plan"
         end
       end
     end

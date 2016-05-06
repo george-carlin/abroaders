@@ -1,0 +1,112 @@
+List of all routes in the app. Go through each of these pages one by one
+and make sure it looks good in the new theme
+
+TODO:
+                                    Prefix Verb   URI Pattern
+                            root GET    /
+                           slack GET    /slack
+                    slack_invite POST   /slack/invite
+         person_readiness_status POST   /people/:person_id/readiness
+     new_person_readiness_status GET    /people/:person_id/readiness/new
+    edit_person_readiness_status GET    /people/:person_id/readiness/edit
+                                 GET    /people/:person_id/readiness
+                                 PATCH  /people/:person_id/readiness
+                                 PUT    /people/:person_id/readiness
+                                 DELETE /people/:person_id/readiness
+          survey_person_balances GET    /people/:person_id/balances/survey
+                                 POST   /people/:person_id/balances/survey
+     survey_person_card_accounts GET    /people/:person_id/cards/survey
+                                 POST   /people/:person_id/cards/survey
+        new_person_spending_info GET    /people/:person_id/spending/survey
+            person_spending_info POST   /people/:person_id/spending
+       edit_person_spending_info GET    /people/:person_id/spending/edit
+                                 GET    /people/:person_id/spending
+                                 PATCH  /people/:person_id/spending
+                                 PUT    /people/:person_id/spending
+                                 DELETE /people/:person_id/spending
+                    notification GET    /notifications/:id
+              apply_card_account GET    /cards/:id/apply
+               open_card_account POST   /cards/:id/open
+            decline_card_account POST   /cards/:id/decline
+               deny_card_account POST   /cards/:id/deny
+                   card_accounts GET    /cards
+                                 POST   /cards
+                new_card_account GET    /cards/new
+               edit_card_account GET    /cards/:id/edit
+                    card_account GET    /cards/:id
+                                 PATCH  /cards/:id
+                                 PUT    /cards/:id
+                                 DELETE /cards/:id
+                    travel_plans GET    /travel_plans
+                edit_travel_plan GET    /travel_plans/:id/edit
+                     travel_plan GET    /travel_plans/:id
+                                 PATCH  /travel_plans/:id
+                                 PUT    /travel_plans/:id
+                                 DELETE /travel_plans/:id
+                  admin_password POST   /admins/password
+              new_admin_password GET    /admins/password/new
+             edit_admin_password GET    /admins/password/edit
+                                 PATCH  /admins/password
+                                 PUT    /admins/password
+               new_admin_session GET    /admin/sign_in
+                   admin_session POST   /admin/sign_in
+           destroy_admin_session DELETE /admin/sign_out
+         edit_admin_registration GET    /admin/edit
+              admin_registration PUT    /admin
+                           admin PATCH  /admin
+                  admin_accounts GET    /admin/accounts
+                   admin_account GET    /admin/accounts/:id
+               admin_card_offers GET    /admin/cards/:card_id/offers
+                                 POST   /admin/cards/:card_id/offers
+            new_admin_card_offer GET    /admin/cards/:card_id/offers/new
+           edit_admin_card_offer GET    /admin/cards/:card_id/offers/:id/edit
+                admin_card_offer GET    /admin/cards/:card_id/offers/:id
+                                 PATCH  /admin/cards/:card_id/offers/:id
+                                 PUT    /admin/cards/:card_id/offers/:id
+                     admin_cards GET    /admin/cards
+                                 POST   /admin/cards
+                  new_admin_card GET    /admin/cards/new
+                 edit_admin_card GET    /admin/cards/:id/edit
+                      admin_card GET    /admin/cards/:id
+                                 PATCH  /admin/cards/:id
+                                 PUT    /admin/cards/:id
+                    admin_offers GET    /admin/offers
+                edit_admin_offer GET    /admin/offers/:id/edit
+                     admin_offer GET    /admin/offers/:id
+              admin_destinations GET    /admin/destinations
+                  admin_airports GET    /admin/airports
+                    admin_cities GET    /admin/cities
+                    admin_states GET    /admin/states
+                 admin_countries GET    /admin/countries
+                   admin_regions GET    /admin/regions
+          complete_admin_person_card_recommendations POST   /admin/people/:person_id/card_recommendations/complete admin_area/card_recommendations#complete
+          admin_person_card_recommendations POST   /admin/people/:person_id/card_recommendations          admin_area/card_recommendations#create
+          new_admin_person_card_recommendation GET    /admin/people/:person_id/card_recommendations/new      admin_area/card_recommendations#new
+                    admin_person GET    /admin/people/:id                                      admin_area/people#show
+
+
+
+
+                  privacy_policy GET    /privacy_policy                                        static_pages#privacy_policy
+            terms_and_conditions GET    /terms_and_conditions                                  static_pages#terms_and_conditions
+                         sign_up GET    /sign_up                                               registrations#new
+            account_registration POST   /sign_up                                               registrations#create
+             new_account_session GET    /sign_in                                               sessions#new
+                 account_session POST   /sign_in                                               sessions#create
+         destroy_account_session DELETE /sign_out                                              sessions#destroy
+          accounts_connect_awardwallet GET    /accounts/connect/awardwallet                          oauth#award_wallet
+
+                account_password POST   /accounts/password
+            new_account_password GET    /accounts/password/new
+           edit_account_password GET    /accounts/password/edit
+                                 PATCH  /accounts/password
+                                 PUT    /accounts/password
+        new_account_registration GET    /sign_up
+     cancel_account_registration GET    /accounts/cancel
+                        accounts PUT    /accounts
+                                 DELETE /accounts
+                                 POST   /travel_plans
+                 new_travel_plan GET    /travel_plans/new
+                    type_account GET    /account/type
+                    solo_account POST   /account/solo
+                 partner_account POST   /account/partner
