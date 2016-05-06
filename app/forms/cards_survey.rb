@@ -1,9 +1,9 @@
-class CardsSurvey < Form
+class CardsSurvey < ApplicationForm
 
   attr_accessor :person
 
   def initialize(attributes={})
-    @available_cards = SurveyCard.all
+    @available_cards = Card.survey
     assign_attributes(attributes)
     @cards = {}
   end
@@ -55,7 +55,7 @@ class CardsSurvey < Form
           attributes["status"] = "open"
         end
 
-        @person.card_accounts.create!(attributes)
+        @person.card_accounts.from_survey.create!(attributes)
       end
       person.update_attributes!(onboarded_cards: true)
     end

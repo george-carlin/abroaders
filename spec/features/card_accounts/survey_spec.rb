@@ -305,6 +305,11 @@ describe "card accounts survey", :onboarding do
         expect(closed_acc.closed_at.strftime("%F")).to eq "#{last_year}-04-01"
       end
 
+      it "saves the cards' source as 'from survey'" do
+        submit_form
+        expect(me.card_accounts.pluck(:source).uniq).to eq ["from_survey"]
+      end
+
       include_examples "submitting the form"
     end
   end # selecting some cards

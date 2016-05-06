@@ -1,30 +1,7 @@
-<div
-  id="<%= dom_id(recommended_card_account) %>"
-  class="<%= dom_class(recommended_card_account) %> row"
->
+<%= render "card_accounts/card_account", card_account: recommended_card_account do %>
+  <%= render "card_accounts/recommendation_actions", card_account: recommended_card_account %>
 
-  <%= render "card_accounts/card_information", card_account: recommended_card_account %>
-
-  <div class="col-xs-12 col-md-4">
-
-    <div
-      data-react-component="CardRecommendationActions"
-      data-account-id="<%= recommended_card_account.id %>"
-      data-status="<%= recommended_card_account.status %>"
-      data-apply-path="<%= apply_card_account_path(recommended_card_account) %>"
-      data-decline-path="<%= decline_card_account_path(recommended_card_account) %>"
-    > </div>
-
-    <% if false %>
-
-    <% if recommended_card_account.applyable? %>
-      <%= card_account_apply_btn(recommended_card_account) %>
-    <% end %>
-
-    <% if recommended_card_account.applyable? %>
-      <%= card_account_applied_btn(recommended_card_account) %>
-    <% end %>
-
+  <% if false %>
     <% if recommended_card_account.declinable? %>
       <%= card_account_decline_btn(recommended_card_account) %>
     <% elsif recommended_card_account.declined? %>
@@ -56,11 +33,5 @@
     >
       <%= t("card_accounts.index.application_pending") %>
     </div>
-    <% end %>
-
-    <%#= button_to "Decline", decline_card_account_path(recommended_card_account), class: "btn-default" %>
-  </div>
-
-</div><!-- .row -->
-
-<hr>
+  <% end %>
+<% end %>

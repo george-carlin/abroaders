@@ -1,6 +1,20 @@
 <div id="<%= dom_id(spending_info) %>" class="<%= dom_class(spending_info) %>">
   <table class="table table-condensed">
     <tbody>
+      <tr>
+        <td class="spending-info-label">
+          <% if spending_info.account_has_companion? %>
+            Shared
+          <% else %>
+            Personal
+          <% end %>
+          spending:
+        </td>
+        <td>
+          <%= number_to_currency(spending_info.monthly_spending_usd) %>/month
+        </td>
+      </td>
+
       <% if spending_info.has_business? %>
         <tr>
           <td class="spending-info-label">
@@ -37,7 +51,18 @@
           <%= spending_info.will_apply_for_loan ? "Yes" : "No" %>
         </td>
       </tr>
+
+      <% if spending_info.person.award_wallet_email.present? %>
+        <tr>
+          <td class="spending-info-label">
+            Award Wallet email:
+          </td>
+          <td>
+            <%= spending_info.person.award_wallet_email %>
+          </td>
+        </tr>
+      <% end %>
+
     </tbody>
   </table>
-
 </div>

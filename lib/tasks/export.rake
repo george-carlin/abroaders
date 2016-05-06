@@ -37,7 +37,7 @@ namespace :ab do
     end
 
     task offers: :environment do
-      offer_data = CardOffer.find_each.map do |offer|
+      offer_data = Offer.find_each.map do |offer|
         offer.as_json.slice(
           "card_id",
           "condition",
@@ -64,7 +64,7 @@ namespace :ab do
         # warned.
         puts json.gsub( /\r\n?/, "\n")
       else
-        path = Rails.root.join("lib/data/card_offers.json")
+        path = Rails.root.join("lib/data/offers.json")
         File.write(path, json)
         puts "cards data saved to #{path}"
       end

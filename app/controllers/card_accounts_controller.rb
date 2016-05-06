@@ -1,4 +1,5 @@
 class CardAccountsController < NonAdminController
+  # TODO is this being used?
   helper CardAccountButtons
 
   before_action :redirect_if_not_onboarded_travel_plans!,
@@ -7,25 +8,12 @@ class CardAccountsController < NonAdminController
                                       only: [:survey, :save_survey]
 
   def index
-    # Just show main passenger card accounts for now:
-    scope = current_main_passenger\
-                    .card_accounts.includes(:card).order(:created_at)
-    @recommended_card_accounts = scope.recommended
-    @unknown_card_accounts     = scope.unknown
-    @applied_card_accounts     = scope.applied
-
-    @other_card_accounts = scope.where.not(
-      id: [
-        @recommended_card_accounts + @unknown_card_accounts + \
-        @applied_card_accounts
-      ]
-    )
   end
 
   def survey
     @person = load_person
     redirect_if_survey_is_inaccessible! and true
-    @survey = CardsSurvey.new(person: @person)# SurveyCard.all
+    @survey = CardsSurvey.new(person: @person)
   end
 
   def save_survey
@@ -38,25 +26,22 @@ class CardAccountsController < NonAdminController
   end
 
   def apply
-    # They should still be able to access this page if the card is 'applied',
-    # in case they click the 'Apply' button but don't actually apply
-    @recommendation = current_main_passenger.card_accounts.where(
-      status: %i[recommended applied]
-    ).find(params[:id])
+    @recommendation = current_account.card_accounts.find(params[:id])
+
+    # Make sure this is the right type of card account:
+    redirect_to card_accounts_path and return unless @recommendation.recommendation?
 
     # We can't know for sure if the user has actually applied; the most
     # we can do is note that they've visited this page and (hopefully)
     # been redirected to the bank's page
-    @recommendation.applied!
-
+    @recommendation.clicked!
     @card = @recommendation.card
-    # TODO make the actual redirection work!
   end
 
   def decline
     raise "decline message must be present" unless decline_reason.present?
 
-    if @recommendation = get_card_recommendation
+    if @recommendation = load_card_recommendation
       @recommendation.decline_with_reason!(decline_reason)
       flash[:success] = t("admin.passengers.card_accounts.you_have_declined")
       redirect_to card_accounts_path
@@ -67,7 +52,7 @@ class CardAccountsController < NonAdminController
   end
 
   def open
-    @account = get_card_account
+    @account = load_card_account
     @account.open!
     flash[:success] = "Account opened" # TODO give this a better message!
     # TODO also need to let the user say *when* the card was opened
@@ -76,7 +61,7 @@ class CardAccountsController < NonAdminController
   end
 
   def deny
-    @account = get_card_account
+    @account = load_card_account
     @account.denied!
     flash[:success] = "Application denied" # TODO give this a better message!
     # TODO also need to let the user say *when* the card was opened
@@ -86,11 +71,11 @@ class CardAccountsController < NonAdminController
 
   private
 
-  def get_card_account
+  def load_card_account
     current_main_passenger.card_accounts.find(params[:id])
   end
 
-  def get_card_recommendation
+  def load_card_recommendation
     current_main_passenger.card_recommendations.find_by(id: params[:id])
   end
 

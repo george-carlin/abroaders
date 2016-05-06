@@ -5,8 +5,8 @@ describe CardAccount do
   let(:account)   { build(:account) }
   let(:person)    { account.people.first }
   let(:card)      { build(:card) }
-  let(:offer)     { build(:card_offer, card: card) }
-  let(:card_account) { described_class.new(person: person) }
+  let(:offer)     { build(:offer, card: card) }
+  let(:card_account) { described_class.from_survey.new(person: person) }
 
   describe "::Statuses" do
     before { card_account.offer = offer }
@@ -67,6 +67,18 @@ describe CardAccount do
 
       it "saves the decline reason" do
         expect(card_account.decline_reason).to eq message
+      end
+    end
+
+    describe "#clicked!" do
+      it "sets status to 'clicked'" do
+        card_account.clicked!
+        expect(card_account.status).to eq "clicked"
+      end
+
+      it "sets 'clicked at' to the current time" do
+        card_account.clicked!
+        expect(card_account.clicked_at).to be_within(2.seconds).of(Time.now)
       end
     end
 

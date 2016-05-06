@@ -1,0 +1,15 @@
+<% provide :title, "Select Account Type" %>
+
+<h1>Edit Offer</h1>
+
+<div class="row">
+  <%= render "admin_area/offers/card", card: @card %>
+</div>
+
+<hr>
+
+<div class="row">
+  <%= render 'form' %>
+
+  <%= link_to "Show offer", admin_offer_path(@offer) %>
+</div>

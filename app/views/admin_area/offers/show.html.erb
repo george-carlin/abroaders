@@ -1,0 +1,49 @@
+<% provide :title, "Offer ##{@offer.id}" %>
+
+<% present @offer do |offer| %>
+  <h1>Offer #<%= offer.id %></h1>
+
+  <div class="row">
+    <%= render "admin_area/offers/card", card: @card %>
+  </div>
+
+  <hr>
+
+  <dl class="dl-horizontal">
+
+    <dt>Condition:</dt>
+    <dd><%= offer.condition.humanize %></dd>
+
+    <dt>Bank:</dt>
+    <dd><%= offer.bank_name %></dd>
+
+    <dt>Points awarded:</dt>
+    <dd><%= offer.points_awarded %></dd>
+
+    <% if offer.on_minimum_spend? %>
+      <dt>Spend:</dt>
+      <dd><%= offer.spend %></dd>
+    <% end %>
+
+    <dt>Cost:</dt>
+    <dd><%= offer.cost %></dd>
+
+    <% unless offer.on_approval? %>
+      <dt>Days:</dt>
+      <dd><%= offer.days %></dd>
+    <% end %>
+
+    <dt>Link:</dt>
+    <dd><%= link_to offer.link, offer.link %></dd>
+
+    <dt>Live:</dt>
+    <dd><%= offer.live ? "Yes" : "No" %></dd>
+
+    <dt>Notes:</dt>
+    <dd><%= offer.notes %></dd>
+
+  </dl>
+
+  <%= link_to "Back", admin_offers_path %> |
+  <%= link_to "Edit", edit_admin_offer_path(offer) %>
+<% end %>

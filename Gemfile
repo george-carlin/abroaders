@@ -6,7 +6,6 @@ gem 'rails', '>= 5.0.0.beta3', '< 5.1'
 
 gem 'aws-sdk', '1.61.0'
 gem 'font-awesome-rails'
-gem 'active_model_serializers', '~> 0.10.0.rc3'
 gem 'acts_as_tree', '~> 2.4.0'
 gem 'bitmask_attributes'
 gem 'devise', github: 'plataformatec/devise'
@@ -20,7 +19,6 @@ gem "paperclip", "~> 4.3.1"
 gem 'pg', '~> 0.18'
 gem 'puma'
 gem 'sass-rails'
-gem 'searchlight'
 gem 'uglifier', '>= 1.3.0'
 gem 'will_paginate-bootstrap', '~> 1.0.1'
 

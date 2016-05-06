@@ -79,8 +79,10 @@
             &nbsp;
             <!-- <i class={class} style={style} > </i> -->
           </th>
-          <th>
-            Time zone
+          <th class="sortable-column-header" >
+            Last rec
+            &nbsp;
+            <!-- <i class={class} style={style} > </i> -->
           </th>
           <!-- <th colspan="2"></th> -->
         </tr>
@@ -118,6 +120,7 @@
               <% end %>
             </td>
             <td><%= account.created_at.strftime("%D") %></td>
+            <td><%= account.last_recommendation_at.try(:strftime, "%D") || "-" %></td>
             <!-- <td><%= link_to "Info", admin_account_path(account) %></td> -->
           </tr>
         <% end %>

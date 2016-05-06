@@ -3,25 +3,10 @@
   class="<%= dom_class(card_account) %> row"
 >
 
-  <%= render "card_accounts/card_information", card_account: card_account %>
+  <%= render "card_accounts/card", card_account: card_account %>
 
   <div class="col-xs-12 col-md-4">
-    <% if card_account.applied_at.present? %>
-      <p>
-        You indicated on <%= card_account.applied_at.strftime("%D") %> that you
-        had applied for this card.
-      </p>
-
-      <p>
-        When you hear back from the bank, tell us whether or not you were
-        approved for the card
-      </p>
-
-      <div
-        data-react-component="CardAppliedActions"
-      >
-      </div>
-    <% end %>
+    <%= yield %>
   </div>
 </div><!-- .row -->
 

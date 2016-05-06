@@ -27,4 +27,24 @@ describe Person do
     end
   end
 
+  describe "#recommend_offer!" do
+    let(:offer)  { create(:offer) }
+    let(:card)   { offer.card }
+    let(:person) { create(:person) }
+
+    it "creates a card/offer recommendation for the person" do
+      expect do
+        person.recommend_offer!(offer)
+      end.to change{person.card_accounts.count}.by(1)
+      rec = person.card_accounts.last
+      expect(rec).to be_recommended
+      expect(rec.source).to eq "recommendation"
+      expect(rec.card).to eq card
+      expect(rec.offer).to eq offer
+      expect(rec.recommended_at).to be_within(5.seconds).of(Time.now)
+
+      expect(person.card_recommendations).to include rec
+    end
+  end
+
 end

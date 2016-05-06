@@ -3,7 +3,17 @@
   class="<%= dom_class(applied_card_account) %> row"
 >
 
-  <%= render "card_accounts/card_information", card_account: applied_card_account %>
+  <%= render "card_accounts/card", card_account: applied_card_account %>
+
+  <%= link_to(
+    "Apply",
+    apply_card_account_path(applied_card_account),
+    id: "card_account_#{applied_card_account.id}_apply_btn",
+    class: "CardApplyBtn card_account_apply_btn btn btn-primary btn-sm",
+    target: "_blank"
+  ) %>
+
+  <% if false %>
 
   <div class="col-xs-12 col-md-4">
     <p>
@@ -21,6 +31,7 @@
     >
     </div>
   </div>
+  <% end %>
 </div><!-- .row -->
 
 <hr>

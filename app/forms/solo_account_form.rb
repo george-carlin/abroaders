@@ -1,4 +1,4 @@
-class SoloAccountForm < Form
+class SoloAccountForm < ApplicationForm
   attr_accessor :account
   attr_reader :monthly_spending_usd, :person
   attr_boolean_accessor :eligible_to_apply

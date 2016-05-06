@@ -22,6 +22,11 @@ Rails.application.routes.draw do
     delete :accounts, to: "registrations#destroy"
   end
 
+  controller :static_pages do
+    get :privacy_policy
+    get :terms_and_conditions
+  end
+
   resource :account, only: [] do
     get  :type
     post :solo,    action: :create_solo_account
@@ -53,6 +58,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :notifications, only: :show
+
   # Note that 'cards' is a fixed list, and 'card accounts' is the join table
   # between a user and a card. But the user doesn't care about anyone's cards
   # except his own, and from his perspective he doesn't have a "card account"
@@ -60,8 +67,8 @@ Rails.application.routes.draw do
   # though we're dealing with the CardAccount model, not the Card model.
   resources :card_accounts, path: :cards do
     member do
-      post :open
       get  :apply
+      post :open
       post :decline
       post :deny
     end
@@ -87,29 +94,25 @@ Rails.application.routes.draw do
 
   namespace :admin, module: :admin_area do
     resources :accounts, only: [ :index, :show ]
-    resources :cards, only: %i[show index new create edit update]
-    resources :card_offers, only: %i[show index new create edit update]
+    resources :cards, except: :destroy do
+      resources :offers, except: :destroy
+    end
+    # show and edit redirect to the nested action:
+    resources :offers, only: [:show, :edit, :index]
     resources :destinations, only: :index
     Destination.types.keys.each do |type|
       # airports, cities, countries, etc
       get type.pluralize, to: "destinations##{type}"
     end
     resources :people, only: :show do
-      resources :card_recommendations, only: [:new, :create]
-    end
-  end
-
-  # ---- /ADMINS -----
-
-  namespace :api, defaults: { format: :json } do
-    namespace :v1 do
-      resources :accounts
-      resources :destinations, only: [] do
+      resources :card_recommendations, only: [:new, :create] do
         collection do
-          get :typeahead
+          post :complete
         end
       end
     end
   end
+
+  # ---- /ADMINS -----
 
 end

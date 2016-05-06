@@ -5,9 +5,10 @@ describe "admin section" do
   subject { page }
 
   describe "person recommend card page" do
-
     let(:chase)   { Bank.find_by(name: "Chase")   }
     let(:us_bank) { Bank.find_by(name: "US Bank") }
+
+    let(:aw_email) { "totallyawesomedude@example.com" }
 
     before do
       @currencies = create_list(:currency, 4)
@@ -21,30 +22,38 @@ describe "admin section" do
       ]
 
       @offers = [
-        create(:card_offer, card: @chase_b),
-        create(:card_offer, card: @chase_b),
-        create(:card_offer, card: @chase_p),
-        create(:card_offer, card: @usb_b),
-        create(:card_offer, card: @usb_p)
+        create(:offer, card: @chase_b),
+        create(:offer, card: @chase_b),
+        create(:offer, card: @chase_p),
+        create(:offer, card: @usb_b),
+        create(:offer, card: @usb_p)
       ]
+      @dead_offer = create(:dead_offer, card: @chase_b)
 
       # Make the account created_at stamp different from the person's:
       @account = create(:account, created_at: 4.days.ago)
-      @person  = @account.people.first
+      @person  = @account.main_passenger
       if onboarded
         @person.create_spending_info!(
           credit_score: 678,
           has_business: :with_ein,
           business_spending_usd: 1500
         )
-        @person.update_attributes!(onboarded_cards: true, onboarded_balances: true)
-        @person.ready_to_apply!
+        @person.update_attributes!(
+          onboarded_cards: true,
+          onboarded_balances: true,
+          award_wallet_email: aw_email,
+        )
+        @person.ready_to_apply! if ready_to_apply
       end
       extra_setup
       visit new_admin_person_card_recommendation_path(@person)
     end
 
+    let(:account) { @account }
+    let(:person)  { @person }
     let(:onboarded) { true }
+    let(:ready_to_apply) { true }
     let(:extra_setup) { nil }
 
     def have_recommendable_card(card)
@@ -55,15 +64,28 @@ describe "admin section" do
       "##{dom_id(card, :admin_recommend)}"
     end
 
-    it do
-      title = "#{@person.first_name} - Recommend Card"
-      is_expected.to have_title full_title(title)
+    def offer_selector(offer)
+      "#" << dom_id(offer, :admin_recommend)
     end
 
-    context "for a person who has not been fully onboarded" do
+    let(:name) { @person.first_name }
+
+    it { is_expected.to have_title full_title "#{name} - Recommend Card" }
+
+    context "for a person who has not completed the onboarding survey" do
       let(:onboarded) { false }
       it "redirects back to the person show page" do
         expect(current_path).to eq admin_person_path(@person)
+      end
+    end
+
+    context "for a person who has completed the onboarding survey" do
+      let(:onboarded) { true }
+      context "but is not ready to apply" do
+        let(:ready_to_apply) { false }
+        it "redirects back to the person show page" do
+          expect(current_path).to eq admin_person_path(@person)
+        end
       end
     end
 
@@ -75,6 +97,13 @@ describe "admin section" do
       context "has no existing card accounts or recommendations" do
         it do
           is_expected.to have_content t("admin.people.card_accounts.none")
+        end
+      end
+
+      context "has added an award wallet email" do
+        it "displays it" do
+          is_expected.to have_content "Award Wallet email"
+          is_expected.to have_content aw_email
         end
       end
 
@@ -170,10 +199,8 @@ describe "admin section" do
       end
 
       context "has no existing points balances" do
-        it do
-          is_expected.to have_content \
-            t("admin.people.card_recommendations.no_balances")
-        end
+        let(:no_balances) { t("admin.people.card_recommendations.no_balances") }
+        it { is_expected.to have_content no_balances }
       end
 
       context "has existing points balances" do
@@ -196,6 +223,79 @@ describe "admin section" do
           is_expected.to have_no_selector "##{dom_id(@currencies[3])}_balance"
         end
       end
+
+      context "has existing cards" do
+        let(:jan) { Date.parse("2015-01-01") }
+        let(:mar) { Date.parse("2015-03-01") }
+        let(:oct) { Date.parse("2015-10-01") }
+        let(:dec) { Date.parse("2015-12-01") }
+
+        let(:extra_setup) do
+          def add_card(card, status, other_attrs={})
+            create(
+              :card_account,
+              other_attrs.merge(card: card, person: @person, status: status),
+            )
+          end
+
+          @card_accounts = [
+            add_card(@chase_b, :unknown),
+            add_card(@chase_p, :recommended, recommended_at: jan, applied_at: mar),
+            add_card(@usb_b, :open,   applied_at: mar, opened_at: oct),
+            add_card(@usb_p, :closed, applied_at: oct, closed_at: dec),
+          ]
+        end
+
+        it "lists them" do
+          within "#admin_person_card_accounts" do
+            @card_accounts.each do |account|
+              is_expected.to have_selector "#card_account_#{account.id}"
+            end
+          end
+        end
+
+        it "shows each card's status" do
+          within "#card_account_#{@card_accounts[0].id}" do
+            is_expected.to have_selector ".card_account_status", text: "Unknown"
+          end
+          within "#card_account_#{@card_accounts[1].id}" do
+            is_expected.to have_selector ".card_account_status", text: "Recommended"
+          end
+          within "#card_account_#{@card_accounts[2].id}" do
+            is_expected.to have_selector ".card_account_status", text: "Open"
+          end
+          within "#card_account_#{@card_accounts[3].id}" do
+            is_expected.to have_selector ".card_account_status", text: "Closed"
+          end
+        end
+
+        it "shows the recommended/applied/opened/closed dates for each card" do
+          within "#card_account_#{@card_accounts[0].id}" do
+            is_expected.to have_selector ".card_account_recommended_at", text: "-"
+            is_expected.to have_selector ".card_account_applied_at",     text: "-"
+            is_expected.to have_selector ".card_account_opened_at",      text: "-"
+            is_expected.to have_selector ".card_account_closed_at",      text: "-"
+          end
+          within "#card_account_#{@card_accounts[1].id}" do
+            is_expected.to have_selector ".card_account_recommended_at", text: "Jan 2015"
+            is_expected.to have_selector ".card_account_applied_at",     text: "Mar 2015"
+            is_expected.to have_selector ".card_account_opened_at",      text: "-"
+            is_expected.to have_selector ".card_account_closed_at",      text: "-"
+          end
+          within "#card_account_#{@card_accounts[2].id}" do
+            is_expected.to have_selector ".card_account_recommended_at", text: "-"
+            is_expected.to have_selector ".card_account_applied_at",     text: "Mar 2015"
+            is_expected.to have_selector ".card_account_opened_at",      text: "Oct 2015"
+            is_expected.to have_selector ".card_account_closed_at",      text: "-"
+          end
+          within "#card_account_#{@card_accounts[3].id}" do
+            is_expected.to have_selector ".card_account_recommended_at", text: "-"
+            is_expected.to have_selector ".card_account_applied_at",     text: "Oct 2015"
+            is_expected.to have_selector ".card_account_opened_at",      text: "-"
+            is_expected.to have_selector ".card_account_closed_at",      text: "Dec 2015"
+          end
+        end
+      end
     end
 
     it "displays the person's info from the onboarding survey" do
@@ -209,11 +309,34 @@ describe "admin section" do
     end
 
     describe "the card recommendation form" do
-      it "has an option to recommend each card offer" do
+      it "has an option to recommend each offer" do
         within ".admin-card-recommendation-table" do
           @offers.each do |offer|
-            is_expected.to have_selector "##{dom_id(offer, :admin_recommend)}"
+            is_expected.to have_selector offer_selector(offer)
             is_expected.to have_selector "#recommend_#{dom_id(offer)}_btn"
+          end
+        end
+      end
+
+      it "doesn't have links to recommend dead offers" do
+        within ".admin-card-recommendation-table" do
+          is_expected.to have_no_selector offer_selector(@dead_offer)
+          is_expected.to have_no_selector "#recommend_#{dom_id(@dead_offer)}_btn"
+        end
+      end
+
+      it "has a link to each offer" do
+        @offers.each do |offer|
+          within offer_selector(offer) do
+            is_expected.to have_link "Link", offer.link
+          end
+        end
+      end
+
+      specify "offer links open in a new tab" do
+        @offers.each do |offer|
+          within offer_selector(offer) do
+            expect(find("a[href='#{offer.link}']")[:target]).to eq "_blank"
           end
         end
       end
@@ -304,7 +427,7 @@ describe "admin section" do
         end
       end # filters
 
-      describe "clicking 'recommend' next to a card offer", :js do
+      describe "clicking 'recommend' next to an offer", :js do
         let(:offer) { @offers[3] }
         before { find("#recommend_#{dom_id(offer)}_btn").click }
         let(:offer_tr) { "##{dom_id(offer, :admin_recommend)}" }
@@ -342,6 +465,10 @@ describe "admin section" do
             it "has 'recommended at' set to the current time" do
               expect(rec.recommended_at).to be_within(5.seconds).of Time.now
             end
+
+            it "'s source is 'recommendation'" do
+              expect(rec.source).to eq "recommendation"
+            end
           end
         end # clicking 'Confirm'
 
@@ -368,5 +495,57 @@ describe "admin section" do
       end
     end
 
+    it "has a button to mark recommendations as complete" do
+      is_expected.to have_selector "input[value=Done][type=submit]"
+    end
+
+    context "when the person has not received any recommendations before" do
+      before { raise if person.last_recommendations_at.present? }
+      it "doesn't display a 'last recs' timestamp" do
+        is_expected.to have_no_selector ".person_last_recommendations_at"
+      end
+    end
+
+    context "when the person has received recommendations before" do
+      let(:date) { 5.days.ago }
+      let(:extra_setup) { person.update_attributes!(last_recommendations_at: date) }
+
+      it "displays a 'last recs' timestamp" do
+        is_expected.to have_selector(
+          ".person_last_recommendations_at",
+          text: date.strftime("%D"),
+        )
+      end
+    end
+
+    describe "clicking 'Done'" do
+      let(:click_done) { click_button "Done" }
+      let(:new_notification) { account.notifications.last }
+
+      it "sends a notification to the user" do
+        expect{click_done}.to change{account.notifications.count}.by(1)
+        expect(new_notification).to be_a(Notifications::NewRecommendations)
+        expect(new_notification.record).to eq person
+      end
+
+      it "sends an email to the user" do
+        pending
+        expect{click_done}.to change{ApplicationMailer.deliveries.length}.by(1)
+        email = ApplicationMailer.deliveries.last
+        expect(email.subject).to eq "something"
+      end
+
+      it "updates the person's 'last recs' timestamp" do
+        click_done
+        expect(person.reload.last_recommendations_at).to be_within(5.seconds).of(Time.now)
+      end
+
+      it "increments the account's unseen_notifications_count" do
+        expect do
+          click_done
+          account.reload
+        end.to change{account.unseen_notifications_count}.by(1)
+      end
+    end
   end
 end

@@ -29,11 +29,15 @@ module CardAccount::Statuses
   # I've decided not to store it. Can we get away with this?
 
 
+  # Note that the numeric keys of the statuses don't necessarily match
+  # the order in which a card account flows throw the statuses, because
+  # some statuses were added later in the app's development than others.
   STATUSES = {
     unknown:     0,
     recommended: 1,
     declined:    2,
-    applied:     3,
+    clicked:     3,
+    applied:     7,
     denied:      4,
     open:        5,
     closed:      6,
@@ -50,6 +54,10 @@ module CardAccount::Statuses
 
     def applied!
       update_attributes!(status: :applied, applied_at: Time.now)
+    end
+
+    def clicked!
+      update_attributes!(status: :clicked, clicked_at: Time.now)
     end
   end
 
@@ -88,11 +96,5 @@ module CardAccount::Statuses
       status == "recommended"
     end
     alias_method :acceptable?, :openable?
-  end
-
-  module ClassMethods
-    def recommendations
-      recommended
-    end
   end
 end

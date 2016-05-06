@@ -1,41 +1,71 @@
-<% provide :title, "My Cards" %>
+<% provide :title, "Your Cards" %>
 
 <h1>Your Cards</h1>
 
-<% if @recommended_card_accounts.any? %>
+<h2>Recommendations</h2>
 
-  <h2>Card Recommendations</h2>
+<% present(current_account, CardAccountsPresenter) do |page| %>
+  <% if page.card_recommendations.any? %>
+    <div id="card_recommendations">
+      <div id="main_person_card_recommendations">
+        <% if has_companion? %>
+          <h3><%= page.main_person.subheading %></h3>
+        <% end %>
 
-  <div id="recommended_card_accounts">
-    <%= render @recommended_card_accounts %>
-  </div><!-- #recommended_card_accounts -->
-<% else %>
-  Thanks for signing up to Abroaders! You will shortly receive your
-  first card recommendation
-<% end %>
+        <% if page.main_person.recommendations.any? %>
+          <%= render page.main_person.recommendations %>
+        <% else %>
+          No recommendations for <%= page.main_person.first_name %>
+        <% end %>
+      </div>
 
-<!-- TODO hide this header where appropriate -->
-<h2>Other Cards</h2>
+      <% if has_companion? %>
+        <div id="partner_card_recommendations">
+          <h3><%= page.partner.subheading %></h3>
 
-<% if @applied_card_accounts.any? %>
-  <div id="applied_card_accounts">
-    <%= render @applied_card_accounts %>
-  </div>
-<% end %>
+          <% if page.partner.recommendations.any? %>
+            <%= render page.partner.recommendations %>
+          <% else %>
+            No recommendations for <%= page.partner.first_name %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="alert alert-info">
+      The Abroaders team is hand selecting the ideal rewards cards based on
+      your current points, travel plans and spending. We’ll let you know as
+      soon as the card recommendations are ready to view.
+    </div>
+  <% end %>
 
-<% if @unknown_card_accounts.any? %>
+  <% if page.card_accounts_from_survey.any? %>
+    <h2>Other Cards</h2>
 
-  <div id="unknown_card_accounts">
-    <%= render @unknown_card_accounts %>
-  </div>
-<% end %>
+    <p>You told us when you signed up that you already had these cards:</p>
 
-<% if false && @other_card_accounts.any? %>
-  <!-- ??? <h2>Other Cards</h2> -->
+    <div id="card_accounts_from_survey">
+      <div id="main_person_card_accounts_from_survey">
+        <% if has_companion? %>
+          <h3><%= page.main_person.subheading %></h3>
+        <% end %>
+        <% if page.main_person.card_accounts_from_survey.any? %>
+          <%= render page.main_person.card_accounts_from_survey %>
+        <% else %>
+          <p><%= page.main_person.no_card_accounts_from_survey %></p>
+        <% end %>
+      </div>
 
-  <!-- this is really just a placeholder for now until we've got a system
-  set up that handles cards of every status -->
-  <div id="other_card_accounts">
-    <%= render @other_card_accounts, partial: "card_accounts/card_account" %>
-  </div><!-- #other_card_accounts -->
+      <% if has_companion? %>
+        <div id="partner_card_accounts_from_survey">
+          <h3><%= page.partner.subheading %></h3>
+          <% if page.partner.card_accounts_from_survey.any? %>
+            <%= render page.partner.card_accounts_from_survey %>
+          <% else %>
+            <p><%= page.partner.no_card_accounts_from_survey %></p>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
 <% end %>

@@ -19,20 +19,21 @@
       <th>Annual Fee</th>
       <th>On survey?</th>
       <th></th>
+      <th>Offers</th>
     </tr>
   </thead>
 
   <tbody>
-    <% @cards.each do |card| %>
+    <% present_each(@cards) do |card| %>
       <tr id="<%= dom_id(card) %>">
         <td><%= card.identifier %></td>
         <td><%= card.bank_name %></td>
         <td><%= link_to card.name, admin_card_path(card) %></td>
-        <td><%= t("activerecord.attributes.card.networks.#{card.network}") %></td>
-        <td><%= card.currency.name %></td>
-        <td><%= card.bp.capitalize %></td>
-        <td><%= t("activerecord.attributes.card.types.#{card.type}") %></td>
-        <td><%= card_price_formatted(card) %></td>
+        <td><%= card.network %></td>
+        <td><%= card.currency_name %></td>
+        <td><%= card.bp %></td>
+        <td><%= card.type %></td>
+        <td><%= card.annual_fee %></td>
         <td class="card_shown_on_survey">
           <% if card.shown_on_survey? %>
             <i class="fa fa-check"> </i>
@@ -41,7 +42,11 @@
         <td>
           <%= link_to "Edit", edit_admin_card_path(card) %>
         </td>
+        <td>
+          <%= link_to "View", admin_card_offers_path(card) %> |
+          <%= link_to "New", new_admin_card_offer_path(card) %>
+        </td>
       </tr>
-    <% end %>
-  </tbody>
+    <% end # present_each %>
+</tbody>
 </table>

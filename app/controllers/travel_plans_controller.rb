@@ -1,4 +1,5 @@
 class TravelPlansController < NonAdminController
+  before_action :redirect_if_on_other_survey_page, only: [:new, :create]
 
   def index
     @travel_plans = current_account.travel_plans.includes(
@@ -50,6 +51,12 @@ class TravelPlansController < NonAdminController
       :no_of_passengers, :will_accept_economy, :will_accept_premium_economy,
       :will_accept_business_class, :will_accept_first_class
     )
+  end
+
+  def redirect_if_on_other_survey_page
+    if current_account.onboarded_travel_plans? && !current_account.onboarded?
+      redirect_to type_account_path
+    end
   end
 
   def load_countries

@@ -97,12 +97,31 @@
 
 <br>
 
-<p class="help-block">
-  <i>
-    User will receive a notification and the card will appear under 'New
-    recommendations'
-  </i>
-</p>
+
+<div class="row">
+  <div class="col-xs-12">
+    <p>
+      When you're finished recommending cards to this user, click 'Done' to
+      send them a notification.
+    </p>
+
+    <% if @person.last_recommendations_at.present? %>
+      Person last received recommendations at:
+      <span class="person_last_recommendations_at">
+        <%= @person.last_recommendations_at.strftime("%D") %>
+      </span>
+    <% end %>
+
+    <%= button_to(
+      "Done",
+      complete_admin_person_card_recommendations_path(@person),
+      class: "btn btn-primary",
+      style: "float:right;"
+    ) %>
+  </div>
+</div>
+
+<hr>
 
 <%# TODO - make the table sortable again %>
 <table class="admin-card-recommendation-table table">
@@ -128,7 +147,7 @@
   </thead>
 
   <tbody>
-    <% @card_offers_grouped_by_card.each_with_index do |(card, offers), i| %>
+    <% @offers_grouped_by_card.each do |card, offers| %>
       <tr
         id="<%= dom_id(card, :admin_recommend) %>"
         class="<%= dom_class(card, :admin_recommend) %>"
@@ -136,21 +155,23 @@
         data-bank="<%= card.bank_id %>"
         data-currency="<%= card.currency_id %>"
       >
-        <td class="card-identifier">
-          Card <%= card.identifier %>
-        </td>
-        <td class="card-name">
-          <%= card.name %>
-        </td>
-        <td class="card-bank-name">
-          <%= card.bank_name %>
-        </td>
-        <td class="card-bp">
-          <%= card.bp.capitalize %>
-        </td>
-        <td class="card-currency">
-          <%= card.currency.name %>
-        </td>
+        <% present card do |card_p| %>
+          <td class="card-identifier">
+            Card <%= card_p.identifier %>
+          </td>
+          <td class="card-name">
+            <%= card_p.name %>
+          </td>
+          <td class="card-bank-name">
+            <%= card_p.bank_name %>
+          </td>
+          <td class="card-bp">
+            <%= card_p.bp %>
+          </td>
+          <td class="card-currency">
+            <%= card_p.currency_name %>
+          </td>
+        <% end %>
       </tr><!-- .admin_recommend_card_(id) -->
 
       <tr
@@ -163,7 +184,7 @@
             class="<%= dom_class(card, :admin_recommend) %>_offers_table table"
           >
             <tbody>
-              <% offers.each_with_index do |offer, j| %>
+              <% present_each offers do |offer| %>
                 <tr
                   id="<%= dom_id(offer, :admin_recommend) %>"
                   class="<%= dom_class(offer, :admin_recommend) %>"
@@ -173,29 +194,32 @@
                   </td>
                   <td class="offer-points-awarded">
                     Points: &nbsp;
-                    <b><%= number_with_delimiter offer.points_awarded %></b>
+                    <b><%= offer.points_awarded %></b>
                   </td>
                   <td class="offer-spend">
                     Spend:&nbsp;
-                    <b><%= number_to_currency offer.spend %></b>
+                    <b><%= offer.spend %></b>
                   </td>
                   <td class="offer-cost">
                     Cost:&nbsp;
-                    <b><%= number_to_currency offer.cost %></b>
+                    <b><%= offer.cost %></b>
                   </td>
                   <td class="offer-days">
                     Days:&nbsp;
                     <b><%= offer.days %></b>
                   </td>
+                  <td class="offer-link">
+                    <b><%= link_to "Link", offer.link, target: "_blank" %></b>
+                  </td>
                   <td class="offer-recommend">
-                    <%= recommend_card_btn(offer) %>
+                    <%= offer.recommend_btn %>
 
                     <div
-                      class="confirm_cancel_card_offer_wrapper"
+                      class="confirm_cancel_offer_wrapper"
                       style="display:none;"
                     >
-                      <%= cancel_recommend_card_btn(offer) %>
-                      <%= confirm_recommend_card_btn(offer) %>
+                      <%= offer.confirm_recommend_btn(@person) %>
+                      <%= offer.cancel_recommend_btn %>
                     </div>
                   </td>
                 </tr>

@@ -4,6 +4,15 @@ class CardAccount < ApplicationRecord
 
   include Statuses
 
+  enum source: {
+    from_survey:    0,
+    recommendation: 1,
+  }
+
+  class << self
+    alias_method :recommendations, :recommendation
+  end
+
   delegate :network, :type, :bp, :name, :identifier, :bank, :bank_name, :currency,
     :currency_name, :annual_fee,
     to: :card,
@@ -30,7 +39,7 @@ class CardAccount < ApplicationRecord
 
   belongs_to :card
   belongs_to :person
-  belongs_to :offer, class_name: "CardOffer"
+  belongs_to :offer
 
   alias_method :original_card, :card
   def card

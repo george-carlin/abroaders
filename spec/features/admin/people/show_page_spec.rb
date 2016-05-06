@@ -3,9 +3,8 @@ require "rails_helper"
 describe "admin section" do
   describe "show user page" do
     # This spec is totally out of date, and the admin/people#show page is
-    # unimportant and likely to change in the future anyway, so leaving it for
-    # now.
-    before { skip }
+    # unimportant and likely to change in the future anyway, so skipping
+    # the failing specs for now
     subject { page }
 
     include_context "logged in as admin"
@@ -51,12 +50,14 @@ describe "admin section" do
     end
 
     it "displays the person's info" do
+      pending
       is_expected.to have_info "email", @person.email
     end
 
     context "when the person" do
       context "has not yet added their spending info" do
         it "says so" do
+          pending
           is_expected.to have_content t("admin.people.show.no_spending")
           is_expected.to have_no_content t("admin.people.show.not_onboarded")
         end
@@ -72,12 +73,14 @@ describe "admin section" do
             has_business: :with_ein,
           )
           if onboarded
+            pending
             @account.update_attributes!(onboarding_stage: :onboarded)
           end
         end
         let(:onboarded) { false }
 
         it "displays the spending info" do
+          pending
           is_expected.to have_info "credit-score", 678
           is_expected.to have_info "personal-spending", "$2500"
           is_expected.to have_info "business-spending", "$1500"
@@ -85,6 +88,7 @@ describe "admin section" do
 
         context "but the account is still not fully onboarded" do
           it "says so" do
+            pending
             is_expected.to have_no_content t("admin.people.show.no_spending")
             is_expected.to have_content t("admin.people.show.not_onboarded")
           end

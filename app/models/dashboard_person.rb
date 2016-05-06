@@ -1,3 +1,6 @@
+# TODO fundamentally, this is a duplicate of the 'what survey pages can a user
+# see and which page are they currently on?' logic which is duplicated
+# elsewhere in the app. Definitely a possibility for some DRYing.
 class DashboardPerson
 
   def initialize(person)
@@ -6,31 +9,31 @@ class DashboardPerson
   end
 
   def show_travel_plans_link?
-    !account.onboarded_travel_plans?
+    !onboarded_travel_plans?
   end
 
   def show_account_type_link?
-    !show_travel_plans_link? && !account.onboarded_type?
+    onboarded_travel_plans? && !onboarded_type?
   end
 
   def show_spending_link?
-    !show_account_type_link? && eligible? && !person.onboarded_spending?
+    onboarded_type? && eligible? && !onboarded_spending?
   end
 
   def show_cards_link?
-    !show_spending_link? && eligible? && !person.onboarded_cards?
+    onboarded_spending? && !onboarded_cards?
   end
 
   def show_balances_link?
-    !show_cards_link? && !person.onboarded_balances?
+    onboarded_type? && (!eligible? || onboarded_cards?) && !onboarded_balances?
   end
 
   def show_readiness?
-    person.readiness_given?
+    readiness_given?
   end
 
   def show_readiness_link?
-    !show_balances_link? && !(person.readiness_given? && person.ready_to_apply?)
+    onboarded_balances? && eligible? && !(readiness_given? && ready_to_apply?)
   end
 
   def method_missing(meth, *args, &block)
@@ -49,12 +52,12 @@ class DashboardPerson
 
   attr_reader :person
 
+  delegate :onboarded_travel_plans?, :onboarded_type?, to: :account
+  delegate :account, :onboarded_spending?, :onboarded_cards?, :onboarded_balances?,
+            :readiness_given?, to: :person
+
   def eligible?
     person.eligible_to_apply?
-  end
-
-  def account
-    @person.account
   end
 
 end

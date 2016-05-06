@@ -1,0 +1,1 @@
+heroku maintenance:on && git push heroku master:master && heroku run rake:db:migrate && heroku maintenance:off

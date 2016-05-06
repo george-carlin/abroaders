@@ -15,7 +15,6 @@
       <% else %>
         <p>Ineligible to apply for cards</p>
       <% end %>
-      <hr>
     <% elsif person.show_account_type_link? %>
       <p>You need to choose an account type before we can help you start saving.</p>
       <p><%= link_to "Choose account type", type_account_path %></p>
@@ -23,9 +22,11 @@
 
 
     <% if person.onboarded_spending? %>
+      <hr>
       <%= render person.spending_info %>
       <div class="clearfix"></div>
     <% elsif person.show_spending_link? %>
+      <hr>
       <p>
         You have not added this person's financial details. We can't recommend
         a credit card until you provide this information.
