@@ -45,6 +45,10 @@ describe "the balance survey page", :onboarding do
 
   it { is_expected.to have_title full_title("Balances") }
 
+  it "doesn't show the sidebar" do
+    is_expected.to have_no_selector "#menu"
+  end
+
   context "when I haven't completed the travel plans survey" do
     let(:onboarded_travel_plans) { false }
     it "redirects me to the travel plan survey" do

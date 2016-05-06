@@ -114,6 +114,10 @@ describe "card accounts survey", :onboarding do
     end
   end
 
+  it "doesn't show the sidebar" do
+    is_expected.to have_no_selector "#menu"
+  end
+
   it "lists cards grouped by bank, then B/P" do
     %w[chase citibank].each do |bank|
       %w[personal business].each do |type|

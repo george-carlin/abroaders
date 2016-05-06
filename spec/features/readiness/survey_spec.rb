@@ -60,6 +60,12 @@ describe "the 'are you ready to apply?' survey page", :js, :onboarding do
     is_expected.to have_field :readiness_status_ready_false
   end
 
+  it "doesn't show the sidebar" do
+    is_expected.to have_no_selector "#menu"
+  end
+
+  pending "it shows the sidebar if I'm onboarded but previously said I wasn't ready"
+
   specify "'I'm ready' is selected by default" do
     expect(find("#readiness_status_ready_true")).to be_checked
   end

@@ -26,6 +26,10 @@ describe "the spending info survey", :onboarding do
 
   let(:submit_form) { click_button "Save" }
 
+  it "doesn't show the sidebar" do
+    is_expected.to have_no_selector "#menu"
+  end
+
   it "asks me for my financial info" do
     is_expected.to have_field :spending_info_credit_score
     is_expected.to have_field :spending_info_will_apply_for_loan_true
