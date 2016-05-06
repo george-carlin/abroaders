@@ -1,4 +1,5 @@
 module CardAccountButtons
+  # TODO move me to a presenter
 
   def card_account_accepted_btn(card_account)
     raise "#{card_account} can't be accepted" unless card_account.acceptable?
