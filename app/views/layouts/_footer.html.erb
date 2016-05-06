@@ -4,9 +4,10 @@
 <% unless Rails.env.test? %>
   <footer class="footer">
     <span class="pull-right">
-      <!-- Example text -->
+      <%= link_to "Terms and Conditions", terms_and_conditions_path %> |
+      <%= link_to "Privacy Policy", privacy_policy_path %>
     </span>
-    Abroaders <%= Date.today.year %>
+    © Abroaders <%= Date.today.year %>
   </footer>
   <div class="footer-spacer"></div>
 <% end %>
