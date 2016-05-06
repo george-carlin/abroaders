@@ -1,16 +1,21 @@
 <% provide :title, "Spending" %>
 
-<div class="row">
-  <div class="col-xs-12 col-md-10 col-md-offset-1">
+<div class="hpanel">
+  <div class="panel-heading hbuilt">
+    <div class="row">
+      <div class="col-xs-12">
+        <h1>Spending</h1>
+      </div>
+    </div><!-- .row -->
+  </div><!-- .panel-heading.hbuilt -->
 
-    <h1>Spending</h1>
+  <%= render(
+    "shared/model_validation_errors",
+    model: @spending_info,
+    model_name: "information"
+  ) %>
 
-    <%= render(
-      "shared/model_validation_errors",
-      model: @spending_info,
-      model_name: "information"
-    ) %>
-
+  <div class="panel-body">
     <p>
       Welcome, <%= @person.first_name %>! In order to help you apply for the
       right cards, we need to get some financial information about you.
@@ -108,5 +113,5 @@
 
     <% end %>
 
-  </div>
+  </div><!-- .panel-body -->
 </div>
