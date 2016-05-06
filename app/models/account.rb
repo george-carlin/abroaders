@@ -12,7 +12,7 @@ class Account < ApplicationRecord
   alias_attribute :has_companion?, :has_companion
 
   def onboarded?
-    onboarded_type? && people.all?(&:onboarded?)
+    onboarded_travel_plans? && onboarded_type? && people.all?(&:onboarded?)
   end
 
   # Temporary solution to let admins see who has been recommended a card and
