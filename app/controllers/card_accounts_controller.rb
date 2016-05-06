@@ -43,7 +43,7 @@ class CardAccountsController < NonAdminController
 
     if @recommendation = load_card_recommendation
       @recommendation.decline_with_reason!(decline_reason)
-      flash[:success] = t("admin.passengers.card_accounts.you_have_declined")
+      flash[:success] = t("admin.people.card_accounts.you_have_declined")
       redirect_to card_accounts_path
     else
       flash[:info] = t("card_accounts.index.couldnt_decline")

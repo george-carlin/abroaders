@@ -109,6 +109,12 @@ describe "as a user viewing my cards" do
           expect(rec.declined_at).to be_within(5.seconds).of Time.now
         end
 
+        it "shows a success message" do
+          submit
+          expect(page).to have_content \
+            "You have indicated that you do not want to apply for this card"
+        end
+
         context "when the card is no longer 'declinable'" do
           before { rec.applied! }
 
