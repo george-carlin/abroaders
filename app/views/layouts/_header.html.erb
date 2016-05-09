@@ -1,9 +1,14 @@
 <div id="header">
   <div class="color-line">
   </div>
-  <div id="logo" class="light-version">
+  <div id="logo"
+    class="light-version <%= "admin-navbar" if admin_page? %>"
+  >
     <%= link_to root_path do %>
-      <span>Abroaders</span>
+      <span>
+        Abroaders&nbsp
+        <% if admin_page? %> <small>(Admin)</small> <% end %>
+      </span>
     <% end %>
   </div>
   <nav role="navigation">

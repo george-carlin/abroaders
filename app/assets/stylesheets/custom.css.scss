@@ -170,6 +170,14 @@ footer.footer {
 
 // ADMIN //
 
+#logo.admin-navbar {
+  background-color: #8A1414;
+
+  > a > span {
+    color: white;
+  }
+}
+
 // offers
 
 .card-offer-ctrls {
