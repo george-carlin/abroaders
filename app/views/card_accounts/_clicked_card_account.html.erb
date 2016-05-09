@@ -1,3 +1,5 @@
-<%= render "card_accounts/card_account", card_account: clicked_card_account do %>
-  <%= render "card_accounts/recommendation_actions", card_account: clicked_card_account %>
+<% present clicked_card_account do |card_account| %>
+  <%= card_account.render do %>
+    <%= card_account.render_recommendation_actions %>
+  <% end %>
 <% end %>

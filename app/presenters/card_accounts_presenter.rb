@@ -1,5 +1,5 @@
 # This works with both Accounts and Persons (both respond to card_accounts).
-# Pass it an Account and you can then delete to the card accounts of the
+# Pass it an Account and you can then delegate to the card accounts of the
 # Account's people.
 class CardAccountsPresenter < ApplicationPresenter
 
