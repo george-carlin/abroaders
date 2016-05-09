@@ -1,61 +1,68 @@
 <% provide :title, "Accounts" %>
 
-<h1>User accounts</h1>
-
-<div class="row">
-  <div class="form-group col-xs-12 col-md-8">
-    <input
-      id="admin_accounts_table_filter"
-      type="text"
-      class="form-control"
-      placeholder="Filter by name or email..."
-      />
+<% content_for :header_panel do %>
+  <div class="panel-body">
+    <h1>User accounts</h1>
   </div>
+<% end %>
 
-  <div class="form-inline">
-    <div class="form-group col-xs-12 col-md-4">
-
-      <div class="radio">
-        <label>
-          <input
-            checked
-            name="admin_accounts_filter_onboarded"
-            type="radio"
-            value="all"
-          />
-          All
-        </label>
-      </div>
-
-      <div class="radio">
-        <label>
-          <input
-            name="admin_accounts_filter_onboarded"
-            type="radio"
-            value="onboarded"
-          />
-          Onboarded
-        </label>
-      </div>
-
-      <div class="radio">
-        <label>
-          <input
-            name="admin_accounts_filter_onboarded"
-            type="radio"
-            value="not_onboarded"
-          />
-          Not onboarded
-        </label>
-      </div>
-
+<%= render "shared/hpanel" do  %>
+  <div class="panel-body">
+    <div class="form-group col-xs-12 col-md-8">
+      <input
+        id="admin_accounts_table_filter"
+        type="text"
+        class="form-control"
+        placeholder="Filter by name or email..."
+        />
     </div>
-  </div>
-</div>
 
-<div class="row">
-  <div class="col-xs-12">
-    <table id="admin_accounts_table" class="accounts table table-striped">
+    <div class="form-inline">
+      <div class="form-group col-xs-12 col-md-4">
+
+        <div class="radio">
+          <label>
+            <input
+              checked
+              name="admin_accounts_filter_onboarded"
+              type="radio"
+              value="all"
+            />
+            All
+          </label>
+        </div>
+
+        <div class="radio">
+          <label>
+            <input
+              name="admin_accounts_filter_onboarded"
+              type="radio"
+              value="onboarded"
+            />
+            Onboarded
+          </label>
+        </div>
+
+        <div class="radio">
+          <label>
+            <input
+              name="admin_accounts_filter_onboarded"
+              type="radio"
+              value="not_onboarded"
+            />
+            Not onboarded
+          </label>
+        </div>
+
+      </div>
+    </div>
+
+    <table
+      id="admin_accounts_table"
+      class="accounts table table-striped"
+      cellpadding="1"
+      cellspacing="1"
+    >
       <thead>
         <tr>
           <th>O?</th>
@@ -127,4 +134,4 @@
       </tbody>
     </table>
   </div>
-</div>
+<% end %>
