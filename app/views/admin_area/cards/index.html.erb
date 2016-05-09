@@ -1,52 +1,69 @@
 <% provide :title, "Cards" %>
 
-<p id="notice"><%= notice %></p>
+<% content_for :header_panel do %>
+  <div class="panel-body">
+    <h1 class="font-light m-b-xs">
+      Your Cards
+    </h1>
+    <%= link_to "Add New Card", new_admin_card_path %>
+  </div>
+<% end %>
 
-<h1>Cards</h1>
+<%= render "shared/hpanel" do %>
+  <div class="panel-body">
+    <div class="table-responsive">
+      <table
+        id="admin_cards_table"
+        class="table table-striped"
+        cellpadding="1"
+        cellspacing="1"
+      >
+        <thead>
+          <tr>
+            <th>Identifier</th>
+            <th>Bank</th>
+            <th>Name</th>
+            <th>Network</th>
+            <th>Currency</th>
+            <th>B/P</th>
+            <th>Type</th>
+            <th>Annual Fee</th>
+            <th>On survey?</th>
+            <th></th>
+            <th class="card-offer-ctrls">Offers</th>
+          </tr>
+        </thead>
 
-<%= link_to "Add New Card", new_admin_card_path %>
-
-<table id="admin_cards_table" class="table table-striped">
-  <thead>
-    <tr>
-      <th>Identifier</th>
-      <th>Bank</th>
-      <th>Name</th>
-      <th>Network</th>
-      <th>Currency</th>
-      <th>B/P</th>
-      <th>Type</th>
-      <th>Annual Fee</th>
-      <th>On survey?</th>
-      <th></th>
-      <th>Offers</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% present_each(@cards) do |card| %>
-      <tr id="<%= dom_id(card) %>">
-        <td><%= card.identifier %></td>
-        <td><%= card.bank_name %></td>
-        <td><%= link_to card.name, admin_card_path(card) %></td>
-        <td><%= card.network %></td>
-        <td><%= card.currency_name %></td>
-        <td><%= card.bp %></td>
-        <td><%= card.type %></td>
-        <td><%= card.annual_fee %></td>
-        <td class="card_shown_on_survey">
-          <% if card.shown_on_survey? %>
-            <i class="fa fa-check"> </i>
-          <% end %>
-        </td>
-        <td>
-          <%= link_to "Edit", edit_admin_card_path(card) %>
-        </td>
-        <td>
-          <%= link_to "View", admin_card_offers_path(card) %> |
-          <%= link_to "New", new_admin_card_offer_path(card) %>
-        </td>
-      </tr>
-    <% end # present_each %>
-</tbody>
-</table>
+        <tbody>
+          <% present_each(@cards) do |card| %>
+            <tr id="<%= dom_id(card) %>">
+              <td><%= card.identifier %></td>
+              <td><%= card.bank_name %></td>
+              <td><%= link_to card.name, admin_card_path(card) %></td>
+              <td><%= card.network %></td>
+              <td><%= card.currency_name %></td>
+              <td><%= card.bp %></td>
+              <td><%= card.type %></td>
+              <td><%= card.annual_fee %></td>
+              <td class="card_shown_on_survey">
+                <% if card.shown_on_survey? %>
+                  <i class="fa fa-check"> </i>
+                <% end %>
+              </td>
+              <td>
+                <%= link_to "Edit", edit_admin_card_path(card) %>
+              </td>
+              <td class="card-offer-ctrls">
+                <%= link_to "View", admin_card_offers_path(card) %> |
+                <%= link_to "New", new_admin_card_offer_path(card) %>
+              </td>
+            </tr>
+          <% end # present_each %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="panel-footer">
+    <%= pluralize @cards.size, "card" %>
+  </div>
+<% end %>

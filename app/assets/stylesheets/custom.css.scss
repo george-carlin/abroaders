@@ -167,3 +167,106 @@ footer.footer {
 .card_account .card_account_offer {
   font-size: 0.8em;
 }
+
+// ADMIN //
+
+#logo.admin-navbar {
+  background-color: #8A1414;
+
+  > a > span {
+    color: white;
+  }
+}
+
+// offers
+
+.card-offer-ctrls {
+  min-width: 90px;
+}
+
+// card recommendations
+
+tr.admin_recommend_card {
+  background-color: #34495E;
+  color: #f0f0f0;
+}
+
+.admin_recommend_offer:first-child > td {
+  border-top: none !important;
+}
+
+.admin-card-recommendation-table {
+  // TODO make table sortable again (maybe)
+  // th {
+  //   cursor: pointer;
+
+  //   &:not(.headerSortDown) .fa-sort-asc {
+  //     display: none;
+  //   }
+
+  //   &:not(.headerSortUp) .fa-sort-desc {
+  //     display: none;
+  //   }
+  // }
+
+  th, td {
+
+    &.card-identifier {
+      width: 120px;
+    }
+
+    &.card-name {
+      width: 40%;
+    }
+
+    &.card-bank-name {
+      width: 200px;
+    }
+
+    &.card-bp {
+      width: 100px;
+    }
+
+    &.card-currency {
+      min-width: 180px;
+    }
+  }
+}
+
+tr.admin_recommend_card_offers {
+  margin-bottom: 0 !important;
+
+  > td {
+    padding: 0 !important;
+  }
+}
+
+td.offer-identifier {
+  width: 15%;
+}
+
+td.offer-points-awarded {
+  width: 15%;
+}
+
+td.offer-spend {
+  width: 15%;
+}
+
+td.offer-cost {
+  width: 15%;
+}
+
+td.offer-days {
+  width: 15%;
+}
+
+.cancel_recommend_offer_btn {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.confirm_recommend_offer_btn {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}

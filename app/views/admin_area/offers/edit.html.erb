@@ -1,15 +1,21 @@
-<% provide :title, "Select Account Type" %>
+<% provide :title, "Edit Card Offer" %>
 
-<h1>Edit Offer</h1>
+<% content_for :header_panel do %>
+  <div class="panel-body">
+    <h1>Edit Offer</h1>
+  </div>
+<% end %>
 
-<div class="row">
-  <%= render "admin_area/offers/card", card: @card %>
-</div>
+<%= render "shared/hpanel" do  %>
+  <div class="panel-body">
+    <%= render "admin_area/offers/card", card: @card %>
+  </div>
+<% end %>
 
-<hr>
+<%= render "shared/hpanel" do  %>
+  <div class="panel-body">
+    <%= render 'form' %>
 
-<div class="row">
-  <%= render 'form' %>
-
-  <%= link_to "Show offer", admin_offer_path(@offer) %>
-</div>
+    <%= link_to "Show offer", admin_offer_path(@offer) %>
+  </div>
+<% end %>

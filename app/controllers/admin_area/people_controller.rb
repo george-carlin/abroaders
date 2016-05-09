@@ -5,7 +5,7 @@ module AdminArea
     def show
       @person        = load_person
       @account       = @person.account
-      @balances      = @person.balances.includes(:currencies)
+      @balances      = @person.balances.includes(:currency)
       @card_accounts = @person.card_accounts.includes(:cards)
       @card_recommendation = @person.card_accounts.new
       # Use @person.card_accounts here instead of @card_accounts because

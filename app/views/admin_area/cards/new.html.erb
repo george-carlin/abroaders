@@ -1,5 +1,9 @@
 <% provide :title, "New Card" %>
 
-<h1>New Card</h1>
+<% content_for :header_panel do %>
+  <div class="panel-body">
+    <h1 class="font-light m-b-xs">New Card</h1>
+  </div>
+<% end %>
 
 <%= render "form", card: @card %>

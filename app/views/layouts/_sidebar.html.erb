@@ -41,6 +41,27 @@
             <% end %>
           </li>
         <% end %>
+      <% elsif current_admin %>
+        <li class="<%= "active" if request.path == root_path %>">
+          <%= link_to root_path do %>
+            <span class="nav-label">Dashboard</span>
+          <% end %>
+        </li>
+        <li class="<%= "active" if request.path == admin_destinations_path %>">
+          <%= link_to "Destinations", admin_destinations_path %>
+        </li>
+        <li class="<%= "active" if request.path == admin_cards_path %>">
+          <%= link_to "Cards", admin_cards_path %>
+        </li>
+        <li class="<%= "active" if request.path == admin_offers_path %>">
+          <%= link_to "Offers", admin_offers_path %>
+        </li>
+        <li class="<%= "active" if request.path == admin_accounts_path %>">
+          <%= link_to "Users", admin_accounts_path %>
+        </li>
+        <li class="<%= "active" if request.path == edit_admin_registration_path %>">
+          <%= link_to "My Account", edit_admin_registration_path %>
+        </li>
       <% end %>
     </ul>
   </div>

@@ -68,7 +68,10 @@
 
   &nbsp;&nbsp;
 
-  <%= link_to "Cancel", @card.persisted? ? admin_card_path(@card) : admin_cards_path %>
+  <% if @card.persisted? %>
+    <%= link_to "Cancel", admin_card_path(@card) %>
+    |
+  <% end %>
+  <%= link_to "Show all cards", admin_cards_path %>
 
 <% end %>
-
