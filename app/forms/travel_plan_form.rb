@@ -1,45 +1,38 @@
 class TravelPlanForm < ApplicationForm
+  include Virtus.model(nullify_blank: true)
 
-  attr_accessor :earliest_departure,
-                :from_id,
-                :further_information,
-                :no_of_passengers,
-                :to_id,
-                :type
+  attribute :account, Account
+  attribute :from_id, Integer
+  attribute :to_id,   Integer
+  attribute :type,    String, default: "return"
+  attribute :no_of_passengers,            Integer, default: 1
+  attribute :will_accept_economy,         Boolean, default: false
+  attribute :will_accept_premium_economy, Boolean
+  attribute :will_accept_business_class,  Boolean, default: false
+  attribute :will_accept_first_class,     Boolean, default: false
+  attribute :earliest_departure,  Date,  default: lambda { |_, _| Date.today }
+  attribute :further_information, String
 
-  DATE_REGEX = /\d{1,2}\/\d{1,2}\/\d\d\d\d/
-
-  attr_boolean_accessor :will_accept_economy,
-                        :will_accept_premium_economy,
-                        :will_accept_business_class,
-                        :will_accept_first_class
-
-  # Returns earliest_departure as a Date, not a String
-  def earliest_departure_as_date
-    if earliest_departure && earliest_departure =~ DATE_REGEX
-      Date.strptime(earliest_departure.strip, "%m/%d/%Y")
-    else
-      nil
-    end
-  end
-
-  def initialize(account)
-    @account = account
-    @no_of_passengers = 1
-    @type = "return"
-    @will_accept_economy         = false
-    @will_accept_premium_economy = false
-    @will_accept_business_class  = false
-    @will_accept_first_class     = false
-    @earliest_departure = Date.today.strftime("%m/%d/%Y")
-  end
-
-  def self.name
-    "TravelPlan"
+  def model_name
+    TravelPlan.model_name
   end
 
   def self.types
     ::TravelPlan.types.slice("single", "return")
+  end
+
+  US_DATE_FORMAT = "%m/%d/%Y"
+
+  def earliest_departure_str
+    earliest_departure.strftime(US_DATE_FORMAT)
+  end
+
+  def earliest_departure=(new_date)
+    if new_date.is_a?(String)
+      super(Date.strptime(new_date.strip, US_DATE_FORMAT))
+    else
+      super
+    end
   end
 
   concerning :Validations do
@@ -60,12 +53,38 @@ class TravelPlanForm < ApplicationForm
     private
 
     def earliest_departure_is_in_the_future
-      date = earliest_departure_as_date
-      if date && date < Date.today
+      if earliest_departure && earliest_departure < Date.today
         errors.add(:earliest_departure, "can't be in the past")
       end
     end
   end
 
-end
+  private
 
+  def flight_attributes
+    {
+      from: Destination.country.find(from_id),
+      to:   Destination.country.find(to_id),
+    }
+  end
+
+  def travel_plan_attributes
+    {
+      type:                 type,
+      departure_date_range: earliest_departure..earliest_departure,
+      further_information:  further_information.strip,
+      no_of_passengers:     no_of_passengers,
+      acceptable_classes:   acceptable_classes,
+    }
+  end
+
+  def acceptable_classes
+    [
+      (:economy         if will_accept_economy?),
+      (:premium_economy if will_accept_premium_economy?),
+      (:business_class  if will_accept_business_class?),
+      (:first_class     if will_accept_first_class?),
+    ].compact
+  end
+
+end
