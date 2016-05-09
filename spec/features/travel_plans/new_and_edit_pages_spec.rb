@@ -128,7 +128,6 @@ describe "travel plans" do
 
     describe "filling in the form" do
       context "with valid information" do
-        let(:date) { 5.months.from_now.to_date }
         let(:further_info) { "Something" }
         before do
           create(:travel_plan, account: account)
