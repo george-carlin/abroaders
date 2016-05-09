@@ -1,24 +1,25 @@
 class SignUp < ApplicationForm
-  include ActiveModel::Dirty
+  include Virtus.model
+
+  attribute :email,      String
+  attribute :first_name, String
+  attribute :password,   String
 
   attr_reader :account
-  attr_accessor :email, :first_name, :password, :first_name
 
-  define_attribute_methods :email
+  def clean_up_passwords
+    self.password = self.password_confirmation = nil
+  end
 
-  def initialize(params={})
-    @account    = Account.new
-    self.email      = params[:email]
-    self.first_name = params[:first_name]
-    self.password   = params[:password]
-    self.password_confirmation = params[:password_confirmation]
+  def email=(new_email)
+    super(new_email.strip)
   end
 
   validate :email_is_unique, if: "email.present?"
 
   validates :email,
     presence: true,
-    format: { with: Account.email_regexp, allow_blank: true, if: :email_changed? }
+    format: { with: Account.email_regexp, allow_blank: true }
 
   validates :first_name,
     presence: true,
@@ -39,7 +40,7 @@ class SignUp < ApplicationForm
   end
 
   def persist!
-    account.assign_attributes(
+    @account = Account.new(
       email: email.strip,
       password: password,
       password_confirmation: password_confirmation,
@@ -53,4 +54,3 @@ class SignUp < ApplicationForm
   end
 
 end
-

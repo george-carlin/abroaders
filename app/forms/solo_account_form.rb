@@ -1,7 +1,10 @@
 class SoloAccountForm < ApplicationForm
-  attr_accessor :account
-  attr_reader :monthly_spending_usd, :person
-  attr_boolean_accessor :eligible_to_apply
+  include Virtus.model
+
+  attribute :account,              Account
+  attribute :monthly_spending_usd, Integer
+  attribute :person,               Person
+  attribute :eligible_to_apply,    Boolean
 
   def self.name
     "SoloAccount"
