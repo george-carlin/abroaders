@@ -1,5 +1,13 @@
 <% provide :title, "Edit Card ##{@card.id}" %>
 
-<h1>Edit Card</h1>
+<% content_for :header_panel do %>
+  <div class="panel-body">
+    <h1>Edit Card</h1>
+  </div>
+<% end %>
 
-<%= render "form", card: @card %>
+<%= render "shared/hpanel" do  %>
+  <div class="panel-body">
+    <%= render "form", card: @card %>
+  </div>
+<% end %>
