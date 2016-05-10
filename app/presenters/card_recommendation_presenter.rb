@@ -3,7 +3,7 @@ class CardRecommendationPresenter < CardAccountPresenter
   def apply_btn
     h.link_to(
       "Apply",
-      h.apply_card_account_path(self),
+      h.apply_card_recommendation_path(self),
       id: "card_recommendation_#{id}_apply_btn",
       class: "card_recommendation_apply_btn btn btn-primary btn-sm",
       target: "_blank"
@@ -12,7 +12,7 @@ class CardRecommendationPresenter < CardAccountPresenter
 
   def decline_form(&block)
     h.form_tag(
-      h.decline_card_account_path(self),
+      h.decline_card_recommendation_path(self),
       class: "decline_card_recommendation_form",
       style: "display:none;",
       &block

@@ -76,10 +76,16 @@ Rails.application.routes.draw do
   # though we're dealing with the CardAccount model, not the Card model.
   resources :card_accounts, path: :cards do
     member do
-      get  :apply
+      # TODO move these two to card_recommendations
       post :open
-      post :decline
       post :deny
+    end
+  end
+
+  resources :card_recommendations, path: :cards do
+    member do
+      get  :apply
+      post :decline
     end
   end
 
