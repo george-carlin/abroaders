@@ -14,6 +14,8 @@ class ApplicationController < ActionController::Base
       ).order("main DESC")
       @travel_plans  = current_account.travel_plans.includes_destinations
       render "accounts/dashboard"
+    else
+      redirect_to new_account_session_path
     end
   end
 
