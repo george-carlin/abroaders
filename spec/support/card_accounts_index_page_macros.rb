@@ -5,7 +5,7 @@ module CardAccountsIndexPageMacros
   end
 
   def have_apply_btn(rec, have=true)
-    send("have_#{"no_"unless have}link", "Apply", href: apply_card_account_path(rec))
+    send("have_#{"no_"unless have}link", "Apply", href: apply_card_recommendation_path(rec))
   end
 
   def have_no_apply_btn(rec)

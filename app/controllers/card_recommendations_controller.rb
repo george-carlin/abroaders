@@ -4,6 +4,7 @@ class CardRecommendationsController < NonAdminController
     @recommendation = current_account.card_accounts.find(params[:id])
 
     # Make sure this is the right type of card account:
+    # TODO perform a similar check for 'decline'
     redirect_to card_accounts_path and return unless @recommendation.recommendation?
 
     # We can't know for sure if the user has actually applied; the most
@@ -24,6 +25,16 @@ class CardRecommendationsController < NonAdminController
       flash[:info] = t("card_accounts.index.couldnt_decline")
       redirect_to card_accounts_path
     end
+  end
+
+  private
+
+  def decline_reason
+    params[:card_account][:decline_reason]
+  end
+
+  def load_card_recommendation
+    current_main_passenger.card_recommendations.find_by(id: params[:id])
   end
 
 end

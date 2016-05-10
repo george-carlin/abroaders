@@ -49,14 +49,6 @@ class CardAccountsController < NonAdminController
     current_main_passenger.card_accounts.find(params[:id])
   end
 
-  def load_card_recommendation
-    current_main_passenger.card_recommendations.find_by(id: params[:id])
-  end
-
-  def decline_reason
-    params[:card_account][:decline_reason]
-  end
-
   def load_person
     current_account.people.find(params[:person_id])
   end
