@@ -8,6 +8,19 @@ class SpendingInfoPresenter < ApplicationPresenter
     h.number_to_currency(super)
   end
 
+  def business_spending
+    if has_business?
+      h.content_tag :span, class: "spending-info-business-spending" do
+        business_spending_usd +
+        h.content_tag(:span, class: "has-ein") do
+          "(#{has_ein})"
+        end
+      end
+    else
+      "No business"
+    end
+  end
+
   def business_spending_usd
     h.number_to_currency(super)
   end

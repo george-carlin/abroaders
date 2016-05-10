@@ -162,6 +162,21 @@ footer.footer {
   }
 }
 
+// SPENDING INFO
+
+.spending_info > .table td:first-child {
+  font-weight: bold;
+}
+
+.has-ein {
+  position: relative;
+  bottom: 1px;
+  left: 9px;
+  display: inline-block;
+  font-size: 0.7em;
+  font-style: italic;
+}
+
 // ???? //
 
 .card_account .card_account_offer {

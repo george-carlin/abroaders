@@ -2,56 +2,29 @@
   <table class="table table-condensed">
     <tbody>
       <tr>
-        <td class="spending-info-label">
-          <%= spending_info.monthly_spending_label %>:
-        </td>
-        <td>
-          <%= spending_info.monthly_spending_usd %>/month
-        </td>
+        <td><%= spending_info.monthly_spending_label %>:</td>
+        <td><%= spending_info.monthly_spending_usd %>/month</td>
       </td>
 
       <tr>
-        <td class="spending-info-label">
-          Business spending:
-        </td>
-        <td class="spending-info-business-spending">
-          <% if spending_info.has_business? %>
-            <%= spending_info.business_spending_usd %>
-            &nbsp;
-            <span class="has-ein">
-              (<%= spending_info.has_ein %>)
-            </span>
-          <% end %>
-          No business
-        </td>
+        <td>Business spending:</td>
+        <td><%= spending_info.business_spending %></td>
       </tr>
 
       <tr>
-        <td class="spending-info-label">
-          Credit score:
-        </td>
-        <td>
-          <%= spending_info.credit_score %>
-        </td>
+        <td>Credit score:</td>
+        <td><%= spending_info.credit_score %></td>
       </td>
 
       <tr>
-        <td class="spending-info-label">
-          Will apply for loan in next 6 months:
-        </td>
-        <td>
-          <%= spending_info.will_apply_for_loan %>
-        </td>
+        <td>Will apply for loan in next 6 months:</td>
+        <td><%= spending_info.will_apply_for_loan %></td>
       </tr>
 
       <% if spending_info.person.award_wallet_email.present? %>
         <tr>
-          <td class="spending-info-label">
-            Award Wallet email:
-          </td>
-          <td>
-            <%= spending_info.person.award_wallet_email %>
-          </td>
+          <td>Award Wallet email:</td>
+          <td><%= spending_info.person.award_wallet_email %></td>
         </tr>
       <% end %>
 
