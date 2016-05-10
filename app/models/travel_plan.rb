@@ -53,6 +53,12 @@ class TravelPlan < ApplicationRecord
 
   accepts_nested_attributes_for :flights
 
+  # Scopes
+
+  scope :includes_destinations, -> do
+    includes(flights: {from: {parent: :parent}, to: { parent: :parent} })
+  end
+
   private
 
 end

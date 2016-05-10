@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
       @people = current_account.people.includes(
         :balances, :spending_info, card_accounts: :card
       ).order("main DESC")
-      @travel_plans  = current_account.travel_plans
+      @travel_plans  = current_account.travel_plans.includes_destinations
       render "accounts/dashboard"
     end
   end

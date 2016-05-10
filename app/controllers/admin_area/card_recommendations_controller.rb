@@ -13,7 +13,7 @@ module AdminArea
       @offers_grouped_by_card = \
         Offer.includes(:card, card: :currency).live.group_by(&:card)
       @balances     = @person.balances.includes(:currency)
-      @travel_plans = @account.travel_plans
+      @travel_plans = @account.travel_plans.includes_destinations
     end
 
     def create

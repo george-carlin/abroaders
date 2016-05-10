@@ -2,13 +2,7 @@ class TravelPlansController < NonAdminController
   before_action :redirect_if_on_other_survey_page, only: [:new, :create]
 
   def index
-    @travel_plans = current_account.travel_plans.includes(
-      flights: {
-        # Is there really not a better way of doing this?
-        from: { parent: { parent: { parent: :parent } } },
-        to:   { parent: { parent: { parent: :parent } } }
-      }
-    )
+    @travel_plans = current_account.travel_plans.includes_destinations
   end
 
   def new
