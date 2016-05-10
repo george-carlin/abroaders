@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.3.0'
 
-gem 'rails', '>= 5.0.0.beta3', '< 5.1'
+gem 'rails', '>= 5.0.0.rc1', '< 5.1'
 
 gem 'aws-sdk', '1.61.0'
 gem 'font-awesome-rails'
