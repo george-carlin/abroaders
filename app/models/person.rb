@@ -10,10 +10,6 @@ class Person < ApplicationRecord
     !main?
   end
 
-  def has_added_spending?
-    spending_info.try(:persisted?)
-  end
-
   delegate :email, to: :account
   delegate :credit_score, :will_apply_for_loan,
     :business_spending_usd, :has_business, :has_business?, :has_business_with_ein?,
