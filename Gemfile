@@ -8,7 +8,7 @@ gem 'aws-sdk', '1.61.0'
 gem 'font-awesome-rails'
 gem 'acts_as_tree', '~> 2.4.0'
 gem 'bitmask_attributes'
-gem 'devise', github: 'plataformatec/devise'
+gem 'devise', '~> 4.1.0'
 gem 'devise-bootstrap-views'
 # Load ENV variables from a gitignored YAML file
 gem 'figaro', '~> 1.1.1'
