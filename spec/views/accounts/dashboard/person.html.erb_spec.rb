@@ -169,7 +169,8 @@ describe "accounts/dashboard/person" do
 
       it "displays it" do
         is_expected.to have_content "Credit score: 456"
-        is_expected.to have_content "Business spending: $1,234.00 (Does not have EIN)"
+        is_expected.to have_content "Business spending: $1,234.00"
+        is_expected.to have_content "(Does not have EIN)"
         is_expected.to have_content "Will apply for loan in next 6 months: Yes"
       end
 

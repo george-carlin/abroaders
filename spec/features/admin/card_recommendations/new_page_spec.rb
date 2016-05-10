@@ -301,7 +301,8 @@ describe "admin section" do
     it "displays the person's info from the onboarding survey" do
       is_expected.to have_content "Credit score: 678"
       is_expected.to have_content "Will apply for loan in next 6 months: No"
-      is_expected.to have_content "Business spending: $1,500.00 (Has EIN)"
+      is_expected.to have_content "Business spending: $1,500.00"
+      is_expected.to have_content "(Has EIN)"
     end
 
     it "has a form to recommend a new card" do

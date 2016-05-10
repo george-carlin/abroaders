@@ -13,7 +13,7 @@ $(document).ready(function () {
 
       var $row   = $(row),
           mpName = $row.data("main-passenger-name").toLowerCase(),
-          coName = $row.data("companion-name").toLowerCase(),
+          coName = ($row.data("companion-name") || "").toLowerCase(),
           email  = $row.data("email").toLowerCase(),
           onboarded = $row.data("onboarded");
 
