@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
     elsif current_account
       @people = current_account.people.includes(
         :balances, :spending_info, card_accounts: :card
-      )
+      ).order("main DESC")
       @travel_plans  = current_account.travel_plans
       render "accounts/dashboard"
     end
