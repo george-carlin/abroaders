@@ -208,7 +208,6 @@ describe "admin pages" do
         before { fill_in :card_code, with: "" }
 
         it "doesn't update the card" do
-          pending "dafuq? blank text fields are not being submitted. I swear this was working before"
           expect{submit_form}.not_to change{@card.reload.attributes}
         end
       end
