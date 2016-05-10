@@ -28,14 +28,25 @@ FactoryGirl.define do
       end
     end
 
-    # TODO everything below this line needs a serious audit!
-
     trait :onboarded do
-      with_spending_info
+      onboarded_spending
       onboarded_balances true
       onboarded_cards true
       after(:build) do |person|
-        person.build_readiness_status(ready: true)
+        unless person.readiness_status.present?
+          person.build_readiness_status(ready: false)
+        end
+      end
+    end
+
+    trait :ready do
+      onboarded
+      after(:build) do |person|
+        if person.readiness_status.present?
+          person.readiness_status.ready = true
+        else
+          person.build_readiness_status(ready: true)
+        end
       end
     end
 

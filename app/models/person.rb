@@ -20,8 +20,11 @@ class Person < ApplicationRecord
   end
 
   def onboarded?
-    onboarded_spending? && onboarded_cards? && onboarded_balances? &&
-      ready_to_apply?
+    onboarded_eligibility? && onboarded_balances? && (
+      (ineligible_to_apply?) || (
+        onboarded_cards? && onboarded_spending? && readiness_given?
+      )
+    )
   end
 
   def recommend_offer!(offer)

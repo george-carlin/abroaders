@@ -26,11 +26,12 @@ describe "travel plans" do
     if fully_onboarded
       account.update_attributes!(onboarded_type: true)
       create(:spending_info, person: account.people.first)
+      account.people.first.eligible_to_apply!
       account.people.first.update_attributes!(
         onboarded_balances: true,
         onboarded_cards:    true,
       )
-      account.people.first.ready_to_apply! # TODO this line will need changing soon:
+      account.people.first.ready_to_apply!
     end
     login_as(account)
   end
