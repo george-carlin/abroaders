@@ -14,6 +14,14 @@ module ApplicationHelper
     end
   end
 
+  def present_div(model, presenter_class=nil)
+    present(model, presenter_class) do |presenter|
+      div_for presenter do
+        yield(presenter)
+      end
+    end
+  end
+
   def sidebar?
     # Urgh... this probably isn't the best way to handle sidebar-less layouts
     # but it'll do for now.
