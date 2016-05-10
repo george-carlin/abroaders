@@ -14,4 +14,11 @@ class ApplicationPresenter < SimpleDelegator
     I18n.t(*args)
   end
 
+  # SimpleDelegator doesn't forward private methods, but content_tag_for
+  # relies on the private method to_ary. Make to_ary public to prevent
+  # content_tag_for from displaying a warning:
+  def to_ary
+    @model.send(:to_ary)
+  end
+
 end
