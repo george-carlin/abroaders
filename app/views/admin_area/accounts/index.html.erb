@@ -91,45 +91,22 @@
             &nbsp;
             <!-- <i class={class} style={style} > </i> -->
           </th>
-          <!-- <th colspan="2"></th> -->
         </tr>
       </thead>
       <tbody id="admin_accounts_table_body">
-        <% @accounts.each do |account| %>
-          <tr
-            id="<%= dom_id(account) %>"
-            class="<%= dom_class(account) %>"
-            data-companion-name="<%= account.companion&.first_name %>"
-            data-email="<%= account.email %>"
-            data-main-passenger-name="<%= account.main_passenger.first_name %>"
-            data-onboarded="<%= account.onboarded? %>"
-          >
+        <% present_each @accounts do |account| %>
+          <%= account.tr do %>
             <td>
               <% if account.onboarded? %>
                 <i class="fa fa-check"> </i>
               <% end %>
             </td>
             <td><%= account.email %></td>
-            <td>
-              <%= render(
-                "admin_area/people/table_cell",
-                person: account.main_passenger
-              ) %>
-            </td>
-            <td>
-              <% if account.companion.present? %>
-                <%= render(
-                  "admin_area/people/table_cell",
-                  person: account.companion
-                ) %>
-              <% else %>
-                -
-              <% end %>
-            </td>
-            <td><%= account.created_at.strftime("%D") %></td>
-            <td><%= account.last_recommendation_at.try(:strftime, "%D") || "-" %></td>
-            <!-- <td><%= link_to "Info", admin_account_path(account) %></td> -->
-          </tr>
+            <td><%= account.render_main_passenger %></td>
+            <td><%= account.render_companion %></td>
+            <td><%= account.created_at %></td>
+            <td><%= account.last_recommendations_at %></td>
+          <% end %>
         <% end %>
       </tbody>
     </table>

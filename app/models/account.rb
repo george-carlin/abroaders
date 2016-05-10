@@ -15,14 +15,6 @@ class Account < ApplicationRecord
     onboarded_travel_plans? && onboarded_type? && people.all?(&:onboarded?)
   end
 
-  # Temporary solution to let admins see who has been recommended a card and
-  # who hasn't
-  #
-  #  TODO this can be replaced now that we've added the 'Done' button I believe
-  def last_recommendation_at
-    people.joins(:card_recommendations).maximum('"card_accounts"."created_at"')
-  end
-
   # Validations
 
   # Associations
