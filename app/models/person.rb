@@ -10,18 +10,10 @@ class Person < ApplicationRecord
     !main?
   end
 
-  delegate :email, to: :account
   delegate :credit_score, :will_apply_for_loan,
     :business_spending_usd, :has_business, :has_business?, :has_business_with_ein?,
     :has_business_without_ein?, :no_business?,
     to: :spending_info, allow_nil: true
-
-  # The person signed up on the date their *account* was created, not on the
-  # date which they added their passenger info in the survey. (In practice this
-  # will usually be on the same date anyway, but bear it in mind.)
-  def signed_up
-    account.created_at
-  end
 
   def onboarded_spending?
     !!spending_info&.persisted?
