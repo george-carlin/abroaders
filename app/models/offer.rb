@@ -13,6 +13,7 @@ class Offer < ApplicationRecord
     on_first_purchase: 2, # points awarded once you make 1st purchase with card
   }
 
+  # TODO move me to presenter
   delegate :name, :identifier, to: :card, prefix: true
   delegate :bank_name, to: :card
 
