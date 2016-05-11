@@ -13,11 +13,6 @@ class CardAccount < ApplicationRecord
     alias_method :recommendations, :recommendation
   end
 
-  delegate :network, :type, :bp, :name, :identifier, :bank, :bank_name, :currency,
-    :currency_name, :annual_fee,
-    to: :card,
-    prefix: true
-
   # Validations
 
   # Exactly one of card_id and offer_id should be present - because if

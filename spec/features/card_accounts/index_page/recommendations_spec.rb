@@ -47,8 +47,8 @@ describe "as a user viewing my cards" do
           @recs.each do |recommendation|
             is_expected.to have_card_account(recommendation)
             within card_account_selector(recommendation) do
-              is_expected.to have_content recommendation.card_name
-              is_expected.to have_content recommendation.card_bank_name
+              is_expected.to have_content recommendation.card.name
+              is_expected.to have_content recommendation.card.bank_name
             end
           end
         end
@@ -158,7 +158,7 @@ describe "as a user viewing my cards" do
                 "Spend #{number_to_currency(offer.spend)} within #{offer.days} "\
                 "days to receive a bonus of "\
                 "#{number_with_delimiter(offer.points_awarded)} "\
-                "#{recommendation.card_currency.name} points"
+                "#{recommendation.card.currency.name} points"
               )
             end
           end
@@ -187,14 +187,14 @@ describe "as a user viewing my cards" do
             is_expected.to have_card_account(rec)
             within card_account_selector(rec) do
               # Card details:
-              is_expected.to have_content rec.card_name
-              is_expected.to have_content rec.card_bank_name
+              is_expected.to have_content rec.card.name
+              is_expected.to have_content rec.card.bank_name
               # Offer details:
               is_expected.to have_content(
                 "Spend #{number_to_currency(offer.spend)} within #{offer.days} "\
                 "days to receive a bonus of "\
                 "#{number_with_delimiter(offer.points_awarded)} "\
-                "#{rec.card_currency.name} points"
+                "#{rec.card.currency.name} points"
               )
               # Apply/decline btns:
               is_expected.to have_apply_btn(rec)

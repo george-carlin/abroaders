@@ -10,9 +10,10 @@ class CardAccountPresenter < ApplicationPresenter
 
   %i[opened_at closed_at].each do |meth|
     define_method meth do
-      super().strftime("%b %Y")
+      super()&.strftime("%b %Y")
     end
   end
 
+  delegate :name, :identifier, :currency, :bp, :bank_name, to: :card, prefix: true
 
 end

@@ -11,7 +11,7 @@
     <th>Closed</th>
   </thead>
   <tbody>
-    <% accounts.each do |account| %>
+    <% present_each accounts do |account| %>
       <tr id="<%= dom_id(account) %>">
         <td><%= account.card_identifier %></td>
         <td><%= account.card_name %></td>
