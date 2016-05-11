@@ -54,15 +54,40 @@ describe "factories" do
 
       context "and :onboarded trait" do
         let(:traits) { [:with_companion, :onboarded] }
-        it "creates an account with two fully onboarded people" do
+        it "creates an account with two onboarded (but unready) people" do
+          expect(Account.count).to eq 1
+          expect(Person.count).to eq 2
+          expect(SpendingInfo.count).to eq 2
+          expect(Eligibility.count).to eq 2
+          expect(ReadinessStatus.count).to eq 2
+          account.people.each do |person|
+            expect(person.onboarded_eligibility?).to be true
+            expect(person.eligible_to_apply?).to be true
+            expect(person.onboarded_spending?).to be true
+            expect(person.onboarded_cards?).to be true
+            expect(person.onboarded_balances?).to be true
+            expect(person.readiness_given?).to be true
+            expect(person.ready_to_apply?).to be false
+          end
+          expect(account.onboarded?).to be true
+        end
+      end
+
+      context "and :ready trait" do
+        let(:traits) { [:with_companion, :ready] }
+        it "creates an account with two onboarded and ready people" do
           expect(Account.count).to eq 1
           expect(Person.count).to eq 2
           expect(SpendingInfo.count).to eq 2
           expect(ReadinessStatus.count).to eq 2
+          expect(Eligibility.count).to eq 2
           account.people.each do |person|
+            expect(person.onboarded_eligibility?).to be true
+            expect(person.eligible_to_apply?).to be true
             expect(person.onboarded_spending?).to be true
             expect(person.onboarded_cards?).to be true
             expect(person.onboarded_balances?).to be true
+            expect(person.readiness_given?).to be true
             expect(person.ready_to_apply?).to be true
           end
           expect(account.onboarded?).to be true
@@ -75,11 +100,15 @@ describe "factories" do
       it "creates an account with one person and his spending" do
         expect(Account.count).to eq 1
         expect(Person.count).to eq 1
+        expect(Eligibility.count).to eq 1
         expect(SpendingInfo.count).to eq 1
         account.people.each do |person|
           expect(person.onboarded_spending?).to be true
+          expect(person.onboarded_eligibility?).to be true
+          expect(person.eligible_to_apply?).to be true
           expect(person.onboarded_cards?).to be false
           expect(person.onboarded_balances?).to be false
+          expect(person.readiness_given?).to be false
           expect(person.ready_to_apply?).to be false
         end
       end
@@ -87,17 +116,41 @@ describe "factories" do
 
     context "with :onboarded trait" do
       let(:traits) { [:onboarded] }
-      it "creates an account with one fully onboarded person" do
+      it "creates an account with one onboarded (but unready) person" do
         expect(Account.count).to eq 1
         expect(Person.count).to eq 1
+        expect(Eligibility.count).to eq 1
         expect(SpendingInfo.count).to eq 1
         expect(ReadinessStatus.count).to eq 1
         account.people.each do |person|
+          expect(person.onboarded_eligibility?).to be true
+          expect(person.eligible_to_apply?).to be true
           expect(person.onboarded_spending?).to be true
           expect(person.onboarded_cards?).to be true
           expect(person.onboarded_balances?).to be true
-          expect(person.ready_to_apply?).to be true
+          expect(person.readiness_given?).to be true
+          expect(person.ready_to_apply?).to be false
         end
+        expect(account.onboarded?).to be true
+      end
+    end
+
+    context "with :ready trait" do
+      let(:traits) { [:ready] }
+      it "creates an account with one onboarded and ready person" do
+        expect(Account.count).to eq 1
+        expect(Person.count).to eq 1
+        expect(Eligibility.count).to eq 1
+        expect(SpendingInfo.count).to eq 1
+        expect(ReadinessStatus.count).to eq 1
+        person = account.people.first
+        expect(person.onboarded_eligibility?).to be true
+        expect(person.eligible_to_apply?).to be true
+        expect(person.onboarded_spending?).to be true
+        expect(person.onboarded_cards?).to be true
+        expect(person.onboarded_balances?).to be true
+        expect(person.readiness_given?).to be true
+        expect(person.ready_to_apply?).to be true
         expect(account.onboarded?).to be true
       end
     end
@@ -152,6 +205,40 @@ describe "factories" do
         expect(person.spending_info).to be_present
         expect(person.spending_info).to be_persisted
         expect(person).to be_eligible_to_apply
+      end
+    end
+
+    context "with :onboarded trait" do
+      let(:traits) { :onboarded }
+      it "creates an onboarded but unready person" do
+        create_person
+        expect(Person.count).to eq 1
+        expect(Account.count).to eq 1
+        expect(Eligibility.count).to eq 1
+        expect(SpendingInfo.count).to eq 1
+        expect(person.spending_info).to be_present
+        expect(person.spending_info).to be_persisted
+        expect(person).to be_eligible_to_apply
+        expect(person.onboarded_eligibility?).to be true
+        expect(person).to be_onboarded
+        expect(person).not_to be_ready_to_apply
+      end
+    end
+
+    context "with :ready trait" do
+      let(:traits) { :ready }
+      it "creates an onboarded and ready person" do
+        create_person
+        expect(Person.count).to eq 1
+        expect(Account.count).to eq 1
+        expect(Eligibility.count).to eq 1
+        expect(SpendingInfo.count).to eq 1
+        expect(person.spending_info).to be_present
+        expect(person.spending_info).to be_persisted
+        expect(person).to be_eligible_to_apply
+        expect(person.onboarded_eligibility?).to be true
+        expect(person).to be_onboarded
+        expect(person).to be_ready_to_apply
       end
     end
   end

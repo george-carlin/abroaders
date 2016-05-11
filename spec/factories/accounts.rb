@@ -45,6 +45,7 @@ FactoryGirl.define do
       onboarded_type
       after(:build) do |acc|
         acc.people.each do |p|
+          p.build_eligibility(eligible: true)
           p.build_spending_info(attributes_for(:spending, person: nil))
         end
       end
@@ -53,9 +54,24 @@ FactoryGirl.define do
     trait :onboarded do
       onboarded_spending
       after(:build) do |acc|
-        acc.people.each do |p|
-          p.onboarded_cards = p.onboarded_balances = true
-          p.build_readiness_status(ready: true)
+        acc.people.each do |person|
+          person.onboarded_cards = person.onboarded_balances = true
+          unless person.readiness_status.present?
+            person.build_readiness_status(ready: false)
+          end
+        end
+      end
+    end
+
+    trait :ready do
+      onboarded
+      after(:build) do |acc|
+        acc.people.each do |person|
+          if person.readiness_status.present?
+            person.readiness_status.ready = true
+          else
+            person.build_readiness_status(ready: true)
+          end
         end
       end
     end
