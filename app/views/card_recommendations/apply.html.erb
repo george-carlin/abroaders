@@ -1,6 +1,8 @@
-<div class="row">
-  <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+<%= render "shared/hpanel", responsive: true do %>
+  <div class="panel-body">
     <h1>Apply for <%= @card.bank_name %> <%= @card.name %> card</h1>
+
+    <hr>
 
     <p>
       You will shortly be redirected to the application page for the
@@ -23,4 +25,4 @@
       }, 5000);
     </script>
   </div>
-</div>
+<% end %>
