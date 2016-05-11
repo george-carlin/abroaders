@@ -1,0 +1,9 @@
+<% content_for :header_panel do %>
+  <div class="panel-body">
+    <h1><%= person.first_name %> - Recommend Card</h1>
+    <p>
+      <%= person.email %> -
+      Account created on <%= person.signed_up %>
+    </p>
+  </div>
+<% end %>

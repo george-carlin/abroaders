@@ -46,5 +46,18 @@ describe "admin section" do
       is_expected.to have_selector "h1", text: "Fred"
     end
 
+    context "when the person hasn't added their spending info" do
+      it "says so" do
+        is_expected.to have_content "User has not added their spending info"
+      end
+    end
+
+    context "when the person has added their spending info" do
+      let(:extra_setup) { @info = create(:spending_info, person: @person) }
+      it "displays the spending info" do
+        is_expected.to have_selector "##{dom_id(@info)}"
+      end
+    end
+
   end
 end
