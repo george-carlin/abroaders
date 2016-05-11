@@ -1,10 +1,9 @@
-class CardRecommendationsController < NonAdminController
+class CardRecommendationsController < CardAccountsController
 
   def apply
-    @recommendation = current_account.card_accounts.find(params[:id])
+    @recommendation = load_card_account
 
     # Make sure this is the right type of card account:
-    # TODO perform a similar check for 'decline'
     redirect_to card_accounts_path and return unless @recommendation.recommendation?
 
     # We can't know for sure if the user has actually applied; the most
@@ -16,8 +15,10 @@ class CardRecommendationsController < NonAdminController
 
   def decline
     raise "decline message must be present" unless decline_reason.present?
+    @recommendation = load_card_account
 
-    if @recommendation = load_card_recommendation
+    # TODO replace with a policy object and 'applyable?'
+    if @recommendation.recommendation?
       @recommendation.decline_with_reason!(decline_reason)
       flash[:success] = t("admin.people.card_accounts.you_have_declined")
       redirect_to card_accounts_path
@@ -31,10 +32,6 @@ class CardRecommendationsController < NonAdminController
 
   def decline_reason
     params[:card_account][:decline_reason]
-  end
-
-  def load_card_recommendation
-    current_main_passenger.card_recommendations.find_by(id: params[:id])
   end
 
 end

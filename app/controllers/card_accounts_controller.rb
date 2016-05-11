@@ -46,7 +46,7 @@ class CardAccountsController < NonAdminController
   private
 
   def load_card_account
-    current_main_passenger.card_accounts.find(params[:id])
+    current_account.card_accounts.find(params[:id])
   end
 
   def load_person
