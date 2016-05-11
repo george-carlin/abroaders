@@ -16,7 +16,7 @@ class PersonPresenter < ApplicationPresenter
   def link_to_new_card_recommendation
     h.link_to(
       "Recommend a card",
-      new_admin_person_card_recommendation_path(self)
+      h.new_admin_person_card_recommendation_path(self)
     )
   end
 
