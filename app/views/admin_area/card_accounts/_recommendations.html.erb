@@ -18,6 +18,11 @@
         <td><%= card_account.card_bp %></td>
         <td class="card_account_status">
           <%= card_account.status %>
+          <% if card_account.declined? %>
+            <a href="#" data-toggle="tooltip" title="<%= card_account.decline_reason %>">
+              <%= fa_icon "question" %>
+            </a>
+          <% end %>
         </td>
         <td class="card_account_recommended_at">
           <%= card_account.recommended_at %>

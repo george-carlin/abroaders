@@ -274,7 +274,8 @@ describe "admin section" do
             @clicked_rec  = \
               create(:clicked_card_recommendation, recommended_at: mar, clicked_at: oct, person: person)
             @declined_rec = \
-              create(:declined_card_recommendation, recommended_at: oct, applied_at: dec, person: person)
+              create(:declined_card_recommendation, recommended_at: oct,
+                     applied_at: dec, person: person, decline_reason: "because")
           end
 
           it "lists them" do
@@ -312,6 +313,16 @@ describe "admin section" do
               is_expected.to have_selector ".card_account_recommended_at", text: "10/01/15"
               is_expected.to have_selector ".card_account_clicked_at",     text: "-"
               is_expected.to have_selector ".card_account_applied_at",     text: "12/01/15"
+            end
+          end
+
+          context "when a recommendation has been declined" do
+            it "shows the decline reason in a tooltip" do
+              within "##{dom_id(@declined_rec)}" do
+                is_expected.to have_selector "a[data-toggle='tooltip']"
+                tooltip = find("a[data-toggle='tooltip']")
+                expect(tooltip["title"]).to eq "because"
+              end
             end
           end
         end
