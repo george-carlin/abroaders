@@ -11,48 +11,6 @@ describe CardAccount do
   describe "::Statuses" do
     before { card_account.offer = offer }
 
-    describe "#applied_at" do
-      subject { card_account.applied_at }
-
-      before do
-        @time = 5.minutes.ago
-        card_account.applied_at = @time
-      end
-
-      context "when status is 'declined'" do
-        before { card_account.status = :declined  }
-        it { should be_nil }
-      end
-
-      context "when status is not declined" do
-        before { card_account.status = :open  }
-        it "returns the value of the 'applied_at' column" do
-          should eq @time
-        end
-      end
-    end
-
-    describe "#declined_at" do
-      subject { card_account.declined_at }
-
-      before do
-        @time = 5.minutes.ago
-        card_account.applied_at = @time
-      end
-
-      context "when status is 'declined'" do
-        before { card_account.status = :declined  }
-        it "returns the value of the 'applied_at' column" do
-          should eq @time
-        end
-      end
-
-      context "when status is not declined" do
-        before { card_account.status = :open  }
-        it { should be_nil }
-      end
-    end
-
     describe "#decline_with_reason!" do
       let(:message) { "Blah blah blah" }
       before { card_account.decline_with_reason!(message) }
