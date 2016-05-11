@@ -6,10 +6,11 @@ module AdminArea
     def new
       @account       = @person.account
       @spending_info = @person.spending_info
-      accounts = @person.card_accounts.includes(:card)
+      accounts_scope = @person.card_accounts.includes(:card, offer: :card)
+      @cards_from_survey    = accounts_scope.from_survey
       # Call 'to_a' so it doesn't include @card_recommendation:
-      @card_accounts = accounts.includes(:card, offer: :card).to_a
-      @card_recommendation = accounts.recommendations.build
+      @card_recommendations = accounts_scope.recommendations.to_a
+      @card_recommendation  = accounts_scope.recommendations.build
       @offers_grouped_by_card = \
         Offer.includes(:card, card: :currency).live.group_by(&:card)
       @balances     = @person.balances.includes(:currency)

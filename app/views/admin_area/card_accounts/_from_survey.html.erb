@@ -1,0 +1,24 @@
+<table id="admin_person_cards_from_survey" class="table table-striped">
+  <thead>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Bank</th>
+    <th>B/P</th>
+    <th>Opened</th>
+    <th>Closed</th>
+  </thead>
+  <tbody>
+    <% present_each card_accounts do |card_account| %>
+      <%= content_tag_for :tr, card_account do %>
+        <td><%= card_account.card_identifier %></td>
+        <td><%= card_account.card_name %></td>
+        <td><%= card_account.card_bank_name %></td>
+        <td><%= card_account.card_bp %></td>
+        <td class="card_account_status"><%= card_account.status %></td>
+        <td class="card_account_opened_at"><%= card_account.opened_at %></td>
+        <td class="card_account_closed_at"><%= card_account.closed_at %></td>
+      <% end # content_tag_for %>
+    <% end %>
+  </tbody>
+</table>
+

@@ -51,13 +51,26 @@
 
   <%= render "shared/hpanel" do %>
     <div class="panel-body">
-      <% if @card_accounts.any? %>
-        <h3>Existing Cards</h3>
+      <h3>Existing Cards</h3>
 
-        <%= render "card_accounts/table", accounts: @card_accounts %>
+      <h4>Recommendations</h4>
+
+      <% if @card_recommendations.any? %>
+        <%= render "admin_area/card_accounts/recommendations", card_accounts: @card_recommendations %>
       <% else %>
-        <%= t("admin.people.card_accounts.none") %>
+        <p>User has not been recommended any cards yet</p>
       <% end %>
+
+      <h4>Other</h4>
+
+      <% if @cards_from_survey.any? %>
+        <p>Cards added in the onboarding survey:</p>
+        <%= render "admin_area/card_accounts/from_survey", card_accounts: @cards_from_survey %>
+      <% else %>
+        <p>User did not add any cards in the onboarding survey</p>
+      <% end %>
+
+      <%#= render "admin_area/card_accounts/table", card_accounts: @card_accounts %>
     </div>
   <% end %>
 

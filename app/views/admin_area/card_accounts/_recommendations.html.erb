@@ -1,0 +1,34 @@
+<table id="admin_person_card_recommendations" class="table table-striped">
+  <thead>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Bank</th>
+    <th>B/P</th>
+    <th>Status</th>
+    <th>Recommended</th>
+    <th>Clicked</th>
+    <th>Applied/Declined</th>
+  </thead>
+  <tbody>
+    <% present_each card_accounts do |card_account| %>
+      <%= content_tag_for :tr, card_account do %>
+        <td><%= card_account.card_identifier %></td>
+        <td><%= card_account.card_name %></td>
+        <td><%= card_account.card_bank_name %></td>
+        <td><%= card_account.card_bp %></td>
+        <td class="card_account_status">
+          <%= card_account.status %>
+        </td>
+        <td class="card_account_recommended_at">
+          <%= card_account.recommended_at %>
+        </td>
+        <td class="card_account_clicked_at">
+          <%= card_account.clicked_at %>
+        </td>
+        <td class="card_account_applied_at">
+          <%= card_account.applied_at %>
+        </td>
+      <% end # content_tag_for %>
+    <% end %>
+  </tbody>
+</table>

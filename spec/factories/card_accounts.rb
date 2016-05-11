@@ -37,11 +37,12 @@ FactoryGirl.define do
     trait :declined do
       recommendation
       status :declined
-      declined_at { Time.now }
+      applied_at { Time.now }
       decline_reason "You suck!"
     end
 
-    factory :open_survey_card_account, traits: [:survey]
+    factory :survey_card_account, traits: [:survey]
+    factory :open_survey_card_account, traits: [:survey, :open]
     # The order of the traits is important here:
     factory :closed_survey_card_account, traits: [:survey, :closed]
 

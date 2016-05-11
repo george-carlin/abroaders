@@ -61,18 +61,6 @@ module CardAccount::Statuses
     end
   end
 
-  def applied_at
-    declined? ? nil : read_attribute(:applied_at)
-  end
-
-  def declined_at
-    declined? ? read_attribute(:applied_at) : nil
-  end
-
-  def declined_at=(datetime)
-    self.applied_at = datetime
-  end
-
   def decline_with_reason!(reason)
     update_attributes!(
       applied_at: Time.now, status: :declined, decline_reason: reason
