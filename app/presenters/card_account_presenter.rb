@@ -1,13 +1,5 @@
 class CardAccountPresenter < ApplicationPresenter
 
-  def render(&block)
-    h.render "card_accounts/card_account", card_account: self, &block
-  end
-
-  def render_recommendation_actions
-    h.render "card_accounts/recommendation_actions", card_account: self
-  end
-
   # NOTE: If the card was added in the survey, we don't know the opened/closed
   # dates more precisely than the month. Eventually, when it becomes possible
   # to open/close recommended cards, we'll want to display the day of the month
