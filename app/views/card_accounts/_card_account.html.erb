@@ -1,13 +1,49 @@
-<div
-  id="<%= dom_id(card_account) %>"
-  class="<%= dom_class(card_account) %> row"
->
+<%= present_div card_account, class: "row" do |card_account| %>
+  <div class="col-xs-12 col-sm-6 col-md-2">
+    <%= card_account.card.image("130x81") %>
+  </div>
 
-  <%= render "card_accounts/card", card_account: card_account %>
+  <div class="col-xs-12 col-sm-6 col-md-6">
+    <p>
+      <b>Card Name:</b>
+      <span class="card-account-card-name">
+        <%= card_account.card.name %>
+        (<%= card_account.card.network %>)
+      </span>
+    </p>
+
+    <p>
+      <b>Bank:</b>
+      <span class="card-account-bank">
+        <%= card_account.card.bank_name %>
+      </span>
+    </p>
+
+    <% if card_account.offer.present? %>
+      <div class="card_account_offer">
+        <%= card_account.offer.description %>
+      </div><!-- .card-account-offer -->
+    <% end %>
+  </div>
 
   <div class="col-xs-12 col-md-4">
-    <%= yield %>
+    <% if card_account.recommended_at? %>
+      <p><b>Recommended:</b> <%= card_account.recommended_at %></p>
+    <% end %>
+    <% if card_account.opened_at? %>
+      <p><b>Opened:</b> <%= card_account.opened_at %></p>
+    <% end %>
+    <% if card_account.closed_at? %>
+      <p><b>Closed:</b> <%= card_account.closed_at %></p>
+    <% end %>
   </div>
-</div><!-- .row -->
+
+  <% if block_given? %>
+    <div class="col-xs-12">
+      <br>
+      <%= yield %>
+    </div>
+  <% end %>
+<% end # div_for %>
 
 <hr>

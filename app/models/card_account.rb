@@ -42,7 +42,13 @@ class CardAccount < ApplicationRecord
   end
 
   def to_partial_path
-    "card_accounts/#{source}/#{status}_card_account"
+    if from_survey?
+      # For now these card accounts don't need a custom partial, so use
+      # card_account/card_account:
+      super
+    else
+      "card_accounts/#{source}/#{status}_card_account"
+    end
   end
 
   private

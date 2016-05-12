@@ -14,9 +14,16 @@ module ApplicationHelper
     end
   end
 
-  def present_div(model, presenter_class=nil)
+  def present_div(model, presenter_class_or_html_opts=nil, html_opts={})
+    if presenter_class_or_html_opts.is_a?(Hash)
+      html_opts       = presenter_class_or_html_opts
+      presenter_class = nil
+    else
+      presenter_class = presenter_class_or_html_opts
+    end
+
     present(model, presenter_class) do |presenter|
-      div_for presenter do
+      div_for presenter, html_opts do
         yield(presenter)
       end
     end
@@ -31,8 +38,12 @@ module ApplicationHelper
   private
 
   def get_presenter(model, klass=nil)
-    klass ||= "#{model.class}Presenter".constantize
-    klass.new(model, self)
+    if model.is_a?(ApplicationPresenter)
+      model
+    else
+      klass ||= "#{model.class}Presenter".constantize
+      klass.new(model, self)
+    end
   end
 
 end
