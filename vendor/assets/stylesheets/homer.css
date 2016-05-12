@@ -1583,7 +1583,6 @@ body {
   overflow-x: hidden;
   overflow-y: scroll;
   width: 197px;
-  padding-right: 17px;
 }
 .fixed-sidebar.show-sidebar #menu {
   width: 180px;
