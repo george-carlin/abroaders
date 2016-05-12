@@ -4,7 +4,7 @@ class OfferPresenter < ApplicationPresenter
   # minimum spend, and days. Note that this isn't necessarily unique per offer.
   def identifier(with_card: false)
     parts = [abbreviated_points]
-    case @model.condition
+    case model.condition
     when "on_minimum_spend"
       parts.push(abbreviated_spend)
       parts.push(days)
@@ -84,17 +84,17 @@ class OfferPresenter < ApplicationPresenter
   private
 
   def card
-    @card ||= CardPresenter.new(super(), @view)
+    @card ||= CardPresenter.new(super(), view)
   end
 
   def abbreviated_points
     # Show points and spend as multiples of 1000, but don't print the decimal
     # point if it's an exact multiple:
-    (@model.points_awarded / 1000.0).to_s.sub(/\.0+\z/, '')
+    (model.points_awarded / 1000.0).to_s.sub(/\.0+\z/, '')
   end
 
   def abbreviated_spend
-    (@model.spend / 1000.0).to_s.sub(/\.0+\z/, '')
+    (model.spend / 1000.0).to_s.sub(/\.0+\z/, '')
   end
 
 

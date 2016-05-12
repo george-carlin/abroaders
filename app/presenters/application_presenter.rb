@@ -16,12 +16,13 @@ class ApplicationPresenter < SimpleDelegator
   private
 
   def h
-    @view
+    view
   end
 
   def t(*args)
     I18n.t(*args)
   end
 
+  attr_reader :model, :view
 
 end

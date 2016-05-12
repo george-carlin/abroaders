@@ -35,11 +35,11 @@ class CardAccountPresenter < ApplicationPresenter
   end
 
   def card
-    @card ||= CardPresenter.new(super, @view)
+    @card ||= CardPresenter.new(super, view)
   end
 
   def offer
-    @offer ||= super.present? ? OfferPresenter.new(super, @view) : nil
+    @offer ||= super.present? ? OfferPresenter.new(super, view) : nil
   end
 
 end

@@ -9,7 +9,7 @@ class CardAccountsPresenter < ApplicationPresenter
 
   %i[main_person partner].each do |method|
     define_method method do
-      self.class.new(super(), @view)
+      self.class.new(super(), view)
     end
   end
 
@@ -35,7 +35,7 @@ class CardAccountsPresenter < ApplicationPresenter
   private
 
   def card_accounts
-    @card_accounts ||= @model.card_accounts.includes(:card).order(:created_at)
+    @card_accounts ||= model.card_accounts.includes(:card).order(:created_at)
   end
 
 end
