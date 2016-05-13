@@ -33,10 +33,9 @@ ActiveRecord::Schema.define(version: 20160504132126) do
     t.boolean  "onboarded_type",             default: false, null: false
     t.boolean  "onboarded_travel_plans",     default: false, null: false
     t.integer  "unseen_notifications_count", default: 0,     null: false
+    t.index ["email"], name: "index_accounts_on_email", unique: true, using: :btree
+    t.index ["reset_password_token"], name: "index_accounts_on_reset_password_token", unique: true, using: :btree
   end
-
-  add_index "accounts", ["email"], name: "index_accounts_on_email", unique: true, using: :btree
-  add_index "accounts", ["reset_password_token"], name: "index_accounts_on_reset_password_token", unique: true, using: :btree
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -51,10 +50,9 @@ ActiveRecord::Schema.define(version: 20160504132126) do
     t.inet     "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.index ["email"], name: "index_admins_on_email", unique: true, using: :btree
+    t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
   end
-
-  add_index "admins", ["email"], name: "index_admins_on_email", unique: true, using: :btree
-  add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
 
   create_table "balances", force: :cascade do |t|
     t.integer  "person_id",   null: false
@@ -62,11 +60,10 @@ ActiveRecord::Schema.define(version: 20160504132126) do
     t.integer  "value",       null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.index ["currency_id"], name: "index_balances_on_currency_id", using: :btree
+    t.index ["person_id", "currency_id"], name: "index_balances_on_person_id_and_currency_id", unique: true, using: :btree
+    t.index ["person_id"], name: "index_balances_on_person_id", using: :btree
   end
-
-  add_index "balances", ["currency_id"], name: "index_balances_on_currency_id", using: :btree
-  add_index "balances", ["person_id", "currency_id"], name: "index_balances_on_person_id_and_currency_id", unique: true, using: :btree
-  add_index "balances", ["person_id"], name: "index_balances_on_person_id", using: :btree
 
   create_table "card_accounts", force: :cascade do |t|
     t.integer  "card_id"
@@ -84,9 +81,8 @@ ActiveRecord::Schema.define(version: 20160504132126) do
     t.datetime "updated_at",                     null: false
     t.integer  "source",                         null: false
     t.datetime "clicked_at"
+    t.index ["source"], name: "index_card_accounts_on_source", using: :btree
   end
-
-  add_index "card_accounts", ["source"], name: "index_card_accounts_on_source", using: :btree
 
   create_table "cards", force: :cascade do |t|
     t.string   "code",                              null: false
@@ -105,21 +101,19 @@ ActiveRecord::Schema.define(version: 20160504132126) do
     t.string   "image_content_type",                null: false
     t.integer  "image_file_size",                   null: false
     t.datetime "image_updated_at",                  null: false
+    t.index ["bank_id"], name: "index_cards_on_bank_id", using: :btree
+    t.index ["currency_id"], name: "index_cards_on_currency_id", using: :btree
+    t.index ["wallaby_id"], name: "index_cards_on_wallaby_id", using: :btree
   end
-
-  add_index "cards", ["bank_id"], name: "index_cards_on_bank_id", using: :btree
-  add_index "cards", ["currency_id"], name: "index_cards_on_currency_id", using: :btree
-  add_index "cards", ["wallaby_id"], name: "index_cards_on_wallaby_id", using: :btree
 
   create_table "currencies", force: :cascade do |t|
     t.string   "name",            null: false
     t.string   "award_wallet_id", null: false
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.index ["award_wallet_id"], name: "index_currencies_on_award_wallet_id", unique: true, using: :btree
+    t.index ["name"], name: "index_currencies_on_name", unique: true, using: :btree
   end
-
-  add_index "currencies", ["award_wallet_id"], name: "index_currencies_on_award_wallet_id", unique: true, using: :btree
-  add_index "currencies", ["name"], name: "index_currencies_on_name", unique: true, using: :btree
 
   create_table "destinations", force: :cascade do |t|
     t.string   "name",                       null: false
@@ -129,21 +123,19 @@ ActiveRecord::Schema.define(version: 20160504132126) do
     t.integer  "children_count", default: 0, null: false
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+    t.index ["code", "type"], name: "index_destinations_on_code_and_type", unique: true, using: :btree
+    t.index ["name"], name: "index_destinations_on_name", using: :btree
+    t.index ["parent_id"], name: "index_destinations_on_parent_id", using: :btree
+    t.index ["type"], name: "index_destinations_on_type", using: :btree
   end
-
-  add_index "destinations", ["code", "type"], name: "index_destinations_on_code_and_type", unique: true, using: :btree
-  add_index "destinations", ["name"], name: "index_destinations_on_name", using: :btree
-  add_index "destinations", ["parent_id"], name: "index_destinations_on_parent_id", using: :btree
-  add_index "destinations", ["type"], name: "index_destinations_on_type", using: :btree
 
   create_table "eligibilities", force: :cascade do |t|
     t.integer  "person_id",  null: false
     t.boolean  "eligible",   null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["person_id"], name: "index_eligibilities_on_person_id", using: :btree
   end
-
-  add_index "eligibilities", ["person_id"], name: "index_eligibilities_on_person_id", using: :btree
 
   create_table "flights", force: :cascade do |t|
     t.integer  "travel_plan_id",                       null: false
@@ -152,12 +144,11 @@ ActiveRecord::Schema.define(version: 20160504132126) do
     t.integer  "to_id",                                null: false
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
+    t.index ["from_id"], name: "index_flights_on_from_id", using: :btree
+    t.index ["to_id"], name: "index_flights_on_to_id", using: :btree
+    t.index ["travel_plan_id", "position"], name: "index_flights_on_travel_plan_id_and_position", unique: true, using: :btree
+    t.index ["travel_plan_id"], name: "index_flights_on_travel_plan_id", using: :btree
   end
-
-  add_index "flights", ["from_id"], name: "index_flights_on_from_id", using: :btree
-  add_index "flights", ["to_id"], name: "index_flights_on_to_id", using: :btree
-  add_index "flights", ["travel_plan_id", "position"], name: "index_flights_on_travel_plan_id_and_position", unique: true, using: :btree
-  add_index "flights", ["travel_plan_id"], name: "index_flights_on_travel_plan_id", using: :btree
 
   create_table "notifications", force: :cascade do |t|
     t.integer  "account_id"
@@ -166,12 +157,11 @@ ActiveRecord::Schema.define(version: 20160504132126) do
     t.string   "type",                       null: false
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+    t.index ["account_id", "seen"], name: "index_notifications_on_account_id_and_seen", using: :btree
+    t.index ["account_id"], name: "index_notifications_on_account_id", using: :btree
+    t.index ["record_id"], name: "index_notifications_on_record_id", using: :btree
+    t.index ["seen"], name: "index_notifications_on_seen", using: :btree
   end
-
-  add_index "notifications", ["account_id", "seen"], name: "index_notifications_on_account_id_and_seen", using: :btree
-  add_index "notifications", ["account_id"], name: "index_notifications_on_account_id", using: :btree
-  add_index "notifications", ["record_id"], name: "index_notifications_on_record_id", using: :btree
-  add_index "notifications", ["seen"], name: "index_notifications_on_seen", using: :btree
 
   create_table "offers", force: :cascade do |t|
     t.integer  "card_id",                       null: false
@@ -185,10 +175,9 @@ ActiveRecord::Schema.define(version: 20160504132126) do
     t.text     "notes"
     t.integer  "condition",      default: 0,    null: false
     t.boolean  "live",           default: true, null: false
+    t.index ["card_id"], name: "index_offers_on_card_id", using: :btree
+    t.index ["live"], name: "index_offers_on_live", using: :btree
   end
-
-  add_index "offers", ["card_id"], name: "index_offers_on_card_id", using: :btree
-  add_index "offers", ["live"], name: "index_offers_on_live", using: :btree
 
   create_table "people", force: :cascade do |t|
     t.integer  "account_id",                              null: false
@@ -200,9 +189,8 @@ ActiveRecord::Schema.define(version: 20160504132126) do
     t.boolean  "onboarded_balances",      default: false, null: false
     t.string   "award_wallet_email"
     t.datetime "last_recommendations_at"
+    t.index ["account_id", "main"], name: "index_people_on_account_id_and_main", unique: true, using: :btree
   end
-
-  add_index "people", ["account_id", "main"], name: "index_people_on_account_id_and_main", unique: true, using: :btree
 
   create_table "readiness_statuses", force: :cascade do |t|
     t.integer  "person_id",          null: false
@@ -210,9 +198,8 @@ ActiveRecord::Schema.define(version: 20160504132126) do
     t.string   "unreadiness_reason"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
+    t.index ["person_id"], name: "index_readiness_statuses_on_person_id", unique: true, using: :btree
   end
-
-  add_index "readiness_statuses", ["person_id"], name: "index_readiness_statuses_on_person_id", unique: true, using: :btree
 
   create_table "spending_infos", force: :cascade do |t|
     t.integer  "person_id",                             null: false
@@ -222,9 +209,8 @@ ActiveRecord::Schema.define(version: 20160504132126) do
     t.integer  "has_business",          default: 0,     null: false
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
+    t.index ["person_id"], name: "index_spending_infos_on_person_id", unique: true, using: :btree
   end
-
-  add_index "spending_infos", ["person_id"], name: "index_spending_infos_on_person_id", unique: true, using: :btree
 
   create_table "travel_plans", force: :cascade do |t|
     t.integer   "account_id",                       null: false
@@ -235,10 +221,9 @@ ActiveRecord::Schema.define(version: 20160504132126) do
     t.datetime  "updated_at",                       null: false
     t.text      "further_information"
     t.integer   "acceptable_classes",               null: false
+    t.index ["account_id"], name: "index_travel_plans_on_account_id", using: :btree
+    t.index ["type"], name: "index_travel_plans_on_type", using: :btree
   end
-
-  add_index "travel_plans", ["account_id"], name: "index_travel_plans_on_account_id", using: :btree
-  add_index "travel_plans", ["type"], name: "index_travel_plans_on_type", using: :btree
 
   add_foreign_key "balances", "currencies", on_delete: :cascade
   add_foreign_key "balances", "people", on_delete: :cascade
