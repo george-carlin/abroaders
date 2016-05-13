@@ -62,15 +62,6 @@ class CardAccount < ApplicationRecord
   belongs_to :person
   belongs_to :offer
 
-  def to_partial_path
-    if from_survey?
-      # For now these card accounts don't need a custom partial, so use
-      # card_account/card_account:
-      super
-    else
-      "card_accounts/#{source}/#{status}_card_account"
-    end
-  end
 
   # Callbacks
 
