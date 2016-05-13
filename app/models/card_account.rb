@@ -2,7 +2,25 @@ class CardAccount < ApplicationRecord
 
   # Attributes
 
-  include Statuses
+  # 'declined' means the user would not, or could not, apply for the card
+  #            which we recommended to them.
+  # 'denied' means that the user applied for the card, but the application
+  #          was denied by the bank.
+  #
+  # Note that the numeric keys of the statuses don't necessarily match
+  # the order in which a card account flows through the statuses, because
+  # some statuses were added later in the app's development than others.
+  enum status: {
+    unknown:     0,
+    recommended: 1,
+    declined:    2,
+    clicked:     3,
+    pending:     7,
+    denied:      4,
+    open:        5,
+    closed:      6,
+    applied:     9,
+  }
 
   enum source: {
     from_survey:    0,
@@ -57,6 +75,29 @@ class CardAccount < ApplicationRecord
   # Callbacks
 
   before_validation :set_card_to_offer_card
+
+  def decline_with_reason!(reason)
+    update_attributes!(
+      declined_at: Time.now, status: :declined, decline_reason: reason
+    )
+  end
+
+  def applyable?
+    status == "recommended"
+  end
+
+  def declinable?
+    status == "recommended"
+  end
+
+  def deniable?
+    status == "recommended"
+  end
+
+  def openable?
+    status == "recommended"
+  end
+  alias_method :acceptable?, :openable?
 
   private
 
