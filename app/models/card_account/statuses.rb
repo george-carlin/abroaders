@@ -61,13 +61,9 @@ module CardAccount::Statuses
     end
   end
 
-  def declined_at
-    applied_at
-  end
-
   def decline_with_reason!(reason)
     update_attributes!(
-      applied_at: Time.now, status: :declined, decline_reason: reason
+      declined_at: Time.now, status: :declined, decline_reason: reason
     )
   end
 

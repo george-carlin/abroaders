@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160504132126) do
+ActiveRecord::Schema.define(version: 20160513155234) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,6 +81,7 @@ ActiveRecord::Schema.define(version: 20160504132126) do
     t.datetime "updated_at",                     null: false
     t.integer  "source",                         null: false
     t.datetime "clicked_at"
+    t.datetime "declined_at"
     t.index ["source"], name: "index_card_accounts_on_source", using: :btree
   end
 
