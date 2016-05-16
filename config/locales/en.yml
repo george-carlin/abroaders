@@ -39,6 +39,13 @@ en:
           single: "One way"
           return: "Round trip"
 
+    errors:
+      card_account:
+        attributes:
+          card:
+            doesnt_match_offer: "doesnt match the offer"
+
+
   accounts:
     type:
       abroaders_will_help: "Abroaders will help you maximize the points you earn with your regular monthly spending."

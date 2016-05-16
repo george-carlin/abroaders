@@ -97,16 +97,38 @@ describe CardAccount do
 
   end # ::Statuses
 
-  specify "exactly one of card and offer must be present" do
+  specify "card_id must match offer.card_id" do
     def errors; card_account.tap(&:valid?).errors; end
 
-    expect(errors[:card]).to include t("errors.messages.blank")
-    card_account.offer = offer
-    expect(errors[:card]).to be_empty
+    msg = t("activerecord.errors.models.card_account.attributes.card.doesnt_match_offer")
+
+    # no card or offer:
+    expect(errors[:card]).not_to include(msg)
+    # no offer:
     card_account.card = card
-    expect(errors[:card]).to include t("errors.messages.present")
-    card_account.offer = nil
-    expect(errors[:card]).to be_empty
+    expect(errors[:card]).not_to include(msg)
+    # offer with no card
+    card_account.card  = nil
+    card_account.offer = Offer.new
+    expect(errors[:card]).not_to include(msg)
+    # mismatching card:
+    card_account.card = Card.new
+    expect(errors[:card]).to include(msg)
+    # correct card
+    card_account.offer.card = card_account.card
+    expect(errors[:card]).not_to include(msg)
+  end
+
+  # Callbacks
+
+  describe "before validation" do
+    it "sets #card to #offer.card" do
+      offer = create(:offer)
+      card  = offer.card
+      card_account = build(:card_account, card: nil, offer: offer)
+      card_account.valid?
+      expect(card_account.card_id).to eq card.id
+    end
   end
 
 end

@@ -292,26 +292,35 @@ describe "card accounts survey", :onboarding do
         expect do
           submit_form
         end.to change{me.card_accounts.count}.by selected_cards.length
-        expect(me.card_accounts.map(&:card)).to match_array selected_cards
       end
 
-      it "saves the opened and closed dates for each card" do
-        submit_form
-        me.reload
-        open_acc_0 = me.card_accounts.open.find_by(card_id: open_cards[0])
-        open_acc_1 = me.card_accounts.open.find_by(card_id: open_cards[1])
-        closed_acc = me.card_accounts.closed.find_by(card_id: closed_card)
-        expect(open_acc_0.opened_at.strftime("%F")).to eq "#{this_year}-01-01"
-        expect(open_acc_0.closed_at).to be_nil
-        expect(open_acc_1.opened_at.strftime("%F")).to eq "#{last_year}-03-01"
-        expect(open_acc_1.closed_at).to be_nil
-        expect(closed_acc.opened_at.strftime("%F")).to eq "#{ten_years_ago}-11-01"
-        expect(closed_acc.closed_at.strftime("%F")).to eq "#{last_year}-04-01"
-      end
+      describe "the created card accounts" do
+        before { submit_form }
+        let(:new_accounts) { me.card_accounts }
 
-      it "saves the cards' source as 'from survey'" do
-        submit_form
-        expect(me.card_accounts.pluck(:source).uniq).to eq ["from_survey"]
+        specify "have the right cards" do
+          expect(new_accounts.map(&:card)).to match_array selected_cards
+        end
+
+        specify "have no offers" do
+          expect(new_accounts.map(&:offer).compact).to be_empty
+        end
+
+        specify "have the given opened and closed dates" do
+          open_acc_0 = new_accounts.open.find_by(card_id: open_cards[0])
+          open_acc_1 = new_accounts.open.find_by(card_id: open_cards[1])
+          closed_acc = new_accounts.closed.find_by(card_id: closed_card)
+          expect(open_acc_0.opened_at.strftime("%F")).to eq "#{this_year}-01-01"
+          expect(open_acc_0.closed_at).to be_nil
+          expect(open_acc_1.opened_at.strftime("%F")).to eq "#{last_year}-03-01"
+          expect(open_acc_1.closed_at).to be_nil
+          expect(closed_acc.opened_at.strftime("%F")).to eq "#{ten_years_ago}-11-01"
+          expect(closed_acc.closed_at.strftime("%F")).to eq "#{last_year}-04-01"
+        end
+
+        specify "have 'from survey' as their source" do
+          expect(me.card_accounts.all? { |ca| ca.from_survey? }).to be true
+        end
       end
 
       include_examples "submitting the form"
