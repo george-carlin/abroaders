@@ -25,6 +25,8 @@ class SignUp < ApplicationForm
 
       person = account.people.build(first_name: first_name.strip)
       person.save!(validate: false)
+
+      AccountMailer.notify_admin_of_sign_up(account).deliver_later
     end
   end
 

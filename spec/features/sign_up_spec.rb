@@ -3,7 +3,12 @@ require "rails_helper"
 describe "the sign up page", :onboarding do
   subject { page }
 
-  before { visit new_account_registration_path }
+  before do
+    @real_env_email = ENV["ERIKS_EMAIL"]
+    ENV["ERIKS_EMAIL"] = "test@example.com"
+    visit new_account_registration_path
+  end
+  after { ENV["ERIKS_EMAIL"] = @real_env_email }
 
   it "has fields to create a new account" do
     is_expected.to have_field :sign_up_email
@@ -47,6 +52,15 @@ describe "the sign up page", :onboarding do
         # DB, we may end up with accounts with duplicate emails!
         submit_form
         expect(new_account.email).to eq "testaccount@example.com"
+      end
+
+      it "sends an email to erik with the new user's email address" do
+        pending
+        # email is being sent through deliver_later (which defaults to :inline
+        # because we don't have resque set up yet). Don't know how to test
+        expect{submit_form}.to change{ApplicationMailer.deliveries.length}.by(1)
+        email = ApplicationMailer.deliveries.last
+        expect(email.to.first).to eq "test@example.com"
       end
 
       describe "the created account" do
