@@ -16,12 +16,12 @@
 
     <p>
       If you are not redirected within 10 seconds,
-      <%= link_to "click here", @recommendation.offer.link %>
+      <%= link_to "click here", @account.offer.link %>
     </p>
 
     <script type="text/javascript">
       window.setTimeout(function () {
-        window.location = "<%= @recommendation.offer.link %>";
+        window.location = "<%= @account.offer.link %>";
       }, 5000);
     </script>
   </div>
