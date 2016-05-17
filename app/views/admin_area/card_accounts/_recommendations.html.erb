@@ -5,7 +5,9 @@
     <th>Status</th>
     <th>Recommended</th>
     <th>Clicked</th>
-    <th>Applied/Declined</th>
+    <th>Applied</th>
+    <th>Declined</th>
+    <th>Opened</th>
   </thead>
   <tbody>
     <% present_each card_accounts do |card_account| %>
@@ -21,13 +23,19 @@
           <% end %>
         </td>
         <td class="card_account_recommended_at">
-          <%= card_account.recommended_at %>
+          <%= card_account.recommended_at || "-" %>
         </td>
         <td class="card_account_clicked_at">
-          <%= card_account.clicked_at %>
+          <%= card_account.clicked_at || "-" %>
         </td>
         <td class="card_account_applied_at">
-          <%= card_account.applied_at %>
+          <%= card_account.applied_at || "-" %>
+        </td>
+        <td class="card_account_declined_at">
+          <%= card_account.declined_at || "-" %>
+        </td>
+        <td class="card_account_opened_at">
+          <%= card_account.opened_at || "-" %>
         </td>
       <% end # content_tag_for %>
     <% end %>

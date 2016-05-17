@@ -12,15 +12,19 @@ class CardAccountPresenter < ApplicationPresenter
   # dates more precisely than the month. Eventually, when it becomes possible
   # to open/close recommended cards, we'll want to display the day of the month
   # for those cards ONLY.
-  %i[closed_at opened_at].each do |meth|
+  %i[closed_at denied_at opened_at].each do |meth|
     define_method meth do
-      super()&.strftime("%b %Y") || "-"
+      if recommendation?
+        super()&.strftime("%D")
+      else
+        super()&.strftime("%b %Y")
+      end
     end
   end
 
-  %i[applied_at clicked_at recommended_at].each do |meth|
+  %i[applied_at clicked_at declined_at recommended_at].each do |meth|
     define_method meth do
-      super()&.strftime("%D") || "-"
+      super()&.strftime("%D")
     end
   end
 
