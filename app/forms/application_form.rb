@@ -60,17 +60,19 @@ class ApplicationForm
     end
   end
 
-  def update_attributes(attributes)
+  def update(attributes)
     assign_attributes(attributes)
     save
   end
+  alias_method :update_attributes, :update
 
-  def update_attributes!(attributes)
+  def update!(attributes)
     if update_attributes(attributes)
       true
     else
       raise ActiveRecord::RecordInvalid.new(errors.full_messages.join(", "))
     end
   end
+  alias_method :update_attributes!, :update!
 
 end
