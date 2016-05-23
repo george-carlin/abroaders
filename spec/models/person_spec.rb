@@ -87,7 +87,7 @@ describe Person do
       expect(rec.source).to eq "recommendation"
       expect(rec.card).to eq card
       expect(rec.offer).to eq offer
-      expect(rec.recommended_at).to be_within(5.seconds).of(Time.now)
+      expect(rec.recommended_at).to eq Date.today
 
       expect(person.card_recommendations).to include rec
     end

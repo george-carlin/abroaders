@@ -19,8 +19,8 @@ describe CardAccount do
         expect(card_account).to be_declined
       end
 
-      it "sets 'declined_at' to the current time" do
-        expect(card_account.declined_at).to be_within(5.seconds).of(Time.now)
+      it "sets 'declined_at' to today" do
+        expect(card_account.declined_at).to eq Date.today
       end
 
       it "saves the decline reason" do
@@ -34,9 +34,9 @@ describe CardAccount do
         expect(card_account.status).to eq "clicked"
       end
 
-      it "sets 'clicked at' to the current time" do
+      it "sets 'clicked at' to today" do
         card_account.clicked!
-        expect(card_account.clicked_at).to be_within(2.seconds).of(Time.now)
+        expect(card_account.clicked_at).to eq Date.today
       end
     end
 

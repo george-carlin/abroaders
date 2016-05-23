@@ -107,7 +107,7 @@ describe "as a user viewing my cards" do
 
           it "sets the 'declined at' timestamp to the current time" do
             submit
-            expect(rec.declined_at).to be_within(5.seconds).of Time.now
+            expect(rec.declined_at).to eq Date.today
           end
 
           it "shows a success message" do

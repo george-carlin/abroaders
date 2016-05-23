@@ -24,7 +24,7 @@ describe "card recommendation apply page" do
 
     it "saves the account's status as 'clicked'" do
       visit_path
-      expect(rec.reload.clicked_at).to be_within(5.seconds).of Time.now
+      expect(rec.reload.clicked_at).to eq Date.today
     end
   end
 
@@ -35,7 +35,7 @@ describe "card recommendation apply page" do
       visit_path
       rec.reload
       expect(rec.status).to eq "clicked"
-      expect(rec.clicked_at).to be_within(5.seconds).of Time.now
+      expect(rec.clicked_at).to eq Date.today
     end
   end
 
