@@ -17,7 +17,6 @@ FactoryGirl.define do
     end
 
     trait :clicked do
-      status :clicked
       clicked_at { 3.days.ago }
     end
 

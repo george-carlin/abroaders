@@ -36,7 +36,6 @@ module CardAccount::Statuses
     unknown:     0,
     recommended: 1,
     declined:    2,
-    clicked:     3,
     applied:     7,
     denied:      4,
     open:        5,
@@ -54,10 +53,6 @@ module CardAccount::Statuses
 
     def applied!
       update_attributes!(status: :applied, applied_at: Time.now)
-    end
-
-    def clicked!
-      update_attributes!(status: :clicked, clicked_at: Time.now)
     end
   end
 

@@ -9,7 +9,7 @@ class CardRecommendationsController < CardAccountsController
     # We can't know for sure if the user has actually applied; the most
     # we can do is note that they've visited this page and (hopefully)
     # been redirected to the bank's page
-    @recommendation.clicked!
+    @recommendation.update_attributes!(clicked_at: Time.now)
     @card = @recommendation.card
   end
 

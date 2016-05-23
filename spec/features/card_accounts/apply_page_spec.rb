@@ -14,28 +14,21 @@ describe "card recommendation apply page" do
   # TODO How can we test this?
   it "redirects to the bank's page after a delay"
 
-  context "when the account's status is 'recommended'" do
+  context "when the recommendation has not been clicked before" do
     before { raise unless rec.recommended? && rec.clicked_at.nil?  } # sanity checks
 
-    it "saves the account's status as 'clicked'" do
-      visit_path
-      expect(rec.reload.status).to eq "clicked"
-    end
-
-    it "saves the account's status as 'clicked'" do
+    it "saves the 'clicked at' timestamp" do
       visit_path
       expect(rec.reload.clicked_at).to eq Date.today
     end
   end
 
-  context "when the account's status is 'clicked'" do
-    before { rec.update_attributes!(status: :clicked, clicked_at: 10.days.ago) }
+  context "when the account has been clicked before" do
+    before { rec.update_attributes!(clicked_at: 10.days.ago) }
 
     it "updates the 'clicked at' timestamp" do
       visit_path
-      rec.reload
-      expect(rec.status).to eq "clicked"
-      expect(rec.clicked_at).to eq Date.today
+      expect(rec.reload.clicked_at).to eq Date.today
     end
   end
 

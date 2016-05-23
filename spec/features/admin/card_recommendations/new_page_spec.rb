@@ -294,7 +294,7 @@ describe "admin section" do
               is_expected.to have_selector ".card_account_status", text: "Recommended"
             end
             within "##{dom_id(@clicked_rec)}" do
-              is_expected.to have_selector ".card_account_status", text: "Clicked"
+              is_expected.to have_selector ".card_account_status", text: "Recommended"
             end
             within "##{dom_id(@declined_rec)}" do
               is_expected.to have_selector ".card_account_status", text: "Declined"
