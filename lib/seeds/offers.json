@@ -8,8 +8,7 @@
     "link": "https://www.americanexpress.com/us/credit-cards/platinum/",
     "notes": null,
     "points_awarded": 40000,
-    "spend": 3000,
-    "status": "live"
+    "spend": 3000
   },
   {
     "card_id": 3,
@@ -20,8 +19,7 @@
     "link": "https://www.americanexpress.com/us/credit-cards/personal-card-application/premier-rewards-gold-card/25330-10-0?intlink=us-ccsg-viewallcards-PRG-Apply",
     "notes": null,
     "points_awarded": 25000,
-    "spend": 2000,
-    "status": "live"
+    "spend": 2000
   },
   {
     "card_id": 4,
@@ -32,8 +30,7 @@
     "link": "https://www.americanexpress.com/us/small-business/credit-cards/business-platinum/44282?linknav=us-open-aj-hp-vac-platinumcard-lm",
     "notes": null,
     "points_awarded": 40000,
-    "spend": 5000,
-    "status": "live"
+    "spend": 5000
   },
   {
     "card_id": 5,
@@ -44,8 +41,7 @@
     "link": "https://www.americanexpress.com/us/credit-cards/personal-card-application/amex-everyday-credit-card/43210-10-0?intlink=us-ccsg-viewallcards-Everyday-Apply",
     "notes": null,
     "points_awarded": 10000,
-    "spend": 1000,
-    "status": "live"
+    "spend": 1000
   },
   {
     "card_id": 6,
@@ -56,8 +52,7 @@
     "link": "https://www.americanexpress.com/us/credit-cards/personal-card-application/amex-everyday-preferred-credit-card/25330-10-0?intlink=us-ccsg-viewallcards-EverydayPref-Apply",
     "notes": null,
     "points_awarded": 15000,
-    "spend": 1000,
-    "status": "live"
+    "spend": 1000
   },
   {
     "card_id": 8,
@@ -68,8 +63,7 @@
     "link": "https://www.americanexpress.com/us/small-business/credit-cards/business-gold-rewards/44520?linknav=us-open-aj-hp-vac-goldcardfromopen-lm",
     "notes": null,
     "points_awarded": 50000,
-    "spend": 5000,
-    "status": "live"
+    "spend": 5000
   },
   {
     "card_id": 10,
@@ -80,8 +74,7 @@
     "link": "https://www.americanexpress.com/us/credit-cards/personal-card-application/platinum-delta-skymiles-credit-card/25330-64-0?intlink=us-ccsg-viewallcards-PlatinumDelta-Apply",
     "notes": "5k medallion qualifying ",
     "points_awarded": 35000,
-    "spend": 1000,
-    "status": "live"
+    "spend": 1000
   },
   {
     "card_id": 11,
@@ -92,8 +85,7 @@
     "link": "https://www.americanexpress.com/us/credit-cards/personal-card-application/delta-gold-credit-card/25330-10-0?intlink=us-ccsg-viewallcards-GoldDelta-Apply",
     "notes": "$50 statement credit on delta purchases",
     "points_awarded": 30000,
-    "spend": 1000,
-    "status": "live"
+    "spend": 1000
   },
   {
     "card_id": 12,
@@ -104,8 +96,7 @@
     "link": "https://www262.americanexpress.com/business-card-application/flexapp/gold-delta-skymiles-business-credit-card/apply/44279-9-0?intlink=us-acq-open-aj-allcards-golddelta-apply",
     "notes": "$50 statement credit on delta purchases",
     "points_awarded": 30000,
-    "spend": 1000,
-    "status": "live"
+    "spend": 1000
   },
   {
     "card_id": 13,
@@ -116,8 +107,7 @@
     "link": "https://www.americanexpress.com/us/small-business/credit-cards/platinum-delta-skymiles/44279?linknav=us-acq-open-aj-allcards-platinumdelta-lm",
     "notes": "5k medallion qualifying ",
     "points_awarded": 30000,
-    "spend": 1000,
-    "status": "live"
+    "spend": 1000
   },
   {
     "card_id": 15,
@@ -128,8 +118,7 @@
     "link": "https://www.americanexpress.com/us/credit-cards/personal-card-application/hilton-hhonors-surpass-credit-card/25330-10-0?intlink=us-ccsg-viewallcards-HiltonS-Apply",
     "notes": null,
     "points_awarded": 100000,
-    "spend": 3000,
-    "status": "live"
+    "spend": 3000
   },
   {
     "card_id": 16,
@@ -140,8 +129,7 @@
     "link": "https://www.americanexpress.com/us/credit-cards/personal-card-application/hilton-hhonors-credit-card/25330-10-0?intlink=us-ccsg-viewallcards-Hilton-Apply",
     "notes": null,
     "points_awarded": 75000,
-    "spend": 1000,
-    "status": "live"
+    "spend": 1000
   },
   {
     "card_id": 17,
@@ -152,8 +140,7 @@
     "link": "https://www.americanexpress.com/us/credit-cards/personal-card-application/starwood-preferred-credit-card/25330-10-0?intlink=us-ccsg-viewallcards-Starwood-Apply",
     "notes": null,
     "points_awarded": 25000,
-    "spend": 3000,
-    "status": "live"
+    "spend": 3000
   },
   {
     "card_id": 18,
@@ -164,8 +151,7 @@
     "link": "https://www262.americanexpress.com/business-card-application/flexapp/starwood-preferred-guest-business-credit-card/apply/44279-9-0?intlink=us-acq-open-aj-allcards-starwood-apply#",
     "notes": null,
     "points_awarded": 25000,
-    "spend": 5000,
-    "status": "live"
+    "spend": 5000
   },
   {
     "card_id": 22,
@@ -176,8 +162,7 @@
     "link": "https://www.bankofamerica.com/credit-cards/products/bankamericard-travel-rewards-credit-card/",
     "notes": null,
     "points_awarded": 20000,
-    "spend": 1000,
-    "status": "live"
+    "spend": 1000
   },
   {
     "card_id": 30,
@@ -188,8 +173,7 @@
     "link": "http://www.findmybarclaycard.com/barclaycard-credit-cards/?campaignId=2166&shopperid=&cellNumber=1&referrerid=BCSBA0815PRD&referrerid=BCSBA0815PRD&publisherid=&advertisementid=",
     "notes": null,
     "points_awarded": 20000,
-    "spend": 1000,
-    "status": "live"
+    "spend": 1000
   },
   {
     "card_id": 31,
@@ -200,8 +184,7 @@
     "link": "http://www.findmybarclaycard.com/barclaycard-credit-cards/?campaignId=2165&shopperid=&cellNumber=1&referrerid=&publisherid=&Referrerid=BCSBA0815PRD&advertisementid=",
     "notes": null,
     "points_awarded": 40000,
-    "spend": 3000,
-    "status": "live"
+    "spend": 3000
   },
   {
     "card_id": 32,
@@ -212,8 +195,7 @@
     "link": "https://www.barclaycardus.com/apply/Landing.action?campaignId=2131&cellNumber=4&referrerid=BCSBA0315",
     "notes": null,
     "points_awarded": 40000,
-    "spend": 500,
-    "status": "live"
+    "spend": 500
   },
   {
     "card_id": 34,
@@ -224,8 +206,7 @@
     "link": "http://www.hawaiianairlinescard.com/hcl/consumer/?campaignId=2036&shopperid=&cellNumber=19&referrerid=BCSBA&referrerid=BCSBA&publisherid=&advertisementid=",
     "notes": null,
     "points_awarded": 35000,
-    "spend": 1000,
-    "status": "live"
+    "spend": 1000
   },
   {
     "card_id": 36,
@@ -236,8 +217,7 @@
     "link": "https://www.barclaycardus.com/apply/Landing.action?campaignId=2245&cellNumber=10&referrerid=CFOPP_A200015948546_26814",
     "notes": null,
     "points_awarded": 30000,
-    "spend": 1000,
-    "status": "live"
+    "spend": 1000
   },
   {
     "card_id": 37,
@@ -248,8 +228,7 @@
     "link": "https://www.barclaycardus.com/apply/Landing.action?campaignId=2242&cellNumber=1",
     "notes": null,
     "points_awarded": 30000,
-    "spend": 1000,
-    "status": "live"
+    "spend": 1000
   },
   {
     "card_id": 40,
@@ -260,8 +239,7 @@
     "link": "https://www.miles-and-more.com/online/portal/mam/us/earn/credit_card/offer?nodeid=2073359900",
     "notes": null,
     "points_awarded": 50000,
-    "spend": 5000,
-    "status": "live"
+    "spend": 5000
   },
   {
     "card_id": 43,
@@ -272,8 +250,7 @@
     "link": "https://www.capitalone.com/credit-cards/business/spark-miles/",
     "notes": null,
     "points_awarded": 50000,
-    "spend": 4500,
-    "status": "live"
+    "spend": 4500
   },
   {
     "card_id": 44,
@@ -284,8 +261,7 @@
     "link": "https://www.capitalone.com/credit-cards/venture/?Log=1&EventType=Link&ComponentType=T&LOB=MTS%253A%253ALCTMMQC4S&PageName=travel+and+miles&ComponentName=suiteTable&ContentElement=6%253BCard+Details&TargetLob=MTS%253A%253ALCTMMQC4S&TargetPageName=Venture+Card+Details&referer=https%253A%252F%252Fwww.capitalone.com%252Fcredit-cards%252Ftravel-and-miles",
     "notes": null,
     "points_awarded": 40000,
-    "spend": 3000,
-    "status": "live"
+    "spend": 3000
   },
   {
     "card_id": 45,
@@ -296,8 +272,7 @@
     "link": "https://www.capitalone.com/credit-cards/ventureone/?Log=1&EventType=Link&ComponentType=T&LOB=MTS%253A%253ALCTMMQC4S&PageName=travel+and+miles&ComponentName=suiteTable&ContentElement=8%253BCard+Details&TargetLob=MTS%253A%253ALCTMMQC4S&TargetPageName=VentureOne+Card+Details&referer=https%253A%252F%252Fwww.capitalone.com%252Fcredit-cards%252Ftravel-and-miles",
     "notes": null,
     "points_awarded": 20000,
-    "spend": 1000,
-    "status": "live"
+    "spend": 1000
   },
   {
     "card_id": 48,
@@ -308,8 +283,7 @@
     "link": "https://creditcards.chase.com/a1/ba/nonaep?CELL=6H8X&AFFID=pngc6t7Ewoo-pCKS8EN4vg31aHpWudShPQ&pvid=A200015947525&jp_cmp=cc/388124/aff/3-10002514/na",
     "notes": "Tiered Bonus - (+) 25/10/365 + 25/20/365",
     "points_awarded": 50000,
-    "spend": 2000,
-    "status": "live"
+    "spend": 2000
   },
   {
     "card_id": 49,
@@ -320,8 +294,7 @@
     "link": "https://creditcards.chase.com/credit-cards/chase-freedom.aspx?iCELL=6233&SP4R=Y71UH0&S81H=Y71UH0",
     "notes": null,
     "points_awarded": 15000,
-    "spend": 500,
-    "status": "live"
+    "spend": 500
   },
   {
     "card_id": 51,
@@ -332,8 +305,7 @@
     "link": "https://creditcards.chase.com/ink-business-credit-cards/ink-cash-card?CELL=6223",
     "notes": null,
     "points_awarded": 20000,
-    "spend": 3000,
-    "status": "live"
+    "spend": 3000
   },
   {
     "card_id": 57,
@@ -344,8 +316,7 @@
     "link": "https://creditcards.chase.com/a1/sapphire/apply502?AFFID=pngc6t7Ewoo-fc0h.ZRzlcwY9ztHpnWm.A&pvid=A100017048663&CELL=60YN&SP4R=FH24R8",
     "notes": null,
     "points_awarded": 40000,
-    "spend": 4000,
-    "status": "live"
+    "spend": 4000
   },
   {
     "card_id": 59,
@@ -356,8 +327,7 @@
     "link": "https://creditcards.chase.com/a1/olainkplus?CELL=6H8X&AFFID=pngc6t7Ewoo-XLz6VAgccjSuNt01XHGvsg&pvid=A200015947523&jp_cmp=cc/388124/aff/3-10002585/na",
     "notes": null,
     "points_awarded": 60000,
-    "spend": 5000,
-    "status": "live"
+    "spend": 5000
   },
   {
     "card_id": 64,
@@ -368,8 +338,7 @@
     "link": "https://creditcards.chase.com/credit-cards/hyatt-card.aspx",
     "notes": "2FREE Nights",
     "points_awarded": 0,
-    "spend": 1000,
-    "status": "live"
+    "spend": 1000
   },
   {
     "card_id": 66,
@@ -380,8 +349,7 @@
     "link": "https://creditcards.chase.com/credit-cards/ihg-credit-card.aspx?iCELL=652W&SP4R=FH24R8&S81H=Y538C4",
     "notes": null,
     "points_awarded": 60000,
-    "spend": 1000,
-    "status": "live"
+    "spend": 1000
   },
   {
     "card_id": 67,
@@ -392,8 +360,7 @@
     "link": "https://creditcards.chase.com/credit-cards/marriott-credit-cards.aspx?iCELL=652W&SP4R=FH24R8&S81H=Y538C4",
     "notes": null,
     "points_awarded": 80000,
-    "spend": 3000,
-    "status": "live"
+    "spend": 3000
   },
   {
     "card_id": 68,
@@ -404,8 +371,7 @@
     "link": "https://creditcards.chase.com/credit-cards/marriott-business-credit-cards.aspx?SP4R=FH24R8&S81H=Y538C4&iCELL=6400",
     "notes": null,
     "points_awarded": 80000,
-    "spend": 3000,
-    "status": "live"
+    "spend": 3000
   },
   {
     "card_id": 69,
@@ -416,8 +382,7 @@
     "link": "https://creditcards.chase.com/credit-cards/ritz-carlton-card.aspx",
     "notes": "2 Free Nights (Categories 1-4 only)",
     "points_awarded": 0,
-    "spend": 4000,
-    "status": "live"
+    "spend": 4000
   },
   {
     "card_id": 71,
@@ -428,8 +393,7 @@
     "link": "https://creditcards.chase.com/a1/southwest/2rtfosam1",
     "notes": null,
     "points_awarded": 50000,
-    "spend": 2000,
-    "status": "live"
+    "spend": 2000
   },
   {
     "card_id": 73,
@@ -440,8 +404,7 @@
     "link": "https://creditcards.chase.com/credit-cards/southwest-premier-business-credit-card.aspx",
     "notes": null,
     "points_awarded": 50000,
-    "spend": 2000,
-    "status": "live"
+    "spend": 2000
   },
   {
     "card_id": 74,
@@ -452,8 +415,7 @@
     "link": "https://www.theexplorercard.com/30kAFW?CELL=H8X&AFFID=pngc6t7Ewoo-BU3yXD5Td1kMP9EJ.O7U_w",
     "notes": null,
     "points_awarded": 30000,
-    "spend": 1000,
-    "status": "live"
+    "spend": 1000
   },
   {
     "card_id": 75,
@@ -464,8 +426,7 @@
     "link": "https://www.theexplorercard.com/Club100SC",
     "notes": "$100 Statement Credit after First Purchase",
     "points_awarded": 0,
-    "spend": 0,
-    "status": "live"
+    "spend": 0
   },
   {
     "card_id": 77,
@@ -476,8 +437,7 @@
     "link": "https://www.theexplorercard.com/Business50kAFW",
     "notes": null,
     "points_awarded": 50000,
-    "spend": 2000,
-    "status": "live"
+    "spend": 2000
   },
   {
     "card_id": 78,
@@ -488,8 +448,7 @@
     "link": "https://www.theexplorercard.com/BusinessClub100SC",
     "notes": "$100 Statement Credit after First Purchase",
     "points_awarded": 0,
-    "spend": 0,
-    "status": "live"
+    "spend": 0
   },
   {
     "card_id": 79,
@@ -500,8 +459,7 @@
     "link": "https://www.citi.com/credit-cards/credit-card-details/citi.action?ID=citi-aadvantage-platinum-select-credit-card",
     "notes": null,
     "points_awarded": 30000,
-    "spend": 1000,
-    "status": "live"
+    "spend": 1000
   },
   {
     "card_id": 82,
@@ -512,8 +470,7 @@
     "link": "https://www.aa.com/i18n/AAdvantage/earnMiles/beyondTravel/creditDebit/citi-business.jsp",
     "notes": null,
     "points_awarded": 50000,
-    "spend": 3000,
-    "status": "live"
+    "spend": 3000
   },
   {
     "card_id": 84,
@@ -524,8 +481,7 @@
     "link": "https://www.aa.com/i18n/AAdvantage/earnMiles/beyondTravel/creditDebit/citi-executive.jsp",
     "notes": null,
     "points_awarded": 50000,
-    "spend": 5000,
-    "status": "live"
+    "spend": 5000
   },
   {
     "card_id": 86,
@@ -536,8 +492,7 @@
     "link": "https://www.citi.com/credit-cards/credit-card-details/citi.action?ID=citi-aadvantage-gold-credit-card",
     "notes": null,
     "points_awarded": 25000,
-    "spend": 750,
-    "status": "live"
+    "spend": 750
   },
   {
     "card_id": 88,
@@ -548,8 +503,7 @@
     "link": "https://www.citi.com/credit-cards/credit-card-details/citi.action?ID=citi-thankyou-premier-credit-card",
     "notes": null,
     "points_awarded": 40000,
-    "spend": 30000,
-    "status": "live"
+    "spend": 30000
   },
   {
     "card_id": 89,
@@ -560,8 +514,7 @@
     "link": "https://www.citi.com/credit-cards/credit-card-details/citi.action?ID=citi-prestige-card",
     "notes": null,
     "points_awarded": 50000,
-    "spend": 3000,
-    "status": "live"
+    "spend": 3000
   },
   {
     "card_id": 90,
@@ -572,8 +525,7 @@
     "link": "https://www.citi.com/credit-cards/credit-card-details/citi.action?ID=hilton-hhonors-visa-signature-card",
     "notes": null,
     "points_awarded": 75000,
-    "spend": 2000,
-    "status": "live"
+    "spend": 2000
   },
   {
     "card_id": 91,
@@ -584,8 +536,7 @@
     "link": "https://www.citi.com/credit-cards/credit-card-details/citi.action?ID=hilton-hhonors-reserve-card",
     "notes": "2 Free Weekend Nights",
     "points_awarded": 0,
-    "spend": 2500,
-    "status": "live"
+    "spend": 2500
   },
   {
     "card_id": 92,
@@ -596,8 +547,7 @@
     "link": "http://www.lifemilesvisa.com/credit/visaSignatureCard.do?lang=en",
     "notes": null,
     "points_awarded": 20000,
-    "spend": 0,
-    "status": "live"
+    "spend": 0
   },
   {
     "card_id": 93,
@@ -608,8 +558,7 @@
     "link": "http://www.clubcarlsonvisa.com/credit/visaPremierCard.do",
     "notes": null,
     "points_awarded": 85000,
-    "spend": 2500,
-    "status": "live"
+    "spend": 2500
   },
   {
     "card_id": 94,
@@ -620,8 +569,7 @@
     "link": "http://www.clubcarlsonvisa.com/credit/visaCard.do",
     "notes": null,
     "points_awarded": 30000,
-    "spend": 1000,
-    "status": "live"
+    "spend": 1000
   },
   {
     "card_id": 95,
@@ -632,8 +580,7 @@
     "link": "http://www.clubcarlsonvisa.com/credit/visaSignatureCard.do",
     "notes": null,
     "points_awarded": 60000,
-    "spend": 1500,
-    "status": "live"
+    "spend": 1500
   },
   {
     "card_id": 96,
@@ -644,8 +591,7 @@
     "link": "http://www.clubcarlsonvisa.com/credit/visaBusinessCard.do",
     "notes": null,
     "points_awarded": 85000,
-    "spend": 2500,
-    "status": "live"
+    "spend": 2500
   },
   {
     "card_id": 97,
@@ -656,8 +602,7 @@
     "link": "https://www.usbank.com/credit-cards/skypass-visa-signature-credit-card.html",
     "notes": null,
     "points_awarded": 15000,
-    "spend": 0,
-    "status": "live"
+    "spend": 0
   },
   {
     "card_id": 98,
@@ -668,8 +613,7 @@
     "link": "http://www.lanpassvisa.com/credit/visaSignatureCard.do?lang=en",
     "notes": null,
     "points_awarded": 20000,
-    "spend": 0,
-    "status": "live"
+    "spend": 0
   },
   {
     "card_id": 99,
@@ -680,8 +624,7 @@
     "link": "https://www.usbank.com/credit-cards/flexperks-travel.html",
     "notes": null,
     "points_awarded": 20000,
-    "spend": 3500,
-    "status": "live"
+    "spend": 3500
   },
   {
     "card_id": 100,
@@ -692,7 +635,6 @@
     "link": "https://www.usbank.com/credit-cards/flexperks-travel-rewards-american-express-card.html",
     "notes": null,
     "points_awarded": 20000,
-    "spend": 3500,
-    "status": "live"
+    "spend": 3500
   }
 ]
