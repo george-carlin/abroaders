@@ -241,5 +241,6 @@ ActiveRecord::Schema.define(version: 20160513155234) do
   add_foreign_key "offers", "cards", on_delete: :cascade
   add_foreign_key "people", "accounts", on_delete: :cascade
   add_foreign_key "readiness_statuses", "people", on_delete: :cascade
+  add_foreign_key "spending_infos", "people", on_delete: :cascade
   add_foreign_key "travel_plans", "accounts", on_delete: :cascade
 end
