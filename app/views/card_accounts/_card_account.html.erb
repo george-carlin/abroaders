@@ -30,6 +30,9 @@
     <% if card_account.recommended_at? %>
       <p><b>Recommended:</b> <%= card_account.recommended_at %></p>
     <% end %>
+    <% if card_account.applied_at? %>
+      <p><b>Applied:</b> <%= card_account.applied_at %></p>
+    <% end %>
     <% if card_account.opened_at? %>
       <p><b>Opened:</b> <%= card_account.opened_at %></p>
     <% end %>
