@@ -106,7 +106,6 @@ describe "as a user viewing my cards", :js do
         end
 
         context "when the card is no longer 'declinable'" do
-          before { pending }
           before { rec.denied! }
 
           # This could happen if e.g. they have the same window open in two

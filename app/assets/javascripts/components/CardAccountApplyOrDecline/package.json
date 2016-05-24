@@ -1,0 +1,6 @@
+{
+  "name": "CardAccountApplyOrDecline",
+  "version": "0.0.1",
+  "private": true,
+  "main": "./CardAccountApplyOrDecline.js.jsx"
+}

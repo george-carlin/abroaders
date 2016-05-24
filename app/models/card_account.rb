@@ -22,6 +22,12 @@ class CardAccount < ApplicationRecord
     applied:     9,
   }
 
+  def state
+    State.new(status, reconsidered)
+  end
+
+  # Validations
+
   enum source: {
     from_survey:    0,
     recommendation: 1,

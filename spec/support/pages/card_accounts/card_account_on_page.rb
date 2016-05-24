@@ -11,8 +11,8 @@ class CardAccountOnPage < ModelOnPage
   button :i_applied, "I applied"
   button :pending,   "I'm waiting to hear back"
 
-  field :approved_at,    Proc.new { "card_account_#{id}_approved_at" }
-  field :decline_reason, Proc.new { "card_account_#{id}_decline_reason" }
+  field :approved_at,    "card_account_approved_at"
+  field :decline_reason, "card_account_decline_reason"
 
   def decline_reason_wrapper
     find("#" << decline_reason).find(:xpath, '..')

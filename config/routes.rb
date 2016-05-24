@@ -74,19 +74,10 @@ Rails.application.routes.draw do
   # except his own, and from his perspective he doesn't have a "card account"
   # in the app, he just has a "card". So show the path 'cards' to the user even
   # though we're dealing with the CardAccount model, not the Card model.
-  resources :card_accounts, path: :cards do
-    member do
-      # TODO move these two to card_recommendations
-      post :open
-      post :deny
-    end
-  end
+  resources :card_accounts, path: :cards
 
-  resources :card_recommendations, path: :cards do
-    member do
-      get  :apply
-      post :decline
-    end
+  resources :card_recommendations do
+    member { get  :apply }
   end
 
   resources :travel_plans
