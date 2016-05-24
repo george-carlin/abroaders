@@ -1,0 +1,6 @@
+{
+  "name": "TextFieldTag",
+  "version": "0.0.1",
+  "private": true,
+  "main": "./TextFieldTag.js.jsx"
+}
