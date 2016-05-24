@@ -1,6 +1,4 @@
 class CardAccountsController < NonAdminController
-  # TODO is this being used?
-  helper CardAccountButtons
 
   before_action :redirect_if_not_onboarded_travel_plans!,
                                       only: [:survey, :save_survey]
