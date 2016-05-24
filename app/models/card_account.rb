@@ -73,22 +73,16 @@ class CardAccount < ApplicationRecord
     )
   end
 
+
+  # returns true iff the card can be applied for
   def applyable?
-    status == "recommended"
+    recommendation? && (recommended? || clicked?)
   end
 
-  def declinable?
-    status == "recommended"
-  end
-
-  def deniable?
-    status == "recommended"
-  end
-
-  def openable?
-    status == "recommended"
-  end
-  alias_method :acceptable?, :openable?
+  alias_method :declinable?, :applyable?
+  alias_method :openable?, :applyable?
+  alias_method :deniable?, :applyable?
+  alias_method :pendingable?, :applyable?
 
   private
 

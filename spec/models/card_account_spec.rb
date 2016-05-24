@@ -27,57 +27,64 @@ describe CardAccount do
     end
   end
 
-  describe "#openable?" do
-    it "is true iff the card card_account is not opened but can be" do
-      card_account.status = :recommended
-      expect(card_account.openable?).to be_truthy
-      %i[declined denied open closed].each do |status|
-        card_account.status = status
-        expect(card_account.openable?).to be_falsey
-      end
+  shared_examples "applyable?" do
+    subject { card_account.send(method) }
+
+    context "when card is from survey" do
+      before { card_account.source = :from_survey }
+      it { is_expected.to be false }
     end
 
-    it "is aliased as 'acceptable?'" do
-      card_account.status = :recommended
-      expect(card_account.acceptable?).to be_truthy
-      %i[declined denied open closed].each do |status|
-        card_account.status = status
-        expect(card_account.acceptable?).to be_falsey
+    context "when card is a recommendation" do
+      before { card_account.source = :recommendation }
+
+      context "and status is 'recommended' or 'clicked'" do
+        it "returns true" do
+          card_account.status = "recommended"
+          expect(card_account.send(method)).to be true
+          card_account.status = "clicked"
+          expect(card_account.send(method)).to be true
+        end
+      end
+
+      context "and status is not 'recommended' or 'clicked'" do
+        it "returns false" do
+          (CardAccount.statuses.keys - %w[recommended clicked]).each do |status|
+            card_account.status = status
+            expect(card_account.send(method)).to be false
+          end
+        end
       end
     end
   end
 
   describe "#applyable?" do
-    it "is true if the person can apply for the card" do
-      card_account.status = :recommended
-      expect(card_account.applyable?).to be_truthy
-      %i[declined denied open closed].each do |status|
-        card_account.status = status
-        expect(card_account.applyable?).to be_falsey
-      end
-    end
+    let(:method) { :applyable? }
+    include_examples "applyable?"
   end
 
+  # For the time being, 'declinable?', 'openable?' and 'denyable?' are all
+  # functionally equivalent to 'applyable?'. This will change when we add the
+  # 'call the bank' mechanism
+
   describe "#declinable?" do
-    it "is true if the person can decline to apply for the card" do
-      card_account.status = :recommended
-      expect(card_account.declinable?).to be_truthy
-      %i[declined denied open closed].each do |status|
-        card_account.status = status
-        expect(card_account.declinable?).to be_falsey
-      end
-    end
+    let(:method) { :declinable? }
+    include_examples "applyable?"
+  end
+
+  describe "#openable?" do
+    let(:method) { :openable? }
+    include_examples "applyable?"
   end
 
   describe "#deniable?" do
-    it "is true iff the card account is not denied but can be" do
-      card_account.status = :recommended
-      expect(card_account.deniable?).to be_truthy
-      %i[declined denied open closed].each do |status|
-        card_account.status = status
-        expect(card_account.deniable?).to be_falsey
-      end
-    end
+    let(:method) { :deniable? }
+    include_examples "applyable?"
+  end
+
+  describe "#pendingable?" do
+    let(:method) { :pendingable? }
+    include_examples "applyable?"
   end
 
   specify "card_id must match offer.card_id" do
