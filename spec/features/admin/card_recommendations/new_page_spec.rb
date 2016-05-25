@@ -501,8 +501,8 @@ describe "admin section" do
               expect(rec.recommended_at).to eq Date.today
             end
 
-            it "'s source is 'recommendation'" do
-              expect(rec.source).to eq "recommendation"
+            it "is a recommendation" do
+              expect(rec.recommendation?).to be true
             end
           end
         end # clicking 'Confirm'

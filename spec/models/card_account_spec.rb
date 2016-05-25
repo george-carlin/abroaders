@@ -10,6 +10,24 @@ describe CardAccount do
 
   before { card_account.offer = offer }
 
+  describe "#from_survey?" do
+    it "is true iff recommended_at is nil" do
+      card_account.recommended_at = nil
+      expect(card_account.from_survey?).to be true
+      card_account.recommended_at = Time.now
+      expect(card_account.from_survey?).to be false
+    end
+  end
+
+  describe "#recommendation?" do
+    it "is true iff recommended_at is not nil" do
+      card_account.recommended_at = nil
+      expect(card_account.recommendation?).to be false
+      card_account.recommended_at = Time.now
+      expect(card_account.recommendation?).to be true
+    end
+  end
+
   describe "#decline_with_reason!" do
     let(:message) { "Blah blah blah" }
     before { card_account.decline_with_reason!(message) }
@@ -31,12 +49,12 @@ describe CardAccount do
     subject { card_account.send(method) }
 
     context "when card is from survey" do
-      before { card_account.source = :from_survey }
+      before { card_account.recommended_at = nil }
       it { is_expected.to be false }
     end
 
     context "when card is a recommendation" do
-      before { card_account.source = :recommendation }
+      before { card_account.recommended_at = Time.now }
 
       context "and status is 'recommended' or 'clicked'" do
         it "returns true" do
@@ -121,4 +139,24 @@ describe CardAccount do
     end
   end
 
+  # Source
+
+  describe "scopes" do
+    before do
+      @ca_0 = create(:survey_card_account)
+      @ca_1 = create(:card_recommendation)
+    end
+
+    describe ".from_survey" do
+      it "returns accounts where recommended_at is nil" do
+        expect(described_class.from_survey).to eq [@ca_0]
+      end
+    end
+
+    describe ".recommendations" do
+      it "returns accounts where recommended_at is not nil" do
+        expect(described_class.recommendations).to eq [@ca_1]
+      end
+    end
+  end
 end

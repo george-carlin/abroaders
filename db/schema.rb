@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160520162056) do
+ActiveRecord::Schema.define(version: 20160525112709) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -79,10 +79,9 @@ ActiveRecord::Schema.define(version: 20160520162056) do
     t.string   "decline_reason"
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
-    t.integer  "source",                         null: false
     t.date     "clicked_at"
     t.date     "declined_at"
-    t.index ["source"], name: "index_card_accounts_on_source", using: :btree
+    t.index ["recommended_at"], name: "index_card_accounts_on_recommended_at", using: :btree
   end
 
   create_table "cards", force: :cascade do |t|

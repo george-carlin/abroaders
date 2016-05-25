@@ -84,10 +84,10 @@ describe Person do
       end.to change{person.card_accounts.count}.by(1)
       rec = person.card_accounts.last
       expect(rec).to be_recommended
-      expect(rec.source).to eq "recommendation"
       expect(rec.card).to eq card
       expect(rec.offer).to eq offer
       expect(rec.recommended_at).to eq Date.today
+      expect(rec.recommendation?).to be true
 
       expect(person.card_recommendations).to include rec
     end

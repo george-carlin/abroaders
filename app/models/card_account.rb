@@ -26,15 +26,12 @@ class CardAccount < ApplicationRecord
     State.new(status, reconsidered)
   end
 
-  # Validations
+  def from_survey?
+    recommended_at.nil?
+  end
 
-  enum source: {
-    from_survey:    0,
-    recommendation: 1,
-  }
-
-  class << self
-    alias_method :recommendations, :recommendation
+  def recommendation?
+    !from_survey?
   end
 
   # Validations
@@ -89,6 +86,11 @@ class CardAccount < ApplicationRecord
   alias_method :openable?, :applyable?
   alias_method :deniable?, :applyable?
   alias_method :pendingable?, :applyable?
+
+  # Scopes
+
+  scope :from_survey,     -> { where(recommended_at: nil) }
+  scope :recommendations, -> { where.not(recommended_at: nil) }
 
   private
 

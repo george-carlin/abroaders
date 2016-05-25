@@ -3,7 +3,6 @@ FactoryGirl.define do
     person
     status :unknown
     card
-    source :from_survey
 
     trait :open do
       status :open
@@ -22,7 +21,6 @@ FactoryGirl.define do
 
     trait :survey do
       open
-      source :from_survey
     end
 
     trait :recommendation do
@@ -30,7 +28,6 @@ FactoryGirl.define do
       recommended_at { Time.now }
       card nil
       offer
-      source :recommendation
     end
 
     trait :declined do
