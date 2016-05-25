@@ -4,7 +4,6 @@ class CardAccount::UpdateStateForm < ApplicationForm
   attribute :account,        CardAccount
   attribute :decline_reason, String
   attribute :status,         String
-  attribute :reconsidered,   Boolean, default: false
 
   attribute :applied_at,  Date
   attribute :declined_at, Date
@@ -24,7 +23,6 @@ class CardAccount::UpdateStateForm < ApplicationForm
   end
 
   def persist!
-    account.reconsidered   = reconsidered
     account.status         = status
     # Make sure we don't nullify any existing values:
     account.applied_at     = applied_at     if applied_at.present?
@@ -38,7 +36,7 @@ class CardAccount::UpdateStateForm < ApplicationForm
   private
 
   def status_can_be_reached
-    if !account.state.reachable?(CardAccount::State.new(status, reconsidered))
+    if !account.state.reachable?(CardAccount::State.new(status, false))
       errors.add(:state, "can not be reached from the current state")
     end
   end

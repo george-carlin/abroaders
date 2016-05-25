@@ -33,7 +33,7 @@ describe CardAccount do
     before { card_account.decline_with_reason!(message) }
 
     it "sets the card account's status to 'declined'" do
-      expect(card_account).to be_declined
+      expect(card_account.status).to eq "declined"
     end
 
     it "sets 'declined_at' to today" do

@@ -5,10 +5,6 @@
   window.React     = require("react");
   window.ReactDOM  = require("react-dom");
 
-  window.CardAccountStatuses = [
-    <%= CardAccount.statuses.keys.map { |s| "'#{s}'" }.join(",") %>
-  ]
-
   // We don't need to require *every* React component in this file, just the
   // ones that are required at the 'top level' by react_ujs
   w.CardAccountApplyOrDecline  = require("./CardAccountApplyOrDecline");

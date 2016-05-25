@@ -36,7 +36,7 @@ class CardRecommendationsController < CardAccountsController
 
   def update_params
     result = params.require(:card_account).permit(
-      :status, :decline_reason, :reconsidered
+      :status, :decline_reason
     )
     case result[:status]
     when "declined"
