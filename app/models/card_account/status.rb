@@ -35,9 +35,23 @@ class CardAccount::Status
     end
   end
 
+  def show_survey?
+    case name
+    when "recommended"
+      true
+    when "applied"
+      true
+    when "denied"
+      !(nudged_at.present? || redenied_at.present?) # TODO also disallow reconsideration after 30
+    else
+      false
+    end
+  end
+
   private
 
   def timestamps_make_sense
+    # TODO this should be validated on CardAccount save
     if recommended_at.nil?
       %i[declined_at applied_at denied_at nudged_at called_at redenied_at].each do |timestamp|
         errors.add(timestamp, :present) if attributes[timestamp].present?

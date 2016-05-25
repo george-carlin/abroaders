@@ -1,13 +1,14 @@
 class CardRecommendationsController < CardAccountsController
 
   def update
-    @account = CardAccount::UpdateStateForm.new(account: load_card_account)
+    @account = CardAccount::ApplicationSurvey.new(account: load_card_account)
+    action = params[:card_account][:action]
     if @account.update(update_params)
-      flash[:success] = t("card_accounts.flash.updated_status_to.#{@account.status}")
-      redirect_to card_accounts_path
+      flash[:success] = t("card_accounts.flash.successful.#{action}")
     else
-      redirect_to card_accounts_path
+      flash[:error] = t("card_accounts.index.couldnt_update")
     end
+    redirect_to card_accounts_path
   end
 
   def apply
@@ -29,7 +30,7 @@ class CardRecommendationsController < CardAccountsController
     # Make sure this is the right type of card account:
     if @account.declinable?
       @account.update_attributes!(decline_params)
-      flash[:success] = t("card_accounts.flash.updated_status_to.#{@account.status}")
+      flash[:success] = t("card_accounts.flash.successful.decline")
     else
       flash[:info] = t("card_accounts.index.couldnt_decline")
     end
@@ -47,14 +48,6 @@ class CardRecommendationsController < CardAccountsController
   end
 
   def update_params
-    result = params.require(:card_account).permit(
-      :status, :decline_reason
-    )
-    case result[:status]
-    when "declined"
-      result[:declined_at] = Date.today
-    end
-    result
+    params.require(:card_account).permit(:action, :opened_at)
   end
-
 end

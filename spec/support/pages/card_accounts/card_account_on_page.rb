@@ -11,7 +11,7 @@ class CardAccountOnPage < ModelOnPage
   button :i_applied, "I applied"
   button :pending,   "I'm waiting to hear back"
 
-  field :approved_at,    "card_account_approved_at"
+  field :approved_at,    "card_account_opened_at"
   field :decline_reason, "card_account_decline_reason"
 
   def decline_reason_wrapper

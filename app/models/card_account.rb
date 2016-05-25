@@ -1,7 +1,7 @@
 class CardAccount < ApplicationRecord
 
   def status
-    Status.new(attributes.slice(*Status::TIMESTAMPS)).name
+    status_model.name
   end
 
   def from_survey?
@@ -12,8 +12,10 @@ class CardAccount < ApplicationRecord
     !from_survey?
   end
 
-  def declined?
-    status == "declined"
+  %w[recommended declined denied open closed].each do |status|
+    define_method "#{status}?" do
+      status == status
+    end
   end
 
   # Validations
@@ -63,6 +65,10 @@ class CardAccount < ApplicationRecord
   alias_method :deniable?, :applyable?
   alias_method :pendingable?, :applyable?
 
+  def show_survey?
+    status_model.show_survey?
+  end
+
   # Scopes
 
   scope :from_survey,     -> { where(recommended_at: nil) }
@@ -82,4 +88,7 @@ class CardAccount < ApplicationRecord
     end
   end
 
+  def status_model
+    Status.new(attributes.slice(*Status::TIMESTAMPS))
+  end
 end

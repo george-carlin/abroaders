@@ -37,7 +37,6 @@ describe "as a user viewing my cards", :js do
     end
 
     it "has a button to ask whether I applied", :frontend do
-      pending
       expect(rec_on_page).to have_i_applied_btn
     end
 
@@ -132,7 +131,6 @@ describe "as a user viewing my cards", :js do
     end # clicking 'decline'
 
     describe "clicking the 'I Applied' button" do
-      before { pending }
       before { rec_on_page.click_i_applied_btn }
 
       shared_examples "asks to confirm" do
@@ -181,10 +179,13 @@ describe "as a user viewing my cards", :js do
         shared_examples "unapplyable" do
           context "when the account is no longer 'applyable'" do
             # This could happen if e.g. they've made changes in another tab
-            let(:before_click_confirm_btn) { rec.closed! }
+            let(:before_click_confirm_btn) do
+              rec.update_attributes!(declined_at: Date.today, decline_reason: "x")
+              raise if rec.openable? # sanity check
+            end
 
             it "doesn't update anything", :backend do
-              expect(rec).to be_closed
+              expect(rec).to be_declined
               expect(rec.opened_at).to be_nil
               expect(rec.applied_at).to be_nil
             end
@@ -264,10 +265,13 @@ describe "as a user viewing my cards", :js do
 
           context "when the account is no longer 'deniable'" do
             # This could happen if e.g. they've made changes in another tab
-            let(:before_click_confirm_btn) { rec.closed! }
+            let(:before_click_confirm_btn) do
+              rec.update_attributes!(declined_at: Date.today, decline_reason: "x")
+              raise if rec.deniable? # sanity check
+            end
 
             it "doesn't update anything", :backend do
-              expect(rec).to be_closed
+              expect(rec).to be_declined
               expect(rec.applied_at).to be_nil
               expect(rec.denied_at).to be_nil
             end
@@ -284,14 +288,17 @@ describe "as a user viewing my cards", :js do
           before { click_confirm_btn }
 
           it "marks the card as pending", :backend do
-            expect(rec.status).to eq "pending"
+            expect(rec.status).to eq "applied"
           end
 
           include_examples "applied today"
 
           context "when the account is no longer 'pendingable'" do
             # This could happen if e.g. they've made changes in another tab
-            let(:before_click_confirm_btn) { rec.closed! }
+            let(:before_click_confirm_btn) do
+              rec.update_attributes!(declined_at: Date.today, decline_reason: "x")
+              raise if rec.pendingable? # sanity check
+            end
 
             it "doesn't update anything", :backend do
               expect(rec).to be_closed
