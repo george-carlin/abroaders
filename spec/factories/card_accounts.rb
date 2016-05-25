@@ -1,17 +1,14 @@
 FactoryGirl.define do
   factory :card_account do
     person
-    status :unknown
     card
 
     trait :open do
-      status :open
       opened_at { 2.years.ago }
     end
 
     trait :closed do
       open
-      status :closed
       closed_at { 1.year.ago }
     end
 
@@ -24,7 +21,6 @@ FactoryGirl.define do
     end
 
     trait :recommendation do
-      status :recommended
       recommended_at { Time.now }
       card nil
       offer
@@ -32,7 +28,6 @@ FactoryGirl.define do
 
     trait :declined do
       recommendation
-      status :declined
       applied_at { Time.now }
       decline_reason "You suck!"
     end
