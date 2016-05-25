@@ -1,5 +1,4 @@
 class CardAccount::UpdateStateForm < ApplicationForm
-  include CardAccount::StatusReaders
   include Virtus.model
 
   attribute :account,        CardAccount

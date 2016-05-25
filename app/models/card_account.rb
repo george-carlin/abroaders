@@ -1,29 +1,7 @@
 class CardAccount < ApplicationRecord
 
-  # Attributes
-
-  # 'declined' means the user would not, or could not, apply for the card
-  #            which we recommended to them.
-  # 'denied' means that the user applied for the card, but the application
-  #          was denied by the bank.
-  #
-  # Note that the numeric keys of the statuses don't necessarily match
-  # the order in which a card account flows through the statuses, because
-  # some statuses were added later in the app's development than others.
-  enum status: {
-    unknown:     0,
-    recommended: 1,
-    declined:    2,
-    clicked:     3,
-    pending:     7,
-    denied:      4,
-    open:        5,
-    closed:      6,
-    applied:     9,
-  }
-
-  def state
-    State.new(status, reconsidered)
+  def status
+    Status.new(attributes.slice(*Status::TIMESTAMPS)).name
   end
 
   def from_survey?
@@ -37,7 +15,6 @@ class CardAccount < ApplicationRecord
   # Validations
 
   validates :person, presence: true
-  validates :status, presence: true
 
   validate :card_matches_offer_card
 
