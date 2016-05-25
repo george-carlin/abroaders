@@ -27,13 +27,6 @@ class Person < ApplicationRecord
     )
   end
 
-  def recommend_offer!(offer)
-    card_recommendations.recommended.create!(
-      offer:          offer,
-      recommended_at: Time.now,
-    )
-  end
-
   # Validations
 
   NAME_MAX_LENGTH  = 50

@@ -275,10 +275,10 @@ describe "admin section" do
             @new_rec      = \
               create(:card_recommendation, recommended_at: jan, person: person)
             @clicked_rec  = \
-              create(:clicked_card_recommendation, recommended_at: mar, clicked_at: oct, person: person)
+              create(:card_recommendation, recommended_at: mar, clicked_at: oct, person: person)
             @declined_rec = \
-              create(:declined_card_recommendation, recommended_at: oct,
-                     applied_at: dec, person: person, decline_reason: "because")
+              create(:card_recommendation, recommended_at: oct,
+                     declined_at: dec, person: person, decline_reason: "because")
           end
 
           it "lists them" do
@@ -315,7 +315,7 @@ describe "admin section" do
             within "##{dom_id(@declined_rec)}" do
               is_expected.to have_selector ".card_account_recommended_at", text: "10/01/15"
               is_expected.to have_selector ".card_account_clicked_at",     text: "-"
-              is_expected.to have_selector ".card_account_applied_at",     text: "12/01/15"
+              is_expected.to have_selector ".card_account_declined_at",    text: "12/01/15"
             end
           end
 
@@ -483,13 +483,13 @@ describe "admin section" do
           end
 
           it "recommends that card to the person" do
-            expect{confirm}.to change{CardAccount.recommended.count}.by(1)
+            expect{confirm}.to change{CardAccount.recommendations.count}.by(1)
           end
 
           describe "the new recommendation" do
             before { confirm }
 
-            let(:rec) { CardAccount.recommended.last }
+            let(:rec) { CardAccount.recommendations.last }
 
             it "has the correct offer, card, and person" do
               expect(rec.card).to eq offer.card
@@ -497,7 +497,7 @@ describe "admin section" do
               expect(rec.person).to eq @person
             end
 
-            it "has 'recommended at' set to the current time" do
+            it "has 'recommended at' set to the current date" do
               expect(rec.recommended_at).to eq Date.today
             end
 

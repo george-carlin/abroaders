@@ -12,9 +12,15 @@ class CardAccount < ApplicationRecord
     !from_survey?
   end
 
+  def declined?
+    status == "declined"
+  end
+
   # Validations
 
   validates :person, presence: true
+
+  validates :decline_reason, presence: true, if: "declined_at.present?"
 
   validate :card_matches_offer_card
 
@@ -47,16 +53,9 @@ class CardAccount < ApplicationRecord
 
   before_validation :set_card_to_offer_card
 
-  def decline_with_reason!(reason)
-    update_attributes!(
-      declined_at: Time.now, status: :declined, decline_reason: reason
-    )
-  end
-
-
   # returns true iff the card can be applied for
   def applyable?
-    recommendation? && (recommended? || clicked?)
+    recommendation? && status == "recommended"
   end
 
   alias_method :declinable?, :applyable?

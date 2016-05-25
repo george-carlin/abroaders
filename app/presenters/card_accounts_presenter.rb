@@ -20,12 +20,12 @@ class CardAccountsPresenter < ApplicationPresenter
   end
 
   def recommendations
-    # excluding declined accounts is a temp solution until we decide how we're
-    # going to display declined cards. the 'recommendations' scope should
-    # probably be replaced with something more specific:
     card_accounts.recommendations.
       includes(offer: { card: :currency }).
-      where.not(status: "declined")
+      # excluding declined accounts is a temp solution until we decide how we're
+      # going to display declined cards. the 'recommendations' scope should
+      # probably be replaced with something more specific:
+      where(declined_at: nil)
   end
 
   def no_card_accounts_from_survey

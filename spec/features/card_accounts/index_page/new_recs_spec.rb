@@ -12,7 +12,6 @@ describe "as a user viewing my cards", :js do
   let!(:rec) do
     create(
       :card_recommendation,
-      status: "recommended",
       person: me,
       recommended_at: recommended_at,
     )
@@ -91,7 +90,7 @@ describe "as a user viewing my cards", :js do
 
         it "updates the card account's status to 'declined'", :backend do
           click_confirm_btn
-          expect(rec).to be_declined
+          expect(rec.status).to eq "declined"
         end
 
         it "sets the 'declined at' timestamp to the current time", :backend do
@@ -106,7 +105,10 @@ describe "as a user viewing my cards", :js do
         end
 
         context "when the card is no longer 'declinable'" do
-          before { rec.denied! }
+          before do
+            rec.update_attributes!(applied_at: Date.today)
+            raise if rec.declinable? # sanity check
+          end
 
           # This could happen if e.g. they have the same window open in two
           # tabs, and decline the card in one tab before clicking 'decline'

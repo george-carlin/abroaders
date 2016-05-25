@@ -7,8 +7,8 @@ const TextFieldTag        = require("../TextFieldTag");
 
 const CardAccountApplyOrDecline = React.createClass({
   propTypes: {
-    applyPath:  React.PropTypes.string.isRequired,
-    updatePath: React.PropTypes.string.isRequired,
+    applyPath:   React.PropTypes.string.isRequired,
+    declinePath: React.PropTypes.string.isRequired,
   },
 
 
@@ -52,9 +52,7 @@ const CardAccountApplyOrDecline = React.createClass({
 
     if (this.state.isDeclining) {
       actions = (
-        <Form action={this.props.updatePath} method="patch">
-          <input type="hidden" name="card_account[status]" value="declined"/>
-
+        <Form action={this.props.declinePath} method="patch">
           {/* wrapper which will have field_with_errors class added */}
           <div className={declineReasonWrapperClass}>
             <TextFieldTag

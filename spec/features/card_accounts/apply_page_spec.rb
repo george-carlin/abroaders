@@ -15,7 +15,7 @@ describe "card recommendation apply page" do
   it "redirects to the bank's page after a delay"
 
   context "when the recommendation has not been clicked before" do
-    before { raise unless rec.recommended? && rec.clicked_at.nil?  } # sanity checks
+    before { raise unless rec.status == "recommended" && rec.clicked_at.nil?  } # sanity checks
 
     it "saves the 'clicked at' timestamp" do
       visit_path

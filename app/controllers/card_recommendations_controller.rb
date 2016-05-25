@@ -6,7 +6,6 @@ class CardRecommendationsController < CardAccountsController
       flash[:success] = t("card_accounts.flash.updated_status_to.#{@account.status}")
       redirect_to card_accounts_path
     else
-      flash[:info] = t("card_accounts.index.couldnt_decline")
       redirect_to card_accounts_path
     end
   end
@@ -24,14 +23,27 @@ class CardRecommendationsController < CardAccountsController
     @card = @account.card
   end
 
+  def decline
+    @account = load_card_account
+
+    # Make sure this is the right type of card account:
+    if @account.declinable?
+      @account.update_attributes!(decline_params)
+      flash[:success] = t("card_accounts.flash.updated_status_to.#{@account.status}")
+    else
+      flash[:info] = t("card_accounts.index.couldnt_decline")
+    end
+    redirect_to card_accounts_path
+  end
+
   private
 
   def load_card_account
     current_account.card_accounts.find(params[:id])
   end
 
-  def decline_reason
-    params[:card_account][:decline_reason]
+  def decline_params
+    params.require(:card_account).permit(:decline_reason).merge(declined_at: Time.now)
   end
 
   def update_params

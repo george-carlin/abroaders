@@ -77,7 +77,10 @@ Rails.application.routes.draw do
   resources :card_accounts, path: :cards
 
   resources :card_recommendations do
-    member { get  :apply }
+    member do
+      get   :apply
+      patch :decline
+    end
   end
 
   resources :travel_plans

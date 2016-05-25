@@ -28,23 +28,6 @@ describe CardAccount do
     end
   end
 
-  describe "#decline_with_reason!" do
-    let(:message) { "Blah blah blah" }
-    before { card_account.decline_with_reason!(message) }
-
-    it "sets the card account's status to 'declined'" do
-      expect(card_account.status).to eq "declined"
-    end
-
-    it "sets 'declined_at' to today" do
-      expect(card_account.declined_at).to eq Date.today
-    end
-
-    it "saves the decline reason" do
-      expect(card_account.decline_reason).to eq message
-    end
-  end
-
   shared_examples "applyable?" do
     subject { card_account.send(method) }
 
@@ -56,21 +39,18 @@ describe CardAccount do
     context "when card is a recommendation" do
       before { card_account.recommended_at = Time.now }
 
-      context "and status is 'recommended' or 'clicked'" do
+      context "and status is 'recommended'" do
         it "returns true" do
-          card_account.status = "recommended"
-          expect(card_account.send(method)).to be true
-          card_account.status = "clicked"
+          raise unless card_account.status == "recommended" # sanity check
           expect(card_account.send(method)).to be true
         end
       end
 
-      context "and status is not 'recommended' or 'clicked'" do
+      context "and status is not 'recommended' or" do
         it "returns false" do
-          (CardAccount.statuses.keys - %w[recommended clicked]).each do |status|
-            card_account.status = status
-            expect(card_account.send(method)).to be false
-          end
+          card_account.applied_at = Time.now
+          raise if card_account.status == "recommended" # sanity check
+          expect(card_account.send(method)).to be false
         end
       end
     end
