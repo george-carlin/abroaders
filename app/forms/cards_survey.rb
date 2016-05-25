@@ -50,9 +50,6 @@ class CardsSurvey < ApplicationForm
           closed_at_y = card_account["closed_at_(1i)"]
           closed_at_m = card_account["closed_at_(2i)"]
           attributes["closed_at"] = "#{closed_at_y}-#{closed_at_m}-01"
-          attributes["status"] = "closed"
-        else
-          attributes["status"] = "open"
         end
 
         @person.card_accounts.from_survey.create!(attributes)

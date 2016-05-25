@@ -307,15 +307,24 @@ describe "card accounts survey", :onboarding do
         end
 
         specify "have the given opened and closed dates" do
-          open_acc_0 = new_accounts.open.find_by(card_id: open_cards[0])
-          open_acc_1 = new_accounts.open.find_by(card_id: open_cards[1])
-          closed_acc = new_accounts.closed.find_by(card_id: closed_card)
+          open_acc_0 = new_accounts.find_by(card_id: open_cards[0])
+          open_acc_1 = new_accounts.find_by(card_id: open_cards[1])
+          closed_acc = new_accounts.find_by(card_id: closed_card)
           expect(open_acc_0.opened_at.strftime("%F")).to eq "#{this_year}-01-01"
           expect(open_acc_0.closed_at).to be_nil
           expect(open_acc_1.opened_at.strftime("%F")).to eq "#{last_year}-03-01"
           expect(open_acc_1.closed_at).to be_nil
           expect(closed_acc.opened_at.strftime("%F")).to eq "#{ten_years_ago}-11-01"
           expect(closed_acc.closed_at.strftime("%F")).to eq "#{last_year}-04-01"
+        end
+
+        specify "have the right statuses" do
+          open_acc_0 = new_accounts.find_by(card_id: open_cards[0])
+          open_acc_1 = new_accounts.find_by(card_id: open_cards[1])
+          closed_acc = new_accounts.find_by(card_id: closed_card)
+          expect(open_acc_0.status).to eq "open"
+          expect(open_acc_1.status).to eq "open"
+          expect(closed_acc.status).to eq "closed"
         end
 
         specify "have 'from survey' as their source" do
