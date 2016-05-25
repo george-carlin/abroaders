@@ -27,6 +27,14 @@ class CardAccount::ApplicationSurvey < ApplicationForm
       account.denied_at  = Time.now
     when "apply"
       account.applied_at = Time.now
+    when "open_after_call"
+      account.called_at = Time.now
+      account.opened_at = Time.now
+    when "redeny"
+      account.called_at = Time.now
+      account.redenied_at = Time.now
+    when "call"
+      account.called_at = Time.now
     else
       raise "unrecognized action '#{action}'"
     end

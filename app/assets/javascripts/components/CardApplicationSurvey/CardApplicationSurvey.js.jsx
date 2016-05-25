@@ -1,9 +1,9 @@
 const React = require("react");
 
 const CardAccountAppliedActions = require("../CardAccountAppliedActions");
+const CardAccountDeniedActions  = require("../CardAccountDeniedActions");
 
 const CardApplicationSurvey = React.createClass({
-
 
   propTypes: {
     cardAccount: React.PropTypes.object.isRequired,
@@ -11,9 +11,17 @@ const CardApplicationSurvey = React.createClass({
   },
 
   render() {
-    var actions;
+    var   actions;
+    const cardAccount = this.props.cardAccount;
 
-    if (this.props.cardAccount.appliedAt) {
+    if (cardAccount.applied_at) {
+      if (cardAccount.denied_at) {
+        actions = (
+          <CardAccountDeniedActions
+            updatePath={this.props.updatePath}
+          />
+        )
+      }
     } else { // appliedAt not present
       actions = (
         <CardAccountAppliedActions 
