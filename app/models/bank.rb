@@ -5,8 +5,10 @@
 # an ActiveRecord model as far as Card is concerned (so we can get methods like
 # Card#bank, Bank.find(id).cards, etc)
 class Bank
+  include Virtus.model
 
-  attr_reader :id, :name
+  attribute :id,   Fixnum
+  attribute :name, String
 
   # Note that only odd numbers are used for card IDs. This is because each card
   # has a deterministically-generated unique identifier which starts with a
@@ -30,12 +32,12 @@ class Bank
     23 => "Wells Fargo",
   }
 
-  class << self
-    alias_method :find, :new
+  def self.find(id)
+    new(id: id)
   end
 
   def self.all
-    TABLE.map { |id, _| new(id) }
+    TABLE.map { |id, _| find(id) }
   end
 
   def self.first
@@ -74,11 +76,11 @@ class Bank
     end
   end
 
-  def initialize(id)
-    unless @name = TABLE[id.to_i]
+  def initialize(attrs={})
+    super
+    unless @name = TABLE[id]
       raise ActiveRecord::RecordNotFound, "Couldn't find #{self.class} with 'id'=#{id}"
     end
-    @id = id.to_i
   end
 
   def cards
@@ -93,13 +95,10 @@ class Bank
     id <=> other_bank.id
   end
 
-  # Hash equality. This lets us do things like Card.all.group_by(&:bank)
-  # hash must return a fixnum that is always the same for identical Banks:
-  def hash
-    Digest::MD5.new.hexdigest("#{id}#{name}")[0..15].to_i(16)
-  end
-  def eql?(other_bank)
-    self == other_bank && hash == other_bank.hash
+  def attributes
+    # Virtus's 'attributes' method returns a hash with symbol keys, but
+    # ActiveRecord::Base#attributes uses string keys. Keep things consistent:
+    super.stringify_keys
   end
 
   def to_param

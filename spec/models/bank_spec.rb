@@ -8,6 +8,23 @@ describe Bank do
     expect(result.id).to eq 1
   end
 
+  example ".find_by" do
+    bank = Bank.find_by(name: "Chase")
+    expect(bank.name).to eq "Chase"
+    expect(bank.id).to eq 1
+  end
+
+  example ".all" do
+    banks = Bank.all
+    names = [
+      "Chase", "Citibank", "Barclays", "American Express", "Capital One",
+      "Bank of America", "US Bank", "Discover", "Diners Club", "SunTrust",
+      "TD Bank", "Wells Fargo",
+    ]
+    expect(banks.length).to eq names.length
+    expect(banks.map(&:name)).to match_array(names)
+  end
+
   example "#name" do
     bank = Bank.find(1)
     expect(bank.name).to eq "Chase"
@@ -38,6 +55,11 @@ describe Bank do
     b2 = Bank.find(3)
     expect(b0 == b1).to be true
     expect(b0 == b2).to be false
+  end
+
+  example "#attributes" do
+    bank = Bank.find(1)
+    expect(bank.attributes).to eq({ "id" => 1, "name" => "Chase" })
   end
 
 end

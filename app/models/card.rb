@@ -53,7 +53,7 @@ class Card < ApplicationRecord
     end
 
     def bank
-      @bank ||= Bank.new(bank_id)
+      @bank ||= Bank.find(bank_id)
     end
 
     def bank=(new_bank)
