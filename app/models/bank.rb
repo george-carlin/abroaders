@@ -34,7 +34,7 @@ class Bank
 
   def self.find(id)
     unless row = TABLE[id.to_i]
-      raise ActiveRecord::RecordNotFound, "Couldn't find #{self.class} with 'id'=#{id}"
+      raise ActiveRecord::RecordNotFound, "Couldn't find #{self} with 'id'=#{id}"
     end
     new(id: id, name: row)
   end
@@ -75,7 +75,7 @@ class Bank
     if id = TABLE.key(query[:name])
       find(id)
     else
-      raise ActiveRecord::RecordNotFound, "Couldn't find #{self.class} with 'name'=#{query[:name]}"
+      raise ActiveRecord::RecordNotFound, "Couldn't find #{self} with 'name'=#{query[:name]}"
     end
   end
 
