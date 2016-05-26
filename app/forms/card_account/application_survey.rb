@@ -29,6 +29,8 @@ class CardAccount::ApplicationSurvey < ApplicationForm
       # Don't update applied_at if it's already present: they may have
       # previously applied, and are only now hearing back from the bank:
       account.applied_at ||= Time.now
+    when "deny_after_nudge"
+      account.denied_at = Time.now
     when "open"
       if opened_at.present?
         account.opened_at = opened_at
@@ -38,6 +40,8 @@ class CardAccount::ApplicationSurvey < ApplicationForm
       # Don't update applied_at if it's already present: they may have
       # previously applied, and are only now hearing back from the bank:
       account.applied_at ||= account.opened_at
+    when "open_after_nudge"
+      account.opened_at = Time.now
     when "nudge"
       account.nudged_at = Time.now
     when "nudge_and_open"
@@ -74,6 +78,8 @@ class CardAccount::ApplicationSurvey < ApplicationForm
       # Don't update applied_at if it's already present: they may have
       # previously applied, and are only now hearing back from the bank:
       status.applied_at ||= Time.now
+    when "deny_after_nudge"
+      status.denied_at = Time.now
     when "open"
       if opened_at.present?
         status.opened_at = opened_at
@@ -83,6 +89,8 @@ class CardAccount::ApplicationSurvey < ApplicationForm
       # Don't update applied_at if it's already present: they may have
       # previously applied, and are only now hearing back from the bank:
       status.applied_at ||= status.opened_at
+    when "open_after_nudge"
+      status.opened_at = Time.now
     when "nudge"
       status.nudged_at = Time.now
     when "nudge_and_open"

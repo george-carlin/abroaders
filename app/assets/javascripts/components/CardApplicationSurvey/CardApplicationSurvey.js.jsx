@@ -3,6 +3,7 @@ const React = require("react");
 const CardAccountAppliedActions = require("../CardAccountAppliedActions");
 const CardAccountDeniedActions  = require("../CardAccountDeniedActions");
 const CardAccountNudgeActions   = require("../CardAccountNudgeActions");
+const CardAccountPostNudgeActions  = require("../CardAccountPostNudgeActions");
 const CardAccountReconsiderActions = require("../CardAccountReconsiderActions");
 
 const CardApplicationSurvey = React.createClass({
@@ -18,6 +19,7 @@ const CardApplicationSurvey = React.createClass({
     var   actions;
     const cardAccount = this.props.cardAccount;
 
+    // Spaghetti code alert!!!!
     if (cardAccount.applied_at) {
       if (cardAccount.denied_at) {
         if (cardAccount.called_at) {
@@ -36,14 +38,22 @@ const CardApplicationSurvey = React.createClass({
             />
           );
         }
-      } else if (!cardAccount.nudged_at)  {
-        actions = (
-          <CardAccountNudgeActions
-            bank={this.props.bank}
-            card={this.props.card}
-            updatePath={this.props.updatePath}
-          />
-        )
+      } else {
+        if (cardAccount.nudged_at)  {
+          if (!(cardAccount.opened_at || cardAccount.denied_at)) {
+            actions = (
+              <CardAccountPostNudgeActions updatePath={this.props.updatePath} />
+            );
+          }
+        } else {
+          actions = (
+            <CardAccountNudgeActions
+              bank={this.props.bank}
+              card={this.props.card}
+              updatePath={this.props.updatePath}
+            />
+          )
+        }
       }
     } else { // appliedAt not present
       actions = (
