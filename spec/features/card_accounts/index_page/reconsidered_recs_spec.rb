@@ -42,7 +42,7 @@ describe "user cards page - reconsidered cards", :js do
     expect(rec_on_page).to have_i_heard_back_btn
   end
 
-  describe "clicking 'I called'" do
+  describe "clicking 'I heard back'" do
     before { rec_on_page.click_i_heard_back_btn }
 
     shared_examples "asks to confirm" do
@@ -84,7 +84,7 @@ describe "user cards page - reconsidered cards", :js do
           expect(rec.status).to eq "open"
         end
 
-        it "sets 'opened_at' and 'called_at' to the current date", :backend do
+        it "sets 'opened_at' to the current date", :backend do
           expect(rec.opened_at).to eq Date.today
         end
 
