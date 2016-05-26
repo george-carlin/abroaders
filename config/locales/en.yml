@@ -67,7 +67,6 @@ en:
       application_pending: "Thanks for taking our recommendation and applying for the card! When you hear back from the bank, please come back and tell us whether or not your application for the card was successful."
       couldnt_decline: "Couldn't decline card recommendation. This may happen if you already declined or accepted the recommendation in a different browser window, or if you hit the 'back' button after accepting or declining the first time."
       couldnt_update: "Couldn't update card recommendation. This may happen if you already performed the same action in a different browser window or tab, or if you hit the 'back' button after performing the action the first time."
-      call_when_pending: "You’re more than twice as likely to get approved if you call BANK than if you wait for them to send your decision in the mail"
       recs_coming_soon: "The Abroaders team is hand selecting the ideal rewards cards based on your current points, travel plans and spending. We’ll let you know as soon as the card recommendations are ready to view."
     flash:
       successful:

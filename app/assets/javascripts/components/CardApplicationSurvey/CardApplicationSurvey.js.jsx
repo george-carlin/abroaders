@@ -2,6 +2,7 @@ const React = require("react");
 
 const CardAccountAppliedActions = require("../CardAccountAppliedActions");
 const CardAccountDeniedActions  = require("../CardAccountDeniedActions");
+const CardAccountNudgeActions   = require("../CardAccountNudgeActions");
 
 const CardApplicationSurvey = React.createClass({
 
@@ -18,6 +19,14 @@ const CardApplicationSurvey = React.createClass({
       if (cardAccount.denied_at) {
         actions = (
           <CardAccountDeniedActions
+            updatePath={this.props.updatePath}
+          />
+        )
+      } else if (cardAccount.nudged_at)  {
+        actions = <noscript />; // TODO
+      } else {
+        actions = (
+          <CardAccountNudgeActions
             updatePath={this.props.updatePath}
           />
         )
