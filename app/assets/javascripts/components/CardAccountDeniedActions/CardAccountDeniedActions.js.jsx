@@ -99,26 +99,24 @@ const CardAccountDeniedActions = React.createClass({
     }
 
     return (
-      <div>
-        <Form action={this.props.updatePath} method="patch">
-          <input type="hidden" name="card_account[action]" value={action} />
+      <Form action={this.props.updatePath} method="patch">
+        <input type="hidden" name="card_account[action]" value={action} />
 
-          <p>
-            We strongly recommend that you call BANK at BANK PERSONAL/BIZ PHONE
-            as soon as possible to ask for a real person to review your
-            application by phone.
-          </p>
+        <p>
+          We strongly recommend that you call BANK at BANK PERSONAL/BIZ PHONE
+          as soon as possible to ask for a real person to review your
+          application by phone.
+        </p>
 
-          <p>
-            More than 30% of applications that are initially denied are
-            overturned with a 5-10 minute phone call.
-          </p>
+        <p>
+          More than 30% of applications that are initially denied are
+          overturned with a 5-10 minute phone call.
+        </p>
 
-          <p>{helpText}</p>
+        <p>{helpText}</p>
 
-          {buttons}
-        </Form>
-      </div>
+        {buttons}
+      </Form>
     );
   },
 });
