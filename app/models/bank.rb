@@ -76,6 +76,10 @@ class Bank
     end
   end
 
+  def self.find_by_name(name)
+    find_by(name: name)
+  end
+
   def initialize(attrs={})
     super
     unless @name = TABLE[id]

@@ -14,6 +14,10 @@ describe Bank do
     expect(bank.id).to eq 1
   end
 
+  example ".find_by_name" do
+    expect(Bank.find_by_name("Chase")).to eq Bank.find_by(name: "Chase")
+  end
+
   example ".all" do
     banks = Bank.all
     names = [
