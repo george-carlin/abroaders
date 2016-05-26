@@ -6,7 +6,7 @@
 # Card#bank, Bank.find(id).cards, etc)
 class Bank
 
-  attr_reader :id, :name, :identifier
+  attr_reader :id, :name
 
   # Note that only odd numbers are used for card IDs. This is because each card
   # has a deterministically-generated unique identifier which starts with a
