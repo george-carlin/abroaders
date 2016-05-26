@@ -34,6 +34,16 @@ describe Bank do
     expect(bank.name).to eq "Chase"
   end
 
+  example "#personal_phone" do
+    bank = Bank.find_by_name("Chase")
+    expect(bank.personal_phone).to eq "888-245-0625"
+  end
+
+  example "#business_phone" do
+    bank = Bank.find_by_name("Chase")
+    expect(bank.business_phone).to eq "800 453-9719"
+  end
+
   example "#cards" do
     cards = create_list(:card, 2, bank_id: 1)
     create(:card, bank_id: 3) # for other bank
@@ -63,7 +73,14 @@ describe Bank do
 
   example "#attributes" do
     bank = Bank.find(1)
-    expect(bank.attributes).to eq({ "id" => 1, "name" => "Chase" })
+    expect(bank.attributes).to eq(
+      {
+        "id" => 1,
+        "name" => "Chase",
+        "personal_phone" => "888-245-0625",
+        "business_phone" => "800 453-9719",
+      }
+    )
   end
 
 end
