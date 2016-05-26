@@ -1,7 +1,6 @@
 require "rails_helper"
 
 describe "user cards page - denied cards", :js do
-  include ActionView::Helpers::NumberHelper
 
   subject { page }
 
