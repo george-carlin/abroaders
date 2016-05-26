@@ -33,7 +33,10 @@ class Bank
   }
 
   def self.find(id)
-    new(id: id)
+    unless row = TABLE[id.to_i]
+      raise ActiveRecord::RecordNotFound, "Couldn't find #{self.class} with 'id'=#{id}"
+    end
+    new(id: id, name: row)
   end
 
   def self.all
@@ -78,13 +81,6 @@ class Bank
 
   def self.find_by_name(name)
     find_by(name: name)
-  end
-
-  def initialize(attrs={})
-    super
-    unless @name = TABLE[id]
-      raise ActiveRecord::RecordNotFound, "Couldn't find #{self.class} with 'id'=#{id}"
-    end
   end
 
   def cards
