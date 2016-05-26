@@ -31,7 +31,7 @@ class CardAccount::ApplicationSurvey < ApplicationForm
       account.applied_at ||= Time.now
     when "open"
       if opened_at.present?
-        account.opened_at = Date.strptime(opened_at, "%m/%d/%Y")
+        account.opened_at = opened_at
       else
         account.opened_at = Time.now
       end
@@ -76,7 +76,7 @@ class CardAccount::ApplicationSurvey < ApplicationForm
       status.applied_at ||= Time.now
     when "open"
       if opened_at.present?
-        status.opened_at = Date.strptime(opened_at, "%m/%d/%Y")
+        status.opened_at = opened_at
       else
         status.opened_at = Time.now
       end
