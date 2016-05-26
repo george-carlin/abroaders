@@ -9,6 +9,8 @@ class CardAccountOnPage < ModelOnPage
   button :cancel,    "Cancel"
   button :denied,    "My application was denied"
   button :i_applied, "I applied"
+  button :i_called,     "I called"
+  button :i_heard_back, "The bank got back to me before I could call them"
   button :pending,   "I'm waiting to hear back"
 
   field :approved_at,    "card_account_opened_at"

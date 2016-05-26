@@ -3,6 +3,7 @@ const React = require("react");
 const CardAccountAppliedActions = require("../CardAccountAppliedActions");
 const CardAccountDeniedActions  = require("../CardAccountDeniedActions");
 const CardAccountNudgeActions   = require("../CardAccountNudgeActions");
+const CardAccountReconsiderActions = require("../CardAccountReconsiderActions");
 
 const CardApplicationSurvey = React.createClass({
 
@@ -17,18 +18,20 @@ const CardApplicationSurvey = React.createClass({
 
     if (cardAccount.applied_at) {
       if (cardAccount.denied_at) {
+        if (cardAccount.called_at) {
+          if (!cardAccount.redenied_at) {
+            actions = (
+              <CardAccountReconsiderActions updatePath={this.props.updatePath} />
+            );
+          } // !redenied_at
+        } else { // if !called_at:
+          actions = (
+            <CardAccountDeniedActions updatePath={this.props.updatePath} />
+          );
+        }
+      } else if (!cardAccount.nudged_at)  {
         actions = (
-          <CardAccountDeniedActions
-            updatePath={this.props.updatePath}
-          />
-        )
-      } else if (cardAccount.nudged_at)  {
-        actions = <noscript />; // TODO
-      } else {
-        actions = (
-          <CardAccountNudgeActions
-            updatePath={this.props.updatePath}
-          />
+          <CardAccountNudgeActions updatePath={this.props.updatePath} />
         )
       }
     } else { // appliedAt not present

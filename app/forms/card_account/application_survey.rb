@@ -38,12 +38,16 @@ class CardAccount::ApplicationSurvey < ApplicationForm
       # Don't update applied_at if it's already present: they may have
       # previously applied, and are only now hearing back from the bank:
       account.applied_at ||= account.opened_at
+    when "nudge"
+      account.nudged_at = Time.now
     when "nudge_and_open"
       account.nudged_at = account.opened_at = Time.now
     when "nudge_and_deny"
       account.nudged_at = account.denied_at = Time.now
-    when "nudge"
-      account.nudged_at = Time.now
+    when "reconsider_and_open"
+      account.opened_at = Time.now
+    when "reconsider_and_deny"
+      account.redenied_at = Time.now
     else
       raise "unrecognized action '#{action}'"
     end
@@ -57,20 +61,38 @@ class CardAccount::ApplicationSurvey < ApplicationForm
 
     # Urgh..... very repetitive. FIXME
     case action
-    when "open"
-      status.opened_at = status.applied_at = Time.now
-    when "deny"
-      status.denied_at = status.applied_at = Time.now
     when "apply"
       status.applied_at = Time.now
-    when "call_and_open"
-      account.called_at = Time.now
-      account.opened_at = Time.now
-    when "call_and_deny"
-      account.called_at = Time.now
-      account.redenied_at = Time.now
     when "call"
-      account.called_at = Time.now
+      status.called_at = Time.now
+    when "call_and_open"
+      status.called_at = status.opened_at = Time.now
+    when "call_and_deny"
+      status.called_at = status.redenied_at = Time.now
+    when "deny"
+      status.denied_at  = Time.now
+      # Don't update applied_at if it's already present: they may have
+      # previously applied, and are only now hearing back from the bank:
+      status.applied_at ||= Time.now
+    when "open"
+      if opened_at.present?
+        status.opened_at = Date.strptime(opened_at, "%m/%d/%Y")
+      else
+        status.opened_at = Time.now
+      end
+      # Don't update applied_at if it's already present: they may have
+      # previously applied, and are only now hearing back from the bank:
+      status.applied_at ||= status.opened_at
+    when "nudge"
+      status.nudged_at = Time.now
+    when "nudge_and_open"
+      status.nudged_at = status.opened_at = Time.now
+    when "nudge_and_deny"
+      status.nudged_at = status.denied_at = Time.now
+    when "reconsider_and_open"
+      status.opened_at = Time.now
+    when "reconsider_and_deny"
+      status.redenied_at = Time.now
     end
 
     if !status.valid?
