@@ -1,9 +1,8 @@
 const React = require("react");
 
-const ApprovedPendingOrDeniedBtns = require("../ApprovedPendingOrDeniedBtns");
-const Button                      = require("../Button");
-const ConfirmOrCancelBtns         = require("../ConfirmOrCancelBtns");
-const Form                        = require("../Form");
+const Button              = require("../Button");
+const ConfirmOrCancelBtns = require("../ConfirmOrCancelBtns");
+const Form                = require("../Form");
 
 const CardAccountDeniedActions = React.createClass({
   propTypes: {
