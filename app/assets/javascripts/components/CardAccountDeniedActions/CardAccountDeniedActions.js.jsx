@@ -33,12 +33,12 @@ const CardAccountDeniedActions = React.createClass({
         helpText = "How did it go?"
         break;
       case "confirmApproved":
-        action = "open_after_call";
+        action = "call_and_open";
         helpText = "You were approved after calling for reconsideration:"
         break;
       case "confirmDenied":
         helpText = "You called for reconsideration, but your application is still denied:"
-        action = "redeny";
+        action = "call_and_deny";
         break;
       case "confirmPending":
         helpText = "Your application is being reconsidered, and you're waiting to hear back:"

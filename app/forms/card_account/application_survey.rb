@@ -27,10 +27,10 @@ class CardAccount::ApplicationSurvey < ApplicationForm
       account.denied_at  = Time.now
     when "apply"
       account.applied_at = Time.now
-    when "open_after_call"
+    when "call_and_open"
       account.called_at = Time.now
       account.opened_at = Time.now
-    when "redeny"
+    when "call_and_deny"
       account.called_at = Time.now
       account.redenied_at = Time.now
     when "call"

@@ -76,8 +76,8 @@ en:
         decline: "You have indicated that you do not want to apply for this card"
         deny:   "You have indicated that the bank denied your application for the card. We strongly encourage you to call the bank and ask them to review your application manually (more information below)."
         open:    "Card account opened!"
-        open_after_call: "Card account opened!"
-        redeny: "You have indicated that your application is still denied after calling the bank."
+        call_and_open: "Card account opened!"
+        call_and_deny: "You have indicated that your application is still denied after calling the bank."
 
   admin:
     offers:
