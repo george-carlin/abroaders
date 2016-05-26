@@ -2,7 +2,6 @@ require "rails_helper"
 
 describe "user cards page - denied cards", :js do
 
-  subject { page }
 
   include_context "logged in"
 
@@ -11,19 +10,24 @@ describe "user cards page - denied cards", :js do
   let(:recommended_at) { 7.days.ago.to_date  }
   let(:applied_at) { 7.days.ago.to_date }
   let(:denied_at)  { 5.days.ago.to_date }
+  let(:bp) { :personal }
 
   before do
+    @bank = Bank.find(1)
+    @card  = create(:card, bank_id: @bank.id, bp: bp)
+    @offer = create(:offer, card: @card)
     @rec = create(
       :denied_card_recommendation,
       recommended_at: recommended_at,
       applied_at: applied_at,
       denied_at: denied_at,
-      person: me
+      person: me,
+      offer: @offer,
     )
     visit card_accounts_path
   end
   let(:rec) { @rec }
-  let(:rec_on_page) { DeniedCardAccountOnPage.new(rec, self) }
+  subject(:rec_on_page) { DeniedCardAccountOnPage.new(rec, self) }
 
   it "says when I applied and got denied", :frontend do
     expect(rec_on_page).to have_content "Applied: #{applied_at.strftime("%D")}"
@@ -37,16 +41,29 @@ describe "user cards page - denied cards", :js do
   end
 
   it "encourages me to call the bank", :frontend do
-    expect(rec_on_page).to have_content(
-      "We strongly recommend that you call BANK at BANK PERSONAL/BIZ PHONE "\
-      "as soon as possible to ask for a real person to review your "\
-      "application by phone."
-    )
-    expect(rec_on_page).to have_content(
+    is_expected.to have_content "We strongly recommend that you call #{@bank.name}"
+    is_expected.to have_content(
       "More than 30% of applications that are initially denied are "\
       "overturned with a 5-10 minute phone call."
     )
   end
+
+  context "for a personal card" do
+    let(:bp) { :personal }
+    it "gives me the bank's personal number" do
+      is_expected.to have_content "call #{@bank.name} at 888-245-0625"
+      is_expected.to have_no_content "800 453-9719"
+    end
+  end
+
+  context "for a business card" do
+    let(:bp) { :business }
+    it "gives me the bank's business number" do
+      is_expected.to have_content "call #{@bank.name} at 800 453-9719"
+      is_expected.to have_no_content "888-245-0625"
+    end
+  end
+
 
   it "has a button to say I called", :frontend do
     expect(rec_on_page).to have_i_called_btn

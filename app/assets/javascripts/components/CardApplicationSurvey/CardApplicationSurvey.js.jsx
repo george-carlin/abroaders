@@ -8,6 +8,8 @@ const CardAccountReconsiderActions = require("../CardAccountReconsiderActions");
 const CardApplicationSurvey = React.createClass({
 
   propTypes: {
+    card:        React.PropTypes.object.isRequired,
+    bank:        React.PropTypes.object.isRequired,
     cardAccount: React.PropTypes.object.isRequired,
     updatePath:  React.PropTypes.string.isRequired,
   },
@@ -26,12 +28,21 @@ const CardApplicationSurvey = React.createClass({
           } // !redenied_at
         } else { // if !called_at:
           actions = (
-            <CardAccountDeniedActions updatePath={this.props.updatePath} />
+            <CardAccountDeniedActions
+              bank={this.props.bank}
+              card={this.props.card}
+              cardAccount={this.props.cardAccount}
+              updatePath={this.props.updatePath}
+            />
           );
         }
       } else if (!cardAccount.nudged_at)  {
         actions = (
-          <CardAccountNudgeActions updatePath={this.props.updatePath} />
+          <CardAccountNudgeActions
+            bank={this.props.bank}
+            card={this.props.card}
+            updatePath={this.props.updatePath}
+          />
         )
       }
     } else { // appliedAt not present

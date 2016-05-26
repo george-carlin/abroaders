@@ -60,7 +60,9 @@
         data-react-component="CardApplicationSurvey"
         data-update-path="<%= card_recommendation_path(card_account) %>"
         <%#  TODO: automatically camelize attributes before passing them in to the React Componeny %>
+        data-bank="<%= card_account.card.bank.attributes.to_json %>"
         data-card-account="<%= card_account.attributes.to_json %>"
+        data-card="<%= card_account.card.attributes.to_json %>"
       ></div>
     <% end %>
   </div>
