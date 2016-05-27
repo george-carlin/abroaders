@@ -1,9 +1,9 @@
-//= require_self
-//= require react_ujs
+require("./react_ujs.js");
 
 (function (w) {
-  window.React     = require("react");
-  window.ReactDOM  = require("react-dom");
+
+  w.React     = require("react");
+  w.ReactDOM  = require("react-dom");
 
   // We don't need to require *every* React component in this file, just the
   // ones that are required at the 'top level' by react_ujs

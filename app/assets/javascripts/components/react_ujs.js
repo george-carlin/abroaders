@@ -32,6 +32,9 @@
 // (Any data attribute that's not called 'component' is assumed to be a prop of
 // the react component)
 
+const $     = require("jquery");
+const _     = require("underscore");
+
 $(document).ready(function () {
   $("[data-react-component]").each(function (i, el) {
     const $el  = $(el);
