@@ -5,7 +5,7 @@ const ButtonGroup         = require("../ButtonGroup");
 const ConfirmOrCancelBtns = require("../ConfirmOrCancelBtns");
 const Form                = require("../Form");
 
-const CardAccountReconsiderActions = React.createClass({
+const CardAccountPostCallActions = React.createClass({
   propTypes: {
     updatePath:  React.PropTypes.string.isRequired,
   },
@@ -107,4 +107,4 @@ const CardAccountReconsiderActions = React.createClass({
   },
 });
 
-module.exports = CardAccountReconsiderActions;
+module.exports = CardAccountPostCallActions;

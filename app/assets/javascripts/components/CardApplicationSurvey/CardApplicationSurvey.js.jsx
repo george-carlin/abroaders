@@ -1,10 +1,10 @@
 const React = require("react");
 
-const CardAccountAppliedActions = require("../CardAccountAppliedActions");
-const CardAccountDeniedActions  = require("../CardAccountDeniedActions");
-const CardAccountNudgeActions   = require("../CardAccountNudgeActions");
-const CardAccountPostNudgeActions  = require("../CardAccountPostNudgeActions");
-const CardAccountReconsiderActions = require("../CardAccountReconsiderActions");
+const ApplyActions     = require("../CardAccountApplyActions");
+const CallActions      = require("../CardAccountCallActions");
+const NudgeActions     = require("../CardAccountNudgeActions");
+const PostCallActions  = require("../CardAccountPostCallActions");
+const PostNudgeActions = require("../CardAccountPostNudgeActions");
 
 const CardApplicationSurvey = React.createClass({
 
@@ -23,20 +23,20 @@ const CardApplicationSurvey = React.createClass({
     }
 
     if (!cardAccount.appliedAt) {
-      return CardAccountAppliedActions;
+      return ApplyActions;
     }
 
     if (cardAccount.deniedAt) {
       if (cardAccount.calledAt) {
-        return CardAccountReconsiderActions;
+        return PostCallActions;
       } else {
-        return CardAccountDeniedActions;
+        return CallActions;
       }
     } else {
       if (cardAccount.nudgedAt)  {
-        return CardAccountPostNudgeActions;
+        return PostNudgeActions;
       } else {
-        return CardAccountNudgeActions;
+        return NudgeActions;
       }
     }
   },

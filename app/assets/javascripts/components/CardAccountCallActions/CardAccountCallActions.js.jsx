@@ -5,7 +5,7 @@ const ConfirmOrCancelBtns = require("../ConfirmOrCancelBtns");
 const Form                = require("../Form");
 const PromptToCallTheBank = require("../PromptToCallTheBank");
 
-const CardAccountDeniedActions = React.createClass({
+const CardAccountCallActions = React.createClass({
   propTypes: {
     cardAccount: React.PropTypes.object.isRequired,
     updatePath:  React.PropTypes.string.isRequired,
@@ -124,4 +124,4 @@ const CardAccountDeniedActions = React.createClass({
   },
 });
 
-module.exports = CardAccountDeniedActions;
+module.exports = CardAccountCallActions;
