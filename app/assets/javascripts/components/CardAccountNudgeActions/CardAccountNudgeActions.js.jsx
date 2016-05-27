@@ -7,8 +7,7 @@ const Form                = require("../Form");
 
 const CardAccountNudgeActions = React.createClass({
   propTypes: {
-    bank:        React.PropTypes.object.isRequired,
-    card:        React.PropTypes.object.isRequired,
+    cardAccount: React.PropTypes.object.isRequired,
     updatePath:  React.PropTypes.string.isRequired,
   },
 
@@ -178,9 +177,9 @@ const CardAccountNudgeActions = React.createClass({
         break;
     }
 
-    const bank = this.props.bank
+    const bank = this.props.cardAccount.card.bank
     var   phoneNumber;
-    if (this.props.card.bp === "personal") {
+    if (this.props.cardAccount.card.bp === "personal") {
       // TODO camelCase me:
       phoneNumber = bank.personal_phone;
     } else {

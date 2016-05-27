@@ -9,8 +9,6 @@ const CardAccountReconsiderActions = require("../CardAccountReconsiderActions");
 const CardApplicationSurvey = React.createClass({
 
   propTypes: {
-    card:        React.PropTypes.object.isRequired,
-    bank:        React.PropTypes.object.isRequired,
     cardAccount: React.PropTypes.object.isRequired,
     updatePath:  React.PropTypes.string.isRequired,
   },
@@ -31,8 +29,6 @@ const CardApplicationSurvey = React.createClass({
         } else { // if !called_at:
           actions = (
             <CardAccountDeniedActions
-              bank={this.props.bank}
-              card={this.props.card}
               cardAccount={this.props.cardAccount}
               updatePath={this.props.updatePath}
             />
@@ -48,8 +44,7 @@ const CardApplicationSurvey = React.createClass({
         } else {
           actions = (
             <CardAccountNudgeActions
-              bank={this.props.bank}
-              card={this.props.card}
+              cardAccount={this.props.cardAccount}
               updatePath={this.props.updatePath}
             />
           )
