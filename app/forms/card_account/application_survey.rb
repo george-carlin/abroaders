@@ -1,3 +1,6 @@
+class CardAccount::InvalidStatusError < StandardError
+end
+
 class CardAccount::ApplicationSurvey < ApplicationForm
   include Virtus.model
 
@@ -11,8 +14,6 @@ class CardAccount::ApplicationSurvey < ApplicationForm
       persist!
     end
   end
-
-  validate :action_is_possible
 
   def persist!
     case action
@@ -55,56 +56,13 @@ class CardAccount::ApplicationSurvey < ApplicationForm
     else
       raise "unrecognized action '#{action}'"
     end
+
+    # This could happen if e.g. the user has already made changes in a
+    # different tab
+    status = CardAccount::Status.new(account.attributes.slice(*CardAccount::Status::TIMESTAMPS))
+    raise CardAccount::InvalidStatusError unless status.valid?
+
     account.save!
   end
 
-  private
-
-  def action_is_possible
-    status = CardAccount::Status.new(account.attributes.slice(*CardAccount::Status::TIMESTAMPS))
-
-    # Urgh..... very repetitive. FIXME
-    case action
-    when "apply"
-      status.applied_at = Time.now
-    when "call"
-      status.called_at = Time.now
-    when "call_and_open"
-      status.called_at = status.opened_at = Time.now
-    when "call_and_deny"
-      status.called_at = status.redenied_at = Time.now
-    when "deny"
-      status.denied_at  = Time.now
-      # Don't update applied_at if it's already present: they may have
-      # previously applied, and are only now hearing back from the bank:
-      status.applied_at ||= Time.now
-    when "deny_after_nudge"
-      status.denied_at = Time.now
-    when "open"
-      if opened_at.present?
-        status.opened_at = opened_at
-      else
-        status.opened_at = Time.now
-      end
-      # Don't update applied_at if it's already present: they may have
-      # previously applied, and are only now hearing back from the bank:
-      status.applied_at ||= status.opened_at
-    when "open_after_nudge"
-      status.opened_at = Time.now
-    when "nudge"
-      status.nudged_at = Time.now
-    when "nudge_and_open"
-      status.nudged_at = status.opened_at = Time.now
-    when "nudge_and_deny"
-      status.nudged_at = status.denied_at = Time.now
-    when "reconsider_and_open"
-      status.opened_at = Time.now
-    when "reconsider_and_deny"
-      status.redenied_at = Time.now
-    end
-
-    if !status.valid?
-      errors.add(:action, "not possible for this card account")
-    end
-  end
 end
