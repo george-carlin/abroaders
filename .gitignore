@@ -17,6 +17,7 @@
 .byebug_history
 
 config/application.yml
+config/application.staging.yml
 
 spec/.examples.txt
 
