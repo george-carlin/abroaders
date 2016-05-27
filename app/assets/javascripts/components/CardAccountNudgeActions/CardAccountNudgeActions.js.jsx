@@ -180,11 +180,9 @@ const CardAccountNudgeActions = React.createClass({
     const bank = this.props.cardAccount.card.bank
     var   phoneNumber;
     if (this.props.cardAccount.card.bp === "personal") {
-      // TODO camelCase me:
-      phoneNumber = bank.personal_phone;
+      phoneNumber = bank.personalPhone;
     } else {
-      // TODO camelCase me:
-      phoneNumber = bank.business_phone;
+      phoneNumber = bank.businessPhone;
     }
 
     return (

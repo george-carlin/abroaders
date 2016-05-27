@@ -28,8 +28,7 @@ const CardAccountAppliedActions = React.createClass({
   render() {
     var buttons, helpText, action;
 
-    // TODO: automatically camelize attributes before passing them in to the React Componeny
-    const recommendedAt = new Date(this.props.cardAccount.recommended_at);
+    const recommendedAt = new Date(this.props.cardAccount.recommendedAt);
     const today = new Date();
 
     recommendedAt.setHours(0,0,0,0);

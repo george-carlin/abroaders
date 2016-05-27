@@ -34,6 +34,7 @@
 
 const $     = require("jquery");
 const _     = require("underscore");
+const humps = require("humps");
 
 $(document).ready(function () {
   $("[data-react-component]").each(function (i, el) {
@@ -53,6 +54,9 @@ $(document).ready(function () {
     delete data.reactComponent;
     const props = {};
     _.each($el.data(), function(value, propName) {
+      if (typeof value === "object") {
+        value = humps.camelizeKeys(value);
+      }
       props[propName] = value;
     });
 

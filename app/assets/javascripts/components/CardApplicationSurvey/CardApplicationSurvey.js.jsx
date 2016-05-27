@@ -18,10 +18,10 @@ const CardApplicationSurvey = React.createClass({
     const cardAccount = this.props.cardAccount;
 
     // Spaghetti code alert!!!!
-    if (cardAccount.applied_at) {
-      if (cardAccount.denied_at) {
-        if (cardAccount.called_at) {
-          if (!cardAccount.redenied_at) {
+    if (cardAccount.appliedAt) {
+      if (cardAccount.deniedAt) {
+        if (cardAccount.calledAt) {
+          if (!cardAccount.redeniedAt) {
             actions = (
               <CardAccountReconsiderActions updatePath={this.props.updatePath} />
             );
@@ -35,8 +35,8 @@ const CardApplicationSurvey = React.createClass({
           );
         }
       } else {
-        if (cardAccount.nudged_at)  {
-          if (!(cardAccount.opened_at || cardAccount.denied_at)) {
+        if (cardAccount.nudgedAt)  {
+          if (!(cardAccount.openedAt || cardAccount.deniedAt)) {
             actions = (
               <CardAccountPostNudgeActions updatePath={this.props.updatePath} />
             );
