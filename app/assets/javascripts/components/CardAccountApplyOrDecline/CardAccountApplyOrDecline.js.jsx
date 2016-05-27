@@ -16,14 +16,11 @@ const CardAccountApplyOrDecline = React.createClass({
     return { declineReason: "", isDeclining: false, showErrorMessage: false };
   },
 
-  onClickDecline() {
-    this.setState({isDeclining: true});
+  setIsDeclining(e, isDeclining) {
+    e.preventDefault();
+    this.setState({isDeclining: isDeclining});
   },
 
-  onClickCancelDecline(e) {
-    e.preventDefault();
-    this.setState({isDeclining: false});
-  },
 
   onClickConfirmDecline(e) {
     if (this.state.declineReason.trim()) {
@@ -57,16 +54,16 @@ const CardAccountApplyOrDecline = React.createClass({
           <div className={declineReasonWrapperClass}>
             <TextFieldTag
               attribute="decline_reason"
-              className="input-sm"
               modelName="card_account"
               onChange={this.onChangeDeclineReason}
               placeholder="Why don't you want to apply for this card?"
+              small
             />
           </div>
           <ConfirmOrCancelBtns
             small
             className="card_confirm_cancel_decline_btn_group"
-            onClickCancel={this.onClickCancelDecline}
+            onClickCancel={e => this.setIsDeclining(e, false)}
             onClickConfirm={this.onClickConfirmDecline}
           />
 
@@ -91,7 +88,7 @@ const CardAccountApplyOrDecline = React.createClass({
           <Button
             small
             default
-            onClick={this.onClickDecline}
+            onClick={e => this.setIsDeclining(e, true)}
           >
             No Thanks
           </Button>

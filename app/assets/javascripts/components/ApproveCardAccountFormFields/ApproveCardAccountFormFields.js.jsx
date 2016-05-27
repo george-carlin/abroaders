@@ -67,9 +67,10 @@ const ApproveCardAccountFormFields = React.createClass({
         <div>
           <TextFieldTag
             attribute="opened_at"
-            className="input-sm card_account_opened_at"
+            className="card_account_opened_at"
             defaultValue={openedAt}
             modelName="card_account"
+            small
           />
           {confirmOrCancel}
         </div>

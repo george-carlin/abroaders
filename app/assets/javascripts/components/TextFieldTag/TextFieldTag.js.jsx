@@ -8,15 +8,24 @@ const TextFieldTag = React.createClass({
   propTypes: {
     attribute:    React.PropTypes.string.isRequired,
     modelName:    React.PropTypes.string.isRequired,
+    small:        React.PropTypes.bool,
   },
 
   render() {
     var name = `${this.props.modelName}[${this.props.attribute}]`;
     var id   = `${this.props.modelName}_${this.props.attribute}`;
 
-    var props = _.clone(this.props)
-    var classes = `form-control ${props.className}`
-    delete props.className;
+    const props = _.clone(this.props)
+    if (!props.className) props.className = "";
+    const classes = props.className.split(/\s+/)
+
+    if (!_.includes(classes, "form-control")) {
+      props.className += " form-control"
+    }
+
+    if (this.props.small && !_.includes(classes, "input-sm")) {
+      props.className += " input-sm"
+    }
 
     return (
       <input
