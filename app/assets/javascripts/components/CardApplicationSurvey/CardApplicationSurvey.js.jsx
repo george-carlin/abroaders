@@ -59,11 +59,7 @@ const CardApplicationSurvey = React.createClass({
       )
     }
     
-    return (
-      <div>
-        {actions}
-      </div>
-    );
+    return actions;
   },
 });
 
