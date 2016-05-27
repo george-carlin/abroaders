@@ -23,6 +23,7 @@ describe "card accounts survey", :onboarding do
       create(:card, :personal, :mastercard, bank_id: chase.id, name: "Card 1"),
       create(:card, :business, :mastercard, bank_id: citi.id,  name: "Card 2"),
       create(:card, :personal, :visa,       bank_id: citi.id,  name: "Card 3"),
+      create(:card, :personal, :visa,       bank_id: citi.id,  name: "Card 4"),
     ]
     @hidden_card = create(:card, shown_on_survey: false)
 
@@ -125,6 +126,16 @@ describe "card accounts survey", :onboarding do
         is_expected.to have_selector "h2", text: header
         is_expected.to have_selector "##{bank.to_param}_cards"
         is_expected.to have_selector "##{bank}_#{type}_cards"
+      end
+    end
+  end
+
+  it "only has one 'group' per bank and b/p" do # bug fix
+    %w[chase citibank].each do |bank|
+      %w[personal business].each do |type|
+        expect(all("[id='#{bank.to_param}_cards']").length).to eq 1
+        expect(all("[id='#{bank.to_param}_personal_cards']").length).to eq 1
+        expect(all("[id='#{bank.to_param}_business_cards']").length).to eq 1
       end
     end
   end

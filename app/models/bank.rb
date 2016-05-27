@@ -112,6 +112,15 @@ class Bank
     id <=> other_bank.id
   end
 
+  # Hash equality. This lets us do things like Card.all.group_by(&:bank)
+  # hash must return a fixnum that is always the same for identical Banks:
+  def hash
+    Digest::MD5.new.hexdigest("#{id}#{name}")[0..15].to_i(16)
+  end
+  def eql?(other_bank)
+    self == other_bank && hash == other_bank.hash
+  end
+
   def attributes
     # Virtus's 'attributes' method returns a hash with symbol keys, but
     # ActiveRecord::Base#attributes uses string keys. Keep things consistent:
