@@ -13,53 +13,42 @@ const CardApplicationSurvey = React.createClass({
     updatePath:  React.PropTypes.string.isRequired,
   },
 
-  render() {
-    var   actions;
+  // Return the component that contains the actions for this card account.
+  // Note that for some card accounts, no further action is required.
+  getActionsComponent() {
     const cardAccount = this.props.cardAccount;
 
-    // Spaghetti code alert!!!!
-    if (cardAccount.appliedAt) {
-      if (cardAccount.deniedAt) {
-        if (cardAccount.calledAt) {
-          if (!cardAccount.redeniedAt) {
-            actions = (
-              <CardAccountReconsiderActions updatePath={this.props.updatePath} />
-            );
-          } // !redenied_at
-        } else { // if !called_at:
-          actions = (
-            <CardAccountDeniedActions
-              cardAccount={this.props.cardAccount}
-              updatePath={this.props.updatePath}
-            />
-          );
-        }
-      } else {
-        if (cardAccount.nudgedAt)  {
-          if (!(cardAccount.openedAt || cardAccount.deniedAt)) {
-            actions = (
-              <CardAccountPostNudgeActions updatePath={this.props.updatePath} />
-            );
-          }
-        } else {
-          actions = (
-            <CardAccountNudgeActions
-              cardAccount={this.props.cardAccount}
-              updatePath={this.props.updatePath}
-            />
-          )
-        }
-      }
-    } else { // appliedAt not present
-      actions = (
-        <CardAccountAppliedActions 
-          cardAccount={this.props.cardAccount}
-          updatePath={this.props.updatePath}
-        />
-      )
+    if (cardAccount.openedAt || cardAccount.redeniedAt) {
+      return undefined;
     }
-    
-    return actions;
+
+    if (!cardAccount.appliedAt) {
+      return CardAccountAppliedActions;
+    }
+
+    if (cardAccount.deniedAt) {
+      if (cardAccount.calledAt) {
+        return CardAccountReconsiderActions;
+      } else {
+        return CardAccountDeniedActions;
+      }
+    } else {
+      if (cardAccount.nudgedAt)  {
+        return CardAccountPostNudgeActions;
+      } else {
+        return CardAccountNudgeActions;
+      }
+    }
+  },
+
+  render() {
+    return React.createElement(
+      this.getActionsComponent(),
+      {
+        cardAccount: this.props.cardAccount,
+        updatePath:  this.props.updatePath
+      }
+    );
   },
 });
 
