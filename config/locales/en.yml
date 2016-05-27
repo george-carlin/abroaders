@@ -68,15 +68,6 @@ en:
       couldnt_decline: "Couldn't decline card recommendation. This may happen if you already declined or accepted the recommendation in a different browser window, or if you hit the 'back' button after accepting or declining the first time."
       couldnt_update: "Couldn't update card recommendation. This may happen if you already performed the same action in a different browser window or tab, or if you hit the 'back' button after performing the action the first time."
       recs_coming_soon: "The Abroaders team is hand selecting the ideal rewards cards based on your current points, travel plans and spending. We’ll let you know as soon as the card recommendations are ready to view."
-    flash:
-      successful:
-        apply:   "You have indicated that you applied for the card and are waiting to hear back from the bank. We strongly encourage you to call the bank and ask them to review your application manually (more information below). In any case, please come back and let us know when you get the results of your application."
-        call:    "You have indicated that you called the bank for reconsideration, and you're now waiting to hear back."
-        decline: "You have indicated that you do not want to apply for this card"
-        deny:   "You have indicated that the bank denied your application for the card. We strongly encourage you to call the bank and ask them to review your application manually (more information below)."
-        open:    "Card account opened!"
-        call_and_open: "Card account opened!"
-        call_and_deny: "You have indicated that your application is still denied after calling the bank."
 
   admin:
     offers:
