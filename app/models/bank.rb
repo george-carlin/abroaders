@@ -6,6 +6,7 @@
 # Card#bank, Bank.find(id).cards, etc)
 class Bank
   include Virtus.model
+  include ActiveModel::Serializers::JSON
 
   attribute :id,   Fixnum
   attribute :name, String
