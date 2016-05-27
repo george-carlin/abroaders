@@ -3,6 +3,7 @@ const React = require("react");
 const Button              = require("../Button");
 const ConfirmOrCancelBtns = require("../ConfirmOrCancelBtns");
 const Form                = require("../Form");
+const PromptToCallTheBank = require("../PromptToCallTheBank");
 
 const CardAccountDeniedActions = React.createClass({
   propTypes: {
@@ -110,16 +111,10 @@ const CardAccountDeniedActions = React.createClass({
       <Form action={this.props.updatePath} method="patch">
         <input type="hidden" name="card_account[action]" value={action} />
 
-        <p>
-          We strongly recommend that you
-          call {bank.name} at {phoneNumber} as soon as possible to ask for a
-          real person to review your application by phone.
-        </p>
-
-        <p>
-          More than 30% of applications that are initially denied are
-          overturned with a 5-10 minute phone call.
-        </p>
+        <PromptToCallTheBank
+          card={this.props.cardAccount.card}
+          reconsideration
+        />
 
         <p>{helpText}</p>
 

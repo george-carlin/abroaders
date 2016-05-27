@@ -4,6 +4,7 @@ const Button              = require("../Button");
 const ButtonGroup         = require("../ButtonGroup");
 const ConfirmOrCancelBtns = require("../ConfirmOrCancelBtns");
 const Form                = require("../Form");
+const PromptToCallTheBank = require("../PromptToCallTheBank");
 
 const CardAccountNudgeActions = React.createClass({
   propTypes: {
@@ -177,29 +178,13 @@ const CardAccountNudgeActions = React.createClass({
         break;
     }
 
-    const bank = this.props.cardAccount.card.bank
-    var   phoneNumber;
-    if (this.props.cardAccount.card.bp === "personal") {
-      phoneNumber = bank.personalPhone;
-    } else {
-      phoneNumber = bank.businessPhone;
-    }
-
     return (
       <Form action={this.props.updatePath} method="patch">
         <input type="hidden" name="card_account[action]" value={action} />
 
-        <p>
-          We strongly recommend that you
-          call {bank.name} at {phoneNumber} as soon as possible to ask for a
-          real person to review your application by phone.
-        </p>
-
-        <p>
-          You’re more than twice as likely to get approved if you
-          call {bank.name} than if you wait for them to send your decision in
-          the mail
-        </p>
+        <PromptToCallTheBank
+          card={this.props.cardAccount.card}
+        />
 
         <p>{helpText}</p>
 
