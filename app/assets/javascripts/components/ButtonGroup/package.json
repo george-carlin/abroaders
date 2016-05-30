@@ -1,6 +1,6 @@
 {
   "name": "ButtonGroup",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "private": true,
   "main": "./ButtonGroup.js.jsx"
 }
