@@ -1,0 +1,16 @@
+default: &default
+  adapter: postgresql
+  pool: 5
+  timeout: 5000
+
+development:
+  <<: *default
+  database: abroaders_development
+
+production:
+  <<: *default
+  database: abroaders_development
+
+test:
+  <<: *default
+  database: abroaders_test
