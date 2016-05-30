@@ -1,6 +1,7 @@
 const React = require("react");
 
 const Button              = require("../Button");
+const ButtonGroup         = require("../ButtonGroup");
 const Form                = require("../Form");
 const ConfirmOrCancelBtns = require("../ConfirmOrCancelBtns");
 const TextFieldTag        = require("../TextFieldTag");
@@ -77,7 +78,7 @@ const CardAccountApplyOrDecline = React.createClass({
       );
     } else {
       actions = (
-        <div className="btn-group">
+        <ButtonGroup>
           <a
             href={this.props.applyPath}
             className="btn btn-primary btn-sm"
@@ -92,7 +93,7 @@ const CardAccountApplyOrDecline = React.createClass({
           >
             No Thanks
           </Button>
-        </div>
+        </ButtonGroup>
       )
     }
 
