@@ -27,17 +27,9 @@ const CardApplicationSurvey = React.createClass({
     }
 
     if (cardAccount.deniedAt) {
-      if (cardAccount.calledAt) {
-        return PostCallActions;
-      } else {
-        return CallActions;
-      }
+      return cardAccount.calledAt ? PostCallActions : CallActions;
     } else {
-      if (cardAccount.nudgedAt)  {
-        return PostNudgeActions;
-      } else {
-        return NudgeActions;
-      }
+      return cardAccount.nudgedAt ? PostNudgeActions : NudgeActions;
     }
   },
 

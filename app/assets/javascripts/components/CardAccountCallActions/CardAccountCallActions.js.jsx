@@ -1,5 +1,6 @@
 const React = require("react");
 
+const ApprovedDeniedPendingBtnGroup = require("../ApprovedDeniedPendingBtnGroup");
 const Button              = require("../Button");
 const ConfirmOrCancelBtns = require("../ConfirmOrCancelBtns");
 const Form                = require("../Form");
@@ -62,29 +63,14 @@ const CardAccountCallActions = React.createClass({
         break;
       case "called":
         buttons = (
-          <div className="btn-group">
-            <Button
-              small
-              primary
-              onClick={e => this.setCurrentAction(e, "confirmApproved")}
-            >
-              I was approved after reconsideration
-            </Button>
-            <Button
-              small
-              default
-              onClick={e => this.setCurrentAction(e, "confirmDenied")}
-            >
-              My application is still denied
-            </Button>
-            <Button
-              small
-              default
-              onClick={e => this.setCurrentAction(e, "confirmPending")}
-            >
-              I'm being reconsidered, but waiting to hear back about whether it was successful
-            </Button>
-          </div>
+          <ApprovedDeniedPendingBtnGroup
+            approvedText="I was approved after reconsideration"
+            deniedText="My application is still denied"
+            onClickApproved={e => this.setCurrentAction(e, "confirmApproved")}
+            onClickDenied={e => this.setCurrentAction(e, "confirmDenied")}
+            onClickPending={e => this.setCurrentAction(e, "confirmPending")}
+            pendingText="I'm being reconsidered, but waiting to hear back about whether it was successful"
+          />
         )
         break;
       case "confirmApproved":

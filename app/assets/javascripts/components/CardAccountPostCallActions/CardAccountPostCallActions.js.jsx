@@ -1,5 +1,6 @@
 const React = require("react");
 
+const ApprovedDeniedPendingBtnGroup = require("../ApprovedDeniedPendingBtnGroup");
 const Button              = require("../Button");
 const ButtonGroup         = require("../ButtonGroup");
 const ConfirmOrCancelBtns = require("../ConfirmOrCancelBtns");
@@ -61,22 +62,13 @@ const CardAccountPostCallActions = React.createClass({
         break;
       case "heardBack":
         buttons = (
-          <ButtonGroup>
-            <Button
-              small
-              primary
-              onClick={e => this.setCurrentAction(e, "confirmApproved")}
-            >
-              My application was approved after reconsideration
-            </Button>
-            <Button
-              small
-              default
-              onClick={e => this.setCurrentAction(e, "confirmDenied")}
-            >
-              My application is still denied
-            </Button>
-          </ButtonGroup>
+          <ApprovedDeniedPendingBtnGroup
+            approvedText="My application was approved after reconsideration"
+            deniedText="My application is still denied"
+            onClickApproved={e => this.setCurrentAction(e, "confirmApproved")}
+            onClickDenied={e => this.setCurrentAction(e, "confirmDenied")}
+            noPendingBtn
+          />
         );
         break;
       case "confirmApproved":

@@ -1,6 +1,7 @@
 const React = require("react");
 const $     = require("jquery");
 
+const ApprovedDeniedPendingBtnGroup = require("../ApprovedDeniedPendingBtnGroup");
 const ApproveCardAccountFormFields = require("../ApproveCardAccountFormFields");
 const Button                       = require("../Button");
 const ConfirmOrCancelBtns          = require("../ConfirmOrCancelBtns");
@@ -75,29 +76,14 @@ const CardAccountApplyActions = React.createClass({
         break;
       case "applied":
         buttons = (
-          <div className="btn-group">
-            <Button
-              small
-              primary
-              onClick={e => this.setCurrentAction(e, "confirmApproved")}
-            >
-              I was approved
-            </Button>
-            <Button
-              small
-              default
-              onClick={e => this.setCurrentAction(e, "confirmDenied")}
-            >
-              My application was denied
-            </Button>
-            <Button
-              small
-              default
-              onClick={e => this.setCurrentAction(e, "confirmPending")}
-            >
-              I'm waiting to hear back
-            </Button>
-          </div>
+          <ApprovedDeniedPendingBtnGroup
+            approvedText="I was approved"
+            deniedText="My application was denied"
+            onClickApproved={e => this.setCurrentAction(e, "confirmApproved")}
+            onClickDenied={e => this.setCurrentAction(e, "confirmDenied")}
+            onClickPending={e => this.setCurrentAction(e, "confirmPending")}
+            pendingText="I'm waiting to hear back"
+          />
         );
         break;
       case "confirmApproved":

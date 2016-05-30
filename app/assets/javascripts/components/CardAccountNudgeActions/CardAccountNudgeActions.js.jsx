@@ -1,5 +1,6 @@
 const React = require("react");
 
+const ApprovedDeniedPendingBtnGroup = require("../ApprovedDeniedPendingBtnGroup");
 const Button              = require("../Button");
 const ButtonGroup         = require("../ButtonGroup");
 const ConfirmOrCancelBtns = require("../ConfirmOrCancelBtns");
@@ -93,29 +94,14 @@ const CardAccountNudgeActions = React.createClass({
       case "nudged":
         buttons = (
           <div>
-            <ButtonGroup>
-              <Button
-                small
-                primary
-                onClick={e => this.setCurrentAction(e, "confirmNudgedAndApproved")}
-              >
-                My application was approved
-              </Button>
-              <Button
-                small
-                default
-                onClick={e => this.setCurrentAction(e, "confirmNudgedAndDenied")}
-              >
-                My application was denied
-              </Button>
-              <Button
-                small
-                default
-                onClick={e => this.setCurrentAction(e, "confirmNudgedAndPending")}
-              >
-                I'm still waiting to hear back
-              </Button>
-            </ButtonGroup>
+            <ApprovedDeniedPendingBtnGroup
+              approvedText="My application was approved"
+              deniedText="My application was denied"
+              onClickApproved={e => this.setCurrentAction(e, "confirmNudgedAndApproved")}
+              onClickDenied={e => this.setCurrentAction(e, "confirmNudgedAndDenied")}
+              onClickPending={e => this.setCurrentAction(e, "confirmNudgedAndPending")}
+              pendingText="I'm still waiting to hear back"
+            />
             <Button
               link
               small
@@ -129,22 +115,13 @@ const CardAccountNudgeActions = React.createClass({
       case "heardBack":
         buttons = (
           <div>
-            <ButtonGroup>
-              <Button
-                small
-                primary
-                onClick={e => this.setCurrentAction(e, "confirmApproved")}
-              >
-                My application was approved
-              </Button>
-              <Button
-                small
-                default
-                onClick={e => this.setCurrentAction(e, "confirmDenied")}
-              >
-                My application was denied
-              </Button>
-            </ButtonGroup>
+            <ApprovedDeniedPendingBtnGroup
+              approvedText="My application was approved"
+              deniedText="My application was denied"
+              onClickApproved={e => this.setCurrentAction(e, "confirmApproved")}
+              onClickDenied={e => this.setCurrentAction(e, "confirmDenied")}
+              noPendingBtn
+            />
             <Button
               small
               link
