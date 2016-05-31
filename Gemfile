@@ -45,7 +45,6 @@ gem 'faker'
 group :development, :test do
   gem 'byebug'
   gem 'database_cleaner'
-  gem 'guard-rspec', require: false
   # gem 'rspec-rails', '>= 3.3.0'
   gem 'rspec-rails', github: "georgemillo/rspec-rails", branch: "rails5"
 end
