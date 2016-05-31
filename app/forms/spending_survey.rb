@@ -25,17 +25,6 @@ class SpendingSurvey < ApplicationForm
     %w[with_ein without_ein].include?(has_business)
   end
 
-  def save
-    super do
-      person.create_spending_info!(
-        business_spending_usd: has_business? ? business_spending_usd : nil,
-        credit_score:          credit_score,
-        has_business:          has_business,
-        will_apply_for_loan:   will_apply_for_loan,
-      )
-    end
-  end
-
   # Validations
 
   validates :credit_score,
@@ -56,5 +45,16 @@ class SpendingSurvey < ApplicationForm
     },
     presence: true,
     if: :has_business?
+
+  private
+
+  def persist!
+    person.create_spending_info!(
+      business_spending_usd: has_business? ? business_spending_usd : nil,
+      credit_score:          credit_score,
+      has_business:          has_business,
+      will_apply_for_loan:   will_apply_for_loan,
+    )
+  end
 
 end

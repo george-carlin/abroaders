@@ -24,26 +24,26 @@ class ReadinessSurvey < ApplicationForm
     !companion_ready?
   end
 
-  def save
-    super do
-      ReadinessStatus.create!(
-        passenger: @account.main_passenger,
-        ready:     main_passenger_ready?,
-        unreadiness_reason: main_passenger_unreadiness_reason
-      )
-      if has_companion?
-        ReadinessStatus.create!(
-          passenger: @account.companion,
-          ready:     companion_ready?,
-          unreadiness_reason: companion_unreadiness_reason
-        )
-      end
-    end
-  end
-
   validates :main_passenger_unreadiness_reason,
                 absence: { unless: :main_passenger_unready? }
   validates :companion_unreadiness_reason,
                 absence: { unless: :companion_unready? }
+
+  private
+
+  def persist!
+    ReadinessStatus.create!(
+      passenger: @account.main_passenger,
+      ready:     main_passenger_ready?,
+      unreadiness_reason: main_passenger_unreadiness_reason
+    )
+    if has_companion?
+      ReadinessStatus.create!(
+        passenger: @account.companion,
+        ready:     companion_ready?,
+        unreadiness_reason: companion_unreadiness_reason
+      )
+    end
+  end
 
 end

@@ -23,18 +23,18 @@ class SoloAccountForm < ApplicationForm
     numericality: { greater_than_or_equal_to: 0 },
     if: :eligible_to_apply?
 
-  def save
-    super do
-      account.update_attributes!(
-        monthly_spending_usd: monthly_spending_usd,
-        onboarded_type:       true,
-      )
-      @person = account.people.first
-      if eligible_to_apply?
-        @person.eligible_to_apply!
-      else
-        @person.ineligible_to_apply!
-      end
+  private
+
+  def persist!
+    account.update_attributes!(
+      monthly_spending_usd: monthly_spending_usd,
+      onboarded_type:       true,
+    )
+    @person = account.people.first
+    if eligible_to_apply?
+      @person.eligible_to_apply!
+    else
+      @person.ineligible_to_apply!
     end
   end
 

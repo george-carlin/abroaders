@@ -38,7 +38,7 @@ class ApplicationForm
   def save
     transaction do
       if valid?
-        yield
+        persist!
         true
       else
         false
@@ -74,5 +74,11 @@ class ApplicationForm
     end
   end
   alias_method :update_attributes!, :update!
+
+  private
+
+  def persist!
+    raise NotImplementedError, "subclasses of ApplicationForm must define a method called `persist!`"
+  end
 
 end

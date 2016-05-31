@@ -11,12 +11,7 @@ class CardAccount::UpdateStateForm < ApplicationForm
 
   validates :decline_reason, presence: { if: "declined_at.present?" }
 
-  # TODO once the 'refactor-forms' branch is merged, delete this method:
-  def save
-    super do
-      persist!
-    end
-  end
+  private
 
   def persist!
     # Make sure we don't nullify any existing values:

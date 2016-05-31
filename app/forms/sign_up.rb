@@ -14,23 +14,6 @@ class SignUp < ApplicationForm
     self.password_confirmation = params[:password_confirmation]
   end
 
-  def save
-    super do
-      account.assign_attributes(
-        email: email.strip,
-        password: password,
-        password_confirmation: password_confirmation,
-      )
-      account.save!(validate: false)
-
-      person = account.people.build(first_name: first_name.strip)
-      person.save!(validate: false)
-
-      AccountMailer.notify_admin_of_sign_up(account).deliver_later
-    end
-  end
-
-
   validate :email_is_unique, if: "email.present?"
 
   validates :email,
@@ -53,6 +36,20 @@ class SignUp < ApplicationForm
     if Account.exists?(email: email.downcase) || Admin.exists?(email: email.downcase)
       errors.add(:email, :taken)
     end
+  end
+
+  def persist!
+    account.assign_attributes(
+      email: email.strip,
+      password: password,
+      password_confirmation: password_confirmation,
+    )
+    account.save!(validate: false)
+
+    person = account.people.build(first_name: first_name.strip)
+    person.save!(validate: false)
+
+    AccountMailer.notify_admin_of_sign_up(account).deliver_later
   end
 
 end
