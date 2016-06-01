@@ -40,11 +40,11 @@ const CardAccountPostNudgeActions = React.createClass({
         break;
       case "confirmApproved":
         helpText = "Your application has been approved:"
-        action = "open_after_nudge"
+        action = "open"
         break;
       case "confirmDenied":
         helpText = "Your application has been declined:"
-        action = "deny_after_nudge"
+        action = "deny"
         break;
     }
 

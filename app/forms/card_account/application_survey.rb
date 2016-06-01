@@ -28,10 +28,9 @@ class CardAccount::ApplicationSurvey < ApplicationForm
     when "deny"
       account.denied_at  = Time.now
       # Don't update applied_at if it's already present: they may have
-      # previously applied, and are only now hearing back from the bank:
+      # previously applied, and are now hearing back from the bank (or they
+      # nudged);
       account.applied_at ||= Time.now
-    when "deny_after_nudge"
-      account.denied_at = Time.now
     when "open"
       if opened_at.present?
         account.opened_at = opened_at
@@ -41,17 +40,13 @@ class CardAccount::ApplicationSurvey < ApplicationForm
       # Don't update applied_at if it's already present: they may have
       # previously applied, and are only now hearing back from the bank:
       account.applied_at ||= account.opened_at
-    when "open_after_nudge"
-      account.opened_at = Time.now
     when "nudge"
       account.nudged_at = Time.now
     when "nudge_and_open"
       account.nudged_at = account.opened_at = Time.now
     when "nudge_and_deny"
       account.nudged_at = account.denied_at = Time.now
-    when "reconsider_and_open"
-      account.opened_at = Time.now
-    when "reconsider_and_deny"
+    when "redeny"
       account.redenied_at = Time.now
     else
       raise "unrecognized action '#{action}'"

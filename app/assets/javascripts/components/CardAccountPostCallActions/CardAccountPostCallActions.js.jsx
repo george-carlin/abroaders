@@ -40,11 +40,11 @@ const CardAccountPostCallActions = React.createClass({
         break;
       case "confirmApproved":
         helpText = "Your application has been approved after reconsideration:"
-        action = "reconsider_and_open"
+        action = "open"
         break;
       case "confirmDenied":
         helpText = "Your application is still denied after reconsideration:"
-        action = "reconsider_and_deny"
+        action = "redeny"
         break;
     }
 
