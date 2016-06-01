@@ -57,6 +57,19 @@ module AdminArea
       end
     end
 
+    def kill(offer)
+      offer.live = false
+    end
+
+    def review
+      if params[:card_id]
+        @card   = load_card
+        @offers = @card.offers.live
+      else
+        @offers = Offer.includes(:card).live
+      end
+    end
+
     private
 
     def load_card

@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   root to: "application#dashboard"
-
   # Even though we're overriding all the generated routes, we still need to
   # include the devise_for call to get access to methods like
   # `authenticate_account!`
@@ -108,6 +107,14 @@ Rails.application.routes.draw do
     end
     # show and edit redirect to the nested action:
     resources :offers, only: [:show, :edit, :index]
+    resources :offers, except: :destroy do
+      collection do
+        get :review
+      end
+      member do
+        patch :kill
+      end
+    end
     resources :destinations, only: :index
     Destination.types.keys.each do |type|
       # airports, cities, countries, etc
