@@ -1,9 +1,27 @@
-class ModelOnPage < Struct.new(:model, :spec_context)
-  include ActionView::RecordIdentifier
-  include Capybara::DSL
+require_relative "./object_on_page"
 
-  def self.t(*args)
-    I18n.t(*args)
+# A Page Object which encapsulates a single instance of a model (usually an
+# ActiveRecord model) and the subsection of the DOM tree where that model is
+# displayed. E.g. if you have a page that displays a <table> of Cards, each
+# <tr> in the table body will display information about a single Card.  In that
+# case, you could use a subclass of ModelOnPage called CardOnPage which would
+# contain methods to let you test the contents of the card's <tr> and interact
+# with it.
+#
+# ModelOnPage will find the element for the given model by calling
+# ModelOnPage#dom_id(model), which defaults to
+# ActionView::RecordIdentifier#dom_id(model).  So for example in the above Card
+# example, if the Card's ID is 5 then CardOnPage by default would assume that
+# the element that displays the Card would have an HTML ID of "card_5". You can
+# change this by overriding `dom_id` in subclasses
+class ModelOnPage < ObjectOnPage
+  include ActionView::RecordIdentifier
+
+  attr_reader :model
+
+  def initialize(model, spec_context)
+    super(spec_context)
+    @model = model
   end
 
   def self.button(name, text)
@@ -48,48 +66,18 @@ class ModelOnPage < Struct.new(:model, :spec_context)
     end
   end
 
-  %i[button content field].each do |element|
-    ["has_#{element}?", "has_no_#{element}?"].each do |meth|
-      define_method meth do |*args|
-        within_self { super(*args) }
-      end
-    end
-  end
-
-  %i[button link].each do |element|
-    define_method "click_#{element}" do |*args|
-      within_self { super(*args) }
-    end
-  end
-
-  def present?
-    has_selector?(dom_selector)
+  def dom_selector
+    "#" << dom_id
   end
 
   private
-
-  def within_self(&block)
-    within(dom_selector, &block)
-  end
 
   def dom_id
     super(model)
   end
 
-  def dom_selector
-    "#" << dom_id
-  end
-
   def id
     model.id
-  end
-
-  def method_missing(meth, *args, &block)
-    if spec_context.respond_to?(meth)
-      spec_context.send(meth, *args, &block)
-    else
-      super
-    end
   end
 
 end
