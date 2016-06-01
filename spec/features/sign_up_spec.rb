@@ -3,12 +3,7 @@ require "rails_helper"
 describe "the sign up page", :onboarding do
   subject { page }
 
-  before do
-    @real_env_email = ENV["ERIKS_EMAIL"]
-    ENV["ERIKS_EMAIL"] = "test@example.com"
-    visit new_account_registration_path
-  end
-  after { ENV["ERIKS_EMAIL"] = @real_env_email }
+  include_context "set erik's email ENV var"
 
   it "has fields to create a new account" do
     is_expected.to have_field :sign_up_email
@@ -57,7 +52,7 @@ describe "the sign up page", :onboarding do
       it "sends an email to erik with the new user's email address" do
         expect{submit_form}.to change{ApplicationMailer.deliveries.length}.by(1)
         email = ApplicationMailer.deliveries.last
-        expect(email.to.first).to eq "test@example.com"
+        expect(email.to).to match_array [eriks_email]
       end
 
       describe "the created account" do
