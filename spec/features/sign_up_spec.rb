@@ -55,9 +55,6 @@ describe "the sign up page", :onboarding do
       end
 
       it "sends an email to erik with the new user's email address" do
-        pending
-        # email is being sent through deliver_later (which defaults to :inline
-        # because we don't have resque set up yet). Don't know how to test
         expect{submit_form}.to change{ApplicationMailer.deliveries.length}.by(1)
         email = ApplicationMailer.deliveries.last
         expect(email.to.first).to eq "test@example.com"
