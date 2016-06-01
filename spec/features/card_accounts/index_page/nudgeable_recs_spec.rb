@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "user cards page - applied cards", :js do
+describe "user cards page - nudgeable cards", :js do
 
   include_context "logged in"
 
@@ -25,7 +25,7 @@ describe "user cards page - applied cards", :js do
   end
   let(:rec)  { @rec }
   let(:bank) { @bank }
-  subject(:rec_on_page) { AppliedCardAccountOnPage.new(rec, self) }
+  subject(:rec_on_page) { NudgeableCardAccountOnPage.new(rec, self) }
 
   shared_examples "clicking 'cancel'" do
     describe "and clicking 'cancel'" do
@@ -34,11 +34,9 @@ describe "user cards page - applied cards", :js do
       it "goes back to the 'I called'/'I heard back' buttons", :frontend do
         expect(rec_on_page).to have_i_called_btn
         expect(rec_on_page).to have_i_heard_back_btn
-        expect(rec_on_page).to have_no_nudged_and_approved_btn
-        expect(rec_on_page).to have_no_nudged_and_denied_btn
-        expect(rec_on_page).to have_no_nudged_and_pending_btn
-        expect(rec_on_page).to have_no_heard_back_and_approved_btn
-        expect(rec_on_page).to have_no_heard_back_and_denied_btn
+        expect(rec_on_page).to have_no_approved_btn
+        expect(rec_on_page).to have_no_denied_btn
+        expect(rec_on_page).to have_no_pending_btn
       end
     end
   end
@@ -88,9 +86,9 @@ describe "user cards page - applied cards", :js do
 
     shared_examples "asks to confirm" do
       it "asks to confirm", :frontend do
-        expect(rec_on_page).to have_no_nudged_and_approved_btn
-        expect(rec_on_page).to have_no_nudged_and_denied_btn
-        expect(rec_on_page).to have_no_nudged_and_pending_btn
+        expect(rec_on_page).to have_no_approved_btn
+        expect(rec_on_page).to have_no_denied_btn
+        expect(rec_on_page).to have_no_pending_btn
         expect(rec_on_page).to have_cancel_btn
         expect(rec_on_page).to have_confirm_btn
       end
@@ -98,9 +96,9 @@ describe "user cards page - applied cards", :js do
       describe "and clicking 'cancel'" do
         before { rec_on_page.click_cancel_btn }
         it "goes back a step", :frontend do
-          expect(rec_on_page).to have_nudged_and_approved_btn
-          expect(rec_on_page).to have_nudged_and_denied_btn
-          expect(rec_on_page).to have_nudged_and_pending_btn
+          expect(rec_on_page).to have_approved_btn
+          expect(rec_on_page).to have_denied_btn
+          expect(rec_on_page).to have_pending_btn
           expect(rec_on_page).to have_no_confirm_btn
         end
       end
@@ -110,13 +108,13 @@ describe "user cards page - applied cards", :js do
 
     it "asks me the result", :frontend do
       expect(rec_on_page).to have_no_i_called_btn
-      expect(rec_on_page).to have_nudged_and_approved_btn
-      expect(rec_on_page).to have_nudged_and_denied_btn
-      expect(rec_on_page).to have_nudged_and_pending_btn
+      expect(rec_on_page).to have_approved_btn
+      expect(rec_on_page).to have_denied_btn
+      expect(rec_on_page).to have_pending_btn
     end
 
     describe "clicking 'I was approved'" do
-      before { rec_on_page.click_nudged_and_approved_btn }
+      before { rec_on_page.click_approved_btn }
 
       include_examples "asks to confirm"
 
@@ -142,7 +140,7 @@ describe "user cards page - applied cards", :js do
     end
 
     describe "clicking 'I was denied'" do
-      before { rec_on_page.click_nudged_and_denied_btn }
+      before { rec_on_page.click_denied_btn }
 
       include_examples "asks to confirm"
 
@@ -168,7 +166,7 @@ describe "user cards page - applied cards", :js do
     end
 
     describe "clicking 'I'm still waiting'" do
-      before { rec_on_page.click_nudged_and_pending_btn }
+      before { rec_on_page.click_pending_btn }
 
       include_examples "asks to confirm"
 
@@ -195,8 +193,8 @@ describe "user cards page - applied cards", :js do
 
     shared_examples "asks to confirm" do
       it "asks to confirm", :frontend do
-        expect(rec_on_page).to have_no_heard_back_and_approved_btn
-        expect(rec_on_page).to have_no_heard_back_and_denied_btn
+        expect(rec_on_page).to have_no_approved_btn
+        expect(rec_on_page).to have_no_denied_btn
         expect(rec_on_page).to have_cancel_btn
         expect(rec_on_page).to have_confirm_btn
       end
@@ -204,8 +202,8 @@ describe "user cards page - applied cards", :js do
       describe "and clicking 'cancel'" do
         before { rec_on_page.click_cancel_btn }
         it "goes back a step", :frontend do
-          expect(rec_on_page).to have_heard_back_and_approved_btn
-          expect(rec_on_page).to have_heard_back_and_denied_btn
+          expect(rec_on_page).to have_approved_btn
+          expect(rec_on_page).to have_denied_btn
           expect(rec_on_page).to have_no_confirm_btn
         end
       end
@@ -224,14 +222,14 @@ describe "user cards page - applied cards", :js do
     it "asks me the result", :frontend do
       expect(rec_on_page).to have_no_i_called_btn
       expect(rec_on_page).to have_no_i_heard_back_btn
-      expect(rec_on_page).to have_heard_back_and_approved_btn
-      expect(rec_on_page).to have_heard_back_and_denied_btn
+      expect(rec_on_page).to have_approved_btn
+      expect(rec_on_page).to have_denied_btn
     end
 
     include_examples "clicking 'cancel'"
 
     describe "clicking 'I was approved'" do
-      before { rec_on_page.click_heard_back_and_approved_btn }
+      before { rec_on_page.click_approved_btn }
 
       include_examples "asks to confirm"
 
@@ -254,7 +252,7 @@ describe "user cards page - applied cards", :js do
     end
 
     describe "clicking 'I was denied'" do
-      before { rec_on_page.click_heard_back_and_denied_btn }
+      before { rec_on_page.click_denied_btn }
 
       include_examples "asks to confirm"
 

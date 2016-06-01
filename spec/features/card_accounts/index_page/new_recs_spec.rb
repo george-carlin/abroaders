@@ -7,7 +7,7 @@ describe "as a user viewing my cards", :js do
 
   include_context "logged in"
 
-  let(:me)   { account.main_passenger }
+  let(:me) { account.main_passenger }
 
   let!(:rec) do
     create(
@@ -17,7 +17,7 @@ describe "as a user viewing my cards", :js do
     )
   end
 
-  let(:rec_on_page) { CardAccountOnPage.new(rec, self) }
+  let(:rec_on_page) { NewCardAccountOnPage.new(rec, self) }
   let(:recommended_at) { Date.today }
 
   before { visit card_accounts_path }

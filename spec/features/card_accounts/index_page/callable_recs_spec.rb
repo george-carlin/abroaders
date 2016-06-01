@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "user cards page - denied cards", :js do
+describe "user cards page - callable cards", :js do
 
 
   include_context "logged in"
@@ -27,7 +27,7 @@ describe "user cards page - denied cards", :js do
     visit card_accounts_path
   end
   let(:rec) { @rec }
-  subject(:rec_on_page) { DeniedCardAccountOnPage.new(rec, self) }
+  subject(:rec_on_page) { CallableCardAccountOnPage.new(rec, self) }
 
   it "says when I applied and got denied", :frontend do
     expect(rec_on_page).to have_content "Applied: #{applied_at.strftime("%D")}"
