@@ -4,5 +4,5 @@ class NudgeableCardAccountOnPage < CardAccountOnPage
   button :approved,     "My application was approved"
   button :denied,       "My application was denied"
   button :pending,      "I'm still waiting to hear back"
-  button :i_heard_back, "The bank got back to me before I could call them"
+  button :i_heard_back, Proc.new { "I heard back from #{card_account.card.bank.name} by mail or email" }
 end

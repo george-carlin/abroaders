@@ -28,12 +28,14 @@ const CardAccountCallActions = React.createClass({
   render() {
     let buttons, helpText, action;
 
+    const bankName = this.props.cardAccount.card.bank.name
+
     switch (this.state.currentAction) {
       case "initial":
-        helpText = "Please let us know when you've called the bank:"
+        helpText = `Please let us know when you've called ${bankName}:`
         break;
       case "called":
-        helpText = "How did it go?"
+        helpText = "What was the outcome?"
         break;
       case "confirmApproved":
         action = "call_and_open";
@@ -57,7 +59,7 @@ const CardAccountCallActions = React.createClass({
             small
             onClick={e => this.setCurrentAction(e, "called")}
           >
-            I called
+            I called {bankName}
           </Button>
         );
         break;

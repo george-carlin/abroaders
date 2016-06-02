@@ -15,16 +15,25 @@ const PromptToCallTheBank = React.createClass({
       phoneNumber = bank.businessPhone;
     }
 
-    var secondParagraph;
+    var secondParagraphs;
     if (this.props.reconsideration) {
-      secondParagraph = (
-        <p>
-          More than 30% of applications that are initially denied are
-          overturned with a 5-10 minute phone call.
-        </p>
+      secondParagraphs = (
+        <div>
+          <p>
+            More than 30% of applications that are initially denied are
+            overturned with a 5-10 minute phone call.
+          </p>
+
+          <p>
+            For more details on getting a decision by phone, check
+            out <a href="http://www.abroaders.com/reconsideration-override-application-denials/">
+              this resource
+            </a>.
+          </p>
+        </div>
       );
     } else {
-      secondParagraph = (
+      secondParagraphs = (
         <p>
           You’re more than twice as likely to get approved if you
           call {bank.name} than if you wait for them to send your decision in
@@ -41,7 +50,7 @@ const PromptToCallTheBank = React.createClass({
           real person to review your application by phone.
         </p>
 
-        {secondParagraph}
+        {secondParagraphs}
       </div>
     );
   },

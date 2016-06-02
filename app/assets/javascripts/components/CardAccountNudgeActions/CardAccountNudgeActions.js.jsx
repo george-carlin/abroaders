@@ -37,35 +37,32 @@ const CardAccountNudgeActions = React.createClass({
   render() {
     var buttons, helpText, action;
 
+    const bankName = this.props.cardAccount.card.bank.name
+
     switch (this.state.currentAction) {
-      case "initial":
-        helpText = "Please let us know when you've called the bank. If the " +
-                "bank got back to you before you could call them, tell us too:"
-        break;
+      // No helpText or action when state == "initial"
       case "nudged":
-        helpText = "How did it go?"
-        break;
       case "heardBack":
-        helpText = "What did the bank say?"
+        helpText = "What was the outcome?"
         break;
       case "confirmNudgedAndApproved":
-        helpText = "You called the bank, and your application is now approved:"
+        helpText = `You called ${bankName}, and your application is now approved:`
         action = "nudge_and_open";
         break;
       case "confirmNudgedAndDenied":
-        helpText = "You called the bank, and found out that your application has been denied:"
+        helpText = `You called ${bankName}, and found out that your application has been denied:`
         action = "nudge_and_deny";
         break;
       case "confirmNudgedAndPending":
-        helpText = "You called the bank, but you still don't know the result of your application:"
+        helpText = `You called ${bankName}, but you still don't know the result of your application:`
         action = "nudge";
         break;
       case "confirmApproved":
-        helpText = "The bank got back to you, and your application has been approved:"
+        helpText = `${bankName} got back to you, and your application has been approved:`
         action = "open";
         break;
       case "confirmDenied":
-        helpText = "The bank got back to you, and your application has been denied:"
+        helpText = `${bankName} got back to you, and your application has been denied:`
         action = "deny";
         break;
     };
@@ -75,18 +72,18 @@ const CardAccountNudgeActions = React.createClass({
         buttons = (
           <ButtonGroup>
             <Button
-              small
-              primary
               onClick={e => this.setCurrentAction(e, "nudged")}
+              primary
+              small
             >
-              I called
+              I called {bankName}
             </Button>
             <Button
-              small
               default
               onClick={e => this.setCurrentAction(e, "heardBack")}
+              small
             >
-              The bank got back to me before I could call them
+              I heard back from {bankName} by mail or email
             </Button>
           </ButtonGroup>
         );
@@ -163,7 +160,11 @@ const CardAccountNudgeActions = React.createClass({
           card={this.props.cardAccount.card}
         />
 
-        <p>{helpText}</p>
+        {(() => {
+          if (helpText) {
+            return <p>{helpText}</p>;
+          }
+        })()}
 
         {buttons}
       </Form>

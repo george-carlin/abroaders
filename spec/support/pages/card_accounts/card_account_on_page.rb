@@ -13,7 +13,7 @@ class CardAccountOnPage < ModelOnPage
 
   button :decline,      "No Thanks"
   button :i_applied,    "I applied"
-  button :i_called,     "I called"
+  button :i_called,     Proc.new { "I called #{card_account.card.bank.name}" }
   button :i_heard_back, "I heard back from the bank"
 
   def has_apply_btn?

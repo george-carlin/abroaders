@@ -7,16 +7,19 @@ class ObjectOnPage < Struct.new(:spec_context)
 
   def self.button(name, text)
     define_method "has_#{name}_button?" do
+      text = instance_eval(&text) if text.is_a?(Proc)
       has_button?(text)
     end
     alias_method "has_#{name}_btn?", "has_#{name}_button?"
 
     define_method "has_no_#{name}_button?" do
+      text = instance_eval(&text) if text.is_a?(Proc)
       has_no_button?(text)
     end
     alias_method "has_no_#{name}_btn?", "has_no_#{name}_button?"
 
     define_method "click_#{name}_button" do
+      text = instance_eval(&text) if text.is_a?(Proc)
       click_button(text)
     end
     alias_method "click_#{name}_btn", "click_#{name}_button"
