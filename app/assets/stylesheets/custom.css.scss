@@ -1,5 +1,13 @@
 $darkBlue: #34495e;
 
+// Prevent the navbar from obscuring the main content when the sidebar
+// is not present
+.wrapper {
+  position: relative;
+  top: 62px;
+}
+
+
 .navbar-nav {
   > li {
     &.text {
