@@ -103,6 +103,11 @@ Rails.application.routes.draw do
 
   namespace :admin, module: :admin_area do
     resources :accounts, only: [ :index, :show ]
+    resources :cards, only: [] do
+      collection do
+        get  :images
+      end
+    end
     resources :cards, except: :destroy do
       resources :offers, except: :destroy
     end

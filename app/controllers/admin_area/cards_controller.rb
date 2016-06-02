@@ -45,6 +45,10 @@ module AdminArea
       end
     end
 
+    def images
+      @cards = Card.all
+    end
+
     private
 
     def load_card
