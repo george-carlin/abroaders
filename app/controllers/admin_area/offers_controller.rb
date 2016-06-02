@@ -57,8 +57,13 @@ module AdminArea
       end
     end
 
-    def kill(offer)
-      offer.live = false
+    def kill
+      @offer = Offer.find(params[:id])
+      @offer.live = false
+      @offer.save!
+      respond_to do |format|
+        format.js
+      end
     end
 
     def review

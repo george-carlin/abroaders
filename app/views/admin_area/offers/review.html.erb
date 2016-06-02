@@ -18,9 +18,6 @@
         <%= link_to "cards page", admin_cards_path %> and click 'New Offer'
       </p>
 
-      <p>
-        Click on a card's name below to see all existing live offers for that card.
-      </p>
     <% end %>
   </div>
 <% end %>
@@ -52,7 +49,7 @@
           <% present_each @offers, AdminArea::OfferPresenter do |offer| %>
             <%= content_tag_for :tr, offer do %>
               <td><%= offer.identifier(with_card: true) %></td>
-              <td><%= offer.link_to_show_for_card %></td>
+              <td><%= offer.card_name %></td>
               <td><%= offer.bank_name %></td>
               <td><%= offer.points_awarded %></td>
               <td><%= offer.spend %></td>

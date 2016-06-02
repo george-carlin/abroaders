@@ -21,11 +21,14 @@ class AdminArea::OfferPresenter < OfferPresenter
     prefix = :kill
     h.button_to(
         "Kill",
-        #h.admin_person_card_recommendations_path(person),
-        h.kill_admin_offers_review_path(:id),
+        h.kill_admin_offer_path(id),
         class:  "#{h.dom_class(self, prefix)}_btn #{btn_classes} pull-right",
         id:     "#{h.dom_id(self, prefix)}_btn",
-        params: { offer_id: id }
+        params: { offer_id: id },
+        :method => :patch,
+        remote: true,
+        data: { confirm: 'Are you sure you want to kill offer ' + id.to_s + '?' }
     )
   end
+
 end
