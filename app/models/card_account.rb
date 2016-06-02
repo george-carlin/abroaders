@@ -1,7 +1,91 @@
+# A 'card account' is the join table between a Person and a Card.
+#
+# Note that 'card account' is the terminology we use internally to distinguish
+# this model from a Card, but from the user's point of view he doesn't care
+# about 'card accounts', he just thinks that he 'has cards'. (This is why, for
+# example, the user accesses the card_accounts#index page at the path '/cards',
+# not at '/card_accounts/')
 class CardAccount < ApplicationRecord
 
+  # A card account has the following timestamps, all of which are nullable:
+  #
+  # recommended_at:
+  #   the date the admin recommended the card to the user. May be null,
+  #   if the user added the card in the onboarding survey, or if the admin
+  #   assigned the card to the user 'manually' (not through the recommendation
+  #   system), e.g. to handle legacy data.
+  #
+  # clicked_at:
+  #   the date the user clicked the 'apply' button on the card recommendation
+  #   page. Note that we don't know for sure that they actually applied, just
+  #   that they clicked the link. (We have to rely on them coming back and
+  #   telling us that they applied).
+  #
+  # declined_at:
+  #   For whatever reason, a user might not want to apply for the card we
+  #   recommend to them. If that's the case, they have option to 'decline' the
+  #   card and tell us why. This timestamp tells us when they declined.
+  #   (There's also a 'decline_reason' text field for them to say why they're
+  #   declining.)
+  #
+  # applied_at:
+  #   the date the user *applied* for the card (according to them).
+  #
+  # opened_at:
+  #   the date the user was approved for the card and their account was opened.
+  #
+  # earned_at:
+  #   the date the user earned their signup bonus. (It might be the same date
+  #   they opened the account, if the offer is 'on approval')
+  #
+  # closed_at:
+  #   the date the user's card expired or they closed the account.
+  #
+  # denied_at:
+  #   If the user applied for the card but their application was denied,
+  #   this timestamp tells us when.
+  #
+  # nudged_at:
+  #   If the user applies for the card but doesn't hear back immediately,
+  #   we encourage them to call the bank to speed up the application process.
+  #   If they tell us they've called, then 'nudged_at' is the date they called.
+  #   Note that nudged_at is distinct from 'called_at', explained below:
+  #
+  # called_at
+  #   If the user applies and is *denied* (as opposed to just not having
+  #   heard back yet), we also encourage them to call and see if the application
+  #   can be reconsidered. In this case we set the called_at timestamp, not the
+  #   nudged_at timestamp.
+  #
+  #   So in brief: a 'nudge' is when they call the bank about a *pending*
+  #   application. A 'call' is when they call the bank about a *denied*
+  #   application. (If they nudge and then are denied, we don't encourage them
+  #   to call again. They should only call if the application was denied
+  #   without nudging. So nudged_at and called_at will never both be present)
+  #
+  #   NOTE: the distinction between 'nudging' and 'calling' is a code-level
+  #   thing that should only matter to developers. From the point of view of
+  #   the business and the non-technical stakeholders, both actions are
+  #   considered to be 'calling', and non-developers don't need to know about
+  #   the terminology 'nudge'. We're using this internal distinction because it
+  #   makes it much easier to track a user's actions and figure out where they
+  #   are in the application survey.
+  #
+  # redenied_at
+  #   If the user is denied, calls, and gets denied again, this is the date
+  #   they were denied for the second time. We need this column for two
+  #   reasons: 1) it's the only way to distinguish between a user who has
+  #   called for reconsideration, and a user who has been denied again after
+  #   calling for reconsideration - and 2) we need to preserve the original
+  #   denied_at timestamp because that's what determines when the user can
+  #   apply again
+  #
+  # created_at/updated_at
+  #   The normal Rails/PSQL timestamp columns. But you already knew that ;)
+  #
+
   def status
-    Status.new(attributes.slice(*Status::TIMESTAMPS)).name
+    status_model.name
   end
 
   def from_survey?
@@ -12,8 +96,10 @@ class CardAccount < ApplicationRecord
     !from_survey?
   end
 
-  def declined?
-    status == "declined"
+  %w[recommended declined denied open closed].each do |status|
+    define_method "#{status}?" do
+      status == status
+    end
   end
 
   # Validations
@@ -63,6 +149,10 @@ class CardAccount < ApplicationRecord
   alias_method :deniable?, :applyable?
   alias_method :pendingable?, :applyable?
 
+  def show_survey?
+    status_model.show_survey?
+  end
+
   # Scopes
 
   scope :from_survey,     -> { where(recommended_at: nil) }
@@ -82,4 +172,7 @@ class CardAccount < ApplicationRecord
     end
   end
 
+  def status_model
+    Status.new(attributes.slice(*Status::TIMESTAMPS))
+  end
 end

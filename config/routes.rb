@@ -8,6 +8,8 @@ Rails.application.routes.draw do
 
   get "/accounts/connect/awardwallet", to: "oauth#award_wallet"
 
+  get "/styles", to: "application#styles"
+
   devise_scope :account do
     get    :sign_in,  to: "sessions#new",     as: :new_account_session
     post   :sign_in,  to: "sessions#create",  as: :account_session

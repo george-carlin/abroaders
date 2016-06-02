@@ -32,6 +32,10 @@
 // (Any data attribute that's not called 'component' is assumed to be a prop of
 // the react component)
 
+const $     = require("jquery");
+const _     = require("underscore");
+const humps = require("humps");
+
 $(document).ready(function () {
   $("[data-react-component]").each(function (i, el) {
     const $el  = $(el);
@@ -50,6 +54,9 @@ $(document).ready(function () {
     delete data.reactComponent;
     const props = {};
     _.each($el.data(), function(value, propName) {
+      if (typeof value === "object") {
+        value = humps.camelizeKeys(value);
+      }
       props[propName] = value;
     });
 

@@ -6,6 +6,7 @@
     <th>Recommended</th>
     <th>Clicked</th>
     <th>Applied</th>
+    <th>Denied</th>
     <th>Declined</th>
     <th>Opened</th>
   </thead>
@@ -30,6 +31,9 @@
         </td>
         <td class="card_account_applied_at">
           <%= card_account.applied_at || "-" %>
+        </td>
+        <td class="card_account_denied_at">
+          <%= card_account.denied_at || "-" %>
         </td>
         <td class="card_account_declined_at">
           <%= card_account.declined_at || "-" %>

@@ -1,6 +1,8 @@
 const React = require("react");
+const _     = require("underscore");
 
-const Button = require("../Button");
+const Button      = require("../Button");
+const ButtonGroup = require("../ButtonGroup");
 
 const ConfirmOrCancelBtns = React.createClass({
 
@@ -16,8 +18,18 @@ const ConfirmOrCancelBtns = React.createClass({
 
 
   render() {
+    const props = _.clone(this.props);
+
+    delete props.cancelBtnClass;
+    delete props.cancelBtnId;
+    delete props.confirmBtnClass;
+    delete props.confirmBtnId;
+    delete props.onClickConfirm;
+    delete props.onClickCancel;
+    delete props.small;
+
     return (
-      <div className={`btn-group ${this.props.className}`}>
+      <ButtonGroup {...props}>
         <Button
           className={this.props.confirmBtnClass}
           id={this.props.confirmBtnId}
@@ -36,7 +48,7 @@ const ConfirmOrCancelBtns = React.createClass({
         >
           Cancel
         </Button>
-      </div>
+      </ButtonGroup>
     );
   },
 });

@@ -66,16 +66,8 @@ en:
     index:
       application_pending: "Thanks for taking our recommendation and applying for the card! When you hear back from the bank, please come back and tell us whether or not your application for the card was successful."
       couldnt_decline: "Couldn't decline card recommendation. This may happen if you already declined or accepted the recommendation in a different browser window, or if you hit the 'back' button after accepting or declining the first time."
-      we_recommend_you_call: "We strongly recommend that you call BANK at BANK PERSONAL/BIZ PHONE as soon as possible to ask for a real person to review your application by phone."
-      call_when_denied: "More than 30% of applications that are initially denied are overturned with a 5-10 minute phone call."
-      call_when_pending: "You’re more than twice as likely to get approved if you call BANK than if you wait for them to send your decision in the mail"
+      couldnt_update: "Couldn't update card recommendation. This may happen if you already performed the same action in a different browser window or tab, or if you hit the 'back' button after performing the action the first time."
       recs_coming_soon: "The Abroaders team is hand selecting the ideal rewards cards based on your current points, travel plans and spending. We’ll let you know as soon as the card recommendations are ready to view."
-    flash:
-      updated_status_to:
-        declined: "You have indicated that you do not want to apply for this card"
-        open:     "Card account opened!"
-        pending:  "You have indicated that you applied for the card and are waiting to hear back from the bank. We strongly encourage you to call the bank and ask them to review your application manually (more information below). In any case, please come back and let us know when you get the results of your application."
-        denied:   "You have indicated that the bank denied your application for the card. We strongly encourage you to call the bank and ask them to review your application manually (more information below)."
 
   admin:
     offers:

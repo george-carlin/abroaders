@@ -20,6 +20,16 @@ FactoryGirl.define do
       open
     end
 
+    trait :applied do
+      recommendation
+      applied_at { 4.days.ago }
+    end
+
+    trait :denied do
+      applied
+      denied_at { 3.days.ago }
+    end
+
     trait :recommendation do
       recommended_at { Time.now }
       card nil
@@ -40,5 +50,7 @@ FactoryGirl.define do
     factory :card_recommendation, traits: [:recommendation]
     factory :clicked_card_recommendation, traits: [:recommendation, :clicked]
     factory :declined_card_recommendation, traits: [:recommendation, :declined]
+
+    factory :denied_card_recommendation, traits: [:denied]
   end
 end

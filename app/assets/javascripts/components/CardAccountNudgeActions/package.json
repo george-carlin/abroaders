@@ -1,0 +1,6 @@
+{
+  "name": "CardAccountNudgeActions",
+  "version": "0.0.1",
+  "private": true,
+  "main": "./CardAccountNudgeActions.js.jsx"
+}

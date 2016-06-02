@@ -1,9 +1,6 @@
 require "rails_helper"
 
 describe "as a user viewing my cards - survey cards section" do
-  include ActionView::Helpers::NumberHelper
-  include CardAccountsIndexPageMacros
-
   subject { page }
 
   include_context "logged in"
@@ -32,6 +29,9 @@ describe "as a user viewing my cards - survey cards section" do
       @open_account   = create(:open_survey_card_account, person: me, card: @cards[0])
       @closed_account = create(:closed_survey_card_account, person: me, card: @cards[1])
     end
+
+    let(:open_account)   { CardAccountOnPage.new(@open_account, self) }
+    let(:closed_account) { CardAccountOnPage.new(@closed_account, self) }
   end
 
   shared_examples "lists main passenger cards" do
@@ -42,32 +42,28 @@ describe "as a user viewing my cards - survey cards section" do
 
     it "lists them" do
       within main_survey_cards_section do
-        is_expected.to have_selector card_account_selector(@open_account)
-        is_expected.to have_selector card_account_selector(@closed_account)
+        expect(open_account).to be_present
+        expect(closed_account).to be_present
       end
 
-      within card_account_selector(@open_account) do
-        is_expected.to have_content "Card Name: #{@cards[0].name}"
-        is_expected.to have_content "Bank: #{@cards[0].bank_name}"
-        is_expected.to have_content "Open"
-        is_expected.to have_content @open_account.opened_at.strftime("%b %Y")
-        is_expected.not_to have_content "Closed"
-      end
+      expect(open_account).to have_content "Card Name: #{@cards[0].name}"
+      expect(open_account).to have_content "Bank: #{@cards[0].bank_name}"
+      expect(open_account).to have_content "Open"
+      expect(open_account).to have_content @open_account.opened_at.strftime("%b %Y")
+      expect(open_account).to have_no_content "Closed"
 
-      within card_account_selector(@closed_account) do
-        is_expected.to have_content "Card Name: #{@cards[1].name}"
-        is_expected.to have_content "Bank: #{@cards[1].bank_name}"
-        is_expected.to have_content "Closed"
-        is_expected.to have_content @closed_account.opened_at.strftime("%b %Y")
-        is_expected.to have_content @closed_account.closed_at.strftime("%b %Y")
-      end
+      expect(closed_account).to have_content "Card Name: #{@cards[1].name}"
+      expect(closed_account).to have_content "Bank: #{@cards[1].bank_name}"
+      expect(closed_account).to have_content "Closed"
+      expect(closed_account).to have_content @closed_account.opened_at.strftime("%b %Y")
+      expect(closed_account).to have_content @closed_account.closed_at.strftime("%b %Y")
     end
 
     it "doesn't have apply/decline btns for them" do
-      is_expected.to have_no_apply_btn(@open_account)
-      is_expected.to have_no_decline_btn(@open_account)
-      is_expected.to have_no_apply_btn(@closed_account)
-      is_expected.to have_no_decline_btn(@closed_account)
+      expect(open_account).to have_no_apply_btn
+      expect(open_account).to have_no_decline_btn
+      expect(closed_account).to have_no_apply_btn
+      expect(closed_account).to have_no_decline_btn
     end
   end
 
@@ -120,6 +116,9 @@ describe "as a user viewing my cards - survey cards section" do
         @closed_account = create(:closed_survey_card_account, person: partner, card: @cards[1])
       end
 
+      let(:open_account)   { CardAccountOnPage.new(@open_account, self) }
+      let(:closed_account) { CardAccountOnPage.new(@closed_account, self) }
+
       it "has a section for them" do
         is_expected.to have_selector "h2", "Other Cards"
         is_expected.to have_selector "#card_accounts_from_survey"
@@ -127,32 +126,28 @@ describe "as a user viewing my cards - survey cards section" do
 
       it "lists them" do
         within partner_survey_cards_section do
-          is_expected.to have_selector card_account_selector(@open_account)
-          is_expected.to have_selector card_account_selector(@closed_account)
+          expect(open_account).to be_present
+          expect(closed_account).to be_present
         end
 
-        within card_account_selector(@open_account) do
-          is_expected.to have_content "Card Name: #{@cards[0].name}"
-          is_expected.to have_content "Bank: #{@cards[0].bank_name}"
-          is_expected.to have_content "Open"
-          is_expected.to have_content @open_account.opened_at.strftime("%b %Y")
-          is_expected.not_to have_content "Closed"
-        end
+        expect(open_account).to have_content "Card Name: #{@cards[0].name}"
+        expect(open_account).to have_content "Bank: #{@cards[0].bank_name}"
+        expect(open_account).to have_content "Open"
+        expect(open_account).to have_content @open_account.opened_at.strftime("%b %Y")
+        expect(open_account).to have_no_content "Closed"
 
-        within card_account_selector(@closed_account) do
-          is_expected.to have_content "Card Name: #{@cards[1].name}"
-          is_expected.to have_content "Bank: #{@cards[1].bank_name}"
-          is_expected.to have_content "Closed"
-          is_expected.to have_content @closed_account.opened_at.strftime("%b %Y")
-          is_expected.to have_content @closed_account.closed_at.strftime("%b %Y")
-        end
+        expect(closed_account).to have_content "Card Name: #{@cards[1].name}"
+        expect(closed_account).to have_content "Bank: #{@cards[1].bank_name}"
+        expect(closed_account).to have_content "Closed"
+        expect(closed_account).to have_content @closed_account.opened_at.strftime("%b %Y")
+        expect(closed_account).to have_content @closed_account.closed_at.strftime("%b %Y")
       end
 
       it "doesn't have apply/decline btns for them" do
-        is_expected.to have_no_apply_btn(@open_account)
-        is_expected.to have_no_decline_btn(@open_account)
-        is_expected.to have_no_apply_btn(@closed_account)
-        is_expected.to have_no_decline_btn(@closed_account)
+        expect(open_account).to have_no_apply_btn
+        expect(open_account).to have_no_decline_btn
+        expect(closed_account).to have_no_apply_btn
+        expect(closed_account).to have_no_decline_btn
       end
 
       it "notes that I didn't add any cards" do
@@ -169,35 +164,36 @@ describe "as a user viewing my cards - survey cards section" do
         @p_closed = create(:closed_survey_card_account, person: partner, card: @cards[1])
       end
 
+      let(:m_open)   { CardAccountOnPage.new(@m_open,   self) }
+      let(:m_closed) { CardAccountOnPage.new(@m_closed, self) }
+      let(:p_open)   { CardAccountOnPage.new(@p_open,   self) }
+      let(:p_closed) { CardAccountOnPage.new(@p_closed, self) }
+
       it "lists them all" do
         within main_survey_cards_section do
-          is_expected.to have_selector card_account_selector(@m_open)
-          is_expected.to have_selector card_account_selector(@m_closed)
+          expect(m_open).to be_present
+          expect(m_closed).to be_present
         end
 
         within partner_survey_cards_section do
-          is_expected.to have_selector card_account_selector(@p_open)
-          is_expected.to have_selector card_account_selector(@p_closed)
+          expect(p_open).to be_present
+          expect(p_closed).to be_present
         end
 
-        [@m_open, @p_open].each do |account|
-          within card_account_selector(account) do
-            is_expected.to have_content "Card Name: #{@cards[0].name}"
-            is_expected.to have_content "Bank: #{@cards[0].bank_name}"
-            is_expected.to have_content "Open"
-            is_expected.to have_content account.opened_at.strftime("%b %Y")
-            is_expected.not_to have_content "Closed"
-          end
+        [m_open, p_open].each do |account|
+          expect(account).to have_content "Card Name: #{@cards[0].name}"
+          expect(account).to have_content "Bank: #{@cards[0].bank_name}"
+          expect(account).to have_content "Open"
+          expect(account).to have_content account.model.opened_at.strftime("%b %Y")
+          expect(account).to have_no_content "Closed"
         end
 
-        [@m_closed, @p_closed].each do |account|
-          within card_account_selector(account) do
-            is_expected.to have_content "Card Name: #{@cards[1].name}"
-            is_expected.to have_content "Bank: #{@cards[1].bank_name}"
-            is_expected.to have_content "Closed"
-            is_expected.to have_content account.opened_at.strftime("%b %Y")
-            is_expected.to have_content account.closed_at.strftime("%b %Y")
-          end
+        [m_closed, p_closed].each do |account|
+          expect(account).to have_content "Card Name: #{@cards[1].name}"
+          expect(account).to have_content "Bank: #{@cards[1].bank_name}"
+          expect(account).to have_content "Closed"
+          expect(account).to have_content account.model.opened_at.strftime("%b %Y")
+          expect(account).to have_content account.model.closed_at.strftime("%b %Y")
         end
       end
     end
