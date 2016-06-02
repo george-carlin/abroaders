@@ -5,6 +5,48 @@ class ObjectOnPage < Struct.new(:spec_context)
     I18n.t(*args)
   end
 
+  def self.button(name, text)
+    define_method "has_#{name}_button?" do
+      has_button?(text)
+    end
+    alias_method "has_#{name}_btn?", "has_#{name}_button?"
+
+    define_method "has_no_#{name}_button?" do
+      has_no_button?(text)
+    end
+    alias_method "has_no_#{name}_btn?", "has_no_#{name}_button?"
+
+    define_method "click_#{name}_button" do
+      click_button(text)
+    end
+    alias_method "click_#{name}_btn", "click_#{name}_button"
+  end
+
+  def self.field(method, name)
+    define_method method do
+      if name.is_a?(Proc)
+        instance_eval(&name)
+      else
+        name
+      end
+    end
+
+    define_method "fill_in_#{method}" do |opts={}|
+      field = name.is_a?(Proc) ? instance_eval(&name) : name
+      fill_in field, opts
+    end
+
+    define_method "has_#{method}_field?" do
+      field = name.is_a?(Proc) ? instance_eval(&name) : name
+      has_field?(field)
+    end
+
+    define_method "has_no_#{method}_field?" do
+      field = name.is_a?(Proc) ? instance_eval(&name) : name
+      has_no_field?(field)
+    end
+  end
+
   def present?
     has_selector?(dom_selector)
   end
