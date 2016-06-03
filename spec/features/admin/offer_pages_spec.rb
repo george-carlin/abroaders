@@ -257,7 +257,7 @@ describe "admin section" do
           page.accept_confirm do
             find_button("kill_offer_#{ @live_2.id }_btn").click
           end
-          sleep(1.seconds)
+          wait_for_ajax
           @live_2.reload
           expect(@live_2.live).to be false
         end
