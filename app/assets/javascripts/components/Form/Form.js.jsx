@@ -5,39 +5,40 @@ const AuthTokenField = require("../AuthTokenField");
 const HiddenFieldTag = require("../HiddenFieldTag");
 
 const Form = React.createClass({
-  render() {
-    var methodInput, methodAttr;
+  propTypes: {
+    method: React.PropTypes.string,
+  },
 
-    switch (this.props.method) {
-      case "put":
-        methodInput = (
-          <HiddenFieldTag name="_method" value={this.props.method} />
-        );
-        methodAttr = "post";
-        break;
-      case "patch":
-        methodInput = (
-          <HiddenFieldTag name="_method" value={this.props.method} />
-        );
-        methodAttr = "post";
-        break;
-      default:
-        methodInput = null;
-        methodAttr = this.props.methodAttr;
-        break;
+
+  getDefaultProps() {
+    return {
+      method: "post"
+    };
+  },
+
+
+  render() {
+    var method, methodHiddenInput;
+    const props = _.clone(this.props);
+
+    if (_.includes(["get", "post"], props.method)) {
+      method = props.method;
+    } else {
+      method = "post";
+      methodHiddenInput = <HiddenFieldTag name="_method" value={props.method}/>;
     }
 
-    var props = _.clone(this.props);
     delete props.method;
 
     return (
       <form
         acceptCharset="UTF-8"
-        method={methodAttr}
+        method={method}
         {...props}
       >
         <AuthTokenField />
-        {methodInput}
+        {methodHiddenInput}
+
         {this.props.children}
       </form>
     );
