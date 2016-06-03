@@ -2,23 +2,11 @@
 
 <% content_for :header_panel do %>
   <div class="panel-body">
-    <% if @card.present? %>
-      <% present @card do |card| %>
-        <h1><%= card.full_name(with_bank: true) %> - Live Card Offers</h1>
-      <% end %>
-
-      <p>
-        <%= link_to "Add a new offer for this card", new_admin_card_offer_path(@card) %>
-      </p>
-    <% else %>
-      <h1>Live Card Offers</h1>
-
-      <p>
-        To add a new offer, find the card on the
-        <%= link_to "cards page", admin_cards_path %> and click 'New Offer'
-      </p>
-
-    <% end %>
+    <h1>Live Card Offers</h1>
+    <p>
+      To add a new offer, find the card on the
+      <%= link_to "cards page", admin_cards_path %> and click 'New Offer'
+    </p>
   </div>
 <% end %>
 

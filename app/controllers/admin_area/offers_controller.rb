@@ -67,12 +67,7 @@ module AdminArea
     end
 
     def review
-      if params[:card_id]
-        @card   = load_card
-        @offers = @card.offers.live
-      else
-        @offers = Offer.includes(:card).live
-      end
+      @offers = Offer.includes(:card).live
     end
 
     private
