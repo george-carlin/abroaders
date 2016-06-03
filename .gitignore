@@ -28,6 +28,3 @@ config/database.yml
 public/system
 
 vendor/homer
-
-RubyMine IDE files
-.idea/*
