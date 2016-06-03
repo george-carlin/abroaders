@@ -8,7 +8,9 @@
       <b>Card Name:</b>
       <span class="card-account-card-name">
         <%= card_account.card.name %>
-        (<%= card_account.card.network %>)
+        <% unless card_account.card.unknown_network? %>
+          (<%= card_account.card.network %>)
+        <% end %>
       </span>
     </p>
 
@@ -33,6 +35,9 @@
     <% if card_account.applied_at? %>
       <p><b>Applied:</b> <%= card_account.applied_at %></p>
     <% end %>
+    <% if card_account.denied_at? %>
+      <p><b>Denied:</b> <%= card_account.denied_at %></p>
+    <% end %>
     <% if card_account.opened_at? %>
       <p><b>Opened:</b> <%= card_account.opened_at %></p>
     <% end %>
@@ -48,6 +53,15 @@
         data-react-component="CardAccountApplyOrDecline"
         data-apply-path="<%= apply_card_recommendation_path(card_account) %>"
         data-decline-path="<%= decline_card_recommendation_path(card_account) %>"
+      ></div>
+    <% end %>
+
+    <% if card_account.show_survey? %>
+      <br>
+      <div
+        data-react-component="CardApplicationSurvey"
+        data-update-path="<%= card_recommendation_path(card_account) %>"
+        data-card-account="<%= serialize(card_account) %>"
       ></div>
     <% end %>
   </div>

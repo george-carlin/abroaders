@@ -1,5 +1,20 @@
 $darkBlue: #34495e;
 
+// Prevent the navbar from obscuring the main content when the sidebar
+// is not present
+.wrapper {
+  position: relative;
+  top: 62px;
+}
+
+#logo {
+  border-right: 1px solid #e4e5e7;
+}
+
+.header-link {
+  border-left: none;
+}
+
 .navbar-nav {
   > li {
     &.text {
@@ -284,16 +299,4 @@ td.offer-days {
 .confirm_recommend_offer_btn {
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
-}
-
-
-// APPLICATION SURVEY
-
-.decline_card_recommendation_error_message_wrapper {
-  width: 40%;
-  display: inline-block;
-}
-
-.card_confirm_cancel_decline_btn_group {
-  bottom: 1px;
 }

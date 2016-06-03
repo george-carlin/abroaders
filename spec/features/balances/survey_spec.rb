@@ -3,25 +3,27 @@ require "rails_helper"
 describe "the balance survey page", :onboarding do
   subject { page }
 
-  let!(:account) do
-    create(
-      :account,
-      :onboarded_travel_plans => onboarded_travel_plans,
-      :onboarded_type         => onboarded_type,
-    )
-  end
-  let!(:me) { account.people.find_by(main: true) }
+  include_context "set erik's email ENV var"
 
   let!(:onboarded_type) { true }
   let!(:onboarded_travel_plans) { true }
 
   before do
-    me.update_attributes!(onboarded_balances: onboarded)
+    @account  = create(
+                  :account,
+                  :onboarded_travel_plans => onboarded_travel_plans,
+                  :onboarded_type         => onboarded_type,
+                )
+    @me = account.main_passenger
+    @me.update_attributes!(onboarded_balances: onboarded)
     @currencies = create_list(:currency, 3)
     login_as_account(account)
     visit survey_person_balances_path(me)
   end
   let(:submit_form) { click_button "Submit" }
+
+  let(:account) { @account }
+  let(:me)      { @me }
 
   def currency_selector(currency)
     "##{dom_id(currency)}"
@@ -84,19 +86,20 @@ describe "the balance survey page", :onboarding do
   describe "submitting the form" do
     before do
       if i_am_eligible_to_apply
-        me.eligible_to_apply!
+        @me.eligible_to_apply!
       end
+
       if i_am_the_partner
-        me.update_attributes!(main: false)
+        @me.update_attributes!(main: false)
+        Person.create!(main: true, first_name: "X", account: @account)
       elsif i_have_a_partner
-        @partner = account.create_companion!(first_name: "Somebody")
+        @partner = @account.create_companion!(first_name: "Somebody")
         if partner_is_eligible_to_apply
           @partner.eligible_to_apply!
         end
       end
 
       pre_submit
-      submit_form
     end
 
     let(:i_am_eligible_to_apply) { false }
@@ -112,8 +115,11 @@ describe "the balance survey page", :onboarding do
       context "and I am eligible to apply for cards" do
         let(:i_am_eligible_to_apply) { true }
         it "takes me to the readiness survey" do
+          submit_form
           expect(current_path).to eq new_person_readiness_status_path(me)
         end
+
+        include_examples "don't send any emails"
       end
 
       context "and I am ineligible to apply for cards" do
@@ -124,22 +130,31 @@ describe "the balance survey page", :onboarding do
           context "who is eligible to apply for cards" do
             let(:partner_is_eligible_to_apply) { true }
             it "takes me to the partner's spending survey" do
+              submit_form
               expect(current_path).to eq new_person_spending_info_path(partner)
             end
+
+            include_examples "don't send any emails"
           end
 
           context "who is ineligible to apply for cards" do
             let(:partner_is_eligible_to_apply) { false }
             it "takes me to the partner's balances survey" do
+              submit_form
               expect(current_path).to eq survey_person_balances_path(partner)
             end
+
+            include_examples "don't send any emails"
           end
         end
 
         context "and I don't have a partner on the account" do
           it "takes me to my dashboard" do
+            submit_form
             expect(current_path).to eq root_path
           end
+
+          include_examples "send survey complete email to admin"
         end
       end
     end
@@ -150,20 +165,27 @@ describe "the balance survey page", :onboarding do
       context "and I am eligible to apply for cards" do
         let(:i_am_eligible_to_apply) { true }
         it "takes me to the readiness survey" do
+          submit_form
           expect(current_path).to eq new_person_readiness_status_path(me)
         end
+
+        include_examples "don't send any emails"
       end
 
       context "and I am ineligible to apply for cards" do
         let(:i_am_eligible_to_apply) { false }
 
         it "takes me to the dashboard" do
+          submit_form
           expect(current_path).to eq root_path
         end
+
+        include_examples "send survey complete email to admin"
       end
     end
 
     it "marks me as having completed the balances survey" do
+      submit_form
       expect(me.reload.onboarded_balances?).to be true
     end
 
@@ -173,6 +195,7 @@ describe "the balance survey page", :onboarding do
       end
 
       it "saves the email" do
+        submit_form
         expect(me.reload.award_wallet_email).to eq "a@b.com"
       end
     end

@@ -41,6 +41,10 @@ class BalancesSurvey
           @person.award_wallet_email = award_wallet_email
         end
         @person.save(validate: false)
+
+        if send_survey_complete_notification?
+          AccountMailer.notify_admin_of_survey_completion(@person.account_id).deliver_later
+        end
         true
       end
     else
@@ -85,5 +89,11 @@ class BalancesSurvey
     save
   end
   # ---------------- /DUPE METHODS ---------------
+
+  private
+
+  def send_survey_complete_notification?
+    !@person.eligible_to_apply? && !(@person.main? && @person.account.has_companion?)
+  end
 
 end

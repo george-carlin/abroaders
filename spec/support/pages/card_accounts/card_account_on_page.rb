@@ -3,20 +3,18 @@ require_relative "../model_on_page"
 class CardAccountOnPage < ModelOnPage
   alias_method :card_account, :model
 
-  button :approved,  "I was approved"
-  button :decline,   "No Thanks"
-  button :confirm,   "Confirm"
-  button :cancel,    "Cancel"
-  button :denied,    "My application was denied"
-  button :i_applied, "I applied"
-  button :pending,   "I'm waiting to hear back"
+  button :confirm, "Confirm"
+  button :cancel,  "Cancel"
 
-  field :approved_at,    "card_account_approved_at"
-  field :decline_reason, "card_account_decline_reason"
+  # =================================================
+  # These methods pertain to elements which are only relevant to certain
+  # recommendation statuses, but keep them in the superclass so that other specs
+  # can test that the elements are *not* present:
 
-  def decline_reason_wrapper
-    find("#" << decline_reason).find(:xpath, '..')
-  end
+  button :decline,      "No Thanks"
+  button :i_applied,    "I applied"
+  button :i_called,     Proc.new { "I called #{card_account.card.bank.name}" }
+  button :i_heard_back, "I heard back from the bank"
 
   def has_apply_btn?
     # The apply 'button' is actually a link styled like a button:
@@ -28,10 +26,6 @@ class CardAccountOnPage < ModelOnPage
     has_no_link? "Apply", href: apply_card_recommendation_path(card_account)
   end
 
-  def set_approved_at_to(date)
-    find("#" << approved_at).click
-    day = date.strftime("%e").strip
-    find(".datepicker .day:not(.old)", text: day).click
-  end
+  # =================================================
 
 end

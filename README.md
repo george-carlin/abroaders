@@ -107,7 +107,6 @@ When you're done with the story:
 
   Any non-standard methods go after `destroy`, in alphabetical order.
 
-
 ### Concepts
 
 As well as the standard Rails concepts (models, controllers, views, etc,)
@@ -151,6 +150,8 @@ TODO add more detailed explanation of Presenters.
 ### Testing
 
 - We use RSpec, not minitest.
+
+### Testing
 
 - **Always** add feature specs! Every user action in the app should be covered
   by an automated test. Lower-level testing (testing models) is helpful too,

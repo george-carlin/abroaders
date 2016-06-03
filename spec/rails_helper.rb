@@ -1,6 +1,6 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
-require 'spec_helper'
+require_relative 'spec_helper'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
@@ -13,6 +13,22 @@ ActiveRecord::Migration.maintain_test_schema!
 
 include Warden::Test::Helpers
 Warden.test_mode!
+
+# Right now we're sending emails using deliver_later even though we don' have a
+# system in place that will process background jobs. ActionMailer handles this
+# by defaulting to sending the email inline. Unfortunately, the emails don't
+# appear to get "sent" in test mode when you call deliver_later. I have no
+# idea if there's a "correct" way to fix this, but this crappy hack makes
+# code like `expect{something}.to change{ApplicationMailer.deliveries.length}`
+# work when previously it wouldn't
+#
+# This monkey patch will need to be removed once we finally get Resque set up!
+# TODO TODO TODO
+class ActionMailer::MessageDelivery
+  def deliver_later
+    deliver_now
+  end
+end
 
 require 'capybara/poltergeist'
 Capybara.javascript_driver = :poltergeist

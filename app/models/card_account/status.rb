@@ -35,6 +35,19 @@ class CardAccount::Status
     end
   end
 
+  def show_survey?
+    case name
+    when "recommended"
+      true
+    when "applied"
+      true
+    when "denied"
+      !(nudged_at.present? || redenied_at.present?) # TODO also disallow reconsideration after 30
+    else
+      false
+    end
+  end
+
   private
 
   def timestamps_make_sense

@@ -1,8 +1,8 @@
 {
   "name": "Abroaders",
-  "repository" : "https://bitbucket.org/georgemillo/abroaders",
-  "license" : "UNLICENSED",
-  "private" : true,
+  "repository": "https://bitbucket.org/georgemillo/abroaders",
+  "license": "UNLICENSED",
+  "private": true,
   "devDependencies": {
     "eslint": "^2.2.0",
     "eslint-config-airbnb": "^6.0.2",
@@ -44,10 +44,11 @@
     "bloodhound-js": "^1.2.1",
     "browserify": "13.0.0",
     "browserify-incremental": "3.0.1",
+    "humps": "^1.1.0",
     "jquery": "^2.2.1",
     "react": "^0.14.7",
     "react-dom": "^0.14.7",
     "reactify": "^1.1.1",
-    "underscore" : "1.8.x"
+    "underscore": "1.8.x"
   }
 }

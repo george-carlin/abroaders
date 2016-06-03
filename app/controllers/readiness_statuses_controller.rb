@@ -14,6 +14,10 @@ class ReadinessStatusesController < NonAdminController
     redirect_if_already_ready! and return
     @status = @person.build_readiness_status(readiness_status_params)
     if @status.save
+      unless current_account.has_companion? && @person.main?
+        AccountMailer.notify_admin_of_survey_completion(current_account.id).deliver_later
+      end
+
       redirect_to after_save_path
     else
       render "new"

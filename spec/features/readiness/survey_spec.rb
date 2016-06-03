@@ -3,6 +3,8 @@ require "rails_helper"
 describe "the 'are you ready to apply?' survey page", :js, :onboarding do
   subject { page }
 
+  include_context "set erik's email ENV var"
+
   let!(:account) do
     create(
       :account,
@@ -141,20 +143,21 @@ describe "the 'are you ready to apply?' survey page", :js, :onboarding do
 
       if i_am_the_partner
         me.update_attributes!(main: false)
+        Person.create!(account: account, main: true, first_name: "X")
       elsif i_have_a_partner
         @partner = account.create_companion!(first_name: "Somebody")
         if partner_is_eligible_to_apply
           @partner.eligible_to_apply!
         end
       end
-
-      click_button "Confirm"
     end
 
     let(:i_am_eligible_to_apply) { false }
     let(:i_am_the_partner) { false }
     let(:i_have_a_partner) { false }
     let(:partner) { @partner }
+
+    let(:submit_form) { click_button "Confirm" }
 
     context "when I am the main person on the account" do
       let(:i_am_the_partner) { false }
@@ -165,30 +168,42 @@ describe "the 'are you ready to apply?' survey page", :js, :onboarding do
         context "who is eligible to apply for cards" do
           let(:partner_is_eligible_to_apply) { true }
           it "takes me to the partner's spending survey" do
+            submit_form
             expect(current_path).to eq new_person_spending_info_path(partner)
           end
+
+          include_examples "don't send any emails"
         end
 
         context "who is ineligible to apply for cards" do
           let(:partner_is_eligible_to_apply) { false }
           it "takes me to the partner's balances survey" do
+            submit_form
             expect(current_path).to eq survey_person_balances_path(partner)
           end
+
+          include_examples "don't send any emails"
         end
       end
 
       context "and I don't have a partner on the account" do
         it "takes me to my dashboard" do
+          submit_form
           expect(current_path).to eq root_path
         end
+
+        include_examples "send survey complete email to admin"
       end
     end
 
     context "when I am the partner on the account" do
       let(:i_am_the_partner) { true }
       it "takes me to the dashboard" do
+        submit_form
         expect(current_path).to eq root_path
       end
+
+      include_examples "send survey complete email to admin"
     end
 
   end
