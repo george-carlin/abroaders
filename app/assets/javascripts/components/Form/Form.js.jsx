@@ -1,7 +1,8 @@
 const React = require("react");
 const _     = require("underscore");
 
-const AuthTokenField = require("../AuthTokenField")
+const AuthTokenField = require("../AuthTokenField");
+const HiddenFieldTag = require("../HiddenFieldTag");
 
 const Form = React.createClass({
   render() {
@@ -10,13 +11,13 @@ const Form = React.createClass({
     switch (this.props.method) {
       case "put":
         methodInput = (
-          <input type="hidden" name="_method" value={this.props.method} />
+          <HiddenFieldTag name="_method" value={this.props.method} />
         );
         methodAttr = "post";
         break;
       case "patch":
         methodInput = (
-          <input type="hidden" name="_method" value={this.props.method} />
+          <HiddenFieldTag name="_method" value={this.props.method} />
         );
         methodAttr = "post";
         break;

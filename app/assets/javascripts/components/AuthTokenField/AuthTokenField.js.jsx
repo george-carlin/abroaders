@@ -1,5 +1,7 @@
 const React = require('react');
 
+const HiddenFieldTag = require("../HiddenFieldTag");
+
 const AuthTokenField = React.createClass({
 
   getInitialState() {
@@ -20,9 +22,8 @@ const AuthTokenField = React.createClass({
 
   render() {
     return (
-      <input
+      <HiddenFieldTag
         name="authenticity_token"
-        type="hidden"
         value={this.state.csrfToken}
       />
     );

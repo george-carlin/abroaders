@@ -5,6 +5,7 @@ const Button              = require("../Button");
 const ButtonGroup         = require("../ButtonGroup");
 const ConfirmOrCancelBtns = require("../ConfirmOrCancelBtns");
 const Form                = require("../Form");
+const HiddenFieldTag      = require("../HiddenFieldTag");
 
 const CardAccountPostCallActions = React.createClass({
   propTypes: {
@@ -29,7 +30,9 @@ const CardAccountPostCallActions = React.createClass({
 
 
   render() {
-    var action, buttons, helpText;
+    var buttons, helpText;
+
+    var action = "";
 
     switch (this.state.currentAction) {
       case "initial":
@@ -84,7 +87,7 @@ const CardAccountPostCallActions = React.createClass({
 
     return (
       <Form action={this.props.updatePath} method="patch">
-        <input type="hidden" name="card_account[action]" value={action} />
+        <HiddenFieldTag name="card_account[action]" value={action} />
 
         <p>
           You have indicated that your application was denied, you called

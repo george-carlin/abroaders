@@ -4,6 +4,7 @@ const ApprovedDeniedPendingBtnGroup = require("../ApprovedDeniedPendingBtnGroup"
 const Button              = require("../Button");
 const ConfirmOrCancelBtns = require("../ConfirmOrCancelBtns");
 const Form                = require("../Form");
+const HiddenFieldTag      = require("../HiddenFieldTag");
 const PromptToCallTheBank = require("../PromptToCallTheBank");
 
 const CardAccountCallActions = React.createClass({
@@ -26,9 +27,11 @@ const CardAccountCallActions = React.createClass({
 
 
   render() {
-    let buttons, helpText, action;
+    let buttons, helpText;
 
     const bankName = this.props.cardAccount.card.bank.name
+
+    var action = "";
 
     switch (this.state.currentAction) {
       case "initial":
@@ -97,7 +100,7 @@ const CardAccountCallActions = React.createClass({
 
     return (
       <Form action={this.props.updatePath} method="patch">
-        <input type="hidden" name="card_account[action]" value={action} />
+        <HiddenFieldTag name="card_account[action]" value={action} />
 
         <PromptToCallTheBank
           card={this.props.cardAccount.card}

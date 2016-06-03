@@ -5,6 +5,7 @@ const Button              = require("../Button");
 const ButtonGroup         = require("../ButtonGroup");
 const ConfirmOrCancelBtns = require("../ConfirmOrCancelBtns");
 const Form                = require("../Form");
+const HiddenFieldTag      = require("../HiddenFieldTag");
 const PromptToCallTheBank = require("../PromptToCallTheBank");
 
 const CardAccountNudgeActions = React.createClass({
@@ -35,9 +36,11 @@ const CardAccountNudgeActions = React.createClass({
 
 
   render() {
-    var buttons, helpText, action;
+    var buttons, helpText;
 
     const bankName = this.props.cardAccount.card.bank.name
+
+    var action = "";
 
     switch (this.state.currentAction) {
       // No helpText or action when state == "initial"
@@ -154,7 +157,7 @@ const CardAccountNudgeActions = React.createClass({
 
     return (
       <Form action={this.props.updatePath} method="patch">
-        <input type="hidden" name="card_account[action]" value={action} />
+        <HiddenFieldTag name="card_account[action]" value={action} />
 
         <PromptToCallTheBank
           card={this.props.cardAccount.card}

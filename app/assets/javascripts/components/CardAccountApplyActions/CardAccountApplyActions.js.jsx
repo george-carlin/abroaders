@@ -4,6 +4,7 @@ const $     = require("jquery");
 const ApprovedDeniedPendingBtnGroup = require("../ApprovedDeniedPendingBtnGroup");
 const ApproveCardAccountFormFields = require("../ApproveCardAccountFormFields");
 const Button                       = require("../Button");
+const HiddenFieldTag               = require("../HiddenFieldTag");
 const ConfirmOrCancelBtns          = require("../ConfirmOrCancelBtns");
 const Form                         = require("../Form");
 
@@ -27,7 +28,7 @@ const CardAccountApplyActions = React.createClass({
   },
 
   render() {
-    var buttons, helpText, action;
+    var buttons, helpText;
 
     const recommendedAt = new Date(this.props.cardAccount.recommendedAt);
     const today = new Date();
@@ -36,6 +37,8 @@ const CardAccountApplyActions = React.createClass({
     today.setHours(0,0,0,0);
 
     const askForApprovalDate = recommendedAt < today;
+
+    var action="";
 
     switch (this.state.currentAction) {
       case "initial":
@@ -108,7 +111,7 @@ const CardAccountApplyActions = React.createClass({
         <p>{helpText}</p>
 
         <Form action={this.props.updatePath} method="patch">
-          <input type="hidden" name="card_account[action]" value={action} />
+          <HiddenFieldTag name="card_account[action]" value={action} />
           {buttons}
         </Form>
       </div>
