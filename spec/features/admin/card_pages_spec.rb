@@ -79,7 +79,8 @@ describe "admin pages" do
 
     describe "the 'currency dropdown'" do
       it "has a 'no currency' option, which is selected by default" do
-        expect(page).to have_select :card_currency_id, selected: "No currency"
+        #expect(page).to have_select :card_currency_id, selected: "No currency"
+        expect(find_field('card_currency_id')).to have_content('No currency')
       end
     end
 

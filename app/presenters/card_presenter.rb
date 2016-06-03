@@ -2,6 +2,10 @@ class CardPresenter < ApplicationPresenter
 
   delegate :name, to: :currency, prefix: true, :allow_nil => true
 
+  def currency_name
+    currency.present? ? currency.name : "None"
+  end
+
   def image(size="180x114")
     h.image_tag super().url, size: size
   end

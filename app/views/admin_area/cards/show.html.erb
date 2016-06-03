@@ -36,11 +36,7 @@
       <dd><%= card.annual_fee %></dd>
 
       <dt>Currency</dt>
-      <% if card.currency_name == nil %>
-        None Selected
-      <% else %>
-        <dd><%= card.currency_name %></dd>
-      <% end %>
+      <dd><%= card.currency_name %></dd>
 
       <dt>Bank</dt>
       <dd><%= card.bank_name %></dd>
