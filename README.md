@@ -13,6 +13,12 @@ It's not the best system but it works for now. (More detailed Javascript notes
 are below.) If you have node and NPM installed on your machine, running `npm
 install` should be enough to make everything work for you for now.
 
+You'll also need imagemagick installed for the
+[paperclip](https://github.com/thoughtbot/paperclip) gem to work correctly.
+
+If you're on a Mac, I recommend installing [Homebrew](http://brew.sh/) and
+using that to install packages such as imagemagick.
+
 ## Getting Started
 
 ```
@@ -30,6 +36,10 @@ Tell me (George) immediately if `bin/setup` doesn't work smoothly for you!
 There may be some steps that I've missed and it's important I keep the script
 updated and working well for every new developer!
 
+The setup script should also seed your database with some sample data,
+including some admin accounts. Get the admin login info from
+`lib/tasks/seed.rake` and you can log in at `/admin/sign_in`. (Remember that
+'normal' user accounts log in at `/sign_in`.
 
 ## Workflow + Branching model
 
