@@ -13,7 +13,7 @@ class AdminArea::OfferPresenter < OfferPresenter
   end
 
   def link_to_show_for_offer
-    h.link_to 'Offer Link', link, target: '_blank'
+    h.link_to 'Link', link, target: '_blank'
   end
 
   def kill_btn
@@ -27,7 +27,7 @@ class AdminArea::OfferPresenter < OfferPresenter
         params: { offer_id: id },
         :method => :patch,
         remote: true,
-        data: { confirm: "Are you sure you want to kill offer #{ id.to_s }?" }
+        data: { confirm: "Are you sure?" }
     )
   end
 
