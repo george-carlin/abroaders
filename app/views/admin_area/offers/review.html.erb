@@ -1,0 +1,53 @@
+<% provide :title, "Live Offers" %>
+
+<% content_for :header_panel do %>
+  <div class="panel-body">
+    <h1>Live Card Offers</h1>
+    <p>
+      To add a new offer, find the card on the
+      <%= link_to "cards page", admin_cards_path %> and click 'New Offer'
+    </p>
+  </div>
+<% end %>
+
+<%= render "shared/hpanel" do %>
+  <div class="panel-body">
+    <div class="table-responsive">
+      <table
+        class="table table-striped"
+        cellpadding="1"
+        cellspacing="1"
+      >
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Card</th>
+            <th>Bank</th>
+            <th>Points</th>
+            <th>Spend</th>
+            <th>Cost</th>
+            <th>Days</th>
+            <th colspan="3"></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% present_each @offers, AdminArea::OfferPresenter do |offer| %>
+            <%= content_tag_for :tr, offer do %>
+              <td><%= offer.identifier(with_card: true) %></td>
+              <td><%= offer.card_name %></td>
+              <td><%= offer.bank_name %></td>
+              <td><%= offer.points_awarded %></td>
+              <td><%= offer.spend %></td>
+              <td><%= offer.cost %></td>
+              <td><%= offer.days %></td>
+              <td><%= offer.link_to_edit %></td>
+              <td><%= offer.link_to_show_for_offer %></td>
+              <td><%= offer.kill_btn %></td>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% end %>

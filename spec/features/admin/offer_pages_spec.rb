@@ -207,6 +207,72 @@ describe "admin section" do
       end
     end # new page
 
+    describe "review page" do
+
+      let(:route) { review_admin_offers_path }
+
+      before do
+        @live_1 = create(:live_offer)
+        @live_2 = create(:live_offer)
+        @live_3 = create(:live_offer)
+        @dead_1 = create(:dead_offer)
+        visit route
+      end
+
+      describe "when page loads" do
+        it "shows only live offers" do
+          expect(page).to have_selector( ".offer", count: Offer.live.count)
+        end
+      end
+
+      describe "when viewing offers" do
+        #this does not need ':js => true' but if it doesn't load js the next test fails
+        it "shows offer details", :js => true do
+          is_expected.to have_content @live_1.card.name
+          is_expected.to have_link('Offer Link', :href => @live_1.link)
+        end
+      end
+
+      describe "pressing kill then cancel" do
+        it "doesn't kill the offer", :js => true do
+          expect do
+            page.dismiss_confirm do
+              click_button("kill_offer_#{ @live_1.id }_btn")
+            end
+          end.not_to change{Offer.live.count}
+        end
+      end
+
+      describe "pressing Kill then confirm" do
+        it "removes offer from the user display", :js => true do
+          page.accept_confirm do
+            find_button("kill_offer_#{ @live_1.id }_btn").click
+          end
+          expect(page).to have_selector( ".offer", count: Offer.live.count)
+        end
+      end
+
+      describe "pressing Kill then confirm", :js => true do
+        it "changes offer live value to false" do
+          page.accept_confirm do
+            find_button("kill_offer_#{ @live_2.id }_btn").click
+          end
+          wait_for_ajax
+          @live_2.reload
+          expect(@live_2.live).to be false
+        end
+      end
+
+      describe "when killing offers" do
+        it "doesnt't delete offers from the database", :js => true do
+          page.accept_confirm do
+            find_button("kill_offer_#{ @live_3.id }_btn").click
+          end
+          expect(@live_3.live).to_not be_nil
+        end
+      end
+
+    end # review page
 
     describe "show page" do
       let(:offer)  { create(:offer, notes: 'aisjhdoifajsdf') }
