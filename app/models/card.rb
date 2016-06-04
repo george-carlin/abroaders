@@ -120,7 +120,6 @@ class Card < ApplicationRecord
     validates :annual_fee_cents
     validates :bank_id
     validates :bp
-    validates :currency
     validates :name
     validates :network
     validates :type

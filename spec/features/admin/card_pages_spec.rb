@@ -77,8 +77,17 @@ describe "admin pages" do
       it_has_fields_for_card
     end
 
+    describe "the 'currency dropdown'" do
+      it "has a 'no currency' option, which is selected by default" do
+        expect(find_field('card_currency_id')).to have_content('No currency')
+      end
+    end
+
     describe "submitting the form" do
       let(:submit_form) { click_button "Save Card" }
+
+      let(:currency)      { @currencies[0] }
+      let(:currency_name) { currency.name }
 
       describe "with valid information" do
         before do
@@ -89,7 +98,7 @@ describe "admin pages" do
           select "Credit",     from: :card_type
           # BUG: allow decimal values TODO
           fill_in :card_annual_fee, with: 549#.99
-          select @currencies[0].name, from: :card_currency_id
+          select currency_name, from: :card_currency_id
           select "Wells Fargo", from: :card_bank_id
           uncheck :card_shown_on_survey
           attach_file :card_image, image_path
@@ -109,7 +118,7 @@ describe "admin pages" do
           expect(page).to have_content "Business"
           expect(page).to have_content "Credit"
           expect(page).to have_content "$549.00"#99"
-          expect(page).to have_content @currencies[0].name
+          expect(page).to have_content currency_name
           expect(page).to have_content "Wells Fargo"
           expect(page).to have_selector "img[src='#{card.image.url}']"
         end
@@ -121,6 +130,15 @@ describe "admin pages" do
 
           expect(card.code).to eq "ABC"
           expect(card.name).to eq "something"
+        end
+
+        context "and no currency" do
+          let(:currency_name) { "No currency" }
+          it "creates a card with no currency" do
+            expect{submit_form}.to change{Card.count}.by(1)
+            new_card = Card.last
+            expect(new_card.currency).to be_nil
+          end
         end
       end
 
