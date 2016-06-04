@@ -75,15 +75,23 @@ When you're done with the story:
 ## General
 
 -  Keep line length to 80 characters or less. This doesn't have to be 100%
-   strict the occasional 83-line character isn't going to kill anybody - but stick
-   to 80 as a general principle.
+   strict -  the occasional 83-character line isn't going to kill anybody - but
+   stick to 80 as a general principle.
 
 -  We don't support IE &lt; 10. If someone doesn't want to upgrade to a modern
    browser, that's their problem, not ours.
 
 ## Ruby
 
-- Generally speaking, we follow [GitHub's Ruby style guide](https://github.com/styleguide/ruby)
+- Generally speaking, we follow
+  [GitHub's Ruby style guide](https://github.com/styleguide/ruby), with at
+  least one exception: use Ruby 1.9 hash key syntax instead of hashrockets:
+
+        # bad:
+        { :key => "value" }
+
+        # good:
+        { key: "value" }
 
 ## Rails
 
