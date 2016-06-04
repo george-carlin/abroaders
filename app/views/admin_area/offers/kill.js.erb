@@ -1,1 +1,3 @@
-$('#offer_<%= @offer.id %>').remove();
+$('#offer_<%= @offer.id %>').fadeOut(function () {
+  $(this).remove();
+});
