@@ -11,8 +11,8 @@
       </span>
     <% end %>
   </div>
-  <% if sidebar? %>
-    <nav role="navigation">
+  <nav role="navigation">
+    <% if sidebar? %>
       <div class="header-link hide-menu"><i class="fa fa-bars"></i></div>
       <div class="small-logo">
         <span class="text-primary">Abroaders</span>
@@ -29,9 +29,11 @@
           </ul>
         </div>
       </div>
-      <div class="navbar-right">
-        <ul class="nav navbar-nav no-borders">
-          <% if current_account || current_admin %>
+    <% end %>
+    <div class="navbar-right">
+      <ul class="nav navbar-nav no-borders">
+        <% if current_account || current_admin %>
+          <% if sidebar? %>
             <% if current_account&.onboarded? %>
               <li class="dropdown
                 <% if current_account.unseen_notifications_count.nonzero? %>
@@ -57,24 +59,24 @@
                 </ul>
               </li>
             <% end %>
-            <li class="text">
-              <%= current_account ? current_account.email : current_admin.email %>
-            </li>
-            <li>
-              <%= link_to sign_out_path, method: :delete, id: "sign_out_link" do %>
-                <i class="pe-7s-upload pe-rotate-90"></i>
-              <% end %>
-            </li>
-          <% else %>
-            <li>
-              <%= link_to "Sign in", new_account_session_path, class: "text" %>
-            </li>
-            <li>
-              <%= link_to "Sign up", new_account_registration_path, class: "text" %>
-            </li>
           <% end %>
-        </ul>
-      </div>
-    </nav>
-  <% end %>
+          <li class="text">
+            <%= current_account ? current_account.email : current_admin.email %>
+          </li>
+          <li>
+            <%= link_to sign_out_path, method: :delete, id: "sign_out_link" do %>
+              <i class="pe-7s-upload pe-rotate-90"></i>
+            <% end %>
+          </li>
+        <% else %>
+          <li>
+            <%= link_to "Sign in", new_account_session_path, class: "text" %>
+          </li>
+          <li>
+            <%= link_to "Sign up", new_account_registration_path, class: "text" %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </nav>
 </div>
