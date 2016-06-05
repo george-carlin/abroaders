@@ -42,6 +42,10 @@ describe "account type select page", :onboarding do
     is_expected.to have_field :partner_account_partner_first_name
   end
 
+  it "has no sidebar" do
+    expect(page).to have_no_sidebar
+  end
+
   context "when I have not added my first travel plan yet" do
     let(:onboarded_travel_plans) { false }
     it "redirects me to the travel plan form" do
