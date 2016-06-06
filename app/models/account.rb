@@ -23,9 +23,7 @@ class Account < ApplicationRecord
   # to store it explicitly. However, this had a flaw: if a user completed the
   # onboarding survey, then later on *deleted* their travel plans, they would
   # no longer be considered onboarded, even though they should have been.  So
-  # now the onboarded-ness of travel plans is stored in a separate DB column
-  # that's false by default and gets set to true once they've completed the
-  # relevant stage of the survey.
+  # now the onboarded-ness of travel plans is stored in a separate DB column.
 
   # Validations
 
