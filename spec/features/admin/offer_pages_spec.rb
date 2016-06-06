@@ -207,6 +207,26 @@ describe "admin section" do
       end
     end # new page
 
+    describe "offers page" do
+
+      let(:route) { admin_offers_path }
+
+      before do
+        @live_1 = create(:live_offer)
+        visit route
+      end
+
+      describe "when viewing offers" do
+        it "shows offer details", :js => true do
+          is_expected.to have_content @live_1.card.name
+          is_expected.to have_content @live_1.card.bp
+          is_expected.to have_contant @live_1.last_reviewed_at
+          is_expected.to have_link('Link', :href => @live_1.link)
+        end
+      end
+
+    end # offers page
+
     describe "review page" do
 
       let(:route) { review_admin_offers_path }
@@ -222,6 +242,7 @@ describe "admin section" do
       describe "when page loads" do
         it "shows only live offers" do
           expect(page).to have_selector( ".offer", count: Offer.live.count)
+          expect(page).to have_button('Done')
         end
       end
 
@@ -230,7 +251,32 @@ describe "admin section" do
         it "shows offer details", :js => true do
           is_expected.to have_content @live_1.card.name
           is_expected.to have_content @live_1.card.bp
+          is_expected.to have_contant @live_1.last_reviewed_at
           is_expected.to have_link('Link', :href => @live_1.link)
+        end
+      end
+
+      describe "when pressing Done" do
+        it "updates live offers last_reviewed_at datetime", :js => true do
+          expect do
+            click_button("Done")
+          end.to change{@live_1.last_reviewed_at}
+        end
+      end
+
+      describe "when pressing Done" do
+        it "does not update dead offers last_reviewed_at datetime", :js => true do
+          expect do
+            click_button("Done")
+            end.not_to change{@dead_1.last_reviewed_at}
+          end
+      end
+
+      describe "when pressing Done" do
+        it "redirects to offfers review and alerts success" do
+          click_button("Done")
+          expect(response).to redirect_to(review_admin_offers_path)
+          expect(flash[:success]).to be_present
         end
       end
 
