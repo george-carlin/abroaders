@@ -54,7 +54,24 @@ class TravelPlansController < NonAdminController
   end
 
   def load_countries
-    Destination.country.order("name ASC")
+    countries = Destination.country.order("name ASC").to_a
+
+    if ha = countries.detect { |c| c.name == "Hawaii" }
+      countries.delete(ha)
+      countries.unshift(ha)
+    end
+
+    if al = countries.detect { |c| c.name == "Alaska" }
+      countries.delete(al)
+      countries.unshift(al)
+    end
+
+    if us = countries.detect { |c| c.name == "United States (Continental 48)" }
+      countries.delete(us)
+      countries.unshift(us)
+    end
+
+    countries
   end
 
   def load_travel_plan

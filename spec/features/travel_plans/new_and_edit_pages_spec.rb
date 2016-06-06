@@ -18,7 +18,9 @@ describe "travel plans" do
     @as = create(:region, name: "Asia")
     @countries = [
       @uk = create(:country, name: "United Kingdom", parent: @eu),
-      @us = create(:country, name: "United States",  parent: @us),
+      @ha = create(:country, name: "Hawaii",         parent: @us),
+      @al = create(:country, name: "Alaska",         parent: @us),
+      @us = create(:country, name: "United States (Continental 48)", parent: @us),
       @vn = create(:country, name: "Vietnam",        parent: @as),
       @tl = create(:country, name: "Thailand",       parent: @as),
       @fr = create(:country, name: "France",         parent: @eu),
@@ -53,6 +55,40 @@ describe "travel plans" do
       is_expected.to have_field :travel_plan_will_accept_premium_economy
       is_expected.to have_field :travel_plan_will_accept_business_class
       is_expected.to have_field :travel_plan_will_accept_first_class
+    end
+
+    describe "the 'from'/'to' dropdowns" do
+      def get_options(attr); all("#travel_plan_#{attr}_id option"); end
+
+      specify "have the US, Alaska, and Hawaii sorted to the top" do
+        [:from, :to].each do |attr|
+          options = get_options(attr)
+          if current_path =~ /edit/
+            start = 0
+          else
+            expect(options[0].text).to match(/Select a\s.*country/)
+            start = 1
+          end
+
+          expect(options[start].text).to eq @us.name
+          expect(options[start + 1].text).to eq @al.name
+          expect(options[start + 2].text).to eq @ha.name
+        end
+      end
+
+      specify "subsequent options are sorted alphabetically" do
+        options_to_drop = current_path =~ /edit/ ? 3 : 4
+
+        [:from, :to].each do |attr|
+          options = get_options(attr)
+          expect(options.drop(options_to_drop).map(&:text)).to eq ([
+            "France",
+            "Thailand",
+            "United Kingdom",
+            "Vietnam",
+          ])
+        end
+      end
     end
   end
 
