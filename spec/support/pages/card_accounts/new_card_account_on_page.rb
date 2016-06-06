@@ -35,7 +35,9 @@ class NewCardAccountOnPage < CardAccountOnPage
       # Go back a month
       find(".datepicker .prev").click
     end
-    find(".datepicker .day:not(.old)", text: day).click
+    # Test that text *exactly* matches or e.g. the selector will return the
+    # '11' button when searching for '1'.
+    find(".datepicker .day:not(.old):not(.disabled)", text: /\A#{day}\z/).click
   end
 
 end
