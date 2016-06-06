@@ -229,6 +229,7 @@ describe "admin section" do
         #this does not need ':js => true' but if it doesn't load js the next test fails
         it "shows offer details", :js => true do
           is_expected.to have_content @live_1.card.name
+          is_expected.to have_content @live_1.card.bp
           is_expected.to have_link('Link', :href => @live_1.link)
         end
       end
