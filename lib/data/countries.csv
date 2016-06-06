@@ -1,5 +1,6 @@
 name,code,region name
 Afghanistan,AF,Middle East
+Alaska,AK,Alaska & Canada
 Albania,AL,Europe
 Algeria,DZ,Africa
 American Samoa,AS,Australia / New Zealand & Pacific
@@ -93,6 +94,7 @@ Guinea,GN,Africa
 Guinea-Bissau,GW,Africa
 Guyana,GY,South America
 Haiti,HT,Caribbean
+Hawaii,HA,Hawaii
 Holy See (Vatican City State),VA,Europe
 Honduras,HN,Central America
 Hong Kong,HK,Asia
@@ -233,7 +235,7 @@ Ukraine,UA,Europe
 United Arab Emirates,AE,Middle East
 United Kingdom,GB,Europe
 United States Minor Outlying Islands,UM,Australia / New Zealand & Pacific
-United States,US,"United States - Continental 48"
+United States (Continental 48),US,"United States - Continental 48"
 Uruguay,UY,South America
 Uzbekistan,UZ,Asia
 Vanuatu,VU,Australia / New Zealand & Pacific

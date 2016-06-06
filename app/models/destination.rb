@@ -14,6 +14,13 @@ class Destination < ApplicationRecord
   TYPES = %w[airport city state country region]
   enum type: TYPES
 
+  # Note: in the production database we have Alaska and Hawaii as "countries"
+  # even though they're not countries in real life. (The US is named "United
+  # States (Continental 48)". This is to simplify the code in the travel plan
+  # form, so we can just call Destination.country.all and not have to worry
+  # about including Alaska and Hawaii separately. In the future when the travel
+  # plan form setup is more complicated, we may change them to regions.
+
   # Add .airports, .cities etc as aliases for .airport, .country
   class << self
     TYPES.each { |type| alias_method type.pluralize, type }
