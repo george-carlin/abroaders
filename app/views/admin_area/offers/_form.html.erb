@@ -63,32 +63,6 @@
 
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-      <div class="checkbox">
-        <%= f.label :live do %>
-          <%= f.check_box :live %>
-          Live
-        <% end %>
-        <p class="help-block">
-          Only 'live' offers can be recommended to users. If an offer is live,
-          that means:
-        </p>
-          <ul style="font-size:12px">
-            <li>
-              The details in our database reflect the exact terms
-              that are detailed at the saved link (spend, bonus, cost, days).
-            </li>
-            <li>
-              The link is live on the bank's website and is accepting
-              applications.
-            </li>
-          </ul>
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
       <%= f.submit t("admin.offers.submit"), class: "btn btn-primary" %>
     </div>
   </div>

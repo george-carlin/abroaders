@@ -175,13 +175,6 @@ describe "admin section" do
           end
         end
 
-        context "and marking the card as not live" do
-          before { uncheck :offer_live }
-          it "saves the card as live" do
-            submit
-            expect(new_offer).not_to be_live
-          end
-        end
       end
 
       describe "submitting the form with invalid information" do
@@ -239,7 +232,7 @@ describe "admin section" do
             page.dismiss_confirm do
               click_button("kill_offer_#{ @live_1.id }_btn")
             end
-          end.not_to change{Offer.live.count AND @live1.killed_at}
+          end.not_to change{Offer.live.count}
         end
       end
 
@@ -259,8 +252,8 @@ describe "admin section" do
           end
           wait_for_ajax
           @live_2.reload
-          expect(@live_2.live).to be false
-          expect(@live_2.killed_at).to_not be_nil
+          expect(@live_2.live?).to be false
+          expect(@live_2.killed_at).to be_within(2.seconds).of(Time.now)
         end
       end
 
