@@ -10,12 +10,11 @@ module AdminArea
       )
     end
 
-    def update_offers_last_reviewed_at_btn
+    def review_all_btn
       btn_classes = "btn btn-lg btn-primary"
-      prefix = :update_offers_last_reviewed_at
       button_to(
           "Done",
-          update_offers_last_reviewed_at_admin_offers_path,
+          review_all_admin_offers_path,
           class:  "done_btn #{btn_classes} pull-right",
           id:     "done_btn"
       )

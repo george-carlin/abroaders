@@ -17,7 +17,7 @@ class AdminArea::OfferPresenter < OfferPresenter
   end
 
   def last_reviewed_at
-    super().nil? ? "never" : super().to_date.strftime("%m/%d/%Y")
+    super().nil? ? "never" : super().strftime("%m/%d/%Y")
   end
 
   def kill_btn

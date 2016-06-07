@@ -70,8 +70,8 @@ module AdminArea
       @offers = Offer.includes(:card).live
     end
 
-    def update_offers_last_reviewed_at
-      Offer.where(live: "true").update_all(last_reviewed_at: DateTime.now)
+    def review_all
+      Offer.live.update_all(last_reviewed_at: Time.now)
       flash[:success] = "All live offers reviewed"
       redirect_to review_admin_offers_path
     end

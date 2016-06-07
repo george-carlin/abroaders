@@ -219,8 +219,7 @@ describe "admin section" do
       describe "when viewing offers" do
         it "shows offer details", :js => true do
           is_expected.to have_content @live_1.card.name
-          expect(find("tr#offer_#{@live_1.id}").text).to include(@live_1.last_reviewed_at.to_date.strftime("%m/%d/%Y"))
-          is_expected.to have_link('Link', :href => @live_1.link)
+          expect(find("tr#offer_#{@live_1.id}").text).to include(@live_1.last_reviewed_at.strftime("%m/%d/%Y"))
         end
       end
 
@@ -262,10 +261,9 @@ describe "admin section" do
 
       describe "when pressing Done" do
         it "updates live offers last_reviewed_at datetime" do
-          expect do
-            click_button("done_btn")
-            @live_1.reload
-          end.to change{@live_1.last_reviewed_at}
+          click_button("done_btn")
+          @live_1.reload
+          expect(@live_1.last_reviewed_at).to be_within(2.seconds).of(Time.now)
         end
       end
 

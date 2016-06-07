@@ -116,7 +116,7 @@ Rails.application.routes.draw do
     resources :offers, only: [] do
       collection do
         get :review
-        post :update_offers_last_reviewed_at
+        post :review_all
       end
     end
     # show and edit redirect to the nested action:
