@@ -2,8 +2,15 @@
 
 <% content_for :header_panel do %>
   <div class="panel-body">
-    <h1>Review Live Offers</h1>
-    <%= review_all_btn %>
+    <div class="row">
+      <div class="col-md-10">
+        <h1>Review Live Offers</h1>
+      </div>
+
+      <div class="col-md-2" style="margin-top:6px;">
+        <%= review_all_btn %>
+      </div>
+    </div><!-- .row -->
   </div>
 <% end %>
 
