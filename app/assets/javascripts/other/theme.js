@@ -17,6 +17,9 @@ $(document).ready(function () {
         }
     });
 
+    // Initialize metsiMenu plugin to sidebar menu
+    $('#side-menu').metisMenu();
+
 });
 
 

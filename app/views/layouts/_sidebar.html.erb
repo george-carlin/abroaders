@@ -1,19 +1,32 @@
 <aside id="menu">
   <div id="navigation">
     <ul class="nav" id="side-menu">
-      <%# TODO all this `if request.path == X` nonsense should be DRYed %>
       <% if current_account %>
         <%= sidebar_link_to "Dashboard", root_path %>
         <% if current_account.onboarded? %>
-          <%= sidebar_link_to "Travel Plans", travel_plans_path %>
-          <%= sidebar_link_to "Cards", card_accounts_path %>
+          <%= sidebar_link_to "Travel Plans", travel_plans_path, TravelPlansController%>
+          <%= sidebar_link_to "Cards", card_accounts_path, CardAccountsController %>
         <% end %>
       <% elsif current_admin %>
-        <%= sidebar_link_to "Dashboard", root_path %>
-        <%= sidebar_link_to "Destinations", admin_destinations_path %>
-        <%= sidebar_link_to "Cards", admin_cards_path %>
-        <%= sidebar_link_to "Offers", admin_offers_path %>
-        <%= sidebar_link_to "Users", admin_accounts_path %>
+        <%= sidebar_link_to(
+          "Destinations",
+          admin_destinations_path,
+          AdminArea::DestinationsController
+        ) %>
+        <%= sidebar_link_to(
+          "Cards",
+          admin_cards_path,
+          AdminArea::CardsController
+        ) %>
+        <%= sidebar_nested_links(
+          "Offers",
+          {
+            "View all offers"    => admin_offers_path,
+            "Review live offers" => review_admin_offers_path,
+          },
+          AdminArea::OffersController,
+        )%>
+        <%= sidebar_link_to "Users", admin_accounts_path, AdminArea::AccountsController %>
         <%= sidebar_link_to "My Account", edit_admin_registration_path %>
       <% end %>
     </ul>

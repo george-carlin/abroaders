@@ -20,6 +20,7 @@
 //= require jquery.tablesorter
 //= require es5-shim
 //= require underscore
+//= require metisMenu
 //= require_tree ./extensions
 //= require components/load
 //= require modules/load
