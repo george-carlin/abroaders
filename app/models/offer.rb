@@ -39,6 +39,16 @@ class Offer < ApplicationRecord
 
   before_save :nullify_irrelevant_columns
 
+  # Methods
+
+  def live?
+    killed_at.nil?
+  end
+
+  def dead?
+    !killed_at.nil?
+  end
+
   private
 
   def nullify_irrelevant_columns
@@ -48,6 +58,6 @@ class Offer < ApplicationRecord
 
   # Scopes
 
-  scope :live, -> { where(live: true) }
-  scope :dead, -> { where(dead: true) }
+  scope :live, -> { where(killed_at: nil) }
+  scope :dead, -> { where(killed_at: !nil) }
 end

@@ -6,10 +6,9 @@ FactoryGirl.define do
     cost { rand(20) * 5 }
     days { [30, 60, 90, 90, 90, 90, 90, 90, 120].sample }
     link { Faker::Internet.url("example.com") }
-    killed_at ( DateTime.now - (rand * 21) )
 
     factory :dead_offer do
-      killed_at nil
+      killed_at { DateTime.now - (rand * 21) }
     end
   end
 end

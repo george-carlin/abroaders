@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160602173133) do
+ActiveRecord::Schema.define(version: 20160607034453) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -168,17 +168,17 @@ ActiveRecord::Schema.define(version: 20160602173133) do
   create_table "offers", force: :cascade do |t|
     t.integer  "card_id",                       null: false
     t.integer  "points_awarded",                null: false
-    t.integer  "spend",          default: 0
-    t.integer  "cost",           default: 0,    null: false
-    t.integer  "days",           default: 90
+    t.integer  "spend",            default: 0
+    t.integer  "cost",             default: 0,  null: false
+    t.integer  "days",             default: 90
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
     t.string   "link",                          null: false
     t.text     "notes"
-    t.integer  "condition",      default: 0,    null: false
-    t.boolean  "live",           default: true, null: false
+    t.integer  "condition",        default: 0,  null: false
+    t.datetime "last_reviewed_at"
+    t.datetime "killed_at"
     t.index ["card_id"], name: "index_offers_on_card_id", using: :btree
-    t.index ["live"], name: "index_offers_on_live", using: :btree
   end
 
   create_table "people", force: :cascade do |t|
