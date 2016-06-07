@@ -239,7 +239,7 @@ describe "admin section" do
             page.dismiss_confirm do
               click_button("kill_offer_#{ @live_1.id }_btn")
             end
-          end.not_to change{Offer.live.count}
+          end.not_to change{Offer.live.count AND @live1.killed_at}
         end
       end
 
@@ -260,6 +260,7 @@ describe "admin section" do
           wait_for_ajax
           @live_2.reload
           expect(@live_2.live).to be false
+          expect(@live_2.killed_at).to_not be_nil
         end
       end
 
@@ -268,7 +269,7 @@ describe "admin section" do
           page.accept_confirm do
             find_button("kill_offer_#{ @live_3.id }_btn").click
           end
-          expect(@live_3.live).to_not be_nil
+          expect(@live_3).to_not be_nil
         end
       end
 
