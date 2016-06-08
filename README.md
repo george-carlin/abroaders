@@ -67,7 +67,8 @@ When you're done with the story:
 2. Push your final work to Github, and open a new pull request. You'll usually
    want your PR to target `master`. If not, I'll say so on Pivotal.
 3. Click 'Deliver' on Pivotal. ('Delivered' stories = there's currently a PR
-   on Github awaiting feedback.)
+   on Github awaiting feedback.) Post a comment on the Pivotal story with
+   a link to the pull request on GitHub.
 4. I'll have a look at the PR. If it looks good, I'll merge it and accept the
    story on Pivotal. If I spot problems, I'll decline the story on Pivotal and
    give you feedback.
