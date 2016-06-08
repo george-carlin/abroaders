@@ -10,6 +10,10 @@ module Person::EligibleToApply
     eligibility.save! if persisted?
   end
 
+  def eligibility_given?
+    !!eligibility&.persisted?
+  end
+
   def ineligible_to_apply!
     build_eligibility(eligible: false)
     eligibility.save! if persisted?

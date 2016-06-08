@@ -28,6 +28,22 @@
         </tr>
       <% end %>
 
+      <% present(spending_info.person) do |person| %>
+        <% if local_assigns[:show_eligibility] %>
+          <tr>
+            <td>Eligible to apply:</td>
+            <td><%= person.eligibility %></td>
+          </tr>
+        <% end %>
+
+        <% if local_assigns[:show_readiness] %>
+          <tr>
+            <td>Ready to apply:</td>
+            <td><%= person.readiness %></td>
+          </tr>
+        <% end %>
+      <% end %>
+
     </tbody>
   </table>
 <% end %>

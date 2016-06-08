@@ -9,6 +9,22 @@ class PersonPresenter < ApplicationPresenter
 
   delegate :email, to: :account
 
+  def eligibility
+    eligibility_given? ? (eligible_to_apply? ?  "Yes" : "No") : "Unknown"
+  end
+
+  def readiness
+    if readiness_given?
+      if ready_to_apply?
+        "Ready as of #{readiness_given_on}"
+      else
+        "Not ready as of #{readiness_given_on}"
+      end
+    else
+      "Unknown"
+    end
+  end
+
   def readiness_given_on
     readiness_given_at.strftime("%D")
   end

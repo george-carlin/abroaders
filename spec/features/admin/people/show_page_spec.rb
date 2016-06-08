@@ -59,5 +59,15 @@ describe "admin section" do
       end
     end
 
+    example "person has not given their eligibility"
+    example "person is ineligible"
+
+    context "person is eligible" do
+      example "and has not provided readiness"
+      example "and is not ready (no reason given)"
+      example "and is not ready (reason given)"
+      example "and is ready"
+    end
+
   end
 end

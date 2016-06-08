@@ -3,7 +3,7 @@
 
     <div class="col-xs-12 col-md-6">
       <% if spending_info.present? %>
-        <%= render "spending_infos/spending_info", spending_info: spending_info %>
+        <%= render "spending_infos/spending_info", spending_info: spending_info, show_eligibility: true, show_readiness: true %>
       <% else %>
         User has not added their spending info
       <% end %>
