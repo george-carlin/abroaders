@@ -223,33 +223,29 @@ describe "the edit person readiness page" do
   before do
     eligible ?  me.eligible_to_apply! : me.ineligible_to_apply!
     if already_ready
-      create(:readiness_status, person: me, ready: true)
+      create(:readiness_status, person: me, ready: true, unreadiness_reason: reason)
       me.reload
     elsif !already_ready.nil?
-      create(:readiness_status, person: me, ready: false)
+      create(:readiness_status, person: me, ready: false, unreadiness_reason: reason)
       me.reload
-    end
-
-    if reason
-      me.readiness_status.unreadiness_reason = reason
     end
 
     login_as(account.reload)
-    visit edit_person_readiness_status_path(me)
+    visit person_readiness_status_path(me)
   end
 
   let(:eligible)       { true }
   let(:onboarded_travel_plans) { true }
   let(:onboarded_type) { true }
   let(:already_ready)  { false }
-  let(:reason) {"I've got my reasons"}
+  let(:reason) { nil }
 
   describe "explicitly unready person" do
     let(:already_ready)  { false }
     let(:reason) {"meow"}
-    it "sees readiness and readiness_reason" do
-      is_expected.to have_content me.readiness_status.unreadiness_reason
-      is_expected.to have_content me.readiness_status.created_at
+    it "sees readiness date and readiness_reason" do
+      expect(page).to have_content me.readiness_status.unreadiness_reason
+      expect(page).to have_content me.readiness_status.created_at.strftime("%D")
     end
   end
 
@@ -266,6 +262,7 @@ describe "the edit person readiness page" do
     let(:reason) {"meow"}
     before { click_button "I am now ready" }
     it "unreadiness reason isn't modified" do
+      me.reload
       expect(me.readiness_status.unreadiness_reason).to eq "meow"
     end
   end
@@ -275,14 +272,14 @@ describe "the edit person readiness page" do
     before { click_button "I am now ready" }
     it "redirects to dashboard with success flash alert" do
       expect(current_path).to eq root_path
-      is_expected.to have_content  "Thanks! You will shortly receive your first card recommendation"
+      expect(page).to have_content  "Thanks! You will shortly receive your first card recommendation."
     end
   end
 
   describe "unanswered unready person" do
     let(:already_ready)  { nil }
     it "redirects to person readiness new" do
-      expect(current_path).to eq edit_person_readiness_new_path(me)
+      expect(current_path).to eq new_person_readiness_status_path(me)
     end
   end
 

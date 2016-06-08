@@ -6,6 +6,9 @@ class ReadinessStatusesController < NonAdminController
     @person = load_person
     redirect_if_ineligible! and return
     redirect_if_already_ready! and return
+    unless @person.readiness_status.nil?
+      redirect_to person_readiness_status_path(@person) and return
+    end
     @status = @person.build_readiness_status(ready: true)
   end
 
@@ -22,6 +25,24 @@ class ReadinessStatusesController < NonAdminController
     else
       render "new"
     end
+  end
+
+  def show
+    @person = load_person
+    redirect_if_ineligible! and return
+    redirect_if_already_ready! and return
+    if @person.readiness_status.nil?
+      redirect_to new_person_readiness_status_path(@person) and return
+    end
+    #@status = @person.build_readiness_status(ready: true)
+  end
+
+  def update
+    person = load_person
+    person.readiness_status.ready = true
+    person.readiness_status.save
+    flash[:success] = "Thanks! You will shortly receive your first card recommendation."
+    redirect_to root_path
   end
 
   private
