@@ -1,10 +1,10 @@
 const React = require("react");
 
-const ApplyActions     = require("../CardAccountApplyActions");
-const CallActions      = require("../CardAccountCallActions");
-const NudgeActions     = require("../CardAccountNudgeActions");
-const PostCallActions  = require("../CardAccountPostCallActions");
-const PostNudgeActions = require("../CardAccountPostNudgeActions");
+const ApplyActions     = require("./ApplyActions");
+const CallActions      = require("./CallActions");
+const NudgeActions     = require("./NudgeActions");
+const PostCallActions  = require("./PostCallActions");
+const PostNudgeActions = require("./PostNudgeActions");
 
 const CardApplicationSurvey = React.createClass({
 

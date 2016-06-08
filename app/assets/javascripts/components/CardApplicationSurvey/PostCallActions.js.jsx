@@ -5,12 +5,13 @@ const ButtonGroup    = require("../core/ButtonGroup");
 const Form           = require("../core/Form");
 const HiddenFieldTag = require("../core/HiddenFieldTag");
 
-const ApprovedDeniedPendingBtnGroup = require("../ApprovedDeniedPendingBtnGroup");
 const ConfirmOrCancelBtns = require("../ConfirmOrCancelBtns");
 
-const CardAccountPostNudgeActions = React.createClass({
+const ApprovedDeniedPendingBtnGroup = require("./ApprovedDeniedPendingBtnGroup");
+
+const PostCallActions = React.createClass({
   propTypes: {
-    updatePath: React.PropTypes.string.isRequired,
+    updatePath:  React.PropTypes.string.isRequired,
   },
 
 
@@ -37,18 +38,18 @@ const CardAccountPostNudgeActions = React.createClass({
 
     switch (this.state.currentAction) {
       case "initial":
-        helpText = "Let us know when you hear back from the bank:"
+        helpText = "Tell us when you hear back from the bank:"
         break;
       case "heardBack":
         helpText = "What did the bank say?"
         break;
       case "confirmApproved":
-        helpText = "Your application has been approved:"
+        helpText = "Your application has been approved after reconsideration:"
         action = "open"
         break;
       case "confirmDenied":
-        helpText = "Your application has been declined:"
-        action = "deny"
+        helpText = "Your application is still denied after reconsideration:"
+        action = "redeny"
         break;
     }
 
@@ -67,8 +68,8 @@ const CardAccountPostNudgeActions = React.createClass({
       case "heardBack":
         buttons = (
           <ApprovedDeniedPendingBtnGroup
-            approvedText="My application was approved"
-            deniedText="My application was declined"
+            approvedText="My application was approved after reconsideration"
+            deniedText="My application is still denied"
             onClickApproved={e => this.setCurrentAction(e, "confirmApproved")}
             onClickDenied={e => this.setCurrentAction(e, "confirmDenied")}
             noPendingBtn
@@ -90,6 +91,11 @@ const CardAccountPostNudgeActions = React.createClass({
       <Form action={this.props.updatePath} method="patch">
         <HiddenFieldTag name="card_account[action]" value={action} />
 
+        <p>
+          You have indicated that your application was denied, you called
+          for reconsideration, and you're waiting to hear the results.
+        </p>
+
         <p>{helpText}</p>
 
         {buttons}
@@ -98,4 +104,4 @@ const CardAccountPostNudgeActions = React.createClass({
   },
 });
 
-module.exports = CardAccountPostNudgeActions;
+module.exports = PostCallActions;

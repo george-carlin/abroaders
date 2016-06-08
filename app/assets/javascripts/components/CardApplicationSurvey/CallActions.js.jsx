@@ -4,11 +4,12 @@ const Button         = require("../core/Button");
 const Form           = require("../core/Form");
 const HiddenFieldTag = require("../core/HiddenFieldTag");
 
-const ApprovedDeniedPendingBtnGroup = require("../ApprovedDeniedPendingBtnGroup");
 const ConfirmOrCancelBtns = require("../ConfirmOrCancelBtns");
-const PromptToCallTheBank = require("../PromptToCallTheBank");
 
-const CardAccountCallActions = React.createClass({
+const ApprovedDeniedPendingBtnGroup = require("./ApprovedDeniedPendingBtnGroup");
+const PromptToCallTheBank           = require("./PromptToCallTheBank");
+
+const CallActions = React.createClass({
   propTypes: {
     cardAccount: React.PropTypes.object.isRequired,
     updatePath:  React.PropTypes.string.isRequired,
@@ -116,4 +117,4 @@ const CardAccountCallActions = React.createClass({
   },
 });
 
-module.exports = CardAccountCallActions;
+module.exports = CallActions;

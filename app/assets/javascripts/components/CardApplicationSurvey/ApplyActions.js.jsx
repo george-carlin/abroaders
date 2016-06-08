@@ -1,15 +1,15 @@
 const React = require("react");
-const $     = require("jquery");
 
 const Button         = require("../core/Button");
 const HiddenFieldTag = require("../core/HiddenFieldTag");
 const Form           = require("../core/Form");
 
-const ApprovedDeniedPendingBtnGroup = require("../ApprovedDeniedPendingBtnGroup");
-const ApproveCardAccountFormFields  = require("../ApproveCardAccountFormFields");
-const ConfirmOrCancelBtns           = require("../ConfirmOrCancelBtns");
+const ConfirmOrCancelBtns = require("../ConfirmOrCancelBtns");
 
-const CardAccountApplyActions = React.createClass({
+const ApprovedDeniedPendingBtnGroup = require("./ApprovedDeniedPendingBtnGroup");
+const ApproveCardAccountFormFields  = require("./ApproveCardAccountFormFields");
+
+const ApplyActions = React.createClass({
   propTypes: {
     updatePath:         React.PropTypes.string.isRequired,
   },
@@ -121,4 +121,4 @@ const CardAccountApplyActions = React.createClass({
 
 });
 
-module.exports = CardAccountApplyActions;
+module.exports = ApplyActions;
