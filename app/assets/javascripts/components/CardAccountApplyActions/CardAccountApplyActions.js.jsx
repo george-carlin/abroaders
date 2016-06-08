@@ -1,12 +1,13 @@
 const React = require("react");
 const $     = require("jquery");
 
+const Button         = require("../core/Button");
+const HiddenFieldTag = require("../core/HiddenFieldTag");
+const Form           = require("../core/Form");
+
 const ApprovedDeniedPendingBtnGroup = require("../ApprovedDeniedPendingBtnGroup");
-const ApproveCardAccountFormFields = require("../ApproveCardAccountFormFields");
-const Button                       = require("../Button");
-const HiddenFieldTag               = require("../HiddenFieldTag");
-const ConfirmOrCancelBtns          = require("../ConfirmOrCancelBtns");
-const Form                         = require("../Form");
+const ApproveCardAccountFormFields  = require("../ApproveCardAccountFormFields");
+const ConfirmOrCancelBtns           = require("../ConfirmOrCancelBtns");
 
 const CardAccountApplyActions = React.createClass({
   propTypes: {

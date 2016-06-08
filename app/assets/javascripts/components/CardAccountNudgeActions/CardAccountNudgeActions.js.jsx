@@ -1,11 +1,12 @@
 const React = require("react");
 
+const Button         = require("../core/Button");
+const ButtonGroup    = require("../core/ButtonGroup");
+const Form           = require("../core/Form");
+const HiddenFieldTag = require("../core/HiddenFieldTag");
+
 const ApprovedDeniedPendingBtnGroup = require("../ApprovedDeniedPendingBtnGroup");
-const Button              = require("../Button");
-const ButtonGroup         = require("../ButtonGroup");
 const ConfirmOrCancelBtns = require("../ConfirmOrCancelBtns");
-const Form                = require("../Form");
-const HiddenFieldTag      = require("../HiddenFieldTag");
 const PromptToCallTheBank = require("../PromptToCallTheBank");
 
 const CardAccountNudgeActions = React.createClass({

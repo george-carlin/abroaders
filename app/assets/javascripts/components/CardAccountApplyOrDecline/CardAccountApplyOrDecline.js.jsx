@@ -1,10 +1,11 @@
 const React = require("react");
 
-const Button              = require("../Button");
-const ButtonGroup         = require("../ButtonGroup");
-const Form                = require("../Form");
+const Button       = require("../core/Button");
+const ButtonGroup  = require("../core/ButtonGroup");
+const Form         = require("../core/Form");
+const TextFieldTag = require("../core/TextFieldTag");
+
 const ConfirmOrCancelBtns = require("../ConfirmOrCancelBtns");
-const TextFieldTag        = require("../TextFieldTag");
 
 const CardAccountApplyOrDecline = React.createClass({
   propTypes: {

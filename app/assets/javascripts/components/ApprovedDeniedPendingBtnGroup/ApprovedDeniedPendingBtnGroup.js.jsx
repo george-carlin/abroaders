@@ -1,7 +1,7 @@
 const React = require("react");
 
-const Button      = require("../Button");
-const ButtonGroup = require("../ButtonGroup");
+const Button      = require("../core/Button");
+const ButtonGroup = require("../core/ButtonGroup");
 
 const ApprovedDeniedPendingBtnGroup = React.createClass({
   propTypes: {

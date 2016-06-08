@@ -1,7 +1,8 @@
 const React = require("react");
 
+const TextFieldTag = require("../core/TextFieldTag");
+
 const ConfirmOrCancelBtns = require("../ConfirmOrCancelBtns");
-const TextFieldTag        = require("../TextFieldTag");
 
 const ApproveCardAccountFormFields = React.createClass({
   propTypes: {

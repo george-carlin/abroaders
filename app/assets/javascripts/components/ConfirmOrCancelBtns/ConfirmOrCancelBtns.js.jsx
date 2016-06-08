@@ -1,8 +1,8 @@
 const React = require("react");
 const _     = require("underscore");
 
-const Button      = require("../Button");
-const ButtonGroup = require("../ButtonGroup");
+const Button      = require("../core/Button");
+const ButtonGroup = require("../core/ButtonGroup");
 
 const ConfirmOrCancelBtns = React.createClass({
 
