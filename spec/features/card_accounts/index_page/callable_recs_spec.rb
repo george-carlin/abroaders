@@ -2,7 +2,6 @@ require "rails_helper"
 
 describe "user cards page - callable cards", :js do
 
-
   include_context "logged in"
 
   let(:me) { account.main_passenger }
@@ -67,11 +66,6 @@ describe "user cards page - callable cards", :js do
 
   it "has a button to say I called", :frontend do
     expect(rec_on_page).to have_i_called_btn
-  end
-
-  context "when bank is Barclays", :frontend do
-    it "doesn't encourage me to call"
-    # Barclays is the one bank which won't reconsider denied applications
   end
 
   describe "clicking 'I called'" do
