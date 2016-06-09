@@ -25,12 +25,6 @@ gem 'uglifier', '>= 1.3.0'
 gem 'virtus'
 gem 'will_paginate-bootstrap', '~> 1.0.1'
 
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
-
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
-
 gem 'browserify-rails'
 
 # Required to make the app function properly on Heroku:
