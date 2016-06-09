@@ -37,6 +37,12 @@ class TravelPlansController < NonAdminController
     end
   end
 
+  def skip_survey
+    current_account.onboarded_travel_plans = true
+    current_account.save!
+    redirect_to type_account_path
+  end
+
   private
 
   def travel_plan_params

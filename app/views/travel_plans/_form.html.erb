@@ -101,6 +101,9 @@
 
     <div class="col-xs-12">
       <%= f.submit "Save", class: "btn-primary" %>
+      <% unless current_account.onboarded_travel_plans? %>
+          <%= link_to_skip_survey %>
+      <% end %>
     </div>
   <% end %>
 </div><!-- .panel-body -->

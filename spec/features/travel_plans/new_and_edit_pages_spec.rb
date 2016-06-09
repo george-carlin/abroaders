@@ -126,6 +126,44 @@ describe "travel plans" do
       end
     end
 
+    describe "when I have not onboarded my first travel plan" do
+      let(:onboarded_travel_plans) { false }
+      it "has a link to skip making travel plans" do
+        expect(page).to have_link ("I don't want to add a travel plan right now")
+      end
+    end
+
+    describe "when I have already onboarded my first travel plan" do
+      let(:onboarded_travel_plans) { true }
+      it "has a link to skip making travel plans" do
+        expect(page).to_not have_link("I don't want to add a travel plan right now")
+      end
+    end
+
+    describe "when I click the skip travel plans link" do
+      let(:onboarded_travel_plans) { false }
+      before {click_link "I don't want to add a travel plan right now" }
+      it "changes account values to skip forward" do
+        account.reload
+        expect(account.onboarded_travel_plans).to eq true
+      end
+    end
+
+    describe "when I click the skip travel plans link" do
+      let(:onboarded_travel_plans) { false }
+      it "doesn't create travel plans" do
+        expect{click_link "I don't want to add a travel plan right now"}.not_to change{TravelPlan.count}
+      end
+    end
+
+    describe "when I click the skip travel plans link" do
+      let(:onboarded_travel_plans) { false }
+      before {click_link "I don't want to add a travel plan right now" }
+      it "redirects to next step in the oboarding survey" do
+        expect(current_path).to eq type_account_path
+      end
+    end
+
     it_behaves_like "a travel plan form"
 
     it { is_expected.to have_title full_title("Add a Travel Plan") }
