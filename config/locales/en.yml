@@ -69,6 +69,9 @@ en:
       couldnt_update: "Couldn't update card recommendation. This may happen if you already performed the same action in a different browser window or tab, or if you hit the 'back' button after performing the action the first time."
       recs_coming_soon: "The Abroaders team is hand selecting the ideal rewards cards based on your current points, travel plans and spending. We’ll let you know as soon as the card recommendations are ready to view."
 
+  readiness_statuses:
+    explanation: "Banks and credit card companies are constantly changing their offers, and sometimes great deals will disappear without prior notice. When we recommend a credit card to you, it's important that you're willing and able to apply for the card as soon as possible."
+
   admin:
     offers:
       submit: "Submit"

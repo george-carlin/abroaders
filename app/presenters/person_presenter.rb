@@ -36,4 +36,18 @@ class PersonPresenter < ApplicationPresenter
     )
   end
 
+
+  def update_readiness_btn
+    btn_classes = "btn btn-lg btn-primary"
+    prefix = :update_readiness
+    h.button_to(
+        "I am now ready",
+        h.person_readiness_status_path(self),
+        class:  "#{h.dom_class(self, prefix)}_btn #{btn_classes} pull-right",
+        id:     "#{h.dom_id(self, prefix)}_btn",
+        method: :patch,
+        data: { confirm: "Are you sure?" }
+    )
+  end
+
 end

@@ -19,7 +19,7 @@ module Person::ReadyToApply
   end
 
   def readiness_given_at
-    readiness_status&.created_at
+    readiness_status&.updated_at
   end
 
   def ready_to_apply!

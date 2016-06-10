@@ -8,8 +8,8 @@ describe "the 'are you ready to apply?' survey page", :js, :onboarding do
   let!(:account) do
     create(
       :account,
-      :onboarded_travel_plans  => onboarded_travel_plans,
-      :onboarded_type          => onboarded_type,
+      onboarded_travel_plans:   onboarded_travel_plans,
+      onboarded_type:           onboarded_type,
     )
   end
   let!(:me) { account.people.first }
@@ -209,3 +209,93 @@ describe "the 'are you ready to apply?' survey page", :js, :onboarding do
   end
 end
 
+
+describe "the edit person readiness page" do
+  let!(:account) do
+    create(
+        :account,
+        :onboarded_travel_plans  => onboarded_travel_plans,
+        :onboarded_type          => onboarded_type,
+    )
+  end
+  let!(:me) { account.people.first }
+
+  before do
+    eligible ?  me.eligible_to_apply! : me.ineligible_to_apply!
+    if already_ready
+      create(:readiness_status, person: me, ready: true, unreadiness_reason: reason)
+      me.reload
+    elsif !already_ready.nil?
+      create(:readiness_status, person: me, ready: false, unreadiness_reason: reason)
+      me.reload
+    end
+
+    login_as(account.reload)
+    visit person_readiness_status_path(me)
+  end
+
+  let(:eligible)       { true }
+  let(:onboarded_travel_plans) { true }
+  let(:onboarded_type) { true }
+  let(:already_ready)  { false }
+  let(:reason) { nil }
+
+  describe "explicitly unready person" do
+    let(:already_ready)  { false }
+    let(:reason) {"meow"}
+    it "sees readiness date and readiness_reason" do
+      expect(page).to have_content me.readiness_status.unreadiness_reason
+      expect(page).to have_content me.readiness_status.created_at.strftime("%D")
+    end
+  end
+
+  describe "unready person clicks ready button" do
+    let(:already_ready)  { false }
+    before { click_button "I am now ready" }
+    it "updates readiness status" do
+      expect(me).to be_ready_to_apply
+    end
+  end
+
+  describe "unready person clicks ready button" do
+    let(:already_ready)  { false }
+    let(:reason) {"meow"}
+    before { click_button "I am now ready" }
+    it "unreadiness reason isn't modified" do
+      me.reload
+      expect(me.readiness_status.unreadiness_reason).to eq "meow"
+    end
+  end
+
+  describe "unready person clicks ready button" do
+    let(:already_ready)  { false }
+    before { click_button "I am now ready" }
+    it "redirects to dashboard with success flash alert" do
+      expect(current_path).to eq root_path
+      expect(page).to have_success_message "Thanks! You will shortly receive your first card recommendation."
+    end
+  end
+
+  describe "unanswered unready person" do
+    let(:already_ready)  { nil }
+    it "redirects to person readiness new" do
+      expect(current_path).to eq new_person_readiness_status_path(me)
+    end
+  end
+
+  describe "ready person" do
+    let(:already_ready)  { true }
+    it "is redirected to dashboard" do
+      expect(current_path).to eq root_path
+    end
+  end
+
+  context "when I'm not eligible to apply for cards" do
+    let(:eligible) { false }
+    it "redirects to the dashboard" do
+      expect(current_path).to eq root_path
+    end
+
+  end
+
+end
