@@ -29,7 +29,7 @@ class PersonPresenter < ApplicationPresenter
         h.person_readiness_status_path(self),
         class:  "#{h.dom_class(self, prefix)}_btn #{btn_classes} pull-right",
         id:     "#{h.dom_id(self, prefix)}_btn",
-        :method => :patch,
+        method: :patch,
         data: { confirm: "Are you sure?" }
     )
   end

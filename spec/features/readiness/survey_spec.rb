@@ -8,8 +8,8 @@ describe "the 'are you ready to apply?' survey page", :js, :onboarding do
   let!(:account) do
     create(
       :account,
-      :onboarded_travel_plans  => onboarded_travel_plans,
-      :onboarded_type          => onboarded_type,
+      onboarded_travel_plans:   onboarded_travel_plans,
+      onboarded_type:           onboarded_type,
     )
   end
   let!(:me) { account.people.first }
@@ -253,7 +253,7 @@ describe "the edit person readiness page" do
     let(:already_ready)  { false }
     before { click_button "I am now ready" }
     it "updates readiness status" do
-      expect(me.readiness_status.ready).to be true
+      expect(me).to be_ready_to_apply
     end
   end
 
@@ -272,7 +272,7 @@ describe "the edit person readiness page" do
     before { click_button "I am now ready" }
     it "redirects to dashboard with success flash alert" do
       expect(current_path).to eq root_path
-      expect(page).to have_content  "Thanks! You will shortly receive your first card recommendation."
+      expect(page).to have_success_message "Thanks! You will shortly receive your first card recommendation."
     end
   end
 
