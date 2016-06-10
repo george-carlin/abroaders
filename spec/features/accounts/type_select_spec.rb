@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "account type select page", :onboarding do
+describe "account type select page", :js, :onboarding do
   subject { page }
 
   let!(:account) do
@@ -17,7 +17,7 @@ describe "account type select page", :onboarding do
   end
 
   let(:partner_btn) { t("accounts.type.sign_up_for_couples_earning") }
-  let(:solo_btn)    { t("accounts.type.sign_up_for_solo_earning") }
+  let(:solo_btn)    { "Sign up for solo earning" }
 
   let(:extra_setup) { nil }
 
@@ -46,10 +46,27 @@ describe "account type select page", :onboarding do
     expect(page).to have_no_sidebar
   end
 
-  context "when I have not added my first travel plan yet" do
+  context "when I haven't completed the travel plan survey" do
     let(:onboarded_travel_plans) { false }
     it "redirects me to the travel plan form" do
       expect(current_path).to eq new_travel_plan_path
+    end
+  end
+
+  context "when I skipped adding a travel plan" do
+    it { is_expected.to have_content "Abroaders will help you earn the right points for your next trip" }
+  end
+
+  context "when I added a travel plan" do
+    let(:extra_setup) do
+      tp    = create(:travel_plan, account: account)
+      @dest = tp.flights.first.to
+      raise unless @dest.name # sanity check
+    end
+
+    it do
+      is_expected.to have_content \
+        "Abroaders will help you earn the right points for your trip to #{@dest.name}"
     end
   end
 
@@ -66,7 +83,7 @@ describe "account type select page", :onboarding do
     end
   end
 
-  describe "clicking 'solo'", :js do
+  describe "clicking 'solo'" do
     let(:confirm_btn) { "Submit" }
     let(:click_confirm) { click_button confirm_btn }
 
@@ -86,14 +103,14 @@ describe "account type select page", :onboarding do
     end
 
     describe "clicking 'not eligible to apply'" do
-      before { choose :solo_account_eligible_to_apply_false }
+      before { choose "No - I am not eligible" }
 
       it "hides the monthly spending input" do
         is_expected.not_to have_field :solo_account_monthly_spending_usd
       end
 
       describe "and clicking 'eligible to apply' again" do
-        before { choose :solo_account_eligible_to_apply_true }
+        before { choose "Yes - I am eligible" }
 
         it "shows the monthly spending input again" do
           is_expected.to have_field :solo_account_monthly_spending_usd
@@ -142,7 +159,7 @@ describe "account type select page", :onboarding do
         end
 
         context "when I have said I am eligible to apply" do
-          before { choose :solo_account_eligible_to_apply_true }
+          before { choose "Yes - I am eligible" }
           it "takes me to my spending survey page" do
             click_confirm
             expect(current_path).to eq new_person_spending_info_path(me)
@@ -150,7 +167,7 @@ describe "account type select page", :onboarding do
         end
 
         context "when I have said I am not eligible to apply" do
-          before { choose :solo_account_eligible_to_apply_false }
+          before { choose "No - I am not eligible" }
           it "takes me to my balances survey" do
             click_confirm
             expect(current_path).to eq survey_person_balances_path(me)
@@ -162,7 +179,7 @@ describe "account type select page", :onboarding do
     end
   end
 
-  describe "clicking 'partner'", :js do
+  describe "clicking 'partner'" do
     let(:confirm_btn) { "Submit" }
     let(:click_confirm) { click_button confirm_btn }
 
@@ -216,9 +233,7 @@ describe "account type select page", :onboarding do
         let(:partner_name) { "    Steve    " }
 
         it "strips trailing whitespace" do
-          expect(body).to have_selector \
-            ".partner_account_person_1_first_name",
-            text: /\ASteve\z/
+          expect(body).to have_content "Only Steve is eligible"
         end
       end
 

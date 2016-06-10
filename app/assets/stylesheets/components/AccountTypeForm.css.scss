@@ -1,0 +1,45 @@
+[data-react-component=AccountTypeForm] {
+  // Bootstrap default:
+  $mdWidth: 922px;
+
+  .account_type_select_header {
+    margin-bottom: 21px;
+    text-align: center;
+  }
+
+  .account_type_select {
+    h2 {
+      margin-bottom: 22px;
+    }
+
+    p {
+      margin-bottom: 26px;
+    }
+
+    p.help-block {
+      margin-bottom: 10px;
+    }
+
+    button, input[type=submit] {
+      width: 100%;
+    }
+
+    text-align: center;
+  }
+
+
+  $margin: 20px;
+
+  @media (min-width: $mdWidth) {
+    #solo_earning_select {
+      margin-right: $margin;
+      position: relative;
+      left: -2 * $margin;
+    }
+
+  }
+
+  .account_type_form_step_1 {
+    text-align: start;
+  }
+}

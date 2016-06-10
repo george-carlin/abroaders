@@ -3,10 +3,8 @@ class AccountsController < NonAdminController
   before_action :redirect_if_type_already_given!
 
   def type
-    @travel_plan     = current_account.travel_plans.last
-    @solo_account    = SoloAccountForm.new
-    @partner_account = PartnerAccountForm.new
-    @person_0        = current_account.people.first
+    @destination = current_account.travel_plans&.last&.flights&.first&.to
+    @main_person = current_account.main_person
   end
 
   def create_solo_account
