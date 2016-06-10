@@ -59,5 +59,5 @@ class Offer < ApplicationRecord
   # Scopes
 
   scope :live, -> { where(killed_at: nil) }
-  scope :dead, -> { where(killed_at: !nil) }
+  scope :dead, -> { where.not(killed_at: nil) }
 end
