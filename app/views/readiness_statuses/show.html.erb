@@ -16,12 +16,7 @@
               <p>Reason given: <i><%= person.unreadiness_reason %></i></p>
           <% end %>
   
-          <p>
-            Banks and credit card companies are constantly changing their
-            offers, and sometimes great deals will disappear without prior
-            notice. When we recommend a credit card to you, it's important that
-            you're willing and able to apply for the card as soon as possible.
-          </p>
+          <p><%= t("readiness_statuses.explanation") %></p>
   
           <p>
             If <%= person.first_name %> is able to apply for the card within the
