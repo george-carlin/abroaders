@@ -200,13 +200,31 @@ describe "admin section" do
       end
     end # new page
 
+    describe "offers page" do
+
+      let(:route) { admin_offers_path }
+
+      before do
+        @live_1 = create(:live_offer, last_reviewed_at: DateTime.yesterday)
+        visit route
+      end
+
+      describe "when viewing offers" do
+        it "shows offer details", :js => true do
+          is_expected.to have_content @live_1.card.name
+          expect(find("tr#offer_#{@live_1.id}").text).to include(@live_1.last_reviewed_at.strftime("%m/%d/%Y"))
+        end
+      end
+
+    end # offers page
+
     describe "review page" do
 
       let(:route) { review_admin_offers_path }
 
       before do
         @live_1 = create(:live_offer)
-        @live_2 = create(:live_offer)
+        @live_2 = create(:live_offer, last_reviewed_at: DateTime.yesterday)
         @live_3 = create(:live_offer)
         @dead_1 = create(:dead_offer)
         visit route
@@ -215,15 +233,46 @@ describe "admin section" do
       describe "when page loads" do
         it "shows only live offers" do
           expect(page).to have_selector( ".offer", count: Offer.live.count)
+          expect(page).to have_button('Done')
         end
       end
 
-      describe "when viewing offers" do
-        #this does not need ':js => true' but if it doesn't load js the next test fails
-        it "shows offer details", :js => true do
+      describe "when viewing non-reviewed offers" do
+        it "shows offer details" do
           is_expected.to have_content @live_1.card.name
           is_expected.to have_content @live_1.card.bp
-          is_expected.to have_link('Link', :href => @live_1.link)
+          expect(find("tr#offer_#{@live_1.id}").text).to include('never')
+          is_expected.to have_link('Link', href: @live_1.link)
+        end
+      end
+
+      describe "when viewing reviewed offers" do
+        it "shows reviewed date" do
+          expect(find("tr#offer_#{@live_2.id}").text).to include(@live_2.last_reviewed_at.to_date.strftime("%m/%d/%Y"))
+        end
+      end
+
+      describe "when pressing Done" do
+        it "updates live offers last_reviewed_at datetime" do
+          click_button("done_btn")
+          @live_1.reload
+          expect(@live_1.last_reviewed_at).to be_within(2.seconds).of(Time.now)
+        end
+      end
+
+      describe "when pressing Done" do
+        it "does not update dead offers last_reviewed_at datetime"do
+          expect do
+            click_button("done_btn")
+            end.not_to change{@dead_1.last_reviewed_at}
+          end
+      end
+
+      describe "when pressing Done" do
+        it "redirects to offers review and alerts success" do
+          click_button("done_btn")
+          expect(page.current_path).to eq review_admin_offers_path
+          is_expected.to have_content "All live offers reviewed"
         end
       end
 

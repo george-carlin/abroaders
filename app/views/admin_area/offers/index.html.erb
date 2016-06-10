@@ -43,6 +43,7 @@
             <th>Cost</th>
             <th>Days</th>
             <th>Live</th>
+            <th>Reviewed</th>
             <th></th>
             <th></th>
           </tr>
@@ -59,6 +60,7 @@
               <td><%= offer.cost %></td>
               <td><%= offer.days %></td>
               <td><%= offer.live? ? "Yes" : "No" %></td>
+              <td><%= offer.last_reviewed_at %></td>
               <td><%= offer.link_to_show %></td>
               <td><%= offer.link_to_edit %></td>
             <% end %>

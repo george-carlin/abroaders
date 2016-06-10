@@ -10,5 +10,15 @@ module AdminArea
       )
     end
 
+    def review_all_btn
+      btn_classes = "btn btn-lg btn-primary"
+      button_to(
+          "Done",
+          review_all_admin_offers_path,
+          class:  "done_btn #{btn_classes} pull-right",
+          id:     "done_btn"
+      )
+    end
+
   end
 end

@@ -16,6 +16,10 @@ class AdminArea::OfferPresenter < OfferPresenter
     h.link_to 'Link', link, target: '_blank'
   end
 
+  def last_reviewed_at
+    super().nil? ? "never" : super().strftime("%m/%d/%Y")
+  end
+
   def kill_btn
     btn_classes = "btn btn-xs btn-primary"
     prefix = :kill

@@ -177,6 +177,7 @@ ActiveRecord::Schema.define(version: 20160608161402) do
     t.text     "notes"
     t.integer  "condition",      default: 0,  null: false
     t.datetime "killed_at"
+    t.datetime "last_reviewed_at"
     t.index ["card_id"], name: "index_offers_on_card_id", using: :btree
     t.index ["killed_at"], name: "index_offers_on_killed_at", using: :btree
   end
