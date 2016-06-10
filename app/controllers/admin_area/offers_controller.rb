@@ -58,8 +58,8 @@ module AdminArea
     end
 
     def kill
-      @offer = Offer.find(params[:id])
-      @offer.live = false
+      @offer = Offer.live.find(params[:id])
+      @offer.killed_at = DateTime.now
       @offer.save!
       respond_to do |format|
         format.js
@@ -82,7 +82,7 @@ module AdminArea
 
     def offer_params
       params.require(:offer).permit(
-        :condition, :points_awarded, :spend, :cost, :days, :live,
+        :condition, :points_awarded, :spend, :cost, :days,
         :link, :notes,
       )
     end
