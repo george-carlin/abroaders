@@ -12,20 +12,20 @@ const Form = React.createClass({
 
   getDefaultProps() {
     return {
-      method: "post"
+      method: "post",
     };
   },
 
 
   render() {
-    var method, methodHiddenInput;
+    let method, methodHiddenInput;
     const props = _.clone(this.props);
 
     if (_.includes(["get", "post"], props.method)) {
       method = props.method;
     } else {
       method = "post";
-      methodHiddenInput = <HiddenFieldTag name="_method" value={props.method}/>;
+      methodHiddenInput = <HiddenFieldTag name="_method" value={props.method} />;
     }
 
     delete props.method;
