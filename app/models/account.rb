@@ -48,7 +48,7 @@ class Account < ApplicationRecord
   has_one :companion_spending_info,
             through: :main_passenger, source: :spending_info
 
-  has_many :notifications
+  has_many :notifications, dependent: :destroy
   has_many :unseen_notifications, -> { unseen }, class_name: "Notification" do
     def count
       proxy_association.owner.unseen_notifications_count
