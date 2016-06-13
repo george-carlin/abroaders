@@ -16,9 +16,9 @@
     })(window,document,window['_fs_namespace'],'script','user');
 
     FS.identify('<%= current_account.id %>', {
-      displayName: '<%= current_account.email %>',
-      email:       '<%= current_account.email %>',
-      firstName:   '<%= current_account.main_person.first_name %>',
+      displayName:   '<%= current_account.email %>',
+      email:         '<%= current_account.email %>',
+      firstName_str: '<%= current_account.main_person.first_name %>',
     });
   </script>
 <% end %>
