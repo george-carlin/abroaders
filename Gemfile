@@ -32,6 +32,10 @@ group :production do
   gem 'rails_12factor'
 end
 
+#Required for active_job scheduled emails
+gem 'resque'
+gem 'resque-scheduler'
+
 # Including these in the production group for now so we can run the seeds file
 # on Heroku. Once we've launched the MVP, move these to development/test only:
 gem 'factory_girl_rails', '~> 4.5.0'
