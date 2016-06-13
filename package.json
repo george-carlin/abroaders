@@ -22,6 +22,7 @@
       "jsx"
     ],
     "unmockedModulePathPatterns": [
+      "classnames",
       "fbjs",
       "jquery",
       "react",
@@ -46,6 +47,7 @@
     "bloodhound-js": "^1.2.1",
     "browserify": "13.0.0",
     "browserify-incremental": "3.0.1",
+    "classnames": "^2.2.5",
     "humps": "^1.1.0",
     "jquery": "^2.2.1",
     "react": "^0.14.7",
