@@ -1,4 +1,6 @@
-const React = require("react");
+const React      = require("react");
+const _          = require("underscore");
+const classNames = require("classnames");
 
 const Alert = React.createClass({
   propTypes: {
@@ -12,26 +14,16 @@ const Alert = React.createClass({
     // We have to clone props because it's frozen (i.e. immutable):
     const props   = _.clone(this.props);
 
-    if (!props.className) props.className = "";
-
-    const classes = props.className.split(/\s+/)
-    if (!_.includes(classes, "alert")) props.className += " alert";
-
-    if (props.danger && !_.includes(classes, " alert-danger")) {
-      props.className += " alert-danger";
-    }
-
-    if (props.info && !_.includes(classes, " alert-info")) {
-      props.className += " alert-info";
-    }
-
-    if (props.warning && !_.includes(classes, " alert-warning")) {
-      props.className += " alert-warning";
-    }
-
-    if (props.success && !_.includes(classes, " alert-success")) {
-      props.className += " alert-success";
-    }
+    props.className = classNames([
+      props.className,
+      {
+        alert: true,
+        "alert-danger"  : props.danger,
+        "alert-info"    : props.info,
+        "alert-success" : props.success,
+        "alert-warning" : props.warning,
+      },
+    ]);
 
     return (
       <div {...props}>
