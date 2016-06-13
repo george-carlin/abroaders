@@ -55,6 +55,8 @@ class Account < ApplicationRecord
     end
   end
 
+  # TODO these methods don't belong in here; updating the counter cache is a
+  # responsibility of the Notification class, not the Account class
   def increment_unseen_notifications_count
     self.class.increment_counter(:unseen_notifications_count, id)
   end
