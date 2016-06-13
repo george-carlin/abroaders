@@ -1,4 +1,4 @@
-<% if eval(ENV["ACTIVATE_FULL_STORY"]) && current_account %>
+<% if include_full_story_js? %>
   <script type="text/javascript">
     window['_fs_debug'] = false;
     window['_fs_host'] = 'www.fullstory.com';
