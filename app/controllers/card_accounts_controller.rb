@@ -6,13 +6,15 @@ class CardAccountsController < NonAdminController
                                       only: [:survey, :save_survey]
 
   def index
-    person = load_person
-    new_cards = person.card_accounts.never_seen
-    new_cards.each do |card_account|
-      card_account.seen_at = Time.now()
-      card_account.save!
+    current_account.people.each do |person|
+      new_cards = person.card_accounts.never_seen
+      new_cards.each do |card_account|
+        card_account.seen_at = Time.now()
+        card_account.save!
+      end
     end
   end
+
 
   def survey
     @person = load_person

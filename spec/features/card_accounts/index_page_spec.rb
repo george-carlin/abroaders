@@ -42,38 +42,33 @@ describe "as a user viewing my cards" do
         end
       end
 
-      context "when I have been recommended new cards" do
-        let(:extra_setup) do
-          @recs = create_list(:card_recommendation, 2, person: me)
-        end
-
-        it "update the time i saw them" do
-          within "#main_person_card_recommendations" do
-            @recs.each do |recommendation|
-              reload recommendation
-              expect(recommendation.seen_at).to be_within(2.seconds).of(Time.now)
-            end
-          end
-        end
-      end
-
-      context "when I have have already seen cards" do
-        let(:extra_setup) do
-          @recs = create_list(:card_recommendation, 2, person: me, seen_at: Date.yesterday)
-        end
-
-        it "doesn't change my seen_at time" do
-          within "#main_person_card_recommendations" do
-            @recs.each do |recommendation|
-              reload recommendation
-              expect(recommendation.seen_at).to be_within(5.seconds).of(Date.yesterday)
-            end
-          end
-        end
-      end
-
       it "doesn't have a header with my name" do
         expect(page).to have_no_selector H, text: "#{me.first_name}'s Cards"
+      end
+    end
+
+    context "when I have been recommended new cards" do
+      let(:extra_setup) do
+        @recs = create_list(:card_recommendation, 2, person: me)
+      end
+
+      it "updates the time i saw them" do
+        @recs.each do |recommendation|
+          recommendation.reload
+          expect(recommendation.seen_at).to be_within(2.seconds).of(Time.now)
+        end
+      end
+    end
+
+    context "when I have have already seen cards" do
+      let(:extra_setup) do
+        @recs = create_list(:card_recommendation, 2, person: me, seen_at: 1.day.ago)
+      end
+
+      it "doesn't change my seen_at time" do
+        @recs.each do |recommendation|
+          expect(recommendation.seen_at).to be_within(5.seconds).of(1.day.ago)
+        end
       end
     end
   end
@@ -108,37 +103,6 @@ describe "as a user viewing my cards" do
         end
       end
 
-      context "when my partner has been recommended new cards" do
-        let(:extra_setup) do
-          @recs = create_list(:card_recommendation, 2, person: me)
-        end
-
-        it "update the time i saw them" do
-          within "#partner_card_recommendations" do
-            @recs.each do |recommendation|
-              reload recommendation
-              expect(recommendation.seen_at).to be_within(2.seconds).of(Time.now)
-            end
-          end
-        end
-      end
-
-      context "when I have have already seen my partner card offers" do
-        let(:extra_setup) do
-          @recs = create_list(:card_recommendation, 2, person: me, seen_at: Date.yesterday)
-        end
-
-        it "doesn't change my seen_at time" do
-          within "#partner_card_recommendations" do
-            @recs.each do |recommendation|
-              reload recommendation
-              expect(recommendation.seen_at).to be_within(5.seconds).of(Date.yesterday)
-            end
-          end
-        end
-      end
-
-
       it "has headers with me or my partner's names" do
         expect(page).to have_selector H, text: "#{me.first_name}'s Cards"
         expect(page).to have_selector H, text: "#{partner.first_name}'s Cards"
@@ -155,6 +119,32 @@ describe "as a user viewing my cards" do
         expect(page).to have_selector H, text: "#{partner.first_name}'s Cards"
       end
     end
+
+    context "when my partner has been recommended new cards" do
+      let(:extra_setup) do
+        @recs = create_list(:card_recommendation, 2, person: partner)
+      end
+
+      it "updates the time i saw them" do
+        @recs.each do |recommendation|
+          recommendation.reload
+          expect(recommendation.seen_at).to be_within(2.seconds).of(Time.now)
+        end
+      end
+    end
+
+    context "when I have have already seen my partner card offers" do
+      let(:extra_setup) do
+        @recs = create_list(:card_recommendation, 2, person: partner, seen_at: 1.day.ago)
+      end
+
+      it "doesn't change my seen_at time" do
+        @recs.each do |recommendation|
+          expect(recommendation.seen_at).to be_within(5.seconds).of(1.day.ago)
+        end
+      end
+    end
+
   end
 
   def get_card_account_on_page(card_account)
