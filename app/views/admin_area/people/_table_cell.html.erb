@@ -1,6 +1,6 @@
 <%= link_to(person.first_name, admin_person_path(person)) %>
 
-<% if person.onboarded? %>
+<% if person.can_receive_recommendations? %>
   <%= link_to(
     new_admin_person_card_recommendation_path(person),
     class: "admin_person_recommend_card_link",

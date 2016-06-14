@@ -15,9 +15,11 @@ describe "admin section" do
         create(:onboarded_account_with_companion, email: "ccccccc@example.com"),
         create(:account, email: "ddddddd@example.com")
       ]
+      extra_setup
       visit admin_accounts_path
     end
 
+    let(:extra_setup) { nil }
     let(:onboarded_accounts) { @accounts.slice(0,3) }
 
     it { is_expected.to have_title full_title("Accounts") }
@@ -76,21 +78,23 @@ describe "admin section" do
       context "has completed the onboarding survey" do
         it "has a link to recommend the main person a card" do
           onboarded_accounts.each do |account|
-            person = account.main_passenger
-            is_expected.to have_link(
-              "", # actually a font-awesome icon
-              href: new_admin_person_card_recommendation_path(person)
-            )
+            is_expected.to have_recommend_card_btn_for(account.main_person)
+          end
+        end
+
+        context "and the main person is not eligible to apply for cards" do
+          let(:extra_setup) do
+            @accounts[0].main_person.eligibility.update_attributes!(eligible: false)
+          end
+
+          it "doesn't have a link to recommend the main person a card" do
+            is_expected.to have_no_recommend_card_btn_for(@accounts[0].main_person)
           end
         end
 
         context "and has a companion" do
           it "has a link to recommend the main person a card" do
-            person = @accounts[2].companion
-            is_expected.to have_link(
-              "", # actually a font-awesome icon
-              href: new_admin_person_card_recommendation_path(person)
-            )
+            is_expected.to have_recommend_card_btn_for(@accounts[2].companion)
           end
         end
       end
@@ -102,6 +106,20 @@ describe "admin section" do
 
     def account_selector(account)
       "##{dom_id(account)}"
+    end
+
+    def have_recommend_card_btn_for(person)
+      have_link(
+        "", # actually a font-awesome icon
+        href: new_admin_person_card_recommendation_path(person)
+      )
+    end
+
+    def have_no_recommend_card_btn_for(person)
+      have_no_link(
+        "", # actually a font-awesome icon
+        href: new_admin_person_card_recommendation_path(person)
+      )
     end
   end
 end

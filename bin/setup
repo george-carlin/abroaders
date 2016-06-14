@@ -35,6 +35,12 @@ chdir APP_ROOT do
   puts "\n== Installing node modules =="
   system! 'npm install'
 
+  puts "\n== Setting up config/application.yml =="
+  cp(
+    APP_ROOT.join("config","application.yml.template"),
+    APP_ROOT.join("config","application.yml"),
+  )
+
   puts "\n== Restarting application server =="
   system! 'bin/rails restart'
 end

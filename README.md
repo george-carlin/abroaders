@@ -41,6 +41,12 @@ including some admin accounts. Get the admin login info from
 `lib/tasks/seed.rake` and you can log in at `/admin/sign_in`. (Remember that
 'normal' user accounts log in at `/sign_in`.
 
+We use the gem [figaro](https://github.com/laserlemon/figaro) to manage ENV
+variable settings. With Figaro, your ENV variables are stored in the file
+`config/application.yml`, which is gitignored. The setup script will create a
+basic application.yml file for you which should contain all the ENV info
+you need for basic development.
+
 ## Workflow + Branching model
 
 The `production` branch is the latest commit that's live and deployed to Heroku.

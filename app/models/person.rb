@@ -27,6 +27,10 @@ class Person < ApplicationRecord
     )
   end
 
+  def can_receive_recommendations?
+    onboarded? && eligible_to_apply? && ready_to_apply?
+  end
+
   # Validations
 
   NAME_MAX_LENGTH  = 50
