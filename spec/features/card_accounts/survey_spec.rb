@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "card accounts survey", :onboarding do
+describe "card accounts survey", :onboarding, :js do
   subject { page }
 
   let!(:account) do
@@ -14,7 +14,7 @@ describe "card accounts survey", :onboarding do
 
   before do
     create(:spending_info, person: me) if onboarded_spending
-    me.update_attributes!(onboarded_cards: onboarded_cards)
+    me.update_attributes!(first_name: "George", onboarded_cards: onboarded_cards)
     eligible ?  me.eligible_to_apply! : me.ineligible_to_apply!
     chase = Bank.find_by(name: "Chase")
     citi  = Bank.find_by(name: "Citibank")
@@ -45,7 +45,7 @@ describe "card accounts survey", :onboarding do
   let(:submit_form) { click_button "Submit" }
 
   def card_on_page(card)
-    CardSurveyOnPage::Card.new(card, self)
+    CardOnSurveyPage.new(card, self)
   end
 
   shared_examples "submitting the form" do
@@ -99,239 +99,293 @@ describe "card accounts survey", :onboarding do
     is_expected.to have_no_selector "#menu"
   end
 
-  it "lists cards grouped by bank, then B/P" do
-    %w[chase citibank].each do |bank|
-      %w[personal business].each do |type|
-        header = "#{bank.capitalize} #{type.capitalize} Cards"
-        is_expected.to have_selector "h2", text: header
-        is_expected.to have_selector "##{bank.to_param}_cards"
-        is_expected.to have_selector "##{bank}_#{type}_cards"
-      end
-    end
+  it "asks if I have ever had any cards that earn points or miles" do
+    expect(page).to have_content \
+      "Has George ever had a credit card that earns points or miles?"
+    expect(page).to have_button "Yes"
+    expect(page).to have_button "No"
   end
 
-  it "only has one 'group' per bank and b/p" do # bug fix
-    %w[chase citibank].each do |bank|
-      %w[personal business].each do |type|
-        expect(all("[id='#{bank.to_param}_cards']").length).to eq 1
-        expect(all("[id='#{bank.to_param}_personal_cards']").length).to eq 1
-        expect(all("[id='#{bank.to_param}_business_cards']").length).to eq 1
-      end
-    end
+  it "doesn't initially list cards" do
+    expect(page).to have_no_selector ".card-survey-checkbox"
   end
 
-  it "has a checkbox for each card" do
-    @visible_cards.each do |card|
-      expect(card_on_page(card)).to have_opened_check_box
-    end
-  end
+  describe "clicking 'No'" do
+    before { click_button "No" }
 
-  it "initially has no inputs for opened/closed dates" do
-    pending "why isn't this working?"
-    def test(s); is_expected.to have_no_selector(s); end
-    test ".cards_survey_card_account_opened_at_month"
-    test ".cards_survey_card_account_opened_at_year"
-    test ".cards_survey_card_account_closed"
-    test ".cards_survey_card_account_closed_at_month"
-    test ".cards_survey_card_account_closed_at_year"
-  end
-
-  describe "a business card's displayed name" do
-    it "follows the format 'card name, BUSINESS, network'" do
-      within "##{dom_id(@visible_cards[0])}" do
-        expect(page).to have_content "Card 0 business Visa"
-      end
-      within "##{dom_id(@visible_cards[2])}" do
-        expect(page).to have_content "Card 2 business MasterCard"
-      end
-    end
-  end
-
-  describe "a personal card's displayed name" do
-    it "follows the format 'card name, network'" do
-      within "##{dom_id(@visible_cards[1])}" do
-        expect(page).to have_content "Card 1 MasterCard"
-      end
-      within "##{dom_id(@visible_cards[3])}" do
-        expect(page).to have_content "Card 3 Visa"
-      end
-    end
-  end
-
-  it "doesn't show cards which the admin has opted to hide" do
-    expect(card_on_page(@hidden_card)).not_to be_present
-  end
-
-  describe "clicking on a card", :js do
-    before { skip } # This is too much goddamn effort and I don't have time before launch
-    let(:card) { @visible_cards[0] }
-    let(:card_selector) { "##{dom_id(card)}" }
-
-    let(:checkbox) { find(card_selector + " input[type=checkbox]") }
-
-    before { raise if checkbox[:checked] } # sanity check
-
-    describe "on the checkbox itself" do
-      before { checkbox.click }
-      it "checks the checkbox" do
-        expect(checkbox.reload[:checked]).to be true
-      end
+    it "asks to confirm" do
+      expect(page).to have_no_content \
+        "Has George ever had a credit card that earns points or miles?"
+      expect(page).to have_no_button "Yes"
+      expect(page).to have_no_button "No"
+      expect(page).to have_content \
+        "George has never had a card that earns points or miles"
+      expect(page).to have_button "Confirm"
+      expect(page).to have_button "Back"
     end
 
-    describe "on the label" do
-      before { find(card_selector + " label").click }
-      it "checks the checkbox" do
-        expect(checkbox.reload[:checked]).to be true
-      end
-    end
+    describe "and clicking 'Confirm'" do
+      let(:submit_form) { click_button "Confirm" }
 
-    describe "anywhere else in the card's box" do
-      before { find(card_selector).click }
-      it "checks the checkbox" do
-        expect(checkbox.reload[:checked]).to be true
-      end
-    end
-  end
-
-  describe "selecting a card", :js do
-    let(:card) { card_on_page(@visible_cards[0]) }
-
-    before { card.check_opened }
-
-    it "asks me when I opened the card" do
-      expect(card).to have_opened_at_month_field
-      expect(card).to have_opened_at_year_field
-    end
-
-    context "and unselecting it again" do
-      before { card.uncheck_opened }
-
-      it "hides the opened/closed inputs" do
-        expect(card).to have_no_opened_at_month_field
-        expect(card).to have_no_opened_at_year_field
-        expect(card).to have_no_closed_check_box
-        expect(card).to have_no_closed_at_month_field
-        expect(card).to have_no_closed_at_year_field
-      end
-    end
-
-    describe "the 'opened at' input" do
-      it "has a date range from 10 years ago - this month"
-    end
-
-    it "asks me if (but not when) I closed the card" do
-      expect(card).to have_closed_check_box
-      expect(card).to have_no_closed_at_month_field
-      expect(card).to have_no_closed_at_year_field
-    end
-
-    describe "checking 'I closed the card'" do
-      before { card.check_closed }
-
-      it "asks me when I closed it" do
-        expect(card).to have_closed_check_box
-        expect(card).to have_closed_at_month_field
-        expect(card).to have_closed_at_year_field
-      end
-
-      describe "selecting an 'opened at' date" do
-        it "hides earlier dates from the 'closed at' input" do
-          skip
-        end
-      end
-
-      describe "then unchecking it again" do
-        before { card.uncheck_closed }
-
-        it "hides the 'when did I close it'" do
-          expect(card).to have_closed_check_box
-          expect(card).to have_no_closed_at_month_field
-          expect(card).to have_no_closed_at_year_field
-        end
-
-        describe "and submitting the form" do
-          it "doesn't mark the card as closed"
-        end
-      end
-    end
-  end
-
-  describe "selecting some cards" do
-    let(:selected_cards) { @visible_cards.values_at(0, 2, 3).map { |c| card_on_page(c) } }
-    let(:closed_card) { selected_cards.first }
-    let(:open_cards)  { selected_cards.drop(1) }
-
-    let(:this_year) { Date.today.year.to_s }
-    let(:last_year) { (Date.today.year - 1).to_s }
-    let(:ten_years_ago) { (Date.today.year - 10).to_s }
-
-    before do
-      selected_cards.each { |card| card.check_opened }
-      select "Jan",     from: open_cards[0].opened_at_month
-      select this_year, from: open_cards[0].opened_at_year
-      select "Mar",     from: open_cards[1].opened_at_month
-      select last_year, from: open_cards[1].opened_at_year
-      select "Nov",     from: closed_card.opened_at_month
-      select ten_years_ago, from: closed_card.opened_at_year
-      closed_card.check_closed
-      select "Apr",     from: closed_card.closed_at_month
-      select last_year, from: closed_card.closed_at_year
-    end
-
-    describe "and submitting the form" do
-      it "assigns the cards to me" do
-        expect do
-          submit_form
-        end.to change{me.card_accounts.count}.by selected_cards.length
-      end
-
-      describe "the created card accounts" do
-        before { submit_form }
-        let(:new_accounts) { me.card_accounts }
-
-        specify "have the right cards" do
-          expect(new_accounts.map(&:card)).to match_array selected_cards.map(&:card)
-        end
-
-        specify "have no offers" do
-          expect(new_accounts.map(&:offer).compact).to be_empty
-        end
-
-        specify "have the given opened and closed dates" do
-          open_acc_0 = new_accounts.find_by(card_id: open_cards[0].id)
-          open_acc_1 = new_accounts.find_by(card_id: open_cards[1].id)
-          closed_acc = new_accounts.find_by(card_id: closed_card.id)
-          expect(open_acc_0.opened_at.strftime("%F")).to eq "#{this_year}-01-01"
-          expect(open_acc_0.closed_at).to be_nil
-          expect(open_acc_1.opened_at.strftime("%F")).to eq "#{last_year}-03-01"
-          expect(open_acc_1.closed_at).to be_nil
-          expect(closed_acc.opened_at.strftime("%F")).to eq "#{ten_years_ago}-11-01"
-          expect(closed_acc.closed_at.strftime("%F")).to eq "#{last_year}-04-01"
-        end
-
-        specify "have the right statuses" do
-          open_acc_0 = new_accounts.find_by(card_id: open_cards[0].id)
-          open_acc_1 = new_accounts.find_by(card_id: open_cards[1].id)
-          closed_acc = new_accounts.find_by(card_id: closed_card.id)
-          expect(open_acc_0.status).to eq "open"
-          expect(open_acc_1.status).to eq "open"
-          expect(closed_acc.status).to eq "closed"
-        end
-
-        specify "have 'from survey' as their source" do
-          expect(me.card_accounts.all? { |ca| ca.from_survey? }).to be true
-        end
+      it "doesn't assign any cards to any account" do
+        expect{submit_form}.not_to change{CardAccount.count}
       end
 
       include_examples "submitting the form"
     end
-  end # selecting some cards
 
-  describe "submitting the form without selecting any cards" do
-    it "doesn't assign any cards to any account" do
-      expect{submit_form}.not_to change{CardAccount.count}
+    describe "and clicking 'Back'" do
+      before { click_button "Back" }
+
+      it "goes back" do
+        expect(page).to have_content \
+          "Has George ever had a credit card that earns points or miles?"
+        expect(page).to have_button "Yes"
+        expect(page).to have_button "No"
+        expect(page).to have_no_content \
+          "George has never had a card that earns points or miles"
+        expect(page).to have_no_button "Confirm"
+        expect(page).to have_no_button "Back"
+      end
+    end
+  end
+
+  describe "clicking 'Yes'" do
+    before { click_button "Yes" }
+
+    it "shows cards grouped by bank, then B/P" do
+      %w[chase citibank].each do |bank|
+        %w[personal business].each do |type|
+          header = "#{bank.capitalize} #{type.capitalize} Cards"
+          is_expected.to have_selector "h2", text: header
+          is_expected.to have_selector "##{bank.to_param}_cards"
+          is_expected.to have_selector "##{bank}_#{type}_cards"
+        end
+      end
     end
 
-    include_examples "submitting the form"
+    it "only has one 'group' per bank and b/p" do # bug fix
+      %w[chase citibank].each do |bank|
+        %w[personal business].each do |type|
+          expect(all("[id='#{bank.to_param}_cards']").length).to eq 1
+          expect(all("[id='#{bank.to_param}_personal_cards']").length).to eq 1
+          expect(all("[id='#{bank.to_param}_business_cards']").length).to eq 1
+        end
+      end
+    end
+
+    it "has a checkbox for each card" do
+      @visible_cards.each do |card|
+        expect(card_on_page(card)).to have_opened_check_box
+      end
+    end
+
+    it "initially has no inputs for opened/closed dates" do
+      def test(s); is_expected.to have_no_selector(s); end
+      test ".cards_survey_card_account_opened_at_month"
+      test ".cards_survey_card_account_opened_at_year"
+      test ".cards_survey_card_account_closed"
+      test ".cards_survey_card_account_closed_at_month"
+      test ".cards_survey_card_account_closed_at_year"
+    end
+
+    describe "a business card's displayed name" do
+      it "follows the format 'card name, BUSINESS, network'" do
+        within "##{dom_id(@visible_cards[0])}" do
+          expect(page).to have_content "Card 0 business Visa"
+        end
+        within "##{dom_id(@visible_cards[2])}" do
+          expect(page).to have_content "Card 2 business MasterCard"
+        end
+      end
+    end
+
+    describe "a personal card's displayed name" do
+      it "follows the format 'card name, network'" do
+        within "##{dom_id(@visible_cards[1])}" do
+          expect(page).to have_content "Card 1 MasterCard"
+        end
+        within "##{dom_id(@visible_cards[3])}" do
+          expect(page).to have_content "Card 3 Visa"
+        end
+      end
+    end
+
+    it "doesn't show cards which the admin has opted to hide" do
+      expect(card_on_page(@hidden_card)).not_to be_present
+    end
+
+    describe "clicking on a card" do
+      before { skip } # This is too much goddamn effort and I don't have time before launch
+      let(:card) { @visible_cards[0] }
+      let(:card_selector) { "##{dom_id(card)}" }
+
+      let(:checkbox) { find(card_selector + " input[type=checkbox]") }
+
+      before { raise if checkbox[:checked] } # sanity check
+
+      describe "on the checkbox itself" do
+        before { checkbox.click }
+        it "checks the checkbox" do
+          expect(checkbox.reload[:checked]).to be true
+        end
+      end
+
+      describe "on the label" do
+        before { find(card_selector + " label").click }
+        it "checks the checkbox" do
+          expect(checkbox.reload[:checked]).to be true
+        end
+      end
+
+      describe "anywhere else in the card's box" do
+        before { find(card_selector).click }
+        it "checks the checkbox" do
+          expect(checkbox.reload[:checked]).to be true
+        end
+      end
+    end
+
+    describe "selecting a card" do
+      let(:card) { card_on_page(@visible_cards[0]) }
+
+      before { card.check_opened }
+
+      it "asks me when I opened the card" do
+        expect(card).to have_opened_at_month_field
+        expect(card).to have_opened_at_year_field
+      end
+
+      context "and unselecting it again" do
+        before { card.uncheck_opened }
+
+        it "hides the opened/closed inputs" do
+          expect(card).to have_no_opened_at_month_field
+          expect(card).to have_no_opened_at_year_field
+          expect(card).to have_no_closed_check_box
+          expect(card).to have_no_closed_at_month_field
+          expect(card).to have_no_closed_at_year_field
+        end
+      end
+
+      describe "the 'opened at' input" do
+        it "has a date range from 10 years ago - this month"
+      end
+
+      it "asks me if (but not when) I closed the card" do
+        expect(card).to have_closed_check_box
+        expect(card).to have_no_closed_at_month_field
+        expect(card).to have_no_closed_at_year_field
+      end
+
+      describe "checking 'I closed the card'" do
+        before { card.check_closed }
+
+        it "asks me when I closed it" do
+          expect(card).to have_closed_check_box
+          expect(card).to have_closed_at_month_field
+          expect(card).to have_closed_at_year_field
+        end
+
+        describe "selecting an 'opened at' date" do
+          it "hides earlier dates from the 'closed at' input" do
+            skip
+          end
+        end
+
+        describe "then unchecking it again" do
+          before { card.uncheck_closed }
+
+          it "hides the 'when did I close it'" do
+            expect(card).to have_closed_check_box
+            expect(card).to have_no_closed_at_month_field
+            expect(card).to have_no_closed_at_year_field
+          end
+
+          describe "and submitting the form" do
+            it "doesn't mark the card as closed"
+          end
+        end
+      end
+    end
+
+    describe "selecting some cards" do
+      let(:selected_cards) { @visible_cards.values_at(0, 2, 3).map { |c| card_on_page(c) } }
+      let(:closed_card) { selected_cards.first }
+      let(:open_cards)  { selected_cards.drop(1) }
+
+      let(:this_year) { Date.today.year.to_s }
+      let(:last_year) { (Date.today.year - 1).to_s }
+      let(:ten_years_ago) { (Date.today.year - 10).to_s }
+
+      before do
+        selected_cards.each { |card| card.check_opened }
+        select "Jan",     from: open_cards[0].opened_at_month
+        select this_year, from: open_cards[0].opened_at_year
+        select "Mar",     from: open_cards[1].opened_at_month
+        select last_year, from: open_cards[1].opened_at_year
+        select "Nov",     from: closed_card.opened_at_month
+        select ten_years_ago, from: closed_card.opened_at_year
+        closed_card.check_closed
+        select "Apr",     from: closed_card.closed_at_month
+        select last_year, from: closed_card.closed_at_year
+      end
+
+      describe "and submitting the form" do
+        it "assigns the cards to me" do
+          expect do
+            submit_form
+          end.to change{me.card_accounts.count}.by selected_cards.length
+        end
+
+        describe "the created card accounts" do
+          before { submit_form }
+          let(:new_accounts) { me.card_accounts }
+
+          specify "have the right cards" do
+            expect(new_accounts.map(&:card)).to match_array selected_cards.map(&:card)
+          end
+
+          specify "have no offers" do
+            expect(new_accounts.map(&:offer).compact).to be_empty
+          end
+
+          specify "have the given opened and closed dates" do
+            open_acc_0 = new_accounts.find_by(card_id: open_cards[0].id)
+            open_acc_1 = new_accounts.find_by(card_id: open_cards[1].id)
+            closed_acc = new_accounts.find_by(card_id: closed_card.id)
+            expect(open_acc_0.opened_at.strftime("%F")).to eq "#{this_year}-01-01"
+            expect(open_acc_0.closed_at).to be_nil
+            expect(open_acc_1.opened_at.strftime("%F")).to eq "#{last_year}-03-01"
+            expect(open_acc_1.closed_at).to be_nil
+            expect(closed_acc.opened_at.strftime("%F")).to eq "#{ten_years_ago}-11-01"
+            expect(closed_acc.closed_at.strftime("%F")).to eq "#{last_year}-04-01"
+          end
+
+          specify "have the right statuses" do
+            open_acc_0 = new_accounts.find_by(card_id: open_cards[0].id)
+            open_acc_1 = new_accounts.find_by(card_id: open_cards[1].id)
+            closed_acc = new_accounts.find_by(card_id: closed_card.id)
+            expect(open_acc_0.status).to eq "open"
+            expect(open_acc_1.status).to eq "open"
+            expect(closed_acc.status).to eq "closed"
+          end
+
+          specify "have 'from survey' as their source" do
+            expect(me.card_accounts.all? { |ca| ca.from_survey? }).to be true
+          end
+        end
+
+        include_examples "submitting the form"
+      end
+    end # selecting some cards
+
+    describe "submitting the form without selecting any cards" do
+      it "doesn't assign any cards to any account" do
+        expect{submit_form}.not_to change{CardAccount.count}
+      end
+
+      include_examples "submitting the form"
+    end
   end
 end

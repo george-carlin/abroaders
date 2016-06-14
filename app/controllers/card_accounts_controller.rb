@@ -31,7 +31,11 @@ class CardAccountsController < NonAdminController
 
   # WARNING non-strong-parameters hackery
   def survey_params
-    { card_accounts: params[:cards_survey][:card_accounts] }
+    if params[:cards_survey]
+      { card_accounts: params[:cards_survey][:card_accounts] }
+    else # if they clicked 'I don't have any cards'
+      {}
+    end
   end
 
   def redirect_if_survey_is_inaccessible!

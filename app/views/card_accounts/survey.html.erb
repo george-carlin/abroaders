@@ -6,21 +6,48 @@
     <div class="row">
       <div class="col-xs-12">
         <h1><%= @person.first_name %>'s Cards</h1>
-
-        <p>
-          Where do you want to go, and when? Let us know your travel plans and
-          we'll help you get a great deal on the flight.
-        </p>
       </div>
     </div><!-- .row -->
   </div><!-- .panel-heading.hbuilt -->
 
-  <div class="panel-body">
+  <div id="card-survey-initial" class="panel-body">
     <p>
       Before we can recommend <%= @person.first_name %> a credit card to apply
       for, we need to know which cards he/she already has.
     </p>
 
+    <p>Has <%= @person.first_name %> ever had a credit card that earns points or miles?</p>
+
+    <p>
+      For example, a card that earns airline frequent flyer miles when you use
+      it. Or bank points, like Amex, Chase, SPG, Citi, or Capital one.
+    </p>
+
+    <div class="btn-group">
+      <button id="card-survey-initial-yes-btn" class="btn btn-primary">
+        Yes
+      </button>
+
+      <button id="card-survey-initial-no-btn" class="btn btn-default">
+        No
+      </button>
+    </div>
+  </div>
+
+  <div id="card-survey-confirm-no" class="panel-body" style="display:none;">
+    <p><%= @person.first_name %> has never had a card that earns points or miles:</p>
+
+    <%= form_tag survey_person_card_accounts_path(@person) do %>
+      <div class="btn-group">
+        <%= submit_tag "Confirm", class: "btn btn-primary" %>
+        <button id="card-survey-confirm-no-back-btn" class="btn btn-default">
+          Back
+        </button>
+      </div>
+    <% end %>
+  </div>
+
+  <div id="card-survey-main-header" style="display:none;" class="panel-body">
     <p>
       Please select <strong>all</strong> of the credit/debit cards below for
       which <%= @person.first_name %> has <strong>ever</strong> been the
@@ -28,7 +55,7 @@
     </p>
 
     <p>
-      Primary cardholder means that the credit card account was opened using
+      "Primary cardholder" means that the credit card account was opened using
       your name and social security number. You are not considered a primary
       cardholder of a card if someone else adds you as an authorized user on
       their account.
@@ -38,28 +65,29 @@
       <strong>Only</strong> select cards for which <%= @person.first_name %>
       is or was the primary cardholder.
     </p>
-
   </div><!-- .panel-body -->
 </div><!-- .hpanel -->
 
-<%= form_tag survey_person_card_accounts_path(@person) do |f| %>
-  <% @survey.each_section do |bank, cards_grouped_by_bp| %>
-    <div id="<%= bank.to_param %>_cards">
-      <% cards_grouped_by_bp.each do |bp, cards| %>
-        <div id="<%= bank.to_param %>_<%= bp %>_cards">
-          <h2><%= bank.name %> <%= bp.capitalize %> Cards</h2>
+<div id="card-survey-main-body" style="display:none;">
+  <%= form_tag survey_person_card_accounts_path(@person) do |f| %>
+    <% @survey.each_section do |bank, cards_grouped_by_bp| %>
+      <div id="<%= bank.to_param %>_cards">
+        <% cards_grouped_by_bp.each do |bp, cards| %>
+          <div id="<%= bank.to_param %>_<%= bp %>_cards">
+            <h2><%= bank.name %> <%= bp.capitalize %> Cards</h2>
 
-          <div class="row">
-            <%= render partial: "card_accounts/survey_card", collection: cards %>
-          </div>
-        </div><!-- #cards_onboarding_<%= bank.to_param %>_<%= bp %> -->
-      <% end # cards_for_1_bank.group_by(&:bp).each %>
-    </div><!-- #cards_onboarding_<%= bank.to_param %> -->
-  <% end # @cards.group_by(&:bank).each %>
+            <div class="row">
+              <%= render partial: "card_accounts/survey_card", collection: cards %>
+            </div>
+          </div><!-- #cards_onboarding_<%= bank.to_param %>_<%= bp %> -->
+        <% end # cards_for_1_bank.group_by(&:bp).each %>
+      </div><!-- #cards_onboarding_<%= bank.to_param %> -->
+    <% end # @cards.group_by(&:bank).each %>
 
-  <div class="row">
-    <div class="col-xs-12">
-      <%= submit_tag "Submit", class: "btn btn-primary btn-lg" %>
+    <div class="row">
+      <div class="col-xs-12">
+        <%= submit_tag "Submit", class: "btn btn-primary btn-lg" %>
+      </div>
     </div>
-  </div>
-<% end %>
+  <% end %>
+</div>
