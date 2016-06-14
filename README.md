@@ -170,8 +170,6 @@ TODO add more detailed explanation of Presenters.
 
 - We use RSpec, not minitest.
 
-### Testing
-
 - **Always** add feature specs! Every user action in the app should be covered
   by an automated test. Lower-level testing (testing models) is helpful too,
   but it's not worth the time to add a detailed spec for every little one-line
