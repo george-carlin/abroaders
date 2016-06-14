@@ -17,9 +17,8 @@ const AccountTypeForm = React.createClass({
   getTrip() {
     if (this.props.destinationName && this.props.destinationName.length) {
       return `trip to ${this.props.destinationName}`;
-    } else {
-      return "next trip";
     }
+    return "next trip";
   },
 
 

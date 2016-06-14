@@ -1,6 +1,7 @@
 const React = require("react");
 
 const Button = require("../../core/Button");
+const FAIcon = require("../../core/FAIcon");
 const Form   = require("../../core/Form");
 
 const Step0 = require("./Step0");
@@ -22,16 +23,6 @@ const SoloForm = React.createClass({
   },
 
 
-  showStep1(e) {
-    e.preventDefault();
-    this.setState({isSigningUp: true});
-  },
-
-
-  updateEligibilityTo(eligibility) {
-    this.setState({isEligibleToApply: eligibility})
-  },
-
   onChangeMonthlySpending(e) {
     const val = parseInt(e.target.value, 10);
     this.setState({monthlySpending: isNaN(val) ? null : val});
@@ -51,8 +42,19 @@ const SoloForm = React.createClass({
   },
 
 
+  updateEligibilityTo(eligibility) {
+    this.setState({isEligibleToApply: eligibility});
+  },
+
+
+  showStep1(e) {
+    e.preventDefault();
+    this.setState({isSigningUp: true});
+  },
+
+
   isMonthlySpendingPresentAndValid() {
-    return this.state.monthlySpending && this.state.monthlySpending > 0
+    return this.state.monthlySpending && this.state.monthlySpending > 0;
   },
 
 
@@ -65,7 +67,11 @@ const SoloForm = React.createClass({
         method="post"
         onSubmit={this.onSubmit}
       >
-        <h2>Solo Earning</h2>
+        <h2>
+          <FAIcon user />
+          &nbsp;
+          Solo Earning
+        </h2>
 
 
         {(() => {

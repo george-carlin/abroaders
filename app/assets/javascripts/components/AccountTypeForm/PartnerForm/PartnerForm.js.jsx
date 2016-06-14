@@ -1,6 +1,7 @@
 const React = require("react");
 
 const Button = require("../../core/Button");
+const FAIcon = require("../../core/FAIcon");
 const Form   = require("../../core/Form");
 
 const Eligibility     = require("./Eligibility");
@@ -22,12 +23,7 @@ const PartnerForm = React.createClass({
       showMonthlySpendingError: false,
       showPartnerNameError:     false,
       eligibility:              "both",
-    }
-  },
-
-
-  isMonthlySpendingPresentAndValid() {
-    return this.state.monthlySpending && this.state.monthlySpending > 0
+    };
   },
 
 
@@ -61,13 +57,17 @@ const PartnerForm = React.createClass({
 
 
   onSubmitPartnerName(e, name) {
-    e.preventDefault()
+    e.preventDefault();
 
     if (this.state.partnerName.length) {
       this.setState({ showPartnerNameError: false, nameSubmitted: true });
     } else {
       this.setState({ showPartnerNameError: true });
     }
+  },
+
+  isMonthlySpendingPresentAndValid() {
+    return this.state.monthlySpending && this.state.monthlySpending > 0;
   },
 
 
@@ -80,7 +80,12 @@ const PartnerForm = React.createClass({
         method="post"
         onSubmit={this.onSubmit}
       >
-        <h2>Couples Earning</h2>
+        <h2>
+          <FAIcon user />
+          <FAIcon user />
+          &nbsp;
+          Couples Earning
+        </h2>
 
         {(() => {
           if (this.state.nameSubmitted) {
