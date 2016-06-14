@@ -28,8 +28,6 @@ class ModelOnPage < ObjectOnPage
     "#" << dom_id
   end
 
-  private
-
   def dom_id
     super(model)
   end

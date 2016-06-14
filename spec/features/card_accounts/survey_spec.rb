@@ -44,28 +44,8 @@ describe "card accounts survey", :onboarding do
 
   let(:submit_form) { click_button "Submit" }
 
-  def card_opened_checkbox(card)
-    "cards_survey_#{card.id}_card_account_opened"
-  end
-
-  def card_opened_at_month_select(card)
-    "cards_survey_#{card.id}_card_account_opened_at_month"
-  end
-
-  def card_opened_at_year_select(card)
-    "cards_survey_#{card.id}_card_account_opened_at_year"
-  end
-
-  def card_closed_checkbox(card)
-    "cards_survey_#{card.id}_card_account_closed"
-  end
-
-  def card_closed_at_month_select(card)
-    "cards_survey_#{card.id}_card_account_closed_at_month"
-  end
-
-  def card_closed_at_year_select(card)
-    "cards_survey_#{card.id}_card_account_closed_at_year"
+  def card_on_page(card)
+    CardSurveyOnPage::Card.new(card, self)
   end
 
   shared_examples "submitting the form" do
@@ -142,7 +122,7 @@ describe "card accounts survey", :onboarding do
 
   it "has a checkbox for each card" do
     @visible_cards.each do |card|
-      is_expected.to have_field card_opened_checkbox(card)
+      expect(card_on_page(card)).to have_opened_check_box
     end
   end
 
@@ -179,7 +159,7 @@ describe "card accounts survey", :onboarding do
   end
 
   it "doesn't show cards which the admin has opted to hide" do
-    expect(page).to have_no_field card_opened_checkbox(@hidden_card)
+    expect(card_on_page(@hidden_card)).not_to be_present
   end
 
   describe "clicking on a card", :js do
@@ -214,24 +194,24 @@ describe "card accounts survey", :onboarding do
   end
 
   describe "selecting a card", :js do
-    let(:card) { @visible_cards[0] }
+    let(:card) { card_on_page(@visible_cards[0]) }
 
-    before { check card_opened_checkbox(card) }
+    before { card.check_opened }
 
     it "asks me when I opened the card" do
-      expect(page).to have_field card_opened_at_month_select(card)
-      expect(page).to have_field card_opened_at_year_select(card)
+      expect(card).to have_opened_at_month_field
+      expect(card).to have_opened_at_year_field
     end
 
     context "and unselecting it again" do
-      before { uncheck card_opened_checkbox(card) }
+      before { card.uncheck_opened }
 
       it "hides the opened/closed inputs" do
-        expect(page).to have_no_field card_opened_at_month_select(card)
-        expect(page).to have_no_field card_opened_at_year_select(card)
-        expect(page).to have_no_field card_closed_checkbox(card)
-        expect(page).to have_no_field card_closed_at_month_select(card)
-        expect(page).to have_no_field card_closed_at_year_select(card)
+        expect(card).to have_no_opened_at_month_field
+        expect(card).to have_no_opened_at_year_field
+        expect(card).to have_no_closed_check_box
+        expect(card).to have_no_closed_at_month_field
+        expect(card).to have_no_closed_at_year_field
       end
     end
 
@@ -240,18 +220,18 @@ describe "card accounts survey", :onboarding do
     end
 
     it "asks me if (but not when) I closed the card" do
-      expect(page).to have_field card_closed_checkbox(card)
-      expect(page).to have_no_field card_closed_at_month_select(card)
-      expect(page).to have_no_field card_closed_at_year_select(card)
+      expect(card).to have_closed_check_box
+      expect(card).to have_no_closed_at_month_field
+      expect(card).to have_no_closed_at_year_field
     end
 
     describe "checking 'I closed the card'" do
-      before { check card_closed_checkbox(card) }
+      before { card.check_closed }
 
       it "asks me when I closed it" do
-        expect(page).to have_field card_closed_checkbox(card)
-        expect(page).to have_field card_closed_at_month_select(card)
-        expect(page).to have_field card_closed_at_year_select(card)
+        expect(card).to have_closed_check_box
+        expect(card).to have_closed_at_month_field
+        expect(card).to have_closed_at_year_field
       end
 
       describe "selecting an 'opened at' date" do
@@ -261,12 +241,12 @@ describe "card accounts survey", :onboarding do
       end
 
       describe "then unchecking it again" do
-        before { uncheck card_closed_checkbox(card) }
+        before { card.uncheck_closed }
 
         it "hides the 'when did I close it'" do
-          expect(page).to have_field card_closed_checkbox(card)
-          expect(page).to have_no_field card_closed_at_month_select(card)
-          expect(page).to have_no_field card_closed_at_year_select(card)
+          expect(card).to have_closed_check_box
+          expect(card).to have_no_closed_at_month_field
+          expect(card).to have_no_closed_at_year_field
         end
 
         describe "and submitting the form" do
@@ -277,25 +257,25 @@ describe "card accounts survey", :onboarding do
   end
 
   describe "selecting some cards" do
-    let(:selected_cards) { @visible_cards.values_at(0, 2, 3) }
-    let(:closed_card) { selected_cards.last }
-    let(:open_cards)   { selected_cards - [ closed_card ] }
+    let(:selected_cards) { @visible_cards.values_at(0, 2, 3).map { |c| card_on_page(c) } }
+    let(:closed_card) { selected_cards.first }
+    let(:open_cards)  { selected_cards.drop(1) }
 
     let(:this_year) { Date.today.year.to_s }
     let(:last_year) { (Date.today.year - 1).to_s }
     let(:ten_years_ago) { (Date.today.year - 10).to_s }
 
     before do
-      selected_cards.each { |card| check card_opened_checkbox(card) }
-      select "Jan",     from: card_opened_at_month_select(open_cards[0])
-      select this_year, from: card_opened_at_year_select(open_cards[0])
-      select "Mar",     from: card_opened_at_month_select(open_cards[1])
-      select last_year, from: card_opened_at_year_select(open_cards[1])
-      select "Nov",     from: card_opened_at_month_select(closed_card)
-      select ten_years_ago, from: card_opened_at_year_select(closed_card)
-      check card_closed_checkbox(closed_card)
-      select "Apr",     from: card_closed_at_month_select(closed_card)
-      select last_year, from: card_closed_at_year_select(closed_card)
+      selected_cards.each { |card| card.check_opened }
+      select "Jan",     from: open_cards[0].opened_at_month
+      select this_year, from: open_cards[0].opened_at_year
+      select "Mar",     from: open_cards[1].opened_at_month
+      select last_year, from: open_cards[1].opened_at_year
+      select "Nov",     from: closed_card.opened_at_month
+      select ten_years_ago, from: closed_card.opened_at_year
+      closed_card.check_closed
+      select "Apr",     from: closed_card.closed_at_month
+      select last_year, from: closed_card.closed_at_year
     end
 
     describe "and submitting the form" do
@@ -310,7 +290,7 @@ describe "card accounts survey", :onboarding do
         let(:new_accounts) { me.card_accounts }
 
         specify "have the right cards" do
-          expect(new_accounts.map(&:card)).to match_array selected_cards
+          expect(new_accounts.map(&:card)).to match_array selected_cards.map(&:card)
         end
 
         specify "have no offers" do
@@ -318,9 +298,9 @@ describe "card accounts survey", :onboarding do
         end
 
         specify "have the given opened and closed dates" do
-          open_acc_0 = new_accounts.find_by(card_id: open_cards[0])
-          open_acc_1 = new_accounts.find_by(card_id: open_cards[1])
-          closed_acc = new_accounts.find_by(card_id: closed_card)
+          open_acc_0 = new_accounts.find_by(card_id: open_cards[0].id)
+          open_acc_1 = new_accounts.find_by(card_id: open_cards[1].id)
+          closed_acc = new_accounts.find_by(card_id: closed_card.id)
           expect(open_acc_0.opened_at.strftime("%F")).to eq "#{this_year}-01-01"
           expect(open_acc_0.closed_at).to be_nil
           expect(open_acc_1.opened_at.strftime("%F")).to eq "#{last_year}-03-01"
@@ -330,9 +310,9 @@ describe "card accounts survey", :onboarding do
         end
 
         specify "have the right statuses" do
-          open_acc_0 = new_accounts.find_by(card_id: open_cards[0])
-          open_acc_1 = new_accounts.find_by(card_id: open_cards[1])
-          closed_acc = new_accounts.find_by(card_id: closed_card)
+          open_acc_0 = new_accounts.find_by(card_id: open_cards[0].id)
+          open_acc_1 = new_accounts.find_by(card_id: open_cards[1].id)
+          closed_acc = new_accounts.find_by(card_id: closed_card.id)
           expect(open_acc_0.status).to eq "open"
           expect(open_acc_1.status).to eq "open"
           expect(closed_acc.status).to eq "closed"

@@ -50,6 +50,28 @@ class ObjectOnPage < Struct.new(:spec_context)
     end
   end
 
+  def self.check_box(name, selector)
+    define_method "has_#{name}_check_box?" do
+      has_field?(selector.is_a?(Proc) ? instance_eval(&selector) : selector)
+    end
+
+    define_method "has_no_#{name}_check_box?" do
+      has_no_field?(selector.is_a?(Proc) ? instance_eval(&selector) : selector)
+    end
+
+    define_method "check_#{name}" do
+      within_self do
+        check selector.is_a?(Proc) ? instance_eval(&selector) : selector
+      end
+    end
+
+    define_method "uncheck_#{name}" do
+      within_self do
+        uncheck selector.is_a?(Proc) ? instance_eval(&selector) : selector
+      end
+    end
+  end
+
   def present?
     has_selector?(dom_selector)
   end
