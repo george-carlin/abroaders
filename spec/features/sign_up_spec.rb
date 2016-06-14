@@ -29,6 +29,7 @@ describe "the sign up page", :onboarding do
     end
 
     describe "with valid information for a new account" do
+      include ActiveJob::TestHelper
       before { fill_in_valid_info }
 
       let(:new_account) { Account.last }
@@ -50,7 +51,12 @@ describe "the sign up page", :onboarding do
       end
 
       it "sends an email to erik with the new user's email address" do
-        expect{submit_form}.to change{ApplicationMailer.deliveries.length}.by(1)
+        expect{submit_form}.to change { enqueued_jobs.size }.by(1)
+
+        expect do
+          perform_enqueued_jobs { ActionMailer::DeliveryJob.perform_now(*enqueued_jobs.first[:args]) }
+        end.to change {(ApplicationMailer.deliveries.length)}.by(1)
+
         email = ApplicationMailer.deliveries.last
         expect(email.to).to match_array [eriks_email]
       end

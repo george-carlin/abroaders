@@ -554,6 +554,7 @@ describe "admin section" do
     end
 
     describe "clicking 'Done'" do
+      include ActiveJob::TestHelper
       let(:click_done) { click_button "Done" }
       let(:new_notification) { account.notifications.last }
 
@@ -565,7 +566,12 @@ describe "admin section" do
 
       it "sends an email to the user" do
         pending
-        expect{click_done}.to change{ApplicationMailer.deliveries.length}.by(1)
+        expect{click_done}.to change { enqueued_jobs.size }.by(1)
+
+        expect do
+          perform_enqueued_jobs { ActionMailer::DeliveryJob.perform_now(*enqueued_jobs.first[:args]) }
+        end.to change {(ApplicationMailer.deliveries.length)}.by(1)
+
         email = ApplicationMailer.deliveries.last
         expect(email.subject).to eq "something"
       end
