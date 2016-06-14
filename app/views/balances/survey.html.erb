@@ -22,13 +22,40 @@
           </div>
         <% end %>
 
-        <div class="panel-body">
+        <div id="balances-survey-initial" class="panel-body">
           <p>
             We need to know <%= @person.first_name %>'s existing frequent flyer mile
             balances, if he/she has any, in order to give the best card
             recommendations.
           </p>
 
+          <p>Does <%= @person.first_name %> have any points balances greater than 5,000?</p>
+
+          <div class="btn-group">
+            <button id="balances-survey-initial-yes-btn" class="btn btn-primary">
+              Yes
+            </button>
+
+            <button id="balances-survey-initial-no-btn" class="btn btn-default">
+              No
+            </button>
+          </div>
+        </div>
+
+        <div id="balances-survey-confirm-no" class="panel-body" style="display:none;">
+          <p>
+            <%= @person.first_name %> has no points balances greater than 5,000:
+          </p>
+          <div class="btn-group">
+            <%= submit_tag "Confirm", class: "btn btn-primary" %>
+
+            <button id="balances-survey-confirm-no-back-btn" class="btn btn-default">
+              Back
+            </button>
+          </div>
+        </div>
+
+        <div id="balances-survey-main-header" class="panel-body" style="display:none;">
           <p>
             We recommend tracking your balances through
             <%= link_to "AwardWallet.com", "https://awardwallet.com", target: "_blank" %>.
@@ -59,12 +86,11 @@
         </div><!-- .panel-body -->
       </div><!-- .hpanel -->
 
-      <div class="hpanel">
+      <div id="balances-survey-main-body" class="hpanel" style="display:none;">
         <div class="panel-body">
           <div class="balances_survey">
             <h4>
-              Which of the following awards programs does
-              <%= @person.first_name %> use, if any?
+              What type of points does <%= @person.first_name %> have?
             </h4>
 
             <% @survey.balances.each do |balance| %>
@@ -94,9 +120,11 @@
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-xs-12 col-md-10 col-md-offset-1">
-      <%= submit_tag "Submit", class: "btn btn-primary btn-lg" %>
+  <div id="balances-survey-main-footer" style="display:none;">
+    <div class="row">
+      <div class="col-xs-12 col-md-10 col-md-offset-1">
+        <%= submit_tag "Submit", class: "btn btn-primary btn-lg" %>
+      </div>
     </div>
   </div>
 

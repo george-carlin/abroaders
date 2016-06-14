@@ -1,3 +1,5 @@
+/* global $ */
+
 $(document).ready(function () {
 
   $(".currency_balance_checkbox").click(function () {
@@ -10,6 +12,26 @@ $(document).ready(function () {
       // submitted.
       .prop("disabled", !checked)
       .toggle(checked);
+  });
+
+  $("#balances-survey-initial-yes-btn").click(function (e) {
+    e.preventDefault();
+    $("#balances-survey-initial").hide();
+    $("#balances-survey-main-body").show();
+    $("#balances-survey-main-header").show();
+    $("#balances-survey-main-footer").show();
+  });
+
+  $("#balances-survey-initial-no-btn").click(function (e) {
+    e.preventDefault();
+    $("#balances-survey-confirm-no").show();
+    $("#balances-survey-initial").hide();
+  });
+
+  $("#balances-survey-confirm-no-back-btn").click(function (e) {
+    e.preventDefault();
+    $("#balances-survey-confirm-no").hide();
+    $("#balances-survey-initial").show();
   });
 
 });
