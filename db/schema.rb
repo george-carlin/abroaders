@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160608161402) do
+ActiveRecord::Schema.define(version: 20160614040449) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,7 +83,9 @@ ActiveRecord::Schema.define(version: 20160608161402) do
     t.date     "nudged_at"
     t.date     "called_at"
     t.date     "redenied_at"
+    t.datetime "seen_at"
     t.index ["recommended_at"], name: "index_card_accounts_on_recommended_at", using: :btree
+    t.index ["seen_at"], name: "index_card_accounts_on_seen_at", using: :btree
   end
 
   create_table "cards", force: :cascade do |t|
@@ -166,18 +168,18 @@ ActiveRecord::Schema.define(version: 20160608161402) do
   end
 
   create_table "offers", force: :cascade do |t|
-    t.integer  "card_id",                     null: false
-    t.integer  "points_awarded",              null: false
-    t.integer  "spend",          default: 0
-    t.integer  "cost",           default: 0,  null: false
-    t.integer  "days",           default: 90
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
-    t.string   "link",                        null: false
+    t.integer  "card_id",                       null: false
+    t.integer  "points_awarded",                null: false
+    t.integer  "spend",            default: 0
+    t.integer  "cost",             default: 0,  null: false
+    t.integer  "days",             default: 90
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.string   "link",                          null: false
     t.text     "notes"
-    t.integer  "condition",      default: 0,  null: false
-    t.datetime "killed_at"
+    t.integer  "condition",        default: 0,  null: false
     t.datetime "last_reviewed_at"
+    t.datetime "killed_at"
     t.index ["card_id"], name: "index_offers_on_card_id", using: :btree
     t.index ["killed_at"], name: "index_offers_on_killed_at", using: :btree
   end
