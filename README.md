@@ -100,6 +100,56 @@ When you're done with the story:
         # good:
         { key: "value" }
 
+- Keep the Gemfile organised like so:
+
+        source 'http://rubygems.org'
+
+        ruby '2.3.0' # ruby version
+
+        gem 'rails', '5.0.0' # rails and version
+
+        # All other gems, in alphabetical order
+        gem 'algo'
+        gem 'quelque_chose'
+        gem 'something', '~> 4.1.0' # version number if necessary to specify it
+
+        # env-specific gems, in this order.
+        group :production do
+          gem 'a' # still alphabetical
+          gem 'b'
+          gem 'c'
+        end
+
+        group :development, :test do
+          # ...
+        end
+
+        group :development do
+          # ...
+        end
+
+        group :test do
+          # ...
+        end
+
+        # platform-specific gems:
+        gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+    I don't see much need for filling the Gemfile with comments explaining
+    what each gem does; if someone wants to know what a gem does they can
+    look in the gem's own README or documentation. But I'm not saying *never*
+    add an explanatory comment to the Gemfile either, just do it sparingly.
+
+- Don't upgrade the dependencies unless you have a good reason to (i.e. we
+  want to use a new feature that's not available in the version we currently
+  use; the current version has a bug, or the current version is incompatible
+  with a different dependency that we want to install or upgrade.) Bundler
+  makes it so easy to upgrade dependencies that it can make you complacent:
+  there's never a guarantee that an upgraded gem hasn't broken something
+  somewhere, and every dependency upgrade needs a new round of testing and QA.
+  (This is especially true as the codebase and userbase grow bigger)
+
+
 ## Rails
 
 ### Controllers

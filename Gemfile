@@ -5,18 +5,19 @@ ruby '2.3.0'
 gem 'rails', '>= 5.0.0.rc1', '< 5.1'
 
 gem 'active_model_serializers', '~> 0.10.0'
-gem 'aws-sdk', '1.61.0'
-gem 'font-awesome-rails'
 gem 'acts_as_tree', '~> 2.4.0'
+gem 'aws-sdk', '1.61.0'
 gem 'bitmask_attributes'
+gem 'browserify-rails'
 gem 'devise', '~> 4.1.0'
 gem 'devise-bootstrap-views'
 # Load ENV variables from a gitignored YAML file
 gem 'figaro', '~> 1.1.1'
+gem 'font-awesome-rails'
 gem 'httparty', '~> 0.13.7'
 gem 'jbuilder', '~> 2.0'
 gem 'jquery-rails'
-gem "paperclip", "~> 4.3.1"
+gem 'paperclip', '~> 4.3.1'
 gem 'pg', '~> 0.18'
 gem 'puma'
 gem 'record_tag_helper'
@@ -24,8 +25,6 @@ gem 'sass-rails'
 gem 'uglifier', '>= 1.3.0'
 gem 'virtus'
 gem 'will_paginate-bootstrap', '~> 1.0.1'
-
-gem 'browserify-rails'
 
 # Required to make the app function properly on Heroku:
 group :production do
