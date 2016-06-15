@@ -2,10 +2,12 @@
   <div class="panel-body">
 
     <div class="col-xs-12 col-md-6">
-      <% if spending_info.present? %>
-        <%= render "spending_infos/spending_info", spending_info: spending_info, show_eligibility: true, show_readiness: true %>
-      <% else %>
-        User has not added their spending info
+      <% if person.eligible_to_apply? %>
+        <% if spending_info.present? %>
+          <%= render "spending_infos/spending_info", spending_info: spending_info, show_eligibility: true, show_readiness: true %>
+        <% else %>
+          User has not added their spending info
+        <% end %>
       <% end %>
     </div>
     <div class="col-xs-12 col-md-6">
@@ -39,25 +41,29 @@
   </div><!-- .panel-body -->
 <% end %>
 
-<%= render "shared/hpanel" do %>
-  <div class="panel-body">
-    <h3>Existing Cards</h3>
+<% if person.eligible_to_apply? %>
+  <%= render "shared/hpanel" do %>
+    <div class="panel-body">
+      <h3>Existing Cards</h3>
 
-    <h4>Recommendations</h4>
+      <h4>Recommendations</h4>
 
-    <% if card_recommendations.any? %>
-      <%= render "admin_area/card_accounts/recommendations", card_accounts: card_recommendations %>
-    <% else %>
-      <p>User has not been recommended any cards yet</p>
-    <% end %>
+      <% if card_recommendations.any? %>
+        <%= render "admin_area/card_accounts/recommendations", card_accounts: card_recommendations %>
+      <% else %>
+        <p>User has not been recommended any cards yet</p>
+      <% end %>
 
-    <h4>Other</h4>
+      <h4>Other</h4>
 
-    <% if cards_from_survey.any? %>
-      <p>Cards added in the onboarding survey:</p>
-      <%= render "admin_area/card_accounts/from_survey", card_accounts: cards_from_survey %>
-    <% else %>
-      <p>User did not add any cards in the onboarding survey</p>
-    <% end %>
-  </div>
+      <% if cards_from_survey.any? %>
+        <p>Cards added in the onboarding survey:</p>
+        <%= render "admin_area/card_accounts/from_survey", card_accounts: cards_from_survey %>
+      <% else %>
+        <p>User did not add any cards in the onboarding survey</p>
+      <% end %>
+    </div>
+  <% end %>
+<% else %>
+  This person is not eligible to apply for cards
 <% end %>
