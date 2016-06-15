@@ -32,14 +32,11 @@ group :production do
   gem 'rails_12factor'
 end
 
-# Including these in the production group for now so we can run the seeds file
-# on Heroku. Once we've launched the MVP, move these to development/test only:
-gem 'factory_girl_rails', '~> 4.5.0'
-gem 'faker'
-
 group :development, :test do
   gem 'byebug'
   gem 'database_cleaner'
+  gem 'factory_girl_rails', '~> 4.5.0'
+  gem 'faker'
   # gem 'rspec-rails', '>= 3.3.0'
   gem 'rspec-rails', github: "georgemillo/rspec-rails", branch: "rails5"
 end
