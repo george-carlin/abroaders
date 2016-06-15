@@ -20,6 +20,8 @@ gem "paperclip", "~> 4.3.1"
 gem 'pg', '~> 0.18'
 gem 'puma'
 gem 'record_tag_helper'
+gem 'resque'
+gem 'resque-scheduler'
 gem 'sass-rails'
 gem 'uglifier', '>= 1.3.0'
 gem 'virtus'
@@ -31,10 +33,6 @@ gem 'browserify-rails'
 group :production do
   gem 'rails_12factor'
 end
-
-#Required for active_job scheduled emails
-gem 'resque'
-gem 'resque-scheduler'
 
 # Including these in the production group for now so we can run the seeds file
 # on Heroku. Once we've launched the MVP, move these to development/test only:
