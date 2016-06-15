@@ -72,7 +72,3 @@ en:
 
       card_recommendations:
         no_balances: "User does not have any existing points/miles balances"
-        not_onboarded: "Can't recommend any cards until this user has completed the onboarding survey"
-
-      show:
-        not_onboarded: "This user has not fully completed the onboarding process; you can't recommend them a card yet"

@@ -1,7 +1,7 @@
 module AdminArea
   class CardRecommendationsController < AdminController
     before_action :set_person
-    before_action :person_must_be_onboarded!
+    before_action :person_must_be_able_to_apply!
 
     def new
       @account       = @person.account
@@ -38,9 +38,16 @@ module AdminArea
       @person = Person.find(params[:person_id])
     end
 
-    def person_must_be_onboarded!
-      unless @person.onboarded?
-        flash[:error] = t("admin.people.card_recommendations.not_onboarded")
+    def person_must_be_able_to_apply!
+      unless @person.can_receive_recommendations?
+        flash[:error] = if !@person.ready_to_apply?
+                          "Can't recommend cards; user not ready to apply"
+                        elsif !@person.eligible_to_apply?
+                          "Can't recommend cards; user not eligible to apply"
+                        else
+                          "Can't recommend cards; user hasn't completed the onboarding survey"
+                        end
+
         redirect_to admin_person_path(@person)
       end
     end
