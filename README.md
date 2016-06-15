@@ -180,7 +180,32 @@ When you're done with the story:
           end
         end
 
-  Any non-standard methods go after `destroy`, in alphabetical order.
+    Any non-standard methods go after `destroy`, in alphabetical order.
+
+-   Remember, just because you can't access a controller action by clicking
+    around in the browser, that doesn't mean it's inaccessible: a user can very
+    easily bypass the browser by making HTTP requests directly to the server.
+    In the worst case, this can expose major security holes in the app. In
+    milder cases, a user might be able to save 'bad' data into the DB that they
+    wouldn't be able to create through the normal flow of the app.
+
+    Make sure that at the start of each action (or in a before_action filter)
+    you catch any users who shouldn't be there and redirect them away to a more
+    sensible place. For example, users who aren't eligible to apply for cards
+    shouldn't be able to add spending info, which means they shouldn't be able
+    to visit SpendingControllers#new. As well as making sure they don't see any
+    *links* to this page in the browser, we also need to add a redirect within
+    the controller:
+
+        # (this is pseudo-code)
+        def new
+          unless @person.eligible_to_apply?
+            redirect_to root_path
+          end
+          @spending_info = @person.spending_info.new
+        end
+
+        # (The same logic should also be added to `create`)
 
 ### Concepts
 
