@@ -84,13 +84,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :travel_plans, only: [] do
+  resources :travel_plans do
     collection do
       patch :skip_survey
     end
   end
-
-  resources :travel_plans
 
   # ---- ADMINS -----
 

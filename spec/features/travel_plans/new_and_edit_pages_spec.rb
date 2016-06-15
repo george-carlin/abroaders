@@ -147,6 +147,10 @@ describe "travel plans" do
         account.reload
         expect(account.onboarded_travel_plans).to eq true
       end
+
+      it "redirects to next step in the oboarding survey" do
+        expect(current_path).to eq type_account_path
+      end
     end
 
     describe "when I click the skip travel plans link" do
@@ -156,13 +160,7 @@ describe "travel plans" do
       end
     end
 
-    describe "when I click the skip travel plans link" do
-      let(:onboarded_travel_plans) { false }
-      before {click_link "I don't want to add a travel plan right now" }
-      it "redirects to next step in the oboarding survey" do
-        expect(current_path).to eq type_account_path
-      end
-    end
+
 
     it_behaves_like "a travel plan form"
 

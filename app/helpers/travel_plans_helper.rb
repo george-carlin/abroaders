@@ -5,7 +5,6 @@ module TravelPlansHelper
         "I don't want to add a travel plan right now",
         skip_survey_travel_plans_path,
         method: :patch,
-        data: { confirm: "are you sure?" }
     )
   end
 end
