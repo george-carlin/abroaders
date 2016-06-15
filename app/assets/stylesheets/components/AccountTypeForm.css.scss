@@ -31,12 +31,11 @@
   $margin: 20px;
 
   @media (min-width: $mdWidth) {
-    #solo_earning_select {
-      margin-right: $margin;
+    #solo_earning_select.inactive {
+      margin-right: 20px;
       position: relative;
-      left: -2 * $margin;
+      left: -40px;
     }
-
   }
 
   .account_type_form_step_1 {

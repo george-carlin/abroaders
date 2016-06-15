@@ -10,7 +10,9 @@ const NameFields      = require("./NameFields");
 
 const PartnerForm = React.createClass({
   propTypes: {
+    active:         React.PropTypes.bool,
     mainPersonName: React.PropTypes.string.isRequired,
+    onChoose:       React.PropTypes.func.isRequired,
     path:           React.PropTypes.string.isRequired,
   },
 
@@ -61,6 +63,7 @@ const PartnerForm = React.createClass({
 
     if (this.state.partnerName.length) {
       this.setState({ showPartnerNameError: false, nameSubmitted: true });
+      this.props.onChoose();
     } else {
       this.setState({ showPartnerNameError: true });
     }
@@ -72,10 +75,13 @@ const PartnerForm = React.createClass({
 
 
   render() {
+    let classes = "PartnerForm account_type_select well col-xs-12 col-md-4";
+    if (this.props.active) classes += " col-md-offset-4";
+
     return (
       <Form
         action={this.props.path}
-        className="account_type_select well col-xs-12 col-md-4"
+        className={classes}
         id="partner_earning_select"
         method="post"
         onSubmit={this.onSubmit}

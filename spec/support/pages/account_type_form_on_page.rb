@@ -9,4 +9,7 @@ class AccountTypeFormOnPage < ObjectOnPage
   button :solo,    "Sign up for solo earning"
   button :couples, t("accounts.type.sign_up_for_couples_earning")
 
+  section :couples_form, ".PartnerForm"
+  section :solo_form,    ".SoloForm"
+
 end

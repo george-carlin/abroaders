@@ -72,8 +72,22 @@ class ObjectOnPage < Struct.new(:spec_context)
     end
   end
 
+  def self.section(name, selector)
+    define_method "has_#{name}?" do
+      has_selector?(selector)
+    end
+
+    define_method "has_no_#{name}?" do
+      has_no_selector?(selector)
+    end
+  end
+
   def present?
-    has_selector?(dom_selector)
+    spec_context.has_selector?(dom_selector)
+  end
+
+  def absent?
+    spec_context.has_no_selector?(dom_selector)
   end
 
   def dom_selector
@@ -92,7 +106,7 @@ class ObjectOnPage < Struct.new(:spec_context)
     within(dom_selector, &block)
   end
 
-  %i[button content field].each do |element|
+  %i[button content field selector].each do |element|
     ["has_#{element}?", "has_no_#{element}?"].each do |meth|
       define_method meth do |*args|
         within_self { super(*args) }

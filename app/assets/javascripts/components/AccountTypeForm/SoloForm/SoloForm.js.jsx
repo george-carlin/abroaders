@@ -9,7 +9,9 @@ const Step1 = require("./Step1");
 
 const SoloForm = React.createClass({
   propTypes: {
-    path: React.PropTypes.string.isRequired,
+    active:   React.PropTypes.bool,
+    onChoose: React.PropTypes.func.isRequired,
+    path:     React.PropTypes.string.isRequired,
   },
 
 
@@ -49,6 +51,7 @@ const SoloForm = React.createClass({
 
   showStep1(e) {
     e.preventDefault();
+    this.props.onChoose();
     this.setState({isSigningUp: true});
   },
 
@@ -59,10 +62,17 @@ const SoloForm = React.createClass({
 
 
   render() {
+    let classes = "SoloForm account_type_select well col-xs-12 col-md-4";
+    if (this.props.active) {
+      classes += " col-md-offset-4 active";
+    } else {
+      classes += " col-md-offset-2 inactive";
+    }
+
     return (
       <Form
         action={this.props.path}
-        className="account_type_select well col-xs-12 col-md-4 col-md-offset-2"
+        className={classes}
         id="solo_earning_select"
         method="post"
         onSubmit={this.onSubmit}

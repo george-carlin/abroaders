@@ -76,12 +76,16 @@ describe "account type select page", :js, :onboarding do
 
     it "doesn't allow access" do
       expect(current_path).not_to eq type_account_path
-      expect(form).not_to be_present
+      expect(form).to be_absent
     end
   end
 
   describe "clicking 'solo'" do
     before { form.click_solo_btn }
+
+    it "hides the couples form" do
+      expect(form).to have_no_couples_form
+    end
 
     it "hides the 'solo' button" do
       expect(form).to have_no_solo_btn
@@ -223,6 +227,10 @@ describe "account type select page", :js, :onboarding do
         it "strips trailing whitespace" do
           expect(body).to have_content "Only Steve is eligible"
         end
+      end
+
+      it "hides the solo form" do
+        expect(form).to have_no_solo_form
       end
 
       it "shows me the next step" do
