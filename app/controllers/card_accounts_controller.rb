@@ -8,11 +8,7 @@ class CardAccountsController < NonAdminController
   def index
     [current_account.main_person, current_account.partner].each do |person|
       unless person.nil?
-        new_cards = person.card_accounts.never_seen
-        new_cards.each do |card_account|
-          card_account.seen_at = Time.now()
-          card_account.save!
-        end
+        person.card_accounts.unseen.update_all(seen_at: Time.now)
       end
     end
   end
