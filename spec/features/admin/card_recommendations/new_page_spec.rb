@@ -554,7 +554,6 @@ describe "admin section" do
     end
 
     describe "clicking 'Done'" do
-      include ActiveJob::TestHelper
       let(:click_done) { click_button "Done" }
       let(:new_notification) { account.notifications.last }
 

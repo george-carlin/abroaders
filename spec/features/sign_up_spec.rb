@@ -29,7 +29,6 @@ describe "the sign up page", :onboarding do
     end
 
     describe "with valid information for a new account" do
-      include ActiveJob::TestHelper
       before { fill_in_valid_info }
 
       let(:new_account) { Account.last }
