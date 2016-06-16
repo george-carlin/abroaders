@@ -39,6 +39,9 @@ class Account < ApplicationRecord
   alias_method :main_person, :main_passenger
   alias_method :partner, :companion
 
+  delegate :first_name, to: :main_person, prefix: true
+  delegate :first_name, to: :partner,     prefix: true
+
   has_many :card_accounts, through: :people
   has_many :card_recommendations, through: :people
   has_many :cards, through: :card_accounts

@@ -14,8 +14,6 @@ ActiveRecord::Migration.maintain_test_schema!
 include Warden::Test::Helpers
 Warden.test_mode!
 
-
-
 require 'capybara/poltergeist'
 Capybara.javascript_driver = :poltergeist
 
