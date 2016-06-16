@@ -148,13 +148,10 @@ describe "travel plans" do
         expect(account.onboarded_travel_plans).to eq true
       end
 
-      it "redirects to next step in the oboarding survey" do
+      it "redirects to the next step in the oboarding survey" do
         expect(current_path).to eq type_account_path
       end
-    end
 
-    describe "when I click the skip travel plans link" do
-      let(:onboarded_travel_plans) { false }
       it "doesn't create travel plans" do
         expect{click_link "I don't want to add a travel plan right now"}.not_to change{TravelPlan.count}
       end
