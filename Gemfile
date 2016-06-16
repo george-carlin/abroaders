@@ -21,7 +21,12 @@ gem 'paperclip', '~> 4.3.1'
 gem 'pg', '~> 0.18'
 gem 'puma'
 gem 'record_tag_helper'
+gem 'resque'
+gem 'resque-scheduler'
 gem 'sass-rails'
+# We need to use edge Sinatra from Github as it's dependent on Rack 2+ (like
+# Rails 5) and that's the only way to make Resque::Server work.
+gem 'sinatra', github: 'sinatra/sinatra', branch: 'master'
 gem 'uglifier', '>= 1.3.0'
 gem 'virtus'
 gem 'will_paginate-bootstrap', '~> 1.0.1'

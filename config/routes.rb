@@ -1,9 +1,14 @@
+require 'resque/server'
+
 Rails.application.routes.draw do
   root to: "application#dashboard"
   # Even though we're overriding all the generated routes, we still need to
   # include the devise_for call to get access to methods like
   # `authenticate_account!`
   devise_for :account, only: []
+
+  # Mount this at a hard-to-guess URL
+  mount Resque::Server.new, at: "/resque-c08cb17ca6581cbcad1501a7da7e8579"
 
   get "/accounts/connect/awardwallet", to: "oauth#award_wallet"
 
