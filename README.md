@@ -185,4 +185,24 @@ TODO add more detailed explanation of Presenters.
 - When fixing a bug, **always, always, always** add a new test that fails
   when the bug is present and passes once the bug is fixed.
 
+#### Feature specs
+
+- When you want to test that an element is *not* present on the page, use
+  `to` and a negatively worded Capybara matcher, rather than `not_to` and
+  a positively worded one.
+
+        # Bad:
+        expect(page).not_to have_button "Confirm"
+        expect(page).not_to have_selector "#card_1"
+        expect(page).not_to have_link "Click me"
+
+        # Good
+        expect(page).to have_no_button "Confirm"
+        expect(page).to have_no_selector "#card_1"
+        expect(page).to have_no_link "Click me"
+
+    Using `not_to` as above will slow down the tests dramatically. Read
+    [this article](https://blog.codeship.com/faster-rails-tests/) to understand
+    why.
+
 TODO add explanation of page objects

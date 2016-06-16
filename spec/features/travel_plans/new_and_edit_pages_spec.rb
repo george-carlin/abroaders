@@ -138,7 +138,7 @@ describe "travel plans" do
     describe "when I have already onboarded my first travel plan" do
       let(:onboarded_travel_plans) { true }
       it "doesn't have a link to skip making travel plans" do
-        expect(page).to_not have_link SKIP_LINK
+        expect(page).to have_no_link SKIP_LINK
       end
     end
 
