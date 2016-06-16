@@ -95,6 +95,8 @@ describe "travel plans" do
   describe "new page", :onboarding do
     before { visit new_travel_plan_path }
 
+    SKIP_LINK = "I don't want to add a travel plan right now"
+
     context "when I have already onboarded my first travel plan" do
       let(:onboarded_travel_plans) { true }
       context "but have not completed the rest of the onboarding process" do
@@ -129,31 +131,34 @@ describe "travel plans" do
     describe "when I have not onboarded my first travel plan" do
       let(:onboarded_travel_plans) { false }
       it "has a link to skip making travel plans" do
-        expect(page).to have_link ("I don't want to add a travel plan right now")
+        expect(page).to have_link SKIP_LINK
       end
     end
 
     describe "when I have already onboarded my first travel plan" do
       let(:onboarded_travel_plans) { true }
-      it "has a link to skip making travel plans" do
-        expect(page).to_not have_link("I don't want to add a travel plan right now")
+      it "doesn't have a link to skip making travel plans" do
+        expect(page).to_not have_link SKIP_LINK
       end
     end
 
     describe "when I click the skip travel plans link" do
       let(:onboarded_travel_plans) { false }
-      before {click_link "I don't want to add a travel plan right now" }
+
+      let(:skip_survey) { click_link SKIP_LINK }
+
       it "changes account values to skip forward" do
-        account.reload
-        expect(account.onboarded_travel_plans).to eq true
+        skip_survey
+        expect(account.reload.onboarded_travel_plans).to eq true
       end
 
       it "redirects to the next step in the oboarding survey" do
+        skip_survey
         expect(current_path).to eq type_account_path
       end
 
       it "doesn't create travel plans" do
-        expect{click_link "I don't want to add a travel plan right now"}.not_to change{TravelPlan.count}
+        expect{skip_survey}.not_to change{TravelPlan.count}
       end
     end
 
