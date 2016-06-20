@@ -5,7 +5,7 @@ http_interactions:
     uri: https://phkzmi5l:e33fc1c887328d9323e409231b9176ea2f8d4f65@api.intercom.io/users
     body:
       encoding: UTF-8
-      string: '{"email":"testtesttest@example.com","name":"Dave","signed_up_at":1462272060,"custom_attributes":{}}'
+      string: '{"email":"testtesttest@example.com","name":"Dave","signed_up_at":1462279260,"custom_attributes":{}}'
     headers:
       Accept-Encoding:
       - gzip, deflate
@@ -29,9 +29,9 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Mon, 20 Jun 2016 12:15:57 GMT
+      - Mon, 20 Jun 2016 15:21:18 GMT
       Etag:
-      - W/"9dd50f07c6f6ff9de03b86dad1ecf94f"
+      - W/"becba9dee3b163ba74cecd5d49f72970"
       Server:
       - nginx
       Status:
@@ -45,17 +45,17 @@ http_interactions:
       X-Frame-Options:
       - SAMEORIGIN
       X-Intercom-Version:
-      - 7cb5f2eec35a40d2004307359c7efc6230c40b15
+      - 12d8bcc02021cc533065e13d406c2b27dd692fd1
       X-Ratelimit-Limit:
       - '500'
       X-Ratelimit-Remaining:
       - '500'
       X-Ratelimit-Reset:
-      - '1466424960'
+      - '1466436120'
       X-Request-Id:
-      - aldmuhl5pchgeeteq090
+      - aldpjcnddb16ur08j6cg
       X-Runtime:
-      - '0.166284'
+      - '0.085502'
       X-Xss-Protection:
       - 1; mode=block
       Transfer-Encoding:
@@ -65,18 +65,18 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        H4sIAH3eZ1cAA3RSy27jMAz8F52NxHFjx8mph37C3opCUGQ6FarXSlTTbJF/
-        X0qO06RFDRiwyeFwyOEnw5MHtmMpQmAVUwN9t5tuMzyMAwz9StZtD31Njxwp
-        n2E8g2zSumLCOnsyLkW2G4WOUDEwQmniQIg4v4/wIYzXsJDOEIcVJnd8Eu9A
-        fz5CGjLLlfNdoAhs9zlLuwRInBEH4CnoCXomrPdFDfOvb/+MajWhqIkXVkG8
-        oZhip4VWEe8hzy9Eo50UqJzlA3WishwSEXmAv4n0c4GzuBKOAJYrP8dkAIEw
-        FNRq3XXrpmm6bcUCGIfAv6WbZtPUXV2xqA6Wwsn/yCQ/fCNcb9sNVUCMWaV0
-        yVIqcziphOY+uFHpu4nvM/PgP/DPvxR82fTnqMjE62089Nt6tW7a/nIMF5Tw
-        Kju9d7lLcYi9Ivrdcnk8Hhc4cWT/lzfIc959sjHtowxqTxOPwRleTujrosrJ
-        kfEWL/ZMW0dxuJ2Xfuchp0wxNsLBUOHdYqbQdSNXRCmQKSJJEIgkKGFZ6fn8
-        HwAA//8DAMKsHWImAwAA
+        H4sIAO4JaFcAA3RSy27jMAz8F52NxHESx8mph37C3oqFoMh0Kqxelahms0X+
+        vZQcp3GLNWDAJofDIYcfDC8e2IGlCIFVTPX0vd21u3499NB3K1lvO+hqeuRA
+        +QzjGWST1hUT1tmLcSmywyB0hIqBEUoTB0LE6X2Cv8J4DQvpDHFYYXLHZ/EO
+        9OcjpD6z3DnfBYrADh+TtFuAxBlxAp6CHqFXwnpf1DD/+uefUVtNKGrihVUQ
+        HyjG2GWhVcQ55OU30WgnBSpneU+dqCyHREQe4C2Rfi5wElfCEcBy5aeYDCAQ
+        +oJabdp20zRNu69YAOMQ+Ld00+z2TVtXLKqTpXDyPzLJ93PCdVvvOqqAGLNK
+        6ZKlVOZwUgnNfXCD0rOJ55lp8B/4l/8UfNn066zIxPttrLt9vdo02+52DDeU
+        8Co7fXS5S3GIvSL6w3J5Pp8XOHJk/5cPyGvefbIxHaMM6kgTD8EZXk7o66LK
+        yZHxFm/2jFtHcXqcl36nIcdMMTbCyVDhbDFj6L6RO6IUyBSRJAhEEpSwrPR6
+        /QQAAP//AwAb5zA5JgMAAA==
     http_version: 
-  recorded_at: Mon, 20 Jun 2016 12:15:58 GMT
+  recorded_at: Mon, 20 Jun 2016 15:21:18 GMT
 - request:
     method: get
     uri: https://phkzmi5l:e33fc1c887328d9323e409231b9176ea2f8d4f65@api.intercom.io/users?email=testtesttest@example.com
@@ -104,9 +104,9 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Mon, 20 Jun 2016 12:15:58 GMT
+      - Mon, 20 Jun 2016 15:21:18 GMT
       Etag:
-      - W/"9dd50f07c6f6ff9de03b86dad1ecf94f"
+      - W/"becba9dee3b163ba74cecd5d49f72970"
       Server:
       - nginx
       Status:
@@ -120,36 +120,37 @@ http_interactions:
       X-Frame-Options:
       - SAMEORIGIN
       X-Intercom-Version:
-      - 7cb5f2eec35a40d2004307359c7efc6230c40b15
+      - 12d8bcc02021cc533065e13d406c2b27dd692fd1
       X-Ratelimit-Limit:
       - '500'
       X-Ratelimit-Remaining:
       - '499'
       X-Ratelimit-Reset:
-      - '1466424960'
+      - '1466436120'
       X-Request-Id:
-      - aldmuhr9r8rh27n1fl7g
+      - aldpjcobs3hmreieskgg
       X-Runtime:
-      - '0.033971'
+      - '0.040847'
       X-Xss-Protection:
       - 1; mode=block
       Content-Length:
-      - '420'
+      - '421'
       Connection:
       - keep-alive
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        H4sIAH7eZ1cAA3RSy27jMAz8F52NxHFjx8mph37C3opCUGQ6FarXSlTTbJF/
-        X0qO06RFDRiwyeFwyOEnw5MHtmMpQmAVUwN9t5tuMzyMAwz9StZtD31Njxwp
-        n2E8g2zSumLCOnsyLkW2G4WOUDEwQmniQIg4v4/wIYzXsJDOEIcVJnd8Eu9A
-        fz5CGjLLlfNdoAhs9zlLuwRInBEH4CnoCXomrPdFDfOvb/+MajWhqIkXVkG8
-        oZhip4VWEe8hzy9Eo50UqJzlA3WishwSEXmAv4n0c4GzuBKOAJYrP8dkAIEw
-        FNRq3XXrpmm6bcUCGIfAv6WbZtPUXV2xqA6Wwsn/yCQ/fCNcb9sNVUCMWaV0
-        yVIqcziphOY+uFHpu4nvM/PgP/DPvxR82fTnqMjE62089Nt6tW7a/nIMF5Tw
-        Kju9d7lLcYi9Ivrdcnk8Hhc4cWT/lzfIc959sjHtowxqTxOPwRleTujrosrJ
-        kfEWL/ZMW0dxuJ2Xfuchp0wxNsLBUOHdYqbQdSNXRCmQKSJJEIgkKGFZ6fn8
-        HwAA//8DAMKsHWImAwAA
+        H4sIAO4JaFcAA3RSy27jMAz8F52NxHESx8mph37C3oqFoMh0Kqxelahms0X+
+        vZQcp3GLNWDAJofDIYcfDC8e2IGlCIFVTPX0vd21u3499NB3K1lvO+hqeuRA
+        +QzjGWST1hUT1tmLcSmywyB0hIqBEUoTB0LE6X2Cv8J4DQvpDHFYYXLHZ/EO
+        9OcjpD6z3DnfBYrADh+TtFuAxBlxAp6CHqFXwnpf1DD/+uefUVtNKGrihVUQ
+        HyjG2GWhVcQ55OU30WgnBSpneU+dqCyHREQe4C2Rfi5wElfCEcBy5aeYDCAQ
+        +oJabdp20zRNu69YAOMQ+Ld00+z2TVtXLKqTpXDyPzLJ93PCdVvvOqqAGLNK
+        6ZKlVOZwUgnNfXCD0rOJ55lp8B/4l/8UfNn066zIxPttrLt9vdo02+52DDeU
+        8Co7fXS5S3GIvSL6w3J5Pp8XOHJk/5cPyGvefbIxHaMM6kgTD8EZXk7o66LK
+        yZHxFm/2jFtHcXqcl36nIcdMMTbCyVDhbDFj6L6RO6IUyBSRJAhEEpSwrPR6
+        /QQAAP//AwAb5zA5JgMAAA==
     http_version: 
-  recorded_at: Mon, 20 Jun 2016 12:15:58 GMT
+  recorded_at: Mon, 20 Jun 2016 15:21:18 GMT
 recorded_with: VCR 3.0.3
+
