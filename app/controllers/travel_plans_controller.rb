@@ -37,6 +37,15 @@ class TravelPlansController < AuthenticatedUserController
     end
   end
 
+  def skip_survey
+    if current_account.onboarded_travel_plans
+      redirect_to type_account_path and return
+    end
+    current_account.onboarded_travel_plans = true
+    current_account.save!
+    redirect_to type_account_path
+  end
+
   private
 
   def travel_plan_params
