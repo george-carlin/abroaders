@@ -55,6 +55,8 @@ class Account < ApplicationRecord
     end
   end
 
+  has_many :recommendation_notes, dependent: :destroy
+
   # TODO these methods don't belong in here; updating the counter cache is a
   # responsibility of the Notification class, not the Account class
   def increment_unseen_notifications_count

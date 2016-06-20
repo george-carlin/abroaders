@@ -10,12 +10,20 @@ describe "as a user viewing my cards" do
 
   before do
     create(:companion, account: account) if has_partner
+
+    if existing_notes
+      existing_notes.times do
+        create(:recommendation_note, account: account)
+      end
+    end
+
     extra_setup
     visit card_accounts_path
   end
 
   let(:extra_setup) { nil }
   let(:has_partner) { false }
+  let(:existing_notes) { nil }
 
   H = "h3"
 
@@ -24,6 +32,10 @@ describe "as a user viewing my cards" do
   context "when I have not been recommended any cards" do
     it "tells me that recs are coming" do
       expect(page).to have_content pending_recs_notice
+    end
+
+    it "doesn't show recommendation notes" do
+      expect(page).to have_no_content "Recommendation Notes"
     end
 
     context "when I have been recommended some cards" do
@@ -45,6 +57,14 @@ describe "as a user viewing my cards" do
       it "doesn't have a header with my name" do
         expect(page).to have_no_selector H, text: "#{me.first_name}'s Cards"
       end
+      describe "and i have recommendation notes" do
+        let(:existing_notes) {2}
+        it "shows most recent recommendation note only" do
+          expect(page).to have_content account.recommendation_notes.last.content
+          expect(page).to have_no_content account.recommendation_notes.first.content
+        end
+      end
+
     end
   end
 

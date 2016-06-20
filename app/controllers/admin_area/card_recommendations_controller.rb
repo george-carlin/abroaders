@@ -15,6 +15,7 @@ module AdminArea
         Offer.includes(:card, card: :currency).live.group_by(&:card)
       @balances     = @person.balances.includes(:currency)
       @travel_plans = @account.travel_plans.includes_destinations
+      @recommendation_notes = @account.recommendation_notes
     end
 
     def create
@@ -28,6 +29,8 @@ module AdminArea
 
     def complete
       CompleteCardRecommendations.new(@person).complete!
+      note = params[:recommendation_note]
+      @person.account.recommendation_notes.create!(content: note) unless note.nil? || note == ""
       flash[:success] = "Sent notification!"
       redirect_to new_admin_person_card_recommendation_path(@person)
     end

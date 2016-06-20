@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160608161402) do
+ActiveRecord::Schema.define(version: 20160617040529) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -166,18 +166,18 @@ ActiveRecord::Schema.define(version: 20160608161402) do
   end
 
   create_table "offers", force: :cascade do |t|
-    t.integer  "card_id",                     null: false
-    t.integer  "points_awarded",              null: false
-    t.integer  "spend",          default: 0
-    t.integer  "cost",           default: 0,  null: false
-    t.integer  "days",           default: 90
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
-    t.string   "link",                        null: false
+    t.integer  "card_id",                       null: false
+    t.integer  "points_awarded",                null: false
+    t.integer  "spend",            default: 0
+    t.integer  "cost",             default: 0,  null: false
+    t.integer  "days",             default: 90
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.string   "link",                          null: false
     t.text     "notes"
-    t.integer  "condition",      default: 0,  null: false
-    t.datetime "killed_at"
+    t.integer  "condition",        default: 0,  null: false
     t.datetime "last_reviewed_at"
+    t.datetime "killed_at"
     t.index ["card_id"], name: "index_offers_on_card_id", using: :btree
     t.index ["killed_at"], name: "index_offers_on_killed_at", using: :btree
   end
@@ -202,6 +202,14 @@ ActiveRecord::Schema.define(version: 20160608161402) do
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
     t.index ["person_id"], name: "index_readiness_statuses_on_person_id", unique: true, using: :btree
+  end
+
+  create_table "recommendation_notes", force: :cascade do |t|
+    t.text     "content",    null: false
+    t.integer  "account_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_recommendation_notes_on_account_id", using: :btree
   end
 
   create_table "spending_infos", force: :cascade do |t|
@@ -243,6 +251,7 @@ ActiveRecord::Schema.define(version: 20160608161402) do
   add_foreign_key "offers", "cards", on_delete: :cascade
   add_foreign_key "people", "accounts", on_delete: :cascade
   add_foreign_key "readiness_statuses", "people", on_delete: :cascade
+  add_foreign_key "recommendation_notes", "accounts", on_delete: :cascade
   add_foreign_key "spending_infos", "people", on_delete: :cascade
   add_foreign_key "travel_plans", "accounts", on_delete: :cascade
 end
