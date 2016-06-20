@@ -3,7 +3,9 @@ require "rails_helper"
 module IntercomJobs
   describe CreateUser do
     it "creates a user on Intercom" do
-      time    = Time.parse("2016-05-03 12:41 PM")
+      # .utc is necessary here or the suite will fail on codeship when the VCR
+      # cassette has been recorded locally in a timezone other than UTC
+      time    = Time.parse("2016-05-03 12:41 PM").utc
       email   = "testtesttest@example.com"
       account = create(:account, email: email, created_at: time)
       account.main_person.update_attributes!(first_name: "Dave")

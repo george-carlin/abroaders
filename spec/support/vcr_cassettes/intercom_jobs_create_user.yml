@@ -29,9 +29,9 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Mon, 20 Jun 2016 11:31:09 GMT
+      - Mon, 20 Jun 2016 12:15:57 GMT
       Etag:
-      - W/"c85557cf2472ffdfbe8718ba84d2dab9"
+      - W/"9dd50f07c6f6ff9de03b86dad1ecf94f"
       Server:
       - nginx
       Status:
@@ -45,17 +45,17 @@ http_interactions:
       X-Frame-Options:
       - SAMEORIGIN
       X-Intercom-Version:
-      - 701ea998312c983b813df3edf19aef2ee5554ac5
+      - 7cb5f2eec35a40d2004307359c7efc6230c40b15
       X-Ratelimit-Limit:
       - '500'
       X-Ratelimit-Remaining:
       - '500'
       X-Ratelimit-Reset:
-      - '1466422320'
+      - '1466424960'
       X-Request-Id:
-      - aldma1cuahmr3pjn7gf0
+      - aldmuhl5pchgeeteq090
       X-Runtime:
-      - '0.124027'
+      - '0.166284'
       X-Xss-Protection:
       - 1; mode=block
       Transfer-Encoding:
@@ -65,16 +65,18 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        H4sIAP3TZ1cAA2xRXW/CMAz8L3muptJBYTztYf9imiKTul20fC1O0Bjiv89N
-        KYOxSpGa8/nuHB9FOgQUW5EJo6iE7vh/tW7X3WPfYbdZqHq1wU3Nn+q5PtLk
-        SHLZmEqA8+5gfSax7cEQVgItaMMaCSnN5xm/wAaDD8pb1nBgR8cX2CPfAmHu
-        RpWL5h4SRLE9ztHOAIezMKDM0UzUE3NDKGlEeP/4tnplmMUmAZxGupKYsMOD
-        0ZRuKa9vLGO8gqS9kx07cdsIASUZ8TNzfglpDldgQnRShxlTESFhV1iLZdsu
-        m6ZpnyoR0fqE8k+5adZN3daVID04hnO4q+TQ/StISDSmVD47Lo0aXmkwMkTf
-        a3Mz8W1lHvyOX8bPjvKOVNQ7Nu2jt7Js8XepZev89i6dX2gaPMFwbcnX2Weq
-        FHHCwXLjTbYJuoS6MEqDypQ4AqTEgXIqU51OPwAAAP//AwC7wBAMqQIAAA==
+        H4sIAH3eZ1cAA3RSy27jMAz8F52NxHFjx8mph37C3opCUGQ6FarXSlTTbJF/
+        X0qO06RFDRiwyeFwyOEnw5MHtmMpQmAVUwN9t5tuMzyMAwz9StZtD31Njxwp
+        n2E8g2zSumLCOnsyLkW2G4WOUDEwQmniQIg4v4/wIYzXsJDOEIcVJnd8Eu9A
+        fz5CGjLLlfNdoAhs9zlLuwRInBEH4CnoCXomrPdFDfOvb/+MajWhqIkXVkG8
+        oZhip4VWEe8hzy9Eo50UqJzlA3WishwSEXmAv4n0c4GzuBKOAJYrP8dkAIEw
+        FNRq3XXrpmm6bcUCGIfAv6WbZtPUXV2xqA6Wwsn/yCQ/fCNcb9sNVUCMWaV0
+        yVIqcziphOY+uFHpu4nvM/PgP/DPvxR82fTnqMjE62089Nt6tW7a/nIMF5Tw
+        Kju9d7lLcYi9Ivrdcnk8Hhc4cWT/lzfIc959sjHtowxqTxOPwRleTujrosrJ
+        kfEWL/ZMW0dxuJ2Xfuchp0wxNsLBUOHdYqbQdSNXRCmQKSJJEIgkKGFZ6fn8
+        HwAA//8DAMKsHWImAwAA
     http_version: 
-  recorded_at: Mon, 20 Jun 2016 11:31:09 GMT
+  recorded_at: Mon, 20 Jun 2016 12:15:58 GMT
 - request:
     method: get
     uri: https://phkzmi5l:e33fc1c887328d9323e409231b9176ea2f8d4f65@api.intercom.io/users?email=testtesttest@example.com
@@ -102,9 +104,9 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Mon, 20 Jun 2016 11:31:10 GMT
+      - Mon, 20 Jun 2016 12:15:58 GMT
       Etag:
-      - W/"c85557cf2472ffdfbe8718ba84d2dab9"
+      - W/"9dd50f07c6f6ff9de03b86dad1ecf94f"
       Server:
       - nginx
       Status:
@@ -118,34 +120,36 @@ http_interactions:
       X-Frame-Options:
       - SAMEORIGIN
       X-Intercom-Version:
-      - 701ea998312c983b813df3edf19aef2ee5554ac5
+      - 7cb5f2eec35a40d2004307359c7efc6230c40b15
       X-Ratelimit-Limit:
       - '500'
       X-Ratelimit-Remaining:
       - '499'
       X-Ratelimit-Reset:
-      - '1466422320'
+      - '1466424960'
       X-Request-Id:
-      - aldma1j2qh3orgktr7q0
+      - aldmuhr9r8rh27n1fl7g
       X-Runtime:
-      - '0.035110'
+      - '0.033971'
       X-Xss-Protection:
       - 1; mode=block
-      Transfer-Encoding:
-      - chunked
+      Content-Length:
+      - '420'
       Connection:
       - keep-alive
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        H4sIAP7TZ1cAA2xRXW/CMAz8L3muptJBYTztYf9imiKTul20fC1O0Bjiv89N
-        KYOxSpGa8/nuHB9FOgQUW5EJo6iE7vh/tW7X3WPfYbdZqHq1wU3Nn+q5PtLk
-        SHLZmEqA8+5gfSax7cEQVgItaMMaCSnN5xm/wAaDD8pb1nBgR8cX2CPfAmHu
-        RpWL5h4SRLE9ztHOAIezMKDM0UzUE3NDKGlEeP/4tnplmMUmAZxGupKYsMOD
-        0ZRuKa9vLGO8gqS9kx07cdsIASUZ8TNzfglpDldgQnRShxlTESFhV1iLZdsu
-        m6ZpnyoR0fqE8k+5adZN3daVID04hnO4q+TQ/StISDSmVD47Lo0aXmkwMkTf
-        a3Mz8W1lHvyOX8bPjvKOVNQ7Nu2jt7Js8XepZev89i6dX2gaPMFwbcnX2Weq
-        FHHCwXLjTbYJuoS6MEqDypQ4AqTEgXIqU51OPwAAAP//AwC7wBAMqQIAAA==
+        H4sIAH7eZ1cAA3RSy27jMAz8F52NxHFjx8mph37C3opCUGQ6FarXSlTTbJF/
+        X0qO06RFDRiwyeFwyOEnw5MHtmMpQmAVUwN9t5tuMzyMAwz9StZtD31Njxwp
+        n2E8g2zSumLCOnsyLkW2G4WOUDEwQmniQIg4v4/wIYzXsJDOEIcVJnd8Eu9A
+        fz5CGjLLlfNdoAhs9zlLuwRInBEH4CnoCXomrPdFDfOvb/+MajWhqIkXVkG8
+        oZhip4VWEe8hzy9Eo50UqJzlA3WishwSEXmAv4n0c4GzuBKOAJYrP8dkAIEw
+        FNRq3XXrpmm6bcUCGIfAv6WbZtPUXV2xqA6Wwsn/yCQ/fCNcb9sNVUCMWaV0
+        yVIqcziphOY+uFHpu4nvM/PgP/DPvxR82fTnqMjE62089Nt6tW7a/nIMF5Tw
+        Kju9d7lLcYi9Ivrdcnk8Hhc4cWT/lzfIc959sjHtowxqTxOPwRleTujrosrJ
+        kfEWL/ZMW0dxuJ2Xfuchp0wxNsLBUOHdYqbQdSNXRCmQKSJJEIgkKGFZ6fn8
+        HwAA//8DAMKsHWImAwAA
     http_version: 
-  recorded_at: Mon, 20 Jun 2016 11:31:10 GMT
+  recorded_at: Mon, 20 Jun 2016 12:15:58 GMT
 recorded_with: VCR 3.0.3
