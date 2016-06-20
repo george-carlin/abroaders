@@ -1,4 +1,4 @@
-class CardAccountsController < NonAdminController
+class CardAccountsController < AuthenticatedUserController
 
   before_action :redirect_if_not_onboarded_travel_plans!,
                                       only: [:survey, :save_survey]

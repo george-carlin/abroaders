@@ -1,4 +1,4 @@
-class ReadinessStatusesController < NonAdminController
+class ReadinessStatusesController < AuthenticatedUserController
   before_action :redirect_if_not_onboarded_travel_plans!
   before_action :redirect_if_account_type_not_selected!
 
