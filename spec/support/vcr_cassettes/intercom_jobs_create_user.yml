@@ -1,0 +1,151 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://phkzmi5l:e33fc1c887328d9323e409231b9176ea2f8d4f65@api.intercom.io/users
+    body:
+      encoding: UTF-8
+      string: '{"email":"testtesttest@example.com","name":"Dave","signed_up_at":1462272060,"custom_attributes":{}}'
+    headers:
+      Accept-Encoding:
+      - gzip, deflate
+      Accept:
+      - application/vnd.intercom.3+json
+      User-Agent:
+      - Intercom-Ruby/3.5.1
+      Content-Type:
+      - application/json
+      Acceptencoding:
+      - gzip, deflate
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 20 Jun 2016 11:31:09 GMT
+      Etag:
+      - W/"c85557cf2472ffdfbe8718ba84d2dab9"
+      Server:
+      - nginx
+      Status:
+      - 200 OK
+      Strict-Transport-Security:
+      - max-age=31557600; includeSubDomains; preload
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Intercom-Version:
+      - 701ea998312c983b813df3edf19aef2ee5554ac5
+      X-Ratelimit-Limit:
+      - '500'
+      X-Ratelimit-Remaining:
+      - '500'
+      X-Ratelimit-Reset:
+      - '1466422320'
+      X-Request-Id:
+      - aldma1cuahmr3pjn7gf0
+      X-Runtime:
+      - '0.124027'
+      X-Xss-Protection:
+      - 1; mode=block
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAP3TZ1cAA2xRXW/CMAz8L3muptJBYTztYf9imiKTul20fC1O0Bjiv89N
+        KYOxSpGa8/nuHB9FOgQUW5EJo6iE7vh/tW7X3WPfYbdZqHq1wU3Nn+q5PtLk
+        SHLZmEqA8+5gfSax7cEQVgItaMMaCSnN5xm/wAaDD8pb1nBgR8cX2CPfAmHu
+        RpWL5h4SRLE9ztHOAIezMKDM0UzUE3NDKGlEeP/4tnplmMUmAZxGupKYsMOD
+        0ZRuKa9vLGO8gqS9kx07cdsIASUZ8TNzfglpDldgQnRShxlTESFhV1iLZdsu
+        m6ZpnyoR0fqE8k+5adZN3daVID04hnO4q+TQ/StISDSmVD47Lo0aXmkwMkTf
+        a3Mz8W1lHvyOX8bPjvKOVNQ7Nu2jt7Js8XepZev89i6dX2gaPMFwbcnX2Weq
+        FHHCwXLjTbYJuoS6MEqDypQ4AqTEgXIqU51OPwAAAP//AwC7wBAMqQIAAA==
+    http_version: 
+  recorded_at: Mon, 20 Jun 2016 11:31:09 GMT
+- request:
+    method: get
+    uri: https://phkzmi5l:e33fc1c887328d9323e409231b9176ea2f8d4f65@api.intercom.io/users?email=testtesttest@example.com
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip, deflate
+      Accept:
+      - application/vnd.intercom.3+json
+      User-Agent:
+      - Intercom-Ruby/3.5.1
+      Acceptencoding:
+      - gzip, deflate
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 20 Jun 2016 11:31:10 GMT
+      Etag:
+      - W/"c85557cf2472ffdfbe8718ba84d2dab9"
+      Server:
+      - nginx
+      Status:
+      - 200 OK
+      Strict-Transport-Security:
+      - max-age=31557600; includeSubDomains; preload
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Intercom-Version:
+      - 701ea998312c983b813df3edf19aef2ee5554ac5
+      X-Ratelimit-Limit:
+      - '500'
+      X-Ratelimit-Remaining:
+      - '499'
+      X-Ratelimit-Reset:
+      - '1466422320'
+      X-Request-Id:
+      - aldma1j2qh3orgktr7q0
+      X-Runtime:
+      - '0.035110'
+      X-Xss-Protection:
+      - 1; mode=block
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAP7TZ1cAA2xRXW/CMAz8L3muptJBYTztYf9imiKTul20fC1O0Bjiv89N
+        KYOxSpGa8/nuHB9FOgQUW5EJo6iE7vh/tW7X3WPfYbdZqHq1wU3Nn+q5PtLk
+        SHLZmEqA8+5gfSax7cEQVgItaMMaCSnN5xm/wAaDD8pb1nBgR8cX2CPfAmHu
+        RpWL5h4SRLE9ztHOAIezMKDM0UzUE3NDKGlEeP/4tnplmMUmAZxGupKYsMOD
+        0ZRuKa9vLGO8gqS9kx07cdsIASUZ8TNzfglpDldgQnRShxlTESFhV1iLZdsu
+        m6ZpnyoR0fqE8k+5adZN3daVID04hnO4q+TQ/StISDSmVD47Lo0aXmkwMkTf
+        a3Mz8W1lHvyOX8bPjvKOVNQ7Nu2jt7Js8XepZev89i6dX2gaPMFwbcnX2Weq
+        FHHCwXLjTbYJuoS6MEqDypQ4AqTEgXIqU51OPwAAAP//AwC7wBAMqQIAAA==
+    http_version: 
+  recorded_at: Mon, 20 Jun 2016 11:31:10 GMT
+recorded_with: VCR 3.0.3
