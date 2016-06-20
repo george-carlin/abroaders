@@ -1,4 +1,5 @@
 class SpendingInfosController < NonAdminController
+  include EventTracking
   before_action :redirect_if_not_onboarded_travel_plans!
   before_action :redirect_if_account_type_not_selected!
 
@@ -14,6 +15,11 @@ class SpendingInfosController < NonAdminController
     @spending_info = SpendingSurvey.new(@person)
     if @spending_info.update_attributes(spending_survey_params)
       current_account.save!
+      if @person.main?
+        track_intercom_event("onboarded-spending-info-owner")
+      else
+        track_intercom_event("onboarded-spending-info-companion")
+      end
       redirect_to survey_person_card_accounts_path(@person)
     else
       render "new"

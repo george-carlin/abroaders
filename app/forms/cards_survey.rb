@@ -56,6 +56,11 @@ class CardsSurvey < ApplicationForm
       @person.card_accounts.from_survey.create!(attributes)
     end
     person.update_attributes!(onboarded_cards: true)
+
+    IntercomJobs::TrackEvent.perform_later(
+      email:      person.account.email,
+      event_name: "onboarded-cards-#{person.type}",
+    )
   end
 
 end

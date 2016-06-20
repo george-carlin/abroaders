@@ -20,10 +20,16 @@ describe "account type select page", :js, :onboarding do
 
   let(:extra_setup) { nil }
 
-  def self.it_marks_survey_as_complete
+  shared_examples "completes survey" do
     it "marks my account as having completed this part of the survey" do
       form.click_confirm_btn
       expect(account.reload.onboarded_type?).to be true
+    end
+
+    it "tracks an event on intercom" do
+      expect do
+        form.click_confirm_btn
+      end.to track_intercom_event("onboarded-account-type").for_email(account.email)
     end
   end
 
@@ -123,7 +129,7 @@ describe "account type select page", :js, :onboarding do
           expect(me.reload).to be_ineligible_to_apply
         end
 
-        it_marks_survey_as_complete
+        include_examples "completes survey"
       end
     end
 
@@ -170,9 +176,9 @@ describe "account type select page", :js, :onboarding do
             form.click_confirm_btn
             expect(current_path).to eq survey_person_balances_path(me)
           end
-
-          it_marks_survey_as_complete
         end
+
+        include_examples "completes survey"
       end
     end
   end
@@ -273,7 +279,7 @@ describe "account type select page", :js, :onboarding do
             expect(current_path).to eq survey_person_balances_path(me)
           end
 
-          it_marks_survey_as_complete
+          include_examples "completes survey"
         end
       end
 
@@ -325,7 +331,7 @@ describe "account type select page", :js, :onboarding do
               end
             end
 
-            it_marks_survey_as_complete
+            include_examples "completes survey"
           end
 
           context "without adding monthly spending" do
@@ -369,6 +375,8 @@ describe "account type select page", :js, :onboarding do
               form.click_confirm_btn
               expect(current_path).to eq new_person_spending_info_path(me)
             end
+
+            include_examples "completes survey"
           end
 
           context "without adding monthly spending" do
@@ -383,6 +391,8 @@ describe "account type select page", :js, :onboarding do
               expect(current_path).to eq type_account_path
               expect(page).to have_error_message
             end
+
+            it_doesnt_mark_survey_as_complete
           end
         end
       end

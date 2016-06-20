@@ -14,16 +14,36 @@ describe "the balance survey page", :onboarding, :js do
                   :onboarded_travel_plans => onboarded_travel_plans,
                   :onboarded_type         => onboarded_type,
                 )
-    @me = account.main_passenger
+    if i_am_owner
+      @me = account.owner
+      if i_have_a_companion
+        @companion = create(:person, main: false, account: account)
+        @companion.eligible_to_apply! if companion_is_eligible
+      end
+    else
+      @me = create(:person, main: false, account: account)
+    end
     @me.update_attributes!(onboarded_balances: onboarded, first_name: "George")
     @currencies = create_list(:currency, 3)
     login_as_account(account)
+
+    if i_am_eligible
+      @me.eligible_to_apply!
+    end
+
     visit survey_person_balances_path(me)
   end
+
   let(:submit_form) { click_button "Submit" }
 
-  let(:account) { @account }
-  let(:me)      { @me }
+  let(:i_am_eligible)         { false }
+  let(:i_am_owner)            { false }
+  let(:i_have_a_companion)    { false }
+  let(:companion_is_eligible) { false }
+
+  let(:account)   { @account }
+  let(:me)        { @me }
+  let(:companion) { @companion }
 
   def currency_selector(currency)
     "##{dom_id(currency)}"
@@ -44,6 +64,31 @@ describe "the balance survey page", :onboarding, :js do
   end
 
   let(:onboarded) { false }
+
+  shared_examples "complete survey" do
+    it "marks me as having completed the balances survey" do
+      submit_form
+      expect(me.reload.onboarded_balances?).to be true
+    end
+
+    context "when I am the account owner" do
+      let(:i_am_owner) { true }
+      it "tracks an event on Intercom" do
+        expect{submit_form}.to \
+          track_intercom_event("onboarded-balances-owner").
+          for_email(account.email)
+      end
+    end
+
+    context "when I am the companion" do
+      let(:i_am_owner) { false }
+      it "tracks an event on Intercom" do
+        expect{submit_form}.to \
+          track_intercom_event("onboarded-balances-companion").
+          for_email(account.email)
+      end
+    end
+  end
 
   it { is_expected.to have_title full_title("Balances") }
 
@@ -97,10 +142,7 @@ describe "the balance survey page", :onboarding, :js do
         expect{submit_form}.not_to change{Balance.count}
       end
 
-      it "marks me as having completed the balances survey" do
-        submit_form
-        expect(me.reload.onboarded_balances?).to be true
-      end
+      include_examples "complete survey"
     end
 
     describe "and clicking 'Back'" do
@@ -132,36 +174,15 @@ describe "the balance survey page", :onboarding, :js do
     it { is_expected.to have_field :balances_survey_award_wallet_email }
 
     describe "submitting the form" do
-      before do
-        if i_am_eligible_to_apply
-          @me.eligible_to_apply!
-        end
-
-        if i_am_the_partner
-          @me.update_attributes!(main: false)
-          Person.create!(main: true, first_name: "X", account: @account)
-        elsif i_have_a_partner
-          @partner = @account.create_companion!(first_name: "Somebody")
-          if partner_is_eligible_to_apply
-            @partner.eligible_to_apply!
-          end
-        end
-
-        pre_submit
-      end
-
-      let(:i_am_eligible_to_apply) { false }
-      let(:i_am_the_partner) { false }
-      let(:i_have_a_partner) { false }
-      let(:partner) { @partner }
+      before { pre_submit }
 
       let(:pre_submit) { nil }
 
-      context "when I am the main person on the account" do
-        let(:i_am_the_partner) { false }
+      context "when I am the account owner" do
+        let(:i_am_owner) { true }
 
         context "and I am eligible to apply for cards" do
-          let(:i_am_eligible_to_apply) { true }
+          let(:i_am_eligible) { true }
           it "takes me to the readiness survey" do
             submit_form
             expect(current_path).to eq new_person_readiness_status_path(me)
@@ -171,32 +192,32 @@ describe "the balance survey page", :onboarding, :js do
         end
 
         context "and I am ineligible to apply for cards" do
-          let(:i_am_eligible_to_apply) { false }
+          let(:i_am_eligible) { false }
 
-          context "and I have a partner on the account" do
-            let(:i_have_a_partner) { true }
+          context "and I have a companion" do
+            let(:i_have_a_companion) { true }
             context "who is eligible to apply for cards" do
-              let(:partner_is_eligible_to_apply) { true }
-              it "takes me to the partner's spending survey" do
+              let(:companion_is_eligible) { true }
+              it "takes me to the companion's spending survey" do
                 submit_form
-                expect(current_path).to eq new_person_spending_info_path(partner)
+                expect(current_path).to eq new_person_spending_info_path(companion)
               end
 
               include_examples "don't send any emails"
             end
 
             context "who is ineligible to apply for cards" do
-              let(:partner_is_eligible_to_apply) { false }
-              it "takes me to the partner's balances survey" do
+              let(:companion_is_eligible) { false }
+              it "takes me to the companion's balances survey" do
                 submit_form
-                expect(current_path).to eq survey_person_balances_path(partner)
+                expect(current_path).to eq survey_person_balances_path(companion)
               end
 
               include_examples "don't send any emails"
             end
           end
 
-          context "and I don't have a partner on the account" do
+          context "and I don't have a companion" do
             it "takes me to my dashboard" do
               submit_form
               expect(current_path).to eq root_path
@@ -207,11 +228,11 @@ describe "the balance survey page", :onboarding, :js do
         end
       end
 
-      context "when I am the partner on the account" do
-        let(:i_am_the_partner) { true }
+      context "when I am the companion" do
+        let(:i_am_owner) { false }
 
         context "and I am eligible to apply for cards" do
-          let(:i_am_eligible_to_apply) { true }
+          let(:i_am_eligible) { true }
           it "takes me to the readiness survey" do
             submit_form
             expect(current_path).to eq new_person_readiness_status_path(me)
@@ -221,7 +242,7 @@ describe "the balance survey page", :onboarding, :js do
         end
 
         context "and I am ineligible to apply for cards" do
-          let(:i_am_eligible_to_apply) { false }
+          let(:i_am_eligible) { false }
 
           it "takes me to the dashboard" do
             submit_form
@@ -289,6 +310,8 @@ describe "the balance survey page", :onboarding, :js do
             end
           end
         end
+
+        include_examples "complete survey"
       end
     end
 
@@ -311,6 +334,8 @@ describe "the balance survey page", :onboarding, :js do
       it "doesn't create any balances" do
         expect{submit_form}.not_to change{Balance.count}
       end
+
+      include_examples "complete survey"
     end
   end
 end

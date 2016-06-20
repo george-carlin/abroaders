@@ -2,6 +2,8 @@ class ReadinessStatusesController < NonAdminController
   before_action :redirect_if_not_onboarded_travel_plans!
   before_action :redirect_if_account_type_not_selected!
 
+  include EventTracking
+
   def new
     @person = load_person
     redirect_if_ineligible! and return
@@ -19,6 +21,10 @@ class ReadinessStatusesController < NonAdminController
         AccountMailer.notify_admin_of_survey_completion(current_account.id).deliver_later
       end
 
+      track_intercom_event(
+        "#{"not-" if !@status.ready?}ready-to-apply-#{@person.type}"
+      )
+
       redirect_to after_save_path
     else
       render "new"
@@ -32,10 +38,15 @@ class ReadinessStatusesController < NonAdminController
     redirect_if_readiness_not_given! and return
   end
 
+  # TODO make sure that this can only be accessed when the user is not already
+  # ready.
   def update
     person = load_person
     person.readiness_status.ready = true
     person.readiness_status.save!
+
+    track_intercom_event("ready-to-apply-#{person.type}")
+
     flash[:success] = "Thanks! You will shortly receive your first card recommendation."
     redirect_to root_path
   end

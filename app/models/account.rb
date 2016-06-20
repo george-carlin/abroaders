@@ -35,9 +35,11 @@ class Account < ApplicationRecord
   has_one :main_passenger, -> { main }, class_name: "Person"
   has_one :companion, -> { companion }, class_name: "Person"
 
-  # TODO move away from 'passenger' and 'companion' terminology.
+  # TODO standardise terminology. The two kinds of people are the 'owner'
+  # and the 'companion'
   alias_method :main_person, :main_passenger
-  alias_method :partner, :companion
+  alias_method :owner,       :main_passenger
+  alias_method :partner,     :companion
 
   delegate :first_name, to: :main_person, prefix: true
   delegate :first_name, to: :partner,     prefix: true

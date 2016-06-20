@@ -10,12 +10,16 @@ describe "card accounts survey", :onboarding, :js do
       :onboarded_type         => onboarded_type,
     )
   end
-  let!(:me) { account.people.first }
 
   before do
-    create(:spending_info, person: me) if onboarded_spending
-    me.update_attributes!(first_name: "George", onboarded_cards: onboarded_cards)
-    eligible ?  me.eligible_to_apply! : me.ineligible_to_apply!
+    if i_am_owner
+      @me = account.owner
+    else
+      @me = create(:person, main: false, account: account)
+    end
+    create(:spending_info, person: @me) if onboarded_spending
+    @me.update_attributes!(first_name: "George", onboarded_cards: onboarded_cards)
+    eligible ?  @me.eligible_to_apply! : @me.ineligible_to_apply!
     chase = Bank.find_by(name: "Chase")
     citi  = Bank.find_by(name: "Citibank")
     @visible_cards = [
@@ -30,17 +34,21 @@ describe "card accounts survey", :onboarding, :js do
     login_as account.reload
 
     # Sanity checks:
-    raise unless eligible == me.eligible_to_apply?
-    raise unless onboarded_cards == me.onboarded_cards?
-    raise unless onboarded_spending == me.onboarded_spending?
-    visit survey_person_card_accounts_path(me)
+    raise unless eligible == @me.eligible_to_apply?
+    raise unless onboarded_cards == @me.onboarded_cards?
+    raise unless onboarded_spending == @me.onboarded_spending?
+    visit survey_person_card_accounts_path(@me)
   end
+
+  let(:me) { @me }
 
   let(:eligible)           { true }
   let(:onboarded_cards)    { false }
   let(:onboarded_spending) { true }
   let(:onboarded_type)     { true }
   let(:onboarded_travel_plans) { true }
+
+  let(:i_am_owner) { true }
 
   let(:submit_form) { click_button "Submit" }
 
@@ -57,6 +65,24 @@ describe "card accounts survey", :onboarding, :js do
     it "marks me as having completed the cards survey" do
       submit_form
       expect(me.reload.onboarded_cards?).to be true
+    end
+
+    context "when I am the account owner" do
+      let(:i_am_owner) { true }
+      it "tracks an event on Intercom" do
+        expect{submit_form}.to \
+          track_intercom_event("onboarded-cards-owner").
+          for_email(account.email)
+      end
+    end
+
+    context "when I am the companion" do
+      let(:i_am_owner) { false }
+      it "tracks an event on Intercom" do
+        expect{submit_form}.to \
+          track_intercom_event("onboarded-cards-companion").
+          for_email(account.email)
+      end
     end
   end
 

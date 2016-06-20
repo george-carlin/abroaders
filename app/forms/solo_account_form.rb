@@ -1,4 +1,4 @@
-class SoloAccountForm < ApplicationForm
+class SoloAccountForm < AccountTypeForm
   include Virtus.model
 
   attribute :account,              Account
@@ -39,6 +39,8 @@ class SoloAccountForm < ApplicationForm
     else
       @person.ineligible_to_apply!
     end
+
+    track_intercom_event!
   end
 
 end

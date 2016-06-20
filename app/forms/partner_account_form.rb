@@ -1,4 +1,4 @@
-class PartnerAccountForm < ApplicationForm
+class PartnerAccountForm < AccountTypeForm
   attr_accessor :account, :monthly_spending_usd, :partner_first_name, :eligibility
   attr_reader :person_0, :person_1
 
@@ -61,6 +61,8 @@ class PartnerAccountForm < ApplicationForm
     else
       person_1.ineligible_to_apply!
     end
+
+    track_intercom_event!
   end
 
 end

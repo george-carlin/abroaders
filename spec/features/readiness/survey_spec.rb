@@ -12,9 +12,14 @@ describe "readiness status pages", :js, :onboarding do
       onboarded_type:           onboarded_type,
     )
   end
-  let(:me) { account.people.first }
 
   before do
+    if i_am_owner
+      @me = account.owner
+    else
+      @me = create(:person, owner: false, account: account)
+    end
+
     i_am_eligible ? me.eligible_to_apply! : me.ineligible_to_apply!
 
     if i_am_already_ready
@@ -24,14 +29,40 @@ describe "readiness status pages", :js, :onboarding do
     login_as(account.reload)
   end
 
-  let(:i_am_eligible)       { true }
-  let(:i_am_already_ready)  { false }
+  let(:me) { @me }
+
+  let(:i_am_owner)         { true }
+  let(:i_am_eligible)      { true }
+  let(:i_am_already_ready) { false }
 
   let(:onboarded_travel_plans) { true }
   let(:onboarded_type) { true }
 
+
   describe "new page" do
     before { visit new_person_readiness_status_path(me) }
+
+    let(:submit_form) { click_button "Confirm" }
+
+    shared_examples "track intercom event" do |ready|
+      event_name = "#{ready ? "" : "not-"}ready-to-apply"
+
+      context "when I am the account owner" do
+        let(:i_am_owner) { true }
+        it "tracks an event on Intercom" do
+          expect{submit_form}.to \
+            track_intercom_event("#{event_name}-owner").for_email(account.email)
+        end
+      end
+
+      context "when I am the companion" do
+        let(:i_am_owner) { false }
+        it "tracks an event on Intercom" do
+          expect{submit_form}.to \
+            track_intercom_event("#{event_name}-companion").for_email(account.email)
+        end
+      end
+    end
 
     context "when I've already said I'm ready" do
       let(:i_am_already_ready) { true }
@@ -77,13 +108,14 @@ describe "readiness status pages", :js, :onboarding do
     end
 
     describe "submitting the form" do
-      before { click_button "Confirm" }
-
       it "marks me as ready to apply" do
+        submit_form
         me.reload
         expect(me.readiness_given?).to be_truthy
         expect(me).to be_ready_to_apply
       end
+
+      include_examples "track intercom event", true
     end
 
     describe "selecting 'I'm not ready'" do
@@ -102,14 +134,15 @@ describe "readiness status pages", :js, :onboarding do
         before { fill_in unreadiness_reason_field, with: reason }
 
         describe "and clicking 'confirm'" do
-          before { click_button "Confirm" }
-
           it "saves my status as 'not ready to reply'" do
+            submit_form
             me.reload
             expect(me.readiness_given?).to be_truthy
             expect(me).to be_unready_to_apply
           end
         end
+
+        include_examples "track intercom event", false
       end
 
       describe "and clicking 'cancel'" do
@@ -126,9 +159,8 @@ describe "readiness status pages", :js, :onboarding do
       end
 
       describe "clicking 'confirm' without providing a reason" do
-        before { click_button "Confirm" }
-
         it "saves my status as 'not ready to reply'" do
+          submit_form
           me.reload
           expect(me.readiness_given?).to be_truthy
           expect(me).to be_unready_to_apply
@@ -136,6 +168,8 @@ describe "readiness status pages", :js, :onboarding do
         end
 
         it "queues a reminder email"
+
+        include_examples "track intercom event", false
       end
     end
 
@@ -160,8 +194,6 @@ describe "readiness status pages", :js, :onboarding do
       let(:i_am_the_partner) { false }
       let(:i_have_a_partner) { false }
       let(:partner) { @partner }
-
-      let(:submit_form) { click_button "Confirm" }
 
       context "when I am the main person on the account" do
         let(:i_am_the_partner) { false }
@@ -235,17 +267,35 @@ describe "readiness status pages", :js, :onboarding do
 
     describe "unready person clicks ready button" do
       let(:i_have_said_im_not_ready)  { true }
-      before { click_button "I am now ready" }
+      let(:submit_form) { click_button "I am now ready" }
 
       it "updates readiness status" do
+        submit_form
         expect(me.reload).to be_ready_to_apply
       end
 
       context "when I previously provided an unreadiness reason" do
         let(:reason) {"meow"}
         it "doesn't change the unreadiness reason" do
+          submit_form
           me.reload
           expect(me.readiness_status.unreadiness_reason).to eq "meow"
+        end
+      end
+
+      context "when I am the account owner" do
+        let(:i_am_owner) { true }
+        it "tracks an event on Intercom" do
+          expect{submit_form}.to \
+            track_intercom_event("ready-to-apply-owner").for_email(account.email)
+        end
+      end
+
+      context "when I am the companion" do
+        let(:i_am_owner) { false }
+        it "tracks an event on Intercom" do
+          expect{submit_form}.to \
+            track_intercom_event("ready-to-apply-companion").for_email(account.email)
         end
       end
     end

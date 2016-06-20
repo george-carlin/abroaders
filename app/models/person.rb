@@ -4,10 +4,17 @@ class Person < ApplicationRecord
 
   # Attributes
 
+  # TODO standardise terminology; the two person types should be called
+  # the 'owner' and the 'companion':
   alias_attribute :main_passenger?, :main
+  alias_attribute :owner, :main
 
   def companion?
     !main?
+  end
+
+  def type
+    owner ? "owner" : "companion"
   end
 
   delegate :credit_score, :will_apply_for_loan,

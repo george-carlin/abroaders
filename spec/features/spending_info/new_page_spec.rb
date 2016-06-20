@@ -1,6 +1,8 @@
 require "rails_helper"
 
 describe "the spending info survey", :onboarding do
+  include ActiveJob::TestHelper
+
   subject { page }
 
   let!(:account) do
@@ -10,19 +12,27 @@ describe "the spending info survey", :onboarding do
       :onboarded_type         => onboarded_type,
     )
   end
-  let!(:me) { account.people.first }
 
   before do
+    @me = if i_am_owner
+            @me = account.people.first
+          else
+            create(:person, main: false, account: account)
+            @me = account.companion
+          end
     create(:spending_info, person: me) if already_added
-    eligible ?  me.eligible_to_apply! : me.ineligible_to_apply!
+    eligible ? me.eligible_to_apply! : me.ineligible_to_apply!
     login_as(account, scope: :account)
     visit new_person_spending_info_path(me)
   end
+
+  let(:me) { @me }
 
   let(:already_added)  { false }
   let(:onboarded_type) { true }
   let(:onboarded_travel_plans) { true }
   let(:eligible) { true }
+  let(:i_am_owner) { true }
 
   let(:submit_form) { click_button "Save" }
 
@@ -161,6 +171,24 @@ describe "the spending info survey", :onboarding do
       it "takes me to my card survey page" do
         submit_form
         expect(current_path).to eq survey_person_card_accounts_path(me)
+      end
+
+      context "when I am the account owner" do
+        let(:i_am_owner) { true }
+        it "tracks an event on Intercom" do
+          expect{submit_form}.to \
+            track_intercom_event("onboarded-spending-info-owner").
+            for_email(account.email)
+        end
+      end
+
+      context "when I am the companion" do
+        let(:i_am_owner) { false }
+        it "tracks an event on Intercom" do
+          expect{submit_form}.to \
+            track_intercom_event("onboarded-spending-info-companion").
+            for_email(account.email)
+        end
       end
     end
 

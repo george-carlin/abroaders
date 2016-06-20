@@ -45,6 +45,12 @@ class BalancesSurvey
         if send_survey_complete_notification?
           AccountMailer.notify_admin_of_survey_completion(@person.account_id).deliver_later
         end
+
+        IntercomJobs::TrackEvent.perform_later(
+          email:      @person.account.email,
+          event_name: "onboarded-balances-#{@person.type}",
+        )
+
         true
       end
     else
