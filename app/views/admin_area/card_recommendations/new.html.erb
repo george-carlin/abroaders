@@ -21,7 +21,7 @@
     cards_from_survey:    @cards_from_survey,
   ) %>
 
-  <% if @recommendation_notes %>
+  <% if @recommendation_notes.count > 0 %>
     <%= render "shared/hpanel" do %>
         <div class="panel-body">
           <h3>Recommendation Notes</h3>
@@ -84,12 +84,7 @@
           <%= form_tag complete_admin_person_card_recommendations_path(person) do %>
             <%= label_tag(:recommendation_note, "notes") %>
             <%= text_area_tag(:recommendation_note, "", class: "form-control", rows: "3") %>
-            <%= button_to(
-              "Done",
-              complete_admin_person_card_recommendations_path(person),
-              class: "btn btn-primary btn-lg",
-              style: "float:right;"
-            ) %>
+              <input class="btn btn-primary btn-lg" style="float:right;" type="submit" value="Done">
 
             When you're finished recommending cards to this user, click 'Done' to
             send them a notification.
