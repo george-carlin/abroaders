@@ -21,9 +21,7 @@ class ReadinessStatusesController < NonAdminController
         AccountMailer.notify_admin_of_survey_completion(current_account.id).deliver_later
       end
 
-      track_intercom_event(
-        "#{"not-" if !@status.ready?}ready-to-apply-#{@person.type}"
-      )
+      track_intercom_event("obs_#{"un" if !@status.ready?}ready_#{@person.type[0..2]}")
 
       redirect_to after_save_path
     else
@@ -45,7 +43,7 @@ class ReadinessStatusesController < NonAdminController
     person.readiness_status.ready = true
     person.readiness_status.save!
 
-    track_intercom_event("ready-to-apply-#{person.type}")
+    track_intercom_event("obs_ready_#{person.type[0..2]}")
 
     flash[:success] = "Thanks! You will shortly receive your first card recommendation."
     redirect_to root_path

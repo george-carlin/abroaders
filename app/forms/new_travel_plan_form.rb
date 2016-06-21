@@ -8,7 +8,7 @@ class NewTravelPlanForm < TravelPlanForm
       @account.update_attributes!(onboarded_travel_plans: true)
       IntercomJobs::TrackEvent.perform_later(
         email: @account.email,
-        event_name: "onboarded_travel_plan",
+        event_name: "obs_travel_plan",
       )
     end
   end

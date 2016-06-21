@@ -44,8 +44,8 @@ class TravelPlansController < NonAdminController
     current_account.onboarded_travel_plans = true
     current_account.save!
     IntercomJobs::TrackEvent.perform_later(
-      email: current_account.email,
-      event_name: "onboarded_travel_plan"
+      email:      current_account.email,
+      event_name: "obs_travel_plan"
     )
     redirect_to type_account_path
   end

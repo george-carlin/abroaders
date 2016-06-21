@@ -59,7 +59,7 @@ class CardsSurvey < ApplicationForm
 
     IntercomJobs::TrackEvent.perform_later(
       email:      person.account.email,
-      event_name: "onboarded-cards-#{person.type}",
+      event_name: "obs_cards_#{person.type[0..2]}",
     )
   end
 

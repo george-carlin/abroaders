@@ -15,11 +15,7 @@ class SpendingInfosController < NonAdminController
     @spending_info = SpendingSurvey.new(@person)
     if @spending_info.update_attributes(spending_survey_params)
       current_account.save!
-      if @person.main?
-        track_intercom_event("onboarded-spending-info-owner")
-      else
-        track_intercom_event("onboarded-spending-info-companion")
-      end
+      track_intercom_event("obs_spending_#{@person.type[0..2]}")
       redirect_to survey_person_card_accounts_path(@person)
     else
       render "new"

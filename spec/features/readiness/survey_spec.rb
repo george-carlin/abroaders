@@ -45,13 +45,13 @@ describe "readiness status pages", :js, :onboarding do
     let(:submit_form) { click_button "Confirm" }
 
     shared_examples "track intercom event" do |ready|
-      event_name = "#{ready ? "" : "not-"}ready-to-apply"
+      event_name = "#{"un" unless ready}ready"
 
       context "when I am the account owner", :intercom do
         let(:i_am_owner) { true }
         it "tracks an event on Intercom" do
           expect{submit_form}.to \
-            track_intercom_event("#{event_name}-owner").for_email(account.email)
+            track_intercom_event("obs_#{event_name}_own").for_email(account.email)
         end
       end
 
@@ -59,7 +59,7 @@ describe "readiness status pages", :js, :onboarding do
         let(:i_am_owner) { false }
         it "tracks an event on Intercom" do
           expect{submit_form}.to \
-            track_intercom_event("#{event_name}-companion").for_email(account.email)
+            track_intercom_event("obs_#{event_name}_com").for_email(account.email)
         end
       end
     end
@@ -287,7 +287,7 @@ describe "readiness status pages", :js, :onboarding do
         let(:i_am_owner) { true }
         it "tracks an event on Intercom", :intercom do
           expect{submit_form}.to \
-            track_intercom_event("ready-to-apply-owner").for_email(account.email)
+            track_intercom_event("obs_ready_own").for_email(account.email)
         end
       end
 
@@ -295,7 +295,7 @@ describe "readiness status pages", :js, :onboarding do
         let(:i_am_owner) { false }
         it "tracks an event on Intercom", :intercom do
           expect{submit_form}.to \
-            track_intercom_event("ready-to-apply-companion").for_email(account.email)
+            track_intercom_event("obs_ready_com").for_email(account.email)
         end
       end
     end

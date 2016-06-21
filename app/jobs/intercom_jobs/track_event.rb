@@ -9,16 +9,12 @@ module IntercomJobs
       INTERCOM.events.create(opts)
     end
 
-    def self.perform_later(opts={})
-      opts.symbolize_keys!
-      opts[:created_at] ||= Time.now.to_i
-      super(opts)
-    end
-
-    def self.perform_now(opts={})
-      opts.symbolize_keys!
-      opts[:created_at] ||= Time.now.to_i
-      super(opts)
+    %i[later now].each do |time|
+      define_method "perform_#{time}" do |opts={}|
+        opts.symbolize_keys!
+        opts[:created_at] ||= Time.now.to_i
+        super(opts)
+      end
     end
 
   end

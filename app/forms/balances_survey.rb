@@ -48,7 +48,7 @@ class BalancesSurvey
 
         IntercomJobs::TrackEvent.perform_later(
           email:      @person.account.email,
-          event_name: "onboarded-balances-#{@person.type}",
+          event_name: "obs_balances_#{@person.type[0..2]}",
         )
 
         true

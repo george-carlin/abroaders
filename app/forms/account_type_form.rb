@@ -5,7 +5,7 @@ class AccountTypeForm < ApplicationForm
   def track_intercom_event!
     IntercomJobs::TrackEvent.perform_later(
       email:      account.email,
-      event_name: "onboarded-account-type",
+      event_name: "obs_account_type",
     )
   end
 end

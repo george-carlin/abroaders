@@ -75,7 +75,7 @@ describe "the balance survey page", :onboarding, :js do
       let(:i_am_owner) { true }
       it "tracks an event on Intercom", :intercom do
         expect{submit_form}.to \
-          track_intercom_event("onboarded-balances-owner").
+          track_intercom_event("obs_balances_own").
           for_email(account.email)
       end
     end
@@ -84,7 +84,7 @@ describe "the balance survey page", :onboarding, :js do
       let(:i_am_owner) { false }
       it "tracks an event on Intercom", :intercom do
         expect{submit_form}.to \
-          track_intercom_event("onboarded-balances-companion").
+          track_intercom_event("obs_balances_com").
           for_email(account.email)
       end
     end

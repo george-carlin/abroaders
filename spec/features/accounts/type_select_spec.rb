@@ -29,7 +29,7 @@ describe "account type select page", :js, :onboarding do
     it "tracks an event on intercom", :intercom do
       expect do
         form.click_confirm_btn
-      end.to track_intercom_event("onboarded-account-type").for_email(account.email)
+      end.to track_intercom_event("obs_account_type").for_email(account.email)
     end
   end
 
