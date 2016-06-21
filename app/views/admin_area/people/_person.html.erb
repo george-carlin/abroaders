@@ -25,6 +25,10 @@
       <% else %>
         <%= t("admin.people.card_recommendations.no_balances") %>
       <% end # balances.any? %>
+
+      <% if person.award_wallet_email.present? %>
+        <p><b>Award wallet email:</b> <%= person.award_wallet_email %></p>
+      <% end %>
     </div><!-- .col-xs-12.col-md-6 -->
 
     <div class="col-xs-12 col-md-6">

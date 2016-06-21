@@ -66,6 +66,31 @@ describe "as a user viewing my cards" do
       end
 
     end
+
+    context "when I have been recommended new cards" do
+      let(:extra_setup) do
+        @recs = create_list(:card_recommendation, 2, person: me)
+      end
+
+      it "updates the time i saw them" do
+        @recs.each do |recommendation|
+          recommendation.reload
+          expect(recommendation.seen_at).to be_within(2.seconds).of(Time.now)
+        end
+      end
+    end
+
+    context "when I have have already seen cards" do
+      let(:extra_setup) do
+        @recs = create_list(:card_recommendation, 2, person: me, seen_at: 1.day.ago)
+      end
+
+      it "doesn't change my seen_at time" do
+        @recs.each do |recommendation|
+          expect(recommendation.seen_at).to be_within(5.seconds).of(1.day.ago)
+        end
+      end
+    end
   end
 
   context "when I have a partner" do
@@ -114,6 +139,32 @@ describe "as a user viewing my cards" do
         expect(page).to have_selector H, text: "#{partner.first_name}'s Cards"
       end
     end
+
+    context "when my partner has been recommended new cards" do
+      let(:extra_setup) do
+        @recs = create_list(:card_recommendation, 2, person: partner)
+      end
+
+      it "updates the time i saw them" do
+        @recs.each do |recommendation|
+          recommendation.reload
+          expect(recommendation.seen_at).to be_within(2.seconds).of(Time.now)
+        end
+      end
+    end
+
+    context "when I have have already seen my partner card offers" do
+      let(:extra_setup) do
+        @recs = create_list(:card_recommendation, 2, person: partner, seen_at: 1.day.ago)
+      end
+
+      it "doesn't change my seen_at time" do
+        @recs.each do |recommendation|
+          expect(recommendation.seen_at).to be_within(5.seconds).of(1.day.ago)
+        end
+      end
+    end
+
   end
 
   def get_card_account_on_page(card_account)

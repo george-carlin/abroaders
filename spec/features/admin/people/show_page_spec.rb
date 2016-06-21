@@ -22,7 +22,8 @@ describe "admin section" do
         @usb_personal   = create_card(:personal, us_bank, @currencies[3]),
       ]
 
-      @person  = create(:person, first_name: "Fred")
+      @person = create(:person, first_name: "Fred")
+      @person.eligible_to_apply!
       @account = @person.account.reload
       extra_setup
       visit admin_person_path(@person)

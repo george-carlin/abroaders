@@ -156,6 +156,7 @@ class CardAccount < ApplicationRecord
   # Scopes
 
   scope :from_survey,     -> { where(recommended_at: nil) }
+  scope :unseen,     -> { where(seen_at: nil) }
   scope :recommendations, -> { where.not(recommended_at: nil) }
 
   private

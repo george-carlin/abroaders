@@ -6,7 +6,13 @@ class CardAccountsController < NonAdminController
                                       only: [:survey, :save_survey]
 
   def index
+    [current_account.main_person, current_account.partner].each do |person|
+      unless person.nil?
+        person.card_accounts.unseen.update_all(seen_at: Time.now)
+      end
+    end
   end
+
 
   def survey
     @person = load_person
