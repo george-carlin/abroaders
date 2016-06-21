@@ -47,7 +47,7 @@ describe "readiness status pages", :js, :onboarding do
     shared_examples "track intercom event" do |ready|
       event_name = "#{ready ? "" : "not-"}ready-to-apply"
 
-      context "when I am the account owner" do
+      context "when I am the account owner", :intercom do
         let(:i_am_owner) { true }
         it "tracks an event on Intercom" do
           expect{submit_form}.to \
@@ -55,7 +55,7 @@ describe "readiness status pages", :js, :onboarding do
         end
       end
 
-      context "when I am the companion" do
+      context "when I am the companion", :intercom do
         let(:i_am_owner) { false }
         it "tracks an event on Intercom" do
           expect{submit_form}.to \
@@ -285,7 +285,7 @@ describe "readiness status pages", :js, :onboarding do
 
       context "when I am the account owner" do
         let(:i_am_owner) { true }
-        it "tracks an event on Intercom" do
+        it "tracks an event on Intercom", :intercom do
           expect{submit_form}.to \
             track_intercom_event("ready-to-apply-owner").for_email(account.email)
         end
@@ -293,7 +293,7 @@ describe "readiness status pages", :js, :onboarding do
 
       context "when I am the companion" do
         let(:i_am_owner) { false }
-        it "tracks an event on Intercom" do
+        it "tracks an event on Intercom", :intercom do
           expect{submit_form}.to \
             track_intercom_event("ready-to-apply-companion").for_email(account.email)
         end

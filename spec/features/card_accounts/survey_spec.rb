@@ -69,7 +69,7 @@ describe "card accounts survey", :onboarding, :js do
 
     context "when I am the account owner" do
       let(:i_am_owner) { true }
-      it "tracks an event on Intercom" do
+      it "tracks an event on Intercom", :intercom do
         expect{submit_form}.to \
           track_intercom_event("onboarded-cards-owner").
           for_email(account.email)
@@ -78,7 +78,7 @@ describe "card accounts survey", :onboarding, :js do
 
     context "when I am the companion" do
       let(:i_am_owner) { false }
-      it "tracks an event on Intercom" do
+      it "tracks an event on Intercom", :intercom do
         expect{submit_form}.to \
           track_intercom_event("onboarded-cards-companion").
           for_email(account.email)

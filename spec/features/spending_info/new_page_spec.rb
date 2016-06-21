@@ -175,7 +175,7 @@ describe "the spending info survey", :onboarding do
 
       context "when I am the account owner" do
         let(:i_am_owner) { true }
-        it "tracks an event on Intercom" do
+        it "tracks an event on Intercom", :intercom do
           expect{submit_form}.to \
             track_intercom_event("onboarded-spending-info-owner").
             for_email(account.email)
@@ -184,7 +184,7 @@ describe "the spending info survey", :onboarding do
 
       context "when I am the companion" do
         let(:i_am_owner) { false }
-        it "tracks an event on Intercom" do
+        it "tracks an event on Intercom", :intercom do
           expect{submit_form}.to \
             track_intercom_event("onboarded-spending-info-companion").
             for_email(account.email)

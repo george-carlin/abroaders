@@ -59,7 +59,7 @@ describe "the sign up page", :onboarding do
         expect(email.to).to match_array [eriks_email]
       end
 
-      it "creates a user on Intercom" do
+      it "creates a user on Intercom", :intercom do
         expect(enqueued_jobs).to be_empty
         expect{submit_form}.to change{enqueued_jobs.size}
         job = enqueued_jobs.detect { |j| j[:job] == IntercomJobs::CreateUser }
