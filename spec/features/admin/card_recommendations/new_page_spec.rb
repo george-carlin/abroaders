@@ -49,19 +49,10 @@ describe "admin section" do
         @person.ready_to_apply! if ready_to_apply
       end
 
-      if existing_notes
-        existing_notes.times do
-          create(:recommendation_note, account: account)
-        end
-      end
+      create_list(:recommendation_note, no_of_existing_notes, account: account)
 
       extra_setup
       visit new_admin_person_card_recommendation_path(@person)
-
-      if new_note
-        fill_in "recommendation_note", with: new_note
-      end
-
     end
 
     let(:account) { @account }
@@ -70,8 +61,7 @@ describe "admin section" do
     let(:onboarded) { true }
     let(:ready_to_apply) { true }
     let(:extra_setup) { nil }
-    let(:new_note) { nil }
-    let(:existing_notes) { nil }
+    let(:no_of_existing_notes) { 0 }
 
     def have_recommendable_card(card)
       have_selector recommendable_card_selector(card)
@@ -567,6 +557,28 @@ describe "admin section" do
       end
     end
 
+    context "when the user has no existing recommendation notes" do
+      it "doesn't display the recommendation notes panel" do
+        expect(page).to have_no_content "Recommendation Notes"
+      end
+    end
+
+    describe "when the user has existing recommendation notes" do
+      let(:no_of_existing_notes) { 3 }
+
+      it "displays them" do
+        expect(page).to have_content("Recommendation Notes")
+        account.recommendation_notes.each do |note|
+          expect(page).to have_content note.created_at
+          expect(page).to have_content note.content
+        end
+      end
+    end
+
+    it "has a text input for Recommendation Notes" do
+      expect(page).to have_field :recommendation_note
+    end
+
     describe "clicking 'Done'" do
       let(:click_done) { click_button "Done" }
       let(:new_notification) { account.notifications.last }
@@ -601,51 +613,40 @@ describe "admin section" do
         end.to change{account.unseen_notifications_count}.by(1)
       end
 
-      it "has a text input for Recommendation Notes" do
-        expect(page).to have_selector("input", "recommendation_note")
-      end
-
-      describe "User has no recommendation notes" do
-        it "doesn't display the recommendation note panel" do
-          expect(page).to have_no_content "Recommendation Notes"
-        end
-      end
-
-      describe "User has recommendation notes" do
-        let(:existing_notes) {3}
+      context "when I've added a recommendation note" do
         let(:new_note) {"I like to leave notes."}
-        it "displays the recommendation notes" do
-          expect(page).to have_content("Recommendation Notes")
-          account.recommendation_notes.each do |note|
-            expect(page).to have_content note.created_at
-            expect(page).to have_content note.content
-          end
-        end
-        it "adds another recommendation note to account when clicking done" do
+        before { fill_in :recommendation_note, with: new_note }
+
+        it "sends the note to the user" do
           expect do
             click_done
             account.recommendation_notes.reload
           end.to change{account.recommendation_notes.count}.by(1)
           expect(account.recommendation_notes.order(:created_at).last.content).to eq new_note
         end
-      end
 
+        context "with trailing whitespace" do
+          let(:new_note) { "  I like to leave notes.  " }
 
-      describe "User has filled out the notes field" do
-        let(:new_note) {"I like to leave notes."}
-        it "adds a recommendation note to account when clicking done" do
-          expect do
+          it "strips whitespace before save" do
             click_done
-            account.reload
-          end.to change{account.recommendation_notes.count}.by(1)
-          expect(account.recommendation_notes.order(:created_at).last.content).to eq new_note
+            note = account.recommendation_notes.order(:created_at).last
+            expect(note.content).to eq new_note.strip
+          end
         end
       end
 
+      context "when I haven't added a recommendation note" do
+        it "doesn't add a recommendation note to the user" do
+          expect{click_done}.to_not change{account.recommendation_notes.reload.count}
+        end
+      end
 
-      describe "User has not filled out the notes field" do
-        it "doesn't add a recommendation note when clicking done" do
-          expect{click_done}.to_not change{account.recommendation_notes.count}
+      context "filling in the recommendation note input with whitespace" do
+        before { fill_in :recommendation_note, with: "     \n \n \t\ \t " }
+
+        it "doesn't add a recommendation note to the user" do
+          expect{click_done}.to_not change{account.recommendation_notes.reload.count}
         end
       end
     end
