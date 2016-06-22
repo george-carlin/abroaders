@@ -22,6 +22,18 @@ class ApplicationForm
     end
   end
 
+  def self.create(*attrs)
+    instance = new(*attrs)
+    instance.save
+    instance
+  end
+
+  def self.create!(*attrs)
+    instance = new(*attrs)
+    instance.save!
+    instance
+  end
+
   # A form object is never persisted
   def persisted?
     false

@@ -28,9 +28,7 @@ module AdminArea
     end
 
     def complete
-      CompleteCardRecommendations.new(@person).complete!
-      note = params[:recommendation_note]
-      @person.account.recommendation_notes.create!(content: note) unless note.nil? || note == ""
+      CompleteCardRecommendations.create!(complete_card_recommendation_params)
       flash[:success] = "Sent notification!"
       redirect_to new_admin_person_card_recommendation_path(@person)
     end
@@ -53,6 +51,13 @@ module AdminArea
 
         redirect_to admin_person_path(@person)
       end
+    end
+
+    def complete_card_recommendation_params
+      {
+        person: @person,
+        note:   params[:recommendation_note],
+      }
     end
 
   end
