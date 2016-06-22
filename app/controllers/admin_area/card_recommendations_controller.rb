@@ -15,6 +15,7 @@ module AdminArea
         Offer.includes(:card, card: :currency).live.group_by(&:card)
       @balances     = @person.balances.includes(:currency)
       @travel_plans = @account.travel_plans.includes_destinations
+      @recommendation_notes = @account.recommendation_notes
     end
 
     def create
@@ -22,12 +23,11 @@ module AdminArea
       offer = Offer.find(params[:offer_id])
       @person.card_recommendations.create!(offer: offer, recommended_at: Time.now)
       flash[:success] = "Recommended card!"
-      # TODO notify person
       redirect_to new_admin_person_card_recommendation_path(@person)
     end
 
     def complete
-      CompleteCardRecommendations.new(@person).complete!
+      CompleteCardRecommendations.create!(complete_card_recommendation_params)
       flash[:success] = "Sent notification!"
       redirect_to new_admin_person_card_recommendation_path(@person)
     end
@@ -50,6 +50,13 @@ module AdminArea
 
         redirect_to admin_person_path(@person)
       end
+    end
+
+    def complete_card_recommendation_params
+      {
+        person: @person,
+        note:   params[:recommendation_note],
+      }
     end
 
   end

@@ -336,13 +336,6 @@ we have some extra top level folders in `/app`. They're mostly based on
 Form objects, as described in the Code Climate article. Inherit from
 `ApplicationForm`. (TODO add more detailed explanation of Form objects + conventions)
 
-#### `services`
-
-Service objects, as described in the Code Climate article. There's only
-one service object at the moment, and in retrospect this was an unecessary
-abstraction. Don't add any more service objects - the one that we do have
-will eventually be removed.
-
 #### `serializers`
 
 Serializers as used by the

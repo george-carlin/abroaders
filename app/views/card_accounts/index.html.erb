@@ -17,6 +17,10 @@
         </div><!-- panel-heading -->
 
         <div class="panel-body">
+          <% if page.recommendation_notes.any? %>
+              <h3>Recommendation Notes</h3>
+              <p><%= page.recommendation_notes.last.content %></p>
+          <% end %>
           <% if page.card_recommendations.any? %>
             <div id="card_recommendations">
               <div id="main_person_card_recommendations">
