@@ -83,7 +83,9 @@ ActiveRecord::Schema.define(version: 20160617040529) do
     t.date     "nudged_at"
     t.date     "called_at"
     t.date     "redenied_at"
+    t.datetime "seen_at"
     t.index ["recommended_at"], name: "index_card_accounts_on_recommended_at", using: :btree
+    t.index ["seen_at"], name: "index_card_accounts_on_seen_at", using: :btree
   end
 
   create_table "cards", force: :cascade do |t|
