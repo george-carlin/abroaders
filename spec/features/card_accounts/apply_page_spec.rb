@@ -5,7 +5,7 @@ describe "card recommendation apply page" do
 
   include_context "logged in"
 
-  let(:me) { account.main_passenger }
+  let(:me) { account.owner }
 
   let(:rec) { create(:card_recommendation, person: me) }
 

@@ -10,10 +10,10 @@ const NameFields      = require("./NameFields");
 
 const PartnerForm = React.createClass({
   propTypes: {
-    active:         React.PropTypes.bool,
-    mainPersonName: React.PropTypes.string.isRequired,
-    onChoose:       React.PropTypes.func.isRequired,
-    path:           React.PropTypes.string.isRequired,
+    active:    React.PropTypes.bool,
+    ownerName: React.PropTypes.string.isRequired,
+    onChoose:  React.PropTypes.func.isRequired,
+    path:      React.PropTypes.string.isRequired,
   },
 
 
@@ -106,7 +106,7 @@ const PartnerForm = React.createClass({
                 <Eligibility
                   eligibility={this.state.eligibility}
                   onChange={this.onChangeEligibility}
-                  person1FirstName={this.props.mainPersonName}
+                  person1FirstName={this.props.ownerName}
                   person2FirstName={this.state.partnerName}
                 />
 
@@ -115,7 +115,7 @@ const PartnerForm = React.createClass({
                 <MonthlySpending
                   eligibility={this.state.eligibility}
                   onChange={this.onChangeMonthlySpending}
-                  person0FirstName={this.props.mainPersonName}
+                  person0FirstName={this.props.ownerName}
                   person1FirstName={this.state.partnerName}
                   showError={this.state.showMonthlySpendingError}
                   value={this.state.monthlySpending}

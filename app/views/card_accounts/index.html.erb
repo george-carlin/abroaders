@@ -25,15 +25,15 @@
           <% end %>
           <% if page.card_recommendations.any? %>
             <div id="card_recommendations">
-              <div id="main_person_card_recommendations">
+              <div id="owner_card_recommendations">
                 <% if has_companion? %>
-                  <h3><%= page.main_person.subheading %></h3>
+                  <h3><%= page.owner.subheading %></h3>
                 <% end %>
 
-                <% if page.main_person.recommendations.any? %>
-                  <%= render page.main_person.recommendations %>
+                <% if page.owner.recommendations.any? %>
+                  <%= render page.owner.recommendations %>
                 <% else %>
-                  No recommendations for <%= page.main_person.first_name %>
+                  No recommendations for <%= page.owner_first_name %>
                 <% end %>
               </div>
 
@@ -72,14 +72,14 @@
 
           <div class="panel-body">
             <div id="card_accounts_from_survey">
-              <div id="main_person_card_accounts_from_survey">
+              <div id="owner_card_accounts_from_survey">
                 <% if has_companion? %>
-                  <h3><%= page.main_person.subheading %></h3>
+                  <h3><%= page.owner.subheading %></h3>
                 <% end %>
-                <% if page.main_person.card_accounts_from_survey.any? %>
-                  <%= render page.main_person.card_accounts_from_survey %>
+                <% if page.owner.card_accounts_from_survey.any? %>
+                  <%= render page.owner.card_accounts_from_survey %>
                 <% else %>
-                  <p><%= page.main_person.no_card_accounts_from_survey %></p>
+                  <p><%= page.owner.no_card_accounts_from_survey %></p>
                 <% end %>
               </div>
 

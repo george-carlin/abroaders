@@ -5,17 +5,17 @@ class AccountPresenter < ApplicationPresenter
       :tr,
       self,
       {
-        "data-companion-name":      companion&.first_name,
-        "data-email":               email,
-        "data-main-passenger-name": main_passenger.first_name,
-        "data-onboarded":           onboarded?,
+        "data-companion-name": companion&.first_name,
+        "data-email":          email,
+        "data-onboarded":      onboarded?,
+        "data-owner-name":     owner.first_name,
       },
       &block
     )
   end
 
-  def render_main_passenger
-    h.render "admin_area/people/table_cell", person: main_passenger
+  def render_owner
+    h.render "admin_area/people/table_cell", person: owner
   end
 
   def render_companion

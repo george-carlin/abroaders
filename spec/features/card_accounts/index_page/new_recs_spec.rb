@@ -7,7 +7,7 @@ describe "as a user viewing my cards", :js do
 
   include_context "logged in"
 
-  let(:me) { account.main_passenger }
+  let(:me) { account.owner }
 
   let!(:rec) do
     create(

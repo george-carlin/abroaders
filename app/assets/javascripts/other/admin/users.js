@@ -12,7 +12,7 @@ $(document).ready(function () {
       var onboardedFilter = $onboardedFilterRadios.filter(":checked").val();
 
       var $row   = $(row),
-          mpName = $row.data("main-passenger-name").toLowerCase(),
+          mpName = $row.data("owner-name").toLowerCase(),
           coName = ($row.data("companion-name") || "").toLowerCase(),
           email  = $row.data("email").toLowerCase(),
           onboarded = $row.data("onboarded");

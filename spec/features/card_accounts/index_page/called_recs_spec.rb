@@ -5,7 +5,7 @@ describe "user cards page - called cards", :js do
 
   include_context "logged in"
 
-  let(:me) { account.main_passenger }
+  let(:me) { account.owner }
 
   let(:recommended_at) { 6.days.ago.to_date  }
   let(:applied_at)     { 5.days.ago.to_date }

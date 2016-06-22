@@ -5,7 +5,7 @@ describe "as a user viewing my cards" do
 
   subject { page }
 
-  let(:me) { account.main_passenger }
+  let(:me) { account.owner }
   let(:partner) { account.partner }
 
   before do
@@ -45,7 +45,7 @@ describe "as a user viewing my cards" do
     end
 
     it "lists them all" do
-      within "#main_person_card_recommendations" do
+      within "#owner_card_recommendations" do
         @recs.each do |recommendation|
           rec_on_page = get_card_account_on_page(recommendation)
           expect(rec_on_page).to be_present

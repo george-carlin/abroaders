@@ -32,7 +32,7 @@ describe "admin section" do
 
       # Make the account created_at stamp different from the person's:
       @account = create(:account, created_at: 4.days.ago)
-      @person  = @account.main_passenger
+      @person  = @account.owner
 
       @person.eligible_to_apply! if eligible
       if onboarded

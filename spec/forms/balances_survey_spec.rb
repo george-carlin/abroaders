@@ -8,9 +8,9 @@ describe BalancesSurvey do
 
     before do
       @account = Account.new
-      @account.build_main_passenger
-      if i_am_main_person?
-        @person = @account.main_passenger
+      @account.build_owner
+      if i_am_owner?
+        @person = @account.owner
         @account.build_companion if has_companion?
       else
         @person = @account.build_companion
@@ -29,7 +29,7 @@ describe BalancesSurvey do
     subject { @survey.send(:send_survey_complete_notification?) }
 
     context "when I am the main person" do
-      let(:i_am_main_person?) { true }
+      let(:i_am_owner?) { true }
 
       context "and I have a companion" do
         let(:has_companion?) { true }
@@ -60,7 +60,7 @@ describe BalancesSurvey do
 
     context "when I am the companion" do
       let(:has_companion?) { true }
-      let(:i_am_main_person?) { false }
+      let(:i_am_owner?) { false }
 
       context "and I'm eligible to apply for cards" do
         let(:eligible_to_apply?) { true }

@@ -6,7 +6,7 @@ module AdminArea
       person_assocs = [:spending_info, :readiness_status, :eligibility]
       @accounts = Account.includes(
         people: person_assocs,
-        main_passenger: person_assocs, companion: person_assocs,
+        owner: person_assocs, companion: person_assocs,
       ).order("email ASC")
     end
 

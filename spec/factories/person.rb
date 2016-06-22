@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :person, aliases: [:main_passenger] do
+  factory :person, aliases: [:owner] do
     association(:account, factory: :account, with_person: false)
     first_name { Faker::Name.first_name }
 
@@ -50,9 +50,9 @@ FactoryGirl.define do
       end
     end
 
-    factory :companion,                    traits: [:companion]
-    factory :person_with_spending,         traits: [:onboarded_spending]
-    factory :main_passenger_with_spending, traits: [:onboarded_spending, :main]
-    factory :companion_with_spending,      traits: [:onboarded_spending, :companion]
+    factory :companion,               traits: [:companion]
+    factory :person_with_spending,    traits: [:onboarded_spending]
+    factory :owner_with_spending,     traits: [:onboarded_spending, :main]
+    factory :companion_with_spending, traits: [:onboarded_spending, :companion]
   end
 end

@@ -4,7 +4,7 @@ class AccountsController < NonAdminController
 
   def type
     @destination = current_account.travel_plans&.last&.flights&.first&.to
-    @main_person = current_account.main_person
+    @owner       = current_account.owner
   end
 
   def create_solo_account

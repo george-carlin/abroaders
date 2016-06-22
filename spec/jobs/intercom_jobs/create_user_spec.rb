@@ -8,7 +8,7 @@ module IntercomJobs
       # .to_s(:db) is necessary here or the suite will fail on codeship when the VCR
       # cassette has been recorded locally in a timezone other than UTC
       account = create(:account, email: email, created_at: time.utc.to_s(:db))
-      account.main_person.update_attributes!(first_name: "Dave")
+      account.owner.update_attributes!(first_name: "Dave")
 
       new_user = nil
       VCR.use_cassette("intercom_jobs.create_user") do

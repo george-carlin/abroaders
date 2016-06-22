@@ -37,8 +37,8 @@ describe "admin section" do
         onboarded_accounts.slice(0,3).each do |account|
           within account_selector(account) do
             is_expected.to have_link(
-              account.main_passenger.first_name,
-              href: admin_person_path(account.main_passenger)
+              account.owner.first_name,
+              href: admin_person_path(account.owner)
             )
           end
         end
@@ -94,36 +94,36 @@ describe "admin section" do
 
           context "is not eligible to apply for cards" do
             let(:extra_setup) do
-              @accounts[0].main_person.eligibility.update_attributes!(eligible: false)
+              @accounts[0].owner.eligibility.update_attributes!(eligible: false)
             end
 
             it "doesn't have a link to recommend the main person a card" do
-              is_expected.to have_no_recommend_card_btn_for(@accounts[0].main_person)
+              is_expected.to have_no_recommend_card_btn_for(@accounts[0].owner)
             end
           end
 
           context "is eligible to apply for cards but not ready" do
             let(:extra_setup) do
-              @accounts[0].main_person.eligibility.update_attributes!(eligible: true)
-              @accounts[0].main_person.readiness_status.update_attributes!(ready: true)
-              @accounts[1].main_person.eligibility.update_attributes!(eligible: true)
-              @accounts[0].main_person.readiness_status.update_attributes!(ready: false)
+              @accounts[0].owner.eligibility.update_attributes!(eligible: true)
+              @accounts[0].owner.readiness_status.update_attributes!(ready: true)
+              @accounts[1].owner.eligibility.update_attributes!(eligible: true)
+              @accounts[0].owner.readiness_status.update_attributes!(ready: false)
             end
 
             it "doesn't have a link to recommend them a card" do
-              is_expected.to have_no_recommend_card_btn_for(@accounts[0].main_person)
-              is_expected.to have_no_recommend_card_btn_for(@accounts[1].main_person)
+              is_expected.to have_no_recommend_card_btn_for(@accounts[0].owner)
+              is_expected.to have_no_recommend_card_btn_for(@accounts[1].owner)
             end
           end
 
           context "is eligible and ready to apply for cards" do
             let(:extra_setup) do
-              @accounts[0].main_person.eligibility.update_attributes!(eligible: true)
-              @accounts[0].main_person.readiness_status.update_attributes!(ready: true)
+              @accounts[0].owner.eligibility.update_attributes!(eligible: true)
+              @accounts[0].owner.readiness_status.update_attributes!(ready: true)
             end
 
             it "doesn't have a link to recommend the main person a card" do
-              is_expected.to have_recommend_card_btn_for(@accounts[0].main_person)
+              is_expected.to have_recommend_card_btn_for(@accounts[0].owner)
             end
           end
         end

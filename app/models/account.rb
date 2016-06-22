@@ -32,26 +32,21 @@ class Account < ApplicationRecord
   has_many :travel_plans
 
   has_many :people
-  has_one :main_passenger, -> { main }, class_name: "Person"
+  has_one :owner, -> { main }, class_name: "Person"
   has_one :companion, -> { companion }, class_name: "Person"
 
-  # TODO standardise terminology. The two kinds of people are the 'owner'
-  # and the 'companion'
-  alias_method :main_person, :main_passenger
-  alias_method :owner,       :main_passenger
-  alias_method :partner,     :companion
+  # TODO get rid of the 'partner' terminology, always use 'companion'
+  alias_method :partner, :companion
 
-  delegate :first_name, to: :main_person, prefix: true
-  delegate :first_name, to: :partner,     prefix: true
+  delegate :first_name, to: :owner,   prefix: true
+  delegate :first_name, to: :partner, prefix: true
 
   has_many :card_accounts, through: :people
   has_many :card_recommendations, through: :people
   has_many :cards, through: :card_accounts
 
-  has_one :main_passenger_spending_info,
-            through: :main_passenger, source: :spending_info
-  has_one :companion_spending_info,
-            through: :main_passenger, source: :spending_info
+  has_one :owner_spending_info, through: :owner, source: :spending_info
+  has_one :companion_spending_info, through: :owner, source: :spending_info
 
   has_many :notifications, dependent: :destroy
   has_many :unseen_notifications, -> { unseen }, class_name: "Notification" do
