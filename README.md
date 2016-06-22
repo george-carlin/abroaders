@@ -177,6 +177,33 @@ When you're done with the story:
 
 ## Rails
 
+### General
+
+- When something needs to update more than one record or database table at
+  once, and it doesn't make logical sense for one update to happen without
+  the other, wrap the Ruby code in a transaction:
+
+        # Bad:
+        def transfer_money(other_person, amount)
+          me.update_attributes!(balance: me.balance - amount)
+          other_person.update_attributes!(balance: other_person.balance.amount)
+        end
+
+        # If there's an unforeseen error that makes the above method crash
+        # halfway through - perhaps a server crash, or a bug in
+        # `other_person.update_attributes!` that sneaks its way into
+        # production, then one user will have lost money without the other
+        # gaining it. Using a transaction ensures that the database will
+        # only be updated if the entire transaction is run successfully:
+
+        # Good:
+        def transfer_money(other_person, amount)
+          ApplicationRecord.transaction do
+            me.update_attributes!(balance: me.balance - amount)
+            other_person.update_attributes!(balance: other_person.balance.amount)
+          end
+        end
+
 ### Controllers
 
 - Arrange the standard `resources` methods in this order:
