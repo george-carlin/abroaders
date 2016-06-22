@@ -9,11 +9,13 @@ module IntercomJobs
       INTERCOM.events.create(opts)
     end
 
-    %i[later now].each do |time|
-      define_method "perform_#{time}" do |opts={}|
-        opts.symbolize_keys!
-        opts[:created_at] ||= Time.now.to_i
-        super(opts)
+    class << self
+      %i[later now].each do |time|
+        define_method "perform_#{time}" do |opts={}|
+          opts.symbolize_keys!
+          opts[:created_at] ||= Time.now.to_i
+          super(opts)
+        end
       end
     end
 
