@@ -11,11 +11,11 @@ describe "as a user viewing my cards" do
   before do
     create(:companion, account: account) if has_partner
 
-    if existing_notes
-      existing_notes.times do
-        create(:recommendation_note, account: account)
-      end
-    end
+    @existing_notes = create_list(
+      :recommendation_note,
+      no_of_existing_notes,
+      account: account
+    )
 
     extra_setup
     visit card_accounts_path
@@ -23,7 +23,7 @@ describe "as a user viewing my cards" do
 
   let(:extra_setup) { nil }
   let(:has_partner) { false }
-  let(:existing_notes) { nil }
+  let(:no_of_existing_notes) { 0 }
 
   H = "h3"
 
@@ -60,10 +60,10 @@ describe "as a user viewing my cards" do
     end
 
     describe "and i have recommendation notes" do
-      let(:existing_notes) {2}
+      let(:no_of_existing_notes) { 2 }
       it "shows most recent recommendation note only" do
-        expect(page).to have_content account.recommendation_notes.last.content
-        expect(page).to have_no_content account.recommendation_notes.first.content
+        expect(page).to have_content    @existing_notes.last.content
+        expect(page).to have_no_content @existing_notes.first.content
       end
     end
 
