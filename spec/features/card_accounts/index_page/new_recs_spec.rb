@@ -99,8 +99,7 @@ describe "as a user viewing my cards", :js do
 
         it "shows a success message" do
           click_confirm_btn
-          expect(page).to have_success_message \
-            "You have indicated that you do not want to apply for this card"
+          expect(page).to have_success_message t("card_accounts.index.declined")
         end
 
         context "when the card is no longer 'declinable'" do

@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   include CurrentUserHelper
+  include I18nWithErrorRaising
 
   def dashboard
     if current_admin
