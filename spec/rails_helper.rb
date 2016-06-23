@@ -46,6 +46,7 @@ RSpec.configure do |config|
   config.include ControllerMacros, type: :controller
   config.include Devise::TestHelpers, type: :controller
   config.include FactoryGirl::Syntax::Methods
+  config.include I18nWithErrorRaising
   config.include WaitForAjax, type: :feature
   config.include AlertsMacros, type: :feature
   config.include TitleHelper, type: :feature
@@ -69,10 +70,6 @@ RSpec.configure do |config|
   config.after(:each) do |example|
     Warden.test_reset!
     DatabaseCleaner.clean unless example.metadata[:manual_clean]
-  end
-
-  def t(*args)
-    I18n.t(*args)
   end
 
   def login_as_account(account)
