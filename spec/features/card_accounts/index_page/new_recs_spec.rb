@@ -115,7 +115,7 @@ describe "as a user viewing my cards", :js do
           it "fails gracefully", :backend, :frontend do
             click_confirm_btn
             expect(current_path).to eq card_accounts_path
-            expect(page).to have_info_message text: t("card_accounts.index.couldnt_decline")
+            expect(page).to have_info_message t("card_accounts.index.couldnt_decline")
           end
         end
       end
