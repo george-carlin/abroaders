@@ -367,7 +367,7 @@ describe "admin section" do
       it "has a link to each offer" do
         @offers.each do |offer|
           within offer_selector(offer) do
-            is_expected.to have_link "Link", offer.link
+            is_expected.to have_link "Link", href: offer.link
           end
         end
       end

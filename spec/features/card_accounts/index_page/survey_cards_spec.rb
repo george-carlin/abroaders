@@ -120,8 +120,8 @@ describe "as a user viewing my cards - survey cards section" do
       let(:closed_account) { CardAccountOnPage.new(@closed_account, self) }
 
       it "has a section for them" do
-        is_expected.to have_selector "h2", "Other Cards"
-        is_expected.to have_selector "#card_accounts_from_survey"
+        is_expected.to have_survey_cards_header
+        is_expected.to have_selector survey_cards_section
       end
 
       it "lists them" do
