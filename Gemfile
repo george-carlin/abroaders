@@ -42,8 +42,7 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'factory_girl_rails', '~> 4.5.0'
   gem 'faker'
-  # gem 'rspec-rails', '>= 3.3.0'
-  gem 'rspec-rails', github: "georgemillo/rspec-rails", branch: "rails5"
+  gem 'rspec-rails', '3.5.0.beta4'
 end
 
 group :development do
@@ -52,7 +51,7 @@ group :development do
 end
 
 group :test do
-  gem 'capybara', github: 'jnicklas/capybara'
+  gem 'capybara'
   gem 'poltergeist'
   gem 'shoulda-matchers', '~> 3.1.1'
   gem 'launchy'
