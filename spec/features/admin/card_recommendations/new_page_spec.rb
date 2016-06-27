@@ -1,24 +1,27 @@
 require "rails_helper"
 
-describe "admin section" do
+describe "admin section", :manual_clean do
   include_context "logged in as admin"
   subject { page }
 
   describe "person recommend card page" do
-    let(:chase)   { Bank.find_by(name: "Chase")   }
-    let(:us_bank) { Bank.find_by(name: "US Bank") }
+    let(:chase)   { @chase   }
+    let(:us_bank) { @us_bank }
 
     let(:aw_email) { "totallyawesomedude@example.com" }
 
-    before do
+    before(:all) do
       @currencies = create_list(:currency, 4)
       curr0, curr1, curr2, curr3 = @currencies;
 
+      @chase   = Bank.find_by(name: "Chase")
+      @us_bank = Bank.find_by(name: "US Bank")
+
       @cards = [
-        @chase_b = create(:card, :business, bank_id: chase.id,   currency: curr0),
-        @chase_p = create(:card, :personal, bank_id: chase.id,   currency: curr1),
-        @usb_b =   create(:card, :business, bank_id: us_bank.id, currency: curr2),
-        @usb_p =   create(:card, :personal, bank_id: us_bank.id, currency: curr3),
+        @chase_b = create(:card, :business, bank_id: @chase.id,   currency: curr0),
+        @chase_p = create(:card, :personal, bank_id: @chase.id,   currency: curr1),
+        @usb_b =   create(:card, :business, bank_id: @us_bank.id, currency: curr2),
+        @usb_p =   create(:card, :personal, bank_id: @us_bank.id, currency: curr3),
       ]
 
       @offers = [
@@ -29,7 +32,9 @@ describe "admin section" do
         create(:offer, card: @usb_p)
       ]
       @dead_offer = create(:dead_offer, card: @chase_b)
+    end
 
+    before do
       # Make the account created_at stamp different from the person's:
       @account = create(:account, created_at: 4.days.ago)
       @person  = @account.owner

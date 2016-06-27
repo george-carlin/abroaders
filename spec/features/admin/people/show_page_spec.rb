@@ -6,22 +6,27 @@ describe "admin section" do
 
     include_context "logged in as admin"
 
-    before do
+    before(:all) do
       @currencies = create_list(:currency, 4)
-      chase   = Bank.find_by(name: "Chase")
-      us_bank = Bank.find_by(name: "US Bank")
+      @chase   = Bank.find_by(name: "Chase")
+      @us_bank = Bank.find_by(name: "US Bank")
 
       def create_card(bp, bank, currency)
         create(:card, bp, bank_id: bank.id, currency: currency)
       end
 
       @cards = [
-        @chase_business = create_card(:business, chase,   @currencies[0]),
-        @chase_personal = create_card(:personal, chase,   @currencies[1]),
-        @usb_business   = create_card(:business, us_bank, @currencies[2]),
-        @usb_personal   = create_card(:personal, us_bank, @currencies[3]),
+        @chase_business = create_card(:business, @chase,   @currencies[0]),
+        @chase_personal = create_card(:personal, @chase,   @currencies[1]),
+        @usb_business   = create_card(:business, @us_bank, @currencies[2]),
+        @usb_personal   = create_card(:personal, @us_bank, @currencies[3]),
       ]
+    end
 
+    let(:chase)   { @chase }
+    let(:us_bank) { @us_bank }
+
+    before do
       @person = create(:person, first_name: "Fred")
       @person.eligible_to_apply!
       @account = @person.account.reload

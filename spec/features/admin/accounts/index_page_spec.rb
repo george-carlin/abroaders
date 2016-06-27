@@ -1,12 +1,12 @@
 require "rails_helper"
 
 describe "admin section" do
-  describe "account pages index page", :js do
+  describe "account pages index page", :js, :manual_clean do
     subject { page }
 
     include_context "logged in as admin"
 
-    before do
+    before(:all) do
       @accounts = [
         # Specify the email addresses so we have something to test the filtering
         # with:
@@ -15,6 +15,9 @@ describe "admin section" do
         create(:onboarded_account_with_companion, email: "ccccccc@example.com"),
         create(:account, email: "ddddddd@example.com")
       ]
+    end
+
+    before do
       extra_setup
       visit admin_accounts_path
     end
