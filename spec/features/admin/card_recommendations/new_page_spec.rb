@@ -34,6 +34,8 @@ describe "admin section", :manual_clean do
       @dead_offer = create(:dead_offer, card: @chase_b)
     end
 
+    let(:dead_offer) { AdminArea::RecommendableOfferOnPage.new(@dead_offer, self) }
+
     before do
       # Make the account created_at stamp different from the person's:
       @account = create(:account, created_at: 4.days.ago)
@@ -244,17 +246,16 @@ describe "admin section", :manual_clean do
               create(:closed_survey_card_account, opened_at: mar, closed_at: oct, person: person)
           end
 
+          let(:opened_acc) { AdminArea::CardAccountOnPage.new(@opened_acc, self) }
+          let(:closed_acc) { AdminArea::CardAccountOnPage.new(@closed_acc, self) }
+
           it "lists them" do
             within "#admin_person_cards_from_survey" do
-              is_expected.to have_selector "##{dom_id(@opened_acc)}"
-              is_expected.to have_selector "##{dom_id(@closed_acc)}"
+              expect(opened_acc).to be_present
+              expect(closed_acc).to be_present
             end
-            within "##{dom_id(@opened_acc)}" do
-              is_expected.to have_content "Open"
-            end
-            within "##{dom_id(@closed_acc)}" do
-              is_expected.to have_content "Closed"
-            end
+            expect(opened_acc).to have_content "Open"
+            expect(closed_acc).to have_content "Closed"
           end
 
           context "when an account is open" do
@@ -290,47 +291,41 @@ describe "admin section", :manual_clean do
                      declined_at: dec, person: person, decline_reason: "because")
           end
 
+          let(:new_rec)      { AdminArea::CardAccountOnPage.new(@new_rec, self) }
+          let(:clicked_rec)  { AdminArea::CardAccountOnPage.new(@clicked_rec, self) }
+          let(:declined_rec) { AdminArea::CardAccountOnPage.new(@declined_rec, self) }
+
           it "lists them" do
             within "#admin_person_card_recommendations" do
-              is_expected.to have_selector "##{dom_id(@new_rec)}"
-              is_expected.to have_selector "##{dom_id(@clicked_rec)}"
-              is_expected.to have_selector "##{dom_id(@declined_rec)}"
+              expect(new_rec).to be_present
+              expect(clicked_rec).to be_present
+              expect(declined_rec).to be_present
             end
           end
 
           it "shows each card's status" do
-            within "##{dom_id(@new_rec)}" do
-              is_expected.to have_selector ".card_account_status", text: "Recommended"
-            end
-            within "##{dom_id(@clicked_rec)}" do
-              is_expected.to have_selector ".card_account_status", text: "Recommended"
-            end
-            within "##{dom_id(@declined_rec)}" do
-              is_expected.to have_selector ".card_account_status", text: "Declined"
-            end
+            expect(new_rec).to have_status "Recommended"
+            expect(clicked_rec).to have_status "Recommended"
+            expect(declined_rec).to have_status "Declined"
           end
 
           it "shows the recommended/applied/opened/closed dates for each card" do
-            within "##{dom_id(@new_rec)}" do
-              is_expected.to have_selector ".card_account_recommended_at", text: "01/01/15"
-              is_expected.to have_selector ".card_account_clicked_at",     text: "-"
-              is_expected.to have_selector ".card_account_applied_at",     text: "-"
-            end
-            within "##{dom_id(@clicked_rec)}" do
-              is_expected.to have_selector ".card_account_recommended_at", text: "03/01/15"
-              is_expected.to have_selector ".card_account_clicked_at",     text: "10/01/15"
-              is_expected.to have_selector ".card_account_applied_at",     text: "-"
-            end
-            within "##{dom_id(@declined_rec)}" do
-              is_expected.to have_selector ".card_account_recommended_at", text: "10/01/15"
-              is_expected.to have_selector ".card_account_clicked_at",     text: "-"
-              is_expected.to have_selector ".card_account_declined_at",    text: "12/01/15"
-            end
+            expect(new_rec).to have_recommended_at_date("01/01/15")
+            expect(new_rec).to have_no_clicked_at_date
+            expect(new_rec).to have_no_applied_at_date
+
+            expect(clicked_rec).to have_recommended_at_date("03/01/15")
+            expect(clicked_rec).to have_clicked_at_date("10/01/15")
+            expect(clicked_rec).to have_no_applied_at_date
+
+            expect(declined_rec).to have_recommended_at_date("10/01/15")
+            expect(declined_rec).to have_no_clicked_at_date
+            expect(declined_rec).to have_declined_at_date("12/01/15")
           end
 
           context "when a recommendation has been declined" do
             it "shows the decline reason in a tooltip" do
-              within "##{dom_id(@declined_rec)}" do
+              within declined_rec.dom_selector do
                 is_expected.to have_selector "a[data-toggle='tooltip']"
                 tooltip = find("a[data-toggle='tooltip']")
                 expect(tooltip["title"]).to eq "because"
@@ -363,10 +358,7 @@ describe "admin section", :manual_clean do
       end
 
       it "doesn't have links to recommend dead offers" do
-        within ".admin-card-recommendation-table" do
-          is_expected.to have_no_selector offer_selector(@dead_offer)
-          is_expected.to have_no_selector "#recommend_#{dom_id(@dead_offer)}_btn"
-        end
+        expect(dead_offer).to be_absent
       end
 
       it "has a link to each offer" do
@@ -386,6 +378,8 @@ describe "admin section", :manual_clean do
       end
 
       describe "filters", :js do
+        let(:filters) { AdminArea::CardRecommendationFiltersOnPage.new(self) }
+
         def should_have_recommendable_cards(*cards)
           cards.each { |card| should have_recommendable_card(card) }
         end
@@ -394,22 +388,17 @@ describe "admin section", :manual_clean do
           cards.each { |card| should_not have_recommendable_card(card) }
         end
 
-        let(:business_filter) { :card_bp_filter_business }
-        let(:personal_filter) { :card_bp_filter_personal }
-        let(:chase_filter)    { :"card_bank_filter_#{chase.id}" }
-        let(:us_bank_filter)  { :"card_bank_filter_#{us_bank.id}" }
-
         describe "the cards" do
           specify "can be filtered by b/p" do
-            uncheck business_filter
+            filters.uncheck_business
             should_have_recommendable_cards(@chase_p, @usb_p)
             should_not_have_recommendable_cards(@chase_b, @usb_b)
-            uncheck personal_filter
+            filters.uncheck_personal
             should_not_have_recommendable_cards(*@cards)
-            check business_filter
+            filters.check_business
             should_have_recommendable_cards(@chase_b, @usb_b)
             should_not_have_recommendable_cards(@chase_p, @usb_p)
-            check personal_filter
+            filters.check_personal
             should_have_recommendable_cards(*@cards)
           end
 
@@ -418,15 +407,15 @@ describe "admin section", :manual_clean do
               is_expected.to have_field :"card_bank_filter_#{bank.id}"
             end
 
-            uncheck chase_filter
+            filters.uncheck_chase
             should_have_recommendable_cards(@usb_b, @usb_p)
             should_not_have_recommendable_cards(@chase_b, @chase_p)
-            uncheck us_bank_filter
+            filters.uncheck_us_bank
             should_not_have_recommendable_cards(*@cards)
-            check chase_filter
+            filters.check_chase
             should_have_recommendable_cards(@chase_b, @chase_p)
             should_not_have_recommendable_cards(@usb_b, @usb_p)
-            check us_bank_filter
+            filters.check_us_bank
             should_have_recommendable_cards(*@cards)
           end
 
@@ -450,12 +439,12 @@ describe "admin section", :manual_clean do
 
         describe "the 'toggle all banks' checkbox" do
           it "toggles all banks on/off" do
-            uncheck :card_bank_filter_all
+            filters.uncheck_all_banks
             should_not_have_recommendable_cards(*@cards)
             Bank.all.each do |bank|
               expect(find("#card_bank_filter_#{bank.id}")).not_to be_checked
             end
-            check :card_bank_filter_all
+            filters.check_all_banks
             should_have_recommendable_cards(*@cards)
             Bank.all.each do |bank|
               expect(find("#card_bank_filter_#{bank.id}")).to be_checked
@@ -463,77 +452,58 @@ describe "admin section", :manual_clean do
           end
 
           it "is checked/unchecked automatically as I click other CBs" do
-            uncheck chase_filter
-            expect(find("#card_bank_filter_all")).not_to be_checked
-            check chase_filter
-            expect(find("#card_bank_filter_all")).to be_checked
+            filters.uncheck_chase
+            expect(filters.all_banks_check_box).not_to be_checked
+            filters.check_chase
+            expect(filters.all_banks_check_box).to be_checked
           end
         end
       end # filters
 
       describe "clicking 'recommend' next to an offer", :js do
         let(:offer) { @offers[3] }
-        before { find("#recommend_#{dom_id(offer)}_btn").click }
-        let(:offer_tr) { "##{dom_id(offer, :admin_recommend)}" }
+        let(:offer_on_page) { AdminArea::RecommendableOfferOnPage.new(offer, self) }
+
+        before { offer_on_page.click_recommend_btn }
 
         it "shows confirm/cancel buttons" do
-          within offer_tr do
-            is_expected.to have_no_button "Recommend"
-            is_expected.to have_button "Cancel"
-            is_expected.to have_button "Confirm"
-          end
+          expect(offer_on_page).to have_no_button "Recommend"
+          expect(offer_on_page).to have_button "Cancel"
+          expect(offer_on_page).to have_button "Confirm"
         end
 
         describe "clicking 'Confirm'" do
-          let(:confirm) do
-            within offer_tr do
-              click_button "Confirm"
-            end
-          end
-
           it "recommends that card to the person" do
-            expect{confirm}.to change{CardAccount.recommendations.count}.by(1)
+            expect{offer_on_page.click_confirm_btn}.to change{
+              CardAccount.recommendations.count
+            }.by(1)
           end
 
           describe "the new recommendation" do
-            before { confirm }
+            before { offer_on_page.click_confirm_btn }
 
-            let(:rec) { CardAccount.recommendations.last }
 
-            it "has the correct offer, card, and person" do
+            it "has the correct attributes" do
+              rec = CardAccount.recommendations.last
               expect(rec.card).to eq offer.card
               expect(rec.offer).to eq offer
               expect(rec.person).to eq @person
-            end
-
-            it "has 'recommended at' set to the current date" do
               expect(rec.recommended_at).to eq Date.today
-            end
-
-            it "is a recommendation" do
               expect(rec.recommendation?).to be true
             end
           end
         end # clicking 'Confirm'
 
         describe "clicking 'Cancel'" do
-          let(:cancel) do
-            within offer_tr do
-              click_button "Cancel"
-            end
-          end
-
           it "doesn't recommend the card to the person" do
-            expect{cancel}.not_to change{CardAccount.count}
+            expect{offer_on_page.click_cancel_btn}.not_to change{CardAccount.count}
           end
 
           it "shows the 'recommend' button again" do
-            cancel
-            within offer_tr do
-              is_expected.to have_button "Recommend"
-              is_expected.to have_no_button "Confirm"
-              is_expected.to have_no_button "Cancel"
-            end
+            offer_on_page.click_cancel_btn
+            expect(offer_on_page).to have_button "Recommend"
+            expect(offer_on_page).to have_no_button "Confirm"
+            expect(offer_on_page).to have_no_button "Cancel"
           end
         end
       end
