@@ -17,19 +17,18 @@ describe "the balance survey page", :onboarding, :js do
     if i_am_owner
       @me = account.owner
       if i_have_a_companion
-        @companion = create(:person, main: false, account: account)
-        @companion.eligible_to_apply! if companion_is_eligible
+        @companion = create(:person, main: false, account: account, eligible: companion_is_eligible)
       end
     else
       @me = create(:person, main: false, account: account)
     end
-    @me.update_attributes!(onboarded_balances: onboarded, first_name: "George")
+    @me.update_attributes!(
+      eligible: i_am_eligible,
+      first_name: "George",
+      onboarded_balances: onboarded,
+    )
     @currencies = create_list(:currency, 3)
     login_as_account(account)
-
-    if i_am_eligible
-      @me.eligible_to_apply!
-    end
 
     visit survey_person_balances_path(me)
   end

@@ -72,13 +72,13 @@ class ReadinessStatusesController < NonAdminController
   end
 
   def redirect_if_ineligible!
-    redirect_to root_path and return true unless @person.eligible_to_apply?
+    redirect_to root_path and return true unless @person.eligible?
   end
 
   def after_save_path
     if !@person.main? || !(partner = current_account.companion)
       root_path
-    elsif partner.eligible_to_apply?
+    elsif partner.eligible?
       new_person_spending_info_path(partner)
     else
       survey_person_balances_path(partner)

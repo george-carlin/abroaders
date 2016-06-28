@@ -23,22 +23,22 @@ class PartnerAccountForm < AccountTypeForm
     @eligibility = new_el
   end
 
-  def person_0_eligible_to_apply?
+  def person_0_eligible?
     %w[both person_0].include?(eligibility)
   end
 
-  def person_1_eligible_to_apply?
+  def person_1_eligible?
     %w[both person_1].include?(eligibility)
   end
 
-  def neither_eligible_to_apply?
+  def neither_eligible?
     eligibility == "neither"
   end
 
   validates :monthly_spending_usd,
     presence: true,
     numericality: { greater_than_or_equal_to: 0 },
-    unless: :neither_eligible_to_apply?
+    unless: :neither_eligible?
 
   validates :partner_first_name, presence: true
 
@@ -50,18 +50,11 @@ class PartnerAccountForm < AccountTypeForm
       onboarded_type:       true,
     )
     @person_0 = account.people.first
-    if person_0_eligible_to_apply?
-      person_0.eligible_to_apply!
-    else
-      person_0.ineligible_to_apply!
-    end
-    @person_1 = account.create_companion!(first_name: partner_first_name)
-    if person_1_eligible_to_apply?
-      person_1.eligible_to_apply!
-    else
-      person_1.ineligible_to_apply!
-    end
-
+    @person_0.update_attributes!(eligible: person_0_eligible?)
+    @person_1 = account.create_companion!(
+      eligible:   person_1_eligible?,
+      first_name: partner_first_name,
+    )
     track_intercom_event!
   end
 

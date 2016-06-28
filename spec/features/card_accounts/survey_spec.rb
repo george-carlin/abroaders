@@ -19,7 +19,7 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
   before do
     @account = create(:account, :onboarded_type)
     create(:spending_info, person: @account.owner)
-    @account.owner.eligible_to_apply!
+    @account.owner.update_attributes!(eligible: true)
 
     if i_am_owner
       @me = account.owner

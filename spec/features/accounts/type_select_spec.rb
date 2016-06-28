@@ -102,8 +102,8 @@ describe "account type select page", :js, :onboarding do
     end
 
     it "asks me about my eligibility to apply for cards" do
-      is_expected.to have_field :solo_account_eligible_to_apply_true
-      is_expected.to have_field :solo_account_eligible_to_apply_false
+      is_expected.to have_field :solo_account_eligible_true
+      is_expected.to have_field :solo_account_eligible_false
     end
 
     describe "clicking 'not eligible to apply'" do
@@ -126,7 +126,7 @@ describe "account type select page", :js, :onboarding do
           expect{form.click_confirm_btn}.not_to change{Person.count}
           account.reload
           expect(account.monthly_spending_usd).to be_nil
-          expect(me.reload).to be_ineligible_to_apply
+          expect(me.reload).to be_ineligible
         end
 
         include_examples "completes survey"
@@ -144,8 +144,8 @@ describe "account type select page", :js, :onboarding do
           expect{form.click_confirm_btn}.not_to change{current_path}
           expect(form).to have_no_solo_btn
           is_expected.to have_field :solo_account_monthly_spending_usd
-          is_expected.to have_field :solo_account_eligible_to_apply_true
-          is_expected.to have_field :solo_account_eligible_to_apply_false
+          is_expected.to have_field :solo_account_eligible_true
+          is_expected.to have_field :solo_account_eligible_false
           expect(form).to have_confirm_btn
         end
 
@@ -159,7 +159,7 @@ describe "account type select page", :js, :onboarding do
           expect{form.click_confirm_btn}.not_to change{Person.count}
           account.reload
           expect(account.monthly_spending_usd).to eq 1000
-          expect(me).to be_eligible_to_apply
+          expect(me.reload).to be_eligible
         end
 
         context "when I have said I am eligible to apply" do
@@ -271,7 +271,7 @@ describe "account type select page", :js, :onboarding do
 
           it "marks me and my partner as ineligible to apply" do
             form.click_confirm_btn
-            expect(account.people.all?(&:ineligible_to_apply?)).to be true
+            expect(account.people.all?(&:ineligible?)).to be true
           end
 
           it "takes me to my balances survey" do
@@ -312,8 +312,8 @@ describe "account type select page", :js, :onboarding do
             it "saves my partner's and my eligibility to apply" do
               form.click_confirm_btn
               account.reload
-              expect(account.people.find_by(main: true)).to be_eligible_to_apply
-              expect(account.people.find_by(main: false)).to be_ineligible_to_apply
+              expect(account.people.find_by(main: true)).to be_eligible
+              expect(account.people.find_by(main: false)).to be_ineligible
             end
 
             context "when I am the one eligible to apply" do
@@ -367,8 +367,8 @@ describe "account type select page", :js, :onboarding do
 
             it "saves my partner's and my eligibility to apply" do
               form.click_confirm_btn
-              expect(account.people[0]).to be_eligible_to_apply
-              expect(account.people[1]).to be_eligible_to_apply
+              expect(account.people[0]).to be_eligible
+              expect(account.people[1]).to be_eligible
             end
 
             it "takes me to my spending survey" do

@@ -37,7 +37,7 @@ class AccountPresenter < ApplicationPresenter
     text = [person.first_name]
     if person.ready_to_apply?
       text << "(R)"
-    elsif person.eligible_to_apply?
+    elsif person.eligible?
       text << "(E)"
     end
     h.link_to text.join(" "), h.admin_person_path(person)

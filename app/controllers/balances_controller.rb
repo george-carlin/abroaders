@@ -41,11 +41,11 @@ class BalancesController < NonAdminController
   end
 
   def after_save_path
-    if @person.eligible_to_apply?
+    if @person.eligible?
       new_person_readiness_status_path(@person)
     elsif !@person.main? || !(partner = current_account.companion)
       root_path
-    elsif partner.eligible_to_apply?
+    elsif partner.eligible?
       new_person_spending_info_path(partner)
     else
       survey_person_balances_path(partner)

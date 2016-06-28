@@ -1,5 +1,4 @@
 class Person < ApplicationRecord
-  include EligibleToApply
   include ReadyToApply
 
   # Attributes
@@ -25,14 +24,25 @@ class Person < ApplicationRecord
 
   def onboarded?
     onboarded_eligibility? && onboarded_balances? && (
-      (ineligible_to_apply?) || (
+      (ineligible?) || (
         onboarded_cards? && onboarded_spending? && readiness_given?
       )
     )
   end
 
   def can_receive_recommendations?
-    onboarded? && eligible_to_apply? && ready_to_apply?
+    onboarded? && eligible? && ready_to_apply?
+  end
+
+  concerning :Eligibility do
+    def onboarded_eligibility?
+      !eligible.nil?
+    end
+
+    def ineligible
+      !eligible
+    end
+    alias_method :ineligible?, :ineligible
   end
 
   # Validations

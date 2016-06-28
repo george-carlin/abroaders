@@ -22,7 +22,7 @@ describe BalancesSurvey do
       # the companion isn't persisted :/
       allow(@account).to receive(:has_companion?) { has_companion? }
 
-      allow(@person).to receive(:eligible_to_apply?) { eligible_to_apply? }
+      allow(@person).to receive(:eligible?) { eligible? }
       @survey = BalancesSurvey.new(@person)
     end
 
@@ -34,12 +34,12 @@ describe BalancesSurvey do
       context "and I have a companion" do
         let(:has_companion?) { true }
         context "and I'm eligible to apply for cards" do
-          let(:eligible_to_apply?) { true }
+          let(:eligible?) { true }
           it { is_expected.to be false }
         end
 
         context "and I'm not eligible to apply for cards" do
-          let(:eligible_to_apply?) { false }
+          let(:eligible?) { false }
           it { is_expected.to be false }
         end
       end
@@ -47,12 +47,12 @@ describe BalancesSurvey do
       context "and I don't have a companion" do
         let(:has_companion?) { false }
         context "and I'm eligible to apply for cards" do
-          let(:eligible_to_apply?) { true }
+          let(:eligible?) { true }
           it { is_expected.to be false }
         end
 
         context "and I'm not eligible to apply for cards" do
-          let(:eligible_to_apply?) { false }
+          let(:eligible?) { false }
           it { is_expected.to be true }
         end
       end
@@ -63,12 +63,12 @@ describe BalancesSurvey do
       let(:i_am_owner?) { false }
 
       context "and I'm eligible to apply for cards" do
-        let(:eligible_to_apply?) { true }
+        let(:eligible?) { true }
         it { is_expected.to be false }
       end
 
       context "and I'm not eligible to apply for cards" do
-        let(:eligible_to_apply?) { false }
+        let(:eligible?) { false }
         it { is_expected.to be true }
       end
     end

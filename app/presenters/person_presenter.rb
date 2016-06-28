@@ -10,7 +10,7 @@ class PersonPresenter < ApplicationPresenter
   delegate :email, to: :account
 
   def eligibility
-    eligibility_given? ? (eligible_to_apply? ?  "Yes" : "No") : "Unknown"
+    onboarded_eligibility? ? (eligible? ?  "Yes" : "No") : "Unknown"
   end
 
   def readiness

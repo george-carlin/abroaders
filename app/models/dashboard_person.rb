@@ -54,10 +54,6 @@ class DashboardPerson
 
   delegate :onboarded_travel_plans?, :onboarded_type?, to: :account
   delegate :account, :onboarded_spending?, :onboarded_cards?, :onboarded_balances?,
-            :readiness_given?, to: :person
-
-  def eligible?
-    person.eligible_to_apply?
-  end
+            :readiness_given?, :eligible?, to: :person
 
 end

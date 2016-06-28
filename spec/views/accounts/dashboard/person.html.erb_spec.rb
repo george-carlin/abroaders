@@ -118,10 +118,10 @@ describe "accounts/dashboard/person" do
   end
 
   context "when the person is ineligible to apply for cards" do
-    before { person.ineligible_to_apply! }
+    before { person.update_attributes!(eligible: false) }
     it "says so" do
       # sanity check
-      raise unless person.onboarded_eligibility? && person.ineligible_to_apply?
+      raise unless person.onboarded_eligibility? && person.ineligible?
       is_expected.to have_content "Ineligible to apply for cards"
     end
 
@@ -142,9 +142,9 @@ describe "accounts/dashboard/person" do
   end
 
   context "when the person is eligible to apply for cards" do
-    before { person.eligible_to_apply! }
+    before { person.update_attributes!(eligible: true) }
+
     it "says so" do
-      raise unless person.eligible_to_apply? # sanity check
       is_expected.to have_content "Eligible to apply for cards"
     end
 

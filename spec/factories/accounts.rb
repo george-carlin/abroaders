@@ -45,7 +45,7 @@ FactoryGirl.define do
       onboarded_type
       after(:build) do |acc|
         acc.people.each do |p|
-          p.build_eligibility(eligible: true)
+          p.eligible = true
           p.build_spending_info(attributes_for(:spending, person: nil))
         end
       end
