@@ -29,14 +29,6 @@ class PersonPresenter < ApplicationPresenter
     readiness_given_at.strftime("%D")
   end
 
-  def link_to_new_card_recommendation
-    h.link_to(
-      "Recommend a card",
-      h.new_admin_person_card_recommendation_path(self)
-    )
-  end
-
-
   def update_readiness_btn
     btn_classes = "btn btn-lg btn-primary"
     prefix = :update_readiness

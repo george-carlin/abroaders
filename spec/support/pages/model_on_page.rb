@@ -28,8 +28,8 @@ class ModelOnPage < ObjectOnPage
     "#" << dom_id
   end
 
-  def dom_id
-    super(model)
+  def dom_id(prefix=nil)
+    super(model, prefix)
   end
 
   def id

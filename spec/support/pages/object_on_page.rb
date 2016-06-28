@@ -51,6 +51,10 @@ class ObjectOnPage < Struct.new(:spec_context)
   end
 
   def self.check_box(name, selector)
+    define_method "#{name}_check_box" do
+      find("##{selector}")
+    end
+
     define_method "has_#{name}_check_box?" do
       has_field?(selector.is_a?(Proc) ? instance_eval(&selector) : selector)
     end
@@ -102,9 +106,10 @@ class ObjectOnPage < Struct.new(:spec_context)
     end
   end
 
-  def within_self(&block)
-    within(dom_selector, &block)
+  def within(&block)
+    super(dom_selector, &block)
   end
+  alias_method :within_self, :within
 
   %i[button content field selector].each do |element|
     ["has_#{element}?", "has_no_#{element}?"].each do |meth|

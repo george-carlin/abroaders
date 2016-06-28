@@ -51,25 +51,35 @@ RSpec.configure do |config|
   config.include AlertsMacros, type: :feature
   config.include TitleHelper, type: :feature
 
-  # Pass 'manual_clean: true' to tests to prevent RSpec from automatically
-  # cleaning the database in between each test run. That way we can create
-  # variables in before(:all) blocks to make tests run faster. USE WITH
-  # CAUTION!
-
-  config.before(:each) do |example|
-    next if example.metadata[:manual_clean]
-
+  # For info on how the 'manual_clean' option works, see the notes in
+  # spec/support/test_data_store.rb
+  config.around(:each) do |example|
     if example.metadata[:js]
-      DatabaseCleaner.strategy = :truncation
+      if example.metadata[:manual_clean]
+        ApplicationRecord.__storing_on = true
+        example.run
+        TestDataStore.clean
+        ApplicationRecord.__storing_on = false
+      else
+        DatabaseCleaner.strategy = :truncation
+        DatabaseCleaner.start
+        example.run
+        DatabaseCleaner.clean
+      end
     else
       DatabaseCleaner.strategy = :transaction
+      DatabaseCleaner.start
+      example.run
+      DatabaseCleaner.clean
     end
-    DatabaseCleaner.start
   end
 
-  config.after(:each) do |example|
+  config.after(:each) do
     Warden.test_reset!
-    DatabaseCleaner.clean unless example.metadata[:manual_clean]
+  end
+
+  config.after(:all) do
+    DatabaseCleaner.clean_with :truncation
   end
 
   def login_as_account(account)

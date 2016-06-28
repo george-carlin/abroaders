@@ -1,12 +1,12 @@
 require "rails_helper"
 
 describe "admin section" do
-  describe "account pages index page", :js do
+  describe "account pages index page", :js, :manual_clean do
     subject { page }
 
     include_context "logged in as admin"
 
-    before do
+    before(:all) do
       @accounts = [
         # Specify the email addresses so we have something to test the filtering
         # with:
@@ -15,6 +15,9 @@ describe "admin section" do
         create(:onboarded_account_with_companion, email: "ccccccc@example.com"),
         create(:account, email: "ddddddd@example.com")
       ]
+    end
+
+    before do
       extra_setup
       visit admin_accounts_path
     end
@@ -32,15 +35,13 @@ describe "admin section" do
       end
     end
 
-    describe "for accounts which have added a main person" do
-      it "links to the person's info page" do
-        onboarded_accounts.slice(0,3).each do |account|
-          within account_selector(account) do
-            is_expected.to have_link(
-              account.owner.first_name,
-              href: admin_person_path(account.owner)
-            )
-          end
+    it "links to the account owners' info pages" do
+      onboarded_accounts.each do |account|
+        within account_selector(account) do
+          is_expected.to have_link(
+            account.owner.first_name,
+            href: admin_person_path(account.owner)
+          )
         end
       end
     end
@@ -75,67 +76,55 @@ describe "admin section" do
     end
 
     context "when an account" do
-      def have_recommend_card_btn_for(person)
-        have_link(
-          "", # actually a font-awesome icon
-          href: new_admin_person_card_recommendation_path(person)
-        )
-      end
-
-      def have_no_recommend_card_btn_for(person)
-        have_no_link(
-          "", # actually a font-awesome icon
-          href: new_admin_person_card_recommendation_path(person)
-        )
-      end
-
       context "has completed the onboarding survey" do
-        context "and the main person" do
+        context "and the account owner" do
+          let(:owner) { @accounts[0].owner }
+          let(:name)  { owner.first_name }
+          let(:href)  { admin_person_path(owner) }
 
           context "is not eligible to apply for cards" do
             let(:extra_setup) do
-              @accounts[0].owner.eligibility.update_attributes!(eligible: false)
+              owner.eligibility.update_attributes!(eligible: false)
             end
 
-            it "doesn't have a link to recommend the main person a card" do
-              is_expected.to have_no_recommend_card_btn_for(@accounts[0].owner)
+            it "doesn't have an 'E' or an 'R' by their name" do
+              is_expected.to have_link(name, href: href, exact: true)
             end
           end
 
           context "is eligible to apply for cards but not ready" do
             let(:extra_setup) do
-              @accounts[0].owner.eligibility.update_attributes!(eligible: true)
-              @accounts[0].owner.readiness_status.update_attributes!(ready: true)
-              @accounts[1].owner.eligibility.update_attributes!(eligible: true)
-              @accounts[0].owner.readiness_status.update_attributes!(ready: false)
+              owner.eligibility.update_attributes!(eligible: true)
+              owner.readiness_status.update_attributes!(ready: false)
             end
 
-            it "doesn't have a link to recommend them a card" do
-              is_expected.to have_no_recommend_card_btn_for(@accounts[0].owner)
-              is_expected.to have_no_recommend_card_btn_for(@accounts[1].owner)
+            it "has an 'E' by their name" do
+              is_expected.to have_link("#{name} (E)", href: href, exact: true)
             end
           end
 
           context "is eligible and ready to apply for cards" do
             let(:extra_setup) do
-              @accounts[0].owner.eligibility.update_attributes!(eligible: true)
-              @accounts[0].owner.readiness_status.update_attributes!(ready: true)
+              owner.eligibility.update_attributes!(eligible: true)
+              owner.readiness_status.update_attributes!(ready: true)
             end
 
-            it "doesn't have a link to recommend the main person a card" do
-              is_expected.to have_recommend_card_btn_for(@accounts[0].owner)
+            it "has an 'R' by their name" do
+              is_expected.to have_link("#{name} (R)", href: href, exact: true)
             end
           end
         end
 
         context "and has an eligible and ready companion" do
+          let(:companion) { @accounts[2].companion }
           let(:extra_setup) do
-            @accounts[2].companion.eligibility.update_attributes!(eligible: true)
-            @accounts[2].companion.readiness_status.update_attributes!(ready: true)
+            companion.eligibility.update_attributes!(eligible: true)
+            companion.readiness_status.update_attributes!(ready: true)
           end
 
-          it "has a link to recommend the main person a card" do
-            is_expected.to have_recommend_card_btn_for(@accounts[2].companion)
+          it "has an 'R' next to the companion's name" do
+            href = admin_person_path(companion)
+            is_expected.to have_link("#{companion.first_name} (R)", href: href, exact: true)
           end
         end
       end
