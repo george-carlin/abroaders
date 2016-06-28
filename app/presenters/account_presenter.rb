@@ -14,16 +14,12 @@ class AccountPresenter < ApplicationPresenter
     )
   end
 
-  def render_owner
-    h.render "admin_area/people/table_cell", person: owner
+  def link_to_owner
+    link_to_person(owner)
   end
 
-  def render_companion
-    if has_companion?
-      h.render "admin_area/people/table_cell", person: companion
-    else
-      "-"
-    end
+  def link_to_companion
+    has_companion? ? link_to_person(companion) : "-"
   end
 
   def created_at
@@ -34,4 +30,17 @@ class AccountPresenter < ApplicationPresenter
     timestamps = people.map(&:last_recommendations_at).compact
     timestamps.any? ? timestamps.max.strftime("%D") : "-"
   end
+
+  private
+
+  def link_to_person(person)
+    text = [person.first_name]
+    if person.ready_to_apply?
+      text << "(R)"
+    elsif person.eligible_to_apply?
+      text << "(E)"
+    end
+    h.link_to text.join(" "), h.admin_person_path(person)
+  end
+
 end

@@ -102,8 +102,8 @@
               <% end %>
             </td>
             <td><%= account.email %></td>
-            <td><%= account.render_owner %></td>
-            <td><%= account.render_companion %></td>
+            <td><%= account.link_to_owner %></td>
+            <td><%= account.link_to_companion %></td>
             <td><%= account.created_at %></td>
             <td><%= account.last_recommendations_at %></td>
           <% end %>
