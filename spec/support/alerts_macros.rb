@@ -16,6 +16,10 @@ module AlertsMacros
     have_selector error_message, opts.merge(text: text)
   end
 
+  def have_no_error_message(text=nil, opts={})
+    have_no_selector error_message, opts.merge(text: text)
+  end
+
   def have_info_message(text=nil, opts={})
     have_selector info_message, opts.merge(text: text)
   end
