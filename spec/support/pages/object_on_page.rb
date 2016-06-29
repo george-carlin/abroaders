@@ -76,6 +76,38 @@ class ObjectOnPage < Struct.new(:spec_context)
     end
   end
 
+  def self.radio(name, html_name, values)
+    define_method "#{name}_radio" do
+      find("##{selector}")
+    end
+
+    values.each do |value|
+      define_method "has_#{name}_#{value}_radio?" do
+        has_field?("#{html_name}_#{value}")
+      end
+
+      define_method "has_no_#{name}_#{value}_radio?" do
+        has_no_field?("#{html_name}_#{value}")
+      end
+
+      define_method "choose_#{name}_#{value}" do
+        choose "#{html_name}_#{value}"
+      end
+    end
+
+    define_method "has_#{name}_radios?" do
+      values.all? do |value|
+        send("has_#{name}_#{value}_radio?")
+      end
+    end
+
+    define_method "has_no_#{name}_radios?" do
+      values.all? do |value|
+        send("has_no_#{name}_#{value}_radio?")
+      end
+    end
+  end
+
   def self.section(name, selector)
     define_method "has_#{name}?" do
       has_selector?(selector)
