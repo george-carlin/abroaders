@@ -7,7 +7,7 @@ class PersonPresenter < ApplicationPresenter
     account.created_at.strftime("%D")
   end
 
-  delegate :email, to: :account
+  delegate :email, :phone_number, to: :account
 
   def eligibility
     onboarded_eligibility? ? (eligible? ?  "Yes" : "No") : "Unknown"

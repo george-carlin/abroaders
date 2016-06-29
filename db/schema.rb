@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160628110025) do
+ActiveRecord::Schema.define(version: 20160629134229) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 20160628110025) do
     t.boolean  "onboarded_type",             default: false, null: false
     t.boolean  "onboarded_travel_plans",     default: false, null: false
     t.integer  "unseen_notifications_count", default: 0,     null: false
+    t.string   "phone_number"
     t.index ["email"], name: "index_accounts_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_accounts_on_reset_password_token", unique: true, using: :btree
   end

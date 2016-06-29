@@ -8,6 +8,7 @@ const NumberField = require("../../core/NumberField");
 
 const MonthlySpendingForm = React.createClass({
   propTypes: {
+    modelName:       React.PropTypes.string,
     monthlySpending: React.PropTypes.number,
     onChange:        React.PropTypes.func.isRequired,
     showError:       React.PropTypes.bool,
@@ -34,7 +35,7 @@ const MonthlySpendingForm = React.createClass({
             <NumberField
               attribute="monthly_spending_usd"
               min="0"
-              modelName="solo_account"
+              modelName={this.props.modelName}
               monthlySpending={this.props.monthlySpending}
               placeholder="Estimated monthly spending"
               onChange={this.props.onChange}

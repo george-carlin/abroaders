@@ -2,9 +2,10 @@ class SoloAccountForm < AccountTypeForm
   include Virtus.model
 
   attribute :account,              Account
+  attribute :eligible,             Boolean
   attribute :monthly_spending_usd, Integer
   attribute :person,               Person
-  attribute :eligible,             Boolean
+  attribute :phone_number,         String
 
   def self.name
     "SoloAccount"
@@ -29,10 +30,10 @@ class SoloAccountForm < AccountTypeForm
   private
 
   def persist!
-    account.update_attributes!(
-      monthly_spending_usd: monthly_spending_usd,
-      onboarded_type:       true,
-    )
+    account.monthly_spending_usd = monthly_spending_usd
+    account.onboarded_type       = true
+    account.phone_number = phone_number.strip if phone_number.present?
+    account.save!
     @person = account.owner
     @person.update_attributes!(eligible: eligible?)
 

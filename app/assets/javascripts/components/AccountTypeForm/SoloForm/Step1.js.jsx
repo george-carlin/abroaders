@@ -3,6 +3,8 @@ const React = require("react");
 const Button    = require("../../core/Button");
 const HelpBlock = require("../../core/HelpBlock");
 
+const PhoneNumber     = require("../PhoneNumber");
+
 const Eligibility     = require("./Eligibility");
 const MonthlySpending = require("./MonthlySpending");
 
@@ -16,6 +18,8 @@ const Step1 = React.createClass({
   },
 
   render() {
+    const modelName = "solo_account";
+
     return (
       <div className="account_type_form_step_1">
 
@@ -24,16 +28,19 @@ const Step1 = React.createClass({
           onChange={this.props.onChangeEligibility}
         />
 
-        <hr/>
+        <hr />
 
         {(() => {
           if (this.props.isEligibleToApply) {
             return (
-              <MonthlySpending
-                monthlySpending={this.props.monthlySpending}
-                onChange={this.props.onChangeMonthlySpending}
-                showError={this.props.showMonthlySpendingError}
-              />
+              <div>
+                <MonthlySpending
+                  modelName={modelName}
+                  monthlySpending={this.props.monthlySpending}
+                  onChange={this.props.onChangeMonthlySpending}
+                  showError={this.props.showMonthlySpendingError}
+                />
+              </div>
             );
           } else {
             return (
@@ -45,6 +52,10 @@ const Step1 = React.createClass({
             );
           }
         })()}
+
+        <PhoneNumber
+          modelName={modelName}
+        />
 
         <Button primary >
           Submit
