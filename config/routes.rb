@@ -112,7 +112,11 @@ Rails.application.routes.draw do
   end
 
   namespace :admin, module: :admin_area do
-    resources :accounts, only: [ :index, :show ]
+    resources :accounts, only: [ :index, :show ] do
+      collection do
+        get :download_user_status_csv
+      end
+    end
     resources :cards, only: [] do
       collection do
         get  :images
