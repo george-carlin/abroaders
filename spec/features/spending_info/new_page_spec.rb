@@ -20,8 +20,8 @@ describe "the spending info survey", :onboarding do
             create(:person, main: false, account: account)
             @me = account.companion
           end
+    me.update_attributes!(eligible: eligible)
     create(:spending_info, person: me) if already_added
-    eligible ? me.eligible_to_apply! : me.ineligible_to_apply!
     login_as(account, scope: :account)
     visit new_person_spending_info_path(me)
   end

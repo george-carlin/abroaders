@@ -17,8 +17,11 @@ describe CardAccountsController do
 
     subject do
       create(:spending_info, person: person) if onboarded_spending
-      person.update_attributes!(onboarded_cards: true) if onboarded_cards
-      person.eligible_to_apply! if eligible
+      person.update_attributes!(
+        onboarded_cards: onboarded_cards,
+        eligible:        eligible,
+      )
+     
       sign_in account
       get :survey, params: { person_id: person.id }
     end

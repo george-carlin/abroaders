@@ -4,11 +4,11 @@ FactoryGirl.define do
     first_name { Faker::Name.first_name }
 
     trait :eligible do
-      after(:build) { |person| person.eligible_to_apply! }
+      eligible true
     end
 
     trait :ineligible do
-      after(:build) { |person| person.ineligible_to_apply! }
+      eligible false
     end
 
     main true

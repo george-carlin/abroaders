@@ -99,7 +99,7 @@ class BalancesSurvey
   private
 
   def send_survey_complete_notification?
-    !@person.eligible_to_apply? && !(@person.main? && @person.account.has_companion?)
+    !@person.eligible? && !(@person.main? && @person.account.has_companion?)
   end
 
 end

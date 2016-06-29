@@ -47,7 +47,7 @@ class CardAccountsController < NonAdminController
   def redirect_if_survey_is_inaccessible!
     if !@person.onboarded_spending?
       redirect_to new_person_spending_info_path(@person) and return true
-    elsif !@person.eligible_to_apply? || @person.onboarded_cards?
+    elsif !@person.eligible? || @person.onboarded_cards?
       redirect_to survey_person_balances_path(@person) and return true
     end
   end

@@ -15,7 +15,7 @@
     <div class="panel-body">
 
       <div class="col-xs-12 col-md-6">
-        <% if person.eligible_to_apply? %>
+        <% if person.eligible? %>
           <% if @spending_info.present? %>
             <%= render "spending_infos/spending_info", spending_info: @spending_info, show_eligibility: true, show_readiness: true %>
           <% else %>
@@ -58,7 +58,7 @@
     </div><!-- .panel-body -->
   <% end %>
 
-  <% if person.eligible_to_apply? %>
+  <% if person.eligible? %>
     <%= render "shared/hpanel" do %>
       <div class="panel-body">
         <h3>Existing Cards</h3>

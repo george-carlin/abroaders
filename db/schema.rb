@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160617040529) do
+ActiveRecord::Schema.define(version: 20160628110025) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -133,14 +132,6 @@ ActiveRecord::Schema.define(version: 20160617040529) do
     t.index ["type"], name: "index_destinations_on_type", using: :btree
   end
 
-  create_table "eligibilities", force: :cascade do |t|
-    t.integer  "person_id",  null: false
-    t.boolean  "eligible",   null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["person_id"], name: "index_eligibilities_on_person_id", using: :btree
-  end
-
   create_table "flights", force: :cascade do |t|
     t.integer  "travel_plan_id",                       null: false
     t.integer  "position",       limit: 2, default: 0, null: false
@@ -194,6 +185,7 @@ ActiveRecord::Schema.define(version: 20160617040529) do
     t.boolean  "onboarded_balances",      default: false, null: false
     t.string   "award_wallet_email"
     t.datetime "last_recommendations_at"
+    t.boolean  "eligible"
     t.index ["account_id", "main"], name: "index_people_on_account_id_and_main", unique: true, using: :btree
   end
 
@@ -245,7 +237,6 @@ ActiveRecord::Schema.define(version: 20160617040529) do
   add_foreign_key "card_accounts", "people", on_delete: :cascade
   add_foreign_key "cards", "currencies", on_delete: :restrict
   add_foreign_key "destinations", "destinations", column: "parent_id", on_delete: :restrict
-  add_foreign_key "eligibilities", "people", on_delete: :cascade
   add_foreign_key "flights", "destinations", column: "from_id", on_delete: :restrict
   add_foreign_key "flights", "destinations", column: "to_id", on_delete: :restrict
   add_foreign_key "flights", "travel_plans", on_delete: :cascade

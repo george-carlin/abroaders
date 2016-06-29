@@ -20,7 +20,7 @@ describe "readiness status pages", :js, :onboarding do
       @me = create(:person, owner: false, account: account)
     end
 
-    i_am_eligible ? me.eligible_to_apply! : me.ineligible_to_apply!
+    @me.update_attributes!(eligible: i_am_eligible)
 
     if i_am_already_ready
       me.ready_to_apply!
@@ -175,34 +175,25 @@ describe "readiness status pages", :js, :onboarding do
 
     describe "after submit" do
       before do
-        if i_am_eligible_to_apply
-          me.eligible_to_apply!
-        end
-
-        if i_am_the_partner
-          me.update_attributes!(main: false)
-          Person.create!(account: account, main: true, first_name: "X")
-        elsif i_have_a_partner
-          @partner = account.create_companion!(first_name: "Somebody")
-          if partner_is_eligible_to_apply
-            @partner.eligible_to_apply!
-          end
+        if i_have_a_partner
+          @partner = account.create_companion!(
+            eligible: partner_is_eligible,
+            first_name: "Somebody",
+          )
         end
       end
 
-      let(:i_am_eligible_to_apply) { false }
-      let(:i_am_the_partner) { false }
       let(:i_have_a_partner) { false }
       let(:partner) { @partner }
 
       context "when I am the main person on the account" do
-        let(:i_am_the_partner) { false }
+        let(:i_am_owner) { true }
 
         context "and I have a partner on the account" do
           let(:i_have_a_partner) { true }
 
           context "who is eligible to apply for cards" do
-            let(:partner_is_eligible_to_apply) { true }
+            let(:partner_is_eligible) { true }
             it "takes me to the partner's spending survey" do
               submit_form
               expect(current_path).to eq new_person_spending_info_path(partner)
@@ -212,7 +203,7 @@ describe "readiness status pages", :js, :onboarding do
           end
 
           context "who is ineligible to apply for cards" do
-            let(:partner_is_eligible_to_apply) { false }
+            let(:partner_is_eligible) { false }
             it "takes me to the partner's balances survey" do
               submit_form
               expect(current_path).to eq survey_person_balances_path(partner)

@@ -35,11 +35,11 @@ describe "admin section - person page", :manual_clean do
   before do
     @person = create(
       :person,
+      :eligible,
       onboarded_cards: true,
       onboarded_balances: true,
       award_wallet_email: aw_email,
     )
-    @person.eligible_to_apply!
     if has_spending?
       @person.create_spending_info!(
         credit_score: 678,

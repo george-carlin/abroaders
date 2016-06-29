@@ -84,7 +84,7 @@ describe "admin section" do
 
           context "is not eligible to apply for cards" do
             let(:extra_setup) do
-              owner.eligibility.update_attributes!(eligible: false)
+              owner.update_attributes!(eligible: false)
             end
 
             it "doesn't have an 'E' or an 'R' by their name" do
@@ -94,7 +94,7 @@ describe "admin section" do
 
           context "is eligible to apply for cards but not ready" do
             let(:extra_setup) do
-              owner.eligibility.update_attributes!(eligible: true)
+              owner.update_attributes!(eligible: true)
               owner.readiness_status.update_attributes!(ready: false)
             end
 
@@ -105,7 +105,7 @@ describe "admin section" do
 
           context "is eligible and ready to apply for cards" do
             let(:extra_setup) do
-              owner.eligibility.update_attributes!(eligible: true)
+              owner.update_attributes!(eligible: true)
               owner.readiness_status.update_attributes!(ready: true)
             end
 
@@ -118,7 +118,7 @@ describe "admin section" do
         context "and has an eligible and ready companion" do
           let(:companion) { @accounts[2].companion }
           let(:extra_setup) do
-            companion.eligibility.update_attributes!(eligible: true)
+            companion.update_attributes!(eligible: true)
             companion.readiness_status.update_attributes!(ready: true)
           end
 
