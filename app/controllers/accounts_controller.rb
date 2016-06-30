@@ -48,12 +48,12 @@ class AccountsController < NonAdminController
   end
 
   def solo_account_params
-    params.require(:solo_account).permit(:monthly_spending_usd, :eligible)
+    params.require(:solo_account).permit(:monthly_spending_usd, :eligible, :phone_number)
   end
 
   def partner_account_params
     params.require(:partner_account).permit(
-      :monthly_spending_usd, :partner_first_name, :eligibility
+      :monthly_spending_usd, :partner_first_name, :eligibility, :phone_number
     )
   end
 

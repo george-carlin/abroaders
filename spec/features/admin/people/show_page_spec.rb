@@ -40,13 +40,6 @@ describe "admin section - person page", :manual_clean do
       onboarded_balances: true,
       award_wallet_email: aw_email,
     )
-    if has_spending?
-      @person.create_spending_info!(
-        credit_score: 678,
-        has_business: :with_ein,
-        business_spending_usd: 1500
-      )
-    end
     @account = @person.account.reload
 
     create_list(:recommendation_note, no_of_existing_notes, account: account)
@@ -66,41 +59,40 @@ describe "admin section - person page", :manual_clean do
   let(:no_of_existing_notes) { 0 }
   let(:dead_offer) { AdminArea::RecommendableOfferOnPage.new(@dead_offer, self) }
 
-  let(:has_spending?) { false }
-
   it { is_expected.to have_title full_title(@person.first_name) }
 
-  it "shows the date on which the account was created" do
-    is_expected.to have_content @account.created_at.strftime("%D")
+  it "displays the account's information" do
+    expect(page).to have_content @account.created_at.strftime("%D")
   end
 
-  it "has the person's name as the page header" do
-    is_expected.to have_selector "h1", text: name
+  it "displays the person's information" do
+    # person's name as the page header
+    expect(page).to have_selector "h1", text: name
+    # award wallet email
+    expect(page).to have_content "AwardWallet email: #{aw_email}"
   end
 
-  it "displays the award wallet email" do
-    is_expected.to have_content "AwardWallet email: #{aw_email}"
+  example "person with no spending info" do
+    expect(page).to have_content "User has not added their spending info"
+  end
+
+  example "person with spending info" do
+    person.create_spending_info!(
+      credit_score: 678,
+      has_business: :with_ein,
+      business_spending_usd: 1500
+    )
+    # Loading the page twice... urgh.
+    visit admin_person_path(person)
+    expect(page).to have_content "Credit score: 678"
+    expect(page).to have_content "Will apply for loan in next 6 months: No"
+    expect(page).to have_content "Business spending: $1,500.00"
+    expect(page).to have_content "(Has EIN)"
   end
 
   it "says whether this is the main or companion passenger"
 
-  context "when the person hasn't added their spending info" do
-    it "says so" do
-      is_expected.to have_content "User has not added their spending info"
-    end
-  end
-
   context "when the person" do
-    context "has added their spending info" do
-      let(:has_spending?) { true }
-      it "displays it" do
-        is_expected.to have_content "Credit score: 678"
-        is_expected.to have_content "Will apply for loan in next 6 months: No"
-        is_expected.to have_content "Business spending: $1,500.00"
-        is_expected.to have_content "(Has EIN)"
-      end
-    end
-
     context "has no travel plans" do
       it { is_expected.to have_content "User has no upcoming travel plans" }
     end
@@ -235,34 +227,18 @@ describe "admin section - person page", :manual_clean do
         let(:opened_acc) { AdminArea::CardAccountOnPage.new(@opened_acc, self) }
         let(:closed_acc) { AdminArea::CardAccountOnPage.new(@closed_acc, self) }
 
-        it "lists them" do
+        it "lists them and says when they were opened/closed" do
           within "#admin_person_cards_from_survey" do
             expect(opened_acc).to be_present
             expect(closed_acc).to be_present
           end
           expect(opened_acc).to have_content "Open"
           expect(closed_acc).to have_content "Closed"
-        end
-
-        context "when an account is open" do
-          it "says when it was opened" do
-            is_expected.to have_selector \
-              "##{dom_id(@opened_acc)} .card_account_opened_at", text: "Jan 2015"
-          end
-
-          it "has a '-' under 'Closed'" do
-            is_expected.to have_selector \
-              "##{dom_id(@opened_acc)} .card_account_closed_at", text: "-"
-          end
-        end
-
-        context "when an account is closed" do
-          it "says when it was opened and closed" do
-            is_expected.to have_selector \
-              "##{dom_id(@closed_acc)} .card_account_opened_at", text: "Mar 2015"
-            is_expected.to have_selector \
-              "##{dom_id(@closed_acc)} .card_account_closed_at", text: "Oct 2015"
-          end
+          # says when they were opened/closed:
+          expect(opened_acc).to have_selector ".card_account_opened_at", text: "Jan 2015"
+          expect(opened_acc).to have_selector ".card_account_closed_at", text: "-"
+          expect(closed_acc).to have_selector ".card_account_opened_at", text: "Mar 2015"
+          expect(closed_acc).to have_selector ".card_account_closed_at", text: "Oct 2015"
         end
       end
 
@@ -281,21 +257,19 @@ describe "admin section - person page", :manual_clean do
         let(:clicked_rec)  { AdminArea::CardAccountOnPage.new(@clicked_rec, self) }
         let(:declined_rec) { AdminArea::CardAccountOnPage.new(@declined_rec, self) }
 
-        it "lists them" do
+        it "displays them" do
           within "#admin_person_card_recommendations" do
             expect(new_rec).to be_present
             expect(clicked_rec).to be_present
             expect(declined_rec).to be_present
           end
-        end
 
-        it "shows each card's status" do
+          # shows each card's status:
           expect(new_rec).to have_status "Recommended"
           expect(clicked_rec).to have_status "Recommended"
           expect(declined_rec).to have_status "Declined"
-        end
 
-        it "shows the recommended/applied/opened/closed dates for each card" do
+          # shows the recommended/applied/opened/closed dates:
           expect(new_rec).to have_recommended_at_date("01/01/15")
           expect(new_rec).to have_no_clicked_at_date
           expect(new_rec).to have_no_applied_at_date
@@ -307,15 +281,12 @@ describe "admin section - person page", :manual_clean do
           expect(declined_rec).to have_recommended_at_date("10/01/15")
           expect(declined_rec).to have_no_clicked_at_date
           expect(declined_rec).to have_declined_at_date("12/01/15")
-        end
 
-        context "when a recommendation has been declined" do
-          it "shows the decline reason in a tooltip" do
-            within declined_rec.dom_selector do
-              is_expected.to have_selector "a[data-toggle='tooltip']"
-              tooltip = find("a[data-toggle='tooltip']")
-              expect(tooltip["title"]).to eq "because"
-            end
+          # shows decline reasons in a tooltip:
+          declined_rec.within do
+            is_expected.to have_selector "a[data-toggle='tooltip']"
+            tooltip = find("a[data-toggle='tooltip']")
+            expect(tooltip["title"]).to eq "because"
           end
         end
       end
@@ -335,25 +306,19 @@ describe "admin section - person page", :manual_clean do
 
   describe "the card recommendation form" do
     let(:offers_on_page) { @offers.map { |o| AdminArea::RecommendableOfferOnPage.new(o, self) } }
-    it "has an option to recommend each offer" do
+
+    it "has an option to recommend each live offer" do
       within ".admin-card-recommendation-table" do
-        offers_on_page.each do |offer|
-          expect(offer).to be_present
-          expect(offer).to have_recommend_btn
+        offers_on_page.each do |offer_on_page|
+          expect(offer_on_page).to be_present
+          expect(offer_on_page).to have_recommend_btn
+          link = offer_on_page.offer.link
+          expect(offer_on_page).to have_link "Link", href: link
+          expect(offer_on_page.find("a[href='#{link}']")[:target]).to eq "_blank"
         end
       end
-    end
 
-    it "doesn't contain dead offers" do
       expect(dead_offer).to be_absent
-    end
-
-    it "has a link to each offer (opens in new tab)" do
-      offers_on_page.each do |offer_on_page|
-        link = offer_on_page.offer.link
-        expect(offer_on_page).to have_link "Link", href: link
-        expect(offer_on_page.find("a[href='#{link}']")[:target]).to eq "_blank"
-      end
     end
 
     describe "filters", :js do
@@ -375,77 +340,72 @@ describe "admin section - person page", :manual_clean do
         cards.each { |card| should_not have_recommendable_card(card) }
       end
 
-      describe "the cards" do
-        specify "can be filtered by b/p" do
-          filters.uncheck_business
-          should_have_recommendable_cards(@chase_p, @usb_p)
-          should_not_have_recommendable_cards(@chase_b, @usb_b)
-          filters.uncheck_personal
-          should_not_have_recommendable_cards(*@cards)
-          filters.check_business
-          should_have_recommendable_cards(@chase_b, @usb_b)
-          should_not_have_recommendable_cards(@chase_p, @usb_p)
-          filters.check_personal
-          should_have_recommendable_cards(*@cards)
-        end
-
-        specify "can be filtered by bank" do
-          Bank.all.each do |bank|
-            is_expected.to have_field :"card_bank_filter_#{bank.id}"
-          end
-
-          filters.uncheck_chase
-          should_have_recommendable_cards(@usb_b, @usb_p)
-          should_not_have_recommendable_cards(@chase_b, @chase_p)
-          filters.uncheck_us_bank
-          should_not_have_recommendable_cards(*@cards)
-          filters.check_chase
-          should_have_recommendable_cards(@chase_b, @chase_p)
-          should_not_have_recommendable_cards(@usb_b, @usb_p)
-          filters.check_us_bank
-          should_have_recommendable_cards(*@cards)
-        end
-
-        specify "can be filtered by currency" do
-          Currency.pluck(:id).each do |currency_id|
-            is_expected.to have_field :"card_currency_filter_#{currency_id}"
-          end
-
-          # TODO eh?
-          uncheck "card_currency_filter_#{@chase_b.id}"
-          uncheck "card_currency_filter_#{@chase_p.id}"
-          should_have_recommendable_cards(@usb_p, @usb_p)
-          should_not_have_recommendable_cards(@chase_b, @chase_p)
-          uncheck "card_currency_filter_#{@usb_b.id}"
-          uncheck "card_currency_filter_#{@usb_p.id}"
-          should_not_have_recommendable_cards(*@cards)
-          check "card_currency_filter_#{@chase_p.id}"
-          should_have_recommendable_cards(@chase_p)
-        end
+      example "filtering by b/p" do
+        filters.uncheck_business
+        should_have_recommendable_cards(@chase_p, @usb_p)
+        should_not_have_recommendable_cards(@chase_b, @usb_b)
+        filters.uncheck_personal
+        should_not_have_recommendable_cards(*@cards)
+        filters.check_business
+        should_have_recommendable_cards(@chase_b, @usb_b)
+        should_not_have_recommendable_cards(@chase_p, @usb_p)
+        filters.check_personal
+        should_have_recommendable_cards(*@cards)
       end
 
-      describe "the 'toggle all banks' checkbox" do
-        it "toggles all banks on/off" do
-          filters.uncheck_all_banks
-          should_not_have_recommendable_cards(*@cards)
-          Bank.all.each do |bank|
-            expect(find("#card_bank_filter_#{bank.id}")).not_to be_checked
-          end
-          filters.check_all_banks
-          should_have_recommendable_cards(*@cards)
-          Bank.all.each do |bank|
-            expect(find("#card_bank_filter_#{bank.id}")).to be_checked
-          end
+      example "filtering by bank" do
+        Bank.all.each do |bank|
+          is_expected.to have_field :"card_bank_filter_#{bank.id}"
         end
 
-        it "is checked/unchecked automatically as I click other CBs" do
-          filters.uncheck_chase
-          expect(filters.all_banks_check_box).not_to be_checked
-          filters.check_chase
-          expect(filters.all_banks_check_box).to be_checked
-        end
+        filters.uncheck_chase
+        should_have_recommendable_cards(@usb_b, @usb_p)
+        should_not_have_recommendable_cards(@chase_b, @chase_p)
+        filters.uncheck_us_bank
+        should_not_have_recommendable_cards(*@cards)
+        filters.check_chase
+        should_have_recommendable_cards(@chase_b, @chase_p)
+        should_not_have_recommendable_cards(@usb_b, @usb_p)
+        filters.check_us_bank
+        should_have_recommendable_cards(*@cards)
       end
-    end # filters
+
+      example "filtering by currency" do
+        Currency.pluck(:id).each do |currency_id|
+          is_expected.to have_field :"card_currency_filter_#{currency_id}"
+        end
+
+        # TODO eh?
+        uncheck "card_currency_filter_#{@chase_b.id}"
+        uncheck "card_currency_filter_#{@chase_p.id}"
+        should_have_recommendable_cards(@usb_p, @usb_p)
+        should_not_have_recommendable_cards(@chase_b, @chase_p)
+        uncheck "card_currency_filter_#{@usb_b.id}"
+        uncheck "card_currency_filter_#{@usb_p.id}"
+        should_not_have_recommendable_cards(*@cards)
+        check "card_currency_filter_#{@chase_p.id}"
+        should_have_recommendable_cards(@chase_p)
+      end
+
+      example "toggling all banks" do
+        filters.uncheck_all_banks
+        should_not_have_recommendable_cards(*@cards)
+        Bank.all.each do |bank|
+          expect(find("#card_bank_filter_#{bank.id}")).not_to be_checked
+        end
+        filters.check_all_banks
+        should_have_recommendable_cards(*@cards)
+        Bank.all.each do |bank|
+          expect(find("#card_bank_filter_#{bank.id}")).to be_checked
+        end
+
+        # it gets checked/unchecked automatically as I click other CBs:
+        filters.uncheck_chase
+        expect(filters.all_banks_check_box).not_to be_checked
+        filters.check_chase
+        expect(filters.all_banks_check_box).to be_checked
+      end
+    end
 
     describe "clicking 'recommend' next to an offer", :js do
       let(:offer) { @offers[3] }

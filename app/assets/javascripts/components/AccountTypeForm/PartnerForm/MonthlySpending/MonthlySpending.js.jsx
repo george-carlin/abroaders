@@ -9,10 +9,11 @@ const values = require("../Eligibility").values;
 
 const HelpText = require("./HelpText");
 
-const MonthlySpending= React.createClass({
+const MonthlySpending = React.createClass({
   propTypes: {
     eligibility:      React.PropTypes.oneOf(values),
     onChange:         React.PropTypes.func.isRequired,
+    modelName:        React.PropTypes.string.isRequired,
     person0FirstName: React.PropTypes.string.isRequired,
     person1FirstName: React.PropTypes.string.isRequired,
     showError:        React.PropTypes.bool,
@@ -48,7 +49,7 @@ const MonthlySpending= React.createClass({
                 <NumberField
                   attribute="monthly_spending_usd"
                   min="0"
-                  modelName="partner_account"
+                  modelName={this.props.modelName}
                   monthlySpending={this.props.monthlySpending}
                   placeholder="Estimated monthly spending"
                   onChange={this.props.onChange}

@@ -17,6 +17,11 @@ class AccountTypeFormOnPage < ObjectOnPage
 
   radio :partner_eligibility, :partner_account_eligibility, [:both, :person_0, :person_1, :neither]
 
+  def submit_partner_first_name(name)
+    fill_in_partner_first_name with: name
+    click_couples_btn
+  end
+
   def show_partner_form_step_0?
     has_partner_first_name_field? &&
     has_couples_btn? &&

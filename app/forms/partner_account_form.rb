@@ -1,5 +1,6 @@
 class PartnerAccountForm < AccountTypeForm
-  attr_accessor :account, :monthly_spending_usd, :partner_first_name, :eligibility
+  # TODO convert me to use Virtus
+  attr_accessor :account, :monthly_spending_usd, :partner_first_name, :eligibility, :phone_number
   attr_reader :person_0, :person_1
 
   def self.name
@@ -45,10 +46,10 @@ class PartnerAccountForm < AccountTypeForm
   private
 
   def persist!
-    account.update_attributes!(
-      monthly_spending_usd: monthly_spending_usd,
-      onboarded_type:       true,
-    )
+    account.monthly_spending_usd = monthly_spending_usd
+    account.onboarded_type       = true
+    account.phone_number = phone_number.strip if phone_number.present?
+    account.save!
     @person_0 = account.people.first
     @person_0.update_attributes!(eligible: person_0_eligible?)
     @person_1 = account.create_companion!(

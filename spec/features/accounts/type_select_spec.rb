@@ -46,21 +46,23 @@ describe "account type select page", :js, :onboarding do
     it { is_expected.to have_content "Abroaders will help you earn the right points for your next trip" }
   end
 
-  describe "selecting 'solo'" do
+  describe "choosing 'solo'" do
     before { form.click_solo_btn }
 
     it "shows the solo form and hides the rest" do
       expect(form).to have_no_couples_form
       expect(form).to have_no_solo_btn
       expect(page).to have_field :solo_account_monthly_spending_usd
-      is_expected.to have_field :solo_account_eligible_true
-      is_expected.to have_field :solo_account_eligible_false
+      expect(page).to have_field :solo_account_eligible_true
+      expect(page).to have_field :solo_account_eligible_false
+      expect(page).to have_field :solo_account_phone_number
     end
 
     example "hiding and showing the solo monthly spending input" do
       choose "No - I am not eligible"
-      # hides the monthly spending input
+      # hides the monthly spending input but not the phone number
       is_expected.to have_no_field :solo_account_monthly_spending_usd
+      is_expected.to have_field :solo_account_phone_number
       # clicking 'eligible' show the monthly spending input again
       choose "Yes - I am eligible"
       is_expected.to have_field :solo_account_monthly_spending_usd
@@ -111,6 +113,23 @@ describe "account type select page", :js, :onboarding do
       expect(current_path).to eq new_person_spending_info_path(me)
       expect_survey_to_be_marked_as_complete
     end
+
+    example "submitting with a phone number" do
+      phone_number = "555 1234 000"
+      fill_in :solo_account_monthly_spending_usd, with: 1000
+      fill_in :solo_account_phone_number, with: phone_number
+      form.click_confirm_btn
+      account.reload
+      expect(account.phone_number).to eq phone_number
+    end
+
+    example "submitting a phone number with whitespace" do
+      fill_in :solo_account_monthly_spending_usd, with: 1000
+      fill_in :solo_account_phone_number, with: "    555 1234 000    "
+      form.click_confirm_btn
+      account.reload
+      expect(account.phone_number).to eq "555 1234 000"
+    end
   end
 
   describe "choosing 'couples'" do
@@ -129,15 +148,13 @@ describe "account type select page", :js, :onboarding do
     end
 
     example "providing a name with trailing whitespace" do
-      form.fill_in_partner_first_name with: "    Steve   "
-      form.click_couples_btn
+      form.submit_partner_first_name "     Steve   "
       # strips the whitespace:
       expect(form).to have_content "Only Steve is eligible"
     end
 
     example "providing a partner name" do
-      form.fill_in_partner_first_name with: partner_name
-      form.click_couples_btn
+      form.submit_partner_first_name partner_name
       # hides the solo form
       expect(form).to have_no_solo_form
       # shows the next step:
@@ -147,8 +164,7 @@ describe "account type select page", :js, :onboarding do
     end
 
     example "submitting when neither person is eligible" do
-      form.fill_in_partner_first_name with: partner_name
-      form.click_couples_btn
+      form.submit_partner_first_name partner_name
       choose :partner_account_eligibility_neither
       # hides the monthly spending input
       expect(page).to have_no_field :partner_account_monthly_spending_usd
@@ -170,8 +186,7 @@ describe "account type select page", :js, :onboarding do
     end
 
     example "submitting when only one person is eligible" do
-      form.fill_in_partner_first_name with: partner_name
-      form.click_couples_btn
+      form.submit_partner_first_name partner_name
       form.choose_partner_eligibility_person_0
       expect(form).to have_content \
         "Only #{me.first_name} will receive credit card recommendations"
@@ -181,8 +196,7 @@ describe "account type select page", :js, :onboarding do
     end
 
     example "submitting when only I am eligible" do
-      form.fill_in_partner_first_name with: partner_name
-      form.click_couples_btn
+      form.submit_partner_first_name partner_name
       form.choose_partner_eligibility_person_0
       form.fill_in_couples_monthly_spending with: 1234
       # adds a partner to my account:
@@ -202,8 +216,7 @@ describe "account type select page", :js, :onboarding do
     end
 
     example "submitting when only my partner is eligible" do
-      form.fill_in_partner_first_name with: partner_name
-      form.click_couples_btn
+      form.submit_partner_first_name partner_name
       form.choose_partner_eligibility_person_1
       form.fill_in_couples_monthly_spending with: 1234
       # adds a partner to my account:
@@ -223,8 +236,7 @@ describe "account type select page", :js, :onboarding do
     end
 
     example "submitting when we are both eligible" do
-      form.fill_in_partner_first_name with: partner_name
-      form.click_couples_btn
+      form.submit_partner_first_name partner_name
       form.fill_in_couples_monthly_spending with: 2345
 
       expect do
@@ -245,8 +257,7 @@ describe "account type select page", :js, :onboarding do
     end
 
     example "submitting without adding monthly spending" do
-      form.fill_in_partner_first_name with: partner_name
-      form.click_couples_btn
+      form.submit_partner_first_name partner_name
       expect do
         form.click_confirm_btn
       end.not_to change{account.people.count}
@@ -255,6 +266,25 @@ describe "account type select page", :js, :onboarding do
       expect(me.onboarded_eligibility?).to be false
       expect(me.onboarded_eligibility?).to be false
       expect_survey_not_to_be_marked_as_complete
+    end
+
+    example "submitting with a phone number" do
+      form.submit_partner_first_name partner_name
+      phone_number = "555 1234 000"
+      fill_in :partner_account_monthly_spending_usd, with: 1000
+      fill_in :partner_account_phone_number, with: phone_number
+      form.click_confirm_btn
+      account.reload
+      expect(account.phone_number).to eq phone_number
+    end
+
+    example "submitting a phone number with whitespace" do
+      form.submit_partner_first_name partner_name
+      fill_in :partner_account_monthly_spending_usd, with: 1000
+      fill_in :partner_account_phone_number, with: "    555 1234 000    "
+      form.click_confirm_btn
+      account.reload
+      expect(account.phone_number).to eq "555 1234 000"
     end
   end
 end

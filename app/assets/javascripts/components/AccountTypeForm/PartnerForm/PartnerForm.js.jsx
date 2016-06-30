@@ -4,6 +4,8 @@ const Button = require("../../core/Button");
 const FAIcon = require("../../core/FAIcon");
 const Form   = require("../../core/Form");
 
+const PhoneNumber = require("../PhoneNumber");
+
 const Eligibility     = require("./Eligibility");
 const MonthlySpending = require("./MonthlySpending");
 const NameFields      = require("./NameFields");
@@ -78,6 +80,8 @@ const PartnerForm = React.createClass({
     let classes = "PartnerForm account_type_select well col-xs-12 col-md-4";
     if (this.props.active) classes += " col-md-offset-4";
 
+    const modelName = "partner_account";
+
     return (
       <Form
         action={this.props.path}
@@ -114,11 +118,16 @@ const PartnerForm = React.createClass({
 
                 <MonthlySpending
                   eligibility={this.state.eligibility}
+                  modelName={modelName}
                   onChange={this.onChangeMonthlySpending}
                   person0FirstName={this.props.ownerName}
                   person1FirstName={this.state.partnerName}
                   showError={this.state.showMonthlySpendingError}
                   value={this.state.monthlySpending}
+                />
+
+                <PhoneNumber
+                  modelName={modelName}
                 />
 
                 <Button primary >
