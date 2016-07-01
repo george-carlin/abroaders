@@ -1,0 +1,14 @@
+Hi <%= @account.owner_first_name %>,
+
+I've just finished picking the best cards based on your travel plans, current points, and monthly spending.
+
+You can see my recommendations here: <%= link_to card_accounts_url, card_accounts_url %>.
+
+<%= @note if @note %>
+
+Important: please apply for these cards as soon as possible. If the banks change any of these limited time offers before you have a chance to apply, I'll need to start over and create a new set of card recommendations from scratch.
+
+Cheers,
+Erik
+
+p.s. If you decide not to apply for any of the cards, please <%= link_to "log in to your account", card_accounts_url %> and click "No thanks" under the picture of the card.

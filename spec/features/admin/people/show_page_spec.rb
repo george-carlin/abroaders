@@ -496,13 +496,14 @@ module AdminArea
       end
     end
 
-    example "marking recommendations as complet " do
+    example "marking recommendations as complete" do
       expect do
         complete_card_recs_form.submit
         account.reload
       end.to \
         change{account.notifications.count}.by(1).and \
-        change{account.unseen_notifications_count}.by(1)
+        change{account.unseen_notifications_count}.by(1).and \
+        send_email.to(account.email).with_subject("Action Needed: Card Recommendations Ready")
 
       new_notification = account.notifications.order(created_at: :asc).last
 
@@ -513,18 +514,6 @@ module AdminArea
       # it updates the person's 'last recs' timestamp:
       person.reload
       expect(person.last_recommendations_at).to be_within(5.seconds).of(Time.now)
-    end
-
-    it "sends an email to the user" do
-      pending
-      expect{complete_card_recs_form.submit}.to change {enqueued_jobs.size}.by(1)
-
-      expect do
-        perform_enqueued_jobs { ActionMailer::DeliveryJob.perform_now(*enqueued_jobs.first[:args]) }
-      end.to change {(ApplicationMailer.deliveries.length)}.by(1)
-
-      email = ApplicationMailer.deliveries.last
-      expect(email.subject).to eq "something"
     end
 
     example "clicking 'Done' without adding a recommendation note to the user" do
@@ -540,7 +529,12 @@ module AdminArea
       # it sends the note to the user:
       expect do
         complete_card_recs_form.submit
-      end.to change{account.recommendation_notes.count}.by(1)
+      end.to \
+        change{account.recommendation_notes.count}.by(1).and \
+        send_email.to(account.email).with_subject("Action Needed: Card Recommendations Ready")
+
+      email = ApplicationMailer.deliveries.last
+      expect(email.body).to include note_content
 
       new_note = account.recommendation_notes.order(created_at: :asc).last
       expect(new_note.content).to eq note_content

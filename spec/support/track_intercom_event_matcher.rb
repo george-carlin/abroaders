@@ -34,7 +34,7 @@ RSpec::Matchers.define :track_intercom_event do |event_name|
   # you might get false negatives or false positives).  but it's not worth the
   # effort to cover those cases for now. If you get the 'unknown  error'
   # message, you might want to update the matcher.
-  failure_message do |action|
+  failure_message do
     msg = "expected that an Intercom event called '#{@event_name}' would be "\
           "queued for the user with email '#{@email}', but "
 
