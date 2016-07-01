@@ -59,6 +59,8 @@ describe "admin section - person page", :manual_clean do
   let(:no_of_existing_notes) { 0 }
   let(:dead_offer) { AdminArea::RecommendableOfferOnPage.new(@dead_offer, self) }
 
+  let(:complete_card_recs_form) { AdminArea::CompleteCardRecsFormOnPage.new(self) }
+
   it { is_expected.to have_title full_title(@person.first_name) }
 
   it "displays the account's information" do
@@ -456,10 +458,6 @@ describe "admin section - person page", :manual_clean do
     end
   end
 
-  it "has a button to mark recommendations as complete" do
-    is_expected.to have_selector "input[value=Done][type=submit]"
-  end
-
   context "when the person has not received any recommendations before" do
     before { raise if person.last_recommendations_at.present? }
     it "doesn't display a 'last recs' timestamp" do
@@ -497,80 +495,69 @@ describe "admin section - person page", :manual_clean do
     end
   end
 
-  it "has a text input for Recommendation Notes" do
+  example "marking recommendations as complet " do
+    expect do
+      complete_card_recs_form.submit
+      account.reload
+    end.to \
+      change{account.notifications.count}.by(1).and \
+      change{account.unseen_notifications_count}.by(1)
+
+    new_notification = account.notifications.order(created_at: :asc).last
+
+    # it sends a notification to the user:
+    expect(new_notification).to be_a(Notifications::NewRecommendations)
+    expect(new_notification.record).to eq person
+
+    # it updates the person's 'last recs' timestamp:
+    person.reload
+    expect(person.last_recommendations_at).to be_within(5.seconds).of(Time.now)
+  end
+
+  it "sends an email to the user" do
+    pending
+    expect{complete_card_recs_form.submit}.to change {enqueued_jobs.size}.by(1)
+
+    expect do
+      perform_enqueued_jobs { ActionMailer::DeliveryJob.perform_now(*enqueued_jobs.first[:args]) }
+    end.to change {(ApplicationMailer.deliveries.length)}.by(1)
+
+    email = ApplicationMailer.deliveries.last
+    expect(email.subject).to eq "something"
+  end
+
+  example "clicking 'Done' without adding a recommendation note to the user" do
+    expect{complete_card_recs_form.submit}.to_not change{account.recommendation_notes.count}
+  end
+
+  example "sending a recommendation note to the user" do
     expect(page).to have_field :recommendation_note
+
+    note_content = "I like to leave notes."
+    complete_card_recs_form.add_rec_note(note_content)
+
+    # it sends the note to the user:
+    expect do
+      complete_card_recs_form.submit
+    end.to change{account.recommendation_notes.count}.by(1)
+
+    new_note = account.recommendation_notes.order(created_at: :asc).last
+    expect(new_note.content).to eq note_content
   end
 
-  describe "clicking 'Done'" do
-    let(:click_done) { click_button "Done" }
-    let(:new_notification) { account.notifications.last }
+  example "recommendation note with trailing whitespace" do
+    note_content = "  I like to leave notes.   "
+    complete_card_recs_form.add_rec_note(note_content)
+    complete_card_recs_form.submit
 
-    it "sends a notification to the user" do
-      expect{click_done}.to change{account.notifications.count}.by(1)
-      expect(new_notification).to be_a(Notifications::NewRecommendations)
-      expect(new_notification.record).to eq person
-    end
-
-    it "sends an email to the user" do
-      pending
-      expect{click_done}.to change { enqueued_jobs.size }.by(1)
-
-      expect do
-        perform_enqueued_jobs { ActionMailer::DeliveryJob.perform_now(*enqueued_jobs.first[:args]) }
-      end.to change {(ApplicationMailer.deliveries.length)}.by(1)
-
-      email = ApplicationMailer.deliveries.last
-      expect(email.subject).to eq "something"
-    end
-
-    it "updates the person's 'last recs' timestamp" do
-      click_done
-      expect(person.reload.last_recommendations_at).to be_within(5.seconds).of(Time.now)
-    end
-
-    it "increments the account's unseen_notifications_count" do
-      expect do
-        click_done
-        account.reload
-      end.to change{account.unseen_notifications_count}.by(1)
-    end
-
-    context "when I've added a recommendation note" do
-      let(:new_note) {"I like to leave notes."}
-      before { fill_in :recommendation_note, with: new_note }
-
-      it "sends the note to the user" do
-        expect do
-          click_done
-          account.recommendation_notes.reload
-        end.to change{account.recommendation_notes.count}.by(1)
-        expect(account.recommendation_notes.order(:created_at).last.content).to eq new_note
-      end
-
-      context "with trailing whitespace" do
-        let(:new_note) { "  I like to leave notes.  " }
-
-        it "strips whitespace before save" do
-          click_done
-          note = account.recommendation_notes.order(:created_at).last
-          expect(note.content).to eq new_note.strip
-        end
-      end
-    end
-
-    context "when I haven't added a recommendation note" do
-      it "doesn't add a recommendation note to the user" do
-        expect{click_done}.to_not change{account.recommendation_notes.reload.count}
-      end
-    end
-
-    context "filling in the recommendation note input with whitespace" do
-      before { fill_in :recommendation_note, with: "     \n \n \t\ \t " }
-
-      it "doesn't add a recommendation note to the user" do
-        expect{click_done}.to_not change{@account.recommendation_notes.reload.count}
-      end
-    end
+    new_note = account.recommendation_notes.order(created_at: :asc).last
+    expect(new_note.content).to eq note_content.strip
   end
 
+  example "recommendation note that's only whitespace" do
+    complete_card_recs_form.add_rec_note("     \n \n \t\ \t ")
+    expect do
+      complete_card_recs_form.submit
+    end.to_not change{account.recommendation_notes.count}
+  end
 end

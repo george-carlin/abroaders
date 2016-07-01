@@ -148,7 +148,10 @@
 
 
         <div class="col-xs-12">
-          <%= form_tag complete_admin_person_card_recommendations_path(person) do %>
+          <%= form_tag(
+            complete_admin_person_card_recommendations_path(person),
+            id: 'complete_card_recommendations'
+          ) do %>
             <%= text_area_tag(
               :recommendation_note, "",
               class: "form-control",
