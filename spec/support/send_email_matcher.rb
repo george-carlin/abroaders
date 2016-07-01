@@ -29,7 +29,7 @@ RSpec::Matchers.define :send_email do
 
   failure_message do
     msg = "expected that an email would be sent"
-   
+
     msg << " to #{@to}" if @to
     msg << " with subject '#{@subj}'" if @subj
 
