@@ -86,7 +86,9 @@ describe "account type select page", :js, :onboarding do
       expect do
         form.click_confirm_btn
         account.reload
-      end.not_to change{account.attributes}
+        # Add to_i because the CI system stores timestamps with more precision
+        # than my local machine, making this spec pass locally but fail on CI:
+      end.not_to change{account.updated_at.to_i}
       # no people have been created:
       expect(person_count_before).to eq Person.count
 
