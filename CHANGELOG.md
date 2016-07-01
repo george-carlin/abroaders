@@ -2,6 +2,15 @@
 
 ## June 2016
 
+*   Refactor: combine duplicative `MonthlySpending` React components into a
+    single component.
+
+    *George Millo*
+
+*   Onboarding survey asks users to optionally provide a phone number
+
+    *George Millo*
+
 *   Remove the 'Eligibility' model; refactor so that this information is stored
     in a new column on the `people` table.
 
