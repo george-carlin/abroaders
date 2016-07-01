@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## July 2016
+
+*   Feature: user receives an email when admin marks recs as complete
+
+    *George Millo*
+
 ## June 2016
 
 *   Refactor: combine duplicative `MonthlySpending` React components into a
