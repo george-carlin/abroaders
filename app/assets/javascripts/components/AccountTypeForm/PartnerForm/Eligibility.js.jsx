@@ -21,7 +21,7 @@ const Eligibility = React.createClass({
       person_0: `Only ${this.props.person1FirstName} is eligible.`,
       person_1: `Only ${this.props.person2FirstName} is eligible.`,
       neither:  "Neither of us is eligible.",
-    }
+    };
 
     return (
       <div>
@@ -53,7 +53,7 @@ const Eligibility = React.createClass({
         })()}
       </div>
     );
-  }
+  },
 });
 
 Eligibility.values = values;

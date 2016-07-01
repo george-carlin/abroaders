@@ -57,6 +57,7 @@ const AccountTypeForm = React.createClass({
               <SoloForm
                 active={!(this.state.currentAction === "initial")}
                 onChoose={this.onChooseSolo}
+                ownerName={this.props.ownerName}
                 path={this.props.soloPath}
               />
             );

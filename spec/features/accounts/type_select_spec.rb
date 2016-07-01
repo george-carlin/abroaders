@@ -61,11 +61,11 @@ describe "account type select page", :js, :onboarding do
     example "hiding and showing the solo monthly spending input" do
       choose "No - I am not eligible"
       # hides the monthly spending input but not the phone number
-      is_expected.to have_no_field :solo_account_monthly_spending_usd
-      is_expected.to have_field :solo_account_phone_number
+      expect(page).to have_no_field :solo_account_monthly_spending_usd
+      expect(page).to have_field :solo_account_phone_number
       # clicking 'eligible' show the monthly spending input again
       choose "Yes - I am eligible"
-      is_expected.to have_field :solo_account_monthly_spending_usd
+      expect(page).to have_field :solo_account_monthly_spending_usd
     end
 
     example "submitting when I'm not eligible to apply" do

@@ -9,9 +9,10 @@ const Step1 = require("./Step1");
 
 const SoloForm = React.createClass({
   propTypes: {
-    active:   React.PropTypes.bool,
-    onChoose: React.PropTypes.func.isRequired,
-    path:     React.PropTypes.string.isRequired,
+    active:    React.PropTypes.bool,
+    onChoose:  React.PropTypes.func.isRequired,
+    ownerName: React.PropTypes.string.isRequired,
+    path:      React.PropTypes.string.isRequired,
   },
 
 
@@ -92,6 +93,7 @@ const SoloForm = React.createClass({
                 monthlySpending={this.state.monthlySpending}
                 onChangeEligibility={this.updateEligibilityTo}
                 onChangeMonthlySpending={this.onChangeMonthlySpending}
+                ownerName={this.props.ownerName}
                 showMonthlySpendingError={this.state.showMonthlySpendingError}
               />
             );
