@@ -5,7 +5,7 @@
         app_id: "<%= ENV["INTERCOM_APP_ID"] %>",
         name:   "<%= current_account.owner_first_name %>",
         email:  "<%= current_account.email %>",
-        created_at: <%= current_account.utc.to_i %>,
+        created_at: <%= current_account.created_at.utc.to_i %>,
         user_hash: "<%= OpenSSL::HMAC.hexdigest('sha256', '_98l29AQNH_-V4IOzcZCfuUpXEf9G50rPNbkEB08', current_account.email) %>"
       };
     </script>
