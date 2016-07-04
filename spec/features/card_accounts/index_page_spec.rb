@@ -67,7 +67,7 @@ describe "as a user viewing my cards" do
       end
     end
 
-    describe "which I haven't seent yet" do
+    describe "which I haven't seen yet" do
       it "updates the time i saw them" do
         @recs.each do |recommendation|
           recommendation.reload
