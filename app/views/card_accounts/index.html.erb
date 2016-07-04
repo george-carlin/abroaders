@@ -23,6 +23,7 @@
             <p><%= page.recommendation_notes.last.content %></p>
             <hr>
           <% end %>
+
           <% if page.card_recommendations.any? %>
             <div id="card_recommendations">
               <div id="owner_card_recommendations">
@@ -51,9 +52,10 @@
             </div><!-- #card_recommendations -->
           <% else %>
             <div class="alert alert-info">
-              The Abroaders team is hand selecting the ideal rewards cards based on
-              your current points, travel plans and spending. We’ll let you know as
-              soon as the card recommendations are ready to view.
+              The Abroaders team is hand selecting the ideal rewards cards
+              based on your current points, travel plans and spending. We’ll
+              let you know as soon as the card recommendations are ready to
+              view.
             </div>
           <% end %>
         </div><!-- .panel-body -->

@@ -2,6 +2,11 @@
 
 ## July 2016
 
+*   Remove the placeholder 'your recs are coming soon' notice from the user
+    dashboard.
+
+    *George Millo*
+
 *   Feature: user receives an email when admin marks recs as complete
 
     *George Millo*
