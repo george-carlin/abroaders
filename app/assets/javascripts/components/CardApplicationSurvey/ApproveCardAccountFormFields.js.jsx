@@ -1,5 +1,4 @@
-const React    = require("react");
-const ReactDOM = require("react-dom");
+const React = require("react");
 
 const TextFieldTag = require("../core/TextFieldTag");
 
@@ -14,8 +13,6 @@ const ApproveCardAccountFormFields = React.createClass({
 
 
   componentDidMount() {
-    const that = this;
-
     if (this.props.askForDate) {
       const today = new Date(),
       thisYear  = today.getFullYear(),
@@ -23,7 +20,7 @@ const ApproveCardAccountFormFields = React.createClass({
       thisDate  = today.getDate(),
       twoMonthsAgo = new Date(thisYear, thisMonth - 2, thisDate);
 
-      const $input = $(ReactDOM.findDOMNode(this)).find("input[type=text]");
+      const $input = $(this._textField);
 
       $input.datepicker({
         defaultViewDate: { year: thisYear, month: thisMonth, date: thisDate },
@@ -65,6 +62,19 @@ const ApproveCardAccountFormFields = React.createClass({
     if (this.props.askForDate) {
       const openedAt = this.formatDate(new Date());
 
+      // Note: removing ReactDOM from the global scope (30b7591b) broke this
+      // component, as it was using ReactDOM from within componentDidMount.
+      // However, adding `require("react-dom")` at the top the file still
+      // didn't work because findDOMNode would raise an error about two copies
+      // of React being present, although I can't find anything that might be
+      // causing two copies of React to be loaded and don't understand why this
+      // error was occurring. Having just spent a lot of time on it and got
+      // nowhere, I'm resorting to a horribly hacky solution of adding
+      // 'refFunction' as a property to TextFieldTag and getting the DOM node
+      // that way. (Note that I can't just call 'ref' on TextFieldTag because
+      // that gives me a ref to the component's backing instance rather than
+      // the actual DOM node.)
+
       return (
         <div>
           <TextFieldTag
@@ -72,6 +82,7 @@ const ApproveCardAccountFormFields = React.createClass({
             className="card_account_opened_at"
             defaultValue={openedAt}
             modelName="card_account"
+            refFunction={(c) => this._textField = c}
             small
           />
           {confirmOrCancel}
