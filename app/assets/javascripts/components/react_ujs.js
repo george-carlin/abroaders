@@ -36,8 +36,11 @@ const $     = require("jquery");
 const _     = require("underscore");
 const humps = require("humps");
 
-$(document).ready(function () {
-  $("[data-react-component]").each(function (i, el) {
+$(document).ready(() => {
+  const React    = require("react");
+  const ReactDOM = require("react-dom");
+
+  $("[data-react-component]").each((i, el) => {
     const $el  = $(el);
     const data = $el.data();
 
@@ -48,16 +51,17 @@ $(document).ready(function () {
     const componentName = data.reactComponent;
     const component = window[componentName];
     if (typeof component === "undefined") {
-      throw "Unable to find React component called " + componentName;
+      throw `Unable to find React component called ${componentName}`;
     }
 
     delete data.reactComponent;
     const props = {};
-    _.each($el.data(), function(value, propName) {
+    _.each($el.data(), (value, propName) => {
       if (typeof value === "object") {
-        value = humps.camelizeKeys(value);
+        props[propName] = humps.camelizeKeys(value);
+      } else {
+        props[propName] = value;
       }
-      props[propName] = value;
     });
 
     ReactDOM.render(
