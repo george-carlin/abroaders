@@ -1,6 +1,6 @@
 // Including the react-rails gem alongside browserify-rails created
 // all kinds of headaches, and is discouraged in browserify-rails's own
-// README. So we're including React in the 'normal' NPM way (i.e. 
+// README. So we're including React in the 'normal' NPM way (i.e.
 // via package.json) - but react-rails's UJS helpers are too good to
 // give up on completely. This JS file provides an approximation
 // of what we had before with react-rails.
