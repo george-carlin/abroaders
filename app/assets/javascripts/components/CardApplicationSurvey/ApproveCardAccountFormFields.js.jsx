@@ -1,4 +1,5 @@
-const React = require("react");
+const React    = require("react");
+const ReactDOM = require("react-dom");
 
 const TextFieldTag = require("../core/TextFieldTag");
 
@@ -9,21 +10,6 @@ const ApproveCardAccountFormFields = React.createClass({
     askForDate:    React.PropTypes.bool,
     onClickCancel: React.PropTypes.func.isRequired,
     path:          React.PropTypes.string.isRequired,
-  },
-
-
-  formatDate(date) {
-    function leadingZeroes(num) {
-      num = num.toString();
-      if (num.length < 2) num = "0" + num;
-      return num;
-    }
-
-    const day   = leadingZeroes(date.getDate())
-    const month = leadingZeroes(date.getMonth() + 1)
-    const year  = date.getFullYear();
-
-    return month + "/" + day + "/" + year;
   },
 
 
@@ -49,6 +35,21 @@ const ApproveCardAccountFormFields = React.createClass({
         todayHighlight: true,
       });
     }
+  },
+
+
+  formatDate(date) {
+    function leadingZeroes(num) {
+      num = num.toString();
+      if (num.length < 2) num = "0" + num;
+      return num;
+    }
+
+    const day   = leadingZeroes(date.getDate())
+    const month = leadingZeroes(date.getMonth() + 1)
+    const year  = date.getFullYear();
+
+    return month + "/" + day + "/" + year;
   },
 
 
