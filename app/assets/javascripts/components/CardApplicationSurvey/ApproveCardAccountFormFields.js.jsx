@@ -13,21 +13,6 @@ const ApproveCardAccountFormFields = React.createClass({
   },
 
 
-  formatDate(date) {
-    function leadingZeroes(num) {
-      num = num.toString();
-      if (num.length < 2) num = "0" + num;
-      return num;
-    }
-
-    const day   = leadingZeroes(date.getDate())
-    const month = leadingZeroes(date.getMonth() + 1)
-    const year  = date.getFullYear();
-
-    return month + "/" + day + "/" + year;
-  },
-
-
   componentDidMount() {
     const that = this;
 
@@ -50,6 +35,21 @@ const ApproveCardAccountFormFields = React.createClass({
         todayHighlight: true,
       });
     }
+  },
+
+
+  formatDate(date) {
+    function leadingZeroes(num) {
+      num = num.toString();
+      if (num.length < 2) num = "0" + num;
+      return num;
+    }
+
+    const day   = leadingZeroes(date.getDate())
+    const month = leadingZeroes(date.getMonth() + 1)
+    const year  = date.getFullYear();
+
+    return month + "/" + day + "/" + year;
   },
 
 

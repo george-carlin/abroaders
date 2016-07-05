@@ -20,6 +20,7 @@
     "consistent-return": 0,
     "default-case" : 0,
     "eqeqeq" : 1,
+    "indent" : ["warning", 4, { "VariableDeclarator": { "var": 2, "let": 2, "const": 3 } }],
     "jsx-quotes":  [1, "prefer-double"],
     "key-spacing": 0,
     "no-cond-assign" : 0,
