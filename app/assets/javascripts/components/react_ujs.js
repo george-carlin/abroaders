@@ -32,11 +32,9 @@
 // (Any data attribute that's not called 'component' is assumed to be a prop of
 // the react component)
 
-const $     = require("jquery");
-const _     = require("underscore");
-const humps = require("humps");
 
 $(document).ready(() => {
+  const humps    = require("humps");
   const React    = require("react");
   const ReactDOM = require("react-dom");
 
@@ -49,7 +47,7 @@ $(document).ready(() => {
     // a JS object (rather than left as a string).
 
     const componentName = data.reactComponent;
-    const component = window[componentName];
+    const component = window.components[componentName];
     if (typeof component === "undefined") {
       throw `Unable to find React component called ${componentName}`;
     }
