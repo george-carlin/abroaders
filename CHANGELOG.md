@@ -2,6 +2,10 @@
 
 ## July 2016
 
+*   Upgraded to Rails 5.0.0. Hooray!
+
+    *George Millo*
+
 *   Remove the placeholder 'your recs are coming soon' notice from the user
     dashboard.
 
