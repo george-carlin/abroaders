@@ -44,12 +44,16 @@ $(document).ready(function () {
   });
 
   $personBalances.on("ajax:beforeSend", ".edit_balance", function (e) {
-    // Show spinner
-    console.log("before send");
+    // Show spinner and disable buttons
+    var $this = $(this);
+    $this.find(".LoadingSpinner").show();
+    $this.find("button").prop("disabled", true);
   });
 
   $personBalances.on("ajax:complete", ".edit_balance", function (e) {
     // Hide spinner
-    console.log("ajax complete");
+    var $this = $(this);
+    $this.find(".LoadingSpinner").hide();
+    $this.find("button").prop("disabled", false);
   });
 });
