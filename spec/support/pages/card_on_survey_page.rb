@@ -1,4 +1,4 @@
-class CardOnSurveyPage < ModelOnPage
+class CardOnSurveyPage < RecordOnPage
   alias_attribute :card, :model
 
   check_box :opened, Proc.new { "cards_survey_#{id}_card_account_opened" }

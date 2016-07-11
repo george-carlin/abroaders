@@ -1,5 +1,5 @@
 module AdminArea
-  class RecommendableOfferOnPage < ModelOnPage
+  class RecommendableOfferOnPage < RecordOnPage
     alias_method :offer, :model
 
     delegate :card, to: :offer
