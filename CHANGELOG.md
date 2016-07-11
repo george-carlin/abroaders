@@ -2,6 +2,10 @@
 
 ## July 2016
 
+*   Make the second argument to `ObjectOnPage.button` optional
+
+    *George Millo*
+
 *   Refactor: rename `ModelOnPage` to `RecordOnPage`.
 
     *George Millo*

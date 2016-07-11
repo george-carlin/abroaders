@@ -5,7 +5,9 @@ class ObjectOnPage < Struct.new(:spec_context)
     I18n.t(*args)
   end
 
-  def self.button(name, text)
+  def self.button(name, text=nil)
+    text ||= name.to_s.capitalize
+
     define_method "has_#{name}_button?" do
       text = instance_eval(&text) if text.is_a?(Proc)
       has_button?(text)
