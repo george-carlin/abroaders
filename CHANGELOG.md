@@ -2,6 +2,10 @@
 
 ## July 2016
 
+*   Feature: users can view and edit their balances
+
+    *George Millo*
+
 *   Make the second argument to `ObjectOnPage.button` optional
 
     *George Millo*

@@ -45,6 +45,8 @@ class Account < ApplicationRecord
   has_many :card_recommendations, through: :people
   has_many :cards, through: :card_accounts
 
+  has_many :balances, through: :people
+
   has_one :owner_spending_info, through: :owner, source: :spending_info
   has_one :companion_spending_info, through: :owner, source: :spending_info
 

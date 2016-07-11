@@ -53,10 +53,12 @@ Rails.application.routes.draw do
 
   # Note that 'cards' is a fixed list, and 'card accounts' is the join table
 
+  resources :balances
+
   resources :people, only: [] do
     resource :readiness_status, path: :readiness
 
-    resources :balances, only: [] do
+    resources :balances, only: [:new, :create] do
       collection do
         get  :survey
         post :survey, action: :save_survey
