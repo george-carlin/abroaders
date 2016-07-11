@@ -1,0 +1,9 @@
+var id      = <%= @balance.id %>;
+var value   = "<%= @balance.value %>";
+var isValid = <%= @value %>;
+
+if (isValid) {
+  BalancesIndex.saveNewBalance(id, value);
+} else {
+  BalancesIndex.showErrorMessage(id);
+}

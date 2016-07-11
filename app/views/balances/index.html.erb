@@ -1,0 +1,76 @@
+<h1>Balances</h1>
+
+<% @people.each do |person| %>
+  <%= render "shared/hpanel" do %>
+    <div id="<%= person.type %>_balannces" class="person_balances panel-body">
+
+      <% if current_account.has_companion? %>
+        <h2><%= person.first_name %>'s balances</h2>
+      <% end %>
+
+      <%= link_to "Add new balance", new_person_balance_path(person), class: "btn btn-primary" %>
+
+      <hr>
+
+      <% person.balances.each do |balance| %>
+        <%= form_for balance, data: { remote: true } do |f| %>
+          <% present(balance) do |balance_p| %>
+            <div id="<%= dom_id(balance_p) %>" class="<%= dom_class(balance_p) %> row">
+              <div class="col-xs-4">
+                <%= balance_p.currency_name %>
+              </div>
+              <div class="col-xs-4">
+                <span class="balance_value">
+                  <%= balance_p.value %>
+                </span>
+
+                <%= f.number_field :value, class: "balance_value_editing", style: "display: none;" %>
+              </div>
+              <div class="col-xs-4">
+                <button
+                  class="edit_balance_btn btn btn-sm btn-primary"
+                  data-balance-id="<%= balance.id %>"
+                >
+                  Edit
+                </button>
+
+                <div
+                  class="editing_balance_btn_group btn-group"
+                  style="display:none;"
+                >
+                  <button
+                    class="save_balance_btn btn btn-sm btn-primary"
+                    data-balance-id="<%= balance.id %>"
+                  >
+                    Save
+                  </button>
+                  <button
+                    class="cancel_edit_balance_btn btn btn-sm btn-default"
+                    data-balance-id="<%= balance.id %>"
+                  >
+                    Cancel
+                  </button>
+                </div>
+
+                <span
+                  class="editing_balance_error_msg"
+                  style="display:none;"
+                >
+                  Invalid value
+                </span>
+
+                <div class="LoadingSpinner"
+                  style="float: right; top: 13px; right: 22px; display:none;"
+                >
+                </div>
+
+              </div>
+            </div><!-- #dom_id(balance_p) -->
+
+            <hr />
+          <% end # present %>
+        <% end # form_for %>
+      <% end # balances.each %>
+    </div><!-- .person_balances -->
+  <% end # render hpanel %>
+<% end # people.each %>
