@@ -3,8 +3,8 @@ require_relative "../record_on_page"
 class CardAccountOnPage < RecordOnPage
   alias_method :card_account, :model
 
-  button :confirm, "Confirm"
-  button :cancel,  "Cancel"
+  button :confirm
+  button :cancel
 
   # =================================================
   # These methods pertain to elements which are only relevant to certain

@@ -4,9 +4,9 @@ module AdminArea
 
     delegate :card, to: :offer
 
-    button :cancel,    "Cancel"
-    button :confirm,   "Confirm"
-    button :recommend, "Recommend"
+    button :cancel
+    button :confirm
+    button :recommend
 
     def dom_id
       super(:admin_recommend)
