@@ -2,6 +2,10 @@
 
 ## July 2016
 
+*   Refactor: rename `ModelOnPage` to `RecordOnPage`.
+
+    *George Millo*
+
 *   Upgraded to Rails 5.0.0. Hooray!
 
     *George Millo*

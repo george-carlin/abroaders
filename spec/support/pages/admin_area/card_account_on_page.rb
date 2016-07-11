@@ -1,7 +1,7 @@
-require_relative "../model_on_page"
+require_relative "../record_on_page"
 
 module AdminArea
-  class CardAccountOnPage < ModelOnPage
+  class CardAccountOnPage < RecordOnPage
     alias_method :card_account, :model
 
     def has_status?(status)
