@@ -15,7 +15,7 @@ class BalanceForm < ApplicationForm
   # way more miles than anyone will ever have:
   validates :value,
     numericality: {
-      allow_nil: true,
+      allow_blank: true,
       greater_than_or_equal_to: 0,
       less_than_or_equal_to: 2_000_000_000,
     },
