@@ -2,7 +2,8 @@
 
 ## July 2016
 
-*   Feature: users can view and edit their balances
+*   Feature: users can view and edit their balances, and add new balances
+    outside of the onboarding survey
 
     *George Millo*
 
