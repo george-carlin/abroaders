@@ -1,7 +1,13 @@
-<h1>Balances</h1>
+<% content_for :header_panel do %>
+  <div class="panel-body">
+    <h1 class="font-light m-b-xs">
+      Balances
+    </h1>
 
-<% if @people.size == 1 %>
-  <%= link_to "Add new balance", new_person_balance_path(@people.first) %>
+    <% if @people.size == 1 %>
+      <%= link_to "Add new balance", new_person_balance_path(@people.first) %>
+    <% end %>
+  </div>
 <% end %>
 
 <% @people.each do |person| %>
