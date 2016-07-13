@@ -1,5 +1,7 @@
 class UserStatusCSV
 
+  DATE_FORMAT = "%D"
+
   def self.generate
     # Copy and paste this shitty code into the rails console on Heroku to print
     # out some CSV data that Erik can use:
@@ -28,22 +30,6 @@ class UserStatusCSV
       "onboarded",
     ]
 
-    def self.cols_for_rec_and_person(rec, person)
-      date_format = "%D"
-
-      [
-        person.first_name,
-        rec&.recommended_at&.strftime(date_format),
-        rec&.seen_at&.strftime(date_format),
-        rec&.clicked_at&.strftime(date_format),
-        rec&.applied_at&.strftime(date_format),
-        rec&.declined_at&.strftime(date_format),
-        rec&.opened_at&.strftime(date_format),
-        rec&.denied_at&.strftime(date_format),
-        person.readiness_status&.created_at&.strftime("%D")
-      ]
-    end
-
     person_includes = [:card_accounts, :card_recommendations, :readiness_status, :spending_info]
 
     rows = Account.includes(
@@ -51,20 +37,14 @@ class UserStatusCSV
       owner:     person_includes,
       companion: person_includes,
     ).find_each.map do |account|
-      row = [ account.email ]
+      owner_columns = generate_columns_for_person(account.owner)
 
-      owner    = account.owner
-      last_rec = owner.card_recommendations.order(created_at: :desc).first
-
-      row = [ account.email ] + cols_for_rec_and_person(last_rec, owner)
+      row = [ account.email ] + owner_columns
 
       if account.has_companion?
-        companion = account.companion
-        last_rec  = companion.card_recommendations.order(created_at: :desc).first
-
-        row += cols_for_rec_and_person(last_rec, companion)
+        row += generate_columns_for_person(account.companion)
       else
-        row += [nil]*9
+        row += [nil] * owner_columns.length
       end
 
       row += [
@@ -77,4 +57,20 @@ class UserStatusCSV
 
     CSV.generate { |csv| rows.each { |row| csv << row } }
   end
+
+  def self.generate_columns_for_person(person)
+    rec = person.card_recommendations.order(created_at: :desc).first
+    [
+      person.first_name,
+      rec&.recommended_at&.strftime(DATE_FORMAT),
+      rec&.seen_at&.strftime(DATE_FORMAT),
+      rec&.clicked_at&.strftime(DATE_FORMAT),
+      rec&.applied_at&.strftime(DATE_FORMAT),
+      rec&.declined_at&.strftime(DATE_FORMAT),
+      rec&.opened_at&.strftime(DATE_FORMAT),
+      rec&.denied_at&.strftime(DATE_FORMAT),
+      person.readiness_status&.created_at&.strftime("%D")
+    ]
+  end
+
 end
