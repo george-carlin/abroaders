@@ -54,13 +54,13 @@ class UserStatusCSV
       row = [ account.email ]
 
       owner    = account.owner
-      last_rec = owner.card_recommendations.order(created_at: :asc).first
+      last_rec = owner.card_recommendations.order(created_at: :desc).first
 
       row = [ account.email ] + cols_for_rec_and_person(last_rec, owner)
 
       if account.has_companion?
         companion = account.companion
-        last_rec  = companion.card_recommendations.order(created_at: :asc).first
+        last_rec  = companion.card_recommendations.order(created_at: :desc).first
 
         row += cols_for_rec_and_person(last_rec, companion)
       else
