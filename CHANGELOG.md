@@ -2,6 +2,11 @@
 
 ## July 2016
 
+*   Bug fix: recommendation CSV export was using the users' *oldest*
+    recommendation when it should have been using their *newest* one.
+
+    *George Millo*
+
 *   Feature: users can view and edit their balances, and add new balances
     outside of the onboarding survey
 
