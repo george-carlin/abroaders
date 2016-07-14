@@ -131,13 +131,12 @@ Rails.application.routes.draw do
     resources :offers, only: [] do
       collection do
         get :review
-        post :review_all
       end
     end
     # show and edit redirect to the nested action:
     resources :offers, only: [:show, :edit, :index] do
       member do
-        patch :kill
+        patch :kill, :verify
       end
     end
     resources :destinations, only: :index

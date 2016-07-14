@@ -233,7 +233,6 @@ describe "admin section" do
       describe "when page loads" do
         it "shows only live offers" do
           expect(page).to have_selector( ".offer", count: Offer.live.count)
-          expect(page).to have_button('Done')
         end
       end
 
@@ -243,6 +242,8 @@ describe "admin section" do
           is_expected.to have_content @live_1.card.bp
           expect(find("tr#offer_#{@live_1.id}").text).to include('never')
           is_expected.to have_link('Link', href: @live_1.link)
+          is_expected.to have_button "kill_offer_#{ @live_1.id }_btn"
+          is_expected.to have_button "verify_offer_#{ @live_1.id }_btn"
         end
       end
 
@@ -252,27 +253,24 @@ describe "admin section" do
         end
       end
 
-      describe "when pressing Done" do
-        it "updates live offers last_reviewed_at datetime" do
-          click_button("done_btn")
+      describe "when pressing Verify" do
+        it "updates selected last_reviewed_at datetime", :js => true do
+          click_button("verify_offer_#{ @live_1.id }_btn")
+          wait_for_ajax
           @live_1.reload
           expect(@live_1.last_reviewed_at).to be_within(2.seconds).of(Time.now)
+          expect(find("#reviewed_#{@live_1.id}").text).to include(Time.now.strftime("%m/%d/%Y"))
         end
       end
 
-      describe "when pressing Done" do
-        it "does not update dead offers last_reviewed_at datetime"do
+      describe "when pressing Verify" do
+        it "does not update other last_reviewed_at datetimes", :js => true do
           expect do
-            click_button("done_btn")
-            end.not_to change{@dead_1.last_reviewed_at}
-          end
-      end
-
-      describe "when pressing Done" do
-        it "redirects to offers review and alerts success" do
-          click_button("done_btn")
-          expect(page.current_path).to eq review_admin_offers_path
-          is_expected.to have_content "All live offers reviewed"
+            click_button("verify_offer_#{ @live_1.id }_btn")
+            wait_for_ajax
+            @live_2.reload
+            @dead_1.reload
+          end.not_to change{ @live_2.last_reviewed_at }
         end
       end
 

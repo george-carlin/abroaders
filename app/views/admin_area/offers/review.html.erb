@@ -6,10 +6,6 @@
       <div class="col-md-10">
         <h1>Review Live Offers</h1>
       </div>
-
-      <div class="col-md-2" style="margin-top:6px;">
-        <%= review_all_btn %>
-      </div>
     </div><!-- .row -->
   </div>
 <% end %>
@@ -46,9 +42,13 @@
               <td><%= offer.spend %></td>
               <td><%= offer.cost %></td>
               <td><%= offer.days %></td>
-              <td><%= offer.last_reviewed_at %></td>
+              <td id="reviewed_<%= offer.id %>"><%= offer.last_reviewed_at %></td>
               <td><%= offer.link_to_show_for_offer %></td>
-              <td><%= offer.kill_btn %></td>
+              <td><%= offer.link_to_edit %></td>
+              <div class="btn-group" role="group">
+                <td><%= offer.kill_btn %></td>
+                <td><%= offer.verify_btn %></td>
+              </div>
             <% end %>
           <% end %>
         </tbody>

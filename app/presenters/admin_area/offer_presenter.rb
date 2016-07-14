@@ -26,7 +26,7 @@ class AdminArea::OfferPresenter < OfferPresenter
     h.button_to(
         "Kill",
         h.kill_admin_offer_path(id),
-        class:  "#{h.dom_class(self, prefix)}_btn #{btn_classes} pull-right",
+        class:  "#{h.dom_class(self, prefix)}_btn #{btn_classes} pull-right btn-danger",
         id:     "#{h.dom_id(self, prefix)}_btn",
         params: { offer_id: id },
         :method => :patch,
@@ -34,5 +34,21 @@ class AdminArea::OfferPresenter < OfferPresenter
         data: { confirm: "Are you sure?" }
     )
   end
+
+  def verify_btn
+    btn_classes = "btn btn-xs btn-primary"
+    prefix = :verify
+    h.button_to(
+        "Verify",
+        h.verify_admin_offer_path(id),
+        class:  "#{h.dom_class(self, prefix)}_btn #{btn_classes} pull-right",
+        id:     "#{h.dom_id(self, prefix)}_btn",
+        params: { offer_id: id },
+        :method => :patch,
+        remote: true,
+        data: { confirm: "Verify this offer?" }
+    )
+  end
+
 
 end

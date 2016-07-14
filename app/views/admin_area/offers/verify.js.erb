@@ -1,0 +1,8 @@
+$('#verify_offer_<%= @offer.id %>_btn').fadeIn(function () {
+  $('#verify_offer_<%= @offer.id %>_btn').prop("value",'Verified!');
+  window.setTimeout(function() {$('#verify_offer_<%= @offer.id %>_btn').prop("value",'Verify')}, 2000);
+});
+
+$('#reviewed_<%= @offer.id %>').fadeIn(function () {
+  document.getElementById('reviewed_<%= @offer.id %>').firstChild.data = '<%= @offer.last_reviewed_at.strftime("%m/%d/%Y") %>';
+});
