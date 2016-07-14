@@ -12,6 +12,7 @@ class CardAccount::Status
     called_at
     redenied_at
     closed_at
+    expired_at
   ]
 
   TIMESTAMPS.each do |timestamp|
@@ -23,6 +24,7 @@ class CardAccount::Status
 
   def name
     # Note: the order of these return statements matters!
+    return "expired"  if expired_at.present?
     return "closed"   if closed_at.present?
     return "open"     if opened_at.present?
     return "declined" if declined_at.present?
@@ -52,7 +54,8 @@ class CardAccount::Status
 
   def timestamps_make_sense
     if recommended_at.nil?
-      %i[declined_at applied_at denied_at nudged_at called_at redenied_at].each do |timestamp|
+      %i[declined_at applied_at denied_at nudged_at
+                called_at redenied_at expired_at].each do |timestamp|
         errors.add(timestamp, :present) if attributes[timestamp].present?
       end
       errors.add(:opened_at, :blank) if opened_at.nil?
@@ -62,6 +65,16 @@ class CardAccount::Status
     if declined_at.present?
       %i[
         applied_at denied_at nudged_at called_at redenied_at opened_at closed_at
+        expired_at
+      ].each do |timestamp|
+        errors.add(timestamp, :present) if attributes[timestamp].present?
+      end
+      return
+    end
+
+    if expired_at.present?
+      %i[
+        applied_at nudged_at called_at redenied_at opened_at closed_at denied_at
       ].each do |timestamp|
         errors.add(timestamp, :present) if attributes[timestamp].present?
       end

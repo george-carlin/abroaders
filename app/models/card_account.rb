@@ -80,6 +80,13 @@ class CardAccount < ApplicationRecord
   #   denied_at timestamp because that's what determines when the user can
   #   apply again
   #
+  # expired_at
+  #   Cards which are recommended but not clicked within 15 days are assumed to
+  #   be declined. But for the sake of record-keeping, we mark this with a
+  #   separate time column, rather than reusing 'declined_at' (in which case it
+  #   would be unclear whether the user declined the card manually or it was
+  #   declined automatically)
+  #
   # created_at/updated_at
   #   The normal Rails/PSQL timestamp columns. But you already knew that ;)
   #
