@@ -107,6 +107,28 @@ describe CardAccount do
     expect(errors[:card]).not_to include(msg)
   end
 
+  example "#recommended?" do
+    card_account.recommended_at = Time.now
+    expect(card_account.recommended?).to be true
+    card_account.declined_at = Time.now
+    expect(card_account.recommended?).to be false
+  end
+
+  example "#declined?" do
+    card_account.recommended_at = Time.now
+    expect(card_account.declined?).to be false
+    card_account.declined_at = Time.now
+    expect(card_account.declined?).to be true
+  end
+
+  example "#denied?" do
+    card_account.recommended_at = Time.now
+    card_account.applied_at = Time.now
+    expect(card_account.denied?).to be false
+    card_account.denied_at = Time.now
+    expect(card_account.denied?).to be true
+  end
+
   # Callbacks
 
   describe "before validation" do
