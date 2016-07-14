@@ -6,6 +6,7 @@
 # example, the user accesses the card_accounts#index page at the path '/cards',
 # not at '/card_accounts/')
 class CardAccount < ApplicationRecord
+  extend Expiration
 
   # A card account has the following timestamps, all of which are nullable:
   #
