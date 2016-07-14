@@ -56,26 +56,28 @@ class CardAccount::Status
         errors.add(timestamp, :present) if attributes[timestamp].present?
       end
       errors.add(:opened_at, :blank) if opened_at.nil?
+      return
+    end
+
+    if declined_at.present?
+      %i[
+        applied_at denied_at nudged_at called_at redenied_at opened_at closed_at
+      ].each do |timestamp|
+        errors.add(timestamp, :present) if attributes[timestamp].present?
+      end
+      return
+    end
+
+    if applied_at.present?
+      if closed_at.present? && opened_at.nil?
+        errors.add(:opened_at, :blank)
+      end
+      if redenied_at.present? && denied_at.nil?
+        errors.add(:denied_at, :blank)
+      end
     else
-      if declined_at.present?
-        %i[
-          applied_at denied_at nudged_at called_at redenied_at opened_at closed_at
-        ].each do |timestamp|
-          errors.add(timestamp, :present) if attributes[timestamp].present?
-        end
-      else
-        if applied_at.present?
-          if closed_at.present? && opened_at.nil?
-            errors.add(:opened_at, :blank)
-          end
-          if redenied_at.present? && denied_at.nil?
-            errors.add(:denied_at, :blank)
-          end
-        else
-          %i[denied_at nudged_at called_at redenied_at opened_at closed_at].each do |timestamp|
-            errors.add(timestamp, :present) if attributes[timestamp].present?
-          end
-        end
+      %i[denied_at nudged_at called_at redenied_at opened_at closed_at].each do |timestamp|
+        errors.add(timestamp, :present) if attributes[timestamp].present?
       end
     end
   end
