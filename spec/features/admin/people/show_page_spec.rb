@@ -56,6 +56,7 @@ module AdminArea
     let(:name)    { @person.first_name }
     let(:chase)   { @chase }
     let(:us_bank) { @us_bank }
+    let(:offers)  { @offers }
 
     let(:no_of_existing_notes) { 0 }
     let(:dead_offer) { RecommendableOfferOnPage.new(@dead_offer, self) }
@@ -230,7 +231,7 @@ module AdminArea
           let(:opened_acc) { CardAccountOnPage.new(@opened_acc, self) }
           let(:closed_acc) { CardAccountOnPage.new(@closed_acc, self) }
 
-          it "lists them and says when they were opened/closed", :focus do
+          it "lists them and says when they were opened/closed" do
             within "#admin_person_cards_from_survey" do
               expect(opened_acc).to be_present
               expect(closed_acc).to be_present
@@ -247,13 +248,15 @@ module AdminArea
 
         context "which were added as recommendations" do
           let(:extra_setup) do
-            @new_rec      = \
-              create(:card_recommendation, recommended_at: jan, person: person)
-            @clicked_rec  = \
-              create(:card_recommendation, recommended_at: mar, clicked_at: oct, person: person)
-            @declined_rec = \
-              create(:card_recommendation, recommended_at: oct,
-                     declined_at: dec, person: person, decline_reason: "because")
+            @new_rec = person.card_recommendations.create!(
+              offer: offers[0], recommended_at: jan, person: person
+            )
+            @clicked_rec = person.card_recommendations.create!(
+              offer: offers[0], seen_at: jan, recommended_at: mar, clicked_at: oct
+            )
+            @declined_rec = person.card_recommendations.create!(
+              offer: offers[0], recommended_at: oct, seen_at: mar, declined_at: dec, decline_reason: "because"
+            )
           end
 
           let(:new_rec)      { CardAccountOnPage.new(@new_rec, self) }
@@ -274,14 +277,17 @@ module AdminArea
 
             # shows the recommended/applied/opened/closed dates:
             expect(new_rec).to have_recommended_at_date("01/01/15")
+            expect(new_rec).to have_no_seen_at_date
             expect(new_rec).to have_no_clicked_at_date
             expect(new_rec).to have_no_applied_at_date
 
             expect(clicked_rec).to have_recommended_at_date("03/01/15")
+            expect(clicked_rec).to have_seen_at_date("01/01/15")
             expect(clicked_rec).to have_clicked_at_date("10/01/15")
             expect(clicked_rec).to have_no_applied_at_date
 
             expect(declined_rec).to have_recommended_at_date("10/01/15")
+            expect(declined_rec).to have_seen_at_date("03/01/15")
             expect(declined_rec).to have_no_clicked_at_date
             expect(declined_rec).to have_declined_at_date("12/01/15")
 
