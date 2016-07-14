@@ -230,18 +230,18 @@ module AdminArea
           let(:opened_acc) { CardAccountOnPage.new(@opened_acc, self) }
           let(:closed_acc) { CardAccountOnPage.new(@closed_acc, self) }
 
-          it "lists them and says when they were opened/closed" do
+          it "lists them and says when they were opened/closed", :focus do
             within "#admin_person_cards_from_survey" do
               expect(opened_acc).to be_present
               expect(closed_acc).to be_present
             end
-            expect(opened_acc).to have_content "Open"
-            expect(closed_acc).to have_content "Closed"
+            expect(opened_acc).to have_status "Open"
+            expect(closed_acc).to have_status "Closed"
             # says when they were opened/closed:
-            expect(opened_acc).to have_selector ".card_account_opened_at", text: "Jan 2015"
-            expect(opened_acc).to have_selector ".card_account_closed_at", text: "-"
-            expect(closed_acc).to have_selector ".card_account_opened_at", text: "Mar 2015"
-            expect(closed_acc).to have_selector ".card_account_closed_at", text: "Oct 2015"
+            expect(opened_acc).to have_opened_at_date("Jan 2015")
+            expect(opened_acc).to have_no_closed_at_date
+            expect(closed_acc).to have_opened_at_date("Mar 2015")
+            expect(closed_acc).to have_closed_at_date("Oct 2015")
           end
         end
 

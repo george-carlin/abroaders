@@ -8,7 +8,7 @@ module AdminArea
       has_selector? ".card_account_status", text: status
     end
 
-    %i[recommended clicked applied declined].each do |event|
+    %i[recommended clicked applied declined opened closed].each do |event|
       define_method :"has_#{event}_at_date?" do |date|
         has_selector? ".card_account_#{event}_at", text: date
       end
