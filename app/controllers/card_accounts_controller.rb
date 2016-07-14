@@ -6,11 +6,7 @@ class CardAccountsController < NonAdminController
                                       only: [:survey, :save_survey]
 
   def index
-    [current_account.owner, current_account.partner].each do |person|
-      unless person.nil?
-        person.card_recommendations.unseen.update_all(seen_at: Time.now)
-      end
-    end
+    current_account.card_recommendations.unseen.update_all(seen_at: Time.now)
   end
 
 
