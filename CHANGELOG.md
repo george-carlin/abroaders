@@ -2,6 +2,12 @@
 
 ## July 2016
 
+*   When a user hasn't interacted with a recommendation (e.g. by clicking its
+    link) after 15 days, the recommendation will expire and the user will no
+    longer see it.
+
+    *George Millo*
+
 *   Admins can see a card recommendation's ‘seen at’ date.
 
     *George Millo*
