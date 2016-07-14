@@ -1,5 +1,5 @@
 module CardAccount::Expiration
-  EXPIRE_AFTER_NO_OF_DAYS = 14
+  EXPIRE_AFTER_NO_OF_DAYS = 15
 
   # Mark as 'expired' all recommendations which:
   #

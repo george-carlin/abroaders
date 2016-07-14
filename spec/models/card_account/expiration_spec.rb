@@ -5,8 +5,8 @@ describe CardAccount::Expiration do
     account_0 = create(:account)
     # account_1 = create(:account, :with_companion)
 
-    lose = 15.days.ago
-    keep = 14.days.ago + 1.minute
+    lose = 16.days.ago
+    keep = 15.days.ago + 1.minute
 
     offer = create(:offer)
 
