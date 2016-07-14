@@ -2,6 +2,10 @@
 
 ## July 2016
 
+*   Admins can see a card recommendation's ‘seen at’ date.
+
+    *George Millo*
+
 *   Bug fix: recommendation CSV export was using the users' *oldest*
     recommendation when it should have been using their *newest* one.
 
