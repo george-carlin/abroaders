@@ -1,5 +1,6 @@
-class PartnerAccountForm < ApplicationForm
-  attr_accessor :account, :monthly_spending_usd, :partner_first_name, :eligibility
+class PartnerAccountForm < AccountTypeForm
+  # TODO convert me to use Virtus
+  attr_accessor :account, :monthly_spending_usd, :partner_first_name, :eligibility, :phone_number
   attr_reader :person_0, :person_1
 
   def self.name
@@ -23,44 +24,39 @@ class PartnerAccountForm < ApplicationForm
     @eligibility = new_el
   end
 
-  def person_0_eligible_to_apply?
+  def person_0_eligible?
     %w[both person_0].include?(eligibility)
   end
 
-  def person_1_eligible_to_apply?
+  def person_1_eligible?
     %w[both person_1].include?(eligibility)
   end
 
-  def neither_eligible_to_apply?
+  def neither_eligible?
     eligibility == "neither"
   end
 
   validates :monthly_spending_usd,
     presence: true,
     numericality: { greater_than_or_equal_to: 0 },
-    unless: :neither_eligible_to_apply?
+    unless: :neither_eligible?
 
   validates :partner_first_name, presence: true
 
   private
 
   def persist!
-    account.update_attributes!(
-      monthly_spending_usd: monthly_spending_usd,
-      onboarded_type:       true,
-    )
+    account.monthly_spending_usd = monthly_spending_usd
+    account.onboarded_type       = true
+    account.phone_number = phone_number.strip if phone_number.present?
+    account.save!
     @person_0 = account.people.first
-    if person_0_eligible_to_apply?
-      person_0.eligible_to_apply!
-    else
-      person_0.ineligible_to_apply!
-    end
-    @person_1 = account.create_companion!(first_name: partner_first_name)
-    if person_1_eligible_to_apply?
-      person_1.eligible_to_apply!
-    else
-      person_1.ineligible_to_apply!
-    end
+    @person_0.update_attributes!(eligible: person_0_eligible?)
+    @person_1 = account.create_companion!(
+      eligible:   person_1_eligible?,
+      first_name: partner_first_name,
+    )
+    track_intercom_event!
   end
 
 end

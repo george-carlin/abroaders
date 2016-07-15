@@ -5,25 +5,21 @@ class AccountPresenter < ApplicationPresenter
       :tr,
       self,
       {
-        "data-companion-name":      companion&.first_name,
-        "data-email":               email,
-        "data-main-passenger-name": main_passenger.first_name,
-        "data-onboarded":           onboarded?,
+        "data-companion-name": companion&.first_name,
+        "data-email":          email,
+        "data-onboarded":      onboarded?,
+        "data-owner-name":     owner.first_name,
       },
       &block
     )
   end
 
-  def render_main_passenger
-    h.render "admin_area/people/table_cell", person: main_passenger
+  def link_to_owner
+    link_to_person(owner)
   end
 
-  def render_companion
-    if has_companion?
-      h.render "admin_area/people/table_cell", person: companion
-    else
-      "-"
-    end
+  def link_to_companion
+    has_companion? ? link_to_person(companion) : "-"
   end
 
   def created_at
@@ -34,4 +30,17 @@ class AccountPresenter < ApplicationPresenter
     timestamps = people.map(&:last_recommendations_at).compact
     timestamps.any? ? timestamps.max.strftime("%D") : "-"
   end
+
+  private
+
+  def link_to_person(person)
+    text = [person.first_name]
+    if person.ready_to_apply?
+      text << "(R)"
+    elsif person.eligible?
+      text << "(E)"
+    end
+    h.link_to text.join(" "), h.admin_person_path(person)
+  end
+
 end

@@ -58,11 +58,10 @@ describe "factories" do
           expect(Account.count).to eq 1
           expect(Person.count).to eq 2
           expect(SpendingInfo.count).to eq 2
-          expect(Eligibility.count).to eq 2
           expect(ReadinessStatus.count).to eq 2
           account.people.each do |person|
             expect(person.onboarded_eligibility?).to be true
-            expect(person.eligible_to_apply?).to be true
+            expect(person.eligible?).to be true
             expect(person.onboarded_spending?).to be true
             expect(person.onboarded_cards?).to be true
             expect(person.onboarded_balances?).to be true
@@ -80,10 +79,9 @@ describe "factories" do
           expect(Person.count).to eq 2
           expect(SpendingInfo.count).to eq 2
           expect(ReadinessStatus.count).to eq 2
-          expect(Eligibility.count).to eq 2
           account.people.each do |person|
             expect(person.onboarded_eligibility?).to be true
-            expect(person.eligible_to_apply?).to be true
+            expect(person.eligible?).to be true
             expect(person.onboarded_spending?).to be true
             expect(person.onboarded_cards?).to be true
             expect(person.onboarded_balances?).to be true
@@ -100,12 +98,11 @@ describe "factories" do
       it "creates an account with one person and his spending" do
         expect(Account.count).to eq 1
         expect(Person.count).to eq 1
-        expect(Eligibility.count).to eq 1
         expect(SpendingInfo.count).to eq 1
         account.people.each do |person|
           expect(person.onboarded_spending?).to be true
           expect(person.onboarded_eligibility?).to be true
-          expect(person.eligible_to_apply?).to be true
+          expect(person.eligible?).to be true
           expect(person.onboarded_cards?).to be false
           expect(person.onboarded_balances?).to be false
           expect(person.readiness_given?).to be false
@@ -119,12 +116,11 @@ describe "factories" do
       it "creates an account with one onboarded (but unready) person" do
         expect(Account.count).to eq 1
         expect(Person.count).to eq 1
-        expect(Eligibility.count).to eq 1
         expect(SpendingInfo.count).to eq 1
         expect(ReadinessStatus.count).to eq 1
         account.people.each do |person|
           expect(person.onboarded_eligibility?).to be true
-          expect(person.eligible_to_apply?).to be true
+          expect(person.eligible?).to be true
           expect(person.onboarded_spending?).to be true
           expect(person.onboarded_cards?).to be true
           expect(person.onboarded_balances?).to be true
@@ -140,12 +136,11 @@ describe "factories" do
       it "creates an account with one onboarded and ready person" do
         expect(Account.count).to eq 1
         expect(Person.count).to eq 1
-        expect(Eligibility.count).to eq 1
         expect(SpendingInfo.count).to eq 1
         expect(ReadinessStatus.count).to eq 1
         person = account.people.first
         expect(person.onboarded_eligibility?).to be true
-        expect(person.eligible_to_apply?).to be true
+        expect(person.eligible?).to be true
         expect(person.onboarded_spending?).to be true
         expect(person.onboarded_cards?).to be true
         expect(person.onboarded_balances?).to be true
@@ -170,7 +165,8 @@ describe "factories" do
     end
 
     it "doesn't set the person's eligibilty" do
-      expect{create_person}.not_to change{Eligibility.count}
+      create_person
+      expect(Person.last.eligible).to be_nil
     end
 
     it "doesn't create any SpendingInfos" do
@@ -180,17 +176,16 @@ describe "factories" do
     context "with :eligible trait" do
       let(:traits) { :eligible }
       it "creates a person who is eligible to apply for cards" do
-        expect{create_person}.to change{Eligibility.count}.by(1)
-        expect(person).to be_eligible_to_apply
+        create_person
+        expect(person).to be_eligible
       end
     end
 
     context "with :ineligible trait" do
       let(:traits) { :ineligible }
       it "creates a person who is ineligible to apply for cards" do
-        expect{create_person}.to change{Eligibility.count}.by(1)
-        expect(person.onboarded_eligibility?).to be true
-        expect(person).to be_ineligible_to_apply
+        create_person
+        expect(person.eligible).to be false
       end
     end
 
@@ -200,11 +195,10 @@ describe "factories" do
         create_person
         expect(Person.count).to eq 1
         expect(Account.count).to eq 1
-        expect(Eligibility.count).to eq 1
         expect(SpendingInfo.count).to eq 1
         expect(person.spending_info).to be_present
         expect(person.spending_info).to be_persisted
-        expect(person).to be_eligible_to_apply
+        expect(person).to be_eligible
       end
     end
 
@@ -214,11 +208,10 @@ describe "factories" do
         create_person
         expect(Person.count).to eq 1
         expect(Account.count).to eq 1
-        expect(Eligibility.count).to eq 1
         expect(SpendingInfo.count).to eq 1
         expect(person.spending_info).to be_present
         expect(person.spending_info).to be_persisted
-        expect(person).to be_eligible_to_apply
+        expect(person).to be_eligible
         expect(person.onboarded_eligibility?).to be true
         expect(person).to be_onboarded
         expect(person).not_to be_ready_to_apply
@@ -231,11 +224,10 @@ describe "factories" do
         create_person
         expect(Person.count).to eq 1
         expect(Account.count).to eq 1
-        expect(Eligibility.count).to eq 1
         expect(SpendingInfo.count).to eq 1
         expect(person.spending_info).to be_present
         expect(person.spending_info).to be_persisted
-        expect(person).to be_eligible_to_apply
+        expect(person).to be_eligible
         expect(person.onboarded_eligibility?).to be true
         expect(person).to be_onboarded
         expect(person).to be_ready_to_apply

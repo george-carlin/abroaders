@@ -1,0 +1,31 @@
+<%= render "shared/hpanel" do %>
+  <div class="panel-body">
+    <h1>
+      Add new Balance
+      <% if current_account.has_companion? %>
+        for <%= @person.first_name %>
+      <% end %>
+    </h1>
+
+    <%= render "shared/model_validation_errors", model: @balance %>
+
+    <%= form_for [@person, @balance] do |f| %>
+
+      <div class="form-group">
+        <%= f.label :currency_id %>
+        <%= f.collection_select :currency_id, Currency.all, :id, :name %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label        :value %>
+        <%= f.number_field :value %>
+      </div>
+
+      <%= f.submit class: "btn btn-primary" %>
+      &nbsp;
+
+      <%= link_to "Back", balances_path %>
+
+    <% end %>
+  </div>
+<% end %>

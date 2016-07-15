@@ -1,0 +1,79 @@
+---
+http_interactions:
+- request:
+    method: delete
+    uri: https://phkzmi5l:e33fc1c887328d9323e409231b9176ea2f8d4f65@api.intercom.io/users/576aa01e26b91f4132000059
+    body:
+      encoding: UTF-8
+      string: "{}"
+    headers:
+      Accept-Encoding:
+      - gzip, deflate
+      Accept:
+      - application/vnd.intercom.3+json
+      User-Agent:
+      - Intercom-Ruby/3.5.1
+      Content-Type:
+      - application/json
+      Acceptencoding:
+      - gzip, deflate
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 22 Jun 2016 14:30:33 GMT
+      Etag:
+      - W/"c448a772554a36ba7cb6d309dc72d592"
+      Server:
+      - nginx
+      Status:
+      - 200 OK
+      Strict-Transport-Security:
+      - max-age=31557600; includeSubDomains; preload
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Intercom-Version:
+      - 48da6a90e35f0ed03a401987bc536ff56f563631
+      X-Ratelimit-Limit:
+      - '500'
+      X-Ratelimit-Remaining:
+      - '499'
+      X-Ratelimit-Reset:
+      - '1466605860'
+      X-Request-Id:
+      - alf22gpne4aledg2g0c0
+      X-Runtime:
+      - '0.082495'
+      X-Xss-Protection:
+      - 1; mode=block
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAAmhalcAA2xSy27CMBD8F58jlABJgVP/oceqspZkSS38qr1GpYh/78Yh
+        lIjmlMzMzszauQg6exQ7kSIGUQjV8Xv90gCUFS6b/bY6rKvVsuSn3jI/yOQg
+        sknrQoB19mxcimJ3AB2xEGhAafZQljC0zkjCSAsK0B4lntDSK36D8RoXTLKh
+        BTPEvzmDziIDPmLqBtd7xgkIgthdpqo3gMsa6FGmoEfplbXe53bCfx5/jKo1
+        qzjHg1UYHyxG7LzQKtJc8v7BNtq1QMpZ2XESjw0QRJIBvxKvI4GmchmOiFYq
+        P2FtQCDssqpaN01T1vV2U4iAxhHKf+jNqixEVL1lOPknJvnueWLJExjj0LJ1
+        yTI1eLhWgZY+uIPSs43nzLT4kz6vn2xM+9gGtefQQ+BLzLf6d8n5L+Czt3Q7
+        oXFxgv4xkj+nnJHJ5hF7w4OzbiN0L3VX5IE2ReIKQMSFEuWtrtdfAAAA//8D
+        AMYB2wG5AgAA
+    http_version: 
+  recorded_at: Wed, 22 Jun 2016 14:30:33 GMT
+recorded_with: VCR 3.0.3

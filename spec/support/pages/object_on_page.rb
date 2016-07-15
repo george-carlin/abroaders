@@ -5,7 +5,9 @@ class ObjectOnPage < Struct.new(:spec_context)
     I18n.t(*args)
   end
 
-  def self.button(name, text)
+  def self.button(name, text=nil)
+    text ||= name.to_s.capitalize
+
     define_method "has_#{name}_button?" do
       text = instance_eval(&text) if text.is_a?(Proc)
       has_button?(text)
@@ -51,6 +53,10 @@ class ObjectOnPage < Struct.new(:spec_context)
   end
 
   def self.check_box(name, selector)
+    define_method "#{name}_check_box" do
+      find("##{selector}")
+    end
+
     define_method "has_#{name}_check_box?" do
       has_field?(selector.is_a?(Proc) ? instance_eval(&selector) : selector)
     end
@@ -68,6 +74,38 @@ class ObjectOnPage < Struct.new(:spec_context)
     define_method "uncheck_#{name}" do
       within_self do
         uncheck selector.is_a?(Proc) ? instance_eval(&selector) : selector
+      end
+    end
+  end
+
+  def self.radio(name, html_name, values)
+    define_method "#{name}_radio" do
+      find("##{selector}")
+    end
+
+    values.each do |value|
+      define_method "has_#{name}_#{value}_radio?" do
+        has_field?("#{html_name}_#{value}")
+      end
+
+      define_method "has_no_#{name}_#{value}_radio?" do
+        has_no_field?("#{html_name}_#{value}")
+      end
+
+      define_method "choose_#{name}_#{value}" do
+        choose "#{html_name}_#{value}"
+      end
+    end
+
+    define_method "has_#{name}_radios?" do
+      values.all? do |value|
+        send("has_#{name}_#{value}_radio?")
+      end
+    end
+
+    define_method "has_no_#{name}_radios?" do
+      values.all? do |value|
+        send("has_no_#{name}_#{value}_radio?")
       end
     end
   end
@@ -102,9 +140,10 @@ class ObjectOnPage < Struct.new(:spec_context)
     end
   end
 
-  def within_self(&block)
-    within(dom_selector, &block)
+  def within(&block)
+    super(dom_selector, &block)
   end
+  alias_method :within_self, :within
 
   %i[button content field selector].each do |element|
     ["has_#{element}?", "has_no_#{element}?"].each do |meth|

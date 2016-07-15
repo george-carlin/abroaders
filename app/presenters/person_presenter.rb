@@ -7,10 +7,10 @@ class PersonPresenter < ApplicationPresenter
     account.created_at.strftime("%D")
   end
 
-  delegate :email, to: :account
+  delegate :email, :phone_number, to: :account
 
   def eligibility
-    eligibility_given? ? (eligible_to_apply? ?  "Yes" : "No") : "Unknown"
+    onboarded_eligibility? ? (eligible? ?  "Yes" : "No") : "Unknown"
   end
 
   def readiness
@@ -28,14 +28,6 @@ class PersonPresenter < ApplicationPresenter
   def readiness_given_on
     readiness_given_at.strftime("%D")
   end
-
-  def link_to_new_card_recommendation
-    h.link_to(
-      "Recommend a card",
-      h.new_admin_person_card_recommendation_path(self)
-    )
-  end
-
 
   def update_readiness_btn
     btn_classes = "btn btn-lg btn-primary"

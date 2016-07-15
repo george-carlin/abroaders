@@ -30,7 +30,7 @@ class CardRecommendationsController < CardAccountsController
     # Make sure this is the right type of card account:
     if @account.declinable?
       @account.update_attributes!(decline_params)
-      flash[:success] = t("card_accounts.flash.successful.decline")
+      flash[:success] = t("card_accounts.index.declined")
     else
       flash[:info] = t("card_accounts.index.couldnt_decline")
     end

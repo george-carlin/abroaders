@@ -45,6 +45,12 @@ class BalancesSurvey
         if send_survey_complete_notification?
           AccountMailer.notify_admin_of_survey_completion(@person.account_id).deliver_later
         end
+
+        IntercomJobs::TrackEvent.perform_later(
+          email:      @person.account.email,
+          event_name: "obs_balances_#{@person.type[0..2]}",
+        )
+
         true
       end
     else
@@ -93,7 +99,7 @@ class BalancesSurvey
   private
 
   def send_survey_complete_notification?
-    !@person.eligible_to_apply? && !(@person.main? && @person.account.has_companion?)
+    !@person.eligible? && !(@person.main? && @person.account.has_companion?)
   end
 
 end

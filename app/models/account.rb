@@ -32,21 +32,23 @@ class Account < ApplicationRecord
   has_many :travel_plans
 
   has_many :people
-  has_one :main_passenger, -> { main }, class_name: "Person"
+  has_one :owner, -> { main }, class_name: "Person"
   has_one :companion, -> { companion }, class_name: "Person"
 
-  # TODO move away from 'passenger' and 'companion' terminology.
-  alias_method :main_person, :main_passenger
+  # TODO get rid of the 'partner' terminology, always use 'companion'
   alias_method :partner, :companion
+
+  delegate :first_name, to: :owner,   prefix: true
+  delegate :first_name, to: :partner, prefix: true
 
   has_many :card_accounts, through: :people
   has_many :card_recommendations, through: :people
   has_many :cards, through: :card_accounts
 
-  has_one :main_passenger_spending_info,
-            through: :main_passenger, source: :spending_info
-  has_one :companion_spending_info,
-            through: :main_passenger, source: :spending_info
+  has_many :balances, through: :people
+
+  has_one :owner_spending_info, through: :owner, source: :spending_info
+  has_one :companion_spending_info, through: :owner, source: :spending_info
 
   has_many :notifications, dependent: :destroy
   has_many :unseen_notifications, -> { unseen }, class_name: "Notification" do
@@ -54,6 +56,8 @@ class Account < ApplicationRecord
       proxy_association.owner.unseen_notifications_count
     end
   end
+
+  has_many :recommendation_notes, dependent: :destroy
 
   # TODO these methods don't belong in here; updating the counter cache is a
   # responsibility of the Notification class, not the Account class

@@ -12,16 +12,20 @@ module AlertsMacros
     ".alert.alert-success"
   end
 
-  def have_error_message(opts={})
-    have_selector error_message, opts
+  def have_error_message(text=nil, opts={})
+    have_selector error_message, opts.merge(text: text)
   end
 
-  def have_info_message(opts={})
-    have_selector info_message, opts
+  def have_no_error_message(text=nil, opts={})
+    have_no_selector error_message, opts.merge(text: text)
   end
 
-  def have_success_message(opts={})
-    have_selector success_message, opts
+  def have_info_message(text=nil, opts={})
+    have_selector info_message, opts.merge(text: text)
+  end
+
+  def have_success_message(text=nil, opts={})
+    have_selector success_message, opts.merge(text: text)
   end
 
 end

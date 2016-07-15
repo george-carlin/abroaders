@@ -2,6 +2,8 @@ class ReadinessStatusesController < AuthenticatedUserController
   before_action :redirect_if_not_onboarded_travel_plans!
   before_action :redirect_if_account_type_not_selected!
 
+  include EventTracking
+
   def new
     @person = load_person
     redirect_if_ineligible! and return
@@ -19,6 +21,8 @@ class ReadinessStatusesController < AuthenticatedUserController
         AccountMailer.notify_admin_of_survey_completion(current_account.id).deliver_later
       end
 
+      track_intercom_event("obs_#{"un" if !@status.ready?}ready_#{@person.type[0..2]}")
+
       redirect_to after_save_path
     else
       render "new"
@@ -32,10 +36,15 @@ class ReadinessStatusesController < AuthenticatedUserController
     redirect_if_readiness_not_given! and return
   end
 
+  # TODO make sure that this can only be accessed when the user is not already
+  # ready.
   def update
     person = load_person
     person.readiness_status.ready = true
     person.readiness_status.save!
+
+    track_intercom_event("obs_ready_#{person.type[0..2]}")
+
     flash[:success] = "Thanks! You will shortly receive your first card recommendation."
     redirect_to root_path
   end
@@ -63,13 +72,13 @@ class ReadinessStatusesController < AuthenticatedUserController
   end
 
   def redirect_if_ineligible!
-    redirect_to root_path and return true unless @person.eligible_to_apply?
+    redirect_to root_path and return true unless @person.eligible?
   end
 
   def after_save_path
     if !@person.main? || !(partner = current_account.companion)
       root_path
-    elsif partner.eligible_to_apply?
+    elsif partner.eligible?
       new_person_spending_info_path(partner)
     else
       survey_person_balances_path(partner)

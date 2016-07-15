@@ -14,6 +14,7 @@ class SpendingInfosController < AuthenticatedUserController
     @spending_info = SpendingSurvey.new(@person)
     if @spending_info.update_attributes(spending_survey_params)
       current_account.save!
+      track_intercom_event("obs_spending_#{@person.type[0..2]}")
       redirect_to survey_person_card_accounts_path(@person)
     else
       render "new"
@@ -36,7 +37,7 @@ class SpendingInfosController < AuthenticatedUserController
   end
 
   def redirect_if_inaccessible!
-    if !@person.eligible_to_apply?
+    if !@person.eligible?
       redirect_to survey_person_balances_path(@person) and return true
     elsif @person.onboarded_spending?
       redirect_to survey_person_card_accounts_path(@person) and return true

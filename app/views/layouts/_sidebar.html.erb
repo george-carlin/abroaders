@@ -6,6 +6,7 @@
         <% if current_account.onboarded? %>
           <%= sidebar_link_to "Travel Plans", travel_plans_path, TravelPlansController%>
           <%= sidebar_link_to "Cards", card_accounts_path, CardAccountsController %>
+          <%= sidebar_link_to  "Balances", balances_path, BalancesController %>
         <% end %>
       <% elsif current_admin %>
         <%= sidebar_link_to(

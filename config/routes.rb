@@ -1,9 +1,14 @@
+require 'resque/server'
+
 Rails.application.routes.draw do
   root to: "application#dashboard"
   # Even though we're overriding all the generated routes, we still need to
   # include the devise_for call to get access to methods like
   # `authenticate_account!`
   devise_for :account, only: []
+
+  # Mount this at a hard-to-guess URL
+  mount Resque::Server.new, at: "/resque-c08cb17ca6581cbcad1501a7da7e8579"
 
   get "/accounts/connect/awardwallet", to: "oauth#award_wallet"
 
@@ -48,10 +53,12 @@ Rails.application.routes.draw do
 
   # Note that 'cards' is a fixed list, and 'card accounts' is the join table
 
+  resources :balances
+
   resources :people, only: [] do
     resource :readiness_status, path: :readiness
 
-    resources :balances, only: [] do
+    resources :balances, only: [:new, :create] do
       collection do
         get  :survey
         post :survey, action: :save_survey
@@ -107,7 +114,11 @@ Rails.application.routes.draw do
   end
 
   namespace :admin, module: :admin_area do
-    resources :accounts, only: [ :index, :show ]
+    resources :accounts, only: [ :index, :show ] do
+      collection do
+        get :download_user_status_csv
+      end
+    end
     resources :cards, only: [] do
       collection do
         get  :images
@@ -135,7 +146,7 @@ Rails.application.routes.draw do
       get type.pluralize, to: "destinations##{type}"
     end
     resources :people, only: :show do
-      resources :card_recommendations, only: [:new, :create] do
+      resources :card_recommendations, only: [:create] do
         collection do
           post :complete
         end

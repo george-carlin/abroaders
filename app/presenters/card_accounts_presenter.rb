@@ -7,7 +7,7 @@ class CardAccountsPresenter < ApplicationPresenter
 
   # --- Methods only relevant when model is an Account ---
 
-  %i[main_person partner].each do |method|
+  %i[owner partner].each do |method|
     define_method method do
       self.class.new(super(), view)
     end

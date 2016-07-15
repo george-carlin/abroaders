@@ -5,7 +5,7 @@ describe "as a user viewing my cards - survey cards section" do
 
   include_context "logged in"
 
-  let(:me) { account.main_passenger }
+  let(:me) { account.owner }
   let(:partner) { account.companion }
 
   before do
@@ -21,7 +21,7 @@ describe "as a user viewing my cards - survey cards section" do
   let(:have_no_survey_cards_header) { have_no_selector "h2", text: "Other Cards" }
 
   let(:survey_cards_section)         { "#card_accounts_from_survey" }
-  let(:main_survey_cards_section)    { "#main_person_card_accounts_from_survey" }
+  let(:owner_survey_cards_section)    { "#owner_card_accounts_from_survey" }
   let(:partner_survey_cards_section) { "#partner_card_accounts_from_survey" }
 
   shared_context "I added cards in survey" do
@@ -34,14 +34,14 @@ describe "as a user viewing my cards - survey cards section" do
     let(:closed_account) { CardAccountOnPage.new(@closed_account, self) }
   end
 
-  shared_examples "lists main passenger cards" do
+  shared_examples "lists owner cards" do
     it "has a section for them" do
       is_expected.to have_survey_cards_header
-      is_expected.to have_selector main_survey_cards_section
+      is_expected.to have_selector owner_survey_cards_section
     end
 
     it "lists them" do
-      within main_survey_cards_section do
+      within owner_survey_cards_section do
         expect(open_account).to be_present
         expect(closed_account).to be_present
       end
@@ -82,7 +82,7 @@ describe "as a user viewing my cards - survey cards section" do
 
     context "and I added cards in the onboarding survey" do
       include_context  "I added cards in survey"
-      include_examples "lists main passenger cards"
+      include_examples "lists owner cards"
 
       it "doesn't divide 'Other Cards' into main/partner sections" do
         is_expected.to have_no_selector "h2", text: "#{me.first_name}'s cards"
@@ -102,7 +102,7 @@ describe "as a user viewing my cards - survey cards section" do
 
     context "and only I added cards in the onboarding survey" do
       include_context  "I added cards in survey"
-      include_examples "lists main passenger cards"
+      include_examples "lists owner cards"
 
       it "notes that my partner didn't add any cards" do
         is_expected.to have_selector "h3", text: "#{partner.first_name}'s Cards"
@@ -120,8 +120,8 @@ describe "as a user viewing my cards - survey cards section" do
       let(:closed_account) { CardAccountOnPage.new(@closed_account, self) }
 
       it "has a section for them" do
-        is_expected.to have_selector "h2", "Other Cards"
-        is_expected.to have_selector "#card_accounts_from_survey"
+        is_expected.to have_survey_cards_header
+        is_expected.to have_selector survey_cards_section
       end
 
       it "lists them" do
@@ -170,7 +170,7 @@ describe "as a user viewing my cards - survey cards section" do
       let(:p_closed) { CardAccountOnPage.new(@p_closed, self) }
 
       it "lists them all" do
-        within main_survey_cards_section do
+        within owner_survey_cards_section do
           expect(m_open).to be_present
           expect(m_closed).to be_present
         end

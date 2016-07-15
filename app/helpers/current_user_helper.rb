@@ -1,7 +1,8 @@
 module CurrentUserHelper
 
-  def current_main_passenger
-    current_account.try(:main_passenger)
+  # TODO doesn't look like this method or the next one are actually being used:
+  def current_owner
+    current_account.try(:owner)
   end
 
   def current_companion

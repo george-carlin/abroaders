@@ -4,16 +4,18 @@ const Button = require("../../core/Button");
 const FAIcon = require("../../core/FAIcon");
 const Form   = require("../../core/Form");
 
+const MonthlySpending = require("../MonthlySpending");
+const PhoneNumber     = require("../PhoneNumber");
+
 const Eligibility     = require("./Eligibility");
-const MonthlySpending = require("./MonthlySpending");
 const NameFields      = require("./NameFields");
 
 const PartnerForm = React.createClass({
   propTypes: {
-    active:         React.PropTypes.bool,
-    mainPersonName: React.PropTypes.string.isRequired,
-    onChoose:       React.PropTypes.func.isRequired,
-    path:           React.PropTypes.string.isRequired,
+    active:    React.PropTypes.bool,
+    ownerName: React.PropTypes.string.isRequired,
+    onChoose:  React.PropTypes.func.isRequired,
+    path:      React.PropTypes.string.isRequired,
   },
 
 
@@ -78,6 +80,24 @@ const PartnerForm = React.createClass({
     let classes = "PartnerForm account_type_select well col-xs-12 col-md-4";
     if (this.props.active) classes += " col-md-offset-4";
 
+    const modelName = "partner_account";
+
+    let namesOfEligiblePeople;
+    switch (this.state.eligibility) {
+      case "both":
+        namesOfEligiblePeople = [this.props.ownerName, this.state.partnerName];
+        break;
+      case "person_0":
+        namesOfEligiblePeople = [this.props.ownerName];
+        break;
+      case "person_1":
+        namesOfEligiblePeople = [this.state.partnerName];
+        break;
+      case "neither":
+        namesOfEligiblePeople = [];
+        break;
+    }
+
     return (
       <Form
         action={this.props.path}
@@ -106,7 +126,7 @@ const PartnerForm = React.createClass({
                 <Eligibility
                   eligibility={this.state.eligibility}
                   onChange={this.onChangeEligibility}
-                  person1FirstName={this.props.mainPersonName}
+                  person1FirstName={this.props.ownerName}
                   person2FirstName={this.state.partnerName}
                 />
 
@@ -114,11 +134,17 @@ const PartnerForm = React.createClass({
 
                 <MonthlySpending
                   eligibility={this.state.eligibility}
+                  modelName={modelName}
+                  namesOfEligiblePeople={namesOfEligiblePeople}
                   onChange={this.onChangeMonthlySpending}
-                  person0FirstName={this.props.mainPersonName}
+                  person0FirstName={this.props.ownerName}
                   person1FirstName={this.state.partnerName}
                   showError={this.state.showMonthlySpendingError}
                   value={this.state.monthlySpending}
+                />
+
+                <PhoneNumber
+                  modelName={modelName}
                 />
 
                 <Button primary >

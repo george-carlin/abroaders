@@ -1,21 +1,9 @@
 require "rails_helper"
 
-describe "card accounts survey", :onboarding, :js do
+describe "card accounts survey", :onboarding, :js, :manual_clean do
   subject { page }
 
-  let!(:account) do
-    create(
-      :account,
-      :onboarded_travel_plans => onboarded_travel_plans,
-      :onboarded_type         => onboarded_type,
-    )
-  end
-  let!(:me) { account.people.first }
-
-  before do
-    create(:spending_info, person: me) if onboarded_spending
-    me.update_attributes!(first_name: "George", onboarded_cards: onboarded_cards)
-    eligible ?  me.eligible_to_apply! : me.ineligible_to_apply!
+  before(:all) do
     chase = Bank.find_by(name: "Chase")
     citi  = Bank.find_by(name: "Citibank")
     @visible_cards = [
@@ -26,22 +14,27 @@ describe "card accounts survey", :onboarding, :js do
       create(:card, :personal, :visa,       bank_id: citi.id,  name: "Card 4"),
     ]
     @hidden_card = create(:card, shown_on_survey: false)
-
-    login_as account.reload
-
-    # Sanity checks:
-    raise unless eligible == me.eligible_to_apply?
-    raise unless onboarded_cards == me.onboarded_cards?
-    raise unless onboarded_spending == me.onboarded_spending?
-    visit survey_person_card_accounts_path(me)
   end
 
-  let(:eligible)           { true }
-  let(:onboarded_cards)    { false }
-  let(:onboarded_spending) { true }
-  let(:onboarded_type)     { true }
-  let(:onboarded_travel_plans) { true }
+  before do
+    @account = create(:account, :onboarded_type)
+    create(:spending_info, person: @account.owner)
+    @account.owner.update_attributes!(eligible: true)
 
+    if i_am_owner
+      @me = account.owner
+    else
+      @me = create(:person_with_spending, :eligible, main: false, account: account)
+    end
+
+    login_as account.reload
+    visit survey_person_card_accounts_path(@me)
+  end
+
+  let(:account) { @account }
+  let(:me) { @me }
+  let(:name) { me.first_name }
+  let(:i_am_owner) { true }
   let(:submit_form) { click_button "Submit" }
 
   def card_on_page(card)
@@ -58,40 +51,23 @@ describe "card accounts survey", :onboarding, :js do
       submit_form
       expect(me.reload.onboarded_cards?).to be true
     end
-  end
 
-  context "when I haven't completed the travel plans survey" do
-    let(:onboarded_travel_plans) { false }
-    it "redirects me to the travel plan survey" do
-      expect(current_path).to eq new_travel_plan_path
+    context "when I am the account owner" do
+      let(:i_am_owner) { true }
+      it "tracks an event on Intercom", :intercom do
+        expect{submit_form}.to \
+          track_intercom_event("obs_cards_own").
+          for_email(account.email)
+      end
     end
-  end
 
-  context "when I haven't chosen an account type yet" do
-    let(:onboarded_type) { false }
-    it "redirects me to the accounts type survey" do
-      expect(current_path).to eq type_account_path
-    end
-  end
-
-  context "when I'm not eligible to apply for cards" do
-    let(:eligible) { false }
-    it "redirects me to my balances survey" do
-      expect(current_path).to eq survey_person_balances_path(me)
-    end
-  end
-
-  context "when I need to complete the spending survey" do
-    let(:onboarded_spending) { false }
-    it "redirects me to the spending survey" do
-      expect(current_path).to eq new_person_spending_info_path(me)
-    end
-  end
-
-  context "when I've already completed this survey" do
-    let(:onboarded_cards) { true }
-    it "redirects to their balances survey" do
-      expect(current_path).to eq survey_person_balances_path(me)
+    context "when I am the companion" do
+      let(:i_am_owner) { false }
+      it "tracks an event on Intercom", :intercom do
+        expect{submit_form}.to \
+          track_intercom_event("obs_cards_com").
+          for_email(account.email)
+      end
     end
   end
 
@@ -101,7 +77,7 @@ describe "card accounts survey", :onboarding, :js do
 
   it "asks if I have ever had any cards that earn points or miles" do
     expect(page).to have_content \
-      "Has George ever had a credit card that earns points or miles?"
+      "Has #{name} ever had a credit card that earns points or miles?"
     expect(page).to have_button "Yes"
     expect(page).to have_button "No"
   end
@@ -115,11 +91,11 @@ describe "card accounts survey", :onboarding, :js do
 
     it "asks to confirm" do
       expect(page).to have_no_content \
-        "Has George ever had a credit card that earns points or miles?"
+        "Has #{name} ever had a credit card that earns points or miles?"
       expect(page).to have_no_button "Yes"
       expect(page).to have_no_button "No"
       expect(page).to have_content \
-        "George has never had a card that earns points or miles"
+        "#{name} has never had a card that earns points or miles"
       expect(page).to have_button "Confirm"
       expect(page).to have_button "Back"
     end
@@ -139,11 +115,11 @@ describe "card accounts survey", :onboarding, :js do
 
       it "goes back" do
         expect(page).to have_content \
-          "Has George ever had a credit card that earns points or miles?"
+          "Has #{name} ever had a credit card that earns points or miles?"
         expect(page).to have_button "Yes"
         expect(page).to have_button "No"
         expect(page).to have_no_content \
-          "George has never had a card that earns points or miles"
+          "#{name} has never had a card that earns points or miles"
         expect(page).to have_no_button "Confirm"
         expect(page).to have_no_button "Back"
       end

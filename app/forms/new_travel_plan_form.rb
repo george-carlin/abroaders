@@ -6,6 +6,10 @@ class NewTravelPlanForm < TravelPlanForm
     plan.save!
     unless @account.onboarded_travel_plans?
       @account.update_attributes!(onboarded_travel_plans: true)
+      IntercomJobs::TrackEvent.perform_later(
+        email: @account.email,
+        event_name: "obs_travel_plan",
+      )
     end
   end
 

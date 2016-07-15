@@ -14,22 +14,6 @@ ActiveRecord::Migration.maintain_test_schema!
 include Warden::Test::Helpers
 Warden.test_mode!
 
-# Right now we're sending emails using deliver_later even though we don' have a
-# system in place that will process background jobs. ActionMailer handles this
-# by defaulting to sending the email inline. Unfortunately, the emails don't
-# appear to get "sent" in test mode when you call deliver_later. I have no
-# idea if there's a "correct" way to fix this, but this crappy hack makes
-# code like `expect{something}.to change{ApplicationMailer.deliveries.length}`
-# work when previously it wouldn't
-#
-# This monkey patch will need to be removed once we finally get Resque set up!
-# TODO TODO TODO
-class ActionMailer::MessageDelivery
-  def deliver_later
-    deliver_now
-  end
-end
-
 require 'capybara/poltergeist'
 Capybara.javascript_driver = :poltergeist
 
@@ -58,36 +42,44 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
 
   config.include ActionView::RecordIdentifier, type: :feature
+  config.include ActiveJob::TestHelper
   config.include ControllerMacros, type: :controller
   config.include Devise::TestHelpers, type: :controller
   config.include FactoryGirl::Syntax::Methods
+  config.include I18nWithErrorRaising
   config.include WaitForAjax, type: :feature
   config.include AlertsMacros, type: :feature
   config.include TitleHelper, type: :feature
 
-  # Pass 'manual_clean: true' to tests to prevent RSpec from automatically
-  # cleaning the database in between each test run. That way we can create
-  # variables in before(:all) blocks to make tests run faster. USE WITH
-  # CAUTION!
-
-  config.before(:each) do |example|
-    next if example.metadata[:manual_clean]
-
+  # For info on how the 'manual_clean' option works, see the notes in
+  # spec/support/test_data_store.rb
+  config.around(:each) do |example|
     if example.metadata[:js]
-      DatabaseCleaner.strategy = :truncation
+      if example.metadata[:manual_clean]
+        ApplicationRecord.__storing_on = true
+        example.run
+        TestDataStore.clean
+        ApplicationRecord.__storing_on = false
+      else
+        DatabaseCleaner.strategy = :truncation
+        DatabaseCleaner.start
+        example.run
+        DatabaseCleaner.clean
+      end
     else
       DatabaseCleaner.strategy = :transaction
+      DatabaseCleaner.start
+      example.run
+      DatabaseCleaner.clean
     end
-    DatabaseCleaner.start
   end
 
-  config.after(:each) do |example|
+  config.after(:each) do
     Warden.test_reset!
-    DatabaseCleaner.clean unless example.metadata[:manual_clean]
   end
 
-  def t(*args)
-    I18n.t(*args)
+  config.after(:all) do
+    DatabaseCleaner.clean_with :truncation
   end
 
   def login_as_account(account)
@@ -104,6 +96,12 @@ RSpec.configure do |config|
   # for a slideUp/slideDown to finish:
   def wait_for_slide
     sleep JQUERY_DEFAULT_SLIDE_DURATION
+  end
+
+  def send_all_enqueued_emails!
+    enqueued_jobs.select{ |job| job[:job] == ActionMailer::DeliveryJob }.each do |job|
+      ActionMailer::DeliveryJob.perform_now(*job[:args])
+    end
   end
 
 end

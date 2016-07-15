@@ -7,7 +7,7 @@ describe "as a user viewing my cards", :js do
 
   include_context "logged in"
 
-  let(:me) { account.main_passenger }
+  let(:me) { account.owner }
 
   let!(:rec) do
     create(
@@ -99,8 +99,7 @@ describe "as a user viewing my cards", :js do
 
         it "shows a success message" do
           click_confirm_btn
-          expect(page).to have_success_message \
-            "You have indicated that you do not want to apply for this card"
+          expect(page).to have_success_message t("card_accounts.index.declined")
         end
 
         context "when the card is no longer 'declinable'" do
@@ -115,7 +114,7 @@ describe "as a user viewing my cards", :js do
           it "fails gracefully", :backend, :frontend do
             click_confirm_btn
             expect(current_path).to eq card_accounts_path
-            expect(page).to have_info_message text: t("card_accounts.index.couldnt_decline")
+            expect(page).to have_info_message t("card_accounts.index.couldnt_decline")
           end
         end
       end

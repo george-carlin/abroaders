@@ -23,9 +23,9 @@ const Eligibility = React.createClass({
         </HelpBlock>
 
         <Radio
-          attribute="eligible_to_apply"
+          attribute="eligible"
           checked={this.props.isEligibleToApply}
-          className="solo_account_eligible_to_apply"
+          className="solo_account_eligible"
           labelText="Yes - I am eligible"
           modelName="solo_account"
           onChange={() => this.props.onChange(true) }
@@ -33,9 +33,9 @@ const Eligibility = React.createClass({
         />
 
         <Radio
-          attribute="eligible_to_apply"
+          attribute="eligible"
           checked={!this.props.isEligibleToApply}
-          className="solo_account_eligible_to_apply"
+          className="solo_account_eligible"
           labelText="No - I am not eligible"
           modelName="solo_account"
           onChange={() => this.props.onChange(false) }

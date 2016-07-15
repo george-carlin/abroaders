@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160614040449) do
+ActiveRecord::Schema.define(version: 20160629134229) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +32,7 @@ ActiveRecord::Schema.define(version: 20160614040449) do
     t.boolean  "onboarded_type",             default: false, null: false
     t.boolean  "onboarded_travel_plans",     default: false, null: false
     t.integer  "unseen_notifications_count", default: 0,     null: false
+    t.string   "phone_number"
     t.index ["email"], name: "index_accounts_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_accounts_on_reset_password_token", unique: true, using: :btree
   end
@@ -133,14 +133,6 @@ ActiveRecord::Schema.define(version: 20160614040449) do
     t.index ["type"], name: "index_destinations_on_type", using: :btree
   end
 
-  create_table "eligibilities", force: :cascade do |t|
-    t.integer  "person_id",  null: false
-    t.boolean  "eligible",   null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["person_id"], name: "index_eligibilities_on_person_id", using: :btree
-  end
-
   create_table "flights", force: :cascade do |t|
     t.integer  "travel_plan_id",                       null: false
     t.integer  "position",       limit: 2, default: 0, null: false
@@ -194,6 +186,7 @@ ActiveRecord::Schema.define(version: 20160614040449) do
     t.boolean  "onboarded_balances",      default: false, null: false
     t.string   "award_wallet_email"
     t.datetime "last_recommendations_at"
+    t.boolean  "eligible"
     t.index ["account_id", "main"], name: "index_people_on_account_id_and_main", unique: true, using: :btree
   end
 
@@ -204,6 +197,14 @@ ActiveRecord::Schema.define(version: 20160614040449) do
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
     t.index ["person_id"], name: "index_readiness_statuses_on_person_id", unique: true, using: :btree
+  end
+
+  create_table "recommendation_notes", force: :cascade do |t|
+    t.text     "content",    null: false
+    t.integer  "account_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_recommendation_notes_on_account_id", using: :btree
   end
 
   create_table "spending_infos", force: :cascade do |t|
@@ -237,7 +238,6 @@ ActiveRecord::Schema.define(version: 20160614040449) do
   add_foreign_key "card_accounts", "people", on_delete: :cascade
   add_foreign_key "cards", "currencies", on_delete: :restrict
   add_foreign_key "destinations", "destinations", column: "parent_id", on_delete: :restrict
-  add_foreign_key "eligibilities", "people", on_delete: :cascade
   add_foreign_key "flights", "destinations", column: "from_id", on_delete: :restrict
   add_foreign_key "flights", "destinations", column: "to_id", on_delete: :restrict
   add_foreign_key "flights", "travel_plans", on_delete: :cascade
@@ -245,6 +245,7 @@ ActiveRecord::Schema.define(version: 20160614040449) do
   add_foreign_key "offers", "cards", on_delete: :cascade
   add_foreign_key "people", "accounts", on_delete: :cascade
   add_foreign_key "readiness_statuses", "people", on_delete: :cascade
+  add_foreign_key "recommendation_notes", "accounts", on_delete: :cascade
   add_foreign_key "spending_infos", "people", on_delete: :cascade
   add_foreign_key "travel_plans", "accounts", on_delete: :cascade
 end

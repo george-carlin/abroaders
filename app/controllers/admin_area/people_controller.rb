@@ -11,6 +11,10 @@ module AdminArea
       accounts_scope = @person.card_accounts.includes(:card, offer: :card)
       @cards_from_survey    = accounts_scope.from_survey
       @card_recommendations = accounts_scope.recommendations
+      @card_recommendation  = accounts_scope.recommendations.build
+      @offers_grouped_by_card = \
+        Offer.includes(:card, card: :currency).live.group_by(&:card)
+      @recommendation_notes = @account.recommendation_notes
     end
 
     private

@@ -8,7 +8,7 @@ const PartnerForm = require("./PartnerForm");
 const AccountTypeForm = React.createClass({
   propTypes: {
     destinationName: React.PropTypes.string,
-    mainPersonName:  React.PropTypes.string.isRequired,
+    ownerName:       React.PropTypes.string.isRequired,
     soloPath:        React.PropTypes.string.isRequired,
     partnerPath:     React.PropTypes.string.isRequired,
   },
@@ -57,6 +57,7 @@ const AccountTypeForm = React.createClass({
               <SoloForm
                 active={!(this.state.currentAction === "initial")}
                 onChoose={this.onChooseSolo}
+                ownerName={this.props.ownerName}
                 path={this.props.soloPath}
               />
             );
@@ -68,7 +69,7 @@ const AccountTypeForm = React.createClass({
             return (
               <PartnerForm
                 active={!(this.state.currentAction === "initial")}
-                mainPersonName={this.props.mainPersonName}
+                ownerName={this.props.ownerName}
                 onChoose={this.onChooseCouples}
                 path={this.props.partnerPath}
               />

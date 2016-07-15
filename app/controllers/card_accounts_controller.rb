@@ -6,7 +6,7 @@ class CardAccountsController < AuthenticatedUserController
                                       only: [:survey, :save_survey]
 
   def index
-    [current_account.main_person, current_account.partner].each do |person|
+    [current_account.owner, current_account.partner].each do |person|
       unless person.nil?
         person.card_accounts.unseen.update_all(seen_at: Time.now)
       end
@@ -47,7 +47,7 @@ class CardAccountsController < AuthenticatedUserController
   def redirect_if_survey_is_inaccessible!
     if !@person.onboarded_spending?
       redirect_to new_person_spending_info_path(@person) and return true
-    elsif !@person.eligible_to_apply? || @person.onboarded_cards?
+    elsif !@person.eligible? || @person.onboarded_cards?
       redirect_to survey_person_balances_path(@person) and return true
     end
   end

@@ -1,5 +1,6 @@
 # See http://nithinbekal.com/posts/rails-presenters/
 class ApplicationPresenter < SimpleDelegator
+  include I18nWithErrorRaising
 
   def initialize(model, view)
     @model, @view = model, view
@@ -17,10 +18,6 @@ class ApplicationPresenter < SimpleDelegator
 
   def h
     view
-  end
-
-  def t(*args)
-    I18n.t(*args)
   end
 
   attr_reader :model, :view

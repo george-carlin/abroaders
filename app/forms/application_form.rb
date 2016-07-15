@@ -1,5 +1,6 @@
 class ApplicationForm
   include ActiveModel::Model
+  include I18nWithErrorRaising
 
   # An empty checkbox in Rails submits "0", while a radio button with
   # value 'false' submits "false" (a string, not a bool) - both of which Ruby
@@ -20,6 +21,18 @@ class ApplicationForm
         )
       end
     end
+  end
+
+  def self.create(*attrs)
+    instance = new(*attrs)
+    instance.save
+    instance
+  end
+
+  def self.create!(*attrs)
+    instance = new(*attrs)
+    instance.save!
+    instance
   end
 
   # A form object is never persisted

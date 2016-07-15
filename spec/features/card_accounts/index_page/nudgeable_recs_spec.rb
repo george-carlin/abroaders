@@ -4,7 +4,7 @@ describe "user cards page - nudgeable cards", :js do
 
   include_context "logged in"
 
-  let(:me) { account.main_passenger }
+  let(:me) { account.owner }
 
   let(:recommended_at) { 7.days.ago.to_date  }
   let(:applied_at) { 7.days.ago.to_date }

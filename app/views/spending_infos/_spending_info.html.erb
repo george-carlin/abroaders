@@ -21,13 +21,6 @@
         <td><%= spending_info.will_apply_for_loan %></td>
       </tr>
 
-      <% if spending_info.person.award_wallet_email.present? %>
-        <tr>
-          <td>Award Wallet email:</td>
-          <td><%= spending_info.person.award_wallet_email %></td>
-        </tr>
-      <% end %>
-
       <% present(spending_info.person) do |person| %>
         <% if local_assigns[:show_eligibility] %>
           <tr>

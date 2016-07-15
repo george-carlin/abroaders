@@ -35,8 +35,8 @@ namespace :ab do
 
           # Make the main passenger's first name match the account's email
           # address:
-          if account.main_passenger
-            account.main_passenger.first_name = \
+          if account.owner
+            account.owner.first_name = \
               account.email.split("@").first.sub(/-\d+/, "").capitalize
           end
 

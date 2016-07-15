@@ -28,8 +28,10 @@ module Abroaders
     config.generators.jbuilder = false
 
     config.browserify_rails.commandline_options = [
-      "--transform reactify --extension=\".js.jsx\"",
-      "-t [ babelify --presets [ es2015 ] ]"
+      "--extension=.js",
+      "--extension=.js.jsx",
+      "--extension=.jsx",
+      "-t [ babelify --presets [ es2015 react ] ]"
     ]
   end
 end

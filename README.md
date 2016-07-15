@@ -81,6 +81,31 @@ When you're done with the story:
 
 ## General
 
+- The golden rule: write **readable, understandable** code. Code is read far
+  more times than it is written, and developers are more expensive than
+  processing power. In an ideal world, another programmer should be able to
+  pick up where you've left off and modify/improve/fix your code with only the
+  bare minimum amount of time spent understanding what your code already does.
+
+  I like how it's put in [this quote](http://stackoverflow.com/a/410799/1603071)
+  from Stack Overflow:
+
+  > "Your job (as a programmer) is to put yourself out of work.
+  >
+  > When you're writing software for your employer, any software that you
+  > create is to be written in such a way that it can be picked up by any
+  > developer and understood with a minimal amount of effort. ....
+  >
+  > If you get hit by a bus, laid off, fired, or walk off the job, your
+  > employer should be able to replace you on a moment's notice, and the next
+  > guy could step into your role, pick up your code and be up and running
+  > within a week tops. If he or she can't do that, then you've failed
+  > miserably.
+  >
+  > Interestingly, I've found that having that goal has made me more valuable
+  > to my employers. The more I strive to be disposable, the more valuable I
+  > become to them."
+
 -  Keep line length to 80 characters or less. This doesn't have to be 100%
    strict -  the occasional 83-character line isn't going to kill anybody - but
    stick to 80 as a general principle.
@@ -152,6 +177,33 @@ When you're done with the story:
 
 ## Rails
 
+### General
+
+- When something needs to update more than one record or database table at
+  once, and it doesn't make logical sense for one update to happen without
+  the other, wrap the Ruby code in a transaction:
+
+        # Bad:
+        def transfer_money(other_person, amount)
+          me.update_attributes!(balance: me.balance - amount)
+          other_person.update_attributes!(balance: other_person.balance.amount)
+        end
+
+        # If there's an unforeseen error that makes the above method crash
+        # halfway through - perhaps a server crash, or a bug in
+        # `other_person.update_attributes!` that sneaks its way into
+        # production, then one user will have lost money without the other
+        # gaining it. Using a transaction ensures that the database will
+        # only be updated if the entire transaction is run successfully:
+
+        # Good:
+        def transfer_money(other_person, amount)
+          ApplicationRecord.transaction do
+            me.update_attributes!(balance: me.balance - amount)
+            other_person.update_attributes!(balance: other_person.balance.amount)
+          end
+        end
+
 ### Controllers
 
 - Arrange the standard `resources` methods in this order:
@@ -181,6 +233,72 @@ When you're done with the story:
         end
 
     Any non-standard methods go after `destroy`, in alphabetical order.
+
+-   Use `before_action` to redirect users away from actions they shouldn't
+    be able to access. If you can fit the whole thing into 80 characters,
+    pass a block to `before_action` and put it all on one line. Else, put
+    it within a private method (the method's name should end with a `!`.)
+
+        class ExampleController
+          before_action { redirect_to ban_notice_path if current_user.banned? }
+          before_action :disallow_minors!
+
+          .
+          .
+          .
+
+          private
+
+          def disallow_minors!
+            if current_user.age < 18
+              flash[:warning] = "You are too young to visit this page"
+              redirect_to root_path
+            end
+          end
+        end
+
+    *Don't* use `before_action` to initialize instance variables. This is a
+    common Rails pattern, done in the sake of repitition, but it sucks because
+    it hides too much and makes the code less clear, not more.
+
+    If you want to extract repetitive code that loads data from the DB, put it
+    in a private method with a name that starts with `find_`.
+
+    (Note: much of the existing codebase has methods like this called `load_`,
+    not `find_`, but in retrospect I think 'find' is a better name.)
+
+        # Bad
+        before_action :initialize_post, only: [:show, :edit]
+
+        def show
+        end
+
+        def edit
+        end
+
+        private
+
+        def initialize_post
+          @post = Post.find(params[:id])
+        end
+
+        # Good
+        def show
+          @post = find_post
+        end
+
+        def edit
+          @post = find_post
+        end
+
+        private
+
+        def find_post
+          Post.find(params[:id])
+        end
+
+    [Further reading](http://craftingruby.com/posts/2015/05/31/dont-use-before-action-to-load-data.html)
+
 
 -   Remember, just because you can't access a controller action by clicking
     around in the browser, that doesn't mean it's inaccessible: a user can very
@@ -217,13 +335,6 @@ we have some extra top level folders in `/app`. They're mostly based on
 
 Form objects, as described in the Code Climate article. Inherit from
 `ApplicationForm`. (TODO add more detailed explanation of Form objects + conventions)
-
-#### `services`
-
-Service objects, as described in the Code Climate article. There's only
-one service object at the moment, and in retrospect this was an unecessary
-abstraction. Don't add any more service objects - the one that we do have
-will eventually be removed.
 
 #### `serializers`
 

@@ -1,2 +1,5 @@
 OUTBOUND_EMAIL_ADDRESS: "no-reply@abroaders.com"
 SUPPORT_EMAIL_ADDRESS:  "support@abroaders.com"
+
+INTERCOM_APP_ID:  "phkzmi5l"
+INTERCOM_API_KEY: "e33fc1c887328d9323e409231b9176ea2f8d4f65"

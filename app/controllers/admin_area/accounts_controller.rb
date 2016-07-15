@@ -3,10 +3,10 @@ module AdminArea
 
     # GET /admin/accounts
     def index
-      person_assocs = [:spending_info, :readiness_status, :eligibility]
+      person_assocs = [:spending_info, :readiness_status]
       @accounts = Account.includes(
         people: person_assocs,
-        main_passenger: person_assocs, companion: person_assocs,
+        owner: person_assocs, companion: person_assocs,
       ).order("email ASC")
     end
 
@@ -19,6 +19,11 @@ module AdminArea
       # the latter is an Array, not a Relation (because of
       # `.select(&:persisted?)`)
       @cards = Card.where.not(id: @account.card_accounts.select(:card_id))
+    end
+
+    def download_user_status_csv
+      csv = UserStatusCSV.generate
+      send_data csv, filename: "user_status.csv", type: "text/csv", disposition: "attachment"
     end
 
     private
