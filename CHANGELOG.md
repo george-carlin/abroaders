@@ -2,6 +2,10 @@
 
 ## July 2016
 
+*   Refactor: rename 'NonAdminController' to 'AuthenticatedUserController'.
+
+    *Ryan Vredenburg*
+
 *   Bug fix: recommendation CSV export was using the users' *oldest*
     recommendation when it should have been using their *newest* one.
 
