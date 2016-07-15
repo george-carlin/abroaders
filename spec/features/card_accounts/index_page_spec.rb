@@ -93,6 +93,7 @@ describe "as a user viewing my cards" do
     companion = account.create_companion!(first_name: "Dave")
     own_recs = create_list(:card_recommendation, 2, person: owner)
     com_recs = create_list(:card_recommendation, 2, person: companion)
+    account.reload
     visit_page
 
     {owner: own_recs, companion: com_recs}.each do |person_type, recs|
