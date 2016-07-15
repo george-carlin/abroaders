@@ -39,7 +39,7 @@
               </div>
 
               <% if has_companion? %>
-                <div id="partner_card_recommendations">
+                <div id="companion_card_recommendations">
                   <h3><%= page.partner.subheading %></h3>
 
                   <% if page.partner.recommendations.any? %>
@@ -86,7 +86,7 @@
               </div>
 
               <% if has_companion? %>
-                <div id="partner_card_accounts_from_survey">
+                <div id="companion_card_accounts_from_survey">
                   <h3><%= page.partner.subheading %></h3>
                   <% if page.partner.card_accounts_from_survey.any? %>
                     <%= render page.partner.card_accounts_from_survey %>
