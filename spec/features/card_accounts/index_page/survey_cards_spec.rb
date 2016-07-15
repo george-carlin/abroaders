@@ -20,9 +20,9 @@ describe "as a user viewing my cards - survey cards section" do
   let(:have_survey_cards_header) { have_selector "h2", text: "Other Cards" }
   let(:have_no_survey_cards_header) { have_no_selector "h2", text: "Other Cards" }
 
-  let(:survey_cards_section)         { "#card_accounts_from_survey" }
-  let(:owner_survey_cards_section)    { "#owner_card_accounts_from_survey" }
-  let(:partner_survey_cards_section) { "#partner_card_accounts_from_survey" }
+  let(:survey_cards_section)           { "#card_accounts_from_survey" }
+  let(:owner_survey_cards_section)     { "#owner_card_accounts_from_survey" }
+  let(:companion_survey_cards_section) { "#companion_card_accounts_from_survey" }
 
   shared_context "I added cards in survey" do
     let(:extra_setup) do
@@ -125,7 +125,7 @@ describe "as a user viewing my cards - survey cards section" do
       end
 
       it "lists them" do
-        within partner_survey_cards_section do
+        within companion_survey_cards_section do
           expect(open_account).to be_present
           expect(closed_account).to be_present
         end
@@ -175,7 +175,7 @@ describe "as a user viewing my cards - survey cards section" do
           expect(m_closed).to be_present
         end
 
-        within partner_survey_cards_section do
+        within companion_survey_cards_section do
           expect(p_open).to be_present
           expect(p_closed).to be_present
         end

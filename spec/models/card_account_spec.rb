@@ -119,24 +119,41 @@ describe CardAccount do
     end
   end
 
-  # Source
+  # Scopes
 
-  describe "scopes" do
-    before do
-      @ca_0 = create(:survey_card_account)
-      @ca_1 = create(:card_recommendation)
-    end
+  example ".from_survey" do
+    returned = create(:survey_card_account)
+    create(:card_recommendation)
+    expect(described_class.from_survey).to eq [returned]
+  end
 
-    describe ".from_survey" do
-      it "returns accounts where recommended_at is nil" do
-        expect(described_class.from_survey).to eq [@ca_0]
-      end
-    end
+  example ".recommendations" do
+    create(:survey_card_account)
+    returned = create(:card_recommendation)
+    expect(described_class.recommendations).to eq [returned]
+  end
 
-    describe ".recommendations" do
-      it "returns accounts where recommended_at is not nil" do
-        expect(described_class.recommendations).to eq [@ca_1]
-      end
-    end
+  example ".visible" do
+    visible = [
+      create(:card_recommendation),
+      create(:card_recommendation, :clicked),
+      create(:card_recommendation, :open),
+      create(:card_recommendation, :closed),
+      create(:card_recommendation, :denied),
+      create(:card_recommendation, :seen),
+      create(:card_recommendation, :applied),
+      create(:card_recommendation, :denied),
+      create(:card_recommendation, :nudged),
+      create(:card_recommendation, :redenied),
+    ]
+
+    # invisible:
+    [
+      create(:survey_card_account),
+      create(:card_recommendation, :declined),
+      create(:card_recommendation, :expired),
+    ]
+
+    expect(described_class.visible).to match_array(visible)
   end
 end

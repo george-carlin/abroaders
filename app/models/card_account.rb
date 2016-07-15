@@ -163,9 +163,17 @@ class CardAccount < ApplicationRecord
 
   # Scopes
 
+  # There are currently two ways that a card can be added to a user's account:
+  # they can add it on the onboarding survey, or it can be recommended to them
+  # by an admin. We know which source the CardAccount came from because
+  # recommended_at will be nil in the former case and present in the latter.
+
   scope :from_survey,     -> { where(recommended_at: nil) }
-  scope :unseen,     -> { where(seen_at: nil) }
   scope :recommendations, -> { where.not(recommended_at: nil) }
+  scope :undeclined,      -> { where(declined_at: nil) }
+  scope :unexpired,       -> { where(expired_at: nil) }
+  scope :unseen,          -> { where(seen_at: nil) }
+  scope :visible,         -> { recommendations.undeclined.unexpired }
 
   private
 
