@@ -6,11 +6,13 @@ class CardAccountsController < NonAdminController
                                       only: [:survey, :save_survey]
 
   def index
-    [current_account.owner, current_account.partner].each do |person|
-      unless person.nil?
-        person.card_recommendations.unseen.update_all(seen_at: Time.now)
-      end
-    end
+    @people = current_account.people
+    @card_recommendations = current_account.card_recommendations.includes(offer: { card: :currency }).visible
+    @card_accounts_from_survey = current_account.card_accounts.from_survey
+
+    @recommendation_notes = current_account.recommendation_notes
+
+    current_account.card_recommendations.unseen.update_all(seen_at: Time.now)
   end
 
 

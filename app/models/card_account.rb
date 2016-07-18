@@ -6,6 +6,7 @@
 # example, the user accesses the card_accounts#index page at the path '/cards',
 # not at '/card_accounts/')
 class CardAccount < ApplicationRecord
+  extend Expiration
 
   # A card account has the following timestamps, all of which are nullable:
   #
@@ -79,6 +80,13 @@ class CardAccount < ApplicationRecord
   #   calling for reconsideration - and 2) we need to preserve the original
   #   denied_at timestamp because that's what determines when the user can
   #   apply again
+  #
+  # expired_at
+  #   Cards which are recommended but not clicked within 15 days are assumed to
+  #   be declined. But for the sake of record-keeping, we mark this with a
+  #   separate time column, rather than reusing 'declined_at' (in which case it
+  #   would be unclear whether the user declined the card manually or it was
+  #   declined automatically)
   #
   # created_at/updated_at
   #   The normal Rails/PSQL timestamp columns. But you already knew that ;)
@@ -155,9 +163,17 @@ class CardAccount < ApplicationRecord
 
   # Scopes
 
+  # There are currently two ways that a card can be added to a user's account:
+  # they can add it on the onboarding survey, or it can be recommended to them
+  # by an admin. We know which source the CardAccount came from because
+  # recommended_at will be nil in the former case and present in the latter.
+
   scope :from_survey,     -> { where(recommended_at: nil) }
-  scope :unseen,     -> { where(seen_at: nil) }
   scope :recommendations, -> { where.not(recommended_at: nil) }
+  scope :undeclined,      -> { where(declined_at: nil) }
+  scope :unexpired,       -> { where(expired_at: nil) }
+  scope :unseen,          -> { where(seen_at: nil) }
+  scope :visible,         -> { recommendations.undeclined.unexpired }
 
   private
 

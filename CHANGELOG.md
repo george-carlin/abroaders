@@ -2,8 +2,14 @@
 
 ## July 2016
 
-*   Bug fix: CardAccount status predicate methods (`accepted?`, `closed?` etc
+*   Bug fix: CardAccount status predicate methods (`accepted?`, `closed?`) etc
     were always returning true.
+
+    *George Millo*
+
+*   When a user hasn't interacted with a recommendation (e.g. by clicking its
+    link) after 15 days, the recommendation will expire and the user will no
+    longer see it.
 
     *George Millo*
 
