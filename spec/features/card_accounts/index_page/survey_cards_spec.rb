@@ -6,10 +6,10 @@ describe "as a user viewing my cards - survey cards section" do
   include_context "logged in"
 
   let(:me) { account.owner }
-  let(:partner) { account.companion }
+  let(:companion) { account.companion }
 
   before do
-    create(:companion, account: account) if has_partner
+    create(:companion, account: account) if has_companion
     @cards = create_list(:card, 2)
     extra_setup
     visit card_accounts_path
@@ -22,7 +22,7 @@ describe "as a user viewing my cards - survey cards section" do
 
   let(:survey_cards_section)         { "#card_accounts_from_survey" }
   let(:owner_survey_cards_section)    { "#owner_card_accounts_from_survey" }
-  let(:partner_survey_cards_section) { "#partner_card_accounts_from_survey" }
+  let(:companion_survey_cards_section) { "#companion_card_accounts_from_survey" }
 
   shared_context "I added cards in survey" do
     let(:extra_setup) do
@@ -67,8 +67,8 @@ describe "as a user viewing my cards - survey cards section" do
     end
   end
 
-  context "when I have no partner" do
-    let(:has_partner) { false }
+  context "when I have no companion" do
+    let(:has_companion) { false }
 
     context "and I didn't add any cards in the onboarding survey" do
       before { raise if me.card_accounts.from_survey.any? } # Sanity check
@@ -84,14 +84,14 @@ describe "as a user viewing my cards - survey cards section" do
       include_context  "I added cards in survey"
       include_examples "lists owner cards"
 
-      it "doesn't divide 'Other Cards' into main/partner sections" do
+      it "doesn't divide 'Other Cards' into main/companion sections" do
         is_expected.to have_no_selector "h2", text: "#{me.first_name}'s cards"
       end
     end
   end
 
-  context "when I have a partner" do
-    let(:has_partner) { true }
+  context "when I have a companion" do
+    let(:has_companion) { true }
 
     context "and neither of us added any cards in the onboarding survey" do
       it "doesn't have an 'Other Cards' section" do
@@ -104,16 +104,16 @@ describe "as a user viewing my cards - survey cards section" do
       include_context  "I added cards in survey"
       include_examples "lists owner cards"
 
-      it "notes that my partner didn't add any cards" do
-        is_expected.to have_selector "h3", text: "#{partner.first_name}'s Cards"
-        is_expected.to have_content "#{partner.first_name} has no other cards"
+      it "notes that my companion didn't add any cards" do
+        is_expected.to have_selector "h3", text: "#{companion.first_name}'s Cards"
+        is_expected.to have_content "#{companion.first_name} has no other cards"
       end
     end
 
-    context "and only my partner added cards in the onboarding survey" do
+    context "and only my companion added cards in the onboarding survey" do
       let(:extra_setup) do
-        @open_account   = create(:open_survey_card_account, person: partner, card: @cards[0])
-        @closed_account = create(:closed_survey_card_account, person: partner, card: @cards[1])
+        @open_account   = create(:open_survey_card_account, person: companion, card: @cards[0])
+        @closed_account = create(:closed_survey_card_account, person: companion, card: @cards[1])
       end
 
       let(:open_account)   { CardAccountOnPage.new(@open_account, self) }
@@ -125,7 +125,7 @@ describe "as a user viewing my cards - survey cards section" do
       end
 
       it "lists them" do
-        within partner_survey_cards_section do
+        within companion_survey_cards_section do
           expect(open_account).to be_present
           expect(closed_account).to be_present
         end
@@ -156,12 +156,12 @@ describe "as a user viewing my cards - survey cards section" do
       end
     end
 
-    context "and my partner and I both added cards" do
+    context "and my companion and I both added cards" do
       let(:extra_setup) do
         @m_open   = create(:open_survey_card_account,   person: me, card: @cards[0])
         @m_closed = create(:closed_survey_card_account, person: me, card: @cards[1])
-        @p_open   = create(:open_survey_card_account,   person: partner, card: @cards[0])
-        @p_closed = create(:closed_survey_card_account, person: partner, card: @cards[1])
+        @p_open   = create(:open_survey_card_account,   person: companion, card: @cards[0])
+        @p_closed = create(:closed_survey_card_account, person: companion, card: @cards[1])
       end
 
       let(:m_open)   { CardAccountOnPage.new(@m_open,   self) }
@@ -175,7 +175,7 @@ describe "as a user viewing my cards - survey cards section" do
           expect(m_closed).to be_present
         end
 
-        within partner_survey_cards_section do
+        within companion_survey_cards_section do
           expect(p_open).to be_present
           expect(p_closed).to be_present
         end
