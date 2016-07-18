@@ -300,7 +300,7 @@ describe "as a user viewing my cards", :js do
             end
 
             it "doesn't update anything", :backend do
-              expect(rec).to be_closed
+              expect(rec).to be_declined
               expect(rec.applied_at).to be_nil
             end
           end
