@@ -98,7 +98,7 @@ class CardAccount < ApplicationRecord
 
   %w[recommended declined denied open closed].each do |status|
     define_method "#{status}?" do
-      status == status
+      self.status == status
     end
   end
 

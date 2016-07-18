@@ -2,6 +2,11 @@
 
 ## July 2016
 
+*   Bug fix: CardAccount status predicate methods (`accepted?`, `closed?` etc
+    were always returning true.
+
+    *George Millo*
+
 *   Admins can see a card recommendation's ‘seen at’ date.
 
     *George Millo*
