@@ -46,6 +46,9 @@ module AdminArea
       create_list(:recommendation_note, no_of_existing_notes, account: account)
 
       extra_setup
+    end
+
+    def visit_path
       visit admin_person_path(@person)
     end
 
@@ -63,13 +66,18 @@ module AdminArea
 
     let(:complete_card_recs_form) { CompleteCardRecsFormOnPage.new(self) }
 
-    it { is_expected.to have_title full_title(@person.first_name) }
+    example "page title" do
+      visit_path
+      expect(page).to have_title full_title(@person.first_name)
+    end
 
     it "displays the account's information" do
+      visit_path
       expect(page).to have_content @account.created_at.strftime("%D")
     end
 
     it "displays the person's information" do
+      visit_path
       # person's name as the page header
       expect(page).to have_selector "h1", text: name
       # award wallet email
@@ -77,6 +85,7 @@ module AdminArea
     end
 
     example "person with no spending info" do
+      visit_path
       expect(page).to have_content "User has not added their spending info"
     end
 
@@ -86,8 +95,7 @@ module AdminArea
         has_business: :with_ein,
         business_spending_usd: 1500
       )
-      # Loading the page twice... urgh.
-      visit admin_person_path(person)
+      visit_path
       expect(page).to have_content "Credit score: 678"
       expect(page).to have_content "Will apply for loan in next 6 months: No"
       expect(page).to have_content "Business spending: $1,500.00"
@@ -97,6 +105,8 @@ module AdminArea
     it "says whether this is the main or companion passenger"
 
     context "when the person" do
+      before { visit_path }
+
       context "has no travel plans" do
         it { is_expected.to have_content "User has no upcoming travel plans" }
       end
@@ -314,6 +324,8 @@ module AdminArea
 
 
     describe "the card recommendation form" do
+      before { visit_path }
+
       let(:offers_on_page) { @offers.map { |o| RecommendableOfferOnPage.new(o, self) } }
 
       it "has an option to recommend each live offer" do
@@ -466,13 +478,18 @@ module AdminArea
     end
 
     context "when the person has not received any recommendations before" do
-      before { raise if person.last_recommendations_at.present? }
+      before do
+        visit_path
+        raise if person.last_recommendations_at.present?
+      end
+
       it "doesn't display a 'last recs' timestamp" do
         is_expected.to have_no_selector ".person_last_recommendations_at"
       end
     end
 
     context "when the person has received recommendations before" do
+      before { visit_path }
       let(:date) { 5.days.ago }
       let(:extra_setup) { person.update_attributes!(last_recommendations_at: date) }
 
@@ -485,6 +502,7 @@ module AdminArea
     end
 
     context "when the user has no existing recommendation notes" do
+      before { visit_path }
       it "doesn't display the recommendation notes panel" do
         expect(page).to have_no_content "Recommendation Notes"
       end
@@ -492,6 +510,7 @@ module AdminArea
 
     describe "when the user has existing recommendation notes" do
       let(:no_of_existing_notes) { 3 }
+      before { visit_path }
 
       it "displays them" do
         expect(page).to have_content("Recommendation Notes")
@@ -503,6 +522,7 @@ module AdminArea
     end
 
     example "marking recommendations as complete" do
+      visit_path
       expect do
         complete_card_recs_form.submit
         account.reload
@@ -523,10 +543,12 @@ module AdminArea
     end
 
     example "clicking 'Done' without adding a recommendation note to the user" do
+      visit_path
       expect{complete_card_recs_form.submit}.to_not change{account.recommendation_notes.count}
     end
 
     example "sending a recommendation note to the user" do
+      visit_path
       expect(page).to have_field :recommendation_note
 
       note_content = "I like to leave notes."
@@ -547,6 +569,7 @@ module AdminArea
     end
 
     example "recommendation note with trailing whitespace" do
+      visit_path
       note_content = "  I like to leave notes.   "
       complete_card_recs_form.add_rec_note(note_content)
       complete_card_recs_form.submit
@@ -556,6 +579,7 @@ module AdminArea
     end
 
     example "recommendation note that's only whitespace" do
+      visit_path
       complete_card_recs_form.add_rec_note("     \n \n \t\ \t ")
       expect do
         complete_card_recs_form.submit
