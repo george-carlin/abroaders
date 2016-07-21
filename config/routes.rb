@@ -119,12 +119,11 @@ Rails.application.routes.draw do
         get :download_user_status_csv
       end
     end
-    resources :cards, only: [] do
+    resources :cards, except: :destroy do
       collection do
         get  :images
       end
-    end
-    resources :cards, except: :destroy do
+
       resources :offers, except: :destroy
     end
     # show and edit redirect to the nested action:
