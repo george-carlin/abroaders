@@ -70,6 +70,13 @@ describe CardAccount::Expiration do
       expired_at: 5.days.ago
     )
 
+    # 5.days.ago has nanosecond precision, but when `already_expired` is
+    # reloaded from the DB then the timestamp will be rounded to microsecond
+    # precision (on Codeship only), which makes it appear that the timestamp
+    # has changed, so the spec will fail on CI. Reload it now so it's already
+    # rounded:
+    already_expired.reload
+
     to_expire = [
       owner_0.card_recommendations.create!(
         offer: offer,
