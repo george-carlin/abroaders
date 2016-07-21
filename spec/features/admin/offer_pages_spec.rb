@@ -242,8 +242,8 @@ describe "admin section" do
           is_expected.to have_content @live_1.card.bp
           expect(find("tr#offer_#{@live_1.id}").text).to include('never')
           is_expected.to have_link('Link', href: @live_1.link)
-          is_expected.to have_button "kill_offer_#{ @live_1.id }_btn"
-          is_expected.to have_button "verify_offer_#{ @live_1.id }_btn"
+          is_expected.to have_link "kill_offer_#{ @live_1.id }_btn"
+          is_expected.to have_link "verify_offer_#{ @live_1.id }_btn"
         end
       end
 
@@ -255,7 +255,7 @@ describe "admin section" do
 
       describe "when pressing Verify" do
         it "updates selected last_reviewed_at datetime", :js => true do
-          click_button("verify_offer_#{ @live_1.id }_btn")
+          click_link("verify_offer_#{ @live_1.id }_btn")
           wait_for_ajax
           @live_1.reload
           expect(@live_1.last_reviewed_at).to be_within(2.seconds).of(Time.now)
@@ -266,7 +266,7 @@ describe "admin section" do
       describe "when pressing Verify" do
         it "does not update other last_reviewed_at datetimes", :js => true do
           expect do
-            click_button("verify_offer_#{ @live_1.id }_btn")
+            click_link("verify_offer_#{ @live_1.id }_btn")
             wait_for_ajax
             @live_2.reload
             @dead_1.reload
@@ -278,7 +278,7 @@ describe "admin section" do
         it "doesn't kill the offer", :js => true do
           expect do
             page.dismiss_confirm do
-              click_button("kill_offer_#{ @live_1.id }_btn")
+              click_link("kill_offer_#{ @live_1.id }_btn")
             end
           end.not_to change{Offer.live.count}
         end
@@ -287,7 +287,7 @@ describe "admin section" do
       describe "pressing Kill then confirm" do
         it "removes offer from the user display", :js => true do
           page.accept_confirm do
-            find_button("kill_offer_#{ @live_1.id }_btn").click
+            find_link("kill_offer_#{ @live_1.id }_btn").click
           end
           expect(page).to have_selector( ".offer", count: Offer.live.count)
         end
@@ -296,7 +296,7 @@ describe "admin section" do
       describe "pressing Kill then confirm", :js => true do
         it "changes offer live value to false" do
           page.accept_confirm do
-            find_button("kill_offer_#{ @live_2.id }_btn").click
+            find_link("kill_offer_#{ @live_2.id }_btn").click
           end
           wait_for_ajax
           @live_2.reload
@@ -308,7 +308,7 @@ describe "admin section" do
       describe "when killing offers" do
         it "doesnt't delete offers from the database", :js => true do
           page.accept_confirm do
-            find_button("kill_offer_#{ @live_3.id }_btn").click
+            find_link("kill_offer_#{ @live_3.id }_btn").click
           end
           expect(@live_3).to_not be_nil
         end

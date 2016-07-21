@@ -127,14 +127,12 @@ Rails.application.routes.draw do
     resources :cards, except: :destroy do
       resources :offers, except: :destroy
     end
+
     # show and edit redirect to the nested action:
-    resources :offers, only: [] do
+    resources :offers, only: [:show, :edit, :index] do
       collection do
         get :review
       end
-    end
-    # show and edit redirect to the nested action:
-    resources :offers, only: [:show, :edit, :index] do
       member do
         patch :kill, :verify
       end

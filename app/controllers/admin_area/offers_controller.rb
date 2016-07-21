@@ -67,9 +67,8 @@ module AdminArea
     end
 
     def review
-      @offers = Offer.includes(:card).live
-      parts  = @offers.partition { |o| o.last_reviewed_at.nil? }
-      @offers = parts.first + parts.last.sort_by(&:last_reviewed_at)
+      @offers = Offer.includes(:card).live.order('last_reviewed_at NULLS FIRST')
+
     end
 
 
