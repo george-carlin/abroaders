@@ -262,10 +262,7 @@ When you're done with the story:
     it hides too much and makes the code less clear, not more.
 
     If you want to extract repetitive code that loads data from the DB, put it
-    in a private method with a name that starts with `find_`.
-
-    (Note: much of the existing codebase has methods like this called `load_`,
-    not `find_`, but in retrospect I think 'find' is a better name.)
+    in a private method with a name that starts with `load_`.
 
         # Bad
         before_action :initialize_post, only: [:show, :edit]
@@ -284,16 +281,16 @@ When you're done with the story:
 
         # Good
         def show
-          @post = find_post
+          @post = load_post
         end
 
         def edit
-          @post = find_post
+          @post = load_post
         end
 
         private
 
-        def find_post
+        def load_post
           Post.find(params[:id])
         end
 
