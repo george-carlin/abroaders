@@ -2,6 +2,10 @@
 
 ## July 2016
 
+*   Refactor: rename 'NonAdminController' to 'AuthenticatedUserController'.
+
+    *Ryan Vredenburg*
+
 *   Bug fix: CardAccount status predicate methods (`accepted?`, `closed?`) etc
     were always returning true.
 

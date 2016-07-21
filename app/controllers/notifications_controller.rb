@@ -1,4 +1,4 @@
-class NotificationsController < NonAdminController
+class NotificationsController < AuthenticatedUserController
 
   def show
     @notification = current_account.notifications.find(params[:id])
