@@ -174,6 +174,7 @@ describe CardAccount do
       create(:survey_card_account),
       create(:card_recommendation, :declined),
       create(:card_recommendation, :expired),
+      create(:card_recommendation, :pulled),
     ]
 
     expect(described_class.visible).to match_array(visible)
