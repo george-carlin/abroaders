@@ -20,10 +20,29 @@ module AdminArea
       redirect_to admin_person_path(@person)
     end
 
+    def pull
+      @recommendation = load_recommendation
+      @recommendation.pull!
+
+      respond_to do |f|
+        f.js
+      end
+    end
+
+    def pulled
+      @person  = load_person
+      @account = @person.account
+      @pulled_recommendations = @person.card_recommendations.pulled
+    end
+
     private
 
     def load_person
       Person.find(params[:person_id])
+    end
+
+    def load_recommendation
+      CardAccount.recommendations.find(params[:id])
     end
 
   end

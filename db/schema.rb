@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160714133343) do
+ActiveRecord::Schema.define(version: 20160721154956) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -85,6 +85,8 @@ ActiveRecord::Schema.define(version: 20160714133343) do
     t.date     "redenied_at"
     t.datetime "seen_at"
     t.datetime "expired_at"
+    t.datetime "pulled_at"
+    t.index ["pulled_at"], name: "index_card_accounts_on_pulled_at", using: :btree
     t.index ["recommended_at"], name: "index_card_accounts_on_recommended_at", using: :btree
     t.index ["seen_at"], name: "index_card_accounts_on_seen_at", using: :btree
   end

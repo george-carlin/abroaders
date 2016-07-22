@@ -1,0 +1,18 @@
+<% content_for :header_panel do %>
+  <div class="panel-body">
+    <h1><%= @person.first_name %> - Pulled card recommendations</h1>
+    <p><%= @account.email %></p>
+
+    <p><%= link_to "Back to this person's main page", admin_person_path(@person) %></p>
+  </div>
+<% end %>
+
+<%= render "shared/hpanel" do %>
+  <div class="panel-body">
+    <%= render(
+      "admin_area/card_accounts/recommendations",
+      card_accounts: @pulled_recommendations,
+      pulled: true
+    ) %>
+  </div>
+<% end %>

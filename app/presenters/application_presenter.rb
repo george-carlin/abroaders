@@ -20,6 +20,10 @@ class ApplicationPresenter < SimpleDelegator
     view
   end
 
+  def raw(*args)
+    h.raw(*args)
+  end
+
   attr_reader :model, :view
 
 end

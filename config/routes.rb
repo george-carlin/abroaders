@@ -145,7 +145,13 @@ Rails.application.routes.draw do
       resources :card_recommendations, only: [:create] do
         collection do
           post :complete
+          get  :pulled
         end
+      end
+    end
+    resources :card_recommendations do
+      member do
+        patch :pull
       end
     end
   end

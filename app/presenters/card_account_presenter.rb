@@ -14,7 +14,7 @@ class CardAccountPresenter < ApplicationPresenter
     end
   end
 
-  %i[applied_at seen_at clicked_at declined_at recommended_at].each do |meth|
+  %i[applied_at seen_at clicked_at declined_at recommended_at pulled_at].each do |meth|
     define_method meth do
       super()&.strftime("%D")
     end

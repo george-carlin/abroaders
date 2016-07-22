@@ -2,6 +2,10 @@
 
 ## July 2016
 
+*   Feature: admins can pull recommendations that they've previously made
+
+    *George Millo*
+
 *   Feature: Add 'Verify' button and functionality to each offer on review page.
     Remove 'Done' button and review_all functionality.
 

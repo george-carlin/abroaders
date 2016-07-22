@@ -67,6 +67,10 @@ FactoryGirl.define do
       nudged_at { Time.now }
     end
 
+    trait :pulled do
+      pulled_at { Time.now }
+    end
+
     factory :survey_card_account, traits: [:survey]
     factory :open_survey_card_account, traits: [:survey, :open]
     # The order of the traits is important here:

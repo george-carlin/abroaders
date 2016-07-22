@@ -169,11 +169,17 @@ class CardAccount < ApplicationRecord
   # recommended_at will be nil in the former case and present in the latter.
 
   scope :from_survey,     -> { where(recommended_at: nil) }
+  scope :pulled,          -> { where.not(pulled_at: nil) }
   scope :recommendations, -> { where.not(recommended_at: nil) }
   scope :undeclined,      -> { where(declined_at: nil) }
   scope :unexpired,       -> { where(expired_at: nil) }
+  scope :unpulled,        -> { where(pulled_at: nil) }
   scope :unseen,          -> { where(seen_at: nil) }
-  scope :visible,         -> { recommendations.undeclined.unexpired }
+  scope :visible,         -> { recommendations.undeclined.unexpired.unpulled }
+
+  def pull!
+    update_attributes!(pulled_at: Time.now)
+  end
 
   private
 

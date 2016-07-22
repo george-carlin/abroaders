@@ -112,4 +112,19 @@ describe "as a user viewing my cards" do
     expect(page).to have_selector H, text: "#{companion.first_name}'s Cards"
   end
 
+  example "pulled recs" do
+    companion = account.create_companion!(first_name: "Dave")
+    pulled_recs = [
+      create(:card_recommendation, :pulled, person: owner),
+      create(:card_recommendation, :pulled, person: companion),
+    ]
+
+    visit_page
+
+    pulled_recs.each do |rec|
+      rec_on_page = CardAccountOnPage.new(rec, self)
+      expect(rec_on_page).to be_absent
+    end
+  end
+
 end
