@@ -375,6 +375,22 @@ TODO add more detailed explanation of Presenters.
 
 #### Feature specs
 
+- Don't use `subject { page }`. Always use `expect(page)` rather than
+  `is_expected` when testing that something is on the page; otherwise it reads
+  really badly.
+
+        # Bad:
+        it "shows an alert" do
+          click_button "Wahey"
+          is_expected.to have_selector ".alert"
+        end
+
+        # Good:
+        it "shows an alert" do
+          click_button "Wahey"
+          expect(page).to have_selector ".alert"
+        end
+
 - When you want to test that an element is *not* present on the page, use
   `to` and a negatively worded Capybara matcher, rather than `not_to` and
   a positively worded one.
