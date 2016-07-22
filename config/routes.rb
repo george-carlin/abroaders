@@ -152,6 +152,11 @@ Rails.application.routes.draw do
         end
       end
     end
+    resources :card_recommendations do
+      member do
+        patch :pull
+      end
+    end
   end
 
   # ---- /ADMINS -----

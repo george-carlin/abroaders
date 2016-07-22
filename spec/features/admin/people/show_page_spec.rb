@@ -318,6 +318,32 @@ module AdminArea
       example "and is ready"
     end
 
+    example "pulled recs" do
+      o = offers[0]
+      pulled_rec   = create(:card_recommendation, pulled_at: Time.now, offer: o, person: person)
+      unpulled_rec = create(:card_recommendation, pulled_at: nil, offer: o, person: person)
+      visit_path
+
+      pulled_rec_on_page   = AdminArea::CardAccountOnPage.new(pulled_rec, self)
+      unpulled_rec_on_page = AdminArea::CardAccountOnPage.new(unpulled_rec, self)
+
+      expect(pulled_rec_on_page).to be_absent
+      expect(unpulled_rec_on_page).to be_present
+      expect(page).to have_link "View 1 pulled recommendation"
+    end
+
+    example "pulling a rec", :js do
+      rec = create(:card_recommendation, offer: offers[0], person: person)
+      visit_path
+      rec_on_page = AdminArea::CardAccountOnPage.new(rec, self)
+
+      page.accept_confirm do
+        rec_on_page.click_pull_btn
+      end
+
+      expect(rec_on_page).to be_absent
+      expect(rec.reload.pulled_at).to be_within(5.seconds).of(Time.now)
+    end
 
     describe "the card recommendation form" do
       before { visit_path }

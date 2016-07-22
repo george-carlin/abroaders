@@ -18,5 +18,9 @@ module AdminArea
       end
     end
 
+    def click_pull_btn
+      find("#card_account_#{card_account.id}_pull_btn").click
+    end
+
   end
 end

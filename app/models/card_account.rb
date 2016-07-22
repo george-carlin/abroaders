@@ -177,6 +177,10 @@ class CardAccount < ApplicationRecord
   scope :unseen,          -> { where(seen_at: nil) }
   scope :visible,         -> { recommendations.undeclined.unexpired.unpulled }
 
+  def pull!
+    update_attributes!(pulled_at: Time.now)
+  end
+
   private
 
   def card_matches_offer_card

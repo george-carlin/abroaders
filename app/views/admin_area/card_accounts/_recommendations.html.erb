@@ -11,13 +11,15 @@
     <% end %>
     <th>Denied</th>
     <th>Declined</th>
-    <% unless local_assigns[:pulled] %>
+    <% if local_assigns[:pulled] %>
+      <th>Pulled</th>
+    <% else %>
       <th>Opened</th>
+      <th></th>
     <% end %>
-    <th>Pulled</th>
   </thead>
   <tbody>
-    <% present_each card_accounts do |card_account| %>
+    <% present_each card_accounts, AdminArea::CardAccountPresenter do |card_account| %>
       <%= content_tag_for :tr, card_account do %>
         <td><%= card_account.card_identifier %></td>
         <td><%= card_account.card_name %></td>
@@ -49,14 +51,16 @@
         <td class="card_account_declined_at">
           <%= card_account.declined_at || "-" %>
         </td>
-        <% unless local_assigns[:pulled] %>
-          <td class="card_account_opened_at">
-            <%= card_account.opened_at || "-" %>
-          </td>
-        <% end %>
         <% if local_assigns[:pulled] %>
           <td class="card_account_pulled_at">
             <%= card_account.pulled_at %>
+          </td>
+        <% else %>
+          <td class="card_account_opened_at">
+            <%= card_account.opened_at || "-" %>
+          </td>
+          <td>
+            <%= card_account.link_to_pull %>
           </td>
         <% end %>
       <% end # content_tag_for %>
