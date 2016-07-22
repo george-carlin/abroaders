@@ -67,7 +67,7 @@ module AdminArea
     end
 
     def review
-      @offers = Offer.includes(:card).live.order('last_reviewed_at NULLS FIRST')
+      @offers = Offer.includes(:card).live.order('last_reviewed_at ASC NULLS FIRST')
 
     end
 
