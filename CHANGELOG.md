@@ -2,6 +2,11 @@
 
 ## July 2016
 
+*   Feature: Add 'Verify' button and functionality to each offer on review page.
+    Remove 'Done' button and review_all functionality.
+
+    *Ryan Vredenburg*
+
 *   Refactor: rename 'NonAdminController' to 'AuthenticatedUserController'.
 
     *Ryan Vredenburg*

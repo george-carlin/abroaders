@@ -67,14 +67,20 @@ module AdminArea
     end
 
     def review
-      @offers = Offer.includes(:card).live
+      @offers = Offer.includes(:card).live.order('last_reviewed_at ASC NULLS FIRST')
+
     end
 
-    def review_all
-      Offer.live.update_all(last_reviewed_at: Time.now)
-      flash[:success] = "All live offers reviewed"
-      redirect_to review_admin_offers_path
+
+    def verify
+      @offer = Offer.live.find(params[:id])
+      @offer.last_reviewed_at = DateTime.now
+      @offer.save!
+      respond_to do |format|
+        format.js
+      end
     end
+
 
     private
 

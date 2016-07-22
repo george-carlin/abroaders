@@ -1,5 +1,9 @@
 class AdminArea::OfferPresenter < OfferPresenter
 
+  def card_bp
+    card.bp.to_s[0].upcase
+  end
+
   def link_to_edit
     h.link_to 'Edit', h.edit_admin_offer_path(self)
   end
@@ -21,18 +25,35 @@ class AdminArea::OfferPresenter < OfferPresenter
   end
 
   def kill_btn
-    btn_classes = "btn btn-xs btn-primary"
+    btn_classes = "btn btn-xs"
     prefix = :kill
-    h.button_to(
+    #link_to used to allow btn-group functionality
+    h.link_to(
         "Kill",
         h.kill_admin_offer_path(id),
-        class:  "#{h.dom_class(self, prefix)}_btn #{btn_classes} pull-right",
+        class:  "#{h.dom_class(self, prefix)}_btn #{btn_classes} btn-danger",
         id:     "#{h.dom_id(self, prefix)}_btn",
         params: { offer_id: id },
-        :method => :patch,
+        method: :patch,
         remote: true,
         data: { confirm: "Are you sure?" }
     )
   end
+
+  def verify_btn
+    btn_classes = "btn btn-xs btn-primary"
+    prefix = :verify
+    #link_to used to allow btn-group functionality
+    h.link_to(
+        "Verify",
+        h.verify_admin_offer_path(id),
+        class:  "#{h.dom_class(self, prefix)}_btn #{btn_classes} ",
+        id:     "#{h.dom_id(self, prefix)}_btn",
+        params: { offer_id: id },
+        method: :patch,
+        remote: true
+    )
+  end
+
 
 end
