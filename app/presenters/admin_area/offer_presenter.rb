@@ -51,8 +51,7 @@ class AdminArea::OfferPresenter < OfferPresenter
         id:     "#{h.dom_id(self, prefix)}_btn",
         params: { offer_id: id },
         method: :patch,
-        remote: true,
-        data: { confirm: "Verify this offer?" }
+        remote: true
     )
   end
 
