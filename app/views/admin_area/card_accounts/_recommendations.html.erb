@@ -4,6 +4,7 @@
     <th>Name</th>
     <th>Status</th>
     <th>Recommended</th>
+    <th>Seen</th>
     <th>Clicked</th>
     <th>Applied</th>
     <th>Denied</th>
@@ -25,6 +26,9 @@
         </td>
         <td class="card_account_recommended_at">
           <%= card_account.recommended_at || "-" %>
+        </td>
+        <td class="card_account_seen_at">
+          <%= card_account.seen_at || "-" %>
         </td>
         <td class="card_account_clicked_at">
           <%= card_account.clicked_at || "-" %>

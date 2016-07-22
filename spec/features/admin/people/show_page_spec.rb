@@ -46,6 +46,9 @@ module AdminArea
       create_list(:recommendation_note, no_of_existing_notes, account: account)
 
       extra_setup
+    end
+
+    def visit_path
       visit admin_person_path(@person)
     end
 
@@ -56,19 +59,17 @@ module AdminArea
     let(:name)    { @person.first_name }
     let(:chase)   { @chase }
     let(:us_bank) { @us_bank }
+    let(:offers)  { @offers }
 
     let(:no_of_existing_notes) { 0 }
     let(:dead_offer) { RecommendableOfferOnPage.new(@dead_offer, self) }
 
     let(:complete_card_recs_form) { CompleteCardRecsFormOnPage.new(self) }
 
-    it { is_expected.to have_title full_title(@person.first_name) }
-
-    it "displays the account's information" do
+    example "basic information" do
+      visit_path
+      expect(page).to have_title full_title(@person.first_name)
       expect(page).to have_content @account.created_at.strftime("%D")
-    end
-
-    it "displays the person's information" do
       # person's name as the page header
       expect(page).to have_selector "h1", text: name
       # award wallet email
@@ -76,6 +77,7 @@ module AdminArea
     end
 
     example "person with no spending info" do
+      visit_path
       expect(page).to have_content "User has not added their spending info"
     end
 
@@ -85,8 +87,7 @@ module AdminArea
         has_business: :with_ein,
         business_spending_usd: 1500
       )
-      # Loading the page twice... urgh.
-      visit admin_person_path(person)
+      visit_path
       expect(page).to have_content "Credit score: 678"
       expect(page).to have_content "Will apply for loan in next 6 months: No"
       expect(page).to have_content "Business spending: $1,500.00"
@@ -95,205 +96,216 @@ module AdminArea
 
     it "says whether this is the main or companion passenger"
 
-    context "when the person" do
-      context "has no travel plans" do
-        it { is_expected.to have_content "User has no upcoming travel plans" }
-      end
+    example "person with no travel plans" do
+      visit_path
+      expect(page).to have_content "User has no upcoming travel plans"
+    end
 
-      context "has added travel plans" do
-        let(:extra_setup) do
-          @eu  = create(:region,  name: "Europe")
-          @uk  = create(:country, name: "UK",       parent: @eu)
-          @lhr = create(:airport, name: "Heathrow", parent: @uk)
+    example "person with travel plans" do
+      @eu  = create(:region,  name: "Europe")
+      @uk  = create(:country, name: "UK",       parent: @eu)
+      @lhr = create(:airport, name: "Heathrow", parent: @uk)
 
-          @as  = create(:region,  name: "Asia")
-          @vn  = create(:country, name: "Vietnam", parent: @as)
-          @sgn = create(:airport, name: "HCMC",    parent: @vn)
+      @as  = create(:region,  name: "Asia")
+      @vn  = create(:country, name: "Vietnam", parent: @as)
+      @sgn = create(:airport, name: "HCMC",    parent: @vn)
 
-          @na  = create(:region,  name: "North America")
-          @us  = create(:country, name: "United States", parent: @na)
-          @jfk = create(:airport, name: "JFK",           parent: @us)
+      @na  = create(:region,  name: "North America")
+      @us  = create(:country, name: "United States", parent: @na)
+      @jfk = create(:airport, name: "JFK",           parent: @us)
 
-          @tp_0 = create(
-            :travel_plan, :single, account: @account,
-            flights: [Flight.new(from: @jfk, to: @lhr)]
-          )
-          @tp_1 = create(
-            :travel_plan, :return, account: @account,
-            flights: [Flight.new(from: @na, to: @as)]
-          )
-          @tp_2 = create(
-            :travel_plan, :multi, account: @account,
-            flights: [
-              Flight.new(from: @jfk, to: @eu, position: 0),
-              Flight.new(from: @eu,  to: @vn, position: 1),
-              Flight.new(from: @sgn, to: @jfk, position: 2)
-            ]
-          )
-        end
+      @tp_0 = create(
+        :travel_plan, :single, account: @account,
+        flights: [Flight.new(from: @jfk, to: @lhr)]
+      )
+      @tp_1 = create(
+        :travel_plan, :return, account: @account,
+        flights: [Flight.new(from: @na, to: @as)]
+      )
+      @tp_2 = create(
+        :travel_plan, :multi, account: @account,
+        flights: [
+          Flight.new(from: @jfk, to: @eu, position: 0),
+          Flight.new(from: @eu,  to: @vn, position: 1),
+          Flight.new(from: @sgn, to: @jfk, position: 2)
+        ]
+      )
 
-        it "displays information about them" do
-          is_expected.to have_no_content "User has no upcoming travel plans"
+      visit_path
 
-          # When the destination is a region, just display the region name.
-          # When the destination is anything other than a region, display the
-          # destination name, and the region name, skipping any intermediary
-          # steps. E.g. if the destination is Heathrow, display "Heathrow
-          # (Europe)", and don't bother displaying the intermediary
-          # destinations like London, England, UK, etc.
+      expect(page).to have_no_content "User has no upcoming travel plans"
 
-          within ".account_travel_plans" do
-            is_expected.to have_selector "##{dom_id(@tp_0)}"
-            within "##{dom_id(@tp_0)}" do
-              is_expected.to have_content "Single"
-              is_expected.to have_selector "##{dom_id(@tp_0.flights[0])}"
-              within "##{dom_id(@tp_0.flights[0])}" do
-                is_expected.to have_content "JFK (North America)"
-                is_expected.to have_content "Heathrow (Europe)"
-              end
-            end
+      # When the destination is a region, just display the region name.
+      # When the destination is anything other than a region, display the
+      # destination name, and the region name, skipping any intermediary
+      # steps. E.g. if the destination is Heathrow, display "Heathrow
+      # (Europe)", and don't bother displaying the intermediary
+      # destinations like London, England, UK, etc.
 
-            is_expected.to have_selector "##{dom_id(@tp_1)}"
-            within "##{dom_id(@tp_1)}" do
-              is_expected.to have_content "Return"
-              is_expected.to have_selector "##{dom_id(@tp_1.flights[0])}"
-              within "##{dom_id(@tp_1.flights[0])}" do
-                is_expected.to have_content "North America"
-                is_expected.to have_content "Asia"
-              end
-            end
-
-            is_expected.to have_selector "##{dom_id(@tp_2)}"
-            within "##{dom_id(@tp_2)}" do
-              is_expected.to have_content "Multi"
-              is_expected.to have_selector "##{dom_id(@tp_2.flights[0])}"
-              is_expected.to have_selector "##{dom_id(@tp_2.flights[1])}"
-              is_expected.to have_selector "##{dom_id(@tp_2.flights[2])}"
-
-              within "##{dom_id(@tp_2.flights[0])}" do
-                is_expected.to have_content "JFK (North America)"
-                is_expected.to have_content "Europe"
-              end
-              within "##{dom_id(@tp_2.flights[1])}" do
-                is_expected.to have_content "Europe"
-                is_expected.to have_content "Vietnam (Asia)"
-              end
-              within "##{dom_id(@tp_2.flights[2])}" do
-                is_expected.to have_content "HCMC (Asia)"
-                is_expected.to have_content "JFK (North America)"
-              end
-            end
-          end
-        end
-      end
-
-      context "has no existing points balances" do
-        let(:no_balances) { t("admin.people.card_recommendations.no_balances") }
-        it { is_expected.to have_content no_balances }
-      end
-
-      context "has existing points balances" do
-        let(:extra_setup) do
-          Balance.create!(
-            person: @person, currency: @currencies[0], value:  5000
-          )
-          Balance.create!(
-            person: @person, currency: @currencies[2], value: 10000
-          )
-        end
-
-        it "lists their balances" do
-          is_expected.to have_selector "##{dom_id(@currencies[0])} .balance",
-                                        text: "5,000"
-          is_expected.to have_selector "##{dom_id(@currencies[2])} .balance",
-                                        text: "10,000"
-
-          is_expected.to have_no_selector "##{dom_id(@currencies[1])}_balance"
-          is_expected.to have_no_selector "##{dom_id(@currencies[3])}_balance"
-        end
-      end
-
-      context "has existing cards" do
-        let(:jan) { Date.parse("2015-01-01") }
-        let(:mar) { Date.parse("2015-03-01") }
-        let(:oct) { Date.parse("2015-10-01") }
-        let(:dec) { Date.parse("2015-12-01") }
-
-        context "which were added in the onboarding survey" do
-          let(:extra_setup) do
-            @opened_acc = \
-              create(:open_survey_card_account,   opened_at: jan, person: person)
-            @closed_acc = \
-              create(:closed_survey_card_account, opened_at: mar, closed_at: oct, person: person)
-          end
-
-          let(:opened_acc) { CardAccountOnPage.new(@opened_acc, self) }
-          let(:closed_acc) { CardAccountOnPage.new(@closed_acc, self) }
-
-          it "lists them and says when they were opened/closed" do
-            within "#admin_person_cards_from_survey" do
-              expect(opened_acc).to be_present
-              expect(closed_acc).to be_present
-            end
-            expect(opened_acc).to have_content "Open"
-            expect(closed_acc).to have_content "Closed"
-            # says when they were opened/closed:
-            expect(opened_acc).to have_selector ".card_account_opened_at", text: "Jan 2015"
-            expect(opened_acc).to have_selector ".card_account_closed_at", text: "-"
-            expect(closed_acc).to have_selector ".card_account_opened_at", text: "Mar 2015"
-            expect(closed_acc).to have_selector ".card_account_closed_at", text: "Oct 2015"
+      within ".account_travel_plans" do
+        expect(page).to have_selector "##{dom_id(@tp_0)}"
+        within "##{dom_id(@tp_0)}" do
+          expect(page).to have_content "Single"
+          expect(page).to have_selector "##{dom_id(@tp_0.flights[0])}"
+          within "##{dom_id(@tp_0.flights[0])}" do
+            expect(page).to have_content "JFK (North America)"
+            expect(page).to have_content "Heathrow (Europe)"
           end
         end
 
-        context "which were added as recommendations" do
-          let(:extra_setup) do
-            @new_rec      = \
-              create(:card_recommendation, recommended_at: jan, person: person)
-            @clicked_rec  = \
-              create(:card_recommendation, recommended_at: mar, clicked_at: oct, person: person)
-            @declined_rec = \
-              create(:card_recommendation, recommended_at: oct,
-                     declined_at: dec, person: person, decline_reason: "because")
+        expect(page).to have_selector "##{dom_id(@tp_1)}"
+        within "##{dom_id(@tp_1)}" do
+          expect(page).to have_content "Return"
+          expect(page).to have_selector "##{dom_id(@tp_1.flights[0])}"
+          within "##{dom_id(@tp_1.flights[0])}" do
+            expect(page).to have_content "North America"
+            expect(page).to have_content "Asia"
           end
+        end
 
-          let(:new_rec)      { CardAccountOnPage.new(@new_rec, self) }
-          let(:clicked_rec)  { CardAccountOnPage.new(@clicked_rec, self) }
-          let(:declined_rec) { CardAccountOnPage.new(@declined_rec, self) }
+        expect(page).to have_selector "##{dom_id(@tp_2)}"
+        within "##{dom_id(@tp_2)}" do
+          expect(page).to have_content "Multi"
+          expect(page).to have_selector "##{dom_id(@tp_2.flights[0])}"
+          expect(page).to have_selector "##{dom_id(@tp_2.flights[1])}"
+          expect(page).to have_selector "##{dom_id(@tp_2.flights[2])}"
 
-          it "displays them" do
-            within "#admin_person_card_recommendations" do
-              expect(new_rec).to be_present
-              expect(clicked_rec).to be_present
-              expect(declined_rec).to be_present
-            end
-
-            # shows each card's status:
-            expect(new_rec).to have_status "Recommended"
-            expect(clicked_rec).to have_status "Recommended"
-            expect(declined_rec).to have_status "Declined"
-
-            # shows the recommended/applied/opened/closed dates:
-            expect(new_rec).to have_recommended_at_date("01/01/15")
-            expect(new_rec).to have_no_clicked_at_date
-            expect(new_rec).to have_no_applied_at_date
-
-            expect(clicked_rec).to have_recommended_at_date("03/01/15")
-            expect(clicked_rec).to have_clicked_at_date("10/01/15")
-            expect(clicked_rec).to have_no_applied_at_date
-
-            expect(declined_rec).to have_recommended_at_date("10/01/15")
-            expect(declined_rec).to have_no_clicked_at_date
-            expect(declined_rec).to have_declined_at_date("12/01/15")
-
-            # shows decline reasons in a tooltip:
-            declined_rec.within do
-              is_expected.to have_selector "a[data-toggle='tooltip']"
-              tooltip = find("a[data-toggle='tooltip']")
-              expect(tooltip["title"]).to eq "because"
-            end
+          within "##{dom_id(@tp_2.flights[0])}" do
+            expect(page).to have_content "JFK (North America)"
+            expect(page).to have_content "Europe"
+          end
+          within "##{dom_id(@tp_2.flights[1])}" do
+            expect(page).to have_content "Europe"
+            expect(page).to have_content "Vietnam (Asia)"
+          end
+          within "##{dom_id(@tp_2.flights[2])}" do
+            expect(page).to have_content "HCMC (Asia)"
+            expect(page).to have_content "JFK (North America)"
           end
         end
       end
+    end
+
+    example "person with no points balances" do
+      visit_path
+      expect(page).to have_content t("admin.people.card_recommendations.no_balances")
+    end
+
+    example "person with points balances" do
+      Balance.create!(
+        person: @person, currency: @currencies[0], value:  5000
+      )
+      Balance.create!(
+        person: @person, currency: @currencies[2], value: 10000
+      )
+      visit_path
+
+      expect(page).to have_selector "##{dom_id(@currencies[0])} .balance",
+                                    text: "5,000"
+      expect(page).to have_selector "##{dom_id(@currencies[2])} .balance",
+                                    text: "10,000"
+
+      expect(page).to have_no_selector "##{dom_id(@currencies[1])}_balance"
+      expect(page).to have_no_selector "##{dom_id(@currencies[3])}_balance"
+    end
+
+    let(:jan) { Date.parse("2015-01-01") }
+    let(:mar) { Date.parse("2015-03-01") }
+    let(:oct) { Date.parse("2015-10-01") }
+    let(:dec) { Date.parse("2015-12-01") }
+
+    example "person added cards in onboarding survey" do
+      @opened_acc = \
+        create(:open_survey_card_account,   opened_at: jan, person: person)
+      @closed_acc = \
+        create(:closed_survey_card_account, opened_at: mar, closed_at: oct, person: person)
+
+      visit_path
+
+      opened_acc = CardAccountOnPage.new(@opened_acc, self)
+      closed_acc = CardAccountOnPage.new(@closed_acc, self)
+
+      within "#admin_person_cards_from_survey" do
+        expect(opened_acc).to be_present
+        expect(closed_acc).to be_present
+      end
+      expect(opened_acc).to have_status "Open"
+      expect(closed_acc).to have_status "Closed"
+      # says when they were opened/closed:
+      expect(opened_acc).to have_opened_at_date("Jan 2015")
+      expect(opened_acc).to have_no_closed_at_date
+      expect(closed_acc).to have_opened_at_date("Mar 2015")
+      expect(closed_acc).to have_closed_at_date("Oct 2015")
+    end
+
+    example "person has received recommendations" do
+      @new_rec = person.card_recommendations.create!(
+        offer: offers[0], recommended_at: jan, person: person
+      )
+      @clicked_rec = person.card_recommendations.create!(
+        offer: offers[0], seen_at: jan, recommended_at: mar, clicked_at: oct
+      )
+      @declined_rec = person.card_recommendations.create!(
+        offer: offers[0], recommended_at: oct, seen_at: mar, declined_at: dec, decline_reason: "because"
+      )
+
+      last_recs_date = 5.days.ago
+      person.update_attributes!(last_recommendations_at: last_recs_date)
+
+      visit_path
+
+      new_rec      = CardAccountOnPage.new(@new_rec, self)
+      clicked_rec  = CardAccountOnPage.new(@clicked_rec, self)
+      declined_rec = CardAccountOnPage.new(@declined_rec, self)
+
+      within "#admin_person_card_recommendations" do
+        expect(new_rec).to be_present
+        expect(clicked_rec).to be_present
+        expect(declined_rec).to be_present
+      end
+
+      # shows each card's status:
+      expect(new_rec).to have_status "Recommended"
+      expect(clicked_rec).to have_status "Recommended"
+      expect(declined_rec).to have_status "Declined"
+
+      # shows the recommended/applied/opened/closed dates:
+      expect(new_rec).to have_recommended_at_date("01/01/15")
+      expect(new_rec).to have_no_seen_at_date
+      expect(new_rec).to have_no_clicked_at_date
+      expect(new_rec).to have_no_applied_at_date
+
+      expect(clicked_rec).to have_recommended_at_date("03/01/15")
+      expect(clicked_rec).to have_seen_at_date("01/01/15")
+      expect(clicked_rec).to have_clicked_at_date("10/01/15")
+      expect(clicked_rec).to have_no_applied_at_date
+
+      expect(declined_rec).to have_recommended_at_date("10/01/15")
+      expect(declined_rec).to have_seen_at_date("03/01/15")
+      expect(declined_rec).to have_no_clicked_at_date
+      expect(declined_rec).to have_declined_at_date("12/01/15")
+
+      # shows decline reasons in a tooltip:
+      declined_rec.within do
+        is_expected.to have_selector "a[data-toggle='tooltip']"
+        tooltip = find("a[data-toggle='tooltip']")
+        expect(tooltip["title"]).to eq "because"
+      end
+
+      # displays the last recs timestamp:
+      expect(page).to have_selector(
+        ".person_last_recommendations_at",
+        text: last_recs_date.strftime("%D"),
+      )
+    end
+
+    example "person has not received recommendations" do
+      visit_path
+      # sanity check:
+      raise if person.last_recommendations_at.present?
+
+      # no last recs timestamp:
+      expect(page).to have_no_selector ".person_last_recommendations_at"
     end
 
     example "person has not given their eligibility"
@@ -308,6 +320,8 @@ module AdminArea
 
 
     describe "the card recommendation form" do
+      before { visit_path }
+
       let(:offers_on_page) { @offers.map { |o| RecommendableOfferOnPage.new(o, self) } }
 
       it "has an option to recommend each live offer" do
@@ -459,26 +473,8 @@ module AdminArea
       end
     end
 
-    context "when the person has not received any recommendations before" do
-      before { raise if person.last_recommendations_at.present? }
-      it "doesn't display a 'last recs' timestamp" do
-        is_expected.to have_no_selector ".person_last_recommendations_at"
-      end
-    end
-
-    context "when the person has received recommendations before" do
-      let(:date) { 5.days.ago }
-      let(:extra_setup) { person.update_attributes!(last_recommendations_at: date) }
-
-      it "displays a 'last recs' timestamp" do
-        is_expected.to have_selector(
-          ".person_last_recommendations_at",
-          text: date.strftime("%D"),
-        )
-      end
-    end
-
     context "when the user has no existing recommendation notes" do
+      before { visit_path }
       it "doesn't display the recommendation notes panel" do
         expect(page).to have_no_content "Recommendation Notes"
       end
@@ -486,6 +482,7 @@ module AdminArea
 
     describe "when the user has existing recommendation notes" do
       let(:no_of_existing_notes) { 3 }
+      before { visit_path }
 
       it "displays them" do
         expect(page).to have_content("Recommendation Notes")
@@ -497,6 +494,7 @@ module AdminArea
     end
 
     example "marking recommendations as complete" do
+      visit_path
       expect do
         complete_card_recs_form.submit
         account.reload
@@ -517,10 +515,12 @@ module AdminArea
     end
 
     example "clicking 'Done' without adding a recommendation note to the user" do
+      visit_path
       expect{complete_card_recs_form.submit}.to_not change{account.recommendation_notes.count}
     end
 
     example "sending a recommendation note to the user" do
+      visit_path
       expect(page).to have_field :recommendation_note
 
       note_content = "I like to leave notes."
@@ -541,6 +541,7 @@ module AdminArea
     end
 
     example "recommendation note with trailing whitespace" do
+      visit_path
       note_content = "  I like to leave notes.   "
       complete_card_recs_form.add_rec_note(note_content)
       complete_card_recs_form.submit
@@ -550,6 +551,7 @@ module AdminArea
     end
 
     example "recommendation note that's only whitespace" do
+      visit_path
       complete_card_recs_form.add_rec_note("     \n \n \t\ \t ")
       expect do
         complete_card_recs_form.submit

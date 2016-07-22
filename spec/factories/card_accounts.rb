@@ -12,7 +12,12 @@ FactoryGirl.define do
       closed_at { 1.year.ago }
     end
 
+    trait :seen do
+      seen_at { 1.year.ago }
+    end
+
     trait :clicked do
+      seen
       clicked_at { 3.days.ago }
     end
 
@@ -38,8 +43,28 @@ FactoryGirl.define do
 
     trait :declined do
       recommendation
-      applied_at { Time.now }
+      declined_at { Time.now }
       decline_reason "You suck!"
+    end
+
+    trait :expired do
+      recommendation
+      expired_at { Time.now }
+    end
+
+    trait :called do
+      denied
+      called_at { Time.now }
+    end
+
+    trait :redenied do
+      called
+      redenied_at { Time.now }
+    end
+
+    trait :nudged do
+      applied
+      nudged_at { Time.now }
     end
 
     factory :survey_card_account, traits: [:survey]

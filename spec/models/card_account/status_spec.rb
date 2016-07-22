@@ -46,33 +46,47 @@ describe CardAccount::Status do
       end
 
       context "and declined_at is nil" do
-        context "and applied_at is nil" do
+        context "and expired_at is present" do
+          before { attrs[:expired_at] = date }
           specify "every other timestamp must be nil" do
             expect(valid_attributes?(attrs)).to be true
 
-            (TIMESTAMPS - [:recommended_at, :declined_at, :applied_at]).each do |timestamp|
+            (TIMESTAMPS - [:recommended_at, :expired_at]).each do |timestamp|
               expect(valid_attributes?(attrs.merge(timestamp => date))).to be false
             end
           end
         end
 
-        context "and applied_at is present" do
-          before { attrs[:applied_at] = date }
+        context "and expired_at is nil" do
+          context "and applied_at is nil" do
+            specify "every other timestamp must be nil" do
+              expect(valid_attributes?(attrs)).to be true
 
-          context "and closed_at is present" do
-            before { attrs[:closed_at] = date }
-            specify "opened_at must be present" do
-              expect(valid_attributes?(attrs)).to be false
-              expect(valid_attributes?(attrs.merge(opened_at: date))).to be true
+              (TIMESTAMPS - [:expired_at, :recommended_at, :declined_at, :applied_at]
+              ).each do |timestamp|
+                expect(valid_attributes?(attrs.merge(timestamp => date))).to be false
+              end
             end
           end
 
-          context "and redenied_at is present" do
-            before { attrs[:redenied_at] = date }
+          context "and applied_at is present" do
+            before { attrs[:applied_at] = date }
 
-            specify "denied_at must be present" do
-              expect(valid_attributes?(attrs)).to be false
-              expect(valid_attributes?(attrs.merge(denied_at: date))).to be true
+            context "and closed_at is present" do
+              before { attrs[:closed_at] = date }
+              specify "opened_at must be present" do
+                expect(valid_attributes?(attrs)).to be false
+                expect(valid_attributes?(attrs.merge(opened_at: date))).to be true
+              end
+            end
+
+            context "and redenied_at is present" do
+              before { attrs[:redenied_at] = date }
+
+              specify "denied_at must be present" do
+                expect(valid_attributes?(attrs)).to be false
+                expect(valid_attributes?(attrs.merge(denied_at: date))).to be true
+              end
             end
           end
         end
@@ -96,6 +110,11 @@ describe CardAccount::Status do
       before { attrs.merge!(closed_at: date, opened_at: date) }
 
       it { is_expected.to eq "closed" }
+    end
+
+    context "when expired_at is present" do
+      before { attrs.merge!(expired_at: date, opened_at: date) }
+      it { is_expected.to eq "expired" }
     end
 
     context "when closed_at is nil" do

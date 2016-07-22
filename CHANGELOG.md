@@ -7,6 +7,25 @@
 
     *Ryan Vredenburg*
 
+*   Refactor: rename 'NonAdminController' to 'AuthenticatedUserController'.
+
+    *Ryan Vredenburg*
+
+*   Bug fix: CardAccount status predicate methods (`accepted?`, `closed?`) etc
+    were always returning true.
+
+    *George Millo*
+
+*   When a user hasn't interacted with a recommendation (e.g. by clicking its
+    link) after 15 days, the recommendation will expire and the user will no
+    longer see it.
+
+    *George Millo*
+
+*   Admins can see a card recommendation's ‘seen at’ date.
+
+    *George Millo*
+
 *   Bug fix: recommendation CSV export was using the users' *oldest*
     recommendation when it should have been using their *newest* one.
 

@@ -1,4 +1,4 @@
-class AccountsController < NonAdminController
+class AccountsController < AuthenticatedUserController
   before_action :redirect_if_not_onboarded_travel_plans!
   before_action :redirect_if_type_already_given!
 

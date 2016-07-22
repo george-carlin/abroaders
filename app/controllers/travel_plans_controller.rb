@@ -1,4 +1,4 @@
-class TravelPlansController < NonAdminController
+class TravelPlansController < AuthenticatedUserController
   before_action :redirect_if_on_other_survey_page, only: [:new, :create]
 
   def index
