@@ -108,8 +108,12 @@ describe CardAccount::Status do
 
     context "when closed_at is present" do
       before { attrs.merge!(closed_at: date, opened_at: date) }
-
       it { is_expected.to eq "closed" }
+    end
+
+    context "when pulled_at is present" do
+      before { attrs.merge!(pulled_at: date) }
+      it { is_expected.to eq "pulled" }
     end
 
     context "when expired_at is present" do
