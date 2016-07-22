@@ -20,6 +20,12 @@ module AdminArea
       redirect_to admin_person_path(@person)
     end
 
+    def pulled
+      @person  = load_person
+      @account = @person.account
+      @pulled_recommendations = @person.card_recommendations.pulled
+    end
+
     private
 
     def load_person

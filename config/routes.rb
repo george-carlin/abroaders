@@ -148,6 +148,7 @@ Rails.application.routes.draw do
       resources :card_recommendations, only: [:create] do
         collection do
           post :complete
+          get  :pulled
         end
       end
     end

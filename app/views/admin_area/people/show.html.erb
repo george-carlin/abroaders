@@ -74,6 +74,13 @@
           <p>User has not been recommended any cards yet</p>
         <% end %>
 
+        <% if @pulled_card_recommendations.any? %>
+          <%= link_to(
+            "View #{pluralize(@pulled_card_recommendations.size, "pulled recommendation")}",
+            pulled_admin_person_card_recommendations_path(@person)
+          ) %>
+        <% end %>
+
         <h4>Other</h4>
 
         <% if @cards_from_survey.any? %>

@@ -6,10 +6,15 @@
     <th>Recommended</th>
     <th>Seen</th>
     <th>Clicked</th>
-    <th>Applied</th>
+    <% unless local_assigns[:pulled] %>
+      <th>Applied</th>
+    <% end %>
     <th>Denied</th>
     <th>Declined</th>
-    <th>Opened</th>
+    <% unless local_assigns[:pulled] %>
+      <th>Opened</th>
+    <% end %>
+    <th>Pulled</th>
   </thead>
   <tbody>
     <% present_each card_accounts do |card_account| %>
@@ -33,18 +38,27 @@
         <td class="card_account_clicked_at">
           <%= card_account.clicked_at || "-" %>
         </td>
-        <td class="card_account_applied_at">
-          <%= card_account.applied_at || "-" %>
-        </td>
+        <% unless local_assigns[:pulled] %>
+          <td class="card_account_applied_at">
+            <%= card_account.applied_at || "-" %>
+          </td>
+        <% end %>
         <td class="card_account_denied_at">
           <%= card_account.denied_at || "-" %>
         </td>
         <td class="card_account_declined_at">
           <%= card_account.declined_at || "-" %>
         </td>
-        <td class="card_account_opened_at">
-          <%= card_account.opened_at || "-" %>
-        </td>
+        <% unless local_assigns[:pulled] %>
+          <td class="card_account_opened_at">
+            <%= card_account.opened_at || "-" %>
+          </td>
+        <% end %>
+        <% if local_assigns[:pulled] %>
+          <td class="card_account_pulled_at">
+            <%= card_account.pulled_at %>
+          </td>
+        <% end %>
       <% end # content_tag_for %>
     <% end %>
   </tbody>
