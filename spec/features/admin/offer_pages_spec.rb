@@ -239,7 +239,7 @@ describe "admin section" do
       describe "when viewing non-reviewed offers" do
         it "shows offer details" do
           is_expected.to have_content @live_1.card.name
-          is_expected.to have_content @live_1.card.bp
+          is_expected.to have_content @live_1.card.bp.to_s[0].upcase
           expect(find("tr#offer_#{@live_1.id}").text).to include('never')
           is_expected.to have_link('Link', href: @live_1.link)
           is_expected.to have_link "kill_offer_#{ @live_1.id }_btn"
