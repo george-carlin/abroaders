@@ -2,6 +2,10 @@
 
 ## July 2016
 
+*   Feature: admins can pull recommendations that they've previously made
+
+    *George Millo*
+
 *   Refactor: rename 'NonAdminController' to 'AuthenticatedUserController'.
 
     *Ryan Vredenburg*
