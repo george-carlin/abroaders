@@ -1,5 +1,9 @@
 class AdminArea::OfferPresenter < OfferPresenter
 
+  def card_bp
+    card.bp.to_s[0].upcase
+  end
+
   def link_to_edit
     h.link_to 'Edit', h.edit_admin_offer_path(self)
   end

@@ -14,7 +14,7 @@
   <div class="panel-body">
     <div class="table-responsive">
       <table
-        class="table table-striped"
+        class="admin_review_offers table table-striped"
         cellpadding="1"
         cellspacing="1"
       >
@@ -35,9 +35,11 @@
         <tbody>
           <% present_each @offers, AdminArea::OfferPresenter do |offer| %>
             <%= content_tag_for :tr, offer do %>
-              <td><%= offer.card_name %></td>
+              <td class="offer_card_name">
+                <%= offer.card_name %>
+              </td>
               <td><%= offer.bank_name %></td>
-              <td><%= offer.card.bp %></td>
+              <td><%= offer.card_bp %></td>
               <td><%= offer.points_awarded %></td>
               <td><%= offer.spend %></td>
               <td><%= offer.cost %></td>
