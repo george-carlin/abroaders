@@ -1,6 +1,11 @@
 # CHANGELOG
 
 ## July 2016
+
+*   Rename the `ERIKS_EMAIL` env var to `ADMIN_EMAIL`.
+
+    *George Millo*
+
 *   Update admin e-mail after account survey completion
 
     *Ryan Vredenburg*
