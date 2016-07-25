@@ -14,9 +14,8 @@ module CardAccount::Expiration
   def expire_old_recommendations!
     cutoff_point = EXPIRE_AFTER_NO_OF_DAYS.days.ago
 
-    where("recommended_at < '#{cutoff_point.utc.to_s(:db)}'").\
-      where(clicked_at: nil, declined_at: nil, expired_at: nil, applied_at: nil)\
-        .update_all(expired_at: Time.now)
+    visible.unclicked.unapplied.where("recommended_at < '#{cutoff_point.utc.to_s(:db)}'").\
+        update_all(expired_at: Time.now)
   end
 
 end

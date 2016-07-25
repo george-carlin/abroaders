@@ -13,28 +13,34 @@ describe CardAccount::Expiration do
     owner_0 = account_0.owner
 
     to_not_expire = [
+      # recommended recently:
       owner_0.card_recommendations.create!(
         offer: offer,
         recommended_at: keep
       ),
+      # added in onboarding survey:
       owner_0.card_accounts.from_survey.create!(offer: offer),
+      # recommended recently and seen:
       owner_0.card_recommendations.create!(
         offer: offer,
         recommended_at: keep,
         seen_at: Time.now
       ),
+      # recommended recently, seen, and clicked
       owner_0.card_recommendations.create!(
         offer: offer,
         recommended_at: keep,
         seen_at: Time.now,
         clicked_at: Time.now
       ),
+      # recommended before cutoff point, but clicked
       owner_0.card_recommendations.create!(
         offer: offer,
         recommended_at: lose,
         seen_at: Time.now,
         clicked_at: Time.now
       ),
+      # recommended before cutoff point, but declined
       owner_0.card_recommendations.create!(
         offer: offer,
         recommended_at: lose,
@@ -42,28 +48,23 @@ describe CardAccount::Expiration do
         declined_at: Time.now,
         decline_reason: "whatever"
       ),
-      owner_0.card_recommendations.create!(
-        offer: offer,
-        recommended_at: lose,
-        seen_at: Time.now,
-        declined_at: Time.now,
-        decline_reason: "whatever"
-      ),
-      owner_0.card_recommendations.create!(
-        offer: offer,
-        recommended_at: lose,
-        seen_at: Time.now,
-        declined_at: Time.now,
-        decline_reason: "whatever"
-      ),
+      # recommended before cutoff point, but applied
       owner_0.card_recommendations.create!(
         offer: offer,
         recommended_at: lose,
         seen_at: Time.now,
         applied_at: Time.now,
       ),
+      # recommended before cutoff point, but pulled:
+      owner_0.card_recommendations.create!(
+        offer: offer,
+        recommended_at: lose,
+        pulled_at: Time.now,
+      ),
     ]
 
+    # accounts that were already expired shouldn't have their expired_at date
+    # changed:
     already_expired = owner_0.card_recommendations.create!(
       offer: offer,
       recommended_at: lose,
@@ -78,10 +79,12 @@ describe CardAccount::Expiration do
     already_expired.reload
 
     to_expire = [
+      # recommended > 15 days ago:
       owner_0.card_recommendations.create!(
         offer: offer,
         recommended_at: lose
       ),
+      # cards that have only been *seen* should still expire:
       owner_0.card_recommendations.create!(
         offer: offer,
         recommended_at: lose,
@@ -93,7 +96,6 @@ describe CardAccount::Expiration do
       CardAccount.expire_old_recommendations!
       already_expired.reload
     end.not_to change{already_expired.expired_at}
-
 
     expect(to_not_expire.all? { |ca| ca.reload.expired_at.nil? }).to be true
 

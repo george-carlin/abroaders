@@ -172,6 +172,8 @@ class CardAccount < ApplicationRecord
   scope :from_survey,     -> { where(recommended_at: nil) }
   scope :pulled,          -> { where.not(pulled_at: nil) }
   scope :recommendations, -> { where.not(recommended_at: nil) }
+  scope :unapplied,       -> { where(applied_at: nil) }
+  scope :unclicked,       -> { where(clicked_at: nil) }
   scope :undeclined,      -> { where(declined_at: nil) }
   scope :unexpired,       -> { where(expired_at: nil) }
   scope :unpulled,        -> { where(pulled_at: nil) }
