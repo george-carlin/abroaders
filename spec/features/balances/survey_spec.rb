@@ -3,7 +3,7 @@ require "rails_helper"
 describe "the balance survey page", :onboarding, :js do
   subject { page }
 
-  include_context "set erik's email ENV var"
+  include_context "set admin email ENV var"
 
   let!(:onboarded_type) { true }
   let!(:onboarded_travel_plans) { true }

@@ -3,7 +3,7 @@ require "rails_helper"
 describe "readiness status pages", :js, :onboarding do
   subject { page }
 
-  include_context "set erik's email ENV var"
+  include_context "set admin email ENV var"
 
   let!(:account) do
     create(

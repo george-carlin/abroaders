@@ -1,11 +1,11 @@
-shared_context "set erik's email ENV var" do
+shared_context "set admin email ENV var" do
   before do
-    @real_env_email = ENV["ERIKS_EMAIL"]
-    ENV["ERIKS_EMAIL"] = eriks_email
+    @real_env_email = ENV["ADMIN_EMAIL"]
+    ENV["ADMIN_EMAIL"] = admin_email
     visit new_account_registration_path
   end
-  after { ENV["ERIKS_EMAIL"] = @real_env_email }
-  let(:eriks_email) { "test@example.com" }
+  after { ENV["ADMIN_EMAIL"] = @real_env_email }
+  let(:admin_email) { "test@example.com" }
 end
 
 shared_examples "send survey complete email to admin" do
@@ -18,7 +18,7 @@ shared_examples "send survey complete email to admin" do
 
     email = ApplicationMailer.deliveries.last
     expect(email.subject).to eq "App Profile Complete - #{account.email}"
-    expect(email.to).to match_array [eriks_email]
+    expect(email.to).to match_array [admin_email]
   end
 end
 

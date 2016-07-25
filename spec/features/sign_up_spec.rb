@@ -3,7 +3,7 @@ require "rails_helper"
 describe "the sign up page", :onboarding do
   subject { page }
 
-  include_context "set erik's email ENV var"
+  include_context "set admin email ENV var"
 
   it "has fields to create a new account" do
     is_expected.to have_field :sign_up_email
@@ -49,14 +49,14 @@ describe "the sign up page", :onboarding do
         expect(new_account.email).to eq "testaccount@example.com"
       end
 
-      it "sends an email to erik with the new user's email address" do
+      it "sends an email to the admin with the new user's email address" do
         expect{submit_form}.to change{enqueued_jobs.size}
         expect do
           perform_enqueued_jobs { ActionMailer::DeliveryJob.perform_now(*enqueued_jobs.first[:args]) }
         end.to change {(ApplicationMailer.deliveries.length)}.by(1)
 
         email = ApplicationMailer.deliveries.last
-        expect(email.to).to match_array [eriks_email]
+        expect(email.to).to match_array [admin_email]
       end
 
       it "creates a user on Intercom", :intercom do
