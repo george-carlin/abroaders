@@ -86,7 +86,8 @@ class CardAccount < ApplicationRecord
   #   be declined. But for the sake of record-keeping, we mark this with a
   #   separate time column, rather than reusing 'declined_at' (in which case it
   #   would be unclear whether the user declined the card manually or it was
-  #   declined automatically)
+  #   declined automatically). Note that 'expiry' in this sense has nothing to
+  #   do with the expiry date that's printed on a bank card.
   #
   # created_at/updated_at
   #   The normal Rails/PSQL timestamp columns. But you already knew that ;)
