@@ -1,8 +1,7 @@
-Owner Name: <%= @account.owner_first_name %>
-Owner Status: <%= @account.owner.status %>
+Owner Name: <%= @account.owner_first_name %><br>
+Owner Status: <%= @account.owner.status %><br>
 <% if @account.has_companion? %>
-Companion Name: <%= @account.companion.first_name %>
-Companion Status: <%= @account.companion.status %>
+Companion Name: <%= @account.companion.first_name %><br>
+Companion Status: <%= @account.companion.status %><br>
 <% end %>
-
-<%= @timestamp %>
+Timestamp: <%= @timestamp %>
