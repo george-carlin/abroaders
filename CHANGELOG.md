@@ -1,6 +1,9 @@
 # CHANGELOG
 
 ## July 2016
+*   Update admin e-mail after account survey completion
+
+    *Ryan Vredenburg*
 
 *   Feature: admins can pull recommendations that they've previously made
 

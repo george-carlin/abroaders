@@ -43,7 +43,9 @@ class BalancesSurvey
         @person.save(validate: false)
 
         if send_survey_complete_notification?
-          AccountMailer.notify_admin_of_survey_completion(@person.account_id).deliver_later
+          #String workaround becauce ActiveJob won't accept Time arguments
+          timestamp = Time.now.in_time_zone("EST").to_s
+          AccountMailer.notify_admin_of_survey_completion(@person.account_id, timestamp).deliver_later
         end
 
         IntercomJobs::TrackEvent.perform_later(

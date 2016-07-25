@@ -1,2 +1,8 @@
-Name: <%= @account.owner_first_name %>
-Email: <%= @account.email %>
+Owner Name: <%= @account.owner_first_name %>
+Owner Status: <%= @account.owner.status %>
+<% if @account.has_companion? %>
+Companion Name: <%= @account.companion.first_name %>
+Companion Status: <%= @account.companion.status %>
+<% end %>
+
+<%= @timestamp %>

@@ -34,6 +34,16 @@ class Person < ApplicationRecord
     onboarded? && eligible? && ready_to_apply?
   end
 
+  def status
+    if self.ineligible?
+      "Ineligible"
+    elsif self.readiness_status
+      "Ready"
+    else
+      "Eligible(NotReady)"
+    end
+  end
+
   concerning :Eligibility do
     def onboarded_eligibility?
       !eligible.nil?
