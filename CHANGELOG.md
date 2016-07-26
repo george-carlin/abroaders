@@ -2,6 +2,10 @@
 
 ## July 2016
 
+*   Change survey completion e-mail timestamp to integer.
+
+    *Ryan Vredenburg*
+
 *   Rename the `ERIKS_EMAIL` env var to `ADMIN_EMAIL`.
 
     *George Millo*

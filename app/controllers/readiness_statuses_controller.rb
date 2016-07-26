@@ -18,9 +18,8 @@ class ReadinessStatusesController < AuthenticatedUserController
     @status = @person.build_readiness_status(readiness_status_params)
     if @status.save
       unless current_account.has_companion? && @person.main?
-        #String workaround becauce ActiveJob won't accept Time arguments
-        timestamp = Time.now.in_time_zone("EST").to_s
-        AccountMailer.notify_admin_of_survey_completion(current_account.id, timestamp).deliver_later
+        #Int workaround becauce ActiveJob won't accept Time arguments
+        AccountMailer.notify_admin_of_survey_completion(current_account.id, Time.now.to_i).deliver_later
       end
 
       track_intercom_event("obs_#{"un" if !@status.ready?}ready_#{@person.type[0..2]}")
