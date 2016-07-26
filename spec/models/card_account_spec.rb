@@ -164,7 +164,7 @@ describe CardAccount do
       create(:card_recommendation, :denied),
       create(:card_recommendation, :seen),
       create(:card_recommendation, :applied),
-      create(:card_recommendation, :denied),
+      create(:card_recommendation, :redenied),
       create(:card_recommendation, :nudged),
       create(:card_recommendation, :redenied),
     ]
