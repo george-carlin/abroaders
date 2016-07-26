@@ -71,13 +71,43 @@ When you're done with the story:
 
 1. Click 'Finish' on Pivotal.
 2. Push your final work to Github, and open a new pull request. You'll usually
-   want your PR to target `master`. If not, I'll say so on Pivotal.
+   want your PR to target `master`. If not, I'll say so on PT.
+      - Side note: for some big features, we'll want to break things down
+        into multiple stories on PT, but it won't make sense to deploy the
+        changes to production until *all* the related PT stories are complete.
+        In this case we'll want to create an intermediary branch called e.g.
+        `name-of-feature` and the 'intermediary' stories will be merged into
+        this branch, not `master` (because, remember, `master` should be
+        deployable at any time and shouldn't contain half-finished features).
+        When the entire feature is completed we'll then merge `name-of-feature`
+        into `master`.
 3. Click 'Deliver' on Pivotal. ('Delivered' stories = there's currently a PR
    on Github awaiting feedback.) Post a comment on the Pivotal story with
    a link to the pull request on GitHub.
 4. I'll have a look at the PR. If it looks good, I'll merge it and accept the
    story on Pivotal. If I spot problems, I'll decline the story on Pivotal and
    give you feedback.
+
+### Completing features + deployment
+
+- If a story is *Accepted* on PT, that should mean that the feature is
+  finished, merged into `master`, and the test suite on `master` is passing.
+- When merging a feature into `master`, note the number of the PT story and the
+  the Github pull request in the commit message of the merge commit. (This is
+  so we can easily find it later if we're looking at old commits and think 'why
+  did we do it this way?' so want to see any discussion that took place on GH
+  and PT.)
+- When merging new features, always add a merge commit (i.e. don't allow
+  fast-forwards). You can ensure this by passing `--no-ff` to `git merge`.
+  These makes the git history easier to follow and makes it easier to revert
+  changes.
+- To deploy to production, just merge the `master` branch into `production`
+  and push `production` to GitHub. Codeship will then pull `production` from
+  GitHub and, if the test suite passes, it will deploy it automatically to
+
+Note that our workflow/branching/deployment procedure has evolved and changed
+over the app's lifespan, and we haven't always followed our own rules
+perfectly, so some older commits won't have followed the above procedures.
 
 ## General
 
