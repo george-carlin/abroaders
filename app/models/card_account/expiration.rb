@@ -11,6 +11,8 @@ module CardAccount::Expiration
   # Users won't see expired recs anymore on their /cards page.
   #
   # This method will be called from a script that runs daily in production.
+  #
+  # @return [Fixnum] the number of recs that were expired
   def expire_old_recommendations!
     cutoff_point = EXPIRE_AFTER_NO_OF_DAYS.days.ago
 

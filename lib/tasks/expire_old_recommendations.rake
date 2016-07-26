@@ -1,5 +1,7 @@
 namespace :abr do
   task expire_old_recommendations: :environment do
-    CardAccount.expire_old_recommendations!
+    count = CardAccount.expire_old_recommendations!
+
+    puts "expired #{count} recommendation#{"s" unless count == 1}"
   end
 end
