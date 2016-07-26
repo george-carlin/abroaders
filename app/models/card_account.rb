@@ -169,16 +169,39 @@ class CardAccount < ApplicationRecord
   # by an admin. We know which source the CardAccount came from because
   # recommended_at will be nil in the former case and present in the latter.
 
-  scope :from_survey,     -> { where(recommended_at: nil) }
-  scope :pulled,          -> { where.not(pulled_at: nil) }
   scope :recommendations, -> { where.not(recommended_at: nil) }
-  scope :unapplied,       -> { where(applied_at: nil) }
-  scope :unclicked,       -> { where(clicked_at: nil) }
-  scope :undeclined,      -> { where(declined_at: nil) }
-  scope :unexpired,       -> { where(expired_at: nil) }
-  scope :unpulled,        -> { where(pulled_at: nil) }
-  scope :unseen,          -> { where(seen_at: nil) }
-  scope :visible,         -> { recommendations.undeclined.unexpired.unpulled }
+  scope :from_survey,     -> { where(recommended_at: nil) }
+
+  # basic 'timestamp present' scopes:
+  scope :applied,  -> { where.not(applied_at: nil) }
+  scope :clicked,  -> { where.not(clicked_at: nil) }
+  scope :declined, -> { where.not(declined_at: nil) }
+  scope :denied,   -> { where.not(denied_at: nil) }
+  scope :expired,  -> { where.not(expired_at: nil) }
+  scope :expired,  -> { where.not(expired_at: nil) }
+  scope :nudged,   -> { where.not(nudged_at: nil) }
+  scope :open,     -> { where.not(opened_at: nil) }
+  scope :open,     -> { where.not(opened_at: nil) }
+  scope :pulled,   -> { where.not(pulled_at: nil) }
+  scope :redenied, -> { where.not(redenied_at: nil) }
+  scope :seen,     -> { where.not(seen_at: nil) }
+
+  # basic 'timestamp not present' scopes:
+  scope :unapplied,  -> { where(applied_at: nil) }
+  scope :unclicked,  -> { where(clicked_at: nil) }
+  scope :undeclined, -> { where(declined_at: nil) }
+  scope :undenied,   -> { where(denied_at: nil) }
+  scope :unexpired,  -> { where(expired_at: nil) }
+  scope :unexpired,  -> { where(expired_at: nil) }
+  scope :unnudged,   -> { where(nudged_at: nil) }
+  scope :unopen,     -> { where(opened_at: nil) }
+  scope :unopen,     -> { where(opened_at: nil) }
+  scope :unpulled,   -> { where(pulled_at: nil) }
+  scope :unredenied, -> { where(redenied_at: nil) }
+  scope :unseen,     -> { where(seen_at: nil) }
+
+  # compound scopes:
+  scope :visible, -> { recommendations.undeclined.unexpired.unpulled }
 
   def pull!
     update_attributes!(pulled_at: Time.now)
