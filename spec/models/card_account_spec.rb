@@ -156,27 +156,29 @@ describe CardAccount do
   end
 
   example ".visible" do
+    card   = create(:card)
+    offer  = create(:offer, card: card)
+    person = create(:person)
     visible = [
-      create(:card_recommendation),
-      create(:card_recommendation, :clicked),
-      create(:card_recommendation, :open),
-      create(:card_recommendation, :closed),
-      create(:card_recommendation, :denied),
-      create(:card_recommendation, :seen),
-      create(:card_recommendation, :applied),
-      create(:card_recommendation, :redenied),
-      create(:card_recommendation, :nudged),
-      create(:card_recommendation, :redenied),
+      create(:card_recommendation,            offer: offer, person: person),
+      create(:card_recommendation, :clicked,  offer: offer, person: person),
+      create(:card_recommendation, :open,     offer: offer, person: person),
+      create(:card_recommendation, :closed,   offer: offer, person: person),
+      create(:card_recommendation, :denied,   offer: offer, person: person),
+      create(:card_recommendation, :seen,     offer: offer, person: person),
+      create(:card_recommendation, :applied,  offer: offer, person: person),
+      create(:card_recommendation, :redenied, offer: offer, person: person),
+      create(:card_recommendation, :nudged,   offer: offer, person: person),
+      create(:card_recommendation, :redenied, offer: offer, person: person),
     ]
 
     # invisible:
-    [
-      create(:survey_card_account),
-      create(:card_recommendation, :declined),
-      create(:card_recommendation, :expired),
-      create(:card_recommendation, :pulled),
-    ]
+    create(:survey_card_account,            card: card,   person: person)
+    create(:card_recommendation, :declined, offer: offer, person: person)
+    create(:card_recommendation, :expired,  offer: offer, person: person)
+    create(:card_recommendation, :pulled,   offer: offer, person: person)
 
     expect(described_class.visible).to match_array(visible)
   end
+
 end
