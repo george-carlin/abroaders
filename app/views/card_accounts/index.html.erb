@@ -64,7 +64,7 @@
 
         <div class="panel-body">
           <div id="card_accounts_from_survey">
-            <%= @people.each do |person| %>
+            <% @people.each do |person| %>
               <div id="<%= person.type %>_card_accounts_from_survey">
                 <% if @people.many? %>
                   <h3><%= card_accounts_index_subheader(person) %></h3>
