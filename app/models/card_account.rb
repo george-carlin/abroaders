@@ -201,6 +201,31 @@ class CardAccount < ApplicationRecord
   scope :unseen,     -> { where(seen_at: nil) }
 
   # compound scopes:
+
+  # Recommendations which have been denied and we don't encourage the user to
+  # call for reconsideration. (In other words, recommendations which have been
+  # denied after calling or denied after nudging
+  scope :irreversibly_denied, -> { recommendations.redenied.or(denied.nudged) }
+
+  # Not the best name (any better ideas?), but the opposite of
+  # irreversibly_denied. Any recommendation which HASN'T been
+  # irreversibly_denied, including recommendations which haven't been denied at
+  # all in any sense.
+  scope :not_irreversibly_denied, -> do
+    recommendations.where(%["denied_at" IS NULL OR "nudged_at" IS NULL]).unredenied
+  end
+
+  # Recommendations which still require user action:
+  scope :resolved, -> do
+    pulled.or(open).or(expired).or(irreversibly_denied).recommendations
+  end
+
+  # Recommendations which no longer require user action:
+  scope :unresolved, -> do
+    recommendations.unpulled.unopen.not_irreversibly_denied.unexpired
+  end
+
+  # Recommendations which the user can still see:
   scope :visible, -> { recommendations.undeclined.unexpired.unpulled }
 
   def pull!
