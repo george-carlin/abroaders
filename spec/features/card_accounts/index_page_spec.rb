@@ -29,7 +29,6 @@ describe "as a user viewing my cards" do
   example "not recommended any cards yet" do
     visit_page
     expect(page).to have_content t("card_accounts.index.recs_coming_soon")
-    expect(page).to have_no_content "Recommendation Notes"
   end
 
   example "solo account with recommendations" do
@@ -48,12 +47,6 @@ describe "as a user viewing my cards" do
 
     # doesn't have a header with my name:
     expect(page).to have_no_selector H, text: "#{owner.first_name}'s Cards"
-  end
-
-  example "no recommendation notes" do
-    create(:card_recommendation, person: owner)
-    visit_page
-    expect(page).to have_no_selector "h3", text: "Notes"
   end
 
   example "recommendation notes" do
