@@ -6,7 +6,7 @@
 # example, the user accesses the card_accounts#index page at the path '/cards',
 # not at '/card_accounts/')
 class CardAccount < ApplicationRecord
-  extend Expiration
+  include Expiration
 
   # A card account has the following timestamps, all of which are nullable:
   #
@@ -175,7 +175,6 @@ class CardAccount < ApplicationRecord
   scope :unapplied,       -> { where(applied_at: nil) }
   scope :unclicked,       -> { where(clicked_at: nil) }
   scope :undeclined,      -> { where(declined_at: nil) }
-  scope :unexpired,       -> { where(expired_at: nil) }
   scope :unpulled,        -> { where(pulled_at: nil) }
   scope :unseen,          -> { where(seen_at: nil) }
   scope :visible,         -> { recommendations.undeclined.unexpired.unpulled }
