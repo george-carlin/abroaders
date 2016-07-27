@@ -1,13 +1,5 @@
 <% provide :title, "Your Cards" %>
 
-<% content_for :header_panel do %>
-  <div class="panel-body">
-    <h1 class="font-light m-b-xs">
-      Your Cards
-    </h1>
-  </div>
-<% end %>
-
 <div class="row">
   <div class="col-xs-12">
     <div class="hpanel">
@@ -16,12 +8,22 @@
       </div><!-- panel-heading -->
 
       <div class="panel-body">
-        <% if @recommendation_notes.any? %>
-          <h3>Notes</h3>
+        <h3>Notes from the Abroaders team</h3>
 
+        <p>
+          These cards were hand picked by the Abroaders founders (not by a
+          computer) based on your travel plans and the information in your
+          profile. Because offers change all the time, these recommendations
+          will expire in 2 weeks. Please click “Apply” below the card image
+          and complete the application on the banks website. If you are
+          decide not to apply for a card, please click “No Thanks”.
+        </p>
+
+        <% if @recommendation_notes.any? %>
           <p><%= @recommendation_notes.last.content %></p>
-          <hr>
         <% end %>
+
+        <hr>
 
         <% if @card_recommendations.any? %>
           <div id="card_recommendations">
