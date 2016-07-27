@@ -1,47 +1,80 @@
 require "rails_helper"
 
 describe CardAccount::Expiration do
-  example ".expire_old_recommendations!" do
-    account_0 = create(:account)
-    # account_1 = create(:account, :with_companion)
+  let(:person) { create(:person) }
+  let(:offer)  { create(:offer) }
 
+  example ".expirable" do
+    # override FactoryGirl.create so we use the same person/offer by default
+    # (this way we don't create a ton of extra DB records)
+    def create(factory, *args)
+      if factory == :card_rec
+        opts = args.extract_options!
+        opts.merge!(person: person, offer: offer)
+        super(factory, *args, opts)
+      else
+        super(factory, *args)
+      end
+    end
+
+    # Recs which aren't expirable:
+    applied_rec  = create(:card_rec, :applied)
+    clicked_rec  = create(:card_rec, :clicked)
+    declined_rec = create(:card_rec, :declined)
+    expired_rec  = create(:card_rec, :expired)
+    pulled_rec   = create(:card_rec, :pulled)
+
+    new_rec  = create(:card_rec)
+    seen_rec = create(:card_rec, :seen)
+
+    result = CardAccount.expirable
+
+    expect(result).to_not include(applied_rec)
+    expect(result).to_not include(clicked_rec)
+    expect(result).to_not include(declined_rec)
+    expect(result).to_not include(expired_rec)
+    expect(result).to_not include(pulled_rec)
+
+    expect(result).to include(new_rec)
+    expect(result).to include(seen_rec)
+  end
+
+  # this spec is dogshit; an extremely low-priority TODO would be to rewrite
+  # in the style of the spec for .expirable
+  example ".expire_old_recommendations!" do
     lose = 16.days.ago
     keep = 15.days.ago + 1.minute
 
-    offer = create(:offer)
-
-    owner_0 = account_0.owner
-
     to_not_expire = [
       # recommended recently:
-      owner_0.card_recommendations.create!(
+      person.card_recommendations.create!(
         offer: offer,
         recommended_at: keep
       ),
       # added in onboarding survey:
-      owner_0.card_accounts.from_survey.create!(offer: offer),
+      person.card_accounts.from_survey.create!(offer: offer),
       # recommended recently and seen:
-      owner_0.card_recommendations.create!(
+      person.card_recommendations.create!(
         offer: offer,
         recommended_at: keep,
         seen_at: Time.now
       ),
       # recommended recently, seen, and clicked
-      owner_0.card_recommendations.create!(
+      person.card_recommendations.create!(
         offer: offer,
         recommended_at: keep,
         seen_at: Time.now,
         clicked_at: Time.now
       ),
       # recommended before cutoff point, but clicked
-      owner_0.card_recommendations.create!(
+      person.card_recommendations.create!(
         offer: offer,
         recommended_at: lose,
         seen_at: Time.now,
         clicked_at: Time.now
       ),
       # recommended before cutoff point, but declined
-      owner_0.card_recommendations.create!(
+      person.card_recommendations.create!(
         offer: offer,
         recommended_at: lose,
         seen_at: Time.now,
@@ -49,14 +82,14 @@ describe CardAccount::Expiration do
         decline_reason: "whatever"
       ),
       # recommended before cutoff point, but applied
-      owner_0.card_recommendations.create!(
+      person.card_recommendations.create!(
         offer: offer,
         recommended_at: lose,
         seen_at: Time.now,
         applied_at: Time.now,
       ),
       # recommended before cutoff point, but pulled:
-      owner_0.card_recommendations.create!(
+      person.card_recommendations.create!(
         offer: offer,
         recommended_at: lose,
         pulled_at: Time.now,
@@ -65,7 +98,7 @@ describe CardAccount::Expiration do
 
     # accounts that were already expired shouldn't have their expired_at date
     # changed:
-    already_expired = owner_0.card_recommendations.create!(
+    already_expired = person.card_recommendations.create!(
       offer: offer,
       recommended_at: lose,
       expired_at: 5.days.ago
@@ -80,12 +113,12 @@ describe CardAccount::Expiration do
 
     to_expire = [
       # recommended > 15 days ago:
-      owner_0.card_recommendations.create!(
+      person.card_recommendations.create!(
         offer: offer,
         recommended_at: lose
       ),
       # cards that have only been *seen* should still expire:
-      owner_0.card_recommendations.create!(
+      person.card_recommendations.create!(
         offer: offer,
         recommended_at: lose,
         seen_at: Time.now
