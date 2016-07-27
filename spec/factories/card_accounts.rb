@@ -68,6 +68,7 @@ FactoryGirl.define do
     end
 
     trait :pulled do
+      recommendation
       pulled_at { Time.now }
     end
 
@@ -76,7 +77,7 @@ FactoryGirl.define do
     # The order of the traits is important here:
     factory :closed_survey_card_account, traits: [:survey, :closed]
 
-    factory :card_recommendation, traits: [:recommendation]
+    factory :card_recommendation, traits: [:recommendation], aliases: [:card_rec]
     factory :clicked_card_recommendation, traits: [:recommendation, :clicked]
     factory :declined_card_recommendation, traits: [:recommendation, :declined]
 

@@ -37,3 +37,37 @@
 <div class="row">
   <%= render partial: "accounts/dashboard/person", collection: @people, as: :person %>
 </div>
+
+<% if @unresolved_recommendations.any? %>
+  <div
+    id="unresolved_recommendations_notification_modal"
+    class="modal fade in"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="unresolved_recommendations_notification_modal_label"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="color-line"></div>
+        <div class="modal-header text-center">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h3 id="unresolved_recommendations_notification_modal_label">
+            Action Required
+          </h3>
+        </div>
+
+        <div class="modal-body">
+          <p>
+            You have <%= pluralize @unresolved_recommendations.size, "card recommendation" %>
+            which require<%= "s" unless @unresolved_recommendations.many? %> action.
+            Please view your recommendations and make the necessary updates.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <%= link_to "Take me to my recommendations", card_accounts_path, class: "btn btn-primary" %>
+          <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">I'll do it later</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

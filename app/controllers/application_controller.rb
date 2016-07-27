@@ -14,6 +14,7 @@ class ApplicationController < ActionController::Base
         :balances, :spending_info, card_accounts: :card
       ).order("main DESC")
       @travel_plans  = current_account.travel_plans.includes_destinations
+      @unresolved_recommendations = current_account.card_recommendations.unresolved
       render "accounts/dashboard"
     else
       redirect_to new_account_session_path
