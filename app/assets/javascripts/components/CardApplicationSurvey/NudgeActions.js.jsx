@@ -1,4 +1,5 @@
 const React = require("react");
+const _     = require("underscore");
 
 const Button         = require("../core/Button");
 const ButtonGroup    = require("../core/ButtonGroup");
@@ -72,72 +73,67 @@ const NudgeActions = React.createClass({
         break;
     };
 
-    switch (this.state.currentAction) {
-      case "initial":
-        buttons = (
-          <ButtonGroup>
-            <Button
-              onClick={e => this.setCurrentAction(e, "nudged")}
-              primary
-              small
-            >
-              I called {bankName}
-            </Button>
-            <Button
-              default
-              onClick={e => this.setCurrentAction(e, "heardBack")}
-              small
-            >
-              I heard back from {bankName} by mail or email
-            </Button>
-          </ButtonGroup>
-        );
-        break;
-      case "nudged":
-        buttons = (
-          <ApprovedDeniedPendingBtnGroup
-            approvedText="My application was approved"
-            deniedText="My application was denied"
-            onCancel={e => this.setCurrentAction(e, "initial")}
-            onClickApproved={e => this.setCurrentAction(e, "confirmNudgedAndApproved")}
-            onClickDenied={e => this.setCurrentAction(e, "confirmNudgedAndDenied")}
-            onClickPending={e => this.setCurrentAction(e, "confirmNudgedAndPending")}
-            pendingText="I'm still waiting to hear back"
-          />
-        );
-        break;
-      case "heardBack":
-        buttons = (
-          <ApprovedDeniedPendingBtnGroup
-            approvedText="My application was approved"
-            deniedText="My application was denied"
-            onCancel={e => this.setCurrentAction(e, "initial")}
-            onClickApproved={e => this.setCurrentAction(e, "confirmApproved")}
-            onClickDenied={e => this.setCurrentAction(e, "confirmDenied")}
-          />
-        );
-        break;
-      // Same actions for all 3 of these:
-      case "confirmNudgedAndApproved":
-      case "confirmNudgedAndDenied":
-      case "confirmNudgedAndPending":
-        buttons = (
-          <ConfirmOrCancelBtns
+    if (this.state.currentAction === "initial") {
+      buttons = (
+        <ButtonGroup>
+          <Button
+            onClick={e => this.setCurrentAction(e, "nudged")}
+            primary
             small
-            onClickCancel={e => this.setCurrentAction(e, "nudged")}
-          />
-        )
-        break;
-      // Same actions for both of these:
-      case "confirmApproved":
-      case "confirmDenied":
-        buttons = (
-          <ConfirmOrCancelBtns
+          >
+            I called {bankName}
+          </Button>
+          <Button
+            default
+            onClick={e => this.setCurrentAction(e, "heardBack")}
             small
-            onClickCancel={e => this.setCurrentAction(e, "heardBack")}
-          />
-        )
-        break;
+          >
+            I heard back from {bankName} by mail or email
+          </Button>
+        </ButtonGroup>
+      );
+    } else if (_.includes(["nudged", "heardBack"], this.state.currentAction)) {
+      let onClickApproved, onClickDenied, onClickPending, pendingText;
+
+      if (this.state.currentAction === "nudged") {
+        onClickApproved = e => this.setCurrentAction(e, "confirmNudgedAndApproved");
+        onClickDenied   = e => this.setCurrentAction(e, "confirmNudgedAndDenied");
+        onClickPending  = e => this.setCurrentAction(e, "confirmNudgedAndPending");
+        pendingText     = "I'm still waiting to hear back";
+      } else {
+        onClickApproved = e => this.setCurrentAction(e, "confirmApproved");
+        onClickDenied   = e => this.setCurrentAction(e, "confirmDenied");
+      }
+
+      buttons = (
+        <ApprovedDeniedPendingBtnGroup
+          approvedText="My application was approved"
+          deniedText="My application was denied"
+          onCancel={e => this.setCurrentAction(e, "initial")}
+          onClickApproved={onClickApproved}
+          onClickDenied={onClickDenied}
+          onClickPending={onClickPending}
+          pendingText={pendingText}
+        />
+      );
+    } else {
+      // If we get here then the currentAction is one of these:
+      // "confirmNudgedAndApproved", "confirmNudgedAndDenied",
+      // "confirmNudgedAndPending", "confirmApproved", "confirmDenied",
+
+      let statusOnCancel
+      if (_.includes(["confirmApproved", "confirmDenied"], this.state.currentAction)) {
+        statusOnCancel = "heardBack";
+      } else {
+        statusOnCancel = "nudged";
+      }
+
+      buttons = (
+        <ConfirmOrCancelBtns
+          small
+          onClickCancel={e => this.setCurrentAction(e, statusOnCancel)}
+        />
+      );
     }
 
     return (
