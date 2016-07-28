@@ -33,7 +33,7 @@ describe "account dashboard" do
 
     within_modal do
       expect(page).to have_content "You have 1 card recommendation which requires action"
-      expect(page).to have_link "Take me to my recommendations", href: card_accounts_path
+      expect(page).to have_link "Continue", href: card_accounts_path
     end
   end
 
@@ -47,7 +47,7 @@ describe "account dashboard" do
     visit_path
 
     expect(page).to have_no_modal
-    expect(page).to have_no_link "Take me to my recommendations", href: card_accounts_path
+    expect(page).to have_no_link "Continue", href: card_accounts_path
   end
 
 end

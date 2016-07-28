@@ -15,10 +15,10 @@ class Account < ApplicationRecord
     onboarded_travel_plans? && onboarded_type? && people.any? && people.all?(&:onboarded?)
   end
 
-  def recommendation_expiry
+  def recommendations_expire_at
     expiring_recommendations = card_recommendations.unresolved.unapplied
-    if expiring_recommendations
-      expiring_recommendations.max_by(&:recommended_at).recommended_at + 15.days
+    if expiring_recommendations.any?
+      expiring_recommendations.minimum(:recommended_at) + 15.days + 7.hours
     end
   end
 

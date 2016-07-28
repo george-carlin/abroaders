@@ -2,6 +2,11 @@
 
 ## July 2016
 
+*   Feature: Add unskippable card recommendation modal with timer.
+    After accepting modal, user won't see it again for 24 hours.
+
+    *Ryan Vredenburg*
+
 *   Rename the `ERIKS_EMAIL` env var to `ADMIN_EMAIL`.
 
     *George Millo*

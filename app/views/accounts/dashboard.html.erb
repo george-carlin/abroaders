@@ -61,11 +61,9 @@
             You have <%= pluralize @unresolved_recommendations.size, "card recommendation" %>
             which require<%= "s" unless @unresolved_recommendations.many? %> action.
             Please apply for <%= @unresolved_recommendations.size > 1 ? "these" : "this"  %> card<%= "s" unless !@unresolved_recommendations.many? %> as soon as possible.
-
-            <%= @recommendation_expiration  %>
-
+            Your card recommendations will expire in  <span id="recommendation-countdown" data-countdown="<%= @recommendation_expiration  %>" ></span>
           </p>
-          <div id="countdown"></div>
+
         </div>
         <div class="modal-footer">
           <%= link_to "Continue", card_accounts_path, class: "btn btn-primary" %>
