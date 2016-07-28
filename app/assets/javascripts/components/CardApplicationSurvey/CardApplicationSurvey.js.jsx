@@ -9,7 +9,9 @@ const PostNudgeActions = require("./PostNudgeActions");
 const CardApplicationSurvey = React.createClass({
 
   propTypes: {
+    applyPath:   React.PropTypes.string.isRequired,
     cardAccount: React.PropTypes.object.isRequired,
+    declinePath: React.PropTypes.string.isRequired,
     updatePath:  React.PropTypes.string.isRequired,
   },
 
@@ -37,7 +39,9 @@ const CardApplicationSurvey = React.createClass({
     return React.createElement(
       this.getActionsComponent(),
       {
+        applyPath:   this.props.applyPath,
         cardAccount: this.props.cardAccount,
+        declinePath: this.props.declinePath,
         updatePath:  this.props.updatePath
       }
     );

@@ -8,10 +8,13 @@ const ConfirmOrCancelBtns = require("../ConfirmOrCancelBtns");
 
 const ApprovedDeniedPendingBtnGroup = require("./ApprovedDeniedPendingBtnGroup");
 const ApproveCardAccountFormFields  = require("./ApproveCardAccountFormFields");
+const ApplyOrDeclineBtns            = require("./ApplyOrDeclineBtns");
 
 const ApplyActions = React.createClass({
   propTypes: {
-    updatePath:         React.PropTypes.string.isRequired,
+    applyPath:   React.PropTypes.string.isRequired,
+    declinePath: React.PropTypes.string.isRequired,
+    updatePath:  React.PropTypes.string.isRequired,
   },
 
 
@@ -109,6 +112,14 @@ const ApplyActions = React.createClass({
 
     return (
       <div>
+        <ApplyOrDeclineBtns
+          applyPath={this.props.applyPath}
+          declinePath={this.props.declinePath}
+        />
+
+        <br />
+        <br />
+
         <p>{helpText}</p>
 
         <Form action={this.props.updatePath} method="patch">
