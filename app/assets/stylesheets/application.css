@@ -17,6 +17,7 @@
  *= require metisMenu
  *= require bootstrap-datepicker3
  *= require font-awesome
+ *= require jquery.countdown
  *= require_tree .
  *= require_self
  */

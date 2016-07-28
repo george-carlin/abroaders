@@ -25,6 +25,7 @@
 //= require_tree ./extensions
 //= require components/react_ujs
 //= require_tree ./other
+//= require jquery.countdown
 
 // Load all browserify modules below.
 

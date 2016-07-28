@@ -38,10 +38,11 @@
   <%= render partial: "accounts/dashboard/person", collection: @people, as: :person %>
 </div>
 
-<% if @unresolved_recommendations.any? %>
+<% if @unresolved_recommendations.any? && !cookies[:recommendation_timeout] %>
   <div
     id="unresolved_recommendations_notification_modal"
     class="modal fade in"
+    data-backdrop="static"
     tabindex="-1"
     role="dialog"
     aria-labelledby="unresolved_recommendations_notification_modal_label"
@@ -50,7 +51,6 @@
       <div class="modal-content">
         <div class="color-line"></div>
         <div class="modal-header text-center">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
           <h3 id="unresolved_recommendations_notification_modal_label">
             Action Required
           </h3>
@@ -60,12 +60,15 @@
           <p>
             You have <%= pluralize @unresolved_recommendations.size, "card recommendation" %>
             which require<%= "s" unless @unresolved_recommendations.many? %> action.
-            Please view your recommendations and make the necessary updates.
+            Please apply for <%= @unresolved_recommendations.size > 1 ? "these" : "this"  %> card<%= "s" unless !@unresolved_recommendations.many? %> as soon as possible.
+
+            <%= @recommendation_expiration  %>
+
           </p>
+          <div id="countdown"></div>
         </div>
         <div class="modal-footer">
-          <%= link_to "Take me to my recommendations", card_accounts_path, class: "btn btn-primary" %>
-          <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">I'll do it later</button>
+          <%= link_to "Continue", card_accounts_path, class: "btn btn-primary" %>
         </div>
       </div>
     </div>

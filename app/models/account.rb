@@ -15,6 +15,13 @@ class Account < ApplicationRecord
     onboarded_travel_plans? && onboarded_type? && people.any? && people.all?(&:onboarded?)
   end
 
+  def recommendation_expiry
+    expiring_recommendations = card_recommendations.unresolved.unapplied
+    if expiring_recommendations
+      expiring_recommendations.max_by(&:recommended_at).recommended_at + 15.days
+    end
+  end
+
   # NOTE: the 'onboarded_travel_plans' column will be set to true when the user
   # completes the 'add travel plan' part of the onboarding survey. Originally,
   # we didn't have a separate column, and looked at the account's associated
