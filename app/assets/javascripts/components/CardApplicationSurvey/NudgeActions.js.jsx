@@ -95,31 +95,27 @@ const NudgeActions = React.createClass({
         break;
       case "nudged":
         buttons = (
-          <div>
-            <ApprovedDeniedPendingBtnGroup
-              approvedText="My application was approved"
-              deniedText="My application was denied"
-              onCancel={e => this.setCurrentAction(e, "initial")}
-              onClickApproved={e => this.setCurrentAction(e, "confirmNudgedAndApproved")}
-              onClickDenied={e => this.setCurrentAction(e, "confirmNudgedAndDenied")}
-              onClickPending={e => this.setCurrentAction(e, "confirmNudgedAndPending")}
-              pendingText="I'm still waiting to hear back"
-            />
-          </div>
+          <ApprovedDeniedPendingBtnGroup
+            approvedText="My application was approved"
+            deniedText="My application was denied"
+            onCancel={e => this.setCurrentAction(e, "initial")}
+            onClickApproved={e => this.setCurrentAction(e, "confirmNudgedAndApproved")}
+            onClickDenied={e => this.setCurrentAction(e, "confirmNudgedAndDenied")}
+            onClickPending={e => this.setCurrentAction(e, "confirmNudgedAndPending")}
+            pendingText="I'm still waiting to hear back"
+          />
         );
         break;
       case "heardBack":
         buttons = (
-          <div>
-            <ApprovedDeniedPendingBtnGroup
-              approvedText="My application was approved"
-              deniedText="My application was denied"
-              onCancel={e => this.setCurrentAction(e, "initial")}
-              onClickApproved={e => this.setCurrentAction(e, "confirmApproved")}
-              onClickDenied={e => this.setCurrentAction(e, "confirmDenied")}
-              noPendingBtn
-            />
-          </div>
+          <ApprovedDeniedPendingBtnGroup
+            approvedText="My application was approved"
+            deniedText="My application was denied"
+            onCancel={e => this.setCurrentAction(e, "initial")}
+            onClickApproved={e => this.setCurrentAction(e, "confirmApproved")}
+            onClickDenied={e => this.setCurrentAction(e, "confirmDenied")}
+            noPendingBtn
+          />
         );
         break;
       // Same actions for all 3 of these:
