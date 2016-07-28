@@ -70,6 +70,7 @@ describe "user cards page - nudged cards", :js do
       describe "and clicking 'confirm'" do
         before do
           rec_on_page.click_confirm_btn
+          sleep 1.5
           rec.reload
         end
 
@@ -93,6 +94,7 @@ describe "user cards page - nudged cards", :js do
       describe "and clicking 'confirm'" do
         before do
           rec_on_page.click_confirm_btn
+          sleep 1.5
           rec.reload
         end
 

@@ -2,6 +2,10 @@
 
 ## July 2016
 
+*   Card application survey saves data via AJAX, not via a full page load.
+
+    *George Millo*
+
 *   UI fix: Some 'Cancel' btns in the Application Survey had the wrong colour.
 
     *George Millo*

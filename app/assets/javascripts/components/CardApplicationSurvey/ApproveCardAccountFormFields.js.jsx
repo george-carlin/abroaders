@@ -8,17 +8,28 @@ const ApproveCardAccountFormFields = React.createClass({
   propTypes: {
     askForDate:    React.PropTypes.bool,
     onClickCancel: React.PropTypes.func.isRequired,
-    path:          React.PropTypes.string.isRequired,
+    openedAt:      React.PropTypes.string.isRequired,
+    setOpenedAt:   React.PropTypes.func.isRequired,
+    submitAction:  React.PropTypes.func.isRequired,
+  },
+
+
+  getInitialState() {
+    const today = new Date(),
+          m = today.getMonth(),
+          d = today.getDate(),
+          y = today.getFullYear();
+    return { openedAt: m + "/" + d + "/" + y };
   },
 
 
   componentDidMount() {
     if (this.props.askForDate) {
       const today = new Date(),
-      thisYear  = today.getFullYear(),
-      thisMonth = today.getMonth(),
-      thisDate  = today.getDate(),
-      twoMonthsAgo = new Date(thisYear, thisMonth - 2, thisDate);
+            thisYear  = today.getFullYear(),
+            thisMonth = today.getMonth(),
+            thisDate  = today.getDate(),
+            twoMonthsAgo = new Date(thisYear, thisMonth - 2, thisDate);
 
       const $input = $(this._textField);
 
@@ -30,23 +41,21 @@ const ApproveCardAccountFormFields = React.createClass({
         maxViewMode: 0,
         autoclose: true,
         todayHighlight: true,
+      }).on("changeDate", (e) => {
+        // See https://bootstrap-datepicker.readthedocs.io/en/latest/events.html#changedate
+        const date = e.format("mm/dd/yyyy");
+        this.props.setOpenedAt(date);
       });
     }
   },
 
 
-  formatDate(date) {
-    function leadingZeroes(num) {
-      num = num.toString();
-      if (num.length < 2) num = "0" + num;
-      return num;
+  submitAction() {
+    if (this.props.askForDate) {
+      this.props.submitAction("open", this.state.openedAt);
+    } else {
+      this.props.submitAction("open");
     }
-
-    const day   = leadingZeroes(date.getDate())
-    const month = leadingZeroes(date.getMonth() + 1)
-    const year  = date.getFullYear();
-
-    return month + "/" + day + "/" + year;
   },
 
 
@@ -55,35 +64,26 @@ const ApproveCardAccountFormFields = React.createClass({
       <ConfirmOrCancelBtns
         className="card_account_confirm_approved_btn_group"
         onClickCancel={this.props.onClickCancel}
+        onClickConfirm={this.props.submitAction}
         small
       />
     );
 
     if (this.props.askForDate) {
-      const openedAt = this.formatDate(new Date());
-
-      // Note: removing ReactDOM from the global scope (30b7591b) broke this
-      // component, as it was using ReactDOM from within componentDidMount.
-      // However, adding `require("react-dom")` at the top the file still
-      // didn't work because findDOMNode would raise an error about two copies
-      // of React being present, although I can't find anything that might be
-      // causing two copies of React to be loaded and don't understand why this
-      // error was occurring. Having just spent a lot of time on it and got
-      // nowhere, I'm resorting to a horribly hacky solution of adding
-      // 'refFunction' as a property to TextFieldTag and getting the DOM node
-      // that way. (Note that I can't just call 'ref' on TextFieldTag because
-      // that gives me a ref to the component's backing instance rather than
-      // the actual DOM node.)
+      const setTextField = (ref) => {
+        this._textField = ref;
+      };
 
       return (
         <div>
-          <TextFieldTag
-            attribute="opened_at"
-            className="card_account_opened_at"
-            defaultValue={openedAt}
+          <input
+            className="card_account_opened_at form-control input-sm"
+            defaultValue={this.props.openedAt}
+            id="card_account_opened_at"
             modelName="card_account"
-            refFunction={(c) => this._textField = c}
+            ref={setTextField}
             small
+            type="text"
           />
           {confirmOrCancel}
         </div>

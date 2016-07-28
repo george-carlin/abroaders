@@ -25,6 +25,8 @@ describe "as a user viewing my cards", :js do
   let(:click_confirm_btn) do
     before_click_confirm_btn
     rec_on_page.click_confirm_btn
+    # FIXME can't figure out a more elegant solution than this:
+    sleep 1.5
     rec.reload
   end
   let(:before_click_confirm_btn) { nil }
@@ -154,12 +156,6 @@ describe "as a user viewing my cards", :js do
         end
       end
 
-      shared_examples "applied today" do
-        it "sets 'applied at' to today", :backend do
-          expect(rec.applied_at).to eq Date.today
-        end
-      end
-
       it "hides the 'I Applied' button", :frontend do
         expect(rec_on_page).to have_no_i_applied_btn
       end
@@ -201,15 +197,11 @@ describe "as a user viewing my cards", :js do
           describe "clicking 'Confirm'" do
             before { click_confirm_btn }
 
-            it "sets the card account to 'open'", :backend do
+            it "updates the rec's attributes", :backend do
               expect(rec).to be_open
-            end
-
-            it "sets 'opened at' to today", :backend do
               expect(rec.opened_at).to eq Date.today
+              expect(rec.applied_at).to eq Date.today
             end
-
-            include_examples "applied today"
 
             include_examples "unapplyable"
           end
@@ -251,13 +243,16 @@ describe "as a user viewing my cards", :js do
         include_examples "asks to confirm"
 
         context "and clicking 'Confirm'" do
-          before { click_confirm_btn }
-
-          it "marks the card as denied", :backend do
-            expect(rec.status).to eq "denied"
+          before do
+            click_confirm_btn
+            # FIXME can't figure out a more elegant solution than this:
+            sleep 1.5
+            rec.reload
           end
 
-          it "sets 'denied at' and 'applied at' to today", :backend do
+          specify "card attributes are updated correctly" do
+            expect(page).to have_content "We strongly recommend"
+            expect(rec.status).to eq "denied"
             expect(rec.denied_at).to eq Date.today
             expect(rec.applied_at).to eq Date.today
           end
@@ -284,13 +279,17 @@ describe "as a user viewing my cards", :js do
         include_examples "asks to confirm"
 
         context "and clicking 'Confirm'" do
-          before { click_confirm_btn }
-
-          it "marks the card as pending", :backend do
-            expect(rec.status).to eq "applied"
+          before do
+            click_confirm_btn
+            # FIXME can't figure out a more elegant solution than this:
+            sleep 1.5
+            rec.reload
           end
 
-          include_examples "applied today"
+          it "updates the card's attributes", :backend do
+            expect(rec.status).to eq "applied"
+            expect(rec.applied_at).to eq Date.today
+          end
 
           context "when the account is no longer 'pendingable'" do
             # This could happen if e.g. they've made changes in another tab

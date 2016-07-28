@@ -32,7 +32,6 @@ const TextFieldTag = React.createClass({
         id={id}
         className={classes}
         name={name}
-        ref={this.props.refFunction}
         type="text"
         {...props}
       />

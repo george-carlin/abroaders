@@ -71,6 +71,8 @@ describe "user cards page - called cards", :js do
       describe "and clicking 'confirm'" do
         before do
           rec_on_page.click_confirm_btn
+          # FIXME can't figure out a more elegant solution than this:
+          sleep 1.5
           rec.reload
         end
 
@@ -93,6 +95,8 @@ describe "user cards page - called cards", :js do
       describe "and clicking 'confirm'" do
         before do
           rec_on_page.click_confirm_btn
+          # FIXME can't figure out a more elegant solution than this:
+          sleep 1.5
           rec.reload
         end
 

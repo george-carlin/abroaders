@@ -1,16 +1,5 @@
 class CardRecommendationsController < CardAccountsController
 
-  def update
-    @account = CardAccount::ApplicationSurvey.new(account: load_card_account)
-    begin
-      @account.update!(update_params)
-      flash[:success] = "Saved!"
-    rescue CardAccount::InvalidStatusError
-      flash[:error] = t("card_accounts.index.couldnt_update")
-    end
-    redirect_to card_accounts_path
-  end
-
   def apply
     @account = load_card_account
 
