@@ -1,6 +1,9 @@
 # CHANGELOG
 
 ## July 2016
+*   Add more offer type descriptions. PT #122495941
+
+    *Ryan Vredenburg*
 
 *   Add tracking code for Lead Dyno. PT #127239949
 
