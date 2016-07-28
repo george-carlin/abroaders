@@ -114,7 +114,6 @@ const NudgeActions = React.createClass({
             onCancel={e => this.setCurrentAction(e, "initial")}
             onClickApproved={e => this.setCurrentAction(e, "confirmApproved")}
             onClickDenied={e => this.setCurrentAction(e, "confirmDenied")}
-            noPendingBtn
           />
         );
         break;

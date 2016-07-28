@@ -72,7 +72,6 @@ const PostNudgeActions = React.createClass({
             deniedText="My application was declined"
             onClickApproved={e => this.setCurrentAction(e, "confirmApproved")}
             onClickDenied={e => this.setCurrentAction(e, "confirmDenied")}
-            noPendingBtn
           />
         );
         break;

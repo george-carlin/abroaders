@@ -72,7 +72,6 @@ const PostCallActions = React.createClass({
             deniedText="My application is still denied"
             onClickApproved={e => this.setCurrentAction(e, "confirmApproved")}
             onClickDenied={e => this.setCurrentAction(e, "confirmDenied")}
-            noPendingBtn
           />
         );
         break;
