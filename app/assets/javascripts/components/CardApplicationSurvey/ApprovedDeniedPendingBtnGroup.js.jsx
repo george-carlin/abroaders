@@ -12,11 +12,13 @@ const ApprovedDeniedPendingBtnGroup = React.createClass({
     onClickDenied:   React.PropTypes.func.isRequired,
     onClickPending:  React.PropTypes.func,
     pendingText:     React.PropTypes.string,
+    // Leave onCancel blank and no 'Cancel' button will be rendered:
+    onCancel:        React.PropTypes.func,
   },
 
 
   render() {
-    var pendingBtn;
+    let pendingBtn, cancelBtn;
 
     if (!this.props.noPendingBtn) {
       pendingBtn = (
@@ -30,6 +32,17 @@ const ApprovedDeniedPendingBtnGroup = React.createClass({
       );
     }
 
+    if (this.props.onCancel) {
+      cancelBtn = (
+        <Button
+          default
+          onClick={this.props.onCancel}
+          small
+          >
+          Cancel
+        </Button>
+      );
+    }
 
     return (
       <ButtonGroup>
@@ -48,6 +61,7 @@ const ApprovedDeniedPendingBtnGroup = React.createClass({
           {this.props.deniedText}
         </Button>
         {pendingBtn}
+        {cancelBtn}
       </ButtonGroup>
     )
   },
