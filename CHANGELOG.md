@@ -2,6 +2,10 @@
 
 ## July 2016
 
+*   UI fix: Some 'Cancel' btns in the Application Survey had the wrong colour.
+
+    *George Millo*
+
 *   Change survey completion e-mail timestamp to integer.
 
     *Ryan Vredenburg*

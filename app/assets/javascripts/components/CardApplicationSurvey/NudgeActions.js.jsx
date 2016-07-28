@@ -99,18 +99,12 @@ const NudgeActions = React.createClass({
             <ApprovedDeniedPendingBtnGroup
               approvedText="My application was approved"
               deniedText="My application was denied"
+              onCancel={e => this.setCurrentAction(e, "initial")}
               onClickApproved={e => this.setCurrentAction(e, "confirmNudgedAndApproved")}
               onClickDenied={e => this.setCurrentAction(e, "confirmNudgedAndDenied")}
               onClickPending={e => this.setCurrentAction(e, "confirmNudgedAndPending")}
               pendingText="I'm still waiting to hear back"
             />
-            <Button
-              link
-              small
-              onClick={e => this.setCurrentAction(e, "initial")}
-            >
-              Cancel
-            </Button>
           </div>
         );
         break;
@@ -120,17 +114,11 @@ const NudgeActions = React.createClass({
             <ApprovedDeniedPendingBtnGroup
               approvedText="My application was approved"
               deniedText="My application was denied"
+              onCancel={e => this.setCurrentAction(e, "initial")}
               onClickApproved={e => this.setCurrentAction(e, "confirmApproved")}
               onClickDenied={e => this.setCurrentAction(e, "confirmDenied")}
               noPendingBtn
             />
-            <Button
-              small
-              link
-              onClick={e => this.setCurrentAction(e, "initial")}
-            >
-              Cancel
-            </Button>
           </div>
         );
         break;
