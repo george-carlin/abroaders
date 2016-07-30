@@ -8,19 +8,19 @@ const NumberField = React.createClass({
   },
 
   render() {
-    var name = `${this.props.modelName}[${this.props.attribute}]`;
-    var id   = `${this.props.modelName}_${this.props.attribute}`;
+    const id   = `${this.props.modelName}_${this.props.attribute}`,
+          name = `${this.props.modelName}[${this.props.attribute}]`;
 
-    const props = _.clone(this.props)
+    const props = _.clone(this.props);
     if (!props.className) props.className = "";
-    const classes = props.className.split(/\s+/)
+    const classes = props.className.split(/\s+/);
 
     if (!_.includes(classes, "form-control")) {
-      props.className += " form-control"
+      props.className += " form-control";
     }
 
     if (this.props.small && !_.includes(classes, "input-sm")) {
-      props.className += " input-sm"
+      props.className += " input-sm";
     }
 
     return (
