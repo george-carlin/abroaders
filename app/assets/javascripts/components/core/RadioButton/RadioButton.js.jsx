@@ -9,8 +9,8 @@ const RadioButton = React.createClass({
   },
 
   render() {
-    var name = `${this.props.modelName}[${this.props.attribute}]`;
-    var id   = `${this.props.modelName}_${this.props.attribute}_${this.props.value}`;
+    const id   = `${this.props.modelName}_${this.props.attribute}_${this.props.value}`,
+          name = `${this.props.modelName}[${this.props.attribute}]`;
 
     const props = _.clone(this.props);
 

@@ -19,7 +19,7 @@ const InputGroup = React.createClass({
 
 
   render() {
-    var addonAfter, addonBefore;
+    let addonAfter, addonBefore;
 
     return (
       <div className="input-group">

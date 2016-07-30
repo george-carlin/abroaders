@@ -5,7 +5,7 @@ const HiddenFieldTag = require("../HiddenFieldTag");
 const AuthTokenField = React.createClass({
 
   getInitialState() {
-    return { csrfToken: "" }
+    return { csrfToken: "" };
   },
 
 
@@ -13,7 +13,7 @@ const AuthTokenField = React.createClass({
     // Hack to get the csrf-token into the form. `csrf_meta_tags` doesn't
     // output anything in test mode, so only add this hack if the querySelector
     // returns anything:
-    var csrfMetaTag = document.querySelector('meta[name="csrf-token"]')
+    const csrfMetaTag = document.querySelector('meta[name="csrf-token"]');
     if (csrfMetaTag) {
       this.setState({ csrfToken: csrfMetaTag.content });
     }

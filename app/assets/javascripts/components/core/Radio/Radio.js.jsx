@@ -9,7 +9,7 @@ const Radio = React.createClass({
   },
 
   render() {
-    const props     = _.clone(this.props)
+    const props     = _.clone(this.props);
     const labelText = props.labelText;
     delete props.labelText;
 
