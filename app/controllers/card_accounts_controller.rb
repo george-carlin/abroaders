@@ -7,7 +7,9 @@ class CardAccountsController < AuthenticatedUserController
 
   def index
     @people = current_account.people
-    @card_recommendations = current_account.card_recommendations.includes(offer: { card: :currency }).visible
+    @card_recommendations = current_account.card_recommendations\
+                              .includes(:card, offer: { card: :currency })\
+                              .visible
     @card_accounts_from_survey = current_account.card_accounts.from_survey
 
     @recommendation_notes = current_account.recommendation_notes
