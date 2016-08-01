@@ -6,10 +6,13 @@ module API
         survey = CardAccount::ApplicationSurvey.new(account: load_card_account)
         begin
           survey.update!(update_params)
+          render json: survey.account, include: { card: :bank }
         rescue CardAccount::InvalidStatusError
-          # TODO handle error
+          render json: {
+            error: true,
+            message: t("card_accounts.invalid_status_error"),
+          }, code: 422
         end
-        render json: survey.account, include: { card: :bank }
       end
 
       private

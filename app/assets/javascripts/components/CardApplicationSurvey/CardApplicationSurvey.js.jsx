@@ -3,6 +3,8 @@ const _     = require("underscore");
 const humps = require("humps");
 const $     = require("jquery");
 
+const Alert = require("../core/Alert");
+
 const ApplyActions     = require("./ApplyActions");
 const CallActions      = require("./CallActions");
 const ExpiringText     = require("./ExpiringText");
@@ -21,7 +23,7 @@ const CardApplicationSurvey = React.createClass({
   getInitialState() {
     return {
       cardAccount: this.props.cardAccount,
-      loading:     null,
+      ajaxStatus:  null,
     };
   },
 
@@ -57,18 +59,26 @@ const CardApplicationSurvey = React.createClass({
       data["card_account[opened_at]"] = extraData.openedAt;
     }
 
-    this.setState({ loading: "loading"});
+    this.setState({ ajaxStatus: "loading"});
 
     $.post(
       `/api/v1/card_recommendations/${this.props.cardAccount.id}`,
       data,
-      (newCardAccountAttrs, textStatus, jqXHR) => {
-        const oldCardAccount = this.state.cardAccount;
-        const newAttrs       = humps.camelizeKeys(newCardAccountAttrs);
-        this.setState({
-          cardAccount: _.assign(oldCardAccount, newAttrs),
-          loading:     "done",
-        });
+      (response, textStatus, jqXHR) => {
+        if (response.error) {
+          this.setState({
+            ajaxStatus: "error",
+            ajaxError:  response.message,
+          });
+        } else {
+          const oldCardAccount = this.state.cardAccount;
+          // 'response' is the updated attributes of the card account
+          const newAttrs       = humps.camelizeKeys(response);
+          this.setState({
+            cardAccount: _.assign(oldCardAccount, newAttrs),
+            ajaxStatus:  "done",
+          });
+        }
       }
     );
   },
@@ -90,11 +100,13 @@ const CardApplicationSurvey = React.createClass({
         {actions}
 
         {(() => {
-          switch (this.state.loading) {
+          switch (this.state.ajaxStatus) {
             case "loading":
               return <div className="LoadingSpinner" />;
             case "done":
               return <ExpiringText text="Saved!" />;
+            case "error":
+              return <Alert danger >{this.state.ajaxError}</Alert>;
           }
         })()}
 
