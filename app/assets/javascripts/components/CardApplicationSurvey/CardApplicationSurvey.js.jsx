@@ -20,6 +20,7 @@ const CardApplicationSurvey = React.createClass({
   getInitialState() {
     return {
       cardAccount: this.props.cardAccount,
+      isLoading:   false,
     };
   },
 
@@ -55,10 +56,13 @@ const CardApplicationSurvey = React.createClass({
       data["card_account[opened_at]"] = extraData.openedAt;
     }
 
+    this.setState({isLoading: true});
+
     $.post(
       `/api/v1/card_recommendations/${this.props.cardAccount.id}`,
       data,
       (newCardAccountAttrs, textStatus, jqXHR) => {
+        this.setState({isLoading: false});
         const oldCardAccount = this.state.cardAccount;
         const newAttrs       = humps.camelizeKeys(newCardAccountAttrs);
         this.setState({ cardAccount: _.assign(oldCardAccount, newAttrs) });
@@ -68,7 +72,7 @@ const CardApplicationSurvey = React.createClass({
 
 
   render() {
-    return React.createElement(
+    const actions = React.createElement(
       this.getActionsComponent(),
       {
         applyPath:    this.props.applyPath,
@@ -76,6 +80,18 @@ const CardApplicationSurvey = React.createClass({
         declinePath:  this.props.declinePath,
         submitAction: this.submitAction,
       }
+    );
+
+    return (
+      <div className="CardApplicationSurvey">
+        {actions}
+
+        {(() => {
+          if (this.state.isLoading) {
+            return <div className="LoadingSpinner" />;
+          }
+        })()}
+      </div>
     );
   },
 });
