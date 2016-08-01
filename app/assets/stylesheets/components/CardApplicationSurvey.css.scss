@@ -2,8 +2,14 @@
   position: relative;
 
   .LoadingSpinner {
+    bottom:   13px;
     position: absolute;
-    right: 10px;
-    bottom: 13px;
+    right:    10px;
+  }
+
+  .ExpiringText {
+    bottom:   7px;
+    position: absolute;
+    right:    0px;
   }
 }

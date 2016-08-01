@@ -5,6 +5,7 @@ const $     = require("jquery");
 
 const ApplyActions     = require("./ApplyActions");
 const CallActions      = require("./CallActions");
+const ExpiringText     = require("./ExpiringText");
 const NudgeActions     = require("./NudgeActions");
 const PostCallActions  = require("./PostCallActions");
 const PostNudgeActions = require("./PostNudgeActions");
@@ -20,7 +21,7 @@ const CardApplicationSurvey = React.createClass({
   getInitialState() {
     return {
       cardAccount: this.props.cardAccount,
-      isLoading:   false,
+      loading:     null,
     };
   },
 
@@ -56,16 +57,18 @@ const CardApplicationSurvey = React.createClass({
       data["card_account[opened_at]"] = extraData.openedAt;
     }
 
-    this.setState({isLoading: true});
+    this.setState({ loading: "loading"});
 
     $.post(
       `/api/v1/card_recommendations/${this.props.cardAccount.id}`,
       data,
       (newCardAccountAttrs, textStatus, jqXHR) => {
-        this.setState({isLoading: false});
         const oldCardAccount = this.state.cardAccount;
         const newAttrs       = humps.camelizeKeys(newCardAccountAttrs);
-        this.setState({ cardAccount: _.assign(oldCardAccount, newAttrs) });
+        this.setState({
+          cardAccount: _.assign(oldCardAccount, newAttrs),
+          loading:     "done",
+        });
       }
     );
   },
@@ -87,10 +90,14 @@ const CardApplicationSurvey = React.createClass({
         {actions}
 
         {(() => {
-          if (this.state.isLoading) {
-            return <div className="LoadingSpinner" />;
+          switch (this.state.loading) {
+            case "loading":
+              return <div className="LoadingSpinner" />;
+            case "done":
+              return <ExpiringText text="Saved!" />;
           }
         })()}
+
       </div>
     );
   },
