@@ -158,11 +158,4 @@ Rails.application.routes.draw do
 
   # ---- /ADMINS -----
 
-
-  namespace :api, defaults: { format: :json } do
-    namespace :v1 do
-      resources :card_recommendations
-    end
-  end
-
 end

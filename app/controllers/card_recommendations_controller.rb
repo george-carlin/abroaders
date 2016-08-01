@@ -1,5 +1,22 @@
 class CardRecommendationsController < CardAccountsController
 
+  def update
+    survey = CardAccount::ApplicationSurvey.new(account: load_card_account)
+    respond_to do |f|
+      f.json do
+        begin
+          survey.update!(update_params)
+          render json: survey.account, include: { card: :bank }
+        rescue CardAccount::InvalidStatusError
+          render json: {
+            error: true,
+            message: t("card_accounts.invalid_status_error"),
+          }, code: 422
+        end
+      end
+    end
+  end
+
   def apply
     @account = load_card_account
 

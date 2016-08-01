@@ -28,6 +28,11 @@ const CardApplicationSurvey = React.createClass({
   },
 
 
+  componentDidMount() {
+    this.authenticityToken = $("meta[name='csrf-token']").prop("content");
+  },
+
+
   // Return the component that contains the actions for this card account.
   // Note that for some card accounts, no further action is required.
   getActionsComponent() {
@@ -53,16 +58,15 @@ const CardApplicationSurvey = React.createClass({
     const data = {
       _method: "patch",
       "card_account[action]" : action,
+      authenticity_token: this.authenticityToken,
     };
 
     if (action === "open" && extraData && extraData.openedAt) {
       data["card_account[opened_at]"] = extraData.openedAt;
     }
 
-    this.setState({ ajaxStatus: "loading"});
-
     $.post(
-      `/api/v1/card_recommendations/${this.props.cardAccount.id}`,
+      `/card_recommendations/${this.props.cardAccount.id}`,
       data,
       (response, textStatus, jqXHR) => {
         if (response.error) {
@@ -81,6 +85,8 @@ const CardApplicationSurvey = React.createClass({
         }
       }
     );
+
+    this.setState({ ajaxStatus: "loading"});
   },
 
 
