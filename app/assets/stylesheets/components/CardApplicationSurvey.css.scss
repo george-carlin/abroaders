@@ -1,0 +1,19 @@
+.CardApplicationSurvey {
+  position: relative;
+
+  .LoadingSpinner {
+    bottom:   13px;
+    position: absolute;
+    right:    10px;
+  }
+
+  .ExpiringText {
+    bottom:   7px;
+    position: absolute;
+    right:    0px;
+  }
+
+  .alert.alert-danger {
+    margin-top: 20px;
+  }
+}

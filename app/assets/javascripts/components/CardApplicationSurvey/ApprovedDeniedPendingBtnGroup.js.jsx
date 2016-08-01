@@ -7,9 +7,10 @@ const ApprovedDeniedPendingBtnGroup = React.createClass({
   propTypes: {
     approvedText:    React.PropTypes.string.isRequired,
     deniedText:      React.PropTypes.string.isRequired,
-    noPendingBtn:    React.PropTypes.bool,
     onClickApproved: React.PropTypes.func.isRequired,
     onClickDenied:   React.PropTypes.func.isRequired,
+    // The 'pending' button will only be shown if both the onClickPending and
+    // pendingText props are present
     onClickPending:  React.PropTypes.func,
     pendingText:     React.PropTypes.string,
     // Leave onCancel blank and no 'Cancel' button will be rendered:
@@ -20,7 +21,7 @@ const ApprovedDeniedPendingBtnGroup = React.createClass({
   render() {
     let pendingBtn, cancelBtn;
 
-    if (!this.props.noPendingBtn) {
+    if (this.props.pendingText && this.props.onClickPending) {
       pendingBtn = (
         <Button
           default

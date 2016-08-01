@@ -47,23 +47,15 @@
   </div>
 
   <div class="col-xs-12">
-    <% if card_account.applyable? %>
-      <br>
-      <div
-        data-react-component="CardAccountApplyOrDecline"
-        data-apply-path="<%= apply_card_recommendation_path(card_account) %>"
-        data-decline-path="<%= decline_card_recommendation_path(card_account) %>"
-      ></div>
-    <% end %>
+    <br>
 
-    <% if card_account.show_survey? %>
-      <br>
-      <div
-        data-react-component="CardApplicationSurvey"
-        data-update-path="<%= card_recommendation_path(card_account) %>"
-        data-card-account="<%= serialize(card_account) %>"
-      ></div>
-    <% end %>
+    <div
+      data-react-component="CardApplicationSurvey"
+      data-apply-path="<%= apply_card_recommendation_path(card_account) %>"
+      data-decline-path="<%= decline_card_recommendation_path(card_account) %>"
+      data-update-path="<%= card_recommendation_path(card_account) %>"
+      data-card-account="<%= serialize(card_account) %>"
+    ></div>
   </div>
 <% end # div_for %>
 

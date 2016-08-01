@@ -1,123 +1,188 @@
 const React = require("react");
 
-const Button         = require("../core/Button");
-const HiddenFieldTag = require("../core/HiddenFieldTag");
-const Form           = require("../core/Form");
+const Button = require("../core/Button");
 
 const ConfirmOrCancelBtns = require("../ConfirmOrCancelBtns");
 
 const ApprovedDeniedPendingBtnGroup = require("./ApprovedDeniedPendingBtnGroup");
 const ApproveCardAccountFormFields  = require("./ApproveCardAccountFormFields");
+const ApplyOrDeclineBtns            = require("./ApplyOrDeclineBtns");
 
 const ApplyActions = React.createClass({
   propTypes: {
-    updatePath:         React.PropTypes.string.isRequired,
+    applyPath:    React.PropTypes.string.isRequired,
+    cardAccount:  React.PropTypes.object.isRequired,
+    declinePath:  React.PropTypes.string.isRequired,
+    submitAction: React.PropTypes.func.isRequired,
   },
 
 
   getInitialState() {
     return {
-      currentAction: "initial",
       // States:
       // "initial", "applied", "confirmApproved", "confirmPending", "confirmDenied"
+      currentState: "initial",
+      openedAt: this.formatDate(new Date()),
+    };
+  },
+
+
+  setStateToApplied() {
+    this.setState({currentState: "applied"});
+  },
+
+
+  setStateToApproved() {
+    this.setState({currentState: "confirmApproved"});
+  },
+
+
+  setStateToDenied() {
+    this.setState({currentState: "confirmDenied"});
+  },
+
+
+  setStateToPending() {
+    this.setState({currentState: "confirmPending"});
+  },
+
+
+  setOpenedAt(openedAt) {
+    this.setState({ openedAt });
+  },
+
+
+  getAction() {
+    switch (this.state.currentState) {
+      case "confirmApproved":
+        return "open";
+      case "confirmDenied":
+        return "deny";
+      case "confirmPending":
+        return "apply";
+      default:
+        throw "this should never happen";
     }
   },
 
-  setCurrentAction(e, action) {
-    e.preventDefault();
-    this.setState({ currentAction: action });
+
+  getHelpText() {
+    switch (this.state.currentState) {
+      case "initial":
+        return "When you have applied for the card, please let us know:";
+      case "applied":
+        return "Were you approved for the card?";
+      case "confirmApproved":
+        if (this.isRecommendedBeforeToday()) {
+          return "When were you approved for the card?";
+        } else {
+          return "The bank approved your card application:";
+        }
+      case "confirmDenied":
+        return "Your application was denied by the bank:";
+      case "confirmPending":
+        return "You applied, and you're waiting to hear back from the bank:";
+      default:
+        throw "this should never happen";
+    }
   },
 
-  render() {
-    var buttons, helpText;
 
+  submitAction() {
+    this.props.submitAction(
+      this.getAction(),
+      { openedAt: this.state.openedAt }
+    );
+  },
+
+
+  formatDate(date) {
+    const day   = this.formatLeadingZeroes(date.getDate());
+    const month = this.formatLeadingZeroes(date.getMonth() + 1);
+    const year  = date.getFullYear();
+
+    return month + "/" + day + "/" + year;
+  },
+
+
+  formatLeadingZeroes(num) {
+    let numS = num.toString();
+    if (numS.length < 2) numS = `0${numS}`;
+    return numS;
+  },
+
+
+  isRecommendedBeforeToday() {
     const recommendedAt = new Date(this.props.cardAccount.recommendedAt);
     const today = new Date();
 
-    recommendedAt.setHours(0,0,0,0);
-    today.setHours(0,0,0,0);
+    recommendedAt.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
 
-    const askForApprovalDate = recommendedAt < today;
+    return recommendedAt < today;
+  },
 
-    var action="";
 
-    switch (this.state.currentAction) {
-      case "initial":
-        helpText = "When you have applied for the card, please let us know:";
-        break;
-      case "applied":
-        helpText = "Were you approved for the card?";
-        break;
-      case "confirmApproved":
-        action = "open";
-        if (askForApprovalDate) {
-          helpText = "When were you approved for the card?";
-        } else {
-          helpText = "The bank approved your card application:";
-        }
-        break;
-      case "confirmDenied":
-        helpText = "Your application was denied by the bank:";
-        action = "deny";
-        break;
-      case "confirmPending":
-        helpText = "You applied, and you're waiting to hear back from the bank:";
-        action = "apply";
-        break;
-    }
-
-    switch (this.state.currentAction) {
-      case "initial":
-        buttons = (
-          <Button
-            small
-            primary
-            onClick={e => this.setCurrentAction(e, "applied")}
-          >
-            I applied
-          </Button>
-        );
-        break;
-      case "applied":
-        buttons = (
-          <ApprovedDeniedPendingBtnGroup
-            approvedText="I was approved"
-            deniedText="My application was denied"
-            onClickApproved={e => this.setCurrentAction(e, "confirmApproved")}
-            onClickDenied={e => this.setCurrentAction(e, "confirmDenied")}
-            onClickPending={e => this.setCurrentAction(e, "confirmPending")}
-            pendingText="I'm waiting to hear back"
-          />
-        );
-        break;
-      case "confirmApproved":
-        buttons = (
-          <ApproveCardAccountFormFields
-            askForDate={askForApprovalDate}
-            onClickCancel={e => this.setCurrentAction(e, "applied")}
-            path={this.props.updatePath}
-          />
-        )
-        break;
-      case "confirmDenied":
-      case "confirmPending":
-        buttons = (
-          <ConfirmOrCancelBtns onClickCancel={e => this.setCurrentAction(e, "applied")} small />
-        );
-        break;
-    }
-
+  render() {
     return (
       <div>
-        <p>{helpText}</p>
+        <ApplyOrDeclineBtns
+          applyPath={this.props.applyPath}
+          declinePath={this.props.declinePath}
+        />
 
-        <Form action={this.props.updatePath} method="patch">
-          <HiddenFieldTag name="card_account[action]" value={action} />
-          {buttons}
-        </Form>
+        <br />
+        <br />
+
+        <p>{this.getHelpText()}</p>
+
+        {(() => {
+          switch (this.state.currentState) {
+            case "initial":
+              return (
+                <Button
+                  small
+                  primary
+                  onClick={this.setStateToApplied}
+                >
+                  I applied
+                </Button>
+              );
+            case "applied":
+              return (
+                <ApprovedDeniedPendingBtnGroup
+                  approvedText="I was approved"
+                  deniedText="My application was denied"
+                  onClickApproved={this.setStateToApproved}
+                  onClickDenied={this.setStateToDenied}
+                  onClickPending={this.setStateToPending}
+                  pendingText="I'm waiting to hear back"
+                />
+              );
+            case "confirmApproved":
+              return (
+                <ApproveCardAccountFormFields
+                  askForDate={this.isRecommendedBeforeToday()}
+                  onClickCancel={this.setStateToApplied}
+                  openedAt={this.state.openedAt}
+                  setOpenedAt={this.setOpenedAt}
+                  submitAction={this.submitAction}
+                />
+              );
+            case "confirmDenied":
+            case "confirmPending":
+              return (
+                <ConfirmOrCancelBtns
+                  onClickCancel={this.setStateToApplied}
+                  onClickConfirm={this.submitAction}
+                  small
+                />
+              );
+          }
+        })()}
       </div>
     );
-  }
+  },
 
 });
 

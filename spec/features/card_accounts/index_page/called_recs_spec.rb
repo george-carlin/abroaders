@@ -26,19 +26,13 @@ describe "user cards page - called cards", :js do
   let(:rec) { @rec }
   let(:rec_on_page) { CalledCardAccountOnPage.new(rec, self) }
 
-  it "says when I applied and was denied", :frontend do
+  example "rec on page", :frontend do
     expect(rec_on_page).to have_content "Applied: #{applied_at.strftime("%D")}"
     expect(rec_on_page).to have_content "Denied: #{denied_at.strftime("%D")}"
-  end
-
-  it "doesn't have apply/decline or 'I applied'/'I called' buttons", :frontend do
     expect(rec_on_page).to have_no_apply_btn
     expect(rec_on_page).to have_no_decline_btn
     expect(rec_on_page).to have_no_i_applied_btn
     expect(rec_on_page).to have_no_i_called_btn
-  end
-
-  it "has a button to say I heard back", :frontend do
     expect(rec_on_page).to have_i_heard_back_btn
   end
 
@@ -77,22 +71,18 @@ describe "user cards page - called cards", :js do
       describe "and clicking 'confirm'" do
         before do
           rec_on_page.click_confirm_btn
+          # FIXME can't figure out a more elegant solution than this:
+          sleep 1.5
           rec.reload
         end
 
-        it "marks the rec as 'open'", :backend do
+        it "updates the card account's attributes", :backend do
           expect(rec.status).to eq "open"
-        end
-
-        it "sets 'opened_at' to the current date", :backend do
           expect(rec.opened_at).to eq Date.today
-        end
-
-        it "doesn't change any other timestamp", :backend do
-          expect(rec.applied_at).to eq applied_at
-          expect(rec.denied_at).to eq denied_at
-          expect(rec.called_at).to eq called_at
-          expect(rec.redenied_at).to be_nil
+          expect(rec.applied_at).to eq applied_at # unchanged
+          expect(rec.denied_at).to eq denied_at # unchanged
+          expect(rec.called_at).to eq called_at # unchanged
+          expect(rec.redenied_at).to be_nil # not set
         end
       end
     end
@@ -105,21 +95,17 @@ describe "user cards page - called cards", :js do
       describe "and clicking 'confirm'" do
         before do
           rec_on_page.click_confirm_btn
+          # FIXME can't figure out a more elegant solution than this:
+          sleep 1.5
           rec.reload
         end
 
-        it "marks the rec as 'denied'", :backend do
+        it "updates the card account's attributes", :backend do
           expect(rec.status).to eq "denied"
-        end
-
-        it "sets 'redenied_at' to the current time", :backend do
           expect(rec.redenied_at).to eq Date.today
-        end
-
-        it "doesn't change any other timestamp", :backend do
-          expect(rec.applied_at).to eq applied_at
-          expect(rec.denied_at).to eq denied_at
-          expect(rec.called_at).to eq called_at
+          expect(rec.applied_at).to eq applied_at # unchanged
+          expect(rec.denied_at).to eq denied_at # unchanged
+          expect(rec.called_at).to eq called_at # unchanged
         end
       end
     end

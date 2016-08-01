@@ -35,7 +35,6 @@
 // but it's not worth the effort for now.
 
 window.components = {
-  CardAccountApplyOrDecline: require("./components/CardAccountApplyOrDecline"),
   CardApplicationSurvey:     require("./components/CardApplicationSurvey"),
   AccountTypeForm:           require("./components/AccountTypeForm"),
 };

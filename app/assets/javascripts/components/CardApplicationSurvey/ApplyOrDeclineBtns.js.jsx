@@ -7,7 +7,7 @@ const TextFieldTag = require("../core/TextFieldTag");
 
 const ConfirmOrCancelBtns = require("../ConfirmOrCancelBtns");
 
-const CardAccountApplyOrDecline = React.createClass({
+const ApplyOrDeclineBtns = React.createClass({
   propTypes: {
     applyPath:   React.PropTypes.string.isRequired,
     declinePath: React.PropTypes.string.isRequired,
@@ -102,4 +102,4 @@ const CardAccountApplyOrDecline = React.createClass({
   },
 });
 
-module.exports = CardAccountApplyOrDecline;
+module.exports = ApplyOrDeclineBtns;

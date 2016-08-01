@@ -2,10 +2,13 @@
 
 ## July 2016
 
-*   Add tracking code for Lead Dyno. PT #127239949
+*   Card application survey saves data via AJAX, not via a full page load.
 
     *George Millo*
 
+*   Add tracking code for Lead Dyno. PT #127239949
+
+    *George Millo*
 
 *   UI fix: Some 'Cancel' btns in the Application Survey had the wrong colour.
 

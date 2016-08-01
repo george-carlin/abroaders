@@ -37,7 +37,7 @@ describe CardAccountSerializer do
     parsed_json = JSON.parse(json)
 
     expect(parsed_json.keys).to match_array(%w[
-      recommended_at applied_at opened_at earned_at closed_at clicked_at
+      id recommended_at applied_at opened_at earned_at closed_at clicked_at
       declined_at denied_at nudged_at called_at redenied_at card decline_reason
     ])
 

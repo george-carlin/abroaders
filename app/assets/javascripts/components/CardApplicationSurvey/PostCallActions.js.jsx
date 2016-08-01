@@ -2,104 +2,115 @@ const React = require("react");
 
 const Button         = require("../core/Button");
 const ButtonGroup    = require("../core/ButtonGroup");
-const Form           = require("../core/Form");
-const HiddenFieldTag = require("../core/HiddenFieldTag");
 
 const ConfirmOrCancelBtns = require("../ConfirmOrCancelBtns");
 
 const ApprovedDeniedPendingBtnGroup = require("./ApprovedDeniedPendingBtnGroup");
+const IHeardBackButton              = require("./IHeardBackButton");
 
 const PostCallActions = React.createClass({
   propTypes: {
-    updatePath:  React.PropTypes.string.isRequired,
+    submitAction: React.PropTypes.func.isRequired,
   },
 
 
   getInitialState() {
-    // Possible currentActions:
+    // Possible currentState:
     // - initial
     // - heardBack
     // - confirmApproved
     // - confirmDenied
-    return { currentAction: "initial" };
+    return { currentState: "initial" };
   },
 
 
-  setCurrentAction(e, action) {
-    e.preventDefault();
-    this.setState({currentAction: action});
+  getAction() {
+    switch (this.state.currentState) {
+      case "confirmApproved":
+        return "open";
+      case "confirmDenied":
+        return "redeny";
+      default:
+        throw "this should never happen";
+    }
+  },
+
+
+  getHelpText() {
+    switch (this.state.currentState) {
+      case "initial":
+        return "Tell us when you hear back from the bank:";
+      case "heardBack":
+        return "What did the bank say?";
+      case "confirmApproved":
+        return "Your application has been approved after reconsideration:";
+      case "confirmDenied":
+        return "Your application is still denied after reconsideration:";
+    }
+  },
+
+
+  setStateToApproved() {
+    this.setState({currentState: "confirmApproved"});
+  },
+
+
+  setStateToDenied() {
+    this.setState({currentState: "confirmDenied"});
+  },
+
+
+  setStateToHeardBack() {
+    this.setState({currentState: "heardBack"});
+  },
+
+
+  setStateToInitial() {
+    this.setState({currentState: "initial"});
+  },
+
+
+  submitAction() {
+    this.props.submitAction(this.getAction());
   },
 
 
   render() {
-    var buttons, helpText;
-
-    var action = "";
-
-    switch (this.state.currentAction) {
-      case "initial":
-        helpText = "Tell us when you hear back from the bank:"
-        break;
-      case "heardBack":
-        helpText = "What did the bank say?"
-        break;
-      case "confirmApproved":
-        helpText = "Your application has been approved after reconsideration:"
-        action = "open"
-        break;
-      case "confirmDenied":
-        helpText = "Your application is still denied after reconsideration:"
-        action = "redeny"
-        break;
-    }
-
-    switch (this.state.currentAction) {
-      case "initial":
-        buttons = (
-          <Button
-            primary
-            small
-            onClick={e => this.setCurrentAction(e, "heardBack") }
-          >
-            I heard back from the bank
-          </Button>
-        );
-        break;
-      case "heardBack":
-        buttons = (
-          <ApprovedDeniedPendingBtnGroup
-            approvedText="My application was approved after reconsideration"
-            deniedText="My application is still denied"
-            onClickApproved={e => this.setCurrentAction(e, "confirmApproved")}
-            onClickDenied={e => this.setCurrentAction(e, "confirmDenied")}
-            noPendingBtn
-          />
-        );
-        break;
-      case "confirmApproved":
-      case "confirmDenied":
-        buttons = (
-          <ConfirmOrCancelBtns
-            small
-            onClickCancel={e => this.setCurrentAction(e, "heardBack")}
-          />
-        );
-        break;
-    }
-
     return (
-      <Form action={this.props.updatePath} method="patch">
-        <HiddenFieldTag name="card_account[action]" value={action} />
-
+      <div>
         <p>
           You have indicated that your application was denied, you called
           for reconsideration, and you're waiting to hear the results.
         </p>
 
-        <p>{helpText}</p>
+        <p>{this.getHelpText()}</p>
 
-        {buttons}
-      </Form>
+        {(() => {
+          switch (this.state.currentState) {
+            case "initial":
+              return <IHeardBackButton onClick={this.setStateToHeardBack} />;
+            case "heardBack":
+              return (
+                <ApprovedDeniedPendingBtnGroup
+                  approvedText="My application was approved after reconsideration"
+                  deniedText="My application is still denied"
+                  onClickApproved={this.setStateToApproved}
+                  onClickDenied={this.setStateToDenied}
+                />
+              );
+            case "confirmApproved":
+            case "confirmDenied":
+              return (
+                <ConfirmOrCancelBtns
+                  onClickCancel={this.setStateToHeardBack}
+                  onClickConfirm={this.submitAction}
+                  small
+                />
+              );
+          }
+        })()}
+
+      </div>
     );
   },
 });
