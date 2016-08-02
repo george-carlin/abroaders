@@ -55,7 +55,6 @@ class OfferPresenter < ApplicationPresenter
         "#{points_awarded} #{currency_name} points awarded upon making your first purchase using this card."
       else raise "this should never happen"
     end
-
   end
 
   def recommend_btn
