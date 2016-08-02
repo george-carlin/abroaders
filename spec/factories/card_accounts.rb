@@ -68,6 +68,7 @@ FactoryGirl.define do
     end
 
     trait :pulled do
+      recommendation
       pulled_at { Time.now }
     end
 

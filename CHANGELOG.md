@@ -2,6 +2,13 @@
 
 ## July 2016
 
+*   Feature: Add unskippable card recommendation modal with timer.
+    After accepting modal, user won't see it again for 24 hours.
+
+    PT #127162065, #127163709
+
+    *Ryan Vredenburg*, *George Millo*
+
 *   Card application survey saves data via AJAX, not via a full page load.
 
     *George Millo*

@@ -1,31 +1,53 @@
 require "rails_helper"
 
 describe "account dashboard" do
-  subject { page }
+  include ModalMacros
 
   let(:email) { "thedude@lebowski.com" }
-  let!(:account) { create(:account, email: email) }
-  let!(:me) { account.people.first }
+  let(:account) { create(:account, email: email) }
 
-  before do
-    login_as_account(account.reload)
-    create(:companion, account: account) if has_companion
-    visit root_path
+  before { login_as_account(account.reload) }
+
+  let(:visit_path) { visit root_path }
+
+  let(:owner)     { account.owner }
+  let(:companion) { account.companion }
+
+  specify "account owner appears on the LHS of the page" do
+    create(:companion, account: account)
+    visit_path
+    # owner selector goes before companion selector:
+    expect(page).to have_selector "##{dom_id(owner)} + ##{dom_id(companion)}"
   end
 
-  let(:has_companion) { false }
+  example "'unresolved cards' modal", :js do
+    offer = create(:offer)
+    # unresolved_rec:
+    create(:card_recommendation, person: owner, offer: offer)
+    # resolved_rec:
+    create(:card_recommendation, :applied, :open, person: owner, offer: offer)
 
-  let(:owner) { account.people.find_by(main: true) }
-  let(:partner) { account.people.find_by(main: false) }
+    visit_path
 
-  it { is_expected.to have_title full_title }
+    expect(page).to have_modal
 
-  context "when the account has a companion" do
-    let(:has_companion) { true }
-    it "always has the owner on the left" do
-      # owner selector goes before partner selector:
-      is_expected.to have_selector "##{dom_id(owner)} + ##{dom_id(partner)}"
+    within_modal do
+      expect(page).to have_content "You have 1 card recommendation which requires action"
+      expect(page).to have_link "Continue", href: card_accounts_path
     end
+  end
+
+  example "no 'unresolved cards' modal", :js do
+    offer = create(:offer)
+    # resolved_rec:
+    create(:card_recommendation, :applied, :open, person: owner, offer: offer)
+    # CA from onboarding survey:
+    create(:survey_card_account, person: owner)
+
+    visit_path
+
+    expect(page).to have_no_modal
+    expect(page).to have_no_link "Continue", href: card_accounts_path
   end
 
 end

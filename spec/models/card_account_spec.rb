@@ -156,27 +156,97 @@ describe CardAccount do
   end
 
   example ".visible" do
+    card   = create(:card)
+    offer  = create(:offer, card: card)
+    person = create(:person)
     visible = [
-      create(:card_recommendation),
-      create(:card_recommendation, :clicked),
-      create(:card_recommendation, :open),
-      create(:card_recommendation, :closed),
-      create(:card_recommendation, :denied),
-      create(:card_recommendation, :seen),
-      create(:card_recommendation, :applied),
-      create(:card_recommendation, :denied),
-      create(:card_recommendation, :nudged),
-      create(:card_recommendation, :redenied),
+      create(:card_recommendation,            offer: offer, person: person),
+      create(:card_recommendation, :clicked,  offer: offer, person: person),
+      create(:card_recommendation, :open,     offer: offer, person: person),
+      create(:card_recommendation, :closed,   offer: offer, person: person),
+      create(:card_recommendation, :denied,   offer: offer, person: person),
+      create(:card_recommendation, :seen,     offer: offer, person: person),
+      create(:card_recommendation, :applied,  offer: offer, person: person),
+      create(:card_recommendation, :redenied, offer: offer, person: person),
+      create(:card_recommendation, :nudged,   offer: offer, person: person),
+      create(:card_recommendation, :redenied, offer: offer, person: person),
     ]
 
     # invisible:
-    [
-      create(:survey_card_account),
-      create(:card_recommendation, :declined),
-      create(:card_recommendation, :expired),
-      create(:card_recommendation, :pulled),
-    ]
+    create(:survey_card_account,            card: card,   person: person)
+    create(:card_recommendation, :declined, offer: offer, person: person)
+    create(:card_recommendation, :expired,  offer: offer, person: person)
+    create(:card_recommendation, :pulled,   offer: offer, person: person)
 
     expect(described_class.visible).to match_array(visible)
+  end
+
+  example ".resolved + .unresolved" do
+    card   = create(:card)
+    offer  = create(:offer, card: card)
+    person = create(:person)
+
+    resolved = [
+      create(:card_rec, :open,            offer: offer, person: person),
+      create(:card_rec, :pulled,          offer: offer, person: person),
+      create(:card_rec, :nudged, :denied, offer: offer, person: person),
+      create(:card_rec, :redenied,        offer: offer, person: person),
+      create(:card_rec, :expired,         offer: offer, person: person),
+      # open after reconsideration:
+      create(:card_rec, :denied, :called, :open, offer: offer, person: person),
+      # open after nudging:
+      create(:card_rec, :applied, :nudged, :open, offer: offer, person: person),
+      # opened, then closed:
+      create(:card_rec, :open, :closed, offer: offer, person: person),
+    ]
+
+    # irrelevant:
+    create(:card_account, :survey,  card: card,   person: person)
+
+    unresolved = [
+      # brand new:
+      create(:card_rec,            offer: offer, person: person),
+      # applied but pending:
+      create(:card_rec, :applied,  offer: offer, person: person),
+      # applied and nudged:
+      create(:card_rec, :applied, :nudged, offer: offer, person: person),
+      # denied but reconsiderable:
+      create(:card_rec, :denied,   offer: offer, person: person),
+      # denied, called, pending:
+      create(:card_rec, :denied, :called, person: person),
+    ]
+
+    expect(CardAccount.resolved).to match_array(resolved)
+    expect(CardAccount.unresolved).to match_array(unresolved)
+  end
+
+  example ".not_irreversibly_denied & .irreversibly_denied" do
+    c = create(:card)
+    o = create(:offer, card: c)
+    p = create(:person)
+    attrs = { offer: o, person: p }
+
+    irreversibly_denied = [
+      create(:card_rec, :applied, :nudged, :denied, attrs),
+      create(:card_rec, :applied, :denied, :called, :redenied, attrs),
+    ]
+
+    # irrelevant:
+    create(:survey_card_account)
+
+    not_irreversibly_denied = [
+      # denied but reconsiderable:
+      create(:card_rec, :applied, :denied, attrs),
+      create(:card_rec, :applied, :denied, :called, attrs),
+      # not denied at all:
+      create(:card_rec, :open,                    attrs),
+      create(:card_rec, :pulled,                  attrs),
+      create(:card_rec, :expired,                 attrs),
+      create(:card_rec, :applied, :nudged, :open, attrs),
+      create(:card_rec, :open, :closed,           attrs),
+    ]
+
+    expect(described_class.irreversibly_denied).to match_array(irreversibly_denied)
+    expect(described_class.not_irreversibly_denied).to match_array(not_irreversibly_denied)
   end
 end

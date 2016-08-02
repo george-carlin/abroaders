@@ -2,6 +2,11 @@ class AccountsController < AuthenticatedUserController
   before_action :redirect_if_not_onboarded_travel_plans!
   before_action :redirect_if_type_already_given!
 
+  # 'dashboard' lives under ApplicationController. This is because there are
+  # two dashboards, the regular dashboard and the admin dashboard, but we can't
+  # split it into two actions because they both live under the same path
+  # (root_path)
+
   def type
     @destination = current_account.travel_plans&.last&.flights&.first&.to
     @owner       = current_account.owner
