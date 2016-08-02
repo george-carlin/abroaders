@@ -1,6 +1,9 @@
 # CHANGELOG
 
 ## July 2016
+*   Add more offer type descriptions. PT #122495941
+
+    *Ryan Vredenburg*
 
 *   Feature: Add unskippable card recommendation modal with timer.
     After accepting modal, user won't see it again for 24 hours.

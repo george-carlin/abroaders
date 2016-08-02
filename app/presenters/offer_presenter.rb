@@ -45,8 +45,16 @@ class OfferPresenter < ApplicationPresenter
   end
 
   def description
-    "Spend #{spend} within #{days} days to receive a bonus of "\
-    "#{points_awarded} #{currency_name} points"
+    case model.condition
+      when "on_minimum_spend"
+        "Spend #{spend} within #{days} days to receive a bonus of "\
+         "#{points_awarded} #{currency_name} points"
+      when "on_approval"
+        "#{points_awarded} #{currency_name} points awarded upon a successful application for this card."
+      when "on_first_purchase"
+        "#{points_awarded} #{currency_name} points awarded upon making your first purchase using this card."
+      else raise "this should never happen"
+    end
   end
 
   def recommend_btn
