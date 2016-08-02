@@ -130,7 +130,6 @@ GEM
     jbuilder (2.5.0)
       activesupport (>= 3.0.0, < 5.1)
       multi_json (~> 1.2)
-    jquery-countdown-rails (2.0.2)
     jquery-rails (4.1.1)
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
@@ -316,7 +315,6 @@ DEPENDENCIES
   httparty (~> 0.13.7)
   intercom
   jbuilder (~> 2.0)
-  jquery-countdown-rails
   jquery-rails
   launchy
   paperclip (~> 4.3.1)
