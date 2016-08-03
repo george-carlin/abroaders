@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160721154956) do
+ActiveRecord::Schema.define(version: 20160803034352) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -136,6 +136,14 @@ ActiveRecord::Schema.define(version: 20160721154956) do
     t.index ["type"], name: "index_destinations_on_type", using: :btree
   end
 
+  create_table "eligibilities", force: :cascade do |t|
+    t.integer  "person_id",  null: false
+    t.boolean  "eligible",   null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["person_id"], name: "index_eligibilities_on_person_id", using: :btree
+  end
+
   create_table "flights", force: :cascade do |t|
     t.integer  "travel_plan_id",                       null: false
     t.integer  "position",       limit: 2, default: 0, null: false
@@ -190,16 +198,9 @@ ActiveRecord::Schema.define(version: 20160721154956) do
     t.string   "award_wallet_email"
     t.datetime "last_recommendations_at"
     t.boolean  "eligible"
-    t.index ["account_id", "main"], name: "index_people_on_account_id_and_main", unique: true, using: :btree
-  end
-
-  create_table "readiness_statuses", force: :cascade do |t|
-    t.integer  "person_id",          null: false
-    t.boolean  "ready",              null: false
+    t.boolean  "ready"
     t.string   "unreadiness_reason"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
-    t.index ["person_id"], name: "index_readiness_statuses_on_person_id", unique: true, using: :btree
+    t.index ["account_id", "main"], name: "index_people_on_account_id_and_main", unique: true, using: :btree
   end
 
   create_table "recommendation_notes", force: :cascade do |t|
@@ -247,7 +248,6 @@ ActiveRecord::Schema.define(version: 20160721154956) do
   add_foreign_key "notifications", "accounts"
   add_foreign_key "offers", "cards", on_delete: :cascade
   add_foreign_key "people", "accounts", on_delete: :cascade
-  add_foreign_key "readiness_statuses", "people", on_delete: :cascade
   add_foreign_key "recommendation_notes", "accounts", on_delete: :cascade
   add_foreign_key "spending_infos", "people", on_delete: :cascade
   add_foreign_key "travel_plans", "accounts", on_delete: :cascade
