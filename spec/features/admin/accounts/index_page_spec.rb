@@ -95,7 +95,7 @@ describe "admin section" do
           context "is eligible to apply for cards but not ready" do
             let(:extra_setup) do
               owner.update_attributes!(eligible: true)
-              owner.readiness_status.update_attributes!(ready: false)
+              owner.update_attributes!(ready: false)
             end
 
             it "has an 'E' by their name" do
@@ -106,7 +106,7 @@ describe "admin section" do
           context "is eligible and ready to apply for cards" do
             let(:extra_setup) do
               owner.update_attributes!(eligible: true)
-              owner.readiness_status.update_attributes!(ready: true)
+              owner.update_attributes!(ready: true)
             end
 
             it "has an 'R' by their name" do
@@ -119,7 +119,7 @@ describe "admin section" do
           let(:companion) { @accounts[2].companion }
           let(:extra_setup) do
             companion.update_attributes!(eligible: true)
-            companion.readiness_status.update_attributes!(ready: true)
+            companion.update_attributes!(ready: true)
           end
 
           it "has an 'R' next to the companion's name" do

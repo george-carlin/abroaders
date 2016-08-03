@@ -93,8 +93,8 @@ describe "readiness status pages", :js, :onboarding do
     end
 
     it "has radio buttons to say I'm ready or not ready" do
-      is_expected.to have_field :readiness_status_ready_true
-      is_expected.to have_field :readiness_status_ready_false
+      is_expected.to have_field :person_ready_true
+      is_expected.to have_field :person_ready_false
     end
 
     it "doesn't show the sidebar" do
@@ -104,7 +104,7 @@ describe "readiness status pages", :js, :onboarding do
     pending "it shows the sidebar if I'm onboarded but previously said I wasn't ready"
 
     specify "'I'm ready' is selected by default" do
-      expect(find("#readiness_status_ready_true")).to be_checked
+      expect(find("#person_ready_true")).to be_checked
     end
 
     describe "submitting the form" do
@@ -119,10 +119,10 @@ describe "readiness status pages", :js, :onboarding do
     end
 
     describe "selecting 'I'm not ready'" do
-      before { choose :readiness_status_ready_false }
+      before { choose :person_ready_false }
 
       def unreadiness_reason_field
-        :readiness_status_unreadiness_reason
+        :person_unreadiness_reason
       end
 
       it "shows a text field asking why I'm not ready" do
@@ -146,10 +146,10 @@ describe "readiness status pages", :js, :onboarding do
       end
 
       describe "and clicking 'cancel'" do
-        before { choose :readiness_status_ready_true }
+        before { choose :person_ready_true }
 
         describe "and clicking 'not ready' again" do
-          before { choose :readiness_status_ready_false }
+          before { choose :person_ready_false }
 
           specify "the 'reason' text box is blank again" do
             field = find("##{unreadiness_reason_field}")
@@ -235,7 +235,7 @@ describe "readiness status pages", :js, :onboarding do
     end
   end
 
-  describe "edit page" do
+    describe "edit page" do
     before do
       if i_have_said_im_not_ready
         me.unready_to_apply!(reason: reason)
@@ -251,8 +251,7 @@ describe "readiness status pages", :js, :onboarding do
       let(:i_have_said_im_not_ready)  { true }
       let(:reason) { "meow" }
       it "sees readiness date and readiness_reason" do
-        expect(page).to have_content me.readiness_status.unreadiness_reason
-        expect(page).to have_content me.readiness_status.created_at.strftime("%D")
+        expect(page).to have_content me.unreadiness_reason
       end
     end
 
@@ -270,7 +269,7 @@ describe "readiness status pages", :js, :onboarding do
         it "doesn't change the unreadiness reason" do
           submit_form
           me.reload
-          expect(me.readiness_status.unreadiness_reason).to eq "meow"
+          expect(me.unreadiness_reason).to eq "meow"
         end
       end
 
@@ -322,4 +321,5 @@ describe "readiness status pages", :js, :onboarding do
     end
 
   end
+
 end

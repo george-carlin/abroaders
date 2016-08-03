@@ -2,11 +2,11 @@ module Person::ReadyToApply
   extend ActiveSupport::Concern
 
   def readiness_given?
-    self.ready.present?
+    !ready.nil?
   end
 
   def ready_to_apply?
-    self.ready?
+    ready?
   end
 
   def unready_to_apply?
