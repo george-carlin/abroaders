@@ -1,34 +1,34 @@
 module Person::ReadyToApply
   extend ActiveSupport::Concern
 
-  included do
-    has_one :readiness_status
-    delegate :unreadiness_reason, to: :readiness_status, allow_nil: true
-  end
-
   def readiness_given?
-    !!readiness_status&.persisted?
+    self.ready.present?
   end
 
   def ready_to_apply?
-    !!readiness_status&.ready?
+    self.ready?
   end
 
   def unready_to_apply?
     !ready_to_apply?
   end
 
-  def readiness_given_at
-    readiness_status&.updated_at
-  end
-
   def ready_to_apply!
-    build_readiness_status(ready: true)
-    readiness_status.save! if persisted?
+    if eligible
+      self.ready = true
+      self.save! if persisted?
+    elsif
+      raise "Can't set ready for ineligible person"
+    end
   end
 
   def unready_to_apply!(reason: nil)
-    build_readiness_status(ready: false, unreadiness_reason: reason)
-    readiness_status.save! if persisted?
+    if eligible
+      self.ready = false
+      self.unreadiness_reason = reason
+      self.save! if persisted?
+    elsif
+    raise "Can't set ready for ineligible person"
+    end
   end
 end

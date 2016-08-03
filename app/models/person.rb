@@ -37,7 +37,7 @@ class Person < ApplicationRecord
   def status
     if self.ineligible?
       "Ineligible"
-    elsif self.readiness_status.ready
+    elsif self.ready
       "Ready"
     else
       "Eligible(NotReady)"
