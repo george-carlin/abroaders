@@ -74,8 +74,7 @@
     <% if person.readiness_given? %>
       <hr>
       <p>
-        You indicated on <%= person.readiness_status.created_at.strftime("%D") %>
-        that <%= person.first_name %> is <%= "not" if person.unready_to_apply? %>
+        You indicated that <%= person.first_name %> is <%= "not" if person.unready_to_apply? %>
         ready to apply for cards.
       </p>
 
