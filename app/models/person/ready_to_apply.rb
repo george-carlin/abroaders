@@ -5,9 +5,6 @@ module Person::ReadyToApply
     !ready.nil?
   end
 
-  def ready_to_apply?
-    ready?
-  end
 
   def unready_to_apply?
     !ready_to_apply?
@@ -17,7 +14,7 @@ module Person::ReadyToApply
     if eligible
       self.ready = true
       self.save! if persisted?
-    elsif
+    else
       raise "Can't set ready for ineligible person"
     end
   end
@@ -27,7 +24,7 @@ module Person::ReadyToApply
       self.ready = false
       self.unreadiness_reason = reason
       self.save! if persisted?
-    elsif
+    else
     raise "Can't set ready for ineligible person"
     end
   end

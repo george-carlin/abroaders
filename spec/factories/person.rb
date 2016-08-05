@@ -32,11 +32,7 @@ FactoryGirl.define do
       onboarded_spending
       onboarded_balances true
       onboarded_cards true
-      after(:build) do |person|
-        unless person.readiness_given?
-          person.update_attribute(:ready, false)
-        end
-      end
+      ready false
     end
 
     trait :ready do

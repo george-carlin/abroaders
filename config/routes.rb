@@ -56,7 +56,7 @@ Rails.application.routes.draw do
   resources :balances
 
   resources :people, only: [] do
-    resource :readiness_status, path: :readiness
+    resource :readiness, path: :readiness
 
     resources :balances, only: [:new, :create] do
       collection do

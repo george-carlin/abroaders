@@ -34,7 +34,7 @@ class PersonPresenter < ApplicationPresenter
     prefix = :update_readiness
     h.button_to(
         "I am now ready",
-        h.person_readiness_status_path(self),
+        h.person_readiness_path(self),
         class:  "#{h.dom_class(self, prefix)}_btn #{btn_classes} pull-right",
         id:     "#{h.dom_id(self, prefix)}_btn",
         method: :patch,

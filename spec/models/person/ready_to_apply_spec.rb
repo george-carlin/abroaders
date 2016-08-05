@@ -3,13 +3,7 @@ require "rails_helper"
 describe Person::ReadyToApply do
 
   describe "#ready_to_apply!" do
-    context "when the person is ready" do
-      let(:person) { build(:person, eligible: true, ready: true) }
-      it "ready_to_apply? returns true" do
-        expect(person.ready_to_apply?).to be true
-        expect(person.unready_to_apply?).to be false
-      end
-    end
+
     context "when the person is not persisted" do
       let(:person) { build(:person, eligible: true) }
       it "doesn't save the person" do
@@ -45,13 +39,7 @@ describe Person::ReadyToApply do
   end
 
   describe "#unready_to_apply!" do
-    context "when the person is ready" do
-      let(:person) { build(:person, eligible: true, ready: false) }
-      it "ready_to_apply? returns false" do
-        expect(person.ready_to_apply?).to be false
-        expect(person.unready_to_apply?).to be true
-      end
-    end
+
     context "when the person is not persisted" do
       let(:person) { build(:person, eligible: true) }
       it "doesn't save the person" do
@@ -96,6 +84,25 @@ describe Person::ReadyToApply do
           person.unready_to_apply!(reason: "Because")
           expect(person.unreadiness_reason).to eq "Because"
         end
+      end
+    end
+  end
+
+  describe "#ready_to_apply? and #unready_to_apply?" do
+
+    context "when the person is ready" do
+      let(:person) { build(:person, eligible: true, ready: true) }
+      it "shows ready" do
+        expect(person.ready_to_apply?).to be true
+        expect(person.unready_to_apply?).to be false
+      end
+    end
+
+    context "when the person is not ready" do
+      let(:person) { build(:person, eligible: true, ready: false) }
+      it "shows unready" do
+        expect(person.ready_to_apply?).to be false
+        expect(person.unready_to_apply?).to be true
       end
     end
   end

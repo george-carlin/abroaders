@@ -1,4 +1,4 @@
-class ReadinessStatusesController < AuthenticatedUserController
+class ReadinessController < AuthenticatedUserController
   before_action :redirect_if_not_onboarded_travel_plans!
   before_action :redirect_if_account_type_not_selected!
 
@@ -14,8 +14,7 @@ class ReadinessStatusesController < AuthenticatedUserController
   def create
     @person = load_person
     redirect_if_already_ready! and return
-    @person.update_attributes(readiness_status_params)
-    if @person.save
+    if @person.update_attributes(readiness_status_params)
       unless current_account.has_companion? && @person.main?
         #Int workaround becauce ActiveJob won't accept Time arguments
         AccountMailer.notify_admin_of_survey_completion(current_account.id, Time.now.to_i).deliver_later
@@ -64,11 +63,11 @@ class ReadinessStatusesController < AuthenticatedUserController
   end
 
   def redirect_if_readiness_given!
-    redirect_to person_readiness_status_path(@person) and return true if @person.readiness_given?
+    redirect_to person_readiness_path(@person) and return true if @person.readiness_given?
   end
 
   def redirect_if_readiness_not_given!
-    redirect_to new_person_readiness_status_path(@person) and return true unless @person.readiness_given?
+    redirect_to new_person_readiness_path(@person) and return true unless @person.readiness_given?
   end
 
   def redirect_if_ineligible!

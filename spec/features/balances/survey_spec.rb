@@ -184,7 +184,7 @@ describe "the balance survey page", :onboarding, :js do
           let(:i_am_eligible) { true }
           it "takes me to the readiness survey" do
             submit_form
-            expect(current_path).to eq new_person_readiness_status_path(me)
+            expect(current_path).to eq new_person_readiness_path(me)
           end
 
           include_examples "don't send any emails"
@@ -234,7 +234,7 @@ describe "the balance survey page", :onboarding, :js do
           let(:i_am_eligible) { true }
           it "takes me to the readiness survey" do
             submit_form
-            expect(current_path).to eq new_person_readiness_status_path(me)
+            expect(current_path).to eq new_person_readiness_path(me)
           end
 
           include_examples "don't send any emails"

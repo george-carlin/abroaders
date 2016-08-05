@@ -136,14 +136,6 @@ ActiveRecord::Schema.define(version: 20160803034352) do
     t.index ["type"], name: "index_destinations_on_type", using: :btree
   end
 
-  create_table "eligibilities", force: :cascade do |t|
-    t.integer  "person_id",  null: false
-    t.boolean  "eligible",   null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["person_id"], name: "index_eligibilities_on_person_id", using: :btree
-  end
-
   create_table "flights", force: :cascade do |t|
     t.integer  "travel_plan_id",                       null: false
     t.integer  "position",       limit: 2, default: 0, null: false

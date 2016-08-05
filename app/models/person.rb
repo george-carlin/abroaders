@@ -3,6 +3,7 @@ class Person < ApplicationRecord
 
   # Attributes
 
+  alias_attribute :ready_to_apply, :ready
   alias_attribute :owner, :main
 
   def companion?

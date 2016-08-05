@@ -40,7 +40,7 @@ describe "readiness status pages", :js, :onboarding do
 
 
   describe "new page" do
-    before { visit new_person_readiness_status_path(me) }
+    before { visit new_person_readiness_path(me) }
 
     let(:submit_form) { click_button "Confirm" }
 
@@ -235,13 +235,13 @@ describe "readiness status pages", :js, :onboarding do
     end
   end
 
-    describe "edit page" do
+  describe "edit page" do
     before do
       if i_have_said_im_not_ready
         me.unready_to_apply!(reason: reason)
       end
 
-      visit person_readiness_status_path(me)
+      visit person_readiness_path(me)
     end
 
     let(:i_have_said_im_not_ready) { false }
@@ -301,7 +301,7 @@ describe "readiness status pages", :js, :onboarding do
 
     describe "unanswered unready person" do
       it "redirects to person readiness new" do
-        expect(current_path).to eq new_person_readiness_status_path(me)
+        expect(current_path).to eq new_person_readiness_path(me)
       end
     end
 

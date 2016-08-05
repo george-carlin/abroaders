@@ -59,7 +59,7 @@ describe Person do
         expect(person).not_to be_onboarded
         person.onboarded_balances = true
         expect(person).not_to be_onboarded
-        # Don't care if the user is ready:
+        # ready doesn't have to be true, but it can't be nil
         person.ready = false
         expect(person).to be_onboarded
         person.ready = true

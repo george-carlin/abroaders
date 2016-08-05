@@ -79,7 +79,7 @@ class BalancesController < AuthenticatedUserController
 
   def after_save_path
     if @person.eligible?
-      new_person_readiness_status_path(@person)
+      new_person_readiness_path(@person)
     elsif !@person.main? || !(partner = current_account.companion)
       root_path
     elsif partner.eligible?

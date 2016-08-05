@@ -1,6 +1,13 @@
 # CHANGELOG
 
 ## July 2016
+*   Remove ReadinessStatus from project.
+    Add 'ready' and 'unreadiness_reason' to Person.
+
+    PT #127564851
+
+    *Ryan Vredenburg*
+
 *   Add more offer type descriptions. PT #122495941
 
     *Ryan Vredenburg*
