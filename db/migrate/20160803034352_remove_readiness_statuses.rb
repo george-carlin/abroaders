@@ -26,7 +26,7 @@ class RemoveReadinessStatuses < ActiveRecord::Migration[5.0]
       end
 
       d.down do
-        Person.where.not(ready: nil).find_each do |person|
+        Person.joins(:readiness_status).includes(:readiness_status).find_each do |person|
           person.create_readiness_status!(ready: person.eligible, unreadiness_reason: person.unreadiness_reason)
         end
 
