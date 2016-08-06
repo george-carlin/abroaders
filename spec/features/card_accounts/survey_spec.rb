@@ -1,8 +1,6 @@
 require "rails_helper"
 
 describe "card accounts survey", :onboarding, :js, :manual_clean do
-  subject { page }
-
   before(:all) do
     chase = Bank.find_by(name: "Chase")
     citi  = Bank.find_by(name: "Citibank")
@@ -72,7 +70,7 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
   end
 
   it "doesn't show the sidebar" do
-    is_expected.to have_no_selector "#menu"
+    expect(page).to have_no_selector "#menu"
   end
 
   it "asks if I have ever had any cards that earn points or miles" do
@@ -133,9 +131,9 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
       %w[chase citibank].each do |bank|
         %w[personal business].each do |type|
           header = "#{bank.capitalize} #{type.capitalize} Cards"
-          is_expected.to have_selector "h2", text: header
-          is_expected.to have_selector "##{bank.to_param}_cards"
-          is_expected.to have_selector "##{bank}_#{type}_cards"
+          expect(page).to have_selector "h2", text: header
+          expect(page).to have_selector "##{bank.to_param}_cards"
+          expect(page).to have_selector "##{bank}_#{type}_cards"
         end
       end
     end
@@ -157,7 +155,7 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
     end
 
     it "initially has no inputs for opened/closed dates" do
-      def test(s); is_expected.to have_no_selector(s); end
+      def test(s); expect(page).to have_no_selector(s); end
       test ".cards_survey_card_account_opened_at_month"
       test ".cards_survey_card_account_opened_at_year"
       test ".cards_survey_card_account_closed"

@@ -1,8 +1,6 @@
 require "rails_helper"
 
 describe "readiness status pages", :js, :onboarding do
-  subject { page }
-
   include_context "set admin email ENV var"
 
   let!(:account) do
@@ -93,12 +91,12 @@ describe "readiness status pages", :js, :onboarding do
     end
 
     it "has radio buttons to say I'm ready or not ready" do
-      is_expected.to have_field :readiness_status_ready_true
-      is_expected.to have_field :readiness_status_ready_false
+      expect(page).to have_field :readiness_status_ready_true
+      expect(page).to have_field :readiness_status_ready_false
     end
 
     it "doesn't show the sidebar" do
-      is_expected.to have_no_selector "#menu"
+      expect(page).to have_no_selector "#menu"
     end
 
     pending "it shows the sidebar if I'm onboarded but previously said I wasn't ready"
@@ -126,7 +124,7 @@ describe "readiness status pages", :js, :onboarding do
       end
 
       it "shows a text field asking why I'm not ready" do
-        is_expected.to have_field unreadiness_reason_field
+        expect(page).to have_field unreadiness_reason_field
       end
 
       describe "typing a reason into the text field" do

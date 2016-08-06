@@ -46,7 +46,7 @@ describe "admin pages" do
     it "has a link to edit each card" do
       cards.each do |card|
         within card_selector(card) do
-          is_expected.to have_link "Edit", href: edit_admin_card_path(card)
+          expect(page).to have_link "Edit", href: edit_admin_card_path(card)
         end
       end
     end
@@ -54,7 +54,7 @@ describe "admin pages" do
     it "displays each card's currency" do
       cards.each do |card|
         within card_selector(card) do
-          is_expected.to have_content card.currency.name
+          expect(page).to have_content card.currency.name
         end
       end
     end

@@ -30,7 +30,7 @@ describe "admin section" do
     it "lists every account" do
       within "#admin_accounts_table" do
         @accounts.each do |account|
-          is_expected.to have_selector account_selector(account)
+          expect(page).to have_selector account_selector(account)
         end
       end
     end
@@ -38,7 +38,7 @@ describe "admin section" do
     it "links to the account owners' info pages" do
       onboarded_accounts.each do |account|
         within account_selector(account) do
-          is_expected.to have_link(
+          expect(page).to have_link(
             account.owner.first_name,
             href: admin_person_path(account.owner)
           )
@@ -49,7 +49,7 @@ describe "admin section" do
     describe "for accounts which have added a companion" do
       it "links to the companion's info page" do
         within account_selector(@accounts[2]) do
-          is_expected.to have_link(
+          expect(page).to have_link(
             @accounts[2].companion.first_name,
             href: admin_person_path(@accounts[2].companion)
           )
@@ -62,16 +62,16 @@ describe "admin section" do
     describe "typing something into the 'filter' box" do
       it "filters out accounts who don't match your query" do
         fill_in :admin_accounts_table_filter, with: "aaaaaa"
-        should have_account @accounts[0]
-        should_not have_account @accounts[1]
-        should_not have_account @accounts[2]
+        expect(page).to have_account @accounts[0]
+        expect(page).not_to have_account @accounts[1]
+        expect(page).not_to have_account @accounts[2]
       end
 
       it "is case insensitive" do
         fill_in :admin_accounts_table_filter, with: "AaAAaa"
-        should have_account @accounts[0]
-        should_not have_account @accounts[1]
-        should_not have_account @accounts[2]
+        expect(page).to have_account @accounts[0]
+        expect(page).not_to have_account @accounts[1]
+        expect(page).not_to have_account @accounts[2]
       end
     end
 
@@ -88,7 +88,7 @@ describe "admin section" do
             end
 
             it "doesn't have an 'E' or an 'R' by their name" do
-              is_expected.to have_link(name, href: href, exact: true)
+              expect(page).to have_link(name, href: href, exact: true)
             end
           end
 
@@ -99,7 +99,7 @@ describe "admin section" do
             end
 
             it "has an 'E' by their name" do
-              is_expected.to have_link("#{name} (E)", href: href, exact: true)
+              expect(page).to have_link("#{name} (E)", href: href, exact: true)
             end
           end
 
@@ -110,7 +110,7 @@ describe "admin section" do
             end
 
             it "has an 'R' by their name" do
-              is_expected.to have_link("#{name} (R)", href: href, exact: true)
+              expect(page).to have_link("#{name} (R)", href: href, exact: true)
             end
           end
         end
@@ -124,7 +124,7 @@ describe "admin section" do
 
           it "has an 'R' next to the companion's name" do
             href = admin_person_path(companion)
-            is_expected.to have_link("#{companion.first_name} (R)", href: href, exact: true)
+            expect(page).to have_link("#{companion.first_name} (R)", href: href, exact: true)
           end
         end
       end

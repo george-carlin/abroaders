@@ -10,26 +10,26 @@ describe OfferPresenter do
   let(:view) { ViewStub.new }
 
   describe "#identifier" do
-    subject { presenter.identifier }
+    let(:identifier) { presenter.identifier }
     it "is generated deterministically from points, spend, & days" do
       offer.points_awarded = 10_000
       offer.spend = 4_000
       offer.days  = 90
-      is_expected.to eq "10/4/90"
+      expect(identifier).to eq "10/4/90"
     end
 
     it "uses a decimal point for inexact multiples of 1000" do
       offer.points_awarded = 10_250
       offer.spend = 4_500
       offer.days  = 40
-      is_expected.to eq "10.25/4.5/40"
+      expect(identifier).to eq "10.25/4.5/40"
     end
 
     context "when 'condition' is 'on approval'" do
       it "ignores spend and days and includes 'A'" do
         offer.condition = "on_approval"
         offer.points_awarded = 10_000
-        is_expected.to eq "10/A"
+        expect(identifier).to eq "10/A"
       end
     end
 
@@ -37,13 +37,13 @@ describe OfferPresenter do
       it "ignores spend and days and includes 'P'" do
         offer.condition = "on_first_purchase"
         offer.points_awarded = 10_000
-        is_expected.to eq "10/P"
+        expect(identifier).to eq "10/P"
       end
     end
   end
 
   describe "#description" do
-    subject { presenter.description }
+    subject(:description) { presenter.description }
 
     before do
       offer.card = Card.new(currency: Currency.new(name: "Dinero"))
@@ -53,14 +53,14 @@ describe OfferPresenter do
     context "when 'condition' is 'on first purchase'" do
       it "prints reasonable description" do
         offer.condition = "on_first_purchase"
-        is_expected.to eq "7,500 Dinero points awarded upon making your first purchase using this card."
+        expect(description).to eq "7,500 Dinero points awarded upon making your first purchase using this card."
       end
     end
 
     context "when 'condition' is 'on approval'" do
       it "prints reasonable description" do
         offer.condition = "on_approval"
-        is_expected.to eq "7,500 Dinero points awarded upon a successful application for this card."
+        expect(description).to eq "7,500 Dinero points awarded upon a successful application for this card."
       end
     end
 
@@ -69,7 +69,7 @@ describe OfferPresenter do
         offer.condition = "on_minimum_spend"
         offer.spend = 4_500
         offer.days  = 40
-        is_expected.to eq "Spend $4,500.00 within 40 days to receive a bonus of 7,500 Dinero points"
+        expect(description).to eq "Spend $4,500.00 within 40 days to receive a bonus of 7,500 Dinero points"
       end
     end
   end

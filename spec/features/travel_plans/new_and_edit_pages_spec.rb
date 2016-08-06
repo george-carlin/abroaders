@@ -44,17 +44,17 @@ describe "travel plans" do
 
   shared_examples "a travel plan form" do
     it "has inputs for a new travel plan" do
-      is_expected.to have_field :travel_plan_earliest_departure
-      is_expected.to have_field :travel_plan_from_id
-      is_expected.to have_field :travel_plan_no_of_passengers
-      is_expected.to have_field :travel_plan_to_id
-      is_expected.to have_field :travel_plan_type_single
-      is_expected.to have_field :travel_plan_type_return
-      is_expected.to have_field :travel_plan_further_information
-      is_expected.to have_field :travel_plan_will_accept_economy
-      is_expected.to have_field :travel_plan_will_accept_premium_economy
-      is_expected.to have_field :travel_plan_will_accept_business_class
-      is_expected.to have_field :travel_plan_will_accept_first_class
+      expect(page).to have_field :travel_plan_earliest_departure
+      expect(page).to have_field :travel_plan_from_id
+      expect(page).to have_field :travel_plan_no_of_passengers
+      expect(page).to have_field :travel_plan_to_id
+      expect(page).to have_field :travel_plan_type_single
+      expect(page).to have_field :travel_plan_type_return
+      expect(page).to have_field :travel_plan_further_information
+      expect(page).to have_field :travel_plan_will_accept_economy
+      expect(page).to have_field :travel_plan_will_accept_premium_economy
+      expect(page).to have_field :travel_plan_will_accept_business_class
+      expect(page).to have_field :travel_plan_will_accept_first_class
     end
 
     describe "the 'from'/'to' dropdowns" do
@@ -115,7 +115,7 @@ describe "travel plans" do
         end
 
         it "shows the sidebar" do
-          is_expected.to have_selector "#menu"
+          expect(page).to have_selector "#menu"
         end
       end
     end
@@ -124,7 +124,7 @@ describe "travel plans" do
       let(:onboarded_travel_plans) { false }
 
       it "doesn't show the sidebar" do
-        is_expected.to have_no_selector "#menu"
+        expect(page).to have_no_selector "#menu"
       end
     end
 

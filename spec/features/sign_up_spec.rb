@@ -1,15 +1,13 @@
 require "rails_helper"
 
 describe "the sign up page", :onboarding do
-  subject { page }
-
   include_context "set admin email ENV var"
 
   it "has fields to create a new account" do
-    is_expected.to have_field :sign_up_email
-    is_expected.to have_field :sign_up_password
-    is_expected.to have_field :sign_up_password_confirmation
-    is_expected.to have_field :sign_up_first_name
+    expect(page).to have_field :sign_up_email
+    expect(page).to have_field :sign_up_password
+    expect(page).to have_field :sign_up_password_confirmation
+    expect(page).to have_field :sign_up_first_name
   end
 
   describe "submitting the form" do

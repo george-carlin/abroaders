@@ -92,7 +92,7 @@ describe "the balance survey page", :onboarding, :js do
   it { is_expected.to have_title full_title("Balances") }
 
   it "doesn't show the sidebar" do
-    is_expected.to have_no_selector "#menu"
+    expect(page).to have_no_selector "#menu"
   end
 
   context "when I haven't completed the travel plans survey" do
@@ -163,9 +163,9 @@ describe "the balance survey page", :onboarding, :js do
 
     it "shows a list of currencies with a checkbox next to each name" do
       @currencies.each do |currency|
-        is_expected.to have_content currency.name
+        expect(page).to have_content currency.name
         within_currency(currency) do
-          is_expected.to have_selector "input[type='checkbox']"
+          expect(page).to have_selector "input[type='checkbox']"
         end
       end
     end
@@ -276,7 +276,7 @@ describe "the balance survey page", :onboarding, :js do
 
       it "shows a field to input my balance in that currency" do
         within_currency(currency) do
-          is_expected.to have_field balance_field(currency)
+          expect(page).to have_field balance_field(currency)
         end
       end
 
@@ -284,7 +284,7 @@ describe "the balance survey page", :onboarding, :js do
         before { currency_check_box(currency).click }
 
         it "hides the balance field" do
-          is_expected.to have_no_field balance_field(currency)
+          expect(page).to have_no_field balance_field(currency)
         end
       end
 
