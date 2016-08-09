@@ -1,6 +1,12 @@
 # CHANGELOG
 
 ## July 2016
+
+*   Convert `Destination` model to use single-table inheritance and have
+    five subclasses: `Region`, `City`, `State`, `City`, `Airport`.
+
+    *George Millo*
+
 *   Add more offer type descriptions. PT #122495941
 
     *Ryan Vredenburg*
