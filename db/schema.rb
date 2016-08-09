@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160721154956) do
+ActiveRecord::Schema.define(version: 20160808170547) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -125,11 +125,11 @@ ActiveRecord::Schema.define(version: 20160721154956) do
   create_table "destinations", force: :cascade do |t|
     t.string   "name",                       null: false
     t.string   "code",                       null: false
-    t.integer  "type",                       null: false
     t.integer  "parent_id"
     t.integer  "children_count", default: 0, null: false
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+    t.string   "type",                       null: false
     t.index ["code", "type"], name: "index_destinations_on_code_and_type", unique: true, using: :btree
     t.index ["name"], name: "index_destinations_on_name", using: :btree
     t.index ["parent_id"], name: "index_destinations_on_parent_id", using: :btree

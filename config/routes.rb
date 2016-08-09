@@ -137,7 +137,7 @@ Rails.application.routes.draw do
       end
     end
     resources :destinations, only: :index
-    Destination.types.keys.each do |type|
+    Destination::TYPES.each do |type|
       # airports, cities, countries, etc
       get type.pluralize, to: "destinations##{type}"
     end

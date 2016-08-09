@@ -14,9 +14,11 @@ describe "travel plans index page" do
 
   before do
     @eu  = create(:region, name: "Europe")
-    @lhr = create_airport("London Heathrow", :LHR, @eu)
-    @lgw = create_airport("London Gatwick",  :LGW, @eu)
-    @cdg = create_airport("Paris",           :CDG, @eu)
+    @uk  = create(:country, name: "UK",     parent: @eu)
+    @fr  = create(:country, name: "France", parent: @eu)
+    @lhr = create_airport("London Heathrow", :LHR, @uk)
+    @lgw = create_airport("London Gatwick",  :LGW, @uk)
+    @cdg = create_airport("Paris",           :CDG, @fr)
 
     @tp_single = account.travel_plans.create!(
       acceptable_classes:   [:economy, :premium_economy],
