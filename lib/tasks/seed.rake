@@ -64,7 +64,7 @@ namespace :ab do
         regions_data = CSV.parse(regions_csv)
         puts "Importing #{regions_data.length} regions..."
         @regions = regions_data.map do |name, code|
-          Destination.region.create!(name: name, code: code)
+          Region.create!(name: name, code: code)
         end
 
         @regions = @regions.index_by(&:name)
@@ -88,7 +88,7 @@ namespace :ab do
         countries_data.shift # remove the column headers
         puts "Importing #{countries_data.length} countries..."
         @countries = countries_data.map do |name, code, region_name|
-          Destination.countries.create!(
+          Country.create!(
             name: name,
             code: code,
             parent: @regions.fetch(region_name)
@@ -106,7 +106,7 @@ namespace :ab do
         states_data.shift # remove the column headers
         puts "Importing #{states_data.length} states..."
         @states = states_data.map do |name, code, parent_code|
-          Destination.states.create!(
+          State.create!(
             name: name,
             code: code,
             parent: @countries.fetch(parent_code)
@@ -124,7 +124,7 @@ namespace :ab do
         cities_data.shift # remove the column headers
         puts "Importing #{cities_data.length} cities..."
         @cities = cities_data.map do |name, code, state_code, country_code|
-          Destination.cities.create!(
+          City.create!(
             name: name,
             code: code,
             parent: @states[state_code] || @countries[country_code]
@@ -142,7 +142,7 @@ namespace :ab do
         airports_data.shift # remove the column headers
         puts "Importing #{airports_data.length} airports..."
         @airports = airports_data.map do |name, code, city, state, country|
-          Destination.airports.create!(
+          Airport.create!(
             name:   name,
             code:   code,
             parent: @cities[city] || @states[state] || @countries[country]

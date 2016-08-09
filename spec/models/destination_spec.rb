@@ -1,37 +1,88 @@
 require 'rails_helper'
 
+# Destination uses STI. This spec file tests Destination and all its
+# subclasses.  If it gets too long we can split it later.
 describe Destination do
 
-  describe "#region" do
-    context "when the destination is a region" do
-      it "returns itself" do
-        dest = Destination.region.new
-        expect(dest.region).to eq dest
-      end
+  let(:region)  { Region.new }
+  let(:country) { Country.new }
+  let(:state)   { State.new }
+  let(:city)    { City.new }
+  let(:airport) { Airport.new }
+
+  let(:type_err_msg) { "type is invalid" }
+
+  example "Region#region" do
+    # it returns itself:
+    expect(region.region).to eq region
+  end
+
+  example "#region for non-Region subclasses" do
+    country.parent = region
+    state.parent   = country
+    city.parent    = state
+    airport.parent = city
+
+    expect(country.region).to eq region
+    expect(state.region).to eq region
+    expect(city.region).to eq region
+    expect(airport.region).to eq region
+  end
+
+  example "#region when there is no region in the hierarchy" do
+    airport.parent = city
+    expect(airport.region).to be_nil
+  end
+
+  example "#region?, #country? etc predicate methods" do
+    expect(region.region?).to be true
+    expect(country.region?).to be false
+    expect(state.region?).to be false
+    expect(city.region?).to be false
+    expect(airport.region?).to be false
+
+    expect(region.country?).to be false
+    expect(country.country?).to be true
+    expect(state.country?).to be false
+    expect(city.country?).to be false
+    expect(airport.country?).to be false
+
+    expect(region.state?).to be false
+    expect(country.state?).to be false
+    expect(state.state?).to be true
+    expect(city.state?).to be false
+    expect(airport.state?).to be false
+
+    expect(region.city?).to be false
+    expect(country.city?).to be false
+    expect(state.city?).to be false
+    expect(city.city?).to be true
+    expect(airport.city?).to be false
+
+    expect(region.airport?).to be false
+    expect(country.airport?).to be false
+    expect(state.airport?).to be false
+    expect(city.airport?).to be false
+    expect(airport.airport?).to be true
+  end
+
+  specify "Airport parent must be a City, State, or Country" do
+    def errors
+      airport.tap(&:validate).errors[:parent]
     end
 
-    context "when the destination is not a region" do
-      it "returns the parent region" do
-        region  = Destination.region.new
-        country = Destination.country.new(parent: region)
-        state   = Destination.state.new(parent: country)
-        city    = Destination.city.new(parent: state)
-        airport = Destination.airport.new(parent: city)
-
-        expect(country.region).to eq region
-        expect(state.region).to eq region
-        expect(city.region).to eq region
-        expect(airport.region).to eq region
-      end
-    end
-
-    context "when there is no region in the hierarchy" do
-      it "returns nil" do
-        city    = Destination.city.new
-        airport = Destination.airport.new(parent: city)
-        expect(airport.region).to be_nil
-      end
-    end
+    airport.parent = nil
+    expect(errors).not_to include type_err_msg
+    airport.parent = airport
+    expect(errors).to include type_err_msg
+    airport.parent = city
+    expect(errors).not_to include type_err_msg
+    airport.parent = state
+    expect(errors).not_to include type_err_msg
+    airport.parent = country
+    expect(errors).not_to include type_err_msg
+    airport.parent = region
+    expect(errors).to include type_err_msg
   end
 
 end

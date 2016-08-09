@@ -5,7 +5,7 @@
 <div class="row">
   <div class="col-xs-12">
     <div class="admin-destinations-type-select">
-      <% (["destinations"] + Destination.types.keys).each_with_index do |type, i| %>
+      <% (["destinations"] + Destination::TYPES).each_with_index do |type, i| %>
         <% unless i == 0 %>
           |
         <% end %>
