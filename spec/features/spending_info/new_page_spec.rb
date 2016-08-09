@@ -207,7 +207,7 @@ describe "the spending info survey", :onboarding do
         # number"
         within ".alert.alert-danger" do
           expect(page).to have_content "Credit score can't be blank"
-          expect(page).not_to have_content "Credit score is not a number"
+          expect(page).to have_no_content "Credit score is not a number"
         end
       end
 

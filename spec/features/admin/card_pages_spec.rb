@@ -62,7 +62,7 @@ describe "admin pages" do
     it "says whether or not the card is shown on the survey" do
       expect(page).to have_selector \
         "##{dom_id(@survey_card)} .card_shown_on_survey .fa.fa-check"
-      expect(page).not_to have_selector \
+      expect(page).to have_no_selector \
         "##{dom_id(@non_survey_card)} .card_shown_on_survey .fa.fa-check"
     end
   end

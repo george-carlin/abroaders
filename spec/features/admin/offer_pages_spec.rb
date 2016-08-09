@@ -57,8 +57,8 @@ describe "admin section" do
       describe "selecting 'on approval' condition'", :js do
         before { select approval, from: :offer_condition }
         it "hides the irrelevant inputs" do
-          expect(page).not_to have_field :offer_spend
-          expect(page).not_to have_field :offer_days
+          expect(page).to have_no_field :offer_spend
+          expect(page).to have_no_field :offer_days
         end
 
         describe "and selecting 'minimum spend' again" do
@@ -95,9 +95,9 @@ describe "admin section" do
           it "shows the form again with the correct fields hidden/shown" do
             expect(page).to have_field :offer_condition
             expect(page).to have_field :offer_points_awarded
-            expect(page).not_to have_field :offer_spend
+            expect(page).to have_no_field :offer_spend
             expect(page).to have_field :offer_cost
-            expect(page).not_to have_field :offer_days
+            expect(page).to have_no_field :offer_days
             expect(page).to have_field :offer_link
             expect(page).to have_field :offer_notes
           end
@@ -107,7 +107,7 @@ describe "admin section" do
       describe "selecting 'on first purchase' condition'", :js do
         before { select first_purchase, from: :offer_condition }
         it "hides the irrelevant inputs" do
-          expect(page).not_to have_field :offer_spend
+          expect(page).to have_no_field :offer_spend
         end
 
         describe "and selecting 'minimum spend' again" do
@@ -144,7 +144,7 @@ describe "admin section" do
           it "shows the form again with the correct fields hidden/shown" do
             expect(page).to have_field :offer_condition
             expect(page).to have_field :offer_points_awarded
-            expect(page).not_to have_field :offer_spend
+            expect(page).to have_no_field :offer_spend
             expect(page).to have_field :offer_cost
             expect(page).to have_field :offer_days
             expect(page).to have_field :offer_link
