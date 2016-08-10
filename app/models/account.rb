@@ -22,6 +22,10 @@ class Account < ApplicationRecord
     end
   end
 
+  def onboarding_survey
+    OnboardingSurvey.new(account: self)
+  end
+
   # NOTE: the 'onboarded_travel_plans' column will be set to true when the user
   # completes the 'add travel plan' part of the onboarding survey. Originally,
   # we didn't have a separate column, and looked at the account's associated
