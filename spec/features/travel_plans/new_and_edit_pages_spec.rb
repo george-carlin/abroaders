@@ -114,9 +114,7 @@ describe "travel plans" do
           expect(current_path).to eq new_travel_plan_path
         end
 
-        it "shows the sidebar" do
-          expect(page).to have_selector "#menu"
-        end
+        it { is_expected.to have_sidebar }
       end
     end
 

@@ -1,6 +1,8 @@
 require "rails_helper"
 
 describe "card accounts survey", :onboarding, :js, :manual_clean do
+  subject { page }
+
   before(:all) do
     chase = Bank.find_by(name: "Chase")
     citi  = Bank.find_by(name: "Citibank")
@@ -69,9 +71,7 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
     end
   end
 
-  it "doesn't show the sidebar" do
-    expect(page).to have_no_selector "#menu"
-  end
+  it { is_expected.to have_no_sidebar }
 
   it "asks if I have ever had any cards that earn points or miles" do
     expect(page).to have_content \

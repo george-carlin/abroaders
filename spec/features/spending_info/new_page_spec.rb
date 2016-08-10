@@ -1,6 +1,8 @@
 require "rails_helper"
 
 describe "the spending info survey", :onboarding do
+  subject { page }
+
   include ActiveJob::TestHelper
 
   let!(:account) do
@@ -34,9 +36,7 @@ describe "the spending info survey", :onboarding do
 
   let(:submit_form) { click_button "Save" }
 
-  it "doesn't show the sidebar" do
-    expect(page).to have_no_selector "#menu"
-  end
+  it { is_expected.to have_no_sidebar }
 
   it "asks me for my financial info" do
     expect(page).to have_field :spending_info_credit_score

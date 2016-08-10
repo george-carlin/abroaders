@@ -91,9 +91,7 @@ describe "the balance survey page", :onboarding, :js do
 
   it { is_expected.to have_title full_title("Balances") }
 
-  it "doesn't show the sidebar" do
-    expect(page).to have_no_selector "#menu"
-  end
+  it { is_expected.to have_no_sidebar }
 
   context "when I haven't completed the travel plans survey" do
     let(:onboarded_travel_plans) { false }
