@@ -6,9 +6,15 @@ module Person::ReadyToApply
     delegate :unreadiness_reason, to: :readiness_status, allow_nil: true
   end
 
+  # TODO we're getting rid of the ReadinessStatus model soon (it's
+  # been done in a PR that's still unmerged.) Once that's done,
+  # remove all references to 'readiness_given' and use only
+  # 'onboarded_readiness?', to keep things consistent with the other
+  # methods that have names like 'onboarded_x?'
   def readiness_given?
     !!readiness_status&.persisted?
   end
+  alias_method :onboarded_readiness?, :readiness_given?
 
   def ready_to_apply?
     !!readiness_status&.ready?
