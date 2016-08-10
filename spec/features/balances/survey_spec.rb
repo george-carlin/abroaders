@@ -5,14 +5,11 @@ describe "the balance survey page", :onboarding, :js do
 
   include_context "set admin email ENV var"
 
-  let!(:onboarded_type) { true }
-  let!(:onboarded_travel_plans) { true }
-
   before do
     @account  = create(
                   :account,
-                  :onboarded_travel_plans => onboarded_travel_plans,
-                  :onboarded_type         => onboarded_type,
+                  :onboarded_travel_plans => true,
+                  :onboarded_type         => true,
                 )
     if i_am_owner
       @me = account.owner
@@ -25,7 +22,7 @@ describe "the balance survey page", :onboarding, :js do
     @me.update_attributes!(
       eligible: i_am_eligible,
       first_name: "George",
-      onboarded_balances: onboarded,
+      onboarded_balances: false,
     )
     @currencies = create_list(:currency, 3)
     login_as_account(account)
@@ -62,8 +59,6 @@ describe "the balance survey page", :onboarding, :js do
     end
   end
 
-  let(:onboarded) { false }
-
   shared_examples "complete survey" do
     it "marks me as having completed the balances survey" do
       submit_form
@@ -92,27 +87,6 @@ describe "the balance survey page", :onboarding, :js do
   it { is_expected.to have_title full_title("Balances") }
 
   it { is_expected.to have_no_sidebar }
-
-  context "when I haven't completed the travel plans survey" do
-    let(:onboarded_travel_plans) { false }
-    it "redirects me to the travel plan survey" do
-      expect(current_path).to eq new_travel_plan_path
-    end
-  end
-
-  context "when I haven't chosen an account type" do
-    let(:onboarded_type) { false }
-    it "redirects me to the account type page" do
-      expect(current_path).to eq type_account_path
-    end
-  end
-
-  context "when the person has already completed this survey" do
-    let(:onboarded) { true }
-    it "redirects to my dashboard" do
-      expect(current_path).to eq root_path
-    end
-  end
 
   it "asks if I have any balances over 5,000" do
     expect(page).to have_content "Does George have any points balances greater than 5,000?"
