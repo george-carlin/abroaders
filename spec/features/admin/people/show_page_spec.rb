@@ -3,7 +3,6 @@ require "rails_helper"
 module AdminArea
   describe "admin section - person page", :manual_clean do
     include_context "logged in as admin"
-    subject { page }
 
     let(:aw_email) { "totallyawesomedude@example.com" }
 
@@ -286,11 +285,9 @@ module AdminArea
       expect(declined_rec).to have_declined_at_date("12/01/15")
 
       # shows decline reasons in a tooltip:
-      declined_rec.within do
-        is_expected.to have_selector "a[data-toggle='tooltip']"
-        tooltip = find("a[data-toggle='tooltip']")
-        expect(tooltip["title"]).to eq "because"
-      end
+      expect(declined_rec).to have_selector "a[data-toggle='tooltip']"
+      tooltip = declined_rec.find("a[data-toggle='tooltip']")
+      expect(tooltip["title"]).to eq "because"
 
       # displays the last recs timestamp:
       expect(page).to have_selector(
@@ -375,69 +372,69 @@ module AdminArea
           "##{dom_id(card, :admin_recommend)}"
         end
 
-        def should_have_recommendable_cards(*cards)
-          cards.each { |card| should have_recommendable_card(card) }
+        def page_should_have_recommendable_cards(*cards)
+          cards.each { |card| expect(page).to have_recommendable_card(card) }
         end
 
-        def should_not_have_recommendable_cards(*cards)
-          cards.each { |card| should_not have_recommendable_card(card) }
+        def page_should_not_have_recommendable_cards(*cards)
+          cards.each { |card| expect(page).not_to have_recommendable_card(card) }
         end
 
         example "filtering by b/p" do
           filters.uncheck_business
-          should_have_recommendable_cards(@chase_p, @usb_p)
-          should_not_have_recommendable_cards(@chase_b, @usb_b)
+          page_should_have_recommendable_cards(@chase_p, @usb_p)
+          page_should_not_have_recommendable_cards(@chase_b, @usb_b)
           filters.uncheck_personal
-          should_not_have_recommendable_cards(*@cards)
+          page_should_not_have_recommendable_cards(*@cards)
           filters.check_business
-          should_have_recommendable_cards(@chase_b, @usb_b)
-          should_not_have_recommendable_cards(@chase_p, @usb_p)
+          page_should_have_recommendable_cards(@chase_b, @usb_b)
+          page_should_not_have_recommendable_cards(@chase_p, @usb_p)
           filters.check_personal
-          should_have_recommendable_cards(*@cards)
+          page_should_have_recommendable_cards(*@cards)
         end
 
         example "filtering by bank" do
           Bank.all.each do |bank|
-            is_expected.to have_field :"card_bank_filter_#{bank.id}"
+            expect(page).to have_field :"card_bank_filter_#{bank.id}"
           end
 
           filters.uncheck_chase
-          should_have_recommendable_cards(@usb_b, @usb_p)
-          should_not_have_recommendable_cards(@chase_b, @chase_p)
+          page_should_have_recommendable_cards(@usb_b, @usb_p)
+          page_should_not_have_recommendable_cards(@chase_b, @chase_p)
           filters.uncheck_us_bank
-          should_not_have_recommendable_cards(*@cards)
+          page_should_not_have_recommendable_cards(*@cards)
           filters.check_chase
-          should_have_recommendable_cards(@chase_b, @chase_p)
-          should_not_have_recommendable_cards(@usb_b, @usb_p)
+          page_should_have_recommendable_cards(@chase_b, @chase_p)
+          page_should_not_have_recommendable_cards(@usb_b, @usb_p)
           filters.check_us_bank
-          should_have_recommendable_cards(*@cards)
+          page_should_have_recommendable_cards(*@cards)
         end
 
         example "filtering by currency" do
           Currency.pluck(:id).each do |currency_id|
-            is_expected.to have_field :"card_currency_filter_#{currency_id}"
+            expect(page).to have_field :"card_currency_filter_#{currency_id}"
           end
 
           # TODO eh?
           uncheck "card_currency_filter_#{@chase_b.id}"
           uncheck "card_currency_filter_#{@chase_p.id}"
-          should_have_recommendable_cards(@usb_p, @usb_p)
-          should_not_have_recommendable_cards(@chase_b, @chase_p)
+          page_should_have_recommendable_cards(@usb_p, @usb_p)
+          page_should_not_have_recommendable_cards(@chase_b, @chase_p)
           uncheck "card_currency_filter_#{@usb_b.id}"
           uncheck "card_currency_filter_#{@usb_p.id}"
-          should_not_have_recommendable_cards(*@cards)
+          page_should_not_have_recommendable_cards(*@cards)
           check "card_currency_filter_#{@chase_p.id}"
-          should_have_recommendable_cards(@chase_p)
+          page_should_have_recommendable_cards(@chase_p)
         end
 
         example "toggling all banks" do
           filters.uncheck_all_banks
-          should_not_have_recommendable_cards(*@cards)
+          page_should_not_have_recommendable_cards(*@cards)
           Bank.all.each do |bank|
             expect(find("#card_bank_filter_#{bank.id}")).not_to be_checked
           end
           filters.check_all_banks
-          should_have_recommendable_cards(*@cards)
+          page_should_have_recommendable_cards(*@cards)
           Bank.all.each do |bank|
             expect(find("#card_bank_filter_#{bank.id}")).to be_checked
           end

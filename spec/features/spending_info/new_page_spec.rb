@@ -3,8 +3,6 @@ require "rails_helper"
 describe "the spending info survey", :onboarding do
   include ActiveJob::TestHelper
 
-  subject { page }
-
   let!(:account) do
     create(
       :account,
@@ -37,16 +35,16 @@ describe "the spending info survey", :onboarding do
   let(:submit_form) { click_button "Save" }
 
   it "doesn't show the sidebar" do
-    is_expected.to have_no_selector "#menu"
+    expect(page).to have_no_selector "#menu"
   end
 
   it "asks me for my financial info" do
-    is_expected.to have_field :spending_info_credit_score
-    is_expected.to have_field :spending_info_will_apply_for_loan_true
-    is_expected.to have_field :spending_info_will_apply_for_loan_false
-    is_expected.to have_field :spending_info_has_business_with_ein
-    is_expected.to have_field :spending_info_has_business_without_ein
-    is_expected.to have_field :spending_info_has_business_no_business
+    expect(page).to have_field :spending_info_credit_score
+    expect(page).to have_field :spending_info_will_apply_for_loan_true
+    expect(page).to have_field :spending_info_will_apply_for_loan_false
+    expect(page).to have_field :spending_info_has_business_with_ein
+    expect(page).to have_field :spending_info_has_business_without_ein
+    expect(page).to have_field :spending_info_has_business_no_business
   end
 
   context "when I have already added spending info" do
@@ -83,7 +81,7 @@ describe "the spending info survey", :onboarding do
       radio = find("#spending_info_has_business_no_business")
       expect(radio).to be_checked
       # business spending input is not possible
-      is_expected.to have_no_field :spending_info_business_spending_usd
+      expect(page).to have_no_field :spending_info_business_spending_usd
     end
 
     {
@@ -93,7 +91,7 @@ describe "the spending info survey", :onboarding do
         before { choose "spending_info_has_business_#{key}" }
 
         it "shows my 'business spending' input" do
-          is_expected.to have_field :spending_info_business_spending_usd
+          expect(page).to have_field :spending_info_business_spending_usd
         end
 
         describe "and typing a value into 'business spending'" do
@@ -116,7 +114,7 @@ describe "the spending info survey", :onboarding do
         describe "and selecting 'I don't have a business' again" do
           before { choose :spending_info_has_business_no_business }
           it "hides the 'business spending' input again" do
-            is_expected.to have_no_field :spending_info_business_spending_usd
+            expect(page).to have_no_field :spending_info_business_spending_usd
           end
         end
 
@@ -208,8 +206,8 @@ describe "the spending info survey", :onboarding do
         # Bug fix: previously it was giving me both "can't be blank" and "not a
         # number"
         within ".alert.alert-danger" do
-          is_expected.to have_content "Credit score can't be blank"
-          is_expected.not_to have_content "Credit score is not a number"
+          expect(page).to have_content "Credit score can't be blank"
+          expect(page).to have_no_content "Credit score is not a number"
         end
       end
 

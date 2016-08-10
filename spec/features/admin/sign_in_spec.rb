@@ -1,8 +1,6 @@
 require "rails_helper"
 
 describe "the admin sign in page" do
-  subject { page }
-
   before do
     @pw    = "foobar123"
     @admin = create(:admin, password: @pw, password_confirmation: @pw)
@@ -10,8 +8,8 @@ describe "the admin sign in page" do
   end
 
   it "has fields for signing in" do
-    is_expected.to have_field :admin_email
-    is_expected.to have_field :admin_password
+    expect(page).to have_field :admin_email
+    expect(page).to have_field :admin_password
   end
 
   describe "submitting the form" do

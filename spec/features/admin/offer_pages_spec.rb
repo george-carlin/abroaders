@@ -24,21 +24,21 @@ describe "admin section" do
       it { is_expected.to have_title full_title("New Offer") }
 
       it "displays information about the card" do
-        is_expected.to have_content "Chase"
-        is_expected.to have_content "Sapphire Preferred"
-        is_expected.to have_content "Visa"
-        is_expected.to have_content "$1,500"
-        is_expected.to have_content "business"
+        expect(page).to have_content "Chase"
+        expect(page).to have_content "Sapphire Preferred"
+        expect(page).to have_content "Visa"
+        expect(page).to have_content "$1,500"
+        expect(page).to have_content "business"
       end
 
       it "has fields for an offer" do
-        is_expected.to have_field :offer_condition
-        is_expected.to have_field :offer_points_awarded
-        is_expected.to have_field :offer_spend
-        is_expected.to have_field :offer_cost
-        is_expected.to have_field :offer_days
-        is_expected.to have_field :offer_link
-        is_expected.to have_field :offer_notes
+        expect(page).to have_field :offer_condition
+        expect(page).to have_field :offer_points_awarded
+        expect(page).to have_field :offer_spend
+        expect(page).to have_field :offer_cost
+        expect(page).to have_field :offer_days
+        expect(page).to have_field :offer_link
+        expect(page).to have_field :offer_notes
       end
 
       let(:approval)       { t("activerecord.attributes.offer.conditions.on_approval") }
@@ -57,15 +57,15 @@ describe "admin section" do
       describe "selecting 'on approval' condition'", :js do
         before { select approval, from: :offer_condition }
         it "hides the irrelevant inputs" do
-          is_expected.not_to have_field :offer_spend
-          is_expected.not_to have_field :offer_days
+          expect(page).to have_no_field :offer_spend
+          expect(page).to have_no_field :offer_days
         end
 
         describe "and selecting 'minimum spend' again" do
           before { select minimum_spend, from: :offer_condition }
           it "shows the inputs again" do
-            is_expected.to have_field :offer_spend
-            is_expected.to have_field :offer_days
+            expect(page).to have_field :offer_spend
+            expect(page).to have_field :offer_days
           end
         end
 
@@ -93,13 +93,13 @@ describe "admin section" do
         describe "and submitting the form with invalid info" do
           before { submit }
           it "shows the form again with the correct fields hidden/shown" do
-            is_expected.to have_field :offer_condition
-            is_expected.to have_field :offer_points_awarded
-            is_expected.not_to have_field :offer_spend
-            is_expected.to have_field :offer_cost
-            is_expected.not_to have_field :offer_days
-            is_expected.to have_field :offer_link
-            is_expected.to have_field :offer_notes
+            expect(page).to have_field :offer_condition
+            expect(page).to have_field :offer_points_awarded
+            expect(page).to have_no_field :offer_spend
+            expect(page).to have_field :offer_cost
+            expect(page).to have_no_field :offer_days
+            expect(page).to have_field :offer_link
+            expect(page).to have_field :offer_notes
           end
         end
       end
@@ -107,13 +107,13 @@ describe "admin section" do
       describe "selecting 'on first purchase' condition'", :js do
         before { select first_purchase, from: :offer_condition }
         it "hides the irrelevant inputs" do
-          is_expected.not_to have_field :offer_spend
+          expect(page).to have_no_field :offer_spend
         end
 
         describe "and selecting 'minimum spend' again" do
           before { select minimum_spend, from: :offer_condition }
           it "shows the inputs again" do
-            is_expected.to have_field :offer_spend
+            expect(page).to have_field :offer_spend
           end
         end
 
@@ -142,13 +142,13 @@ describe "admin section" do
         describe "and submitting the form with invalid info" do
           before { submit }
           it "shows the form again with the correct fields hidden/shown" do
-            is_expected.to have_field :offer_condition
-            is_expected.to have_field :offer_points_awarded
-            is_expected.not_to have_field :offer_spend
-            is_expected.to have_field :offer_cost
-            is_expected.to have_field :offer_days
-            is_expected.to have_field :offer_link
-            is_expected.to have_field :offer_notes
+            expect(page).to have_field :offer_condition
+            expect(page).to have_field :offer_points_awarded
+            expect(page).to have_no_field :offer_spend
+            expect(page).to have_field :offer_cost
+            expect(page).to have_field :offer_days
+            expect(page).to have_field :offer_link
+            expect(page).to have_field :offer_notes
           end
         end
       end
@@ -211,7 +211,7 @@ describe "admin section" do
 
       describe "when viewing offers" do
         it "shows offer details", :js => true do
-          is_expected.to have_content @live_1.card.name
+          expect(page).to have_content @live_1.card.name
           expect(find("tr#offer_#{@live_1.id}").text).to include(@live_1.last_reviewed_at.strftime("%m/%d/%Y"))
         end
       end
@@ -238,12 +238,12 @@ describe "admin section" do
 
       describe "when viewing non-reviewed offers" do
         it "shows offer details" do
-          is_expected.to have_content @live_1.card.name
-          is_expected.to have_content @live_1.card.bp.to_s[0].upcase
+          expect(page).to have_content @live_1.card.name
+          expect(page).to have_content @live_1.card.bp.to_s[0].upcase
           expect(find("tr#offer_#{@live_1.id}").text).to include('never')
-          is_expected.to have_link('Link', href: @live_1.link)
-          is_expected.to have_link "kill_offer_#{ @live_1.id }_btn"
-          is_expected.to have_link "verify_offer_#{ @live_1.id }_btn"
+          expect(page).to have_link('Link', href: @live_1.link)
+          expect(page).to have_link "kill_offer_#{ @live_1.id }_btn"
+          expect(page).to have_link "verify_offer_#{ @live_1.id }_btn"
         end
       end
 
@@ -331,8 +331,8 @@ describe "admin section" do
       end
 
       it "displays information about the offer and card" do
-        is_expected.to have_content card.name
-        is_expected.to have_content offer.notes
+        expect(page).to have_content card.name
+        expect(page).to have_content offer.notes
       end
     end # show page
 
@@ -352,7 +352,7 @@ describe "admin section" do
       end
 
       it "displays information about the card" do
-        is_expected.to have_content card.name
+        expect(page).to have_content card.name
       end
     end
   end

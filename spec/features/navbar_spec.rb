@@ -1,8 +1,6 @@
 require "rails_helper"
 
 describe "navbar" do
-  subject { page }
-
   before do
     @original_ignore_hidden_elements = Capybara.ignore_hidden_elements
     Capybara.ignore_hidden_elements = false
@@ -15,9 +13,9 @@ describe "navbar" do
     describe "the collapsible (mobile) navbar" do
       it "has 'Sign in' and 'Sign up' links but no 'Sign out'" do
         within "#mobile-collapse" do
-          is_expected.to have_link "Sign in"
-          is_expected.to have_link "Sign up"
-          is_expected.to have_no_link "Sign out"
+          expect(page).to have_link "Sign in"
+          expect(page).to have_link "Sign up"
+          expect(page).to have_no_link "Sign out"
         end
       end
     end
@@ -30,9 +28,9 @@ describe "navbar" do
     describe "the collapsible (mobile) navbar" do
       it "has a 'Sign out' link but no 'Sign in' or 'Sign up'" do
         within "#mobile-collapse" do
-          is_expected.to have_no_link "Sign in"
-          is_expected.to have_no_link "Sign up"
-          is_expected.to have_link "Sign out"
+          expect(page).to have_no_link "Sign in"
+          expect(page).to have_no_link "Sign up"
+          expect(page).to have_link "Sign out"
         end
       end
     end
