@@ -95,27 +95,6 @@ describe "the balance survey page", :onboarding, :js do
     is_expected.to have_no_selector "#menu"
   end
 
-  context "when I haven't completed the travel plans survey" do
-    let(:onboarded_travel_plans) { false }
-    it "redirects me to the travel plan survey" do
-      expect(current_path).to eq new_travel_plan_path
-    end
-  end
-
-  context "when I haven't chosen an account type" do
-    let(:onboarded_type) { false }
-    it "redirects me to the account type page" do
-      expect(current_path).to eq type_account_path
-    end
-  end
-
-  context "when the person has already completed this survey" do
-    let(:onboarded) { true }
-    it "redirects to my dashboard" do
-      expect(current_path).to eq root_path
-    end
-  end
-
   it "asks if I have any balances over 5,000" do
     expect(page).to have_content "Does George have any points balances greater than 5,000?"
     expect(page).to have_button "Yes"
