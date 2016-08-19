@@ -179,6 +179,7 @@ describe "account type select page", :js, :onboarding do
         form.click_confirm_btn
       end.to change{account.people.count}.by(1).and track_intercom_event
       # saves partner name correctly:
+      account.reload
       expect(account.partner.first_name).to eq partner_name
       # marks me and my partner as ineligible to apply:
       expect(account.people.all?(&:ineligible?)).to be true

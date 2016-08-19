@@ -12,11 +12,11 @@ describe OnboardingSurvey do
   end
 
   example "non-person specific pages" do
-    expect(survey.next_page.path).to eq new_travel_plan_path
+    expect(survey.current_page.path).to eq new_travel_plan_path
     expect(survey).not_to be_complete
 
     onboard_travel_plans!
-    expect(survey.next_page.path).to eq type_account_path
+    expect(survey.current_page.path).to eq type_account_path
     expect(survey).not_to be_complete
   end
 
@@ -24,11 +24,11 @@ describe OnboardingSurvey do
     onboard_travel_plans!
     onboard_type!
     onboard_eligibility!(account.owner, false)
-    expect(survey.next_page.path).to eq survey_person_balances_path(account.owner)
+    expect(survey.current_page.path).to eq survey_person_balances_path(account.owner)
     expect(survey).not_to be_complete
 
     onboard_balances!(account.owner)
-    expect(survey.next_page).to be_nil
+    expect(survey.current_page).to be_nil
     expect(survey).to be_complete
   end
 
@@ -36,23 +36,23 @@ describe OnboardingSurvey do
     onboard_travel_plans!
     onboard_type!
     onboard_eligibility!(account.owner, true)
-    expect(survey.next_page.path).to eq new_person_spending_info_path(account.owner)
+    expect(survey.current_page.path).to eq new_person_spending_info_path(account.owner)
     expect(survey).not_to be_complete
 
     onboard_spending!(account.owner)
-    expect(survey.next_page.path).to eq survey_person_card_accounts_path(account.owner)
+    expect(survey.current_page.path).to eq survey_person_card_accounts_path(account.owner)
     expect(survey).not_to be_complete
 
     onboard_cards!(account.owner)
-    expect(survey.next_page.path).to eq survey_person_balances_path(account.owner)
+    expect(survey.current_page.path).to eq survey_person_balances_path(account.owner)
     expect(survey).not_to be_complete
 
     onboard_balances!(account.owner)
-    expect(survey.next_page.path).to eq new_person_readiness_status_path(account.owner)
+    expect(survey.current_page.path).to eq new_person_readiness_status_path(account.owner)
     expect(survey).not_to be_complete
 
     onboard_readiness!(account.owner)
-    expect(survey.next_page).to be_nil
+    expect(survey.current_page).to be_nil
     expect(survey).to be_complete
   end
 
@@ -62,15 +62,15 @@ describe OnboardingSurvey do
     create_companion!
     onboard_eligibility!(account.owner, false)
     onboard_eligibility!(account.companion, false)
-    expect(survey.next_page.path).to eq survey_person_balances_path(account.owner)
+    expect(survey.current_page.path).to eq survey_person_balances_path(account.owner)
     expect(survey).not_to be_complete
 
     onboard_balances!(account.owner)
-    expect(survey.next_page.path).to eq survey_person_balances_path(account.companion)
+    expect(survey.current_page.path).to eq survey_person_balances_path(account.companion)
     expect(survey).not_to be_complete
 
     onboard_balances!(account.companion)
-    expect(survey.next_page).to be_nil
+    expect(survey.current_page).to be_nil
     expect(survey).to be_complete
   end
 
@@ -81,39 +81,39 @@ describe OnboardingSurvey do
     create_companion!
     onboard_eligibility!(account.companion, true)
 
-    expect(survey.next_page.path).to eq new_person_spending_info_path(account.owner)
+    expect(survey.current_page.path).to eq new_person_spending_info_path(account.owner)
     expect(survey).not_to be_complete
 
     onboard_spending!(account.owner)
-    expect(survey.next_page.path).to eq survey_person_card_accounts_path(account.owner)
+    expect(survey.current_page.path).to eq survey_person_card_accounts_path(account.owner)
     expect(survey).not_to be_complete
 
     onboard_cards!(account.owner)
-    expect(survey.next_page.path).to eq survey_person_balances_path(account.owner)
+    expect(survey.current_page.path).to eq survey_person_balances_path(account.owner)
     expect(survey).not_to be_complete
 
     onboard_balances!(account.owner)
-    expect(survey.next_page.path).to eq new_person_readiness_status_path(account.owner)
+    expect(survey.current_page.path).to eq new_person_readiness_status_path(account.owner)
     expect(survey).not_to be_complete
 
     onboard_readiness!(account.owner)
-    expect(survey.next_page.path).to eq new_person_spending_info_path(account.companion)
+    expect(survey.current_page.path).to eq new_person_spending_info_path(account.companion)
     expect(survey).not_to be_complete
 
     onboard_spending!(account.companion)
-    expect(survey.next_page.path).to eq survey_person_card_accounts_path(account.companion)
+    expect(survey.current_page.path).to eq survey_person_card_accounts_path(account.companion)
     expect(survey).not_to be_complete
 
     onboard_cards!(account.companion)
-    expect(survey.next_page.path).to eq survey_person_balances_path(account.companion)
+    expect(survey.current_page.path).to eq survey_person_balances_path(account.companion)
     expect(survey).not_to be_complete
 
     onboard_balances!(account.companion)
-    expect(survey.next_page.path).to eq new_person_readiness_status_path(account.companion)
+    expect(survey.current_page.path).to eq new_person_readiness_status_path(account.companion)
     expect(survey).not_to be_complete
 
     onboard_readiness!(account.companion)
-    expect(survey.next_page).to be_nil
+    expect(survey.current_page).to be_nil
     expect(survey).to be_complete
   end
 
@@ -123,27 +123,27 @@ describe OnboardingSurvey do
     onboard_eligibility!(account.owner, true)
     create_companion!
     onboard_eligibility!(account.companion, false)
-    expect(survey.next_page.path).to eq new_person_spending_info_path(account.owner)
+    expect(survey.current_page.path).to eq new_person_spending_info_path(account.owner)
     expect(survey).not_to be_complete
 
     onboard_spending!(account.owner)
-    expect(survey.next_page.path).to eq survey_person_card_accounts_path(account.owner)
+    expect(survey.current_page.path).to eq survey_person_card_accounts_path(account.owner)
     expect(survey).not_to be_complete
 
     onboard_cards!(account.owner)
-    expect(survey.next_page.path).to eq survey_person_balances_path(account.owner)
+    expect(survey.current_page.path).to eq survey_person_balances_path(account.owner)
     expect(survey).not_to be_complete
 
     onboard_balances!(account.owner)
-    expect(survey.next_page.path).to eq new_person_readiness_status_path(account.owner)
+    expect(survey.current_page.path).to eq new_person_readiness_status_path(account.owner)
     expect(survey).not_to be_complete
 
     onboard_readiness!(account.owner)
-    expect(survey.next_page.path).to eq survey_person_balances_path(account.companion)
+    expect(survey.current_page.path).to eq survey_person_balances_path(account.companion)
     expect(survey).not_to be_complete
 
     onboard_balances!(account.companion)
-    expect(survey.next_page).to be_nil
+    expect(survey.current_page).to be_nil
     expect(survey).to be_complete
   end
 
@@ -153,27 +153,27 @@ describe OnboardingSurvey do
     onboard_eligibility!(account.owner, false)
     create_companion!
     onboard_eligibility!(account.companion, true)
-    expect(survey.next_page.path).to eq survey_person_balances_path(account.owner)
+    expect(survey.current_page.path).to eq survey_person_balances_path(account.owner)
     expect(survey).not_to be_complete
 
     onboard_balances!(account.owner)
-    expect(survey.next_page.path).to eq new_person_spending_info_path(account.companion)
+    expect(survey.current_page.path).to eq new_person_spending_info_path(account.companion)
     expect(survey).not_to be_complete
 
     onboard_spending!(account.companion)
-    expect(survey.next_page.path).to eq survey_person_card_accounts_path(account.companion)
+    expect(survey.current_page.path).to eq survey_person_card_accounts_path(account.companion)
     expect(survey).not_to be_complete
 
     onboard_cards!(account.companion)
-    expect(survey.next_page.path).to eq survey_person_balances_path(account.companion)
+    expect(survey.current_page.path).to eq survey_person_balances_path(account.companion)
     expect(survey).not_to be_complete
 
     onboard_balances!(account.companion)
-    expect(survey.next_page.path).to eq new_person_readiness_status_path(account.companion)
+    expect(survey.current_page.path).to eq new_person_readiness_status_path(account.companion)
     expect(survey).not_to be_complete
 
     onboard_readiness!(account.companion)
-    expect(survey.next_page).to be_nil
+    expect(survey.current_page).to be_nil
     expect(survey).to be_complete
   end
 

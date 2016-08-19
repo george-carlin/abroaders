@@ -37,15 +37,19 @@ class OnboardingSurvey
     @pages ||= begin
       pages = [
         { # travel plans
-          path: new_travel_plan_path,
-          required: true,
-          complete: account.onboarded_travel_plans?
+          complete:    account.onboarded_travel_plans?,
+          path:        new_travel_plan_path,
+          required:    true,
+          revisitable: true,
+          submission_paths: [travel_plans_path, skip_survey_travel_plans_path],
         },
 
         { # account type and eligibility
-          path: type_account_path,
-          required: true,
-          complete: account.onboarded_type?,
+          complete:    account.onboarded_type?,
+          path:        type_account_path,
+          required:    true,
+          revisitable: false,
+          submission_paths: [solo_account_path, partner_account_path],
         },
       ]
 
@@ -58,21 +62,46 @@ class OnboardingSurvey
 
   # Returns true iff the user has fully completed the onboarding survey
   def complete?
-    pages.all? { |page| !page.required? || page.complete? }
+    !current_page.present?
   end
 
   # If onboarding survey is complete, returns nil. Else returns the next Page
   # that the user must complete
-  def next_page
+  def current_page
     pages.find { |p| p.required? && !p.complete? }
+  end
+
+  # returns true if the given path can't be visited, given the current state
+  # of the survey
+  def redirect_from_request?(request)
+    if complete?
+      pages.any? { |p| p.reached_by_request?(request) && !p.revisitable? }
+    else
+      !current_page.reached_by_request?(request)
+    end
   end
 
   class Page
     include Virtus.model
 
-    attribute :complete, Boolean
-    attribute :path,     String
-    attribute :required, Boolean
+    attribute :complete,         Boolean
+    # The path that the user must visit to *view* this page of the survey
+    attribute :path,             String
+    attribute :required,         Boolean
+    # can this page be visited again once the onboarding survey is complete?
+    attribute :revisitable,      Boolean
+    # The path(s) that the user must make a request to in order to *submit*
+    # this page of the survey. Note that there may be more than one per page,
+    # since some survey have multiple ways to be completed.
+    attribute :submission_paths, Array
+
+    def reached_by_request?(request)
+      if request.method == "GET"
+        self.path == request.path
+      else 
+        submission_paths.include?(request.path)
+      end
+    end
   end
 
   private
@@ -80,27 +109,35 @@ class OnboardingSurvey
   def pages_for_person(person)
     [
       { # spending info
-        path: new_person_spending_info_path(person),
-        required: person.eligible?,
-        complete: person.onboarded_spending?,
+        complete:    person.onboarded_spending?,
+        path:        new_person_spending_info_path(person),
+        required:    person.eligible?,
+        revisitable: false,
+        submission_paths: [person_spending_info_path(person)],
       },
 
       { # cards
-        path: survey_person_card_accounts_path(person),
-        required: person.eligible?,
-        complete: person.onboarded_cards?,
+        complete:    person.onboarded_cards?,
+        path:        survey_person_card_accounts_path(person),
+        required:    person.eligible?,
+        revisitable: false,
+        submission_paths: [survey_person_card_accounts_path(person)],
       },
 
       { # balances
-        path: survey_person_balances_path(person),
-        required: true,
-        complete: person.onboarded_balances?,
+        complete:    person.onboarded_balances?,
+        path:        survey_person_balances_path(person),
+        required:    true,
+        revisitable: false,
+        submission_paths: [survey_person_balances_path(person)],
       },
     
       { # readiness
-        path: new_person_readiness_status_path(person),
-        required: person.eligible?,
-        complete: person.onboarded_readiness?
+        complete:    person.onboarded_readiness?,
+        path:        new_person_readiness_status_path(person),
+        required:    person.eligible?,
+        revisitable: true,
+        submission_paths: [person_readiness_status_path(person)],
       },
     ]
   end

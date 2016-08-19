@@ -1,6 +1,4 @@
 class AccountsController < AuthenticatedUserController
-  before_action :redirect_if_not_onboarded_travel_plans!
-  before_action :redirect_if_type_already_given!
 
   # 'dashboard' lives under ApplicationController. This is because there are
   # two dashboards, the regular dashboard and the admin dashboard, but we can't
@@ -18,11 +16,7 @@ class AccountsController < AuthenticatedUserController
     # The front-end should prevent invalid data from being submitted. If they
     # bypass the JS, fuck 'em.
     @solo_account.save!
-    if @solo_account.eligible?
-      redirect_to new_person_spending_info_path(@solo_account.person)
-    else
-      redirect_to survey_person_balances_path(@solo_account.person)
-    end
+    redirect_to current_account.onboarding_survey.current_page.path
   end
 
   def create_partner_account
@@ -31,26 +25,10 @@ class AccountsController < AuthenticatedUserController
     # The front-end should prevent invalid data from being submitted. If they
     # bypass the JS, fuck 'em.
     @partner_account.save!
-    if @partner_account.person_0_eligible?
-      redirect_to new_person_spending_info_path(@partner_account.person_0)
-    else
-      redirect_to survey_person_balances_path(@partner_account.person_0)
-    end
+    redirect_to current_account.onboarding_survey.current_page.path
   end
 
   private
-
-  def redirect_if_not_onboarded_travel_plans!
-    if !current_account.onboarded_travel_plans?
-      redirect_to new_travel_plan_path
-    end
-  end
-
-  def redirect_if_type_already_given!
-    if current_account.onboarded_type?
-      redirect_to new_person_spending_info_path(current_account.people.first)
-    end
-  end
 
   def solo_account_params
     params.require(:solo_account).permit(:monthly_spending_usd, :eligible, :phone_number)

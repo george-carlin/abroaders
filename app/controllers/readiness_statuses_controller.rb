@@ -1,6 +1,4 @@
 class ReadinessStatusesController < AuthenticatedUserController
-  before_action :redirect_if_not_onboarded_travel_plans!
-  before_action :redirect_if_account_type_not_selected!
 
   include EventTracking
 
@@ -24,7 +22,7 @@ class ReadinessStatusesController < AuthenticatedUserController
 
       track_intercom_event("obs_#{"un" if !@status.ready?}ready_#{@person.type[0..2]}")
 
-      redirect_to after_save_path
+      redirect_to current_account.onboarding_survey.current_page.path
     else
       render "new"
     end
@@ -76,13 +74,4 @@ class ReadinessStatusesController < AuthenticatedUserController
     redirect_to root_path and return true unless @person.eligible?
   end
 
-  def after_save_path
-    if !@person.main? || !(partner = current_account.companion)
-      root_path
-    elsif partner.eligible?
-      new_person_spending_info_path(partner)
-    else
-      survey_person_balances_path(partner)
-    end
-  end
 end

@@ -5,40 +5,17 @@ describe "the balance survey page", :onboarding, :js do
 
   include_context "set admin email ENV var"
 
-  let!(:onboarded_type) { true }
-  let!(:onboarded_travel_plans) { true }
-
   before do
-    @account  = create(
-                  :account,
-                  :onboarded_travel_plans => onboarded_travel_plans,
-                  :onboarded_type         => onboarded_type,
-                )
-    if i_am_owner
-      @me = account.owner
-      if i_have_a_companion
-        @companion = create(:person, main: false, account: account, eligible: companion_is_eligible)
-      end
-    else
-      @me = create(:person, main: false, account: account)
-    end
-    @me.update_attributes!(
-      eligible: i_am_eligible,
-      first_name: "George",
-      onboarded_balances: onboarded,
-    )
+    @account = create(:account, onboarded_travel_plans: true, onboarded_type: true)
+    @me = account.owner
+    @me.update_attributes!(first_name: "George")
     @currencies = create_list(:currency, 3)
     login_as_account(account)
 
-    visit survey_person_balances_path(me)
+    visit survey_person_balances_path(@me)
   end
 
   let(:submit_form) { click_button "Submit" }
-
-  let(:i_am_eligible)         { false }
-  let(:i_am_owner)            { false }
-  let(:i_have_a_companion)    { false }
-  let(:companion_is_eligible) { false }
 
   let(:account)   { @account }
   let(:me)        { @me }
@@ -59,33 +36,6 @@ describe "the balance survey page", :onboarding, :js do
   def currency_check_box(currency)
     within_currency(currency) do
       find("input[type='checkbox']")
-    end
-  end
-
-  let(:onboarded) { false }
-
-  shared_examples "complete survey" do
-    it "marks me as having completed the balances survey" do
-      submit_form
-      expect(me.reload.onboarded_balances?).to be true
-    end
-
-    context "when I am the account owner" do
-      let(:i_am_owner) { true }
-      it "tracks an event on Intercom", :intercom do
-        expect{submit_form}.to \
-          track_intercom_event("obs_balances_own").
-          for_email(account.email)
-      end
-    end
-
-    context "when I am the companion" do
-      let(:i_am_owner) { false }
-      it "tracks an event on Intercom", :intercom do
-        expect{submit_form}.to \
-          track_intercom_event("obs_balances_com").
-          for_email(account.email)
-      end
     end
   end
 
@@ -119,8 +69,6 @@ describe "the balance survey page", :onboarding, :js do
       it "doesn't create any balances for me" do
         expect{submit_form}.not_to change{Balance.count}
       end
-
-      include_examples "complete survey"
     end
 
     describe "and clicking 'Back'" do
@@ -151,101 +99,15 @@ describe "the balance survey page", :onboarding, :js do
 
     it { is_expected.to have_field :balances_survey_award_wallet_email }
 
-    describe "submitting the form" do
-      before { pre_submit }
+    example "submitting form marks me as having completed the balances survey" do
+      submit_form
+      expect(me.reload.onboarded_balances?).to be true
+    end
 
-      let(:pre_submit) { nil }
-
-      context "when I am the account owner" do
-        let(:i_am_owner) { true }
-
-        context "and I am eligible to apply for cards" do
-          let(:i_am_eligible) { true }
-          it "takes me to the readiness survey" do
-            submit_form
-            expect(current_path).to eq new_person_readiness_status_path(me)
-          end
-
-          include_examples "don't send any emails"
-        end
-
-        context "and I am ineligible to apply for cards" do
-          let(:i_am_eligible) { false }
-
-          context "and I have a companion" do
-            let(:i_have_a_companion) { true }
-            context "who is eligible to apply for cards" do
-              let(:companion_is_eligible) { true }
-              it "takes me to the companion's spending survey" do
-                submit_form
-                expect(current_path).to eq new_person_spending_info_path(companion)
-              end
-
-              include_examples "don't send any emails"
-            end
-
-            context "who is ineligible to apply for cards" do
-              let(:companion_is_eligible) { false }
-              it "takes me to the companion's balances survey" do
-                submit_form
-                expect(current_path).to eq survey_person_balances_path(companion)
-              end
-
-              include_examples "don't send any emails"
-            end
-          end
-
-          context "and I don't have a companion" do
-            it "takes me to my dashboard" do
-              submit_form
-              expect(current_path).to eq root_path
-            end
-
-            include_examples "send survey complete email to admin"
-          end
-        end
-      end
-
-      context "when I am the companion" do
-        let(:i_am_owner) { false }
-
-        context "and I am eligible to apply for cards" do
-          let(:i_am_eligible) { true }
-          it "takes me to the readiness survey" do
-            submit_form
-            expect(current_path).to eq new_person_readiness_status_path(me)
-          end
-
-          include_examples "don't send any emails"
-        end
-
-        context "and I am ineligible to apply for cards" do
-          let(:i_am_eligible) { false }
-
-          it "takes me to the dashboard" do
-            submit_form
-            expect(current_path).to eq root_path
-          end
-
-          include_examples "send survey complete email to admin"
-        end
-      end
-
-      it "marks me as having completed the balances survey" do
-        submit_form
-        expect(me.reload.onboarded_balances?).to be true
-      end
-
-      context "providing an award wallet email" do
-        let(:pre_submit) do
-          fill_in :balances_survey_award_wallet_email, with: "a@b.com"
-        end
-
-        it "saves the email" do
-          submit_form
-          expect(me.reload.award_wallet_email).to eq "a@b.com"
-        end
-      end
+    example "providing an award wallet email" do
+      fill_in :balances_survey_award_wallet_email, with: "a@b.com"
+      submit_form
+      expect(me.reload.award_wallet_email).to eq "a@b.com"
     end
 
     describe "clicking a check box next to a currency" do
@@ -288,8 +150,6 @@ describe "the balance survey page", :onboarding, :js do
             end
           end
         end
-
-        include_examples "complete survey"
       end
     end
 
@@ -312,8 +172,6 @@ describe "the balance survey page", :onboarding, :js do
       it "doesn't create any balances" do
         expect{submit_form}.not_to change{Balance.count}
       end
-
-      include_examples "complete survey"
     end
   end
 end

@@ -28,6 +28,11 @@ FactoryGirl.define do
       end
     end
 
+    trait :onboarded_cards do
+      onboarded_spending
+      onboarded_cards true
+    end
+
     trait :onboarded do
       onboarded_spending
       onboarded_balances true

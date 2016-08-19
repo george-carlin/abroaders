@@ -25,7 +25,7 @@ describe AccountsController do
 
     context "when I have already chosen an account type" do
       let(:onb_type) { true }
-      it { is_expected.to redirect_to new_person_spending_info_path(account.owner) }
+      it { is_expected.to redirect_to survey_person_balances_path(account.owner) }
     end
 
     context "when I am at the right point in the survey" do

@@ -1,14 +1,7 @@
 require "rails_helper"
 
 describe "travel plans" do
-
-  let(:onboarded_travel_plans) { false }
-  let(:fully_onboarded) { false }
-  let(:account) do
-    create(:account, onboarded_travel_plans: onboarded_travel_plans)
-  end
-
-  let!(:me) { account.people.first }
+  let!(:me) { account.owner }
 
   subject { page }
 
@@ -25,16 +18,6 @@ describe "travel plans" do
       @tl = create(:country, name: "Thailand",       parent: @as),
       @fr = create(:country, name: "France",         parent: @eu),
     ]
-    if fully_onboarded
-      account.update_attributes!(onboarded_type: true)
-      create(:spending_info, person: account.people.first)
-      account.people.first.update_attributes!(
-        eligible: true,
-        onboarded_balances: true,
-        onboarded_cards:    true,
-      )
-      account.people.first.ready_to_apply!
-    end
     login_as(account)
   end
 
@@ -93,7 +76,21 @@ describe "travel plans" do
   end
 
   describe "new page", :onboarding do
-    before { visit new_travel_plan_path }
+    let(:fully_onboarded) { false }
+    let(:onboarded_travel_plans) { false }
+    let(:account) do
+      if fully_onboarded
+        create(:account, :onboarded, :ready)
+      else
+        create(:account, onboarded_travel_plans: onboarded_travel_plans)
+      end
+    end
+
+    before do
+      login_as(account)
+      visit new_travel_plan_path
+    end
+
 
     SKIP_LINK = "I don't want to add a travel plan right now"
 
@@ -297,8 +294,12 @@ describe "travel plans" do
   end
 
   describe "edit page" do
+    let(:account) { create(:account, :onboarded) }
     let!(:travel_plan) { create(:travel_plan, account: account) }
-    before { visit edit_travel_plan_path(travel_plan) }
+    before do
+      login_as(account)
+      visit edit_travel_plan_path(travel_plan)
+    end
 
     it_behaves_like "a travel plan form"
 

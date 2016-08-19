@@ -18,14 +18,10 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
 
   before do
     @account = create(:account, :onboarded_type)
-    create(:spending_info, person: @account.owner)
-    @account.owner.update_attributes!(eligible: true)
+    @me = account.owner
 
-    if i_am_owner
-      @me = account.owner
-    else
-      @me = create(:person_with_spending, :eligible, main: false, account: account)
-    end
+    create(:spending_info, person: @me)
+    @me.update_attributes!(eligible: true)
 
     login_as account.reload
     visit survey_person_card_accounts_path(@me)
@@ -34,7 +30,6 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
   let(:account) { @account }
   let(:me) { @me }
   let(:name) { me.first_name }
-  let(:i_am_owner) { true }
   let(:submit_form) { click_button "Submit" }
 
   def card_on_page(card)
@@ -52,37 +47,20 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
       expect(me.reload.onboarded_cards?).to be true
     end
 
-    context "when I am the account owner" do
-      let(:i_am_owner) { true }
-      it "tracks an event on Intercom", :intercom do
-        expect{submit_form}.to \
-          track_intercom_event("obs_cards_own").
-          for_email(account.email)
-      end
-    end
-
-    context "when I am the companion" do
-      let(:i_am_owner) { false }
-      it "tracks an event on Intercom", :intercom do
-        expect{submit_form}.to \
-          track_intercom_event("obs_cards_com").
-          for_email(account.email)
-      end
+    it "tracks an event on Intercom", :intercom do
+      expect{submit_form}.to \
+        track_intercom_event("obs_cards_own").
+        for_email(account.email)
     end
   end
 
-  it "doesn't show the sidebar" do
-    is_expected.to have_no_selector "#menu"
-  end
-
-  it "asks if I have ever had any cards that earn points or miles" do
+  example "initial page layout" do
+    expect(page).to have_no_selector "#menu"
     expect(page).to have_content \
       "Has #{name} ever had a credit card that earns points or miles?"
     expect(page).to have_button "Yes"
     expect(page).to have_button "No"
-  end
-
-  it "doesn't initially list cards" do
+    # doesn't initially list cards:
     expect(page).to have_no_selector ".card-survey-checkbox"
   end
 

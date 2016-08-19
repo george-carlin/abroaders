@@ -6,32 +6,24 @@ describe "the spending info survey", :onboarding do
   subject { page }
 
   let!(:account) do
-    create(
-      :account,
-      :onboarded_travel_plans => onboarded_travel_plans,
-      :onboarded_type         => onboarded_type,
-    )
+    create(:account, onboarded_travel_plans: true, onboarded_type: true)
   end
 
   before do
     @me = if i_am_owner
-            @me = account.people.first
+            account.owner
           else
+            account.owner.update_attributes!(onboarded_balances: true)
             create(:person, main: false, account: account)
-            @me = account.companion
+            account.companion
           end
-    me.update_attributes!(eligible: eligible)
-    create(:spending_info, person: me) if already_added
+    me.update_attributes!(eligible: true)
     login_as(account, scope: :account)
     visit new_person_spending_info_path(me)
   end
 
   let(:me) { @me }
 
-  let(:already_added)  { false }
-  let(:onboarded_type) { true }
-  let(:onboarded_travel_plans) { true }
-  let(:eligible) { true }
   let(:i_am_owner) { true }
 
   let(:submit_form) { click_button "Save" }
@@ -47,34 +39,6 @@ describe "the spending info survey", :onboarding do
     is_expected.to have_field :spending_info_has_business_with_ein
     is_expected.to have_field :spending_info_has_business_without_ein
     is_expected.to have_field :spending_info_has_business_no_business
-  end
-
-  context "when I have already added spending info" do
-    let(:already_added) { true }
-    it "redirects me to my cards survey" do
-      expect(current_path).to eq survey_person_card_accounts_path(me)
-    end
-  end
-
-  context "when I haven't chosen an account type yet" do
-    let(:onboarded_type) { false }
-    it "redirects me to the accounts type survey" do
-      expect(current_path).to eq type_account_path
-    end
-  end
-
-  context "when I haven't completed the travel plans survey" do
-    let(:onboarded_travel_plans) { false }
-    it "redirects me to the travel plan survey" do
-      expect(current_path).to eq new_travel_plan_path
-    end
-  end
-
-  context "when I'm not eligible to apply" do
-    let(:eligible) { false }
-    it "redirects me to my balances survey" do
-      expect(current_path).to eq survey_person_balances_path(me)
-    end
   end
 
   describe "'I have a business'" do

@@ -83,7 +83,9 @@ describe "as a user viewing my cards" do
   end
 
   example "display owner and companion card recommendations" do
-    companion = account.create_companion!(first_name: "Dave")
+    companion = account.create_companion!(
+      first_name: "Dave", onboarded_balances: true, onboarded_cards: true
+    )
     own_recs = create_list(:card_recommendation, 2, person: owner)
     com_recs = create_list(:card_recommendation, 2, person: companion)
     account.reload

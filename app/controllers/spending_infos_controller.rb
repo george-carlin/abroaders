@@ -1,7 +1,5 @@
 class SpendingInfosController < AuthenticatedUserController
   include EventTracking
-  before_action :redirect_if_not_onboarded_travel_plans!
-  before_action :redirect_if_account_type_not_selected!
 
   def new
     @person = load_person
