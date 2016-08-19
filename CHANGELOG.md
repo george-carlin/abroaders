@@ -2,6 +2,11 @@
 
 ## July 2016
 
+*   Refactor: all logic related to onboarding survey completeness/redirection
+    is now handled by a model called `OnboardingSurvey`.
+
+    *George Millo*
+
 *   Convert `Destination` model to use single-table inheritance and have
     five subclasses: `Region`, `City`, `State`, `City`, `Airport`.
 
