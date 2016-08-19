@@ -2,6 +2,11 @@
 
 ## July 2016
 
+*   Visual bug fix: edit travel plan form is wrapped in a white panel,
+    like the new travel plan already was.
+
+    *George Millo*
+
 *   Refactor: all logic related to onboarding survey completeness/redirection
     is now handled by a model called `OnboardingSurvey`.
 
