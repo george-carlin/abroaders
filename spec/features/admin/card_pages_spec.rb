@@ -46,7 +46,7 @@ describe "admin pages" do
     it "has a link to edit each card" do
       cards.each do |card|
         within card_selector(card) do
-          is_expected.to have_link "Edit", href: edit_admin_card_path(card)
+          expect(page).to have_link "Edit", href: edit_admin_card_path(card)
         end
       end
     end
@@ -54,7 +54,7 @@ describe "admin pages" do
     it "displays each card's currency" do
       cards.each do |card|
         within card_selector(card) do
-          is_expected.to have_content card.currency.name
+          expect(page).to have_content card.currency.name
         end
       end
     end
@@ -62,7 +62,7 @@ describe "admin pages" do
     it "says whether or not the card is shown on the survey" do
       expect(page).to have_selector \
         "##{dom_id(@survey_card)} .card_shown_on_survey .fa.fa-check"
-      expect(page).not_to have_selector \
+      expect(page).to have_no_selector \
         "##{dom_id(@non_survey_card)} .card_shown_on_survey .fa.fa-check"
     end
   end

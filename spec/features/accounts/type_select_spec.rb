@@ -35,7 +35,7 @@ describe "account type select page", :js, :onboarding do
   it "gives me the option to choose a 'Solo' or 'Partner' account" do
     expect(form).to have_solo_btn
     expect(form).to have_couples_btn
-    is_expected.to have_field :partner_account_partner_first_name
+    expect(page).to have_field :partner_account_partner_first_name
   end
 
   it "has no sidebar" do
@@ -97,9 +97,9 @@ describe "account type select page", :js, :onboarding do
       # shows me the form again with an error message"
       expect(page).to have_error_message
       expect(form).to have_no_solo_btn
-      is_expected.to have_field :solo_account_monthly_spending_usd
-      is_expected.to have_field :solo_account_eligible_true
-      is_expected.to have_field :solo_account_eligible_false
+      expect(page).to have_field :solo_account_monthly_spending_usd
+      expect(page).to have_field :solo_account_eligible_true
+      expect(page).to have_field :solo_account_eligible_false
       expect(form).to have_confirm_btn
     end
 

@@ -1,8 +1,6 @@
 require "rails_helper"
 
 describe "the sign in page" do
-  subject { page }
-
   before do
     @pw = "foobar123"
 
@@ -20,8 +18,8 @@ describe "the sign in page" do
   let(:onboarded) { true }
 
   it "has fields for signing in" do
-    is_expected.to have_field :account_email
-    is_expected.to have_field :account_password
+    expect(page).to have_field :account_email
+    expect(page).to have_field :account_password
   end
 
   describe "submitting the form" do
