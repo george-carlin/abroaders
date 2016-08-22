@@ -1,9 +1,9 @@
-"use strict";
+/* eslint no-param-reassign: 0 */
 
 $(document).ready(function () {
   $(".new_card_account table").tablesorter({
     // The table can't be sorted by the first column:
-    headers: { 0: { sorter: false } }
+    headers: { 0: { sorter: false } },
   });
 
 
@@ -12,14 +12,14 @@ $(document).ready(function () {
 
     checkedBPs = $(".card_bp_filter:checked").map(function (i, cb) {
       return cb.dataset.value;
-    }).toArray(),
+    }).toArray();
 
     checkedBanks = $(".card_bank_filter:checked").map(function (i, cb) {
       return cb.dataset.value;
     }).toArray();
 
 
-    var selector = ".card_currency_filter:checked"
+    var selector = ".card_currency_filter:checked";
     checkedCurrencies = $(selector).map(function (i, cb) {
       return cb.dataset.value;
     }).toArray();
@@ -39,7 +39,7 @@ $(document).ready(function () {
         .next()
           .toggle(show);
     });
-  };
+  }
 
 
   $('.card_bp_filter').click(function (e) {
@@ -95,8 +95,4 @@ $(document).ready(function () {
         .siblings(".recommend_offer_btn")
             .show();
   });
-
-
 });
-
-// Nothing to export

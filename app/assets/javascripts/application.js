@@ -54,5 +54,3 @@ window.components = {
 // ... because Browserify's 'require' statement must be passed a string literal.
 //
 // See https://stackoverflow.com/questions/26434214/
-
-require("./modules/AdminCardRecommendations");
