@@ -1,5 +1,5 @@
 var id      = <%= @balance.id %>;
-var value   = "<%= @balance.value %>";
+var value   = numeral(<%= @balance.value %>).format("0,0");
 var isValid = <%= @valid %>;
 
 if (isValid) {
