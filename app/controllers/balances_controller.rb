@@ -21,7 +21,7 @@ class BalancesController < AuthenticatedUserController
 
   def update
     @balance = EditBalanceForm.new(current_account.balances.find(params[:id]).attributes)
-    @value   = @balance.update(update_balance_params)
+    @valid   = @balance.update(update_balance_params)
     respond_to do |f|
       f.js
     end
