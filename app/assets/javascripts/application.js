@@ -22,6 +22,7 @@
 //= require es5-shim
 //= require underscore
 //= require metisMenu
+//= require numeral
 //= require jquery.countdown.min.js
 //= require components/react_ujs
 //= require_tree ./other
