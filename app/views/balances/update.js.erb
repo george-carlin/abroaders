@@ -3,7 +3,7 @@ var value   = "<%= @balance.value %>";
 var isValid = <%= @value %>;
 
 if (isValid) {
-  BalancesIndex.saveNewBalance(id, value);
+  window.BalancesIndex.saveNewBalance(id, value);
 } else {
-  BalancesIndex.showErrorMessage(id);
+  window.BalancesIndex.showErrorMessage(id);
 }

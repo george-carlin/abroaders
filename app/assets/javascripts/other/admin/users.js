@@ -44,5 +44,4 @@ $(document).ready(function () {
 
   $stringFilterInput.on("change keyup keydown keypress", filterAccounts);
   $onboardedFilterRadios.on("click", filterAccounts);
-
 });

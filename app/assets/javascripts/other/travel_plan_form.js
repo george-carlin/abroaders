@@ -4,7 +4,7 @@ $(document).ready(function () {
     startView: 1,
     maxViewMode: 0,
     autoclose: true,
-    todayHighlight: true
+    todayHighlight: true,
   });
 
 
@@ -23,7 +23,7 @@ $(document).ready(function () {
       var revCount = count - (count * 2) + maxCount;
 
       /* If they've reached the maximum, restrict further characters */
-      if (count <= 0){
+      if (count <= 0) {
         var content = $countable.val();
         $countable.val(content.substring(0, maxCount)).trigger('change');
         count = 0, revCount = maxCount;
@@ -38,7 +38,7 @@ $(document).ready(function () {
           prefix = '-';
         }
 
-        for (var i = count.length -3; i > 0; i -= 3) {
+        for (var i = count.length - 3; i > 0; i -= 3) {
           count = count.substr(0, i) + ',' + count.substr(i);
         }
       }
@@ -49,10 +49,10 @@ $(document).ready(function () {
     countCheck();
 
     $countable.on('keyup blur paste', function (e) {
-      switch(e.type) {
+      switch (e.type) {
         case 'keyup':
           // Skip navigational key presses
-          if ($.inArray(e.which, [33,34,35,36,37,38,39,40]) < 0) { countCheck(); }
+          if ($.inArray(e.which, [33, 34, 35, 36, 37, 38, 39, 40]) < 0) { countCheck(); }
           break;
         case 'paste':
           // Wait a few miliseconds if a paste event

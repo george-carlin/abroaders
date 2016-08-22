@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
   function toggleStage1Btns(accountId, show) {
     var css = show ? "" : "none";
 
@@ -52,5 +51,4 @@ $(document).ready(function () {
       "card_account_" + accountId + "_pending_notification"
     ).style.display = "";
   });
-
 });

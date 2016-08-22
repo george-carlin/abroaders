@@ -6,7 +6,7 @@ $(document).ready(function () {
     if (showReason) {
       $reason.focus();
     } else {
-      $reason.val("")
+      $reason.val("");
     }
   });
 });

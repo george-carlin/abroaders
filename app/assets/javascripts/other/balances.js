@@ -1,4 +1,4 @@
-window.BalancesIndex = {
+var BalancesIndex = {
   showWhenEditing: ".editing_balance_btn_group, .balance_value_editing",
   hideWhenEditing: ".edit_balance_btn, .balance_value",
   errorMessage:    ".editing_balance_error_msg",
@@ -6,41 +6,40 @@ window.BalancesIndex = {
   hideEditBalanceForm: function (id) {
     var $balance = $("#balance_" + id);
 
-    $balance.find(BalancesIndex.hideWhenEditing).show();
-    $balance.find(BalancesIndex.showWhenEditing).hide();
-    $balance.find(BalancesIndex.errorMessage).hide();
+    $balance.find(this.hideWhenEditing).show();
+    $balance.find(this.showWhenEditing).hide();
+    $balance.find(this.errorMessage).hide();
   },
 
   saveNewBalance: function (id, value) {
     $("#balance_" + id + " .balance_value").text(value);
-    BalancesIndex.hideEditBalanceForm(id);
+    this.hideEditBalanceForm(id);
   },
 
   showEditBalanceForm: function (id) {
     var $balance = $("#balance_" + id);
 
-    $balance.find(BalancesIndex.hideWhenEditing).hide();
-    $balance.find(BalancesIndex.showWhenEditing).show();
+    $balance.find(this.hideWhenEditing).hide();
+    $balance.find(this.showWhenEditing).show();
   },
 
   showErrorMessage: function (id) {
-    $("#balance_" + id).find(BalancesIndex.errorMessage).show();
+    $("#balance_" + id).find(this.errorMessage).show();
   },
-}
+};
 
 $(document).ready(function () {
-
-  $personBalances = $(".person_balances");
+  var $personBalances = $(".person_balances");
 
   // Start editing
   $personBalances.on("click", ".edit_balance_btn", function (e) {
     e.preventDefault();
-    BalancesIndex.showEditBalanceForm(e.target.dataset.balanceId)
+    BalancesIndex.showEditBalanceForm(e.target.dataset.balanceId);
   });
 
   $personBalances.on("click", ".cancel_edit_balance_btn", function (e) {
     e.preventDefault();
-    BalancesIndex.hideEditBalanceForm(e.target.dataset.balanceId)
+    BalancesIndex.hideEditBalanceForm(e.target.dataset.balanceId);
   });
 
   $personBalances.on("ajax:beforeSend", ".edit_balance", function (e) {
@@ -57,3 +56,5 @@ $(document).ready(function () {
     $this.find("button").prop("disabled", false);
   });
 });
+
+window.BalancesIndex = BalancesIndex;
