@@ -4,13 +4,10 @@ class ReadinessController < AuthenticatedUserController
   def new
     @person = load_person
     redirect_if_ineligible! and return
-    redirect_if_already_ready! and return
-    redirect_if_readiness_given! and return
   end
 
   def create
     @person = load_person
-    redirect_if_already_ready! and return
     if @person.update_attributes(readiness_status_params)
       unless current_account.has_companion? && @person.main?
         #Int workaround becauce ActiveJob won't accept Time arguments
@@ -28,7 +25,6 @@ class ReadinessController < AuthenticatedUserController
   def show
     @person = load_person
     redirect_if_ineligible! and return
-    redirect_if_already_ready! and return
     redirect_if_readiness_not_given! and return
   end
 
@@ -55,16 +51,8 @@ class ReadinessController < AuthenticatedUserController
     params.require(:person).permit(:ready, :unreadiness_reason)
   end
 
-  def redirect_if_already_ready!
-    redirect_to root_path and return true if @person.ready_to_apply?
-  end
-
-  def redirect_if_readiness_given!
-    redirect_to person_readiness_path(@person) and return true if @person.readiness_given?
-  end
-
   def redirect_if_readiness_not_given!
-    redirect_to new_person_readiness_path(@person) and return true unless @person.readiness_given?
+    redirect_to new_person_readiness_path(@person) and return true unless @person.onboarded_readiness?
   end
 
   def redirect_if_ineligible!

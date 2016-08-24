@@ -29,11 +29,11 @@ class DashboardPerson
   end
 
   def show_readiness?
-    readiness_given?
+    onboarded_readiness?
   end
 
   def show_readiness_link?
-    onboarded_balances? && eligible? && !(readiness_given? && ready_to_apply?)
+    onboarded_balances? && eligible? && !(onboarded_readiness? && ready_to_apply?)
   end
 
   def method_missing(meth, *args, &block)
@@ -54,6 +54,6 @@ class DashboardPerson
 
   delegate :onboarded_travel_plans?, :onboarded_type?, to: :account
   delegate :account, :onboarded_spending?, :onboarded_cards?, :onboarded_balances?,
-            :readiness_given?, :eligible?, to: :person
+            :onboarded_readiness?, :eligible?, to: :person
 
 end

@@ -14,19 +14,13 @@ class PersonPresenter < ApplicationPresenter
   end
 
   def readiness
-    if readiness_given?
-      if ready_to_apply?
-        "Ready as of #{readiness_given_on}"
-      else
-        "Not ready as of #{readiness_given_on}"
-      end
-    else
+    if ready.nil?
       "Unknown"
+    elsif ready?
+      "Ready"
+    else
+      "Not ready"
     end
-  end
-
-  def readiness_given_on
-    readiness_given_at.strftime("%D")
   end
 
   def update_readiness_btn

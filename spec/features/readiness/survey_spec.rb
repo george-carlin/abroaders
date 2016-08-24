@@ -84,7 +84,7 @@ describe "readiness survey", :js, :onboarding do
     it "marks me as ready to apply" do
       submit_form
       me.reload
-      expect(me.readiness_given?).to be_truthy
+      expect(me.onboarded_readiness?).to be_truthy
       expect(me).to be_ready_to_apply
     end
 
@@ -110,7 +110,7 @@ describe "readiness survey", :js, :onboarding do
         it "saves my status as 'not ready to reply'" do
           submit_form
           me.reload
-          expect(me.readiness_given?).to be_truthy
+          expect(me.onboarded_readiness?).to be_truthy
           expect(me).to be_unready_to_apply
         end
       end
@@ -135,7 +135,7 @@ describe "readiness survey", :js, :onboarding do
       it "saves my status as 'not ready to reply'" do
         submit_form
         me.reload
-        expect(me.readiness_given?).to be_truthy
+        expect(me.onboarded_readiness?).to be_truthy
         expect(me).to be_unready_to_apply
         expect(me.unreadiness_reason).to be_blank
       end

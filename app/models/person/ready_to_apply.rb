@@ -1,15 +1,9 @@
 module Person::ReadyToApply
   extend ActiveSupport::Concern
 
-  # Now that we've got rid of the ReadinessStatus model, remove remove all
-  # references to 'readiness_given' and use only 'onboarded_readiness?', to
-  # keep things consistent with the other methods that have names like
-  # 'onboarded_x?'
-  def readiness_given?
+  def onboarded_readiness?
     !ready.nil?
   end
-  alias_method :onboarded_readiness?, :readiness_given?
-
 
   def unready_to_apply?
     !ready_to_apply?

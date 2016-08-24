@@ -74,7 +74,7 @@ FactoryGirl.define do
       after(:build) do |acc|
         acc.people.each do |person|
           person.onboarded_cards = person.onboarded_balances = true
-          person.update_attribute(:ready, false) unless person.readiness_given?
+          person.update_attribute(:ready, false) unless person.onboarded_readiness?
         end
       end
     end

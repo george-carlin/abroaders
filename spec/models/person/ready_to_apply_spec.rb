@@ -11,7 +11,7 @@ describe Person::ReadyToApply do
       end
 
       it "marks the person as ready to apply" do
-        expect(person.readiness_given?).to be false
+        expect(person.onboarded_readiness?).to be false
         person.ready_to_apply!
         expect(person).to be_ready_to_apply
       end
@@ -26,7 +26,7 @@ describe Person::ReadyToApply do
       let(:person) { create(:person, eligible: true) }
 
       it "marks the person as ready to apply" do
-        expect(person.readiness_given?).to be false
+        expect(person.onboarded_readiness?).to be false
         person.ready_to_apply!
         expect(person).to be_ready_to_apply
       end
@@ -47,7 +47,7 @@ describe Person::ReadyToApply do
       end
 
       it "marks the person as unready to apply" do
-        expect(person.readiness_given?).to be false
+        expect(person.onboarded_readiness?).to be false
         person.unready_to_apply!
         expect(person).to be_unready_to_apply
       end
@@ -69,7 +69,7 @@ describe Person::ReadyToApply do
       let(:person) { create(:person, eligible: true) }
 
       it "marks the person as unready to apply" do
-        expect(person.readiness_given?).to be false
+        expect(person.onboarded_readiness?).to be false
         person.unready_to_apply!
         expect(person).to be_unready_to_apply
       end

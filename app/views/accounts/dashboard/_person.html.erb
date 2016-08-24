@@ -71,7 +71,7 @@
       <p><%= link_to "Add balances", survey_person_balances_path(person) %></p>
     <% end %>
 
-    <% if person.readiness_given? %>
+    <% if person.onboarded_readiness? %>
       <hr>
       <p>
         You indicated that <%= person.first_name %> is <%= "not" if person.unready_to_apply? %>
@@ -83,7 +83,7 @@
       <% end %>
     <% end %>
     <% if person.show_readiness_link? %>
-      <% if !person.readiness_given? %>
+      <% if !person.onboarded_readiness? %>
         <hr>
       <% end %>
       <p>
