@@ -225,7 +225,7 @@ describe "accounts/dashboard/person" do
           end
 
           context "and has said that they're not ready to apply" do
-            before { person.update_attributes!(unready: true) }
+            before { person.update_attributes!(ready: false) }
             it "has a link to say when they're ready" do
               expect(rendered).to have_link update_readiness,
                 href: new_person_readiness_path(person)

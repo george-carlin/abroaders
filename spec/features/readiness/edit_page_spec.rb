@@ -10,7 +10,7 @@ describe "edit readiness page", :js do
     end
 
     login_as(account)
-    visit person_readiness_status_path(me)
+    visit person_readiness_path(me)
   end
 
   let(:i_have_said_im_not_ready) { false }
@@ -19,9 +19,8 @@ describe "edit readiness page", :js do
   describe "explicitly unready person" do
     let(:i_have_said_im_not_ready)  { true }
     let(:reason) { "meow" }
-    it "sees readiness date and readiness_reason" do
-      expect(page).to have_content me.readiness_status.unreadiness_reason
-      expect(page).to have_content me.readiness_status.created_at.strftime("%D")
+    it "shows and readiness" do
+      expect(page).to have_content me.readiness.unreadiness_reason
     end
   end
 
@@ -39,7 +38,7 @@ describe "edit readiness page", :js do
       it "doesn't change the unreadiness reason" do
         submit_form
         me.reload
-        expect(me.readiness_status.unreadiness_reason).to eq "meow"
+        expect(me.unreadiness_reason).to eq "meow"
       end
     end
 

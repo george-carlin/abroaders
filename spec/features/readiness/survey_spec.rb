@@ -34,7 +34,7 @@ describe "readiness survey", :js, :onboarding do
     me.update_attributes!(ready: true) if i_am_already_ready
 
     login_as(account.reload)
-    visit new_person_readiness_status_path(me)
+    visit new_person_readiness_path(me)
   end
 
   let(:me) { @me }

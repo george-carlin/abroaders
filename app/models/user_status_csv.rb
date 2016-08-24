@@ -16,7 +16,6 @@ class UserStatusCSV
       "own_declined_at",
       "own_opened_at",
       "own_denied_at",
-      "own_ready_at",
       "com_name",
       "com_recommended_at",
       "com_seen_at",
@@ -25,12 +24,11 @@ class UserStatusCSV
       "com_declined_at",
       "com_opened_at",
       "com_denied_at",
-      "com_ready_at",
       "signed_up_at",
       "onboarded",
     ]
 
-    person_includes = [:card_accounts, :card_recommendations, :readiness_status, :spending_info]
+    person_includes = [:card_accounts, :card_recommendations, :spending_info]
 
     rows = Account.includes(
       people:    person_includes,
@@ -69,7 +67,6 @@ class UserStatusCSV
       rec&.declined_at&.strftime(DATE_FORMAT),
       rec&.opened_at&.strftime(DATE_FORMAT),
       rec&.denied_at&.strftime(DATE_FORMAT),
-      person.readiness_status&.created_at&.strftime("%D")
     ]
   end
 

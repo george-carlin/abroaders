@@ -134,10 +134,10 @@ class OnboardingSurvey
     
       { # readiness
         complete:    person.onboarded_readiness?,
-        path:        new_person_readiness_status_path(person),
+        path:        new_person_readiness_path(person),
         required:    person.eligible?,
         revisitable: true,
-        submission_paths: [person_readiness_status_path(person)],
+        submission_paths: [person_readiness_path(person)],
       },
     ]
   end

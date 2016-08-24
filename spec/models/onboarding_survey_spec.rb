@@ -48,7 +48,7 @@ describe OnboardingSurvey do
     expect(survey).not_to be_complete
 
     onboard_balances!(account.owner)
-    expect(survey.current_page.path).to eq new_person_readiness_status_path(account.owner)
+    expect(survey.current_page.path).to eq new_person_readiness_path(account.owner)
     expect(survey).not_to be_complete
 
     onboard_readiness!(account.owner)
@@ -93,7 +93,7 @@ describe OnboardingSurvey do
     expect(survey).not_to be_complete
 
     onboard_balances!(account.owner)
-    expect(survey.current_page.path).to eq new_person_readiness_status_path(account.owner)
+    expect(survey.current_page.path).to eq new_person_readiness_path(account.owner)
     expect(survey).not_to be_complete
 
     onboard_readiness!(account.owner)
@@ -109,7 +109,7 @@ describe OnboardingSurvey do
     expect(survey).not_to be_complete
 
     onboard_balances!(account.companion)
-    expect(survey.current_page.path).to eq new_person_readiness_status_path(account.companion)
+    expect(survey.current_page.path).to eq new_person_readiness_path(account.companion)
     expect(survey).not_to be_complete
 
     onboard_readiness!(account.companion)
@@ -135,7 +135,7 @@ describe OnboardingSurvey do
     expect(survey).not_to be_complete
 
     onboard_balances!(account.owner)
-    expect(survey.current_page.path).to eq new_person_readiness_status_path(account.owner)
+    expect(survey.current_page.path).to eq new_person_readiness_path(account.owner)
     expect(survey).not_to be_complete
 
     onboard_readiness!(account.owner)
@@ -169,7 +169,7 @@ describe OnboardingSurvey do
     expect(survey).not_to be_complete
 
     onboard_balances!(account.companion)
-    expect(survey.current_page.path).to eq new_person_readiness_status_path(account.companion)
+    expect(survey.current_page.path).to eq new_person_readiness_path(account.companion)
     expect(survey).not_to be_complete
 
     onboard_readiness!(account.companion)
@@ -206,7 +206,7 @@ describe OnboardingSurvey do
   end
 
   def onboard_readiness!(person)
-    person.create_readiness_status!(ready: true)
+    person.update_attributes!(ready: true)
   end
 
 end

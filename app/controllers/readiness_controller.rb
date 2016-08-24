@@ -3,12 +3,14 @@ class ReadinessController < AuthenticatedUserController
 
   def new
     @person = load_person
-    redirect_if_ineligible! and return
+    if @person.ineligible?
+      redirect_to root_path
+    end
   end
 
   def create
     @person = load_person
-    if @person.update_attributes(readiness_status_params)
+    if @person.update_attributes(readiness_params)
       unless current_account.has_companion? && @person.main?
         #Int workaround becauce ActiveJob won't accept Time arguments
         AccountMailer.notify_admin_of_survey_completion(current_account.id, Time.now.to_i).deliver_later
@@ -24,8 +26,9 @@ class ReadinessController < AuthenticatedUserController
 
   def show
     @person = load_person
-    redirect_if_ineligible! and return
-    redirect_if_readiness_not_given! and return
+    if @person.ineligible || !@person.onboarded_readiness? || @person.ready?
+      redirect_to root_path
+    end
   end
 
   # TODO make sure that this can only be accessed when the user is not already
@@ -47,16 +50,8 @@ class ReadinessController < AuthenticatedUserController
     current_account.people.find(params[:person_id])
   end
 
-  def readiness_status_params
+  def readiness_params
     params.require(:person).permit(:ready, :unreadiness_reason)
-  end
-
-  def redirect_if_readiness_not_given!
-    redirect_to new_person_readiness_path(@person) and return true unless @person.onboarded_readiness?
-  end
-
-  def redirect_if_ineligible!
-    redirect_to root_path and return true unless @person.eligible?
   end
 
 end
