@@ -35,7 +35,7 @@ class AccountPresenter < ApplicationPresenter
 
   def link_to_person(person)
     text = [person.first_name]
-    if person.ready_to_apply?
+    if person.ready?
       text << "(R)"
     elsif person.eligible?
       text << "(E)"

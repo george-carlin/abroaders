@@ -6,7 +6,7 @@ describe "edit readiness page", :js do
 
   before do
     if i_have_said_im_not_ready
-      me.unready_to_apply!(reason: reason)
+      me.unready!(reason: reason)
     end
 
     login_as(account)
@@ -31,7 +31,7 @@ describe "edit readiness page", :js do
 
     it "updates readiness status", :js do
       submit_form
-      expect(me.reload).to be_ready_to_apply
+      expect(me.reload).to be_ready
     end
 
     context "when I previously provided an unreadiness reason" do

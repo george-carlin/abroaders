@@ -1,9 +1,6 @@
 class Person < ApplicationRecord
-  include ReadyToApply
-
   # Attributes
 
-  alias_attribute :ready_to_apply, :ready
   alias_attribute :owner, :main
 
   def companion?
@@ -32,13 +29,13 @@ class Person < ApplicationRecord
   end
 
   def can_receive_recommendations?
-    onboarded? && eligible? && ready_to_apply?
+    onboarded? && eligible? && ready?
   end
 
   def status
     if self.ineligible?
       "Ineligible"
-    elsif self.ready
+    elsif self.ready?
       "Ready"
     else
       "Eligible(NotReady)"
@@ -54,6 +51,17 @@ class Person < ApplicationRecord
       !eligible
     end
     alias_method :ineligible?, :ineligible
+  end
+
+  concerning :Readiness do
+    def onboarded_readiness?
+      !ready.nil?
+    end
+
+    def unready
+      !ready?
+    end
+    alias_method :unready?, :unready
   end
 
   # Validations

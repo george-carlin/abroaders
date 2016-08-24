@@ -18,7 +18,7 @@ describe "readiness survey", :js, :onboarding do
     if i_am_owner
       @me = account.owner
     else
-      account.owner.ready_to_apply!
+      account.owner.update_attributes(ready: true)
       @me = create(
         :person,
         :companion,
@@ -31,7 +31,7 @@ describe "readiness survey", :js, :onboarding do
       )
     end
 
-    me.ready_to_apply! if i_am_already_ready
+    me.update_attributes!(ready: true) if i_am_already_ready
 
     login_as(account.reload)
     visit new_person_readiness_status_path(me)
@@ -85,7 +85,7 @@ describe "readiness survey", :js, :onboarding do
       submit_form
       me.reload
       expect(me.onboarded_readiness?).to be_truthy
-      expect(me).to be_ready_to_apply
+      expect(me).to be_ready
     end
 
     include_examples "track intercom event", true
@@ -111,7 +111,7 @@ describe "readiness survey", :js, :onboarding do
           submit_form
           me.reload
           expect(me.onboarded_readiness?).to be_truthy
-          expect(me).to be_unready_to_apply
+          expect(me).to be_unready
         end
       end
 
@@ -136,7 +136,7 @@ describe "readiness survey", :js, :onboarding do
         submit_form
         me.reload
         expect(me.onboarded_readiness?).to be_truthy
-        expect(me).to be_unready_to_apply
+        expect(me).to be_unready
         expect(me.unreadiness_reason).to be_blank
       end
 

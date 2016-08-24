@@ -11,7 +11,7 @@
             <%= person.first_name %> has not said that they are ready to apply for new cards.
           </p>
   
-          <% if person.unready_to_apply? && person.unreadiness_reason.present? %>
+          <% if person.unready? && person.unreadiness_reason.present? %>
               <p>Reason given: <i><%= person.unreadiness_reason %></i></p>
           <% end %>
   

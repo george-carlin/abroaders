@@ -74,11 +74,11 @@
     <% if person.onboarded_readiness? %>
       <hr>
       <p>
-        You indicated that <%= person.first_name %> is <%= "not" if person.unready_to_apply? %>
+        You indicated that <%= person.first_name %> is <%= "not" if person.unready? %>
         ready to apply for cards.
       </p>
 
-      <% if person.unready_to_apply? && person.unreadiness_reason.present? %>
+      <% if person.unready? && person.unreadiness_reason.present? %>
         <p>Reason given: <i><%= person.unreadiness_reason %></i></p>
       <% end %>
     <% end %>

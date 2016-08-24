@@ -33,7 +33,7 @@ class DashboardPerson
   end
 
   def show_readiness_link?
-    onboarded_balances? && eligible? && !(onboarded_readiness? && ready_to_apply?)
+    onboarded_balances? && eligible? && !(onboarded_readiness? && ready?)
   end
 
   def method_missing(meth, *args, &block)
