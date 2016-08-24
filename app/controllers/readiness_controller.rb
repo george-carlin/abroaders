@@ -1,5 +1,4 @@
-class ReadinessStatusesController < AuthenticatedUserController
-
+class ReadinessController < AuthenticatedUserController
   include EventTracking
 
   def new
@@ -7,20 +6,18 @@ class ReadinessStatusesController < AuthenticatedUserController
     redirect_if_ineligible! and return
     redirect_if_already_ready! and return
     redirect_if_readiness_given! and return
-    @status = @person.build_readiness_status(ready: true)
   end
 
   def create
     @person = load_person
     redirect_if_already_ready! and return
-    @status = @person.build_readiness_status(readiness_status_params)
-    if @status.save
+    if @person.update_attributes(readiness_status_params)
       unless current_account.has_companion? && @person.main?
         #Int workaround becauce ActiveJob won't accept Time arguments
         AccountMailer.notify_admin_of_survey_completion(current_account.id, Time.now.to_i).deliver_later
       end
 
-      track_intercom_event("obs_#{"un" if !@status.ready?}ready_#{@person.type[0..2]}")
+      track_intercom_event("obs_#{"un" if !@person.ready?}ready_#{@person.type[0..2]}")
 
       redirect_to current_account.onboarding_survey.current_page.path
     else
@@ -39,8 +36,8 @@ class ReadinessStatusesController < AuthenticatedUserController
   # ready.
   def update
     person = load_person
-    person.readiness_status.ready = true
-    person.readiness_status.save!
+    person.ready = true
+    person.save!
 
     track_intercom_event("obs_ready_#{person.type[0..2]}")
 
@@ -55,7 +52,7 @@ class ReadinessStatusesController < AuthenticatedUserController
   end
 
   def readiness_status_params
-    params.require(:readiness_status).permit(:ready, :unreadiness_reason)
+    params.require(:person).permit(:ready, :unreadiness_reason)
   end
 
   def redirect_if_already_ready!
@@ -63,11 +60,11 @@ class ReadinessStatusesController < AuthenticatedUserController
   end
 
   def redirect_if_readiness_given!
-    redirect_to person_readiness_status_path(@person) and return true if @person.readiness_given?
+    redirect_to person_readiness_path(@person) and return true if @person.readiness_given?
   end
 
   def redirect_if_readiness_not_given!
-    redirect_to new_person_readiness_status_path(@person) and return true unless @person.readiness_given?
+    redirect_to new_person_readiness_path(@person) and return true unless @person.readiness_given?
   end
 
   def redirect_if_ineligible!

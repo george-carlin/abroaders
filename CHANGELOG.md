@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## July 2016
+## August 2016
 
 *   Visual bug fix: edit travel plan form is wrapped in a white panel,
     like the new travel plan already was.
@@ -16,6 +16,15 @@
     five subclasses: `Region`, `City`, `State`, `City`, `Airport`.
 
     *George Millo*
+
+*   Remove ReadinessStatus Model from project.
+    Add 'ready' and 'unreadiness_reason' to Person.
+
+    PT #127564851
+
+    *Ryan Vredenburg*
+
+## July 2016
 
 *   Add more offer type descriptions. PT #122495941
 

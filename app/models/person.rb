@@ -3,6 +3,7 @@ class Person < ApplicationRecord
 
   # Attributes
 
+  alias_attribute :ready_to_apply, :ready
   alias_attribute :owner, :main
 
   def companion?
@@ -37,7 +38,7 @@ class Person < ApplicationRecord
   def status
     if self.ineligible?
       "Ineligible"
-    elsif self.readiness_status.ready
+    elsif self.ready
       "Ready"
     else
       "Eligible(NotReady)"

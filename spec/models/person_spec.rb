@@ -59,11 +59,10 @@ describe Person do
         expect(person).not_to be_onboarded
         person.onboarded_balances = true
         expect(person).not_to be_onboarded
-        # Don't care if the user is ready:
-        person.build_readiness_status(ready: false)
-        allow(person.readiness_status).to receive(:persisted?) { true }
+        # ready doesn't have to be true, but it can't be nil
+        person.ready = false
         expect(person).to be_onboarded
-        person.readiness_status.ready = true
+        person.ready = true
         expect(person).to be_onboarded
       end
     end

@@ -3,7 +3,7 @@ module AdminArea
 
     # GET /admin/accounts
     def index
-      person_assocs = [:spending_info, :readiness_status]
+      person_assocs = [:spending_info]
       @accounts = Account.includes(
         people: person_assocs,
         owner: person_assocs, companion: person_assocs,

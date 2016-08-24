@@ -58,7 +58,6 @@ describe "factories" do
           expect(Account.count).to eq 1
           expect(Person.count).to eq 2
           expect(SpendingInfo.count).to eq 2
-          expect(ReadinessStatus.count).to eq 2
           account.people.each do |person|
             expect(person.onboarded_eligibility?).to be true
             expect(person.eligible?).to be true
@@ -78,7 +77,6 @@ describe "factories" do
           expect(Account.count).to eq 1
           expect(Person.count).to eq 2
           expect(SpendingInfo.count).to eq 2
-          expect(ReadinessStatus.count).to eq 2
           account.people.each do |person|
             expect(person.onboarded_eligibility?).to be true
             expect(person.eligible?).to be true
@@ -117,7 +115,6 @@ describe "factories" do
         expect(Account.count).to eq 1
         expect(Person.count).to eq 1
         expect(SpendingInfo.count).to eq 1
-        expect(ReadinessStatus.count).to eq 1
         account.people.each do |person|
           expect(person.onboarded_eligibility?).to be true
           expect(person.eligible?).to be true
@@ -137,7 +134,6 @@ describe "factories" do
         expect(Account.count).to eq 1
         expect(Person.count).to eq 1
         expect(SpendingInfo.count).to eq 1
-        expect(ReadinessStatus.count).to eq 1
         person = account.people.first
         expect(person.onboarded_eligibility?).to be true
         expect(person.eligible?).to be true

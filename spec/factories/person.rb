@@ -37,21 +37,13 @@ FactoryGirl.define do
       onboarded_spending
       onboarded_balances true
       onboarded_cards true
-      after(:build) do |person|
-        unless person.readiness_status.present?
-          person.build_readiness_status(ready: false)
-        end
-      end
+      ready false
     end
 
     trait :ready do
       onboarded
       after(:build) do |person|
-        if person.readiness_status.present?
-          person.readiness_status.ready = true
-        else
-          person.build_readiness_status(ready: true)
-        end
+        person.update_attribute(:ready, true)
       end
     end
 

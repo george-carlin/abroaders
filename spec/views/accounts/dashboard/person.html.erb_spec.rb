@@ -220,7 +220,7 @@ describe "accounts/dashboard/person" do
             before { raise if person.readiness_given? } # sanity check
             it "has a link to say when they're ready" do
               expect(rendered).to have_link update_readiness,
-                href: new_person_readiness_status_path(person)
+                href: new_person_readiness_path(person)
             end
           end
 
@@ -228,7 +228,7 @@ describe "accounts/dashboard/person" do
             before { person.unready_to_apply! }
             it "has a link to say when they're ready" do
               expect(rendered).to have_link update_readiness,
-                href: new_person_readiness_status_path(person)
+                href: new_person_readiness_path(person)
             end
           end
 

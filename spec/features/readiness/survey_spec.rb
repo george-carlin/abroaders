@@ -66,8 +66,8 @@ describe "readiness survey", :js, :onboarding do
   end
 
   it "has radio buttons to say I'm ready or not ready" do
-    expect(page).to have_field :readiness_status_ready_true
-    expect(page).to have_field :readiness_status_ready_false
+    is_expected.to have_field :person_ready_true
+    is_expected.to have_field :person_ready_false
   end
 
   it "doesn't show the sidebar" do
@@ -77,7 +77,7 @@ describe "readiness survey", :js, :onboarding do
   pending "it shows the sidebar if I'm onboarded but previously said I wasn't ready"
 
   specify "'I'm ready' is selected by default" do
-    expect(find("#readiness_status_ready_true")).to be_checked
+    expect(find("#person_ready_true")).to be_checked
   end
 
   describe "submitting the form" do
@@ -92,14 +92,14 @@ describe "readiness survey", :js, :onboarding do
   end
 
   describe "selecting 'I'm not ready'" do
-    before { choose :readiness_status_ready_false }
+    before { choose :person_ready_false }
 
     def unreadiness_reason_field
-      :readiness_status_unreadiness_reason
+      :person_unreadiness_reason
     end
 
     it "shows a text field asking why I'm not ready" do
-      expect(page).to have_field unreadiness_reason_field
+      is_expected.to have_field unreadiness_reason_field
     end
 
     describe "typing a reason into the text field" do
@@ -119,10 +119,10 @@ describe "readiness survey", :js, :onboarding do
     end
 
     describe "and clicking 'cancel'" do
-      before { choose :readiness_status_ready_true }
+      before { choose :person_ready_true }
 
       describe "and clicking 'not ready' again" do
-        before { choose :readiness_status_ready_false }
+        before { choose :person_ready_false }
 
         specify "the 'reason' text box is blank again" do
           field = find("##{unreadiness_reason_field}")
@@ -206,4 +206,5 @@ describe "readiness survey", :js, :onboarding do
       include_examples "send survey complete email to admin"
     end
   end
+
 end
