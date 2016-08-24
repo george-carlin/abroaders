@@ -17,10 +17,10 @@ class RemoveReadinessStatuses < ActiveRecord::Migration[5.0]
 
         Person.includes(:readiness_status).find_each do |person|
           if person.readiness_status.present?
-            person.update_attributes!(ready: person.readiness_status.ready)
-          end
-          if person.readiness_status.unreadiness_reason.present?
-            person.update_attributes!(unreadiness_reason: person.readiness_status.unreadiness_reason)
+            person.update_attributes!(
+              ready:              person.readiness_status.ready,
+              unreadiness_reason: person.readiness_status.unreadiness_reason,
+            )
           end
         end
       end
