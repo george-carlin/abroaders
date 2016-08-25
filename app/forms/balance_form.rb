@@ -1,6 +1,4 @@
 class BalanceForm < ApplicationForm
-  include Virtus.model
-
   attribute :id,     Integer
   attribute :value,  Integer
   attribute :person, Person

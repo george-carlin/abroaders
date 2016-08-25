@@ -4,13 +4,13 @@ class SpendingInfosController < AuthenticatedUserController
   def new
     @person = load_person
     redirect_if_inaccessible! and return
-    @spending_info = SpendingSurvey.new(@person)
+    @spending_info = SpendingSurvey.new(person: @person)
   end
 
   def create
     @person = load_person
     redirect_if_inaccessible! and return
-    @spending_info = SpendingSurvey.new(@person)
+    @spending_info = SpendingSurvey.new(person: @person)
     if @spending_info.update_attributes(spending_survey_params)
       current_account.save!
       track_intercom_event("obs_spending_#{@person.type[0..2]}")

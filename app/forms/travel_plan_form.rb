@@ -1,6 +1,4 @@
 class TravelPlanForm < ApplicationForm
-  include Virtus.model(nullify_blank: true)
-
   attribute :account, Account
   attribute :from_id, Integer
   attribute :to_id,   Integer

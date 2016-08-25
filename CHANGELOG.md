@@ -2,6 +2,11 @@
 
 ## August 2016
 
+*   Make all Form Objects use Virtus if they weren't already. Remove
+    ApplicationForm#attr_boolean_accessor, as it's now no longer necessary.
+
+    *George Millo*
+
 *   Add tracking code for Heap
 
     *George Millo*

@@ -1,27 +1,7 @@
 class ApplicationForm
   include ActiveModel::Model
+  include Virtus.model(nullify_blank: true)
   include I18nWithErrorRaising
-
-  # An empty checkbox in Rails submits "0", while a radio button with
-  # value 'false' submits "false" (a string, not a bool) - both of which Ruby
-  # will treat as truthy - so use this class method. It acts like attr_accessor,
-  # except the *setter* method will cast its arguments to boolean values,
-  # treating "false" and "0" as `false`.
-  #
-  # Also add a 'boolean?' getter method just for good measure.
-  def self.attr_boolean_accessor(*attrs)
-    attrs.each do |attr|
-      attr_reader attr
-      alias_method :"#{attr}?", attr
-
-      define_method :"#{attr}=" do |bool|
-        instance_variable_set(
-          :"@#{attr}",
-          (%w[false 0].include?(bool) ? false : !!bool)
-        )
-      end
-    end
-  end
 
   def self.create(*attrs)
     instance = new(*attrs)

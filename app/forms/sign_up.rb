@@ -1,6 +1,4 @@
 class SignUp < ApplicationForm
-  include Virtus.model
-
   attribute :email,      String
   attribute :first_name, String
   attribute :password,   String
