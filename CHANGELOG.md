@@ -1,6 +1,10 @@
 # CHANGELOG
 
-## July 2016
+## August 2016
+
+*   Add tracking code for Lead Dyno. PT #127239949
+
+    *George Millo*
 
 *   Visual bug fix: edit travel plan form is wrapped in a white panel,
     like the new travel plan already was.
@@ -17,6 +21,8 @@
 
     *George Millo*
 
+## July 2016
+
 *   Add more offer type descriptions. PT #122495941
 
     *Ryan Vredenburg*
@@ -29,10 +35,6 @@
     *Ryan Vredenburg*, *George Millo*
 
 *   Card application survey saves data via AJAX, not via a full page load.
-
-    *George Millo*
-
-*   Add tracking code for Lead Dyno. PT #127239949
 
     *George Millo*
 
