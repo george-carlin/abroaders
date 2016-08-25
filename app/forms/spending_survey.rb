@@ -1,20 +1,9 @@
 class SpendingSurvey < ApplicationForm
-
-  def initialize(person)
-    @person = person
-    # default values:
-    self.has_business        = "no_business"
-    self.will_apply_for_loan = false
-  end
-
-  # ----- ATTRIBUTES -----
-
-  attr_reader :person
-
-  attr_accessor :business_spending_usd,
-                :credit_score,
-                :has_business
-  attr_boolean_accessor :will_apply_for_loan
+  attribute :person,                Person
+  attribute :business_spending_usd, Integer
+  attribute :credit_score,          Integer
+  attribute :has_business,          String,  default: "no_business"
+  attribute :will_apply_for_loan,   Boolean, default: false
 
   # Make form_for play nicely:
   def self.name

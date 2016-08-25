@@ -3,7 +3,7 @@ require "rails_helper"
 describe SpendingSurvey, type: :model do
 
   let(:person) { build(:person) }
-  let(:survey) { described_class.new(person) }
+  let(:survey) { described_class.new(person: person) }
   subject { survey }
 
   it { is_expected.to validate_presence_of(:credit_score) }

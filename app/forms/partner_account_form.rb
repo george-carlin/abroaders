@@ -1,28 +1,17 @@
 class PartnerAccountForm < AccountTypeForm
-  # TODO convert me to use Virtus
-  attr_accessor :account, :monthly_spending_usd, :partner_first_name, :eligibility, :phone_number
-  attr_reader :person_0, :person_1
+  attribute :account,              Account
+  attribute :person_0,             Person
+  attribute :person_1,             Person
+  attribute :monthly_spending_usd, Integer
+  attribute :partner_first_name,   String
+  attribute :eligibility,          String, default: "both"
+  attribute :phone_number,         String
 
   def self.name
     "PartnerAccount"
   end
 
   ELIGIBILITY = %w[both person_0 person_1 neither]
-
-  def initialize(attributes={})
-    assign_attributes(attributes)
-
-    # Set default:
-    self.eligibility = "both" if self.eligibility.nil?
-  end
-
-  def eligibility=(new_eligibility)
-    new_el = new_eligibility.to_s
-    unless ELIGIBILITY.include?(new_el)
-      raise "unrecognized eligibility #{new_el}"
-    end
-    @eligibility = new_el
-  end
 
   def person_0_eligible?
     %w[both person_0].include?(eligibility)
@@ -50,9 +39,9 @@ class PartnerAccountForm < AccountTypeForm
     account.onboarded_type       = true
     account.phone_number = phone_number.strip if phone_number.present?
     account.save!
-    @person_0 = account.people.first
-    @person_0.update_attributes!(eligible: person_0_eligible?)
-    @person_1 = account.create_companion!(
+    self.person_0 = account.people.first
+    self.person_0.update_attributes!(eligible: person_0_eligible?)
+    self.person_1 = account.create_companion!(
       eligible:   person_1_eligible?,
       first_name: partner_first_name,
     )
