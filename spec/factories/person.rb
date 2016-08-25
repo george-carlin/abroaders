@@ -33,10 +33,14 @@ FactoryGirl.define do
       onboarded_cards true
     end
 
+    trait :onboarded_balances do
+      onboarded_balances true
+    end
+
     trait :onboarded do
       onboarded_spending
-      onboarded_balances true
-      onboarded_cards true
+      onboarded_balances
+      onboarded_cards
       ready false
     end
 
