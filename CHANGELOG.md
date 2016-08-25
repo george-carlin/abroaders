@@ -2,6 +2,10 @@
 
 ## August 2016
 
+*   Add tracking code for Heap
+
+    *George Millo*
+
 *   Refactor: Move third-party script views to their own dir
 
     *George Millo*
