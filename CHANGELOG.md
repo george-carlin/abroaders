@@ -2,6 +2,25 @@
 
 ## August 2016
 
+*   Remove ReadinessStatus Model from project.
+    Add 'ready' and 'unreadiness_reason' to Person.
+
+    PT #127564851
+
+    *Ryan Vredenburg*
+
+*   Add tracking code for Heap
+
+    *George Millo*
+
+*   Refactor: Move third-party script views to their own dir
+
+    *George Millo*
+
+*   Add tracking code for Lead Dyno. PT #127239949
+
+    *George Millo*
+
 *   Visual bug fix: edit travel plan form is wrapped in a white panel,
     like the new travel plan already was.
 
@@ -17,13 +36,6 @@
 
     *George Millo*
 
-*   Remove ReadinessStatus Model from project.
-    Add 'ready' and 'unreadiness_reason' to Person.
-
-    PT #127564851
-
-    *Ryan Vredenburg*
-
 ## July 2016
 
 *   Add more offer type descriptions. PT #122495941
@@ -38,10 +50,6 @@
     *Ryan Vredenburg*, *George Millo*
 
 *   Card application survey saves data via AJAX, not via a full page load.
-
-    *George Millo*
-
-*   Add tracking code for Lead Dyno. PT #127239949
 
     *George Millo*
 
