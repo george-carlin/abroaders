@@ -2,6 +2,10 @@
 
 ## August 2016
 
+*   Refactor: Move third-party script views to their own dir
+
+    *George Millo*
+
 *   Add tracking code for Lead Dyno. PT #127239949
 
     *George Millo*
