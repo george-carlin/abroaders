@@ -16,8 +16,6 @@ class ReadinessController < AuthenticatedUserController
         AccountMailer.notify_admin_of_survey_completion(current_account.id, Time.now.to_i).deliver_later
       end
 
-      track_intercom_event("obs_#{"un" if !@person.ready?}ready_#{@person.type[0..2]}")
-
       redirect_to current_account.onboarding_survey.current_page.path
     else
       render "new"

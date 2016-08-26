@@ -56,8 +56,6 @@ Rails.application.routes.draw do
   resources :balances
 
   resources :people, only: [] do
-    resource :readiness
-
     resources :balances, only: [:new, :create] do
       collection do
         get  :survey
