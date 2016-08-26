@@ -71,24 +71,23 @@
       <p><%= link_to "Add balances", survey_person_balances_path(person) %></p>
     <% end %>
 
-    <% if person.onboarded_readiness? %>
+    <% if person.ready? %>
       <hr>
-      <p>
-        You indicated that <%= person.first_name %> is <%= "not" if person.unready? %>
-        ready to apply for cards.
-      </p>
+      <p><%= person.first_name %> is ready to apply for cards.</p>
+    <% elsif person.onboarded_spending? && person.unready? %>
+      <hr>
+      <p><%= person.first_name %> is not ready to apply for cards.</p>
 
-      <% if person.unready? && person.unreadiness_reason.present? %>
+      <% if person.unreadiness_reason.present? %>
         <p>Reason given: <i><%= person.unreadiness_reason %></i></p>
       <% end %>
     <% end %>
+
     <% if person.show_readiness_link? %>
-      <% if !person.onboarded_readiness? %>
-        <hr>
-      <% end %>
+      <hr>
       <p>
         Please tell us when you're ready to apply for cards.
-        <%= link_to "Update readiness status", new_person_readiness_path(person) %>
+        <%= link_to "Click here when you're ready", new_person_readiness_path(person) %>
       </p>
     <% end %>
 

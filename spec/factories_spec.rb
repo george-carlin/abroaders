@@ -64,7 +64,6 @@ describe "factories" do
             expect(person.onboarded_spending?).to be true
             expect(person.onboarded_cards?).to be true
             expect(person.onboarded_balances?).to be true
-            expect(person.onboarded_readiness?).to be true
             expect(person.ready?).to be false
           end
           expect(account.onboarded?).to be true
@@ -83,7 +82,6 @@ describe "factories" do
             expect(person.onboarded_spending?).to be true
             expect(person.onboarded_cards?).to be true
             expect(person.onboarded_balances?).to be true
-            expect(person.onboarded_readiness?).to be true
             expect(person.ready?).to be true
           end
           expect(account.onboarded?).to be true
@@ -103,7 +101,6 @@ describe "factories" do
           expect(person.eligible?).to be true
           expect(person.onboarded_cards?).to be false
           expect(person.onboarded_balances?).to be false
-          expect(person.onboarded_readiness?).to be false
           expect(person.ready?).to be false
         end
       end
@@ -121,7 +118,6 @@ describe "factories" do
           expect(person.onboarded_spending?).to be true
           expect(person.onboarded_cards?).to be true
           expect(person.onboarded_balances?).to be true
-          expect(person.onboarded_readiness?).to be true
           expect(person.ready?).to be false
         end
         expect(account.onboarded?).to be true
@@ -140,7 +136,6 @@ describe "factories" do
         expect(person.onboarded_spending?).to be true
         expect(person.onboarded_cards?).to be true
         expect(person.onboarded_balances?).to be true
-        expect(person.onboarded_readiness?).to be true
         expect(person.ready?).to be true
         expect(account.onboarded?).to be true
       end

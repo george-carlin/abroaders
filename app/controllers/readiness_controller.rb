@@ -26,7 +26,7 @@ class ReadinessController < AuthenticatedUserController
 
   def show
     @person = load_person
-    if @person.ineligible || !@person.onboarded_readiness? || @person.ready?
+    if @person.ineligible || @person.ready?
       redirect_to root_path
     end
   end

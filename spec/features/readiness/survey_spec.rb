@@ -44,7 +44,6 @@ describe "readiness survey", :js, :onboarding do
     visit_path_for_owner
     submit_form
     @owner.reload
-    expect(@owner.onboarded_readiness?).to be_truthy
     expect(@owner).to be_ready
   end
 

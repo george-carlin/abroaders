@@ -22,9 +22,7 @@ class Person < ApplicationRecord
 
   def onboarded?
     onboarded_eligibility? && onboarded_balances? && (
-      (ineligible?) || (
-        onboarded_cards? && onboarded_spending? && onboarded_readiness?
-      )
+      (ineligible?) || (onboarded_cards? && onboarded_spending?)
     )
   end
 

@@ -217,7 +217,6 @@ describe "accounts/dashboard/person" do
           before { person.update_attributes!(onboarded_balances: true) }
 
           context "and hasn't said whether or not they're ready to apply" do
-            before { raise if person.onboarded_readiness? } # sanity check
             it "has a link to say when they're ready" do
               expect(rendered).to have_link update_readiness,
                 href: new_person_readiness_path(person)
