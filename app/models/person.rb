@@ -11,11 +11,6 @@ class Person < ApplicationRecord
     owner ? "owner" : "companion"
   end
 
-  delegate :credit_score, :will_apply_for_loan,
-    :business_spending_usd, :has_business, :has_business?, :has_business_with_ein?,
-    :has_business_without_ein?, :no_business?,
-    to: :spending_info, allow_nil: true
-
   def onboarded_spending?
     !!spending_info&.persisted?
   end
