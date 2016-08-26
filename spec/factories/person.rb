@@ -24,7 +24,7 @@ FactoryGirl.define do
     trait :onboarded_spending do
       eligible
       after(:build) do |person|
-        person.build_spending_info(attributes_for(:spending_info, person: nil))
+        person.build_spending_info(attributes_for(:spending_info, person: nil, ready: false))
       end
     end
 
@@ -41,13 +41,12 @@ FactoryGirl.define do
       onboarded_spending
       onboarded_balances
       onboarded_cards
-      ready false
     end
 
     trait :ready do
       onboarded
       after(:build) do |person|
-        person.update_attribute(:ready, true)
+        person.spending_info.update_attribute(:ready, true)
       end
     end
 

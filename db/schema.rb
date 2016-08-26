@@ -190,8 +190,6 @@ ActiveRecord::Schema.define(version: 20160808170547) do
     t.string   "award_wallet_email"
     t.datetime "last_recommendations_at"
     t.boolean  "eligible"
-    t.boolean  "ready"
-    t.string   "unreadiness_reason"
     t.index ["account_id", "main"], name: "index_people_on_account_id_and_main", unique: true, using: :btree
   end
 
@@ -211,6 +209,8 @@ ActiveRecord::Schema.define(version: 20160808170547) do
     t.integer  "has_business",          default: 0,     null: false
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
+    t.boolean  "ready",                 default: true,  null: false
+    t.string   "unreadiness_reason"
     t.index ["person_id"], name: "index_spending_infos_on_person_id", unique: true, using: :btree
   end
 

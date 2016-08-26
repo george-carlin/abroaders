@@ -53,15 +53,12 @@ class Person < ApplicationRecord
     alias_method :ineligible?, :ineligible
   end
 
-  concerning :Readiness do
-    def onboarded_readiness?
-      !ready.nil?
-    end
+  def ready?
+    !!spending_info&.ready?
+  end
 
-    def unready
-      !ready?
-    end
-    alias_method :unready?, :unready
+  def unready?
+    !ready?
   end
 
   # Validations
