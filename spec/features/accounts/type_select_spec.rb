@@ -68,7 +68,7 @@ describe "account type select page", :js, :onboarding do
       expect(page).to have_field :solo_account_monthly_spending_usd
     end
 
-    example "submitting when I'm not eligible to apply" do
+    example "submitting when I'm not eligible to apply", :intercom do
       choose "No - I am not eligible"
       # saves my information:
       expect do
@@ -103,7 +103,7 @@ describe "account type select page", :js, :onboarding do
       expect(form).to have_confirm_btn
     end
 
-    example "submitting when I am eligible" do
+    example "submitting when I am eligible", :intercom do
       fill_in :solo_account_monthly_spending_usd, with: 1000
 
       expect do
@@ -165,7 +165,7 @@ describe "account type select page", :js, :onboarding do
       expect(form).to have_content "Only Steve is eligible"
     end
 
-    example "submitting when neither person is eligible" do
+    example "submitting when neither person is eligible", :intercom do
       form.submit_partner_first_name partner_name
       choose :partner_account_eligibility_neither
       # hides the monthly spending input
@@ -198,7 +198,7 @@ describe "account type select page", :js, :onboarding do
         "Only #{partner_name} will receive credit card recommendations"
     end
 
-    example "submitting when only I am eligible" do
+    example "submitting when only I am eligible", :intercom do
       form.submit_partner_first_name partner_name
       form.choose_partner_eligibility_person_0
       form.fill_in_couples_monthly_spending with: 1234
@@ -218,7 +218,7 @@ describe "account type select page", :js, :onboarding do
       expect_survey_to_be_marked_as_complete
     end
 
-    example "submitting when only my partner is eligible" do
+    example "submitting when only my partner is eligible", :intercom do
       form.submit_partner_first_name partner_name
       form.choose_partner_eligibility_person_1
       form.fill_in_couples_monthly_spending with: 1234
@@ -238,7 +238,7 @@ describe "account type select page", :js, :onboarding do
       expect_survey_to_be_marked_as_complete
     end
 
-    example "submitting when we are both eligible" do
+    example "submitting when we are both eligible", :intercom do
       form.submit_partner_first_name partner_name
       form.fill_in_couples_monthly_spending with: 2345
 
