@@ -2,8 +2,13 @@
 
 ## August 2016
 
-*   Remove ReadinessStatus Model from project.
-    Add 'ready' and 'unreadiness_reason' to Person.
+*   Make all Form Objects use Virtus if they weren't already. Remove
+    ApplicationForm#attr_boolean_accessor, as it's now no longer necessary.
+
+    *George Millo*
+
+*   Remove ReadinessStatus model from project.
+    Add 'ready' and 'unreadiness_reason' to SpendingInfo.
 
     PT #127564851
 

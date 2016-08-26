@@ -31,13 +31,17 @@ class AccountsController < AuthenticatedUserController
   private
 
   def solo_account_params
-    params.require(:solo_account).permit(:monthly_spending_usd, :eligible, :phone_number)
+    # Virtus will call `to_hash` on the passed attributes, but this method
+    # is deprecated on ActionController::Parameters; call `to_h` instead:
+    params.require(:solo_account).permit(:monthly_spending_usd, :eligible, :phone_number).to_h
   end
 
   def partner_account_params
+    # Virtus will call `to_hash` on the passed attributes, but this method
+    # is deprecated on ActionController::Parameters; call `to_h` instead:
     params.require(:partner_account).permit(
       :monthly_spending_usd, :partner_first_name, :eligibility, :phone_number
-    )
+    ).to_h
   end
 
 end

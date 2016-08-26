@@ -1,21 +1,9 @@
 class CardsSurvey < ApplicationForm
-
-  attr_accessor :person
-
-  def initialize(attributes={})
-    @available_cards = Card.survey
-    assign_attributes(attributes)
-    @cards = {}
-  end
-
-  def assign_attributes(attributes)
-    attributes.stringify_keys!
-    @person = attributes["person"]
-    @card_accounts = attributes.fetch("card_accounts", [])
-  end
+  attribute :person,        Person
+  attribute :card_accounts, Array
 
   def each_section
-    @available_cards.group_by(&:bank).each do |bank, cards|
+    Card.survey.group_by(&:bank).each do |bank, cards|
       yield bank, cards.group_by(&:bp)
     end
   end
@@ -23,7 +11,7 @@ class CardsSurvey < ApplicationForm
   private
 
   def persist!
-    @card_accounts.each do |card_account|
+    card_accounts.each do |card_account|
       # Example hash contents: {
       #   card_id: '3'
       #   opened: 'true'
@@ -53,7 +41,7 @@ class CardsSurvey < ApplicationForm
         attributes["closed_at"] = "#{closed_at_y}-#{closed_at_m}-01"
       end
 
-      @person.card_accounts.from_survey.create!(attributes)
+      person.card_accounts.from_survey.create!(attributes)
     end
     person.update_attributes!(onboarded_cards: true)
 

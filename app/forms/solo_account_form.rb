@@ -1,6 +1,4 @@
 class SoloAccountForm < AccountTypeForm
-  include Virtus.model
-
   attribute :account,              Account
   attribute :eligible,             Boolean
   attribute :monthly_spending_usd, Integer
