@@ -7,6 +7,12 @@
 
     *George Millo*
 
+*   `track_intercom_event` RSpec matcher is now aliased as
+    `track_intercom_events` and can test that multiple Intercom events are
+    tracked at once.
+
+    *George Millo*
+
 *   Make all Form Objects use Virtus if they weren't already. Remove
     ApplicationForm#attr_boolean_accessor, as it's now no longer necessary.
 
