@@ -50,7 +50,7 @@ FactoryGirl.define do
       onboarded_type
       after(:build) do |acc|
         acc.people.each do |p|
-          p.build_spending_info(attributes_for(:spending, person: nil, ready: false))
+          p.build_spending_info(attributes_for(:spending, person: nil))
         end
       end
     end
@@ -82,7 +82,7 @@ FactoryGirl.define do
       onboarded
       after(:build) do |acc|
         acc.people.each do |person|
-          person.spending_info.update_attribute(:ready, true)
+          person.update_attribute(:ready, true)
         end
       end
     end
