@@ -58,11 +58,6 @@ describe Person do
         person.onboarded_cards = true
         expect(person).not_to be_onboarded
         person.onboarded_balances = true
-        expect(person).not_to be_onboarded
-        # ready doesn't have to be true, but it can't be nil
-        person.ready = false
-        expect(person).to be_onboarded
-        person.ready = true
         expect(person).to be_onboarded
       end
     end
