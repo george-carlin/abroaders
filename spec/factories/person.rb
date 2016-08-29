@@ -46,9 +46,7 @@ FactoryGirl.define do
 
     trait :ready do
       onboarded
-      after(:build) do |person|
-        person.update_attribute(:ready, true)
-      end
+      ready true
     end
 
     factory :companion,               traits: [:companion]
