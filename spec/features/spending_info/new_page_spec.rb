@@ -162,7 +162,7 @@ describe "the spending info survey", :onboarding do
     fill_in :spending_info_credit_score, with: 456
     choose :spending_info_ready_false
     expect{submit_form}.to \
-      track_intercom_event("obs_spending_own", "obs_unready_com").for_email(account.email)
+      track_intercom_event("obs_spending_own", "obs_unready_own").for_email(account.email)
   end
 
   example "tracking intercom events for unready companion", :intercom do
