@@ -2,13 +2,18 @@
 
 ## August 2016
 
+*   Remove 'readiness' page from survey; ask this question on the spending info
+    survey instead.
+
+    *George Millo*
+
 *   Make all Form Objects use Virtus if they weren't already. Remove
     ApplicationForm#attr_boolean_accessor, as it's now no longer necessary.
 
     *George Millo*
 
 *   Remove ReadinessStatus model from project.
-    Add 'ready' and 'unreadiness_reason' to SpendingInfo.
+    Add 'ready' and 'unreadiness_reason' to Person.
 
     PT #127564851
 
