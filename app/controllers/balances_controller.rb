@@ -1,4 +1,5 @@
 class BalancesController < AuthenticatedUserController
+  include EventTracking
 
   def index
     @people = current_account.people.includes(balances: :currency)
@@ -39,7 +40,14 @@ class BalancesController < AuthenticatedUserController
     @survey.assign_attributes(survey_params)
     @survey.award_wallet_email = params[:balances_survey_award_wallet_email]
     if @survey.save
-      redirect_to current_account.onboarding_survey.current_page.path
+      onboarding_survey = current_account.onboarding_survey
+      if onboarding_survey.complete?
+        AccountMailer.notify_admin_of_survey_completion(
+          current_account.id, Time.now.to_i
+        ).deliver_later
+      end
+      track_intercom_event("obs_balances_#{@person.type[0..2]}")
+      redirect_to onboarding_survey.current_page.path
     else
       render "survey"
     end

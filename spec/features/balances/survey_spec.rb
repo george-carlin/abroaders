@@ -147,4 +147,22 @@ describe "the balance survey page", :onboarding, :js do
     expect{submit_form}.not_to change{Balance.count}
     expect(me.reload.onboarded_balances?).to be true
   end
+
+  example "tracking an intercom event when person is account owner" do
+    click_button "Yes"
+    expect{submit_form}.to track_intercom_event("obs_balances_own").for_email(account.email)
+  end
+
+  describe "when person is account companion" do
+    before do
+      @me.update_attributes!(onboarded_balances: true)
+      @companion = create(:companion, account: account)
+      visit survey_person_balances_path(@companion)
+    end
+
+    example "tracking an intercom event when person is companion" do
+      click_button "Yes"
+      expect{submit_form}.to track_intercom_event("obs_balances_com").for_email(account.email)
+    end
+  end
 end
