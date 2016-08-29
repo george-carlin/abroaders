@@ -20,7 +20,7 @@ describe "the spending info survey", :onboarding do
   let(:submit_form) { click_button "Save" }
 
   def create_companion!
-    create(:spending_info, person: @person, ready: true)
+    create(:spending_info, person: @person)
     @person.update_attributes!(onboarded_balances: true, onboarded_cards: true)
     @companion = create(:companion, :eligible, account: account)
   end
@@ -80,8 +80,7 @@ describe "the spending info survey", :onboarding do
 
     expect{submit_form}.to change{SpendingInfo.count}.by(1)
 
-    spending_info = SpendingInfo.last
-    expect(spending_info.unreadiness_reason).to be_nil
+    expect(person.reload.unreadiness_reason).to be_nil
   end
 
   specify "submitting invalid form doesn't forget business info", :js do # bug fix
@@ -108,12 +107,14 @@ describe "the spending info survey", :onboarding do
     choose  :spending_info_has_business_without_ein
     fill_in :spending_info_business_spending_usd, with: 5000
     expect{submit_form}.to change{SpendingInfo.count}.by(1)
+
+    expect(person.reload).to be_ready
+
     new_info = SpendingInfo.last
     expect(new_info.credit_score).to eq 456
     expect(new_info.will_apply_for_loan).to be_truthy
     expect(new_info.has_business).to eq "without_ein"
     expect(new_info.business_spending_usd).to eq 5000
-    expect(new_info).to be_ready
   end
 
   specify "submitting valid info, unready, no reason given" do
@@ -121,9 +122,9 @@ describe "the spending info survey", :onboarding do
     choose  :spending_info_ready_false
     expect{submit_form}.to change{SpendingInfo.count}.by(1)
 
-    new_info = SpendingInfo.last
-    expect(new_info).to be_unready
-    expect(new_info.unreadiness_reason).to be_nil
+    person.reload
+    expect(person).to be_unready
+    expect(person.unreadiness_reason).to be_nil
   end
 
   specify "submitting valid info, unready with reason given", :js do
@@ -132,9 +133,9 @@ describe "the spending info survey", :onboarding do
     fill_in :spending_info_unreadiness_reason, with: "Qwerty"
     expect{submit_form}.to change{SpendingInfo.count}.by(1)
 
-    new_info = SpendingInfo.last
-    expect(new_info).to be_unready
-    expect(new_info.unreadiness_reason).to eq "Qwerty"
+    person.reload
+    expect(person).to be_unready
+    expect(person.unreadiness_reason).to eq "Qwerty"
   end
 
   specify "after submitting the form I'm taken to the card survey page" do
