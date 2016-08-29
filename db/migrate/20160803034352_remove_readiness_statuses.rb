@@ -8,7 +8,7 @@ class RemoveReadinessStatuses < ActiveRecord::Migration[5.0]
   end
 
   def change
-    add_column :people, :ready, :boolean
+    add_column :people, :ready, :boolean, null: false, default: false
     add_column :people, :unreadiness_reason, :string
 
     reversible do |d|
@@ -16,20 +16,14 @@ class RemoveReadinessStatuses < ActiveRecord::Migration[5.0]
         remove_foreign_key :readiness_statuses, :people
 
         Person.includes(:readiness_status).find_each do |person|
-          if person.readiness_status.present?
-            person.update_attributes!(
-              ready:              person.readiness_status.ready,
-              unreadiness_reason: person.readiness_status.unreadiness_reason,
-            )
+          if person.readiness_status.present? && person.readiness_status.ready?
+            person.update_attributes!(ready: true)
           end
         end
       end
 
       d.down do
-        Person.joins(:readiness_status).includes(:readiness_status).find_each do |person|
-          person.create_readiness_status!(ready: person.eligible, unreadiness_reason: person.unreadiness_reason)
-        end
-
+        # WARNING: running then rolling back this migration will lose all readiness data
         add_foreign_key :readiness_statuses, :people, on_delete: :cascade
       end
     end

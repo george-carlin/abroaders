@@ -190,7 +190,7 @@ ActiveRecord::Schema.define(version: 20160808170547) do
     t.string   "award_wallet_email"
     t.datetime "last_recommendations_at"
     t.boolean  "eligible"
-    t.boolean  "ready"
+    t.boolean  "ready",                   default: false, null: false
     t.string   "unreadiness_reason"
     t.index ["account_id", "main"], name: "index_people_on_account_id_and_main", unique: true, using: :btree
   end
