@@ -82,13 +82,9 @@
         <p>Reason given: <i><%= person.unreadiness_reason %></i></p>
       <% end %>
 
-      <% if false %>
-        <%# TODO: let people update their status to ready if they initially say they're not ready %>
-        <p>
-          Please tell us when you're ready to apply for cards.
-          <%= link_to "Click here when you're ready", new_person_readiness_path(person) %>
-        </p>
-      <% end %>
+      <p>
+        <%= link_to "Click here when you're ready", person_readiness_path(person) %>
+      </p>
     <% end %>
 
 
