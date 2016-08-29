@@ -1,27 +1,6 @@
 class ReadinessController < AuthenticatedUserController
   include EventTracking
 
-  def new
-    @person = load_person
-    if @person.ineligible?
-      redirect_to root_path
-    end
-  end
-
-  def create
-    @person = load_person
-    if @person.update_attributes(readiness_params)
-      unless current_account.has_companion? && @person.main?
-        #Int workaround becauce ActiveJob won't accept Time arguments
-        AccountMailer.notify_admin_of_survey_completion(current_account.id, Time.now.to_i).deliver_later
-      end
-
-      redirect_to current_account.onboarding_survey.current_page.path
-    else
-      render "new"
-    end
-  end
-
   def show
     @person = load_person
     if @person.ineligible || @person.ready?
