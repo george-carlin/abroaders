@@ -42,12 +42,14 @@ class SpendingSurvey < ApplicationForm
   def persist!
     # Make sure not to save an unreadiness reason if the user is not ready.
     self.unreadiness_reason = nil if ready? || unreadiness_reason.blank?
+    person.update_attributes!(
+      ready:              ready,
+      unreadiness_reason: unreadiness_reason,
+    )
     person.create_spending_info!(
       business_spending_usd: has_business? ? business_spending_usd : nil,
       credit_score:          credit_score,
       has_business:          has_business,
-      ready:                 ready,
-      unreadiness_reason:    unreadiness_reason,
       will_apply_for_loan:   will_apply_for_loan,
     )
   end
