@@ -1,6 +1,9 @@
 require "rails_helper"
 
 describe "readiness survey", :js, :onboarding do
+  # TODO make sure all relevant scenarios are covered by the spending survey
+  # and its specs, and delete this file
+  before { skip }
   include_context "set admin email ENV var"
 
   before do

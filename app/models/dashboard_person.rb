@@ -28,14 +28,6 @@ class DashboardPerson
     onboarded_type? && (!eligible? || onboarded_cards?) && !onboarded_balances?
   end
 
-  def show_readiness?
-    onboarded_spending?
-  end
-
-  def show_readiness_link?
-    onboarded_balances? && eligible? && !ready?
-  end
-
   def method_missing(meth, *args, &block)
     if @person.respond_to?(meth)
       @person.send(meth, *args, &block)
