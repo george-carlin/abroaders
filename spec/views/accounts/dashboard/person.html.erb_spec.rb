@@ -212,33 +212,6 @@ describe "accounts/dashboard/person" do
         pending "it displays a summary of the person's card info"
 
         include_examples "balances"
-
-        context "and has added balances" do
-          before { person.update_attributes!(onboarded_balances: true) }
-
-          context "and hasn't said whether or not they're ready to apply" do
-            before { raise if person.readiness_given? } # sanity check
-            it "has a link to say when they're ready" do
-              expect(rendered).to have_link update_readiness,
-                href: new_person_readiness_status_path(person)
-            end
-          end
-
-          context "and has said that they're not ready to apply" do
-            before { person.unready_to_apply! }
-            it "has a link to say when they're ready" do
-              expect(rendered).to have_link update_readiness,
-                href: new_person_readiness_status_path(person)
-            end
-          end
-
-          context "and has said that they're ready to apply" do
-            before { person.ready_to_apply! }
-            it "doesn't have a link to say they're ready" do
-              expect(rendered).not_to have_link update_readiness
-            end
-          end
-        end
       end
     end
   end

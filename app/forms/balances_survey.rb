@@ -42,16 +42,6 @@ class BalancesSurvey
         end
         @person.save(validate: false)
 
-        if send_survey_complete_notification?
-          #Int workaround becauce ActiveJob won't accept Time arguments
-          AccountMailer.notify_admin_of_survey_completion(@person.account_id, Time.now.to_i).deliver_later
-        end
-
-        IntercomJobs::TrackEvent.perform_later(
-          email:      @person.account.email,
-          event_name: "obs_balances_#{@person.type[0..2]}",
-        )
-
         true
       end
     else
@@ -96,11 +86,5 @@ class BalancesSurvey
     save
   end
   # ---------------- /DUPE METHODS ---------------
-
-  private
-
-  def send_survey_complete_notification?
-    !@person.eligible? && !(@person.main? && @person.account.has_companion?)
-  end
 
 end

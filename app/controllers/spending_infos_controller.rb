@@ -13,7 +13,9 @@ class SpendingInfosController < AuthenticatedUserController
     @spending_info = SpendingSurvey.new(person: @person)
     if @spending_info.update_attributes(spending_survey_params)
       current_account.save!
-      track_intercom_event("obs_spending_#{@person.type[0..2]}")
+      type = @person.type[0..2]
+      track_intercom_event("obs_spending_#{type}")
+      track_intercom_event("obs_#{"un" if !@person.ready?}ready_#{type}")
       redirect_to survey_person_card_accounts_path(@person)
     else
       render "new"
@@ -32,6 +34,8 @@ class SpendingInfosController < AuthenticatedUserController
       :credit_score,
       :has_business,
       :will_apply_for_loan,
+      :unreadiness_reason,
+      :ready
     )
   end
 

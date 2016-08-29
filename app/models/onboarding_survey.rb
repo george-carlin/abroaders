@@ -131,14 +131,6 @@ class OnboardingSurvey
         revisitable: false,
         submission_paths: [survey_person_balances_path(person)],
       },
-    
-      { # readiness
-        complete:    person.onboarded_readiness?,
-        path:        new_person_readiness_status_path(person),
-        required:    person.eligible?,
-        revisitable: true,
-        submission_paths: [person_readiness_status_path(person)],
-      },
     ]
   end
 

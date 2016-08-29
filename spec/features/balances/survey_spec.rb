@@ -39,139 +39,130 @@ describe "the balance survey page", :onboarding, :js do
     end
   end
 
-  it { is_expected.to have_title full_title("Balances") }
-
-  it "doesn't show the sidebar" do
-    is_expected.to have_no_selector "#menu"
-  end
-
-  it "asks if I have any balances over 5,000" do
+  example "initial page layout" do
+    expect(page).to have_title full_title("Balances")
+    expect(page).to have_no_sidebar
     expect(page).to have_content "Does George have any points balances greater than 5,000?"
     expect(page).to have_button "Yes"
     expect(page).to have_button "No"
   end
 
-  describe "clicking 'No'" do
-    before { click_button "No" }
+  example "clicking 'No' asks for confirmation" do
+    click_button "No"
+    expect(page).to have_no_content "Does George have any points balances greater than 5,000?"
+    expect(page).to have_no_button "Yes"
+    expect(page).to have_no_button "No"
+    expect(page).to have_content "George has no points balances greater than 5,000"
+    expect(page).to have_button "Confirm"
+    expect(page).to have_button "Back"
 
-    it "asks to confirm" do
-      expect(page).to have_no_content "Does George have any points balances greater than 5,000?"
-      expect(page).to have_no_button "Yes"
-      expect(page).to have_no_button "No"
-      expect(page).to have_content "George has no points balances greater than 5,000"
-      expect(page).to have_button "Confirm"
-      expect(page).to have_button "Back"
-    end
+    click_button "Back"
+    expect(page).to have_content "Does George have any points balances greater than 5,000?"
+    expect(page).to have_button "Yes"
+    expect(page).to have_button "No"
+    expect(page).to have_no_content "George has no points balances greater than 5,000"
+    expect(page).to have_no_button "Confirm"
+    expect(page).to have_no_button "Back"
+  end
 
-    describe "and clicking 'Confirm'" do
-      let(:submit_form) { click_button "Confirm" }
+  example "clicking 'No' and confirming" do
+    click_button "No"
+    expect{click_button "Confirm"}.not_to change{Balance.count}
+    expect(me.reload.onboarded_balances?).to be true
+  end
 
-      it "doesn't create any balances for me" do
-        expect{submit_form}.not_to change{Balance.count}
-      end
-    end
-
-    describe "and clicking 'Back'" do
-      before { click_button "Back" }
-
-      it "goes back" do
-        expect(page).to have_content "Does George have any points balances greater than 5,000?"
-        expect(page).to have_button "Yes"
-        expect(page).to have_button "No"
-        expect(page).to have_no_content "George has no points balances greater than 5,000"
-        expect(page).to have_no_button "Confirm"
-        expect(page).to have_no_button "Back"
+  example "clicking 'Yes' shows list of currencies" do
+    click_button "Yes"
+    @currencies.each do |currency|
+      expect(page).to have_content currency.name
+      within_currency(currency) do
+        expect(page).to have_selector "input[type='checkbox']"
       end
     end
   end
 
-  describe "clicking 'Yes'" do
-    before { click_button "Yes" }
+  example "clicking 'Yes' asks for AwardWallet email" do
+    click_button "Yes"
+    expect(page).to have_field :balances_survey_award_wallet_email
+  end
 
-    it "shows a list of currencies with a checkbox next to each name" do
-      @currencies.each do |currency|
-        expect(page).to have_content currency.name
-        within_currency(currency) do
-          expect(page).to have_selector "input[type='checkbox']"
-        end
-      end
+  example "providing an award wallet email" do
+    click_button "Yes"
+    fill_in :balances_survey_award_wallet_email, with: "a@b.com"
+    submit_form
+    expect(me.reload.award_wallet_email).to eq "a@b.com"
+  end
+
+  example "hiding and showing a currency's value input" do
+    currency = @currencies.first
+
+    click_button "Yes"
+
+    currency_check_box(currency).click
+    within_currency(currency) do
+      expect(page).to have_field balance_field(currency)
     end
 
-    it { is_expected.to have_field :balances_survey_award_wallet_email }
+    currency_check_box(currency).click
+    expect(page).to have_no_field balance_field(currency)
+  end
 
-    example "submitting form marks me as having completed the balances survey" do
-      submit_form
-      expect(me.reload.onboarded_balances?).to be true
+  example "submitting a balance" do
+    currency = @currencies.first
+    click_button "Yes"
+    currency_check_box(currency).click
+    fill_in balance_field(currency), with: 50_000
+    expect{submit_form}.to change{me.balances.count}.by(1)
+    balance = me.reload.balances.last
+    expect(balance.currency).to eq currency
+    expect(balance.person).to eq me
+    expect(balance.value).to eq 50_000
+
+    expect(me.reload.onboarded_balances?).to be true
+  end
+
+  example "clicking 'submit' after unchecking a balance" do
+    currency = @currencies.first
+    click_button "Yes"
+    currency_check_box(currency).click
+    fill_in balance_field(currency), with: 50_000
+    # Uncheck the box and the text field will be hidden
+    currency_check_box(currency).click
+    # Make sure it doesn't create a balance for the currency you've now unchecked:
+    expect{submit_form}.not_to change{Balance.count}
+  end
+
+  example "submitting a balance that contains commas" do
+    currency = @currencies.first
+    click_button "Yes"
+    currency_check_box(currency).click
+    fill_in balance_field(currency), with: "50,000"
+    expect{submit_form}.to change{me.balances.count}.by(1)
+    balance = me.reload.balances.last
+    expect(balance.value).to eq 50_000
+  end
+
+  example "clicking 'Yes' then submitting without adding any balances" do
+    click_button "Yes"
+    expect{submit_form}.not_to change{Balance.count}
+    expect(me.reload.onboarded_balances?).to be true
+  end
+
+  example "tracking an intercom event when person is account owner" do
+    click_button "Yes"
+    expect{submit_form}.to track_intercom_event("obs_balances_own").for_email(account.email)
+  end
+
+  describe "when person is account companion" do
+    before do
+      @me.update_attributes!(onboarded_balances: true)
+      @companion = create(:companion, account: account)
+      visit survey_person_balances_path(@companion)
     end
 
-    example "providing an award wallet email" do
-      fill_in :balances_survey_award_wallet_email, with: "a@b.com"
-      submit_form
-      expect(me.reload.award_wallet_email).to eq "a@b.com"
-    end
-
-    describe "clicking a check box next to a currency" do
-      let(:currency) { @currencies.first }
-
-      before { currency_check_box(currency).click }
-
-      it "shows a field to input my balance in that currency" do
-        within_currency(currency) do
-          expect(page).to have_field balance_field(currency)
-        end
-      end
-
-      describe "and unchecking the check box" do
-        before { currency_check_box(currency).click }
-
-        it "hides the balance field" do
-          expect(page).to have_no_field balance_field(currency)
-        end
-      end
-
-      describe "and typing in a balance" do
-        before { fill_in balance_field(currency), with: 50_000 }
-
-        describe "and clicking 'Submit'" do
-          it "creates a balance for the person in this currency" do
-            expect{submit_form}.to change{me.balances.count}.by(1)
-            balance = me.reload.balances.last
-            expect(balance.currency).to eq currency
-            expect(balance.person).to eq me
-          end
-        end
-
-        describe "and unchecking the check box" do
-          before { currency_check_box(currency).click }
-
-          describe "and clicking 'submit'" do
-            it "doesn't create a balance for that currency" do
-              expect{submit_form}.not_to change{Balance.count}
-            end
-          end
-        end
-      end
-    end
-
-    describe "submitting a balance that contains commas" do
-      let(:currency) { @currencies.first }
-      before do
-        currency_check_box(currency).click
-        fill_in balance_field(currency), with: "50,000"
-        submit_form
-      end
-
-      it "strips the commas before saving" do
-        balance = me.reload.balances.last
-        expect(balance.currency).to eq currency
-        expect(balance.value).to eq 50_000
-      end
-    end
-
-    describe "clicking 'Submit' without adding any balances" do
-      it "doesn't create any balances" do
-        expect{submit_form}.not_to change{Balance.count}
-      end
+    example "tracking an intercom event when person is companion" do
+      click_button "Yes"
+      expect{submit_form}.to track_intercom_event("obs_balances_com").for_email(account.email)
     end
   end
 end

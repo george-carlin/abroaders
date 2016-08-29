@@ -28,14 +28,6 @@ class DashboardPerson
     onboarded_type? && (!eligible? || onboarded_cards?) && !onboarded_balances?
   end
 
-  def show_readiness?
-    readiness_given?
-  end
-
-  def show_readiness_link?
-    onboarded_balances? && eligible? && !(readiness_given? && ready_to_apply?)
-  end
-
   def method_missing(meth, *args, &block)
     if @person.respond_to?(meth)
       @person.send(meth, *args, &block)
@@ -54,6 +46,6 @@ class DashboardPerson
 
   delegate :onboarded_travel_plans?, :onboarded_type?, to: :account
   delegate :account, :onboarded_spending?, :onboarded_cards?, :onboarded_balances?,
-            :readiness_given?, :eligible?, to: :person
+            :eligible?, to: :person
 
 end

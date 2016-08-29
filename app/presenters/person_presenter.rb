@@ -14,19 +14,13 @@ class PersonPresenter < ApplicationPresenter
   end
 
   def readiness
-    if readiness_given?
-      if ready_to_apply?
-        "Ready as of #{readiness_given_on}"
-      else
-        "Not ready as of #{readiness_given_on}"
-      end
-    else
+    if ready.nil?
       "Unknown"
+    elsif ready?
+      "Ready"
+    else
+      "Not ready"
     end
-  end
-
-  def readiness_given_on
-    readiness_given_at.strftime("%D")
   end
 
   def update_readiness_btn
@@ -34,7 +28,7 @@ class PersonPresenter < ApplicationPresenter
     prefix = :update_readiness
     h.button_to(
         "I am now ready",
-        h.person_readiness_status_path(self),
+        h.person_readiness_path(self),
         class:  "#{h.dom_class(self, prefix)}_btn #{btn_classes} pull-right",
         id:     "#{h.dom_id(self, prefix)}_btn",
         method: :patch,

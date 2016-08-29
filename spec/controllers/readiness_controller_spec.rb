@@ -1,7 +1,6 @@
 require "rails_helper"
 
-describe ReadinessStatusesController do
-
+describe ReadinessController do
   describe "GET #show" do
     let(:account) { create(:account, :onboarded_cards, :onboarded_balances) }
     let(:person)  { account.owner }
@@ -10,12 +9,13 @@ describe ReadinessStatusesController do
 
     subject { get :show, params: { person_id: person.id } }
 
-    context "when person has not given their readiness yet" do
-      it { is_expected.to redirect_to new_person_readiness_status_path(person) }
+    context "when person is ineligible" do
+      before { person.update_attributes!(eligible: false) }
+      it { is_expected.to redirect_to root_path }
     end
 
     context "when person is already ready" do
-      before { person.ready_to_apply! }
+      before { person.update_attributes!(eligible: true, ready: true) }
       it { is_expected.to redirect_to root_path }
     end
   end

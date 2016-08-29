@@ -48,11 +48,6 @@ describe OnboardingSurvey do
     expect(survey).not_to be_complete
 
     onboard_balances!(account.owner)
-    expect(survey.current_page.path).to eq new_person_readiness_status_path(account.owner)
-    expect(survey).not_to be_complete
-
-    onboard_readiness!(account.owner)
-    expect(survey.current_page).to be_nil
     expect(survey).to be_complete
   end
 
@@ -93,10 +88,6 @@ describe OnboardingSurvey do
     expect(survey).not_to be_complete
 
     onboard_balances!(account.owner)
-    expect(survey.current_page.path).to eq new_person_readiness_status_path(account.owner)
-    expect(survey).not_to be_complete
-
-    onboard_readiness!(account.owner)
     expect(survey.current_page.path).to eq new_person_spending_info_path(account.companion)
     expect(survey).not_to be_complete
 
@@ -109,10 +100,6 @@ describe OnboardingSurvey do
     expect(survey).not_to be_complete
 
     onboard_balances!(account.companion)
-    expect(survey.current_page.path).to eq new_person_readiness_status_path(account.companion)
-    expect(survey).not_to be_complete
-
-    onboard_readiness!(account.companion)
     expect(survey.current_page).to be_nil
     expect(survey).to be_complete
   end
@@ -135,10 +122,6 @@ describe OnboardingSurvey do
     expect(survey).not_to be_complete
 
     onboard_balances!(account.owner)
-    expect(survey.current_page.path).to eq new_person_readiness_status_path(account.owner)
-    expect(survey).not_to be_complete
-
-    onboard_readiness!(account.owner)
     expect(survey.current_page.path).to eq survey_person_balances_path(account.companion)
     expect(survey).not_to be_complete
 
@@ -169,10 +152,6 @@ describe OnboardingSurvey do
     expect(survey).not_to be_complete
 
     onboard_balances!(account.companion)
-    expect(survey.current_page.path).to eq new_person_readiness_status_path(account.companion)
-    expect(survey).not_to be_complete
-
-    onboard_readiness!(account.companion)
     expect(survey.current_page).to be_nil
     expect(survey).to be_complete
   end
@@ -203,10 +182,6 @@ describe OnboardingSurvey do
 
   def onboard_cards!(person)
     person.onboarded_cards = true
-  end
-
-  def onboard_readiness!(person)
-    person.create_readiness_status!(ready: true)
   end
 
 end

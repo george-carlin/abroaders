@@ -4,6 +4,8 @@ class SpendingSurvey < ApplicationForm
   attribute :credit_score,          Integer
   attribute :has_business,          String,  default: "no_business"
   attribute :will_apply_for_loan,   Boolean, default: false
+  attribute :ready,                 Boolean, default: true
+  attribute :unreadiness_reason,    String
 
   # Make form_for play nicely:
   def self.name
@@ -38,6 +40,12 @@ class SpendingSurvey < ApplicationForm
   private
 
   def persist!
+    # Make sure not to save an unreadiness reason if the user is not ready.
+    self.unreadiness_reason = nil if ready? || unreadiness_reason.blank?
+    person.update_attributes!(
+      ready:              ready,
+      unreadiness_reason: unreadiness_reason,
+    )
     person.create_spending_info!(
       business_spending_usd: has_business? ? business_spending_usd : nil,
       credit_score:          credit_score,

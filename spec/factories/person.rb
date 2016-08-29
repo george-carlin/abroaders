@@ -33,26 +33,20 @@ FactoryGirl.define do
       onboarded_cards true
     end
 
+    trait :onboarded_balances do
+      onboarded_balances true
+    end
+
     trait :onboarded do
       onboarded_spending
-      onboarded_balances true
-      onboarded_cards true
-      after(:build) do |person|
-        unless person.readiness_status.present?
-          person.build_readiness_status(ready: false)
-        end
-      end
+      onboarded_balances
+      onboarded_cards
+      ready false
     end
 
     trait :ready do
       onboarded
-      after(:build) do |person|
-        if person.readiness_status.present?
-          person.readiness_status.ready = true
-        else
-          person.build_readiness_status(ready: true)
-        end
-      end
+      ready true
     end
 
     factory :companion,               traits: [:companion]
