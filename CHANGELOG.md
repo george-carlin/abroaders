@@ -2,6 +2,11 @@
 
 ## August 2016
 
+*   Don't show dates of actions (applied, denied etc) to the user for card recs
+    on /cards.
+
+    *George Millo*
+
 *   Remove 'readiness' page from survey; ask this question on the spending info
     survey instead.
 
