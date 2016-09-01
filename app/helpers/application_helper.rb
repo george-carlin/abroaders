@@ -4,7 +4,7 @@ module ApplicationHelper
   # See http://nithinbekal.com/posts/rails-presenters/
   def present(model, presenter_class=nil)
     presenter = get_presenter(model, presenter_class)
-    yield(presenter)
+    block_given? ? yield(presenter) : presenter
   end
 
   def present_each(collection, presenter_class=nil, &block)

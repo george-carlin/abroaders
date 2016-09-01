@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## September 2016
+
+*   Add 'rel="nofollow"' to all offer links
+
+    *George Millo*
+
 ## August 2016
 
 *   Don't show dates of actions (applied, denied etc) to the user for card recs

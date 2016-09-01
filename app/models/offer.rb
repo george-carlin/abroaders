@@ -2,9 +2,12 @@ class Offer < ApplicationRecord
 
   # Attributes
 
-  # 'spend' = the minimum amount that the person has to spened using the card
+  # 'spend' = the minimum amount that the person has to spend using the card
   #           to get the bonus (not relevant for 'on approval' cards)
   # 'cost'  = the card's annual fee
+  # 'link'  = the link to the page where people can sign up for the cards.
+  #           NOTE: any links from our app to the card application page MUST be
+  #           nofollowed, for compliance reasons.
 
   # condition = what does the customer have to do to receive the points?
   enum condition: {
