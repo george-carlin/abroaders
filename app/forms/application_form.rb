@@ -1,3 +1,5 @@
+# For a detailed explanation of form objects and how they work, see
+# `app/forms/README.md`.
 class ApplicationForm
   include ActiveModel::Model
   include Virtus.model(nullify_blank: true)
@@ -15,7 +17,9 @@ class ApplicationForm
     instance
   end
 
-  # A form object is never persisted
+  # If you're creating a Form object for *editing* a record rather than
+  # creating a new one, you should override `persisted?` so that it returns
+  # true.
   def persisted?
     false
   end

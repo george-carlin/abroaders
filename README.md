@@ -365,8 +365,7 @@ we have some extra top level folders in `/app`. They're mostly based on
 
 #### `forms`
 
-Form objects, as described in the Code Climate article. Inherit from
-`ApplicationForm`. (TODO add more detailed explanation of Form objects + conventions)
+See `app/forms/README.md`
 
 #### `serializers`
 
