@@ -1,6 +1,7 @@
 # For a detailed explanation of form objects and how they work, see
 # `app/forms/README.md`.
 class ApplicationForm
+  extend  ActiveModel::Naming
   include ActiveModel::Model
   include Virtus.model(nullify_blank: true)
   include I18nWithErrorRaising
