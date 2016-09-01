@@ -4,6 +4,28 @@ class AdminArea::OfferPresenter < OfferPresenter
     card.bp.to_s[0].upcase
   end
 
+  def confirm_recommend_btn(person)
+    btn_classes = "btn btn-xs btn-primary"
+    prefix = :confirm_recommend
+    h.button_to(
+      "Confirm",
+      h.admin_person_card_recommendations_path(person),
+      class:  "#{h.dom_class(self, prefix)}_btn #{btn_classes} pull-right",
+      id:     "#{h.dom_id(self, prefix)}_btn",
+      params: { offer_id: id }
+    )
+  end
+
+  def cancel_recommend_btn
+    btn_classes = "btn btn-xs btn-default"
+    prefix = :cancel_recommend
+    h.button_tag(
+      "Cancel",
+      class: "#{h.dom_class(self, prefix)}_btn #{btn_classes} pull-right",
+      id:    "#{h.dom_id(self, prefix)}_btn"
+    )
+  end
+
   def link_to_edit
     h.link_to 'Edit', h.edit_admin_offer_path(self)
   end
@@ -37,6 +59,16 @@ class AdminArea::OfferPresenter < OfferPresenter
         method: :patch,
         remote: true,
         data: { confirm: "Are you sure?" }
+    )
+  end
+
+  def recommend_btn
+    btn_classes = "btn btn-xs btn-primary"
+    prefix = :recommend
+    h.button_tag(
+      "Recommend",
+      class: "#{h.dom_class(self, prefix)}_btn #{btn_classes} pull-right",
+      id:    "#{h.dom_id(self, prefix)}_btn"
     )
   end
 

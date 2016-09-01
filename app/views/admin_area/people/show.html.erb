@@ -260,7 +260,7 @@
                   cellspacing="1"
                 >
                   <tbody>
-                    <% present_each offers do |offer| %>
+                    <% present_each offers, AdminArea::OfferPresenter do |offer| %>
                       <tr
                         id="<%= dom_id(offer, :admin_recommend) %>"
                         class="<%= dom_class(offer, :admin_recommend) %>"
