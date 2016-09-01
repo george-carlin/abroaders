@@ -7,7 +7,6 @@ class SpendingSurvey < ApplicationForm
   attribute :ready,                 Boolean, default: true
   attribute :unreadiness_reason,    String
 
-  # Make form_for play nicely:
   def self.name
     "SpendingInfo"
   end
