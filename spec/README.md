@@ -5,10 +5,11 @@ Some general guidelines for how we test:
 - We use RSpec, not minitest. Run the specs using the `rspec` command. But you
   already knew that.
 
-- **Always** add feature specs! Every user action in the app should be covered
-  by an automated test. Lower-level testing (e.g. testing models) is helpful
-  too, but it's not worth the time to add a detailed spec for every little
-  one-line method.
+- Feature specs are the most important part of the test suite. Every user
+  action in the app should be covered by a feature spec unless there's a good
+  reason not to.  Lower-level testing (e.g. testing models) is helpful too, but
+  it's not worth the time to add a detailed spec for every little one-line
+  method.
 
 - Generally, follow the guidelines at [betterspecs.org](http://betterspecs.org/).
   The only one I disagree with is that "A spec description should never be
