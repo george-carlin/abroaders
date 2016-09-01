@@ -218,7 +218,7 @@ module AdminArea
       opened_acc = CardAccountOnPage.new(@opened_acc, self)
       closed_acc = CardAccountOnPage.new(@closed_acc, self)
 
-      within "#admin_person_cards_from_survey" do
+      within "#admin_person_card_accounts" do
         expect(opened_acc).to be_present
         expect(closed_acc).to be_present
       end
@@ -309,10 +309,10 @@ module AdminArea
       example "and is ready"
     end
 
-    example "pulled recs" do
+    example "pulled recs", :js do
       o = offers[0]
-      pulled_rec   = create(:card_recommendation, pulled_at: Time.now, offer: o, person: person)
-      unpulled_rec = create(:card_recommendation, pulled_at: nil, offer: o, person: person)
+      pulled_rec   = create(:card_recommendation, :pulled, offer: o, person: person)
+      unpulled_rec = create(:card_recommendation, offer: o, person: person)
       visit_path
 
       pulled_rec_on_page   = AdminArea::CardAccountOnPage.new(pulled_rec, self)
