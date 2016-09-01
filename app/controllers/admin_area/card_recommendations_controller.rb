@@ -3,8 +3,8 @@ module AdminArea
 
     def create
       person = load_person
-      offer  = Offer.find(params[:offer_id])
-      CardRecommendation.create!(offer: offer, person: person)
+      rec = CardRecommendation.new(person: person)
+      rec.update_attributes!(card_rec_params)
       flash[:success] = "Recommended card!"
       redirect_to admin_person_path(person)
     end
@@ -40,6 +40,10 @@ module AdminArea
     end
 
     private
+
+    def card_rec_params
+      { offer_id: params[:offer_id] }
+    end
 
     def load_person
       Person.find(params[:person_id])
