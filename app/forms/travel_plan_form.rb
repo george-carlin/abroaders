@@ -11,8 +11,8 @@ class TravelPlanForm < ApplicationForm
   attribute :earliest_departure,  Date,  default: lambda { |_, _| Date.today }
   attribute :further_information, String
 
-  def model_name
-    TravelPlan.model_name
+  def self.name
+    "TravelPlan"
   end
 
   def self.types

@@ -87,13 +87,18 @@ in a regular rails app are handled by the model layer.
           <% f.submit %>
         <% end %>
 
-    (Note that to make `form_for` generate the right URL you'll probably need to
-    define `#model_name` in your form object too:)
+    Note that `form_for` will generate a route based on what it finds at
+    `WidgetForm.model_name`, which is provided by `ActiveModel::naming`.
+    However, since your route probably doesn't, and shouldn't, include the word
+    'form', you'll need to override `WidgetForm.name` so that `model_name`
+    generates the right route key:
 
         class WidgetForm < ApplicationForm
           # ...
-          def model_name
-            Widget.model_name
+
+          # This will work if in your routes file you have `resources :widgets`
+          def self.name
+            "Widget"
           end
         end
 

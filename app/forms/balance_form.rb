@@ -5,8 +5,8 @@ class BalanceForm < ApplicationForm
 
   delegate :id, to: :person, prefix: true
 
-  def self.model_name
-    Balance.model_name
+  def self.name
+    "Balance"
   end
 
   # values of over around 2.1 billion will make PostgreSQL crash, but that's
