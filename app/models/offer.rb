@@ -2,7 +2,7 @@ class Offer < ApplicationRecord
 
   # Attributes
 
-  # 'spend' = the minimum amount that the person has to spened using the card
+  # 'spend' = the minimum amount that the person has to spend using the card
   #           to get the bonus (not relevant for 'on approval' cards)
   # 'cost'  = the card's annual fee
 
