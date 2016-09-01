@@ -40,7 +40,7 @@
         <% end %>
 
         <dt>Link:</dt>
-        <dd><%= link_to offer.link, offer.link %></dd>
+        <dd><%= link_to offer.link, offer.link, rel: "nofollow" %></dd>
 
         <dt>Live:</dt>
         <dd><%= offer.live? ? "Yes" : "No" %></dd>

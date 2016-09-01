@@ -28,6 +28,11 @@ class OfferPresenter < ApplicationPresenter
     super().humanize
   end
 
+  # Note that any links to the offer MUST be nofollowed, for compliance reasons
+  def link_to_link(text: "Link")
+    h.link_to text, link, rel: "nofollow", target: "_blank"
+  end
+
   def spend
     h.number_to_currency super()
   end
