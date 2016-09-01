@@ -3,13 +3,14 @@ module AdminArea
     attribute :offer_id, Fixnum
     attribute :person,   Person
 
+    # The card account that is created on save:
+    attribute :card_account, CardAccount
+
     validate :offer_is_live
 
     def self.name
       "CardRecommendation"
     end
-
-    private
 
     def offer
       # Not sure why, but if you don't put "::" in front of "Offer" then
@@ -18,12 +19,14 @@ module AdminArea
       @offer ||= ::Offer.find(offer_id)
     end
 
+    private
+
     def offer_is_live
       errors.add(:offer, "must be live") unless offer.live?
     end
 
     def persist!
-      person.card_recommendations.create!(offer: offer, recommended_at: Time.now)
+      self.card_account = person.card_recommendations.create!(offer: offer, recommended_at: Time.now)
     end
   end
 end

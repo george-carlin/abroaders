@@ -5,7 +5,12 @@ module AdminArea
       person = load_person
       rec = AdminArea::CardRecommendation.new(person: person)
       rec.update_attributes!(card_rec_params)
-      respond_to { |f| f.js }
+      respond_to do |f|
+        f.js do
+          @card_account = rec.card_account
+          @offer        = rec.offer
+        end
+      end
     end
 
     def complete

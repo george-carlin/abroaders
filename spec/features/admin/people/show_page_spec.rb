@@ -251,7 +251,7 @@ module AdminArea
       clicked_rec  = CardAccountOnPage.new(@clicked_rec, self)
       declined_rec = CardAccountOnPage.new(@declined_rec, self)
 
-      within "#admin_person_card_recommendations" do
+      within "#admin_person_card_accounts_table" do
         expect(new_rec).to be_present
         expect(clicked_rec).to be_present
         expect(declined_rec).to be_present
@@ -466,9 +466,7 @@ module AdminArea
         expect do
           offer_on_page.click_confirm_btn
           wait_for_ajax
-        end.to change{
-          @person.card_recommendations.count
-        }.by(1)
+        end.to change{@person.card_recommendations.count}.by(1)
 
         expect(page).to have_content "Recommended!"
 
@@ -479,6 +477,11 @@ module AdminArea
         expect(rec.person).to eq @person
         expect(rec.recommended_at).to eq Date.today
         expect(rec.recommendation?).to be true
+
+        # the rec is added to the table:
+        within "#admin_person_card_accounts_table" do
+          expect(page).to have_selector "#card_account_#{rec.id}"
+        end
       end
     end
 

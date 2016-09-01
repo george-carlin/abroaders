@@ -66,12 +66,36 @@
       <div class="panel-body">
         <h3>Existing Cards</h3>
 
-        <h4>Recommendations</h4>
+        <div id="admin_person_card_accounts"
+          <% if @card_recommendations.size == 0 %>
+            <%# this table is hidden, but still output, because it will be    %>
+            <%# once a card is recommended and added to the table shown by JS %>
+            style="display:none;"
+          <% end %>
+        >
+          <table id="admin_person_card_accounts_table" class="table table-striped">
+            <thead>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Status</th>
+              <th>Recommended</th>
+              <th>Seen</th>
+              <th>Clicked</th>
+              <th>Applied</th>
+              <th>Denied</th>
+              <th>Declined</th>
+              <th>Opened</th>
+              <th></th>
+            </thead>
+            <tbody>
+              <%= render @card_recommendations, partial: "admin_area/card_accounts/card_account" %>
+            </tbody>
+          </table>
 
-        <% if @card_recommendations.any? %>
-          <%= render "admin_area/card_accounts/recommendations", card_accounts: @card_recommendations %>
-        <% else %>
-          <p>User has not been recommended any cards yet</p>
+        </div>
+
+        <% if @card_recommendations.size == 0 %>
+          <p id="admin_person_card_accounts_none">User has not been recommended any cards yet</p>
         <% end %>
 
         <% if @pulled_card_recommendations.any? %>
@@ -80,8 +104,6 @@
             pulled_admin_person_card_recommendations_path(@person)
           ) %>
         <% end %>
-
-        <h4>Other</h4>
 
         <% if @cards_from_survey.any? %>
           <p>Cards added in the onboarding survey:</p>
