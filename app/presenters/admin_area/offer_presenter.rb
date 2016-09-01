@@ -4,6 +4,16 @@ class AdminArea::OfferPresenter < OfferPresenter
     card.bp.to_s[0].upcase
   end
 
+  def cancel_recommend_btn
+    btn_classes = "btn btn-xs btn-default"
+    prefix = :cancel_recommend
+    h.button_tag(
+      "Cancel",
+      class: "#{h.dom_class(self, prefix)}_btn #{btn_classes} pull-right",
+      id:    "#{h.dom_id(self, prefix)}_btn"
+    )
+  end
+
   def confirm_recommend_btn(person)
     btn_classes = "btn btn-xs btn-primary"
     prefix = :confirm_recommend
@@ -16,13 +26,19 @@ class AdminArea::OfferPresenter < OfferPresenter
     )
   end
 
-  def cancel_recommend_btn
-    btn_classes = "btn btn-xs btn-default"
-    prefix = :cancel_recommend
-    h.button_tag(
-      "Cancel",
-      class: "#{h.dom_class(self, prefix)}_btn #{btn_classes} pull-right",
-      id:    "#{h.dom_id(self, prefix)}_btn"
+  def kill_btn
+    btn_classes = "btn btn-xs"
+    prefix = :kill
+    #link_to used to allow btn-group functionality
+    h.link_to(
+        "Kill",
+        h.kill_admin_offer_path(id),
+        class:  "#{h.dom_class(self, prefix)}_btn #{btn_classes} btn-danger",
+        id:     "#{h.dom_id(self, prefix)}_btn",
+        params: { offer_id: id },
+        method: :patch,
+        remote: true,
+        data: { confirm: "Are you sure?" }
     )
   end
 
@@ -44,22 +60,6 @@ class AdminArea::OfferPresenter < OfferPresenter
 
   def last_reviewed_at
     super().nil? ? "never" : super().strftime("%m/%d/%Y")
-  end
-
-  def kill_btn
-    btn_classes = "btn btn-xs"
-    prefix = :kill
-    #link_to used to allow btn-group functionality
-    h.link_to(
-        "Kill",
-        h.kill_admin_offer_path(id),
-        class:  "#{h.dom_class(self, prefix)}_btn #{btn_classes} btn-danger",
-        id:     "#{h.dom_id(self, prefix)}_btn",
-        params: { offer_id: id },
-        method: :patch,
-        remote: true,
-        data: { confirm: "Are you sure?" }
-    )
   end
 
   def recommend_btn
