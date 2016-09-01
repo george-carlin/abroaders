@@ -45,7 +45,6 @@ class PartnerAccountForm < AccountTypeForm
       eligible:   person_1_eligible?,
       first_name: partner_first_name,
     )
-    track_intercom_event!
   end
 
 end

@@ -34,8 +34,6 @@ class SoloAccountForm < AccountTypeForm
     account.save!
     @person = account.owner
     @person.update_attributes!(eligible: eligible?)
-
-    track_intercom_event!
   end
 
 end

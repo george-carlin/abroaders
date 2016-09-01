@@ -47,9 +47,6 @@ class SignUp < ApplicationForm
 
     person = account.people.build(first_name: first_name.strip)
     person.save!(validate: false)
-
-    AccountMailer.notify_admin_of_sign_up(account.id).deliver_later
-    IntercomJobs::CreateUser.perform_later(account_id: account.id)
   end
 
 end

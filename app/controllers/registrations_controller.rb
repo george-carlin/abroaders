@@ -11,6 +11,8 @@ class RegistrationsController < Devise::RegistrationsController
     @form = SignUp.new(sign_up_params)
 
     if @form.save
+      AccountMailer.notify_admin_of_sign_up(@form.account.id).deliver_later
+      IntercomJobs::CreateUser.perform_later(account_id: @form.account.id)
       set_flash_message! :notice, :signed_up
       sign_in(:account, @form.account)
       respond_with resource, location: new_travel_plan_path

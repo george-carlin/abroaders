@@ -12,7 +12,12 @@ class TravelPlansController < AuthenticatedUserController
     onboarding = !current_account.onboarded_travel_plans?
     @travel_plan = NewTravelPlanForm.new(account: current_account)
     if @travel_plan.update_attributes(travel_plan_params)
-      redirect_to onboarding ? type_account_path : travel_plans_path
+      if onboarding
+        track_intercom_event("obs_travel_plan")
+        redirect_to type_account_path
+      else
+        redirect_to travel_plans_path
+      end
     else
       @countries = load_countries
       render "new"

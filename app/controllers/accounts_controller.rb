@@ -16,6 +16,7 @@ class AccountsController < AuthenticatedUserController
     # The front-end should prevent invalid data from being submitted. If they
     # bypass the JS, fuck 'em.
     @solo_account.save!
+    track_account_type_intercom_event!
     redirect_to current_account.onboarding_survey.current_page.path
   end
 
@@ -25,6 +26,7 @@ class AccountsController < AuthenticatedUserController
     # The front-end should prevent invalid data from being submitted. If they
     # bypass the JS, fuck 'em.
     @partner_account.save!
+    track_account_type_intercom_event!
     redirect_to current_account.onboarding_survey.current_page.path
   end
 
@@ -42,6 +44,10 @@ class AccountsController < AuthenticatedUserController
     params.require(:partner_account).permit(
       :monthly_spending_usd, :partner_first_name, :eligibility, :phone_number
     ).to_h
+  end
+
+  def track_account_type_intercom_event!
+    track_intercom_event("obs_account_type")
   end
 
 end

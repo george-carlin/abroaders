@@ -12,10 +12,15 @@ module AdminArea
 
     def complete
       @person = load_person
-      CompleteCardRecommendations.create!(
-        person: @person,
+      form = CompleteCardRecommendations.create!(
         note:   params[:recommendation_note],
+        person: @person,
       )
+      Notifications::NewRecommendations.notify!(@person)
+      CardRecommendationsMailer.recommendations_ready(
+        account_id: form.account.id,
+        note:       form.note,
+      ).deliver_later
       flash[:success] = "Sent notification!"
       redirect_to admin_person_path(@person)
     end
@@ -43,6 +48,10 @@ module AdminArea
 
     def load_recommendation
       CardAccount.recommendations.find(params[:id])
+    end
+
+    def recommendation_note
+      params[:recommendation_note]
     end
 
   end

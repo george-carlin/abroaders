@@ -1,6 +1,4 @@
 class SpendingInfosController < AuthenticatedUserController
-  include EventTracking
-
   def new
     @person = load_person
     redirect_if_inaccessible! and return

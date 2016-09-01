@@ -1,6 +1,4 @@
 class BalancesController < AuthenticatedUserController
-  include EventTracking
-
   def index
     @people = current_account.people.includes(balances: :currency)
   end

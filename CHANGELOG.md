@@ -2,6 +2,18 @@
 
 ## September 2016
 
+*   Don't Remove the `EventTracking` module and put the `track_intercom_event` method
+    directly in `AuthenticatedUserController`.
+
+    *George Millo*
+
+*   Reduce the scope of what Form objects do - they're for **validating** and
+    **persisting** data, and shouldn't have side effects like sending emails or
+    tracking Intercom events. Those side effects are responsibilities of the
+    controller; move all such code from form objects to the controller layer.
+
+    *George Millo*
+
 *   Add 'rel="nofollow"' to all offer links
 
     *George Millo*

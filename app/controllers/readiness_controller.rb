@@ -1,6 +1,4 @@
 class ReadinessController < AuthenticatedUserController
-  include EventTracking
-
   def show
     @person = load_person
     if @person.ineligible? || @person.ready?
