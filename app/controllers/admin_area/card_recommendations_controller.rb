@@ -2,12 +2,11 @@ module AdminArea
   class CardRecommendationsController < AdminController
 
     def create
-      @person = load_person
-      # TODO don't allow expired/inactive offers to be assigned:
-      offer = Offer.find(params[:offer_id])
-      @person.card_recommendations.create!(offer: offer, recommended_at: Time.now)
+      person = load_person
+      offer  = Offer.find(params[:offer_id])
+      CardRecommendation.create!(offer: offer, person: person)
       flash[:success] = "Recommended card!"
-      redirect_to admin_person_path(@person)
+      redirect_to admin_person_path(person)
     end
 
     def complete
