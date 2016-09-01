@@ -3,10 +3,9 @@ module AdminArea
 
     def create
       person = load_person
-      rec = CardRecommendation.new(person: person)
+      rec = AdminArea::CardRecommendation.new(person: person)
       rec.update_attributes!(card_rec_params)
-      flash[:success] = "Recommended card!"
-      redirect_to admin_person_path(person)
+      respond_to { |f| f.js }
     end
 
     def complete
@@ -42,7 +41,7 @@ module AdminArea
     private
 
     def card_rec_params
-      { offer_id: params[:offer_id] }
+      params.require(:card_recommendation).permit(:offer_id)
     end
 
     def load_person

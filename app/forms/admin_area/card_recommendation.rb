@@ -5,10 +5,17 @@ module AdminArea
 
     validate :offer_is_live
 
+    def self.name
+      "CardRecommendation"
+    end
+
     private
 
     def offer
-      @offer ||= Offer.find(offer_id)
+      # Not sure why, but if you don't put "::" in front of "Offer" then
+      # you get an error saying 'A copy of AdminArea::CardRecommendation has been
+      # removed from the module tree but is still active'
+      @offer ||= ::Offer.find(offer_id)
     end
 
     def offer_is_live

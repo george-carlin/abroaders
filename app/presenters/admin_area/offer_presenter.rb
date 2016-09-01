@@ -1,4 +1,4 @@
-class AdminArea::OfferPresenter < OfferPresenter
+class AdminArea::OfferPresenter < ::OfferPresenter
 
   def card_bp
     card.bp.to_s[0].upcase
@@ -24,6 +24,16 @@ class AdminArea::OfferPresenter < OfferPresenter
       id:     "#{h.dom_id(self, prefix)}_btn",
       params: { offer_id: id }
     )
+  end
+
+  def confirm_recommend_form(person)
+    h.form_for(
+      [:admin, person, AdminArea::CardRecommendation.new(offer_id: id)],
+      data: { remote: true },
+      html: { style: "display:none" },
+    ) do |f|
+      yield(f)
+    end
   end
 
   def kill_btn
@@ -86,6 +96,5 @@ class AdminArea::OfferPresenter < OfferPresenter
         remote: true
     )
   end
-
 
 end

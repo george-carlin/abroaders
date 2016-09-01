@@ -83,16 +83,16 @@ $(document).ready(function () {
     e.preventDefault();
     $(this)
       .hide()
-      .siblings(".confirm_cancel_offer_wrapper")
+      .siblings(".new_card_recommendation")
         .show();
   });
 
   $(".cancel_recommend_offer_btn").click(function (e) {
     e.preventDefault();
     $(this)
-      .parent()
+      .closest("form")
         .hide()
         .siblings(".recommend_offer_btn")
-            .show();
+          .show();
   });
 });

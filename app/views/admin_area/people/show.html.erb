@@ -289,15 +289,13 @@
                         </td>
                         <td class="offer-recommend">
                           <%= offer.recommend_btn %>
-
-                          <div
-                            class="confirm_cancel_offer_wrapper"
-                            style="display:none;"
-                            role="group"
-                          >
-                            <%= offer.confirm_recommend_btn(person) %>
-                            <%= offer.cancel_recommend_btn %>
-                          </div>
+                          <%= offer.confirm_recommend_form(person) do |f| %>
+                            <div role="group">
+                              <%= f.hidden_field :offer_id %>
+                              <%= offer.confirm_recommend_btn(person) %>
+                              <%= offer.cancel_recommend_btn %>
+                            </div>
+                          <% end %>
                         </td>
                       </tr>
                     <% end %>

@@ -1,0 +1,6 @@
+var offerId = <%= params[:offer_id] %>
+
+$("#admin_recommend_offer_" + offerId + " .offer-recommend").html(
+  "<button class='btn btn-xs btn-success pull-right' disabled>Recommended!</button>"
+);
+

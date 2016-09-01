@@ -459,13 +459,18 @@ module AdminArea
         expect(offer_on_page).to have_no_button "Cancel"
       end
 
-      example "clicking 'recommend' next to an offer", :js do
+      example "recommending an offer", :js do
         offer_on_page.click_recommend_btn
 
         # it recommends the card to the person
-        expect{offer_on_page.click_confirm_btn}.to change{
+        expect do
+          offer_on_page.click_confirm_btn
+          wait_for_ajax
+        end.to change{
           @person.card_recommendations.count
         }.by(1)
+
+        expect(page).to have_content "Recommended!"
 
         # the rec has the correct attributes:
         rec = CardAccount.recommendations.last
