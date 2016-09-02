@@ -1,5 +1,5 @@
 <% present card_account, AdminArea::CardAccountPresenter do |card_account| %>
-  <%= content_tag_for :tr, card_account do %>
+  <%= card_account.tr_tag do %>
     <td><%= card_account.card_identifier %></td>
     <td><%= card_account.card_name %></td>
     <td class="card_account_status">
