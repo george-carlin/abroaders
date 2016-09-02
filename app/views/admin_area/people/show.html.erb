@@ -64,10 +64,10 @@
   <% if person.eligible? %>
     <%= render "shared/hpanel" do %>
       <div class="panel-body">
-        <h3>Existing Cards</h3>
+        <h3>Card Accounts</h3>
 
         <div id="admin_person_card_accounts"
-          <% if @card_recommendations.size == 0 %>
+          <% if @card_accounts.size == 0 %>
             <%# this table is hidden, but still output, because it will be    %>
             <%# once a card is recommended and added to the table shown by JS %>
             style="display:none;"
@@ -78,38 +78,32 @@
               <th>ID</th>
               <th>Name</th>
               <th>Status</th>
-              <th>Recommended</th>
+              <th>Rec'ed</th>
               <th>Seen</th>
               <th>Clicked</th>
               <th>Applied</th>
               <th>Denied</th>
               <th>Declined</th>
               <th>Opened</th>
+              <th>Closed</th>
               <th></th>
             </thead>
             <tbody>
-              <%= render @card_recommendations, partial: "admin_area/card_accounts/card_account" %>
+              <%= render @card_accounts, partial: "admin_area/card_accounts/card_account" %>
             </tbody>
           </table>
 
         </div>
 
-        <% if @card_recommendations.size == 0 %>
-          <p id="admin_person_card_accounts_none">User has not been recommended any cards yet</p>
+        <% if @card_accounts.size == 0 %>
+          <p id="admin_person_card_accounts_none">User has no existing card accounts</p>
         <% end %>
 
-        <% if @pulled_card_recommendations.any? %>
+        <% if @pulled_card_accounts.any? %>
           <%= link_to(
-            "View #{pluralize(@pulled_card_recommendations.size, "pulled recommendation")}",
+            "View #{pluralize(@pulled_card_accounts.size, "pulled recommendation")}",
             pulled_admin_person_card_recommendations_path(@person)
           ) %>
-        <% end %>
-
-        <% if @cards_from_survey.any? %>
-          <p>Cards added in the onboarding survey:</p>
-          <%= render "admin_area/card_accounts/from_survey", card_accounts: @cards_from_survey %>
-        <% else %>
-          <p>User did not add any cards in the onboarding survey</p>
         <% end %>
       </div>
     <% end %>

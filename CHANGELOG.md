@@ -2,6 +2,11 @@
 
 ## September 2016
 
+*   Get rid of the separation between "Recommendations" and "Other cards" on
+    admin/people#show - just show all cards in the same table.
+
+    *George Millo*
+
 *   Recommending a card now saves via AJAX rather than requiring a full page load
 
     *George Millo*

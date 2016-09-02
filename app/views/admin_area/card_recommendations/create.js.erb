@@ -9,4 +9,6 @@ var tr = "<%= j render "admin_area/card_accounts/card_account", card_account: @c
 // If the user had no card accounts when the page was initially loaded, the table will
 // be hidden, so show it:
 $("#admin_person_card_accounts").show();
+// And hide the text that says there are no card accounts:
+$("#admin_person_card_accounts_none").hide();
 $("#admin_person_card_accounts_table tbody").append(tr);
