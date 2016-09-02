@@ -2,6 +2,11 @@
 
 ## September 2016
 
+*   Admin recieves an email when a user updates his/her status from 'not ready'
+    to 'ready'.
+
+    *George Millo*
+
 *   Clicking the filter checkboxes on admin/people#show hides/shows the user's
     existing cards as well as the recommendable cards.
 
