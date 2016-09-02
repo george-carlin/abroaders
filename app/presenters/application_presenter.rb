@@ -2,6 +2,8 @@
 class ApplicationPresenter < SimpleDelegator
   include I18nWithErrorRaising
 
+  attr_reader :model
+
   def initialize(model, view)
     @model, @view = model, view
     super(@model)
@@ -24,6 +26,6 @@ class ApplicationPresenter < SimpleDelegator
     h.raw(*args)
   end
 
-  attr_reader :model, :view
+  attr_reader :view
 
 end

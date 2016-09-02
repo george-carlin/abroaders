@@ -2,6 +2,11 @@
 
 ## September 2016
 
+*   Clicking the filter checkboxes on admin/people#show hides/shows the user's
+    existing cards as well as the recommendable cards.
+
+    *George Millo*
+
 *   Get rid of the separation between "Recommendations" and "Other cards" on
     admin/people#show - just show all cards in the same table.
 
