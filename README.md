@@ -29,6 +29,12 @@ cp config/database.yml.sample  config/database.yml
 bin/setup
 ```
 
+Note that `bin/setup` is intended for *nix operating systems. There's no
+guarantee that it will work on Windows. If you're on Windows, look in
+`bin/setup` and figure out what the equivalent steps are for your OS. (If you
+want to write a similar script that will work on Windows - `bin/setup.exe`?, be
+my guest)
+
 Have a look inside the `bin/setup` script if you have problems, or want to
 learn more about what's going on.
 
