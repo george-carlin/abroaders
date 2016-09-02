@@ -2,7 +2,7 @@
 
 ## September 2016
 
-*   Don't Remove the `EventTracking` module and put the `track_intercom_event` method
+*   Remove the `EventTracking` module and put the `track_intercom_event` method
     directly in `AuthenticatedUserController`.
 
     *George Millo*
