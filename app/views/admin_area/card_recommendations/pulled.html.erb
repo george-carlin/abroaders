@@ -9,10 +9,43 @@
 
 <%= render "shared/hpanel" do %>
   <div class="panel-body">
-    <%= render(
-      "admin_area/card_accounts/recommendations",
-      card_accounts: @pulled_recommendations,
-      pulled: true
-    ) %>
+    <table id="admin_person_pulled_card_accounts" class="table table-striped">
+      <thead>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Recommended</th>
+        <th>Seen</th>
+        <th>Clicked</th>
+        <th>Denied</th>
+        <th>Declined</th>
+        <th>Pulled</th>
+      </thead>
+      <tbody>
+        <% present_each @pulled_recommendations, AdminArea::CardAccountPresenter do |card_account| %>
+          <%= content_tag_for :tr, card_account do %>
+            <td><%= card_account.card_identifier %></td>
+            <td><%= card_account.card_name %></td>
+            <td class="card_account_recommended_at">
+              <%= card_account.recommended_at || "-" %>
+            </td>
+            <td class="card_account_seen_at">
+              <%= card_account.seen_at || "-" %>
+            </td>
+            <td class="card_account_clicked_at">
+              <%= card_account.clicked_at || "-" %>
+            </td>
+            <td class="card_account_denied_at">
+              <%= card_account.denied_at || "-" %>
+            </td>
+            <td class="card_account_declined_at">
+              <%= card_account.declined_at || "-" %>
+            </td>
+            <td class="card_account_pulled_at">
+              <%= card_account.pulled_at %>
+            </td>
+          <% end # content_tag_for %>
+        <% end # present %>
+      </tbody>
+    </table>
   </div>
 <% end %>

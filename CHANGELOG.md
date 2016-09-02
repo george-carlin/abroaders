@@ -2,6 +2,10 @@
 
 ## September 2016
 
+*   Recommending a card now saves via AJAX rather than requiring a full page load
+
+    *George Millo*
+
 *   Remove the `EventTracking` module and put the `track_intercom_event` method
     directly in `AuthenticatedUserController`.
 

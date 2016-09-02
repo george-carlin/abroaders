@@ -1,0 +1,38 @@
+<% present card_account, AdminArea::CardAccountPresenter do |card_account| %>
+  <%= content_tag_for :tr, card_account do %>
+    <td><%= card_account.card_identifier %></td>
+    <td><%= card_account.card_name %></td>
+    <td class="card_account_status">
+      <%= card_account.status %>
+      <% if card_account.declined? %>
+        <a href="#" data-toggle="tooltip" title="<%= card_account.decline_reason %>">
+          <%= fa_icon "question" %>
+        </a>
+      <% end %>
+    </td>
+    <td class="card_account_recommended_at">
+      <%= card_account.recommended_at || "-" %>
+    </td>
+    <td class="card_account_seen_at">
+      <%= card_account.seen_at || "-" %>
+    </td>
+    <td class="card_account_clicked_at">
+      <%= card_account.clicked_at || "-" %>
+    </td>
+    <td class="card_account_applied_at">
+      <%= card_account.applied_at || "-" %>
+    </td>
+    <td class="card_account_denied_at">
+      <%= card_account.denied_at || "-" %>
+    </td>
+    <td class="card_account_declined_at">
+      <%= card_account.declined_at || "-" %>
+    </td>
+    <td class="card_account_opened_at">
+      <%= card_account.opened_at || "-" %>
+    </td>
+    <td>
+      <%= card_account.link_to_pull %>
+    </td>
+  <% end # content_tag_for %>
+<% end # present %>
