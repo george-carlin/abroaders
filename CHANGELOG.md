@@ -2,6 +2,11 @@
 
 ## September 2016
 
+*   Get rid of the separation between "Recommendations" and "Other cards" on
+    admin/people#show - just show all cards in the same table.
+
+    *George Millo*
+
 *   Don't Remove the `EventTracking` module and put the `track_intercom_event` method
     directly in `AuthenticatedUserController`.
 
