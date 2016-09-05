@@ -49,10 +49,12 @@
     <div class="form-group col-xs-12 col-md-6">
       <%= f.label :earliest_departure, "Departure date" %>
       <%= f.text_field :earliest_departure, value: f.object.earliest_departure_str %>
-      <p class="help-block small">
-        If you don’t yet know exactly when <%= travel_plan.owner_name %> want to fly, please input the
-        <i>earliest</i> possible date which it might be.
-      </p>
+      <% if travel_plan.show_earliest_departure_help_block? %>
+        <p class="help-block small">
+          If you don’t yet know exactly when you want to fly, please input the
+          <i>earliest</i> possible date which it might be.
+        </p>
+      <% end %>
     </div>
 
     <div class="col-xs-12 col-md-6">

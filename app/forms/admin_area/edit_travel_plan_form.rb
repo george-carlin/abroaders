@@ -4,6 +4,10 @@ module AdminArea
       false
     end
 
+    def show_earliest_departure_help_block?
+      false
+    end
+
     def owner
       travel_plan.account.owner
     end

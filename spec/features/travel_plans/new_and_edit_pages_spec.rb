@@ -1,5 +1,4 @@
 require "rails_helper"
-require Rails.root.join("spec/shared_examples/travels_plan.rb")
 
 describe "travel plans" do
   let(:account) { create(:account) }

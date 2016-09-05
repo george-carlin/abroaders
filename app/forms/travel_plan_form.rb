@@ -37,6 +37,10 @@ class TravelPlanForm < ApplicationForm
     true
   end
 
+  def show_earliest_departure_help_block?
+    true
+  end
+
   def owner_name(suffix = false)
     suffix = suffix ? "r" : ""
     "you#{suffix}"

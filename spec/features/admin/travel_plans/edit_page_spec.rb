@@ -1,5 +1,4 @@
 require "rails_helper"
-require Rails.root.join("spec/shared_examples/travels_plan.rb")
 
 describe "admin edit travel plan" do
   include_context "logged in as admin"
@@ -37,7 +36,7 @@ describe "admin edit travel plan" do
 
     expect(form[:action]).to eq admin_travel_plan_path(travel_plan)
     expect(form).to have_content "What class(es) of service would #{owner_name} consider for this trip?"
-    expect(form.find(".help-block").text).to eq "If you don’t yet know exactly when #{owner_name} want to fly, please input the earliest possible date which it might be."
+    expect(form).to have_no_selector(".help-block")
     expect(form.find("#travel_plan_further_information")[:placeholder]).to eq "Optional: give us any extra information about #{owner_name}'s travel plans that you think might be relevant"
   end
 
