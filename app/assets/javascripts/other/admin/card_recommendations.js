@@ -39,6 +39,14 @@ $(document).ready(function () {
         .next()
           .toggle(show);
     });
+
+    $("tr.card_account").each(function (i, tr) {
+      var bankIsShown = checkedBanks.indexOf(tr.dataset.bank) > -1;
+      var bpIsShown   = checkedBPs.indexOf(tr.dataset.bp) > -1;
+      var currIsShown = checkedCurrencies.indexOf(tr.dataset.currency) > -1;
+
+      $(tr).toggle(bankIsShown && bpIsShown && currIsShown);
+    });
   }
 
 

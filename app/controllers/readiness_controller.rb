@@ -13,6 +13,7 @@ class ReadinessController < AuthenticatedUserController
     @person.update_attributes!(ready: true)
 
     track_intercom_event("obs_ready_#{@person.type[0..2]}")
+    AccountMailer.notify_admin_of_user_readiness_update(current_account.id, Time.now.to_i).deliver_later
 
     flash[:success] = "Thanks! You will shortly receive your first card recommendation."
     redirect_to root_path

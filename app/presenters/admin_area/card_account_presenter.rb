@@ -15,5 +15,16 @@ module AdminArea
       )
     end
 
+    def tr_tag(&block)
+      h.content_tag_for(
+        :tr,
+        self,
+        "data-bp":       card.model.bp,
+        "data-bank":     card.model.bank_id,
+        "data-currency": card.model.currency_id,
+        &block
+      )
+    end
+
   end
 end
