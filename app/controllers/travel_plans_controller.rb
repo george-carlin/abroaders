@@ -64,7 +64,7 @@ class TravelPlansController < AuthenticatedUserController
   end
 
   def load_countries
-    CountriesLoader.load_countries
+    SelectableCountries.all
   end
 
   def load_travel_plan

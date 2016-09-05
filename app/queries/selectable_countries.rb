@@ -1,5 +1,5 @@
-class CountriesLoader
-  def self.load_countries
+class SelectableCountries
+  def self.all
     countries = Destination.country.order("name ASC").to_a
 
     # Move the U.S. and related 'countries' to the top of the list

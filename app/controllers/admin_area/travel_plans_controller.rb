@@ -30,7 +30,7 @@ module AdminArea
     end
 
     def load_counties
-      CountriesLoader.load_countries
+      SelectableCountries.all
     end
 
     def submit_url(travel_plan)
