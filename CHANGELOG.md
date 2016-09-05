@@ -2,6 +2,16 @@
 
 ## September 2016
 
+*   Admin recieves an email when a user updates his/her status from 'not ready'
+    to 'ready'.
+
+    *George Millo*
+
+*   Clicking the filter checkboxes on admin/people#show hides/shows the user's
+    existing cards as well as the recommendable cards.
+
+    *George Millo*
+
 *   Get rid of the separation between "Recommendations" and "Other cards" on
     admin/people#show - just show all cards in the same table.
 
