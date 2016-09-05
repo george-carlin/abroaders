@@ -33,6 +33,15 @@ class TravelPlanForm < ApplicationForm
     end
   end
 
+  def show_skip_survey?
+    true
+  end
+
+  def owner_name(suffix = false)
+    suffix = suffix ? "r" : ""
+    "you#{suffix}"
+  end
+
   concerning :Validations do
     included do
       with_options presence: true do

@@ -92,6 +92,7 @@ module AdminArea
     example "person with no travel plans" do
       visit_path
       expect(page).to have_content "User has no upcoming travel plans"
+      expect(page).to have_no_link("Edit")
     end
 
     example "person with travel plans" do
@@ -144,6 +145,7 @@ module AdminArea
             expect(page).to have_content "JFK (North America)"
             expect(page).to have_content "Heathrow (Europe)"
           end
+          expect(page).to have_link("Edit", href: edit_admin_travel_plan_path(@tp_0))
         end
 
         expect(page).to have_selector "##{dom_id(@tp_1)}"
@@ -154,6 +156,7 @@ module AdminArea
             expect(page).to have_content "North America"
             expect(page).to have_content "Asia"
           end
+          expect(page).to have_link("Edit", href: edit_admin_travel_plan_path(@tp_1))
         end
 
         expect(page).to have_selector "##{dom_id(@tp_2)}"
@@ -175,6 +178,7 @@ module AdminArea
             expect(page).to have_content "HCMC (Asia)"
             expect(page).to have_content "JFK (North America)"
           end
+          expect(page).to have_link("Edit", href: edit_admin_travel_plan_path(@tp_2))
         end
       end
     end
