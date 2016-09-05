@@ -41,6 +41,10 @@ class TravelPlanForm < ApplicationForm
     true
   end
 
+  def form_object
+    self
+  end
+
   def owner_name(suffix = false)
     suffix = suffix ? "r" : ""
     "you#{suffix}"

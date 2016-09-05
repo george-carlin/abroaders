@@ -8,6 +8,10 @@ module AdminArea
       false
     end
 
+    def form_object
+      [:admin, self]
+    end
+
     def owner
       travel_plan.account.owner
     end

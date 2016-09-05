@@ -1,6 +1,6 @@
 <%= render "shared/model_validation_errors", model: travel_plan %>
 <div class="panel-body">
-  <%= form_for travel_plan, url: @submit_url, html: { class: "row" } do |f| %>
+  <%= form_for travel_plan.form_object, html: { class: "row" } do |f| %>
 
     <div class="form-inline col-xs-12 form-group">
       <% travel_plan.class.types.each do |type, _| %>

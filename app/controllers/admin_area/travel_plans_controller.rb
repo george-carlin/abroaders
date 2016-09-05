@@ -3,7 +3,6 @@ module AdminArea
     def edit
       @travel_plan = AdminArea::EditTravelPlanForm.find(params[:id])
       @countries = load_counties
-      @submit_url = submit_url(@travel_plan)
       render "travel_plans/edit"
     end
 
@@ -14,7 +13,6 @@ module AdminArea
         redirect_to admin_person_path(@travel_plan.owner)
       else
         @countries = load_counties
-        @submit_url = submit_url(@travel_plan)
         render "travel_plans/edit"
       end
     end
@@ -33,8 +31,5 @@ module AdminArea
       SelectableCountries.all
     end
 
-    def submit_url(travel_plan)
-      admin_travel_plan_path(travel_plan)
-    end
   end
 end
