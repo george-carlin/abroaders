@@ -54,12 +54,17 @@ class Person < ApplicationRecord
     def unready
       !ready?
     end
+
+    def recently_has_recommendation?
+      return false if last_recommendations_at.nil?
+      last_recommendations_at >= Time.current - 30.days
+    end
     alias_method :unready?, :unready
   end
 
   # Validations
 
-  NAME_MAX_LENGTH  = 50
+  NAME_MAX_LENGTH = 50
 
   validates :account, uniqueness: { scope: :main }
 
@@ -82,5 +87,4 @@ class Person < ApplicationRecord
 
   scope :main,      -> { where(main: true) }
   scope :companion, -> { where(main: false) }
-
 end
