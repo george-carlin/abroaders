@@ -5,21 +5,21 @@
   <div class="panel-heading hbuilt">
     <div class="row">
       <div class="col-xs-12">
-        <h1><%= @person.first_name %>'s Cards</h1>
+        <h1><%= @name.possessive.capitalize %> Cards</h1>
       </div>
     </div><!-- .row -->
   </div><!-- .panel-heading.hbuilt -->
 
   <div id="card-survey-initial" class="panel-body">
     <p>
-      Before we can recommend <%= @person.first_name %> a credit card to apply
-      for, we need to know which cards he/she already has.
+      Before we can recommend <%= @name.name %> a credit card to apply
+      for, we need to know which cards <%= @name.he_she %> already <%= @name.has %>.
     </p>
 
-    <p>Has <%= @person.first_name %> ever had a credit card that earns points or miles?</p>
+    <p><%= @name.has.capitalize %> <%= @name.name %> ever had a credit card that earns points or miles?</p>
 
     <p>
-      For example, a card that earns airline frequent flyer miles when you use
+      For example, a card that earns airline frequent flyer miles when <%= @name.name %> use
       it. Or bank points, like Amex, Chase, SPG, Citi, or Capital one.
     </p>
 
@@ -35,7 +35,7 @@
   </div>
 
   <div id="card-survey-confirm-no" class="panel-body" style="display:none;">
-    <p><%= @person.first_name %> has never had a card that earns points or miles:</p>
+    <p><%= @name.name.capitalize %> <%= @name.has %> never had a card that earns points or miles:</p>
 
     <%= form_tag survey_person_card_accounts_path(@person) do %>
       <div class="btn-group">
@@ -50,20 +50,20 @@
   <div id="card-survey-main-header" style="display:none;" class="panel-body">
     <p>
       Please select <strong>all</strong> of the credit/debit cards below for
-      which <%= @person.first_name %> has <strong>ever</strong> been the
+      which <%= @name.name %> <%= @name.has %> <strong>ever</strong> been the
       <strong>primary cardholder</strong>.
     </p>
 
     <p>
       "Primary cardholder" means that the credit card account was opened using
-      your name and social security number. You are not considered a primary
-      cardholder of a card if someone else adds you as an authorized user on
+      <%= @name.possessive %> name and social security number. <%= @name.he_she.capitalize %> <%= @name.is %> not considered a primary
+      cardholder of a card if someone else adds <%= @name.him_her %> as an authorized user on
       their account.
     </p>
 
     <p>
-      <strong>Only</strong> select cards for which <%= @person.first_name %>
-      is or was the primary cardholder.
+      <strong>Only</strong> select cards for which <%= @name.name %>
+      <%= @name.is %> or was the primary cardholder.
     </p>
   </div><!-- .panel-body -->
 </div><!-- .hpanel -->

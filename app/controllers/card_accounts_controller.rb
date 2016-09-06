@@ -18,6 +18,7 @@ class CardAccountsController < AuthenticatedUserController
 
   def survey
     @person = load_person
+    @name = name_object(@person)
     @survey = CardsSurvey.new(person: @person)
   end
 
@@ -34,6 +35,10 @@ class CardAccountsController < AuthenticatedUserController
 
   def load_person
     current_account.people.find(params[:person_id])
+  end
+
+  def name_object(person)
+    current_account.has_companion? ? Name.new(person.first_name) : Name.new("you")
   end
 
   # WARNING non-strong-parameters hackery
