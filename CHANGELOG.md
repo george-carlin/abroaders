@@ -2,6 +2,12 @@
 
 ## September 2016
 
+*   Pivotal Story: #129807083
+
+    Update the onboarding survey to save last day of month for opened/closed dates of card accounts.
+
+    *Boris Shatalov*
+
 *   Admin recieves an email when a user updates his/her status from 'not ready'
     to 'ready'.
 
@@ -219,10 +225,3 @@
 
     *George Millo*
 
-## September 2016
-
-*   Pivotal Story: #129807083
-
-    Update the onboarding survey to save last day of month for opened/closed dates of card accounts.
-
-    *Boris Shatalov*

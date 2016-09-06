@@ -76,7 +76,7 @@ When you start working on a new feature:
    made. Add the name(s) of anyone who was involved in making the change, the
    number(s) of the Pivotal Tracker stories, and the numbers of any related
    GitHub issues if there are any. Follow the format of the existing entries in
-   the changelog for guidance.
+   the changelog for guidance. (Put new entries at the *top* of the file)
 
 When you're done with the story:
 
