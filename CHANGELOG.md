@@ -2,6 +2,11 @@
 
 ## September 2016
 
+*   Update the onboarding survey to save last day of month for opened/closed
+    dates of card accounts. Pivotal Tracker #129807083
+
+    *Boris Shatalov*
+
 *   Admin can edit a user's travel plans
 
     *Boris Shatalov*
@@ -222,3 +227,4 @@
     afterwards.
 
     *George Millo*
+

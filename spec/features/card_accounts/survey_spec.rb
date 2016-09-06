@@ -36,6 +36,10 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
     CardOnSurveyPage.new(card, self)
   end
 
+  def end_of_month(year, month)
+    Date.parse("#{year}-#{month}-01").end_of_month.strftime("%F")
+  end
+
   shared_examples "submitting the form" do
     it "takes me to the balances survey" do
       submit_form
@@ -308,12 +312,12 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
             open_acc_0 = new_accounts.find_by(card_id: open_cards[0].id)
             open_acc_1 = new_accounts.find_by(card_id: open_cards[1].id)
             closed_acc = new_accounts.find_by(card_id: closed_card.id)
-            expect(open_acc_0.opened_at.strftime("%F")).to eq "#{this_year}-01-01"
+            expect(open_acc_0.opened_at.strftime("%F")).to eq end_of_month(this_year, "01")
             expect(open_acc_0.closed_at).to be_nil
-            expect(open_acc_1.opened_at.strftime("%F")).to eq "#{last_year}-03-01"
+            expect(open_acc_1.opened_at.strftime("%F")).to eq end_of_month(last_year, "03")
             expect(open_acc_1.closed_at).to be_nil
-            expect(closed_acc.opened_at.strftime("%F")).to eq "#{ten_years_ago}-11-01"
-            expect(closed_acc.closed_at.strftime("%F")).to eq "#{last_year}-04-01"
+            expect(closed_acc.opened_at.strftime("%F")).to eq end_of_month(ten_years_ago, "11")
+            expect(closed_acc.closed_at.strftime("%F")).to eq end_of_month(last_year, "04")
           end
 
           specify "have the right statuses" do

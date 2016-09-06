@@ -1,11 +1,12 @@
 class CardAccountsController < AuthenticatedUserController
-
   def index
     @people = current_account.people
     @card_recommendations = current_account.card_recommendations\
-                              .includes(:card, offer: { card: :currency })\
-                              .visible
-    @card_accounts_from_survey = current_account.card_accounts.from_survey
+                                           .includes(:card, offer: { card: :currency })\
+                                           .visible
+    @card_accounts_from_survey = current_account.card_accounts\
+                                                .includes(:card, :offer)\
+                                                .from_survey
     if current_account.card_recommendations.unresolved.count > 0
       cookies[:recommendation_timeout] = { value: "timeout", expires: 24.hours.from_now }
     end
@@ -14,7 +15,6 @@ class CardAccountsController < AuthenticatedUserController
 
     current_account.card_recommendations.unseen.update_all(seen_at: Time.now)
   end
-
 
   def survey
     @person = load_person
@@ -36,14 +36,11 @@ class CardAccountsController < AuthenticatedUserController
     current_account.people.find(params[:person_id])
   end
 
-  # WARNING non-strong-parameters hackery
   def survey_params
-    if params[:cards_survey]
-      { card_accounts: params[:cards_survey][:card_accounts] }
+    if params.has_key?(:cards_survey)
+      params.require(:cards_survey).permit(card_accounts: [:card_id, :opened, :closed, :opened_at_, :closed_at_]).to_h
     else # if they clicked 'I don't have any cards'
       {}
     end
   end
-
-
 end
