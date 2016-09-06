@@ -19,7 +19,6 @@ describe "the balance survey page", :onboarding, :js do
 
   let(:account)   { @account }
   let(:me)        { @me }
-  let(:companion) { @companion }
 
   def currency_selector(currency)
     "##{dom_id(currency)}"
@@ -37,32 +36,6 @@ describe "the balance survey page", :onboarding, :js do
     within_currency(currency) do
       find("input[type='checkbox']")
     end
-  end
-
-  example "initial page layout" do
-    expect(page).to have_title full_title("Balances")
-    expect(page).to have_no_sidebar
-    expect(page).to have_content "Does George have any points balances greater than 5,000?"
-    expect(page).to have_button "Yes"
-    expect(page).to have_button "No"
-  end
-
-  example "clicking 'No' asks for confirmation" do
-    click_button "No"
-    expect(page).to have_no_content "Does George have any points balances greater than 5,000?"
-    expect(page).to have_no_button "Yes"
-    expect(page).to have_no_button "No"
-    expect(page).to have_content "George has no points balances greater than 5,000"
-    expect(page).to have_button "Confirm"
-    expect(page).to have_button "Back"
-
-    click_button "Back"
-    expect(page).to have_content "Does George have any points balances greater than 5,000?"
-    expect(page).to have_button "Yes"
-    expect(page).to have_button "No"
-    expect(page).to have_no_content "George has no points balances greater than 5,000"
-    expect(page).to have_no_button "Confirm"
-    expect(page).to have_no_button "Back"
   end
 
   example "clicking 'No' and confirming" do
@@ -163,6 +136,86 @@ describe "the balance survey page", :onboarding, :js do
     example "tracking an intercom event when person is companion" do
       click_button "Yes"
       expect{submit_form}.to track_intercom_event("obs_balances_com").for_email(account.email)
+    end
+  end
+
+  describe "when person without account companion" do
+    let(:account) { create(:account, onboarded_travel_plans: true, onboarded_type: true) }
+    let(:me) { account.owner }
+
+    before do
+      me.update_attributes!(first_name: "George")
+      @currencies = create_list(:currency, 3)
+      login_as_account(account)
+
+      visit survey_person_balances_path(me)
+    end
+
+    example "initial page layout" do
+      expect(page).to have_title full_title("Balances")
+      expect(page).to have_no_sidebar
+      expect(page).to have_content "Your Existing Balances"
+      expect(page).to have_content "Do you have any points balances greater than 5,000?"
+      expect(page).to have_button "Yes"
+      expect(page).to have_button "No"
+    end
+
+    example "clicking 'No' asks for confirmation" do
+      click_button "No"
+      expect(page).to have_no_content "Do you have any points balances greater than 5,000?"
+      expect(page).to have_no_button "Yes"
+      expect(page).to have_no_button "No"
+      expect(page).to have_content "You have no points balances greater than 5,000"
+      expect(page).to have_button "Confirm"
+      expect(page).to have_button "Back"
+
+      click_button "Back"
+      expect(page).to have_content "Do you have any points balances greater than 5,000?"
+      expect(page).to have_button "Yes"
+      expect(page).to have_button "No"
+      expect(page).to have_no_content "You have no points balances greater than 5,000"
+      expect(page).to have_no_button "Confirm"
+      expect(page).to have_no_button "Back"
+    end
+  end
+
+  describe "when person with account companion" do
+    let(:account_with_companion) { create(:account, :with_companion, onboarded_travel_plans: true, onboarded_type: true) }
+    let(:me) { account_with_companion.owner }
+
+    before do
+      me.update_attributes!(first_name: "George")
+
+      login_as_account(account_with_companion)
+    end
+
+    before { visit survey_person_balances_path(me) }
+
+    example "initial page layout" do
+      expect(page).to have_title full_title("Balances")
+      expect(page).to have_no_sidebar
+      expect(page).to have_content "George's Existing Balances"
+      expect(page).to have_content "Does George have any points balances greater than 5,000?"
+      expect(page).to have_button "Yes"
+      expect(page).to have_button "No"
+    end
+
+    example "clicking 'No' asks for confirmation" do
+      click_button "No"
+      expect(page).to have_no_content "Does George have any points balances greater than 5,000?"
+      expect(page).to have_no_button "Yes"
+      expect(page).to have_no_button "No"
+      expect(page).to have_content "George has no points balances greater than 5,000"
+      expect(page).to have_button "Confirm"
+      expect(page).to have_button "Back"
+
+      click_button "Back"
+      expect(page).to have_content "Does George have any points balances greater than 5,000?"
+      expect(page).to have_button "Yes"
+      expect(page).to have_button "No"
+      expect(page).to have_no_content "George has no points balances greater than 5,000"
+      expect(page).to have_no_button "Confirm"
+      expect(page).to have_no_button "Back"
     end
   end
 end

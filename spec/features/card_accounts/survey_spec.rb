@@ -16,20 +16,6 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
     @hidden_card = create(:card, shown_on_survey: false)
   end
 
-  before do
-    @account = create(:account, :onboarded_type)
-    @me = account.owner
-
-    create(:spending_info, person: @me)
-    @me.update_attributes!(eligible: true)
-
-    login_as account.reload
-    visit survey_person_card_accounts_path(@me)
-  end
-
-  let(:account) { @account }
-  let(:me) { @me }
-  let(:name) { me.first_name }
   let(:submit_form) { click_button "Submit" }
 
   def card_on_page(card)
@@ -54,57 +40,151 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
     end
   end
 
-  example "initial page layout" do
-    expect(page).to have_no_selector "#menu"
-    expect(page).to have_content \
-      "Has #{name} ever had a credit card that earns points or miles?"
-    expect(page).to have_button "Yes"
-    expect(page).to have_button "No"
-    # doesn't initially list cards:
-    expect(page).to have_no_selector ".card-survey-checkbox"
-  end
+  describe "account without companion" do
+    let(:account) { create(:account, :onboarded_type) }
+    let(:me) { account.owner }
 
-  describe "clicking 'No'" do
-    before { click_button "No" }
+    before do
+      create(:spending_info, person: me)
+      me.update_attributes!(eligible: true)
 
-    it "asks to confirm" do
-      expect(page).to have_no_content \
-        "Has #{name} ever had a credit card that earns points or miles?"
-      expect(page).to have_no_button "Yes"
-      expect(page).to have_no_button "No"
-      expect(page).to have_content \
-        "#{name} has never had a card that earns points or miles"
-      expect(page).to have_button "Confirm"
-      expect(page).to have_button "Back"
+      login_as account.reload
+      visit survey_person_card_accounts_path(me)
     end
 
-    describe "and clicking 'Confirm'" do
-      let(:submit_form) { click_button "Confirm" }
+    example "initial page layout" do
+      expect(page).to have_no_selector "#menu"
+      expect(page).to have_content \
+      "Have you ever had a credit card that earns points or miles?"
+      expect(page).to have_content "Your Cards"
+      expect(page).to have_button "Yes"
+      expect(page).to have_button "No"
+      # doesn't initially list cards:
+      expect(page).to have_no_selector ".card-survey-checkbox"
+    end
 
-      it "doesn't assign any cards to any account" do
-        expect{submit_form}.not_to change{CardAccount.count}
+    describe "clicking 'No'" do
+      before { click_button "No" }
+
+      it "asks to confirm" do
+        expect(page).to have_no_content \
+        "Have you ever had a credit card that earns points or miles?"
+        expect(page).to have_no_button "Yes"
+        expect(page).to have_no_button "No"
+        expect(page).to have_content \
+        "You have never had a card that earns points or miles"
+        expect(page).to have_button "Confirm"
+        expect(page).to have_button "Back"
       end
 
-      include_examples "submitting the form"
+      describe "and clicking 'Confirm'" do
+        let(:submit_form) { click_button "Confirm" }
+
+        it "doesn't assign any cards to any account" do
+          expect{submit_form}.not_to change{CardAccount.count}
+        end
+
+        include_examples "submitting the form"
+      end
+
+      describe "and clicking 'Back'" do
+        before { click_button "Back" }
+
+        it "goes back" do
+          expect(page).to have_content \
+          "Have you ever had a credit card that earns points or miles?"
+          expect(page).to have_button "Yes"
+          expect(page).to have_button "No"
+          expect(page).to have_no_content \
+          "You has never had a card that earns points or miles"
+          expect(page).to have_no_button "Confirm"
+          expect(page).to have_no_button "Back"
+        end
+      end
+    end
+  end
+
+  describe "account with companion" do
+    let(:account) { create(:account, :with_companion, :onboarded_type) }
+    let(:me) { account.owner }
+    let(:name) { me.first_name }
+
+    before do
+      create(:spending_info, person: me)
+      me.update_attributes!(eligible: true)
+
+      login_as account.reload
+      visit survey_person_card_accounts_path(me)
     end
 
-    describe "and clicking 'Back'" do
-      before { click_button "Back" }
+    example "initial page layout" do
+      expect(page).to have_no_selector "#menu"
+      expect(page).to have_content \
+      "Has #{name} ever had a credit card that earns points or miles?"
+      expect(page).to have_content "#{name}'s Cards"
+      expect(page).to have_button "Yes"
+      expect(page).to have_button "No"
+      # doesn't initially list cards:
+      expect(page).to have_no_selector ".card-survey-checkbox"
+    end
 
-      it "goes back" do
-        expect(page).to have_content \
-          "Has #{name} ever had a credit card that earns points or miles?"
-        expect(page).to have_button "Yes"
-        expect(page).to have_button "No"
+    describe "clicking 'No'" do
+      before { click_button "No" }
+
+      it "asks to confirm" do
         expect(page).to have_no_content \
+        "Has #{name} ever had a credit card that earns points or miles?"
+        expect(page).to have_no_button "Yes"
+        expect(page).to have_no_button "No"
+        expect(page).to have_content \
+        "#{name} has never had a card that earns points or miles"
+        expect(page).to have_button "Confirm"
+        expect(page).to have_button "Back"
+      end
+
+      describe "and clicking 'Confirm'" do
+        let(:submit_form) { click_button "Confirm" }
+
+        it "doesn't assign any cards to any account" do
+          expect{submit_form}.not_to change{CardAccount.count}
+        end
+
+        include_examples "submitting the form"
+      end
+
+      describe "and clicking 'Back'" do
+        before { click_button "Back" }
+
+        it "goes back" do
+          expect(page).to have_content \
+          "Has #{name} ever had a credit card that earns points or miles?"
+          expect(page).to have_button "Yes"
+          expect(page).to have_button "No"
+          expect(page).to have_no_content \
           "#{name} has never had a card that earns points or miles"
-        expect(page).to have_no_button "Confirm"
-        expect(page).to have_no_button "Back"
+          expect(page).to have_no_button "Confirm"
+          expect(page).to have_no_button "Back"
+        end
       end
     end
   end
 
   describe "clicking 'Yes'" do
+    before do
+      @account = create(:account, :onboarded_type)
+      @me = account.owner
+
+      create(:spending_info, person: @me)
+      @me.update_attributes!(eligible: true)
+
+      login_as account.reload
+      visit survey_person_card_accounts_path(@me)
+    end
+
+    let(:account) { @account }
+    let(:me) { @me }
+    let(:name) { me.first_name }
+
     before { click_button "Yes" }
 
     it "shows cards grouped by bank, then B/P" do
