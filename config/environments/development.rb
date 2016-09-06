@@ -56,5 +56,10 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: 'localhost:3000' }
 
+  config.after_initialize do
+    Bullet.enable = true
+    Bullet.rails_logger = true
+  end
+
   config.middleware.insert_after ActionDispatch::Static, ::RackWithQuietAssets
 end
