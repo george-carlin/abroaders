@@ -2,6 +2,10 @@
 
 ## September 2016
 
+*   Admin can edit a user's travel plans
+
+    *Boris Shatalov*
+
 *   Admin recieves an email when a user updates his/her status from 'not ready'
     to 'ready'.
 
