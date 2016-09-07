@@ -10,7 +10,8 @@ module BalancesHelper
     )
   end
 
-  def currency_balance_value_field(balance)
+  def currency_balance_value_field(balance, name = nil)
+    possessive = name ? name.possessive : "your"
     currency = balance.currency
     visible  = balance.value.present?
     text_field_tag(
@@ -18,7 +19,7 @@ module BalancesHelper
       balance.value,
       id:    "currency_#{currency.id}_balance_value",
       class: "currency_balance_value input-sm",
-      placeholder: "What's your balance?",
+      placeholder: "What's #{possessive} balance?",
       style: visible ? "" : "display:none;",
       disabled: !visible
     )

@@ -16,8 +16,8 @@
 
       <div class="panel-body">
         <p>
-          Welcome, <%= @person.first_name %>! In order to help you apply for the
-          right cards, we need to get some financial information about you.
+          Welcome<%= @name.name == "you" ? ", #{@person.first_name}" : "" %>! In order to help <%= @name.name %> apply for the
+          right cards, we need to get some financial information about <%= @name.him_her %>.
         </p>
 
         <%= form_for @spending_info, url: person_spending_info_path(@person) do |f| %>
@@ -25,7 +25,7 @@
           <div class="form-group">
             <%= f.label(
               :credit_score,
-              "What's your credit score?",
+              "What's #{@name.possessive} credit score?",
               min: SpendingInfo::MINIMUM_CREDIT_SCORE,
               max: SpendingInfo::MAXIMUM_CREDIT_SCORE,
             ) %>
@@ -42,7 +42,7 @@
           <div class="form-group">
             <%= f.label(
               :will_apply_for_loan,
-              "Do you plan to apply for a loan of over $5,000 in the next 12 months?"
+              "#{@name.does.capitalize} #{@name.name} plan to apply for a loan of over $5,000 in the next 12 months?"
             ) %>
 
             <div class="radio">
@@ -67,7 +67,7 @@
           </div>
 
           <div class="form-group">
-            <%= f.label :has_business, "Do you own a business?" %>
+            <%= f.label :has_business, "#{@name.does.capitalize} #{@name.name} own a business?" %>
 
             <% SpendingInfo.has_businesses.each do |value, _| %>
               <div class="radio">
@@ -77,7 +77,7 @@
                     value,
                     checked: f.object.send(:has_business) == value
                   ) %>
-                  <%= has_business_label_text(value) %>
+                  <%= has_business_label_text(value, @name) %>
                 </label>
               </div>
             <% end %>
@@ -90,7 +90,7 @@
           >
             <%= f.label(
               :business_spending_usd,
-              "What is the average monthly spending of your business?"
+              "What is the average monthly spending of #{@name.possessive} business?"
             ) %>
 
             <p class="help-block">
@@ -114,21 +114,21 @@
 
           <hr>
 
-          <h5>Are you ready to apply for cards now?</h5>
+          <h5><%= @name.is.capitalize %> <%= @name.name %> ready to apply for cards now?</h5>
 
-          <p><%= t("readiness.explanation") %></p>
+          <p><%= t("readiness.explanation", name: @name.name, he_is: "#{@name.he_she} #{@name.is}" ) %></p>
 
           <p>
-            If you're able to apply for the card within the next few days,
+            If <%= @name.name %> <%= @name.is %> able to apply for the card within the next few days,
             click "Yes" below and we'll get working on the card recommendation
-            immediately. If, for whatever reason, you're not ready right now,
+            immediately. If, for whatever reason, <%= @name.name %> <%= @name.isnt %> ready right now,
             click "No" below and we'll ask again in a week.
           </p>
 
           <div class="radio">
             <label>
               <%= f.radio_button :ready, true, checked: true %>
-              Yes - I'm ready to apply for cards ASAP
+              Yes - <%= @name.i_am %> ready to apply for cards ASAP
             </label>
           </div>
 
@@ -145,7 +145,7 @@
             style="display:none;">
             <%= f.text_field(
               :unreadiness_reason,
-              placeholder: "Optional: tell us why #{@person.first_name} isn't ready to apply just yet"
+              placeholder: "Optional: tell us why #{@name.name} #{@name.isnt} ready to apply just yet"
             ) %>
           </div>
 

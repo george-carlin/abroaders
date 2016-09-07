@@ -15,7 +15,7 @@
               <p>Reason given: <i><%= person.unreadiness_reason %></i></p>
           <% end %>
   
-          <p><%= t("readiness.explanation") %></p>
+          <p><%= t("readiness.explanation", name: "you", he_is: "you're") %></p>
   
           <p>
             If <%= person.first_name %> is able to apply for the card within the

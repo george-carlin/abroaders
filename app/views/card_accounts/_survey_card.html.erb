@@ -40,7 +40,7 @@
         <div class="cards_survey_card_account_opened_at_wrapper">
           <hr>
 
-          <label>Roughly when did you open this card?</label>
+          <label>Roughly when did <%= @name.name %> open this card?</label>
           <%= select_tag(
             "cards_survey[card_accounts][][opened_at_(1i)]",
             options_for_cards_survey_year_select,
@@ -71,7 +71,7 @@
           ) %>
         </div>
         <div class="cards_survey_card_account_closed_at_wrapper">
-          <label>Roughly when did you close this card?</label>
+          <label>Roughly when did <%= @name.name %> close this card?</label>
           <%= select_tag(
             "cards_survey[card_accounts][][closed_at_(1i)]",
             options_for_cards_survey_year_select,

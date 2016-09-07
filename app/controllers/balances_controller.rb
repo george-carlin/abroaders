@@ -28,6 +28,7 @@ class BalancesController < AuthenticatedUserController
 
   def survey
     @person = load_person
+    @name = name_object(@person)
     @survey = BalancesSurvey.new(@person)
   end
 
@@ -47,6 +48,7 @@ class BalancesController < AuthenticatedUserController
       track_intercom_event("obs_balances_#{@person.type[0..2]}")
       redirect_to onboarding_survey.current_page.path
     else
+      @name = name_object(@person)
       render "survey"
     end
   end
@@ -73,4 +75,7 @@ class BalancesController < AuthenticatedUserController
     current_account.people.find(params[:person_id])
   end
 
+  def name_object(person)
+    current_account.has_companion? ? Name.new(person.first_name) : Name.new("you")
+  end
 end

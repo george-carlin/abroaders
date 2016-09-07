@@ -1,6 +1,7 @@
 class SpendingInfosController < AuthenticatedUserController
   def new
     @person = load_person
+    @name = name_object(@person)
     redirect_if_inaccessible! and return
     @spending_info = SpendingSurvey.new(person: @person)
   end
@@ -16,6 +17,7 @@ class SpendingInfosController < AuthenticatedUserController
       track_intercom_event("obs_#{"un" if !@person.ready?}ready_#{type}")
       redirect_to survey_person_card_accounts_path(@person)
     else
+      @name = name_object(@person)
       render "new"
     end
   end
@@ -24,6 +26,10 @@ class SpendingInfosController < AuthenticatedUserController
 
   def load_person
     current_account.people.find(params[:person_id])
+  end
+
+  def name_object(person)
+    current_account.has_companion? ? Name.new(person.first_name) : Name.new("you")
   end
 
   def spending_survey_params

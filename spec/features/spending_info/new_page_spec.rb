@@ -204,4 +204,38 @@ describe "the spending info survey", :onboarding do
       expect(page).to have_content "Business spending can't be blank"
     end
   end
+
+  describe "account with companion" do
+    let(:account_with_companion) do
+      create(:account, :with_companion, onboarded_travel_plans: true, onboarded_type: true)
+    end
+    let(:person_of_companion_account) { account_with_companion.owner }
+    let(:name) { person_of_companion_account.first_name }
+
+    before do
+      person_of_companion_account.update_attributes!(eligible: true)
+      login_as(account_with_companion, scope: :account)
+      visit new_person_spending_info_path(person_of_companion_account)
+    end
+
+    example "user addressing" do
+      expect(page).to have_content("Welcome!")
+      expect(page).to have_content("What's #{name}'s credit score?")
+      expect(page).to have_content("Does #{name} plan to apply for a loan of over $5,000")
+      expect(page).to have_content("Does #{name} own a business?")
+      expect(page).to have_content("Is #{name} ready to apply for cards now?")
+      expect(page).to have_content("Yes - he/she is ready to apply for cards ASAP")
+    end
+  end
+
+  describe "account without companion" do
+    example "user addressing" do
+      expect(page).to have_content("Welcome, #{person.first_name}!")
+      expect(page).to have_content("What's your credit score?")
+      expect(page).to have_content("Do you plan to apply for a loan of over $5,000")
+      expect(page).to have_content("Do you own a business?")
+      expect(page).to have_content("Are you ready to apply for cards now?")
+      expect(page).to have_content("Yes - I'm ready to apply for cards ASAP")
+    end
+  end
 end
