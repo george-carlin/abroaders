@@ -2,6 +2,11 @@
 
 ## September 2016
 
+*   Hide "{name} is unready for cards" message if user has recently received 
+    card recommendations. Pivotal Tracker #129806913
+
+    *Boris Shatalov*
+
 *   Update the onboarding survey to save last day of month for opened/closed
     dates of card accounts. Pivotal Tracker #129807083
 

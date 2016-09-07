@@ -50,4 +50,23 @@ describe "account dashboard" do
     expect(page).to have_no_link "Continue", href: card_accounts_path
   end
 
+  example "visit dashboard as ready to accept card recommendations" do
+    person = account.people.first
+    person.update_attributes(ready: true)
+
+    visit_path
+
+    expect(page).to have_content "#{person.first_name} is ready to apply for cards."
+  end
+
+  example "visit dashboard with recently accepted recommendation" do
+    person = account.people.first
+    person.update_attributes(last_recommendations_at: Time.current)
+    create(:spending_info, person: person)
+
+    visit_path
+
+    expect(page).to have_no_content "#{person.first_name} is not ready to apply for cards."
+  end
+
 end
