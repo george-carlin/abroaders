@@ -2,6 +2,11 @@
 
 ## September 2016
 
+*   Move checkboxes from admin/people#show page to above the user's cards section. 
+    Add "toggle all" checkbox for currencies. Pivotal Tracker #129842813
+
+    *Boris Shatalov*
+
 *   Update the onboarding survey to save last day of month for opened/closed
     dates of card accounts. Pivotal Tracker #129807083
 
