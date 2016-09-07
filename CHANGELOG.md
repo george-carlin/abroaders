@@ -2,6 +2,11 @@
 
 ## September 2016
 
+*   Create `FakeDBModel` and `Alliance`. Add alliance_id to `Currency`.
+    Pivotal Tracker #129919413
+
+    *Boris Shatalov*
+
 *   Hide "{name} is unready for cards" message if user has recently received 
     card recommendations. Pivotal Tracker #129806913
 
