@@ -18,6 +18,11 @@
       &nbsp;
       <%= link_to "Edit", edit_travel_plan_path(travel_plan) %>
     <% end %>
+
+    <% if local_assigns[:show_admin_links] %>
+        &nbsp;
+        <%= link_to "Edit", edit_admin_travel_plan_path(travel_plan) %>
+    <% end %>
   </div>
 
   <% travel_plan.flights.each do |flight| %>

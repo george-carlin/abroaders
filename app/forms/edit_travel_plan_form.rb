@@ -4,7 +4,7 @@ class EditTravelPlanForm < TravelPlanForm
   attribute :to_id,   Integer, default: lambda { |tp,_| tp.flight.to_id }
 
   def self.find(id)
-    new(TravelPlan.find(id).attributes)
+    new(::TravelPlan.find(id).attributes)
   end
 
   def persisted?

@@ -35,56 +35,6 @@ describe "travel plans" do
 
   let(:submit_form) { click_button "Save" }
 
-  shared_examples "a travel plan form" do
-    it "has inputs for a new travel plan" do
-      expect(page).to have_field :travel_plan_earliest_departure
-      expect(page).to have_field :travel_plan_from_id
-      expect(page).to have_field :travel_plan_no_of_passengers
-      expect(page).to have_field :travel_plan_to_id
-      expect(page).to have_field :travel_plan_type_single
-      expect(page).to have_field :travel_plan_type_return
-      expect(page).to have_field :travel_plan_further_information
-      expect(page).to have_field :travel_plan_will_accept_economy
-      expect(page).to have_field :travel_plan_will_accept_premium_economy
-      expect(page).to have_field :travel_plan_will_accept_business_class
-      expect(page).to have_field :travel_plan_will_accept_first_class
-    end
-
-    describe "the 'from'/'to' dropdowns" do
-      def get_options(attr); all("#travel_plan_#{attr}_id option"); end
-
-      specify "have the US, Alaska, and Hawaii sorted to the top" do
-        [:from, :to].each do |attr|
-          options = get_options(attr)
-          if current_path =~ /edit/
-            start = 0
-          else
-            expect(options[0].text).to match(/Select a\s.*country/)
-            start = 1
-          end
-
-          expect(options[start].text).to eq @us.name
-          expect(options[start + 1].text).to eq @al.name
-          expect(options[start + 2].text).to eq @ha.name
-        end
-      end
-
-      specify "subsequent options are sorted alphabetically" do
-        options_to_drop = current_path =~ /edit/ ? 3 : 4
-
-        [:from, :to].each do |attr|
-          options = get_options(attr)
-          expect(options.drop(options_to_drop).map(&:text)).to eq ([
-            "France",
-            "Thailand",
-            "United Kingdom",
-            "Vietnam",
-          ])
-        end
-      end
-    end
-  end
-
   describe "new page", :onboarding do
     let(:visit_path) do
       login_as(account)
@@ -258,6 +208,15 @@ describe "travel plans" do
 
     it { is_expected.to have_title full_title("Edit Travel Plan") }
 
+    it "form filled for user" do
+      form = find("#edit_travel_plan_#{travel_plan.id}")
+
+      expect(form[:action]).to eq travel_plan_path(travel_plan)
+      expect(form).to have_content "What class(es) of service would you consider for this trip?"
+      expect(form.find(".help-block").text).to eq "If you don’t yet know exactly when you want to fly, please input the earliest possible date which it might be."
+      expect(form.find("#travel_plan_further_information")[:placeholder]).to eq "Optional: give us any extra information about your travel plans that you think might be relevant"
+    end
+
     it "lists countries in the 'from/to' dropdowns" do
       from_options = all("#travel_plan_from_id > option")
       to_options   = all("#travel_plan_to_id   > option")
@@ -265,7 +224,6 @@ describe "travel plans" do
       expect(from_options.map(&:text)).to match_array country_names
       expect(to_options.map(&:text)).to   match_array country_names
     end
-
 
     describe "submitting the form with valid information" do
       before do

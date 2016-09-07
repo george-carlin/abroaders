@@ -178,9 +178,7 @@ class CardAccount < ApplicationRecord
   scope :declined, -> { where.not(declined_at: nil) }
   scope :denied,   -> { where.not(denied_at: nil) }
   scope :expired,  -> { where.not(expired_at: nil) }
-  scope :expired,  -> { where.not(expired_at: nil) }
   scope :nudged,   -> { where.not(nudged_at: nil) }
-  scope :open,     -> { where.not(opened_at: nil) }
   scope :open,     -> { where.not(opened_at: nil) }
   scope :pulled,   -> { where.not(pulled_at: nil) }
   scope :redenied, -> { where.not(redenied_at: nil) }
@@ -192,9 +190,7 @@ class CardAccount < ApplicationRecord
   scope :undeclined, -> { where(declined_at: nil) }
   scope :undenied,   -> { where(denied_at: nil) }
   scope :unexpired,  -> { where(expired_at: nil) }
-  scope :unexpired,  -> { where(expired_at: nil) }
   scope :unnudged,   -> { where(nudged_at: nil) }
-  scope :unopen,     -> { where(opened_at: nil) }
   scope :unopen,     -> { where(opened_at: nil) }
   scope :unpulled,   -> { where(pulled_at: nil) }
   scope :unredenied, -> { where(redenied_at: nil) }

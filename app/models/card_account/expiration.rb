@@ -4,9 +4,6 @@ module CardAccount::Expiration
   EXPIRE_AFTER_NO_OF_DAYS = 15
 
   included do
-    scope :expired,   -> { where.not(expired_at: nil) }
-    scope :unexpired, -> { where(expired_at: nil) }
-
     # returns cards which are set to expire unless the user acts in time
     scope :expirable, -> do
       recommendations.unclicked.unapplied.unexpired.undeclined.unpulled

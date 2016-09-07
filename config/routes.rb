@@ -153,6 +153,7 @@ Rails.application.routes.draw do
         patch :pull
       end
     end
+    resources :travel_plans, only: [:edit, :update]
   end
 
   # ---- /ADMINS -----
