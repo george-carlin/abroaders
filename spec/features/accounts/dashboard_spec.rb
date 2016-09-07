@@ -56,7 +56,7 @@ describe "account dashboard" do
 
     visit_path
 
-    expect(page).to have_content "#{person.first_name} is ready to apply for cards."
+    expect(page).to have_content "#{person.first_name} is ready to apply for cards"
   end
 
   example "visit dashboard with recently accepted recommendation" do
