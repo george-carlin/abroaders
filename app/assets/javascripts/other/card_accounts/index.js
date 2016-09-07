@@ -11,8 +11,8 @@ $(document).ready(function () {
 
   $(".card_recommendation_cancel_decline_btn").click(function (e) {
     e.preventDefault();
-    var $this = $(this),
-    $form = $this.closest(".decline_card_recommendation_form");
+    var $this = $(this);
+    var $form = $this.closest(".decline_card_recommendation_form");
 
     $form.find(".decline_card_recommendation_error_message").hide();
     $form.find(".card_account_decline_reason")
@@ -23,9 +23,9 @@ $(document).ready(function () {
   });
 
   $(".card_recommendation_confirm_decline_btn").click(function (e) {
-    var $this = $(this),
-    $form  = $this.closest(".decline_card_recommendation_form"),
-    $input = $form.find(".card_account_decline_reason");
+    var $this = $(this);
+    var $form  = $this.closest(".decline_card_recommendation_form");
+    var $input = $form.find(".card_account_decline_reason");
 
     if ($input.val().trim()) {
       $form.find(".decline_card_recommendation_error_message").hide();

@@ -1,6 +1,4 @@
 class Person < ApplicationRecord
-  include ReadyToApply
-
   # Attributes
 
   alias_attribute :owner, :main
@@ -9,14 +7,14 @@ class Person < ApplicationRecord
     !main?
   end
 
+  def has_recent_recommendation?
+    return false if last_recommendations_at.nil?
+    last_recommendations_at >= Time.current - 30.days
+  end
+
   def type
     owner ? "owner" : "companion"
   end
-
-  delegate :credit_score, :will_apply_for_loan,
-    :business_spending_usd, :has_business, :has_business?, :has_business_with_ein?,
-    :has_business_without_ein?, :no_business?,
-    to: :spending_info, allow_nil: true
 
   def onboarded_spending?
     !!spending_info&.persisted?
@@ -24,20 +22,18 @@ class Person < ApplicationRecord
 
   def onboarded?
     onboarded_eligibility? && onboarded_balances? && (
-      (ineligible?) || (
-        onboarded_cards? && onboarded_spending? && readiness_given?
-      )
+      (ineligible?) || (onboarded_cards? && onboarded_spending?)
     )
   end
 
   def can_receive_recommendations?
-    onboarded? && eligible? && ready_to_apply?
+    onboarded? && eligible? && ready?
   end
 
   def status
     if self.ineligible?
       "Ineligible"
-    elsif self.readiness_status.ready
+    elsif self.ready?
       "Ready"
     else
       "Eligible(NotReady)"
@@ -55,9 +51,20 @@ class Person < ApplicationRecord
     alias_method :ineligible?, :ineligible
   end
 
+  concerning :Readiness do
+    def onboarded_readiness?
+      !ready.nil?
+    end
+
+    def unready
+      !ready?
+    end
+    alias_method :unready?, :unready
+  end
+
   # Validations
 
-  NAME_MAX_LENGTH  = 50
+  NAME_MAX_LENGTH = 50
 
   validates :account, uniqueness: { scope: :main }
 
@@ -80,5 +87,4 @@ class Person < ApplicationRecord
 
   scope :main,      -> { where(main: true) }
   scope :companion, -> { where(main: false) }
-
 end

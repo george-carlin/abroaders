@@ -1,20 +1,23 @@
 class TravelPlansController < AuthenticatedUserController
-  before_action :redirect_if_on_other_survey_page, only: [:new, :create]
-
   def index
     @travel_plans = current_account.travel_plans.includes_destinations
   end
 
   def new
     @travel_plan = NewTravelPlanForm.new(account: current_account)
-    @countries   = load_countries
+    @countries = load_countries
   end
 
   def create
     onboarding = !current_account.onboarded_travel_plans?
     @travel_plan = NewTravelPlanForm.new(account: current_account)
     if @travel_plan.update_attributes(travel_plan_params)
-      redirect_to onboarding ? type_account_path : travel_plans_path
+      if onboarding
+        track_intercom_event("obs_travel_plan")
+        redirect_to type_account_path
+      else
+        redirect_to travel_plans_path
+      end
     else
       @countries = load_countries
       render "new"
@@ -23,7 +26,7 @@ class TravelPlansController < AuthenticatedUserController
 
   def edit
     @travel_plan = EditTravelPlanForm.find(params[:id])
-    @countries   = load_countries
+    @countries = load_countries
   end
 
   def update
@@ -60,31 +63,8 @@ class TravelPlansController < AuthenticatedUserController
     )
   end
 
-  def redirect_if_on_other_survey_page
-    if current_account.onboarded_travel_plans? && !current_account.onboarded?
-      redirect_to type_account_path
-    end
-  end
-
   def load_countries
-    countries = Destination.country.order("name ASC").to_a
-
-    if ha = countries.detect { |c| c.name == "Hawaii" }
-      countries.delete(ha)
-      countries.unshift(ha)
-    end
-
-    if al = countries.detect { |c| c.name == "Alaska" }
-      countries.delete(al)
-      countries.unshift(al)
-    end
-
-    if us = countries.detect { |c| c.name == "United States (Continental 48)" }
-      countries.delete(us)
-      countries.unshift(us)
-    end
-
-    countries
+    SelectableCountries.all
   end
 
   def load_travel_plan

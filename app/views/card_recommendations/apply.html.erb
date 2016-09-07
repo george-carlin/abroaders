@@ -16,7 +16,7 @@
 
     <p>
       If you are not redirected within 10 seconds,
-      <%= link_to "click here", @account.offer.link %>
+      <%= present(@account.offer).link_to_link(text: "click here") %>
     </p>
 
     <script type="text/javascript">

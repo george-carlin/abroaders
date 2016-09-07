@@ -1,4 +1,4 @@
-# Note: This class was created before I invented the 'Form' abstraction. As
+# Note: This class was created before I invented the 'ApplicationForm' abstraction. As
 # such, it works very differently from the other '*Survey' classes in app/forms.
 # I attempted to refactor it to make things more consistent, but decided it
 # wasn't worth the trouble.
@@ -41,16 +41,6 @@ class BalancesSurvey
           @person.award_wallet_email = award_wallet_email
         end
         @person.save(validate: false)
-
-        if send_survey_complete_notification?
-          #Int workaround becauce ActiveJob won't accept Time arguments
-          AccountMailer.notify_admin_of_survey_completion(@person.account_id, Time.now.to_i).deliver_later
-        end
-
-        IntercomJobs::TrackEvent.perform_later(
-          email:      @person.account.email,
-          event_name: "obs_balances_#{@person.type[0..2]}",
-        )
 
         true
       end
@@ -96,11 +86,5 @@ class BalancesSurvey
     save
   end
   # ---------------- /DUPE METHODS ---------------
-
-  private
-
-  def send_survey_complete_notification?
-    !@person.eligible? && !(@person.main? && @person.account.has_companion?)
-  end
 
 end

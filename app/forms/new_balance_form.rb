@@ -6,7 +6,7 @@ class NewBalanceForm < BalanceForm
   private
 
   def persist!
-    Balance.create(
+    Balance.create!(
       currency_id: currency_id,
       person_id:   person_id,
       value:       value

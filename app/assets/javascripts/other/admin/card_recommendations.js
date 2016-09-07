@@ -1,9 +1,9 @@
-"use strict";
+/* eslint no-param-reassign: 0 */
 
 $(document).ready(function () {
   $(".new_card_account table").tablesorter({
     // The table can't be sorted by the first column:
-    headers: { 0: { sorter: false } }
+    headers: { 0: { sorter: false } },
   });
 
 
@@ -12,14 +12,14 @@ $(document).ready(function () {
 
     checkedBPs = $(".card_bp_filter:checked").map(function (i, cb) {
       return cb.dataset.value;
-    }).toArray(),
+    }).toArray();
 
     checkedBanks = $(".card_bank_filter:checked").map(function (i, cb) {
       return cb.dataset.value;
     }).toArray();
 
 
-    var selector = ".card_currency_filter:checked"
+    var selector = ".card_currency_filter:checked";
     checkedCurrencies = $(selector).map(function (i, cb) {
       return cb.dataset.value;
     }).toArray();
@@ -39,7 +39,15 @@ $(document).ready(function () {
         .next()
           .toggle(show);
     });
-  };
+
+    $("tr.card_account").each(function (i, tr) {
+      var bankIsShown = checkedBanks.indexOf(tr.dataset.bank) > -1;
+      var bpIsShown   = checkedBPs.indexOf(tr.dataset.bp) > -1;
+      var currIsShown = checkedCurrencies.indexOf(tr.dataset.currency) > -1;
+
+      $(tr).toggle(bankIsShown && bpIsShown && currIsShown);
+    });
+  }
 
 
   $('.card_bp_filter').click(function (e) {
@@ -83,20 +91,16 @@ $(document).ready(function () {
     e.preventDefault();
     $(this)
       .hide()
-      .siblings(".confirm_cancel_offer_wrapper")
+      .siblings(".new_card_recommendation")
         .show();
   });
 
   $(".cancel_recommend_offer_btn").click(function (e) {
     e.preventDefault();
     $(this)
-      .parent()
+      .closest("form")
         .hide()
         .siblings(".recommend_offer_btn")
-            .show();
+          .show();
   });
-
-
 });
-
-// Nothing to export

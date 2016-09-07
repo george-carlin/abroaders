@@ -40,14 +40,32 @@ FactoryGirl.define do
       onboarded_type true
     end
 
+    trait :eligible do
+      onboarded_type
+      after(:build) { |acc| acc.people.each { |p| p.eligible = true } }
+    end
+
     trait :onboarded_spending do
-      # You can't add your spending info until you've picked an account type:
+      eligible
       onboarded_type
       after(:build) do |acc|
         acc.people.each do |p|
-          p.eligible = true
           p.build_spending_info(attributes_for(:spending, person: nil))
         end
+      end
+    end
+
+    trait :onboarded_balances do
+      onboarded_type
+      after(:build) do |acc|
+        acc.people.each { |p| p.onboarded_balances = true }
+      end
+    end
+
+    trait :onboarded_cards do
+      onboarded_spending
+      after(:build) do |acc|
+        acc.people.each { |p| p.onboarded_cards = true }
       end
     end
 
@@ -56,9 +74,6 @@ FactoryGirl.define do
       after(:build) do |acc|
         acc.people.each do |person|
           person.onboarded_cards = person.onboarded_balances = true
-          unless person.readiness_status.present?
-            person.build_readiness_status(ready: false)
-          end
         end
       end
     end
@@ -67,11 +82,7 @@ FactoryGirl.define do
       onboarded
       after(:build) do |acc|
         acc.people.each do |person|
-          if person.readiness_status.present?
-            person.readiness_status.ready = true
-          else
-            person.build_readiness_status(ready: true)
-          end
+          person.update_attribute(:ready, true)
         end
       end
     end

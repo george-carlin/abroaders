@@ -1,11 +1,10 @@
 /* global $ */
 
 $(document).ready(function () {
-
   $(".currency_balance_checkbox").click(function () {
-    var $this  = $(this),
-    $textField = $this.closest(".currency").find(".currency_balance_value"),
-    checked    = $this.is(":checked");
+    var $this  = $(this);
+    var $textField = $this.closest(".currency").find(".currency_balance_value");
+    var checked    = $this.is(":checked");
 
     $textField
       // Disable the input if it's hidden to make sure the value doesn't get
@@ -33,5 +32,4 @@ $(document).ready(function () {
     $("#balances-survey-confirm-no").hide();
     $("#balances-survey-initial").show();
   });
-
 });

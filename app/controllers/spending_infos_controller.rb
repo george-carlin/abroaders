@@ -1,21 +1,19 @@
 class SpendingInfosController < AuthenticatedUserController
-  include EventTracking
-  before_action :redirect_if_not_onboarded_travel_plans!
-  before_action :redirect_if_account_type_not_selected!
-
   def new
     @person = load_person
     redirect_if_inaccessible! and return
-    @spending_info = SpendingSurvey.new(@person)
+    @spending_info = SpendingSurvey.new(person: @person)
   end
 
   def create
     @person = load_person
     redirect_if_inaccessible! and return
-    @spending_info = SpendingSurvey.new(@person)
+    @spending_info = SpendingSurvey.new(person: @person)
     if @spending_info.update_attributes(spending_survey_params)
       current_account.save!
-      track_intercom_event("obs_spending_#{@person.type[0..2]}")
+      type = @person.type[0..2]
+      track_intercom_event("obs_spending_#{type}")
+      track_intercom_event("obs_#{"un" if !@person.ready?}ready_#{type}")
       redirect_to survey_person_card_accounts_path(@person)
     else
       render "new"
@@ -34,6 +32,8 @@ class SpendingInfosController < AuthenticatedUserController
       :credit_score,
       :has_business,
       :will_apply_for_loan,
+      :unreadiness_reason,
+      :ready
     )
   end
 

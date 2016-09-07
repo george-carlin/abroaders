@@ -56,8 +56,6 @@ Rails.application.routes.draw do
   resources :balances
 
   resources :people, only: [] do
-    resource :readiness_status, path: :readiness
-
     resources :balances, only: [:new, :create] do
       collection do
         get  :survey
@@ -70,6 +68,7 @@ Rails.application.routes.draw do
         post :survey, action: :save_survey
       end
     end
+    resource :readiness, only: [:show, :update]
     resource :spending_info, path: :spending, except: :new do
       get :survey, action: :new, as: :new
     end
@@ -154,6 +153,7 @@ Rails.application.routes.draw do
         patch :pull
       end
     end
+    resources :travel_plans, only: [:edit, :update]
   end
 
   # ---- /ADMINS -----

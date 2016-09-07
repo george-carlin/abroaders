@@ -1,6 +1,4 @@
 class SoloAccountForm < AccountTypeForm
-  include Virtus.model
-
   attribute :account,              Account
   attribute :eligible,             Boolean
   attribute :monthly_spending_usd, Integer
@@ -36,8 +34,6 @@ class SoloAccountForm < AccountTypeForm
     account.save!
     @person = account.owner
     @person.update_attributes!(eligible: eligible?)
-
-    track_intercom_event!
   end
 
 end

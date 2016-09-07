@@ -1,21 +1,9 @@
 class CardsSurvey < ApplicationForm
-
-  attr_accessor :person
-
-  def initialize(attributes={})
-    @available_cards = Card.survey
-    assign_attributes(attributes)
-    @cards = {}
-  end
-
-  def assign_attributes(attributes)
-    attributes.stringify_keys!
-    @person = attributes["person"]
-    @card_accounts = attributes.fetch("card_accounts", [])
-  end
+  attribute :person,        Person
+  attribute :card_accounts, Array
 
   def each_section
-    @available_cards.group_by(&:bank).each do |bank, cards|
+    Card.survey.group_by(&:bank).each do |bank, cards|
       yield bank, cards.group_by(&:bp)
     end
   end
@@ -23,7 +11,7 @@ class CardsSurvey < ApplicationForm
   private
 
   def persist!
-    @card_accounts.each do |card_account|
+    card_accounts.each do |card_account|
       # Example hash contents: {
       #   card_id: '3'
       #   opened: 'true'
@@ -44,23 +32,21 @@ class CardsSurvey < ApplicationForm
 
       attributes = {
         card: Card.survey.find(card_account["card_id"]),
-        opened_at: "#{opened_at_y}-#{opened_at_m}-01",
+        opened_at: end_of_month(opened_at_y, opened_at_m)
       }
 
       if card_account["closed"].present?
         closed_at_y = card_account["closed_at_(1i)"]
         closed_at_m = card_account["closed_at_(2i)"]
-        attributes["closed_at"] = "#{closed_at_y}-#{closed_at_m}-01"
+        attributes["closed_at"] = end_of_month(closed_at_y, closed_at_m)
       end
 
-      @person.card_accounts.from_survey.create!(attributes)
+      person.card_accounts.from_survey.create!(attributes)
     end
     person.update_attributes!(onboarded_cards: true)
-
-    IntercomJobs::TrackEvent.perform_later(
-      email:      person.account.email,
-      event_name: "obs_cards_#{person.type[0..2]}",
-    )
   end
 
+  def end_of_month(year, month)
+    Date.parse("#{year}-#{month}-01").end_of_month
+  end
 end

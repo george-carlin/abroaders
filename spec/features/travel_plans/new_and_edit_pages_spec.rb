@@ -1,14 +1,8 @@
 require "rails_helper"
 
 describe "travel plans" do
-
-  let(:onboarded_travel_plans) { false }
-  let(:fully_onboarded) { false }
-  let(:account) do
-    create(:account, onboarded_travel_plans: onboarded_travel_plans)
-  end
-
-  let!(:me) { account.people.first }
+  let(:account) { create(:account) }
+  let(:person) { account.owner }
 
   subject { page }
 
@@ -25,150 +19,63 @@ describe "travel plans" do
       @tl = create(:country, name: "Thailand",       parent: @as),
       @fr = create(:country, name: "France",         parent: @eu),
     ]
-    if fully_onboarded
-      account.update_attributes!(onboarded_type: true)
-      create(:spending_info, person: account.people.first)
-      account.people.first.update_attributes!(
-        eligible: true,
-        onboarded_balances: true,
-        onboarded_cards:    true,
-      )
-      account.people.first.ready_to_apply!
-    end
     login_as(account)
+  end
+
+  def onboard_first_travel_plan!
+    account.update_attributes!(onboarded_travel_plans: true)
+  end
+
+  def complete_onboarding_survey!
+    account.update_attributes!(onboarded_type: true, onboarded_travel_plans: true)
+    account.owner.update_attributes!(eligible: false, onboarded_balances: true)
   end
 
   let(:date) { 5.months.from_now.to_date }
 
   let(:submit_form) { click_button "Save" }
 
-  shared_examples "a travel plan form" do
-    it "has inputs for a new travel plan" do
-      is_expected.to have_field :travel_plan_earliest_departure
-      is_expected.to have_field :travel_plan_from_id
-      is_expected.to have_field :travel_plan_no_of_passengers
-      is_expected.to have_field :travel_plan_to_id
-      is_expected.to have_field :travel_plan_type_single
-      is_expected.to have_field :travel_plan_type_return
-      is_expected.to have_field :travel_plan_further_information
-      is_expected.to have_field :travel_plan_will_accept_economy
-      is_expected.to have_field :travel_plan_will_accept_premium_economy
-      is_expected.to have_field :travel_plan_will_accept_business_class
-      is_expected.to have_field :travel_plan_will_accept_first_class
-    end
-
-    describe "the 'from'/'to' dropdowns" do
-      def get_options(attr); all("#travel_plan_#{attr}_id option"); end
-
-      specify "have the US, Alaska, and Hawaii sorted to the top" do
-        [:from, :to].each do |attr|
-          options = get_options(attr)
-          if current_path =~ /edit/
-            start = 0
-          else
-            expect(options[0].text).to match(/Select a\s.*country/)
-            start = 1
-          end
-
-          expect(options[start].text).to eq @us.name
-          expect(options[start + 1].text).to eq @al.name
-          expect(options[start + 2].text).to eq @ha.name
-        end
-      end
-
-      specify "subsequent options are sorted alphabetically" do
-        options_to_drop = current_path =~ /edit/ ? 3 : 4
-
-        [:from, :to].each do |attr|
-          options = get_options(attr)
-          expect(options.drop(options_to_drop).map(&:text)).to eq ([
-            "France",
-            "Thailand",
-            "United Kingdom",
-            "Vietnam",
-          ])
-        end
-      end
-    end
-  end
-
   describe "new page", :onboarding do
-    before { visit new_travel_plan_path }
+    let(:visit_path) do
+      login_as(account)
+      visit new_travel_plan_path
+    end
 
     SKIP_LINK = "I don't want to add a travel plan right now"
 
-    context "when I have already onboarded my first travel plan" do
-      let(:onboarded_travel_plans) { true }
-      context "but have not completed the rest of the onboarding process" do
-        let(:fully_onboarded) { false }
-        it "doesn't allow access" do
-          raise if account.onboarded? # sanity check
-          expect(current_path).not_to eq new_travel_plan_path
-        end
-      end
-
-      context "and have completed the rest of the onboarding process" do
-        let(:fully_onboarded) { true }
-        it "allows access" do
-          raise unless account.onboarded? # sanity check
-          expect(current_path).to eq new_travel_plan_path
-        end
-
-        it "shows the sidebar" do
-          is_expected.to have_selector "#menu"
-        end
-      end
+    example "after onboarding survey" do
+      complete_onboarding_survey!
+      visit_path
+      expect(page).to have_sidebar
+      expect(page).to have_no_link SKIP_LINK
     end
 
-    context "when I have not onboarded my first travel plan" do
-      let(:onboarded_travel_plans) { false }
-
-      it "doesn't show the sidebar" do
-        is_expected.to have_no_selector "#menu"
-      end
+    example "as part of onboarding survey" do
+      visit_path
+      expect(page).to have_no_sidebar
+      expect(page).to have_link SKIP_LINK
     end
 
-    describe "when I have not onboarded my first travel plan" do
-      let(:onboarded_travel_plans) { false }
-      it "has a link to skip making travel plans" do
-        expect(page).to have_link SKIP_LINK
-      end
+    example "skipping adding a travel plan in onboarding survey" do
+      visit_path
+      expect do
+        click_link SKIP_LINK
+      end.not_to change{TravelPlan.count}
+
+      # marks travel plans as onboarded:
+      expect(account.reload.onboarded_travel_plans).to eq true
+
+      # shows the next page of the survey:
+      expect(current_path).to eq type_account_path
     end
 
-    describe "when I have already onboarded my first travel plan" do
-      let(:onboarded_travel_plans) { true }
-      it "doesn't have a link to skip making travel plans" do
-        expect(page).to have_no_link SKIP_LINK
-      end
+    describe '' do
+      before { visit_path }
+      it_behaves_like "a travel plan form"
     end
-
-    describe "when I click the skip travel plans link" do
-      let(:onboarded_travel_plans) { false }
-
-      let(:skip_survey) { click_link SKIP_LINK }
-
-      it "changes account values to skip forward" do
-        skip_survey
-        expect(account.reload.onboarded_travel_plans).to eq true
-      end
-
-      it "redirects to the next step in the oboarding survey" do
-        skip_survey
-        expect(current_path).to eq type_account_path
-      end
-
-      it "doesn't create travel plans" do
-        expect{skip_survey}.not_to change{TravelPlan.count}
-      end
-    end
-
-
-
-    it_behaves_like "a travel plan form"
-
-    it { is_expected.to have_title full_title("Add a Travel Plan") }
 
     it "lists countries in the 'from/to' dropdowns" do
+      visit_path
       from_options = all("#travel_plan_from_id > option")
       to_options   = all("#travel_plan_to_id   > option")
 
@@ -180,28 +87,21 @@ describe "travel plans" do
       expect(to_options.map(&:text)).to   match_array to_names
     end
 
-    describe "'type'" do
-      it "is 'return' by default" do
-        type_radios = all("input[name='travel_plan[type]']")
-        selected = type_radios.detect { |r| r[:checked] }
-        expect(selected.value).to eq "return"
-      end
-    end
+    example "default options" do
+      visit_path
 
-    describe "'# of passengers'" do
-      it "is '1' by default" do
-        expect(find("#travel_plan_no_of_passengers").value).to eq "1"
-      end
-    end
+      expect(page).to have_field :travel_plan_type_return, checked: true
+      expect(page).to have_field :travel_plan_type_single
 
-    describe "'earliest departure'" do
-      it "is today's date by default" do
-        today = Date.today.strftime("%m/%d/%Y")
-        expect(find("#travel_plan_earliest_departure").value).to eq today
-      end
+      expect(page).to have_field :travel_plan_no_of_passengers, with: 1
+
+      today = Date.today.strftime("%m/%d/%Y")
+      expect(page).to have_field :travel_plan_earliest_departure, with: today
     end
 
     describe "filling in the form" do
+      before { visit_path }
+
       context "with valid information" do
         let(:further_info) { "Something" }
         before do
@@ -256,28 +156,28 @@ describe "travel plans" do
         end
 
         describe "after submit" do
-          before { submit_form }
-
           context "if I'm not already marked as 'onboarded travel plans'" do
-            let(:onboarded_travel_plans) { false }
             it "takes me to account type select page" do
+              submit_form
               expect(current_path).to eq type_account_path
             end
 
             it "marks my account as 'onboarded travel plans'" do
-              expect(account.reload).to be_onboarded_travel_plans
+              submit_form
+              expect(account.reload.onboarded_travel_plans).to be true
             end
           end
 
           context "if this is not my first ever travel plan", onboarding: false do
-            let(:onboarded_travel_plans) { true }
-            let(:fully_onboarded) { true }
+            before { complete_onboarding_survey! }
             it "takes me to the travel plans index" do
+              submit_form
               expect(current_path).to eq travel_plans_path
             end
 
             it "keeps my account marked as 'onboarded travel plans'" do
-              expect(account.reload).to be_onboarded_travel_plans
+              submit_form
+              expect(account.reload.onboarded_travel_plans).to be true
             end
           end
         end
@@ -297,12 +197,25 @@ describe "travel plans" do
   end
 
   describe "edit page" do
+    let(:account) { create(:account, :onboarded) }
     let!(:travel_plan) { create(:travel_plan, account: account) }
-    before { visit edit_travel_plan_path(travel_plan) }
+    before do
+      login_as(account)
+      visit edit_travel_plan_path(travel_plan)
+    end
 
     it_behaves_like "a travel plan form"
 
     it { is_expected.to have_title full_title("Edit Travel Plan") }
+
+    it "form filled for user" do
+      form = find("#edit_travel_plan_#{travel_plan.id}")
+
+      expect(form[:action]).to eq travel_plan_path(travel_plan)
+      expect(form).to have_content "What class(es) of service would you consider for this trip?"
+      expect(form.find(".help-block").text).to eq "If you don’t yet know exactly when you want to fly, please input the earliest possible date which it might be."
+      expect(form.find("#travel_plan_further_information")[:placeholder]).to eq "Optional: give us any extra information about your travel plans that you think might be relevant"
+    end
 
     it "lists countries in the 'from/to' dropdowns" do
       from_options = all("#travel_plan_from_id > option")
@@ -311,7 +224,6 @@ describe "travel plans" do
       expect(from_options.map(&:text)).to match_array country_names
       expect(to_options.map(&:text)).to   match_array country_names
     end
-
 
     describe "submitting the form with valid information" do
       before do

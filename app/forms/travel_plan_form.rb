@@ -1,6 +1,4 @@
 class TravelPlanForm < ApplicationForm
-  include Virtus.model(nullify_blank: true)
-
   attribute :account, Account
   attribute :from_id, Integer
   attribute :to_id,   Integer
@@ -13,8 +11,8 @@ class TravelPlanForm < ApplicationForm
   attribute :earliest_departure,  Date,  default: lambda { |_, _| Date.today }
   attribute :further_information, String
 
-  def model_name
-    TravelPlan.model_name
+  def self.name
+    "TravelPlan"
   end
 
   def self.types
@@ -33,6 +31,23 @@ class TravelPlanForm < ApplicationForm
     else
       super
     end
+  end
+
+  def show_skip_survey?
+    true
+  end
+
+  def show_earliest_departure_help_block?
+    true
+  end
+
+  def form_object
+    self
+  end
+
+  def owner_name(suffix = false)
+    suffix = suffix ? "r" : ""
+    "you#{suffix}"
   end
 
   concerning :Validations do

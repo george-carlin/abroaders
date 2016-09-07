@@ -1,9 +1,11 @@
 class CardAccountPresenter < ApplicationPresenter
 
-  # NOTE: If the card was added in the survey, we don't know the opened/closed
-  # dates more precisely than the month. Eventually, when it becomes possible
-  # to open/close recommended cards, we'll want to display the day of the month
-  # for those cards ONLY.
+  # If the card account was added in the onboarding survey (as opposed to
+  # being recommended to the user by an admin), we only know the month
+  # and year that the account was opened/closed, and not the precise date. However,
+  # because the DB needs a full date to be stored, we're saving these dates
+  # as the first of the month. So if the card was added in the onboarding survey,
+  # only show e.g. "Jan 2016", otherwise show "01/01/2016"
   %i[closed_at denied_at opened_at].each do |meth|
     define_method meth do
       if recommendation?

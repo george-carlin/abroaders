@@ -3,7 +3,6 @@ require "rails_helper"
 module AdminArea
   describe "admin section - person page", :manual_clean do
     include_context "logged in as admin"
-    subject { page }
 
     let(:aw_email) { "totallyawesomedude@example.com" }
 
@@ -42,17 +41,12 @@ module AdminArea
         award_wallet_email: aw_email,
       )
       @account = @person.account.reload
-
-      create_list(:recommendation_note, no_of_existing_notes, account: account)
-
-      extra_setup
     end
 
     def visit_path
       visit admin_person_path(@person)
     end
 
-    let(:extra_setup) { nil }
     let(:recommend_link_text) { "Recommend a card" }
     let(:account) { @account }
     let(:person)  { @person }
@@ -61,7 +55,6 @@ module AdminArea
     let(:us_bank) { @us_bank }
     let(:offers)  { @offers }
 
-    let(:no_of_existing_notes) { 0 }
     let(:dead_offer) { RecommendableOfferOnPage.new(@dead_offer, self) }
 
     let(:complete_card_recs_form) { CompleteCardRecsFormOnPage.new(self) }
@@ -99,6 +92,7 @@ module AdminArea
     example "person with no travel plans" do
       visit_path
       expect(page).to have_content "User has no upcoming travel plans"
+      expect(page).to have_no_link("Edit")
     end
 
     example "person with travel plans" do
@@ -151,6 +145,7 @@ module AdminArea
             expect(page).to have_content "JFK (North America)"
             expect(page).to have_content "Heathrow (Europe)"
           end
+          expect(page).to have_link("Edit", href: edit_admin_travel_plan_path(@tp_0))
         end
 
         expect(page).to have_selector "##{dom_id(@tp_1)}"
@@ -161,6 +156,7 @@ module AdminArea
             expect(page).to have_content "North America"
             expect(page).to have_content "Asia"
           end
+          expect(page).to have_link("Edit", href: edit_admin_travel_plan_path(@tp_1))
         end
 
         expect(page).to have_selector "##{dom_id(@tp_2)}"
@@ -182,6 +178,7 @@ module AdminArea
             expect(page).to have_content "HCMC (Asia)"
             expect(page).to have_content "JFK (North America)"
           end
+          expect(page).to have_link("Edit", href: edit_admin_travel_plan_path(@tp_2))
         end
       end
     end
@@ -225,7 +222,7 @@ module AdminArea
       opened_acc = CardAccountOnPage.new(@opened_acc, self)
       closed_acc = CardAccountOnPage.new(@closed_acc, self)
 
-      within "#admin_person_cards_from_survey" do
+      within "#admin_person_card_accounts" do
         expect(opened_acc).to be_present
         expect(closed_acc).to be_present
       end
@@ -258,7 +255,7 @@ module AdminArea
       clicked_rec  = CardAccountOnPage.new(@clicked_rec, self)
       declined_rec = CardAccountOnPage.new(@declined_rec, self)
 
-      within "#admin_person_card_recommendations" do
+      within "#admin_person_card_accounts_table" do
         expect(new_rec).to be_present
         expect(clicked_rec).to be_present
         expect(declined_rec).to be_present
@@ -286,11 +283,9 @@ module AdminArea
       expect(declined_rec).to have_declined_at_date("12/01/15")
 
       # shows decline reasons in a tooltip:
-      declined_rec.within do
-        is_expected.to have_selector "a[data-toggle='tooltip']"
-        tooltip = find("a[data-toggle='tooltip']")
-        expect(tooltip["title"]).to eq "because"
-      end
+      expect(declined_rec).to have_selector "a[data-toggle='tooltip']"
+      tooltip = declined_rec.find("a[data-toggle='tooltip']")
+      expect(tooltip["title"]).to eq "because"
 
       # displays the last recs timestamp:
       expect(page).to have_selector(
@@ -318,10 +313,10 @@ module AdminArea
       example "and is ready"
     end
 
-    example "pulled recs" do
+    example "pulled recs", :js do
       o = offers[0]
-      pulled_rec   = create(:card_recommendation, pulled_at: Time.now, offer: o, person: person)
-      unpulled_rec = create(:card_recommendation, pulled_at: nil, offer: o, person: person)
+      pulled_rec   = create(:card_recommendation, :pulled, offer: o, person: person)
+      unpulled_rec = create(:card_recommendation, offer: o, person: person)
       visit_path
 
       pulled_rec_on_page   = AdminArea::CardAccountOnPage.new(pulled_rec, self)
@@ -345,24 +340,25 @@ module AdminArea
       expect(rec.reload.pulled_at).to be_within(5.seconds).of(Time.now)
     end
 
+    let(:offers_on_page) { @offers.map { |o| RecommendableOfferOnPage.new(o, self) } }
+
+    specify "page has buttons to recommend each live offer" do
+      visit_path
+      within ".admin-card-recommendation-table" do
+        offers_on_page.each do |offer_on_page|
+          expect(offer_on_page).to be_present
+          expect(offer_on_page).to have_recommend_btn
+          link = offer_on_page.offer.link
+          expect(offer_on_page).to have_link "Link", href: link
+          expect(offer_on_page.find("a[href='#{link}']")[:target]).to eq "_blank"
+        end
+      end
+
+      expect(dead_offer).to be_absent
+    end
+
     describe "the card recommendation form" do
       before { visit_path }
-
-      let(:offers_on_page) { @offers.map { |o| RecommendableOfferOnPage.new(o, self) } }
-
-      it "has an option to recommend each live offer" do
-        within ".admin-card-recommendation-table" do
-          offers_on_page.each do |offer_on_page|
-            expect(offer_on_page).to be_present
-            expect(offer_on_page).to have_recommend_btn
-            link = offer_on_page.offer.link
-            expect(offer_on_page).to have_link "Link", href: link
-            expect(offer_on_page.find("a[href='#{link}']")[:target]).to eq "_blank"
-          end
-        end
-
-        expect(dead_offer).to be_absent
-      end
 
       describe "filters", :js do
         let(:filters) { CardRecommendationFiltersOnPage.new(self) }
@@ -375,69 +371,69 @@ module AdminArea
           "##{dom_id(card, :admin_recommend)}"
         end
 
-        def should_have_recommendable_cards(*cards)
-          cards.each { |card| should have_recommendable_card(card) }
+        def page_should_have_recommendable_cards(*cards)
+          cards.each { |card| expect(page).to have_recommendable_card(card) }
         end
 
-        def should_not_have_recommendable_cards(*cards)
-          cards.each { |card| should_not have_recommendable_card(card) }
+        def page_should_not_have_recommendable_cards(*cards)
+          cards.each { |card| expect(page).not_to have_recommendable_card(card) }
         end
 
         example "filtering by b/p" do
           filters.uncheck_business
-          should_have_recommendable_cards(@chase_p, @usb_p)
-          should_not_have_recommendable_cards(@chase_b, @usb_b)
+          page_should_have_recommendable_cards(@chase_p, @usb_p)
+          page_should_not_have_recommendable_cards(@chase_b, @usb_b)
           filters.uncheck_personal
-          should_not_have_recommendable_cards(*@cards)
+          page_should_not_have_recommendable_cards(*@cards)
           filters.check_business
-          should_have_recommendable_cards(@chase_b, @usb_b)
-          should_not_have_recommendable_cards(@chase_p, @usb_p)
+          page_should_have_recommendable_cards(@chase_b, @usb_b)
+          page_should_not_have_recommendable_cards(@chase_p, @usb_p)
           filters.check_personal
-          should_have_recommendable_cards(*@cards)
+          page_should_have_recommendable_cards(*@cards)
         end
 
         example "filtering by bank" do
           Bank.all.each do |bank|
-            is_expected.to have_field :"card_bank_filter_#{bank.id}"
+            expect(page).to have_field :"card_bank_filter_#{bank.id}"
           end
 
           filters.uncheck_chase
-          should_have_recommendable_cards(@usb_b, @usb_p)
-          should_not_have_recommendable_cards(@chase_b, @chase_p)
+          page_should_have_recommendable_cards(@usb_b, @usb_p)
+          page_should_not_have_recommendable_cards(@chase_b, @chase_p)
           filters.uncheck_us_bank
-          should_not_have_recommendable_cards(*@cards)
+          page_should_not_have_recommendable_cards(*@cards)
           filters.check_chase
-          should_have_recommendable_cards(@chase_b, @chase_p)
-          should_not_have_recommendable_cards(@usb_b, @usb_p)
+          page_should_have_recommendable_cards(@chase_b, @chase_p)
+          page_should_not_have_recommendable_cards(@usb_b, @usb_p)
           filters.check_us_bank
-          should_have_recommendable_cards(*@cards)
+          page_should_have_recommendable_cards(*@cards)
         end
 
         example "filtering by currency" do
           Currency.pluck(:id).each do |currency_id|
-            is_expected.to have_field :"card_currency_filter_#{currency_id}"
+            expect(page).to have_field :"card_currency_filter_#{currency_id}"
           end
 
           # TODO eh?
           uncheck "card_currency_filter_#{@chase_b.id}"
           uncheck "card_currency_filter_#{@chase_p.id}"
-          should_have_recommendable_cards(@usb_p, @usb_p)
-          should_not_have_recommendable_cards(@chase_b, @chase_p)
+          page_should_have_recommendable_cards(@usb_p, @usb_p)
+          page_should_not_have_recommendable_cards(@chase_b, @chase_p)
           uncheck "card_currency_filter_#{@usb_b.id}"
           uncheck "card_currency_filter_#{@usb_p.id}"
-          should_not_have_recommendable_cards(*@cards)
+          page_should_not_have_recommendable_cards(*@cards)
           check "card_currency_filter_#{@chase_p.id}"
-          should_have_recommendable_cards(@chase_p)
+          page_should_have_recommendable_cards(@chase_p)
         end
 
         example "toggling all banks" do
           filters.uncheck_all_banks
-          should_not_have_recommendable_cards(*@cards)
+          page_should_not_have_recommendable_cards(*@cards)
           Bank.all.each do |bank|
             expect(find("#card_bank_filter_#{bank.id}")).not_to be_checked
           end
           filters.check_all_banks
-          should_have_recommendable_cards(*@cards)
+          page_should_have_recommendable_cards(*@cards)
           Bank.all.each do |bank|
             expect(find("#card_bank_filter_#{bank.id}")).to be_checked
           end
@@ -450,72 +446,61 @@ module AdminArea
         end
       end
 
-      describe "clicking 'recommend' next to an offer", :js do
-        let(:offer) { @offers[3] }
-        let(:offer_on_page) { RecommendableOfferOnPage.new(offer, self) }
+      let(:offer) { @offers[3] }
+      let(:offer_on_page) { RecommendableOfferOnPage.new(offer, self) }
 
-        before { offer_on_page.click_recommend_btn }
+      example "confirmation when clicking 'recommend'", :js do
+        # clicking 'recommend' shows confirm/cancel buttons
+        offer_on_page.click_recommend_btn
+        expect(offer_on_page).to have_no_button "Recommend"
+        expect(offer_on_page).to have_button "Cancel"
+        expect(offer_on_page).to have_button "Confirm"
 
-        it "shows confirm/cancel buttons" do
-          expect(offer_on_page).to have_no_button "Recommend"
-          expect(offer_on_page).to have_button "Cancel"
-          expect(offer_on_page).to have_button "Confirm"
-        end
+        # clicking 'cancel' goes back a step, and doesn't recommend anything
+        expect{offer_on_page.click_cancel_btn}.not_to change{CardAccount.count}
+        expect(offer_on_page).to have_button "Recommend"
+        expect(offer_on_page).to have_no_button "Confirm"
+        expect(offer_on_page).to have_no_button "Cancel"
+      end
 
-        describe "clicking 'Confirm'" do
-          it "recommends that card to the person" do
-            expect{offer_on_page.click_confirm_btn}.to change{
-              CardAccount.recommendations.count
-            }.by(1)
-          end
+      example "recommending an offer", :js do
+        offer_on_page.click_recommend_btn
 
-          describe "the new recommendation" do
-            before { offer_on_page.click_confirm_btn }
+        # it recommends the card to the person
+        expect do
+          offer_on_page.click_confirm_btn
+          wait_for_ajax
+        end.to change{@person.card_recommendations.count}.by(1)
 
+        expect(page).to have_content "Recommended!"
 
-            it "has the correct attributes" do
-              rec = CardAccount.recommendations.last
-              expect(rec.card).to eq offer.card
-              expect(rec.offer).to eq offer
-              expect(rec.person).to eq @person
-              expect(rec.recommended_at).to eq Date.today
-              expect(rec.recommendation?).to be true
-            end
-          end
-        end # clicking 'Confirm'
+        # the rec has the correct attributes:
+        rec = CardAccount.recommendations.last
+        expect(rec.card).to eq offer.card
+        expect(rec.offer).to eq offer
+        expect(rec.person).to eq @person
+        expect(rec.recommended_at).to eq Date.today
+        expect(rec.recommendation?).to be true
 
-        describe "clicking 'Cancel'" do
-          it "doesn't recommend the card to the person" do
-            expect{offer_on_page.click_cancel_btn}.not_to change{CardAccount.count}
-          end
-
-          it "shows the 'recommend' button again" do
-            offer_on_page.click_cancel_btn
-            expect(offer_on_page).to have_button "Recommend"
-            expect(offer_on_page).to have_no_button "Confirm"
-            expect(offer_on_page).to have_no_button "Cancel"
-          end
+        # the rec is added to the table:
+        within "#admin_person_card_accounts_table" do
+          expect(page).to have_selector "#card_account_#{rec.id}"
         end
       end
     end
 
-    context "when the user has no existing recommendation notes" do
-      before { visit_path }
-      it "doesn't display the recommendation notes panel" do
-        expect(page).to have_no_content "Recommendation Notes"
-      end
+    it "doesn't display the recommendation notes panel when account has no notes" do
+      visit_path
+      expect(page).to have_no_content "Recommendation Notes"
     end
 
-    describe "when the user has existing recommendation notes" do
-      let(:no_of_existing_notes) { 3 }
-      before { visit_path }
-
-      it "displays them" do
-        expect(page).to have_content("Recommendation Notes")
-        account.recommendation_notes.each do |note|
-          expect(page).to have_content note.created_at
-          expect(page).to have_content note.content
-        end
+    example "displaying recommendation notes" do
+      create_list(:recommendation_note, 3, account: account)
+      visit_path
+      expect(page).to have_content "Recommendation Notes"
+      account.recommendation_notes.each do |note|
+        expect(page).to have_content note.created_at
+        expect(page).to have_content note.content
       end
     end
 

@@ -1,27 +1,10 @@
+# For a detailed explanation of form objects and how they work, see
+# `app/forms/README.md`.
 class ApplicationForm
+  extend  ActiveModel::Naming
   include ActiveModel::Model
+  include Virtus.model(nullify_blank: true)
   include I18nWithErrorRaising
-
-  # An empty checkbox in Rails submits "0", while a radio button with
-  # value 'false' submits "false" (a string, not a bool) - both of which Ruby
-  # will treat as truthy - so use this class method. It acts like attr_accessor,
-  # except the *setter* method will cast its arguments to boolean values,
-  # treating "false" and "0" as `false`.
-  #
-  # Also add a 'boolean?' getter method just for good measure.
-  def self.attr_boolean_accessor(*attrs)
-    attrs.each do |attr|
-      attr_reader attr
-      alias_method :"#{attr}?", attr
-
-      define_method :"#{attr}=" do |bool|
-        instance_variable_set(
-          :"@#{attr}",
-          (%w[false 0].include?(bool) ? false : !!bool)
-        )
-      end
-    end
-  end
 
   def self.create(*attrs)
     instance = new(*attrs)
@@ -35,7 +18,9 @@ class ApplicationForm
     instance
   end
 
-  # A form object is never persisted
+  # If you're creating a Form object for *editing* a record rather than
+  # creating a new one, you should override `persisted?` so that it returns
+  # true.
   def persisted?
     false
   end

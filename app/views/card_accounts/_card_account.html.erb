@@ -28,23 +28,16 @@
     <% end %>
   </div>
 
-  <div class="col-xs-12 col-md-4">
-    <% if card_account.recommended_at? %>
-      <p><b>Recommended:</b> <%= card_account.recommended_at %></p>
-    <% end %>
-    <% if card_account.applied_at? %>
-      <p><b>Applied:</b> <%= card_account.applied_at %></p>
-    <% end %>
-    <% if card_account.denied_at? %>
-      <p><b>Denied:</b> <%= card_account.denied_at %></p>
-    <% end %>
-    <% if card_account.opened_at? %>
-      <p><b>Opened:</b> <%= card_account.opened_at %></p>
-    <% end %>
-    <% if card_account.closed_at? %>
-      <p><b>Closed:</b> <%= card_account.closed_at %></p>
-    <% end %>
-  </div>
+  <% if card_account.from_survey? %>
+    <div class="col-xs-12 col-md-4">
+      <% if card_account.opened_at? %>
+        <p><b>Opened:</b> <%= card_account.opened_at %></p>
+      <% end %>
+      <% if card_account.closed_at? %>
+        <p><b>Closed:</b> <%= card_account.closed_at %></p>
+      <% end %>
+    </div>
+  <% end %>
 
   <div class="col-xs-12">
     <br>

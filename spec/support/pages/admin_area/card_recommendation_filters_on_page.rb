@@ -1,3 +1,5 @@
+require_relative "../object_on_page"
+
 module AdminArea
   class CardRecommendationFiltersOnPage < ObjectOnPage
 

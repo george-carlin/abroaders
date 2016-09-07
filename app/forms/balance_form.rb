@@ -1,14 +1,12 @@
 class BalanceForm < ApplicationForm
-  include Virtus.model
-
   attribute :id,     Integer
   attribute :value,  Integer
   attribute :person, Person
 
   delegate :id, to: :person, prefix: true
 
-  def self.model_name
-    Balance.model_name
+  def self.name
+    "Balance"
   end
 
   # values of over around 2.1 billion will make PostgreSQL crash, but that's

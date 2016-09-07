@@ -18,14 +18,10 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
 
   before do
     @account = create(:account, :onboarded_type)
-    create(:spending_info, person: @account.owner)
-    @account.owner.update_attributes!(eligible: true)
+    @me = account.owner
 
-    if i_am_owner
-      @me = account.owner
-    else
-      @me = create(:person_with_spending, :eligible, main: false, account: account)
-    end
+    create(:spending_info, person: @me)
+    @me.update_attributes!(eligible: true)
 
     login_as account.reload
     visit survey_person_card_accounts_path(@me)
@@ -34,11 +30,14 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
   let(:account) { @account }
   let(:me) { @me }
   let(:name) { me.first_name }
-  let(:i_am_owner) { true }
   let(:submit_form) { click_button "Submit" }
 
   def card_on_page(card)
     CardOnSurveyPage.new(card, self)
+  end
+
+  def end_of_month(year, month)
+    Date.parse("#{year}-#{month}-01").end_of_month.strftime("%F")
   end
 
   shared_examples "submitting the form" do
@@ -52,37 +51,20 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
       expect(me.reload.onboarded_cards?).to be true
     end
 
-    context "when I am the account owner" do
-      let(:i_am_owner) { true }
-      it "tracks an event on Intercom", :intercom do
-        expect{submit_form}.to \
-          track_intercom_event("obs_cards_own").
-          for_email(account.email)
-      end
-    end
-
-    context "when I am the companion" do
-      let(:i_am_owner) { false }
-      it "tracks an event on Intercom", :intercom do
-        expect{submit_form}.to \
-          track_intercom_event("obs_cards_com").
-          for_email(account.email)
-      end
+    it "tracks an event on Intercom", :intercom do
+      expect{submit_form}.to \
+        track_intercom_event("obs_cards_own").
+        for_email(account.email)
     end
   end
 
-  it "doesn't show the sidebar" do
-    is_expected.to have_no_selector "#menu"
-  end
-
-  it "asks if I have ever had any cards that earn points or miles" do
+  example "initial page layout" do
+    expect(page).to have_no_selector "#menu"
     expect(page).to have_content \
       "Has #{name} ever had a credit card that earns points or miles?"
     expect(page).to have_button "Yes"
     expect(page).to have_button "No"
-  end
-
-  it "doesn't initially list cards" do
+    # doesn't initially list cards:
     expect(page).to have_no_selector ".card-survey-checkbox"
   end
 
@@ -133,9 +115,9 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
       %w[chase citibank].each do |bank|
         %w[personal business].each do |type|
           header = "#{bank.capitalize} #{type.capitalize} Cards"
-          is_expected.to have_selector "h2", text: header
-          is_expected.to have_selector "##{bank.to_param}_cards"
-          is_expected.to have_selector "##{bank}_#{type}_cards"
+          expect(page).to have_selector "h2", text: header
+          expect(page).to have_selector "##{bank.to_param}_cards"
+          expect(page).to have_selector "##{bank}_#{type}_cards"
         end
       end
     end
@@ -157,7 +139,7 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
     end
 
     it "initially has no inputs for opened/closed dates" do
-      def test(s); is_expected.to have_no_selector(s); end
+      def test(s); expect(page).to have_no_selector(s); end
       test ".cards_survey_card_account_opened_at_month"
       test ".cards_survey_card_account_opened_at_year"
       test ".cards_survey_card_account_closed"
@@ -330,12 +312,12 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
             open_acc_0 = new_accounts.find_by(card_id: open_cards[0].id)
             open_acc_1 = new_accounts.find_by(card_id: open_cards[1].id)
             closed_acc = new_accounts.find_by(card_id: closed_card.id)
-            expect(open_acc_0.opened_at.strftime("%F")).to eq "#{this_year}-01-01"
+            expect(open_acc_0.opened_at.strftime("%F")).to eq end_of_month(this_year, "01")
             expect(open_acc_0.closed_at).to be_nil
-            expect(open_acc_1.opened_at.strftime("%F")).to eq "#{last_year}-03-01"
+            expect(open_acc_1.opened_at.strftime("%F")).to eq end_of_month(last_year, "03")
             expect(open_acc_1.closed_at).to be_nil
-            expect(closed_acc.opened_at.strftime("%F")).to eq "#{ten_years_ago}-11-01"
-            expect(closed_acc.closed_at.strftime("%F")).to eq "#{last_year}-04-01"
+            expect(closed_acc.opened_at.strftime("%F")).to eq end_of_month(ten_years_ago, "11")
+            expect(closed_acc.closed_at.strftime("%F")).to eq end_of_month(last_year, "04")
           end
 
           specify "have the right statuses" do

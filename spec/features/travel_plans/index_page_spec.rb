@@ -44,37 +44,37 @@ describe "travel plans index page" do
   it { is_expected.to have_title full_title("Travel Plans") }
 
   it "lists my travel plans" do
-    is_expected.to have_selector "##{dom_id(@tp_single)}"
-    is_expected.to have_selector "##{dom_id(@tp_return)}"
-    # is_expected.to have_selector "##{dom_id(@tp_multi)}"
+    expect(page).to have_selector "##{dom_id(@tp_single)}"
+    expect(page).to have_selector "##{dom_id(@tp_return)}"
+    # expect(page).to have_selector "##{dom_id(@tp_multi)}"
   end
 
   it "shows the earliest departue for each travel plan" do
     within_travel_plan(@tp_single) do
-      is_expected.to have_content tomorrow.strftime("%D")
+      expect(page).to have_content tomorrow.strftime("%D")
     end
     within_travel_plan(@tp_return) do
-      is_expected.to have_content next_week.strftime("%D")
+      expect(page).to have_content next_week.strftime("%D")
     end
   end
 
   it "shows any 'further information' notes" do
     within_travel_plan(@tp_return) do
-      is_expected.to have_content further_info
+      expect(page).to have_content further_info
     end
   end
 
   it "has a link to edit each plan" do
-    is_expected.to have_link "Edit", href: edit_travel_plan_path(@tp_single)
-    is_expected.to have_link "Edit", href: edit_travel_plan_path(@tp_return)
+    expect(page).to have_link "Edit", href: edit_travel_plan_path(@tp_single)
+    expect(page).to have_link "Edit", href: edit_travel_plan_path(@tp_return)
   end
 
   it "shows which classes of service are acceptable" do
     within_travel_plan(@tp_single) do
-      is_expected.to have_content "E PE"
+      expect(page).to have_content "E PE"
     end
     within_travel_plan(@tp_return) do
-      is_expected.to have_content "B 1st"
+      expect(page).to have_content "B 1st"
     end
   end
 

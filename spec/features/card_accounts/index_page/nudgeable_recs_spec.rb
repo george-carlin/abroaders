@@ -43,7 +43,6 @@ describe "user cards page - nudgeable cards", :js do
   end
 
   example "nudgeable rec on page", :frontend do
-    expect(rec_on_page).to have_content "Applied: #{applied_at.strftime("%D")}"
     # has buttons:
     expect(rec_on_page).to have_i_called_btn
     expect(rec_on_page).to have_i_heard_back_btn

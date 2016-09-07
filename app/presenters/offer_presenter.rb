@@ -28,6 +28,11 @@ class OfferPresenter < ApplicationPresenter
     super().humanize
   end
 
+  # Note that any links to the offer MUST be nofollowed, for compliance reasons
+  def link_to_link(text: "Link")
+    h.link_to text, link, rel: "nofollow", target: "_blank"
+  end
+
   def spend
     h.number_to_currency super()
   end
@@ -55,38 +60,6 @@ class OfferPresenter < ApplicationPresenter
         "#{points_awarded} #{currency_name} points awarded upon making your first purchase using this card."
       else raise "this should never happen"
     end
-  end
-
-  def recommend_btn
-    btn_classes = "btn btn-xs btn-primary"
-    prefix = :recommend
-    h.button_tag(
-      "Recommend",
-      class: "#{h.dom_class(self, prefix)}_btn #{btn_classes} pull-right",
-      id:    "#{h.dom_id(self, prefix)}_btn"
-    )
-  end
-
-  def confirm_recommend_btn(person)
-    btn_classes = "btn btn-xs btn-primary"
-    prefix = :confirm_recommend
-    h.button_to(
-      "Confirm",
-      h.admin_person_card_recommendations_path(person),
-      class:  "#{h.dom_class(self, prefix)}_btn #{btn_classes} pull-right",
-      id:     "#{h.dom_id(self, prefix)}_btn",
-      params: { offer_id: id }
-    )
-  end
-
-  def cancel_recommend_btn
-    btn_classes = "btn btn-xs btn-default"
-    prefix = :cancel_recommend
-    h.button_tag(
-      "Cancel",
-      class: "#{h.dom_class(self, prefix)}_btn #{btn_classes} pull-right",
-      id:    "#{h.dom_id(self, prefix)}_btn"
-    )
   end
 
   private

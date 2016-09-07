@@ -27,8 +27,6 @@ describe "user cards page - called cards", :js do
   let(:rec_on_page) { CalledCardAccountOnPage.new(rec, self) }
 
   example "rec on page", :frontend do
-    expect(rec_on_page).to have_content "Applied: #{applied_at.strftime("%D")}"
-    expect(rec_on_page).to have_content "Denied: #{denied_at.strftime("%D")}"
     expect(rec_on_page).to have_no_apply_btn
     expect(rec_on_page).to have_no_decline_btn
     expect(rec_on_page).to have_no_i_applied_btn

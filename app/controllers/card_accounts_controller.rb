@@ -1,16 +1,12 @@
 class CardAccountsController < AuthenticatedUserController
-
-  before_action :redirect_if_not_onboarded_travel_plans!,
-                                      only: [:survey, :save_survey]
-  before_action :redirect_if_account_type_not_selected!,
-                                      only: [:survey, :save_survey]
-
   def index
     @people = current_account.people
     @card_recommendations = current_account.card_recommendations\
-                              .includes(:card, offer: { card: :currency })\
-                              .visible
-    @card_accounts_from_survey = current_account.card_accounts.from_survey
+                                           .includes(:card, offer: { card: :currency })\
+                                           .visible
+    @card_accounts_from_survey = current_account.card_accounts\
+                                                .includes(:card, :offer)\
+                                                .from_survey
     if current_account.card_recommendations.unresolved.count > 0
       cookies[:recommendation_timeout] = { value: "timeout", expires: 24.hours.from_now }
     end
@@ -20,20 +16,18 @@ class CardAccountsController < AuthenticatedUserController
     current_account.card_recommendations.unseen.update_all(seen_at: Time.now)
   end
 
-
   def survey
     @person = load_person
-    redirect_if_survey_is_inaccessible! and true
     @survey = CardsSurvey.new(person: @person)
   end
 
   def save_survey
     @person = load_person
-    redirect_if_survey_is_inaccessible! and true
     # There's currently no way that survey_params can be invalid, so this
     # should never fail:
     CardsSurvey.new(survey_params.merge(person: @person)).save!
-    redirect_to survey_person_balances_path(@person)
+    track_intercom_event("obs_cards_#{@person.type[0..2]}")
+    redirect_to current_account.onboarding_survey.current_page.path
   end
 
   private
@@ -42,22 +36,11 @@ class CardAccountsController < AuthenticatedUserController
     current_account.people.find(params[:person_id])
   end
 
-  # WARNING non-strong-parameters hackery
   def survey_params
-    if params[:cards_survey]
-      { card_accounts: params[:cards_survey][:card_accounts] }
+    if params.has_key?(:cards_survey)
+      params.require(:cards_survey).permit(card_accounts: [:card_id, :opened, :closed, :opened_at_, :closed_at_]).to_h
     else # if they clicked 'I don't have any cards'
       {}
     end
   end
-
-  def redirect_if_survey_is_inaccessible!
-    if !@person.onboarded_spending?
-      redirect_to new_person_spending_info_path(@person) and return true
-    elsif !@person.eligible? || @person.onboarded_cards?
-      redirect_to survey_person_balances_path(@person) and return true
-    end
-  end
-
-
 end

@@ -29,6 +29,12 @@ cp config/database.yml.sample  config/database.yml
 bin/setup
 ```
 
+Note that `bin/setup` is intended for *nix operating systems. There's no
+guarantee that it will work on Windows. If you're on Windows, look in
+`bin/setup` and figure out what the equivalent steps are for your OS. (If you
+want to write a similar script that will work on Windows - `bin/setup.exe`?, be
+my guest)
+
 Have a look inside the `bin/setup` script if you have problems, or want to
 learn more about what's going on.
 
@@ -70,7 +76,7 @@ When you start working on a new feature:
    made. Add the name(s) of anyone who was involved in making the change, the
    number(s) of the Pivotal Tracker stories, and the numbers of any related
    GitHub issues if there are any. Follow the format of the existing entries in
-   the changelog for guidance.
+   the changelog for guidance. (Put new entries at the *top* of the file)
 
 When you're done with the story:
 
@@ -147,6 +153,12 @@ perfectly, so some older commits won't have followed the above procedures.
 
 -  We don't support IE &lt; 10. If someone doesn't want to upgrade to a modern
    browser, that's their problem, not ours.
+
+-  Only use `.gitignore` to ignore files that are actually specific to Rails
+   and to the codebase itself. If you want to ignore files that are specific to
+   your own IDE or text editor (`.swp`, `.idea`, etc), those belong in a
+   [global gitignore file](https://help.github.com/articles/ignoring-files/#create-a-global-gitignore)
+   on your own machine, not in this codebase's `.gitignore`.
 
 ## Ruby
 
@@ -365,8 +377,7 @@ we have some extra top level folders in `/app`. They're mostly based on
 
 #### `forms`
 
-Form objects, as described in the Code Climate article. Inherit from
-`ApplicationForm`. (TODO add more detailed explanation of Form objects + conventions)
+See `app/forms/README.md`
 
 #### `serializers`
 

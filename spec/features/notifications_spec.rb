@@ -4,8 +4,6 @@ describe "notifications" do
   include_context "logged in"
   let(:me) { account }
 
-  subject { page }
-
   before do
     extra_setup
     visit root_path
@@ -40,13 +38,13 @@ describe "notifications" do
     it "says so in the navbar" do
       raise unless account.unseen_notifications_count == 2 # sanity check
       within_navbar do
-        is_expected.to have_selector ".unseen_notifications .label", text: 2
+        expect(page).to have_selector ".unseen_notifications .label", text: 2
       end
     end
 
     it "lists my notifications in the dropdown menu", :js do
       click_notifications_in_navbar
-      is_expected.to have_selector ".notification", count: 2
+      expect(page).to have_selector ".notification", count: 2
     end
 
     describe "clicking on a notification", :js do
@@ -78,7 +76,7 @@ describe "notifications" do
 
     it "doesn't mention them in the header" do
       within_navbar do
-        is_expected.to have_no_selector ".unseen_notifications .label"
+        expect(page).to have_no_selector ".unseen_notifications .label"
       end
     end
   end

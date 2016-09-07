@@ -2,8 +2,6 @@ class CardAccount::InvalidStatusError < StandardError
 end
 
 class CardAccount::ApplicationSurvey < ApplicationForm
-  include Virtus.model
-
   attribute :account,   CardAccount
   attribute :action,    String
   attribute :opened_at, Date

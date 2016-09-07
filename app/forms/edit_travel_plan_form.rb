@@ -1,11 +1,10 @@
 class EditTravelPlanForm < TravelPlanForm
-
   attribute :id,      Integer
   attribute :from_id, Integer, default: lambda { |tp,_| tp.flight.from_id }
   attribute :to_id,   Integer, default: lambda { |tp,_| tp.flight.to_id }
 
   def self.find(id)
-    new(TravelPlan.find(id).attributes)
+    new(::TravelPlan.find(id).attributes)
   end
 
   def persisted?

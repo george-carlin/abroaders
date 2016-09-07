@@ -22,8 +22,8 @@
 //= require es5-shim
 //= require underscore
 //= require metisMenu
+//= require numeral
 //= require jquery.countdown.min.js
-//= require_tree ./extensions
 //= require components/react_ujs
 //= require_tree ./other
 
@@ -55,5 +55,3 @@ window.components = {
 // ... because Browserify's 'require' statement must be passed a string literal.
 //
 // See https://stackoverflow.com/questions/26434214/
-
-require("./modules/AdminCardRecommendations");

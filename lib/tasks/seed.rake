@@ -36,7 +36,7 @@ namespace :ab do
         load_data_for("offers").each do |data|
           Offer.create!(data)
         end
-        puts "created #{Offer.count} cards"
+        puts "created #{Offer.count} offers"
       end
     end
 

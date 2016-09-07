@@ -24,15 +24,12 @@ describe "user cards page - nudged cards", :js do
   let(:rec) { @rec }
   let(:rec_on_page) { NudgedCardAccountOnPage.new(rec, self) }
 
-  subject { rec_on_page }
-
   example "rec on page", :frontend do
-    is_expected.to have_content "Applied: #{applied_at.strftime("%D")}"
-    is_expected.to have_no_apply_btn
-    is_expected.to have_no_decline_btn
-    is_expected.to have_no_i_applied_btn
-    is_expected.to have_no_i_called_btn
-    is_expected.to have_i_heard_back_btn
+    expect(rec_on_page).to have_no_apply_btn
+    expect(rec_on_page).to have_no_decline_btn
+    expect(rec_on_page).to have_no_i_applied_btn
+    expect(rec_on_page).to have_no_i_called_btn
+    expect(rec_on_page).to have_i_heard_back_btn
   end
 
   describe "clicking 'I heard back'" do
@@ -40,26 +37,26 @@ describe "user cards page - nudged cards", :js do
 
     shared_examples "asks to confirm" do
       it "asks to confirm", :frontend do
-        is_expected.to have_no_approved_btn
-        is_expected.to have_no_denied_btn
-        is_expected.to have_cancel_btn
-        is_expected.to have_confirm_btn
+        expect(rec_on_page).to have_no_approved_btn
+        expect(rec_on_page).to have_no_denied_btn
+        expect(rec_on_page).to have_cancel_btn
+        expect(rec_on_page).to have_confirm_btn
       end
 
       describe "and clicking 'cancel'" do
         before { rec_on_page.click_cancel_btn }
         it "goes back a step", :frontend do
-          is_expected.to have_approved_btn
-          is_expected.to have_denied_btn
-          is_expected.to have_no_confirm_btn
+          expect(rec_on_page).to have_approved_btn
+          expect(rec_on_page).to have_denied_btn
+          expect(rec_on_page).to have_no_confirm_btn
         end
       end
     end
 
     it "asks me the result", :frontend do
-      is_expected.to have_no_i_called_btn
-      is_expected.to have_approved_btn
-      is_expected.to have_denied_btn
+      expect(rec_on_page).to have_no_i_called_btn
+      expect(rec_on_page).to have_approved_btn
+      expect(rec_on_page).to have_denied_btn
     end
 
     describe "clicking 'I was approved'" do
