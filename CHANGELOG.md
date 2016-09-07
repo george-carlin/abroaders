@@ -2,6 +2,10 @@
 
 ## September 2016
 
+*   Add "shown_on_survey" field to `Currency`. Pivotal Tracker #129920005
+
+    *Boris Shatalov*
+
 *   Hide "{name} is unready for cards" message if user has recently received 
     card recommendations. Pivotal Tracker #129806913
 
