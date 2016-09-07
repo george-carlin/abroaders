@@ -1,3 +1,5 @@
+require_relative "../record_on_page"
+
 module AdminArea
   class RecommendableOfferOnPage < RecordOnPage
     alias_method :offer, :model
