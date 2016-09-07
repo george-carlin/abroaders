@@ -2,6 +2,11 @@
 
 ## September 2016
 
+*   The onboarding survey: address to user in 3rd person if he has a companion, 
+    in other case use "you". Pivotal Tracker #118642877
+
+    *Boris Shatalov*
+
 *   Update the onboarding survey to save last day of month for opened/closed
     dates of card accounts. Pivotal Tracker #129807083
 
