@@ -7,6 +7,11 @@ class Person < ApplicationRecord
     !main?
   end
 
+  def has_recent_recommendation?
+    return false if last_recommendations_at.nil?
+    last_recommendations_at >= Time.current - 30.days
+  end
+
   def type
     owner ? "owner" : "companion"
   end
@@ -53,11 +58,6 @@ class Person < ApplicationRecord
 
     def unready
       !ready?
-    end
-
-    def has_recent_recommendation?
-      return false if last_recommendations_at.nil?
-      last_recommendations_at >= Time.current - 30.days
     end
     alias_method :unready?, :unready
   end
