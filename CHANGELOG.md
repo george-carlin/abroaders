@@ -2,6 +2,11 @@
 
 ## September 2016
 
+*   Hide "{name} is unready for cards" message if user has recently received 
+    card recommendations. Pivotal Tracker #129806913
+
+    *Boris Shatalov*
+
 *   Admin recieves an email when a user updates his/her status from 'not ready'
     to 'ready'.
 

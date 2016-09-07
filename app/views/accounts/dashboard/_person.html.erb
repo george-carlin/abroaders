@@ -74,7 +74,7 @@
     <% if person.ready? %>
       <hr>
       <p><%= person.first_name %> is ready to apply for cards.</p>
-    <% elsif person.onboarded_spending? && person.unready? && !person.recently_has_recommendation? %>
+    <% elsif person.onboarded_spending? && !person.has_recent_recommendation? %>
       <hr>
       <p><%= person.first_name %> is not ready to apply for cards.</p>
 
