@@ -7,7 +7,6 @@ class Currency < ApplicationRecord
 
   # Scopes
 
-  scope :survey,        -> { where(shown_on_survey: true) }
-  scope :not_on_survey, -> { where(shown_on_survey: false) }
+  scope :survey, -> { where(shown_on_survey: true) }
 
 end
