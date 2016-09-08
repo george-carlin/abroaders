@@ -1,0 +1,14 @@
+.tablesorter {
+  th {
+    font-weight: 400;
+    outline: none;
+  }
+
+  th.sortable-column {
+    cursor: pointer;
+  }
+
+  .tablesorter-headerAsc, .tablesorter-headerDesc {
+    font-weight: 700;
+  }
+}

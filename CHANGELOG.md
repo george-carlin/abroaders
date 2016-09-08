@@ -2,6 +2,11 @@
 
 ## September 2016
 
+*   Add sorting for `admin/people#show` card accounts table.
+    Update jquery.tablesorter. Pivotal Tracker #129894535
+
+    *Boris Shatalov*
+
 *   Add "shown_on_survey" field to `Currency`. Pivotal Tracker #129920005
 
     *Boris Shatalov*

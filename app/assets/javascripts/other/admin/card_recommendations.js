@@ -3,9 +3,76 @@
 $(document).ready(function () {
   $(".new_card_account table").tablesorter({
     // The table can't be sorted by the first column:
-    headers: { 0: { sorter: false } },
+    headers: { 0: { sorter: false } }
   });
 
+  var $personCardTable = $("#admin_person_card_accounts_table");
+  $personCardTable.tablesorter({
+    headers: {
+      0: { sorter: false }, // ID
+      1: { sorter: false }, // Name
+      2: { sorter: false }, // Status
+      3: { sorter: true  }, // Rec'ed
+      4: { sorter: false }, // Seen
+      5: { sorter: false }, // Clicked
+      6: { sorter: true },  // Applied
+      7: { sorter: false }, // Denied
+      8: { sorter: false }, // Declined
+      9: { sorter: true },  // Opened
+      10: { sorter: true }  // Closed
+    }
+  });
+
+  $(".sortable-column.opened").trigger("click");
+  $(".sortable-column.opened").click(function () {
+    if (isDataExists($personCardTable.find(".card_account_opened_at")) == false) {
+      sortColumn(6);
+    }
+    else {
+      sortColumn(9);
+    }
+  });
+
+  $(".sortable-column.closed").click(function () {
+    if (isDataExists($personCardTable.find(".card_account_closed_at")) == false) {
+      sortColumn(9);
+    }
+    else {
+      sortColumn(10);
+    }
+  });
+
+  $(".sortable-column.applied").click(function () {
+    if (isDataExists($personCardTable.find(".card_account_applied_at")) == false) {
+      sortColumn(9);
+    }
+    else {
+      sortColumn(6);
+    }
+  });
+
+  $(".sortable-column.recommended").click(function () {
+    if (isDataExists($personCardTable.find(".card_account_recommended_at")) == false) {
+      sortColumn(9);
+    }
+    else {
+      sortColumn(3);
+    }
+  });
+
+  function sortColumn(column_number) {
+    $personCardTable.trigger("sorton", [ [[column_number,0]] ]);
+  }
+
+  function isDataExists(rows) {
+    var is_exists = false;
+    rows.each(function (i, row) {
+      if (row.innerText != "-") {
+        is_exists =  true;
+      }
+    });
+    return is_exists;
+  }
 
   function filterTable() {
     var checkedBPs, checkedBanks, checkedCurrencies;
@@ -17,7 +84,6 @@ $(document).ready(function () {
     checkedBanks = $(".card_bank_filter:checked").map(function (i, cb) {
       return cb.dataset.value;
     }).toArray();
-
 
     var selector = ".card_currency_filter:checked";
     checkedCurrencies = $(selector).map(function (i, cb) {
