@@ -1,4 +1,6 @@
 class Alliance < FakeDBModel
+  attribute :name, String
+
   TABLE = [
       # columns: id name
       [1, "OneWorld"],

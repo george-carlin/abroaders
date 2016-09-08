@@ -5,6 +5,7 @@
 # an ActiveRecord model as far as Card is concerned (so we can get methods like
 # Card#bank, Bank.find(id).cards, etc)
 class Bank < FakeDBModel
+  attribute :name, String
   attribute :personal_phone, String
   attribute :business_phone, String
 

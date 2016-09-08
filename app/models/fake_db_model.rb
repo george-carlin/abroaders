@@ -3,7 +3,6 @@ class FakeDBModel
   include ActiveModel::Serializers::JSON
 
   attribute :id, Fixnum
-  attribute :name, String
 
   def self.find(id)
     find_by(id: id)
@@ -21,21 +20,44 @@ class FakeDBModel
     all.last
   end
 
-  def ==(other_object)
-    other_object.is_a?(self.class) && other_object.id == id
+  def self.inspect
+    attr_list = attribute_set.map { |attr| "#{attr.name}: #{attr.primitive}" } * ", "
+    %[#<#{self} #{attr_list}">]
+  end
+
+  # Returns true if +comparison_object+ is the same exact object, or +comparison_object+
+  # is of the same type and +self+ has an ID and it is equal to +comparison_object.id+.
+  def ==(comparison_object)
+    super ||
+        comparison_object.instance_of?(self.class) &&
+            !id.nil? &&
+            comparison_object.id == id
+  end
+  alias :eql? :==
+
+  # Delegates to id in order to allow two records of the same type and id to work with something like:
+  # [ Model.find(1), Model.find(2), Model.find(3) ] & [ Model.find(1), Model.find(4) ] # => [ Model.find(1) ]
+  def hash
+    if id
+      id.hash
+    else
+      super
+    end
   end
 
   def <=>(other_object)
-    id <=> other_object.id
+    if other_object.is_a?(self.class)
+      self.to_key <=> other_object.to_key
+    else
+      super
+    end
   end
 
-  # Hash equality. Must return a fixnum that is always the same for identical objects:
-  def hash
-    Digest::MD5.new.hexdigest("#{id}#{name}")[0..15].to_i(16)
-  end
-
-  def eql?(other_object)
-    self == other_object && hash == other_object.hash
+  # Returns this record's primary key value wrapped in an array if one is
+  # available.
+  def to_key
+    key = self.id
+    [key] if key
   end
 
   def attributes
@@ -45,10 +67,19 @@ class FakeDBModel
   end
 
   def inspect
-    %[#<#{self.class} id: #{id}, name: "#{name}">]
+    attr_list = attributes.map { |name, value| "#{name}: #{value}" } * ", "
+    %[#<#{self.class} #{attr_list}">]
+  end
+
+  def has_attribute?(name)
+    self.attributes.map{|attr| attr[0]}.include?(name.to_s)
   end
 
   def to_param
-    name.downcase.parameterize.underscore
+    if has_attribute?(:name)
+      name.downcase.parameterize.underscore
+    else
+      super
+    end
   end
 end
