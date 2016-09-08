@@ -1,3 +1,5 @@
+require_relative "./record_on_page"
+
 class CardOnSurveyPage < RecordOnPage
   alias_attribute :card, :model
 

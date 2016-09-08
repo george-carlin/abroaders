@@ -5,6 +5,8 @@ class Currency < ApplicationRecord
   validates :name, presence: true, uniqueness: true
   validates :award_wallet_id, presence: true, uniqueness: true
 
+  # Methods
+
   def alliance
     @alliance ||= Alliance.find(alliance_id)
   end
@@ -17,4 +19,8 @@ class Currency < ApplicationRecord
     @alliance = nil
     super
   end
+
+  # Scopes
+
+  scope :survey, -> { where(shown_on_survey: true) }
 end

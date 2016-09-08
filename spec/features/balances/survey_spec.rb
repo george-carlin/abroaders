@@ -10,6 +10,7 @@ describe "the balance survey page", :onboarding, :js do
     @me = account.owner
     @me.update_attributes!(first_name: "George")
     @currencies = create_list(:currency, 3)
+    @hidden_currency = create(:currency, shown_on_survey: false)
     login_as_account(account)
 
     visit survey_person_balances_path(@me)
@@ -45,6 +46,10 @@ describe "the balance survey page", :onboarding, :js do
     expect(page).to have_content "Does George have any points balances greater than 5,000?"
     expect(page).to have_button "Yes"
     expect(page).to have_button "No"
+  end
+
+  example "doesn't show currencies which has shown_on_survey=false" do
+    expect(page).to have_no_css("#currency_#{@hidden_currency.id}_balance")
   end
 
   example "clicking 'No' asks for confirmation" do
