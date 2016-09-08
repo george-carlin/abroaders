@@ -40,10 +40,7 @@ class Card < ApplicationRecord
     end
 
     included do
-      scope :survey,        -> { where(shown_on_survey: true) }
-      scope :not_on_survey, -> { where(shown_on_survey: false) }
-
-      alias_method :not_on_survey?, :not_on_survey
+      scope :survey, -> { where(shown_on_survey: true) }
     end
   end
 
