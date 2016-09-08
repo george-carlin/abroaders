@@ -2,6 +2,10 @@
 
 ## September 2016
 
+*   Upgrade to Rails 5.0.0.1. Pivotal Tracker #129987043
+
+    *Boris Shatalov*
+
 *   Add "shown_on_survey" field to `Currency`. Pivotal Tracker #129920005
 
     *Boris Shatalov*
