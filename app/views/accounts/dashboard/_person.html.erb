@@ -23,6 +23,7 @@
 
     <% if person.onboarded_spending? %>
       <hr>
+      <h4>General Info <%= link_to "(Edit)", edit_person_spending_info_path(person) %></h4>
       <%= render person.spending_info %>
       <div class="clearfix"></div>
     <% elsif person.show_spending_link? %>
