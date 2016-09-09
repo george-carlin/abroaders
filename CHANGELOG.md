@@ -2,6 +2,10 @@
 
 ## September 2016
 
+*   Add ability to edit "from survey" `CardAccount`. Pivotal Tracker #129985309
+
+    *Boris Shatalov*
+
 *   Allow line breaks in Recommendation Notes. Pivotal Tracker #124290791
 
     *Boris Shatalov*
