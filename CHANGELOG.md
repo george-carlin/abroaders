@@ -2,6 +2,11 @@
 
 ## September 2016
 
+*   Create one page for update account ready status with url: `readiness/update`. 
+    Pivotal Tracker #126036139
+
+    *Boris Shatalov*
+
 *   Upgrade to Rails 5.0.0.1. Pivotal Tracker #129987043
 
     *Boris Shatalov*

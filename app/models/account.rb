@@ -26,6 +26,22 @@ class Account < ApplicationRecord
     OnboardingSurvey.new(account: self)
   end
 
+  def ready?
+    if has_companion?
+      owner.ready? && companion.ready?
+    else
+      owner.ready?
+    end
+  end
+
+  def ineligible?
+    if has_companion?
+      owner.ineligible? && companion.ineligible?
+    else
+      owner.ineligible?
+    end
+  end
+
   # NOTE: the 'onboarded_travel_plans' column will be set to true when the user
   # completes the 'add travel plan' part of the onboarding survey. Originally,
   # we didn't have a separate column, and looked at the account's associated
@@ -87,5 +103,4 @@ class Account < ApplicationRecord
   before_save { self.email = email.downcase if email.present? }
 
   # Scopes
-
 end
