@@ -96,6 +96,13 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :airports, only: [:index] do
+    collection do
+      get  :survey
+      post :survey, action: :save_survey
+    end
+  end
+
   # ---- ADMINS -----
 
   devise_for :admins, skip: [:registrations, :sessions]
