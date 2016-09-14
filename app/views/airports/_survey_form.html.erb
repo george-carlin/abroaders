@@ -1,0 +1,38 @@
+<%= render "shared/model_validation_errors", model: survey %>
+<div class="panel-body">
+  <p>
+    <!--TODO: replace? -->
+    You can add up to five home airports.
+  </p>
+  <%= form_for survey_airports_path, html: { class: "home-airport-survey-form" } do |f| %>
+    <div class="airports-inputs row">
+      <div class="col-xs-12 entry">
+        <div class="row form-group">
+          <div class="col-xs-6 col-md-3 typeahead-container">
+            <%= text_field_tag :typeahead, nil, class: "form-control typeahead", required: true, placeholder: "Please start typing an airport or city name ..." %>
+            <%= hidden_field_tag "airports_survey[home_airports_ids][]", nil, class: "home-airport-id" %>
+          </div>
+          <div class="col-xs-6 col-md-3">
+            <%= button_tag type: "button", class: "btn btn-danger btn-remove hide" do %>
+              <span>Remove</span>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row form-group">
+      <div class="col-xs-6 col-md-3">
+        <%= button_tag type: "button", class: "btn btn-success btn-add" do %>
+          <span>Add an additional home airport</span>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12">
+        <%= f.submit "Save", class: "btn-primary" %>
+      </div>
+    </div>
+  <% end %>
+</div><!-- .panel-body -->

@@ -23,5 +23,4 @@ class AuthenticatedUserController < ApplicationController
       event_name: event_name,
     )
   end
-
 end
