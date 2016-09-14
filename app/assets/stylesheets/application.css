@@ -16,6 +16,7 @@
  *= require helper
  *= require metisMenu
  *= require bootstrap-datepicker3
+ *= require typeahead
  *= require font-awesome
  *= require_tree .
  *= require_self

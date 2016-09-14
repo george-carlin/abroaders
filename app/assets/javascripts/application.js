@@ -23,6 +23,7 @@
 //= require underscore
 //= require metisMenu
 //= require numeral
+//= require typeahead.bundle.js
 //= require jquery.countdown.min.js
 //= require components/react_ujs
 //= require_tree ./other
