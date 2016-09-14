@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160808170547) do
+ActiveRecord::Schema.define(version: 20160913042125) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 20160808170547) do
     t.boolean  "onboarded_travel_plans",     default: false, null: false
     t.integer  "unseen_notifications_count", default: 0,     null: false
     t.string   "phone_number"
+    t.boolean  "onboarded_home_airports",    default: false, null: false
     t.index ["email"], name: "index_accounts_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_accounts_on_reset_password_token", unique: true, using: :btree
   end
@@ -124,10 +125,12 @@ ActiveRecord::Schema.define(version: 20160808170547) do
   end
 
   create_table "currencies", force: :cascade do |t|
-    t.string   "name",            null: false
-    t.string   "award_wallet_id", null: false
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.string   "name",                           null: false
+    t.string   "award_wallet_id",                null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.integer  "alliance_id"
+    t.boolean  "shown_on_survey", default: true, null: false
     t.index ["award_wallet_id"], name: "index_currencies_on_award_wallet_id", unique: true, using: :btree
     t.index ["name"], name: "index_currencies_on_name", unique: true, using: :btree
   end
