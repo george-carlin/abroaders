@@ -12,6 +12,10 @@ describe OnboardingSurvey do
   end
 
   example "non-person specific pages" do
+    expect(survey.current_page.path).to eq survey_airports_path
+    expect(survey).not_to be_complete
+
+    onboard_home_airports!
     expect(survey.current_page.path).to eq new_travel_plan_path
     expect(survey).not_to be_complete
 
@@ -21,6 +25,7 @@ describe OnboardingSurvey do
   end
 
   example "account with one ineligible person" do
+    onboard_home_airports!
     onboard_travel_plans!
     onboard_type!
     onboard_eligibility!(account.owner, false)
@@ -33,6 +38,7 @@ describe OnboardingSurvey do
   end
 
   example "account with one eligible person" do
+    onboard_home_airports!
     onboard_travel_plans!
     onboard_type!
     onboard_eligibility!(account.owner, true)
@@ -52,6 +58,7 @@ describe OnboardingSurvey do
   end
 
   example "account with two ineligible people" do
+    onboard_home_airports!
     onboard_travel_plans!
     onboard_type!
     create_companion!
@@ -70,6 +77,7 @@ describe OnboardingSurvey do
   end
 
   example "account with two eligible people" do
+    onboard_home_airports!
     onboard_travel_plans!
     onboard_type!
     onboard_eligibility!(account.owner, true)
@@ -105,6 +113,7 @@ describe OnboardingSurvey do
   end
 
   example "account with eligible owner, ineligible companion" do
+    onboard_home_airports!
     onboard_travel_plans!
     onboard_type!
     onboard_eligibility!(account.owner, true)
@@ -131,6 +140,7 @@ describe OnboardingSurvey do
   end
 
   example "account with ineligible owner, eligible companion" do
+    onboard_home_airports!
     onboard_travel_plans!
     onboard_type!
     onboard_eligibility!(account.owner, false)
@@ -160,6 +170,10 @@ describe OnboardingSurvey do
     account.create_companion!(first_name: "A")
   end
 
+  def onboard_home_airports!
+    account.onboarded_home_airports = true
+  end
+
   def onboard_travel_plans!
     account.onboarded_travel_plans = true
   end
@@ -183,5 +197,4 @@ describe OnboardingSurvey do
   def onboard_cards!(person)
     person.onboarded_cards = true
   end
-
 end

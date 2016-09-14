@@ -6,7 +6,7 @@ describe "the balance survey page", :onboarding, :js do
   include_context "set admin email ENV var"
 
   before do
-    @account = create(:account, onboarded_travel_plans: true, onboarded_type: true)
+    @account = create(:account, :onboarded_type)
     @me = account.owner
     @me.update_attributes!(first_name: "George")
     @currencies = create_list(:currency, 3)

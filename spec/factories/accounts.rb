@@ -30,7 +30,13 @@ FactoryGirl.define do
       end
     end
 
+    trait :onboarded_home_airports do
+      onboarded_home_airports true
+    end
+
     trait :onboarded_travel_plans do
+      # You can't add your travel plan until you've added a home airport:
+      onboarded_home_airports
       onboarded_travel_plans true
     end
 
