@@ -2,6 +2,11 @@
 
 ## September 2016
 
+*   Users can add their home airports in the onboarding survey. 
+    Pivotal Tracker #126319005
+
+    *Boris Shatalov*
+
 *   Hide "{name} is unready for cards" message if user has recently received 
     card recommendations. Pivotal Tracker #129806913
 
