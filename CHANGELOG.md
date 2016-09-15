@@ -2,6 +2,11 @@
 
 ## September 2016
 
+*   Use bootstrap collapse to minimize the survey cards page.
+    Pivotal Tracker #125094181
+
+    *Boris Shatalov*
+
 *   Upgrade to Rails 5.0.0.1. Pivotal Tracker #129987043
 
     *Boris Shatalov*
@@ -10,7 +15,7 @@
 
     *Boris Shatalov*
 
-*   Hide "{name} is unready for cards" message if user has recently received 
+*   Hide "{name} is unready for cards" message if user has recently received
     card recommendations. Pivotal Tracker #129806913
 
     *Boris Shatalov*
