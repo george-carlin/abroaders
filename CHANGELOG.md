@@ -2,6 +2,10 @@
 
 ## September 2016
 
+*   Allow line breaks in Recommendation Notes. Pivotal Tracker #124290791
+
+    *Boris Shatalov*
+
 *   Upgrade to Rails 5.0.0.1. Pivotal Tracker #129987043
 
     *Boris Shatalov*

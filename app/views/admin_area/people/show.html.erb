@@ -113,14 +113,22 @@
 
   <% if @recommendation_notes.count > 0 %>
     <%= render "shared/hpanel" do %>
-        <div class="panel-body">
-          <h3>Recommendation Notes</h3>
-          <% @recommendation_notes.order(created_at: :desc).each do |note| %>
-              <p>
-                <b><%= "#{ note.created_at }:" %></b> <%= note.content  %>
-              </p>
-          <% end %>
-        </div>
+      <div class="panel-body">
+        <h3>Recommendation Notes</h3>
+        <% @recommendation_notes.order(created_at: :desc).each do |note| %>
+
+          <div class="row">
+            <div class="col-xs-2 recommendation-notes-date">
+              <b><%= "#{ note.created_at }:" %></b>
+            </div>
+
+            <div class="col-xs-10">
+              <p class="recommendation-notes-content"><%= note.content  %></p>
+            </div>
+          </div>
+
+        <% end %>
+      </div>
     <% end %>
   <% end %>
 

@@ -103,4 +103,8 @@ $(document).ready(function () {
         .siblings(".recommend_offer_btn")
           .show();
   });
+
+  $('.recommendation-notes-content').each(function(e, elem) {
+    $(elem).html($(elem).text().replace(/\r?\n/g, '<br/>'));
+  });
 });
