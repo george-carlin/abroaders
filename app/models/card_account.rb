@@ -195,6 +195,7 @@ class CardAccount < ApplicationRecord
   scope :unpulled,   -> { where(pulled_at: nil) }
   scope :unredenied, -> { where(redenied_at: nil) }
   scope :unseen,     -> { where(seen_at: nil) }
+  scope :unclosed,   -> { where(closed_at: nil) }
 
   # compound scopes:
 

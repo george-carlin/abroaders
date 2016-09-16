@@ -2,6 +2,11 @@
 
 ## September 2016
 
+*   Add rake task for sending the annual fee notification email to a user. 
+    Pivotal Tracker #130313781
+
+    *Boris Shatalov*
+
 *   Upgrade to Rails 5.0.0.1. Pivotal Tracker #129987043
 
     *Boris Shatalov*
