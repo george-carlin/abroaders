@@ -183,6 +183,23 @@ module AdminArea
       end
     end
 
+    example "person with no home airports" do
+      visit_path
+      expect(page).to have_no_content("Home Airports")
+    end
+
+    example "person with home airports" do
+      airport_1 = create(:airport)
+      airport_2 = create(:airport)
+      account.home_airports << [airport_1, airport_2]
+
+      visit_path
+
+      expect(page).to have_content("Home Airports")
+      expect(page).to have_content( "#{airport_1.name} (#{airport_1.code})")
+      expect(page).to have_content( "#{airport_2.name} (#{airport_2.code})")
+    end
+
     example "person with no points balances" do
       visit_path
       expect(page).to have_content t("admin.people.card_recommendations.no_balances")

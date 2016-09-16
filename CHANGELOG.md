@@ -2,6 +2,11 @@
 
 ## September 2016
 
+*   Admins can see a user's home airports on admin/people#show. 
+    Pivotal Tracker #127561843
+
+    *Boris Shatalov*
+
 *   Hide "{name} is unready for cards" message if user has recently received 
     card recommendations. Pivotal Tracker #129806913
 

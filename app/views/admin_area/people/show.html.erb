@@ -25,6 +25,16 @@
             User has not added their spending info
           <% end %>
         <% end %>
+
+        <% if @account.home_airports.any? %>
+          <h3>Home Airports</h3>
+          <ul>
+            <% @account.home_airports.each do |airport| %>
+              <li><%= "#{airport.name} (#{airport.code})" %></li>
+            <% end %>
+          </ul>
+        <% end %>
+
       </div>
       <div class="col-xs-12 col-md-6">
         <% if @balances.any? %>

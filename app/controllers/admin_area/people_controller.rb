@@ -1,6 +1,5 @@
 module AdminArea
   class PeopleController < AdminController
-
     # GET /admin/people/1
     def show
       @person        = load_person
@@ -22,8 +21,7 @@ module AdminArea
     private
 
     def load_person
-      Person.find(params[:id])
+      Person.includes(:spending_info, :account).find(params[:id])
     end
-
   end
 end
