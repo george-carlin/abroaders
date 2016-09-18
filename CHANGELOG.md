@@ -10,7 +10,7 @@
 
     *Boris Shatalov*
 
-*   Hide "{name} is unready for cards" message if user has recently received 
+*   Hide "{name} is unready for cards" message if user has recently received
     card recommendations. Pivotal Tracker #129806913
 
     *Boris Shatalov*
