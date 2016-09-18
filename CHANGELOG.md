@@ -2,6 +2,15 @@
 
 ## September 2016
 
+*   Extract `ApplicationRecord#belongs_to_fake_db_model`
+
+    *George Millo*
+
+*   Create `FakeDBModel` and `Alliance`. Add alliance_id to `Currency`.
+    Pivotal Tracker #129919413
+
+    *Boris Shatalov*
+
 *   Upgrade to Rails 5.0.0.1. Pivotal Tracker #129987043
 
     *Boris Shatalov*
