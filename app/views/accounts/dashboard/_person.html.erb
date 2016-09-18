@@ -56,6 +56,7 @@
     <% if person.onboarded_balances? %>
       <hr style="margin-top:0;">
       <% if person.balances.any? %>
+        <h4>Balances</h4>
         <%= render "balances/list", balances: person.balances.includes(:currency) %>
       <% else %>
         <p>No existing frequent flyer balances</p>
