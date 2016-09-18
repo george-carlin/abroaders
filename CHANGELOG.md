@@ -2,6 +2,10 @@
 
 ## September 2016
 
+*   Extract `ApplicationRecord#belongs_to_fake_db_model`
+
+    *George Millo*
+
 *   Create `FakeDBModel` and `Alliance`. Add alliance_id to `Currency`.
     Pivotal Tracker #129919413
 
