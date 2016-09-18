@@ -38,7 +38,7 @@ const CardApplicationSurvey = React.createClass({
   getActionsComponent() {
     const cardAccount = this.state.cardAccount;
 
-    if (cardAccount.openedAt || cardAccount.redeniedAt) {
+    if (!cardAccount.recommendedAt || cardAccount.openedAt || cardAccount.redeniedAt) {
       return "noscript";
     }
 
