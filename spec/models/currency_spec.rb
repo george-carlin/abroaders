@@ -11,6 +11,11 @@ describe Currency do
       expect(alliance).to eq Alliance.find(1)
       expect(alliance.name).to eq "OneWorld"
     end
+
+    it "returns nil if alliance_id is nil" do
+      expect(currency.alliance_id).to be nil
+      expect(currency.alliance).to be nil
+    end
   end
 
   describe "#alliance_id=" do

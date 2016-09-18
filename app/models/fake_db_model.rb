@@ -1,3 +1,12 @@
+# A model which looks and talks like an ActiveRecord model, but isn't actually
+# backed up by a DB table. Instead the data is hard-coded into the Ruby using a
+# constant called TABLE.
+#
+# FakeDBModel is used for some classes where the data is simple and will almost
+# never change. Hardcoding everything into the Ruby reduces the overhead of
+# having to load the data from the DB every time.
+#
+# See also ApplicationRecord#belongs_to_fake_db_model
 class FakeDBModel
   include Virtus.model
   include ActiveModel::Serializers::JSON
