@@ -10,5 +10,4 @@ class CardOnSurveyPage < RecordOnPage
   field :closed_at_year,  Proc.new { "cards_survey_#{id}_card_account_closed_at_year" }
   field :opened_at_month, Proc.new { "cards_survey_#{id}_card_account_opened_at_month" }
   field :opened_at_year,  Proc.new { "cards_survey_#{id}_card_account_opened_at_year" }
-
 end

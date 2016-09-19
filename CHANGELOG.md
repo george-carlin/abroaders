@@ -2,6 +2,11 @@
 
 ## September 2016
 
+*   Use jQuery.slideUp/Down to hide/show cards on the survey page.
+    Pivotal Tracker #125094181
+
+    *Boris Shatalov*
+
 *   Add ability to edit "from survey" `CardAccount`. Pivotal Tracker #129985309
 
     *Boris Shatalov*
