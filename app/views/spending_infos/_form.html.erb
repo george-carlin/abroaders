@@ -13,7 +13,10 @@
 
       <div class="panel-body">
         <p>
-          Welcome, <%= @person.first_name %>! In order to help you apply for the
+          <% unless @spending_info.persisted? %>
+            Welcome, <%= @person.first_name %>!
+          <% end %>
+          In order to help you apply for the
           right cards, we need to get some financial information about you.
         </p>
 
