@@ -123,7 +123,7 @@
             </div>
 
             <div class="col-xs-10">
-              <p class="recommendation-notes-content"><%= note.content  %></p>
+              <%= simple_format(note.content, {}, sanitize: true) %>
             </div>
           </div>
 
