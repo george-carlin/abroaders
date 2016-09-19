@@ -2,6 +2,11 @@
 
 ## September 2016
 
+*   Move checkboxes from admin/people#show page to above the user's cards section.
+    Add "toggle all" checkbox for currencies. Pivotal Tracker #129842813
+
+    *Boris Shatalov*
+
 *   Extract `ApplicationRecord#belongs_to_fake_db_model`
 
     *George Millo*
