@@ -2,6 +2,10 @@
 
 ## September 2016
 
+*   Allow line breaks in Recommendation Notes. Pivotal Tracker #124290791
+
+    *Boris Shatalov*
+
 *   Move checkboxes from admin/people#show page to above the user's cards section.
     Add "toggle all" checkbox for currencies. Pivotal Tracker #129842813
 
