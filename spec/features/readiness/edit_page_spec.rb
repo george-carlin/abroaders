@@ -22,11 +22,9 @@ describe "edit readiness page", :js do
           expect(companion.reload).to be_ready
         end
 
-        # TODO: error when track two event at the same time
-        xexample "tracking an Intercom event for owner and companion", :intercom do
+        example "tracking an Intercom event for owner and companion", :intercom do
           expect{click_both_ready_btn}.to \
-          track_intercom_event("obs_ready_own").for_email(account.email)\
-          .and(track_intercom_event("obs_ready_com").for_email(account.email))
+          track_intercom_events("obs_ready_own", "obs_ready_com").for_email(account.email)
         end
       end
 

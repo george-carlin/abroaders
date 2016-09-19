@@ -38,7 +38,7 @@ class ReadinessController < AuthenticatedUserController
     redirect_to root_path if @account.ineligible? || @account.ready?
   end
 
-  def update_person!(person, send_email: false)
+  def update_person!(person, send_email: true)
     person.update!(ready: true)
     track_intercom_event("obs_ready_#{person.type[0..2]}")
     AccountMailer.notify_admin_of_user_readiness_update(@account.id, Time.now.to_i).deliver_later if send_email

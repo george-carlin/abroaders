@@ -69,10 +69,10 @@ class AccountPresenter < ApplicationPresenter
   end
 
   def person_reason(person)
-    name = has_companion? ? person.first_name : "Your"
+    reason_title = has_companion? ? "#{person.first_name}'s reason:" : "Reason:"
     if person.unready? && person.unreadiness_reason.present?
       h.content_tag(:p) do
-        "#{name}'s reason: #{h.content_tag(:i, person.unreadiness_reason)}".html_safe
+        "#{reason_title} #{h.content_tag(:i, person.unreadiness_reason)}".html_safe
       end
     end
   end
@@ -80,7 +80,7 @@ class AccountPresenter < ApplicationPresenter
   private
 
   def update_readiness_btn(data, text)
-    btn_classes = "btn btn-lg btn-primary readiness-btn"
+    btn_classes = "btn btn-md btn-primary readiness-btn"
     prefix = "update_#{data}_readiness".to_sym
     button = h.button_to(
                   text,
