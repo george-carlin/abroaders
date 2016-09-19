@@ -16,6 +16,21 @@ class CardAccountsController < AuthenticatedUserController
     current_account.card_recommendations.unseen.update_all(seen_at: Time.now)
   end
 
+  def edit
+    @card_account = EditCardAccountForm.find(params[:id])
+  end
+
+  def update
+    @card_account = EditCardAccountForm.find(params[:id])
+
+    if @card_account.update(card_account_params)
+      flash[:success] = "Updated card"
+      redirect_to card_accounts_path
+    else
+      render :edit
+    end
+  end
+
   def survey
     @person = load_person
     @survey = CardsSurvey.new(person: @person)
@@ -34,6 +49,10 @@ class CardAccountsController < AuthenticatedUserController
 
   def load_person
     current_account.people.find(params[:person_id])
+  end
+
+  def card_account_params
+    params.require(:card_account).permit(:closed, :closed_year, :closed_month, :opened_year, :opened_month).to_h
   end
 
   def survey_params
