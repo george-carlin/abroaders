@@ -10,7 +10,7 @@
         </a>
       <% end %>
     </td>
-    <td class="card_account_recommended_at">
+    <td class="card_account_recommended_at" data-text="<%= card_account.recommended_at || 0 %>">
       <%= card_account.recommended_at || "-" %>
     </td>
     <td class="card_account_seen_at">
@@ -19,7 +19,7 @@
     <td class="card_account_clicked_at">
       <%= card_account.clicked_at || "-" %>
     </td>
-    <td class="card_account_applied_at">
+    <td class="card_account_applied_at" data-text="<%= card_account.applied_at || 0 %>">
       <%= card_account.applied_at || "-" %>
     </td>
     <td class="card_account_denied_at">
@@ -28,10 +28,10 @@
     <td class="card_account_declined_at">
       <%= card_account.declined_at || "-" %>
     </td>
-    <td class="card_account_opened_at">
+    <td class="card_account_opened_at" data-text="<%= card_account.opened_at || 0 %>">
       <%= card_account.opened_at || "-" %>
     </td>
-    <td class="card_account_closed_at">
+    <td class="card_account_closed_at" data-text="<%= card_account.closed_at || 0 %>">
       <%= card_account.closed_at || "-" %>
     </td>
     <td>

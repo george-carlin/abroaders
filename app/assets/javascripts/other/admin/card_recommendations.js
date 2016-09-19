@@ -15,15 +15,14 @@ $(document).ready(function () {
       3: { sorter: true  }, // Rec'ed
       4: { sorter: false }, // Seen
       5: { sorter: false }, // Clicked
-      6: { sorter: true },  // Applied
+      6: { sorter: true  }, // Applied
       7: { sorter: false }, // Denied
       8: { sorter: false }, // Declined
-      9: { sorter: true },  // Opened
+      9: { sorter: true  }, // Opened
       10: { sorter: true }  // Closed
     }
   });
 
-  $(".sortable-column.opened").trigger("click");
   $(".sortable-column.opened").click(function () {
     if (isDataExists($personCardTable.find(".card_account_opened_at")) == false) {
       sortColumn(6);
@@ -60,8 +59,10 @@ $(document).ready(function () {
     }
   });
 
+  $(".sortable-column.opened").trigger("click");
+
   function sortColumn(column_number) {
-    $personCardTable.trigger("sorton", [ [[column_number,0]] ]);
+    $personCardTable.trigger("sorton", [ [[column_number,1]] ]);
   }
 
   function isDataExists(rows) {
