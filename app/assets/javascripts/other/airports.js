@@ -1,43 +1,22 @@
 $(document).ready(function () {
-  function appendTypeahead(element) {
-    element.find('.typeahead').typeahead({
-      hint: true,
-      highlight: true,
-      minLength: 1
-    },
-    {
-      name: 'airports',
-      display: 'name',
-      source: airports
-    }).bind('typeahead:select', function (e, suggestion) {
-      $(this).closest('.typeahead-container').find('.home-airport-id').val(suggestion.id);
-    }).bind('typeahead:autocomplete', function (e, suggestion) {
-      $(this).closest('.typeahead-container').find('.home-airport-id').val(suggestion.id);
-    });
+  function airportAlreadyAdded(suggestion) {
+    return ($('.hidden-airports-ids[value="' + suggestion.id + '"]').length != 0)
   }
 
-  function checkAirportsCount() {
-    var $addButton = $surveyForm.find('.btn-add');
-
-    if ($inputsContainer.find('.entry').length == 5) {
-      $addButton.attr('disabled', true)
+  function manageAlert(element, message) {
+    if (message.length == "") {
+      element.hide();
+      element.html('');
     }
     else {
-      $addButton.attr('disabled', false)
+      element.show();
+      element.html(message);
     }
   }
 
-  function formIsValid(form) {
-    var isValid = true;
-    form.find('.home-airport-id').each(function (i, element) {
-      var $container = $(element).closest('.typeahead-container');
-      $container.removeClass('has-error');
-      if ($(element).val() == '') {
-        $container.addClass('has-error');
-        isValid = false;
-      }
-    });
-    return isValid;
+  function changeSubmitState() {
+    var disabled = ($('.hidden-airports-ids').length == 0);
+    $('.submit-airports-survey').attr('disabled', disabled);
   }
 
   var airports = new Bloodhound({
@@ -48,27 +27,55 @@ $(document).ready(function () {
     prefetch: "/airports.json"
   });
 
-  var $surveyForm = $('.home-airport-survey-form'),
-      $inputsContainer = $surveyForm.find('.airports-inputs'),
-      $firstEntry = $inputsContainer.find('.entry:first');
+  var $saved_area = $('.saved-area .home-airports'),
+      $airports_form = $('.home-airport-survey-form'),
+      $alert_info = $airports_form.find('.info-message'),
+      $alert_danger = $airports_form.find('.error-message');
 
-  appendTypeahead($firstEntry);
+  $('.typeahead').typeahead({
+        hint: true,
+        highlight: true,
+        minLength: 1 // The minimum character length needed before suggestions start getting rendered. Defaults to 1.
+      },
+      {
+        name: 'airports',
+        display: 'name',
+        limit: 5, // The max number of suggestions to be displayed. Defaults to 5.
+        source: airports
+      }).bind('typeahead:select', function (e, suggestion) {
+    $(this).typeahead('val', '');
+    manageAlert($alert_danger, "");
 
-  $surveyForm.on('click', '.btn-add', function () {
-    var newEntry = $($firstEntry.clone()).appendTo($inputsContainer),
-        placeholder = $firstEntry.find('#typeahead').attr('placeholder');
+    if (airportAlreadyAdded(suggestion)) {
+      manageAlert($alert_info, "You have already added this airport.");
+    }
+    else {
+      manageAlert($alert_info, "");
+      var airport_div = document.createElement('div');
+      airport_div.className = 'airport-selected';
+      $(airport_div).append('<input class="hidden-airports-ids" type="hidden" name="airports_survey[airport_ids][]" value="' + suggestion.id + '">');
+      $(airport_div).append('<p><i class="fa fa-check" aria-hidden="true"></i>' + suggestion.name + '<i class="fa fa-times" aria-hidden="true"></i></p>');
+      $saved_area.append(airport_div);
 
-    newEntry.find('input').val('');
-    newEntry.find('.twitter-typeahead').remove();
-    newEntry.find('.btn-remove').removeClass('hide');
-    newEntry.find('.typeahead-container').append('<input class="form-control typeahead" required="true" placeholder="' + placeholder +'">');
-    appendTypeahead(newEntry);
-    checkAirportsCount();
-  }).on('click', '.btn-remove', function () {
-    $(this).closest('.entry').remove();
-    checkAirportsCount();
-    return false;
-  }).on('submit', function () {
-    return formIsValid($surveyForm);
+      changeSubmitState();
+    }
+  });
+
+  $saved_area.on('click', '.airport-selected .fa-times', function () {
+    if (confirm("Are you sure?")) {
+      $(this).closest('.airport-selected').remove();
+      changeSubmitState();
+    }
+  });
+
+  $airports_form.on('submit', function () {
+    if ($('.hidden-airports-ids').length != 0) {
+      manageAlert($alert_danger, "");
+      return true;
+    }
+    else {
+      manageAlert($alert_danger, "You must select at least one airport.");
+      return false;
+    }
   });
 });

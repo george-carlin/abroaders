@@ -2,7 +2,7 @@ class AirportsController < AuthenticatedUserController
   skip_before_action :redirect_if_onboarding_survey_incomplete!, only: [:index]
 
   def index
-    @airports = Airport.joins(:parent)
+    @airports = Airport.joins(:parent).order(code: :asc)
 
     respond_to do |format|
       format.json do
@@ -14,12 +14,13 @@ class AirportsController < AuthenticatedUserController
 
   def survey
     @account = current_account
-    @survey = AirportsSurvey.new(account: @account)
+    @survey = HomeAirportsSurvey.new(account: @account)
   end
 
   def save_survey
     @account = current_account
-    @survey = AirportsSurvey.new(survey_params.merge(account: @account))
+    @survey = HomeAirportsSurvey.new(survey_params)
+
     if @survey.save
       redirect_to current_account.onboarding_survey.current_page.path
     else
@@ -30,6 +31,7 @@ class AirportsController < AuthenticatedUserController
   private
 
   def survey_params
-    params.require(:airports_survey).permit(home_airports_ids: []).to_h
+    survey_params = params.require(:airports_survey).permit(airport_ids: [])
+    survey_params.merge(account: @account).to_h
   end
 end

@@ -1,38 +1,40 @@
-<%= render "shared/model_validation_errors", model: survey %>
 <div class="panel-body">
-  <p>
-    <!--TODO: replace? -->
-    You can add up to five home airports.
-  </p>
-  <%= form_for survey_airports_path, html: { class: "home-airport-survey-form" } do |f| %>
-    <div class="airports-inputs row">
-      <div class="col-xs-12 entry">
-        <div class="row form-group">
-          <div class="col-xs-6 col-md-3 typeahead-container">
-            <%= text_field_tag :typeahead, nil, class: "form-control typeahead", required: true, placeholder: "Please start typing an airport or city name ..." %>
-            <%= hidden_field_tag "airports_survey[home_airports_ids][]", nil, class: "home-airport-id" %>
-          </div>
-          <div class="col-xs-6 col-md-3">
-            <%= button_tag type: "button", class: "btn btn-danger btn-remove hide" do %>
-              <span>Remove</span>
-            <% end %>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row form-group">
-      <div class="col-xs-6 col-md-3">
-        <%= button_tag type: "button", class: "btn btn-success btn-add" do %>
-          <span>Add an additional home airport</span>
-        <% end %>
-      </div>
-    </div>
-
+  <div class="container">
     <div class="row">
-      <div class="col-xs-12">
-        <%= f.submit "Save", class: "btn-primary" %>
+      <%= render "shared/model_validation_errors", model: survey %>
+      <p class="helper-message">Add as many airports as your want</p>
+      <div class="col-md-9">
+
+        <%= form_for survey_airports_path, html: { class: "home-airport-survey-form text-center" } do |f| %>
+          <div class="row">
+            <div class="col-xs-12 col-md-4 saved-area">
+              <p class="title">Saved home airports:</p>
+              <div class="home-airports"></div>
+            </div>
+
+            <div class="col-xs-12 col-md-8">
+              <div class="alert alert-info info-message"></div>
+              <div class="alert alert-danger error-message"></div>
+              <div class="row form-group">
+                <div class="col-xs-12">
+                  <%= text_field_tag :typeahead, nil, class: "form-control typeahead", placeholder: "ex. New York or JFK" %>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xs-12">
+                  <%= f.button type: "submit", class: "submit-airports-survey form-control btn btn-lg btn-primary", disabled: true do %>
+                    <i class="fa fa-check" aria-hidden="true"></i>
+                    Save and continue
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <% end %>
+
       </div>
     </div>
-  <% end %>
+  </div>
 </div><!-- .panel-body -->
