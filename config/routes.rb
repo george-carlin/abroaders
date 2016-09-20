@@ -73,7 +73,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resource :readiness, only: [:edit], path_names: { edit: "update" } do
+  resource :readiness, only: :edit do
     member do
       patch :update_both
       patch :update_owner
