@@ -188,7 +188,7 @@ describe "accounts/dashboard/person" do
         end
       end
 
-      pending do
+      it "displays edit link" do
         expect(rendered).to have_link "Edit", href: edit_person_spending_info_path(person)
       end
 
