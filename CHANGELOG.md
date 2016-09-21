@@ -2,7 +2,7 @@
 
 ## September 2016
 
-*   Create one page for update account ready status with url: `readiness/edit`.
+*   Create one page for update account ready status with url: `readiness/update`. 
     Pivotal Tracker #126036139
 
     *Boris Shatalov*

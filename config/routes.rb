@@ -73,13 +73,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resource :readiness, only: :edit do
-    member do
-      patch :update_both
-      patch :update_owner
-      patch :update_companion
-    end
-  end
+  resource :readiness, only: [:edit, :update]
 
   resources :notifications, only: :show
 

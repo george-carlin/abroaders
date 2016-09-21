@@ -4,38 +4,41 @@ class ReadinessController < AuthenticatedUserController
     redirect_if_ready_or_ineligible
   end
 
-  def update_both
+  def update
     @account = current_account
     redirect_if_ready_or_ineligible && return
+    who = readiness_params[:who]
 
-    update_person!(@account.owner, send_email: false)
-    update_person!(@account.companion)
-
-    set_flash_and_redirect
-  end
-
-  def update_owner
-    @account = current_account
-    redirect_if_ready_or_ineligible && return
-
-    update_person!(@account.owner)
-
-    set_flash_and_redirect
-  end
-
-  def update_companion
-    @account = current_account
-    redirect_if_ready_or_ineligible && return
-
-    update_person!(@account.companion)
+    case who
+    when "both"
+      update_person!(@account.owner, send_email: false)
+      update_person!(@account.companion)
+    when "owner"
+      update_person!(@account.owner)
+    when "companion"
+      update_person!(@account.companion)
+    else
+      raise RuntimeError
+    end
 
     set_flash_and_redirect
   end
 
   private
 
+  def readiness_params
+    params.require(:readiness).permit(:who)
+  end
+
   def redirect_if_ready_or_ineligible
-    redirect_to root_path if @account.ineligible? || @account.ready?
+    access =
+      if @account.has_companion?
+        (@account.owner.unready? && @account.owner.eligible?) || (@account.companion.unready? && @account.companion.eligible?)
+      else
+        @account.owner.unready? && @account.owner.eligible?
+      end
+
+    redirect_to root_path unless access
   end
 
   def update_person!(person, send_email: true)

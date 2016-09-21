@@ -30,42 +30,57 @@ class AccountPresenter < ApplicationPresenter
     timestamps.any? ? timestamps.max.strftime("%D") : "-"
   end
 
-  def name
+  def both_can_update_ready?
     if has_companion?
-      if owner.unready? && companion.unready?
-        "#{owner.first_name} and #{companion.first_name}"
-      elsif owner.unready?
-        owner.first_name
-      elsif companion.unready?
-        companion.first_name
-      end
+      owner.unready? && companion.unready? && owner.eligible? && companion.eligible?
     else
-      "you"
+      false
     end
   end
 
-  def both_unready?
-    if has_companion?
-      owner.unready? && companion.unready?
-    else
-      true
+  def unready_person
+    if has_companion? && (owner.ready? || owner.ineligible?)
+      return companion
     end
+    owner
   end
 
-  def update_both_readiness_btn
-    update_readiness_btn("both", "Both are ready")
+  def submit_btn
+    button = h.submit_tag(
+        "Submit",
+        class: "btn btn-primary readiness-btn",
+    )
+    h.content_tag(:div, button, class: "col-md-6 col-lg-3")
   end
 
-  def update_owner_readiness_btn(prefix: nil)
-    update_readiness_btn("owner", "#{prefix} #{owner.first_name} is ready")
+  def submit_person_btn(person)
+    hidden = h.text_field_tag(
+        "readiness[who]",
+        person == owner ? "owner" : "companion",
+        type: "hidden"
+    )
+    button = h.submit_tag(
+        "#{person.first_name} is now ready",
+        class: "btn btn-primary readiness-btn",
+    )
+    h.content_tag(:div, hidden + button, class: "col-md-6 col-lg-6")
   end
 
-  def update_companion_readiness_btn(prefix: nil)
-    update_readiness_btn("companion", "#{prefix} #{companion.first_name} is ready")
+  def cancel_btn
+    button = h.link_to(
+        "Cancel",
+        h.root_path,
+        class: "btn btn-default readiness-btn",
+    )
+    h.content_tag(:div, button, class: "col-md-6 col-lg-3")
   end
 
-  def update_self_readiness_btn
-    update_readiness_btn("owner", "I am now ready")
+  def select_options
+    [
+      ["Both of us are now ready", "both"],
+      ["#{owner.first_name} is now ready - #{companion.first_name} steel needs more time", "owner"],
+      ["#{companion.first_name} is now ready - #{owner.first_name} steel needs more time", "companion"],
+    ]
   end
 
   def person_reason(person)
@@ -78,20 +93,6 @@ class AccountPresenter < ApplicationPresenter
   end
 
   private
-
-  def update_readiness_btn(data, text)
-    btn_classes = "btn btn-md btn-primary readiness-btn"
-    prefix = "update_#{data}_readiness".to_sym
-    button = h.button_to(
-                  text,
-                  h.send("update_#{data}_readiness_path"),
-                  class:  "#{h.dom_class(self, prefix)}_btn #{btn_classes}",
-                  id:     "#{h.dom_id(self, prefix)}_btn",
-                  method: :patch,
-                  data: { confirm: "Are you sure?" }
-    )
-    h.content_tag(:div, button, class: "col-md-6 col-lg-3")
-  end
 
   def link_to_person(person)
     text = [person.first_name]

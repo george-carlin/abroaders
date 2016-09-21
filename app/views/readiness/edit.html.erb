@@ -1,66 +1,77 @@
-<% present @account do |account| %>
-  <% provide :title, "Update Readiness" %>
+<%= form_tag readiness_path, method: :patch do |f| %>
+  <% present @account do |account| %>
+    <% provide :title, "Update Readiness" %>
 
-  <div class="row">
-    <div class="col-xs-12 col-md-8 col-md-offset-2">
-      <div class="hpanel">
-        <div class="panel-heading hbuilt">
-          <h1><%= account.both_unready? ? "Are" : "Is" %> <%= account.name %> ready to apply for cards now?</h1>
+    <div class="row">
+      <div class="col-xs-12 col-md-8 col-md-offset-2">
+        <div class="hpanel">
+          <div class="panel-heading hbuilt">
+            <h1>
+              <% if account.both_can_update_ready? %>
+                Are you
+              <% else %>
+                Is <%= account.unready_person.first_name %>
+              <% end %>
+              ready to apply for cards now?
+            </h1>
 
-          <p>
-            <%= account.name.capitalize %> <%= account.both_unready? ? "have" : "has" %> not said that they are ready to apply for new cards.
-          </p>
+            <p>
+              <% if account.both_can_update_ready? %>
+                Both <%= account.owner.first_name %> and <%= account.companion.first_name %>
+                have said that they are not ready to apply for new cards.
+              <% else %>
+                <%= account.unready_person.first_name %> has not said that he is are ready to apply for new cards.
+              <% end %>
+            </p>
 
-          <% if account.has_companion? %>
+            <% if account.both_can_update_ready? %>
 
-            <%= account.person_reason(account.owner) %>
-            <%= account.person_reason(account.companion) %>
+              <%= account.person_reason(account.owner) %>
+              <%= account.person_reason(account.companion) %>
 
-          <% else %>
+            <% else %>
 
-            <%= account.person_reason(account.owner) %>
-
-          <% end %>
-
-          <p><%= t("readiness.explanation") %></p>
-
-          <p>
-            If <%= account.name %> <%= account.both_unready? ? "are" : "is" %> able to apply for the card within the
-            next few days, click "I am now ready" below and we'll get working on the card
-            recommendation immediately.
-          </p>
-
-        </div><!-- .panel-heading -->
-
-        <div class="panel-body">
-          <div class="row">
-          <% if account.has_companion? %>
-            <% if account.owner.unready? && account.companion.unready? %>
-
-              <%= account.update_both_readiness_btn %>
-              <%= account.update_owner_readiness_btn(prefix: "Only") %>
-              <%= account.update_companion_readiness_btn(prefix: "Only") %>
-              <div class="col-md-6 col-lg-3">
-                <%= link_to "Cancel", root_path, class: "btn btn-primary readiness-btn" %>
-              </div>
-
-            <% elsif account.owner.unready? %>
-
-              <%= account.update_owner_readiness_btn %>
-
-            <% elsif account.companion.unready? %>
-
-              <%= account.update_companion_readiness_btn %>
+              <%= account.person_reason(account.unready_person) %>
 
             <% end %>
-          <% else %>
 
-            <%= account.update_self_readiness_btn %>
+            <p><%= t("readiness.explanation") %></p>
 
-          <% end %>
+            <p>
+              <% if account.both_can_update_ready? %>
+                If one or both of you are able to apply for the card within the next few
+                days, select below and we'll get working on the card recommendation
+                immediately.
+              <% else %>
+                If <%= account.unready_person.first_name %> is able to apply for the card within the next few days, click "I am
+                now ready" below and we'll get working on the card recommendation
+                immediately.
+              <% end %>
+            </p>
+
+          </div><!-- .panel-heading -->
+
+          <div class="panel-body">
+            <div class="row">
+
+            <% if account.has_companion? && account.both_can_update_ready? %>
+
+              <div class="col-md-6 col-lg-6">
+                <%= select_tag "readiness[who]", options_for_select(account.select_options) %>
+              </div>
+              <%= account.cancel_btn %>
+              <%= account.submit_btn %>
+
+            <% else %>
+
+              <%= account.submit_person_btn(account.unready_person) %>
+              <%= account.cancel_btn %>
+
+            <% end %>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  <% end %>
 <% end %>
