@@ -99,24 +99,6 @@ namespace :ab do
         # as the value
         @countries = @countries.index_by(&:code)
 
-        # ------ STATES ------
-
-        states_csv = File.read(Rails.root.join("lib/data/state_data.csv"))
-        states_data = CSV.parse(states_csv)
-        states_data.shift # remove the column headers
-        puts "Importing #{states_data.length} states..."
-        @states = states_data.map do |name, code, parent_code|
-          State.create!(
-            name: name,
-            code: code,
-            parent: @countries.fetch(parent_code)
-          )
-        end
-
-        # Create a hash of states with the code as the key and the State
-        # as the value
-        @states = @states.index_by(&:code)
-
         # ------ CITIES ------
 
         cities_csv = File.read(Rails.root.join("lib/data/city_data.csv"))
@@ -127,7 +109,7 @@ namespace :ab do
           City.create!(
             name: name,
             code: code,
-            parent: @states[state_code] || @countries[country_code]
+            parent: @countries[country_code]
           )
         end
 
@@ -145,7 +127,7 @@ namespace :ab do
           Airport.create!(
             name:   name,
             code:   code,
-            parent: @cities[city] || @states[state] || @countries[country]
+            parent: @cities[city] || @countries[country]
           )
         end
       end # transaction

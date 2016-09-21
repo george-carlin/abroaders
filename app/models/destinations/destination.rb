@@ -14,7 +14,7 @@ class Destination < ApplicationRecord
   # about including Alaska and Hawaii separately. In the future when the travel
   # plan form setup is more complicated, we may change them to regions.
 
-  TYPES = %w[airport city state country region]
+  TYPES = %w[airport city country region]
 
   TYPES.each do |type|
     scope type, -> { where(type: type.capitalize) }
