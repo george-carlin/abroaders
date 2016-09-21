@@ -7,6 +7,10 @@
 
     *Boris Shatalov*
 
+*   Add ability to edit `SpendingInfo`. Pivotal Tracker #129983961
+
+    *Boris Shatalov*
+
 *   Use jQuery.slideUp/Down to hide/show cards on the survey page.
     Pivotal Tracker #125094181
 
