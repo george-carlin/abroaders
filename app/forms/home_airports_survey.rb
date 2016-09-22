@@ -3,7 +3,7 @@ class HomeAirportsSurvey < ApplicationForm
   attribute :airport_ids, Array[Integer]
 
   validates :account, presence: true
-  validates :airport_ids, presence: true
+  validates :airport_ids, presence: true, length: { minimum: 1, maximum: 5 }
 
   def self.name
     "HomeAirports"

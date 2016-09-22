@@ -1,4 +1,8 @@
 $(document).ready(function () {
+  function getSelectedAirportCount() {
+    return ($('.hidden-airports-ids').length)
+  }
+
   function airportAlreadyAdded(suggestion) {
     return ($('.hidden-airports-ids[value="' + suggestion.id + '"]').length != 0)
   }
@@ -15,7 +19,7 @@ $(document).ready(function () {
   }
 
   function changeSubmitState() {
-    var disabled = ($('.hidden-airports-ids').length == 0);
+    var disabled = (getSelectedAirportCount() == 0);
     $('.submit-airports-survey').attr('disabled', disabled);
   }
 
@@ -44,18 +48,24 @@ $(document).ready(function () {
         source: airports
       }).bind('typeahead:select', function (e, suggestion) {
     $(this).typeahead('val', '');
+    manageAlert($alert_info, "");
     manageAlert($alert_danger, "");
 
     if (airportAlreadyAdded(suggestion)) {
       manageAlert($alert_info, "You have already added this airport.");
     }
     else {
-      manageAlert($alert_info, "");
       var airport_div = document.createElement('div');
-      airport_div.className = 'airport-selected';
-      $(airport_div).append('<input class="hidden-airports-ids" type="hidden" name="airports_survey[airport_ids][]" value="' + suggestion.id + '">');
-      $(airport_div).append('<p><i class="fa fa-check" aria-hidden="true"></i>' + suggestion.name + '<i class="fa fa-times" aria-hidden="true"></i></p>');
-      $saved_area.append(airport_div);
+
+      if (getSelectedAirportCount() < 5) {
+        airport_div.className = 'airport-selected';
+        $(airport_div).append('<input class="hidden-airports-ids" type="hidden" name="airports_survey[airport_ids][]" value="' + suggestion.id + '">');
+        $(airport_div).append('<p><i class="fa fa-check" aria-hidden="true"></i>' + suggestion.name + '<i class="fa fa-times" aria-hidden="true"></i></p>');
+        $saved_area.append(airport_div);
+      }
+      else {
+        manageAlert($alert_danger, "You can't add more than five airports");
+      }
 
       changeSubmitState();
     }

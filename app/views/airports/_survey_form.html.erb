@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <%= render "shared/model_validation_errors", model: survey %>
-      <p class="helper-message">Add as many airports as you want</p>
+      <p class="helper-message">You can add five airports maximum</p>
       <div class="col-md-9">
 
         <%= form_for survey_airports_path, html: { class: "home-airport-survey-form text-center" } do |f| %>
