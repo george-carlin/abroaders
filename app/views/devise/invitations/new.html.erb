@@ -1,0 +1,46 @@
+<% provide :title, "New Account" %>
+
+<div class="row">
+  <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+    <%= bootstrap_devise_error_messages! %>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4><%= t "devise.invitations.new.header" %></h4>
+      </div>
+      <div class="panel-body">
+        <%= form_for resource, url: invitation_path, html: { method: :post } do |f| %>
+          <% resource.class.invite_key_fields.each do |field| -%>
+            <div class="form-group">
+              <%= f.label field %>
+              <%= f.text_field field, required: true %>
+            </div>
+          <% end -%>
+
+          <%= f.fields_for :owner, Person.new do |owner_form| %>
+            <div class="form-group">
+              <%= owner_form.label :first_name %>
+              <%= owner_form.text_field :first_name, required: true %>
+            </div>
+          <% end %>
+
+          <div class="form-group">
+            <%= radio_button_tag :type, "solo", checked: true %>
+            <%= label :type, "solo" %>
+            <%= radio_button_tag :type, "partner" %>
+            <%= label :type, "partner" %>
+          </div>
+
+          <%= f.fields_for :companion, Person.new do |companion_form| %>
+            <div class="form-group partner-form">
+              <%= companion_form.label :first_name, "Partner's first name" %>
+              <%= companion_form.text_field :first_name, class: "companion-field", disabled: true, required: true %>
+              <%= companion_form.hidden_field :main, class: "companion-field", disabled: true, value: false %>
+            </div>
+          <% end %>
+
+          <%= f.submit t("devise.invitations.new.submit_button"), class: "btn btn-primary" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
