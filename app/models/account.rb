@@ -1,7 +1,7 @@
 class Account < ApplicationRecord
   # Include devise modules. Others available are:
   # :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable,
+  devise :invitable, :database_authenticatable, :registerable, :recoverable, :rememberable,
     :trackable, :validatable
 
   # Attributes
@@ -69,6 +69,9 @@ class Account < ApplicationRecord
   end
 
   has_many :recommendation_notes, dependent: :destroy
+
+  accepts_nested_attributes_for :owner
+  accepts_nested_attributes_for :companion
 
   # TODO these methods don't belong in here; updating the counter cache is a
   # responsibility of the Notification class, not the Account class
