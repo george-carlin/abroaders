@@ -2,6 +2,10 @@
 
 ## September 2016
 
+*   Add ability to invite `Account` by `Admin`. Pivotal Tracker #130310023
+
+    *Boris Shatalov*
+
 *   Add ability to edit `SpendingInfo`. Pivotal Tracker #129983961
 
     *Boris Shatalov*
