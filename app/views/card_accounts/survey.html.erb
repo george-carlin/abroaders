@@ -68,20 +68,36 @@
   </div><!-- .panel-body -->
 </div><!-- .hpanel -->
 
-<div id="card-survey-main-body" style="display:none;">
-  <%= form_tag survey_person_card_accounts_path(@person) do |f| %>
+<div id="card-survey-main-body" class="card-survey-form-wrapper" style="display:none;">
+  <%= form_tag survey_person_card_accounts_path(@person) do %>
+    <p class="helper-message">Click a bank's name to see the list of cards for that bank</p>
     <% @survey.each_section do |bank, cards_grouped_by_bp| %>
-      <div id="<%= bank.to_param %>_cards">
-        <% cards_grouped_by_bp.each do |bp, cards| %>
-          <div id="<%= bank.to_param %>_<%= bp %>_cards">
-            <h2><%= bank.name %> <%= bp.capitalize %> Cards</h2>
 
-            <div class="row">
-              <%= render partial: "card_accounts/survey_card", collection: cards %>
-            </div>
-          </div><!-- #cards_onboarding_<%= bank.to_param %>_<%= bp %> -->
-        <% end # cards_for_1_bank.group_by(&:bp).each %>
-      </div><!-- #cards_onboarding_<%= bank.to_param %> -->
+      <div class="bank-section">
+
+        <div class="collapse-header">
+          <a data-toggle="collapse" href="#bank-collapse-<%= bank.id %>">
+            <h2><%= bank.name.upcase %></h2>
+          </a>
+          <i class="fa fa-sort-desc collapse-header" aria-hidden="true"></i>
+        </div>
+
+        <div id="bank-collapse-<%= bank.id %>" class="panel-collapse collapse">
+          <div id="<%= bank.to_param %>_cards">
+
+            <% cards_grouped_by_bp.each do |bp, cards| %>
+              <div id="<%= bank.to_param %>_<%= bp %>_cards">
+                <h4><%= bp.capitalize %> Cards</h4>
+                <div class="row">
+                  <%= render partial: "card_accounts/survey_card", collection: cards %>
+                </div>
+              </div><!-- #cards_onboarding_<%= bank.to_param %>_<%= bp %> -->
+            <% end # cards_for_1_bank.group_by(&:bp).each %>
+
+          </div><!-- #cards_onboarding_<%= bank.to_param %> -->
+        </div>
+      </div>
+
     <% end # @cards.group_by(&:bank).each %>
 
     <div class="row">

@@ -7,11 +7,46 @@
 
     *Boris Shatalov*
 
+*   Add ability to edit `SpendingInfo`. Pivotal Tracker #129983961
+
+    *Boris Shatalov*
+
+*   Use jQuery.slideUp/Down to hide/show cards on the survey page.
+    Pivotal Tracker #125094181
+
+    *Boris Shatalov*
+
+*   Add ability to edit "from survey" `CardAccount`. Pivotal Tracker #129985309
+
+    *Boris Shatalov*
+
+*   Allow line breaks in Recommendation Notes. Pivotal Tracker #124290791
+
+    *Boris Shatalov*
+
+*   Move checkboxes from admin/people#show page to above the user's cards section.
+    Add "toggle all" checkbox for currencies. Pivotal Tracker #129842813
+
+    *Boris Shatalov*
+
+*   Extract `ApplicationRecord#belongs_to_fake_db_model`
+
+    *George Millo*
+
+*   Create `FakeDBModel` and `Alliance`. Add alliance_id to `Currency`.
+    Pivotal Tracker #129919413
+
+    *Boris Shatalov*
+
+*   Upgrade to Rails 5.0.0.1. Pivotal Tracker #129987043
+
+    *Boris Shatalov*
+
 *   Add "shown_on_survey" field to `Currency`. Pivotal Tracker #129920005
 
     *Boris Shatalov*
 
-*   Hide "{name} is unready for cards" message if user has recently received 
+*   Hide "{name} is unready for cards" message if user has recently received
     card recommendations. Pivotal Tracker #129806913
 
     *Boris Shatalov*

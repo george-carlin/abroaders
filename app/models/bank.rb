@@ -4,11 +4,7 @@
 # constant (TABLE) and Bank has a minimal set of methods to make it quack like
 # an ActiveRecord model as far as Card is concerned (so we can get methods like
 # Card#bank, Bank.find(id).cards, etc)
-class Bank
-  include Virtus.model
-  include ActiveModel::Serializers::JSON
-
-  attribute :id,   Fixnum
+class Bank < FakeDBModel
   attribute :name, String
   attribute :personal_phone, String
   attribute :business_phone, String
@@ -43,22 +39,6 @@ class Bank
     [21, "TD Bank"],
     [23, "Wells Fargo"],
   ]
-
-  def self.find(id)
-    find_by(id: id)
-  end
-
-  def self.all
-    TABLE.map { |row| find(row[0]) }
-  end
-
-  def self.first
-    all.first
-  end
-
-  def self.last
-    all.last
-  end
 
   # There's only one column that can be sorted by, so the 'column' parameter is
   # rather redundant here - but allow it anyway so that Bank quacks more like
@@ -104,36 +84,4 @@ class Bank
   def cards
     Card.where(bank_id: id)
   end
-
-  def ==(other_bank)
-    other_bank.is_a?(self.class) && other_bank.id == id
-  end
-
-  def <=>(other_bank)
-    id <=> other_bank.id
-  end
-
-  # Hash equality. This lets us do things like Card.all.group_by(&:bank)
-  # hash must return a fixnum that is always the same for identical Banks:
-  def hash
-    Digest::MD5.new.hexdigest("#{id}#{name}")[0..15].to_i(16)
-  end
-  def eql?(other_bank)
-    self == other_bank && hash == other_bank.hash
-  end
-
-  def attributes
-    # Virtus's 'attributes' method returns a hash with symbol keys, but
-    # ActiveRecord::Base#attributes uses string keys. Keep things consistent:
-    super.stringify_keys
-  end
-
-  def to_param
-    name.downcase.parameterize.underscore
-  end
-
-  def inspect
-     %[#<#{self.class} id: #{id}, name: "#{name}">]
-  end
-
 end

@@ -87,22 +87,15 @@ $(document).ready(function () {
     });
   }
 
-
   $('.card_bp_filter').click(function (e) {
     filterTable();
   });
 
-  $('.card_currency_filter').click(function (e) {
-    filterTable();
-  });
-
-
-  var $cardBankFilterCheckboxes = $('.card_bank_filter');
-  $cardBankFilterCheckboxes.click(function (e) {
+  function toggle_one(checkboxes, toggle_elem) {
     // Show/hide the toggle all button:
     // If *all* other boxes are also checked:
     var allAreChecked = true;
-    $cardBankFilterCheckboxes.each(function (i, checkbox) {
+    checkboxes.each(function (i, checkbox) {
       if (checkbox.checked) {
         return true;
       } else {
@@ -110,20 +103,35 @@ $(document).ready(function () {
         return false; // Return false to break out of the each loop early.
       }
     });
-    $("#card_bank_filter_all").prop("checked", allAreChecked);
+    toggle_elem.prop("checked", allAreChecked);
 
     filterTable();
-  });
+  }
 
-
-  $("#card_bank_filter_all").click(function () {
-    var that = this;
-    $cardBankFilterCheckboxes.each(function (i, cb) {
-      cb.checked = that.checked;
+  function toggle_all(toggle_elem, checkboxes) {
+    checkboxes.each(function (i, cb) {
+      cb.checked = toggle_elem.checked;
     });
     filterTable();
+  }
+
+  var $cardBankFilterCheckboxes = $('.card_bank_filter');
+  $cardBankFilterCheckboxes.click(function (e) {
+    toggle_one($cardBankFilterCheckboxes, $("#card_bank_filter_all"));
   });
 
+  var $cardCurrencyFilterCheckboxes = $('.card_currency_filter');
+  $cardCurrencyFilterCheckboxes.click(function (e) {
+    toggle_one($cardCurrencyFilterCheckboxes, $("#card_currency_filter_all"));
+  });
+
+  $("#card_bank_filter_all").click(function () {
+    toggle_all(this, $cardBankFilterCheckboxes)
+  });
+
+  $("#card_currency_filter_all").click(function () {
+    toggle_all(this, $cardCurrencyFilterCheckboxes)
+  });
 
   $(".recommend_offer_btn").click(function (e) {
     e.preventDefault();

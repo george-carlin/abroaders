@@ -444,6 +444,25 @@ module AdminArea
           filters.check_chase
           expect(filters.all_banks_check_box).to be_checked
         end
+
+        example "toggling all currencies" do
+          filters.uncheck_all_currencies
+          page_should_not_have_recommendable_cards(*@cards)
+          Currency.all.each do |currency|
+            expect(find("#card_currency_filter_#{currency.id}")).not_to be_checked
+          end
+          filters.check_all_currencies
+          page_should_have_recommendable_cards(*@cards)
+          Currency.all.each do |currency|
+            expect(find("#card_currency_filter_#{currency.id}")).to be_checked
+          end
+
+          # it gets checked/unchecked automatically as I click other CBs:
+          filters.uncheck "card_currency_filter_#{@chase_b.id}"
+          expect(filters.all_currencies_check_box).not_to be_checked
+          filters.check "card_currency_filter_#{@chase_b.id}"
+          expect(filters.all_currencies_check_box).to be_checked
+        end
       end
 
       let(:offer) { @offers[3] }

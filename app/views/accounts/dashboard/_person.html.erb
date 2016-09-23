@@ -23,6 +23,10 @@
 
     <% if person.onboarded_spending? %>
       <hr>
+      <h4>
+        General Info
+        <small><%= link_to "Edit", edit_person_spending_info_path(person) %></small>
+      </h4>
       <%= render person.spending_info %>
       <div class="clearfix"></div>
     <% elsif person.show_spending_link? %>
@@ -56,6 +60,7 @@
     <% if person.onboarded_balances? %>
       <hr style="margin-top:0;">
       <% if person.balances.any? %>
+        <h4>Balances</h4>
         <%= render "balances/list", balances: person.balances.includes(:currency) %>
       <% else %>
         <p>No existing frequent flyer balances</p>
