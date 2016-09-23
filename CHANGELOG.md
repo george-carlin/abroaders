@@ -2,6 +2,11 @@
 
 ## September 2016
 
+*   Group `Currency` filters by `Alliance` on admin/people#show. 
+    Pivotal Tracker #129920759
+
+    *Boris Shatalov*
+
 *   Add ability to edit `SpendingInfo`. Pivotal Tracker #129983961
 
     *Boris Shatalov*
