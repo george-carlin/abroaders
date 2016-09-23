@@ -18,7 +18,7 @@
 //= require jquery_ujs
 //= require bootstrap.min
 //= require bootstrap-datepicker
-//= require jquery.tablesorter
+//= require jquery.tablesorter.min
 //= require es5-shim
 //= require underscore
 //= require metisMenu

@@ -20,59 +20,30 @@ $(document).ready(function () {
       8:  { sorter: false }, // Declined
       9:  { sorter: true  }, // Opened
       10: { sorter: true  }  // Closed
-    }
+    },
+    sortList : [[9, 1], [6, 1]]
   });
 
   $(".sortable-column.opened").click(function () {
-    if (isDataExists($personCardTable.find(".card_account_opened_at")) == false) {
-      sortColumn(6);
-    }
-    else {
-      sortColumn(9);
-    }
+    sortColumn($(this), 9, 6);
   });
 
   $(".sortable-column.closed").click(function () {
-    if (isDataExists($personCardTable.find(".card_account_closed_at")) == false) {
-      sortColumn(9);
-    }
-    else {
-      sortColumn(10);
-    }
+    sortColumn($(this), 10, 9);
   });
 
   $(".sortable-column.applied").click(function () {
-    if (isDataExists($personCardTable.find(".card_account_applied_at")) == false) {
-      sortColumn(9);
-    }
-    else {
-      sortColumn(6);
-    }
+    sortColumn($(this), 6, 9);
   });
 
   $(".sortable-column.recommended").click(function () {
-    if (isDataExists($personCardTable.find(".card_account_recommended_at")) == false) {
-      sortColumn(9);
-    }
-    else {
-      sortColumn(3);
-    }
+    sortColumn($(this), 3, 9);
   });
 
-  $(".sortable-column.opened").trigger("click");
-
-  function sortColumn(column_number) {
-    $personCardTable.trigger("sorton", [ [[column_number,1]] ]);
-  }
-
-  function isDataExists(rows) {
-    var is_exists = false;
-    rows.each(function (i, row) {
-      if (row.innerText != "-") {
-        is_exists =  true;
-      }
-    });
-    return is_exists;
+  function sortColumn(element, primary_column, secondary_column) {
+    $(".sortable-column.sorted-column").removeClass("sorted-column");
+    element.addClass("sorted-column");
+    $personCardTable.trigger("sorton", [ [[primary_column, 1], [secondary_column, 1]] ]);
   }
 
   function filterTable() {
