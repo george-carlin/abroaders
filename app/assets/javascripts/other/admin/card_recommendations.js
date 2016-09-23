@@ -9,17 +9,17 @@ $(document).ready(function () {
   var $personCardTable = $("#admin_person_card_accounts_table");
   $personCardTable.tablesorter({
     headers: {
-      0: { sorter: false }, // ID
-      1: { sorter: false }, // Name
-      2: { sorter: false }, // Status
-      3: { sorter: true  }, // Rec'ed
-      4: { sorter: false }, // Seen
-      5: { sorter: false }, // Clicked
-      6: { sorter: true  }, // Applied
-      7: { sorter: false }, // Denied
-      8: { sorter: false }, // Declined
-      9: { sorter: true  }, // Opened
-      10: { sorter: true }  // Closed
+      0:  { sorter: false }, // ID
+      1:  { sorter: false }, // Name
+      2:  { sorter: false }, // Status
+      3:  { sorter: true  }, // Rec'ed
+      4:  { sorter: false }, // Seen
+      5:  { sorter: false }, // Clicked
+      6:  { sorter: true  }, // Applied
+      7:  { sorter: false }, // Denied
+      8:  { sorter: false }, // Declined
+      9:  { sorter: true  }, // Opened
+      10: { sorter: true  }  // Closed
     }
   });
 
