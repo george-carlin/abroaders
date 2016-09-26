@@ -7,7 +7,6 @@ AAR,AAR,Aarhus
 AAT,AAT,Altay
 ABA,ABA,Abakan
 ABE,ABE,Lehigh Valley International
-ABH,ABH,Abha
 ABI,ABI,Abilene Regional
 ABJ,ABJ,Abidjan Felix Houphouet Boigny International
 ABK,ABK,Kabri Dehar
@@ -50,7 +49,7 @@ AGS,AGS,Augusta Regional At Bush Field
 AGT,AGT,Ciudad del Este
 AGU,AGU,Jesus Teran International
 AGX,AGX,Agatti Island
-AHB,AHB,Abha
+AHB,AHB,Abha Regional
 AHO,AHO,Alghero
 AHU,AHU,Al Hociema
 AIA,AIA,Alliance
@@ -376,7 +375,7 @@ CNS,CNS,Cairns International
 CNX,CNX,Chiang Mai International
 CNY,CNY,Moab
 COD,COD,Cody
-COK,KOC,Kochi
+COK,COK,Cochin
 COO,COO,Cotonou Cadjehoun
 COR,COR,Cordoba
 COS,COS,City Of Colorado Springs Muni
@@ -698,7 +697,7 @@ HAJ,HAJ,Hannover-Langenhagen
 HAK,HAK,Haikou Meilan International
 HAM,HAM,Hamburg
 HAN,HAN,Noibai International
-HAR,HAR,Harrisburg International
+HAR,HAR,Capital City
 HAS,HAS,Hail
 HAU,HAU,Haugesund Karmoy
 HAV,HAV,Jose Marti International
@@ -1840,7 +1839,6 @@ TVC,TVC,Cherry Capital
 TVF,TVF,Thief River Falls
 TWF,TWF,Magic Valley Regional
 TWU,TWU,Tawau
-TXG,TXG,Taichung
 TXK,TXK,Texarkana Regional Webb Field
 TXL,BER,Tegel
 TXN,TXN,Huangshan
