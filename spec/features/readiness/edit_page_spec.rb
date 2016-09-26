@@ -118,7 +118,7 @@ describe "edit readiness page" do
         end
 
         context "and update only owner" do
-          before { select("#{owner.first_name} is now ready - #{companion.first_name} steel needs more time", from: "readiness[who]") }
+          before { select("#{owner.first_name} is now ready - #{companion.first_name} still needs more time", from: "readiness[who]") }
 
           example "updating owner status to 'ready'" do
             submit_form
@@ -132,7 +132,7 @@ describe "edit readiness page" do
         end
 
         context "and update only companion" do
-          before { select("#{companion.first_name} is now ready - #{owner.first_name} steel needs more time", from: "readiness[who]") }
+          before { select("#{companion.first_name} is now ready - #{owner.first_name} still needs more time", from: "readiness[who]") }
 
           example "updating companion status to 'ready'" do
             submit_form

@@ -46,41 +46,39 @@ class AccountPresenter < ApplicationPresenter
   end
 
   def submit_btn
-    button = h.submit_tag(
-        "Submit",
-        class: "btn btn-primary readiness-btn",
+    h.submit_tag(
+      "Submit",
+      class: "btn btn-primary update-readiness-btn",
     )
-    h.content_tag(:div, button, class: "col-md-6 col-lg-3")
+  end
+
+  def readiness_who_hidden_field(person)
+    h.hidden_field_tag(
+      "readiness[who]",
+      person.type
+    )
   end
 
   def submit_person_btn(person)
-    hidden = h.text_field_tag(
-        "readiness[who]",
-        person == owner ? "owner" : "companion",
-        type: "hidden"
+    h.submit_tag(
+      "#{person.first_name} is now ready",
+      class: "btn btn-primary update-readiness-btn",
     )
-    button = h.submit_tag(
-        "#{person.first_name} is now ready",
-        class: "btn btn-primary readiness-btn",
-    )
-    h.content_tag(:div, hidden + button, class: "col-md-6 col-lg-6")
   end
 
   def cancel_btn
-    button = h.link_to(
-        "Cancel",
-        h.root_path,
-        class: "btn btn-default readiness-btn",
-    )
-    h.content_tag(:div, button, class: "col-md-6 col-lg-3")
+    h.link_to "Cancel", h.root_path, class: "btn btn-default update-readiness-btn"
   end
 
-  def select_options
-    [
-      ["Both of us are now ready", "both"],
-      ["#{owner.first_name} is now ready - #{companion.first_name} steel needs more time", "owner"],
-      ["#{companion.first_name} is now ready - #{owner.first_name} steel needs more time", "companion"],
-    ]
+  def readiness_who_select
+    h.select_tag(
+      "readiness[who]",
+      h.options_for_select([
+        ["Both of us are now ready", "both"],
+        ["#{owner.first_name} is now ready - #{companion.first_name} still needs more time", "owner"],
+        ["#{companion.first_name} is now ready - #{owner.first_name} still needs more time", "companion"],
+      ])
+    )
   end
 
   def person_reason(person)
