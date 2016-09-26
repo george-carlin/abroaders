@@ -43,6 +43,13 @@ module ApplicationHelper
   #
   # When the account has no companion (returns the string unchanged):
   # n("You have 2 cards", @person) => "You have 2 cards"
+  #
+  # How we use this: 'raw' text in the views is always written in the 2nd
+  # person ("you have", "you are", "yours" etc). If we want to dynamically
+  # change this to show the person's name when the account has a companion,
+  # wrap the text in the view with `<%= n(.... , person) %>`. Optionally
+  # pass `true` as the third argument to use 'he/she' instead of the person's
+  # name.
   def name_conjugation(text, person, he_she = false)
     return text unless person.account.has_companion?
 
