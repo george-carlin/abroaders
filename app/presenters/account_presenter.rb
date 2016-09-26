@@ -1,4 +1,7 @@
 class AccountPresenter < ApplicationPresenter
+  # TODO many of the methods here are specific to the `/readiness/edit` page,
+  # and should be split into their own presenter (EditReadinessPresenter?)
+
   def tr(&block)
     h.content_tag_for(
       :tr,
