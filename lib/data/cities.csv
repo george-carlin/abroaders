@@ -338,7 +338,7 @@ CAS,PF,Casablanca
 CAY,GF,Cayenne
 CAZ,AU,Cobar
 CBB,BO,Cochabamba
-CBH,DZ,Béchar
+CBH,DZ,Bechar
 CBO,PH,Cotabato
 CBQ,NG,Calabar
 CBR,AU,Canberra
@@ -498,7 +498,7 @@ DEC,US,Decatur
 DED,IN,Dehra Dun
 DEL,IN,Delhi
 DEN,US,Denver
-DFW,US,Dallas/Ft. Worth
+DFW,US,Dallas/Fort Worth
 DGE,AU,Mudgee
 DGO,MX,Durango
 DGT,PH,Dumaguete
@@ -610,7 +610,7 @@ ESU,MA,Essadouira
 ETH,IL,Elat
 ETZ,FR,Metz
 EUG,US,Eugene
-EUN,DZ,El Aaiún
+EUN,DZ,El Aaiun
 EVE,NO,Evenes
 EVN,AM,Erevan
 EVV,US,Evansville
@@ -890,7 +890,7 @@ ILI,US,Iliamna
 ILM,US,Wilmington
 ILO,PH,Iloilo
 ILR,NG,Ilorin
-ILZ,SK,Žilina
+ILZ,SK,Zilina
 IMF,IN,Imphal
 IMP,BR,Imperatriz
 IMT,US,Iron Mountain
@@ -914,7 +914,7 @@ IRK,US,Kirksville
 IRP,CD,Isiro
 ISA,AU,Mount Isa
 ISB,PK,Islamabad
-ISC,GB,"Isles of Scilly, St. Mary's"
+ISC,GB,Isles of Scilly
 ISE,TR,Isparta
 ISG,JP,Ishigaki
 ISL,US,Islip
@@ -1079,7 +1079,7 @@ KSA,FM,Kosrae
 KSC,SK,Kosice
 KSF,DE,Kassel
 KSH,IR,Bakhtaran
-KSM,US,St. Mary's
+KSM,US,St Mary's
 KSU,NO,Kristiansund
 KSY,TR,Kars
 KTA,AU,Karratha
@@ -1141,7 +1141,7 @@ LDE,FR,Lourdes/Tarbes
 LDH,AU,Lord Howe Island
 LDU,MY,Lahad Datu
 LEB,US,White River
-LED,RU,St. Petersburg
+LED,RU,St Petersburg
 LEH,FR,Le Havre
 LEI,ES,Almeria
 LEJ,DE,Leipzig
@@ -1503,7 +1503,7 @@ ORF,US,Norfolk
 ORK,IE,Cork
 ORN,DZ,Oran
 OSA,JP,Osaka
-OSD,SE,Östersund
+OSD,SE,Ostersund
 OSH,US,Oshkosh
 OSI,HR,Osijek
 OSL,NO,Oslo
@@ -1743,9 +1743,9 @@ RSU,KR,Yeosu
 RTB,HN,Roatan
 RTM,NL,Rotterdam
 RUH,SA,Riyadh
-RUN,RE,St. Denis de La Reunion
+RUN,RE,St Denis de La Reunion
 RUT,US,Rutland
-RVK,NO,Rørvik
+RVK,NO,Rorvik
 RVN,FI,Rovaniemi
 RVT,AU,Ravensthorpe
 RWI,US,Rocky Mount/Wilson
@@ -1798,7 +1798,7 @@ SEY,SC,Mahe
 SEZ,SC,Mahe Island
 SFA,TN,Sfax
 SFB,US,Sanford
-SFG,GP,St. Martin
+SFG,GP,St Martin
 SFJ,GL,Sondre Stromfjord
 SFN,AR,Santa Fe
 SFO,US,San Francisco
@@ -1807,7 +1807,7 @@ SGC,RU,Surgut
 SGD,DK,Sonderborg
 SGF,US,Springfield
 SGN,VN,Ho Chi Minh City
-SGU,US,St. George
+SGU,US,St George
 SHA,CN,Shanghai
 SHB,JP,Nakashibetsu
 SHC,ET,Shire Indasilase
@@ -1834,7 +1834,7 @@ SJP,BR,Sao Jose Do Rio Preto
 SJT,US,San Angelo
 SJU,PR,San Juan
 SJW,CN,Shijiazhuang
-SKB,KN,St. Kitts
+SKB,KN,St Kitts
 SKE,NO,Skien
 SKG,GR,Thessaloniki
 SKN,NO,Stokmarknes
@@ -1849,7 +1849,7 @@ SLL,OM,Salalah
 SLM,ES,Salamanca
 SLP,MX,San Luis Potosi
 SLQ,US,Sleetmute
-SLU,LC,St. Lucia
+SLU,LC,St Lucia
 SLV,IN,Shimla
 SLW,MX,Saltillo
 SLZ,BR,Sao Luis
@@ -1889,18 +1889,18 @@ SSJ,NO,Sandnessjoen
 SSR,VU,Pentecost Island
 SSX,TR,Samsun
 STD,VE,Santo Domingo
-STG,US,St. George Island
+STG,US,St George Island
 STI,DO,Santiago
-STJ,CA,St. John's
-STL,US,St. Louis
+STJ,CA,St John's
+STL,US,St Louis
 STM,BR,Santarem
 STO,SE,Stockholm
 STR,DE,Stuttgart
 STS,US,Santa Rosa
-STT,VI,St. Thomas
+STT,VI,St Thomas
 STV,IN,Surat
 STW,RU,Stavropol
-STX,VI,St. Croix Island
+STX,VI,St Croix Island
 SUB,ID,Surabaya
 SUF,IT,Lamezia
 SUI,GE,Sukhumi
@@ -1909,7 +1909,7 @@ SUN,US,Hailey
 SUV,FJ,Suva
 SUX,US,Sioux City
 SVC,US,Silver City
-SVD,VC,St. Vincent
+SVD,VC,St Vincent
 SVG,NO,Stavanger
 SVQ,ES,Seville
 SVS,US,Stevens Village
@@ -1921,7 +1921,7 @@ SWF,US,Newburgh
 SWJ,VU,Malekula Island
 SXB,FR,Strasbourg
 SXF,DE,"Berlin, Schonefeld"
-SXM,SX,St. Maarten
+SXM,SX,St Maarten
 SXR,IN,Srinagar
 SXZ,TR,Siirt
 SYA,US,Shemya Islands
@@ -1968,7 +1968,7 @@ TEE,DZ,Tebessa
 TEH,IR,Teheran
 TEL,IL,Tel-aviv
 TEN,CN,Tongren
-TEQ,TR,Çorlu
+TEQ,TR,Corlu
 TER,PT,Terceira
 TEX,US,Telluride
 TGD,RS,Podgorica
@@ -2134,7 +2134,7 @@ VAL,US,Valparaiso
 VAN,TR,Van
 VAR,BG,Varna
 VAS,TR,Sivas
-VAW,NO,Vardø
+VAW,NO,Vardo
 VBS,IT,Brescia
 VBY,SE,Visby
 VCA,VN,Can Tho
@@ -2296,7 +2296,7 @@ YQX,CA,Gander
 YQY,CA,Sydney
 YRB,CA,Resolute
 YSB,CA,Sudbury
-YSJ,CA,St. John
+YSJ,CA,St John
 YSM,CA,Fort Smith
 YSR,CA,Nanisivik
 YTM,CA,Mont-Tremblant
@@ -2329,7 +2329,7 @@ YYF,CA,Penticton
 YYG,CA,Charlottetown
 YYJ,CA,Victoria
 YYR,CA,Goose Bay
-YYT,CA,St. Johns
+YYT,CA,St Johns
 YYY,CA,Mont Joli
 YYZ,CA,Toronto
 YZF,CA,Yellowknife
@@ -2359,6 +2359,6 @@ ZPC,CL,Pucon
 ZQN,NZ,Queenstown International
 ZQW,DE,Zweibruecken
 ZRH,CH,Zurich
-ZSE,RE,St.-pierre
+ZSE,RE,St-Pierre
 ZTH,GR,Zakynthos
 ZUH,CN,Zhuhai

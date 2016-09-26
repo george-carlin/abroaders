@@ -8,7 +8,7 @@ AAT,AAT,Altay
 ABA,ABA,Abakan
 ABE,ABE,Lehigh Valley International
 ABH,ABH,Abha
-ABI,ABI,Abilene Rgnl
+ABI,ABI,Abilene Regional
 ABJ,ABJ,Abidjan Felix Houphouet Boigny International
 ABK,ABK,Kabri Dehar
 ABQ,ABQ,Albuquerque International Sunport
@@ -23,10 +23,10 @@ ACC,ACC,Kotoka International
 ACE,ACE,Las Palmas
 ACH,ACH,Altenrhein
 ACK,ACK,Nantucket Mem
-ACT,ACT,Waco Rgnl
+ACT,ACT,Waco Regional
 ACV,ACV,Arcata-Eureka
 ACX,ACX,Xingyi
-ADA,ADA,Adana Şakirpaşa
+ADA,ADA,Adana Sakirpasa
 ADB,IZM,Adnan Menderes
 ADD,ADD,Bole International
 ADE,ADE,Aden International
@@ -166,7 +166,7 @@ BES,BES,Guipavas
 BET,BET,Bethel
 BEY,BEY,Beirut International
 BFF,BFF,Scottsbluff
-BFL,BFL,Meadows Fld
+BFL,BFL,Meadows Field
 BFN,BFN,Bloemfontein
 BFS,BFS,Aldergrove
 BGA,BGA,Palonegro
@@ -241,7 +241,7 @@ BOO,BOO,Bodo
 BOS,BOS,General Edward Lawrence Logan International
 BPN,BPN,Balikpapan
 BPS,BPS,Porto Seguro
-BPT,BPT,Southeast Texas Rgnl
+BPT,BPT,Southeast Texas Regional
 BPX,BPX,Bangda
 BQB,BQB,Brusselton
 BQK,BQK,Brunswick
@@ -265,7 +265,7 @@ BTH,BTH,Batam
 BTJ,BTJ,Banda Aceh
 BTK,BTK,Bratsk
 BTM,BTM,Bert Mooney
-BTR,BTR,Baton Rouge Metro Ryan Fld
+BTR,BTR,Baton Rouge Metro Ryan Field
 BTS,BTS,M R Stefanik
 BTU,BTU,Bintulu
 BTV,BTV,Burlington International
@@ -295,7 +295,7 @@ CAK,AKR,Akron
 CAN,CAN,Baiyun
 CAY,CAY,Rochambeau
 CAZ,CAZ,Cobar
-CBH,CBH,Béchar
+CBH,CBH,Bechar
 CBO,CBO,Cotabato
 CBQ,CBQ,Calabar
 CBR,CBR,Canberra
@@ -354,7 +354,7 @@ CKY,CON,Conakry
 CKZ,CKZ,Canakkale
 CLE,CLE,Cleveland Hopkins International
 CLJ,CLJ,Cluj-napoca
-CLL,CLL,Easterwood Fld
+CLL,CLL,Easterwood Field
 CLO,CLO,Alfonso Bonilla Aragon International
 CLQ,CLQ,Colima
 CLT,CLT,Charlotte Douglas International
@@ -380,7 +380,7 @@ COK,KOC,Kochi
 COO,COO,Cotonou Cadjehoun
 COR,COR,Cordoba
 COS,COS,City Of Colorado Springs Muni
-COU,COU,Columbia Rgnl
+COU,COU,Columbia Regional
 CPE,CPE,Campeche
 CPH,CPH,Kastrup
 CPO,CPO,Chamonate
@@ -446,7 +446,7 @@ DGO,DGO,Durango International
 DGT,DGT,Dumaguete
 DHA,DHA,King Abdulaziz Ab
 DHM,DHM,Kangra
-DHN,DHN,Dothan Rgnl
+DHN,DHN,Dothan Regional
 DIB,DIB,Dibrugarh
 DIG,DIG,Shangri-La
 DIK,DIK,Dickinson
@@ -547,7 +547,7 @@ ESU,ESU,Essadouira
 ETH,ETH,Eilat
 ETZ,ETZ,Metz
 EUG,EUG,Mahlon Sweet Field
-EUN,EUN,El Aaiún
+EUN,EUN,El Aaiun
 EVE,EVE,Harstad/Narvik
 EVN,YER,Yerevan
 EVV,EVV,Evansville Regional
@@ -581,7 +581,7 @@ FLA,FLA,Florencia
 FLG,FLG,Flagstaff
 FLL,FLL,Fort Lauderdale
 FLN,FLN,Florianopolis
-FLO,MSL,Florence Rgnl
+FLO,MSL,Florence Regional
 FLR,FLR,Peretola
 FMA,FMA,Formosa
 FMM,FMM,Memmingen
@@ -589,7 +589,7 @@ FMN,FMN,Farmington
 FMO,FMO,Munster Osnabruck
 FNA,FNA,Freetown Lungi
 FNC,FNC,Madeira
-FNI,FNI,Nîmes-Alès-Camargue-Cévennes
+FNI,FNI,Nimes-Ales-Camargue-Cevennes
 FNJ,FNJ,Pyongyang / Sunan (Capital)
 FNT,FNT,Bishop International
 FOC,FOC,Changle
@@ -647,7 +647,7 @@ GLA,GLA,Glasgow
 GLT,GLT,Gladstone
 GMB,GMB,Gambella
 GMP,SEL,Gimpo
-GNB,GNB,Grenoble-Isère
+GNB,GNB,Grenoble-Isere
 GND,POI,Point Salines
 GNV,GAI,Gainesville
 GNY,GNY,Sanliurfa
@@ -686,7 +686,7 @@ GVA,GVA,Geneva Cointrin
 GWL,GWL,Gwalior
 GWT,GWT,Westerland
 GYD,BAK,Heydar Aliyev International
-GYE,GYE,José Joaquín de Olmedo International
+GYE,GYE,Jose Joaquin de Olmedo International
 GYM,GYM,Guaymas
 GYN,GYN,Goiania
 GYS,GYS,Guangyuan
@@ -735,7 +735,7 @@ HKT,HKT,Phuket International
 HLA,JNB,Lanseria
 HLD,HLD,Hailar
 HLH,HLH,Ulanhot
-HLN,HLN,Helena Rgnl
+HLN,HLN,Helena Regional
 HLZ,HLZ,Hamilton
 HMB,HMB,Sohag
 HME,HME,Hassi Messaoud
@@ -805,7 +805,7 @@ ILD,ILD,Lleida
 ILM,ILM,Wilmington International
 ILO,ILO,Iloilo
 ILR,ILR,Ilorin
-ILZ,ILZ,Žilina
+ILZ,ILZ,Zilina
 IMF,IMF,Imphal
 IMP,IMP,Imperatriz
 INC,YIN,Yinchuan
@@ -941,7 +941,7 @@ KKN,KKN,Kirkenes
 KKX,KKX,Kikai
 KLO,KLO,Kalibo
 KLR,KLR,Kalkmar
-KLU,KLU,Klagenfurt(Aus-Afb)
+KLU,KLU,Klagenfurt
 KLV,KLV,Karlovy Vary
 KLX,KLX,Kalamata
 KMG,KMG,Wujiaba
@@ -1012,7 +1012,7 @@ LBV,LBV,Libreville Leon M Ba
 LCA,LCA,Larnaca
 LCE,LCE,Goloson International
 LCG,LCG,La Coruna
-LCH,LCH,Lake Charles Rgnl
+LCH,LCH,Lake Charles Regional
 LCX,LCX,Longyan
 LCY,LON,City
 LDB,LDB,Londrina
@@ -1025,7 +1025,7 @@ LEI,LEI,Almeria
 LEJ,LEJ,Leipzig Halle
 LEN,LEN,Leon
 LEX,LEX,Lexington KY
-LFT,LFT,Lafayette Rgnl
+LFT,LFT,Lafayette Regional
 LFW,LFW,Lome Tokoin
 LGA,NYC,La Guardia
 LGB,LGB,Long Beach
@@ -1060,7 +1060,7 @@ LNJ,LNJ,Lincang
 LNK,LNK,Lincoln Muni
 LNV,LNV,Londolovit
 LNY,LNY,Lanai
-LNZ,LNZ,Horsching International Airport (Aus - Afb)
+LNZ,LNZ,Horsching International Airport
 LOD,LOD,Longana
 LOO,LOO,Laghouat
 LOP,LOP,Praya
@@ -1183,7 +1183,7 @@ MLG,MLG,Malang
 MLI,MLI,Quad City International
 MLM,MLM,General Francisco J Mujica
 MLN,MLN,Melilla
-MLU,MLU,Monroe Rgnl
+MLU,MLU,Monroe Regional
 MLX,MLX,Malatya
 MMB,MMB,Memanbetsu
 MME,MME,Teesside
@@ -1193,7 +1193,7 @@ MMX,MMX,Malmoe
 MMY,MMY,Miyako
 MNG,MNG,Maningrida
 MNL,MNL,Ninoy Aquino International
-MOB,MOB,Mobile Rgnl
+MOB,MOB,Mobile Regional
 MOC,MOC,Montes Claros
 MOD,MOD,Modesto
 MOL,ARO,Molde
@@ -1215,7 +1215,7 @@ MRY,MRY,Monterey
 MRZ,MRZ,Moree
 MSJ,MSJ,Misawa
 MSL,MUS,Muscle Shoals
-MSN,MSN,Dane Co Rgnl Truax Fld
+MSN,MSN,Dane Co Regional Truax Field
 MSO,MSO,Missoula International
 MSP,MSP,Minneapolis St Paul International
 MSQ,MSQ,Minsk International
@@ -1261,7 +1261,7 @@ NAV,NAV,Nevsehir
 NAY,BJS,Beijing Nanyuan
 NBE,NBE,Enfidha
 NBO,NBO,Jomo Kenyatta International
-NCE,NCE,Côte d'Azur
+NCE,NCE,Cote d'Azur
 NCL,NCL,Newcastle
 NCY,NCY,Meythet
 NDG,NDG,Qiqihar
@@ -1345,7 +1345,7 @@ ORF,ORF,Norfolk International
 ORK,ORK,Cork
 ORN,ORN,Es Senia
 ORY,PAR,Orly
-OSD,OSD,Östersund
+OSD,OSD,Ostersund
 OSI,OSI,Osijek
 OSL,OSL,Oslo Gardermoen
 OSM,OSM,Mosul
@@ -1353,7 +1353,7 @@ OSR,OSR,Ostrava
 OSS,OSS,Osh
 OSY,OSY,Namsos
 OTH,OTH,North Bend
-OTP,BUH,Henri Coandă International
+OTP,BUH,Henri Coanda International
 OTZ,OTZ,Ralph Wien Mem
 OUA,OUA,Ouagadougou
 OUD,OUD,Oujda
@@ -1448,7 +1448,7 @@ PPP,PPP,Prosserpine
 PPS,PPS,Puerto Princesa
 PPT,PPT,Faa'a International
 PQC,PQC,Phu Quoc
-PQI,PQI,Northern Maine Rgnl At Presque Isle
+PQI,PQI,Northern Maine Regional At Presque Isle
 PQQ,PQQ,Port Macquarie
 PRC,PRC,Prescott
 PRG,PRG,Ruzyne
@@ -1557,19 +1557,19 @@ RTM,RTM,Rotterdam The Hague
 RUH,RUH,King Khaled International
 RUN,RUN,St Denis Gillot
 RUT,RUT,Rutland
-RVK,RVK,Rørvik
+RVK,RVK,Rorvik
 RVN,RVN,Rovaniemi
 RVT,RVT,Ravensthorpe
 RXS,RXS,Roxas City
 RZE,RZE,Rzeszow
 SAF,SAF,Santa Fe
 SAH,SAH,Sana'a International
-SAL,SAL,Cuscatlán International
-SAN,SAN,San Diego International Lindbergh Fld
+SAL,SAL,Cuscatlan International
+SAN,SAN,San Diego International Lindbergh Field
 SAP,SAP,La Mesa International
 SAT,SAT,San Antonio International
 SAV,SAV,Savannah Hilton Head International
-SAW,IST,Sabiha Gökçen International
+SAW,IST,Sabiha Gokcen International
 SBA,SBA,Santa Barbara Municipal
 SBH,SBH,Gustavia
 SBN,SBN,South Bend Regional
@@ -1597,7 +1597,7 @@ SEA,SEA,Seattle Tacoma International
 SEZ,SEY,Mahe
 SFA,SFA,Sfax
 SFB,SFB,Sanford
-SFG,SFG,St. Martin
+SFG,SFG,St Martin
 SFN,SFN,Santa Fe
 SFO,SFO,San Francisco International
 SFT,SFT,Skelleftea
@@ -1614,7 +1614,7 @@ SHJ,SHJ,Sharjah International
 SHM,SHM,Nanki-shirahama
 SHP,SHP,Qinhuangdao
 SHR,SHR,Sheridan
-SHV,SHV,Shreveport Rgnl
+SHV,SHV,Shreveport Regional
 SHW,SHW,Sharurah
 SIC,SIC,Sinop
 SID,ACL,Amilcar Cabral International
@@ -1626,7 +1626,7 @@ SJD,SJD,Los Cabos International
 SJJ,SJJ,Sarajevo
 SJO,SJO,Juan Santamaria International
 SJP,SJP,Sao Jose Do Rio Preto
-SJT,SJT,San Angelo Rgnl Mathis Fld
+SJT,SJT,San Angelo Regional Mathis Field
 SJU,SJU,Luis Munoz Marin International
 SJW,SJW,Shijiazhuang Zhengding International
 SKB,ROB,Basse Terre
@@ -1684,7 +1684,7 @@ STS,STS,Santa Rosa
 STT,STT,Cyril E King
 STV,STV,Surat
 STW,STW,Stavropol
-STX,STX,St. Croix Island
+STX,STX,St Croix Island
 SUB,SUB,Juanda
 SUF,SUF,Lamezia
 SUJ,SUJ,Satu Mare
@@ -1740,7 +1740,7 @@ TCZ,TCZ,Tengchong
 TDX,TDX,Trat
 TEE,TEE,Tebessa
 TEN,TEN,Tongren
-TEQ,TEQ,Çorlu
+TEQ,TEQ,Corlu
 TER,LAJ,Lajes (terceira Island)
 TEX,TEX,Telluride
 TFN,TCI,Tenerife Norte
@@ -1778,7 +1778,7 @@ TKN,TKN,Tokunoshima
 TKS,TKS,Tokushima
 TKU,TKU,Turku
 TLC,TLC,Toluca
-TLH,TLH,Tallahassee Rgnl
+TLH,TLH,Tallahassee Regional
 TLL,TLL,Lennart Meri Tallinn
 TLM,TLM,Tlemcen
 TLN,HYE,Hyeres
@@ -1841,11 +1841,11 @@ TVF,TVF,Thief River Falls
 TWF,TWF,Magic Valley Regional
 TWU,TWU,Tawau
 TXG,TXG,Taichung
-TXK,TXK,Texarkana Rgnl Webb Fld
+TXK,TXK,Texarkana Regional Webb Field
 TXL,BER,Tegel
 TXN,TXN,Huangshan
 TYN,TYN,Wusu
-TYR,TYR,Tyler Pounds Rgnl
+TYR,TYR,Tyler Pounds Regional
 TYS,TYS,Mc Ghee Tyson
 TZX,TZX,Trabzon
 UAQ,UAQ,San Julian
@@ -1891,7 +1891,7 @@ VAI,VAI,Vanimo
 VAN,VAN,Van
 VAR,VAR,Varna
 VAS,VAS,Sivas
-VAW,VAW,Vardø
+VAW,VAW,Vardo
 VBS,VBS,Brescia
 VBY,VBY,Visby
 VCA,VCA,Can Tho
@@ -1926,7 +1926,7 @@ VNS,VNS,Varanasi
 VOG,VOG,Volgograd
 VOL,VOL,Nea Anghialos
 VPS,VAL,Valparaiso
-VQS,VQS,Antonio Rivera Rodríguez
+VQS,VQS,Antonio Rivera Rodriguez
 VRA,VRA,Varadero
 VRN,VLF,Villafranca
 VSA,VSA,C P A Carlos Rovirosa International
@@ -2022,7 +2022,7 @@ YQU,YQU,Grande Prairie
 YQX,YQX,Gander
 YQY,YQY,Sydney
 YSB,YSB,Sudbury
-YSJ,YSJ,St. John
+YSJ,YSJ,St John
 YSM,YSM,Fort Smith
 YTM,YTM,Mont-Tremblant
 YTS,YTS,Timmins
@@ -2051,7 +2051,7 @@ YYF,YYF,Penticton
 YYG,YYG,Charlottetown
 YYJ,YYJ,Victoria International
 YYR,YYR,Goose Bay
-YYT,STJ,St. John's
+YYT,STJ,St John's
 YYY,YYY,Mont Joli
 YYZ,YYZ,Lester B Pearson International
 YZF,YZF,Yellowknife
@@ -2079,6 +2079,6 @@ ZPC,ZPC,Pucon
 ZQN,ZQN,Queenstown International
 ZQW,ZQW,Zweibruecken
 ZRH,ZRH,Zurich Kloten
-ZSE,ZSE,St.-pierre
+ZSE,ZSE,St-Pierre
 ZTH,ZTH,Zakynthos
 ZUH,ZUH,Zhuhai
