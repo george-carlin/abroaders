@@ -2,6 +2,11 @@
 
 ## September 2016
 
+*   Create one page for update account ready status with url: `readiness/edit`. 
+    Pivotal Tracker #126036139
+
+    *Boris Shatalov*
+
 *   Add sorting for `admin/people#show` card accounts table.
     Update jquery.tablesorter. Pivotal Tracker #129894535
 
