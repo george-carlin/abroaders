@@ -14,7 +14,7 @@ describe ApplicationHelper do
       expect(n("What is your average monthly spending", person)).to eq("What is #{name}'s average monthly spending")
       expect(n("You aren't ready to apply", person)).to eq("#{name} isn't ready to apply")
       expect(n("If you're able to", person)).to eq("If #{name} is able to")
-      expect(n("You haven't a card", person)).to eq("#{name} hasn't a card")
+      expect(n("You don't have a card", person)).to eq("#{name} doesn't have a card")
       expect(n("Were you able to", person)).to eq("Was #{name} able to")
       expect(n("You don't have", person)).to eq("#{name} doesn't have")
       expect(n("Do you have", person)).to eq("Does #{name} have")
@@ -27,7 +27,8 @@ describe ApplicationHelper do
       expect(n("What is your average monthly spending", person, true)).to eq("What is his/hers average monthly spending")
       expect(n("You aren't ready to apply", person, true)).to eq("He/she isn't ready to apply")
       expect(n("If you're able to", person, true)).to eq("If he/she is able to")
-      expect(n("You haven't a card", person, true)).to eq("He/she hasn't a card")
+      expect(n("You don't have a card", person, true)).to eq("He/she doesn't have a card")
+      expect(n("you don't have a card", person, true)).to eq("he/she doesn't have a card")
       expect(n("Were you able to", person, true)).to eq("Was he/she able to")
       expect(n("You don't have", person, true)).to eq("He/she doesn't have")
       expect(n("Do you have", person, true)).to eq("Does he/she have")
@@ -41,12 +42,12 @@ describe ApplicationHelper do
       expect(n("What is your average monthly spending", person)).to eq("What is your average monthly spending")
       expect(n("You aren't ready to apply", person)).to eq("You aren't ready to apply")
       expect(n("If you're able to", person)).to eq("If you're able to")
-      expect(n("You haven't a card", person)).to eq("You haven't a card")
+      expect(n("You don't have a card", person)).to eq("You don't have a card")
       expect(n("Were you able to", person)).to eq("Were you able to")
       expect(n("You don't have", person)).to eq("You don't have")
     end
 
-    example "case sensetive" do
+    example "case sensitive" do
       expect(n("You have 2 cards", person)).to eq("#{name} has 2 cards")
       expect(n("you have 2 cards", person)).to eq("#{name} has 2 cards")
       expect(n("Are you eligible to apply?", person)).to eq("Is #{name} eligible to apply?")
