@@ -406,3 +406,9 @@ TODO add more detailed explanation of Presenters.
   production anyway, and in development keeping it non-minified will make
   debugging easier (e.g. if we need to step through the JS line-by-line in the
   console.)
+
+- We're using ESLint, and our rules are defined in `.eslintrc`. Some of these
+  rules are overwritten for 'other' JS by the file
+  `app/assets/javascripts/other/.eslintrc`.
+
+  All newly written JS code should pass ESLint.
