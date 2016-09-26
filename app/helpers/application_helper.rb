@@ -65,7 +65,8 @@ module ApplicationHelper
       "weren't": ["wasn't"],
       "you": [person_name, "he/she"],
       "you're": ["#{person_name} is", "he/she is"],
-      "your": ["#{person_name}'s", "his/hers"]
+      "your": ["#{person_name}'s", "his/her"],
+      "yours": ["#{person_name}'s", "his/hers"]
     }
 
     rules.each do |from, to|
