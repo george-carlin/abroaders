@@ -2,6 +2,11 @@
 
 ## September 2016
 
+*   Add sorting for `admin/people#show` card accounts table.
+    Update jquery.tablesorter. Pivotal Tracker #129894535
+
+    *Boris Shatalov*
+
 *   Add ability to edit `SpendingInfo`. Pivotal Tracker #129983961
 
     *Boris Shatalov*

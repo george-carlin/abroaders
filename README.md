@@ -401,3 +401,8 @@ TODO add more detailed explanation of Presenters.
   the former). If you think that the front-end task is too complicated for a
   jQuery-based approach, talk to George and we'll decide on a case-by-case basis.
 
+- When adding 3rd party JS (or CSS) to `vendor/assets`, it's preferable to add
+  the unminified version. The asset pipeline will automatically minify it in
+  production anyway, and in development keeping it non-minified will make
+  debugging easier (e.g. if we need to step through the JS line-by-line in the
+  console.)
