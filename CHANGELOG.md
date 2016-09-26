@@ -2,6 +2,12 @@
 
 ## September 2016
 
+*   Create a helper method 'n' that intelligently displays "you" 
+    or a person's name depending on whether or not the current 
+    account has a companion. Pivotal Tracker #130622249
+
+    *Boris Shatalov*
+
 *   Create one page for update account ready status with url: `readiness/edit`. 
     Pivotal Tracker #126036139
 
