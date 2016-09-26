@@ -2,6 +2,16 @@
 
 ## September 2016
 
+*   Big update to our airports and cities data using the data we got
+    from miles.biz
+
+    *George Millo*
+
+*   Remove `State` model. Make validations on `Destination#parent.type` more
+    restrictive.
+
+    *George Millo*
+
 *   Create one page for update account ready status with url: `readiness/edit`. 
     Pivotal Tracker #126036139
 
