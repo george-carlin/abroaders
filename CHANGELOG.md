@@ -2,6 +2,11 @@
 
 ## September 2016
 
+*   Remove `State` model. Make validations on `Destination#parent.type` more
+    restrictive.
+
+    *George Millo*
+
 *   Add ability to edit `SpendingInfo`. Pivotal Tracker #129983961
 
     *Boris Shatalov*
