@@ -160,6 +160,28 @@ footer.footer {
   margin-top: 5px;
 }
 
+.card-survey-form-wrapper {
+  .bank-section {
+    .collapse-header {
+      a, h2 {
+        display: inline-block;
+      }
+    }
+
+    .fa {
+      font-size: 24px;
+    }
+
+    .fa.fa-sort-desc {
+      vertical-align: super;
+    }
+  }
+
+  .helper-message {
+    font-size: 14px;
+  }
+}
+
 // SURVEY: balances
 
 .balances_survey {
@@ -215,6 +237,10 @@ footer.footer {
 }
 
 // card recommendations
+
+.recommendation-notes-date {
+  width: auto;
+}
 
 tr.admin_recommend_card {
   background-color: #34495E;
@@ -320,4 +346,10 @@ td.offer-days {
   .offer_verification_ctrls {
     width: 110px;
   }
+}
+
+// READINESS
+
+.update-readiness-btn {
+  width: 100%;
 }

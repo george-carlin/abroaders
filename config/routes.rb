@@ -68,11 +68,12 @@ Rails.application.routes.draw do
         post :survey, action: :save_survey
       end
     end
-    resource :readiness, only: [:show, :update]
     resource :spending_info, path: :spending, except: :new do
       get :survey, action: :new, as: :new
     end
   end
+
+  resource :readiness, only: [:edit, :update]
 
   resources :notifications, only: :show
 

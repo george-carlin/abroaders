@@ -158,6 +158,21 @@ describe "the balance survey page", :onboarding, :js do
     expect{submit_form}.to track_intercom_event("obs_balances_own").for_email(account.email)
   end
 
+  example "sending 'profile complete' email to the admin" do
+    click_button "Yes"
+    expect{submit_form}.to \
+        send_email.to(ENV["ADMIN_EMAIL"]).with_subject("App Profile Complete - #{account.email}")
+  end
+
+  describe "when person is owner, and account has a companion" do
+    before { create(:companion, account: account) }
+
+    it "doesn't send a 'profile complete' email to the admin" do
+      click_button "Yes"
+      expect{submit_form}.not_to change{ApplicationMailer.deliveries.last}
+    end
+  end
+
   describe "when person is account companion" do
     before do
       @me.update_attributes!(onboarded_balances: true)
@@ -168,6 +183,12 @@ describe "the balance survey page", :onboarding, :js do
     example "tracking an intercom event when person is companion" do
       click_button "Yes"
       expect{submit_form}.to track_intercom_event("obs_balances_com").for_email(account.email)
+    end
+
+    example "sending 'profile complete' email to the admin" do
+      click_button "Yes"
+      expect{submit_form}.to \
+          send_email.to(ENV["ADMIN_EMAIL"]).with_subject("App Profile Complete - #{account.email}")
     end
   end
 end

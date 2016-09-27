@@ -61,6 +61,44 @@
     </div><!-- .panel-body -->
   <% end %>
 
+    <%= render "shared/hpanel" do %>
+      <div class="panel-body">
+        <div id="card-recommendation-filters" class="card-recommendation-filters">
+          <div class="form-inline">
+            <b>B/P: </b>&nbsp;
+            <% Card.bps.keys.each do |bp| %>
+                <%= card_bp_filter_check_box_tag(bp) %>
+            <% end %>
+          </div>
+
+          <div class="form-inline">
+            <b>BANK: </b>&nbsp;
+            <% Bank.all.each do |bank| %>
+                <%= card_bank_filter_check_box_tag(bank) %>
+            <% end %>
+
+
+            <label for="card_bank_filter_all">
+              <%= check_box_tag :card_bank_filter_all, nil, true %>
+              Toggle all
+            </label>
+          </div>
+
+          <div class="form-inline">
+            <b>CURRENCY: </b>&nbsp;
+            <% Currency.order(:name).each do |currency| %>
+                <%= card_currency_filter_check_box_tag(currency) %>
+            <% end %>
+
+            <label for="card_currency_filter_all">
+              <%= check_box_tag :card_currency_filter_all, nil, true %>
+              Toggle all
+            </label>
+          </div>
+        </div><!-- .card-recommendation-filters -->
+      </div>
+    <% end %>
+
   <% if person.eligible? %>
     <%= render "shared/hpanel" do %>
       <div class="panel-body">
@@ -73,19 +111,19 @@
             style="display:none;"
           <% end %>
         >
-          <table id="admin_person_card_accounts_table" class="table table-striped">
+          <table id="admin_person_card_accounts_table" class="table table-striped tablesorter">
             <thead>
               <th>ID</th>
               <th>Name</th>
               <th>Status</th>
-              <th>Rec'ed</th>
+              <th class="sortable-column recommended">Rec'ed</th>
               <th>Seen</th>
               <th>Clicked</th>
-              <th>Applied</th>
+              <th class="sortable-column applied">Applied</th>
               <th>Denied</th>
               <th>Declined</th>
-              <th>Opened</th>
-              <th>Closed</th>
+              <th class="sortable-column opened sorted-column">Opened</th>
+              <th class="sortable-column closed">Closed</th>
               <th></th>
             </thead>
             <tbody>
@@ -113,62 +151,30 @@
 
   <% if @recommendation_notes.count > 0 %>
     <%= render "shared/hpanel" do %>
-        <div class="panel-body">
-          <h3>Recommendation Notes</h3>
-          <% @recommendation_notes.order(created_at: :desc).each do |note| %>
-              <p>
-                <b><%= "#{ note.created_at }:" %></b> <%= note.content  %>
-              </p>
-          <% end %>
-        </div>
+      <div class="panel-body">
+        <h3>Recommendation Notes</h3>
+        <% @recommendation_notes.order(created_at: :desc).each do |note| %>
+
+          <div class="row">
+            <div class="col-xs-2 recommendation-notes-date">
+              <b><%= "#{ note.created_at }:" %></b>
+            </div>
+
+            <div class="col-xs-10">
+              <%= simple_format(note.content, {}, sanitize: true) %>
+            </div>
+          </div>
+
+        <% end %>
+      </div>
     <% end %>
   <% end %>
 
 
   <%= render "shared/hpanel" do %>
     <div class="panel-body">
-      <div id="card-recommendation-filters" class="card-recommendation-filters">
-        <div class="form-inline">
-          <b>B/P: </b>&nbsp;
-          <% Card.bps.keys.each do |bp| %>
-            <%= card_bp_filter_check_box_tag(bp) %>
-          <% end %>
-        </div>
-
-        <div class="form-inline">
-          <b>BANK: </b>&nbsp;
-          <% Bank.all.each do |bank| %>
-            <%= card_bank_filter_check_box_tag(bank) %>
-          <% end %>
-
-          |
-
-          <label for="card_bank_filter_all">
-            <%= check_box_tag :card_bank_filter_all, nil, true %>
-            Toggle all
-          </label>
-        </div>
-
-        <div class="form-inline">
-          <b>CURRENCY: </b>&nbsp;
-          <% Currency.order(:name).each do |currency| %>
-            <%= card_currency_filter_check_box_tag(currency) %>
-          <% end %>
-
-          <!--
-          |
-
-          <label for="card_currency_filter_all">
-            <%#= check_box_tag :card_currency_filter_all, nil, true %>
-            Toggle all
-          </label>-->
-        </div>
-      </div><!-- .card-recommendation-filters -->
-
-      <br>
 
       <div class="row">
-
 
         <div class="col-xs-12">
           <%= form_tag(
