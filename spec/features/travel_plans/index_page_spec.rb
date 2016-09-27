@@ -1,7 +1,6 @@
 require "rails_helper"
 
 describe "travel plans index page" do
-  include AirportMacros
   subject { page }
 
   include_context "logged in"
@@ -13,6 +12,10 @@ describe "travel plans index page" do
   let(:further_info) { "What the fuck ever" }
 
   before do
+    def create_airport(name, code, parent=nil)
+      create(:airport, name: name, code: code, parent: parent)
+    end
+
     @eu  = create(:region, name: "Europe")
     @uk  = create(:country, name: "UK",     parent: @eu)
     @fr  = create(:country, name: "France", parent: @eu)
