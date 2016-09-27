@@ -2,6 +2,12 @@
 
 ## September 2016
 
+*   Allow line breaks in the emails of Recommendation Notes.
+    Make urls inside rec. note clickable.
+    Pivotal Tracker #130913419
+
+    *Boris Shatalov*
+
 *   Big update to our airports and cities data using the data we got
     from miles.biz
 
