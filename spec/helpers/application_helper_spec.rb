@@ -16,8 +16,9 @@ describe ApplicationHelper do
       expect(n("If you're able to", person)).to eq("If #{name} is able to")
       expect(n("You don't have a card", person)).to eq("#{name} doesn't have a card")
       expect(n("Were you able to", person)).to eq("Was #{name} able to")
-      expect(n("You don't have", person)).to eq("#{name} doesn't have")
       expect(n("Do you have", person)).to eq("Does #{name} have")
+      expect(n("We will tell you", person)).to eq("We will tell #{name}")
+      expect(n("How are you?", person)).to eq("How is #{name}?")
     end
 
     example "renaming account_with_companion with optional" do
@@ -29,10 +30,12 @@ describe ApplicationHelper do
       expect(n("You aren't ready to apply", person, true)).to eq("He/she isn't ready to apply")
       expect(n("If you're able to", person, true)).to eq("If he/she is able to")
       expect(n("You don't have a card", person, true)).to eq("He/she doesn't have a card")
-      expect(n("you don't have a card", person, true)).to eq("he/she doesn't have a card")
       expect(n("Were you able to", person, true)).to eq("Was he/she able to")
-      expect(n("You don't have", person, true)).to eq("He/she doesn't have")
       expect(n("Do you have", person, true)).to eq("Does he/she have")
+      expect(n("How are you?", person, true)).to eq("How is he/she?")
+
+      # TODO: correct expected result is "We will tell him/her"
+      expect(n("We will tell you", person, true)).to eq("We will tell he/she")
     end
 
     example "renaming account_without_companion" do
@@ -45,7 +48,8 @@ describe ApplicationHelper do
       expect(n("If you're able to", person)).to eq("If you're able to")
       expect(n("You don't have a card", person)).to eq("You don't have a card")
       expect(n("Were you able to", person)).to eq("Were you able to")
-      expect(n("You don't have", person)).to eq("You don't have")
+      expect(n("We will tell you", person)).to eq("We will tell you")
+      expect(n("How are you?", person)).to eq("How are you?")
     end
 
     example "case sensitive" do

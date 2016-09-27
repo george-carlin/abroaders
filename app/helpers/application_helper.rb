@@ -74,12 +74,12 @@ module ApplicationHelper
 
       # second iteration for capitalize expressions
       2.times do
-        if text =~ /(^|\s)#{from}(\s|$)/
+        if text =~ /\b#{from}(?![\w\'\"])/
 
           # Prevent double third person verb
           # ex. from 'Do you have' we get 'Does you have', not 'Does you has'
           if from.downcase == "have"
-            next if text.downcase =~ /(^|\s)(does|doesn't)(\s|$)/
+            next if text.downcase =~ /\b(does|doesn't)(?![\w\'\"])/
           end
 
           text = if he_she && to[1]
