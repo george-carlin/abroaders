@@ -16,7 +16,7 @@
 
     *George Millo*
 
-*   Create one page for update account ready status with url: `readiness/edit`. 
+*   Create one page for update account ready status with url: `readiness/edit`.
     Pivotal Tracker #126036139
 
     *Boris Shatalov*
