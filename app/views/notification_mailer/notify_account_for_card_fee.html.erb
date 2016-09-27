@@ -1,11 +1,15 @@
 <%
   card = present @card
   name = @account.owner.first_name
-  name += " and #{@account.companion.first_name}" if @account.has_companion?
+  your = "your"
+  if @account.has_companion?
+    your = "#{@card_holder.first_name}'s"
+    name += " and #{@account.companion.first_name}"
+  end
 %>
 <p>Hey <%= name %>,</p>
 <p>
-  This is just a friendly reminder that the annual fee of <%= card.annual_fee %> for your
+  This is just a friendly reminder that the annual fee of <%= card.annual_fee %> for <%= your %>
   <%= card.full_name(with_bank: true) %> <%= card.bp.downcase %> card will post sometime soon.
 </p>
 <p>Sometimes, you can get the fee waived or earn other compensation by calling the number on the back of your card.</p>
