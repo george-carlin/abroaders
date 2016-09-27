@@ -20,7 +20,7 @@
         </p>
 
         <% if @recommendation_notes.any? %>
-          <%= simple_format(@recommendation_notes.last.content, {}, sanitize: true) %>
+          <%= auto_link(simple_format(@recommendation_notes.last.content)) %>
         <% end %>
 
         <hr>

@@ -2,6 +2,12 @@
 
 ## September 2016
 
+*   Allow line breaks in the emails of Recommendation Notes.
+    Make urls inside rec. note clickable.
+    Pivotal Tracker #130913419, GH #50
+
+    *Boris Shatalov*
+
 *   Offers have a attribute called "partner". Pivotal Tracker #130490251, GH#48
 
     *Anatols Baymaganov*
