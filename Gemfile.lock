@@ -91,6 +91,9 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    capybara-screenshot (1.0.14)
+      capybara (>= 1.0, < 3)
+      launchy
     climate_control (0.0.3)
       activesupport (>= 3.0)
     cliver (0.3.2)
@@ -332,6 +335,7 @@ DEPENDENCIES
   bullet
   byebug
   capybara
+  capybara-screenshot
   database_cleaner
   devise (~> 4.1.0)
   devise-bootstrap-views
@@ -370,4 +374,4 @@ RUBY VERSION
    ruby 2.3.0p0
 
 BUNDLED WITH
-   1.12.5
+   1.13.1

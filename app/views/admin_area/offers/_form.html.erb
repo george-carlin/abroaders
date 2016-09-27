@@ -11,6 +11,13 @@
   </div>
 
   <div class="form-group">
+    <%= f.label :partner, class: "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.select :partner, options_for_offer_partner_select(f.object), include_blank: "None" %>
+    </div>
+  </div>
+
+  <div class="form-group">
     <%= f.label :points_awarded, class: "col-sm-2 control-label" %>
     <div class="col-sm-10">
       <%= f.number_field :points_awarded, class: "form-control" %>

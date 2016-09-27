@@ -2,6 +2,10 @@
 
 ## September 2016
 
+*   Offers have a attribute called "partner". Pivotal Tracker #130490251
+
+    *Anatols Baymaganov*
+
 *   Add ability to edit `SpendingInfo`. Pivotal Tracker #129983961
 
     *Boris Shatalov*

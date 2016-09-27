@@ -95,7 +95,7 @@ module AdminArea
     def offer_params
       params.require(:offer).permit(
         :condition, :points_awarded, :spend, :cost, :days,
-        :link, :notes,
+        :link, :partner, :notes,
       )
     end
   end
