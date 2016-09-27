@@ -9,8 +9,6 @@ describe Destination do
   let(:city)    { City.new }
   let(:airport) { Airport.new }
 
-  let(:type_err_msg) { "type is invalid" }
-
   example "Region#region" do
     # it returns itself:
     expect(region.region).to eq region
@@ -53,21 +51,23 @@ describe Destination do
     expect(airport.airport?).to be true
   end
 
-  specify "Airport parent must be a City or Country" do
+  specify "Airport parent must be a City" do
     def errors
       airport.tap(&:validate).errors[:parent]
     end
 
+    err_msg = "must be a city"
+
     airport.parent = nil
-    expect(errors).not_to include type_err_msg
+    expect(errors).not_to include err_msg
     airport.parent = airport
-    expect(errors).to include type_err_msg
+    expect(errors).to include err_msg
     airport.parent = city
-    expect(errors).not_to include type_err_msg
+    expect(errors).not_to include err_msg
     airport.parent = country
-    expect(errors).not_to include type_err_msg
+    expect(errors).to include err_msg
     airport.parent = region
-    expect(errors).to include type_err_msg
+    expect(errors).to include err_msg
   end
 
 end
