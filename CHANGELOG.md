@@ -2,6 +2,10 @@
 
 ## September 2016
 
+*   Offers have a attribute called "partner". Pivotal Tracker #130490251, GH#48
+
+    *Anatols Baymaganov*
+
 *   Big update to our airports and cities data using the data we got
     from miles.biz
 
