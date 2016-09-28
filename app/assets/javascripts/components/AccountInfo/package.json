@@ -1,6 +1,6 @@
 {
-  "name": "PersonInfo",
+  "name": "AccountInfo",
   "version": "0.0.1",
   "private": true,
-  "main": "./PersonInfo.js.jsx"
+  "main": "./AccountInfo.js.jsx"
 }

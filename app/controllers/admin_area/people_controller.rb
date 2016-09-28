@@ -6,9 +6,6 @@ module AdminArea
       @account       = @person.account
       @travel_plans  = @account.travel_plans.includes_destinations
       @balances      = @person.balances.includes(:currency)
-      @account_json  = AccountSerializer
-                           .new(@account)
-                           .to_json(include: { people: :spending_info })
 
       card_account_scope = @person.card_accounts.includes(:card, offer: :card)
       @card_accounts = card_account_scope.unpulled

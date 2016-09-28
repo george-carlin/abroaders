@@ -57,77 +57,81 @@ const AccountInfo = React.createClass({
     }
 
     return (
-      <Row>
-        <div className="col-xs-12 col-md-6" >
+      <div className="hpanel">
+        <div className="panel-body">
+          <Row>
+            <div className="col-xs-12 col-md-6" >
 
-          {(() => {
-            if (companion) {
-              return (
-                <p className="people-names">
-                  <label className="radio-inline">
-                    <RadioButton
-                      onChange={this.onChooseOwner}
-                      attribute="spending_info"
-                      modelName="account"
-                      value="owner"
-                      checked={this.state.currentAction === "ownerInfo"}
+              {(() => {
+                if (companion) {
+                  return (
+                    <p className="people-names">
+                      <label className="radio-inline">
+                        <RadioButton
+                          onChange={this.onChooseOwner}
+                          attribute="spending_info"
+                          modelName="account"
+                          value="owner"
+                          checked={this.state.currentAction === "ownerInfo"}
+                        />
+                        {owner.firstName + this.getPersonStatus(owner)}
+                      </label>
+
+                      <label className="radio-inline">
+                        <RadioButton
+                          onChange={this.onChooseCompanion}
+                          attribute="spending_info"
+                          modelName="account"
+                          value="companion"
+                          checked={this.state.currentAction === "companionInfo"}
+                        />
+                        {companion.firstName + this.getPersonStatus(companion)}
+                      </label>
+                    </p>
+                  );
+                }
+                else {
+                  return (
+                    <h1>
+                      {owner.firstName + this.getPersonStatus(owner)}
+                    </h1>
+                  );
+                }
+              })()}
+
+              <p>{account.email}</p>
+
+              {(() => {
+                if (account.phoneNumber) {
+                  return (
+                    <p>{account.phoneNumber}</p>
+                  );
+                }
+              })()}
+
+              <p>Account created: {new Date(account.createdAt).toLocaleDateString()}</p>
+            </div>
+
+            <div className="col-xs-12 col-md-6">
+
+              {(() => {
+                if (person.spendingInfo) {
+                  return (
+                    <SpendingInfo
+                      account={account}
+                      spendingInfo={person.spendingInfo}
                     />
-                    {owner.firstName + this.getPersonStatus(owner)}
-                  </label>
+                  );
+                }
+                else {
+                  return "User has not added their spending info"
+                }
+              })()}
 
-                  <label className="radio-inline">
-                    <RadioButton
-                      onChange={this.onChooseCompanion}
-                      attribute="spending_info"
-                      modelName="account"
-                      value="companion"
-                      checked={this.state.currentAction === "companionInfo"}
-                    />
-                    {companion.firstName + this.getPersonStatus(companion)}
-                  </label>
-                </p>
-              );
-            }
-            else {
-              return (
-                <h1>
-                  {owner.firstName + this.getPersonStatus(owner)}
-                </h1>
-              );
-            }
-          })()}
-
-          <p>{account.email}</p>
-
-          {(() => {
-            if (account.phoneNumber) {
-              return (
-                <p>{account.phoneNumber}</p>
-              );
-            }
-          })()}
-
-          <p>Account created: {new Date(account.createdAt).toLocaleDateString()}</p>
+            </div>
+          </Row>
         </div>
-
-        <div className="col-xs-12 col-md-6">
-
-          {(() => {
-            if (person.spendingInfo) {
-              return (
-                <SpendingInfo
-                  account={account}
-                  spendingInfo={person.spendingInfo}
-                />
-              );
-            }
-            else {
-              return "User has not added their spending info"
-            }
-          })()}
-
-        </div>
-      </Row>
+      </div>
     );
   }
 });

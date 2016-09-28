@@ -1,6 +1,14 @@
 module AdminArea
   class AccountsController < AdminController
 
+    # GET /admin/accounts/:id
+    def show
+      person_assocs = [:spending_info]
+      @account = Account.includes(
+        owner: person_assocs, companion: person_assocs,
+      ).find(params[:id])
+    end
+
     # GET /admin/accounts
     def index
       person_assocs = [:spending_info]
