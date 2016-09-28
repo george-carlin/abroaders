@@ -22,7 +22,6 @@
 //= require es5-shim
 //= require underscore
 //= require metisMenu
-//= require numeral
 //= require jquery.countdown.min.js
 //= require components/react_ujs
 //= require_tree ./other
@@ -39,6 +38,8 @@ window.components = {
   CardApplicationSurvey:     require("./components/CardApplicationSurvey"),
   AccountTypeForm:           require("./components/AccountTypeForm"),
 };
+
+window.numbro = require("numbro");
 
 // Note that something more DRY like this won't work:
 //
