@@ -26,10 +26,6 @@ const AccountInfo = React.createClass({
     return "";
   },
 
-  hasCompanion() {
-    return this.props.account.people.length == 2
-  },
-
   onChooseOwner() {
     this.setState({currentAction: "ownerInfo"});
   },
@@ -40,13 +36,9 @@ const AccountInfo = React.createClass({
 
   render() {
     let person;
-    let companion;
     let account = this.props.account;
-    let owner = account.people.find(function(person){ return person.main == true; });
-
-    if (this.hasCompanion() == true) {
-      companion = account.people.find(function(person){ return person.main == false; });
-    }
+    const owner     = account.owner;
+    const companion = account.companion;
 
     if (this.state.currentAction === "ownerInfo") {
       person = owner

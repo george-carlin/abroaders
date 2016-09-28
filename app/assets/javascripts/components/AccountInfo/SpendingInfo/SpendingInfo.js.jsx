@@ -19,7 +19,7 @@ const SpendingInfo = React.createClass({
   },
 
   hasCompanion() {
-    return this.props.account.people.length == 2
+    return !!this.props.account.companion;
   },
 
   hasBusiness() {
