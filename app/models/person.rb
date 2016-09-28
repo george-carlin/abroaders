@@ -1,6 +1,7 @@
 class Person < ApplicationRecord
   # Attributes
 
+  # TODO: rename the DB column and remove all references to 'main'.
   alias_attribute :owner, :main
 
   def companion?

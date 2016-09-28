@@ -7,6 +7,15 @@
 
     *Boris Shatalov*
 
+*   Add `AccountSerializer`, `PersonSerializer`, and `SpendingInfoSerializer`.
+    GH #51
+
+    *Boris Shatalov, George Millo*
+
+*   Display points+fees estimate on travel plan form. PT #131029753
+
+    *George Millo*
+
 *   Allow line breaks in the emails of Recommendation Notes.
     Make urls inside rec. note clickable.
     Pivotal Tracker #130913419, GH #50
