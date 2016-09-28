@@ -1,7 +1,13 @@
 [data-react-component=AccountInfo] {
   position: fixed;
   top: 62px;
-  width: 100%;
+
+  // 180px = sidebar width
+  // FIXME is there a better way of doing this?
+  width: calc(100% - 180px);
+  .hide-sidebar & {
+    width: 100%;
+  }
 
   p {
     font-size: 16px;
