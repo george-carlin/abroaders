@@ -97,6 +97,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get "estimates/:from_code/:to_code/:type/:no_of_passengers", to: "estimates#get"
+
   # ---- ADMINS -----
 
   devise_for :admins, skip: [:registrations, :sessions]

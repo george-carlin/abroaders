@@ -19,23 +19,19 @@
     </div>
 
     <div class="form-group col-xs-12 col-md-6">
-      <%= f.label :from %>
-      <%= f.collection_select(
+      <%= f.label :from_id %>
+      <%= f.select(
         :from_id,
-        @countries,
-        :id,
-        :name,
+        options_for_travel_plan_country_select(@countries),
         prompt: "Select a country of origin"
       ) %>
     </div>
 
     <div class="form-group col-xs-12 col-md-6">
-      <%= f.label :to %>
-      <%= f.collection_select(
+      <%= f.label :to_id %>
+      <%= f.select(
         :to_id,
-        @countries,
-        :id,
-        :name,
+        options_for_travel_plan_country_select(@countries),
         prompt: "Select a destination country"
       ) %>
     </div>
@@ -104,8 +100,12 @@
     <div class="col-xs-12">
       <%= f.submit "Save", class: "btn-primary" %>
       <% if travel_plan.show_skip_survey? && !current_account.onboarded_travel_plans? %>
-          <%= link_to_skip_survey %>
+        <%= link_to_skip_survey %>
       <% end %>
     </div>
   <% end %>
+
+  <hr />
+
+  <div data-react-component="PointsEstimateTable"></div>
 </div><!-- .panel-body -->
