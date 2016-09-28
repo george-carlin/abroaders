@@ -2,6 +2,11 @@
 
 ## September 2016
 
+*   Add `AccountSerializer`, `PersonSerializer`, and `SpendingInfoSerializer`.
+    GH #51
+
+    *Boris Shatalov, George Millo*
+
 *   Allow line breaks in the emails of Recommendation Notes.
     Make urls inside rec. note clickable.
     Pivotal Tracker #130913419, GH #50
