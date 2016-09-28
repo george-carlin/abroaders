@@ -16,6 +16,10 @@ class AccountPresenter < ApplicationPresenter
     )
   end
 
+  def link_to_self
+    h.link_to email, h.admin_account_path(self)
+  end
+
   def link_to_owner
     link_to_person(owner)
   end
