@@ -3,11 +3,6 @@ require "rails_helper"
 module Estimates
   describe FeesEstimate do
     before do
-      @real_csv_data  = FeesEstimate.csv_data
-      #from,to,econ min,econ max,biz min,biz max,first min,first max
-      FeesEstimate.csv_data = <<-EOL.strip_heredoc
-      EOL
-
       @usa = Region.new(code: "US", name: "United States (Continental 48)")
       @eu  = Region.new(code: "EU", name: "Europe")
 
@@ -15,8 +10,6 @@ module Estimates
       @us = Country.new(parent: @usa, name: "United States")
       @uk = Country.new(parent: @eu,  name: "United Kingdom")
     end
-
-    after { FeesEstimate.csv_data = @real_csv_data }
 
     example "non-US -> non-US estimates" do
       estimate = FeesEstimate.new(from: @fr, to: @uk, type: "single")
