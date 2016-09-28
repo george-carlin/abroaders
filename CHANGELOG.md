@@ -2,6 +2,11 @@
 
 ## September 2016
 
+*   Create `AccountInfo` and `SpendingInfo` React components.
+    Use it on `admin/accounts#show` page. Pivotal Tracker #131075691
+
+    *Boris Shatalov*
+
 *   Allow line breaks in the emails of Recommendation Notes.
     Make urls inside rec. note clickable.
     Pivotal Tracker #130913419, GH #50

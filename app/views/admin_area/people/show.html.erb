@@ -3,29 +3,17 @@
 <% present @person do |person| %>
   <% content_for :header_panel do %>
     <div class="panel-body">
-      <h1><%= person.first_name %></h1>
-      <p>
-        <%= person.email %> -
-        Account created on <%= person.signed_up %>
-        <% if person.phone_number.present? %>
-          - <%= person.phone_number %>
-        <% end %>
-      </p>
+      <div
+        data-react-component="AccountInfo"
+        data-account="<%= @account_json %>"
+      />
+      </div>
     </div>
   <% end %>
 
   <%= render "shared/hpanel" do %>
     <div class="panel-body">
 
-      <div class="col-xs-12 col-md-6">
-        <% if person.eligible? %>
-          <% if @spending_info.present? %>
-            <%= render "spending_infos/spending_info", spending_info: @spending_info, show_eligibility: true, show_readiness: true %>
-          <% else %>
-            User has not added their spending info
-          <% end %>
-        <% end %>
-      </div>
       <div class="col-xs-12 col-md-6">
         <% if @balances.any? %>
           <h3>Existing Balances</h3>

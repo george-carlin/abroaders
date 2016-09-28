@@ -38,6 +38,7 @@
 window.components = {
   CardApplicationSurvey:     require("./components/CardApplicationSurvey"),
   AccountTypeForm:           require("./components/AccountTypeForm"),
+  AccountInfo:               require("./components/AccountInfo")
 };
 
 // Note that something more DRY like this won't work:

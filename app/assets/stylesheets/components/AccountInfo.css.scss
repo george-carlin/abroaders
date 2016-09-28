@@ -1,0 +1,29 @@
+[data-react-component=AccountInfo] {
+  p {
+    font-size: 16px;
+  }
+
+  .people-names {
+    input[type="radio"] {
+      height: 30px;
+    }
+
+    span {
+      font-size: 28px;
+      font-weight: 200;
+    }
+  }
+
+  .has-ein {
+    position: relative;
+    bottom: 1px;
+    left: 9px;
+    display: inline-block;
+    font-size: 0.7em;
+    font-style: italic;
+  }
+
+  .table.table-condensed td:first-child {
+    font-weight: bold;
+  }
+}
