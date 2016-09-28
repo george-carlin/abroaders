@@ -2,6 +2,11 @@
 
 ## September 2016
 
+*   Add `AccountSerializer`, `PersonSerializer`, and `SpendingInfoSerializer`.
+    GH #51
+
+    *Boris Shatalov, George Millo*
+
 *   Display points+fees estimate on travel plan form. PT #131029753
 
     *George Millo*
