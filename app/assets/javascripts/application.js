@@ -22,7 +22,7 @@
 //= require es5-shim
 //= require underscore
 //= require metisMenu
-//= require numeral
+//= require typeahead.bundle.js
 //= require jquery.countdown.min.js
 //= require components/react_ujs
 //= require_tree ./other
@@ -36,9 +36,13 @@
 // but it's not worth the effort for now.
 
 window.components = {
-  CardApplicationSurvey:     require("./components/CardApplicationSurvey"),
-  AccountTypeForm:           require("./components/AccountTypeForm"),
+  AccountTypeForm:       require("./components/AccountTypeForm"),
+  CardApplicationSurvey: require("./components/CardApplicationSurvey"),
+  PointsEstimateTable:   require("./components/PointsEstimateTable"),
 };
+
+window.numbro = require("numbro");
+window.diacritics = require("diacritics");
 
 // Note that something more DRY like this won't work:
 //

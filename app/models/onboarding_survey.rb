@@ -36,6 +36,14 @@ class OnboardingSurvey
 
     @pages ||= begin
       pages = [
+        { # home airports
+          complete:    account.onboarded_home_airports?,
+          path:        survey_home_airports_path,
+          required:    true,
+          revisitable: false,
+          submission_paths: survey_home_airports_path,
+        },
+
         { # travel plans
           complete:    account.onboarded_travel_plans?,
           path:        new_travel_plan_path,

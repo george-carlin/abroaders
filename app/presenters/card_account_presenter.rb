@@ -22,6 +22,12 @@ class CardAccountPresenter < ApplicationPresenter
     end
   end
 
+  %i[closed_at opened_at applied_at recommended_at].each do |meth|
+    define_method "#{meth}_value".to_sym do
+      self[meth]
+    end
+  end
+
   delegate :name, :identifier, :currency, :bank_name, to: :card, prefix: true
 
   def status

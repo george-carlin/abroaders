@@ -10,11 +10,11 @@ class Destination < ApplicationRecord
   # Note: in the production database we have Alaska and Hawaii as "countries"
   # even though they're not countries in real life. (The US is named "United
   # States (Continental 48)". This is to simplify the code in the travel plan
-  # form, so we can just call Destination.country.all and not have to worry
+  # form, so we can just call Country.all and not have to worry
   # about including Alaska and Hawaii separately. In the future when the travel
   # plan form setup is more complicated, we may change them to regions.
 
-  TYPES = %w[airport city state country region]
+  TYPES = %w[airport city country region]
 
   TYPES.each do |type|
     scope type, -> { where(type: type.capitalize) }
@@ -39,15 +39,9 @@ class Destination < ApplicationRecord
     root.region? ? root : nil
   end
 
-  has_and_belongs_to_many :home_accounts,
-    class_name: "Account",
-    join_table: :accounts_home_airports,
-    foreign_key: :airport_id
-
   # Validations
 
   validates :name, presence: true
   validates :code, presence: true, uniqueness: { scope: :type }
   validates :type, presence: true
-
 end

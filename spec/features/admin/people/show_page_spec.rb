@@ -98,15 +98,18 @@ module AdminArea
     example "person with travel plans" do
       @eu  = create(:region,  name: "Europe")
       @uk  = create(:country, name: "UK",       parent: @eu)
-      @lhr = create(:airport, name: "Heathrow", parent: @uk)
+      @lon = create(:city,    parent: @uk)
+      @lhr = create(:airport, name: "Heathrow", parent: @lon)
 
       @as  = create(:region,  name: "Asia")
       @vn  = create(:country, name: "Vietnam", parent: @as)
-      @sgn = create(:airport, name: "HCMC",    parent: @vn)
+      @hcm = create(:city,    parent: @vn)
+      @sgn = create(:airport, name: "HCMC",    parent: @hcm)
 
       @na  = create(:region,  name: "North America")
       @us  = create(:country, name: "United States", parent: @na)
-      @jfk = create(:airport, name: "JFK",           parent: @us)
+      @nyc = create(:city,    parent: @us)
+      @jfk = create(:airport, name: "JFK",           parent: @nyc)
 
       @tp_0 = create(
         :travel_plan, :single, account: @account,
@@ -443,6 +446,25 @@ module AdminArea
           expect(filters.all_banks_check_box).not_to be_checked
           filters.check_chase
           expect(filters.all_banks_check_box).to be_checked
+        end
+
+        example "toggling all currencies" do
+          filters.uncheck_all_currencies
+          page_should_not_have_recommendable_cards(*@cards)
+          Currency.all.each do |currency|
+            expect(find("#card_currency_filter_#{currency.id}")).not_to be_checked
+          end
+          filters.check_all_currencies
+          page_should_have_recommendable_cards(*@cards)
+          Currency.all.each do |currency|
+            expect(find("#card_currency_filter_#{currency.id}")).to be_checked
+          end
+
+          # it gets checked/unchecked automatically as I click other CBs:
+          filters.uncheck "card_currency_filter_#{@chase_b.id}"
+          expect(filters.all_currencies_check_box).not_to be_checked
+          filters.check "card_currency_filter_#{@chase_b.id}"
+          expect(filters.all_currencies_check_box).to be_checked
         end
       end
 

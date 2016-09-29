@@ -68,11 +68,12 @@ Rails.application.routes.draw do
         post :survey, action: :save_survey
       end
     end
-    resource :readiness, only: [:show, :update]
     resource :spending_info, path: :spending, except: :new do
       get :survey, action: :new, as: :new
     end
   end
+
+  resource :readiness, only: [:edit, :update]
 
   resources :notifications, only: :show
 
@@ -95,6 +96,16 @@ Rails.application.routes.draw do
       patch :skip_survey
     end
   end
+
+  resources :airports, only: [:index]
+  resources :home_airports, only: [] do
+    collection do
+      get  :survey
+      post :survey, action: :save_survey
+    end
+  end
+
+  get "estimates/:from_code/:to_code/:type/:no_of_passengers", to: "estimates#get"
 
   # ---- ADMINS -----
 

@@ -1,0 +1,15 @@
+<% provide :title, "Add Home Aiports" %>
+<% provide :no_sidebar, true unless current_account.onboarded_home_airports? %>
+
+<div class="hpanel home-airports-survey">
+  <div class="panel-heading hbuilt">
+    <div class="row">
+      <div class="col-xs-12 greeting-message">
+        <h1>Welcome, traveler!</h1>
+        <h2>What's your home airport?</h2>
+      </div>
+    </div><!-- .row -->
+  </div>
+
+  <%= render "home_airports/survey_form", survey: @survey %>
+</div>

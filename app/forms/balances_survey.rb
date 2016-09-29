@@ -13,7 +13,7 @@ class BalancesSurvey
 
   def initialize(person)
     @person = person
-    @balances = Currency.order("name ASC").map do |currency|
+    @balances = Currency.survey.order(name: :asc).map do |currency|
       @person.balances.build(currency: currency)
     end.to_a
   end
@@ -51,7 +51,7 @@ class BalancesSurvey
         end
       end
       # Build balances for other currencies so they appear on the form:
-      Currency.all.each do |currency|
+      Currency.survey.all.each do |currency|
         unless @balances.find { |b| b.currency_id == currency.id }
           @balances.push(@person.balances.build(currency: currency))
         end

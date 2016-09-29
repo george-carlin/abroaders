@@ -37,4 +37,10 @@ $(document).ready(function () {
     $("#card-survey-confirm-no").hide();
     $("#card-survey-initial").show();
   });
+
+  $('.collapse').on('shown.bs.collapse', function(){
+    $(this).closest('.bank-section').find(".fa-sort-desc").removeClass("fa-sort-desc").addClass("fa-sort-asc");
+  }).on('hidden.bs.collapse', function(){
+    $(this).closest('.bank-section').find(".fa-sort-asc").removeClass("fa-sort-asc").addClass("fa-sort-desc");
+  });
 });

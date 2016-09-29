@@ -7,18 +7,26 @@ describe AccountsController do
     let(:account) do
       create(
         :account,
-        onboarded_travel_plans: onb_travel_plans,
-        onboarded_type:         onb_type,
+        onboarded_travel_plans:   onb_travel_plans,
+        onboarded_type:           onb_type,
+        onboarded_home_airports:  onb_home_airports
       )
     end
     before { sign_in account }
 
     subject { get :type }
 
-    let(:onb_travel_plans) { true }
-    let(:onb_type)         { false }
+    let(:onb_home_airports) { true }
+    let(:onb_travel_plans)  { true }
+    let(:onb_type)          { false }
+
+    context "when I haven't completed the home airports survey" do
+      let(:onb_home_airports) { false }
+      it { is_expected.to redirect_to survey_home_airports_path }
+    end
 
     context "when I haven't completed the travel plan survey" do
+      let(:onb_home_airports) { true }
       let(:onb_travel_plans) { false }
       it { is_expected.to redirect_to new_travel_plan_path }
     end
