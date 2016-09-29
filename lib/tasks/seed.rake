@@ -41,8 +41,32 @@ namespace :ab do
     end
 
     task currencies: :environment do
+      # Note that we have the following currencies in FieldBook, but we're
+      # not currently including them in the Rails app:
+      #  - Aegean Airlines (Miles & Bonus)
+      #  - Aer Lingus (Gold Circle)
+      #  - Aeroflot Bonus
+      #  - Aerolineas Argentinas (Plus)
+      #  - Brussels Airlines (LOOPs)
+      #  - China Airlines (Dynasty Flyer)
+      #  - Copa Airlines ConnectMiles (Prefer)
+      #  - Czech Airlines (OK Plus)
+      #  - EL AL Israel Airlines (Matmid)
+      #  - Ethiopian Airlines (ShebaMiles)
+      #  - Finnair Plus
+      #  - Garuda Indonesia (Frequent Flyer)
+      #  - Royal Jordanian Airlines (Royal Plus)
+      #  - S7 Priority
+      #  - Saudi Arabian Airlines (Alfursan)
+      #  - South African Airways (Voyager)
+      #  - SriLankan (FlySmiLes)
+      #  - Turkish Airlines (Miles & Smiles)
+      #  - Ukraine International Airlines (Panorama Club)
+      #  - Vietnam Airlines (Golden Lotus Plus)
       ApplicationRecord.transaction do
         load_data_for("currencies").each do |data|
+          alliance_name = data.delete("alliance")
+          data["alliance_id"] = Alliance.find_by(name: alliance_name).id if alliance_name
           Currency.create!(data)
         end
         puts "created #{Currency.count} currencies"

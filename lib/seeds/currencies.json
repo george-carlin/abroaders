@@ -1,114 +1,320 @@
 [
   {
     "name": "Alaska Airlines (Mileage Plan)",
-    "award_wallet_id": "Alaska Airlines (Mileage Plan)"
+    "award_wallet_id": "Alaska Airlines (Mileage Plan)",
+    "alliance": null,
+    "shown_on_survey": true
   },
   {
     "name": "American Airlines (AAdvantage)",
-    "award_wallet_id": "American Airlines (AAdvantage)"
+    "award_wallet_id": "American Airlines (AAdvantage)",
+    "alliance": "OneWorld",
+    "shown_on_survey": true
   },
   {
     "name": "Amex (Membership Rewards)",
-    "award_wallet_id": "Amex (Membership Rewards)"
+    "award_wallet_id": "Amex (Membership Rewards)",
+    "alliance": null,
+    "shown_on_survey": true
   },
   {
     "name": "AviancaTaca (LifeMiles)",
-    "award_wallet_id": "AviancaTaca (LifeMiles)"
+    "award_wallet_id": "AviancaTaca (LifeMiles)",
+    "alliance": "StarAlliance",
+    "shown_on_survey": true
   },
   {
     "name": "Bank Of America (Americard Points)",
-    "award_wallet_id": "Bank Of America (Americard Points)"
+    "award_wallet_id": "Bank Of America (Americard Points)",
+    "alliance": null,
+    "shown_on_survey": true
   },
   {
     "name": "Barclaycard (Arrival Points)",
-    "award_wallet_id": "Barclaycard"
+    "award_wallet_id": "Barclaycard",
+    "alliance": null,
+    "shown_on_survey": true
   },
   {
     "name": "British Airways (Executive Club)",
-    "award_wallet_id": "British Airways (Executive Club)"
+    "award_wallet_id": "British Airways (Executive Club)",
+    "alliance": "OneWorld",
+    "shown_on_survey": true
   },
   {
     "name": "Capital One (Credit Cards)",
-    "award_wallet_id": "Capital One (Credit Cards)"
+    "award_wallet_id": "Capital One (Credit Cards)",
+    "alliance": null,
+    "shown_on_survey": true
   },
   {
     "name": "Chase (Ultimate Rewards)",
-    "award_wallet_id": "Chase"
+    "award_wallet_id": "Chase",
+    "alliance": null,
+    "shown_on_survey": true
   },
   {
     "name": "Citibank (Thank You Rewards)",
-    "award_wallet_id": "Citibank (Thank You Rewards)"
+    "award_wallet_id": "Citibank (Thank You Rewards)",
+    "alliance": null,
+    "shown_on_survey": true
   },
   {
     "name": "Club Carlson Hotels",
-    "award_wallet_id": "Club Carlson Hotels"
+    "award_wallet_id": "Club Carlson Hotels",
+    "alliance": null,
+    "shown_on_survey": true
   },
   {
     "name": "Delta Air Lines (SkyMiles)",
-    "award_wallet_id": "Delta Air Lines (SkyMiles)"
+    "award_wallet_id": "Delta Air Lines (SkyMiles)",
+    "alliance": "SkyTeam",
+    "shown_on_survey": true
   },
   {
     "name": "Frontier Airlines (EarlyReturns)",
-    "award_wallet_id": "Frontier Airlines (EarlyReturns)"
+    "award_wallet_id": "Frontier Airlines (EarlyReturns)",
+    "alliance": null,
+    "shown_on_survey": true
   },
   {
     "name": "Hawaiian Airlines (HawaiianMiles)",
-    "award_wallet_id": "Hawaiian Airlines (HawaiianMiles)"
+    "award_wallet_id": "Hawaiian Airlines (HawaiianMiles)",
+    "alliance": null,
+    "shown_on_survey": true
   },
   {
     "name": "Hilton (HHonors)",
-    "award_wallet_id": "Hilton (HHonors)"
+    "award_wallet_id": "Hilton (HHonors)",
+    "alliance": null,
+    "shown_on_survey": true
   },
   {
     "name": "Hyatt Gold Passport",
-    "award_wallet_id": "Hyatt Gold Passport"
+    "award_wallet_id": "Hyatt Gold Passport",
+    "alliance": null,
+    "shown_on_survey": true
   },
   {
     "name": "IHG Rewards Club",
-    "award_wallet_id": "IHG Rewards Club"
+    "award_wallet_id": "IHG Rewards Club",
+    "alliance": null,
+    "shown_on_survey": true
   },
   {
     "name": "JetBlue Airways (trueBlue)",
-    "award_wallet_id": "JetBlue Airways (trueBlue)"
+    "award_wallet_id": "JetBlue Airways (trueBlue)",
+    "alliance": null,
+    "shown_on_survey": true
   },
   {
     "name": "Korean Air (SkyPass)",
-    "award_wallet_id": "Korean Air (SkyPass)"
+    "award_wallet_id": "Korean Air (SkyPass)",
+    "alliance": "SkyTeam",
+    "shown_on_survey": true
   },
   {
     "name": "LAN (LANPASS)",
-    "award_wallet_id": "LAN (LANPASS)"
+    "award_wallet_id": "LAN (LANPASS)",
+    "alliance": "OneWorld",
+    "shown_on_survey": true
   },
   {
     "name": "Lufthansa (Miles and More)",
-    "award_wallet_id": "Lufthansa (Miles and More)"
+    "award_wallet_id": "Lufthansa (Miles and More)",
+    "alliance": "StarAlliance",
+    "shown_on_survey": true
   },
   {
     "name": "Marriott Rewards",
-    "award_wallet_id": "Marriott Rewards"
+    "award_wallet_id": "Marriott Rewards",
+    "alliance": null,
+    "shown_on_survey": true
   },
   {
     "name": "Ritz-Carlton Rewards",
-    "award_wallet_id": "(not on awardwallet)"
+    "award_wallet_id": "(not on awardwallet)",
+    "alliance": null,
+    "shown_on_survey": true
   },
   {
     "name": "Southwest Airlines (Rapid Rewards)",
-    "award_wallet_id": "Southwest Airlines (Rapid Rewards)"
+    "award_wallet_id": "Southwest Airlines (Rapid Rewards)",
+    "alliance": null,
+    "shown_on_survey": true
   },
   {
     "name": "Starwood Hotels (Preferred Guest)",
-    "award_wallet_id": "Starwood Hotels, etc. (Preferred Guest)"
+    "award_wallet_id": "Starwood Hotels, etc. (Preferred Guest)",
+    "alliance": null,
+    "shown_on_survey": true
   },
   {
     "name": "United Airlines (Mileage Plus)",
-    "award_wallet_id": "United Airlines (Mileage Plus)"
+    "award_wallet_id": "United Airlines (Mileage Plus)",
+    "alliance": "StarAlliance",
+    "shown_on_survey": true
   },
   {
     "name": "US Bank (FlexPerks)",
-    "award_wallet_id": "US Bank (FlexPerks)"
+    "award_wallet_id": "US Bank (FlexPerks)",
+    "alliance": null,
+    "shown_on_survey": true
   },
   {
     "name": "Virgin Atlantic (Flying Club)",
-    "award_wallet_id": "Virgin Atlantic (Flying Club)"
+    "award_wallet_id": "Virgin Atlantic (Flying Club)",
+    "alliance": null,
+    "shown_on_survey": true
+  },
+  {
+    "name": "Aeromexico (Club Premier)",
+    "award_wallet_id": "unknown",
+    "alliance": "SkyTeam",
+    "shown_on_survey": false
+  },
+  {
+    "name": "Air Berlin (Topbonus)",
+    "award_wallet_id": "unknown",
+    "alliance": "OneWorld",
+    "shown_on_survey": false
+  },
+  {
+    "name": "Air Canada Aeroplan (Altitude)",
+    "award_wallet_id": "unknown",
+    "alliance": "StarAlliance",
+    "shown_on_survey": true
+  },
+  {
+    "name": "Air China (PhoenixMiles)",
+    "award_wallet_id": "unknown",
+    "alliance": "StarAlliance",
+    "shown_on_survey": false
+  },
+  {
+    "name": "Air France/KLM (Flying Blue)",
+    "award_wallet_id": "unknown",
+    "alliance": "SkyTeam",
+    "shown_on_survey": true
+  },
+  {
+    "name": "Air New Zealand (Airpoints)",
+    "award_wallet_id": "unknown",
+    "alliance": "StarAlliance",
+    "shown_on_survey": false
+  },
+  {
+    "name": "Alitalia (MilleMiglia)",
+    "award_wallet_id": "unknown",
+    "alliance": "SkyTeam",
+    "shown_on_survey": false
+  },
+  {
+    "name": "All Nippon Airways (ANA Mileage Club)",
+    "award_wallet_id": "unknown",
+    "alliance": "StarAlliance",
+    "shown_on_survey": true
+  },
+  {
+    "name": "Asiana Airlines (Asiana Club)",
+    "award_wallet_id": "unknown",
+    "alliance": "StarAlliance",
+    "shown_on_survey": false
+  },
+  {
+    "name": "Cathay Pacific (Asia Miles)",
+    "award_wallet_id": "unknown",
+    "alliance": "OneWorld",
+    "shown_on_survey": false
+  },
+  {
+    "name": "China Eastern (Eastern Miles)",
+    "award_wallet_id": "unknown",
+    "alliance": "SkyTeam",
+    "shown_on_survey": false
+  },
+  {
+    "name": "China Southern (Sky Pearl)",
+    "award_wallet_id": "unknown",
+    "alliance": "StarAlliance",
+    "shown_on_survey": false
+  },
+  {
+    "name": "Emirates (Skywards)",
+    "award_wallet_id": "unknown",
+    "alliance": null,
+    "shown_on_survey": false
+  },
+  {
+    "name": "Etihad Airways (Etihad Guest)",
+    "award_wallet_id": "unknown",
+    "alliance": null,
+    "shown_on_survey": false
+  },
+  {
+    "name": "Eva Air (Infinity MileageLands)",
+    "award_wallet_id": "unknown",
+    "alliance": "StarAlliance",
+    "shown_on_survey": false
+  },
+  {
+    "name": "Gol Airlines (Smiles)",
+    "award_wallet_id": "unknown",
+    "alliance": null,
+    "shown_on_survey": false
+  },
+  {
+    "name": "Iberia Plus",
+    "award_wallet_id": "unknown",
+    "alliance": "OneWorld",
+    "shown_on_survey": false
+  },
+  {
+    "name": "Japan Airlines (JMB)",
+    "award_wallet_id": "unknown",
+    "alliance": "OneWorld",
+    "shown_on_survey": false
+  },
+  {
+    "name": "Malaysia Airlines (Enrich)",
+    "award_wallet_id": "unknown",
+    "alliance": "OneWorld",
+    "shown_on_survey": false
+  },
+  {
+    "name": "Qantas (Frequent Flyer)",
+    "award_wallet_id": "unknown",
+    "alliance": "OneWorld",
+    "shown_on_survey": false
+  },
+  {
+    "name": "Qatar Airways (Qmiles)",
+    "award_wallet_id": "unknown",
+    "alliance": "OneWorld",
+    "shown_on_survey": false
+  },
+  {
+    "name": "Singapore Airlines (KrisFlyer)",
+    "award_wallet_id": "unknown",
+    "alliance": "StarAlliance",
+    "shown_on_survey": true
+  },
+  {
+    "name": "Thai Airways (Royal Orchid Plus)",
+    "award_wallet_id": "unknown",
+    "alliance": "StarAlliance",
+    "shown_on_survey": false
+  },
+  {
+    "name": "Virgin America (eleVAte)",
+    "award_wallet_id": "unknown",
+    "alliance": null,
+    "shown_on_survey": true
+  },
+  {
+    "name": "Virgin Australia (Velocity Frequent Flyer)",
+    "award_wallet_id": "unknown",
+    "alliance": null,
+    "shown_on_survey": true
   }
 ]
