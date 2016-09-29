@@ -78,7 +78,7 @@ describe "the sign up page", :onboarding do
         before { submit_form }
 
         it "shows me the first page of the onboarding survey" do
-          expect(current_path).to eq survey_airports_path
+          expect(current_path).to eq survey_home_airports_path
         end
       end
 

@@ -12,7 +12,7 @@ describe OnboardingSurvey do
   end
 
   example "non-person specific pages" do
-    expect(survey.current_page.path).to eq survey_airports_path
+    expect(survey.current_page.path).to eq survey_home_airports_path
     expect(survey).not_to be_complete
 
     onboard_home_airports!

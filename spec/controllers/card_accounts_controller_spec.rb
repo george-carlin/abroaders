@@ -29,7 +29,7 @@ describe CardAccountsController do
 
     context "when I haven't completed the home airports survey" do
       let(:onboarded_home_airports) { false }
-      it { is_expected.to redirect_to survey_airports_path }
+      it { is_expected.to redirect_to survey_home_airports_path }
     end
 
     context "when I haven't completed the travel plans survey" do

@@ -13,7 +13,7 @@ describe AirportsController do
       before do
         account.update_attributes!(onboarded_home_airports: true)
       end
-      it { is_expected.to redirect_to survey_airports_path }
+      it { is_expected.to redirect_to survey_home_airports_path }
     end
 
     context "when I have completed the entire onboarding survey" do

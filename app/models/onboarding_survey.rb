@@ -38,10 +38,10 @@ class OnboardingSurvey
       pages = [
         { # home airports
           complete:    account.onboarded_home_airports?,
-          path:        survey_airports_path,
+          path:        survey_home_airports_path,
           required:    true,
           revisitable: false,
-          submission_paths: survey_airports_path,
+          submission_paths: survey_home_airports_path,
         },
 
         { # travel plans

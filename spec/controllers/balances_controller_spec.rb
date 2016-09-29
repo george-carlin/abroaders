@@ -11,7 +11,7 @@ describe BalancesController do
     subject { get :survey, params: { person_id: person.id } }
 
     context "when user needs to complete the home airports survey" do
-      it { is_expected.to redirect_to survey_airports_path }
+      it { is_expected.to redirect_to survey_home_airports_path }
     end
 
     context "when user needs to complete the travel plans survey" do

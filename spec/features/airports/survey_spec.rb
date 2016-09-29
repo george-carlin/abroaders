@@ -6,7 +6,7 @@ describe "home airports survey", :onboarding, :js do
 
   let(:visit_path) do
     login_as account.reload
-    visit survey_airports_path
+    visit survey_home_airports_path
   end
 
   let(:submit_form) { click_button("Save and continue") }
