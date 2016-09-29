@@ -1,6 +1,6 @@
 namespace :ab do
   desc "update the currenices in the DB based on currencies.json"
-  task :update_currencies do
+  task update_currencies: :environment do
     currencies = JSON.parse(File.read(Rails.root.join("lib/seeds/currencies.json")))
 
     Currency.transaction do

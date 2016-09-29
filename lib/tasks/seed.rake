@@ -70,6 +70,10 @@ namespace :ab do
         load_data_for("currencies").each do |data|
           alliance_name = data.delete("alliance")
           data["alliance_id"] = Alliance.find_by(name: alliance_name).id if alliance_name
+          if data["award_wallet_id"] == "unknown"
+            # AW ids must be present and unique:
+            data["award_wallet_id"] << "-#{SecureRandom.hex}"
+          end
           Currency.create!(data)
         end
         puts "created #{Currency.count} currencies"
