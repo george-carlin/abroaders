@@ -4,10 +4,5 @@ class Admin < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  # stubs for using admin as the inviter
-  def has_invitations_left?
-    true
-  end
-
-  def decrement_invitation_limit!; end
+  include DeviseInvitable::Inviter
 end

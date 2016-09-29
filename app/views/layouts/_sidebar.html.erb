@@ -25,10 +25,15 @@
             "View all offers"    => admin_offers_path,
             "Review live offers" => review_admin_offers_path,
           },
-          AdminArea::OffersController,
+          AdminArea::OffersController
         )%>
-        <%= sidebar_link_to "Users", admin_accounts_path, AdminArea::AccountsController %>
-        <%= sidebar_link_to "New Account", new_invitation_path %>
+        <%= sidebar_nested_links(
+          "Users",
+          {
+              "All Users" => admin_accounts_path,
+              "New User" => new_invitation_path
+          }
+        )%>
         <%= sidebar_link_to "My Account", edit_admin_registration_path %>
       <% end %>
     </ul>

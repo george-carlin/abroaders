@@ -7,6 +7,10 @@ class InvitationsController < Devise::InvitationsController
 
   private
 
+  def after_accept_path_for(resource)
+    resource.onboarding_survey.current_page.path
+  end
+
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:invite) do |account|
       account.permit(:email, owner_attributes: :first_name, companion_attributes: [:first_name, :main])
@@ -14,7 +18,7 @@ class InvitationsController < Devise::InvitationsController
   end
 
   def authenticate_inviter!
-    send(:"authenticate_admin!", force: true)
+    authenticate_admin!(force: true)
   end
 
   def redirect_admins!
