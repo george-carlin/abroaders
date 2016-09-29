@@ -2,6 +2,11 @@
 
 ## September 2016
 
+*   Add `type` attribute to currencies; only show currencies of type 'airline'
+    in list of admin filters.
+
+    *George Millo*
+
 *   Group `Currency` filters by `Alliance` on admin/people#show. 
     Pivotal Tracker #129920759
 
