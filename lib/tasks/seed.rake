@@ -1,6 +1,9 @@
 namespace :ab do
   namespace :seeds do
 
+    # TODO the files which contain the sample data are split between lib/seeds
+    # and lib/data for no apparent reason. Standardise where it's kept.
+
     def load_data_for(table)
       seeds_dir = Rails.root.join("lib", "seeds")
       JSON.parse(File.read(seeds_dir.join("#{table}.json")))
