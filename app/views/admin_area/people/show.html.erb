@@ -83,6 +83,7 @@
                     <%= check_box_tag :card_bank_filter_all, nil, true %>
                     Toggle all
                   </label>
+                  <hr>
                   <% Bank.all.each do |bank| %>
                     <p><%= card_bank_filter_check_box_tag(bank) %></p>
                   <% end %>
@@ -104,8 +105,9 @@
                       ) %>
                       Toggle all
                     </label>
+                    <hr>
                     <% alliance.currencies.each do |currency| %>
-                      <p><%= card_currency_filter_check_box_tag(currency) %></p>
+                      <%= card_currency_filter_check_box_tag(currency) %>
                     <% end %>
                   </div>
                 </div>
@@ -125,8 +127,9 @@
                     ) %>
                     Toggle all
                   </label>
+                  <hr>
                   <% Currency.where(alliance_id: nil).each do |currency| %>
-                    <p><%= card_currency_filter_check_box_tag(currency) %></p>
+                    <%= card_currency_filter_check_box_tag(currency) %>
                   <% end %>
                 </div>
               </div>
