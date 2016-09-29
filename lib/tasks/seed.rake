@@ -110,7 +110,7 @@ namespace :ab do
       end # transaction
     end
 
-    task destinations: [:regions, :countries, :airports_and_cities]
+    task destinations: [:regions, :countries, :cities, :airports]
     task all: [:admins, :currencies, :cards, :destinations, :offers]
   end
 end
