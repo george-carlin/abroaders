@@ -5,6 +5,7 @@
   "private": true,
   "devDependencies": {
     "babel-eslint": "^6.0.4",
+    "diacritics": "^1.2.3",
     "eslint": "^2.12.0",
     "eslint-config-airbnb": "^6.0.2",
     "eslint-plugin-react": "^4.3.0",

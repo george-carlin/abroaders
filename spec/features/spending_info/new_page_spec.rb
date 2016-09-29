@@ -6,7 +6,7 @@ describe "the spending info survey", :onboarding do
   include ActiveJob::TestHelper
 
   let!(:account) do
-    create(:account, onboarded_travel_plans: true, onboarded_type: true)
+    create(:account, :onboarded_type)
   end
 
   before do

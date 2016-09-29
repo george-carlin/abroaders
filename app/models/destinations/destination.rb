@@ -44,5 +44,4 @@ class Destination < ApplicationRecord
   validates :name, presence: true
   validates :code, presence: true, uniqueness: { scope: :type }
   validates :type, presence: true
-
 end

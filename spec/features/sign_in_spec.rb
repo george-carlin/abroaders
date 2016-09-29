@@ -50,7 +50,7 @@ describe "the sign in page" do
         let(:onboarded) { false }
 
         it "takes me to my next step in the onboarding survey" do
-          expect(current_path).to eq new_travel_plan_path
+          expect(current_path).to eq survey_home_airports_path
           # TODO test the other cases; i.e. when I'm at different stages in the
           # survey
         end
