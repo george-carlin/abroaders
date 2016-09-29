@@ -2,6 +2,11 @@ module AdminArea
   class CurrencyPresenter < ApplicationPresenter
     alias_method :currency, :model
 
+    # "Bank Of America (Americard Points)" => "Bank Of America"
+    def short_name
+      name.sub(/\s+\(.*\)\s*/, '')
+    end
+
     def filter_label_tag
       h.label_tag(filter_css_id) { yield }
     end
@@ -13,7 +18,7 @@ module AdminArea
         true,
         class: filter_css_class,
         data: { key: :currency, value: id  }
-      ) << raw("&nbsp;&nbsp#{name}")
+      ) << raw("&nbsp;&nbsp#{short_name}")
     end
 
     private
