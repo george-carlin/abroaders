@@ -13,8 +13,7 @@ namespace :ab do
         send_email = false
       end
 
-      card_holder = card_account.person
-      NotificationMailer.notify_account_for_card_fee(card_holder.account, card_account.card, card_holder).deliver_later if send_email
+      NotificationMailer.notify_account_for_card_fee(card_account).deliver_now if send_email
     end
   end
 end
