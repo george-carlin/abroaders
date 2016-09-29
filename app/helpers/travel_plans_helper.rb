@@ -7,4 +7,8 @@ module TravelPlansHelper
         method: :patch,
     )
   end
+
+  def options_for_travel_plan_country_select(countries)
+    countries.map { |c| [c.name, c.id, { 'data-code' => c.code }] }
+  end
 end

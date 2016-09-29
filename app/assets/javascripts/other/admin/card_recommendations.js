@@ -3,9 +3,48 @@
 $(document).ready(function () {
   $(".new_card_account table").tablesorter({
     // The table can't be sorted by the first column:
-    headers: { 0: { sorter: false } },
+    headers: { 0: { sorter: false } }
   });
 
+  var $personCardTable = $("#admin_person_card_accounts_table");
+  $personCardTable.tablesorter({
+    headers: {
+      0:  { sorter: false }, // ID
+      1:  { sorter: false }, // Name
+      2:  { sorter: false }, // Status
+      3:  { sorter: true  }, // Rec'ed
+      4:  { sorter: false }, // Seen
+      5:  { sorter: false }, // Clicked
+      6:  { sorter: true  }, // Applied
+      7:  { sorter: false }, // Denied
+      8:  { sorter: false }, // Declined
+      9:  { sorter: true  }, // Opened
+      10: { sorter: true  }  // Closed
+    },
+    sortList : [[9, 1], [6, 1]]
+  });
+
+  $(".sortable-column.opened").click(function () {
+    sortColumn($(this), 9, 6);
+  });
+
+  $(".sortable-column.closed").click(function () {
+    sortColumn($(this), 10, 9);
+  });
+
+  $(".sortable-column.applied").click(function () {
+    sortColumn($(this), 6, 9);
+  });
+
+  $(".sortable-column.recommended").click(function () {
+    sortColumn($(this), 3, 9);
+  });
+
+  function sortColumn(element, primary_column, secondary_column) {
+    $(".sortable-column.sorted-column").removeClass("sorted-column");
+    element.addClass("sorted-column");
+    $personCardTable.trigger("sorton", [ [[primary_column, 1], [secondary_column, 1]] ]);
+  }
 
   function filterTable() {
     var checkedBPs, checkedBanks, checkedCurrencies;
@@ -17,7 +56,6 @@ $(document).ready(function () {
     checkedBanks = $(".card_bank_filter:checked").map(function (i, cb) {
       return cb.dataset.value;
     }).toArray();
-
 
     var selector = ".card_currency_filter:checked";
     checkedCurrencies = $(selector).map(function (i, cb) {

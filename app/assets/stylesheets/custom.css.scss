@@ -348,7 +348,6 @@ td.offer-days {
   }
 }
 
-
 // PEOPLE
 
 @media (min-width: 1200px) {
@@ -362,4 +361,10 @@ td.offer-days {
       padding-left: 15px;
     }
   }
+}
+
+// READINESS
+
+.update-readiness-btn {
+  width: 100%;
 }
