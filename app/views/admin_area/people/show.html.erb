@@ -75,65 +75,50 @@
           </div>
 
           <div class="row">
-            <div class="col-xs-12 col-md-6 filters-large-column">
-              <div class="panel panel-primary">
-                <div class="panel-heading">Bank</div>
-                <div class="panel-body">
-                  <label for="card_bank_filter_all">
-                    <%= check_box_tag :card_bank_filter_all, nil, true %>
-                    Toggle all
-                  </label>
-                  <hr>
-                  <% Bank.all.each do |bank| %>
-                    <p><%= card_bank_filter_check_box_tag(bank) %></p>
-                  <% end %>
-                </div>
-              </div>
-            </div>
-
-            <% Alliance.all.each do |alliance| %>
-              <div class="col-xs-12 col-md-6 filters-large-column">
-                <div class="panel panel-primary">
-                  <div class="panel-heading"><%= alliance.name %></div>
-                  <div class="panel-body">
-                    <label for="card_currency_alliance_filter_all_for_<%= alliance.id %>">
-                      <%= check_box_tag(
-                          "card_currency_alliance_filter_all_for_#{alliance.id}",
-                          nil,
-                          true,
-                          class: "toggle-all-currency-checkbox"
-                      ) %>
-                      Toggle all
-                    </label>
-                    <hr>
-                    <% alliance.currencies.each do |currency| %>
-                      <%= card_currency_filter_check_box_tag(currency) %>
-                    <% end %>
-                  </div>
-                </div>
-              </div>
+            <%= render "admin_area/people/filter_panel", title: "Bank" do %>
+              <label for="card_bank_filter_all">
+                <%= check_box_tag :card_bank_filter_all, nil, true %>
+                Toggle all
+              </label>
+              <hr>
+              <% Bank.all.each do |bank| %>
+                <p><%= card_bank_filter_check_box_tag(bank) %></p>
+              <% end %>
             <% end %>
 
-            <div class="col-xs-12 col-md-6 filters-large-column">
-              <div class="panel panel-primary">
-                <div class="panel-heading">Independent</div>
-                <div class="panel-body">
-                  <label for="card_currency_filter_all_independent">
-                    <%= check_box_tag(
-                        "card_currency_filter_all_independent",
-                        nil,
-                        true,
-                        class: "toggle-all-currency-checkbox"
-                    ) %>
-                    Toggle all
-                  </label>
-                  <hr>
-                  <% Currency.where(alliance_id: nil).each do |currency| %>
-                    <%= card_currency_filter_check_box_tag(currency) %>
-                  <% end %>
-                </div>
-              </div>
-            </div>
+            <% Alliance.all.each do |alliance| %>
+              <%= render "admin_area/people/filter_panel", title: alliance.name do %>
+                <label for="card_currency_alliance_filter_all_for_<%= alliance.id %>">
+                  <%= check_box_tag(
+                    "card_currency_alliance_filter_all_for_#{alliance.id}",
+                    nil,
+                    true,
+                    class: "toggle-all-currency-checkbox"
+                  ) %>
+                  Toggle all
+                </label>
+                <hr>
+                <% alliance.currencies.each do |currency| %>
+                  <%= card_currency_filter_check_box_tag(currency) %>
+                <% end %>
+              <% end %>
+            <% end %>
+
+            <%= render "admin_area/people/filter_panel", title: "Independent" do %>
+              <label for="card_currency_filter_all_independent">
+                <%= check_box_tag(
+                  "card_currency_filter_all_independent",
+                  nil,
+                  true,
+                  class: "toggle-all-currency-checkbox"
+                ) %>
+                Toggle all
+              </label>
+              <hr>
+              <% Currency.where(alliance_id: nil).each do |currency| %>
+                <%= card_currency_filter_check_box_tag(currency) %>
+              <% end %>
+            <% end %>
           </div>
       </div>
     <% end %>
