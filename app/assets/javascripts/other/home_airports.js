@@ -28,7 +28,7 @@ $(document).ready(function () {
       return Bloodhound.tokenizers.whitespace(d.tokens.join(' '));
     },
     queryTokenizer: function (q) {
-      return Bloodhound.tokenizers.whitespace(q.normalize());
+      return Bloodhound.tokenizers.whitespace(diacritics.remove(q));
     },
     prefetch: "/airports.json"
   });
