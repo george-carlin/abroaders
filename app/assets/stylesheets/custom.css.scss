@@ -347,3 +347,19 @@ td.offer-days {
     width: 110px;
   }
 }
+
+
+// PEOPLE
+
+@media (min-width: 1200px) {
+  #card-recommendation-filters {
+    .filters-large-column {
+      float: left;
+      width: 20%;
+      position: relative;
+      min-height: 1px;
+      padding-right: 15px;
+      padding-left: 15px;
+    }
+  }
+}
