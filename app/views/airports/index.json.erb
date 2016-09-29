@@ -1,10 +1,17 @@
 <% cache(@airports) do %>
   <%
-     array_for_typeahead = @airports.pluck(:id, :code, "parents_destinations.name").map do |airport|
+    array_for_typeahead = @airports.pluck(:id, :name, :code, "parents_destinations.name").map do |airport|
       id = airport[0]
-      code = airport[1]
-      parent_name = airport[2]
-      { id: id, code: code, name: "#{parent_name} (#{code})", tokens: [code, parent_name, "#{parent_name} (#{code})"] }
+      name = airport[1]
+      code = airport[2]
+      city_name = airport[3]
+
+      displayed_name = "#{name} (#{code})"
+      unless name.downcase.include?(city_name.downcase)
+        displayed_name = "#{city_name} #{displayed_name}"
+      end
+
+      { id: id, code: code, name: displayed_name, tokens: [code, city_name, "#{city_name} (#{displayed_name})", "#{name} (#{code})"] }
     end
   %>
   <%= raw(array_for_typeahead.to_json) %>
