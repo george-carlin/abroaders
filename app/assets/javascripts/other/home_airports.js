@@ -27,7 +27,9 @@ $(document).ready(function () {
     datumTokenizer: function (d) {
       return Bloodhound.tokenizers.whitespace(d.tokens.join(' '));
     },
-    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    queryTokenizer: function (q) {
+      return Bloodhound.tokenizers.whitespace(q.normalize());
+    },
     prefetch: "/airports.json"
   });
 
@@ -59,7 +61,7 @@ $(document).ready(function () {
 
       if (getSelectedAirportCount() < 5) {
         airport_div.className = 'airport-selected';
-        $(airport_div).append('<input class="hidden-airports-ids" type="hidden" name="airports_survey[airport_ids][]" value="' + suggestion.id + '">');
+        $(airport_div).append('<input class="hidden-airports-ids" type="hidden" name="home_airports_survey[airport_ids][]" value="' + suggestion.id + '">');
         $(airport_div).append('<p><i class="fa fa-check" aria-hidden="true"></i>' + suggestion.name + '<i class="fa fa-times" aria-hidden="true"></i></p>');
         $saved_area.append(airport_div);
       }
