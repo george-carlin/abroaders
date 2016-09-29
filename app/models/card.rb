@@ -40,33 +40,12 @@ class Card < ApplicationRecord
     end
 
     included do
-      scope :survey,        -> { where(shown_on_survey: true) }
-      scope :not_on_survey, -> { where(shown_on_survey: false) }
-
-      alias_method :not_on_survey?, :not_on_survey
+      scope :survey, -> { where(shown_on_survey: true) }
     end
   end
 
-  # Don't call this 'Bank' because that would clash with '::Bank'
-  concerning :Banks do
-    included do
-      delegate :name, to: :bank, prefix: true
-    end
-
-    def bank
-      @bank ||= Bank.find(bank_id)
-    end
-
-    def bank=(new_bank)
-      self.bank_id = new_bank.id
-    end
-
-    def bank_id=(bank_id)
-      @bank = nil
-      super
-    end
-  end
-
+  belongs_to_fake_db_model :bank
+  delegate :name, to: :bank, prefix: true
 
   # A number which uniquely identifies both which bank this card belongs to,
   # and whether it is a business card or a personal one. Displaying this in

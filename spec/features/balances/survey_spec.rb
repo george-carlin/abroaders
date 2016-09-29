@@ -10,6 +10,7 @@ describe "the balance survey page", :onboarding, :js do
     @me = account.owner
     @me.update_attributes!(first_name: "George")
     @currencies = create_list(:currency, 3)
+    @hidden_currency = create(:currency, shown_on_survey: false)
     login_as_account(account)
 
     visit survey_person_balances_path(@me)
@@ -45,6 +46,10 @@ describe "the balance survey page", :onboarding, :js do
     expect(page).to have_content "Does George have any points balances greater than 5,000?"
     expect(page).to have_button "Yes"
     expect(page).to have_button "No"
+  end
+
+  example "doesn't show currencies which has shown_on_survey=false" do
+    expect(page).to have_no_css("#currency_#{@hidden_currency.id}_balance")
   end
 
   example "clicking 'No' asks for confirmation" do
@@ -153,6 +158,21 @@ describe "the balance survey page", :onboarding, :js do
     expect{submit_form}.to track_intercom_event("obs_balances_own").for_email(account.email)
   end
 
+  example "sending 'profile complete' email to the admin" do
+    click_button "Yes"
+    expect{submit_form}.to \
+        send_email.to(ENV["ADMIN_EMAIL"]).with_subject("App Profile Complete - #{account.email}")
+  end
+
+  describe "when person is owner, and account has a companion" do
+    before { create(:companion, account: account) }
+
+    it "doesn't send a 'profile complete' email to the admin" do
+      click_button "Yes"
+      expect{submit_form}.not_to change{ApplicationMailer.deliveries.last}
+    end
+  end
+
   describe "when person is account companion" do
     before do
       @me.update_attributes!(onboarded_balances: true)
@@ -163,6 +183,12 @@ describe "the balance survey page", :onboarding, :js do
     example "tracking an intercom event when person is companion" do
       click_button "Yes"
       expect{submit_form}.to track_intercom_event("obs_balances_com").for_email(account.email)
+    end
+
+    example "sending 'profile complete' email to the admin" do
+      click_button "Yes"
+      expect{submit_form}.to \
+          send_email.to(ENV["ADMIN_EMAIL"]).with_subject("App Profile Complete - #{account.email}")
     end
   end
 end

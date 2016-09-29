@@ -6,6 +6,7 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
   before(:all) do
     chase = Bank.find_by(name: "Chase")
     citi  = Bank.find_by(name: "Citibank")
+    @banks = [chase, citi]
     @visible_cards = [
       create(:card, :business, :visa,       bank_id: chase.id, name: "Card 0"),
       create(:card, :personal, :mastercard, bank_id: chase.id, name: "Card 1"),
@@ -38,6 +39,13 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
 
   def end_of_month(year, month)
     Date.parse("#{year}-#{month}-01").end_of_month.strftime("%F")
+  end
+
+  def expand_banks
+    @banks.each do |bank|
+      click_on bank.name.upcase
+      sleep 0.5
+    end
   end
 
   shared_examples "submitting the form" do
@@ -109,22 +117,27 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
   end
 
   describe "clicking 'Yes'" do
-    before { click_button "Yes" }
+    before do
+      click_button "Yes"
+      expand_banks
+    end
 
     it "shows cards grouped by bank, then B/P" do
-      %w[chase citibank].each do |bank|
-        %w[personal business].each do |type|
-          header = "#{bank.capitalize} #{type.capitalize} Cards"
-          expect(page).to have_selector "h2", text: header
-          expect(page).to have_selector "##{bank.to_param}_cards"
-          expect(page).to have_selector "##{bank}_#{type}_cards"
+      @banks.each do |bank|
+        expect(page).to have_selector "h2", text: bank.name.upcase
+        within "#bank-collapse-#{bank.id}" do
+          %w[personal business].each do |type|
+            expect(page).to have_selector "h4", text: "#{type.capitalize} Cards"
+            expect(page).to have_selector "##{bank.to_param}_cards"
+            expect(page).to have_selector "##{bank.to_param}_#{type}_cards"
+          end
         end
       end
     end
 
     it "only has one 'group' per bank and b/p" do # bug fix
-      %w[chase citibank].each do |bank|
-        %w[personal business].each do |type|
+      @banks.each do |bank|
+        within "#bank-collapse-#{bank.id}" do
           expect(all("[id='#{bank.to_param}_cards']").length).to eq 1
           expect(all("[id='#{bank.to_param}_personal_cards']").length).to eq 1
           expect(all("[id='#{bank.to_param}_business_cards']").length).to eq 1

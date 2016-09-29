@@ -16,6 +16,13 @@ class Offer < ApplicationRecord
     on_first_purchase: 2, # points awarded once you make 1st purchase with card
   }
 
+  enum partner: {
+    card_ratings: 0,
+    credit_cards: 1,
+    award_wallet: 2,
+    card_benefit: 3,
+  }
+
   # TODO move me to presenter
   delegate :name, :identifier, to: :card, prefix: true
   delegate :bank_name, to: :card
@@ -24,6 +31,7 @@ class Offer < ApplicationRecord
 
   with_options presence: true do
     validates :link # TODO validate it looks like a valid link
+    validates :partner, inclusion: { in: Offer.partners.keys }, allow_blank: true
 
     with_options numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: POSTGRESQL_MAX_INT_VALUE } do
       validates :cost
