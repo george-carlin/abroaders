@@ -31,6 +31,15 @@ Rails.application.routes.draw do
     put   "accounts/password",    to: "passwords#update"
     patch "accounts/password",    to: "passwords#update"
 
+    get    :"admin/new_account",  to: "invitations#new",
+           as: :new_invitation
+    post   :"admin/invitation",  to: "invitations#create",
+           as: :invitation
+    get    :"invitation/accept",  to: "invitations#edit",
+           as: :accept_invitation
+    put   :"invitation",  to: "invitations#update",
+            as: :invitations
+
     # TODO this probably won't work with the default Devise views
     # post :accounts, to: "registrations#create", as: :account_registration
     put  :accounts, to: "registrations#update"
@@ -101,7 +110,7 @@ Rails.application.routes.draw do
 
   # ---- ADMINS -----
 
-  devise_for :admins, skip: [:registrations, :sessions]
+  devise_for :admins, skip: [:registrations, :sessions, :invitations]
   devise_scope :admin do
     get    :"admin/sign_in",  to: "admin_area/sessions#new",
                                               as: :new_admin_session

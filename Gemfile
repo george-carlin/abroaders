@@ -10,6 +10,7 @@ gem 'aws-sdk', '1.61.0'
 gem 'bitmask_attributes'
 gem 'browserify-rails'
 gem 'devise', '~> 4.1.0'
+gem 'devise_invitable', '~> 1.7.0'
 gem 'devise-bootstrap-views'
 # Load ENV variables from a gitignored YAML file
 gem 'figaro', '~> 1.1.1'

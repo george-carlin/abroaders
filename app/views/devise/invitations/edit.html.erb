@@ -1,0 +1,36 @@
+<% provide :title, "Accept Invitation" %>
+
+<div class="login-container">
+  <div class="row">
+    <div class="col-md-12">
+      <%= bootstrap_devise_error_messages! %>
+      <div class="text-center m-b-md">
+        <h4><%= t "devise.invitations.edit.header" %></h4>
+      </div>
+      <div class="hpanel">
+        <div class="panel-body">
+          <p>
+            Welcome to Abroaders, <%= resource.owner.first_name %>! We've set up an account for you with
+            the email address <b><%= resource.email %></b>. Create a password below and we'll get you started.
+          </p>
+          <%= form_for resource, url: invitations_path, html: { method: :put } do |f| %>
+            <%= f.hidden_field :invitation_token %>
+            <% if f.object.class.require_password_on_accepting %>
+              <div class="form-group">
+                <%= f.label :password %>
+                <%= f.password_field :password, required: true %>
+              </div>
+
+              <div class="form-group">
+                <%= f.label :password_confirmation %>
+                <%= f.password_field :password_confirmation, required: true %>
+              </div>
+            <% end %>
+
+            <%= f.submit t("devise.invitations.edit.submit_button"), class: "btn btn-primary" %>
+          <% end %>
+        </div><!-- .panel-body -->
+      </div><!-- .hpanel -->
+    </div><!-- .text-center -->
+  </div>
+</div>
