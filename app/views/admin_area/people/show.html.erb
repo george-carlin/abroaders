@@ -98,8 +98,10 @@
                   Toggle all
                 </label>
                 <hr>
-                <% alliance.currencies.each do |currency| %>
-                  <%= card_currency_filter_check_box_tag(currency) %>
+                <% present_each(alliance.currencies, AdminArea::CurrencyPresenter) do |currency_p| %>
+                  <%= currency_p.filter_label_tag do %>
+                    <%= currency_p.filter_check_box_tag %>
+                  <% end %>
                 <% end %>
               <% end %>
             <% end %>
@@ -115,8 +117,10 @@
                 Toggle all
               </label>
               <hr>
-              <% Currency.where(alliance_id: nil).each do |currency| %>
-                <%= card_currency_filter_check_box_tag(currency) %>
+              <% present_each(Currency.where(alliance_id: nil), AdminArea::CurrencyPresenter) do |currency_p| %>
+                <%= currency_p.filter_label_tag do %>
+                  <%= currency_p.filter_check_box_tag %>
+                <% end %>
               <% end %>
             <% end %>
           </div>
