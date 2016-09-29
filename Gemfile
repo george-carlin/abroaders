@@ -32,6 +32,7 @@ gem 'sinatra', github: 'sinatra/sinatra', branch: 'master'
 gem 'uglifier', '>= 1.3.0'
 gem 'virtus'
 gem 'will_paginate-bootstrap', '~> 1.0.1'
+gem 'rails_autolink'
 
 # Required to make the app function properly on Heroku:
 group :production do
@@ -57,6 +58,7 @@ end
 
 group :test do
   gem 'capybara'
+  gem 'capybara-screenshot'
   gem 'poltergeist'
   gem 'shoulda-matchers', '~> 3.1.1'
   gem 'launchy'

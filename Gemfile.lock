@@ -91,6 +91,9 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    capybara-screenshot (1.0.14)
+      capybara (>= 1.0, < 3)
+      launchy
     climate_control (0.0.3)
       activesupport (>= 3.0)
     cliver (0.3.2)
@@ -214,6 +217,8 @@ GEM
     rails_12factor (0.0.3)
       rails_serve_static_assets
       rails_stdout_logging
+    rails_autolink (1.1.6)
+      rails (> 3.1)
     rails_serve_static_assets (0.0.5)
     rails_stdout_logging (0.0.5)
     railties (5.0.0.1)
@@ -335,6 +340,7 @@ DEPENDENCIES
   bullet
   byebug
   capybara
+  capybara-screenshot
   database_cleaner
   devise (~> 4.1.0)
   devise-bootstrap-views
@@ -354,6 +360,7 @@ DEPENDENCIES
   puma
   rails (~> 5.0.0.1)
   rails_12factor
+  rails_autolink
   record_tag_helper
   resque
   resque-scheduler

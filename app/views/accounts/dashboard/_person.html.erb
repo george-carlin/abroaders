@@ -82,19 +82,22 @@
         <%= person.first_name %> is ready to apply for cards and will shortly
         receive recommendations from the Abroaders team.
       </p>
-    <% elsif person.onboarded_spending? && !person.has_recent_recommendation? %>
-      <hr>
-      <p><%= person.first_name %> is not ready to apply for cards.</p>
+    <% else %>
+      <% if person.onboarded_spending? && !person.has_recent_recommendation? %>
+        <hr>
+        <p><%= person.first_name %> is not ready to apply for cards.</p>
 
-      <% if person.unreadiness_reason.present? %>
-        <p>Reason given: <i><%= person.unreadiness_reason %></i></p>
+        <% if person.unreadiness_reason.present? %>
+          <p>Reason given: <i><%= person.unreadiness_reason %></i></p>
+        <% end %>
       <% end %>
 
-      <p>
-        <%= link_to "Click here when you're ready", person_readiness_path(person) %>
-      </p>
+      <% if person.eligible? %>
+        <p>
+          <%= link_to "Click here when you're ready", edit_readiness_path %>
+        </p>
+      <% end %>
     <% end %>
-
 
   </div>
 </div>

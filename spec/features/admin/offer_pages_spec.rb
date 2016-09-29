@@ -5,6 +5,15 @@ describe "admin section" do
   subject { page }
 
   describe "offers pages" do
+    let(:approval)       { t("activerecord.attributes.offer.conditions.on_approval") }
+    let(:first_purchase) { t("activerecord.attributes.offer.conditions.on_first_purchase") }
+    let(:minimum_spend)  { t("activerecord.attributes.offer.conditions.on_minimum_spend") }
+
+    let(:card_ratings) { "CardRatings.com" }
+    let(:credit_cards) { "CreditCards.com" }
+    let(:award_wallet) { "AwardWallet" }
+    let(:card_benefit) { "CardBenefit" }
+
     describe "new page" do
       before do
         @card = create(
@@ -37,13 +46,10 @@ describe "admin section" do
         expect(page).to have_field :offer_spend
         expect(page).to have_field :offer_cost
         expect(page).to have_field :offer_days
+        expect(page).to have_field :offer_partner
         expect(page).to have_field :offer_link
         expect(page).to have_field :offer_notes
       end
-
-      let(:approval)       { t("activerecord.attributes.offer.conditions.on_approval") }
-      let(:first_purchase) { t("activerecord.attributes.offer.conditions.on_first_purchase") }
-      let(:minimum_spend)  { t("activerecord.attributes.offer.conditions.on_minimum_spend") }
 
       let(:new_offer) { Offer.last }
 
@@ -143,6 +149,7 @@ describe "admin section" do
           before { submit }
           it "shows the form again with the correct fields hidden/shown" do
             expect(page).to have_field :offer_condition
+            expect(page).to have_field :offer_partner
             expect(page).to have_field :offer_points_awarded
             expect(page).to have_no_field :offer_spend
             expect(page).to have_field :offer_cost
@@ -153,8 +160,31 @@ describe "admin section" do
         end
       end
 
+      describe "the 'partner' dropdown" do
+        it "has 'None' selected by default" do
+          selected_opt = find("#offer_partner")
+          expect(selected_opt.value).to eq ""
+        end
+      end
+
+      describe "selecting 'CardRatings.com' partner", :js do
+        describe "and submitting the form with valid info" do
+          before do
+            select card_ratings, from: :offer_partner
+            fill_in :offer_points_awarded, with: 40_000
+            fill_in :offer_link, with: "http://something.com"
+          end
+
+          it "creates an offer" do
+            expect{submit}.to change{Offer.count}.by 1
+            expect(new_offer.partner).to eq "card_ratings"
+          end
+        end
+      end
+
       describe "submitting the form with valid information" do
         before do
+          select award_wallet, from: :offer_partner
           fill_in :offer_points_awarded, with: 40_000
           fill_in :offer_spend, with: 5000
           fill_in :offer_link, with: "http://something.com"
@@ -163,6 +193,7 @@ describe "admin section" do
         it "creates a new offer" do
           expect{submit}.to change{Offer.count}.by(1)
           expect(new_offer.condition).to eq "on_minimum_spend"
+          expect(new_offer.partner).to eq "award_wallet"
         end
 
         describe "the created offer" do
@@ -213,6 +244,7 @@ describe "admin section" do
         it "shows offer details", :js => true do
           expect(page).to have_content @live_1.card.name
           expect(find("tr#offer_#{@live_1.id}").text).to include(@live_1.last_reviewed_at.strftime("%m/%d/%Y"))
+          expect(find("tr#offer_#{@live_1.id}").text).to include("CB")
         end
       end
 
@@ -332,10 +364,10 @@ describe "admin section" do
 
       it "displays information about the offer and card" do
         expect(page).to have_content card.name
+        expect(page).to have_content card_benefit
         expect(page).to have_content offer.notes
       end
     end # show page
-
 
     describe "edit page" do
       let(:offer) { create(:offer) }
@@ -353,6 +385,29 @@ describe "admin section" do
 
       it "displays information about the card" do
         expect(page).to have_content card.name
+      end
+
+      it "display information about the offer" do
+        condition = find("#offer_condition option[selected]")
+        expect(condition.value).to eq offer.condition
+
+        partner = find("#offer_partner option[selected]")
+        expect(partner.value).to eq offer.partner
+
+        points_awarded = find("#offer_points_awarded")
+        expect(points_awarded.value.to_i).to eq offer.points_awarded
+
+        offer_spend = find("#offer_spend")
+        expect(offer_spend.value.to_i).to eq offer.spend
+
+        offer_cost= find("#offer_cost")
+        expect(offer_cost.value.to_i).to eq offer.cost
+
+        offer_days = find("#offer_days")
+        expect(offer_days.value.to_i).to eq offer.days
+
+        offer_link = find("#offer_link")
+        expect(offer_link.value).to eq offer.link
       end
     end
   end

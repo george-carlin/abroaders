@@ -49,109 +49,68 @@ namespace :ab do
       end
     end
 
-    task destinations: :environment do
-      require 'csv'
-
-      if Destination.any?
-        puts "There are already destinations in the DB"
+    task regions: :environment do
+      ApplicationRecord.transaction do
+        csv  = File.read(Rails.root.join("lib/data/regions.csv"))
+        data = CSV.parse(csv)
+        data.each { |name, code| Region.create!(name: name, code: code) }
+        puts "created #{data.length} regions"
       end
+    end
 
-      Destination.transaction do
-
-        # ------ REGIONS ------
-
-        regions_csv  = File.read(Rails.root.join("lib/data/regions.csv"))
-        regions_data = CSV.parse(regions_csv)
-        puts "Importing #{regions_data.length} regions..."
-        @regions = regions_data.map do |name, code|
-          Region.create!(name: name, code: code)
-        end
-
-        @regions = @regions.index_by(&:name)
-
-        # ------ COUNTRIES ------
-
-        # To see the file where I got the original data from, visit:
-        #
-        # https://bitbucket.org/!api/2.0/snippets/georgemillo/kEb9y/b160569a4ea16a450c4a3aa02b5fcd9865dea269/files/snippet.txt
-        #
-        # Originally I had a rake task at lib/tasks/download_countries.rake (dig
-        # it out of the git history if you're interested) which grabbed this
-        # file, changed a few things, then saved it as a CSV locally, but since
-        # then I've edited the resulting CSV substantially (added some missing
-        # countries, removed some 'countries' that are just uninhabited islands
-        # with no airport, and added regions), to the extent that there's no
-        # point concerning ourselves iwth the original online data anymore.
-
-        countries_csv  = File.read(Rails.root.join("lib/data/countries.csv"))
-        countries_data = CSV.parse(countries_csv)
-        countries_data.shift # remove the column headers
-        puts "Importing #{countries_data.length} countries..."
-        @countries = countries_data.map do |name, code, region_name|
+    task countries: :environment do
+      ApplicationRecord.transaction do
+        regions = Region.all.index_by(&:name)
+        csv     = File.read(Rails.root.join("lib/data/countries.csv"))
+        data    = CSV.parse(csv)
+        data.shift # remove the column headers
+        data.each do |name, code, region_name|
           Country.create!(
-            name: name,
-            code: code,
-            parent: @regions.fetch(region_name)
-          )
-        end
-
-        # Create a hash of countries with the code as the key and the Country
-        # as the value
-        @countries = @countries.index_by(&:code)
-
-        # ------ STATES ------
-
-        states_csv = File.read(Rails.root.join("lib/data/state_data.csv"))
-        states_data = CSV.parse(states_csv)
-        states_data.shift # remove the column headers
-        puts "Importing #{states_data.length} states..."
-        @states = states_data.map do |name, code, parent_code|
-          State.create!(
-            name: name,
-            code: code,
-            parent: @countries.fetch(parent_code)
-          )
-        end
-
-        # Create a hash of states with the code as the key and the State
-        # as the value
-        @states = @states.index_by(&:code)
-
-        # ------ CITIES ------
-
-        cities_csv = File.read(Rails.root.join("lib/data/city_data.csv"))
-        cities_data = CSV.parse(cities_csv)
-        cities_data.shift # remove the column headers
-        puts "Importing #{cities_data.length} cities..."
-        @cities = cities_data.map do |name, code, state_code, country_code|
-          City.create!(
-            name: name,
-            code: code,
-            parent: @states[state_code] || @countries[country_code]
-          )
-        end
-
-        # Create a hash of cities with the code as the key and the State
-        # as the value
-        @cities = @cities.index_by(&:code)
-
-        # ------ AIRPORTS ------
-
-        airports_csv = File.read(Rails.root.join("lib/data/airport_data.csv"))
-        airports_data = CSV.parse(airports_csv)
-        airports_data.shift # remove the column headers
-        puts "Importing #{airports_data.length} airports..."
-        @airports = airports_data.map do |name, code, city, state, country|
-          Airport.create!(
             name:   name,
             code:   code,
-            parent: @cities[city] || @states[state] || @countries[country]
+            parent: regions.fetch(region_name)
           )
         end
+        puts "created #{data.length} countries"
+      end
+    end
+
+    # Note that this doesn't add *every* city. Some airports in airports.csv
+    # don't belong to a city which can be found in cities.csv, in which case we
+    # add the city in the 'airports' rake task and make up a code for the city.
+    # (City codes don't really matter, we don't have to make some exactly match
+    # some external ISO standard because they're for our own internal use
+    # only.)
+    task cities: :environment do
+      ApplicationRecord.transaction do
+        countries = Country.all.index_by(&:code)
+        data = CSV.parse(File.read(Rails.root.join("lib/data/cities.csv")))
+        data.shift # remove the column headers
+        data.each do |code, country_code, name|
+          City.create!(name: name, code: code, parent: countries[country_code])
+        end
+        puts "created #{data.length} cities"
+      end
+    end
+
+    task airports: :environment do
+      # Airport data is taken from Miles.biz - we have the original raw data
+      # from them in Google Drive somewhere.
+      #
+      # See the comment above regarding airports in airports.csv for
+      # which there is no city.
+      ApplicationRecord.transaction do
+        cities = City.all.index_by(&:code)
+        data = CSV.parse(File.read(Rails.root.join("lib/data/airports.csv")))
+        data.shift # remove the column headers
+        data.each do |code, city_code, name|
+          Airport.create!(name: name, code: code, parent: cities[city_code])
+        end
+        puts "created #{data.length} airports"
       end # transaction
     end
 
+    task destinations: [:regions, :countries, :airports_and_cities]
     task all: [:admins, :currencies, :cards, :destinations, :offers]
-
   end
 end

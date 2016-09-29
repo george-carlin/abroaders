@@ -98,15 +98,18 @@ module AdminArea
     example "person with travel plans" do
       @eu  = create(:region,  name: "Europe")
       @uk  = create(:country, name: "UK",       parent: @eu)
-      @lhr = create(:airport, name: "Heathrow", parent: @uk)
+      @lon = create(:city,    parent: @uk)
+      @lhr = create(:airport, name: "Heathrow", parent: @lon)
 
       @as  = create(:region,  name: "Asia")
       @vn  = create(:country, name: "Vietnam", parent: @as)
-      @sgn = create(:airport, name: "HCMC",    parent: @vn)
+      @hcm = create(:city,    parent: @vn)
+      @sgn = create(:airport, name: "HCMC",    parent: @hcm)
 
       @na  = create(:region,  name: "North America")
       @us  = create(:country, name: "United States", parent: @na)
-      @jfk = create(:airport, name: "JFK",           parent: @us)
+      @nyc = create(:city,    parent: @us)
+      @jfk = create(:airport, name: "JFK",           parent: @nyc)
 
       @tp_0 = create(
         :travel_plan, :single, account: @account,
