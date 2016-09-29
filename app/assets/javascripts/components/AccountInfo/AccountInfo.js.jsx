@@ -1,29 +1,16 @@
 const React = require("react");
 
 const Row = require("../core/Row");
-const RadioButton = require("../core/RadioButton");
-
 const SpendingInfo = require("./SpendingInfo");
+const AccountPeopleNames = require("./AccountPeopleNames");
 
 const AccountInfo = React.createClass({
   propTypes: {
-    account: React.PropTypes.object.isRequired
+    account: React.PropTypes.object.isRequired,
   },
 
   getInitialState() {
     return { currentAction: "ownerInfo" };
-  },
-
-  getPersonStatus(person) {
-    if (person.ready == true) {
-      return " (R)"
-    }
-
-    if (person.eligible == true) {
-      return " (E)"
-    }
-
-    return "";
   },
 
   onChooseOwner() {
@@ -36,16 +23,14 @@ const AccountInfo = React.createClass({
 
   render() {
     let person;
-    let account = this.props.account;
+    const account   = this.props.account;
     const owner     = account.owner;
     const companion = account.companion;
 
     if (this.state.currentAction === "ownerInfo") {
-      person = owner
-    }
-
-    if (this.state.currentAction === "companionInfo") {
-      person = companion
+      person = owner;
+    } else if (this.state.currentAction === "companionInfo") {
+      person = companion;
     }
 
     return (
@@ -54,42 +39,12 @@ const AccountInfo = React.createClass({
           <Row>
             <div className="col-xs-12 col-md-6" >
 
-              {(() => {
-                if (companion) {
-                  return (
-                    <p className="people-names">
-                      <label className="radio-inline">
-                        <RadioButton
-                          onChange={this.onChooseOwner}
-                          attribute="spending_info"
-                          modelName="account"
-                          value="owner"
-                          checked={this.state.currentAction === "ownerInfo"}
-                        />
-                        {owner.firstName + this.getPersonStatus(owner)}
-                      </label>
-
-                      <label className="radio-inline">
-                        <RadioButton
-                          onChange={this.onChooseCompanion}
-                          attribute="spending_info"
-                          modelName="account"
-                          value="companion"
-                          checked={this.state.currentAction === "companionInfo"}
-                        />
-                        {companion.firstName + this.getPersonStatus(companion)}
-                      </label>
-                    </p>
-                  );
-                }
-                else {
-                  return (
-                    <h1>
-                      {owner.firstName + this.getPersonStatus(owner)}
-                    </h1>
-                  );
-                }
-              })()}
+              <AccountPeopleNames
+                account={account}
+                selectedPerson={person}
+                onChooseOwner={this.onChooseOwner}
+                onChooseCompanion={this.onChooseCompanion}
+              />
 
               <p>{account.email}</p>
 
@@ -114,9 +69,8 @@ const AccountInfo = React.createClass({
                       spendingInfo={person.spendingInfo}
                     />
                   );
-                }
-                else {
-                  return "User has not added their spending info"
+                } else {
+                  return "User has not added their spending info";
                 }
               })()}
 
@@ -125,7 +79,7 @@ const AccountInfo = React.createClass({
         </div>
       </div>
     );
-  }
+  },
 });
 
 module.exports = AccountInfo;

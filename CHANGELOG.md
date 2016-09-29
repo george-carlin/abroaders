@@ -2,7 +2,8 @@
 
 ## September 2016
 
-*   Create `AccountInfo` and `SpendingInfo` React components.
+*   Create `AccountInfo`, `SpendingInfo`, `AccountPeopleNames`, 
+    `PersonName`, `PersonStatus` React components.
     Use it on `admin/accounts#show` page. Pivotal Tracker #131075691
 
     *Boris Shatalov*

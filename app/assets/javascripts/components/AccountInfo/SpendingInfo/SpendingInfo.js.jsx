@@ -1,21 +1,23 @@
 const React = require("react");
 
+const numbro = require("numbro");
+
 const SpendingInfo = React.createClass({
   propTypes: {
     spendingInfo: React.PropTypes.object.isRequired,
-    account: React.PropTypes.object.isRequired
+    account: React.PropTypes.object.isRequired,
   },
 
   numberToCurrency(number) {
-    return number.toLocaleString("en-US", { style: "currency", currency: "USD" });
+    return numbro(number).format("$0,0.00");
   },
 
   monthlySpendingLabel() {
-    return (this.hasCompanion() == true ? "Shared" : "Personal") + " spending";
+    return (this.hasCompanion() ? "Shared" : "Personal") + " spending";
   },
 
   willApplyForLoanLabel() {
-    return this.props.spendingInfo.willApplyForLoan == true ? "Yes" : "No";
+    return this.props.spendingInfo.willApplyForLoan ? "Yes" : "No";
   },
 
   hasCompanion() {
@@ -23,12 +25,12 @@ const SpendingInfo = React.createClass({
   },
 
   hasBusiness() {
-    return (this.props.spendingInfo.hasBusiness != "no_business");
+    return (this.props.spendingInfo.hasBusiness !== "no_business");
   },
 
   businessEinLabel() {
     if (this.hasBusiness()) {
-      if (this.props.spendingInfo.hasBusiness == "with_ein") {
+      if (this.props.spendingInfo.hasBusiness === "with_ein") {
         return "(Has EIN)";
       }
       else {
@@ -40,8 +42,7 @@ const SpendingInfo = React.createClass({
   businessSpending() {
     if (this.hasBusiness()) {
       return this.numberToCurrency(this.props.spendingInfo.businessSpendingUsd);
-    }
-    else {
+    } else {
       return "No business";
     }
   },
@@ -77,7 +78,7 @@ const SpendingInfo = React.createClass({
         </tbody>
       </table>
     );
-  }
+  },
 });
 
 module.exports = SpendingInfo;
