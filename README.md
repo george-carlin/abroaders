@@ -387,8 +387,7 @@ gem.
 
 #### `presenters`
 
-Close in concept to what the Code Climate article calls a 'View Object'.
-TODO add more detailed explanation of Presenters.
+See `app/presenters/README.md`
 
 ### Javascript
 

@@ -1,4 +1,5 @@
 # See http://nithinbekal.com/posts/rails-presenters/
+# and app/presenters/README.md
 class ApplicationPresenter < SimpleDelegator
   include I18nWithErrorRaising
 
