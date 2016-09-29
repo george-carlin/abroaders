@@ -1,4 +1,5 @@
 $(document).ready(function () {
+  if ($(".home-airports-survey").length) {
   function getSelectedAirportCount() {
     return ($('.hidden-airports-ids').length)
   }
@@ -90,4 +91,5 @@ $(document).ready(function () {
       return false;
     }
   });
+  }
 });
