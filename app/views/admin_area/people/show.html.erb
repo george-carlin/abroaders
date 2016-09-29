@@ -81,7 +81,7 @@
                 Toggle all
               </label>
               <hr>
-              <% Bank.all.each do |bank| %>
+              <% Bank.order(name: :asc).each do |bank| %>
                 <p><%= card_bank_filter_check_box_tag(bank) %></p>
               <% end %>
             <% end %>
@@ -99,7 +99,7 @@
                 </label>
                 <hr>
                 <% present_each(
-                  alliance.currencies.filterable,
+                  alliance.currencies.filterable.order(name: :asc),
                   AdminArea::CurrencyPresenter
                 ) do |currency_p| %>
                   <%= currency_p.filter_label_tag do %>
@@ -121,7 +121,8 @@
               </label>
               <hr>
               <% present_each(
-                Currency.independent.filterable, AdminArea::CurrencyPresenter
+                Currency.independent.filterable.order(name: :asc),
+                AdminArea::CurrencyPresenter
               ) do |currency_p| %>
                 <%= currency_p.filter_label_tag do %>
                   <%= currency_p.filter_check_box_tag %>
