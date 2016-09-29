@@ -2,6 +2,11 @@
 
 ## September 2016
 
+*   Group `Currency` filters by `Alliance` on admin/people#show. 
+    Pivotal Tracker #129920759
+
+    *Boris Shatalov*
+
 *   Users can add their home airports in the onboarding survey.
     Pivotal Tracker #126319005, #41
 

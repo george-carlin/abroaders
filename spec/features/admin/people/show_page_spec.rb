@@ -7,9 +7,16 @@ module AdminArea
     let(:aw_email) { "totallyawesomedude@example.com" }
 
     before(:all) do
-      @currencies = create_list(:currency, 4)
       @chase   = Bank.find_by(name: "Chase")
       @us_bank = Bank.find_by(name: "US Bank")
+      @one_world_alliance = Alliance.find_by(name: "OneWorld")
+      @sky_team_alliance  = Alliance.find_by(name: "SkyTeam")
+
+      @currencies = []
+      @currencies << create(:currency, alliance_id: @one_world_alliance.id)
+      @currencies << create(:currency, alliance_id: @sky_team_alliance.id)
+      @currencies << create(:currency, alliance_id: @one_world_alliance.id)
+      @currencies << create(:currency, alliance_id: nil)
 
       def create_card(bp, bank, currency)
         create(:card, bp, bank_id: bank.id, currency: currency)
@@ -19,8 +26,12 @@ module AdminArea
         @chase_b = create_card(:business, @chase,   @currencies[0]),
         @chase_p = create_card(:personal, @chase,   @currencies[1]),
         @usb_b   = create_card(:business, @us_bank, @currencies[2]),
-        @usb_p   = create_card(:personal, @us_bank, @currencies[3]),
+        @usb_p   = create_card(:personal, @us_bank, @currencies[3])
       ]
+
+      @independent_card = [@usb_p]
+      @one_world_cards = [@chase_b, @usb_b]
+      @sky_team_cards = [@chase_p]
 
       @offers = [
         create(:offer, card: @chase_b),
@@ -449,22 +460,61 @@ module AdminArea
         end
 
         example "toggling all currencies" do
-          filters.uncheck_all_currencies
+          filters.uncheck_all_independent_currencies
+          filters.uncheck_all_one_world_currencies
+          filters.uncheck_all_sky_team_currencies
+
           page_should_not_have_recommendable_cards(*@cards)
           Currency.all.each do |currency|
             expect(find("#card_currency_filter_#{currency.id}")).not_to be_checked
           end
-          filters.check_all_currencies
+
+          filters.check_all_independent_currencies
+          filters.check_all_one_world_currencies
+          filters.check_all_sky_team_currencies
+
           page_should_have_recommendable_cards(*@cards)
           Currency.all.each do |currency|
             expect(find("#card_currency_filter_#{currency.id}")).to be_checked
           end
+        end
+
+        example "toggling all independent currencies" do
+          filters.uncheck_all_independent_currencies
+          page_should_not_have_recommendable_cards(*@independent_card)
+          Currency.where(alliance_id: nil).each do |currency|
+            expect(find("#card_currency_filter_#{currency.id}")).not_to be_checked
+          end
+          filters.check_all_independent_currencies
+          page_should_have_recommendable_cards(*@independent_card)
+          Currency.where(alliance_id: nil).each do |currency|
+            expect(find("#card_currency_filter_#{currency.id}")).to be_checked
+          end
 
           # it gets checked/unchecked automatically as I click other CBs:
-          filters.uncheck "card_currency_filter_#{@chase_b.id}"
-          expect(filters.all_currencies_check_box).not_to be_checked
-          filters.check "card_currency_filter_#{@chase_b.id}"
-          expect(filters.all_currencies_check_box).to be_checked
+          filters.uncheck "card_currency_filter_#{@independent_card[0].id}"
+          expect(filters.all_independent_currencies_check_box).not_to be_checked
+          filters.check "card_currency_filter_#{@independent_card[0].id}"
+          expect(filters.all_independent_currencies_check_box).to be_checked
+        end
+
+        example "toggling all one world alliance currencies" do
+          filters.uncheck_all_one_world_currencies
+          page_should_not_have_recommendable_cards(*@one_world_cards)
+          Currency.where(alliance_id: @one_world_alliance.id).each do |currency|
+            expect(find("#card_currency_filter_#{currency.id}")).not_to be_checked
+          end
+          filters.check_all_one_world_currencies
+          page_should_have_recommendable_cards(*@one_world_cards)
+          Currency.where(alliance_id: @one_world_alliance.id).each do |currency|
+            expect(find("#card_currency_filter_#{currency.id}")).to be_checked
+          end
+
+          # it gets checked/unchecked automatically as I click other CBs:
+          filters.uncheck "card_currency_filter_#{@one_world_cards[0].id}"
+          expect(filters.all_one_world_currencies_check_box).not_to be_checked
+          filters.check "card_currency_filter_#{@one_world_cards[0].id}"
+          expect(filters.all_one_world_currencies_check_box).to be_checked
         end
       end
 

@@ -122,15 +122,17 @@ $(document).ready(function () {
 
   var $cardCurrencyFilterCheckboxes = $('.card_currency_filter');
   $cardCurrencyFilterCheckboxes.click(function (e) {
-    toggle_one($cardCurrencyFilterCheckboxes, $("#card_currency_filter_all"));
+    var toggle_all_checkbox = $(this).closest(".panel-body").find(".toggle-all-currency-checkbox");
+    toggle_one($cardCurrencyFilterCheckboxes, toggle_all_checkbox);
   });
 
   $("#card_bank_filter_all").click(function () {
     toggle_all(this, $cardBankFilterCheckboxes)
   });
 
-  $("#card_currency_filter_all").click(function () {
-    toggle_all(this, $cardCurrencyFilterCheckboxes)
+  $(".toggle-all-currency-checkbox").click(function () {
+    var checkboxes = $(this).closest(".panel-body").find(".card_currency_filter");
+    toggle_all(this, checkboxes)
   });
 
   $(".recommend_offer_btn").click(function (e) {
