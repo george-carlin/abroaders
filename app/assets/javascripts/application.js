@@ -22,6 +22,7 @@
 //= require es5-shim
 //= require underscore
 //= require metisMenu
+//= require typeahead.bundle.js
 //= require jquery.countdown.min.js
 //= require components/react_ujs
 //= require_tree ./other
@@ -42,6 +43,7 @@ window.components = {
 };
 
 window.numbro = require("numbro");
+window.diacritics = require("diacritics");
 
 // Note that something more DRY like this won't work:
 //

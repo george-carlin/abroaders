@@ -1,7 +1,7 @@
 require "rails_helper"
 
-describe TravelPlansController do
-  describe "GET #new" do
+describe AirportsController do
+  describe "GET #survey" do
     let(:account) { create(:account) }
     let(:person)  { account.owner }
 
@@ -9,11 +9,11 @@ describe TravelPlansController do
 
     subject { get :new }
 
-    context "when I have onboarded travel plans but not completed survey" do
+    context "when I have onboarded home airports but not completed survey" do
       before do
-        account.update_attributes!(onboarded_home_airports: true, onboarded_travel_plans: true)
+        account.update_attributes!(onboarded_home_airports: true)
       end
-      it { is_expected.to redirect_to type_account_path }
+      it { is_expected.to redirect_to survey_home_airports_path }
     end
 
     context "when I have completed the entire onboarding survey" do

@@ -97,6 +97,14 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :airports, only: [:index]
+  resources :home_airports, only: [] do
+    collection do
+      get  :survey
+      post :survey, action: :save_survey
+    end
+  end
+
   get "estimates/:from_code/:to_code/:type/:no_of_passengers", to: "estimates#get"
 
   # ---- ADMINS -----

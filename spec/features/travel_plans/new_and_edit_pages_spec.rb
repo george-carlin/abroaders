@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe "travel plans" do
-  let(:account) { create(:account) }
+  let(:account) { create(:account, :onboarded_home_airports) }
   let(:person) { account.owner }
 
   subject { page }
@@ -27,7 +27,7 @@ describe "travel plans" do
   end
 
   def complete_onboarding_survey!
-    account.update_attributes!(onboarded_type: true, onboarded_travel_plans: true)
+    account.update_attributes!(onboarded_type: true, onboarded_travel_plans: true, onboarded_home_airports: true)
     account.owner.update_attributes!(eligible: false, onboarded_balances: true)
   end
 

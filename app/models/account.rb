@@ -12,7 +12,7 @@ class Account < ApplicationRecord
   alias_attribute :has_companion?, :has_companion
 
   def onboarded?
-    onboarded_travel_plans? && onboarded_type? && people.any? && people.all?(&:onboarded?)
+    onboarded_home_airports? && onboarded_travel_plans? && onboarded_type? && people.any? && people.all?(&:onboarded?)
   end
 
   def recommendations_expire_at
@@ -69,6 +69,11 @@ class Account < ApplicationRecord
   end
 
   has_many :recommendation_notes, dependent: :destroy
+
+  has_and_belongs_to_many :home_airports,
+                          class_name: "Airport",
+                          join_table: :accounts_home_airports,
+                          association_foreign_key: :airport_id
 
   # TODO these methods don't belong in here; updating the counter cache is a
   # responsibility of the Notification class, not the Account class

@@ -8,6 +8,11 @@
 
     *Boris Shatalov*
 
+*   Users can add their home airports in the onboarding survey.
+    Pivotal Tracker #126319005, #41
+
+    *Boris Shatalov*
+
 *   Add `AccountSerializer`, `PersonSerializer`, and `SpendingInfoSerializer`.
     GH #51
 

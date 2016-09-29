@@ -49,6 +49,7 @@
     "browserify": "13.0.0",
     "browserify-incremental": "3.0.1",
     "classnames": "^2.2.5",
+    "diacritics": "^1.2.3",
     "humps": "^1.1.0",
     "jquery": "^2.2.1",
     "numbro": "^1.9.3",

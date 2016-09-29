@@ -33,8 +33,19 @@ ActiveRecord::Schema.define(version: 20160923100253) do
     t.boolean  "onboarded_travel_plans",     default: false, null: false
     t.integer  "unseen_notifications_count", default: 0,     null: false
     t.string   "phone_number"
+    t.boolean  "onboarded_home_airports",    default: false, null: false
     t.index ["email"], name: "index_accounts_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_accounts_on_reset_password_token", unique: true, using: :btree
+  end
+
+  create_table "accounts_home_airports", force: :cascade do |t|
+    t.integer  "account_id", null: false
+    t.integer  "airport_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "airport_id"], name: "index_accounts_home_airports_on_account_id_and_airport_id", unique: true, using: :btree
+    t.index ["account_id"], name: "index_accounts_home_airports_on_account_id", using: :btree
+    t.index ["airport_id"], name: "index_accounts_home_airports_on_airport_id", using: :btree
   end
 
   create_table "admins", force: :cascade do |t|
@@ -238,6 +249,8 @@ ActiveRecord::Schema.define(version: 20160923100253) do
     t.index ["type"], name: "index_travel_plans_on_type", using: :btree
   end
 
+  add_foreign_key "accounts_home_airports", "accounts", on_delete: :cascade
+  add_foreign_key "accounts_home_airports", "destinations", column: "airport_id", on_delete: :restrict
   add_foreign_key "balances", "currencies", on_delete: :cascade
   add_foreign_key "balances", "people", on_delete: :cascade
   add_foreign_key "card_accounts", "cards", on_delete: :restrict
