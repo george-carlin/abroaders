@@ -24,11 +24,17 @@
 #       app/models/alliance.rb
 #
 class Currency < ApplicationRecord
+  self.inheritance_column = :_no_sti
+
+  # Attributes
+
+  TYPES = %w[airline bank hotel]
 
   # Validations
 
   validates :name, presence: true, uniqueness: true
   validates :award_wallet_id, presence: true, uniqueness: true
+  validates :type, inclusion: { in: TYPES }
 
   belongs_to_fake_db_model :alliance
 
