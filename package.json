@@ -51,6 +51,7 @@
     "classnames": "^2.2.5",
     "humps": "^1.1.0",
     "jquery": "^2.2.1",
+    "numbro": "^1.9.3",
     "react": "^0.14.7",
     "react-dom": "^0.14.7",
     "underscore": "1.8.x"

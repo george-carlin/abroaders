@@ -49,6 +49,26 @@ class OfferPresenter < ApplicationPresenter
     card.currency_name
   end
 
+  def partner_full_name
+    case partner
+    when "card_ratings" then "CardRatings.com"
+    when "credit_cards" then "CreditCards.com"
+    when "award_wallet" then "AwardWallet"
+    when "card_benefit" then "CardBenefit"
+    else "-"
+    end
+  end
+
+  def partner_short_name
+    case partner
+    when "card_ratings" then "CR"
+    when "credit_cards" then "CC"
+    when "award_wallet" then "AW"
+    when "card_benefit" then "CB"
+    else "-"
+    end
+  end
+
   def description
     case model.condition
       when "on_minimum_spend"

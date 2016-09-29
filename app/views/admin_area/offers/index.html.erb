@@ -38,6 +38,7 @@
             <th>ID</th>
             <th>Card</th>
             <th>Bank</th>
+            <th>Partner</th>
             <th>Points awarded</th>
             <th>Spend</th>
             <th>Cost</th>
@@ -55,6 +56,7 @@
               <td><%= offer.identifier(with_card: true) %></td>
               <td><%= offer.link_to_show_for_card %></td>
               <td><%= offer.bank_name %></td>
+              <td><%= offer.partner_short_name %></td>
               <td><%= offer.points_awarded %></td>
               <td><%= offer.spend %></td>
               <td><%= offer.cost %></td>

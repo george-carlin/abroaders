@@ -7,6 +7,25 @@
 
     *Boris Shatalov*
 
+*   Add `AccountSerializer`, `PersonSerializer`, and `SpendingInfoSerializer`.
+    GH #51
+
+    *Boris Shatalov, George Millo*
+
+*   Display points+fees estimate on travel plan form. PT #131029753
+
+    *George Millo*
+
+*   Allow line breaks in the emails of Recommendation Notes.
+    Make urls inside rec. note clickable.
+    Pivotal Tracker #130913419, GH #50
+
+    *Boris Shatalov*
+
+*   Offers have a attribute called "partner". Pivotal Tracker #130490251, GH#48
+
+    *Anatols Baymaganov*
+
 *   Big update to our airports and cities data using the data we got
     from miles.biz
 
@@ -17,7 +36,7 @@
 
     *George Millo*
 
-*   Create one page for update account ready status with url: `readiness/edit`. 
+*   Create one page for update account ready status with url: `readiness/edit`.
     Pivotal Tracker #126036139
 
     *Boris Shatalov*
