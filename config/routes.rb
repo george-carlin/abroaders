@@ -68,9 +68,7 @@ Rails.application.routes.draw do
         post :survey, action: :save_survey
       end
     end
-    resource :spending_info, path: :spending, except: :new do
-      get :survey, action: :new, as: :new
-    end
+    resource :spending_info, path: :spending, except: :create
   end
 
   resource :readiness, only: [:edit, :update] do
@@ -79,6 +77,11 @@ Rails.application.routes.draw do
       post :survey, action: :save_survey
     end
   end
+
+  resource :spending_info,
+    only: [:new, :create],
+    path: :spending,
+    path_names: { new: :survey }
 
   resources :notifications, only: :show
 

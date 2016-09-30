@@ -42,6 +42,7 @@ window.components = {
   AccountTypeForm:       require("./components/AccountTypeForm"),
   CardApplicationSurvey: require("./components/CardApplicationSurvey"),
   PointsEstimateTable:   require("./components/PointsEstimateTable"),
+  SpendingSurvey:        require("./components/SpendingSurvey"),
 };
 
 window.numbro = require("numbro");

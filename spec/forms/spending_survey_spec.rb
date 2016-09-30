@@ -10,9 +10,9 @@ describe SpendingSurvey, type: :model do
 
     subject { @survey }
 
-    it { is_expected.to validate_presence_of(:spending) }
+    it { is_expected.to validate_presence_of(:monthly_spending) }
     it do
-      is_expected.to validate_numericality_of(:spending)
+      is_expected.to validate_numericality_of(:monthly_spending)
         .is_greater_than_or_equal_to(0)
     end
 
@@ -77,5 +77,21 @@ describe SpendingSurvey, type: :model do
         expect(@survey).not_to validate_presence_of(:companion_business_spending_usd)
       end
     end
+  end
+
+  example "saving" do
+    account = create(:account, :eligible, onboarding_state: :spending)
+    survey = described_class.new(account: account)
+    survey.monthly_spending = 5000
+    survey.owner_credit_score = 500
+
+    expect do
+      survey.save!
+    end.to change { SpendingInfo.count }.by(1)
+    account.reload
+
+    expect(account.owner.spending_info).to be_present
+
+    expect(account.onboarding_state).to eq "readiness"
   end
 end
