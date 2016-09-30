@@ -59,6 +59,14 @@ class OnboardingSurvey
           revisitable: false,
           submission_paths: [solo_account_path, partner_account_path],
         },
+
+        { # spending info
+          complete:    account.people.all?(&:onboarded_spending?),
+          path:        new_spending_info_path,
+          required:    account.people.any?(&:eligible?),
+          revisitable: false,
+          submission_paths: spending_info_path,
+        },
       ]
 
       pages.concat(pages_for_person(owner))
@@ -116,14 +124,6 @@ class OnboardingSurvey
 
   def pages_for_person(person)
     [
-      { # spending info
-        complete:    person.onboarded_spending?,
-        path:        new_person_spending_info_path(person),
-        required:    person.eligible?,
-        revisitable: false,
-        submission_paths: [person_spending_info_path(person)],
-      },
-
       { # cards
         complete:    person.onboarded_cards?,
         path:        survey_person_card_accounts_path(person),

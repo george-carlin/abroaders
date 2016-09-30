@@ -1,4 +1,8 @@
 <% provide :title, "Spending" %>
 <% provide :no_sidebar, true %>
 
-<%= render "spending_infos/form" %>
+<div
+  data-react-component="SpendingSurvey"
+  data-account="<%= serialize(current_account) %>"
+  data-submit-path="<%= spending_info_path %>"
+></div>

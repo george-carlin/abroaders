@@ -40,7 +40,7 @@ describe AccountSerializer do
     expect(owner["owner"]).to be true
     expect(owner["first_name"]).to eq "George"
     expect(owner["eligible"]).to be true
-    expect(owner["type"]).to be "owner"
+    expect(owner["type"]).to eq "owner"
 
     owner_spending = owner["spending_info"]
     expect(owner_spending.keys).to match_array(%w[
