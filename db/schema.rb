@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160923100253) do
+ActiveRecord::Schema.define(version: 20160929214946) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -131,8 +131,10 @@ ActiveRecord::Schema.define(version: 20160923100253) do
     t.datetime "updated_at",                     null: false
     t.integer  "alliance_id"
     t.boolean  "shown_on_survey", default: true, null: false
+    t.string   "type",                           null: false
     t.index ["award_wallet_id"], name: "index_currencies_on_award_wallet_id", unique: true, using: :btree
     t.index ["name"], name: "index_currencies_on_name", unique: true, using: :btree
+    t.index ["type"], name: "index_currencies_on_type", using: :btree
   end
 
   create_table "destinations", force: :cascade do |t|
@@ -229,13 +231,6 @@ ActiveRecord::Schema.define(version: 20160923100253) do
     t.index ["person_id"], name: "index_spending_infos_on_person_id", unique: true, using: :btree
   end
 
-  create_table "transferabilities", force: :cascade do |t|
-    t.integer  "from_id",    null: false
-    t.integer  "to_id",      null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "travel_plans", force: :cascade do |t|
     t.integer   "account_id",                       null: false
     t.integer   "type",                 default: 0, null: false
@@ -266,7 +261,5 @@ ActiveRecord::Schema.define(version: 20160923100253) do
   add_foreign_key "people", "accounts", on_delete: :cascade
   add_foreign_key "recommendation_notes", "accounts", on_delete: :cascade
   add_foreign_key "spending_infos", "people", on_delete: :cascade
-  add_foreign_key "transferabilities", "currencies", column: "from_id"
-  add_foreign_key "transferabilities", "currencies", column: "to_id"
   add_foreign_key "travel_plans", "accounts", on_delete: :cascade
 end
