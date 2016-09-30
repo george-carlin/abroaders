@@ -8,6 +8,9 @@ Form objects are an extra layer in between controllers and models, and are
 responsible for **validating** and **persisting** data - two actions which
 in a regular rails app are handled by the model layer.
 
+FOs should **not** do anything except validate and persist data. If it's not
+related to these two operations, don't put it in a form object
+
 ## How do I do it?
 
 1.  Create a new class that inherits from `ApplicationForm`. It will usually
@@ -25,6 +28,9 @@ in a regular rails app are handled by the model layer.
     (Like other `Application*` classes (`ApplicationRecord`, `ApplicationJob`
     etc), `ApplicationForm` should never be instantiated directly; we only care
     about its subclasses.)
+
+    There will generally be a one-to-one correspondence between attributes
+    of the FO and inputs on the HTML form in the view.
 
 2.  Add validations if you need them, and define a (private) method called
     `#persist!` that assumes your data is valid and saves everything to the DB
@@ -136,6 +142,8 @@ in a regular rails app are handled by the model layer.
    Virtus.
 4. Don't start a form object's name with `Create` or `Update`. Use `New` and
    `Edit` instead.
+5. Don't wrap the code inside `persist!` in a transaction. That's already
+   being handled in the superclass.
 
 ## A quick gotcha
 
