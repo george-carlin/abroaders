@@ -1,4 +1,4 @@
-const React      = require("react");
+import React, { PropTypes } from "react";
 const classNames = require("classnames");
 
 // A Bootstrap-style alert. See http://getbootstrap.com/components/#alerts
@@ -20,10 +20,10 @@ const Alert = (_props) => {
 };
 
 Alert.propTypes = {
-  danger:  React.PropTypes.bool,
-  info:    React.PropTypes.bool,
-  success: React.PropTypes.bool,
-  warning: React.PropTypes.bool,
+  danger:  PropTypes.bool,
+  info:    PropTypes.bool,
+  success: PropTypes.bool,
+  warning: PropTypes.bool,
 };
 
 module.exports = Alert;

@@ -1,4 +1,4 @@
-const React      = require("react");
+import React, { PropTypes } from "react";
 const classNames = require("classnames");
 
 // TODO: rename this to "TextField" and create another component called
@@ -33,9 +33,9 @@ const TextFieldTag = (_props) => {
 };
 
 TextFieldTag.propTypes = {
-  attribute: React.PropTypes.string.isRequired,
-  modelName: React.PropTypes.string.isRequired,
-  small:     React.PropTypes.bool,
+  attribute: PropTypes.string.isRequired,
+  modelName: PropTypes.string.isRequired,
+  small:     PropTypes.bool,
 };
 
 module.exports = TextFieldTag;

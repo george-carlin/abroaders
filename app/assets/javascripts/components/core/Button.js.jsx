@@ -1,4 +1,4 @@
-const React      = require("react");
+import React, { PropTypes } from "react";
 const classNames = require("classnames");
 
 const Button = (_props) => {
@@ -21,12 +21,12 @@ const Button = (_props) => {
 };
 
 Button.propTypes = {
-  className: React.PropTypes.string,
-  default:   React.PropTypes.bool,
-  large:     React.PropTypes.bool,
-  link:      React.PropTypes.bool,
-  primary:   React.PropTypes.bool,
-  small:     React.PropTypes.bool,
+  className: PropTypes.string,
+  default:   PropTypes.bool,
+  large:     PropTypes.bool,
+  link:      PropTypes.bool,
+  primary:   PropTypes.bool,
+  small:     PropTypes.bool,
 };
 
 module.exports = Button;

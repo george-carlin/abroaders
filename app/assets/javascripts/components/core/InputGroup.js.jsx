@@ -1,4 +1,4 @@
-const React = require("react");
+import React, { PropTypes } from "react";
 
 // A Bootstrap-style input group. See http://getbootstrap.com/components/#input-groups
 //
@@ -42,8 +42,8 @@ const InputGroup = (_props) => {
 };
 
 InputGroup.propTypes = {
-  addonAfter:  React.PropTypes.string,
-  addonBefore: React.PropTypes.string,
+  addonAfter:  PropTypes.string,
+  addonBefore: PropTypes.string,
 };
 
 module.exports = InputGroup;

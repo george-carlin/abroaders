@@ -1,4 +1,4 @@
-const React = require("react");
+import React, { PropTypes } from "react";
 
 // modelName: "person", attribute: "ready", value="true" will create a radio
 // button with name="person[ready]" and value="true". This keeps things in line
@@ -23,10 +23,10 @@ const RadioButton = (_props) => {
 };
 
 RadioButton.propTypes = {
-  attribute: React.PropTypes.string.isRequired,
-  checked:   React.PropTypes.bool,
-  modelName: React.PropTypes.string.isRequired,
-  value:     React.PropTypes.string.isRequired,
+  attribute: PropTypes.string.isRequired,
+  checked:   PropTypes.bool,
+  modelName: PropTypes.string.isRequired,
+  value:     PropTypes.string.isRequired,
 };
 
 module.exports = RadioButton;

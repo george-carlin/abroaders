@@ -1,4 +1,4 @@
-const React      = require("react");
+import React, { PropTypes } from "react";
 const classNames = require("classnames");
 
 const Table = (_props) => {
@@ -16,8 +16,8 @@ const Table = (_props) => {
 };
 
 Table.propTypes = {
-  className: React.PropTypes.string,
-  striped:   React.PropTypes.bool,
+  className: PropTypes.string,
+  striped:   PropTypes.bool,
 };
 
 module.exports = Table;
