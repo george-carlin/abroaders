@@ -1,8 +1,6 @@
 /* eslint react/no-did-mount-set-state: 0 */
 const React = require('react');
 
-const HiddenFieldTag = require("./HiddenFieldTag");
-
 // Rails form tags automatically generate a hidden field called
 // 'authenticity_token' that's used to provide CSRF security. Add
 // AuthTokenField to your React forms to get the same CSRF protection - else
@@ -24,8 +22,9 @@ const AuthTokenField = React.createClass({
 
   render() {
     return (
-      <HiddenFieldTag
+      <input
         name="authenticity_token"
+        type="hidden"
         value={this.state.csrfToken}
       />
     );

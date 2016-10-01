@@ -2,7 +2,6 @@ import React, { PropTypes } from "react";
 const _     = require("underscore");
 
 const AuthTokenField = require("./AuthTokenField");
-const HiddenFieldTag = require("./HiddenFieldTag");
 
 const Form = (_props) => {
   let methodHiddenInput;
@@ -11,7 +10,13 @@ const Form = (_props) => {
   if (!["get", "post"].includes(props.method)) {
     props.method = "post";
     // A Railsy tag for faking 'delete', 'put' etc HTTP requests:
-    methodHiddenInput = <HiddenFieldTag name="_method" value={props.method} />;
+    methodHiddenInput = (
+      <input
+        name="_method"
+        type="hidden"
+        value={props.method}
+      />
+    );
   }
 
   return (
