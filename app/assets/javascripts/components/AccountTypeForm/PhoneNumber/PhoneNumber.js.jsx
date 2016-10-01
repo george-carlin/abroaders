@@ -2,7 +2,7 @@ const React = require("react");
 
 const HelpBlock = require("../../core/HelpBlock");
 const FormGroup = require("../../core/FormGroup");
-const TextField = require("../../core/TextFieldTag");
+const TextField = require("../../core/TextField");
 
 const PhoneNumber = React.createClass({
   propTypes: {

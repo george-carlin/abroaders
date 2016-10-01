@@ -3,7 +3,7 @@ const React = require("react");
 const Alert     = require("../../core/Alert");
 const Button    = require("../../core/Button");
 const FormGroup = require("../../core/FormGroup");
-const TextField = require("../../core/TextFieldTag");
+const TextField = require("../../core/TextField");
 
 const NameField = React.createClass({
   propTypes: {
