@@ -14,6 +14,7 @@
     "react"
   ],
   "rules": {
+    "array-bracket-spacing": 0,
     "arrow-body-style": 0,
     "comma-dangle" : [1, "always-multiline" ],
     "comma-spacing" : 1,
