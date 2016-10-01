@@ -1,4 +1,4 @@
-const React = require("react");
+import React, { PropTypes } from "react";
 
 const RadioButton = require("./RadioButton");
 
@@ -24,7 +24,7 @@ Radio.propTypes = Object.assign(
   {},
   RadioButton.propTypes,
   {
-    labelText: React.PropTypes.string,
+    labelText: PropTypes.string,
   }
 );
 

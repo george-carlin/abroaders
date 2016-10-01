@@ -1,4 +1,4 @@
-const React      = require("react");
+import React, { PropTypes } from "react";
 const classNames = require("classnames");
 
 // modelName: "person", attribute: "age", will create an input button with
@@ -22,9 +22,9 @@ const NumberField = (_props) => {
 };
 
 NumberField.propTypes = {
-  attribute: React.PropTypes.string.isRequired,
-  modelName: React.PropTypes.string.isRequired,
-  small:     React.PropTypes.bool,
+  attribute: PropTypes.string.isRequired,
+  modelName: PropTypes.string.isRequired,
+  small:     PropTypes.bool,
 };
 
 module.exports = NumberField;

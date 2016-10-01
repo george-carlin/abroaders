@@ -1,4 +1,4 @@
-const React      = require("react");
+import React, { PropTypes } from "react";
 const classNames = require("classnames");
 
 const ButtonGroup = (_props) => {
@@ -9,7 +9,7 @@ const ButtonGroup = (_props) => {
 };
 
 ButtonGroup.propTypes = {
-  className: React.PropTypes.string,
+  className: PropTypes.string,
 };
 
 module.exports = ButtonGroup;
