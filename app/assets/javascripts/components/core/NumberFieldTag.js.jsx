@@ -1,8 +1,8 @@
 import React, { PropTypes } from "react";
 import classNames from "classnames";
 
-// a text <input> with a bootstrap form-control class and optional 'input-sm'
-const TextFieldTag = (_props) => {
+// a number <input> with a bootstrap form-control class and optional 'input-sm'
+const NumberFieldTag = (_props) => {
   const props = Object.assign({}, _props);
 
   props.className = classNames([
@@ -13,11 +13,11 @@ const TextFieldTag = (_props) => {
     },
   ]);
 
-  return <input {...props} type="text" />;
+  return <input {...props} type="number" />;
 };
 
-TextFieldTag.propTypes = {
+NumberFieldTag.propTypes = {
   small: PropTypes.bool,
 };
 
-module.exports = TextFieldTag;
+module.exports = NumberFieldTag;

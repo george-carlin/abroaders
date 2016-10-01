@@ -1,30 +1,31 @@
 import React, { PropTypes } from "react";
-const classNames = require("classnames");
+import classNames from "classnames";
 
-// modelName: "person", attribute: "age", will create an input button with
-// name="person[age]". This keeps things in line with the attribute names in a
-// normal Rails form.
+const NumberFieldTag = require("./NumberFieldTag");
+
+// Extend NumberFieldTag with Rails-style attributes:
+//
+//  <NumberField modelName="person" attribute="age" />
+//  // =
+//  <NumberFieldTag
+//    id="person_age"
+//    name="person[age]"
+//  />
 const NumberField = (_props) => {
   const props = Object.assign({}, _props);
+  props.id   = `${props.modelName}_${props.attribute}`;
+  props.name = `${props.modelName}[${props.attribute}]`;
 
-  const id   = `${props.modelName}_${props.attribute}`;
-  const name = `${props.modelName}[${props.attribute}]`;
-
-  props.className = classNames([
-    props.className,
-    {
-      "form-control": true,
-      "input-sm":     props.small,
-    },
-  ]);
-
-  return <input id={id} name={name} type="number" {...props} />;
+  return <input {...props} type="number" {...props} />;
 };
 
-NumberField.propTypes = {
-  attribute: PropTypes.string.isRequired,
-  modelName: PropTypes.string.isRequired,
-  small:     PropTypes.bool,
-};
+NumberField.propTypes = Object.assign(
+  {},
+  NumberFieldTag.propTypes,
+  {
+    attribute: PropTypes.string.isRequired,
+    modelName: PropTypes.string.isRequired,
+  }
+);
 
 module.exports = NumberField;
