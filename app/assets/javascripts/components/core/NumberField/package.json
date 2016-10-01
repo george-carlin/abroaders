@@ -1,6 +1,0 @@
-{
-  "name": "NumberField",
-  "version": "0.0.1",
-  "private": true,
-  "main": "./NumberField.js.jsx"
-}
