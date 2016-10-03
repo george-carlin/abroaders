@@ -73,7 +73,12 @@ Rails.application.routes.draw do
     end
   end
 
-  resource :readiness, only: [:edit, :update]
+  resource :readiness, only: [:edit, :update] do
+    collection do
+      get  :survey
+      post :survey, action: :save_survey
+    end
+  end
 
   resources :notifications, only: :show
 

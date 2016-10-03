@@ -29,7 +29,7 @@ class OnboardingSurvey
 
   attribute :account, Account
 
-  delegate :owner, :companion, :has_companion?, to: :account
+  delegate :owner, :companion, :has_companion?, :eligible?, to: :account
 
   def pages
     raise "account must be present" unless account.present?
@@ -58,11 +58,23 @@ class OnboardingSurvey
           required:    true,
           revisitable: false,
           submission_paths: [solo_account_path, partner_account_path],
-        },
+        }
       ]
+
+      # account readiness
+      readiness_page =
+        {
+          complete:    account.onboarded_readiness?,
+          path:        survey_readiness_path,
+          required:    eligible?,
+          revisitable: false,
+          submission_paths: survey_readiness_path,
+        }
 
       pages.concat(pages_for_person(owner))
       pages.concat(pages_for_person(companion)) if has_companion?
+
+      pages.push(readiness_page)
 
       pages.map { |page| Page.new(page) }
     end

@@ -38,18 +38,8 @@ class BalancesController < AuthenticatedUserController
     @survey.assign_attributes(survey_params)
     @survey.award_wallet_email = params[:balances_survey_award_wallet_email]
     if @survey.save
-      # reload the account first or onboarding_survey.complete? will return a false negative
-      onboarding_survey = current_account.reload.onboarding_survey
-      if onboarding_survey.complete?
-        AccountMailer.notify_admin_of_survey_completion(
-          current_account.id, Time.now.to_i
-        ).deliver_later
-        next_path = root_path
-      else
-        next_path = onboarding_survey.current_page.path
-      end
       track_intercom_event("obs_balances_#{@person.type[0..2]}")
-      redirect_to next_path
+      redirect_to survey_readiness_path
     else
       render "survey"
     end
