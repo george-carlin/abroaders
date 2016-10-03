@@ -54,6 +54,9 @@ describe OnboardingSurvey do
     expect(survey).not_to be_complete
 
     onboard_balances!(account.owner)
+    expect(survey).not_to be_complete
+
+    onboarded_readiness!
     expect(survey).to be_complete
   end
 
@@ -108,6 +111,10 @@ describe OnboardingSurvey do
     expect(survey).not_to be_complete
 
     onboard_balances!(account.companion)
+    expect(survey.current_page.path).to eq survey_readiness_path
+    expect(survey).not_to be_complete
+
+    onboarded_readiness!
     expect(survey.current_page).to be_nil
     expect(survey).to be_complete
   end
@@ -135,6 +142,10 @@ describe OnboardingSurvey do
     expect(survey).not_to be_complete
 
     onboard_balances!(account.companion)
+    expect(survey.current_page.path).to eq survey_readiness_path
+    expect(survey).not_to be_complete
+
+    onboarded_readiness!
     expect(survey.current_page).to be_nil
     expect(survey).to be_complete
   end
@@ -162,6 +173,10 @@ describe OnboardingSurvey do
     expect(survey).not_to be_complete
 
     onboard_balances!(account.companion)
+    expect(survey.current_page.path).to eq survey_readiness_path
+    expect(survey).not_to be_complete
+
+    onboarded_readiness!
     expect(survey.current_page).to be_nil
     expect(survey).to be_complete
   end
@@ -196,5 +211,9 @@ describe OnboardingSurvey do
 
   def onboard_cards!(person)
     person.onboarded_cards = true
+  end
+
+  def onboarded_readiness!
+    account.onboarded_readiness = true
   end
 end

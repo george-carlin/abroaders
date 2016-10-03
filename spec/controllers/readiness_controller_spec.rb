@@ -6,7 +6,7 @@ describe ReadinessController do
     subject { get :edit }
 
     context "when account has companion" do
-      let(:account) { create(:account, :with_companion, :onboarded_cards, :onboarded_balances) }
+      let(:account) { create(:account, :with_companion, :onboarded) }
       before { sign_in account }
 
       context "when account owner and member are ineligible" do
@@ -27,7 +27,7 @@ describe ReadinessController do
     end
 
     context "when account hasn't companion" do
-      let(:account) { create(:account, :onboarded_cards, :onboarded_balances) }
+      let(:account) { create(:account, :onboarded) }
       before { sign_in account }
 
       context "when account owner is ineligible" do

@@ -13,12 +13,12 @@ class ReadinessController < AuthenticatedUserController
 
     case @readiness.who
     when ReadinessForm::WHO[:both]
-      track_intercom_event("obs_ready_owner")
-      track_intercom_event("obs_ready_companion")
+      track_intercom_event("obs_ready_own")
+      track_intercom_event("obs_ready_com")
     when ReadinessForm::WHO[:owner]
-      track_intercom_event("obs_ready_owner")
+      track_intercom_event("obs_ready_own")
     when ReadinessForm::WHO[:companion]
-      track_intercom_event("obs_ready_companion")
+      track_intercom_event("obs_ready_com")
     else
       raise RuntimeError
     end
@@ -39,7 +39,7 @@ class ReadinessController < AuthenticatedUserController
 
     if @readiness_survey.update_attributes(readiness_survey_params)
       @account.people.each do |person|
-        track_intercom_event("obs_#{"un" unless person.ready?}ready_#{person.type}")
+        track_intercom_event("obs_#{"un" unless person.ready?}ready_#{person.type[0..2]}")
       end
 
       # reload the account first or onboarding_survey.complete? will return a false negative
