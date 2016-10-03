@@ -2,6 +2,11 @@
 
 ## October 2016
 
+*   Add readiness question at the end of the onboarding survey.
+    Pivotal Tracker #131360373 GH #54
+
+    *Boris Shatalov*
+
 *   Create a helper method 'n' that intelligently displays "you"
     or a person's name depending on whether or not the current
     account has a companion. Pivotal Tracker #130622249, GH #49
@@ -13,7 +18,6 @@
     *George Millo*
 
 *   Add <HiddenField> component
-
     *George Millo*
 
 *   Add PostAffiliatePro tracking code

@@ -14,6 +14,14 @@ class Account < ApplicationRecord
     onboarded_home_airports? && onboarded_travel_plans? && onboarded_type? && people.any? && people.all?(&:onboarded?)
   end
 
+  def eligible?
+    if has_companion?
+      owner.eligible? || companion.eligible?
+    else
+      owner.eligible?
+    end
+  end
+
   def recommendations_expire_at
     expiring_recommendations = card_recommendations.unresolved.unapplied
     return if expiring_recommendations.none?

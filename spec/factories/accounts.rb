@@ -75,8 +75,13 @@ FactoryGirl.define do
       end
     end
 
-    trait :onboarded do
+    trait :onboarded_readiness do
       onboarded_spending
+      onboarded_readiness true
+    end
+
+    trait :onboarded do
+      onboarded_readiness
       after(:build) do |acc|
         acc.people.each do |person|
           person.onboarded_cards = person.onboarded_balances = true

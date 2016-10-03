@@ -49,7 +49,7 @@ class BalancesController < AuthenticatedUserController
         next_path = onboarding_survey.current_page.path
       end
       track_intercom_event("obs_balances_#{@person.type[0..2]}")
-      redirect_to next_path
+      redirect_to survey_readiness_path
     else
       render "survey"
     end

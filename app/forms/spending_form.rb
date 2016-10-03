@@ -4,8 +4,6 @@ class SpendingForm < ApplicationForm
   attribute :credit_score,          Integer
   attribute :has_business,          String,  default: "no_business"
   attribute :will_apply_for_loan,   Boolean, default: false
-  attribute :ready,                 Boolean, default: true
-  attribute :unreadiness_reason,    String
 
   def self.name
     "SpendingInfo"
@@ -17,10 +15,6 @@ class SpendingForm < ApplicationForm
 
   def ask_for_personal_spending?
     persisted?
-  end
-
-  def ask_for_readiness?
-    !persisted?
   end
 
   # Validations

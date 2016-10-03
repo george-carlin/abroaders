@@ -1,5 +1,5 @@
 <%= form_tag readiness_path, method: :patch do |f| %>
-  <% present @account do |account| %>
+  <% present @account, EditReadinessPresenter do |account| %>
     <% provide :title, "Update Readiness" %>
 
     <div class="row">
@@ -15,6 +15,7 @@
               ready to apply for cards now?
             </h1>
           </div><!-- .panel-heading -->
+
           <div class="panel-body">
             <p>
               <% if account.both_can_update_ready? %>
@@ -72,12 +73,12 @@
                 <div class="col-xs-12 col-sm-4 col-lg-3">
                   <%= account.cancel_btn %>
                 </div>
-              </div>
-            <% end %>
-          </div>
+              <% end %>
+            </div>
           </div>
         </div>
       </div>
+    </div>
     </div>
   <% end %>
 <% end %>

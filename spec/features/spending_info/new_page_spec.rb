@@ -33,8 +33,6 @@ describe "the spending info survey", :onboarding do
     expect(page).to have_field :spending_info_has_business_with_ein
     expect(page).to have_field :spending_info_has_business_without_ein
     expect(page).to have_field :spending_info_has_business_no_business, checked: true
-    expect(page).to have_field :spending_info_ready_true
-    expect(page).to have_field :spending_info_ready_false
     # Not initially visible:
     expect(page).to have_no_field :spending_info_business_spending_usd
     expect(page).to have_no_field :spending_info_unreadiness_reason
@@ -51,13 +49,6 @@ describe "the spending info survey", :onboarding do
     expect(page).to have_no_field :spending_info_business_spending_usd
   end
 
-  example "hiding and showing unreadiness reason field", :js do
-    choose :spending_info_ready_false
-    expect(page).to have_field :spending_info_unreadiness_reason
-    choose :spending_info_ready_true
-    expect(page).to have_no_field :spending_info_unreadiness_reason
-  end
-
   specify "don't save business spending when person has no business", :js do
     fill_in :spending_info_credit_score, with: 456
 
@@ -69,18 +60,6 @@ describe "the spending info survey", :onboarding do
 
     spending_info = SpendingInfo.last
     expect(spending_info.business_spending_usd).to be_blank
-  end
-
-  specify "don't save unreadiness reason when person is ready", :js do
-    fill_in :spending_info_credit_score, with: 456
-
-    choose :spending_info_ready_false
-    fill_in :spending_info_unreadiness_reason, with: "Something"
-    choose :spending_info_ready_true
-
-    expect { submit_form }.to change { SpendingInfo.count }.by(1)
-
-    expect(person.reload.unreadiness_reason).to be_nil
   end
 
   specify "submitting invalid form doesn't forget business info", :js do # bug fix
@@ -108,34 +87,11 @@ describe "the spending info survey", :onboarding do
     fill_in :spending_info_business_spending_usd, with: 5000
     expect { submit_form }.to change { SpendingInfo.count }.by(1)
 
-    expect(person.reload).to be_ready
-
     new_info = SpendingInfo.last
     expect(new_info.credit_score).to eq 456
     expect(new_info.will_apply_for_loan).to be_truthy
     expect(new_info.has_business).to eq "without_ein"
     expect(new_info.business_spending_usd).to eq 5000
-  end
-
-  specify "submitting valid info, unready, no reason given" do
-    fill_in :spending_info_credit_score, with: 456
-    choose  :spending_info_ready_false
-    expect { submit_form }.to change { SpendingInfo.count }.by(1)
-
-    person.reload
-    expect(person).to be_unready
-    expect(person.unreadiness_reason).to be_nil
-  end
-
-  specify "submitting valid info, unready with reason given", :js do
-    fill_in :spending_info_credit_score, with: 456
-    choose  :spending_info_ready_false
-    fill_in :spending_info_unreadiness_reason, with: "Qwerty"
-    expect { submit_form }.to change { SpendingInfo.count }.by(1)
-
-    person.reload
-    expect(person).to be_unready
-    expect(person.unreadiness_reason).to eq "Qwerty"
   end
 
   specify "after submitting the form I'm taken to the card survey page" do
@@ -146,32 +102,16 @@ describe "the spending info survey", :onboarding do
 
   example "tracking intercom events for owner", :intercom do
     fill_in :spending_info_credit_score, with: 456
-    expect { submit_form }.to \
-      track_intercom_event("obs_spending_own", "obs_ready_own").for_email(account.email)
+    expect{submit_form}.to \
+      track_intercom_event("obs_spending_own").for_email(account.email)
   end
 
   example "tracking intercom events for companion", :intercom do
     create_companion!
     visit new_person_spending_info_path(@companion)
     fill_in :spending_info_credit_score, with: 456
-    expect { submit_form }.to \
-      track_intercom_event("obs_spending_com", "obs_ready_com").for_email(account.email)
-  end
-
-  example "tracking intercom events for unready owner", :intercom do
-    fill_in :spending_info_credit_score, with: 456
-    choose :spending_info_ready_false
-    expect { submit_form }.to \
-      track_intercom_event("obs_spending_own", "obs_unready_own").for_email(account.email)
-  end
-
-  example "tracking intercom events for unready companion", :intercom do
-    create_companion!
-    visit new_person_spending_info_path(@companion)
-    fill_in :spending_info_credit_score, with: 456
-    choose :spending_info_ready_false
-    expect { submit_form }.to \
-      track_intercom_event("obs_spending_com", "obs_unready_com").for_email(account.email)
+    expect{submit_form}.to \
+      track_intercom_event("obs_spending_com").for_email(account.email)
   end
 
   example "submitting invalid information" do
