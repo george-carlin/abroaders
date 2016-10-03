@@ -1,0 +1,97 @@
+<% provide :title, "Readiness" %>
+<% provide :no_sidebar, true %>
+
+<div class="hpanel readiness-survey">
+  <div class="panel-heading hbuilt">
+    <div class="row">
+      <div class="col-xs-12 greeting-message">
+        <h1>Are you ready to start earnings points?</h1>
+        <p class="helper-text"><%= t("readiness.explanation") %></p>
+      </div>
+    </div><!-- .row -->
+  </div>
+
+  <div class="panel-body">
+    <!-- TODO: replace it? -->
+    <p class="helper-text">
+      If you're able to apply for the card within the next few days,
+      click "Yes" below and we'll get working on the card recommendation
+      immediately. If, for whatever reason, you're not ready right now,
+      click "No" below and we'll ask again in a week.
+    </p>
+
+    <div class="col-md-9 col-md-offset-3">
+      <%= form_for @readiness_survey, url: survey_readiness_path do |f| %>
+        <div class="row">
+
+          <div class="col-xs-12 col-md-8">
+
+            <div class="row main-row">
+              <div class="col-xs-12">
+
+                <% present @account, SurveyReadinessPresenter do |account| %>
+
+                    <% if account.has_companion? %>
+
+                      <% if account.both_can_update_ready? %>
+                      <div class="btn-group both-people" data-toggle="buttons">
+                        <div class="row top-buttons-row">
+                          <div class="col-xs-12 col-md-6">
+                            <%= account.radio_as_button("Yes, we're both ready", ReadinessForm::WHO[:both], selected: true, icon: "thumbs-up") %>
+                          </div>
+                          <div class="col-xs-12 col-md-6">
+                            <%= account.radio_as_button("I'm ready, they aren't", ReadinessForm::WHO[:owner]) %>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-xs-12 col-md-6">
+                            <%= account.radio_as_button("They're ready, I'm not", ReadinessForm::WHO[:companion]) %>
+                          </div>
+                          <div class="col-xs-12 col-md-6">
+                            <%= account.radio_as_button("Neither of us are ready", ReadinessForm::WHO[:neither], icon: "") %>
+                          </div>
+                        </div>
+                      </div>
+
+                      <% else %>
+                        <div class="btn-group" data-toggle="buttons">
+                          <%= account.radio_as_button(
+                            "#{account.unready_person.first_name} is want to start earning points",
+                            account.unready_person.type,
+                            selected: true
+                          ) %>
+                          <%= account.radio_as_button("No, thanks", ReadinessForm::WHO[:neither]) %>
+                        </div>
+                      <% end %>
+
+                    <% else %>
+                      <div class="btn-group" data-toggle="buttons">
+                        <%= account.radio_as_button("I want to start earning points", ReadinessForm::WHO[:owner], selected: true) %>
+                        <%= account.radio_as_button("No, thanks", ReadinessForm::WHO[:neither], icon: "") %>
+                      </div>
+                    <% end %>
+
+                  <%= account.unreadiness_reason(account.owner) if account.owner.eligible? %>
+
+                  <% if account.has_companion? && account.companion.eligible? %>
+                    <%= account.unreadiness_reason(account.companion) %>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-12 col-md-6 col-md-offset-3">
+                <%= f.button type: "submit", class: "form-control btn btn-lg btn-primary" do %>
+                  <i class="fa fa-check" aria-hidden="true"></i>
+                  Save and continue
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div><!-- .panel-body -->
+</div>

@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## October 2016
+
+*   Add readiness question at the end of the onboarding survey.
+    Pivotal Tracker #131360373
+
+    *Boris Shatalov*
+
 ## September 2016
 
 *   Add `type` attribute to currencies; only show currencies of type 'airline'

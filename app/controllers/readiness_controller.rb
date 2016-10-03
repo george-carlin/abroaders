@@ -1,22 +1,24 @@
 class ReadinessController < AuthenticatedUserController
   def edit
     @account = current_account
+    @readiness = ReadinessForm.new(account: @account)
     redirect_if_ready_or_ineligible
   end
 
   def update
     @account = current_account
     redirect_if_ready_or_ineligible && return
-    who = readiness_params[:who]
+    @readiness = ReadinessForm.new(account: @account)
+    @readiness.update_attributes!(readiness_params)
 
-    case who
-    when "both"
-      update_person!(@account.owner, send_email: false)
-      update_person!(@account.companion)
-    when "owner"
-      update_person!(@account.owner)
-    when "companion"
-      update_person!(@account.companion)
+    case @readiness.who
+    when ReadinessForm::WHO[:both]
+      track_intercom_event("obs_ready_owner")
+      track_intercom_event("obs_ready_companion")
+    when ReadinessForm::WHO[:owner]
+      track_intercom_event("obs_ready_owner")
+    when ReadinessForm::WHO[:companion]
+      track_intercom_event("obs_ready_companion")
     else
       raise RuntimeError
     end
@@ -24,10 +26,47 @@ class ReadinessController < AuthenticatedUserController
     set_flash_and_redirect
   end
 
+  def survey
+    @account = current_account
+    redirect_if_ready_or_ineligible && return
+    @readiness_survey = ReadinessSurveyForm.new(account: @account)
+  end
+
+  def save_survey
+    @account = current_account
+    redirect_if_ready_or_ineligible && return
+    @readiness_survey = ReadinessSurveyForm.new(account: @account)
+
+    if @readiness_survey.update_attributes(readiness_survey_params)
+      @account.people.each do |person|
+        track_intercom_event("obs_#{"un" unless person.ready?}ready_#{person.type}")
+      end
+
+      # reload the account first or onboarding_survey.complete? will return a false negative
+      onboarding_survey = current_account.reload.onboarding_survey
+      if onboarding_survey.complete?
+        AccountMailer.notify_admin_of_survey_completion(
+          @account.id, Time.now.to_i
+        ).deliver_later
+        next_path = root_path
+      else
+        next_path = onboarding_survey.current_page.path
+      end
+
+      redirect_to next_path
+    else
+      render :survey
+    end
+  end
+
   private
 
   def readiness_params
     params.require(:readiness).permit(:who)
+  end
+
+  def readiness_survey_params
+    params.require(:readiness_survey).permit(:who, :owner_unreadiness_reason, :companion_unreadiness_reason)
   end
 
   def redirect_if_ready_or_ineligible
@@ -39,12 +78,6 @@ class ReadinessController < AuthenticatedUserController
       end
 
     redirect_to root_path unless access
-  end
-
-  def update_person!(person, send_email: true)
-    person.update!(ready: true)
-    track_intercom_event("obs_ready_#{person.type[0..2]}")
-    AccountMailer.notify_admin_of_user_readiness_update(@account.id, Time.now.to_i).deliver_later if send_email
   end
 
   def set_flash_and_redirect

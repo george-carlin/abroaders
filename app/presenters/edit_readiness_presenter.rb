@@ -1,11 +1,4 @@
 class EditReadinessPresenter < ReadinessPresenter
-  def unready_person
-    if has_companion? && (owner.ready? || owner.ineligible?)
-      return companion
-    end
-    owner
-  end
-
   def submit_btn
     h.submit_tag(
         "Submit",
