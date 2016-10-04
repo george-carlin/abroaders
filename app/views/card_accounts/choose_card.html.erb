@@ -39,17 +39,13 @@
               <div class="row">
                 <% cards.each do |card| %>
                   <% present card do |presented_card| %>
-                    <div class="col-xs-12 col-sm-4 col-md-3 col-xl-2">
+                    <div id="card-<%= presented_card.id %>" class="col-xs-12 col-sm-4 col-lg-3 col-xl-2">
                       <div class="card-box">
-                        <%= link_to new_card_card_account_path(presented_card) do %>
+                        <%= link_to new_card_card_account_path(presented_card), id: "new-card-link-#{presented_card.id}" do %>
                           <%= presented_card.image %>
                         <% end %>
-                        <p>
-                          <%= label_tag(presented_card.full_name) %>
-                        </p>
-                        <p>
-                          Annual fee: <%= presented_card.annual_fee %>/yr
-                        </p>
+                        <p class="card-fullname"><%= presented_card.full_name %></p>
+                        <p>Annual fee: <%= presented_card.annual_fee %>/yr</p>
                       </div>
                     </div>
                   <% end %>
