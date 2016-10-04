@@ -1,0 +1,72 @@
+<% provide :title, "Add new card" %>
+
+<div class="hpanel">
+  <div class="panel-heading hbuilt">
+    <div class="row">
+      <div class="col-xs-12">
+        <h1><%= @card_account.person.first_name %>'s Cards</h1>
+      </div>
+    </div><!-- .row -->
+  </div><!-- .panel-heading.hbuilt -->
+
+  <div class="panel-body">
+    <p>
+      <!--# TODO: replace-->
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc est mi, semper quis velit id, facilisis eleifend nibh.
+      Etiam dictum nisl non orci eleifend mattis. In non augue vel enim gravida pretium sed vel nulla.
+    </p>
+  </div><!-- .panel-body -->
+</div><!-- .hpanel -->
+
+<div class="choose-card-form-wrapper">
+  <% @card_account.each_section do |bank, cards_grouped_by_bp| %>
+
+    <div class="bank-section">
+
+      <div class="collapse-header">
+        <a data-toggle="collapse" href="#bank-collapse-<%= bank.id %>">
+          <h2><%= bank.name.upcase %></h2>
+        </a>
+        <i class="fa fa-sort-desc collapse-header" aria-hidden="true"></i>
+      </div>
+
+      <div id="bank-collapse-<%= bank.id %>" class="panel-collapse collapse">
+        <div id="<%= bank.to_param %>_cards">
+
+          <% cards_grouped_by_bp.each do |bp, cards| %>
+            <div id="<%= bank.to_param %>_<%= bp %>_cards">
+              <h4><%= bp.capitalize %> Cards</h4>
+              <div class="row">
+                <% cards.each do |card| %>
+                  <% present card do |presented_card| %>
+                    <div class="col-xs-12 col-sm-4 col-md-3 col-xl-2">
+                      <div class="card-box">
+                        <%= link_to new_card_card_account_path(presented_card) do %>
+                          <%= presented_card.image %>
+                        <% end %>
+                        <p>
+                          <%= label_tag(presented_card.full_name) %>
+                        </p>
+                        <p>
+                          Annual fee: <%= presented_card.annual_fee %>/yr
+                        </p>
+                      </div>
+                    </div>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+
+  <% end %>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <%= link_to "Back", card_accounts_path, class: "btn btn-primary btn-lg" %>
+    </div>
+  </div>
+</div>

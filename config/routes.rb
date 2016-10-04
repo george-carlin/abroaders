@@ -82,7 +82,15 @@ Rails.application.routes.draw do
   # except his own, and from his perspective he doesn't have a "card account"
   # in the app, he just has a "card". So show the path 'cards' to the user even
   # though we're dealing with the CardAccount model, not the Card model.
-  resources :card_accounts, path: :cards
+  resources :card_accounts, except: [:new, :create], path: :cards do
+    collection do
+      get :choose_card
+    end
+  end
+
+  resources :cards, only: [] do
+    resources :card_accounts, only: [:new, :create, :show]
+  end
 
   resources :card_recommendations do
     member do

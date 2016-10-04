@@ -1,26 +1,17 @@
-class EditCardAccountForm < ApplicationForm
+class EditCardAccountForm < CardAccountForm
   attribute :id, Integer
-  attribute :opened_year, String
-  attribute :opened_month, String
-  attribute :closed_year, String
-  attribute :closed_month, String
-  attribute :closed, Boolean
-
-  def self.name
-    "CardAccount"
-  end
 
   def self.find(id)
     card_account = ::CardAccount.find(id)
     new_attributes = {
-        opened_year:  card_account.opened_at.year,
-        opened_month: card_account.opened_at.month
+      opened_year:  card_account.opened_at.year,
+      opened_month: card_account.opened_at.month
     }
 
     if card_account.closed?
       new_attributes[:closed] = true
       new_attributes[:closed_year] = card_account.closed_at.year,
-      new_attributes[:closed_month] = card_account.closed_at.month
+                                     new_attributes[:closed_month] = card_account.closed_at.month
     else
       new_attributes[:closed] = false
     end
@@ -32,6 +23,10 @@ class EditCardAccountForm < ApplicationForm
     @card_account ||= CardAccount.find(id)
   end
 
+  def card
+    @card ||= card_account.card
+  end
+
   def persisted?
     true
   end
@@ -40,7 +35,7 @@ class EditCardAccountForm < ApplicationForm
 
   def persist!
     attributes = {
-        opened_at: end_of_month(opened_year, opened_month)
+      opened_at: end_of_month(opened_year, opened_month)
     }
 
     if closed
@@ -50,9 +45,5 @@ class EditCardAccountForm < ApplicationForm
     end
 
     card_account.update!(attributes)
-  end
-
-  def end_of_month(year, month)
-    Date.parse("#{year}-#{month}-01").end_of_month
   end
 end

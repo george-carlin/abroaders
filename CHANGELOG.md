@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## October 2016
+
+*   Add ability to create `CardAccount` after the onboarding survey.
+    Pivotal Tracker #129986259
+
+    *Boris Shatalov*
+
 ## September 2016
 
 *   Add `type` attribute to currencies; only show currencies of type 'airline'
