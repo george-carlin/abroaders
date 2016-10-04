@@ -151,14 +151,16 @@ perfectly, so some older commits won't have followed the above procedures.
    strict -  the occasional 83-character line isn't going to kill anybody - but
    stick to 80 as a general principle.
 
--  We don't support IE &lt; 10. If someone doesn't want to upgrade to a modern
-   browser, that's their problem, not ours.
-
 -  Only use `.gitignore` to ignore files that are actually specific to Rails
    and to the codebase itself. If you want to ignore files that are specific to
    your own IDE or text editor (`.swp`, `.idea`, etc), those belong in a
    [global gitignore file](https://help.github.com/articles/ignoring-files/#create-a-global-gitignore)
    on your own machine, not in this codebase's `.gitignore`.
+
+## Browser support
+
+-  We don't support IE &lt; 10. If someone doesn't want to upgrade to a modern
+   browser, that's their problem, not ours.
 
 ## Ruby
 
