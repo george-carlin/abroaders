@@ -8,14 +8,6 @@ class ReadinessSurveyForm < ReadinessForm
 
   private
 
-  def owner
-    @owner ||= account.owner
-  end
-
-  def companion
-    @companion ||= account.companion
-  end
-
   def persist!
     super
 
@@ -28,9 +20,5 @@ class ReadinessSurveyForm < ReadinessForm
     end
 
     account.update!(onboarded_readiness: true)
-  end
-
-  def update_person!(person, send_email: false)
-    person.update!(ready: true)
   end
 end

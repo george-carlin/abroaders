@@ -23,6 +23,8 @@ class ReadinessController < AuthenticatedUserController
       raise RuntimeError
     end
 
+    AccountMailer.notify_admin_of_user_readiness_update(@account.id, Time.now.to_i).deliver_later
+
     set_flash_and_redirect
   end
 

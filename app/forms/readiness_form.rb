@@ -9,26 +9,29 @@ class ReadinessForm < ApplicationForm
     neither: "neither"
   }
 
+  def owner
+    @owner ||= account.owner
+  end
+
+  def companion
+    @companion ||= account.companion
+  end
+
   private
 
   def persist!
     case who
     when WHO[:both]
-      update_person!(account.owner)
-      update_person!(account.companion, send_email: false)
+      owner.update!(ready: true)
+      companion.update!(ready: true)
     when WHO[:owner]
-      update_person!(account.owner)
+      owner.update!(ready: true)
     when WHO[:companion]
-      update_person!(account.companion)
+      companion.update!(ready: true)
     when WHO[:neither]
     else
       raise RuntimeError
     end
-  end
-
-  def update_person!(person, send_email: true)
-    person.update!(ready: true)
-    AccountMailer.notify_admin_of_user_readiness_update(account.id, Time.now.to_i).deliver_later if send_email
   end
 end
 
