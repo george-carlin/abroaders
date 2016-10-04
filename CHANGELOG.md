@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## October 2016
+
+*   Add `regions of interest` page.
+    Pivotal Tracker #130901163
+
+    *Boris Shatalov*
+
 ## September 2016
 
 *   Add `type` attribute to currencies; only show currencies of type 'airline'

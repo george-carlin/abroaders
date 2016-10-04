@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160929214946) do
+ActiveRecord::Schema.define(version: 20161004054532) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -138,13 +138,17 @@ ActiveRecord::Schema.define(version: 20160929214946) do
   end
 
   create_table "destinations", force: :cascade do |t|
-    t.string   "name",                       null: false
-    t.string   "code",                       null: false
+    t.string   "name",                           null: false
+    t.string   "code",                           null: false
     t.integer  "parent_id"
-    t.integer  "children_count", default: 0, null: false
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.string   "type",                       null: false
+    t.integer  "children_count",     default: 0, null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.string   "type",                           null: false
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
     t.index ["code", "type"], name: "index_destinations_on_code_and_type", unique: true, using: :btree
     t.index ["name"], name: "index_destinations_on_name", using: :btree
     t.index ["parent_id"], name: "index_destinations_on_parent_id", using: :btree
@@ -162,6 +166,16 @@ ActiveRecord::Schema.define(version: 20160929214946) do
     t.index ["to_id"], name: "index_flights_on_to_id", using: :btree
     t.index ["travel_plan_id", "position"], name: "index_flights_on_travel_plan_id_and_position", unique: true, using: :btree
     t.index ["travel_plan_id"], name: "index_flights_on_travel_plan_id", using: :btree
+  end
+
+  create_table "interest_regions", force: :cascade do |t|
+    t.integer  "account_id", null: false
+    t.integer  "region_id",  null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "region_id"], name: "index_interest_regions_on_account_id_and_region_id", unique: true, using: :btree
+    t.index ["account_id"], name: "index_interest_regions_on_account_id", using: :btree
+    t.index ["region_id"], name: "index_interest_regions_on_region_id", using: :btree
   end
 
   create_table "notifications", force: :cascade do |t|
@@ -256,6 +270,8 @@ ActiveRecord::Schema.define(version: 20160929214946) do
   add_foreign_key "flights", "destinations", column: "from_id", on_delete: :restrict
   add_foreign_key "flights", "destinations", column: "to_id", on_delete: :restrict
   add_foreign_key "flights", "travel_plans", on_delete: :cascade
+  add_foreign_key "interest_regions", "accounts", on_delete: :cascade
+  add_foreign_key "interest_regions", "destinations", column: "region_id", on_delete: :restrict
   add_foreign_key "notifications", "accounts"
   add_foreign_key "offers", "cards", on_delete: :cascade
   add_foreign_key "people", "accounts", on_delete: :cascade

@@ -1,0 +1,63 @@
+.interest-regions-survey {
+  .submit-button {
+    height: 100%;
+    font-size: 22px;
+    @media (max-width: 425px) {
+      font-size: 16px;
+    }
+  }
+
+  .greeting-message {
+    text-align: center;
+    h1 {
+      font-weight: 700;
+      color: #34495e;
+    }
+  }
+
+  .helper-message {
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .panel-body {
+    border-top: none;
+    padding-bottom: 20px;
+    padding-top: 0;
+  }
+
+  .panel-heading {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  .regions-row {
+    margin-bottom: 20px;
+
+    .region-box {
+      margin-bottom: 50px;
+
+      .label-area {
+        label {
+          border-radius: 0;
+          border-width: 2px;
+        }
+      }
+
+      .image-area {
+        img {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+
+.btn span.fa {
+  opacity: 0;
+}
+.btn.active span.fa {
+  opacity: 1;
+}
