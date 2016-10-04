@@ -30,12 +30,12 @@ class ReadinessController < AuthenticatedUserController
 
   def survey
     @account = current_account
-    @readiness_survey = ReadinessSurveyForm.new(account: @account)
+    @readiness_survey = ReadinessSurvey.new(account: @account)
   end
 
   def save_survey
     @account = current_account
-    @readiness_survey = ReadinessSurveyForm.new(account: @account)
+    @readiness_survey = ReadinessSurvey.new(account: @account)
 
     if @readiness_survey.update_attributes(readiness_survey_params)
       @account.people.each do |person|

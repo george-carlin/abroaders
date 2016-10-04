@@ -1,4 +1,4 @@
-class ReadinessSurveyForm < ReadinessForm
+class ReadinessSurvey < ReadinessForm
   attribute :owner_unreadiness_reason,     String
   attribute :companion_unreadiness_reason, String
 

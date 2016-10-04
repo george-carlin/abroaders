@@ -64,6 +64,9 @@ class Account < ApplicationRecord
                           join_table: :accounts_home_airports,
                           association_foreign_key: :airport_id
 
+  has_many :interest_regions, dependent: :destroy
+  has_many :regions_of_interest, through: :interest_regions, source: :region
+
   # TODO these methods don't belong in here; updating the counter cache is a
   # responsibility of the Notification class, not the Account class
   def increment_unseen_notifications_count
