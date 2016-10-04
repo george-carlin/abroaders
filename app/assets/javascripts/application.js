@@ -29,6 +29,9 @@
 
 // Load all browserify modules below.
 
+// Polyfill must be loaded before everything else.
+require("babel-polyfill");
+
 // I really don't like this 'hybrid of Sprockets and Node' setup that we have,
 // but I'm still learning Node/Browserify etc and haven't figured out the
 // best way to handle things yet. The long-term solution will probably be
