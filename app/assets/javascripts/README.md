@@ -52,7 +52,8 @@
         let age  = 25,
             name = "George";
 
-- Favor `import` over `require`.
+- Favor `import` over `require`. This lets us do fancy stuff like
+  `import React, { PropTypes } from "react";` instead of 
 
 ## React.JS
 
