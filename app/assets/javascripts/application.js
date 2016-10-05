@@ -19,7 +19,6 @@
 //= require bootstrap.min
 //= require bootstrap-datepicker
 //= require jquery.tablesorter
-//= require es5-shim
 //= require underscore
 //= require metisMenu
 //= require typeahead.bundle.js
