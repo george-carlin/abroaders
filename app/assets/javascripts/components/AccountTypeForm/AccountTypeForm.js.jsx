@@ -14,22 +14,6 @@ const AccountTypeForm = React.createClass({
   },
 
 
-  getInitialState() {
-    // currentAction is one of "initial", "choosingSolo", "choosingCouples"
-    return { currentAction: "initial" };
-  },
-
-
-  onChooseCouples() {
-    this.setState({currentAction: "choosingCouples"});
-  },
-
-
-  onChooseSolo() {
-    this.setState({currentAction: "choosingSolo"});
-  },
-
-
   getTrip() {
     if (this.props.destinationName && this.props.destinationName.length) {
       return `trip to ${this.props.destinationName}`;
@@ -51,32 +35,15 @@ const AccountTypeForm = React.createClass({
         </div>
 
 
-        {(() => {
-          if (!(this.state.currentAction === "choosingCouples")) {
-            return (
-              <SoloForm
-                active={!(this.state.currentAction === "initial")}
-                onChoose={this.onChooseSolo}
-                ownerName={this.props.ownerName}
-                path={this.props.soloPath}
-              />
-            );
-          }
-        })()}
+        <SoloForm
+          ownerName={this.props.ownerName}
+          path={this.props.soloPath}
+        />
 
-        {(() => {
-          if (!(this.state.currentAction === "choosingSolo")) {
-            return (
-              <PartnerForm
-                active={!(this.state.currentAction === "initial")}
-                ownerName={this.props.ownerName}
-                onChoose={this.onChooseCouples}
-                path={this.props.partnerPath}
-              />
-            );
-          }
-        })()}
-
+        <PartnerForm
+          ownerName={this.props.ownerName}
+          path={this.props.partnerPath}
+        />
       </Row>
     );
   },
