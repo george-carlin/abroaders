@@ -31,6 +31,7 @@ describe "card accounts edit page", :js do
       expect(page).to have_content "Edit Card"
       expect(page).to have_selector "#edit_card_account_#{card_account.id}"
       expect(page).to have_button "Submit"
+      expect(page).to have_no_link "Back"
     end
 
     it "initially has no inputs for closed dates" do
@@ -117,6 +118,7 @@ describe "card accounts edit page", :js do
       expect(page).to have_content "Edit Card"
       expect(page).to have_selector "#edit_card_account_#{card_account.id}"
       expect(page).to have_button "Submit"
+      expect(page).to have_no_link "Back"
     end
 
     it "initially has inputs for closed dates" do

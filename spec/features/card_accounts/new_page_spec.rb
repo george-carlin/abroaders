@@ -79,6 +79,7 @@ describe "card accounts new page", :js do
         expect(page).to have_content "Add New Card"
         expect(page).to have_selector "#new_card_card_account"
         expect(page).to have_button "Submit"
+        expect(page).to have_link "Back"
       end
 
       it "initially has no inputs for closed dates" do
@@ -124,6 +125,7 @@ describe "card accounts new page", :js do
         expect(page).to have_content "Add New Card"
         expect(page).to have_selector "#new_card_card_account"
         expect(page).to have_button "Submit"
+        expect(page).to have_link "Back"
       end
 
       it "initially has no inputs for closed dates" do
