@@ -47,6 +47,9 @@ Rails.application.routes.draw do
     post :type, action: :submit_type
   end
 
+  get  "eligibility/survey", to: "eligibilities#survey", as: :survey_eligibility
+  post "eligibility/survey", to: "eligibilities#save_survey"
+
   get :slack, to: "slack_invites#new"
   post "slack/invite", to: "slack_invites#create"
 
