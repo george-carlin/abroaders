@@ -14,10 +14,11 @@ related to these two operations, don't put it in a form object
 ## How do I do it?
 
 1.  Create a new class that inherits from `ApplicationForm`. It will usually
-    (but it doesn't *have to*) have a name that ends in 'Form'. Define
-    the attributes that the form has using Virtus (there should generally be a one-to-one
-    correspondence with the class's attributes and the fields on the form
-    in the web page):
+    (but it doesn't *have to*) have a name that ends in `Form` (for example
+    it could have a name that ends in `Survey`. Define the attributes that the
+    form has using Virtus. There should generally be a one-to-one
+    correspondence with the class's attributes and the fields on the form in
+    the web page:
 
         class WidgetForm < ApplicationForm
           attribute :name,    String
@@ -28,9 +29,6 @@ related to these two operations, don't put it in a form object
     (Like other `Application*` classes (`ApplicationRecord`, `ApplicationJob`
     etc), `ApplicationForm` should never be instantiated directly; we only care
     about its subclasses.)
-
-    There will generally be a one-to-one correspondence between attributes
-    of the FO and inputs on the HTML form in the view.
 
 2.  Add validations if you need them, and define a (private) method called
     `#persist!` that assumes your data is valid and saves everything to the DB
