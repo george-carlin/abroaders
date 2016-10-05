@@ -53,7 +53,6 @@ describe "account type select page", :js, :onboarding do
       expect(form).to have_no_couples_form
       expect(form).to have_no_solo_btn
       expect(page).to have_field :solo_account_monthly_spending_usd
-      expect(page).to have_field :solo_account_eligible_true
       expect(page).to have_field :solo_account_eligible_false
       expect(page).to have_field :solo_account_phone_number
     end

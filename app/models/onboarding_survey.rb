@@ -67,6 +67,14 @@ class OnboardingSurvey
           revisitable: false,
           submission_paths: spending_info_path,
         },
+
+        { # eligibility
+          complete:    false,
+          path:        survey_eligibility_path,
+          required:    true,
+          revisitable: false,
+          submission_paths: [eligibility_path],
+        },
       ]
 
       pages.concat(pages_for_person(owner))

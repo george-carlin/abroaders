@@ -1,0 +1,60 @@
+<% provide :title, "Are You Eligible?" %>
+<% provide :no_sidebar, true %>
+
+<div
+  data-react-component="EligibilitySurvey"
+  data-account="<%= serialize(current_account) %>"
+  data-action="<%= survey_eligibility_path %>"
+></div>
+
+<% if false %>
+<%= render "shared/hpanel" do  %>
+  <div class="panel-body">
+    <h1>Can you get credit cards in the U.S.?</h1>
+
+    <%= form_for @survey, url: eligibility_path do |f| %>
+      <% if current_account.has_companion? %>
+        <div class="checkbox">
+          <label>
+            <%= f.radio_button :eligibility, "both" %>
+            Yes, we can both get credit cards in the U.S.
+          </label>
+        </div>
+        <div class="checkbox">
+          <label>
+            <%= f.radio_button :eligibility, "owner" %>
+            Only <%= current_account.owner.first_name %> can get credit cards in the U.S.
+          </label>
+        </div>
+        <div class="checkbox">
+          <label>
+            <%= f.radio_button :eligibility, "companion" %>
+            Only <%= current_account.companion.first_name %> can get credit cards in the U.S.
+          </label>
+        </div>
+        <div class="form-group">
+          <label>
+            <%= f.radio_button :eligibility, "neither" %>
+            Neither of us can get credit cards in the U.S.
+          </label>
+        </div>
+      <% else %>
+        <div class="form-group">
+          <label>
+            <%= f.radio_button :eligibility, "owner" %>
+            Yes, I can
+          </label>
+        </div>
+        <div class="form-group">
+          <label>
+            <%= f.radio_button :eligibility, "neither" %>
+            No, I can't
+          </label>
+        </div>
+
+        <%= f.submit class: "btn-success" %>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>
+<% end %>

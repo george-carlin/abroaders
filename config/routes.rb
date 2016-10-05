@@ -48,6 +48,10 @@ Rails.application.routes.draw do
     post :partner, action: :create_partner_account
   end
 
+  resource :eligibility do
+    get :survey
+  end
+
   get :slack, to: "slack_invites#new"
   post "slack/invite", to: "slack_invites#create"
 
