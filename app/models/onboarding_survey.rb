@@ -52,12 +52,20 @@ class OnboardingSurvey
           submission_paths: [travel_plans_path, skip_survey_travel_plans_path],
         },
 
-        { # account type and eligibility
+        { # account type
           complete:    account.onboarded_type?,
           path:        type_account_path,
           required:    true,
           revisitable: false,
           submission_paths: [solo_account_path, partner_account_path],
+        },
+
+        { # eligibility
+          complete:    account.onboarded_eligibility?,
+          path:        survey_eligibility_path,
+          required:    true,
+          revisitable: false,
+          submission_paths: [survey_eligibility_path],
         },
 
         { # spending info
@@ -68,13 +76,6 @@ class OnboardingSurvey
           submission_paths: spending_info_path,
         },
 
-        { # eligibility
-          complete:    false,
-          path:        survey_eligibility_path,
-          required:    true,
-          revisitable: false,
-          submission_paths: [eligibility_path],
-        },
       ]
 
       pages.concat(pages_for_person(owner))

@@ -41,14 +41,14 @@ const EligibilitySurveyFields = ({account}) => {
         defaultChecked
         labelText="Yes - I am eligible"
         modelName={modelName}
-        value="true"
+        value="owner"
       />
 
       <Radio
         attribute={attribute}
         labelText="No - I am not eligible"
         modelName={modelName}
-        value="false"
+        value="neither"
       />
     </div>
   );
