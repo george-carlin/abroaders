@@ -1,13 +1,8 @@
 class NewCardAccountForm < CardAccountForm
   attribute :card, ::Card
-  attribute :person, Person
 
   def self.name
     "CardCardAccount"
-  end
-
-  def card_account
-    nil
   end
 
   private

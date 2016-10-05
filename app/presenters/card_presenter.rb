@@ -1,5 +1,4 @@
 class CardPresenter < ApplicationPresenter
-
   delegate :name, to: :currency, prefix: true, :allow_nil => true
 
   def currency_name
@@ -36,6 +35,4 @@ class CardPresenter < ApplicationPresenter
   def type
     t("activerecord.attributes.card.types.#{super()}")
   end
-
-
 end

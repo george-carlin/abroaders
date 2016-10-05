@@ -89,7 +89,7 @@ Rails.application.routes.draw do
   end
 
   resources :cards, only: [] do
-    resources :card_accounts, only: [:new, :create, :show]
+    resources :card_accounts, only: [:new, :create]
   end
 
   resources :card_recommendations do

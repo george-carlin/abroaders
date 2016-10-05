@@ -20,6 +20,20 @@
           <%= card.bank_name %>
         </span>
       </p>
+
+      <%= present current_account do |account| %>
+        <% if account.show_person_select? %>
+          <%= f.label :person_id, "Who is the owner of the card?" %>
+          <%= f.select(
+              :person_id,
+              options_for_person_select(account),
+              {},
+              class: ""
+          ) %>
+        <% else %>
+          <%= f.hidden_field :person_id, value: account.eligible_person.id %>
+        <% end %>
+      <% end %>
     </div>
 
     <div class="col-xs-12 col-md-6">
@@ -55,7 +69,7 @@
         </div>
       </div>
 
-      <div class="row card-survey-closed <%= @card_account.card_account && @card_account.card_account.closed? ? "" : "hide" %>">
+      <div class="row card-survey-closed <%= @card_account.persisted? && @card_account.card_account.closed? ? "" : "hide" %>">
         <div class="col-md-12 col-lg-4">
           <label class="card-info-label card-survey-closed">When did you close this card?</label>
         </div>

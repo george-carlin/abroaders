@@ -1,4 +1,5 @@
 class CardAccountForm < ApplicationForm
+  attribute :person_id, Person
   attribute :opened_year, String
   attribute :opened_month, String
   attribute :closed_year, String
@@ -7,6 +8,10 @@ class CardAccountForm < ApplicationForm
 
   def self.name
     "CardAccount"
+  end
+
+  def person
+    Person.find(person_id)
   end
 
   def each_section

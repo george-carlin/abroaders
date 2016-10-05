@@ -17,13 +17,17 @@ class CardAccountsController < AuthenticatedUserController
   end
 
   def new
+    redirect_if_ineligible && return
+
     card = Card.find(params[:card_id])
-    @card_account = NewCardAccountForm.new(person: current_account.owner, card: card)
+    @card_account = NewCardAccountForm.new(card: card)
   end
 
   def create
+    redirect_if_ineligible && return
+
     card = Card.find(params[:card_id])
-    @card_account = NewCardAccountForm.new(card_card_account_params.merge(person: current_account.owner, card: card))
+    @card_account = NewCardAccountForm.new(card_card_account_params.merge(card: card))
 
     @card_account.save!
     flash[:success] = "Created card"
@@ -57,21 +61,26 @@ class CardAccountsController < AuthenticatedUserController
   end
 
   def choose_card
-    @card_account = NewCardAccountForm.new(person: current_account.owner)
+    redirect_if_ineligible && return
+    @card_account = NewCardAccountForm.new
   end
 
   private
+
+  def redirect_if_ineligible
+    redirect_to root_path unless current_account.eligible?
+  end
 
   def load_person
     current_account.people.find(params[:person_id])
   end
 
   def card_card_account_params
-    params.require(:card_card_account).permit(:closed, :closed_year, :closed_month, :opened_year, :opened_month).to_h
+    params.require(:card_card_account).permit(:person_id, :closed, :closed_year, :closed_month, :opened_year, :opened_month).to_h
   end
 
   def card_account_params
-    params.require(:card_account).permit(:closed, :closed_year, :closed_month, :opened_year, :opened_month).to_h
+    params.require(:card_account).permit(:person_id, :closed, :closed_year, :closed_month, :opened_year, :opened_month).to_h
   end
 
   def survey_params

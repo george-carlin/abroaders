@@ -5,14 +5,24 @@
         <%= sidebar_link_to "Dashboard", root_path %>
         <% if current_account.onboarded? %>
           <%= sidebar_link_to "Travel Plans", travel_plans_path, TravelPlansController%>
-          <%= sidebar_nested_links(
-            "Cards",
-            {
-              "View all cards"    => card_accounts_path,
-              "Add new card" => choose_card_card_accounts_path,
-            },
-            CardAccountsController,
-          )%>
+
+          <% if current_account.eligible? %>
+            <%= sidebar_nested_links(
+              "Cards",
+              {
+                "View all cards"    => card_accounts_path,
+                "Add new card" => choose_card_card_accounts_path,
+              },
+              CardAccountsController,
+            )%>
+          <% else %>
+            <%= sidebar_link_to(
+              "Cards",
+              card_accounts_path,
+              CardAccountsController
+            ) %>
+          <% end %>
+
           <%= sidebar_link_to  "Balances", balances_path, BalancesController %>
         <% end %>
       <% elsif current_admin %>

@@ -5,6 +5,7 @@ class CardOnNewPage < RecordOnPage
 
   check_box :closed, Proc.new { "card_card_account_closed" }
 
+  field :person_id,       Proc.new { "card_card_account_person_id" }
   field :closed_at_month, Proc.new { "card_card_account_closed_month" }
   field :closed_at_year,  Proc.new { "card_card_account_closed_year" }
   field :opened_at_month, Proc.new { "card_card_account_opened_month" }

@@ -33,6 +33,15 @@ class AccountPresenter < ApplicationPresenter
     timestamps.any? ? timestamps.max.strftime("%D") : "-"
   end
 
+  def show_person_select?
+    has_companion? && owner.eligible? && companion.eligible?
+  end
+
+  def eligible_person
+    return owner if owner.eligible?
+    companion if companion.eligible?
+  end
+
   def both_can_update_ready?
     if has_companion?
       owner.unready? && companion.unready? && owner.eligible? && companion.eligible?

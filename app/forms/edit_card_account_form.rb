@@ -35,6 +35,7 @@ class EditCardAccountForm < CardAccountForm
 
   def persist!
     attributes = {
+      person: person,
       opened_at: end_of_month(opened_year, opened_month)
     }
 
