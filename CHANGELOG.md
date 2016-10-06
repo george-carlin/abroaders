@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## October 2016
+
+*   Create new page at `admin/accounts#ready_for_recs` for showing accounts 
+    with at least one ready person who doesn't have any card recommendation
+    Pivotal Tracker #130454033
+
+    *Boris Shatalov*
+
 ## September 2016
 
 *   Add `type` attribute to currencies; only show currencies of type 'airline'

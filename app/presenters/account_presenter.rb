@@ -16,6 +16,21 @@ class AccountPresenter < ApplicationPresenter
     )
   end
 
+  def card_accounts_count
+    count = 0
+    count += owner.card_accounts.count if owner.ready?
+    count += companion.card_accounts.count if companion.try(:ready?)
+    count
+  end
+
+  def monthly_spending_usd
+    h.number_to_currency(super)
+  end
+
+  def link_to_self
+    h.link_to "See", h.admin_account_path(self)
+  end
+
   def link_to_owner
     link_to_person(owner)
   end

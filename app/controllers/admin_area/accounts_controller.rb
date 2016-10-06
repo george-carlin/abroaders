@@ -1,12 +1,11 @@
 module AdminArea
   class AccountsController < AdminController
-
     # GET /admin/accounts
     def index
       person_assocs = [:spending_info]
       @accounts = Account.includes(
         people: person_assocs,
-        owner: person_assocs, companion: person_assocs,
+        owner: person_assocs, companion: person_assocs
       ).order("email ASC")
     end
 
@@ -19,6 +18,23 @@ module AdminArea
       # the latter is an Array, not a Relation (because of
       # `.select(&:persisted?)`)
       @cards = Card.where.not(id: @account.card_accounts.select(:card_id))
+    end
+
+    # GET /admin/accounts/ready_for_recs
+    def ready_for_recs
+      @accounts = Account
+                      .includes(
+                        people: :spending_info,
+                        owner: :spending_info, companion: :spending_info
+                      )
+                      .where(people: { ready: true, last_recommendations_at: nil })
+                      .order(email: :asc)
+
+      @ready_people = []
+      @accounts.each do |account|
+        @ready_people << account.owner if account.owner.ready?
+        @ready_people << account.companion if account.companion.try(:ready?)
+      end
     end
 
     def download_user_status_csv

@@ -127,6 +127,7 @@ Rails.application.routes.draw do
     resources :accounts, only: [ :index, :show ] do
       collection do
         get :download_user_status_csv
+        get :ready_for_recs
       end
     end
     resources :cards, except: :destroy do

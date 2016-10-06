@@ -27,7 +27,14 @@
           },
           AdminArea::OffersController,
         )%>
-        <%= sidebar_link_to "Users", admin_accounts_path, AdminArea::AccountsController %>
+        <%= sidebar_nested_links(
+          "Users",
+          {
+            "All Users"       => admin_accounts_path,
+            "Ready for Recs." => ready_for_recs_admin_accounts_path
+          },
+          AdminArea::AccountsController
+        )%>
         <%= sidebar_link_to "My Account", edit_admin_registration_path %>
       <% end %>
     </ul>
