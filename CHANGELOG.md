@@ -2,6 +2,11 @@
 
 ## September 2016
 
+*   Add rake task for sending the annual fee notification email to a user. 
+    Pivotal Tracker #130313781, GH #44
+
+    *Boris Shatalov*
+
 *   Add `type` attribute to currencies; only show currencies of type 'airline'
     in list of admin filters.
 
