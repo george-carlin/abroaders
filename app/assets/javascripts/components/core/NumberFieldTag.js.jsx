@@ -1,23 +1,12 @@
-import React, { PropTypes } from "react";
-import classNames from "classnames";
+import React from "react";
+
+import HTMLInputTag from "./shared/HTMLInputTag";
 
 // a number <input> with a bootstrap form-control class and optional 'input-sm'
-const NumberFieldTag = (_props) => {
-  const props = Object.assign({}, _props);
-
-  props.className = classNames([
-    props.className,
-    {
-      "form-control": true,
-      "input-sm":     props.small,
-    },
-  ]);
-
-  return <input {...props} type="number" />;
+const NumberFieldTag = (props) => {
+  return <input {...HTMLInputTag.getProps(props)} type="number" />;
 };
 
-NumberFieldTag.propTypes = {
-  small: PropTypes.bool,
-};
+NumberFieldTag.propTypes = HTMLInputTag.propTypes;
 
 module.exports = NumberFieldTag;

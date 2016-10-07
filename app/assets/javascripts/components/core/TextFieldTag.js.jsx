@@ -1,23 +1,12 @@
 import React, { PropTypes } from "react";
-import classNames from "classnames";
+
+import HTMLInputTag from "./shared/HTMLInputTag";
 
 // a text <input> with a bootstrap form-control class and optional 'input-sm'
-const TextFieldTag = (_props) => {
-  const props = Object.assign({}, _props);
-
-  props.className = classNames([
-    props.className,
-    {
-      "form-control": true,
-      "input-sm":     props.small,
-    },
-  ]);
-
-  return <input {...props} type="text" />;
+const TextFieldTag = (props) => {
+  return <input {...HTMLInputTag.getProps(props)} type="text" />;
 };
 
-TextFieldTag.propTypes = {
-  small: PropTypes.bool,
-};
+TextFieldTag.propTypes = HTMLInputTag.propTypes;
 
 module.exports = TextFieldTag;

@@ -1,5 +1,6 @@
 import React, { PropTypes } from "react";
-import classNames from "classnames";
+
+import HTMLInput from "./shared/HTMLInput";
 
 const NumberFieldTag = require("./NumberFieldTag");
 
@@ -11,21 +12,14 @@ const NumberFieldTag = require("./NumberFieldTag");
 //    id="person_age"
 //    name="person[age]"
 //  />
-const NumberField = (_props) => {
-  const props = Object.assign({}, _props);
-  props.id   = `${props.modelName}_${props.attribute}`;
-  props.name = `${props.modelName}[${props.attribute}]`;
-
-  return <NumberFieldTag {...props} />;
+const NumberField = (props) => {
+  return <NumberFieldTag {...HTMLInput.getProps(props)} />;
 };
 
 NumberField.propTypes = Object.assign(
   {},
   NumberFieldTag.propTypes,
-  {
-    attribute: PropTypes.string.isRequired,
-    modelName: PropTypes.string.isRequired,
-  }
+  HTMLInput.propTypes
 );
 
 module.exports = NumberField;
