@@ -1,17 +1,125 @@
-.PointsEstimateTable {
-  .ClassOfService {
-    font-size: 1.2em;
-    font-weight: 600;
-  }
+@media (max-width: 449px) and (orientation: portrait) {
+  .PointsEstimateTable {
+    .EstimatedCost {
+      font-size: 14px;
+    }
 
-  .Estimate {
-    font-size:   1.2em;
-    font-weight: 600;
-  }
+    .ClassOfService {
+      font-size:   10px;
+      font-weight: 600;
+    }
 
-  td {
-    padding: 16px 8px;
+    .EstimateHeader {
+      font-size:   10px;
+    }
+
+    .Estimate {
+      font-size:   10px;
+      font-weight: 600;
+    }
+
+    td {
+      padding: 16px 4px !important;
+    }
   }
 }
 
+@media (max-width: 667px) and (orientation: landscape) {
+  .PointsEstimateTable {
+    .EstimatedCost {
+      font-size: 18px;
+    }
 
+    .ClassOfService {
+      font-size:   14px;
+      font-weight: 600;
+    }
+
+    .EstimateHeader {
+      font-size:   14px;
+    }
+
+    .Estimate {
+      font-size:   14px;
+      font-weight: 600;
+    }
+
+    td {
+      padding: 16px 8px;
+    }
+  }
+}
+
+@media (min-width: 450px) and (max-width: 991px) {
+  .PointsEstimateTable {
+    .EstimatedCost {
+      font-size: 18px;
+    }
+
+    .ClassOfService {
+      font-size:   14px;
+      font-weight: 600;
+    }
+
+    .EstimateHeader {
+      font-size:   14px;
+    }
+
+    .Estimate {
+      font-size:   14px;
+      font-weight: 600;
+    }
+
+    td {
+      padding: 16px 8px;
+    }
+  }
+}
+
+@media (min-width: 992px) and (orientation: landscape) {
+  .PointsEstimateTable {
+    .EstimatedCost {
+      font-size: 18px;
+    }
+
+    .ClassOfService {
+      font-size:   14px;
+      font-weight: 600;
+    }
+
+    .Estimate {
+      font-size:   12px;
+      font-weight: 600;
+    }
+
+    td {
+      padding: 16px 8px;
+    }
+  }
+}
+
+@media (min-width: 1200px) {
+  .PointsEstimateTable {
+    .EstimatedCost {
+      font-size: 22px;
+    }
+
+    .ClassOfService {
+      font-size:   14px;
+      font-weight: 600;
+    }
+
+    .EstimateHeader {
+      font-size:   14px;
+    }
+
+    .Estimate {
+      font-size:   14px;
+      font-weight: 600;
+    }
+
+    td {
+      padding: 16px 8px;
+    }
+  }
+}

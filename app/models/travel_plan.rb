@@ -46,17 +46,9 @@ class TravelPlan < ApplicationRecord
     end
   end
 
-  def earliest_departure
-    departure_date_range.first
-  end
-
-  def latest_departure
-    departure_date_range.last
-  end
-
   # Validations
 
-  validates :departure_date_range, presence: true
+  validates :depart_on, presence: true
   validates :no_of_passengers,
             numericality: {
               greater_than_or_equal_to: 1,

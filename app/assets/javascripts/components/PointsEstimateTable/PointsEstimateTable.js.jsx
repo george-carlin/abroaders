@@ -52,8 +52,8 @@ const PointsEstimateTable = React.createClass({
 
     return (
       <Row className="PointsEstimateTable">
-        <div className="col-xs-12 col-lg-8">
-          <h3>Estimated Cost</h3>
+        <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <span className="EstimatedCost">Estimated Cost</span>
 
           <Table
             id="travel_plan_points_estimate_table"

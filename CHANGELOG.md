@@ -2,6 +2,10 @@
 
 ## October 2016
 
+*   Updates to the travel plan form. Pivotal Tracker #130904549
+
+    *Anatols Baymaganov*
+
 *   Add readiness question at the end of the onboarding survey.
     Pivotal Tracker #131360373 GH #54
 

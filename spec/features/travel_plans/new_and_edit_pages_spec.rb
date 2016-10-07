@@ -31,7 +31,8 @@ describe "travel plans" do
     account.owner.update_attributes!(eligible: false, onboarded_balances: true)
   end
 
-  let(:date) { 5.months.from_now.to_date }
+  let(:depart_date) { 5.months.from_now.to_date }
+  let(:return_date) { 6.months.from_now.to_date }
 
   let(:submit_form) { click_button "Save" }
 
@@ -41,7 +42,7 @@ describe "travel plans" do
       visit new_travel_plan_path
     end
 
-    SKIP_LINK = "I don't want to add a travel plan right now".freeze
+    SKIP_LINK = "I don't have specific plans".freeze
 
     example "after onboarding survey" do
       complete_onboarding_survey!
@@ -80,8 +81,8 @@ describe "travel plans" do
       to_options   = all("#travel_plan_to_id   > option")
 
       country_names = @countries.map(&:name)
-      from_names    = country_names + ["Select a country of origin"]
-      to_names      = country_names + ["Select a destination country"]
+      from_names    = country_names + ["From"]
+      to_names      = country_names + ["To"]
 
       expect(from_options.map(&:text)).to match_array from_names
       expect(to_options.map(&:text)).to   match_array to_names
@@ -92,11 +93,10 @@ describe "travel plans" do
 
       expect(page).to have_field :travel_plan_type_return, checked: true
       expect(page).to have_field :travel_plan_type_single
+      expect(page).to have_field :travel_plan_no_of_passengers
 
-      expect(page).to have_field :travel_plan_no_of_passengers, with: 1
-
-      today = Date.today.strftime("%m/%d/%Y")
-      expect(page).to have_field :travel_plan_earliest_departure, with: today
+      expect(page).to have_field :travel_plan_depart_on, with: ""
+      expect(page).to have_field :travel_plan_return_on, with: ""
     end
 
     describe "filling in the form" do
@@ -105,11 +105,12 @@ describe "travel plans" do
       context "with valid information" do
         let(:further_info) { "Something" }
         before do
-          create(:travel_plan, account: account)
+          create(:travel_plan, :return, account: account)
           select "United States", from: :travel_plan_from_id
           select "Vietnam",       from: :travel_plan_to_id
           # Don't test the JS datepicker for now
-          fill_in :travel_plan_earliest_departure, with: date.strftime("%m/%d/%Y")
+          fill_in :travel_plan_depart_on, with: depart_date.strftime("%m/%d/%Y")
+          fill_in :travel_plan_return_on, with: return_date.strftime("%m/%d/%Y")
           fill_in :travel_plan_no_of_passengers, with: 2
           fill_in :travel_plan_further_information, with: further_info
           check :travel_plan_will_accept_economy
@@ -120,14 +121,15 @@ describe "travel plans" do
 
         context "with trailing whitespace" do
           before do
-            fill_in :travel_plan_earliest_departure,  with: " #{date.strftime('%m/%d/%Y')} "
+            fill_in :travel_plan_depart_on,  with: " #{depart_date.strftime("%m/%d/%Y")} "
             fill_in :travel_plan_further_information, with: " Something "
             submit_form
           end
 
           it "strips the trailing whitespace" do
             plan = account.reload.travel_plans.last
-            expect(plan.earliest_departure).to eq date
+            expect(plan.depart_on).to eq depart_date
+            expect(plan.return_on).to eq return_date
             expect(plan.further_information).to eq "Something"
           end
         end
@@ -146,7 +148,7 @@ describe "travel plans" do
           expect(flight.from).to eq @us
           expect(flight.to).to eq @vn
           # Don't test the JS datepicker for now
-          expect(plan.earliest_departure).to eq date
+          expect(plan.depart_on).to eq depart_date
           expect(plan.no_of_passengers).to eq 2
           expect(plan.further_information).to eq "Something"
           expect(plan.will_accept_economy?).to be_truthy
@@ -198,7 +200,7 @@ describe "travel plans" do
 
   describe "edit page" do
     let(:account) { create(:account, :onboarded) }
-    let!(:travel_plan) { create(:travel_plan, account: account) }
+    let!(:travel_plan) { create(:travel_plan, :return, account: account) }
     before do
       login_as(account)
       visit edit_travel_plan_path(travel_plan)
@@ -212,8 +214,6 @@ describe "travel plans" do
       form = find("#edit_travel_plan_#{travel_plan.id}")
 
       expect(form[:action]).to eq travel_plan_path(travel_plan)
-      expect(form).to have_content "What class(es) of service would you consider for this trip?"
-      expect(form.find(".help-block").text).to eq "If you don’t yet know exactly when you want to fly, please input the earliest possible date which it might be."
       expect(form.find("#travel_plan_further_information")[:placeholder]).to eq "Optional: give us any extra information about your travel plans that you think might be relevant"
     end
 
@@ -230,7 +230,8 @@ describe "travel plans" do
         select "United Kingdom", from: :travel_plan_from_id
         select "Thailand",       from: :travel_plan_to_id
         # Don't test the JS datepicker for now
-        fill_in :travel_plan_earliest_departure, with: date.strftime("%m/%d/%Y")
+        fill_in :travel_plan_depart_on, with: depart_date.strftime("%m/%d/%Y")
+        fill_in :travel_plan_return_on, with: return_date.strftime("%m/%d/%Y")
         fill_in :travel_plan_no_of_passengers, with: 2
         fill_in :travel_plan_further_information, with: "Something"
         check :travel_plan_will_accept_economy
@@ -245,7 +246,8 @@ describe "travel plans" do
         flight = travel_plan.flights.first
         expect(flight.from).to eq @uk
         expect(flight.to).to eq @tl
-        expect(travel_plan.earliest_departure).to eq date
+        expect(travel_plan.depart_on).to eq depart_date
+        expect(travel_plan.return_on).to eq return_date
         expect(travel_plan.no_of_passengers).to eq 2
         expect(travel_plan.further_information).to eq "Something"
         expect(travel_plan.will_accept_economy?).to be_truthy
