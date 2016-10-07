@@ -232,14 +232,15 @@ ActiveRecord::Schema.define(version: 20160929214946) do
   end
 
   create_table "travel_plans", force: :cascade do |t|
-    t.integer   "account_id",                       null: false
-    t.integer   "type",                 default: 0, null: false
-    t.daterange "departure_date_range",             null: false
-    t.integer   "no_of_passengers",     default: 1, null: false
-    t.datetime  "created_at",                       null: false
-    t.datetime  "updated_at",                       null: false
-    t.text      "further_information"
-    t.integer   "acceptable_classes",               null: false
+    t.integer  "account_id",                      null: false
+    t.integer  "type",                default: 0, null: false
+    t.integer  "no_of_passengers",    default: 1, null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.text     "further_information"
+    t.integer  "acceptable_classes",              null: false
+    t.date     "depart_on",                       null: false
+    t.date     "return_on"
     t.index ["account_id"], name: "index_travel_plans_on_account_id", using: :btree
     t.index ["type"], name: "index_travel_plans_on_type", using: :btree
   end
