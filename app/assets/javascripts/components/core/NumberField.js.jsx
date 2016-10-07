@@ -16,7 +16,7 @@ const NumberField = (_props) => {
   props.id   = `${props.modelName}_${props.attribute}`;
   props.name = `${props.modelName}[${props.attribute}]`;
 
-  return <input {...props} type="number" {...props} />;
+  return <NumberFieldTag {...props} />;
 };
 
 NumberField.propTypes = Object.assign(
