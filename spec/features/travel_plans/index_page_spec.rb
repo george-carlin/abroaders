@@ -27,14 +27,16 @@ describe "travel plans index page" do
 
     @tp_single = account.travel_plans.create!(
       acceptable_classes:   [:economy, :premium_economy],
-      departure_date_range: tomorrow..next_week,
+      depart_on:            tomorrow,
+      return_on:            next_week,
       flights_attributes:   [ { from: @lgw, to: @cdg }],
       type:                 :single,
     )
 
     @tp_return = account.travel_plans.create!(
       acceptable_classes:   [:business_class, :first_class],
-      departure_date_range: next_week..next_month,
+      depart_on:            next_week,
+      return_on:            next_month,
       flights_attributes:   [ { from: @lhr, to: @cdg }],
       further_information:  further_info,
       type:                 :return,
@@ -54,12 +56,21 @@ describe "travel plans index page" do
     # expect(page).to have_selector "##{dom_id(@tp_multi)}"
   end
 
-  it "shows the earliest departue for each travel plan" do
+  it "shows the departure date for each travel plan" do
     within_travel_plan(@tp_single) do
       expect(page).to have_content tomorrow.strftime("%D")
     end
     within_travel_plan(@tp_return) do
       expect(page).to have_content next_week.strftime("%D")
+    end
+  end
+
+  it "shows the return date for each travel plan" do
+    within_travel_plan(@tp_single) do
+      expect(page).not_to have_content next_week.strftime("%D")
+    end
+    within_travel_plan(@tp_return) do
+      expect(page).to have_content next_month.strftime("%D")
     end
   end
 

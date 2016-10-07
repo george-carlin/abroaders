@@ -2,6 +2,10 @@
 
 ## October 2016
 
+*   Updates to the travel plan form. Pivotal Tracker #130904549
+
+    *Anatols Baymaganov*
+
 *   Add PostAffiliatePro tracking code
 
     *George Millo*
