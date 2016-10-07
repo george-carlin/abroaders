@@ -4,12 +4,6 @@
 
     &nbsp;&nbsp;&nbsp;&nbsp;
 
-    <span class="travel_plan_departure_date_range">
-      <%= travel_plan.earliest_departure.strftime("%D") %>
-    </span>
-
-    &nbsp;&nbsp;&nbsp;&nbsp;
-
     <span class="travel_plan_no_of_passengers">
       <%= fa_icon "male" %> &times; <%= travel_plan.no_of_passengers %>
     </span>
@@ -22,6 +16,22 @@
     <% if local_assigns[:show_admin_links] %>
         &nbsp;
         <%= link_to "Edit", edit_admin_travel_plan_path(travel_plan) %>
+    <% end %>
+  </div>
+
+  <div>
+    <span class="travel_plan_departure_date_range">
+      Departure:
+      <%= travel_plan.depart_on.strftime("%D") %>
+    </span>
+
+    &nbsp;
+
+    <% if travel_plan.type == "return" %>
+      <span class="travel_plan_departure_date_range">
+        Return:
+        <%= travel_plan.return_on.strftime("%D") %>
+      </span>
     <% end %>
   </div>
 

@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  $('#travel_plan_earliest_departure').datepicker({
+  $('.travel-plan-datepicker').datepicker({
     startDate: "new Date()",
     startView: 1,
     maxViewMode: 0,
@@ -64,4 +64,22 @@ $(document).ready(function () {
       }
     });
   }
+
+  var $singleRadio = $('#travel_plan_type_single');
+  var $returnRadio = $('#travel_plan_type_return');
+  var travelTypeRadioClick = function(e) {
+    $returnOnField = $('#travel_plan_return_on');
+
+    if ($singleRadio.prop('checked')) {
+      $returnOnField.prop('disabled', true);
+      $returnOnField.val('');
+    }
+    else
+      if ($returnRadio.prop('checked')) {
+        $returnOnField.prop('disabled', false);
+      }
+
+  };
+  $singleRadio.on('click', travelTypeRadioClick);
+  $returnRadio.on('click', travelTypeRadioClick);
 });

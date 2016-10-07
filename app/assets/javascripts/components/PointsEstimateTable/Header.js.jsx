@@ -2,7 +2,7 @@ import React from "react";
 
 const Header = () => {
   return (
-    <thead>
+    <thead className="EstimateHeader">
       <tr>
         <th>Class of service</th>
         <th>Points</th>
