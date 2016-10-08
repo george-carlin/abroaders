@@ -16,7 +16,7 @@ const RadioButton = (_props) => {
   const props = HTMLInput.getProps(_props);
   props.id += "_" + props.value;
 
-  return <input {...props} type="radio" />;
+  return React.createElement("input", props, { type: "radio" });
 };
 
 RadioButton.propTypes = Object.assign(

@@ -5,7 +5,7 @@ const ButtonGroup = (_props) => {
   const props = Object.assign({}, _props);
   props.className = classnames([ props.className, { "btn-group": true } ]);
 
-  return <div {...props} />;
+  return React.createElement("div", props);
 };
 
 ButtonGroup.propTypes = {

@@ -21,12 +21,13 @@ const AuthTokenField = React.createClass({
   },
 
   render() {
-    return (
-      <input
-        name="authenticity_token"
-        type="hidden"
-        value={this.state.csrfToken}
-      />
+    return React.createElement(
+      "input",
+      {
+        name: "authenticity_token",
+        type: "hidden",
+        value: this.state.csrfToken,
+      }
     );
   },
 });
