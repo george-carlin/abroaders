@@ -12,7 +12,7 @@ import TextFieldTag from "./TextFieldTag";
 //    name="person[name]"
 //  />
 const TextField = (props) => {
-  return <TextFieldTag {...HTMLInput.getProps(props)} />;
+  return React.createElement(TextFieldTag, HTMLInput.getProps(props));
 };
 
 TextField.propTypes = Object.assign(

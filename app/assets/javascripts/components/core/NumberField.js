@@ -12,7 +12,7 @@ import NumberFieldTag from "./NumberFieldTag";
 //    name="person[age]"
 //  />
 const NumberField = (props) => {
-  return <NumberFieldTag {...HTMLInput.getProps(props)} />;
+  return React.createElement(NumberFieldTag, HTMLInput.getProps(props));
 };
 
 NumberField.propTypes = Object.assign(

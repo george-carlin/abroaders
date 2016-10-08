@@ -12,7 +12,7 @@ const Table = (_props) => {
     },
   ]);
 
-  return <table {...props} />;
+  return React.createElement("table", props);
 };
 
 Table.propTypes = {

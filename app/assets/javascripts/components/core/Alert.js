@@ -16,7 +16,7 @@ const Alert = (_props) => {
     },
   ]);
 
-  return <div {...props} />;
+  return React.createElement("div", props);
 };
 
 Alert.propTypes = {

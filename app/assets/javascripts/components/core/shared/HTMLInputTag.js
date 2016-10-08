@@ -10,7 +10,7 @@ export default {
     small:      PropTypes.bool,
   },
 
-  getProps(originalProps) {
+  getProps(originalProps, additionalProps) {
     return Object.assign(
       {},
       originalProps,
@@ -22,7 +22,8 @@ export default {
             "input-sm":     originalProps.small,
           },
         ]),
-      }
+      },
+      additionalProps
     );
   },
 };

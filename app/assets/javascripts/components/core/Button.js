@@ -17,7 +17,7 @@ const Button = (_props) => {
     },
   ]);
 
-  return <button {...props} />;
+  return React.createElement("button", props);
 };
 
 Button.propTypes = {

@@ -6,7 +6,7 @@ const FormGroup = (_props) => {
 
   props.className = classnames([props.className, { "form-group": true }]);
 
-  return <div {...props} />;
+  return React.createElement("div", props);
 };
 
 export default FormGroup;

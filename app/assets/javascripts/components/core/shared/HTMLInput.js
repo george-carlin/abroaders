@@ -17,14 +17,15 @@ export default {
     return `${modelName}[${attribute}]`;
   },
 
-  getProps(originalProps) {
+  getProps(originalProps, additionalProps) {
     return Object.assign(
       {},
       originalProps,
       {
         id:   this.getId(originalProps),
         name: this.getName(originalProps),
-      }
+      },
+      additionalProps
     );
   },
 };

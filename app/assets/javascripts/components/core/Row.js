@@ -1,11 +1,11 @@
 import React      from "react";
 import classnames from "classnames";
 
-const HelpBlock = (_props) => {
+const Row = (_props) => {
   // We have to clone props because it's frozen (i.e. immutable):
   const props     = Object.assign({}, _props);
-  props.className = classnames([props.className, { "help-block": true }]);
-  return <p {...props} />;
+  props.className = classnames([props.className, { row: true }]);
+  return React.createElement("div", props);
 };
 
-export default HelpBlock;
+export default Row;
