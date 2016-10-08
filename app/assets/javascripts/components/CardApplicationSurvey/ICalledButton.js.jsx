@@ -1,6 +1,6 @@
 import React from "react";
 
-const Button = require("../core/Button");
+import Button from "../core/Button";
 
 const ICalledButton = ({bankName, onClick}) => {
   return (

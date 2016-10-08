@@ -1,4 +1,4 @@
-import React, { PropTypes } from "react";
+import React from "react";
 
 import HTMLInputTag from "./shared/HTMLInputTag";
 
@@ -9,4 +9,4 @@ const TextFieldTag = (props) => {
 
 TextFieldTag.propTypes = HTMLInputTag.propTypes;
 
-module.exports = TextFieldTag;
+export default TextFieldTag;

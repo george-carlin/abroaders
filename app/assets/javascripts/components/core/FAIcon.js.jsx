@@ -11,4 +11,4 @@ const FAIcon = (props) => {
   return <i className={`fa fa-${Object.keys(props)[0]}`} > </i>;
 };
 
-module.exports = FAIcon;
+export default FAIcon;

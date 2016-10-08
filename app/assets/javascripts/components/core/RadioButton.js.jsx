@@ -28,4 +28,4 @@ RadioButton.propTypes = Object.assign(
   }
 );
 
-module.exports = RadioButton;
+export default RadioButton;

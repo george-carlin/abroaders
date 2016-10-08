@@ -1,8 +1,7 @@
 import React from "react";
 import _     from "underscore";
 
-const Button         = require("../core/Button");
-const ButtonGroup    = require("../core/ButtonGroup");
+import ButtonGroup from "../core/ButtonGroup";
 
 const ConfirmOrCancelBtns = require("../ConfirmOrCancelBtns");
 

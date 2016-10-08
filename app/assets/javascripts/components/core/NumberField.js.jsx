@@ -1,8 +1,7 @@
 import React, { PropTypes } from "react";
 
-import HTMLInput from "./shared/HTMLInput";
-
-const NumberFieldTag = require("./NumberFieldTag");
+import HTMLInput      from "./shared/HTMLInput";
+import NumberFieldTag from "./NumberFieldTag";
 
 // Extend NumberFieldTag with Rails-style attributes:
 //
@@ -22,4 +21,4 @@ NumberField.propTypes = Object.assign(
   HTMLInput.propTypes
 );
 
-module.exports = NumberField;
+export default NumberField;

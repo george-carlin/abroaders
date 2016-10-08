@@ -1,6 +1,6 @@
 import React from "react";
 
-const Button = require("../core/Button");
+import Button from "../core/Button";
 
 const IHeardBackButton = ({bankName, onClick}) => {
   let text;
@@ -25,4 +25,3 @@ const IHeardBackButton = ({bankName, onClick}) => {
 };
 
 module.exports = IHeardBackButton;
-

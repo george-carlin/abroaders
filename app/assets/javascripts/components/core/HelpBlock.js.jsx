@@ -8,4 +8,4 @@ const HelpBlock = (_props) => {
   return <p {...props} />;
 };
 
-module.exports = HelpBlock;
+export default HelpBlock;

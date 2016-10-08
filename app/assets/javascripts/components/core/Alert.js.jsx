@@ -26,4 +26,4 @@ Alert.propTypes = {
   warning: PropTypes.bool,
 };
 
-module.exports = Alert;
+export default Alert;

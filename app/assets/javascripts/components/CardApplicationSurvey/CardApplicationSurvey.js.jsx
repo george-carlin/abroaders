@@ -3,7 +3,7 @@ import _     from "underscore";
 import humps from "humps";
 import $     from "jquery";
 
-const Alert = require("../core/Alert");
+import Alert from "../core/Alert";
 
 const ApplyActions     = require("./ApplyActions");
 const CallActions      = require("./CallActions");

@@ -1,6 +1,7 @@
 import React, { PropTypes } from "react";
 
-import HTMLInput from "./shared/HTMLInput";
+import HTMLInput    from "./shared/HTMLInput";
+import TextFieldTag from "./TextFieldTag";
 
 // Extend TextFieldTag with Rails-style attributes:
 //
@@ -10,8 +11,6 @@ import HTMLInput from "./shared/HTMLInput";
 //    id="person_name"
 //    name="person[name]"
 //  />
-const TextFieldTag = require("./TextFieldTag");
-
 const TextField = (props) => {
   return <TextFieldTag {...HTMLInput.getProps(props)} />;
 };
@@ -22,4 +21,4 @@ TextField.propTypes = Object.assign(
   HTMLInput.propTypes
 );
 
-module.exports = TextField;
+export default TextField;
