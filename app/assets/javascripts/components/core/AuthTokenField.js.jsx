@@ -1,5 +1,5 @@
 /* eslint react/no-did-mount-set-state: 0 */
-const React = require('react');
+import React from 'react';
 
 // Rails form tags automatically generate a hidden field called
 // 'authenticity_token' that's used to provide CSRF security. Add

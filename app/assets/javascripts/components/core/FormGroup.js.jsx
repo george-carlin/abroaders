@@ -1,10 +1,10 @@
-const React      = require("react");
-const classNames = require("classnames");
+import React      from "react";
+import classnames from "classnames";
 
 const FormGroup = (_props) => {
   const props = Object.assign({}, _props);
 
-  props.className = classNames([props.className, { "form-group": true }]);
+  props.className = classnames([props.className, { "form-group": true }]);
 
   return <div {...props} />;
 };

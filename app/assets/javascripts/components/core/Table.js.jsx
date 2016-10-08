@@ -1,10 +1,10 @@
 import React, { PropTypes } from "react";
-const classNames = require("classnames");
+import classnames from "classnames";
 
 const Table = (_props) => {
   const props = Object.assign({}, _props);
 
-  props.className = classNames([
+  props.className = classnames([
     props.className,
     {
       table:           true,

@@ -1,4 +1,4 @@
-const React = require("react");
+import React from "react";
 
 const TextField = require("../core/TextField");
 

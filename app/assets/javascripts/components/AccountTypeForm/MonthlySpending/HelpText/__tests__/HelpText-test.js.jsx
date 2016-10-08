@@ -4,10 +4,10 @@ const helpBlockPath = "../../../../core/HelpBlock";
 jest.unmock(path);
 jest.unmock(helpBlockPath);
 
-const React     = require('react');
-const ReactDOM  = require('react-dom');
-const TestUtils = require('react-addons-test-utils');
-const _         = require('underscore');
+import React     from 'react';
+import ReactDOM  from 'react-dom';
+import TestUtils from 'react-addons-test-utils';
+import _         from 'underscore';
 
 const HelpBlock = require(helpBlockPath);
 const HelpText  = require(path);

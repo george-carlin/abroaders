@@ -1,5 +1,5 @@
-const React  = require("react");
-const numbro = require("numbro");
+import React  from "react";
+import numbro from "numbro";
 
 const Estimate = ({number, formatString}) => {
   return (

@@ -1,4 +1,4 @@
-const React = require("react");
+import React from "react";
 
 // Text that disappears after a delay (default 2 seconds). Heavily inspired by
 // http://stackoverflow.com/a/24172140/1603071 . Note that this could be
