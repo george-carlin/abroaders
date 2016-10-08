@@ -8,4 +8,4 @@ const Row = (_props) => {
   return <div {...props} />;
 };
 
-module.exports = Row;
+export default Row;

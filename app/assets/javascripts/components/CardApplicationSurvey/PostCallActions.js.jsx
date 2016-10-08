@@ -1,8 +1,5 @@
 import React from "react";
 
-const Button         = require("../core/Button");
-const ButtonGroup    = require("../core/ButtonGroup");
-
 const ConfirmOrCancelBtns = require("../ConfirmOrCancelBtns");
 
 const ApprovedDeniedPendingBtnGroup = require("./ApprovedDeniedPendingBtnGroup");

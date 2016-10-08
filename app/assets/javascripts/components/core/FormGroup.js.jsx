@@ -9,4 +9,4 @@ const FormGroup = (_props) => {
   return <div {...props} />;
 };
 
-module.exports = FormGroup;
+export default FormGroup;

@@ -20,4 +20,4 @@ Table.propTypes = {
   striped:   PropTypes.bool,
 };
 
-module.exports = Table;
+export default Table;

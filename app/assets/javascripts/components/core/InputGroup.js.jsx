@@ -46,4 +46,4 @@ InputGroup.propTypes = {
   addonBefore: PropTypes.string,
 };
 
-module.exports = InputGroup;
+export default InputGroup;

@@ -1,7 +1,6 @@
 import React, { PropTypes } from "react";
-const _     = require("underscore");
 
-const AuthTokenField = require("./AuthTokenField");
+import AuthTokenField from "./AuthTokenField";
 
 const Form = (_props) => {
   let methodHiddenInput;
@@ -37,4 +36,4 @@ Form.defaultProps = {
   method: "post",
 };
 
-module.exports = Form;
+export default Form;

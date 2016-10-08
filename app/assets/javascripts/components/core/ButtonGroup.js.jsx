@@ -12,4 +12,4 @@ ButtonGroup.propTypes = {
   className: PropTypes.string,
 };
 
-module.exports = ButtonGroup;
+export default ButtonGroup;

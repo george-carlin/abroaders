@@ -29,4 +29,4 @@ Button.propTypes = {
   small:     PropTypes.bool,
 };
 
-module.exports = Button;
+export default Button;

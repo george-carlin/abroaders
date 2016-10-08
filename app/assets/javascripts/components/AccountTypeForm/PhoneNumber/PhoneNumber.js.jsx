@@ -1,8 +1,8 @@
 import React from "react";
 
-const HelpBlock = require("../../core/HelpBlock");
-const FormGroup = require("../../core/FormGroup");
-const TextField = require("../../core/TextField");
+import HelpBlock from "../../core/HelpBlock";
+import FormGroup from "../../core/FormGroup";
+import TextField from "../../core/TextField";
 
 const PhoneNumber = React.createClass({
   propTypes: {

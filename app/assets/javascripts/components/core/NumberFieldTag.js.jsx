@@ -9,4 +9,4 @@ const NumberFieldTag = (props) => {
 
 NumberFieldTag.propTypes = HTMLInputTag.propTypes;
 
-module.exports = NumberFieldTag;
+export default NumberFieldTag;

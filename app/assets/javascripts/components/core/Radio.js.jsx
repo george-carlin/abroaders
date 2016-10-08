@@ -1,6 +1,6 @@
 import React, { PropTypes } from "react";
 
-const RadioButton = require("./RadioButton");
+import RadioButton from "./RadioButton";
 
 // A RadioButton tag wrapped in a bootstrap-style <div class="radio">
 // and given a label. Specify the label text with the 'labelText' prop;
@@ -28,4 +28,4 @@ Radio.propTypes = Object.assign(
   }
 );
 
-module.exports = Radio;
+export default Radio;
