@@ -1,5 +1,5 @@
-const React = require("react");
-const _     = require("underscore");
+import React from "react";
+import _     from "underscore";
 
 const Button      = require("../core/Button");
 const ButtonGroup = require("../core/ButtonGroup");

@@ -1,11 +1,11 @@
 import React, { PropTypes } from "react";
-const classNames = require("classnames");
+import classnames from "classnames";
 
 // A Bootstrap-style alert. See http://getbootstrap.com/components/#alerts
 const Alert = (_props) => {
   const props = Object.assign({}, _props);
 
-  props.className = classNames([
+  props.className = classnames([
     props.className,
     {
       alert: true,

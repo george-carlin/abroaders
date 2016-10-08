@@ -1,5 +1,5 @@
-const React = require("react");
-const _     = require("underscore");
+import React from "react";
+import _     from "underscore";
 
 const HelpBlock  = require("../../core/HelpBlock");
 const Radio      = require("../../core/Radio");

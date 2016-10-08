@@ -1,4 +1,4 @@
-const React = require("react");
+import React from "react";
 
 const Alert     = require("../../core/Alert");
 const Button    = require("../../core/Button");

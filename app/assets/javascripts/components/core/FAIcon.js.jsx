@@ -1,5 +1,4 @@
-const React = require("react");
-const _     = require("underscore");
+import React from "react";
 
 // Example usage:
 //

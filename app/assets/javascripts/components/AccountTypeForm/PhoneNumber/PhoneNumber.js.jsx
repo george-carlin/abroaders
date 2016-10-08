@@ -1,4 +1,4 @@
-const React = require("react");
+import React from "react";
 
 const HelpBlock = require("../../core/HelpBlock");
 const FormGroup = require("../../core/FormGroup");

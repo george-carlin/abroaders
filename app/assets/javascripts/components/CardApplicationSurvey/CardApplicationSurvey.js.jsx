@@ -1,7 +1,7 @@
-const React = require("react");
-const _     = require("underscore");
-const humps = require("humps");
-const $     = require("jquery");
+import React from "react";
+import _     from "underscore";
+import humps from "humps";
+import $     from "jquery";
 
 const Alert = require("../core/Alert");
 

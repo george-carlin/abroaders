@@ -1,6 +1,6 @@
-const React = require("react");
-const $     = require("jquery");
-const _     = require("underscore");
+import React from "react";
+import $     from "jquery";
+import _     from "underscore";
 
 const Row   = require("../core/Row");
 const Table = require("../core/Table");

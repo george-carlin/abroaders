@@ -1,9 +1,9 @@
 import React, { PropTypes } from "react";
-const classNames = require("classnames");
+import classnames from "classnames";
 
 const ButtonGroup = (_props) => {
   const props = Object.assign({}, _props);
-  props.className = classNames([ props.className, { "btn-group": true } ]);
+  props.className = classnames([ props.className, { "btn-group": true } ]);
 
   return <div {...props} />;
 };
