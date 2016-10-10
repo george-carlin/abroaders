@@ -456,3 +456,18 @@ See `app/presenters/README.md`
 
 - Emails will usually be enqueued as background jobs using `deliver_later`,
   so see all the notes above regarding background jobs.
+
+# Third Party Scripts
+
+If we have a `<script>` tag from a third party that we want to drop into our app:
+
+1.  Put it in a new view in `app/views/shared/third_party_scripts`.
+2.  Stick the view name in the array at the top of
+    `app/views/shared/third_party_scripts.rb`
+
+The script will now be output at the bottom of the `<body>` tag.
+
+Note that if you add a new layout (at the time of writing we just have
+`application.html.erb` and `basic.html.erb`), you'll need to add the line `<%=
+render "shared/third_party_scripts" %>` to the bottom of the `<body>` tag if
+you want the scripts to be included.
