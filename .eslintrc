@@ -28,6 +28,7 @@
     }],
     "jsx-quotes":  [1, "prefer-double"],
     "key-spacing": 0,
+    "max-len": 1,
     "no-cond-assign" : 0,
     "no-console" : 1,
     "no-else-return": 0,
@@ -58,6 +59,7 @@
     "react/sort-comp" : 1,
     "semi" : 1,
     "space-before-blocks" :1,
+    "space-before-function-paren" :1,
     "space-infix-ops": 1,
     "space-in-parens": 1,
     "keyword-spacing" : 1
