@@ -1,9 +1,9 @@
-const React = require("react");
+import React from "react";
 
-const Alert     = require("../../core/Alert");
-const Button    = require("../../core/Button");
-const FormGroup = require("../../core/FormGroup");
-const TextField = require("../../core/TextFieldTag");
+import Alert     from "../../core/Alert";
+import Button    from "../../core/Button";
+import FormGroup from "../../core/FormGroup";
+import TextField from "../../core/TextField";
 
 const NameField = React.createClass({
   propTypes: {

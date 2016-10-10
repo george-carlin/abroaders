@@ -1,7 +1,4 @@
-const React = require("react");
-
-const Button         = require("../core/Button");
-const ButtonGroup    = require("../core/ButtonGroup");
+import React from "react";
 
 const ConfirmOrCancelBtns = require("../ConfirmOrCancelBtns");
 

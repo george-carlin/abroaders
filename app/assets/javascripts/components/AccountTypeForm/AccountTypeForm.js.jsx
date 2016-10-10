@@ -1,6 +1,6 @@
-const React = require("react");
+import React from "react";
 
-const Row = require("../core/Row");
+import Row from "../core/Row";
 
 const SoloForm    = require("./SoloForm");
 const PartnerForm = require("./PartnerForm");

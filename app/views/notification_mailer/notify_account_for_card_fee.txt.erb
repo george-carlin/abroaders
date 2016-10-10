@@ -1,0 +1,21 @@
+<%
+  card = present @card
+  name = @account.owner.first_name
+  your = "your"
+  if @account.has_companion?
+    your = "#{@card_holder.first_name}'s"
+    name += " and #{@account.companion.first_name}"
+  end
+%>
+Hey <%= name %>,
+
+This is just a friendly reminder that the annual fee of <%= card.annual_fee %> for <%= your %>
+<%= card.full_name(with_bank: true) %> <%= card.bp.downcase %> card will post sometime soon.
+
+Sometimes, you can get the fee waived or earn other compensation by calling the number on the back of your card.
+
+For more detail, check out this resource:
+http://www.abroaders.com/annual-fee-negotiation
+
+Cheers,
+The Abroaders Team

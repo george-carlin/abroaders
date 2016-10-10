@@ -1,7 +1,7 @@
-const React = require("react");
+import React from "react";
 
-const Radio     = require("../../core/Radio");
-const HelpBlock = require("../../core/HelpBlock");
+import Radio     from "../../core/Radio";
+import HelpBlock from "../../core/HelpBlock";
 
 const Eligibility = React.createClass({
   propTypes: {

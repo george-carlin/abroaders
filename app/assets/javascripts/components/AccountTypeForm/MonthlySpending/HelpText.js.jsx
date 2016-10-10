@@ -1,8 +1,7 @@
-const React = require("react");
-const _     = require("underscore");
+import React from "react";
+import _     from "underscore";
 
-const HelpBlock = require("../../core/HelpBlock");
-
+import HelpBlock from "../../core/HelpBlock";
 
 const HelpText = React.createClass({
   propTypes: {

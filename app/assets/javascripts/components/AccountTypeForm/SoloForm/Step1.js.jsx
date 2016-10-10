@@ -1,7 +1,7 @@
-const React = require("react");
+import React from "react";
 
-const Button    = require("../../core/Button");
-const HelpBlock = require("../../core/HelpBlock");
+import Button    from "../../core/Button";
+import HelpBlock from "../../core/HelpBlock";
 
 const MonthlySpending = require("../MonthlySpending");
 const PhoneNumber     = require("../PhoneNumber");

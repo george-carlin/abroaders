@@ -1,9 +1,9 @@
-const React = require("react");
+import React from "react";
 
-const Button       = require("../core/Button");
-const ButtonGroup  = require("../core/ButtonGroup");
-const Form         = require("../core/Form");
-const TextFieldTag = require("../core/TextFieldTag");
+import Button       from "../core/Button";
+import ButtonGroup  from "../core/ButtonGroup";
+import Form         from "../core/Form";
+import TextField    from "../core/TextField";
 
 const ConfirmOrCancelBtns = require("../ConfirmOrCancelBtns");
 
@@ -54,7 +54,7 @@ const ApplyOrDeclineBtns = React.createClass({
         <Form action={this.props.declinePath} method="patch">
           {/* wrapper which will have field_with_errors class added */}
           <div className={declineReasonWrapperClass}>
-            <TextFieldTag
+            <TextField
               attribute="decline_reason"
               modelName="card_account"
               onChange={this.onChangeDeclineReason}

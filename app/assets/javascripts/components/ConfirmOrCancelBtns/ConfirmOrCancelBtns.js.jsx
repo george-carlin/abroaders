@@ -1,8 +1,8 @@
-const React = require("react");
-const _     = require("underscore");
+import React from "react";
+import _     from "underscore";
 
-const Button      = require("../core/Button");
-const ButtonGroup = require("../core/ButtonGroup");
+import Button      from "../core/Button";
+import ButtonGroup from "../core/ButtonGroup";
 
 const ConfirmOrCancelBtns = React.createClass({
 

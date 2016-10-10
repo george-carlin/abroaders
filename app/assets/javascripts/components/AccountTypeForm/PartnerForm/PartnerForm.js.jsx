@@ -1,8 +1,8 @@
-const React = require("react");
+import React from "react";
 
-const Button = require("../../core/Button");
-const FAIcon = require("../../core/FAIcon");
-const Form   = require("../../core/Form");
+import Button from "../../core/Button";
+import FAIcon from "../../core/FAIcon";
+import Form   from "../../core/Form";
 
 const MonthlySpending = require("../MonthlySpending");
 const PhoneNumber     = require("../PhoneNumber");

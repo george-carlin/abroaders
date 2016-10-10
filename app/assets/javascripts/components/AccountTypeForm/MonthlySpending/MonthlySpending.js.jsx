@@ -1,9 +1,9 @@
-const React = require("react");
+import React from "react";
 
-const Alert       = require("../../core/Alert");
-const FormGroup   = require("../../core/FormGroup");
-const InputGroup  = require("../../core/InputGroup");
-const NumberField = require("../../core/NumberField");
+import Alert       from "../../core/Alert";
+import FormGroup   from "../../core/FormGroup";
+import InputGroup  from "../../core/InputGroup";
+import NumberField from "../../core/NumberField";
 
 const HelpText = require("./HelpText");
 

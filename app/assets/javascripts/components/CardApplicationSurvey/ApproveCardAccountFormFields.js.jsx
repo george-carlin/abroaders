@@ -1,6 +1,6 @@
-const React = require("react");
+import React from "react";
 
-const TextFieldTag = require("../core/TextFieldTag");
+import TextField from "../core/TextField";
 
 const ConfirmOrCancelBtns = require("../ConfirmOrCancelBtns");
 

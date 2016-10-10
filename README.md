@@ -10,8 +10,9 @@ We're also using node and NPM for some front-end hackery. Parts of the app use
 React.JS and JSX. In order to make this work, I had to hack together a weird
 setup that's a hybrid between Browserify/npm and the Rails asset pipeline.
 It's not the best system but it works for now. (More detailed Javascript notes
-are below.) If you have node and NPM installed on your machine, running `npm
-install` should be enough to make everything work for you for now.
+can be found in `app/assets/javascripts/README.md`.) If you have node and NPM
+installed on your machine, running `npm install` should be enough to make
+everything work for you for now.
 
 You'll also need imagemagick installed for the
 [paperclip](https://github.com/thoughtbot/paperclip) gem to work correctly.
@@ -151,14 +152,16 @@ perfectly, so some older commits won't have followed the above procedures.
    strict -  the occasional 83-character line isn't going to kill anybody - but
    stick to 80 as a general principle.
 
--  We don't support IE &lt; 10. If someone doesn't want to upgrade to a modern
-   browser, that's their problem, not ours.
-
 -  Only use `.gitignore` to ignore files that are actually specific to Rails
    and to the codebase itself. If you want to ignore files that are specific to
    your own IDE or text editor (`.swp`, `.idea`, etc), those belong in a
    [global gitignore file](https://help.github.com/articles/ignoring-files/#create-a-global-gitignore)
    on your own machine, not in this codebase's `.gitignore`.
+
+## Browser support
+
+-  We don't support IE &lt; 10. If someone doesn't want to upgrade to a modern
+   browser, that's their problem, not ours.
 
 ## Ruby
 
@@ -388,29 +391,6 @@ gem.
 #### `presenters`
 
 See `app/presenters/README.md`
-
-### Javascript
-
-- See the note at the top of this Readme about Node and React.
-
-- No Coffeescript!
-
-- Let's use React sparingly for now. If you need to sprinkle some dynamism
-  onto the frontend, stick with Rails's UJS helpers and jQuery for now (preferably
-  the former). If you think that the front-end task is too complicated for a
-  jQuery-based approach, talk to George and we'll decide on a case-by-case basis.
-
-- When adding 3rd party JS (or CSS) to `vendor/assets`, it's preferable to add
-  the unminified version. The asset pipeline will automatically minify it in
-  production anyway, and in development keeping it non-minified will make
-  debugging easier (e.g. if we need to step through the JS line-by-line in the
-  console.)
-
-- We're using ESLint, and our rules are defined in `.eslintrc`. Some of these
-  rules are overwritten for 'other' JS by the file
-  `app/assets/javascripts/other/.eslintrc`.
-
-  All newly written JS code should pass ESLint.
 
 ### Background Jobs
 

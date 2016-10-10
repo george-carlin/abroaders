@@ -1,7 +1,7 @@
-const React = require("react");
+import React from "react";
 
-const Button      = require("../core/Button");
-const ButtonGroup = require("../core/ButtonGroup");
+import Button      from "../core/Button";
+import ButtonGroup from "../core/ButtonGroup";
 
 const ApprovedDeniedPendingBtnGroup = React.createClass({
   propTypes: {

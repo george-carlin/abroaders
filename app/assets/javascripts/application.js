@@ -19,7 +19,6 @@
 //= require bootstrap.min
 //= require bootstrap-datepicker
 //= require jquery.tablesorter
-//= require es5-shim
 //= require underscore
 //= require metisMenu
 //= require typeahead.bundle.js
@@ -28,6 +27,9 @@
 //= require_tree ./other
 
 // Load all browserify modules below.
+
+// Polyfill must be loaded before everything else.
+require("babel-polyfill");
 
 // I really don't like this 'hybrid of Sprockets and Node' setup that we have,
 // but I'm still learning Node/Browserify etc and haven't figured out the
