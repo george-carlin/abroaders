@@ -1,8 +1,14 @@
 # CHANGELOG
 
+## October 2016
+
+*   Remove LeadDyno tracking code
+
+    *George Millo*
+
 ## September 2016
 
-*   Add rake task for sending the annual fee notification email to a user. 
+*   Add rake task for sending the annual fee notification email to a user.
     Pivotal Tracker #130313781, GH #44
 
     *Boris Shatalov*
@@ -12,7 +18,7 @@
 
     *George Millo*
 
-*   Group `Currency` filters by `Alliance` on admin/people#show. 
+*   Group `Currency` filters by `Alliance` on admin/people#show.
     Pivotal Tracker #129920759
 
     *Boris Shatalov*
