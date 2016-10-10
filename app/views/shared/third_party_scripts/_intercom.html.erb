@@ -1,4 +1,4 @@
-<% if ENV["ACTIVATE_INTERCOM"] && eval(ENV["ACTIVATE_INTERCOM"]) %>
+<% if Rails.env.production? %>
   <% if current_account %>
     <script>
       window.intercomSettings = {
