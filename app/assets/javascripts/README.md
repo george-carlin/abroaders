@@ -49,8 +49,8 @@
         # Bad
         const foo = 3,
               bar = 5;
-        let age  = 25;
-        let name = "George";
+        let age  = 25,
+            name = "George";
 
 - Favor `import` over `require`.
 
