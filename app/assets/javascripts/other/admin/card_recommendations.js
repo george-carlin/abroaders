@@ -3,7 +3,7 @@
 $(document).ready(function () {
   $(".new_card_account table").tablesorter({
     // The table can't be sorted by the first column:
-    headers: { 0: { sorter: false } }
+    headers: { 0: { sorter: false } },
   });
 
   var $personCardTable = $("#admin_person_card_accounts_table");
@@ -19,9 +19,9 @@ $(document).ready(function () {
       7:  { sorter: false }, // Denied
       8:  { sorter: false }, // Declined
       9:  { sorter: true  }, // Opened
-      10: { sorter: true  }  // Closed
+      10: { sorter: true  }, // Closed
     },
-    sortList : [[9, 1], [6, 1]]
+    sortList : [[9, 1], [6, 1]],
   });
 
   $(".sortable-column.opened").click(function () {
@@ -127,12 +127,12 @@ $(document).ready(function () {
   });
 
   $("#card_bank_filter_all").click(function () {
-    toggle_all(this, $cardBankFilterCheckboxes)
+    toggle_all(this, $cardBankFilterCheckboxes);
   });
 
   $(".toggle-all-currency-checkbox").click(function () {
     var checkboxes = $(this).closest(".panel-body").find(".card_currency_filter");
-    toggle_all(this, checkboxes)
+    toggle_all(this, checkboxes);
   });
 
   $(".recommend_offer_btn").click(function (e) {
