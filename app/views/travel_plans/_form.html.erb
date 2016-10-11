@@ -2,19 +2,19 @@
 <div class="panel-body">
   <%= form_for travel_plan.form_object do |f| %>
       <div class="row">
-        <% travel_plan.class.types.each do |type, _| %>
-            <div class="form-group col-xs-6 col-sm-3 col-md-2 col-lg-2">
-              <label>
-                <%= t("activerecord.attributes.travel_plan.types.#{type}") %>
-                &nbsp;
-                <%= f.radio_button(
-                  :type,
-                  type,
-                  checked: type == f.object.type
-                ) %>
-              </label>
-            </div>
-        <% end %>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <% travel_plan.class.types.each do |type, _| %>
+            <label class="type-radio">
+              <%= t("activerecord.attributes.travel_plan.types.#{type}") %>
+              &nbsp;
+              <%= f.radio_button(
+                :type,
+                type,
+                checked: type == f.object.type
+              ) %>
+            </label>
+          <% end %>
+        </div>
       </div>
 
       <div class="travel-plan-input-group">

@@ -29,6 +29,14 @@
   }
 }
 
+.type-radio {
+  padding-bottom: 15px;
+
+  &:not(:first-child) {
+    padding-left: 20px;
+  }
+}
+
 @media (max-width: 667px) {
   .travel-plan-icon-xs {
     padding: 9px 12px;
