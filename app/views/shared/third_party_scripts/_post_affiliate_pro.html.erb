@@ -1,0 +1,12 @@
+<% if Rails.env.production? %>
+  <script type="text/javascript">
+    document.write(decodeURI("%3Cscript id='pap_x2s6df8d' src='" + (("https:" == document.location.protocol) ? "https://" : "http://") +
+    "abroaders.postaffiliatepro.com/scripts/trackjs.js' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+  <script type="text/javascript">
+    PostAffTracker.setAccountId('default1');
+    try {
+    PostAffTracker.track();
+    } catch (err) { }
+  </script>
+<% end %>
