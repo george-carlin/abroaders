@@ -25,12 +25,6 @@
   debugging easier (e.g. if we need to step through the JS line-by-line in the
   console.)
 
-- We're using ESLint, and our rules are defined in `.eslintrc`. Some of these
-  rules are overwritten for 'other' JS by the file
-  `app/assets/javascripts/other/.eslintrc`.
-
-  All newly written JS code should pass ESLint.
-
 - We're targeting ES6 (AKA ES2015) and transpiling to ES5 using Babel. JS tests
   are running in the PhantomJS environment, which sadly isn't the
   best-maintained bit of software out there and is still lacking some ES5
@@ -54,6 +48,30 @@
 
 - Favor `import` over `require`.
 
+# ESLint
+
+- We're using ESLint, and our rules are defined in `.eslintrc`. Some of these
+  rules are overwritten for 'other' JS by the file
+  `app/assets/javascripts/other/.eslintrc`.
+
+  All newly written JS code should pass ESLint. It is *strongly* recommended
+  that you set up your text editor so that it runs ESLint automatically as you
+  type.
+
+- Note that if you're running the `eslint` command in the shell, you need
+  to make sure you're linting `.jsx` files as well as `.js`:
+
+      eslint --ext ".js,.jsx" app/assets/javascripts
+
+  (It doesn't look like there's a way to make this happen automatically in
+  the `eslintrc`; see https://github.com/eslint/eslint/issues/1674)
+
+- (Note from George: I'm using ESLint with Vim, and I found that ESLint was
+  taking a few seconds to run each time I saved, which was getting annoying.
+  Managed to fix it with the package
+  [`eslint_d`](https://www.npmjs.com/package/eslint_d); worth checkig out if
+  you have similar issues.)
+
 ## React.JS
 
 - require files in this order:
@@ -70,7 +88,7 @@
           ...
 
 - use stateless functional components whenever possible:
- 
+
         # Bad - the person class doesn't have any state, and simply renders
         # deterministic HTML based on its props - therefore there's no reason
         # to use a fullblown React class.

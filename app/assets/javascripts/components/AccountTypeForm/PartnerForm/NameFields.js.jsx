@@ -16,7 +16,7 @@ const NameField = React.createClass({
 
   onSubmitPartnerName(e) {
     e.preventDefault();
-    this.props.updatePartnerName(this.state.onChangePartnerName)
+    this.props.updatePartnerName(this.state.onChangePartnerName);
   },
 
 
