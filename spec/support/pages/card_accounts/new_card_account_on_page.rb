@@ -1,7 +1,6 @@
 require_relative "./card_account_on_page"
 
 class NewCardAccountOnPage < CardAccountOnPage
-
   button :approved, "I was approved"
   button :denied,   "My application was denied"
   button :pending,  "I'm waiting to hear back"
@@ -21,9 +20,7 @@ class NewCardAccountOnPage < CardAccountOnPage
     day = date.day.to_s
 
     # Prevent an infinite loop from occurring in the "until" block below
-    if date > Date.today
-      raise "error: approved at must be today or in the past"
-    end
+    raise "error: approved at must be today or in the past" if date > Date.today
 
     # If the date we want to find isn't in the current month, go back through
     # the datepicker months until we find it.
@@ -39,5 +36,4 @@ class NewCardAccountOnPage < CardAccountOnPage
     # '11' button when searching for '1'.
     find(".datepicker .day:not(.old):not(.disabled)", text: /\A#{day}\z/).click
   end
-
 end

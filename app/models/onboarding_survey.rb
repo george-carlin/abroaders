@@ -106,7 +106,7 @@ class OnboardingSurvey
     def reached_by_request?(request)
       if request.method == "GET"
         self.path == request.path
-      else 
+      else
         submission_paths.include?(request.path)
       end
     end
@@ -141,5 +141,4 @@ class OnboardingSurvey
       },
     ]
   end
-
 end

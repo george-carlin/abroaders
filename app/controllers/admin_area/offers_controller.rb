@@ -1,6 +1,5 @@
 module AdminArea
   class OffersController < AdminController
-
     def index
       if params[:card_id]
         @card   = load_card
@@ -68,9 +67,7 @@ module AdminArea
 
     def review
       @offers = Offer.includes(:card).live.order('last_reviewed_at ASC NULLS FIRST')
-
     end
-
 
     def verify
       @offer = Offer.live.find(params[:id])
@@ -80,7 +77,6 @@ module AdminArea
         format.js
       end
     end
-
 
     private
 

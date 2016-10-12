@@ -24,16 +24,15 @@ class AccountTypeFormOnPage < ObjectOnPage
 
   def show_companion_form_step_0?
     has_companion_first_name_field? &&
-    has_couples_btn? &&
-    has_no_companion_eligibility_radios? &&
-    has_no_couples_monthly_spending_field?
+      has_couples_btn? &&
+      has_no_companion_eligibility_radios? &&
+      has_no_couples_monthly_spending_field?
   end
 
   def show_companion_form_step_1?
     has_no_companion_first_name_field? &&
-    has_no_couples_btn? &&
-    has_companion_eligibility_radios? &&
-    has_couples_monthly_spending_field?
+      has_no_couples_btn? &&
+      has_companion_eligibility_radios? &&
+      has_couples_monthly_spending_field?
   end
-
 end

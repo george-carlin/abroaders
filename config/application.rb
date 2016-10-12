@@ -33,7 +33,7 @@ module Abroaders
       "--extension=.js",
       "--extension=.js.jsx",
       "--extension=.jsx",
-      "-t [ babelify --presets [ es2015 react ] ]"
+      "-t [ babelify --presets [ es2015 react ] ]",
     ]
   end
 end

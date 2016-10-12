@@ -9,8 +9,8 @@
 #
 # Based on https://groups.google.com/forum/#!topic/rubyonrails-core/eCi1iGHjIL8
 module I18nWithErrorRaising
-  def translate(key, options={})
+  def translate(key, options = {})
     I18n.t(key, options.reverse_merge(raise: ActionView::Base.raise_on_missing_translations))
   end
-  alias :t :translate
+  alias t translate
 end

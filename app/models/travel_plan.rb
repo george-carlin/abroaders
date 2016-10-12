@@ -22,7 +22,7 @@ class TravelPlan < ApplicationRecord
 
   # Attributes
 
-  TYPES = %i[single return multi]
+  TYPES = %i[single return multi].freeze
   enum type: TYPES
 
   DEFAULT_TYPE   = :return
@@ -33,7 +33,7 @@ class TravelPlan < ApplicationRecord
     # Warning: NEVER edit this array except to append new values to the end,
     # or you'll mess up all the existing data in the DB.
     # See https://github.com/joelmoss/bitmask_attributes
-    CLASSES = %i[economy premium_economy business_class first_class]
+    CLASSES = %i[economy premium_economy business_class first_class].freeze
 
     included do
       bitmask :acceptable_classes, as:  CLASSES
@@ -58,10 +58,10 @@ class TravelPlan < ApplicationRecord
 
   validates :departure_date_range, presence: true
   validates :no_of_passengers,
-    numericality: {
-      greater_than_or_equal_to: 1,
-      less_than_or_equal_to:    MAX_PASSENGERS,
-    }
+            numericality: {
+              greater_than_or_equal_to: 1,
+              less_than_or_equal_to:    MAX_PASSENGERS,
+            }
   validates :type, presence: true
   validates :account, presence: true
 
@@ -75,9 +75,6 @@ class TravelPlan < ApplicationRecord
   # Scopes
 
   scope :includes_destinations, -> do
-    includes(flights: {from: {parent: :parent}, to: { parent: :parent} })
+    includes(flights: { from: { parent: :parent }, to: { parent: :parent } })
   end
-
-  private
-
 end

@@ -28,7 +28,7 @@ namespace :ab do
         # you use `heroku run`... so if you have too many cards/offers in the
         # DB then not all of them will be printed by Heroku. You have been
         # warned.
-        puts json.gsub( /\r\n?/, "\n")
+        puts json.gsub(/\r\n?/, "\n")
       else
         path = Rails.root.join("lib/data/cards.json")
         File.write(path, json)
@@ -62,7 +62,7 @@ namespace :ab do
         # you use `heroku run`... so if you have too many cards/offers in the
         # DB then not all of them will be printed by Heroku. You have been
         # warned.
-        puts json.gsub( /\r\n?/, "\n")
+        puts json.gsub(/\r\n?/, "\n")
       else
         path = Rails.root.join("lib/data/offers.json")
         File.write(path, json)

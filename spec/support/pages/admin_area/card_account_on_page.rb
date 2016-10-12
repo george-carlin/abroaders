@@ -2,7 +2,7 @@ require_relative "../record_on_page"
 
 module AdminArea
   class CardAccountOnPage < RecordOnPage
-    alias_method :card_account, :model
+    alias card_account model
 
     def has_status?(status)
       has_selector? ".card_account_status", text: status
@@ -21,6 +21,5 @@ module AdminArea
     def click_pull_btn
       find("#card_account_#{card_account.id}_pull_btn").click
     end
-
   end
 end

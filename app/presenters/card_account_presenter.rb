@@ -1,5 +1,4 @@
 class CardAccountPresenter < ApplicationPresenter
-
   # If the card account was added in the onboarding survey (as opposed to
   # being recommended to the user by an admin), we only know the month
   # and year that the account was opened/closed, and not the precise date. However,
@@ -45,5 +44,4 @@ class CardAccountPresenter < ApplicationPresenter
   def offer
     @offer ||= super.present? ? OfferPresenter.new(super, view) : nil
   end
-
 end

@@ -14,6 +14,5 @@ module AdminArea
         account.recommendation_notes.create!(content: note) if note.present?
       end
     end
-
   end
 end

@@ -1,7 +1,7 @@
 require_relative "../record_on_page"
 
 class CardAccountOnPage < RecordOnPage
-  alias_method :card_account, :model
+  alias card_account model
 
   button :confirm
   button :cancel
@@ -13,7 +13,7 @@ class CardAccountOnPage < RecordOnPage
 
   button :decline,      "No Thanks"
   button :i_applied,    "I applied"
-  button :i_called,     Proc.new { "I called #{card_account.card.bank.name}" }
+  button :i_called,     proc { "I called #{card_account.card.bank.name}" }
   button :i_heard_back, "I heard back from the bank"
 
   def has_apply_btn?
@@ -36,7 +36,7 @@ class CardAccountOnPage < RecordOnPage
                       has_no_apply_or_decline_btns?
 
     if card_account.closed_at.present?
-      has_basic_info && 
+      has_basic_info &&
         has_content?("Closed") &&
         has_content?(card_account.closed_at.strftime("%b %Y"))
     else
@@ -55,5 +55,4 @@ class CardAccountOnPage < RecordOnPage
   private
 
   delegate :card, to: :card_account
-
 end

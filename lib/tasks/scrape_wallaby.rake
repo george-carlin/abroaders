@@ -6,16 +6,15 @@ namespace :ab do
       require "httparty"
       require "active_support/all"
 
-      BASE_URL = "https://api-qa.wallabyfinancial.net/v4"
+      BASE_URL = "https://api-qa.wallabyfinancial.net/v4".freeze
       HEADERS = {
         "X-Wasapi-App-Id"  => "22dd50c2",
         # NOTE: The current API key will expire sometime in April 2016, and we
         # won't get a new one without paying.
         "X-Wasapi-App-Key" => ENV["WALLABY_APP_KEY"],
         "Content-Type"     => "application/json",
-      }
+      }.freeze
     end
-
 
     task scrape_cards: :setup do
       cards = []
@@ -24,8 +23,8 @@ namespace :ab do
       query = { "limit" => 100, "offset" => 0 }
 
       loop do
-        puts "getting cards #{query["offset"]} to "\
-             "#{query["offset"] + query["limit"] - 1}..."
+        puts "getting cards #{query['offset']} to "\
+             "#{query['offset'] + query['limit'] - 1}..."
         response = HTTParty.get("#{BASE_URL}/cards", query: query, headers: HEADERS)
 
         new_cards = JSON.parse(response.body)
@@ -41,7 +40,6 @@ namespace :ab do
       puts "Written!"
     end
 
-
     task scrape_banks: :setup do
       banks = []
 
@@ -49,8 +47,8 @@ namespace :ab do
       query = { "limit" => 100, "offset" => 0 }
 
       loop do
-        puts "getting banks #{query["offset"]} to "\
-             "#{query["offset"] + query["limit"] - 1}..."
+        puts "getting banks #{query['offset']} to "\
+             "#{query['offset'] + query['limit'] - 1}..."
         response = HTTParty.get("#{BASE_URL}/banks", query: query, headers: HEADERS)
 
         new_banks = JSON.parse(response.body)

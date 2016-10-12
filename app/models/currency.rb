@@ -28,7 +28,7 @@ class Currency < ApplicationRecord
 
   # Attributes
 
-  TYPES = %w[airline bank hotel]
+  TYPES = %w[airline bank hotel].freeze
 
   # Validations
 

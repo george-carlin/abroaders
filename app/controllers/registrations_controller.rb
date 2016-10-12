@@ -1,5 +1,4 @@
 class RegistrationsController < Devise::RegistrationsController
-
   layout "basic"
 
   def new
@@ -36,5 +35,4 @@ class RegistrationsController < Devise::RegistrationsController
       # deprecation warning:
     ).to_h
   end
-
 end

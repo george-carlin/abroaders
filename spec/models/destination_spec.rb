@@ -3,7 +3,6 @@ require 'rails_helper'
 # Destination uses STI. This spec file tests Destination and all its
 # subclasses.  If it gets too long we can split it later.
 describe Destination do
-
   let(:region)  { Region.new }
   let(:country) { Country.new }
   let(:city)    { City.new }
@@ -69,5 +68,4 @@ describe Destination do
     airport.parent = region
     expect(errors).to include err_msg
   end
-
 end

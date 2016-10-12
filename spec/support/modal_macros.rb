@@ -1,5 +1,4 @@
 module ModalMacros
-
   def have_modal
     have_selector ".modal"
   end
@@ -13,5 +12,4 @@ module ModalMacros
       yield
     end
   end
-
 end

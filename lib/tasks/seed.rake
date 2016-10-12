@@ -1,6 +1,5 @@
 namespace :ab do
   namespace :seeds do
-
     # TODO the files which contain the sample data are split between lib/seeds
     # and lib/data for no apparent reason. Standardise where it's kept.
 
@@ -15,7 +14,7 @@ namespace :ab do
           Admin.create!(
             email: "#{name.downcase}@abroaders.com",
             password:              "abroaders123",
-            password_confirmation: "abroaders123"
+            password_confirmation: "abroaders123",
           )
         end
         puts "created #{Admin.count} admins"
@@ -27,7 +26,7 @@ namespace :ab do
         currency_ids = Currency.pluck(:id)
         load_data_for("cards").each do |data|
           data["image"] = File.open(
-            Rails.root.join("lib", "seeds", "cards", data.delete("image_name"))
+            Rails.root.join("lib", "seeds", "cards", data.delete("image_name")),
           )
           data["currency_id"] = currency_ids.sample
           Card.create!(data)
@@ -101,7 +100,7 @@ namespace :ab do
           Country.create!(
             name:   name,
             code:   code,
-            parent: regions.fetch(region_name)
+            parent: regions.fetch(region_name),
           )
         end
         puts "created #{data.length} countries"

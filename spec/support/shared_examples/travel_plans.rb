@@ -14,7 +14,9 @@ shared_examples "a travel plan form" do
   end
 
   describe "the 'from'/'to' dropdowns" do
-    def get_options(attr); all("#travel_plan_#{attr}_id option"); end
+    def get_options(attr)
+      all("#travel_plan_#{attr}_id option")
+    end
 
     specify "have the US, Alaska, and Hawaii sorted to the top" do
       [:from, :to].each do |attr|
@@ -37,12 +39,12 @@ shared_examples "a travel plan form" do
 
       [:from, :to].each do |attr|
         options = get_options(attr)
-        expect(options.drop(options_to_drop).map(&:text)).to eq ([
-            "France",
-            "Thailand",
-            "United Kingdom",
-            "Vietnam",
-        ])
+        expect(options.drop(options_to_drop).map(&:text)).to eq [
+          "France",
+          "Thailand",
+          "United Kingdom",
+          "Vietnam",
+        ]
       end
     end
   end

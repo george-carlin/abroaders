@@ -14,7 +14,7 @@ describe "as a user viewing my cards" do
     @existing_notes = create_list(
       :recommendation_note,
       no_of_existing_notes,
-      account: account
+      account: account,
     )
   end
 
@@ -24,7 +24,7 @@ describe "as a user viewing my cards" do
 
   let(:visit_page) { visit card_accounts_path }
 
-  H = "h3"
+  H = "h3".freeze
 
   example "not recommended any cards yet" do
     visit_page
@@ -67,12 +67,11 @@ describe "as a user viewing my cards" do
     expect do
       visit_page
       seen_rec.reload
-    end.not_to change{seen_rec.seen_at}
+    end.not_to change { seen_rec.seen_at }
     expect(unseen_rec.reload.seen_at).to be_within(5.seconds).of(Time.now)
     expect(survey_card.reload.seen_at).to be_nil
     expect(other_persons_rec.reload.seen_at).to be_nil
   end
-
 
   specify "no subheadings when neither companion or owner has cards" do
     companion = account.create_companion!(first_name: "Dave")
@@ -84,14 +83,14 @@ describe "as a user viewing my cards" do
 
   example "display owner and companion card recommendations" do
     companion = account.create_companion!(
-      first_name: "Dave", onboarded_balances: true, onboarded_cards: true
+      first_name: "Dave", onboarded_balances: true, onboarded_cards: true,
     )
     own_recs = create_list(:card_recommendation, 2, person: owner)
     com_recs = create_list(:card_recommendation, 2, person: companion)
     account.reload
     visit_page
 
-    {owner: own_recs, companion: com_recs}.each do |person_type, recs|
+    { owner: own_recs, companion: com_recs }.each do |person_type, recs|
       within "##{person_type}_card_recommendations" do
         recs.each do |rec|
           rec_on_page = CardAccountOnPage.new(rec, self)
@@ -121,5 +120,4 @@ describe "as a user viewing my cards" do
       expect(rec_on_page).to be_absent
     end
   end
-
 end

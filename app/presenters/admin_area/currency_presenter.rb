@@ -1,6 +1,6 @@
 module AdminArea
   class CurrencyPresenter < ApplicationPresenter
-    alias_method :currency, :model
+    alias currency model
 
     # "Bank Of America (Americard Points)" => "Bank Of America"
     def short_name
@@ -17,7 +17,7 @@ module AdminArea
         nil,
         true,
         class: filter_css_class,
-        data: { key: :currency, value: id  }
+        data: { key: :currency, value: id },
       ) << raw("&nbsp;&nbsp#{short_name}")
     end
 
@@ -30,6 +30,5 @@ module AdminArea
     def filter_css_id
       "#{filter_css_class}_#{id}"
     end
-
   end
 end

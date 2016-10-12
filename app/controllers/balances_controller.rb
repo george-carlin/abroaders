@@ -42,7 +42,7 @@ class BalancesController < AuthenticatedUserController
       onboarding_survey = current_account.reload.onboarding_survey
       if onboarding_survey.complete?
         AccountMailer.notify_admin_of_survey_completion(
-          current_account.id, Time.now.to_i
+          current_account.id, Time.now.to_i,
         ).deliver_later
         next_path = root_path
       else
@@ -69,12 +69,11 @@ class BalancesController < AuthenticatedUserController
 
   def survey_params
     params.permit(
-      balances: [:currency_id, :value]
+      balances: [:currency_id, :value],
     ).fetch(:balances, [])
   end
 
   def load_person
     current_account.people.find(params[:person_id])
   end
-
 end

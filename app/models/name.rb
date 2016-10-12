@@ -3,13 +3,12 @@
 #
 # TODO can this be deleted?
 class Name
-
   def self.you
     new("you")
   end
 
   attr_reader :name, :possessive, :has, :is, :doesnt_have, :isnt, :was, :he_she,
-    :does
+              :does
 
   def initialize(name)
     if name == "you"
@@ -42,5 +41,4 @@ class Name
       "he/she isn't"
     end
   end
-
 end

@@ -10,7 +10,8 @@ module Estimates
     attribute :class_of_service, String
     attribute :no_of_passengers, Integer
 
-    def as_json(options={})
+    # as_json methods must accept an opts parameter, but we don't use it here
+    def as_json(_ = {})
       { low: low, high: high }.stringify_keys
     end
 
@@ -31,6 +32,5 @@ module Estimates
     def single?
       type == "single"
     end
-
   end
 end

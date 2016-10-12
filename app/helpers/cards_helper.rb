@@ -1,5 +1,4 @@
 module CardsHelper
-
   def card_bp_filter_check_box_tag(bp)
     klass =  :card_bp_filter
     id    =  :"#{klass}_#{bp}"
@@ -9,7 +8,7 @@ module CardsHelper
         nil,
         true,
         class: klass,
-        data: { key: :bp, value: bp }
+        data: { key: :bp, value: bp },
       ) << raw("&nbsp;&nbsp#{bp.capitalize}")
     end
   end
@@ -23,7 +22,7 @@ module CardsHelper
         nil,
         true,
         class: klass,
-        data: { key: :bank, value: bank.id }
+        data: { key: :bank, value: bank.id },
       ) << raw("&nbsp;&nbsp#{bank.name}")
     end
   end
@@ -31,19 +30,18 @@ module CardsHelper
   def options_for_card_network_select(selected_network)
     options_for_select(
       Card.networks.map do |network, _|
-        [ t("activerecord.attributes.card.networks.#{network}"), network]
+        [t("activerecord.attributes.card.networks.#{network}"), network]
       end,
-      selected_network
+      selected_network,
     )
   end
 
   def options_for_card_type_select(selected_type)
     options_for_select(
       Card.types.map do |type, _|
-        [ t("activerecord.attributes.card.types.#{type}"), type]
+        [t("activerecord.attributes.card.types.#{type}"), type]
       end,
-      selected_type
+      selected_type,
     )
   end
-
 end

@@ -32,7 +32,7 @@ class CardsSurvey < ApplicationForm
 
       attributes = {
         card: Card.survey.find(card_account["card_id"]),
-        opened_at: end_of_month(opened_at_y, opened_at_m)
+        opened_at: end_of_month(opened_at_y, opened_at_m),
       }
 
       if card_account["closed"].present?

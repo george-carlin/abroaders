@@ -1,7 +1,6 @@
 require "rails_helper"
 
 describe CardAccount::Status do
-
   let(:date) { Date.today }
   let(:error_class) { CardAccount::InvalidStatus }
   let(:status) { described_class.new }
@@ -24,7 +23,7 @@ describe CardAccount::Status do
       describe "all other timestamps except 'opened_at' and 'closed_at'" do
         specify "must be blank" do
           (TIMESTAMPS - [:recommended_at, :opened_at, :closed_at]).each do |timestamp|
-            expect(valid_attributes?({timestamp => date})).to be false
+            expect(valid_attributes?(timestamp => date)).to be false
           end
         end
       end

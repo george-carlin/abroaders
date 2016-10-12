@@ -45,16 +45,13 @@ class ApplicationForm
   end
 
   def save!
-    if save
-      true
-    else
-      raise ActiveRecord::RecordInvalid.new(errors.full_messages.join(", "))
-    end
+    return true if save
+    raise ActiveRecord::RecordInvalid.new, errors.full_messages.join(", ")
   end
 
   def assign_attributes(attributes)
     attributes.each do |key, value|
-      self.send "#{key}=", value
+      send "#{key}=", value
     end
   end
 
@@ -62,21 +59,17 @@ class ApplicationForm
     assign_attributes(attributes)
     save
   end
-  alias_method :update_attributes, :update
+  alias update_attributes update
 
   def update!(attributes)
-    if update_attributes(attributes)
-      true
-    else
-      raise ActiveRecord::RecordInvalid.new(errors.full_messages.join(", "))
-    end
+    return true if update_attributes(attributes)
+    raise ActiveRecord::RecordInvalid.new, errors.full_messages.join(", ")
   end
-  alias_method :update_attributes!, :update!
+  alias update_attributes! update!
 
   private
 
   def persist!
     raise NotImplementedError, "subclasses of ApplicationForm must define a method called `persist!`"
   end
-
 end

@@ -1,11 +1,10 @@
 module SidebarHelper
-
-  def sidebar_link_to(text, href, controller_class=nil)
-    active  = if controller_class
-                controller.is_a?(controller_class)
-              else
-                request.path == href
-              end
+  def sidebar_link_to(text, href, controller_class = nil)
+    active = if controller_class
+               controller.is_a?(controller_class)
+             else
+               request.path == href
+             end
     content_tag :li, class: ("active" if active) do
       link_to href do
         content_tag :span, text, class: "nav-label"
@@ -13,12 +12,12 @@ module SidebarHelper
     end
   end
 
-  def sidebar_nested_links(title, nested_links, controller_class=nil)
-    active  = if controller_class
-                controller.is_a?(controller_class)
-              else
-                nested_links.any? { |_, href| href == request.path }
-              end
+  def sidebar_nested_links(title, nested_links, controller_class = nil)
+    active = if controller_class
+               controller.is_a?(controller_class)
+             else
+               nested_links.any? { |_, href| href == request.path }
+             end
     content_tag(
       :li,
       class: ("active" if active),
@@ -31,7 +30,7 @@ module SidebarHelper
       li_content << content_tag(
         :ul,
         class: "nav nav-second-level",
-        "aria-expanded": active
+        "aria-expanded": active,
       ) do
         raw(nested_links.map { |text, href| sidebar_nested_link_to(text, href) }.join)
       end
@@ -51,5 +50,4 @@ module SidebarHelper
       link_to(text, href)
     end
   end
-
 end

@@ -1,6 +1,5 @@
 module AdminArea
   class DestinationsController < AdminController
-
     def index
       @type = "destination"
       @destinations = load_destinations.all
@@ -18,9 +17,8 @@ module AdminArea
 
     def load_destinations
       Destination.includes(:parent).order("name ASC").paginate(
-        page: params[:page], per_page: 50
+        page: params[:page], per_page: 50,
       )
     end
-
   end
 end
