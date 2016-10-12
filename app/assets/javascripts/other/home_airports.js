@@ -1,6 +1,15 @@
 /* global Bloodhound b:true */
 /* global diacritics b:true */
 
+// Note: if the typeahead isn't working for you locally (in that you're
+// not seeing any results when you type in an airport, even though you do
+// have airports in the DB), it may be because typeahead.js has cached
+// an old version of your local `airports` table in your browser's local
+// storage. Running this line in the browser console solved the issue for me:
+//
+//    localStorage.removeItem("__/airports.json__data")
+//
+
 $(document).ready(function () {
   function getSelectedAirportCount() {
     return ($('.hidden-airports-ids').length);
