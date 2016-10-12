@@ -1,0 +1,75 @@
+AllCops:
+  TargetRubyVersion: 2.3
+
+# if you're assigning deliberately, write if (a = b), not if a = b
+Lint/AssignmentInCondition:
+  AllowSafeAssignment: true
+
+Metrics/LineLength:
+    Max: 100
+
+Style/AlignHash:
+  Enabled: false
+
+Style/AsciiComments:
+  Enabled: false
+
+Style/BlockComments:
+  Enabled: false
+
+Style/CommentAnnotation:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/DoubleNegation:
+  Enabled: false
+
+Style/FormatString:
+  Enabled: false
+
+# TODO we want to enable this eventually
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/GuardClause:
+  Enabled: false
+
+Style/Lambda:
+  Enabled: false
+
+Style/NumericLiterals:
+  Enabled: false
+
+Style/NumericPredicate:
+  Enabled: false
+
+Style/PercentLiteralDelimiters:
+  Enabled: false
+
+# This is generally a uus
+Style/PredicateName:
+  Enabled: false
+
+Style/RedundantSelf:
+  Enabled: false
+
+Style/RegexpLiteral:
+  Enabled: false
+
+Style/TrailingCommaInArguments:
+  EnforcedStyleForMultiline: consistent_comma
+
+Style/TrailingCommaInLiteral:
+  EnforcedStyleForMultiline: consistent_comma
+
+Style/VariableNumber:
+  EnforcedStyle: 'snake_case'
+
+StringLiterals:
+  Enabled: false
+
+# TODO we may actually want some of these:
+Metrics:
+  Enabled: false
