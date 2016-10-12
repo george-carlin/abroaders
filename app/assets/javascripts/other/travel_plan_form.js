@@ -64,18 +64,15 @@ $(document).ready(function () {
 
   var $singleRadio = $('#travel_plan_type_single');
   var $returnRadio = $('#travel_plan_type_return');
-  var travelTypeRadioClick = function(e) {
-    $returnOnField = $('#travel_plan_return_on');
+  var travelTypeRadioClick = function (e) {
+    var $returnOnField = $('#travel_plan_return_on');
 
     if ($singleRadio.prop('checked')) {
       $returnOnField.prop('disabled', true);
       $returnOnField.val('');
+    } else if ($returnRadio.prop('checked')) {
+      $returnOnField.prop('disabled', false);
     }
-    else
-      if ($returnRadio.prop('checked')) {
-        $returnOnField.prop('disabled', false);
-      }
-
   };
   $singleRadio.on('click', travelTypeRadioClick);
   $returnRadio.on('click', travelTypeRadioClick);

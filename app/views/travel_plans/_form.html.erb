@@ -1,63 +1,63 @@
 <%= render "shared/model_validation_errors", model: travel_plan %>
 <div class="panel-body">
   <%= form_for travel_plan.form_object do |f| %>
-      <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <% travel_plan.class.types.each do |type, _| %>
-            <label class="type-radio">
-              <%= t("activerecord.attributes.travel_plan.types.#{type}") %>
-              &nbsp;
-              <%= f.radio_button(
-                :type,
-                type,
-                checked: type == f.object.type
-              ) %>
-            </label>
-          <% end %>
-        </div>
-      </div>
-
-      <div class="travel-plan-input-group">
-        <div class="from-to-line">
-          <%= f.select(
-            :from_id,
-            options_for_travel_plan_country_select(@countries),
-            { prompt: "From" },
-            { class: "travel-plan-from-field" }
-          ) %>
-          <div class="travel-plan-icon-plane">
-            <span class="fa fa-plane"></span>
-          </div>
-          <%= f.select(
-            :to_id,
-            options_for_travel_plan_country_select(@countries),
-            { prompt: "To" },
-            { class: "travel-plan-to-field" }
-          ) %>
-        </div>
-
-        <div class="depart-return-passengers-line">
-          <div class="depart-return-line">
-            <div class="travel-plan-icon-depart">
-              <span class="fa fa-mail-forward"></span>
-            </div>
-            <%= f.text_field(
-              :depart_on,
-              placeholder: "Depart",
-              class: "travel-plan-datepicker travel-plan-depart-field",
-              value: f.object.departure_date_str
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <% travel_plan.class.types.each do |type, _| %>
+          <label class="type-radio">
+            <%= t("activerecord.attributes.travel_plan.types.#{type}") %>
+            &nbsp;
+            <%= f.radio_button(
+              :type,
+              type,
+              checked: type == f.object.type
             ) %>
+        </label>
+      <% end %>
+    </div>
+  </div>
 
-            <div class="travel-plan-icon-return">
-              <span class="fa fa-reply"></span>
-            </div>
-            <%= f.text_field(
-              :return_on,
-              placeholder: "Return",
-              class: "travel-plan-datepicker travel-plan-return-field",
-              value: (f.object.return_date_str if f.object.type == "return"),
-              disabled: ("disabled" if f.object.type == "single")
-            ) %>
+  <div class="travel-plan-input-group">
+    <div class="from-to-line">
+      <%= f.select(
+        :from_id,
+        options_for_travel_plan_country_select(@countries),
+        { prompt: "From" },
+        { class: "travel-plan-from-field" }
+      ) %>
+    <div class="travel-plan-icon-plane">
+      <span class="fa fa-plane"></span>
+    </div>
+    <%= f.select(
+      :to_id,
+      options_for_travel_plan_country_select(@countries),
+      { prompt: "To" },
+      { class: "travel-plan-to-field" }
+    ) %>
+</div>
+
+<div class="depart-return-passengers-line">
+  <div class="depart-return-line">
+    <div class="travel-plan-icon-depart">
+      <span class="fa fa-mail-forward"></span>
+    </div>
+    <%= f.text_field(
+      :depart_on,
+      placeholder: "Depart",
+      class: "travel-plan-datepicker travel-plan-depart-field",
+      value: f.object.departure_date_str
+    ) %>
+
+  <div class="travel-plan-icon-return">
+    <span class="fa fa-reply"></span>
+  </div>
+  <%= f.text_field(
+    :return_on,
+    placeholder: "Return",
+    class: "travel-plan-datepicker travel-plan-return-field",
+    value: (f.object.return_date_str if f.object.type == "return"),
+    disabled: ("disabled" if f.object.type == "single")
+  ) %>
           </div>
 
           <div class="passengers-line">
@@ -71,86 +71,86 @@
               placeholder: 'Travelers',
               class: "travel-plan-passengers-field"
             ) %>
-          </div>
         </div>
       </div>
+    </div>
 
-      <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-7 col-lg-6">
-          <p>Check all acceptable classes:</p>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-7 col-lg-6">
+        <p>Check all acceptable classes:</p>
 
-          <div class="row">
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-              <div class="form-group">
-                <%= f.label :will_accept_economy do %>
-                  <%= f.check_box :will_accept_economy %>
-                  &nbsp;Economy&nbsp;
-                <% end %>
-              </div>
-            </div>
-
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-              <div class="form-group">
-                <%= f.label :will_accept_premium_economy do %>
-                  <%= f.check_box :will_accept_premium_economy %>
-                  &nbsp;Premium Economy&nbsp;
-                <% end %>
-              </div>
-            </div>
-
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-              <div class="form-group">
-                <%= f.label :will_accept_business_class do %>
-                  <%= f.check_box :will_accept_business_class %>
-                  &nbsp;Business Class&nbsp;
-                <% end %>
-              </div>
-            </div>
-
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-              <div class="form-group">
-                <%= f.label :will_accept_first_class do %>
-                  <%= f.check_box :will_accept_first_class %>
-                  &nbsp;First Class&nbsp;
-                <% end %>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-              <div class="form-group">
-                <%= f.text_area(
-                  :further_information,
-                  placeholder: "Optional: give us any extra information about #{travel_plan.owner_name(true)} "\
-                               "travel plans that you think might be relevant"
-                ) %>
-                <span id="travel_plan_further_information_counter"></span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-5 col-lg-6">
-          <div data-react-component="PointsEstimateTable"></div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-7 col-lg-6">
-          <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-              <%= f.button type: "submit", class: "btn-primary btn-block form-control" do %>
-                  <span class="fa fa-check"></span>
-                  &nbspSave my travel Plan
+        <div class="row">
+          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <div class="form-group">
+              <%= f.label :will_accept_economy do %>
+                <%= f.check_box :will_accept_economy %>
+                &nbsp;Economy&nbsp;
               <% end %>
             </div>
-            <% if travel_plan.show_skip_survey? && !current_account.onboarded_travel_plans? %>
-                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                  <%= link_to_skip_survey %>
-                </div>
-            <% end %>
+          </div>
+
+          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <div class="form-group">
+              <%= f.label :will_accept_premium_economy do %>
+                <%= f.check_box :will_accept_premium_economy %>
+                &nbsp;Premium Economy&nbsp;
+              <% end %>
+            </div>
+          </div>
+
+          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <div class="form-group">
+              <%= f.label :will_accept_business_class do %>
+                <%= f.check_box :will_accept_business_class %>
+                &nbsp;Business Class&nbsp;
+              <% end %>
+            </div>
+          </div>
+
+          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <div class="form-group">
+              <%= f.label :will_accept_first_class do %>
+                <%= f.check_box :will_accept_first_class %>
+                &nbsp;First Class&nbsp;
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="form-group">
+              <%= f.text_area(
+                :further_information,
+                placeholder: "Optional: give us any extra information about #{travel_plan.owner_name(true)} "\
+                "travel plans that you think might be relevant"
+              ) %>
+            <span id="travel_plan_further_information_counter"></span>
           </div>
         </div>
       </div>
-  <% end %>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-5 col-lg-6">
+      <div data-react-component="PointsEstimateTable"></div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-7 col-lg-6">
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+          <%= f.button type: "submit", class: "btn-primary btn-block form-control" do %>
+            <span class="fa fa-check"></span>
+            &nbsp;Save my travel Plan
+          <% end %>
+        </div>
+        <% if travel_plan.show_skip_survey? && !current_account.onboarded_travel_plans? %>
+          <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <%= link_to_skip_survey %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>
 </div><!-- .panel-body -->

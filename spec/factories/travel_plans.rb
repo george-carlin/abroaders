@@ -10,17 +10,16 @@ FactoryGirl.define do
       rand(5).days.from_now
     end
 
-    return_on do
-      return_basis = rand(5) + rand(15)
-      return_basis.days.from_now
-    end
-
     trait :single do
       type :single
     end
 
     trait :return do
       type :return
+
+      return_on do
+        (5 + rand(15)).days.from_now
+      end
     end
 
     trait :multi do
