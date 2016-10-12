@@ -95,8 +95,8 @@ describe "travel plans" do
       expect(page).to have_field :travel_plan_type_single
       expect(page).to have_field :travel_plan_no_of_passengers
 
-      expect(page).to have_field :travel_plan_depart_on, with: ""
-      expect(page).to have_field :travel_plan_return_on, with: ""
+      expect(page).to have_field :travel_plan_departure_date, with: ""
+      expect(page).to have_field :travel_plan_return_date, with: ""
     end
 
     describe "filling in the form" do
@@ -109,8 +109,8 @@ describe "travel plans" do
           select "United States", from: :travel_plan_from_id
           select "Vietnam",       from: :travel_plan_to_id
           # Don't test the JS datepicker for now
-          fill_in :travel_plan_depart_on, with: depart_date.strftime("%m/%d/%Y")
-          fill_in :travel_plan_return_on, with: return_date.strftime("%m/%d/%Y")
+          fill_in :travel_plan_departure_date, with: depart_date.strftime("%m/%d/%Y")
+          fill_in :travel_plan_return_date, with: return_date.strftime("%m/%d/%Y")
           fill_in :travel_plan_no_of_passengers, with: 2
           fill_in :travel_plan_further_information, with: further_info
           check :travel_plan_will_accept_economy
@@ -121,7 +121,7 @@ describe "travel plans" do
 
         context "with trailing whitespace" do
           before do
-            fill_in :travel_plan_depart_on,  with: " #{depart_date.strftime("%m/%d/%Y")} "
+            fill_in :travel_plan_departure_date,  with: " #{depart_date.strftime("%m/%d/%Y")} "
             fill_in :travel_plan_further_information, with: " Something "
             submit_form
           end
@@ -230,8 +230,8 @@ describe "travel plans" do
         select "United Kingdom", from: :travel_plan_from_id
         select "Thailand",       from: :travel_plan_to_id
         # Don't test the JS datepicker for now
-        fill_in :travel_plan_depart_on, with: depart_date.strftime("%m/%d/%Y")
-        fill_in :travel_plan_return_on, with: return_date.strftime("%m/%d/%Y")
+        fill_in :travel_plan_departure_date, with: depart_date.strftime("%m/%d/%Y")
+        fill_in :travel_plan_return_date, with: return_date.strftime("%m/%d/%Y")
         fill_in :travel_plan_no_of_passengers, with: 2
         fill_in :travel_plan_further_information, with: "Something"
         check :travel_plan_will_accept_economy
