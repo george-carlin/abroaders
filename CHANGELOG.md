@@ -2,6 +2,10 @@
 
 ## October 2016
 
+*   Add `regions of interest` page. PT #130901163
+
+    *Boris Shatalov*
+
 *   Updates to the travel plan form. Pivotal Tracker #130904549
 
     *Anatols Baymaganov*
