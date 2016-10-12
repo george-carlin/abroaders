@@ -8,12 +8,14 @@ class TravelPlanForm < ApplicationForm
   attribute :will_accept_premium_economy, Boolean
   attribute :will_accept_business_class,  Boolean, default: false
   attribute :will_accept_first_class,     Boolean, default: false
-  attribute :depart_on, Date
-  attribute :return_on, Date
+  # Call these '*_date' rather than '*_on' (which are the names of the
+  # underlying DB column) so that we get friendly error messages
+  attribute :departure_date, Date
+  attribute :return_date,    Date
   attribute :further_information, String
 
-  def self.name
-    "TravelPlan"
+  def self.model_name
+    TravelPlan.model_name
   end
 
   def self.types
@@ -27,16 +29,16 @@ class TravelPlanForm < ApplicationForm
   end
 
   def departure_date_str
-    if depart_on.is_a? Date
-      depart_on.strftime(US_DATE_FORMAT)
-    elsif depart_on.nil?
+    if departure_date.is_a? Date
+      departure_date.strftime(US_DATE_FORMAT)
+    elsif departure_date.nil?
       ""
     else
-      depart_on
+      departure_date
     end
   end
 
-  def depart_on=(new_date)
+  def departure_date=(new_date)
     if new_date.is_a?(String) && us_date_format?(new_date)
       super(Date.strptime(new_date.strip, US_DATE_FORMAT))
     else
@@ -45,19 +47,17 @@ class TravelPlanForm < ApplicationForm
   end
 
   def return_date_str
-    if return_on.is_a? Date
-      return_on.strftime(US_DATE_FORMAT)
-    elsif return_on.nil?
+    if return_date.is_a? Date
+      return_date.strftime(US_DATE_FORMAT)
+    elsif return_date.nil?
       ""
     else
-      return_on
+      return_date
     end
   end
 
-  def return_on=(new_date)
-    if type == "single"
-      super(nil)
-    elsif new_date.is_a?(String) && us_date_format?(new_date)
+  def return_date=(new_date)
+    if new_date.is_a?(String) && us_date_format?(new_date)
       super(Date.strptime(new_date.strip, US_DATE_FORMAT))
     else
       super
@@ -84,41 +84,47 @@ class TravelPlanForm < ApplicationForm
   concerning :Validations do
     included do
       with_options presence: true do
-        validates :depart_on
+        validates :departure_date
         validates :from_id
         validates :no_of_passengers,
-                  numericality: { greater_than_or_equal_to: 1 }
+          numericality: {
+            greater_than_or_equal_to: 1,
+            # avoid a duplicative error message when blank:
+            allow_blank: true,
+          }
         validates :to_id
         validates :type, inclusion: { in: %w[single return] }
       end
 
+      validates :return_date, presence: { if: :return? }, absence: { if: :single? }
       validates :further_information, length: { maximum: 500 }
       validate :departure_date_is_in_the_future
-      validate :return_date_later_than_or_equal_departure_date
+      validate :return_date_is_in_the_future
+      validate :return_is_later_than_or_equal_to_departure
     end
 
     private
 
     def departure_date_is_in_the_future
-      if depart_on.is_a?(Date)
-        if depart_on < Date.today
-          errors.add(:depart_on, "date can't be in the past")
+      if departure_date.is_a?(Date)
+        if departure_date < Date.today
+          errors.add(:departure_date, "date can't be in the past")
         end
-      else
-        errors.add(:depart_on, "date must be date with correct format")
       end
     end
 
-    def return_date_later_than_or_equal_departure_date
-      if return_on.is_a?(Date)
-        if depart_on.is_a?(Date) && return_on < depart_on
-          errors.add(:return_on, "date can't be earlier than departure date")
+    def return_date_is_in_the_future
+      if return_date.is_a?(Date)
+        if return_date < Date.today
+          errors.add(:return_date, "date can't be in the past")
         end
-      else
-        if return_on.nil?
-          errors.add(:return_on, "date must be specified for round trip") if type == "return"
-        else
-          errors.add(:return_on, "date must be date with correct format")
+      end
+    end
+
+    def return_is_later_than_or_equal_to_departure
+      if return_date.is_a?(Date)
+        if departure_date.is_a?(Date) && return_date < departure_date
+          errors.add(:return_date, "date can't be earlier than departure date")
         end
       end
     end
@@ -137,8 +143,8 @@ class TravelPlanForm < ApplicationForm
   def travel_plan_attributes
     {
       type:                 type,
-      depart_on:            depart_on,
-      return_on:            return_on,
+      depart_on:            departure_date,
+      return_on:            return_date,
       further_information:  further_information.strip,
       no_of_passengers:     no_of_passengers,
       acceptable_classes:   acceptable_classes,
@@ -152,6 +158,14 @@ class TravelPlanForm < ApplicationForm
       (:business_class  if will_accept_business_class?),
       (:first_class     if will_accept_first_class?),
     ].compact
+  end
+
+  def single?
+    type == "single"
+  end
+
+  def return?
+    type == "return"
   end
 
 end

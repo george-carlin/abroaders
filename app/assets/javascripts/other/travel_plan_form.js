@@ -67,7 +67,7 @@ $(document).ready(function () {
   var $singleRadio = $('#travel_plan_type_single');
   var $returnRadio = $('#travel_plan_type_return');
   var travelTypeRadioClick = function (e) {
-    var $returnOnField = $('#travel_plan_return_on');
+    var $returnOnField = $('#travel_plan_return_date');
 
     if ($singleRadio.prop('checked')) {
       $returnOnField.prop('disabled', true);

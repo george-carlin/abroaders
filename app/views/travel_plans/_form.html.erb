@@ -42,7 +42,7 @@
       <span class="fa fa-mail-forward"></span>
     </div>
     <%= f.text_field(
-      :depart_on,
+      :departure_date,
       placeholder: "Depart",
       class: "travel-plan-datepicker travel-plan-depart-field",
       value: f.object.departure_date_str
@@ -52,7 +52,7 @@
     <span class="fa fa-reply"></span>
   </div>
   <%= f.text_field(
-    :return_on,
+    :return_date,
     placeholder: "Return",
     class: "travel-plan-datepicker travel-plan-return-field",
     value: (f.object.return_date_str if f.object.type == "return"),
