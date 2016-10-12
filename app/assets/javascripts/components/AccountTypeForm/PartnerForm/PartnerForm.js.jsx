@@ -4,6 +4,8 @@ import Button from "../../core/Button";
 import FAIcon from "../../core/FAIcon";
 import Form   from "../../core/Form";
 
+import HiddenField from "../../core/HiddenField";
+
 const MonthlySpending = require("../MonthlySpending");
 const PhoneNumber     = require("../PhoneNumber");
 
@@ -117,9 +119,10 @@ const PartnerForm = React.createClass({
           if (this.state.nameSubmitted) {
             return (
               <div className="account_type_form_step_1">
-                <input
+                <HiddenField
+                  attribute="partner_first_name"
+                  modelName={modelName}
                   type="hidden"
-                  name="partner_account[partner_first_name]"
                   value={this.state.partnerName}
                 />
 

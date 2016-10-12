@@ -2,6 +2,10 @@
 
 ## October 2016
 
+*   Add <HiddenField> component
+
+    *George Millo*
+
 *   Add PostAffiliatePro tracking code
 
     *George Millo*
