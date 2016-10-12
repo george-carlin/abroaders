@@ -4,7 +4,7 @@ class StateRouteLink
 
   attribute :account, Account
 
-  private *delegate(:owner, :companion, :has_companion?, to: :account)
+  private *delegate(:owner, :companion, to: :account)
 
   # TODO: fill missing routes as soon as we get them
   def map
