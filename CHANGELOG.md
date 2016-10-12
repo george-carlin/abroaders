@@ -2,6 +2,10 @@
 
 ## October 2016
 
+*   Standardise partner/couples/companion terminology
+
+    *George Millo*
+
 *   Add <HiddenField> component
 
     *George Millo*
