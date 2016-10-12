@@ -5,7 +5,7 @@ class ConvertDepartureDateRageToDepartOnDate < ActiveRecord::Migration[5.0]
     TravelPlan.reset_column_information
 
     TravelPlan.find_each do |tp|
-      tp.update(depart_on: tp.departure_date_range.first)
+      tp.update!(depart_on: tp.departure_date_range.first)
     end
 
     change_column_null :travel_plans, :depart_on, false
