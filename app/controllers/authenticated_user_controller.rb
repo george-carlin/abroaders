@@ -13,13 +13,13 @@ class AuthenticatedUserController < ApplicationController
     if survey.complete?
       redirect_to root_path if request_to_onboarding_survey?(routes_map)
     else
-      current_path = survey.current_page_path
-      redirect_to current_path if request.path != current_path
+      redirect_to survey.current_path if request.method == "GET" && request.path != survey.current_path
     end
   end
 
   def request_to_onboarding_survey?(routes_map)
-    routes_map.map{ |name, params| return true if params[:path] == request.path && !params[:revisitable] }
+    routes_map.map{ |name, options| return true if options[:path] == request.path && !options[:revisitable] }
+    false
   end
 
   def track_intercom_event(event_name)
