@@ -68,6 +68,14 @@ class OnboardingSurvey
     state :complete
   end
 
+  def routes_map
+    StateRouteLink.new(account: self).map
+  end
+
+  def current_page_path
+    routes_map[current_state.name][:path]
+  end
+
   private
 
   def load_workflow_state
