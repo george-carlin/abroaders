@@ -94,13 +94,13 @@ class TravelPlanForm < ApplicationForm
 
       validates :further_information, length: { maximum: 500 }
       validate :departure_date_is_in_the_future
-      validate :return_date_later_then_or_equal_departure_date
+      validate :return_date_later_than_or_equal_departure_date
     end
 
     private
 
     def departure_date_is_in_the_future
-      if depart_on.is_a? Date
+      if depart_on.is_a?(Date)
         if depart_on < Date.today
           errors.add(:depart_on, "date can't be in the past")
         end
@@ -109,8 +109,8 @@ class TravelPlanForm < ApplicationForm
       end
     end
 
-    def return_date_later_then_or_equal_departure_date
-      if return_on.is_a? Date
+    def return_date_later_than_or_equal_departure_date
+      if return_on.is_a?(Date)
         if depart_on.is_a?(Date) && return_on < depart_on
           errors.add(:return_on, "date can't be earlier than departure date")
         end
@@ -129,28 +129,28 @@ class TravelPlanForm < ApplicationForm
 
   def flight_attributes
     {
-        from: Destination.country.find(from_id),
-        to:   Destination.country.find(to_id),
+      from: Destination.country.find(from_id),
+      to:   Destination.country.find(to_id),
     }
   end
 
   def travel_plan_attributes
     {
-        type:                 type,
-        depart_on:            depart_on,
-        return_on:            return_on,
-        further_information:  further_information.strip,
-        no_of_passengers:     no_of_passengers,
-        acceptable_classes:   acceptable_classes,
+      type:                 type,
+      depart_on:            depart_on,
+      return_on:            return_on,
+      further_information:  further_information.strip,
+      no_of_passengers:     no_of_passengers,
+      acceptable_classes:   acceptable_classes,
     }
   end
 
   def acceptable_classes
     [
-        (:economy         if will_accept_economy?),
-        (:premium_economy if will_accept_premium_economy?),
-        (:business_class  if will_accept_business_class?),
-        (:first_class     if will_accept_first_class?),
+      (:economy         if will_accept_economy?),
+      (:premium_economy if will_accept_premium_economy?),
+      (:business_class  if will_accept_business_class?),
+      (:first_class     if will_accept_first_class?),
     ].compact
   end
 
