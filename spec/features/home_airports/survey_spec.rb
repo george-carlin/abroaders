@@ -51,7 +51,7 @@ describe "home airports survey", :onboarding, :js do
     expect(page).to have_button("Save and continue", disabled: false)
   end
 
-  xexample "submittin form" do
+  xexample "submitting form" do
     fill_in_autocomplete("typeahead", @airport.code)
     submit_form
     account.reload
