@@ -4,7 +4,7 @@ module AdminArea
       false
     end
 
-    def show_earliest_departure_help_block?
+    def show_departure_date_help_block?
       false
     end
 

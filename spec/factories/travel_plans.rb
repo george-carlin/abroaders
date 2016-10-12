@@ -6,10 +6,8 @@ FactoryGirl.define do
 
     type :single
 
-    departure_date_range do
-      earliest = rand(5)
-      latest   = earliest + rand(15)
-      earliest.days.from_now..latest.days.from_now
+    depart_on do
+      rand(5).days.from_now
     end
 
     trait :single do
@@ -18,6 +16,10 @@ FactoryGirl.define do
 
     trait :return do
       type :return
+
+      return_on do
+        (5 + rand(15)).days.from_now
+      end
     end
 
     trait :multi do

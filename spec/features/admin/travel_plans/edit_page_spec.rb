@@ -5,8 +5,9 @@ describe "admin edit travel plan" do
   subject { page }
 
   let(:account) { create(:account, :onboarded) }
-  let(:travel_plan) { create(:travel_plan, account: account) }
-  let(:date) { 5.months.from_now.to_date }
+  let(:travel_plan) { create(:travel_plan, :return, account: account) }
+  let(:depart_date) { 5.months.from_now.to_date }
+  let(:return_date) { 6.months.from_now.to_date }
   let(:submit_form) { click_button "Save" }
 
   before do
@@ -35,7 +36,6 @@ describe "admin edit travel plan" do
     owner_name = account.owner.first_name
 
     expect(form[:action]).to eq admin_travel_plan_path(travel_plan)
-    expect(form).to have_content "What class(es) of service would #{owner_name} consider for this trip?"
     expect(form).to have_no_selector(".help-block")
     expect(form.find("#travel_plan_further_information")[:placeholder]).to eq "Optional: give us any extra information about #{owner_name}'s travel plans that you think might be relevant"
   end
@@ -52,7 +52,8 @@ describe "admin edit travel plan" do
     before do
       select "United Kingdom", from: :travel_plan_from_id
       select "Thailand",       from: :travel_plan_to_id
-      fill_in :travel_plan_earliest_departure, with: date.strftime("%m/%d/%Y")
+      fill_in :travel_plan_depart_on, with: depart_date.strftime("%m/%d/%Y")
+      fill_in :travel_plan_return_on, with: return_date.strftime("%m/%d/%Y")
       fill_in :travel_plan_no_of_passengers, with: 2
       fill_in :travel_plan_further_information, with: "Something"
       check :travel_plan_will_accept_economy
@@ -67,7 +68,8 @@ describe "admin edit travel plan" do
       flight = travel_plan.flights.first
       expect(flight.from).to eq @uk
       expect(flight.to).to eq @tl
-      expect(travel_plan.earliest_departure).to eq date
+      expect(travel_plan.depart_on).to eq depart_date
+      expect(travel_plan.return_on).to eq return_date
       expect(travel_plan.no_of_passengers).to eq 2
       expect(travel_plan.further_information).to eq "Something"
       expect(travel_plan.will_accept_economy?).to be_truthy
