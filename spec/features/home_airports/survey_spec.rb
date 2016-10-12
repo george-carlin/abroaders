@@ -33,8 +33,8 @@ describe "home airports survey", :onboarding, :js do
     expect(page).to have_no_sidebar
   end
 
-  # FIXME: TypeError: undefined is not a constructor (evaluating 'q.normalize()')
-  # Looks like phantomJs doesn't support it
+  # FIXME: both of these specs are broken, probably outdated,  and need
+  # updating
   xexample "work of autocomplete" do
     select = "#{@airport.parent.name} #{@airport.name} (#{@airport.code})"
     with = @airport.code
