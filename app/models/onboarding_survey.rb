@@ -57,7 +57,7 @@ class OnboardingSurvey
           path:        type_account_path,
           required:    true,
           revisitable: false,
-          submission_paths: [solo_account_path, partner_account_path],
+          submission_paths: [solo_account_path, couples_account_path],
         },
       ]
 

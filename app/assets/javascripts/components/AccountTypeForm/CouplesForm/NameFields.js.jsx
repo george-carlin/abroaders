@@ -14,12 +14,6 @@ const NameField = React.createClass({
   },
 
 
-  onSubmitPartnerName(e) {
-    e.preventDefault();
-    this.props.updatePartnerName(this.state.onChangePartnerName);
-  },
-
-
   render() {
     return (
       <div>
@@ -31,8 +25,8 @@ const NameField = React.createClass({
 
         <FormGroup>
           <TextField
-            attribute="partner_first_name"
-            modelName="partner_account"
+            attribute="companion_first_name"
+            modelName="couples_account"
             placeholder="What's your partner's first name?"
             onChange={this.props.onChange}
             onSubmit={this.props.onSubmit}

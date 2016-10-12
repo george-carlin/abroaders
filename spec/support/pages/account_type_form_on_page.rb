@@ -9,30 +9,30 @@ class AccountTypeFormOnPage < ObjectOnPage
   button :solo,    "Sign up for solo earning"
   button :couples, t("accounts.type.sign_up_for_couples_earning")
 
-  section :couples_form, ".PartnerForm"
+  section :couples_form, ".CouplesForm"
   section :solo_form,    ".SoloForm"
 
-  field :partner_first_name,            :partner_account_partner_first_name
-  field :couples_monthly_spending, :partner_account_monthly_spending_usd
+  field :companion_first_name,     :couples_account_companion_first_name
+  field :couples_monthly_spending, :couples_account_monthly_spending_usd
 
-  radio :partner_eligibility, :partner_account_eligibility, [:both, :person_0, :person_1, :neither]
+  radio :companion_eligibility, :couples_account_eligibility, [:both, :person_0, :person_1, :neither]
 
-  def submit_partner_first_name(name)
-    fill_in_partner_first_name with: name
+  def submit_companion_first_name(name)
+    fill_in_companion_first_name with: name
     click_couples_btn
   end
 
-  def show_partner_form_step_0?
-    has_partner_first_name_field? &&
+  def show_companion_form_step_0?
+    has_companion_first_name_field? &&
     has_couples_btn? &&
-    has_no_partner_eligibility_radios? &&
+    has_no_companion_eligibility_radios? &&
     has_no_couples_monthly_spending_field?
   end
 
-  def show_partner_form_step_1?
-    has_no_partner_first_name_field? &&
+  def show_companion_form_step_1?
+    has_no_companion_first_name_field? &&
     has_no_couples_btn? &&
-    has_partner_eligibility_radios? &&
+    has_companion_eligibility_radios? &&
     has_couples_monthly_spending_field?
   end
 

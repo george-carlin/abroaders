@@ -3,14 +3,14 @@ import React from "react";
 import Row from "../core/Row";
 
 const SoloForm    = require("./SoloForm");
-const PartnerForm = require("./PartnerForm");
+const CouplesForm = require("./CouplesForm");
 
 const AccountTypeForm = React.createClass({
   propTypes: {
     destinationName: React.PropTypes.string,
     ownerName:       React.PropTypes.string.isRequired,
     soloPath:        React.PropTypes.string.isRequired,
-    partnerPath:     React.PropTypes.string.isRequired,
+    couplesPath:     React.PropTypes.string.isRequired,
   },
 
 
@@ -67,11 +67,11 @@ const AccountTypeForm = React.createClass({
         {(() => {
           if (!(this.state.currentAction === "choosingSolo")) {
             return (
-              <PartnerForm
+              <CouplesForm
                 active={!(this.state.currentAction === "initial")}
                 ownerName={this.props.ownerName}
                 onChoose={this.onChooseCouples}
-                path={this.props.partnerPath}
+                path={this.props.couplesPath}
               />
             );
           }

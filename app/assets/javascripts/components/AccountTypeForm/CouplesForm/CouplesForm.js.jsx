@@ -12,7 +12,7 @@ const PhoneNumber     = require("../PhoneNumber");
 const Eligibility     = require("./Eligibility");
 const NameFields      = require("./NameFields");
 
-const PartnerForm = React.createClass({
+const CouplesForm = React.createClass({
   propTypes: {
     active:    React.PropTypes.bool,
     ownerName: React.PropTypes.string.isRequired,
@@ -25,9 +25,9 @@ const PartnerForm = React.createClass({
     return {
       monthlySpending:          null,
       nameSubmitted:            false,
-      partnerName:              "",
+      companionName:            "",
       showMonthlySpendingError: false,
-      showPartnerNameError:     false,
+      showCompanionNameError:   false,
       eligibility:              "both",
     };
   },
@@ -43,8 +43,8 @@ const PartnerForm = React.createClass({
   },
 
 
-  onChangePartnerName(e) {
-    this.setState({ partnerName: e.target.value });
+  onChangeCompanionName(e) {
+    this.setState({ companionName: e.target.value });
   },
 
 
@@ -57,19 +57,19 @@ const PartnerForm = React.createClass({
         this.setState({showMonthlySpendingError: false });
       }
     } else {
-      this.onSubmitPartnerName(e);
+      this.onSubmitCompanionName(e);
     }
   },
 
 
-  onSubmitPartnerName(e, name) {
+  onSubmitCompanionName(e, name) {
     e.preventDefault();
 
-    if (this.state.partnerName.length) {
-      this.setState({ showPartnerNameError: false, nameSubmitted: true });
+    if (this.state.companionName.length) {
+      this.setState({ showCompanionNameError: false, nameSubmitted: true });
       this.props.onChoose();
     } else {
-      this.setState({ showPartnerNameError: true });
+      this.setState({ showCompanionNameError: true });
     }
   },
 
@@ -79,21 +79,21 @@ const PartnerForm = React.createClass({
 
 
   render() {
-    let classes = "PartnerForm account_type_select well col-xs-12 col-md-4";
+    let classes = "CouplesForm account_type_select well col-xs-12 col-md-4";
     if (this.props.active) classes += " col-md-offset-4";
 
-    const modelName = "partner_account";
+    const modelName = "couples_account";
 
     let namesOfEligiblePeople;
     switch (this.state.eligibility) {
       case "both":
-        namesOfEligiblePeople = [this.props.ownerName, this.state.partnerName];
+        namesOfEligiblePeople = [this.props.ownerName, this.state.companionName];
         break;
       case "person_0":
         namesOfEligiblePeople = [this.props.ownerName];
         break;
       case "person_1":
-        namesOfEligiblePeople = [this.state.partnerName];
+        namesOfEligiblePeople = [this.state.companionName];
         break;
       case "neither":
         namesOfEligiblePeople = [];
@@ -104,7 +104,6 @@ const PartnerForm = React.createClass({
       <Form
         action={this.props.path}
         className={classes}
-        id="partner_earning_select"
         method="post"
         onSubmit={this.onSubmit}
       >
@@ -120,17 +119,17 @@ const PartnerForm = React.createClass({
             return (
               <div className="account_type_form_step_1">
                 <HiddenField
-                  attribute="partner_first_name"
+                  attribute="companion_first_name"
                   modelName={modelName}
                   type="hidden"
-                  value={this.state.partnerName}
+                  value={this.state.companionName}
                 />
 
                 <Eligibility
                   eligibility={this.state.eligibility}
                   onChange={this.onChangeEligibility}
                   person1FirstName={this.props.ownerName}
-                  person2FirstName={this.state.partnerName}
+                  person2FirstName={this.state.companionName}
                 />
 
                 <hr />
@@ -141,7 +140,7 @@ const PartnerForm = React.createClass({
                   namesOfEligiblePeople={namesOfEligiblePeople}
                   onChange={this.onChangeMonthlySpending}
                   person0FirstName={this.props.ownerName}
-                  person1FirstName={this.state.partnerName}
+                  person1FirstName={this.state.companionName}
                   showError={this.state.showMonthlySpendingError}
                   value={this.state.monthlySpending}
                 />
@@ -172,10 +171,10 @@ const PartnerForm = React.createClass({
                 </p>
 
                 <NameFields
-                  name={this.state.partnerName}
-                  onChange={this.onChangePartnerName}
-                  onSubmit={this.onSubmitPartnerName}
-                  showError={this.state.showPartnerNameError}
+                  name={this.state.companionName}
+                  onChange={this.onChangeCompanionName}
+                  onSubmit={this.onSubmitCompanionName}
+                  showError={this.state.showCompanionNameError}
                 />
               </div>
             );
@@ -187,4 +186,4 @@ const PartnerForm = React.createClass({
   },
 });
 
-module.exports = PartnerForm;
+module.exports = CouplesForm;
