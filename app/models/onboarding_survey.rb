@@ -25,7 +25,7 @@ class OnboardingSurvey
 
     state :eligibility do
       event :add_eligibility, transition_to: :owner_cards,
-            if: -> { owner.eligible? }
+            if: -> (os) { os.owner.eligible? }
       event :add_eligibility, transition_to: :owner_balances
     end
 
@@ -35,21 +35,21 @@ class OnboardingSurvey
 
     state :owner_balances do
       event :add_owner_balances, transition_to: :companion_cards,
-            if: -> { companion.present? && companion.eligible? }
+            if: -> (os) { os.companion.present? && os.companion.eligible? }
       event :add_owner_balances, transition_to: :companion_balances,
-            if: -> { companion.present? }
+            if: -> (os) { os.companion.present? }
       event :add_owner_balances, transition_to: :spending,
-            if: -> { owner.eligible? }
+            if: -> (os) { os.owner.eligible? }
       event :add_owner_balances, transition_to: :phone_number
     end
 
     state :companion_cards do
-      event :add_owner_balances, transition_to: :companion_balances
+      event :add_companion_cards, transition_to: :companion_balances
     end
 
     state :companion_balances do
       event :add_companion_balances, transition_to: :spending,
-            if: -> { owner.eligible? || companion.eligible? }
+            if: -> (os) { os.owner.eligible? || os.companion.eligible? }
       event :add_companion_balances, transition_to: :phone_number
     end
 
@@ -72,7 +72,7 @@ class OnboardingSurvey
     StateRouteLink.new(account: self).map
   end
 
-  def current_page_path
+  def current_path
     routes_map[current_state.name][:path]
   end
 
