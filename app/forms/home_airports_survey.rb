@@ -5,9 +5,9 @@ class HomeAirportsSurvey < ApplicationForm
   validates :account, presence: true
   validates :airport_ids, presence: true, length: { minimum: 1, maximum: 5 }
 
-  def self.name
-    "HomeAirports"
-  end
+  # def self.name
+  #   "HomeAirports"
+  # end
 
   private
 
