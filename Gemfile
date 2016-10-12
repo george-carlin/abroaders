@@ -52,7 +52,9 @@ group :development do
   gem 'web-console', '~> 3.0'
   gem 'bullet'
   gem 'binding_of_caller'
-  gem 'rubocop', require: false
+  # Restrict the version of rubocop so that our build doesn't break because our
+  # code no longer passes on a newer version of rubocop
+  gem 'rubocop', '~> 0.43.0', require: false
 end
 
 group :test do

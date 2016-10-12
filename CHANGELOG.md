@@ -10,6 +10,14 @@
 
     *Anatols Baymaganov*
 
+*   Standardise partner/couples/companion terminology
+
+    *George Millo*
+
+*   Add <HiddenField> component
+
+    *George Millo*
+
 *   Add PostAffiliatePro tracking code
 
     *George Millo*

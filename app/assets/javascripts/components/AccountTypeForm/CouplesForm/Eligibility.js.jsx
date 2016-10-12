@@ -41,10 +41,9 @@ const Eligibility = React.createClass({
               <Radio
                 attribute="eligibility"
                 checked={this.props.eligibility === value}
-                className="partner_account_eligibility"
                 key={i}
                 labelText={labels[value]}
-                modelName="partner_account"
+                modelName="couples_account"
                 onChange={this.props.onChange}
                 value={value}
               />

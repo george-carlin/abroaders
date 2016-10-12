@@ -56,7 +56,7 @@ describe('HelpText', () => {
     });
   });
 
-  describe("for the partner plan", () => {
+  describe("for the couples plan", () => {
     describe("when no-one is eligible", () => {
       it("has the correct text", () => {
         const helpBlocks = getHelpBlocks({isSoloPlan: false, namesOfEligiblePeople: []});

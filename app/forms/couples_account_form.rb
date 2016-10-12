@@ -1,14 +1,14 @@
-class PartnerAccountForm < AccountTypeForm
+class CouplesAccountForm < AccountTypeForm
   attribute :account,              Account
   attribute :person_0,             Person
   attribute :person_1,             Person
   attribute :monthly_spending_usd, Integer
-  attribute :partner_first_name,   String
+  attribute :companion_first_name, String
   attribute :eligibility,          String, default: "both"
   attribute :phone_number,         String
 
   def self.name
-    "PartnerAccount"
+    "CouplesAccount"
   end
 
   ELIGIBILITY = %w[both person_0 person_1 neither]
@@ -30,7 +30,7 @@ class PartnerAccountForm < AccountTypeForm
     numericality: { greater_than_or_equal_to: 0 },
     unless: :neither_eligible?
 
-  validates :partner_first_name, presence: true
+  validates :companion_first_name, presence: true
 
   private
 
@@ -43,7 +43,7 @@ class PartnerAccountForm < AccountTypeForm
     self.person_0.update_attributes!(eligible: person_0_eligible?)
     self.person_1 = account.create_companion!(
       eligible:   person_1_eligible?,
-      first_name: partner_first_name,
+      first_name: companion_first_name,
     )
   end
 end

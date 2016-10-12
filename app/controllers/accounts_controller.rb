@@ -20,12 +20,12 @@ class AccountsController < AuthenticatedUserController
     redirect_to onboarding_survey.current_path
   end
 
-  def create_partner_account
-    @partner_account = PartnerAccountForm.new(partner_account_params)
-    @partner_account.account = current_account
+  def create_couples_account
+    @couples_account = CouplesAccountForm.new(couples_account_params)
+    @couples_account.account = current_account
     # The front-end should prevent invalid data from being submitted. If they
     # bypass the JS, fuck 'em.
-    @partner_account.save!
+    @couples_account.save!
     track_account_type_intercom_event!
     redirect_to onboarding_survey.current_path
   end
@@ -38,11 +38,11 @@ class AccountsController < AuthenticatedUserController
     params.require(:solo_account).permit(:monthly_spending_usd, :eligible, :phone_number).to_h
   end
 
-  def partner_account_params
+  def couples_account_params
     # Virtus will call `to_hash` on the passed attributes, but this method
     # is deprecated on ActionController::Parameters; call `to_h` instead:
-    params.require(:partner_account).permit(
-      :monthly_spending_usd, :partner_first_name, :eligibility, :phone_number
+    params.require(:couples_account).permit(
+      :monthly_spending_usd, :companion_first_name, :eligibility, :phone_number
     ).to_h
   end
 
