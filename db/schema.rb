@@ -31,9 +31,9 @@ ActiveRecord::Schema.define(version: 20161011141750) do
     t.integer  "monthly_spending_usd"
     t.integer  "unseen_notifications_count", default: 0,               null: false
     t.string   "phone_number"
-    t.string   "onboarded_state",            default: "home_airports", null: false
+    t.string   "onboarding_state",           default: "home_airports", null: false
     t.index ["email"], name: "index_accounts_on_email", unique: true, using: :btree
-    t.index ["onboarded_state"], name: "index_accounts_on_onboarded_state", using: :btree
+    t.index ["onboarding_state"], name: "index_accounts_on_onboarding_state", using: :btree
     t.index ["reset_password_token"], name: "index_accounts_on_reset_password_token", unique: true, using: :btree
   end
 

@@ -64,12 +64,12 @@ class AddOnboardedStateToAccounts < ActiveRecord::Migration[5.0]
   end
 
   def change
-    add_column :accounts, :onboarded_state, :string, default: "home_airports", null: false
-    add_index :accounts, :onboarded_state
+    add_column :accounts, :onboarding_state, :string, default: "home_airports", null: false
+    add_index :accounts, :onboarding_state
 
     Account.reset_column_information
     Account.find_each do |account|
-      account.update!(onboarded_state: get_onboarding_state(account))
+      account.update!(onboarding_state: get_onboarding_state(account))
     end
 
     remove_column :accounts, :onboarded_home_airports, default: false, null: false
