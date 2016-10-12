@@ -42,7 +42,7 @@ class CardAccountsController < AuthenticatedUserController
     # should never fail:
     CardsSurvey.new(survey_params.merge(person: @person)).save!
     track_intercom_event("obs_cards_#{@person.type[0..2]}")
-    redirect_to current_account.onboarding_survey.current_page.path
+    redirect_to onboarding_survey.current_path
   end
 
   private

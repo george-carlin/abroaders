@@ -9,7 +9,7 @@ class HomeAirportsController < AuthenticatedUserController
     @survey = HomeAirportsSurvey.new(survey_params)
 
     if @survey.save
-      redirect_to current_account.onboarding_survey.current_page.path
+      redirect_to onboarding_survey.current_path
     else
       render :survey
     end

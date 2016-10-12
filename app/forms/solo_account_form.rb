@@ -29,11 +29,10 @@ class SoloAccountForm < AccountTypeForm
 
   def persist!
     account.monthly_spending_usd = monthly_spending_usd
-    account.onboarded_type       = true
+    account.onboarding_survey.choose_account_type!
     account.phone_number = phone_number.strip if phone_number.present?
     account.save!
     @person = account.owner
     @person.update_attributes!(eligible: eligible?)
   end
-
 end

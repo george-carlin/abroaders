@@ -17,7 +17,7 @@ class AccountsController < AuthenticatedUserController
     # bypass the JS, fuck 'em.
     @solo_account.save!
     track_account_type_intercom_event!
-    redirect_to current_account.onboarding_survey.current_page.path
+    redirect_to onboarding_survey.current_path
   end
 
   def create_partner_account
@@ -27,7 +27,7 @@ class AccountsController < AuthenticatedUserController
     # bypass the JS, fuck 'em.
     @partner_account.save!
     track_account_type_intercom_event!
-    redirect_to current_account.onboarding_survey.current_page.path
+    redirect_to onboarding_survey.current_path
   end
 
   private

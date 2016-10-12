@@ -46,7 +46,7 @@ class BalancesController < AuthenticatedUserController
         ).deliver_later
         next_path = root_path
       else
-        next_path = onboarding_survey.current_page.path
+        next_path = onboarding_survey.current_path
       end
       track_intercom_event("obs_balances_#{@person.type[0..2]}")
       redirect_to next_path

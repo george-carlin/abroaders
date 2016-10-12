@@ -13,7 +13,7 @@ class HomeAirportsSurvey < ApplicationForm
 
   def persist!
     account.home_airports << Airport.where(id: airport_ids)
-    account.onboarded_home_airports = true
+    account.onboarding_survey.add_home_airports!
     account.save!
   end
 end

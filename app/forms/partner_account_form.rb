@@ -36,7 +36,7 @@ class PartnerAccountForm < AccountTypeForm
 
   def persist!
     account.monthly_spending_usd = monthly_spending_usd
-    account.onboarded_type       = true
+    account.onboarding_survey.choose_account_type!
     account.phone_number = phone_number.strip if phone_number.present?
     account.save!
     self.person_0 = account.people.first
@@ -46,5 +46,4 @@ class PartnerAccountForm < AccountTypeForm
       first_name: partner_first_name,
     )
   end
-
 end

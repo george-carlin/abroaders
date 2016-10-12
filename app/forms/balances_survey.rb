@@ -36,7 +36,11 @@ class BalancesSurvey
     if valid?
       ApplicationRecord.transaction do
         @balances.each { |balance| balance.save!(validate: false) }
-        @person.onboarded_balances = true
+        if @person.owner?
+          @person.account.onboarding_survey.add_owner_balances!
+        else
+          @person.account.onboarding_survey.add_companion_balances!
+        end
         if award_wallet_email.present?
           @person.award_wallet_email = award_wallet_email
         end

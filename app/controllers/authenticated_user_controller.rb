@@ -22,6 +22,10 @@ class AuthenticatedUserController < ApplicationController
     false
   end
 
+  def onboarding_survey
+    current_account.onboarding_survey
+  end
+
   def track_intercom_event(event_name)
     IntercomJobs::TrackEvent.perform_later(
       email:      current_account.email,

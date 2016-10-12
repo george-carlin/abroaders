@@ -43,7 +43,12 @@ class CardsSurvey < ApplicationForm
 
       person.card_accounts.from_survey.create!(attributes)
     end
-    person.update_attributes!(onboarded_cards: true)
+
+    if person.owner?
+      person.account.onboarding_survey.add_owner_cards!
+    else
+      person.account.onboarding_survey.add_companion_cards!
+    end
   end
 
   def end_of_month(year, month)

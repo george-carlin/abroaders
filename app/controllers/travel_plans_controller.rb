@@ -9,7 +9,7 @@ class TravelPlansController < AuthenticatedUserController
   end
 
   def create
-    onboarding = !current_account.onboarded_travel_plans?
+    onboarding = !onboarding_survey.complete?
     @travel_plan = NewTravelPlanForm.new(account: current_account)
     if @travel_plan.update_attributes(travel_plan_params)
       if onboarding
@@ -41,11 +41,10 @@ class TravelPlansController < AuthenticatedUserController
   end
 
   def skip_survey
-    if current_account.onboarded_travel_plans
-      redirect_to type_account_path and return
+    if onboarding_survey.complete?
+      return redirect_to root_path
     end
-    current_account.onboarded_travel_plans = true
-    current_account.save!
+    onboarding_survey.skip_travel_plan!
     IntercomJobs::TrackEvent.perform_later(
       email:      current_account.email,
       event_name: "obs_travel_plan"
