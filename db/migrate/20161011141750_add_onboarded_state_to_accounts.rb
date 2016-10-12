@@ -67,15 +67,21 @@ class AddOnboardedStateToAccounts < ActiveRecord::Migration[5.0]
     add_column :accounts, :onboarding_state, :string, default: "home_airports", null: false
     add_index :accounts, :onboarding_state
 
-    Account.reset_column_information
-    Account.find_each do |account|
-      account.update!(onboarding_state: get_onboarding_state(account))
+    # WARNING! Running this migration up then down again will lose
+    # all onboarding data
+    reversible do |d|
+      d.up do
+        Account.reset_column_information
+        Account.find_each do |account|
+          account.update!(onboarding_state: get_onboarding_state(account))
+        end
+      end
     end
 
-    remove_column :accounts, :onboarded_home_airports, default: false, null: false
-    remove_column :accounts, :onboarded_travel_plans,  default: false, null: false
-    remove_column :accounts, :onboarded_type,          default: false, null: false
-    remove_column :people,   :onboarded_balances,      default: false, null: false
-    remove_column :people,   :onboarded_cards,         default: false, null: false
+    remove_column :accounts, :onboarded_home_airports, :boolean, default: false, null: false
+    remove_column :accounts, :onboarded_travel_plans,  :boolean, default: false, null: false
+    remove_column :accounts, :onboarded_type,          :boolean, default: false, null: false
+    remove_column :people,   :onboarded_balances,      :boolean, default: false, null: false
+    remove_column :people,   :onboarded_cards,         :boolean, default: false, null: false
   end
 end
