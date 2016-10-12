@@ -27,9 +27,6 @@
 
       PostAffTracker.setAccountId('default1');
       var sale = PostAffTracker.createAction('app_signup');
-      sale.setTotalCost('120.50');
-      sale.setOrderID('ORD_12345XYZ');
-      sale.setProductID('test product');
       sale.setData1('<%= current_account.id %>');
       sale.setData2('<%= current_account.email %>');
       sale.setData3('<%= current_account.owner_first_name %>');
