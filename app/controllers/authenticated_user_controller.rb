@@ -8,12 +8,18 @@ class AuthenticatedUserController < ApplicationController
 
   def redirect_if_onboarding_survey_incomplete!
     survey = current_account.onboarding_survey
-    return unless survey.redirect_from_request?(request)
+    routes_map = survey.routes_map
+
     if survey.complete?
-      redirect_to root_path
+      redirect_to root_path if request_to_onboarding_survey?(routes_map)
     else
-      redirect_to survey.current_page.path
+      current_path = survey.current_page_path
+      redirect_to current_path if request.path != current_path
     end
+  end
+
+  def request_to_onboarding_survey?(routes_map)
+    routes_map.map{ |name, params| return true if params[:path] == request.path && !params[:revisitable] }
   end
 
   def track_intercom_event(event_name)
