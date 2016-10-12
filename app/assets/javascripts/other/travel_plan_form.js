@@ -26,21 +26,20 @@ $(document).ready(function () {
       if (count <= 0) {
         var content = $countable.val();
         $countable.val(content.substring(0, maxCount)).trigger('change');
-        count = 0, revCount = maxCount;
+        count = 0;
+        revCount = maxCount;
       }
 
       var prefix = '';
-      if (',') {
-        count = count.toString();
-        // Handle large negative numbers
-        if (count.match(/^-/)) {
-          count  = count.substr(1);
-          prefix = '-';
-        }
+      count = count.toString();
+      // Handle large negative numbers
+      if (count.match(/^-/)) {
+        count  = count.substr(1);
+        prefix = '-';
+      }
 
-        for (var i = count.length - 3; i > 0; i -= 3) {
-          count = count.substr(0, i) + ',' + count.substr(i);
-        }
+      for (var i = count.length - 3; i > 0; i -= 3) {
+        count = count.substr(0, i) + ',' + count.substr(i);
       }
 
       $counter.text(prefix + count);
@@ -67,18 +66,15 @@ $(document).ready(function () {
 
   var $singleRadio = $('#travel_plan_type_single');
   var $returnRadio = $('#travel_plan_type_return');
-  var travelTypeRadioClick = function(e) {
-    $returnOnField = $('#travel_plan_return_on');
+  var travelTypeRadioClick = function (e) {
+    var $returnOnField = $('#travel_plan_return_on');
 
     if ($singleRadio.prop('checked')) {
       $returnOnField.prop('disabled', true);
       $returnOnField.val('');
+    } else if ($returnRadio.prop('checked')) {
+      $returnOnField.prop('disabled', false);
     }
-    else
-      if ($returnRadio.prop('checked')) {
-        $returnOnField.prop('disabled', false);
-      }
-
   };
   $singleRadio.on('click', travelTypeRadioClick);
   $returnRadio.on('click', travelTypeRadioClick);
