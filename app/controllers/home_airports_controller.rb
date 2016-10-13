@@ -1,4 +1,6 @@
 class HomeAirportsController < AuthenticatedUserController
+  before_action :redirect_if_survey_already_completed!, only: [:survey, :save_survey]
+
   def survey
     @account = current_account
     @survey = HomeAirportsSurvey.new(account: @account)
@@ -16,6 +18,16 @@ class HomeAirportsController < AuthenticatedUserController
   end
 
   private
+
+  def redirect_if_survey_already_completed!
+    survey = current_account.onboarding_survey
+    return if survey.home_airports?
+    if survey.complete?
+      redirect_to root_path
+    else
+      redirect_to account_onboarding_survey_path(current_account)
+    end
+  end
 
   def survey_params
     survey_params = params.require(:home_airports_survey).permit(airport_ids: [])

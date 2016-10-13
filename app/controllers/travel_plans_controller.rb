@@ -9,7 +9,7 @@ class TravelPlansController < AuthenticatedUserController
   end
 
   def create
-    onboarding = !onboarding_survey.complete?
+    onboarding = current_account.onboarding_survey.incomplete?
     @travel_plan = NewTravelPlanForm.new(account: current_account)
     if @travel_plan.update_attributes(travel_plan_params)
       if onboarding
@@ -56,7 +56,7 @@ class TravelPlansController < AuthenticatedUserController
 
   def travel_plan_params
     params.require(:travel_plan).permit(
-      :type, :depart_on, :return_on, :further_information,
+      :type, :departure_date, :return_date, :further_information,
       :no_of_passengers, :will_accept_economy, :will_accept_premium_economy,
       :will_accept_business_class, :will_accept_first_class, :from_id, :to_id
     )

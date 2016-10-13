@@ -66,10 +66,11 @@ class SpendingInfosController < AuthenticatedUserController
   end
 
   def redirect_if_inaccessible!
-    if !@person.eligible?
-      redirect_to survey_person_balances_path(@person) and return true
-    elsif @person.onboarded_spending?
-      redirect_to survey_person_card_accounts_path(@person) and return true
-    end
+    # TODO update me to use the new OnboardingSurvey system
+    # if !@person.eligible?
+    #   redirect_to survey_person_balances_path(@person) and return true
+    # elsif @person.onboarded_spending?
+    #   redirect_to survey_person_card_accounts_path(@person) and return true
+    # end
   end
 end

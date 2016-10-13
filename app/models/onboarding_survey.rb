@@ -68,12 +68,8 @@ class OnboardingSurvey
     state :complete
   end
 
-  def routes_map
-    StateRouteLink.new(account: self).map
-  end
-
-  def current_path
-    routes_map[current_state.name][:path]
+  def incomplete?
+    !complete?
   end
 
   private
