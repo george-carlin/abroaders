@@ -448,7 +448,6 @@ See `app/presenters/README.md`
         Admin.notify("Card Account ##{card_account_id} was updated at #{updated_at}")
       end
 
-
 ### Emails
 
 - Remember to add a plain text `.txt(.erb` email template as well as the

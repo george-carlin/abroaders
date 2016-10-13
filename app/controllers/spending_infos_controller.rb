@@ -2,7 +2,6 @@ class SpendingInfosController < AuthenticatedUserController
   skip_before_action :redirect_if_onboarding_survey_incomplete!, only: [:update]
 
   def new
-    @person = load_person
     redirect_if_inaccessible! and return
     @spending_info = SpendingSurvey.new(person: @person)
   end

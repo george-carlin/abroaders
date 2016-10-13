@@ -48,6 +48,9 @@ Rails.application.routes.draw do
     post :couples, action: :create_couples_account
   end
 
+  get  "eligibility/survey", to: "eligibilities#survey", as: :survey_eligibility
+  post "eligibility/survey", to: "eligibilities#save_survey"
+
   get :slack, to: "slack_invites#new"
   post "slack/invite", to: "slack_invites#create"
 
@@ -68,10 +71,13 @@ Rails.application.routes.draw do
         post :survey, action: :save_survey
       end
     end
-    resource :spending_info, path: :spending, except: :new do
-      get :survey, action: :new, as: :new
-    end
+    resource :spending_info, path: :spending, except: :create
   end
+
+  resource :spending_info,
+    only: [:new, :create],
+    path: :spending,
+    path_names: { new: :survey }
 
   resource :readiness, only: [:edit, :update]
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { PropTypes } from "react";
 
 import Button from "../../core/Button";
 import FAIcon from "../../core/FAIcon";
@@ -14,21 +14,15 @@ const NameFields      = require("./NameFields");
 
 const CouplesForm = React.createClass({
   propTypes: {
-    active:    React.PropTypes.bool,
-    ownerName: React.PropTypes.string.isRequired,
-    onChoose:  React.PropTypes.func.isRequired,
-    path:      React.PropTypes.string.isRequired,
+    ownerName: PropTypes.string.isRequired,
+    path:      PropTypes.string.isRequired,
   },
 
 
   getInitialState() {
     return {
-      monthlySpending:          null,
-      nameSubmitted:            false,
-      companionName:            "",
-      showMonthlySpendingError: false,
-      showCompanionNameError:   false,
-      eligibility:              "both",
+      companionName: "",
+      showError:     false,
     };
   },
 
@@ -38,72 +32,28 @@ const CouplesForm = React.createClass({
   },
 
 
-  onChangeMonthlySpending(e) {
-    this.setState({monthlySpending: parseInt(e.target.value, 10)});
-  },
-
-
   onChangeCompanionName(e) {
     this.setState({ companionName: e.target.value });
   },
 
 
   onSubmit(e) {
-    if (this.state.nameSubmitted) {
-      if (this.state.eligibility !== "neither" && !this.isMonthlySpendingPresentAndValid()) {
-        e.preventDefault();
-        this.setState({showMonthlySpendingError: true });
-      } else {
-        this.setState({showMonthlySpendingError: false });
-      }
-    } else {
-      this.onSubmitCompanionName(e);
-    }
-  },
-
-
-  onSubmitCompanionName(e, name) {
-    e.preventDefault();
-
     if (this.state.companionName.length) {
-      this.setState({ showCompanionNameError: false, nameSubmitted: true });
-      this.props.onChoose();
+      this.setState({ showError: false});
     } else {
-      this.setState({ showCompanionNameError: true });
+      e.preventDefault();
+      this.setState({ showError: true });
     }
-  },
-
-  isMonthlySpendingPresentAndValid() {
-    return this.state.monthlySpending && this.state.monthlySpending > 0;
   },
 
 
   render() {
-    let classes = "CouplesForm account_type_select well col-xs-12 col-md-4";
-    if (this.props.active) classes += " col-md-offset-4";
-
     const modelName = "couples_account";
-
-    let namesOfEligiblePeople;
-    switch (this.state.eligibility) {
-      case "both":
-        namesOfEligiblePeople = [this.props.ownerName, this.state.companionName];
-        break;
-      case "person_0":
-        namesOfEligiblePeople = [this.props.ownerName];
-        break;
-      case "person_1":
-        namesOfEligiblePeople = [this.state.companionName];
-        break;
-      case "neither":
-        namesOfEligiblePeople = [];
-        break;
-    }
 
     return (
       <Form
         action={this.props.path}
-        className={classes}
+        className="CouplesForm account_type_select well col-xs-12 col-md-4"
         method="post"
         onSubmit={this.onSubmit}
       >
@@ -125,29 +75,7 @@ const CouplesForm = React.createClass({
                   value={this.state.companionName}
                 />
 
-                <Eligibility
-                  eligibility={this.state.eligibility}
-                  onChange={this.onChangeEligibility}
-                  person1FirstName={this.props.ownerName}
-                  person2FirstName={this.state.companionName}
-                />
-
                 <hr />
-
-                <MonthlySpending
-                  eligibility={this.state.eligibility}
-                  modelName={modelName}
-                  namesOfEligiblePeople={namesOfEligiblePeople}
-                  onChange={this.onChangeMonthlySpending}
-                  person0FirstName={this.props.ownerName}
-                  person1FirstName={this.state.companionName}
-                  showError={this.state.showMonthlySpendingError}
-                  value={this.state.monthlySpending}
-                />
-
-                <PhoneNumber
-                  modelName={modelName}
-                />
 
                 <Button primary >
                   Submit
@@ -174,7 +102,7 @@ const CouplesForm = React.createClass({
                   name={this.state.companionName}
                   onChange={this.onChangeCompanionName}
                   onSubmit={this.onSubmitCompanionName}
-                  showError={this.state.showCompanionNameError}
+                  showError={this.state.showError}
                 />
               </div>
             );

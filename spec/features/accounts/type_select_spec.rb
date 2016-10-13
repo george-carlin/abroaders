@@ -53,7 +53,6 @@ describe "account type select page", :js, :onboarding do
       expect(form).to have_no_couples_form
       expect(form).to have_no_solo_btn
       expect(page).to have_field :solo_account_monthly_spending_usd
-      expect(page).to have_field :solo_account_eligible_true
       expect(page).to have_field :solo_account_eligible_false
       expect(page).to have_field :solo_account_phone_number
     end
@@ -266,8 +265,6 @@ describe "account type select page", :js, :onboarding do
       end.not_to change{account.people.count}
       account.reload
       expect(account.monthly_spending_usd).to be_nil
-      expect(me.onboarded_eligibility?).to be false
-      expect(me.onboarded_eligibility?).to be false
       expect_survey_not_to_be_marked_as_complete
     end
 

@@ -33,11 +33,14 @@ describe AccountSerializer do
     expect(parsed_json["phone_number"]).to eq "555 1234 555"
 
     owner = parsed_json["owner"]
-    expect(owner.keys).to match_array(%w[id first_name eligible owner ready spending_info])
+    expect(owner.keys).to match_array(
+      %w[id first_name eligible owner ready spending_info type]
+    )
     expect(owner["id"]).to eq account.owner.id
     expect(owner["owner"]).to be true
     expect(owner["first_name"]).to eq "George"
     expect(owner["eligible"]).to be true
+    expect(owner["type"]).to eq "owner"
 
     owner_spending = owner["spending_info"]
     expect(owner_spending.keys).to match_array(%w[

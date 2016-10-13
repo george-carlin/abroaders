@@ -9,6 +9,7 @@ class PersonPresenter < ApplicationPresenter
   delegate :email, :phone_number, to: :account
 
   def eligibility
+    return "TODO - update me"
     onboarded_eligibility? ? (eligible? ?  "Yes" : "No") : "Unknown"
   end
 
