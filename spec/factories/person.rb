@@ -13,35 +13,12 @@ FactoryGirl.define do
 
     main true
 
-    trait :main do
-      main true
-    end
-
     trait :companion do
       main false
     end
 
-    trait :onboarded_spending do
-      eligible
-      after(:build) do |person|
-        person.build_spending_info(attributes_for(:spending_info, person: nil))
-      end
-    end
-
-    trait :onboarded_cards do
-      onboarded_spending
-      onboarded_cards true
-    end
-
-    trait :onboarded_balances do
-      onboarded_balances true
-    end
-
     trait :onboarded do
-      onboarded_spending
-      onboarded_balances
-      onboarded_cards
-      ready false
+      onboarding_state "complete"
     end
 
     trait :ready do
@@ -49,9 +26,6 @@ FactoryGirl.define do
       ready true
     end
 
-    factory :companion,               traits: [:companion]
-    factory :person_with_spending,    traits: [:onboarded_spending]
-    factory :owner_with_spending,     traits: [:onboarded_spending, :main]
-    factory :companion_with_spending, traits: [:onboarded_spending, :companion]
+    factory :companion, traits: [:companion]
   end
 end

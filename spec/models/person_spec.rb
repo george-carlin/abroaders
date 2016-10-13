@@ -13,16 +13,6 @@ describe Person do
     end
   end
 
-  describe "#onboarded_spending?" do
-    it "returns true iff the person has saved their spending info" do
-      expect(person.onboarded_spending?).to be false
-      person.build_spending_info
-      expect(person.onboarded_spending?).to be false
-      allow(person.spending_info).to receive(:persisted?) { true }
-      expect(person.onboarded_spending?).to be true
-    end
-  end
-
   describe "#has_recent_recommendation??" do
     it "returns true iff user has no card recommendation for the last 30 days" do
       person.last_recommendations_at = nil

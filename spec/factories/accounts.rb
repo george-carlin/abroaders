@@ -34,26 +34,8 @@ FactoryGirl.define do
       after(:build) { |acc| acc.people.each { |p| p.eligible = true } }
     end
 
-    trait :onboarded_spending do
-      eligible
-      after(:build) do |acc|
-        acc.people.each do |p|
-          p.build_spending_info(attributes_for(:spending, person: nil))
-        end
-      end
-    end
-
     trait :onboarded do
       onboarding_state :complete
-    end
-
-    trait :ready do
-      onboarded
-      after(:build) do |acc|
-        acc.people.each do |person|
-          person.update_attribute(:ready, true)
-        end
-      end
     end
 
     factory :onboarded_account, traits: [:onboarded]
