@@ -34,46 +34,6 @@ describe Person do
     end
   end
 
-  describe "#onboarded?" do
-    subject { person.onboarded? }
-
-    context "when the person hasn't given their eligibilty" do
-      before { person.eligible = nil }
-
-      it { is_expected.to be false }
-
-      context "and has onboarded balances" do
-        before { person.onboarded_balances = true }
-        it { is_expected.to be false }
-      end
-    end
-
-    context "when the person is eligible to apply for cards" do
-      before { person.eligible = true }
-
-      it "returns true iff they have completed the onboarding survey" do
-        expect(person).not_to be_onboarded
-        allow(person).to receive(:onboarded_spending?).and_return(true)
-        expect(person).not_to be_onboarded
-        person.onboarded_cards = true
-        expect(person).not_to be_onboarded
-        person.onboarded_balances = true
-        expect(person).to be_onboarded
-      end
-    end
-
-
-    context "when the person is ineligible to apply for cards" do
-      before { person.eligible = false }
-
-      it "returns true iff they have added their balances" do
-        expect(person).not_to be_onboarded
-        person.onboarded_balances = true
-        expect(person).to be_onboarded
-      end
-    end
-  end
-
   describe "#has_recent_recommendation??" do
     it "returns true iff user has no card recommendation for the last 30 days" do
       person.last_recommendations_at = nil

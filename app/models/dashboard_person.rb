@@ -44,8 +44,6 @@ class DashboardPerson
 
   attr_reader :person
 
-  delegate :onboarded_travel_plans?, :onboarded_type?, to: :account
-  delegate :account, :onboarded_spending?, :onboarded_cards?, :onboarded_balances?,
-            :eligible?, to: :person
+  delegate :account, :eligible?, to: :person
 
 end

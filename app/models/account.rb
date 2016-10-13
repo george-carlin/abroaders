@@ -26,16 +26,6 @@ class Account < ApplicationRecord
     OnboardingSurvey.new(account: self)
   end
 
-  # NOTE: the 'onboarded_travel_plans' column will be set to true when the user
-  # completes the 'add travel plan' part of the onboarding survey. Originally,
-  # we didn't have a separate column, and looked at the account's associated
-  # travel plans to see if they'd added any. (i.e. 'onboarded_travel_plans' was
-  # considered true `if account.travel_plans.any?`, without an extra DB column
-  # to store it explicitly. However, this had a flaw: if a user completed the
-  # onboarding survey, then later on *deleted* their travel plans, they would
-  # no longer be considered onboarded, even though they should have been.  So
-  # now the onboarded-ness of travel plans is stored in a separate DB column.
-
   # Validations
 
   # Associations
