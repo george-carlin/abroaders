@@ -44,8 +44,7 @@ Rails.application.routes.draw do
 
   resource :account, only: [] do
     get  :type
-    post :solo,    action: :create_solo_account
-    post :couples, action: :create_couples_account
+    post :type, action: :submit_type
   end
 
   get  "eligibility/survey", to: "eligibilities#survey", as: :survey_eligibility

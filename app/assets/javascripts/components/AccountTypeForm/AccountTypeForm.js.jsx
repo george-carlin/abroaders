@@ -1,16 +1,15 @@
-import React from "react";
+import React, { PropTypes } from "react";
 
 import Row from "../core/Row";
 
-const SoloForm    = require("./SoloForm");
-const CouplesForm = require("./CouplesForm");
+import SoloForm    from "./SoloForm";
+import CouplesForm from "./CouplesForm";
 
 const AccountTypeForm = React.createClass({
   propTypes: {
-    destinationName: React.PropTypes.string,
-    ownerName:       React.PropTypes.string.isRequired,
-    soloPath:        React.PropTypes.string.isRequired,
-    couplesPath:     React.PropTypes.string.isRequired,
+    action:          PropTypes.string.isRequired,
+    destinationName: PropTypes.string,
+    ownerName:       PropTypes.string.isRequired,
   },
 
 
@@ -23,6 +22,7 @@ const AccountTypeForm = React.createClass({
 
 
   render() {
+    const modelName = "account";
     return (
       <Row>
         <div className="account_type_select_header col-xs-12 col-md-8 col-md-offset-2" >
@@ -35,13 +35,14 @@ const AccountTypeForm = React.createClass({
         </div>
 
         <SoloForm
-          ownerName={this.props.ownerName}
-          path={this.props.soloPath}
+          action={this.props.action}
+          modelName={modelName}
         />
 
         <CouplesForm
+          action={this.props.action}
+          modelName={modelName}
           ownerName={this.props.ownerName}
-          path={this.props.couplesPath}
         />
       </Row>
     );

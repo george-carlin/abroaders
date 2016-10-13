@@ -44,15 +44,6 @@ en:
             card:
               doesnt_match_offer: "doesnt match the offer"
 
-  accounts:
-    type:
-      couples_earning: "Couples Earning"
-      partner_earning_disclaimer: "Couples earning only works if you pay your bills together. If you would prefer to keep your expenses separate and pay separately for your own monthly purchases, you should each create your own Abroaders account and choose \"Solo Earning\""
-      please_enter_a_valid_name: "Please enter a valid name"
-      sign_up_for_couples_earning: "Sign up for couples earning"
-      this_option_is_ideal: "This option is ideal if you share monthly spending with a spouse or partner. Abroaders will help you maximize your points as a team."
-      whats_your_partners_first_name: "What's your partner's first name?"
-
   card_accounts:
     invalid_status_error: "Couldn't save. This may happen if you already made the update in a different window or tab, or hit the 'back' button after making the update the first time. Try refreshing the page."
     index:

@@ -1,16 +1,23 @@
 import React, { PropTypes } from "react";
 
-import Button from "../core/Button";
-import FAIcon from "../core/FAIcon";
-import Form   from "../core/Form";
+import Button      from "../core/Button";
+import FAIcon      from "../core/FAIcon";
+import Form        from "../core/Form";
+import HiddenField from "../core/HiddenField";
 
-const SoloForm = ({path}) => {
+const SoloForm = (props) => {
   return (
     <Form
-      action={path}
+      action={props.action}
       className="SoloForm account_type_select well col-xs-12 col-md-4 col-md-offset-2"
       method="post"
     >
+      <HiddenField
+        attribute="type"
+        modelName={props.modelName}
+        value="solo"
+      />
+
       <h2>
         <FAIcon user />
         &nbsp;
@@ -32,7 +39,8 @@ const SoloForm = ({path}) => {
 };
 
 SoloForm.propTypes = {
-  path: PropTypes.string.isRequired,
+  action:    PropTypes.string.isRequired,
+  modelName: PropTypes.string.isRequired,
 };
 
 module.exports = SoloForm;
