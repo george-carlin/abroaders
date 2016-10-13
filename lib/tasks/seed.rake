@@ -24,10 +24,12 @@ namespace :ab do
 
     task cards: :environment do
       ApplicationRecord.transaction do
+        currency_ids = Currency.pluck(:id)
         load_data_for("cards").each do |data|
           data["image"] = File.open(
             Rails.root.join("lib", "seeds", "cards", data.delete("image_name"))
           )
+          data["currency_id"] = currency_ids.sample
           Card.create!(data)
         end
         puts "created #{Card.count} cards"

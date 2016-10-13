@@ -39,7 +39,7 @@ const ApprovedDeniedPendingBtnGroup = React.createClass({
           default
           onClick={this.props.onCancel}
           small
-          >
+        >
           Cancel
         </Button>
       );
@@ -64,7 +64,7 @@ const ApprovedDeniedPendingBtnGroup = React.createClass({
         {pendingBtn}
         {cancelBtn}
       </ButtonGroup>
-    )
+    );
   },
 });
 

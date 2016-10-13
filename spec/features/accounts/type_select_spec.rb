@@ -35,7 +35,7 @@ describe "account type select page", :js, :onboarding do
   it "gives me the option to choose a 'Solo' or 'Partner' account" do
     expect(form).to have_solo_btn
     expect(form).to have_couples_btn
-    expect(page).to have_field :partner_account_partner_first_name
+    expect(page).to have_field :couples_account_companion_first_name
   end
 
   it "has no sidebar" do
@@ -134,53 +134,53 @@ describe "account type select page", :js, :onboarding do
   end
 
   describe "choosing 'couples'" do
-    let(:partner_name) { "Steve" }
+    let(:companion_name) { "Steve" }
 
-    example "without providing a partner name" do
+    example "without providing a companion name" do
       form.click_couples_btn
       # shows an error message and doesn't continue:
       expect(page).to have_error_message
-      expect(form.show_partner_form_step_0?).to be true
+      expect(form.show_companion_form_step_0?).to be true
       # providing a name and clicking again:
-      form.fill_in_partner_first_name with: partner_name
+      form.fill_in_companion_first_name with: companion_name
       form.click_couples_btn
       expect(page).to have_no_error_message
-      expect(form.show_partner_form_step_1?).to be true
+      expect(form.show_companion_form_step_1?).to be true
     end
 
     example "providing a name with trailing whitespace" do
-      form.submit_partner_first_name "     Steve   "
+      form.submit_companion_first_name "     Steve   "
       # strips the whitespace:
       expect(form).to have_content "Only Steve is eligible"
     end
 
-    example "providing a partner name" do
-      form.submit_partner_first_name partner_name
+    example "providing a companion name" do
+      form.submit_companion_first_name companion_name
       # hides the solo form
       expect(form).to have_no_solo_form
       # shows the next step:
-      expect(form.show_partner_form_step_1?).to be true
-      # shows the partner's name:
+      expect(form.show_companion_form_step_1?).to be true
+      # shows the companion's name:
       expect(form).to have_content "Only Steve is eligible"
     end
 
     example "submitting when neither person is eligible", :intercom do
-      form.submit_partner_first_name partner_name
-      choose :partner_account_eligibility_neither
+      form.submit_companion_first_name companion_name
+      choose :couples_account_eligibility_neither
       # hides the monthly spending input
-      expect(page).to have_no_field :partner_account_monthly_spending_usd
+      expect(page).to have_no_field :couples_account_monthly_spending_usd
       # shows the monthly spending input again
-      choose :partner_account_eligibility_both
-      expect(page).to have_field :partner_account_monthly_spending_usd
-      choose :partner_account_eligibility_neither
-      # adds a partner to my account:
+      choose :couples_account_eligibility_both
+      expect(page).to have_field :couples_account_monthly_spending_usd
+      choose :couples_account_eligibility_neither
+      # adds a companion to my account:
       expect do
         form.click_confirm_btn
       end.to change{account.people.count}.by(1).and track_intercom_event
-      # saves partner name correctly:
+      # saves companion name correctly:
       account.reload
-      expect(account.partner.first_name).to eq partner_name
-      # marks me and my partner as ineligible to apply:
+      expect(account.companion.first_name).to eq companion_name
+      # marks me and my companion as ineligible to apply:
       expect(account.people.all?(&:ineligible?)).to be true
       # takes me to my balances survey:
       expect(current_path).to eq survey_person_balances_path(me)
@@ -188,57 +188,57 @@ describe "account type select page", :js, :onboarding do
     end
 
     example "submitting when only one person is eligible" do
-      form.submit_partner_first_name partner_name
-      form.choose_partner_eligibility_person_0
+      form.submit_companion_first_name companion_name
+      form.choose_companion_eligibility_person_0
       expect(form).to have_content \
         "Only #{me.first_name} will receive credit card recommendations"
-      form.choose_partner_eligibility_person_1
+      form.choose_companion_eligibility_person_1
       expect(form).to have_content \
-        "Only #{partner_name} will receive credit card recommendations"
+        "Only #{companion_name} will receive credit card recommendations"
     end
 
     example "submitting when only I am eligible", :intercom do
-      form.submit_partner_first_name partner_name
-      form.choose_partner_eligibility_person_0
+      form.submit_companion_first_name companion_name
+      form.choose_companion_eligibility_person_0
       form.fill_in_couples_monthly_spending with: 1234
-      # adds a partner to my account:
+      # adds a companion to my account:
       expect do
         form.click_confirm_btn
       end.to change{account.people.count}.by(1).and track_intercom_event
       account.reload
-      expect(account.partner.first_name).to eq partner_name
+      expect(account.companion.first_name).to eq companion_name
       # saves our monthly spending:
       expect(account.monthly_spending_usd).to eq 1234
       # saves who's eligible to apply:
       expect(account.owner).to be_eligible
-      expect(account.partner).to be_ineligible
+      expect(account.companion).to be_ineligible
       # takes me to my spending survey
       expect(current_path).to eq new_person_spending_info_path(me)
       expect_survey_to_be_marked_as_complete
     end
 
-    example "submitting when only my partner is eligible", :intercom do
-      form.submit_partner_first_name partner_name
-      form.choose_partner_eligibility_person_1
+    example "submitting when only my companion is eligible", :intercom do
+      form.submit_companion_first_name companion_name
+      form.choose_companion_eligibility_person_1
       form.fill_in_couples_monthly_spending with: 1234
-      # adds a partner to my account:
+      # adds a companion to my account:
       expect do
         form.click_confirm_btn
       end.to change{account.people.count}.by(1).and track_intercom_event
       account.reload
-      expect(account.partner.first_name).to eq partner_name
+      expect(account.companion.first_name).to eq companion_name
       # saves our monthly spending:
       expect(account.monthly_spending_usd).to eq 1234
       # saves who's eligible to apply:
       expect(account.owner).to be_ineligible
-      expect(account.partner).to be_eligible
+      expect(account.companion).to be_eligible
       # takes me to my balances survey
       expect(current_path).to eq survey_person_balances_path(me)
       expect_survey_to_be_marked_as_complete
     end
 
     example "submitting when we are both eligible", :intercom do
-      form.submit_partner_first_name partner_name
+      form.submit_companion_first_name companion_name
       form.fill_in_couples_monthly_spending with: 2345
 
       expect do
@@ -246,20 +246,20 @@ describe "account type select page", :js, :onboarding do
       end.to change{account.people.count}.by(1).and track_intercom_event
 
       account.reload
-      # saves partner first name:
-      expect(account.partner.first_name).to eq partner_name
+      # saves companion first name:
+      expect(account.companion.first_name).to eq companion_name
       # saves monthly spending
       expect(account.reload.monthly_spending_usd).to eq 2345
       # saves eligibility:
       expect(account.owner).to be_eligible
-      expect(account.partner).to be_eligible
+      expect(account.companion).to be_eligible
       # takes me to my spending survey" do
       expect(current_path).to eq new_person_spending_info_path(me)
       expect_survey_to_be_marked_as_complete
     end
 
     example "submitting without adding monthly spending" do
-      form.submit_partner_first_name partner_name
+      form.submit_companion_first_name companion_name
       expect do
         form.click_confirm_btn
       end.not_to change{account.people.count}
@@ -271,19 +271,19 @@ describe "account type select page", :js, :onboarding do
     end
 
     example "submitting with a phone number" do
-      form.submit_partner_first_name partner_name
+      form.submit_companion_first_name companion_name
       phone_number = "555 1234 000"
-      fill_in :partner_account_monthly_spending_usd, with: 1000
-      fill_in :partner_account_phone_number, with: phone_number
+      fill_in :couples_account_monthly_spending_usd, with: 1000
+      fill_in :couples_account_phone_number, with: phone_number
       form.click_confirm_btn
       account.reload
       expect(account.phone_number).to eq phone_number
     end
 
     example "submitting a phone number with whitespace" do
-      form.submit_partner_first_name partner_name
-      fill_in :partner_account_monthly_spending_usd, with: 1000
-      fill_in :partner_account_phone_number, with: "    555 1234 000    "
+      form.submit_companion_first_name companion_name
+      fill_in :couples_account_monthly_spending_usd, with: 1000
+      fill_in :couples_account_phone_number, with: "    555 1234 000    "
       form.click_confirm_btn
       account.reload
       expect(account.phone_number).to eq "555 1234 000"

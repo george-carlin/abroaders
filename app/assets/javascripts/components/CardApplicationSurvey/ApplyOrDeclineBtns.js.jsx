@@ -44,7 +44,7 @@ const ApplyOrDeclineBtns = React.createClass({
     var errorMessageStyle = {};
     var declineReasonWrapperClass = "card_account_decline_reason_wrapper";
     if (this.state.showErrorMessage) {
-      declineReasonWrapperClass += " field_with_errors"
+      declineReasonWrapperClass += " field_with_errors";
     } else {
       errorMessageStyle.display = "none";
     }
@@ -95,7 +95,7 @@ const ApplyOrDeclineBtns = React.createClass({
             No Thanks
           </Button>
         </ButtonGroup>
-      )
+      );
     }
 
     return actions;

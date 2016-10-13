@@ -8,7 +8,7 @@ const SoloForm = ({path}) => {
   return (
     <Form
       action={path}
-      className="SoloForm account_type_select well col-xs-12 col-md-4 col-md-offset-2 inactive"
+      className="SoloForm account_type_select well col-xs-12 col-md-4 col-md-offset-2"
       method="post"
     >
       <h2>

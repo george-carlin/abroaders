@@ -1,0 +1,9 @@
+<% %w[
+     full_story
+     google_analytics
+     heap
+     intercom
+     post_affiliate_pro
+   ].each do |script| %>
+  <%= render File.join "shared", "third_party_scripts", script %>
+<% end %>

@@ -3,11 +3,11 @@ import React, { PropTypes } from "react";
 import AuthTokenField from "./AuthTokenField";
 
 const Form = (_props) => {
-  let methodHiddenInput;
+  let method, methodHiddenInput;
   const props = Object.assign({}, _props);
 
   if (!["get", "post"].includes(props.method)) {
-    props.method = "post";
+    method = "post";
     // A Railsy tag for faking 'delete', 'put' etc HTTP requests:
     methodHiddenInput = (
       <input
@@ -16,10 +16,12 @@ const Form = (_props) => {
         value={props.method}
       />
     );
+  } else {
+    method = props.method;
   }
 
   return (
-    <form acceptCharset="UTF-8" {...props} >
+    <form acceptCharset="UTF-8" {...props} method={method} >
       <AuthTokenField />
       {methodHiddenInput}
 

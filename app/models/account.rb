@@ -46,11 +46,8 @@ class Account < ApplicationRecord
   has_one :owner, -> { main }, class_name: "Person"
   has_one :companion, -> { companion }, class_name: "Person"
 
-  # TODO get rid of the 'partner' terminology, always use 'companion'
-  alias_method :partner, :companion
-
-  delegate :first_name, to: :owner,   prefix: true
-  delegate :first_name, to: :partner, prefix: true
+  delegate :first_name, to: :owner,     prefix: true
+  delegate :first_name, to: :companion, prefix: true
 
   has_many :card_accounts, through: :people
   has_many :card_recommendations, through: :people

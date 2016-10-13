@@ -1,4 +1,4 @@
-<% if include_full_story_js? %>
+<% if Rails.env.production? && current_account %>
   <script type="text/javascript">
     window['_fs_debug'] = false;
     window['_fs_host'] = 'www.fullstory.com';

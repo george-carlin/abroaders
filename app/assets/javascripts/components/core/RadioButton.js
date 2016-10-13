@@ -13,10 +13,10 @@ import HTMLInput from "./shared/HTMLInput";
 //    value="true"
 //  />
 const RadioButton = (_props) => {
-  const props = HTMLInput.getProps(_props);
+  const props = HTMLInput.getProps(_props, { type: "radio" });
   props.id += "_" + props.value;
 
-  return React.createElement("input", props, { type: "radio" });
+  return React.createElement("input", props);
 };
 
 RadioButton.propTypes = Object.assign(

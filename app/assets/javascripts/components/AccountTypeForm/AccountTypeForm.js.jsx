@@ -3,14 +3,14 @@ import React from "react";
 import Row from "../core/Row";
 
 const SoloForm    = require("./SoloForm");
-const PartnerForm = require("./PartnerForm");
+const CouplesForm = require("./CouplesForm");
 
 const AccountTypeForm = React.createClass({
   propTypes: {
     destinationName: React.PropTypes.string,
     ownerName:       React.PropTypes.string.isRequired,
     soloPath:        React.PropTypes.string.isRequired,
-    partnerPath:     React.PropTypes.string.isRequired,
+    couplesPath:     React.PropTypes.string.isRequired,
   },
 
 
@@ -34,15 +34,14 @@ const AccountTypeForm = React.createClass({
           </p>
         </div>
 
-
         <SoloForm
           ownerName={this.props.ownerName}
           path={this.props.soloPath}
         />
 
-        <PartnerForm
+        <CouplesForm
           ownerName={this.props.ownerName}
-          path={this.props.partnerPath}
+          path={this.props.couplesPath}
         />
       </Row>
     );
