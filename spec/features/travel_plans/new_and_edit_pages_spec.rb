@@ -22,13 +22,8 @@ describe "travel plans" do
     login_as(account)
   end
 
-  def onboard_first_travel_plan!
-    account.update_attributes!(onboarded_travel_plans: true)
-  end
-
   def complete_onboarding_survey!
-    account.update_attributes!(onboarded_type: true, onboarded_travel_plans: true, onboarded_home_airports: true)
-    account.owner.update_attributes!(eligible: false, onboarded_balances: true)
+    account.update_attributes!(onboarding_state: "complete")
   end
 
   let(:depart_date) { 5.months.from_now.to_date }
@@ -63,8 +58,8 @@ describe "travel plans" do
         click_link SKIP_LINK
       end.not_to change { TravelPlan.count }
 
-      # marks travel plans as onboarded:
-      expect(account.reload.onboarded_travel_plans).to eq true
+      account.reload
+      expect(account.onboarding_state).to eq "regions_of_interest"
 
       # shows the next page of the survey:
       expect(current_path).to eq survey_interest_regions_path
