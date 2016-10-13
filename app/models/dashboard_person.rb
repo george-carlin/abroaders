@@ -1,6 +1,4 @@
-# TODO fundamentally, this is a duplicate of the 'what survey pages can a user
-# see and which page are they currently on?' logic which is duplicated
-# elsewhere in the app. Definitely a possibility for some DRYing.
+# TODO replace me with a presenter (or remove me entirely)
 class DashboardPerson
 
   def initialize(person)
@@ -8,25 +6,27 @@ class DashboardPerson
     raise "person must be persisted" unless @person.persisted?
   end
 
+  # TODO - update these methods to use the new OnboardingSurvey system
   def show_travel_plans_link?
-    !onboarded_travel_plans?
+    false
   end
 
   def show_account_type_link?
-    onboarded_travel_plans? && !onboarded_type?
+    false
   end
 
   def show_spending_link?
-    onboarded_type? && eligible? && !onboarded_spending?
+    false
   end
 
   def show_cards_link?
-    onboarded_spending? && !onboarded_cards?
+    false
   end
 
   def show_balances_link?
-    onboarded_type? && (!eligible? || onboarded_cards?) && !onboarded_balances?
+    false
   end
+  # /TODO 
 
   def method_missing(meth, *args, &block)
     if @person.respond_to?(meth)
