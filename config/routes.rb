@@ -78,7 +78,12 @@ Rails.application.routes.draw do
     path: :spending,
     path_names: { new: :survey }
 
-  resource :readiness, only: [:edit, :update]
+  resource :readiness, only: [:edit, :update] do
+    collection do
+      get  :survey
+      post :survey, action: :save_survey
+    end
+  end
 
   resources :notifications, only: :show
 

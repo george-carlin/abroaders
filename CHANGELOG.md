@@ -2,6 +2,11 @@
 
 ## October 2016
 
+*   Add readiness question at the end of the onboarding survey.
+    Pivotal Tracker #131360373 GH #54
+
+    *Boris Shatalov*
+
 *   Add `regions of interest` page. PT #130901163
 
     *Boris Shatalov*

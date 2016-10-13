@@ -15,6 +15,14 @@ class Account < ApplicationRecord
     onboarding_survey.complete?
   end
 
+  def eligible?
+    if has_companion?
+      owner.eligible? || companion.eligible?
+    else
+      owner.eligible?
+    end
+  end
+
   def recommendations_expire_at
     expiring_recommendations = card_recommendations.unresolved.unapplied
     if expiring_recommendations.any?

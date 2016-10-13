@@ -135,44 +135,6 @@
             </div>
           </div>
 
-          <hr>
-
-          <% if @spending_info.ask_for_readiness? %>
-            <h5>Are you ready to apply for cards now?</h5>
-
-            <p><%= t("readiness.explanation") %></p>
-
-            <p>
-              If you're able to apply for the card within the next few days,
-              click "Yes" below and we'll get working on the card recommendation
-              immediately. If, for whatever reason, you're not ready right now,
-              click "No" below and we'll ask again in a week.
-            </p>
-
-            <div class="radio">
-              <label>
-                <%= f.radio_button :ready, true, checked: true %>
-                Yes - I'm ready to apply for cards ASAP
-              </label>
-            </div>
-
-            <div class="radio">
-              <label>
-                <%= f.radio_button :ready, false, checked: false %>
-                No - ask again later
-              </label>
-            </div>
-
-            <div
-                id="unreadiness_reason_form_group"
-                class="form-group"
-                style="display:none;">
-              <%= f.text_field(
-                      :unreadiness_reason,
-                      placeholder: "Optional: tell us why #{@person.first_name} isn't ready to apply just yet"
-                  ) %>
-            </div>
-          <% end %>
           <%= f.submit "Save", class: "btn btn-primary" %>
 
         <% end %>
