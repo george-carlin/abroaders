@@ -1,4 +1,13 @@
 class NewTravelPlanForm < TravelPlanForm
+  def show_skip_survey?
+    account.onboarding_survey.incomplete?
+  end
+
+  def initialize(*args)
+    super
+    self.no_of_passengers ||= 1
+  end
+
   private
 
   def persist!

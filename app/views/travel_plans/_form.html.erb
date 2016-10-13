@@ -144,8 +144,8 @@
             &nbsp;Save my travel Plan
           <% end %>
         </div>
-        <% if travel_plan.show_skip_survey? && !current_account.onboarded_travel_plans? %>
-          <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <% if travel_plan.show_skip_survey? %>
+          <div class="col-xs-12 col-sm-6">
             <%= link_to_skip_survey %>
           </div>
         <% end %>

@@ -22,19 +22,75 @@ describe "travel plans" do
     login_as(account)
   end
 
-  def onboard_first_travel_plan!
-    account.update_attributes!(onboarded_travel_plans: true)
-  end
-
   def complete_onboarding_survey!
-    account.update_attributes!(onboarded_type: true, onboarded_travel_plans: true, onboarded_home_airports: true)
-    account.owner.update_attributes!(eligible: false, onboarded_balances: true)
+    account.update_attributes!(onboarding_state: "complete")
   end
 
   let(:depart_date) { 5.months.from_now.to_date }
   let(:return_date) { 6.months.from_now.to_date }
 
   let(:submit_form) { click_button "Save" }
+
+  shared_examples "a travel plan form" do
+    it "has inputs for a travel plan" do
+      expect(page).to have_field :travel_plan_departure_date
+      expect(page).to have_field :travel_plan_from_id
+      expect(page).to have_field :travel_plan_no_of_passengers
+      expect(page).to have_field :travel_plan_to_id
+
+      expect(page).to have_field :travel_plan_type_single
+      if page.has_checked_field?(:travel_plan_type_single)
+        expect(page).to have_field :travel_plan_return_date, disabled: true
+      end
+
+      expect(page).to have_field :travel_plan_type_return
+      if page.has_checked_field?(:travel_plan_type_return)
+        expect(page).to have_field :travel_plan_return_date
+      end
+
+      expect(page).to have_field :travel_plan_further_information
+      expect(page).to have_field :travel_plan_will_accept_economy
+      expect(page).to have_field :travel_plan_will_accept_premium_economy
+      expect(page).to have_field :travel_plan_will_accept_business_class
+      expect(page).to have_field :travel_plan_will_accept_first_class
+    end
+
+    # TODO this should be moved out into a spec for app/queries/selectable_countries.rb
+    describe "the 'from'/'to' dropdowns" do
+      def get_options(attr); all("#travel_plan_#{attr}_id option"); end
+
+      specify "have the US, Alaska, and Hawaii sorted to the top" do
+        [:from, :to].each do |attr|
+          options = get_options(attr)
+          if current_path =~ /edit/
+            start = 0
+          else
+            expect(options[0].text).to eq "From" if attr == :from
+            expect(options[0].text).to eq "To" if attr == :to
+            start = 1
+          end
+
+          expect(options[start].text).to eq @us.name
+          expect(options[start + 1].text).to eq @al.name
+          expect(options[start + 2].text).to eq @ha.name
+        end
+      end
+
+      specify "subsequent options are sorted alphabetically" do
+        options_to_drop = current_path =~ /edit/ ? 3 : 4
+
+        [:from, :to].each do |attr|
+          options = get_options(attr)
+          expect(options.drop(options_to_drop).map(&:text)).to eq ([
+              "France",
+              "Thailand",
+              "United Kingdom",
+              "Vietnam",
+          ])
+        end
+      end
+    end
+  end
 
   describe "new page", :onboarding do
     let(:visit_path) do
@@ -63,11 +119,11 @@ describe "travel plans" do
         click_link SKIP_LINK
       end.not_to change{TravelPlan.count}
 
-      # marks travel plans as onboarded:
-      expect(account.reload.onboarded_travel_plans).to eq true
+      account.reload
+      expect(account.onboarding_state).to eq "regions_of_interest"
 
       # shows the next page of the survey:
-      expect(current_path).to eq type_account_path
+      expect(current_path).to eq survey_regions_of_interest_path
     end
 
     describe '' do
@@ -164,9 +220,10 @@ describe "travel plans" do
               expect(current_path).to eq type_account_path
             end
 
-            it "marks my account as 'onboarded travel plans'" do
+            it "updates the account's onboarding state" do
               submit_form
-              expect(account.reload.onboarded_travel_plans).to be true
+              account.reload
+              expect(account.onboarding_state).to eq "account_type"
             end
           end
 
