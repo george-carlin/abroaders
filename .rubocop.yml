@@ -7,6 +7,13 @@
 # versions of RuboCop, may require this file to be generated again.
 
 AllCops:
+  Exclude:
+    - 'bin/**/*'
+    - 'log/**/*'
+    - 'node_modules/**/*'
+    - 'public/**/*'
+    - 'tmp/**/*'
+    - 'vendor/**/*'
   TargetRubyVersion: 2.3
 
 # if you're assigning deliberately, write if (a = b), not if a = b
