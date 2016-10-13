@@ -24,26 +24,10 @@ $(document).ready(function () {
     sortList : [[9, 1], [6, 1]],
   });
 
-  $(".sortable-column.opened").click(function () {
-    sortColumn($(this), 9, 6);
-  });
-
-  $(".sortable-column.closed").click(function () {
-    sortColumn($(this), 10, 9);
-  });
-
-  $(".sortable-column.applied").click(function () {
-    sortColumn($(this), 6, 9);
-  });
-
-  $(".sortable-column.recommended").click(function () {
-    sortColumn($(this), 3, 9);
-  });
-
-  function sortColumn(element, primary_column, secondary_column) {
+  function sortColumn(element, primaryColumn, secondaryColumn) {
     $(".sortable-column.sorted-column").removeClass("sorted-column");
     element.addClass("sorted-column");
-    $personCardTable.trigger("sorton", [ [[primary_column, 1], [secondary_column, 1]] ]);
+    $personCardTable.trigger("sorton", [ [[primaryColumn, 1], [secondaryColumn, 1]] ]);
   }
 
   function filterTable() {
@@ -91,7 +75,7 @@ $(document).ready(function () {
     filterTable();
   });
 
-  function toggle_one(checkboxes, toggle_elem) {
+  function toggleOne(checkboxes, toggleElem) {
     // Show/hide the toggle all button:
     // If *all* other boxes are also checked:
     var allAreChecked = true;
@@ -103,36 +87,52 @@ $(document).ready(function () {
         return false; // Return false to break out of the each loop early.
       }
     });
-    toggle_elem.prop("checked", allAreChecked);
+    toggleElem.prop("checked", allAreChecked);
 
     filterTable();
   }
 
-  function toggle_all(toggle_elem, checkboxes) {
+  function toggleAll(toggleElem, checkboxes) {
     checkboxes.each(function (i, cb) {
-      cb.checked = toggle_elem.checked;
+      cb.checked = toggleElem.checked;
     });
     filterTable();
   }
 
+  $(".sortable-column.opened").click(function () {
+    sortColumn($(this), 9, 6);
+  });
+
+  $(".sortable-column.closed").click(function () {
+    sortColumn($(this), 10, 9);
+  });
+
+  $(".sortable-column.applied").click(function () {
+    sortColumn($(this), 6, 9);
+  });
+
+  $(".sortable-column.recommended").click(function () {
+    sortColumn($(this), 3, 9);
+  });
+
   var $cardBankFilterCheckboxes = $('.card_bank_filter');
-  $cardBankFilterCheckboxes.click(function (e) {
-    toggle_one($cardBankFilterCheckboxes, $("#card_bank_filter_all"));
+  $cardBankFilterCheckboxes.click(function () {
+    toggleOne($cardBankFilterCheckboxes, $("#card_bank_filter_all"));
   });
 
   var $cardCurrencyFilterCheckboxes = $('.card_currency_filter');
-  $cardCurrencyFilterCheckboxes.click(function (e) {
-    var toggle_all_checkbox = $(this).closest(".panel-body").find(".toggle-all-currency-checkbox");
-    toggle_one($cardCurrencyFilterCheckboxes, toggle_all_checkbox);
+  $cardCurrencyFilterCheckboxes.click(function () {
+    var toggleAllCheckbox = $(this).closest(".panel-body").find(".toggle-all-currency-checkbox");
+    toggleOne($cardCurrencyFilterCheckboxes, toggleAllCheckbox);
   });
 
   $("#card_bank_filter_all").click(function () {
-    toggle_all(this, $cardBankFilterCheckboxes);
+    toggleAll(this, $cardBankFilterCheckboxes);
   });
 
   $(".toggle-all-currency-checkbox").click(function () {
     var checkboxes = $(this).closest(".panel-body").find(".card_currency_filter");
-    toggle_all(this, checkboxes);
+    toggleAll(this, checkboxes);
   });
 
   $(".recommend_offer_btn").click(function (e) {

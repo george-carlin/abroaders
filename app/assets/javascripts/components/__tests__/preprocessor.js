@@ -1,7 +1,7 @@
-var ReactTools = require('react-tools');
+import ReactTools from 'react-tools';
 
 module.exports = {
-  process: function (src) {
+  process(src) {
     return ReactTools.transform(src);
   },
 };

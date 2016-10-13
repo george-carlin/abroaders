@@ -5,7 +5,7 @@ import ButtonGroup  from "../core/ButtonGroup";
 import Form         from "../core/Form";
 import TextField    from "../core/TextField";
 
-const ConfirmOrCancelBtns = require("../ConfirmOrCancelBtns");
+import ConfirmOrCancelBtns from "../ConfirmOrCancelBtns";
 
 const ApplyOrDeclineBtns = React.createClass({
   propTypes: {
@@ -13,16 +13,9 @@ const ApplyOrDeclineBtns = React.createClass({
     declinePath: React.PropTypes.string.isRequired,
   },
 
-
   getInitialState() {
     return { declineReason: "", isDeclining: false, showErrorMessage: false };
   },
-
-  setIsDeclining(e, isDeclining) {
-    e.preventDefault();
-    this.setState({isDeclining: isDeclining});
-  },
-
 
   onClickConfirmDecline(e) {
     if (this.state.declineReason.trim()) {
@@ -38,11 +31,16 @@ const ApplyOrDeclineBtns = React.createClass({
     this.setState({declineReason: e.target.value});
   },
 
-  render() {
-    var actions;
+  setIsDeclining(e, isDeclining) {
+    e.preventDefault();
+    this.setState({isDeclining});
+  },
 
-    var errorMessageStyle = {};
-    var declineReasonWrapperClass = "card_account_decline_reason_wrapper";
+  render() {
+    let actions;
+
+    let errorMessageStyle = {};
+    let declineReasonWrapperClass = "card_account_decline_reason_wrapper";
     if (this.state.showErrorMessage) {
       declineReasonWrapperClass += " field_with_errors";
     } else {
@@ -102,4 +100,4 @@ const ApplyOrDeclineBtns = React.createClass({
   },
 });
 
-module.exports = ApplyOrDeclineBtns;
+export default ApplyOrDeclineBtns;
