@@ -1,11 +1,11 @@
 import React, { PropTypes } from "react";
 
-const Button = require("../core/Button");
-const Form   = require("../core/Form");
+import Button from "../core/Button";
+import Form   from "../core/Form";
 
-const Fields   = require("./EligibilitySurveyFields");
-const HelpText = require("./HelpText");
-const Layout   = require("./EligibilitySurveyLayout");
+import Fields   from "./Fields";
+import HelpText from "./HelpText";
+import Layout   from "./Layout";
 
 const EligibilitySurvey = ({ account, action }) => {
   return (

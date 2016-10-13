@@ -1,6 +1,6 @@
 import React from "react";
 
-const Row = require("../core/Row");
+import Row from "../core/Row";
 
 const EligibilitySurveyLayout = (props) => {
   return (
@@ -16,4 +16,4 @@ const EligibilitySurveyLayout = (props) => {
   );
 };
 
-module.exports = EligibilitySurveyLayout;
+export default EligibilitySurveyLayout;

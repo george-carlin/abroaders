@@ -1,8 +1,7 @@
 import React from "react";
 import { map } from "underscore";
 
-const Button = require("../core/Button");
-const Radio  = require("../core/Radio");
+import Radio from "../core/Radio";
 
 const values = ["both", "owner", "companion", "neither"];
 
@@ -54,4 +53,4 @@ const EligibilitySurveyFields = ({account}) => {
   );
 };
 
-module.exports = EligibilitySurveyFields;
+export default EligibilitySurveyFields;
