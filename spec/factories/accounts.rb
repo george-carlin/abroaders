@@ -30,72 +30,12 @@ FactoryGirl.define do
       end
     end
 
-    trait :onboarded_home_airports do
-      onboarded_home_airports true
-    end
-
-    trait :onboarded_travel_plans do
-      # You can't add your travel plan until you've added a home airport:
-      onboarded_home_airports
-      onboarded_travel_plans true
-    end
-
-    trait :onboarded_type do
-      # You can't select your account type until you've added a travel plan:
-      onboarded_travel_plans
-      onboarded_type true
-    end
-
     trait :eligible do
-      onboarded_type
       after(:build) { |acc| acc.people.each { |p| p.eligible = true } }
     end
 
-    trait :onboarded_spending do
-      eligible
-      onboarded_type
-      after(:build) do |acc|
-        acc.people.each do |p|
-          p.build_spending_info(attributes_for(:spending, person: nil))
-        end
-      end
-    end
-
-    trait :onboarded_balances do
-      onboarded_type
-      after(:build) do |acc|
-        acc.people.each { |p| p.onboarded_balances = true }
-      end
-    end
-
-    trait :onboarded_cards do
-      onboarded_spending
-      after(:build) do |acc|
-        acc.people.each { |p| p.onboarded_cards = true }
-      end
-    end
-
-    trait :onboarded_readiness do
-      onboarded_spending
-      onboarded_readiness true
-    end
-
     trait :onboarded do
-      onboarded_readiness
-      after(:build) do |acc|
-        acc.people.each do |person|
-          person.onboarded_cards = person.onboarded_balances = true
-        end
-      end
-    end
-
-    trait :ready do
-      onboarded
-      after(:build) do |acc|
-        acc.people.each do |person|
-          person.update_attribute(:ready, true)
-        end
-      end
+      onboarding_state :complete
     end
 
     factory :onboarded_account, traits: [:onboarded]

@@ -6,8 +6,6 @@ describe "account type select page", :js, :onboarding do
   let(:account) { create(:account, :onboarded_travel_plans) }
   let!(:me) { account.owner }
 
-  let(:onboarded_travel_plans) { true }
-
   before do
     login_as_account(account)
     extra_setup

@@ -47,11 +47,10 @@ module AdminArea
       @person = create(
         :person,
         :eligible,
-        onboarded_cards: true,
-        onboarded_balances: true,
         award_wallet_email: aw_email,
       )
       @account = @person.account.reload
+      @account.update!(onboarding_state: :complete)
     end
 
     def visit_path

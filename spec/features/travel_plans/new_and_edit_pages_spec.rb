@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe "travel plans" do
-  let(:account) { create(:account, :onboarded_home_airports) }
+  let(:account) { create(:account, onboarding_state: :travel_plan) }
   let(:person) { account.owner }
 
   subject { page }
