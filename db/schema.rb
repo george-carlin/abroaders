@@ -10,32 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161005222350) do
+ActiveRecord::Schema.define(version: 20161011141750) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "accounts", force: :cascade do |t|
-    t.string   "email",                      default: "",    null: false
-    t.string   "encrypted_password",         default: "",    null: false
+    t.string   "email",                      default: "",              null: false
+    t.string   "encrypted_password",         default: "",              null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",              default: 0,     null: false
+    t.integer  "sign_in_count",              default: 0,               null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
+    t.datetime "created_at",                                           null: false
+    t.datetime "updated_at",                                           null: false
     t.integer  "monthly_spending_usd"
-    t.boolean  "onboarded_type",             default: false, null: false
-    t.boolean  "onboarded_travel_plans",     default: false, null: false
-    t.integer  "unseen_notifications_count", default: 0,     null: false
+    t.integer  "unseen_notifications_count", default: 0,               null: false
     t.string   "phone_number"
-    t.boolean  "onboarded_home_airports",    default: false, null: false
-    t.boolean  "onboarded_eligibility",      default: false, null: false
+    t.string   "onboarding_state",           default: "home_airports", null: false
     t.index ["email"], name: "index_accounts_on_email", unique: true, using: :btree
+    t.index ["onboarding_state"], name: "index_accounts_on_onboarding_state", using: :btree
     t.index ["reset_password_token"], name: "index_accounts_on_reset_password_token", unique: true, using: :btree
   end
 
@@ -139,13 +137,17 @@ ActiveRecord::Schema.define(version: 20161005222350) do
   end
 
   create_table "destinations", force: :cascade do |t|
-    t.string   "name",                       null: false
-    t.string   "code",                       null: false
+    t.string   "name",                           null: false
+    t.string   "code",                           null: false
     t.integer  "parent_id"
-    t.integer  "children_count", default: 0, null: false
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.string   "type",                       null: false
+    t.integer  "children_count",     default: 0, null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.string   "type",                           null: false
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
     t.index ["code", "type"], name: "index_destinations_on_code_and_type", unique: true, using: :btree
     t.index ["name"], name: "index_destinations_on_name", using: :btree
     t.index ["parent_id"], name: "index_destinations_on_parent_id", using: :btree
@@ -163,6 +165,16 @@ ActiveRecord::Schema.define(version: 20161005222350) do
     t.index ["to_id"], name: "index_flights_on_to_id", using: :btree
     t.index ["travel_plan_id", "position"], name: "index_flights_on_travel_plan_id_and_position", unique: true, using: :btree
     t.index ["travel_plan_id"], name: "index_flights_on_travel_plan_id", using: :btree
+  end
+
+  create_table "interest_regions", force: :cascade do |t|
+    t.integer  "account_id", null: false
+    t.integer  "region_id",  null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "region_id"], name: "index_interest_regions_on_account_id_and_region_id", unique: true, using: :btree
+    t.index ["account_id"], name: "index_interest_regions_on_account_id", using: :btree
+    t.index ["region_id"], name: "index_interest_regions_on_region_id", using: :btree
   end
 
   create_table "notifications", force: :cascade do |t|
@@ -203,8 +215,6 @@ ActiveRecord::Schema.define(version: 20161005222350) do
     t.datetime "created_at",                              null: false
     t.datetime "updated_at",                              null: false
     t.boolean  "main",                    default: true,  null: false
-    t.boolean  "onboarded_cards",         default: false, null: false
-    t.boolean  "onboarded_balances",      default: false, null: false
     t.string   "award_wallet_email"
     t.datetime "last_recommendations_at"
     t.boolean  "eligible"
@@ -233,14 +243,15 @@ ActiveRecord::Schema.define(version: 20161005222350) do
   end
 
   create_table "travel_plans", force: :cascade do |t|
-    t.integer   "account_id",                       null: false
-    t.integer   "type",                 default: 0, null: false
-    t.daterange "departure_date_range",             null: false
-    t.integer   "no_of_passengers",     default: 1, null: false
-    t.datetime  "created_at",                       null: false
-    t.datetime  "updated_at",                       null: false
-    t.text      "further_information"
-    t.integer   "acceptable_classes",               null: false
+    t.integer  "account_id",                      null: false
+    t.integer  "type",                default: 0, null: false
+    t.integer  "no_of_passengers",    default: 1, null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.text     "further_information"
+    t.integer  "acceptable_classes",              null: false
+    t.date     "depart_on",                       null: false
+    t.date     "return_on"
     t.index ["account_id"], name: "index_travel_plans_on_account_id", using: :btree
     t.index ["type"], name: "index_travel_plans_on_type", using: :btree
   end
@@ -257,6 +268,8 @@ ActiveRecord::Schema.define(version: 20161005222350) do
   add_foreign_key "flights", "destinations", column: "from_id", on_delete: :restrict
   add_foreign_key "flights", "destinations", column: "to_id", on_delete: :restrict
   add_foreign_key "flights", "travel_plans", on_delete: :cascade
+  add_foreign_key "interest_regions", "accounts", on_delete: :cascade
+  add_foreign_key "interest_regions", "destinations", column: "region_id", on_delete: :restrict
   add_foreign_key "notifications", "accounts"
   add_foreign_key "offers", "cards", on_delete: :cascade
   add_foreign_key "people", "accounts", on_delete: :cascade

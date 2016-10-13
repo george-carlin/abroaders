@@ -61,7 +61,7 @@ class OnboardingSurvey
         },
 
         { # eligibility
-          complete:    account.onboarded_eligibility?,
+          complete:    true, # TODO
           path:        survey_eligibility_path,
           required:    true,
           revisitable: false,

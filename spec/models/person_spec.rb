@@ -13,17 +13,6 @@ describe Person do
     end
   end
 
-  describe "#onboarded_eligibility?" do
-    it "returns true iff eligible is not nil" do
-      person.eligible = nil
-      expect(person.onboarded_eligibility?).to be false
-      person.eligible = false
-      expect(person.onboarded_eligibility?).to be true
-      person.eligible = true
-      expect(person.onboarded_eligibility?).to be true
-    end
-  end
-
   describe "#onboarded_spending?" do
     it "returns true iff the person has saved their spending info" do
       expect(person.onboarded_spending?).to be false

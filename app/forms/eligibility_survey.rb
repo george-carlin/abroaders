@@ -24,7 +24,7 @@ class EligibilitySurvey < ApplicationForm
       account.companion.update_attributes!(eligible: true)
     when "neither" # noop
     end
-    account.update_attributes!(onboarded_eligibility: true)
+    # TODO update onboarding survey
   end
 
 end

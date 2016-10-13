@@ -265,8 +265,6 @@ describe "account type select page", :js, :onboarding do
       end.not_to change{account.people.count}
       account.reload
       expect(account.monthly_spending_usd).to be_nil
-      expect(me.onboarded_eligibility?).to be false
-      expect(me.onboarded_eligibility?).to be false
       expect_survey_not_to_be_marked_as_complete
     end
 

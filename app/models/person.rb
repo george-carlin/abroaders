@@ -42,10 +42,6 @@ class Person < ApplicationRecord
   end
 
   concerning :Eligibility do
-    def onboarded_eligibility?
-      !eligible.nil?
-    end
-
     def ineligible
       !eligible
     end
