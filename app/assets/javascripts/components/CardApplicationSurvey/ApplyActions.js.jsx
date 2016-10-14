@@ -2,11 +2,11 @@ import React from "react";
 
 import Button from "../core/Button";
 
-const ConfirmOrCancelBtns = require("../ConfirmOrCancelBtns");
+import ConfirmOrCancelBtns from "../ConfirmOrCancelBtns";
 
-const ApprovedDeniedPendingBtnGroup = require("./ApprovedDeniedPendingBtnGroup");
-const ApproveCardAccountFormFields  = require("./ApproveCardAccountFormFields");
-const ApplyOrDeclineBtns            = require("./ApplyOrDeclineBtns");
+import ApprovedDeniedPendingBtnGroup from "./ApprovedDeniedPendingBtnGroup";
+import ApproveCardAccountFormFields  from "./ApproveCardAccountFormFields";
+import ApplyOrDeclineBtns            from "./ApplyOrDeclineBtns";
 
 const ApplyActions = React.createClass({
   propTypes: {
@@ -15,7 +15,6 @@ const ApplyActions = React.createClass({
     declinePath:  React.PropTypes.string.isRequired,
     submitAction: React.PropTypes.func.isRequired,
   },
-
 
   getInitialState() {
     return {
@@ -26,31 +25,25 @@ const ApplyActions = React.createClass({
     };
   },
 
-
   setStateToApplied() {
     this.setState({currentState: "applied"});
   },
-
 
   setStateToApproved() {
     this.setState({currentState: "confirmApproved"});
   },
 
-
   setStateToDenied() {
     this.setState({currentState: "confirmDenied"});
   },
-
 
   setStateToPending() {
     this.setState({currentState: "confirmPending"});
   },
 
-
   setOpenedAt(openedAt) {
     this.setState({ openedAt });
   },
-
 
   getAction() {
     switch (this.state.currentState) {
@@ -64,7 +57,6 @@ const ApplyActions = React.createClass({
         throw "this should never happen";
     }
   },
-
 
   getHelpText() {
     switch (this.state.currentState) {
@@ -87,14 +79,12 @@ const ApplyActions = React.createClass({
     }
   },
 
-
   submitAction() {
     this.props.submitAction(
       this.getAction(),
       { openedAt: this.state.openedAt }
     );
   },
-
 
   formatDate(date) {
     const day   = this.formatLeadingZeroes(date.getDate());
@@ -111,7 +101,6 @@ const ApplyActions = React.createClass({
     return numS;
   },
 
-
   isRecommendedBeforeToday() {
     const recommendedAt = new Date(this.props.cardAccount.recommendedAt);
     const today = new Date();
@@ -121,7 +110,6 @@ const ApplyActions = React.createClass({
 
     return recommendedAt < today;
   },
-
 
   render() {
     return (
@@ -186,4 +174,4 @@ const ApplyActions = React.createClass({
 
 });
 
-module.exports = ApplyActions;
+export default ApplyActions;

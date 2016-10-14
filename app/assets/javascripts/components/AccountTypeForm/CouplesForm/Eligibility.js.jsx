@@ -57,4 +57,4 @@ const Eligibility = React.createClass({
 
 Eligibility.values = values;
 
-module.exports = Eligibility;
+export default Eligibility;

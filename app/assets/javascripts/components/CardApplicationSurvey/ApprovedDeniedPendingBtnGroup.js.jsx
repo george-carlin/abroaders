@@ -3,8 +3,60 @@ import React from "react";
 import Button      from "../core/Button";
 import ButtonGroup from "../core/ButtonGroup";
 
-const ApprovedDeniedPendingBtnGroup = React.createClass({
-  propTypes: {
+const ApprovedDeniedPendingBtnGroup = (_props) => {
+  const props = Object.assign({}, _props);
+  let pendingBtn, cancelBtn;
+
+  if (props.pendingText && props.onClickPending) {
+    pendingBtn = (
+      <Button
+        default
+        onClick={props.onClickPending}
+        small
+      >
+      {props.pendingText}
+      </Button>
+    );
+  }
+
+  if (props.onCancel) {
+    cancelBtn = (
+      <Button
+        default
+        onClick={props.onCancel}
+        small
+      >
+        Cancel
+      </Button>
+    );
+  }
+
+  return (
+    <ButtonGroup>
+      <Button
+        onClick={props.onClickApproved}
+        primary
+        small
+      >
+      {props.approvedText}
+      </Button>
+
+      <Button
+        default
+        onClick={props.onClickDenied}
+        small
+      >
+      {props.deniedText}
+      </Button>
+
+      {pendingBtn}
+      {cancelBtn}
+    </ButtonGroup>
+  );
+};
+
+ApprovedDeniedPendingBtnGroup.propTypes = Object.assign(
+  {
     approvedText:    React.PropTypes.string.isRequired,
     deniedText:      React.PropTypes.string.isRequired,
     onClickApproved: React.PropTypes.func.isRequired,
@@ -15,57 +67,7 @@ const ApprovedDeniedPendingBtnGroup = React.createClass({
     pendingText:     React.PropTypes.string,
     // Leave onCancel blank and no 'Cancel' button will be rendered:
     onCancel:        React.PropTypes.func,
-  },
+  }
+);
 
-
-  render() {
-    let pendingBtn, cancelBtn;
-
-    if (this.props.pendingText && this.props.onClickPending) {
-      pendingBtn = (
-        <Button
-          default
-          onClick={this.props.onClickPending}
-          small
-        >
-          {this.props.pendingText}
-        </Button>
-      );
-    }
-
-    if (this.props.onCancel) {
-      cancelBtn = (
-        <Button
-          default
-          onClick={this.props.onCancel}
-          small
-        >
-          Cancel
-        </Button>
-      );
-    }
-
-    return (
-      <ButtonGroup>
-        <Button
-          onClick={this.props.onClickApproved}
-          primary
-          small
-        >
-          {this.props.approvedText}
-        </Button>
-        <Button
-          default
-          onClick={this.props.onClickDenied}
-          small
-        >
-          {this.props.deniedText}
-        </Button>
-        {pendingBtn}
-        {cancelBtn}
-      </ButtonGroup>
-    );
-  },
-});
-
-module.exports = ApprovedDeniedPendingBtnGroup;
+export default ApprovedDeniedPendingBtnGroup;

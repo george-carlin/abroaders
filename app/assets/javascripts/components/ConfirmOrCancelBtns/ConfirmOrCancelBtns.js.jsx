@@ -4,9 +4,45 @@ import _     from "underscore";
 import Button      from "../core/Button";
 import ButtonGroup from "../core/ButtonGroup";
 
-const ConfirmOrCancelBtns = React.createClass({
+const ConfirmOrCancelBtns = (_props) => {
+  const props = Object.assign({}, _props);
 
-  propTypes: {
+  const propsClone = _.clone(props);
+
+  delete propsClone.cancelBtnClass;
+  delete propsClone.cancelBtnId;
+  delete propsClone.confirmBtnClass;
+  delete propsClone.confirmBtnId;
+  delete propsClone.onClickConfirm;
+  delete propsClone.onClickCancel;
+  delete propsClone.small;
+
+  return (
+    <ButtonGroup {...propsClone}>
+      <Button
+        className={props.confirmBtnClass}
+        id={props.confirmBtnId}
+        onClick={props.onClickConfirm}
+        primary
+        small={props.small}
+      >
+        Confirm
+      </Button>
+      <Button
+        className={props.cancelBtnClass}
+        default
+        id={props.cancelBtnId}
+        onClick={props.onClickCancel}
+        small={props.small}
+      >
+        Cancel
+      </Button>
+    </ButtonGroup>
+  );
+};
+
+ConfirmOrCancelBtns.propTypes = Object.assign(
+  {
     cancelBtnClass:  React.PropTypes.string,
     cancelBtnId:     React.PropTypes.string,
     confirmBtnClass: React.PropTypes.string,
@@ -14,43 +50,7 @@ const ConfirmOrCancelBtns = React.createClass({
     onClickConfirm:  React.PropTypes.func,
     onClickCancel:   React.PropTypes.func,
     small:           React.PropTypes.bool,
-  },
+  }
+);
 
-
-  render() {
-    const props = _.clone(this.props);
-
-    delete props.cancelBtnClass;
-    delete props.cancelBtnId;
-    delete props.confirmBtnClass;
-    delete props.confirmBtnId;
-    delete props.onClickConfirm;
-    delete props.onClickCancel;
-    delete props.small;
-
-    return (
-      <ButtonGroup {...props}>
-        <Button
-          className={this.props.confirmBtnClass}
-          id={this.props.confirmBtnId}
-          onClick={this.props.onClickConfirm}
-          primary
-          small={this.props.small}
-        >
-          Confirm
-        </Button>
-        <Button
-          className={this.props.cancelBtnClass}
-          default
-          id={this.props.cancelBtnId}
-          onClick={this.props.onClickCancel}
-          small={this.props.small}
-        >
-          Cancel
-        </Button>
-      </ButtonGroup>
-    );
-  },
-});
-
-module.exports = ConfirmOrCancelBtns;
+export default ConfirmOrCancelBtns;

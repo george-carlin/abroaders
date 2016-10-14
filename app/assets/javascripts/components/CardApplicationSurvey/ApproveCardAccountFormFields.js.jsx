@@ -2,7 +2,7 @@ import React from "react";
 
 import TextField from "../core/TextField";
 
-const ConfirmOrCancelBtns = require("../ConfirmOrCancelBtns");
+import ConfirmOrCancelBtns from "../ConfirmOrCancelBtns";
 
 const ApproveCardAccountFormFields = React.createClass({
   propTypes: {
@@ -13,7 +13,6 @@ const ApproveCardAccountFormFields = React.createClass({
     submitAction:  React.PropTypes.func.isRequired,
   },
 
-
   getInitialState() {
     const today = new Date(),
           m = today.getMonth(),
@@ -21,7 +20,6 @@ const ApproveCardAccountFormFields = React.createClass({
           y = today.getFullYear();
     return { openedAt: m + "/" + d + "/" + y };
   },
-
 
   componentDidMount() {
     if (this.props.askForDate) {
@@ -49,7 +47,6 @@ const ApproveCardAccountFormFields = React.createClass({
     }
   },
 
-
   submitAction() {
     if (this.props.askForDate) {
       this.props.submitAction("open", this.state.openedAt);
@@ -57,7 +54,6 @@ const ApproveCardAccountFormFields = React.createClass({
       this.props.submitAction("open");
     }
   },
-
 
   render() {
     const confirmOrCancel = (
@@ -95,4 +91,4 @@ const ApproveCardAccountFormFields = React.createClass({
 
 });
 
-module.exports = ApproveCardAccountFormFields;
+export default ApproveCardAccountFormFields;

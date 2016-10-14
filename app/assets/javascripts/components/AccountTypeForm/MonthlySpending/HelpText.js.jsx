@@ -9,7 +9,6 @@ const HelpText = React.createClass({
     namesOfEligiblePeople: React.PropTypes.array.isRequired,
   },
 
-
   render() {
     const blocks = [];
     const names  = this.props.namesOfEligiblePeople.join(" and ");
@@ -58,7 +57,6 @@ const HelpText = React.createClass({
         break;
     }
 
-
     return (
       <div>
         {(() => {
@@ -69,7 +67,6 @@ const HelpText = React.createClass({
       </div>
     );
   },
-
 });
 
-module.exports = HelpText;
+export default HelpText;

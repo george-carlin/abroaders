@@ -14,4 +14,4 @@ const ICalledButton = ({bankName, onClick}) => {
   );
 };
 
-module.exports = ICalledButton;
+export default ICalledButton;

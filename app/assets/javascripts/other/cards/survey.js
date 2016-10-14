@@ -11,7 +11,6 @@ $(document).ready(function () {
     $this.closest(".card-survey-checkbox").toggleClass("opened", checked);
   });
 
-
   $(".cards_survey_card_account_closed").click(function () {
     var $this = $(this);
     var checked = $this.prop("checked");
@@ -39,8 +38,16 @@ $(document).ready(function () {
   });
 
   $('.collapse').on('shown.bs.collapse', function () {
-    $(this).closest('.bank-section').find(".fa-sort-desc").removeClass("fa-sort-desc").addClass("fa-sort-asc");
+    $(this)
+        .closest('.bank-section')
+          .find(".fa-sort-desc")
+            .removeClass("fa-sort-desc")
+            .addClass("fa-sort-asc");
   }).on('hidden.bs.collapse', function () {
-    $(this).closest('.bank-section').find(".fa-sort-asc").removeClass("fa-sort-asc").addClass("fa-sort-desc");
+    $(this)
+        .closest('.bank-section')
+          .find(".fa-sort-asc")
+            .removeClass("fa-sort-asc")
+            .addClass("fa-sort-desc");
   });
 });
