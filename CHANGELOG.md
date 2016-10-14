@@ -2,8 +2,9 @@
 
 ## October 2016
 
-*   Replace dashboard with profile complete page
-    Pivotal Tracker #132295779
+*   Replace dashboard with profile complete page.
+    Show old dashboard only if any person on the account has 
+    received recommendations. Pivotal Tracker #132295779
 
     *Boris Shatalov*
 
