@@ -1,11 +1,6 @@
 class Person < ApplicationRecord
-  # Attributes
-
-  # TODO: rename the DB column and remove all references to 'main'.
-  alias_attribute :owner, :main
-
   def companion?
-    !main?
+    !owner
   end
 
   def has_recent_recommendation?
@@ -67,7 +62,7 @@ class Person < ApplicationRecord
 
   NAME_MAX_LENGTH = 50
 
-  validates :account, uniqueness: { scope: :main }
+  validates :account, uniqueness: { scope: :owner }
 
   # Associations
 
@@ -86,6 +81,6 @@ class Person < ApplicationRecord
 
   # Scopes
 
-  scope :main,      -> { where(main: true) }
-  scope :companion, -> { where(main: false) }
+  scope :owner,      -> { where(owner: true) }
+  scope :companion, -> { where(owner: false) }
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160929214946) do
+ActiveRecord::Schema.define(version: 20161014135022) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -201,7 +201,7 @@ ActiveRecord::Schema.define(version: 20160929214946) do
     t.string   "first_name",                              null: false
     t.datetime "created_at",                              null: false
     t.datetime "updated_at",                              null: false
-    t.boolean  "main",                    default: true,  null: false
+    t.boolean  "owner",                   default: true,  null: false
     t.boolean  "onboarded_cards",         default: false, null: false
     t.boolean  "onboarded_balances",      default: false, null: false
     t.string   "award_wallet_email"
@@ -209,7 +209,7 @@ ActiveRecord::Schema.define(version: 20160929214946) do
     t.boolean  "eligible"
     t.boolean  "ready",                   default: false, null: false
     t.string   "unreadiness_reason"
-    t.index ["account_id", "main"], name: "index_people_on_account_id_and_main", unique: true, using: :btree
+    t.index ["account_id", "owner"], name: "index_people_on_account_id_and_owner", unique: true, using: :btree
   end
 
   create_table "recommendation_notes", force: :cascade do |t|

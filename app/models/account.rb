@@ -43,7 +43,7 @@ class Account < ApplicationRecord
   has_many :travel_plans
 
   has_many :people
-  has_one :owner, -> { main }, class_name: "Person"
+  has_one :owner, -> { owner }, class_name: "Person"
   has_one :companion, -> { companion }, class_name: "Person"
 
   delegate :first_name, to: :owner,     prefix: true

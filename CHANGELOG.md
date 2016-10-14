@@ -2,6 +2,11 @@
 
 ## October 2016
 
+*   Rename `people.main` to `people.owner`.
+    Pivotal Tracker #129923947
+
+    *Boris Shatalov*
+
 *   Standardise partner/couples/companion terminology
 
     *George Millo*

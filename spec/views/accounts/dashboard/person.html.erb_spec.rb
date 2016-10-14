@@ -11,7 +11,7 @@ describe "accounts/dashboard/person" do
     account.monthly_spending_usd   = 1500 if onboarded_type
     account.save!
 
-    create(:person, account: account, main: false) if partner_account
+    create(:person, account: account, owner: false) if partner_account
   end
 
   let(:onboarded_travel_plans) { true }
