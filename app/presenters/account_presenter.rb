@@ -30,6 +30,21 @@ class AccountPresenter < ApplicationPresenter
     timestamps.any? ? timestamps.max.strftime("%D") : "-"
   end
 
+  def dashboard_options
+    if ready?
+      partial_name = "accounts/dashboard/ready"
+      title = t("dashboard.account.ready.title")
+    elsif eligible?
+      partial_name = "accounts/dashboard/eligible"
+      title = t("dashboard.account.eligible.title")
+    else
+      partial_name = "accounts/dashboard/ineligible"
+      title = t("dashboard.account.ineligible.title")
+    end
+
+    { title: title, partial_name: partial_name }
+  end
+
   private
 
   def link_to_person(person)

@@ -1,32 +1,26 @@
-<%
-  if @account.ready?
-    partial_name = "accounts/dashboard/ready"
-    title = t("dashboard.account.ready.title")
-  elsif @account.eligible?
-    partial_name = "accounts/dashboard/eligible"
-    title = t("dashboard.account.eligible.title")
-  else
-    partial_name = "accounts/dashboard/ineligible"
-    title = t("dashboard.account.ineligible.title")
-  end
-%>
-
-<div class="hpanel account-dashboard">
-  <div class="panel-heading hbuilt">
-    <div class="row">
-      <div class="col-xs-12">
-        <h1>Great Job <i class="fa fa-thumbs-up" aria-hidden="true"></i></h1>
-        <br/>
-        <h3><%= title %></h3>
+<% if @account.has_any_recommendations? %>
+  <%= render "accounts/dashboard/account_with_recommendations" %>
+<% else %>
+  <% present @account do |account| %>
+    <% dashboard_options = account.dashboard_options %>
+    <div class="hpanel account-dashboard">
+      <div class="panel-heading hbuilt">
+        <div class="row">
+          <div class="col-xs-12">
+            <h1>Great Job <i class="fa fa-thumbs-up" aria-hidden="true"></i></h1>
+            <br/>
+            <h3><%= dashboard_options[:title] %></h3>
+          </div>
+        </div><!-- .row -->
       </div>
-    </div><!-- .row -->
-  </div>
 
-  <div class="panel-body">
-    <div class="col-md-9">
-      <div class="row">
-        <%= render partial_name %>
-      </div>
+      <div class="panel-body">
+        <div class="col-md-9">
+          <div class="row">
+            <%= render dashboard_options[:partial_name] %>
+          </div>
+        </div>
+      </div><!-- .panel-body -->
     </div>
-  </div><!-- .panel-body -->
-</div>
+  <% end %>
+<% end %>

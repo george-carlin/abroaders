@@ -16,19 +16,15 @@ class Account < ApplicationRecord
   end
 
   def eligible?
-    if has_companion?
-      owner.eligible? || companion.eligible?
-    else
-      owner.eligible?
-    end
+    people.any?{ |person| person.eligible? }
   end
 
   def ready?
-    if has_companion?
-      owner.ready? || companion.ready?
-    else
-      owner.ready?
-    end
+    people.any?{ |person| person.ready? }
+  end
+
+  def has_any_recommendations?
+    people.any?{ |person| person.last_recommendations_at.present? }
   end
 
   def recommendations_expire_at

@@ -113,60 +113,58 @@ describe "account dashboard" do
     end
   end
 
-  # TODO: remove tests below if we won't use it
-  xspecify "account owner appears on the LHS of the page" do
-    create(:companion, account: account)
-    visit_path
-    # owner selector goes before companion selector:
-    expect(page).to have_selector "##{dom_id(owner)} + ##{dom_id(companion)}"
-  end
-
-  xexample "'unresolved cards' modal", :js do
-    offer = create(:offer)
-    # unresolved_rec:
-    create(:card_recommendation, person: owner, offer: offer)
-    # resolved_rec:
-    create(:card_recommendation, :applied, :open, person: owner, offer: offer)
-
-    visit_path
-
-    expect(page).to have_modal
-
-    within_modal do
-      expect(page).to have_content "You have 1 card recommendation which requires action"
-      expect(page).to have_link "Continue", href: card_accounts_path
+  context "when account has at least one card recommendation" do
+    let(:account) { create(:account, :with_companion, email: email) }
+    let(:offer) { create(:offer) }
+    before do
+      owner.update!(last_recommendations_at: Time.now)
     end
-  end
 
-  xexample "no 'unresolved cards' modal", :js do
-    offer = create(:offer)
-    # resolved_rec:
-    create(:card_recommendation, :applied, :open, person: owner, offer: offer)
-    # CA from onboarding survey:
-    create(:survey_card_account, person: owner)
+    specify "account owner appears on the LHS of the page" do
+      # unresolved_rec:
+      create(:card_recommendation, person: owner, offer: offer)
+      visit_path
+      # owner selector goes before companion selector:
+      expect(page).to have_selector "##{dom_id(owner)} + ##{dom_id(companion)}"
+    end
 
-    visit_path
+    example "'unresolved cards' modal", :js do
+      # unresolved_rec:
+      create(:card_recommendation, person: owner, offer: offer)
+      # resolved_rec:
+      create(:card_recommendation, :applied, :open, person: owner, offer: offer)
 
-    expect(page).to have_no_modal
-    expect(page).to have_no_link "Continue", href: card_accounts_path
-  end
+      visit_path
 
-  xexample "visit dashboard as ready to accept card recommendations" do
-    person = account.people.first
-    person.update_attributes(ready: true)
+      expect(page).to have_modal
 
-    visit_path
+      within_modal do
+        expect(page).to have_content "You have 1 card recommendation which requires action"
+        expect(page).to have_link "Continue", href: card_accounts_path
+      end
+    end
 
-    expect(page).to have_content "#{person.first_name} is ready to apply for cards"
-  end
+    example "no 'unresolved cards' modal", :js do
+      offer = create(:offer)
+      # resolved_rec:
+      create(:card_recommendation, :applied, :open, person: owner, offer: offer)
+      # CA from onboarding survey:
+      create(:survey_card_account, person: owner)
 
-  xexample "visit dashboard with recently accepted recommendation" do
-    person = account.people.first
-    person.update_attributes(last_recommendations_at: Time.current)
-    create(:spending_info, person: person)
+      visit_path
 
-    visit_path
+      expect(page).to have_no_modal
+      expect(page).to have_no_link "Continue", href: card_accounts_path
+    end
 
-    expect(page).to have_no_content "#{person.first_name} is not ready to apply for cards."
+    example "visit dashboard with recently accepted recommendation" do
+      person = account.people.first
+      person.update_attributes(last_recommendations_at: Time.current)
+      create(:spending_info, person: person)
+
+      visit_path
+
+      expect(page).to have_no_content "#{person.first_name} is not ready to apply for cards."
+    end
   end
 end

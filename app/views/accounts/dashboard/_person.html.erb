@@ -1,4 +1,3 @@
-<% #TODO: delete if we won't use it %>
 <% person = DashboardPerson.new(person) %>
 <div id="<%= dom_id(person) %>" class="<%= dom_class(person) %> col-xs-12 col-md-6">
   <div class="well">
@@ -9,8 +8,7 @@
       <p><%= link_to "Add your first travel plan", new_travel_plan_path %></p>
     <% end %>
 
-
-    <% if person.onboarded_eligibility? %>
+    <% if person.show_eligibility? %>
       <% if person.eligible? %>
         <p>Eligible to apply for cards</p>
       <% else %>
@@ -21,8 +19,7 @@
       <p><%= link_to "Choose account type", type_account_path %></p>
     <% end %>
 
-
-    <% if person.onboarded_spending? %>
+    <% if person.show_spending? %>
       <hr>
       <h4>
         General Info
@@ -43,7 +40,7 @@
     <% end %>
 
 
-    <% if person.onboarded_cards %>
+    <% if person.show_cards? %>
       <%# TODO %>
     <% elsif person.show_cards_link? %>
       <hr style="margin-top:0;">
@@ -57,8 +54,7 @@
       </p>
     <% end %>
 
-
-    <% if person.onboarded_balances? %>
+    <% if person.show_balances? %>
       <hr style="margin-top:0;">
       <% if person.balances.any? %>
         <h4>Balances</h4>
@@ -84,7 +80,7 @@
         receive recommendations from the Abroaders team.
       </p>
     <% else %>
-      <% if person.onboarded_spending? && !person.has_recent_recommendation? %>
+      <% if person.show_spending? && !person.has_recent_recommendation? %>
         <hr>
         <p><%= person.first_name %> is not ready to apply for cards.</p>
 
