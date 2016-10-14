@@ -1,80 +1,32 @@
-<div class="row">
-  <div class="col-xs-12">
-    <h1>Dashboard</h1>
-  </div>
-</div>
+<%
+  if @account.ready?
+    partial_name = "accounts/dashboard/ready"
+    title = t("dashboard.account.ready.title")
+  elsif @account.eligible?
+    partial_name = "accounts/dashboard/eligible"
+    title = t("dashboard.account.eligible.title")
+  else
+    partial_name = "accounts/dashboard/ineligible"
+    title = t("dashboard.account.ineligible.title")
+  end
+%>
 
-<big>TODO update dashboard</big>
-<% if false %>
-<div class="row">
-  <div class="col-xs-12">
-    <h2>
-      Travel Plans
-      <% if @travel_plans.any? %>
-        <small>
-          <%= link_to "Add new", new_travel_plan_path %>
-        </small>
-      <% end %>
-    </h2>
-
-    <% if @travel_plans.any? %>
-      <div class="account_travel_plans">
-        <%= render collection: @travel_plans, partial: "travel_plans/travel_plan" %>
+<div class="hpanel account-dashboard">
+  <div class="panel-heading hbuilt">
+    <div class="row">
+      <div class="col-xs-12">
+        <h1>Great Job <i class="fa fa-thumbs-up" aria-hidden="true"></i></h1>
+        <br/>
+        <h3><%= title %></h3>
       </div>
-    <% else %>
-      You have no upcoming travel plans.
-      <%= link_to "Add one", new_travel_plan_path %>
-    <% end %>
+    </div><!-- .row -->
   </div>
 
-  <hr>
-</div>
-
-<div class="row">
-  <div class="col-xs-12">
-    <h2>Points Earning</h2>
-  </div>
-</div>
-
-<div class="row">
-  <%= render partial: "accounts/dashboard/person", collection: @people, as: :person %>
-</div>
-
-<% if @unresolved_recommendations.any? && !cookies[:recommendation_timeout] %>
-  <div
-    id="unresolved_recommendations_notification_modal"
-    class="modal fade in"
-    data-backdrop="static"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="unresolved_recommendations_notification_modal_label"
-  >
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="color-line"></div>
-        <div class="modal-header text-center">
-          <h3 id="unresolved_recommendations_notification_modal_label">
-            Action Required
-          </h3>
-        </div>
-
-        <div class="modal-body">
-          <p>
-            You have <%= pluralize @unresolved_recommendations.size, "card recommendation" %>
-            which require<%= "s" unless @unresolved_recommendations.many? %> action.
-            Please apply for <%= @unresolved_recommendations.size > 1 ? "these" : "this"  %> card<%= "s" unless !@unresolved_recommendations.many? %> as soon as possible.
-          </p>
-
-          <p>
-            Your card recommendations will expire in:  <span id="recommendation-countdown" data-countdown="<%= @recommendation_expiration  %>" ></span>
-          </p>
-
-        </div>
-        <div class="modal-footer">
-          <%= link_to "Continue", card_accounts_path, class: "btn btn-primary" %>
-        </div>
+  <div class="panel-body">
+    <div class="col-md-9">
+      <div class="row">
+        <%= render partial_name %>
       </div>
     </div>
-  </div>
-<% end %>
-<% end %>
+  </div><!-- .panel-body -->
+</div>

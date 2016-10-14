@@ -23,6 +23,14 @@ class Account < ApplicationRecord
     end
   end
 
+  def ready?
+    if has_companion?
+      owner.ready? || companion.ready?
+    else
+      owner.ready?
+    end
+  end
+
   def recommendations_expire_at
     expiring_recommendations = card_recommendations.unresolved.unapplied
     if expiring_recommendations.any?

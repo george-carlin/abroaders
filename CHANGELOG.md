@@ -2,6 +2,11 @@
 
 ## October 2016
 
+*   Replace dashboard with profile complete page
+    Pivotal Tracker #132295779
+
+    *Boris Shatalov*
+
 *   Add readiness question at the end of the onboarding survey.
     Pivotal Tracker #131360373 GH #54
 
