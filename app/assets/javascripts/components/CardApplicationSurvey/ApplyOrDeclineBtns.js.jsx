@@ -1,3 +1,4 @@
+/* eslint react/jsx-no-bind: 0 */
 import React from "react";
 
 import Button       from "../core/Button";
