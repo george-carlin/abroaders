@@ -53,7 +53,7 @@ class ApplicationForm
 
   def save!
     return true if save
-    raise ActiveRecord::RecordInvalid.new, errors.full_messages.join(", ")
+    raise ActiveRecord::RecordInvalid.new, self
   end
 
   def assign_attributes(attributes)
