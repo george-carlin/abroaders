@@ -3,11 +3,11 @@ class InterestRegionsController < AuthenticatedUserController
 
   def survey
     @regions = Region.all
-    @interest_regions = InterestRegionsSurveyForm.new(account: current_account)
+    @interest_regions = InterestRegionsSurvey.new(account: current_account)
   end
 
   def save_survey
-    @interest_regions = InterestRegionsSurveyForm.new(account: current_account)
+    @interest_regions = InterestRegionsSurvey.new(account: current_account)
     # not supposed to be invalid
     @interest_regions.update!(interest_regions_survey_params)
     redirect_to root_path

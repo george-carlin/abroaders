@@ -1,4 +1,4 @@
-class InterestRegionsSurveyForm < ApplicationForm
+class InterestRegionsSurvey < ApplicationForm
   attribute :account, Account
   attribute :regions, Array
 
