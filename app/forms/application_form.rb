@@ -48,7 +48,7 @@ class ApplicationForm
     if save
       true
     else
-      raise ActiveRecord::RecordInvalid.new(errors.full_messages.join(", "))
+      raise ActiveRecord::RecordInvalid.new(self)
     end
   end
 
