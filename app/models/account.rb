@@ -31,7 +31,7 @@ class Account < ApplicationRecord
   end
 
   def onboarding_survey
-    OnboardingSurvey.new(account: self)
+    OnboardingFlow.new(account: self)
   end
 
   # Validations
