@@ -1,6 +1,6 @@
 class NewTravelPlanForm < TravelPlanForm
   def show_skip_survey?
-    account.onboarding_survey.incomplete?
+    !account.onboarded?
   end
 
   def initialize(*args)
@@ -15,8 +15,9 @@ class NewTravelPlanForm < TravelPlanForm
     plan.flights.build(flight_attributes)
     plan.save!
 
-    unless account.onboarding_survey.complete?
-      account.onboarding_survey.add_travel_plan!
+    unless account.onboarded?
+      new_state = OnboardingFlow.build(account).add_travel_plan!
+      account.update!(onboarding_state: new_state)
     end
   end
 end

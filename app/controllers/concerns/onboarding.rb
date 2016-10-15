@@ -10,7 +10,7 @@ module Onboarding
     case current_account.onboarding_state
     when "home_airports"       then survey_home_airports_path
     when "travel_plan"         then new_travel_plan_path
-    when "regions_of_interest" then survey_regions_of_interest_path
+    when "regions_of_interest" then survey_interest_regions_path
     when "account_type"        then type_account_path
     when "eligibility"         then survey_eligibility_path
     when "owner_cards"         then survey_person_card_accounts_path(current_account.owner)
