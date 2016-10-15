@@ -2,7 +2,7 @@ class InterestRegionsController < AuthenticatedUserController
   onboard :regions_of_interest, with: [:survey, :save_survey]
 
   def survey
-    @regions = Region.all
+    @regions = Region.order(name: :asc)
     @interest_regions = InterestRegionsSurvey.new(account: current_account)
   end
 
@@ -10,7 +10,7 @@ class InterestRegionsController < AuthenticatedUserController
     @interest_regions = InterestRegionsSurvey.new(account: current_account)
     # not supposed to be invalid
     @interest_regions.update!(interest_regions_survey_params)
-    redirect_to root_path
+    redirect_to onboarding_survey_path
   end
 
   private

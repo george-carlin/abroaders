@@ -1,10 +1,6 @@
 class InterestRegionsSurvey < ApplicationForm
-  attribute :account, Account
-  attribute :regions, Array
-
-  def self.name
-    "InterestRegion"
-  end
+  attribute :account,    Account
+  attribute :region_ids, Array[Integer]
 
   def form_object
     [:survey, self]
@@ -13,12 +9,9 @@ class InterestRegionsSurvey < ApplicationForm
   private
 
   def persist!
-    selected_regions_ids = []
-    regions.each do |region|
-      selected_regions_ids << region[:region_id].to_i if region[:selected]
-    end
-
-    selected_regions = ::Region.where(id: selected_regions_ids)
+    selected_regions = ::Region.where(id: region_ids)
     account.regions_of_interest << selected_regions unless selected_regions.blank?
+    new_state = OnboardingFlow.build(account).add_regions_of_interest!
+    account.update!(onboarding_state: new_state)
   end
 end
