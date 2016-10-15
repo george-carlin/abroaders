@@ -1,9 +1,28 @@
-class OnboardingSurvey
-  include Workflow
+# Defines the routes via which the user can move through the onboarding survey.
+#
+# Example usage:
+#
+#     flow = OnboardingFlow.build(account)
+#     flow.add_home_airports!
+#
+# `flow.add_home_airports!` will return the new state after adding home
+# airports - or it will raise an error if home airports can not be added given
+# the current state.
+class OnboardingFlow
   include Virtus.model
+  include Workflow
 
   attribute :account, Account
-  delegate :owner, :companion, :has_companion?, to: :account
+  # 'workflow_state' is the default attribute name used by the workflow gem
+  attribute :workflow_state
+  delegate :owner, :companion, to: :account
+
+  def self.build(account)
+    new(
+      account:        account,
+      workflow_state: account.onboarding_state,
+    )
+  end
 
   workflow do
     state :home_airports do
@@ -25,7 +44,7 @@ class OnboardingSurvey
 
     state :eligibility do
       event :add_eligibility, transition_to: :owner_cards,
-            if: -> (os) { os.owner.eligible? }
+            if: -> (of) { of.owner.eligible? }
       event :add_eligibility, transition_to: :owner_balances
     end
 
@@ -35,11 +54,11 @@ class OnboardingSurvey
 
     state :owner_balances do
       event :add_owner_balances, transition_to: :companion_cards,
-            if: -> (os) { os.companion.present? && os.companion.eligible? }
+            if: -> (of) { of.companion.present? && of.companion.eligible? }
       event :add_owner_balances, transition_to: :companion_balances,
-            if: -> (os) { os.companion.present? }
+            if: -> (of) { of.companion.present? }
       event :add_owner_balances, transition_to: :spending,
-            if: -> (os) { os.owner.eligible? }
+            if: -> (of) { of.owner.eligible? }
       event :add_owner_balances, transition_to: :phone_number
     end
 
@@ -49,7 +68,7 @@ class OnboardingSurvey
 
     state :companion_balances do
       event :add_companion_balances, transition_to: :spending,
-            if: -> (os) { os.owner.eligible? || os.companion.eligible? }
+            if: -> (of) { of.owner.eligible? || of.companion.eligible? }
       event :add_companion_balances, transition_to: :phone_number
     end
 
