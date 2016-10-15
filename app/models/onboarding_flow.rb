@@ -1,9 +1,41 @@
+# Defines the routes via which the user can move through the onboarding survey.
+#
+# This class doesn't touch the database or care about persisting the onboarding
+# state. Its only job is to read an account's onboarding state and determine
+# which actions are possible and what the new state show be after that action.
+#
+# Example usage:
+#
+#     flow = OnboardingFlow.build(account)
+#     account.update!(onboarding_state: flow.add_home_airports!)
+# 
+# `flow.add_home_airports!` will return the new state after adding home
+# airports - or it will raise an error if home airports can not be added given
+# the current state.
+#
+# If you don't use the return value of `add_home_airports!` you can get it
+# later from the attribute `workflow_state`:
+#
+#     flow = OnboardingFlow.build(account)
+#     flow.add_home_airports!
+#     # ... something else ...
+#     new_state = flow.workflow_state
+#
 class OnboardingFlow
-  include Workflow
   include Virtus.model
+  include Workflow
 
   attribute :account, Account
-  delegate(:owner, :companion, :has_companion?, to: :account)
+  # 'workflow_state' is the default attribute name used by the workflow gem
+  attribute :workflow_state
+  delegate :owner, :companion, to: :account
+
+  def self.build(account)
+    new(
+      account:        account,
+      workflow_state: account.onboarding_state,
+    )
+  end
 
   workflow do
     state :home_airports do
@@ -68,17 +100,4 @@ class OnboardingFlow
     state :complete
   end
 
-  def incomplete?
-    !complete?
-  end
-
-  private
-
-  def load_workflow_state
-    account.onboarding_state
-  end
-
-  def persist_workflow_state(new_value)
-    account.update!(onboarding_state: new_value)
-  end
 end

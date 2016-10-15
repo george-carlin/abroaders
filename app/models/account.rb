@@ -12,7 +12,7 @@ class Account < ApplicationRecord
   alias_attribute :has_companion?, :has_companion
 
   def onboarded?
-    onboarding_survey.complete?
+    onboarding_state == "complete"
   end
 
   def eligible?
@@ -28,10 +28,6 @@ class Account < ApplicationRecord
     if expiring_recommendations.any?
       expiring_recommendations.minimum(:recommended_at) + 15.days + 7.hours
     end
-  end
-
-  def onboarding_survey
-    OnboardingFlow.new(account: self)
   end
 
   # Validations
