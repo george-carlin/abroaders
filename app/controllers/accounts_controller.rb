@@ -1,4 +1,5 @@
 class AccountsController < AuthenticatedUserController
+  onboard :account_type, with: [:type, :submit_type]
 
   # 'dashboard' lives under ApplicationController. This is because there are
   # two dashboards, the regular dashboard and the admin dashboard, but we can't

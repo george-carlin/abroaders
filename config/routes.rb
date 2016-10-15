@@ -57,6 +57,11 @@ Rails.application.routes.draw do
 
   resources :balances
 
+  resource :spending_info, path: :spending, only: [] do
+    get :survey
+    post :survey, action: :save_survey
+  end
+
   resources :people, only: [] do
     resources :balances, only: [:new, :create] do
       collection do
@@ -70,7 +75,7 @@ Rails.application.routes.draw do
         post :survey, action: :save_survey
       end
     end
-    resource :spending_info, path: :spending, except: :create
+    resource :spending_info, path: :spending, only: [:edit, :update]
   end
 
   resource :spending_info,

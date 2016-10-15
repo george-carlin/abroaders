@@ -1,4 +1,6 @@
 class ReadinessController < AuthenticatedUserController
+  onboard :readiness, with: [:survey, :save_survey]
+
   def edit
     @account = current_account
     @readiness = ReadinessForm.new(account: @account)
@@ -30,13 +32,11 @@ class ReadinessController < AuthenticatedUserController
 
   def survey
     @account = current_account
-    redirect_if_ready_or_ineligible && return
     @readiness_survey = ReadinessSurveyForm.new(account: @account)
   end
 
   def save_survey
     @account = current_account
-    redirect_if_ready_or_ineligible && return
     @readiness_survey = ReadinessSurveyForm.new(account: @account)
 
     if @readiness_survey.update_attributes(readiness_survey_params)

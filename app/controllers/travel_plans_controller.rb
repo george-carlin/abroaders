@@ -1,4 +1,6 @@
 class TravelPlansController < AuthenticatedUserController
+  onboard :travel_plan, with: [:new, :create], revisitable: true
+
   def index
     @travel_plans = current_account.travel_plans.includes_destinations
   end

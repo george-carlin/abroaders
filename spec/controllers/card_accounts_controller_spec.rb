@@ -1,69 +1,55 @@
 require "rails_helper"
 
 describe CardAccountsController do
-  include_context "account devise mapping"
-
-  let(:account) { create(:account) }
-
   describe "GET #survey" do
-    let(:account) do
-      create(
-        :account,
-        onboarded_travel_plans:  onboarded_travel_plans,
-        onboarded_type:          onboarded_type,
-        onboarded_home_airports: onboarded_home_airports
-      )
-    end
-    let(:person) { account.owner }
-
-    subject do
-      create(:spending_info, person: person) if onboarded_spending
-      person.update_attributes!(
-        onboarded_cards: onboarded_cards,
-        eligible:        eligible,
-      )
-     
+    let(:account) { create(:account) }
+    let(:owner)   { account.owner }
+    let(:person)  { owner }
+    before do
+      person.update_attributes!(eligible: true)
       sign_in account
-      get :survey, params: { person_id: person.id }
     end
 
-    context "when I haven't completed the home airports survey" do
-      let(:onboarded_home_airports) { false }
-      it { is_expected.to redirect_to survey_home_airports_path }
+    subject { get :survey, params: { person_id: person.id } }
+
+    context "when I haven't reached this survey page yet" do
+      before { account.update_attributes!(onboarding_state: :eligibility) }
+      it { is_expected.to redirect_to survey_eligibility_path }
     end
 
-    context "when I haven't completed the travel plans survey" do
-      let(:onboarded_home_airports) { true }
-      let(:onboarded_travel_plans) { false }
-      it { is_expected.to redirect_to new_travel_plan_path }
+    context "when onboarding state = 'owner cards'" do
+      before { account.update_attributes!(onboarding_state: :owner_cards) }
+      context "and person is owner" do
+        it { is_expected.to have_http_status(200) }
+      end
+
+      context "and person is companion" do
+        let(:person) { account.create_companion!(first_name: "X") }
+        it { is_expected.to redirect_to survey_person_card_accounts_path(owner) }
+      end
     end
 
-    let(:eligible)                { true }
-    let(:onboarded_cards)         { false }
-    let(:onboarded_spending)      { true }
-    let(:onboarded_type)          { true }
-    let(:onboarded_travel_plans)  { true }
-    let(:onboarded_home_airports) { true }
+    context "when onboarding state = 'companion cards'" do
+      before { account.update_attributes!(onboarding_state: :companion_cards) }
+      context "and person is owner" do
+        let!(:companion) { account.create_companion!(first_name: "X") }
+        it { is_expected.to redirect_to survey_person_card_accounts_path(companion) }
+      end
 
-    context "when I haven't chosen an account type yet" do
-      let(:onboarded_type) { false }
-      it { is_expected.to redirect_to type_account_path }
+      context "and person is companion" do
+        let(:person) { account.create_companion!(first_name: "X") }
+        it { is_expected.to have_http_status(200) }
+      end
     end
 
-    context "when I'm not eligible to apply for cards" do
-      let(:eligible) { false }
-      it { is_expected.to redirect_to survey_person_balances_path(person) }
+    context "when I have completed this survey page" do
+      before { account.update_attributes!(onboarding_state: :readiness) }
+      it { is_expected.to redirect_to survey_readiness_path }
     end
 
-    context "when I need to complete the spending survey" do
-      let(:onboarded_spending) { false }
-      it { is_expected.to redirect_to new_person_spending_info_path(person) }
+    context "when I have completed the entire survey" do
+      before { account.update_attributes!(onboarding_state: :complete) }
+      it { is_expected.to redirect_to root_path }
     end
-
-    context "when I've already completed this survey" do
-      let(:onboarded_cards) { true }
-      it { is_expected.to redirect_to survey_person_balances_path(person) }
-    end
-
   end
 end
