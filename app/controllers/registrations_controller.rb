@@ -1,6 +1,6 @@
 class RegistrationsController < Devise::RegistrationsController
   layout "basic"
-  include OnboardingSurveyHelper
+  include Onboarding
 
   def new
     @form = SignUp.new
