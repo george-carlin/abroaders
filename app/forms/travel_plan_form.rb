@@ -64,10 +64,12 @@ class TravelPlanForm < ApplicationForm
     end
   end
 
+  # TODO this is display logic, doesn't belong in the Form object
   def show_skip_survey?
     true
   end
 
+  # TODO this is display logic, doesn't belong in the Form object
   def show_departure_date_help_block?
     true
   end
@@ -145,7 +147,7 @@ class TravelPlanForm < ApplicationForm
       type:                 type,
       depart_on:            departure_date,
       return_on:            return_date,
-      further_information:  further_information.strip,
+      further_information:  further_information&.strip,
       no_of_passengers:     no_of_passengers,
       acceptable_classes:   acceptable_classes,
     }

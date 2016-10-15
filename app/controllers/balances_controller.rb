@@ -31,17 +31,19 @@ class BalancesController < AuthenticatedUserController
   def survey
     @person = load_person
     redirect_if_onboarding_wrong_person_type!
-    @survey = BalancesSurvey.new(@person)
+    @survey     = BalancesSurvey.new(person: @person)
+    @currencies = Currency.survey.order(name: :asc)
   end
 
   def save_survey
     @person = load_person
     redirect_if_onboarding_wrong_person_type!
-    @survey = BalancesSurvey.new(@person)
+    @survey = BalancesSurvey.new(person: @person)
     # Bleeargh technical debt
     @survey.assign_attributes(survey_params)
     @survey.award_wallet_email = params[:balances_survey_award_wallet_email]
     if @survey.save
+      # TODO does this still belong here?
       if current_account.reload.onboarded?
         AccountMailer.notify_admin_of_survey_completion(
           current_account.id, Time.now.to_i,

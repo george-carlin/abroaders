@@ -1,11 +1,10 @@
-import React from "react";
-import { map } from "underscore";
+import React, { PropTypes } from "react";
 
 import Radio from "../core/Radio";
 
 const values = ["both", "owner", "companion", "neither"];
 
-const EligibilitySurveyFields = ({account}) => {
+const Fields = ({account}) => {
   const modelName = "eligibility_survey";
   const attribute = "eligible";
 
@@ -19,7 +18,7 @@ const EligibilitySurveyFields = ({account}) => {
       neither:  "Neither of us is eligible.",
     };
 
-    return map(values, (value, i) => {
+    const radios = values.map((value, i) => {
       return (
         <Radio
           attribute={attribute}
@@ -29,8 +28,10 @@ const EligibilitySurveyFields = ({account}) => {
           modelName={modelName}
           value={value}
         />
-        );
+      );
     });
+    // (Stateless React components can't return arrays)
+    return <div>{radios}</div>;
   }
 
   return (
@@ -53,4 +54,8 @@ const EligibilitySurveyFields = ({account}) => {
   );
 };
 
-export default EligibilitySurveyFields;
+Fields.propTypes = {
+  account: PropTypes.object.isRequired,
+};
+
+export default Fields;

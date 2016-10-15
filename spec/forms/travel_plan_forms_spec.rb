@@ -111,10 +111,26 @@ describe NewTravelPlanForm, type: :model do
   subject { form }
 
   it_behaves_like "a TravelPlan form"
+
+  describe "#persist!" do
+    context "when account is not onboarded" do
+      it "updates the account's onboarded_state" do
+        account = create(:account, onboarding_state: :travel_plan)
+        form.account = account
+        form.from_id = create(:country).id # TODO this should soon change to an airport
+        form.to_id   = create(:country).id
+        form.no_of_passengers = 1
+        form.departure_date   = Date.today
+        expect { form.save! }.to change { account.travel_plans.count }.by(1)
+        account.reload
+        expect(account.onboarding_state).to eq "account_type"
+      end
+    end
+  end
 end
 
 describe EditTravelPlanForm, type: :model do
-  skip "need to figure out a better approach for 'edit' form object" do
+  skip "need to figure out a better approach for 'edit' form objects" do
     let(:travel_plan) { create(:travel_plan, :return) }
     let(:account) { Account.new }
     let(:form)    { described_class.new(account: account, travel_plan: travel_plan) }

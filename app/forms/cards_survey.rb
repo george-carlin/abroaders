@@ -1,5 +1,7 @@
 class CardsSurvey < ApplicationForm
   attribute :person,        Person
+  # TODO keep this consistent with other form objects and call the attribute
+  # 'card_account_ids'
   attribute :card_accounts, Array
 
   def each_section
@@ -43,7 +45,10 @@ class CardsSurvey < ApplicationForm
 
       person.card_accounts.from_survey.create!(attributes)
     end
-    person.update_attributes!(onboarded_cards: true)
+
+    flow = OnboardingFlow.build(person.account)
+    person.owner? ? flow.add_owner_cards! : flow.add_companion_cards!
+    person.account.update!(onboarding_state: flow.workflow_state)
   end
 
   def end_of_month(year, month)

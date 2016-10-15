@@ -5,15 +5,12 @@ class HomeAirportsSurvey < ApplicationForm
   validates :account, presence: true
   validates :airport_ids, presence: true, length: { minimum: 1, maximum: 5 }
 
-  # def self.name
-  #   "HomeAirports"
-  # end
-
   private
 
   def persist!
     account.home_airports << Airport.where(id: airport_ids)
-    account.onboarded_home_airports = true
+    new_state = OnboardingFlow.build(account).add_home_airports!
+    account.onboarding_state = new_state
     account.save!
   end
 end

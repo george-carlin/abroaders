@@ -67,7 +67,7 @@ describe "travel plans" do
       expect(account.reload.onboarded_travel_plans).to eq true
 
       # shows the next page of the survey:
-      expect(current_path).to eq type_account_path
+      expect(current_path).to eq survey_interest_regions_path
     end
 
     describe '' do
@@ -158,28 +158,21 @@ describe "travel plans" do
         end
 
         describe "after submit" do
-          context "if I'm not already marked as 'onboarded travel plans'" do
-            it "takes me to account type select page" do
+          context "if I was onboarding my account" do
+            it "takes me to the next onboarding page" do
               submit_form
               expect(current_path).to eq type_account_path
-            end
-
-            it "marks my account as 'onboarded travel plans'" do
-              submit_form
-              expect(account.reload.onboarded_travel_plans).to be true
+              account.reload
+              expect(account.onboarding_state).to eq "account_type"
             end
           end
 
-          context "if this is not my first ever travel plan", onboarding: false do
+          context "if I was not onboarding_my_account", onboarding: false do
             before { complete_onboarding_survey! }
             it "takes me to the travel plans index" do
               submit_form
               expect(current_path).to eq travel_plans_path
-            end
-
-            it "keeps my account marked as 'onboarded travel plans'" do
-              submit_form
-              expect(account.reload.onboarded_travel_plans).to be true
+              expect(account.reload.onboarding_state).to eq "complete"
             end
           end
         end
