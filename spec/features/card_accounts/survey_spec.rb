@@ -17,20 +17,16 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
     @hidden_card = create(:card, shown_on_survey: false)
   end
 
+  let(:account) { create(:account, onboarding_state: "owner_cards") }
+  let(:owner)   { account.owner }
+
   before do
-    @account = create(:account, :onboarded_type)
-    @me = account.owner
-
-    create(:spending_info, person: @me)
-    @me.update_attributes!(eligible: true)
-
+    owner.update_attributes!(eligible: true)
     login_as account.reload
-    visit survey_person_card_accounts_path(@me)
+    visit survey_person_card_accounts_path(owner)
   end
 
-  let(:account) { @account }
-  let(:me) { @me }
-  let(:name) { me.first_name }
+  let(:name) { owner.first_name }
   let(:submit_form) { click_button "Submit" }
 
   def card_on_page(card)
@@ -48,26 +44,20 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
     end
   end
 
+  def track_intercom_event
+    super("obs_cards_own").for_email(account.email)
+  end
+
   shared_examples "submitting the form" do
-    it "takes me to the balances survey" do
+    it "takes me to the next stage of the survey" do
       submit_form
-      expect(current_path).to eq survey_person_balances_path(me)
-    end
-
-    it "marks me as having completed the cards survey" do
-      submit_form
-      expect(me.reload.onboarded_cards?).to be true
-    end
-
-    it "tracks an event on Intercom", :intercom do
-      expect{submit_form}.to \
-        track_intercom_event("obs_cards_own").
-        for_email(account.email)
+      expect(current_path).to eq survey_person_balances_path(owner)
+      expect(account.reload.onboarding_state).to eq "owner_balances"
     end
   end
 
   example "initial page layout" do
-    expect(page).to have_no_selector "#menu"
+    expect(page).to have_no_sidebar
     expect(page).to have_content \
       "Has #{name} ever had a credit card that earns points or miles?"
     expect(page).to have_button "Yes"
@@ -76,44 +66,37 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
     expect(page).to have_no_selector ".card-survey-checkbox"
   end
 
-  describe "clicking 'No'" do
-    before { click_button "No" }
+  example "clicking 'No'", :intercom do
+    click_button "No"
 
-    it "asks to confirm" do
-      expect(page).to have_no_content \
-        "Has #{name} ever had a credit card that earns points or miles?"
-      expect(page).to have_no_button "Yes"
-      expect(page).to have_no_button "No"
-      expect(page).to have_content \
-        "#{name} has never had a card that earns points or miles"
-      expect(page).to have_button "Confirm"
-      expect(page).to have_button "Back"
-    end
+    expect(page).to have_no_content \
+      "Has #{name} ever had a credit card that earns points or miles?"
+    expect(page).to have_no_button "Yes"
+    expect(page).to have_no_button "No"
+    expect(page).to have_content \
+      "#{name} has never had a card that earns points or miles"
+    expect(page).to have_button "Confirm"
+    expect(page).to have_button "Back"
 
-    describe "and clicking 'Confirm'" do
-      let(:submit_form) { click_button "Confirm" }
+    expect do
+      click_button "Confirm"
+    end.to change { CardAccount.count }.by(0).and(track_intercom_event)
 
-      it "doesn't assign any cards to any account" do
-        expect{submit_form}.not_to change{CardAccount.count}
-      end
+    expect(account.reload.onboarding_state).to eq "owner_balances"
+    expect(current_path).to eq survey_person_balances_path(owner)
+  end
 
-      include_examples "submitting the form"
-    end
-
-    describe "and clicking 'Back'" do
-      before { click_button "Back" }
-
-      it "goes back" do
-        expect(page).to have_content \
-          "Has #{name} ever had a credit card that earns points or miles?"
-        expect(page).to have_button "Yes"
-        expect(page).to have_button "No"
-        expect(page).to have_no_content \
-          "#{name} has never had a card that earns points or miles"
-        expect(page).to have_no_button "Confirm"
-        expect(page).to have_no_button "Back"
-      end
-    end
+  example "clicking 'No' and going back" do
+    click_button "No"
+    click_button "Back"
+    expect(page).to have_content \
+      "Has #{name} ever had a credit card that earns points or miles?"
+    expect(page).to have_button "Yes"
+    expect(page).to have_button "No"
+    expect(page).to have_no_content \
+      "#{name} has never had a card that earns points or miles"
+    expect(page).to have_no_button "Confirm"
+    expect(page).to have_no_button "Back"
   end
 
   describe "clicking 'Yes'" do
@@ -152,12 +135,12 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
     end
 
     it "initially has no inputs for opened/closed dates" do
-      def test(s); expect(page).to have_no_selector(s); end
-      test ".cards_survey_card_account_opened_at_month"
-      test ".cards_survey_card_account_opened_at_year"
-      test ".cards_survey_card_account_closed"
-      test ".cards_survey_card_account_closed_at_month"
-      test ".cards_survey_card_account_closed_at_year"
+      %w[
+        opened_at_month opened_at_year closed closed_at_month
+        closed_at_year
+      ].each do |attr|
+        expect(page).to have_no_selector(".cards_survey_card_account_#{attr}")
+      end
     end
 
     describe "a business card's displayed name" do
@@ -222,7 +205,7 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
 
       before { card.check_opened }
 
-      it "asks me when I opened the card" do
+      it "asks when the card was opened" do
         expect(card).to have_opened_at_month_field
         expect(card).to have_opened_at_year_field
       end
@@ -243,7 +226,7 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
         it "has a date range from 10 years ago - this month"
       end
 
-      it "asks me if (but not when) I closed the card" do
+      it "asks if (but not when) the card was closed" do
         expect(card).to have_closed_check_box
         expect(card).to have_no_closed_at_month_field
         expect(card).to have_no_closed_at_year_field
@@ -252,7 +235,7 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
       describe "checking 'I closed the card'" do
         before { card.check_closed }
 
-        it "asks me when I closed it" do
+        it "asks when the card was closed" do
           expect(card).to have_closed_check_box
           expect(card).to have_closed_at_month_field
           expect(card).to have_closed_at_year_field
@@ -303,15 +286,15 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
       end
 
       describe "and submitting the form" do
-        it "assigns the cards to me" do
+        it "assigns the cards to owner person" do
           expect do
             submit_form
-          end.to change{me.card_accounts.count}.by selected_cards.length
+          end.to change{owner.card_accounts.count}.by selected_cards.length
         end
 
         describe "the created card accounts" do
           before { submit_form }
-          let(:new_accounts) { me.card_accounts }
+          let(:new_accounts) { owner.card_accounts }
 
           specify "have the right cards" do
             expect(new_accounts.map(&:card)).to match_array selected_cards.map(&:card)
@@ -343,7 +326,7 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
           end
 
           specify "have 'from survey' as their source" do
-            expect(me.card_accounts.all? { |ca| ca.from_survey? }).to be true
+            expect(owner.card_accounts.all? { |ca| ca.from_survey? }).to be true
           end
         end
 
