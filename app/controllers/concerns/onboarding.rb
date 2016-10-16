@@ -19,7 +19,7 @@ module Onboarding
     when "companion_balances"  then survey_person_balances_path(current_account.companion)
     when "spending"            then survey_spending_info_path
     when "readiness"           then survey_readiness_path
-    when "phone_number"        then raise "not yet implemented"
+    when "phone_number"        then "not yet implemented"
     when "complete"            then root_path
     end
   end

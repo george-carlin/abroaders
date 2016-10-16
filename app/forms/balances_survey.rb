@@ -6,15 +6,24 @@
 # I'm not even sure *how* to make this behave like a normal 'Form', because,
 # unlike the other Forms, we won't know the exact list of fields until runtime
 # (because it depends on what's in the Currencies table in the DB).
+#
+# Update 15/10/2016: have updated this slighlty so it more closely
+# resembles a form object (e.g. it uses Virtus), but still a long way to go
+# and still not worth the effort.
 class BalancesSurvey
+  include Virtus.model
 
-  attr_accessor :award_wallet_email
+  attribute :person, Person
+  attribute :award_wallet_email, String
+
+  delegate :account, to: :person
+
   attr_reader :balances, :errors
 
-  def initialize(person)
-    @person = person
+  def initialize(*args)
+    super
     @balances = Currency.survey.order(name: :asc).map do |currency|
-      @person.balances.build(currency: currency)
+      person.balances.build(currency: currency)
     end.to_a
   end
 
@@ -29,22 +38,20 @@ class BalancesSurvey
     params.reject! do |balance|
       balance[:value].blank? || balance[:value].to_i == 0
     end
-    @balances = @person.balances.build(params).to_a
+    @balances = person.balances.build(params).to_a
   end
 
   def save
     if valid?
       ApplicationRecord.transaction do
         @balances.each { |balance| balance.save!(validate: false) }
-        if @person.owner?
-          @person.account.onboarding_survey.add_owner_balances!
-        else
-          @person.account.onboarding_survey.add_companion_balances!
-        end
+        flow = OnboardingFlow.build(account)
+        person.owner? ? flow.add_owner_balances! : flow.add_companion_balances!
+        account.update!(onboarding_state: flow.workflow_state)
         if award_wallet_email.present?
-          @person.award_wallet_email = award_wallet_email
+          person.award_wallet_email = award_wallet_email
         end
-        @person.save(validate: false)
+        person.save(validate: false)
 
         true
       end
@@ -57,10 +64,10 @@ class BalancesSurvey
       # Build balances for other currencies so they appear on the form:
       Currency.survey.all.each do |currency|
         unless @balances.find { |b| b.currency_id == currency.id }
-          @balances.push(@person.balances.build(currency: currency))
+          @balances.push(person.balances.build(currency: currency))
         end
       end
-      @balances.sort_by! { |b| b.currency_name }
+      @balances.sort_by!(&:currency_name)
       false
     end
   end
@@ -77,12 +84,12 @@ class BalancesSurvey
   # If we ever make this into a proper subclass of `Form`, then the following
   # few methods are exact duplicates of code in that class, and can be removed
   # from this file:
-  def self.transaction(&block)
-    ActiveRecord::Base.transaction(&block)
-  end
-
-  def transaction(&block)
-    self.class.transaction(&block)
+  def save!
+    if save
+      true
+    else
+      raise ActiveRecord::RecordInvalid.new(self)
+    end
   end
 
   def update_attributes(attributes)
