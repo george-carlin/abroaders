@@ -5,10 +5,6 @@ class EligibilitySurvey < ApplicationForm
 
   ELIGIBILITY = %w[both owner companion neither]
 
-  def self.name
-    "Eligibility"
-  end
-
   validates :eligible, inclusion: { in: ELIGIBILITY }
 
   private
@@ -24,7 +20,9 @@ class EligibilitySurvey < ApplicationForm
       account.companion.update_attributes!(eligible: true)
     when "neither" # noop
     end
-    # TODO update onboarding survey
+    flow = OnboardingFlow.build(account)
+    flow.add_eligibility!
+    account.update!(onboarding_state: flow.workflow_state)
   end
 
 end

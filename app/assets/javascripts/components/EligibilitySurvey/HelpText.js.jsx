@@ -1,4 +1,4 @@
-const React = require("react");
+import React from "react";
 
 const HelpText = ({hasCompanion}) => {
   let firstParaText;
@@ -27,4 +27,4 @@ const HelpText = ({hasCompanion}) => {
   );
 };
 
-module.exports = HelpText;
+export default HelpText;
