@@ -3,6 +3,7 @@ import React from "react";
 import Row from "../core/Row";
 import BalancesTable from "./BalancesTable";
 import AccountTopInfo from "./AccountTopInfo";
+import HomeAirportsList from "./HomeAirportsList";
 
 const AccountPage = React.createClass({
   propTypes: {
@@ -26,10 +27,31 @@ const AccountPage = React.createClass({
         <div className="hpanel">
           <div className="panel-body">
             <Row>
-              <BalancesTable
-                account={this.props.account}
-                alliances={this.props.alliances}
-              />
+              <div className="col-xs-12 col-md-6">
+                <BalancesTable
+                  account={this.props.account}
+                  alliances={this.props.alliances}
+                />
+              </div>
+
+              <div className="col-xs-12 col-md-6">
+                <Row>
+                  <div className="col-xs-12 col-md-6">
+                    <HomeAirportsList
+                      homeAirports={this.props.account.homeAirports}
+                    />
+                  </div>
+
+                  {/* TODO: Add regions of interests */}
+                  <div className="col-xs-12 col-md-6">
+                  </div>
+                </Row>
+
+                <Row>
+                  <div className="col-xs-12">
+                  </div>
+                </Row>
+              </div>
             </Row>
           </div>
         </div>

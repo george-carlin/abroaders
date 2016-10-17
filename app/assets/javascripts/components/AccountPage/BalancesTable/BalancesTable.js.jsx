@@ -38,8 +38,8 @@ const BalancesTable = React.createClass({
       const currency = currencyWithBalances[0];
       const balancesArray = currencyWithBalances[1];
 
-      if (currency.type === type) {
-        const currencyObject = { id: currency.id, name: currency.name, balances: balancesArray };
+      if ((currency.type === type) || (type === "independent" && this.isIndependent(currency))) {
+        const currencyObject = {id: currency.id, name: currency.name, balances: balancesArray};
         currencies.push(currencyObject);
       }
     });
@@ -47,20 +47,8 @@ const BalancesTable = React.createClass({
     return currencies;
   },
 
-  getIndependentCurrencies() {
-    const currencies = [];
-
-    this.props.account.balancesByCurrencies.forEach((currencyWithBalances) => {
-      const currency = currencyWithBalances[0];
-      const balancesArray = currencyWithBalances[1];
-
-      if (!currency.allianceId && currency.type === "airline") {
-        const currencyObject = { id: currency.id, name: currency.name, balances: balancesArray };
-        currencies.push(currencyObject);
-      }
-    });
-
-    return currencies;
+  isIndependent(currency) {
+    return currency.type === "airline" && !currency.allianceId;
   },
 
   render() {
@@ -71,15 +59,15 @@ const BalancesTable = React.createClass({
     const alliances = this.getCurrenciesByAlliance();
     const cashCurrencies = this.getCurrenciesByType("bank");
     const hotelCurrencies = this.getCurrenciesByType("hotel");
-    const independentCurrencies = this.getIndependentCurrencies();
+    const independentCurrencies = this.getCurrenciesByType("independent");
 
     const currencyClass = companion ? "col-xs-4 header" : "col-xs-7 header";
 
     return (
-      <div className="col-xs-12 col-md-6">
+      <div>
         <Row className="header-row">
           <div className="col-xs-2 header"></div>
-          <div className={currencyClass}>Currency Name</div>
+          <div className={currencyClass}>Currency</div>
           <div className="col-xs-3 header">{owner.firstName}</div>
 
           {(() => {

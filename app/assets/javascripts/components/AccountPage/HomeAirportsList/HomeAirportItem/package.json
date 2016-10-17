@@ -1,0 +1,6 @@
+{
+  "name": "HomeAirportItem",
+  "version": "0.0.1",
+  "private": true,
+  "main": "./HomeAirportItem.js.jsx"
+}

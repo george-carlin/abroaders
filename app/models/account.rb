@@ -69,7 +69,7 @@ class Account < ApplicationRecord
 
   has_and_belongs_to_many :home_airports,
                           class_name: "Airport",
-                          join_table: :accounts_home_airports,
+                          join_table: "accounts_home_airports",
                           association_foreign_key: :airport_id
 
   # TODO these methods don't belong in here; updating the counter cache is a
