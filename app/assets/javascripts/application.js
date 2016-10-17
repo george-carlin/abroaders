@@ -23,13 +23,14 @@
 //= require metisMenu
 //= require typeahead.bundle.js
 //= require jquery.countdown.min.js
-//= require components/react_ujs
 //= require_tree ./other
 
 // Load all browserify modules below.
 
 // Polyfill must be loaded before everything else.
 require("babel-polyfill");
+
+require("./components/react_ujs");
 
 // I really don't like this 'hybrid of Sprockets and Node' setup that we have,
 // but I'm still learning Node/Browserify etc and haven't figured out the
