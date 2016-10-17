@@ -20,14 +20,12 @@ $(document).ready(function () {
 
     var countCheck = function () {
       var count    = maxCount - $countable.val().length;
-      var revCount = count - (count * 2) + maxCount;
 
       /* If they've reached the maximum, restrict further characters */
       if (count <= 0) {
         var content = $countable.val();
         $countable.val(content.substring(0, maxCount)).trigger('change');
         count = 0;
-        revCount = maxCount;
       }
 
       var prefix = '';

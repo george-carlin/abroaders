@@ -39,4 +39,4 @@ const Row = ({cosName, points, fees}) => {
   );
 };
 
-module.exports = Row;
+export default Row;

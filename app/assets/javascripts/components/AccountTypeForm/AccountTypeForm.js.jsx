@@ -12,14 +12,12 @@ const AccountTypeForm = React.createClass({
     ownerName:       PropTypes.string.isRequired,
   },
 
-
   getTrip() {
     if (this.props.destinationName && this.props.destinationName.length) {
       return `trip to ${this.props.destinationName}`;
     }
     return "next trip";
   },
-
 
   render() {
     const modelName = "account";

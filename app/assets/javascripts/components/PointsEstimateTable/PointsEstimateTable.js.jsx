@@ -5,8 +5,8 @@ import _     from "underscore";
 import Row   from "../core/Row";
 import Table from "../core/Table";
 
-const Header = require("./Header");
-const TR     = require("./Row");
+import Header from "./Header";
+import TR from "./Row";
 
 const PointsEstimateTable = React.createClass({
   getInitialState() {
@@ -23,8 +23,6 @@ const PointsEstimateTable = React.createClass({
     const onChangePointsEstimateParam = () => {
       const $from  = $fromSelect.children(":selected");
       const $to    = $toSelect.children(":selected");
-      const fromId = $from.val();
-      const toId   = $to.val();
 
       const fromCode = $from.data("code");
       const toCode   = $to.data("code");
