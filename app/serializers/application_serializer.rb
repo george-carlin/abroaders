@@ -1,5 +1,4 @@
 class ApplicationSerializer < ActiveModel::Serializer
-
   # Always include an associated model without having to manually say 'include'
   # in the controller every time. From
   # github.com/rails-api/active_model_serializers/pull/1845#issuecomment-247843653
@@ -14,5 +13,4 @@ class ApplicationSerializer < ActiveModel::Serializer
       end
     end
   end
-
 end

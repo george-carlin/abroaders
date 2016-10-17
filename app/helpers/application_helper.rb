@@ -34,6 +34,11 @@ module ApplicationHelper
     serializer_class.new(model).to_json
   end
 
+  def serialize_array(models, serializer_class=nil)
+    serializer_class ||= "#{models.first.class.name}Serializer".constantize
+    models.map{ |model| serializer_class.new(model).to_json }
+  end
+
   private
 
   def get_presenter(model, klass=nil)
@@ -44,5 +49,4 @@ module ApplicationHelper
       klass.new(model, self)
     end
   end
-
 end

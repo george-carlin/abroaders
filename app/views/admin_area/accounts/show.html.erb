@@ -2,12 +2,9 @@
 
 <% content_for :wide do %>
   <div
-    data-react-component="AccountInfo"
-    data-account="<%= serialize(@account) %>"
-  />
+    data-react-component="AccountPage"
+    data-account="<%= serialize @account %>"
+    data-alliances="<%= serialize_array(@alliances) %>"
+  >
   </div>
-
-  <%# hack to create some margin at the top of the page so the fixed position %>
-  <%# 'AccountInfo' hpanel doesn't overlap the start of the content  %>
-  <div style="height:180px"></div>
 <% end %>

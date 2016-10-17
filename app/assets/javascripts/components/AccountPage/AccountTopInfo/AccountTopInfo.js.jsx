@@ -1,10 +1,10 @@
 import React from "react";
 
-import Row                from "../core/Row";
+import Row                from "../../core/Row";
 import SpendingInfo       from "./SpendingInfo";
 import AccountPeopleNames from "./AccountPeopleNames";
 
-const AccountInfo = React.createClass({
+const AccountTopInfo = React.createClass({
   propTypes: {
     account: React.PropTypes.object.isRequired,
   },
@@ -34,7 +34,7 @@ const AccountInfo = React.createClass({
     }
 
     return (
-      <div className="hpanel">
+      <div className="hpanel account-top-info">
         <div className="panel-body">
           <Row>
             <div className="col-xs-12 col-md-6" >
@@ -82,4 +82,4 @@ const AccountInfo = React.createClass({
   },
 });
 
-module.exports = AccountInfo;
+export default AccountTopInfo;

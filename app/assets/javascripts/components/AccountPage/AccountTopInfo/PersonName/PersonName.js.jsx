@@ -1,6 +1,6 @@
 import React from "react";
 
-import RadioButton  from "../../core/RadioButton";
+import RadioButton  from "../../../core/RadioButton";
 import PersonStatus from "../PersonStatus";
 
 const PersonName = (_props) => {

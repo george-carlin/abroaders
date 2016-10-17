@@ -1,0 +1,89 @@
+[data-react-component=AccountPage] {
+  .account-top-info {
+    position: fixed;
+    top: 62px;
+    z-index: 1;
+
+    // 180px = sidebar width
+    // FIXME is there a better way of doing this?
+    width: calc(100% - 180px);
+    .page-small & {
+      width: 100%;
+    }
+
+    p {
+      font-size: 16px;
+    }
+
+    .people-names {
+      input[type="radio"] {
+        height: 30px;
+      }
+
+      span {
+        font-size: 28px;
+        font-weight: 200;
+      }
+    }
+
+    .has-ein {
+      position: relative;
+      bottom: 1px;
+      left: 9px;
+      display: inline-block;
+      font-size: 0.7em;
+      font-style: italic;
+    }
+
+    .table.table-condensed td:first-child {
+      font-weight: bold;
+    }
+  }
+
+  .header-row {
+    border-bottom: 1px solid black;
+
+    .header {
+      font-weight: 700;
+      text-align: center;
+    }
+  }
+
+  .alliance-row {
+    border-bottom: 1px solid black;
+
+    .title {
+      font-weight: 700;
+      padding-left: 0;
+    }
+
+    .currency-row {
+      border-bottom: 1px solid black;
+
+      &:last-child {
+        border: none;
+      }
+
+      .currency, .balance {
+        float: left;
+        position: relative;
+        min-height: 1px;
+        padding-right: 15px;
+        padding-left: 15px;
+      }
+
+      .currency {
+        width: 40%;
+
+        &.without-companion {
+          width: 70%;
+        }
+      }
+
+      .balance {
+        width: 30%;
+        text-align: center;
+      }
+    }
+  }
+}
