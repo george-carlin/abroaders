@@ -4,8 +4,8 @@ import Button from "../../core/Button";
 import FAIcon from "../../core/FAIcon";
 import Form   from "../../core/Form";
 
-const Step0 = require("./Step0");
-const Step1 = require("./Step1");
+import Step0 from "./Step0";
+import Step1 from "./Step1";
 
 const SoloForm = React.createClass({
   propTypes: {
@@ -14,7 +14,6 @@ const SoloForm = React.createClass({
     ownerName: React.PropTypes.string.isRequired,
     path:      React.PropTypes.string.isRequired,
   },
-
 
   getInitialState() {
     return {
@@ -25,12 +24,10 @@ const SoloForm = React.createClass({
     };
   },
 
-
   onChangeMonthlySpending(e) {
     const val = parseInt(e.target.value, 10);
     this.setState({monthlySpending: isNaN(val) ? null : val});
   },
-
 
   onSubmit(e) {
     if (this.state.isEligibleToApply) {
@@ -44,11 +41,9 @@ const SoloForm = React.createClass({
     // If everything is fine then let the <form> submit in the normal HTML way.
   },
 
-
   updateEligibilityTo(eligibility) {
     this.setState({isEligibleToApply: eligibility});
   },
-
 
   showStep1(e) {
     e.preventDefault();
@@ -56,11 +51,9 @@ const SoloForm = React.createClass({
     this.setState({isSigningUp: true});
   },
 
-
   isMonthlySpendingPresentAndValid() {
     return this.state.monthlySpending && this.state.monthlySpending > 0;
   },
-
 
   render() {
     let classes = "SoloForm account_type_select well col-xs-12 col-md-4";
@@ -84,7 +77,6 @@ const SoloForm = React.createClass({
           Solo Earning
         </h2>
 
-
         {(() => {
           if (this.state.isSigningUp) {
             return (
@@ -107,4 +99,4 @@ const SoloForm = React.createClass({
   },
 });
 
-module.exports = SoloForm;
+export default SoloForm;

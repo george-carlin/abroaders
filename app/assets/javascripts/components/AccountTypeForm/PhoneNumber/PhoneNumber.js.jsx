@@ -4,26 +4,28 @@ import HelpBlock from "../../core/HelpBlock";
 import FormGroup from "../../core/FormGroup";
 import TextField from "../../core/TextField";
 
-const PhoneNumber = React.createClass({
-  propTypes: {
+const PhoneNumber = (_props) => {
+  const props = Object.assign({}, _props);
+
+  return (
+    <FormGroup>
+      <HelpBlock>
+        Optionally, please provide a phone number we can contact you on:
+      </HelpBlock>
+
+      <TextField
+        attribute="phone_number"
+        modelName={props.modelName}
+        placeholder="Phone number"
+      />
+    </FormGroup>
+  );
+};
+
+PhoneNumber.propTypes = Object.assign(
+  {
     modelName: React.PropTypes.string.isRequired,
-  },
+  }
+);
 
-  render() {
-    return (
-      <FormGroup>
-        <HelpBlock>
-          Optionally, please provide a phone number we can contact you on:
-        </HelpBlock>
-
-        <TextField
-          attribute="phone_number"
-          modelName={this.props.modelName}
-          placeholder="Phone number"
-        />
-      </FormGroup>
-    );
-  },
-});
-
-module.exports = PhoneNumber;
+export default PhoneNumber;

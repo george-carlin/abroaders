@@ -20,27 +20,24 @@ $(document).ready(function () {
 
     var countCheck = function () {
       var count    = maxCount - $countable.val().length;
-      var revCount = count - (count * 2) + maxCount;
 
       /* If they've reached the maximum, restrict further characters */
       if (count <= 0) {
         var content = $countable.val();
         $countable.val(content.substring(0, maxCount)).trigger('change');
-        count = 0, revCount = maxCount;
+        count = 0;
       }
 
       var prefix = '';
-      if (',') {
-        count = count.toString();
-        // Handle large negative numbers
-        if (count.match(/^-/)) {
-          count  = count.substr(1);
-          prefix = '-';
-        }
+      count = count.toString();
+      // Handle large negative numbers
+      if (count.match(/^-/)) {
+        count  = count.substr(1);
+        prefix = '-';
+      }
 
-        for (var i = count.length - 3; i > 0; i -= 3) {
-          count = count.substr(0, i) + ',' + count.substr(i);
-        }
+      for (var i = count.length - 3; i > 0; i -= 3) {
+        count = count.substr(0, i) + ',' + count.substr(i);
       }
 
       $counter.text(prefix + count);

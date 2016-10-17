@@ -5,7 +5,7 @@ import FormGroup   from "../../core/FormGroup";
 import InputGroup  from "../../core/InputGroup";
 import NumberField from "../../core/NumberField";
 
-const HelpText = require("./HelpText");
+import HelpText from "./HelpText";
 
 const MonthlySpending = React.createClass({
   propTypes: {
@@ -17,11 +17,9 @@ const MonthlySpending = React.createClass({
     showError: React.PropTypes.bool,
   },
 
-
   showField() {
     return !!this.props.namesOfEligiblePeople.length;
   },
-
 
   render() {
     return (
@@ -67,4 +65,4 @@ const MonthlySpending = React.createClass({
   },
 });
 
-module.exports = MonthlySpending;
+export default MonthlySpending;

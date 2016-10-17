@@ -3,10 +3,10 @@ import React from "react";
 import Button    from "../../core/Button";
 import HelpBlock from "../../core/HelpBlock";
 
-const MonthlySpending = require("../MonthlySpending");
-const PhoneNumber     = require("../PhoneNumber");
+import MonthlySpending from "../MonthlySpending";
+import PhoneNumber     from "../PhoneNumber";
 
-const Eligibility     = require("./Eligibility");
+import Eligibility from "./Eligibility";
 
 const Step1 = React.createClass({
   propTypes: {
@@ -18,7 +18,6 @@ const Step1 = React.createClass({
     showMonthlySpendingError: React.PropTypes.bool,
   },
 
-
   getNamesOfEligiblePeople() {
     let result;
     if (this.props.isEligibleToApply) {
@@ -28,7 +27,6 @@ const Step1 = React.createClass({
     }
     return result;
   },
-
 
   render() {
     const modelName = "solo_account";
@@ -64,4 +62,4 @@ const Step1 = React.createClass({
   },
 });
 
-module.exports = Step1;
+export default Step1;
