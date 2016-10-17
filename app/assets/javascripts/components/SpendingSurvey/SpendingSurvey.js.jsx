@@ -1,102 +1,185 @@
-const React = require("react");
+import React, { PropTypes } from "react";
 
-const Button = require("../core/Button");
-const Form   = require("../core/Form");
-const Row    = require("../core/Row");
+import Button from "../core/Button";
+import Cols   from "../core/Cols";
+import Form   from "../core/Form";
+import Row    from "../core/Row";
 
-const BusinessInfo     = require("./BusinessInfo");
-const CreditScore      = require("./CreditScore");
-const WillApplyForLoan = require("./WillApplyForLoan");
-const MonthlySpendingFormGroup = require("./MonthlySpendingFormGroup");
-const MonthlySpendingHelpText  = require("./MonthlySpendingHelpText");
+import columnClassnames from "../core/shared/columnClassnames";
+
+import BusinessSpendingFormGroup from "./BusinessSpendingFormGroup";
+import ErrorMessages             from "./ErrorMessages";
+import HasBusinessFormGroup      from "./HasBusinessFormGroup";
+import CreditScoreFormGroup      from "./CreditScoreFormGroup";
+import WillApplyForLoanFormGroup from "./WillApplyForLoanFormGroup";
+import MonthlySpendingFormGroup  from "./MonthlySpendingFormGroup";
 
 const SpendingSurvey = React.createClass({
   propTypes: {
-    account: React.PropTypes.object.isRequired,
+    defaultValues:      PropTypes.object,
+    errorMessages:      PropTypes.array,
+    ownerEligible:      PropTypes.bool,
+    ownerFirstName:     PropTypes.string.isRequired,
+    companionEligible:  PropTypes.bool,
+    companionFirstName: PropTypes.string,
+    submitPath:         PropTypes.string.isRequired,
+  },
+
+  getDefaultProps() {
+    return {
+      defaultValues: {},
+    };
+  },
+
+  getInitialState() {
+    return Object.assign(
+      {
+        companionHasBusiness:      "no_business",
+        companionWillApplyForLoan: "false",
+        ownerHasBusiness:          "no_business",
+        ownerWillApplyForLoan:     "false",
+      },
+      this.props.defaultValues
+    );
+  },
+
+  onChangeOwnerHasBusiness(e) {
+    this.setState({ownerHasBusiness: e.target.value});
+  },
+
+  onChangeCompanionHasBusiness(e) {
+    this.setState({companionHasBusiness: e.target.value});
+  },
+
+  companionHasBusiness() {
+    return this.state.companionHasBusiness === "no_business";
+  },
+
+  ownerHasBusiness() {
+    return this.state.ownerHasBusiness === "no_business";
   },
 
   render() {
-    const account   = this.props.account;
-    const owner     = account.owner;
-    const companion = account.companion;
-    const hasCompanion = !!companion;
+    const props = this.props;
+    const bothEligible = props.ownerEligible && props.companionEligible;
 
-    const showOwner     = !!owner.eligible;
-    const showCompanion = !!(companion && companion.eligible);
-
-    if (!showOwner && !showCompanion) { // sanity check
+    if (!props.ownerEligible && !props.companionEligible) { // sanity check
       throw "at least one person must be eligible";
     }
 
-    const showBoth = showOwner && showCompanion;
-
-    const businessInfos = [];
-    const creditScores  = [];
-    const wA4Ls         = [];
-
-    const sharedProps = {
-      className: `col-xs-12 col-md-${!showBoth ? 12 : 6}`,
-      modelName: "spending_survey",
-      useName:   hasCompanion,
+    const colsClassName = columnClassnames({ xs: 12, md: bothEligible ? 6 : 12 });
+    const ownerFormGroupProps = {
+      className:  colsClassName,
+      firstName:  props.ownerFirstName,
+      personType: "owner",
+      useName:    bothEligible,
+    };
+    const companionFormGroupProps = {
+      className:  colsClassName,
+      firstName:  props.companionFirstName,
+      personType: "companion",
+      useName:    bothEligible,
     };
 
-    if (showOwner) {
-      sharedProps.key    = 0;
-      sharedProps.person = owner;
-      businessInfos.push(<BusinessInfo {...sharedProps} />);
-      creditScores.push(<CreditScore {...sharedProps} />);
-      wA4Ls.push(<WillApplyForLoan {...sharedProps} />);
-    }
-    if (showCompanion) {
-      sharedProps.key    = 1;
-      sharedProps.person = companion;
-      businessInfos.push(<BusinessInfo {...sharedProps} />);
-      creditScores.push(<CreditScore {...sharedProps} />);
-      wA4Ls.push(<WillApplyForLoan {...sharedProps} />);
-    }
-
-    let cols = "col-xs-12";
-    if (!showBoth) cols += " col-md-6 col-md-offset-3";
-
-    const names = [account.owner.firstName];
-    if (account.companion) {
-      names.push(account.companion.firstName);
-    }
-
     return (
-      <div className="hpanel row">
-        <div className={`panel-body ${cols}`}>
-          <Form action={this.props.submitPath}>
-            <Row>
-              <div className="col-xs-12 text-center">
-                <h1>Spending Information</h1>
-              </div>
-            </Row>
+      <Row className="hpanel">
+        <Cols md={bothEligible ? 12 : 6} mdOffset={bothEligible ? 0 : 3} xs="12">
+          {props.errorMessages.length ?
+            <ErrorMessages messages={props.errorMessages} /> : null
+          }
+          <div className="panel-body">
+            <Form action={props.submitPath}>
+              <Row>
+                <Cols xs="12" className="text-center">
+                  <h1>Spending Information</h1>
+                  <hr />
+                </Cols>
+              </Row>
 
-            <Row>
-              {creditScores}
-            </Row>
-            <Row>
-              <div className="col-xs-12 col-md-6 col-md-offset-3">
-                <h3>How much do you spend per month?</h3>
-                <MonthlySpendingHelpText firstNames={names} />
-                <MonthlySpendingFormGroup modelName={sharedProps.modelName} />
-              </div>
-            </Row>
-            <Row>{businessInfos}</Row>
-            <Row>{wA4Ls}</Row>
+              <Row>
+                {props.ownerEligible ?
+                  <CreditScoreFormGroup
+                    defaultValue={this.state.ownerCreditScore}
+                    {...ownerFormGroupProps}
+                  /> : null
+                }
+                {props.companionEligible ?
+                  <CreditScoreFormGroup
+                    defaultValue={this.state.companionCreditScore}
+                    {...companionFormGroupProps}
+                  /> : null
+                }
+              </Row>
 
-            <Row>
-              <hr />
-              <div className="col-xs-12">
-                <Button primary large >
-                  Submit
-                </Button>
-              </div>
-            </Row>
-          </Form>
-        </div>
-      </div>
+              <Row>
+                <MonthlySpendingFormGroup
+                  className={columnClassnames({ xs: 12})}
+                  defaultValue={this.state.monthlySpending}
+                />
+              </Row>
+
+              <Row>
+                {props.ownerEligible ?
+                  <div className={colsClassName}>
+                    <HasBusinessFormGroup
+                      defaultValue={this.state.ownerHasBusiness}
+                      onChange={this.onChangeOwnerHasBusiness}
+                      {...ownerFormGroupProps}
+                    />
+
+                    {this.state.ownerHasBusiness !== "no_business" ?
+                      <BusinessSpendingFormGroup
+                        defaultValue={this.ownerBusinessSpending}
+                        {...ownerFormGroupProps}
+                      /> : null
+                    }
+                  </div> : null
+                }
+                {props.companionEligible ?
+                  <div className={colsClassName}>
+                    <HasBusinessFormGroup
+                      defaultValue={this.state.companionHasBusiness}
+                      onChange={this.onChangeCompanionHasBusiness}
+                      {...companionFormGroupProps}
+                    />
+
+                    {this.state.companionHasBusiness !== "no_business" ?
+                      <BusinessSpendingFormGroup
+                        defaultValue={this.companionBusinessSpending}
+                        {...companionFormGroupProps}
+                      /> : null
+                    }
+                  </div> : null
+                }
+              </Row>
+
+              <Row>
+                {props.ownerEligible ?
+                  <WillApplyForLoanFormGroup
+                    defaultValue={this.state.ownerWillApplyForLoan}
+                    {...ownerFormGroupProps}
+                  /> : null
+                }
+                {props.companionEligible ?
+                  <WillApplyForLoanFormGroup
+                    defaultValue={this.state.companionWillApplyForLoan}
+                    {...companionFormGroupProps}
+                  /> : null
+                }
+              </Row>
+
+              <Row>
+                <hr style={{marginTop: 0}} />
+                <Cols xs="12">
+                  <Button primary large >
+                    Submit
+                  </Button>
+                </Cols>
+              </Row>
+            </Form>
+          </div>
+        </Cols>
+      </Row>
     );
   },
 });

@@ -1,28 +1,51 @@
-const React = require("react");
+import React, { PropTypes } from "react";
 
-const FormGroup   = require("../core/FormGroup");
-const InputGroup  = require("../core/InputGroup");
-const NumberField = require("../core/NumberField");
+import FormGroup   from "../core/FormGroup";
+import HelpBlock   from "../core/HelpBlock";
+import InputGroup  from "../core/InputGroup";
+import NumberField from "../core/NumberField";
 
-const HelpText = require("./MonthlySpendingHelpText");
 
-const MonthlySpendingFormGroup = ({modelName}) => {
-  return (
-    <FormGroup>
-      <InputGroup addonBefore="$" >
-        <NumberField
-          attribute="monthly_spending_usd"
-          min="0"
-          modelName={modelName}
-          placeholder="Estimated monthly spending"
-        />
-      </InputGroup>
-    </FormGroup>
-  );
-};
+// // TODO wording based on who is eligible or just if they're there?
+// const names = [account.owner.firstName];
+// if (account.companion) {
+//   names.push(account.companion.firstName);
+// }
+//
+//
+//   <HelpBlock>
+//     Please estimate the <b>combined</b> monthly spending
+//     for {firstNames.join(" and ")} that could be charged to a credit card
+//     account.
+//   </HelpBlock>
+
+const MonthlySpendingFormGroup = ({className, defaultValue}) =>
+  <FormGroup className={className}>
+    <h3>How much do you spend per month?</h3>
+
+    <HelpBlock>
+      What is your average monthly personal spending that could be charged
+      to a credit card account?
+    </HelpBlock>
+
+    <HelpBlock>
+      You should exclude rent, mortage, and car payments unless you are
+      certain you can use a credit card as the payment method.
+    </HelpBlock>
+
+    <InputGroup addonBefore="$" >
+      <NumberField
+        attribute="monthly_spending"
+        defaultValue={defaultValue}
+        min="0"
+        modelName="spending_survey"
+        placeholder="Estimated monthly spending"
+      />
+    </InputGroup>
+  </FormGroup>;
 
 MonthlySpendingFormGroup.propTypes = {
-  modelName: React.PropTypes.string.isRequired,
+  className: PropTypes.string,
 };
 
-module.exports = MonthlySpendingFormGroup;
+export default MonthlySpendingFormGroup;

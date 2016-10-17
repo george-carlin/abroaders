@@ -57,6 +57,10 @@ $(document).ready(() => {
     _.each($el.data(), (value, propName) => {
       if (typeof value === "object") {
         props[propName] = humps.camelizeKeys(value);
+      } else if (value === "true") {
+        props[propName] = true;
+      } else if (value === "false") {
+        props[propName] = false;
       } else {
         props[propName] = value;
       }

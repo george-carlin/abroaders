@@ -4,7 +4,7 @@
 #
 #   survey = SpendingSurvey.new(account: account)
 #   survey.update_attributes!(
-#     spending: 1234,
+#     monthly_spending: 1234,
 #     owner_business_spending_usd: 555,
 #     owner_credit_score: 350,
 #     owner_has_business: "with_ein",
@@ -13,20 +13,28 @@
 #   # => creates account.owner.spending_info
 class SpendingSurvey < ApplicationForm
   attribute :account, Account
-  attribute :spending, Integer
+  attribute :monthly_spending, Integer
 
   %i[owner companion].each do |person|
     attribute "#{person}_business_spending_usd", Integer
     attribute "#{person}_credit_score",          Integer
-    attribute "#{person}_has_business",          String,  default: "no_business"
-    attribute "#{person}_will_apply_for_loan",   Boolean, default: false
+    attribute "#{person}_has_business",          String
+    attribute "#{person}_will_apply_for_loan",   Boolean
+  end
+
+  def initialize(*args)
+    super
+    self.owner_has_business     = "no_business"
+    self.companion_has_business = "no_business" if account&.companion
+    self.owner_will_apply_for_loan     = false
+    self.companion_will_apply_for_loan = false if account&.companion
   end
 
   def self.name
     "SpendingInfo"
   end
 
-  validates :spending,
+  validates :monthly_spending,
     presence: true,
     numericality: { allow_blank: true, greater_than_or_equal_to: 0 }
 
@@ -49,7 +57,7 @@ class SpendingSurvey < ApplicationForm
   }
 
   HAS_BUSINESS_VALIDATIONS = {
-    inclusion: { in: %w[with_ein without_ein no_business] }
+    inclusion: { in: %w[with_ein without_ein no_business], allow_blank: true }
   }
 
   # ---- owner spending validations ----
@@ -93,7 +101,6 @@ class SpendingSurvey < ApplicationForm
   private
 
   def persist!
-    account.update_attributes!(monthly_spending_usd: spending)
     if require_owner_spending?
       account.owner.create_spending_info!(
         business_spending_usd: owner_business_spending_usd,
@@ -110,6 +117,12 @@ class SpendingSurvey < ApplicationForm
         will_apply_for_loan:   companion_will_apply_for_loan,
       )
     end
+    flow = OnboardingFlow.build(account)
+    flow.add_spending!
+    account.update_attributes!(
+      monthly_spending_usd: monthly_spending,
+      onboarding_state:     flow.workflow_state,
+    )
   end
 
   def owner_has_business?

@@ -2,21 +2,17 @@ class SpendingInfosController < AuthenticatedUserController
   onboard :spending, with: [:survey, :save_survey]
 
   def survey
-    redirect_if_inaccessible! and return
-    @spending_info = SpendingSurvey.new(person: @person)
+    @survey = SpendingSurvey.new(account: current_account)
   end
 
   def save_survey
-    @person = load_person
-    redirect_if_inaccessible! and return
-    @spending_info = SpendingSurvey.new(person: @person)
-    if @spending_info.update_attributes(spending_survey_params)
-      current_account.save!
-      type = @person.type[0..2]
-      track_intercom_event("obs_spending_#{type}")
-      redirect_to survey_person_card_accounts_path(@person)
+    @survey = SpendingSurvey.new(account: current_account)
+    if @survey.update_attributes(spending_survey_params)
+      # TODO track intercom events for one or both people:
+      # track_intercom_event("obs_spending_#{type}")
+      redirect_to onboarding_survey_path
     else
-      render :new
+      render :survey
     end
   end
 
@@ -53,20 +49,17 @@ class SpendingInfosController < AuthenticatedUserController
   end
 
   def spending_survey_params
-    params.require(:spending_info).permit(
-      :business_spending_usd,
-      :credit_score,
-      :has_business,
-      :will_apply_for_loan
+    params.require(:spending_survey).permit(
+      :monthly_spending,
+      :companion_business_spending_usd,
+      :companion_credit_score,
+      :companion_has_business,
+      :companion_will_apply_for_loan,
+      :owner_business_spending_usd,
+      :owner_credit_score,
+      :owner_has_business,
+      :owner_will_apply_for_loan,
     )
   end
 
-  def redirect_if_inaccessible!
-    # TODO update me to use the new OnboardingSurvey system
-    # if !@person.eligible?
-    #   redirect_to survey_person_balances_path(@person) and return true
-    # elsif @person.onboarded_spending?
-    #   redirect_to survey_person_card_accounts_path(@person) and return true
-    # end
-  end
 end
