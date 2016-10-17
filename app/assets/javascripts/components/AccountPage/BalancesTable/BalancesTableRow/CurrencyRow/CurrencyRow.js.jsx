@@ -21,8 +21,8 @@ const CurrencyRow = React.createClass({
   },
 
   render() {
-    const currency = this.props.currency;
-    const account = this.props.account;
+    const currency  = this.props.currency;
+    const account   = this.props.account;
     const companion = account.companion;
 
     const currencyClass = companion ? "currency" : "currency without-companion";

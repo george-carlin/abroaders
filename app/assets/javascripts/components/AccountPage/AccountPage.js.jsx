@@ -4,6 +4,7 @@ import Row from "../core/Row";
 import BalancesTable from "./BalancesTable";
 import AccountTopInfo from "./AccountTopInfo";
 import HomeAirportsList from "./HomeAirportsList";
+import TravelPlansList from "./TravelPlansList";
 
 const AccountPage = React.createClass({
   propTypes: {
@@ -12,6 +13,8 @@ const AccountPage = React.createClass({
   },
 
   render() {
+    const account = this.props.account;
+
     return (
       <div>
         <AccountTopInfo
@@ -27,30 +30,25 @@ const AccountPage = React.createClass({
         <div className="hpanel">
           <div className="panel-body">
             <Row>
+              <BalancesTable
+                account={account}
+                alliances={this.props.alliances}
+              />
+
               <div className="col-xs-12 col-md-6">
-                <BalancesTable
-                  account={this.props.account}
-                  alliances={this.props.alliances}
+                <HomeAirportsList
+                  homeAirports={account.homeAirports}
                 />
-              </div>
 
-              <div className="col-xs-12 col-md-6">
-                <Row>
-                  <div className="col-xs-12 col-md-6">
-                    <HomeAirportsList
-                      homeAirports={this.props.account.homeAirports}
-                    />
-                  </div>
-
-                  {/* TODO: Add regions of interests */}
-                  <div className="col-xs-12 col-md-6">
-                  </div>
-                </Row>
-
-                <Row>
-                  <div className="col-xs-12">
-                  </div>
-                </Row>
+                {(() => {
+                  if (account.travelPlans.length > 0) {
+                    return (
+                      <TravelPlansList
+                        travelPlans={account.travelPlans}
+                      />
+                    );
+                  }
+                })()}
               </div>
             </Row>
           </div>

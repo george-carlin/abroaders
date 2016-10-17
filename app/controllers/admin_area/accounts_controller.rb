@@ -4,7 +4,9 @@ module AdminArea
     # GET /admin/accounts/:id
     def show
       @account = Account.includes(
-        balances: :currency, owner: :spending_info, companion: :spending_info
+        home_airports: :parent,
+        travel_plans: [flights: [:from, :to]], balances: :currency,
+        owner: :spending_info, companion: :spending_info
       ).find(params[:id])
 
       @alliances = Alliance.all

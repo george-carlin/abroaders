@@ -52,19 +52,19 @@ const BalancesTable = React.createClass({
   },
 
   render() {
-    const account = this.props.account;
-    const owner = account.owner;
+    const account   = this.props.account;
+    const owner     = account.owner;
     const companion = account.companion;
 
-    const alliances = this.getCurrenciesByAlliance();
-    const cashCurrencies = this.getCurrenciesByType("bank");
-    const hotelCurrencies = this.getCurrenciesByType("hotel");
+    const alliances             = this.getCurrenciesByAlliance();
+    const cashCurrencies        = this.getCurrenciesByType("bank");
+    const hotelCurrencies       = this.getCurrenciesByType("hotel");
     const independentCurrencies = this.getCurrenciesByType("independent");
 
     const currencyClass = companion ? "col-xs-4 header" : "col-xs-7 header";
 
     return (
-      <div>
+      <div className="col-xs-12 col-md-6">
         <Row className="header-row">
           <div className="col-xs-2 header"></div>
           <div className={currencyClass}>Currency</div>

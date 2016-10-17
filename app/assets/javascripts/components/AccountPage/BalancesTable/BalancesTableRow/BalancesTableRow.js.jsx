@@ -4,9 +4,9 @@ import Row from "../../../core/Row";
 import CurrencyRow from "./CurrencyRow";
 
 const BalancesTableRow = (_props) => {
-  const props = Object.assign({}, _props);
+  const props      = Object.assign({}, _props);
   const currencies = props.currencies;
-  const className = currencies.length === 0 ? "hidden" : "alliance-row";
+  const className  = currencies.length === 0 ? "hidden" : "alliance-row";
 
   return (
     <Row className={className}>

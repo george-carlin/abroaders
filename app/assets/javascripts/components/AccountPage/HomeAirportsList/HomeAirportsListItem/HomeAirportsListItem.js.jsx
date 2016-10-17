@@ -1,6 +1,6 @@
 import React from "react";
 
-const HomeAirportItem = (_props) => {
+const HomeAirportsListItem = (_props) => {
   const props = Object.assign({}, _props);
 
   return (
@@ -8,10 +8,10 @@ const HomeAirportItem = (_props) => {
   );
 };
 
-HomeAirportItem.propTypes = Object.assign(
+HomeAirportsListItem.propTypes = Object.assign(
   {
     homeAirport: React.PropTypes.object.isRequired,
   }
 );
 
-export default HomeAirportItem;
+export default HomeAirportsListItem;
