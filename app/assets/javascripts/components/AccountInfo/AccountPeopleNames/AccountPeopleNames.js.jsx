@@ -1,47 +1,47 @@
-const React = require("react");
+import React from "react";
 
-const RadioButton = require("../../core/RadioButton");
-const PersonName = require("../PersonName");
+import RadioButton from "../../core/RadioButton";
+import PersonName  from "../PersonName";
 
-const AccountPeopleNames = React.createClass({
-  propTypes: {
+const AccountPeopleNames = (_props) => {
+  const props     = Object.assign({}, _props);
+  const owner     = props.account.owner;
+  const companion = props.account.companion;
+
+  if (companion) {
+    return (
+      <p className="people-names">
+        <PersonName
+          person={owner}
+          withRadio
+          selected={owner === props.selectedPerson}
+          onChange={props.onChooseOwner}
+        />
+        <PersonName
+          person={companion}
+          withRadio
+          selected={companion === props.selectedPerson}
+          onChange={props.onChooseCompanion}
+        />
+      </p>
+    );
+  } else {
+    return (
+      <PersonName
+        person={owner}
+        withRadio={false}
+      />
+    );
+  }
+};
+
+AccountPeopleNames.propTypes = Object.assign(
+  {
     account: React.PropTypes.object.isRequired,
     selectedPerson: React.PropTypes.object.isRequired,
     onChooseOwner: React.PropTypes.func.isRequired,
     onChooseCompanion: React.PropTypes.func.isRequired,
-  },
+  }
+);
 
-  render() {
-    const account = this.props.account;
-    const owner     = account.owner;
-    const companion = account.companion;
-
-    if (companion) {
-      return (
-        <p className="people-names">
-          <PersonName
-            person={owner}
-            withRadio
-            selected={owner === this.props.selectedPerson}
-            onChange={this.props.onChooseOwner}
-          />
-          <PersonName
-            person={companion}
-            withRadio
-            selected={companion === this.props.selectedPerson}
-            onChange={this.props.onChooseCompanion}
-          />
-        </p>
-      );
-    } else {
-      return (
-        <PersonName
-          person={owner}
-          withRadio={false}
-        />
-      );
-    }
-  },
-});
-
-module.exports = AccountPeopleNames;
+export default AccountPeopleNames;

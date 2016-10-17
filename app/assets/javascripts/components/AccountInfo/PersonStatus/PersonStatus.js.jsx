@@ -1,4 +1,4 @@
-const React = require("react");
+import React from "react";
 
 const PersonStatus = React.createClass({
   propTypes: {
@@ -21,4 +21,4 @@ const PersonStatus = React.createClass({
   },
 });
 
-module.exports = PersonStatus;
+export default PersonStatus;

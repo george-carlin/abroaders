@@ -1,6 +1,6 @@
-const React = require("react");
+import React from "react";
 
-const numbro = require("numbro");
+import numbro from "numbro";
 
 const SpendingInfo = React.createClass({
   propTypes: {
@@ -32,8 +32,7 @@ const SpendingInfo = React.createClass({
     if (this.hasBusiness()) {
       if (this.props.spendingInfo.hasBusiness === "with_ein") {
         return "(Has EIN)";
-      }
-      else {
+      } else {
         return "(Does not have EIN)";
       }
     }
@@ -81,4 +80,4 @@ const SpendingInfo = React.createClass({
   },
 });
 
-module.exports = SpendingInfo;
+export default SpendingInfo;

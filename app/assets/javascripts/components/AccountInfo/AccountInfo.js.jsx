@@ -1,8 +1,8 @@
-const React = require("react");
+import React from "react";
 
-const Row = require("../core/Row");
-const SpendingInfo = require("./SpendingInfo");
-const AccountPeopleNames = require("./AccountPeopleNames");
+import Row                from "../core/Row";
+import SpendingInfo       from "./SpendingInfo";
+import AccountPeopleNames from "./AccountPeopleNames";
 
 const AccountInfo = React.createClass({
   propTypes: {
