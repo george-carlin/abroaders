@@ -20,6 +20,12 @@
 
 ## September 2016
 
+*   Create `AccountInfo`, `SpendingInfo`, `AccountPeopleNames`, 
+    `PersonName`, `PersonStatus` React components.
+    Use it on `admin/accounts#show` page. Pivotal Tracker #131075691
+
+    *Boris Shatalov*
+
 *   Add rake task for sending the annual fee notification email to a user.
     Pivotal Tracker #130313781, GH #44
 

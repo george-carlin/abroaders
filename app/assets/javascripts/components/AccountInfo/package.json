@@ -1,0 +1,6 @@
+{
+  "name": "AccountInfo",
+  "version": "0.0.1",
+  "private": true,
+  "main": "./AccountInfo.js.jsx"
+}

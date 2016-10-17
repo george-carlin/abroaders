@@ -38,6 +38,7 @@ require("babel-polyfill");
 // but it's not worth the effort for now.
 
 window.components = {
+  AccountInfo:           require("./components/AccountInfo"),
   AccountTypeForm:       require("./components/AccountTypeForm"),
   CardApplicationSurvey: require("./components/CardApplicationSurvey"),
   PointsEstimateTable:   require("./components/PointsEstimateTable"),

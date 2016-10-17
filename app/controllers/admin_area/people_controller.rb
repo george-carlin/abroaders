@@ -3,7 +3,6 @@ module AdminArea
     # GET /admin/people/1
     def show
       @person        = load_person
-      @spending_info = @person.spending_info
       @account       = @person.account
       @travel_plans  = @account.travel_plans.includes_destinations
       @balances      = @person.balances.includes(:currency)
@@ -21,7 +20,7 @@ module AdminArea
     private
 
     def load_person
-      Person.includes(:spending_info).find(params[:id])
+      Person.includes(account: [people: :spending_info]).find(params[:id])
     end
   end
 end

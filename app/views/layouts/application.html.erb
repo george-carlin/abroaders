@@ -9,6 +9,8 @@
     <% end %>
 
     <div id="<%= "wrapper" if sidebar? %>" class="wrapper">
+      <%= yield(:wide) if content_for?(:wide) %>
+
       <% if content_for?(:header_panel) %>
         <div class="normalheader">
           <div class="hpanel">

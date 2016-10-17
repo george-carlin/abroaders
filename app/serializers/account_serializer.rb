@@ -1,4 +1,5 @@
 class AccountSerializer < ApplicationSerializer
+
   attributes :id, :email, :phone_number, :monthly_spending_usd, :created_at
 
   has_one :owner
