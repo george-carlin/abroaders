@@ -8,7 +8,6 @@ class TravelPlansController < AuthenticatedUserController
 
   def new
     @travel_plan = NewTravelPlanForm.new(account: current_account)
-    @countries = load_countries
   end
 
   def create
@@ -22,14 +21,12 @@ class TravelPlansController < AuthenticatedUserController
         redirect_to travel_plans_path
       end
     else
-      @countries = load_countries
       render "new"
     end
   end
 
   def edit
     @travel_plan = EditTravelPlanForm.find(params[:id])
-    @countries = load_countries
   end
 
   def update
@@ -38,7 +35,6 @@ class TravelPlansController < AuthenticatedUserController
       flash[:success] = "Updated travel plan"
       redirect_to travel_plans_path
     else
-      @countries = load_countries
       render "edit"
     end
   end
@@ -63,12 +59,7 @@ class TravelPlansController < AuthenticatedUserController
     )
   end
 
-  def load_countries
-    SelectableCountries.all
-  end
-
   def load_travel_plan
     current_account.travel_plans.find(params[:id])
   end
-
 end

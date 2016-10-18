@@ -2,7 +2,6 @@ module AdminArea
   class TravelPlansController < AdminController
     def edit
       @travel_plan = AdminArea::EditTravelPlanForm.find(params[:id])
-      @countries = load_counties
       render "travel_plans/edit"
     end
 
@@ -12,7 +11,6 @@ module AdminArea
         flash[:success] = "Travel plan for #{@travel_plan.owner_name} has been updated"
         redirect_to admin_person_path(@travel_plan.owner)
       else
-        @countries = load_counties
         render "travel_plans/edit"
       end
     end
@@ -26,10 +24,5 @@ module AdminArea
         :will_accept_business_class, :will_accept_first_class, :from_id, :to_id
       )
     end
-
-    def load_counties
-      SelectableCountries.all
-    end
-
   end
 end
