@@ -25,6 +25,14 @@ class TravelPlanForm < ApplicationForm
 
   US_DATE_FORMAT = "%m/%d/%Y".freeze
 
+  def from_name
+    ""
+  end
+
+  def to_name
+    ""
+  end
+
   def us_date_format?(date)
     date =~ /\A\s*(?:0?[1-9]|1[0-2])\/(?:0?[1-9]|[1-2]\d|3[01])\/\d{4}\s*\Z/
   end
@@ -138,8 +146,8 @@ class TravelPlanForm < ApplicationForm
 
   def flight_attributes
     {
-      from: Destination.country.find(from_id),
-      to:   Destination.country.find(to_id),
+      from: Airport.find(from_id),
+      to:   Airport.find(to_id),
     }
   end
 

@@ -1,14 +1,8 @@
 <span class="<%= dom_id(destination) %>">
-  <% if destination.region? %>
-    <span class="destination-region-name">
-      <%= destination.region.name %>
-    </span>
-  <% else %>
-    <span class="destination-name">
-      <%= destination.name %>
-    </span>
-    <span class="destination-region-name">
-      (<%= destination.region.name %>)
-    </span>
-  <% end %>
+  <span class="destination-name">
+    <%= destination.name %>
+  </span>
+  <span class="destination-region-name">
+    (<%= destination.code %>)
+  </span>
 </span>

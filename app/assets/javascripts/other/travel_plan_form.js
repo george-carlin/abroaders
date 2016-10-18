@@ -1,3 +1,5 @@
+/* global formTypeahead b:true */
+
 $(document).ready(function () {
   $('.travel-plan-datepicker').datepicker({
     startDate: "new Date()",
@@ -6,7 +8,6 @@ $(document).ready(function () {
     autoclose: true,
     todayHighlight: true,
   });
-
 
   /*
    * This is based on (i.e. copied from then stripped of all unecessary
@@ -76,4 +77,10 @@ $(document).ready(function () {
   };
   $singleRadio.on('click', travelTypeRadioClick);
   $returnRadio.on('click', travelTypeRadioClick);
+
+  if ($(".travel-plan-form").length > 0) {
+    formTypeahead($('.typeahead')).bind('typeahead:select', function (e, suggestion) {
+      $(this).closest('.twitter-typeahead').next('.airport-id').val(suggestion.id);
+    });
+  }
 });

@@ -4,7 +4,24 @@ class EditTravelPlanForm < TravelPlanForm
   attribute :to_id,   Integer, default: lambda { |tp, _| tp.flight.to_id }
 
   def self.find(id)
-    new(::TravelPlan.find(id).attributes)
+    travel_plan = ::TravelPlan.find(id)
+    new_attributes = {
+      departure_date: travel_plan.depart_on,
+      return_date: travel_plan.return_on,
+      will_accept_economy: travel_plan.will_accept_economy?,
+      will_accept_premium_economy: travel_plan.will_accept_premium_economy?,
+      will_accept_business_class: travel_plan.will_accept_business_class?,
+      will_accept_first_class: travel_plan.will_accept_first_class?
+    }
+    new(travel_plan.attributes.merge(new_attributes))
+  end
+
+  def from_name
+    displayed_name(Airport.find(from_id))
+  end
+
+  def to_name
+    displayed_name(Airport.find(to_id))
   end
 
   def persisted?
@@ -24,5 +41,9 @@ class EditTravelPlanForm < TravelPlanForm
 
   def travel_plan
     @travel_plan ||= TravelPlan.find(id)
+  end
+
+  def displayed_name(airport)
+    "#{airport.name} (#{airport.code})"
   end
 end
