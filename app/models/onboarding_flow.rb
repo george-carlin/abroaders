@@ -94,7 +94,8 @@ class OnboardingFlow
     end
 
     state :phone_number do
-      event :add_or_skip_phone_number, transition_to: :complete
+      event :add_phone_number, transition_to: :complete
+      event :skip_phone_number, transition_to: :complete
     end
 
     state :complete
