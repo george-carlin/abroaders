@@ -19,12 +19,12 @@
 
     <div class="travel-plan-input-group">
       <div class="from-to-line">
-        <%= text_field_tag "travel_plan_from_typeahead", travel_plan.from_name, class: "form-control typeahead travel-plan-from-field", placeholder: "ex. New York or JFK" %>
+        <%= text_field_tag "travel_plan_from_typeahead", travel_plan.from_name, class: "form-control typeahead travel-plan-from-field", placeholder: "From (airport)" %>
         <%= f.hidden_field :from_id, class: "airport-id" %>
         <div class="travel-plan-icon-plane">
           <span class="fa fa-plane"></span>
         </div>
-        <%= text_field_tag "travel_plan_to_typeahead", travel_plan.to_name, class: "form-control typeahead travel-plan-to-field", placeholder: "ex. New York or JFK" %>
+        <%= text_field_tag "travel_plan_to_typeahead", travel_plan.to_name, class: "form-control typeahead travel-plan-to-field", placeholder: "To (airport)" %>
         <%= f.hidden_field :to_id, class: "airport-id" %>
       </div>
 
