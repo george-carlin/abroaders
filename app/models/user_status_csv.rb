@@ -1,31 +1,30 @@
 class UserStatusCSV
-
-  DATE_FORMAT = "%D"
+  DATE_FORMAT = "%D".freeze
 
   def self.generate
     # Copy and paste this shitty code into the rails console on Heroku to print
     # out some CSV data that Erik can use:
 
-    headers = [
-      "email",
-      "own_name",
-      "own_recommended_at",
-      "own_seen_at",
-      "own_clicked_at",
-      "own_applied_at",
-      "own_declined_at",
-      "own_opened_at",
-      "own_denied_at",
-      "com_name",
-      "com_recommended_at",
-      "com_seen_at",
-      "com_clicked_at",
-      "com_applied_at",
-      "com_declined_at",
-      "com_opened_at",
-      "com_denied_at",
-      "signed_up_at",
-      "onboarded",
+    headers = %w[
+      email
+      own_name
+      own_recommended_at
+      own_seen_at
+      own_clicked_at
+      own_applied_at
+      own_declined_at
+      own_opened_at
+      own_denied_at
+      com_name
+      com_recommended_at
+      com_seen_at
+      com_clicked_at
+      com_applied_at
+      com_declined_at
+      com_opened_at
+      com_denied_at
+      signed_up_at
+      onboarded
     ]
 
     person_includes = [:card_accounts, :card_recommendations, :spending_info]
@@ -37,17 +36,17 @@ class UserStatusCSV
     ).find_each.map do |account|
       owner_columns = generate_columns_for_person(account.owner)
 
-      row = [ account.email ] + owner_columns
+      row = [account.email] + owner_columns
 
-      if account.has_companion?
-        row += generate_columns_for_person(account.companion)
-      else
-        row += [nil] * owner_columns.length
-      end
+      row += if account.has_companion?
+               generate_columns_for_person(account.companion)
+             else
+               [nil] * owner_columns.length
+             end
 
-      row += [
+      row + [
         account.created_at.strftime("%D"),
-        account.onboarded?
+        account.onboarded?,
       ]
     end
 
@@ -69,5 +68,4 @@ class UserStatusCSV
       rec&.denied_at&.strftime(DATE_FORMAT),
     ]
   end
-
 end

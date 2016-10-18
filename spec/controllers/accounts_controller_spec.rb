@@ -9,7 +9,7 @@ describe AccountsController do
         :account,
         onboarded_travel_plans:   onb_travel_plans,
         onboarded_type:           onb_type,
-        onboarded_home_airports:  onb_home_airports
+        onboarded_home_airports:  onb_home_airports,
       )
     end
     before { sign_in account }
@@ -40,5 +40,4 @@ describe AccountsController do
       it { is_expected.to have_http_status(200) }
     end
   end
-
 end

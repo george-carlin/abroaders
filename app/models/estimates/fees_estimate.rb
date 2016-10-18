@@ -1,6 +1,5 @@
 module Estimates
   class FeesEstimate < BaseEstimate
-
     FEES = begin
       csv  = File.read(Rails.root.join("lib", "data", "fees_estimates.csv"))
       data = CSV.parse(csv)
@@ -15,7 +14,6 @@ module Estimates
         }
       end
     end
-
 
     NON_US_SINGLE_FEES_MIN_USD = 50
     NON_US_SINGLE_FEES_MAX_USD = 125
@@ -50,7 +48,7 @@ module Estimates
     def column_index(limit:)
       raise unless [:low, :high].include?(limit)
       i = %w[economy business_class first_class].index(class_of_service)
-      limit == :low ? 2*i + 2 : 2*i + 3
+      limit == :low ? 2 * i + 2 : 2 * i + 3
     end
 
     def non_us_fee(limit:)
@@ -72,13 +70,12 @@ module Estimates
       if return?
         result += international_fees_data(to, from)[class_of_service][limit.to_s]
       end
-      # round to the nearest 5 
+      # round to the nearest 5
       (result / 5.0).round * 5 * no_of_passengers
     end
 
     def international_fees_data(from, to)
-      FEES[ [from.region.code, to.region.code] ]
+      FEES[[from.region.code, to.region.code]]
     end
-
   end
 end

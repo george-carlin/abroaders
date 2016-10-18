@@ -1,7 +1,7 @@
 require_relative "./record_on_page"
 
 class BalanceOnPage < RecordOnPage
-  alias_method :balance, :model
+  alias balance model
 
   button :cancel
   button :edit
@@ -13,5 +13,4 @@ class BalanceOnPage < RecordOnPage
     click_save_btn
     wait_for_ajax
   end
-
 end

@@ -2,7 +2,6 @@
 # see and which page are they currently on?' logic which is duplicated
 # elsewhere in the app. Definitely a possibility for some DRYing.
 class DashboardPerson
-
   def initialize(person)
     @person = person
     raise "person must be persisted" unless @person.persisted?
@@ -46,6 +45,5 @@ class DashboardPerson
 
   delegate :onboarded_travel_plans?, :onboarded_type?, to: :account
   delegate :account, :onboarded_spending?, :onboarded_cards?, :onboarded_balances?,
-            :eligible?, to: :person
-
+           :eligible?, to: :person
 end

@@ -16,7 +16,7 @@ namespace :ab do
         end
 
         (no_of_accounts = 50).times do
-          random = rand()
+          random = rand
           # Create a sample of accounts in different stages of the onboarding
           # process:
           account = if random > 0.95
@@ -40,7 +40,7 @@ namespace :ab do
               account.email.split("@").first.sub(/-\d+/, "").capitalize
           end
 
-          date = ((500).days + rand(24).hours + rand(60).minutes).ago
+          date = (500.days + rand(24).hours + rand(60).minutes).ago
           account.created_at = date
 
           account.save!
@@ -72,7 +72,7 @@ namespace :ab do
             # Most travel plans will be 'return', and few will be 'multi',
             # so weight the sample data accordingly
             roll = rand(10)
-            type =  if roll > 0.4
+            type = if roll > 0.4
                       :return
                     elsif roll > 0.1
                       :single
@@ -82,7 +82,6 @@ namespace :ab do
             create(:travel_plan, type, account: account)
           end
         end
-
       end # transaction
 
       puts "created #{TravelPlan.count - count_before} new travel plans"

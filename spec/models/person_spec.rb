@@ -7,7 +7,7 @@ describe Person do
     let(:person) { build(:person) }
 
     it "strips trailing whitespace from first_name" do
-      person.first_name= "    string    "
+      person.first_name = "    string    "
       person.save!
       expect(person.first_name).to eq "string"
     end
@@ -62,7 +62,6 @@ describe Person do
       end
     end
 
-
     context "when the person is ineligible to apply for cards" do
       before { person.eligible = false }
 
@@ -84,5 +83,4 @@ describe Person do
       expect(person.has_recent_recommendation?).to be true
     end
   end
-
 end

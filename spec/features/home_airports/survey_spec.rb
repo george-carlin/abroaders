@@ -22,7 +22,7 @@ describe "home airports survey", :onboarding, :js do
     fill_in field, with: with
 
     page.execute_script("$('##{field}').trigger('focus');")
-    page.execute_script ("$('##{field}').trigger('keydown');")
+    page.execute_script "$('##{field}').trigger('keydown');"
     selector = ".tt-menu .tt-dataset div.tt-suggestion"
     page.execute_script("$(\"#{selector}\").mouseenter().click()")
   end
@@ -43,7 +43,7 @@ describe "home airports survey", :onboarding, :js do
     find(field).native.send_keys(with.chars)
 
     page.execute_script("$('##{field}').trigger('focus');")
-    page.execute_script ("$('##{field}').trigger('keydown');")
+    page.execute_script "$('##{field}').trigger('keydown');"
     selector = ".tt-menu .tt-dataset div.tt-suggestion"
     expect(page).to have_selector(selector, text: select)
     page.execute_script("$(\"#{selector}\").mouseenter().click()")

@@ -20,7 +20,7 @@ class Card < ApplicationRecord
 
   concerning :Image do
     included do
-      # Standard credit card dimensions are 85.60 × 53.98mm, which gives the
+      # Standard credit card dimensions are 85.60*53.98mm, which gives the
       # following aspect ratio:
       ASPECT_RATIO = 1.586
 
@@ -64,7 +64,6 @@ class Card < ApplicationRecord
     personal? ? bank.id : bank.id + 1
   end
 
-
   # A short string that allows the admin to quickly identify the card.
   # Format: AA-BBB-C.
   # A: bank_number. An integer.
@@ -78,7 +77,7 @@ class Card < ApplicationRecord
     [
       "%.2d" % bank_number,
       code,
-      unknown_network? ? "?" : network.upcase[0]
+      unknown_network? ? "?" : network.upcase[0],
     ].join("-")
   end
 
@@ -91,7 +90,7 @@ class Card < ApplicationRecord
   end
 
   # Validations
-  
+
   validates :code, format: {
     message: "must consist only of capital letters and be 2-4 letters long",
     with: /\A[A-Z]{2,4}\z/,

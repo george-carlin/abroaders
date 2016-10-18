@@ -72,7 +72,7 @@ describe "the balance survey page", :onboarding, :js do
 
   example "clicking 'No' and confirming" do
     click_button "No"
-    expect{click_button "Confirm"}.not_to change{Balance.count}
+    expect { click_button "Confirm" }.not_to change { Balance.count }
     expect(me.reload.onboarded_balances?).to be true
   end
 
@@ -117,7 +117,7 @@ describe "the balance survey page", :onboarding, :js do
     click_button "Yes"
     currency_check_box(currency).click
     fill_in balance_field(currency), with: 50_000
-    expect{submit_form}.to change{me.balances.count}.by(1)
+    expect { submit_form }.to change { me.balances.count }.by(1)
     balance = me.reload.balances.last
     expect(balance.currency).to eq currency
     expect(balance.person).to eq me
@@ -134,7 +134,7 @@ describe "the balance survey page", :onboarding, :js do
     # Uncheck the box and the text field will be hidden
     currency_check_box(currency).click
     # Make sure it doesn't create a balance for the currency you've now unchecked:
-    expect{submit_form}.not_to change{Balance.count}
+    expect { submit_form }.not_to change { Balance.count }
   end
 
   example "submitting a balance that contains commas" do
@@ -142,26 +142,26 @@ describe "the balance survey page", :onboarding, :js do
     click_button "Yes"
     currency_check_box(currency).click
     fill_in balance_field(currency), with: "50,000"
-    expect{submit_form}.to change{me.balances.count}.by(1)
+    expect { submit_form }.to change { me.balances.count }.by(1)
     balance = me.reload.balances.last
     expect(balance.value).to eq 50_000
   end
 
   example "clicking 'Yes' then submitting without adding any balances" do
     click_button "Yes"
-    expect{submit_form}.not_to change{Balance.count}
+    expect { submit_form }.not_to change { Balance.count }
     expect(me.reload.onboarded_balances?).to be true
   end
 
   example "tracking an intercom event when person is account owner" do
     click_button "Yes"
-    expect{submit_form}.to track_intercom_event("obs_balances_own").for_email(account.email)
+    expect { submit_form }.to track_intercom_event("obs_balances_own").for_email(account.email)
   end
 
   example "sending 'profile complete' email to the admin" do
     click_button "Yes"
-    expect{submit_form}.to \
-        send_email.to(ENV["ADMIN_EMAIL"]).with_subject("App Profile Complete - #{account.email}")
+    expect { submit_form }.to \
+      send_email.to(ENV["ADMIN_EMAIL"]).with_subject("App Profile Complete - #{account.email}")
   end
 
   describe "when person is owner, and account has a companion" do
@@ -169,7 +169,7 @@ describe "the balance survey page", :onboarding, :js do
 
     it "doesn't send a 'profile complete' email to the admin" do
       click_button "Yes"
-      expect{submit_form}.not_to change{ApplicationMailer.deliveries.last}
+      expect { submit_form }.not_to change { ApplicationMailer.deliveries.last }
     end
   end
 
@@ -182,13 +182,13 @@ describe "the balance survey page", :onboarding, :js do
 
     example "tracking an intercom event when person is companion" do
       click_button "Yes"
-      expect{submit_form}.to track_intercom_event("obs_balances_com").for_email(account.email)
+      expect { submit_form }.to track_intercom_event("obs_balances_com").for_email(account.email)
     end
 
     example "sending 'profile complete' email to the admin" do
       click_button "Yes"
-      expect{submit_form}.to \
-          send_email.to(ENV["ADMIN_EMAIL"]).with_subject("App Profile Complete - #{account.email}")
+      expect { submit_form }.to \
+        send_email.to(ENV["ADMIN_EMAIL"]).with_subject("App Profile Complete - #{account.email}")
     end
   end
 end

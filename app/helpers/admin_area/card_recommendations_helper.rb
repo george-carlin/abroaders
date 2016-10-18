@@ -1,6 +1,5 @@
 module AdminArea
   module CardRecommendationsHelper
-
     def confirm_recommend_card_btn(offer)
       btn_classes = "btn btn-xs btn-primary"
       prefix = :confirm_recommend
@@ -9,7 +8,7 @@ module AdminArea
         admin_person_card_recommendations_path(@person),
         class:  "#{dom_class(offer, prefix)}_btn #{btn_classes} pull-right",
         id:     "#{dom_id(offer, prefix)}_btn",
-        params: { offer_id: offer.id }
+        params: { offer_id: offer.id },
       )
     end
 
@@ -19,7 +18,7 @@ module AdminArea
       button_tag(
         "Cancel",
         class: "#{dom_class(offer, prefix)}_btn #{btn_classes} pull-right",
-        id:    "#{dom_id(offer, prefix)}_btn"
+        id:    "#{dom_id(offer, prefix)}_btn",
       )
     end
 
@@ -29,9 +28,8 @@ module AdminArea
       button_tag(
         "Recommend",
         class: "#{dom_class(offer, prefix)}_btn #{btn_classes} pull-right",
-        id:    "#{dom_id(offer, prefix)}_btn"
+        id:    "#{dom_id(offer, prefix)}_btn",
       )
     end
-
   end
 end

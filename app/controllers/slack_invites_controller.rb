@@ -20,14 +20,14 @@ class SlackInvitesController < ApplicationController
   end
 
   def create
-    uri = URI.parse("https://#{ENV["SLACK_URL"]}/api/users.admin.invite")
+    uri = URI.parse("https://#{ENV['SLACK_URL']}/api/users.admin.invite")
 
     slack_raw_response = Net::HTTP.post_form(
       uri,
       email: params[:email],
       token: ENV["SLACK_TOKEN"],
       set_active: true,
-      _attempts: 1
+      _attempts: 1,
     )
     slack_response = JSON.parse(slack_raw_response.body)
 
@@ -42,7 +42,7 @@ class SlackInvitesController < ApplicationController
       error = slack_response["error"]
       if %w[already_invited already_in_team].include?(error)
         @message = "Success! You were already invited.<br>"\
-                   "Visit the <a href='https://#{ENV["SLACK_URL"]}'>Abroaders"\
+                   "Visit the <a href='https://#{ENV['SLACK_URL']}'>Abroaders"\
                    " community</a>"
       elsif error == 'invalid_email'
         @failed  = true
@@ -58,5 +58,4 @@ class SlackInvitesController < ApplicationController
 
     render 'result'
   end
-
 end

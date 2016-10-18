@@ -14,7 +14,7 @@ FactoryGirl.define do
 
     # See https://github.com/thoughtbot/paperclip/issues/1333
     after(:create) do |card|
-      image_file = Rails.root.join("spec","support",card.image_file_name)
+      image_file = Rails.root.join("spec", "support", card.image_file_name)
 
       # cp test image to directories
       %i[original large medium small].each do |size|

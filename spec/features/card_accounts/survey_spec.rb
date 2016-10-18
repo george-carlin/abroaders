@@ -60,9 +60,9 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
     end
 
     it "tracks an event on Intercom", :intercom do
-      expect{submit_form}.to \
-        track_intercom_event("obs_cards_own").
-        for_email(account.email)
+      expect { submit_form }.to \
+        track_intercom_event("obs_cards_own")
+        .for_email(account.email)
     end
   end
 
@@ -94,7 +94,7 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
       let(:submit_form) { click_button "Confirm" }
 
       it "doesn't assign any cards to any account" do
-        expect{submit_form}.not_to change{CardAccount.count}
+        expect { submit_form }.not_to change { CardAccount.count }
       end
 
       include_examples "submitting the form"
@@ -152,7 +152,9 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
     end
 
     it "initially has no inputs for opened/closed dates" do
-      def test(s); expect(page).to have_no_selector(s); end
+      def test(s)
+        expect(page).to have_no_selector(s)
+      end
       test ".cards_survey_card_account_opened_at_month"
       test ".cards_survey_card_account_opened_at_year"
       test ".cards_survey_card_account_closed"
@@ -290,7 +292,7 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
       let(:ten_years_ago) { (Date.today.year - 10).to_s }
 
       before do
-        selected_cards.each { |card| card.check_opened }
+        selected_cards.each(&:check_opened)
         select "Jan",     from: open_cards[0].opened_at_month
         select this_year, from: open_cards[0].opened_at_year
         select "Mar",     from: open_cards[1].opened_at_month
@@ -306,7 +308,7 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
         it "assigns the cards to me" do
           expect do
             submit_form
-          end.to change{me.card_accounts.count}.by selected_cards.length
+          end.to change { me.card_accounts.count }.by selected_cards.length
         end
 
         describe "the created card accounts" do
@@ -343,7 +345,7 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
           end
 
           specify "have 'from survey' as their source" do
-            expect(me.card_accounts.all? { |ca| ca.from_survey? }).to be true
+            expect(me.card_accounts.all?(&:from_survey?)).to be true
           end
         end
 
@@ -353,7 +355,7 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
 
     describe "submitting the form without selecting any cards" do
       it "doesn't assign any cards to any account" do
-        expect{submit_form}.not_to change{CardAccount.count}
+        expect { submit_form }.not_to change { CardAccount.count }
       end
 
       include_examples "submitting the form"

@@ -4,7 +4,7 @@ RSpec::Matchers.define :send_email do
   match do |action|
     @enqueued_before = enqueued_jobs.size
     action.call
-    @enqueued_after  = enqueued_jobs.size
+    @enqueued_after = enqueued_jobs.size
 
     # Don't check that the difference is exactly +1, because the action might
     # have enqueued other jobs e.g. to queue an intercom event
@@ -13,7 +13,7 @@ RSpec::Matchers.define :send_email do
     if result && (@to || @subj)
       @deliveries_before = ApplicationMailer.deliveries.length
       send_all_enqueued_emails!
-      @deliveries_after  = ApplicationMailer.deliveries.length
+      @deliveries_after = ApplicationMailer.deliveries.length
 
       result &&= @deliveries_after > @deliveries_before
 

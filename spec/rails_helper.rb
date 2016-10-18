@@ -100,9 +100,8 @@ RSpec.configure do |config|
   end
 
   def send_all_enqueued_emails!
-    enqueued_jobs.select{ |job| job[:job] == ActionMailer::DeliveryJob }.each do |job|
+    enqueued_jobs.select { |job| job[:job] == ActionMailer::DeliveryJob }.each do |job|
       ActionMailer::DeliveryJob.perform_now(*job[:args])
     end
   end
-
 end

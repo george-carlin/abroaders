@@ -42,9 +42,7 @@ class AccountPresenter < ApplicationPresenter
   end
 
   def unready_person
-    if has_companion? && (owner.ready? || owner.ineligible?)
-      return companion
-    end
+    return companion if has_companion? && (owner.ready? || owner.ineligible?)
     owner
   end
 
@@ -58,7 +56,7 @@ class AccountPresenter < ApplicationPresenter
   def readiness_who_hidden_field(person)
     h.hidden_field_tag(
       "readiness[who]",
-      person.type
+      person.type,
     )
   end
 
@@ -76,20 +74,21 @@ class AccountPresenter < ApplicationPresenter
   def readiness_who_select
     h.select_tag(
       "readiness[who]",
-      h.options_for_select([
-        ["Both of us are now ready", "both"],
-        ["#{owner.first_name} is now ready - #{companion.first_name} still needs more time", "owner"],
-        ["#{companion.first_name} is now ready - #{owner.first_name} still needs more time", "companion"],
-      ])
+      h.options_for_select(
+        [
+          ["Both of us are now ready", "both"],
+          ["#{owner.first_name} is now ready - #{companion.first_name} still needs more time", "owner"],
+          ["#{companion.first_name} is now ready - #{owner.first_name} still needs more time", "companion"],
+        ],
+      ),
     )
   end
 
   def person_reason(person)
     reason_title = has_companion? ? "#{person.first_name}'s reason:" : "Reason:"
-    if person.unready? && person.unreadiness_reason.present?
-      h.content_tag(:p) do
-        "#{reason_title} #{h.content_tag(:i, person.unreadiness_reason)}".html_safe
-      end
+    return unless person.unready? && person.unreadiness_reason.present?
+    h.content_tag(:p) do
+      "#{reason_title} #{h.content_tag(:i, person.unreadiness_reason)}".html_safe
     end
   end
 

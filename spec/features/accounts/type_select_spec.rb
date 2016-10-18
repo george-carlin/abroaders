@@ -73,7 +73,7 @@ describe "account type select page", :js, :onboarding do
       # saves my information:
       expect do
         form.click_confirm_btn
-      end.to change{Person.count}.by(0).and track_intercom_event
+      end.to change { Person.count }.by(0).and track_intercom_event
       account.reload
       expect(account.monthly_spending_usd).to be_nil
       expect(me.reload).to be_ineligible
@@ -88,7 +88,7 @@ describe "account type select page", :js, :onboarding do
         account.reload
         # Add to_i because the CI system stores timestamps with more precision
         # than my local machine, making this spec pass locally but fail on CI:
-      end.not_to change{account.updated_at.to_i}
+      end.not_to change { account.updated_at.to_i }
       # no people have been created:
       expect(person_count_before).to eq Person.count
 
@@ -108,7 +108,7 @@ describe "account type select page", :js, :onboarding do
 
       expect do
         form.click_confirm_btn
-      end.to change{Person.count}.by(0).and track_intercom_event
+      end.to change { Person.count }.by(0).and track_intercom_event
       account.reload
       expect(account.monthly_spending_usd).to eq 1000
       expect(me.reload).to be_eligible
@@ -177,7 +177,7 @@ describe "account type select page", :js, :onboarding do
       # adds a companion to my account:
       expect do
         form.click_confirm_btn
-      end.to change{account.people.count}.by(1).and track_intercom_event
+      end.to change { account.people.count }.by(1).and track_intercom_event
       # saves companion name correctly:
       account.reload
       expect(account.companion.first_name).to eq companion_name
@@ -205,7 +205,7 @@ describe "account type select page", :js, :onboarding do
       # adds a companion to my account:
       expect do
         form.click_confirm_btn
-      end.to change{account.people.count}.by(1).and track_intercom_event
+      end.to change { account.people.count }.by(1).and track_intercom_event
       account.reload
       expect(account.companion.first_name).to eq companion_name
       # saves our monthly spending:
@@ -225,7 +225,7 @@ describe "account type select page", :js, :onboarding do
       # adds a companion to my account:
       expect do
         form.click_confirm_btn
-      end.to change{account.people.count}.by(1).and track_intercom_event
+      end.to change { account.people.count }.by(1).and track_intercom_event
       account.reload
       expect(account.companion.first_name).to eq companion_name
       # saves our monthly spending:
@@ -244,7 +244,7 @@ describe "account type select page", :js, :onboarding do
 
       expect do
         form.click_confirm_btn
-      end.to change{account.people.count}.by(1).and track_intercom_event
+      end.to change { account.people.count }.by(1).and track_intercom_event
 
       account.reload
       # saves companion first name:
@@ -263,7 +263,7 @@ describe "account type select page", :js, :onboarding do
       form.submit_companion_first_name companion_name
       expect do
         form.click_confirm_btn
-      end.not_to change{account.people.count}
+      end.not_to change { account.people.count }
       account.reload
       expect(account.monthly_spending_usd).to be_nil
       expect(me.onboarded_eligibility?).to be false

@@ -1,5 +1,4 @@
 class AccountsController < AuthenticatedUserController
-
   # 'dashboard' lives under ApplicationController. This is because there are
   # two dashboards, the regular dashboard and the admin dashboard, but we can't
   # split it into two actions because they both live under the same path
@@ -42,12 +41,11 @@ class AccountsController < AuthenticatedUserController
     # Virtus will call `to_hash` on the passed attributes, but this method
     # is deprecated on ActionController::Parameters; call `to_h` instead:
     params.require(:couples_account).permit(
-      :monthly_spending_usd, :companion_first_name, :eligibility, :phone_number
+      :monthly_spending_usd, :companion_first_name, :eligibility, :phone_number,
     ).to_h
   end
 
   def track_account_type_intercom_event!
     track_intercom_event("obs_account_type")
   end
-
 end

@@ -3,7 +3,7 @@ class EditSpendingInfoForm < SpendingForm
 
   def self.find(person)
     new(SpendingInfo.find_by(person: person).attributes
-                    .merge(person: person, monthly_spending_usd: person.account.monthly_spending_usd))
+                    .merge(person: person, monthly_spending_usd: person.account.monthly_spending_usd),)
   end
 
   def persisted?

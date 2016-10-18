@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory(
     :notification,
     aliases: [:unseen_notification],
-    class: Notifications::NewRecommendations
+    class: Notifications::NewRecommendations,
   ) do
     record_id 1
     seen false

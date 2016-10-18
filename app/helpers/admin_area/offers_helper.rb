@@ -5,7 +5,7 @@ module AdminArea
         Offer.conditions.each_with_object({}) do |(key, _), hash|
           hash[t("activerecord.attributes.offer.conditions.#{key}")] = key
         end,
-        offer.condition
+        offer.condition,
       )
     end
 
@@ -21,7 +21,7 @@ module AdminArea
 
           [name, key]
         end,
-        offer.partner
+        offer.partner,
       )
     end
   end

@@ -11,7 +11,7 @@ class FakeDBModel
   include Virtus.model
   include ActiveModel::Serializers::JSON
 
-  attribute :id, Fixnum
+  attribute :id, Integer
 
   def self.find(id)
     find_by(id: id)
@@ -34,15 +34,12 @@ class FakeDBModel
     %[#<#{self} #{attr_list}">]
   end
 
-  # Returns true if +comparison_object+ is the same exact object, or +comparison_object+
-  # is of the same type and +self+ has an ID and it is equal to +comparison_object.id+.
-  def ==(comparison_object)
-    super ||
-        comparison_object.instance_of?(self.class) &&
-            !id.nil? &&
-            comparison_object.id == id
+  # Returns true if +other+ is the same exact object, or +other+ is of the same
+  # type and +self+ has an ID and it is equal to +other.id+.
+  def ==(other)
+    super || other.instance_of?(self.class) && !id.nil? && other.id == id
   end
-  alias :eql? :==
+  alias eql? ==
 
   # Delegates to id in order to allow two records of the same type and id to work with something like:
   # [ Model.find(1), Model.find(2), Model.find(3) ] & [ Model.find(1), Model.find(4) ] # => [ Model.find(1) ]
@@ -54,9 +51,9 @@ class FakeDBModel
     end
   end
 
-  def <=>(other_object)
-    if other_object.is_a?(self.class)
-      self.to_key <=> other_object.to_key
+  def <=>(other)
+    if other.is_a?(self.class)
+      to_key <=> other.to_key
     else
       super
     end
@@ -65,7 +62,7 @@ class FakeDBModel
   # Returns this record's primary key value wrapped in an array if one is
   # available.
   def to_key
-    key = self.id
+    key = id
     [key] if key
   end
 
@@ -81,7 +78,7 @@ class FakeDBModel
   end
 
   def has_attribute?(name)
-    self.attributes.map{|attr| attr[0]}.include?(name.to_s)
+    attributes.map { |attr| attr[0] }.include?(name.to_s)
   end
 
   def to_param

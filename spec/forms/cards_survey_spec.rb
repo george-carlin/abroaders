@@ -27,11 +27,10 @@ describe CardsSurvey do
 
       expect(banks).to match_array [b0, b1]
 
-      expect(bank_groups[b0.name]["personal"]).to match_array([c0,c1])
-      expect(bank_groups[b0.name]["business"]).to match_array([c2,c3])
-      expect(bank_groups[b1.name]["personal"]).to match_array([c4,c5])
-      expect(bank_groups[b1.name]["business"]).to match_array([c6,c7])
+      expect(bank_groups[b0.name]["personal"]).to match_array([c0, c1])
+      expect(bank_groups[b0.name]["business"]).to match_array([c2, c3])
+      expect(bank_groups[b1.name]["personal"]).to match_array([c4, c5])
+      expect(bank_groups[b1.name]["business"]).to match_array([c6, c7])
     end
   end
-
 end

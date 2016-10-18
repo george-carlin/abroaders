@@ -11,7 +11,7 @@ class CouplesAccountForm < AccountTypeForm
     "CouplesAccount"
   end
 
-  ELIGIBILITY = %w[both person_0 person_1 neither]
+  ELIGIBILITY = %w[both person_0 person_1 neither].freeze
 
   def person_0_eligible?
     %w[both person_0].include?(eligibility)
@@ -26,9 +26,9 @@ class CouplesAccountForm < AccountTypeForm
   end
 
   validates :monthly_spending_usd,
-    presence: true,
-    numericality: { greater_than_or_equal_to: 0 },
-    unless: :neither_eligible?
+            presence: true,
+            numericality: { greater_than_or_equal_to: 0 },
+            unless: :neither_eligible?
 
   validates :companion_first_name, presence: true
 
@@ -40,11 +40,10 @@ class CouplesAccountForm < AccountTypeForm
     account.phone_number = phone_number.strip if phone_number.present?
     account.save!
     self.person_0 = account.people.first
-    self.person_0.update_attributes!(eligible: person_0_eligible?)
+    person_0.update_attributes!(eligible: person_0_eligible?)
     self.person_1 = account.create_companion!(
       eligible:   person_1_eligible?,
       first_name: companion_first_name,
     )
   end
-
 end

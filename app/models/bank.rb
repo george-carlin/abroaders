@@ -26,24 +26,24 @@ class Bank < FakeDBModel
     [5, "Barclays", "866-408-4064", "866-408-4064"],
     # hours: 8am-5pm EST M-F
     [7, "American Express", "(877) 399-3083", "(877) 399-3083"],
-    # when prompted, say “Application Status"
+    # when prompted, say "Application Status"
     [9, "Capital One", "(800) 625-7866", "(800) 625-7866"],
     # hours (M-F 8-8pm EST)
     [11, "Bank of America", "(877) 721-9405", "800-481-8277"],
-    # when prompted, dial option 3 for “Application Status"
-    [13, "US Bank", "800 685-7680", "800 685-7680" ],
+    # when prompted, dial option 3 for "Application Status"
+    [13, "US Bank", "800 685-7680", "800 685-7680"],
     # hours: 8am-8pm EST (M-F)"
     [15, "Discover"],
     [17, "Diners Club"],
     [19, "SunTrust"],
     [21, "TD Bank"],
     [23, "Wells Fargo"],
-  ]
+  ].freeze
 
   # There's only one column that can be sorted by, so the 'column' parameter is
   # rather redundant here - but allow it anyway so that Bank quacks more like
   # an ActiveRecord model.
-  def self.order(column="name")
+  def self.order(column = "name")
     column = column.to_s.downcase
     unless column.include?("name")
       raise "Bank.order can currently only order banks by name"
@@ -59,19 +59,19 @@ class Bank < FakeDBModel
     query.symbolize_keys!
 
     if query.key?(:id)
-      if row = TABLE.find { |r| r[0] == query[:id] }
-        id, name, pphone, bphone = *row
-        new(id: id, name: name, personal_phone: pphone, business_phone: bphone)
-      else
+      row = TABLE.find { |r| r[0] == query[:id] }
+      unless row
         raise ActiveRecord::RecordNotFound, "Couldn't find #{self} with 'id'=#{query[:id]}"
       end
+      id, name, pphone, bphone = *row
+      new(id: id, name: name, personal_phone: pphone, business_phone: bphone)
     elsif query.key?(:name)
-      if row = TABLE.find { |r| r[1] == query[:name] }
-        id, name, pphone, bphone = *row
-        new(id: id, name: name, personal_phone: pphone, business_phone: bphone)
-      else
+      row = TABLE.find { |r| r[1] == query[:name] }
+      unless row
         raise ActiveRecord::RecordNotFound, "Couldn't find #{self} with 'name'=#{query[:name]}"
       end
+      id, name, pphone, bphone = *row
+      new(id: id, name: name, personal_phone: pphone, business_phone: bphone)
     else
       raise "Bank.find_by can currently only look up banks by name or id"
     end
