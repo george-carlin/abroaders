@@ -1,12 +1,11 @@
 module BalancesHelper
-
   def currency_balance_checkbox(balance)
     check_box_tag(
       "balances[][currency_id]",
       balance.currency_id,
       balance.value.present?,
       class: "currency_balance_checkbox input-lg",
-      id:    "currency_#{balance.currency_id}_balance"
+      id:    "currency_#{balance.currency_id}_balance",
     )
   end
 
@@ -20,8 +19,7 @@ module BalancesHelper
       class: "currency_balance_value input-sm",
       placeholder: "What's your balance?",
       style: visible ? "" : "display:none;",
-      disabled: !visible
+      disabled: !visible,
     )
   end
-
 end

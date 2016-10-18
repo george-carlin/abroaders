@@ -1,5 +1,4 @@
 class Offer < ApplicationRecord
-
   # Attributes
 
   # 'spend' = the minimum amount that the person has to spend using the card

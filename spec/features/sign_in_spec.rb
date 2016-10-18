@@ -6,11 +6,11 @@ describe "the sign in page" do
 
     attrs = { password: @pw, password_confirmation: @pw }
 
-    if onboarded
-      @account = create(:account, :onboarded, attrs)
-    else
-      @account = create(:account, attrs)
-    end
+    @account = if onboarded
+                 create(:account, :onboarded, attrs)
+               else
+                 create(:account, attrs)
+               end
 
     visit new_account_session_path
   end

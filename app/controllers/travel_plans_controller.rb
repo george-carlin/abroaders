@@ -48,7 +48,7 @@ class TravelPlansController < AuthenticatedUserController
     current_account.update!(onboarding_state: new_state)
     IntercomJobs::TrackEvent.perform_later(
       email:      current_account.email,
-      event_name: "obs_travel_plan"
+      event_name: "obs_travel_plan",
     )
     redirect_to type_account_path
   end
@@ -59,7 +59,7 @@ class TravelPlansController < AuthenticatedUserController
     params.require(:travel_plan).permit(
       :type, :departure_date, :return_date, :further_information,
       :no_of_passengers, :will_accept_economy, :will_accept_premium_economy,
-      :will_accept_business_class, :will_accept_first_class, :from_id, :to_id
+      :will_accept_business_class, :will_accept_first_class, :from_id, :to_id,
     )
   end
 
@@ -70,5 +70,4 @@ class TravelPlansController < AuthenticatedUserController
   def load_travel_plan
     current_account.travel_plans.find(params[:id])
   end
-
 end

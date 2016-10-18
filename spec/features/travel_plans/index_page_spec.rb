@@ -12,7 +12,7 @@ describe "travel plans index page" do
   let(:further_info) { "What the fuck ever" }
 
   before do
-    def create_airport(name, code, parent=nil)
+    def create_airport(name, code, parent = nil)
       create(:airport, name: name, code: code, parent: parent)
     end
 
@@ -114,5 +114,4 @@ describe "travel plans index page" do
       yield
     end
   end
-
 end

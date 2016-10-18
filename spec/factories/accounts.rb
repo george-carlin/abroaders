@@ -40,6 +40,6 @@ FactoryGirl.define do
 
     factory :onboarded_account, traits: [:onboarded]
     factory :onboarded_account_with_companion,
-              traits: [:with_companion, :onboarded]
+            traits: [:with_companion, :onboarded]
   end
 end

@@ -33,7 +33,7 @@ Rails.application.routes.draw do
 
     # TODO this probably won't work with the default Devise views
     # post :accounts, to: "registrations#create", as: :account_registration
-    put  :accounts, to: "registrations#update"
+    put :accounts, to: "registrations#update"
     delete :accounts, to: "registrations#destroy"
   end
 
@@ -150,14 +150,14 @@ Rails.application.routes.draw do
   end
 
   namespace :admin, module: :admin_area do
-    resources :accounts, only: [ :index, :show ] do
+    resources :accounts, only: [:index, :show] do
       collection do
         get :download_user_status_csv
       end
     end
     resources :cards, except: :destroy do
       collection do
-        get  :images
+        get :images
       end
 
       resources :offers, except: :destroy
@@ -194,5 +194,4 @@ Rails.application.routes.draw do
   end
 
   # ---- /ADMINS -----
-
 end

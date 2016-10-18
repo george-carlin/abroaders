@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :travel_plan do
     account
     no_of_passengers { rand(2) + 1 }
-    acceptable_classes [ :economy ]
+    acceptable_classes [:economy]
 
     type :single
 

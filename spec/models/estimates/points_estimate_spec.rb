@@ -3,7 +3,7 @@ require "rails_helper"
 module Estimates
   describe PointsEstimate do
     before do
-      @eu  = Region.new(code: "EU", name: "Europe")
+      @eu = Region.new(code: "EU", name: "Europe")
 
       @fr = Country.new(parent: @eu)
       @uk = Country.new(parent: @eu)
@@ -28,26 +28,25 @@ module Estimates
 
       estimate.type = "return"
       estimate.class_of_service = "economy"
-      expect(estimate.low).to eq 10_000*2
-      expect(estimate.high).to eq 15_000*2
+      expect(estimate.low).to eq 10_000 * 2
+      expect(estimate.high).to eq 15_000 * 2
       estimate.class_of_service = "business_class"
-      expect(estimate.low).to eq 22_500*2
-      expect(estimate.high).to eq 30_000*2
+      expect(estimate.low).to eq 22_500 * 2
+      expect(estimate.high).to eq 30_000 * 2
       estimate.class_of_service = "first_class"
-      expect(estimate.low).to eq 30_000*2
-      expect(estimate.high).to eq 45_000*2
+      expect(estimate.low).to eq 30_000 * 2
+      expect(estimate.high).to eq 45_000 * 2
 
       estimate.no_of_passengers = 3
       estimate.class_of_service = "economy"
-      expect(estimate.low).to eq 10_000*2*3
-      expect(estimate.high).to eq 15_000*2*3
+      expect(estimate.low).to eq 10_000 * 2 * 3
+      expect(estimate.high).to eq 15_000 * 2 * 3
       estimate.class_of_service = "business_class"
-      expect(estimate.low).to eq 22_500*2*3
-      expect(estimate.high).to eq 30_000*2*3
+      expect(estimate.low).to eq 22_500 * 2 * 3
+      expect(estimate.high).to eq 30_000 * 2 * 3
       estimate.class_of_service = "first_class"
-      expect(estimate.low).to eq 30_000*2*3
-      expect(estimate.high).to eq 45_000*2*3
+      expect(estimate.low).to eq 30_000 * 2 * 3
+      expect(estimate.high).to eq 45_000 * 2 * 3
     end
-
   end
 end

@@ -27,5 +27,4 @@ class AccountsController < AuthenticatedUserController
   def track_account_type_intercom_event!
     track_intercom_event("obs_account_type")
   end
-
 end

@@ -6,7 +6,7 @@ class ApplicationRecord < ActiveRecord::Base
   # more info)
   def self.belongs_to_fake_db_model(association_name)
     assoc_class     = association_name.to_s.classify.constantize
-    assoc_fk_col    = "#{association_name.to_s}_id"
+    assoc_fk_col    = "#{association_name}_id"
     assoc_fk_setter = "#{assoc_fk_col}="
     memoized_ivar   = "@#{association_name}"
 
@@ -16,10 +16,10 @@ class ApplicationRecord < ActiveRecord::Base
     #     @alliance ||= Alliance.find(alliance_id) if alliance_id.present?
     #   end
     define_method association_name do
-      assoc_fk = self.send(assoc_fk_col)
+      assoc_fk = send(assoc_fk_col)
       instance_variable_set(
         memoized_ivar,
-        assoc_class.find(assoc_fk)
+        assoc_class.find(assoc_fk),
       ) if assoc_fk.present?
     end
 
@@ -34,7 +34,7 @@ class ApplicationRecord < ActiveRecord::Base
                   "got #{new_item.class.name}(##{new_item.class.object_id})"
         raise ActiveRecord::AssociationTypeMismatch, message
       end
-      self.send(assoc_fk_setter, new_item.id)
+      send(assoc_fk_setter, new_item.id)
     end
 
     #   def alliance_id=(alliance_id)

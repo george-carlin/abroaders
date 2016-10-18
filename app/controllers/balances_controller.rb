@@ -46,7 +46,7 @@ class BalancesController < AuthenticatedUserController
       # TODO does this still belong here?
       if current_account.reload.onboarded?
         AccountMailer.notify_admin_of_survey_completion(
-          current_account.id, Time.now.to_i
+          current_account.id, Time.now.to_i,
         ).deliver_later
       end
       track_intercom_event("obs_balances_#{@person.type[0..2]}")
@@ -70,12 +70,11 @@ class BalancesController < AuthenticatedUserController
 
   def survey_params
     params.permit(
-      balances: [:currency_id, :value]
+      balances: [:currency_id, :value],
     ).fetch(:balances, [])
   end
 
   def load_person
     current_account.people.find(params[:person_id])
   end
-
 end

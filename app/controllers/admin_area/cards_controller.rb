@@ -58,13 +58,12 @@ module AdminArea
     def card_params
       params.require(:card).permit(
         :code, :name, :network, :bp, :type, :annual_fee, :bank_id, :currency_id,
-        :shown_on_survey, :image
+        :shown_on_survey, :image,
       )
     end
 
     def check_currencies!
       raise "no Currencies in the database" unless Currency.any?
     end
-
   end
 end

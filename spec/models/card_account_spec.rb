@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe CardAccount do
-
   let(:account)   { build(:account) }
   let(:person)    { account.people.first }
   let(:card)      { build(:card) }
@@ -86,7 +85,9 @@ describe CardAccount do
   end
 
   specify "card_id must match offer.card_id" do
-    def errors; card_account.tap(&:valid?).errors; end
+    def errors
+      card_account.tap(&:valid?).errors
+    end
 
     msg = t("activerecord.errors.models.card_account.attributes.card.doesnt_match_offer")
 
@@ -201,7 +202,7 @@ describe CardAccount do
     ]
 
     # irrelevant:
-    create(:card_account, :survey,  card: card,   person: person)
+    create(:card_account, :survey, card: card, person: person)
 
     unresolved = [
       # brand new:
@@ -211,7 +212,7 @@ describe CardAccount do
       # applied and nudged:
       create(:card_rec, :applied, :nudged, offer: offer, person: person),
       # denied but reconsiderable:
-      create(:card_rec, :denied,   offer: offer, person: person),
+      create(:card_rec, :denied, offer: offer, person: person),
       # denied, called, pending:
       create(:card_rec, :denied, :called, person: person),
     ]

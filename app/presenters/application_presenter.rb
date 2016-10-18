@@ -6,7 +6,8 @@ class ApplicationPresenter < SimpleDelegator
   attr_reader :model
 
   def initialize(model, view)
-    @model, @view = model, view
+    @model = model
+    @view  = view
     super(@model)
   end
 
@@ -28,5 +29,4 @@ class ApplicationPresenter < SimpleDelegator
   end
 
   attr_reader :view
-
 end

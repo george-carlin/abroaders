@@ -36,10 +36,12 @@ describe CardAccountSerializer do
 
     parsed_json = JSON.parse(json)
 
-    expect(parsed_json.keys).to match_array(%w[
-      id recommended_at applied_at opened_at earned_at closed_at clicked_at
-      declined_at denied_at nudged_at called_at redenied_at card decline_reason
-    ])
+    expect(parsed_json.keys).to match_array(
+      %w[
+        id recommended_at applied_at opened_at earned_at closed_at clicked_at
+        declined_at denied_at nudged_at called_at redenied_at card decline_reason
+      ],
+    )
 
     expect(parsed_json["recommended_at"]).to eq "2015-09-10"
     expect(parsed_json["applied_at"]).to eq     "2015-09-11"
@@ -56,9 +58,7 @@ describe CardAccountSerializer do
 
     card = parsed_json["card"]
 
-    expect(card.keys).to match_array(%w[
-      name network bp type bank
-    ])
+    expect(card.keys).to match_array(%w[name network bp type bank])
 
     expect(card["name"]).to eq "My awesome card"
     expect(card["network"]).to eq "visa"
@@ -66,9 +66,7 @@ describe CardAccountSerializer do
 
     bank = card["bank"]
 
-    expect(bank.keys).to match_array(%w[
-      name personal_phone business_phone
-    ])
+    expect(bank.keys).to match_array(%w[name personal_phone business_phone])
 
     expect(bank["name"]).to eq "Chase"
     expect(bank["personal_phone"]).to eq "888-245-0625"

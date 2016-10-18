@@ -13,7 +13,7 @@ describe "admin section" do
         create(:onboarded_account, email: "aaaaaa@example.com"),
         create(:onboarded_account, email: "bbbbbb@example.com"),
         create(:onboarded_account_with_companion, email: "ccccccc@example.com"),
-        create(:account, email: "ddddddd@example.com")
+        create(:account, email: "ddddddd@example.com"),
       ]
     end
 
@@ -23,7 +23,7 @@ describe "admin section" do
     end
 
     let(:extra_setup) { nil }
-    let(:onboarded_accounts) { @accounts.slice(0,3) }
+    let(:onboarded_accounts) { @accounts.slice(0, 3) }
 
     it { is_expected.to have_title full_title("Accounts") }
 
@@ -40,7 +40,7 @@ describe "admin section" do
         within account_selector(account) do
           expect(page).to have_link(
             account.owner.first_name,
-            href: admin_person_path(account.owner)
+            href: admin_person_path(account.owner),
           )
         end
       end
@@ -51,7 +51,7 @@ describe "admin section" do
         within account_selector(@accounts[2]) do
           expect(page).to have_link(
             @accounts[2].companion.first_name,
-            href: admin_person_path(@accounts[2].companion)
+            href: admin_person_path(@accounts[2].companion),
           )
         end
       end

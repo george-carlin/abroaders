@@ -7,5 +7,4 @@ module PaginationHelper
   def will_paginate(assocations)
     super(assocations, renderer: BootstrapPagination::Rails)
   end
-
 end

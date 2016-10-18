@@ -20,9 +20,9 @@ describe "admin section" do
           :card,
           name:    "Sapphire Preferred",
           network: :visa,
-          annual_fee_cents: 1500_00,
+          annual_fee_cents: 150_000,
           bp:   :business,
-          bank: Bank.find_by(name: "Chase")
+          bank: Bank.find_by(name: "Chase"),
         )
 
         visit new_admin_card_offer_path(@card)
@@ -82,7 +82,7 @@ describe "admin section" do
           end
 
           it "creates an offer" do
-            expect{submit}.to change{Offer.count}.by 1
+            expect { submit }.to change { Offer.count }.by 1
             expect(new_offer.condition).to eq "on_approval"
             expect(new_offer.card).to eq @card
             expect(new_offer.points_awarded).to eq 40_000
@@ -131,7 +131,7 @@ describe "admin section" do
           end
 
           it "creates an offer" do
-            expect{submit}.to change{Offer.count}.by 1
+            expect { submit }.to change { Offer.count }.by 1
             expect(new_offer.condition).to eq "on_first_purchase"
             expect(new_offer.card).to eq @card
             expect(new_offer.days).to eq 120
@@ -176,7 +176,7 @@ describe "admin section" do
           end
 
           it "creates an offer" do
-            expect{submit}.to change{Offer.count}.by 1
+            expect { submit }.to change { Offer.count }.by 1
             expect(new_offer.partner).to eq "card_ratings"
           end
         end
@@ -191,7 +191,7 @@ describe "admin section" do
         end
 
         it "creates a new offer" do
-          expect{submit}.to change{Offer.count}.by(1)
+          expect { submit }.to change { Offer.count }.by(1)
           expect(new_offer.condition).to eq "on_minimum_spend"
           expect(new_offer.partner).to eq "award_wallet"
         end
@@ -205,7 +205,6 @@ describe "admin section" do
             expect(new_offer.link).to eq "http://something.com"
           end
         end
-
       end
 
       describe "submitting the form with invalid information" do
@@ -232,7 +231,6 @@ describe "admin section" do
     end # new page
 
     describe "offers page" do
-
       let(:route) { admin_offers_path }
 
       before do
@@ -241,17 +239,15 @@ describe "admin section" do
       end
 
       describe "when viewing offers" do
-        it "shows offer details", :js => true do
+        it "shows offer details", js: true do
           expect(page).to have_content @live_1.card.name
           expect(find("tr#offer_#{@live_1.id}").text).to include(@live_1.last_reviewed_at.strftime("%m/%d/%Y"))
           expect(find("tr#offer_#{@live_1.id}").text).to include("CB")
         end
       end
-
     end # offers page
 
     describe "review page" do
-
       let(:route) { review_admin_offers_path }
 
       before do
@@ -264,7 +260,7 @@ describe "admin section" do
 
       describe "when page loads" do
         it "shows only live offers" do
-          expect(page).to have_selector( ".offer", count: Offer.live.count)
+          expect(page).to have_selector(".offer", count: Offer.live.count)
         end
       end
 
@@ -274,8 +270,8 @@ describe "admin section" do
           expect(page).to have_content @live_1.card.bp.to_s[0].upcase
           expect(find("tr#offer_#{@live_1.id}").text).to include('never')
           expect(page).to have_link('Link', href: @live_1.link)
-          expect(page).to have_link "kill_offer_#{ @live_1.id }_btn"
-          expect(page).to have_link "verify_offer_#{ @live_1.id }_btn"
+          expect(page).to have_link "kill_offer_#{@live_1.id}_btn"
+          expect(page).to have_link "verify_offer_#{@live_1.id}_btn"
         end
       end
 
@@ -286,8 +282,8 @@ describe "admin section" do
       end
 
       describe "when pressing Verify" do
-        it "updates selected last_reviewed_at datetime", :js => true do
-          click_link("verify_offer_#{ @live_1.id }_btn")
+        it "updates selected last_reviewed_at datetime", js: true do
+          click_link("verify_offer_#{@live_1.id}_btn")
           wait_for_ajax
           @live_1.reload
           expect(@live_1.last_reviewed_at).to be_within(2.seconds).of(Time.now)
@@ -296,39 +292,39 @@ describe "admin section" do
       end
 
       describe "when pressing Verify" do
-        it "does not update other last_reviewed_at datetimes", :js => true do
+        it "does not update other last_reviewed_at datetimes", js: true do
           expect do
-            click_link("verify_offer_#{ @live_1.id }_btn")
+            click_link("verify_offer_#{@live_1.id}_btn")
             wait_for_ajax
             @live_2.reload
             @dead_1.reload
-          end.not_to change{ @live_2.last_reviewed_at }
+          end.not_to change { @live_2.last_reviewed_at }
         end
       end
 
       describe "pressing kill then cancel" do
-        it "doesn't kill the offer", :js => true do
+        it "doesn't kill the offer", js: true do
           expect do
             page.dismiss_confirm do
-              click_link("kill_offer_#{ @live_1.id }_btn")
+              click_link("kill_offer_#{@live_1.id}_btn")
             end
-          end.not_to change{Offer.live.count}
+          end.not_to change { Offer.live.count }
         end
       end
 
       describe "pressing Kill then confirm" do
-        it "removes offer from the user display", :js => true do
+        it "removes offer from the user display", js: true do
           page.accept_confirm do
-            find_link("kill_offer_#{ @live_1.id }_btn").click
+            find_link("kill_offer_#{@live_1.id}_btn").click
           end
-          expect(page).to have_selector( ".offer", count: Offer.live.count)
+          expect(page).to have_selector(".offer", count: Offer.live.count)
         end
       end
 
-      describe "pressing Kill then confirm", :js => true do
+      describe "pressing Kill then confirm", js: true do
         it "changes offer live value to false" do
           page.accept_confirm do
-            find_link("kill_offer_#{ @live_2.id }_btn").click
+            find_link("kill_offer_#{@live_2.id}_btn").click
           end
           wait_for_ajax
           @live_2.reload
@@ -338,14 +334,13 @@ describe "admin section" do
       end
 
       describe "when killing offers" do
-        it "doesnt't delete offers from the database", :js => true do
+        it "doesnt't delete offers from the database", js: true do
           page.accept_confirm do
-            find_link("kill_offer_#{ @live_3.id }_btn").click
+            find_link("kill_offer_#{@live_3.id}_btn").click
           end
           expect(@live_3).to_not be_nil
         end
       end
-
     end # review page
 
     describe "show page" do
@@ -400,7 +395,7 @@ describe "admin section" do
         offer_spend = find("#offer_spend")
         expect(offer_spend.value.to_i).to eq offer.spend
 
-        offer_cost= find("#offer_cost")
+        offer_cost = find("#offer_cost")
         expect(offer_cost.value.to_i).to eq offer.cost
 
         offer_days = find("#offer_days")

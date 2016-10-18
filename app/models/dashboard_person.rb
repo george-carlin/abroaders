@@ -1,6 +1,5 @@
 # TODO replace me with a presenter (or remove me entirely)
 class DashboardPerson
-
   def initialize(person)
     @person = person
     raise "person must be persisted" unless @person.persisted?
@@ -45,5 +44,4 @@ class DashboardPerson
   attr_reader :person
 
   delegate :account, :eligible?, to: :person
-
 end

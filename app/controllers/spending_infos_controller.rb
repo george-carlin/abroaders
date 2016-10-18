@@ -44,7 +44,7 @@ class SpendingInfosController < AuthenticatedUserController
       :business_spending_usd,
       :credit_score,
       :has_business,
-      :will_apply_for_loan
+      :will_apply_for_loan,
     )
   end
 
@@ -59,7 +59,6 @@ class SpendingInfosController < AuthenticatedUserController
       :owner_credit_score,
       :owner_has_business,
       :owner_will_apply_for_loan,
-    )
+    ).to_h
   end
-
 end

@@ -15,13 +15,13 @@ describe "admin edit travel plan" do
     @us = create(:region, name: "United States")
     @as = create(:region, name: "Asia")
     @countries = [
-        @uk = create(:country, name: "United Kingdom", parent: @eu),
-        @ha = create(:country, name: "Hawaii",         parent: @us),
-        @al = create(:country, name: "Alaska",         parent: @us),
-        @us = create(:country, name: "United States (Continental 48)", parent: @us),
-        @vn = create(:country, name: "Vietnam",        parent: @as),
-        @tl = create(:country, name: "Thailand",       parent: @as),
-        @fr = create(:country, name: "France",         parent: @eu),
+      @uk = create(:country, name: "United Kingdom", parent: @eu),
+      @ha = create(:country, name: "Hawaii",         parent: @us),
+      @al = create(:country, name: "Alaska",         parent: @us),
+      @us = create(:country, name: "United States (Continental 48)", parent: @us),
+      @vn = create(:country, name: "Vietnam",        parent: @as),
+      @tl = create(:country, name: "Thailand",       parent: @as),
+      @fr = create(:country, name: "France",         parent: @eu),
     ]
 
     visit edit_admin_travel_plan_path(travel_plan)

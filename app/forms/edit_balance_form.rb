@@ -1,5 +1,4 @@
 class EditBalanceForm < BalanceForm
-
   def persisted?
     true
   end
@@ -9,5 +8,4 @@ class EditBalanceForm < BalanceForm
   def persist!
     Balance.update(id, value: value)
   end
-
 end

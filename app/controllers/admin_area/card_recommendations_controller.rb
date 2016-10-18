@@ -1,6 +1,5 @@
 module AdminArea
   class CardRecommendationsController < AdminController
-
     def create
       person = load_person
       rec = AdminArea::CardRecommendation.new(person: person)
@@ -60,6 +59,5 @@ module AdminArea
     def recommendation_note
       params[:recommendation_note]
     end
-
   end
 end

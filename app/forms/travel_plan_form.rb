@@ -12,6 +12,7 @@ class TravelPlanForm < ApplicationForm
   # underlying DB column) so that we get friendly error messages
   attribute :departure_date, Date
   attribute :return_date,    Date
+  attribute :earliest_departure,  Date, default: lambda { |_, _| Date.today }
   attribute :further_information, String
 
   def self.model_name
@@ -22,7 +23,7 @@ class TravelPlanForm < ApplicationForm
     ::TravelPlan.types.slice("single", "return")
   end
 
-  US_DATE_FORMAT = "%m/%d/%Y"
+  US_DATE_FORMAT = "%m/%d/%Y".freeze
 
   def us_date_format?(date)
     date =~ /\A\s*(?:0?[1-9]|1[0-2])\/(?:0?[1-9]|[1-2]\d|3[01])\/\d{4}\s*\Z/
@@ -169,5 +170,4 @@ class TravelPlanForm < ApplicationForm
   def return?
     type == "return"
   end
-
 end

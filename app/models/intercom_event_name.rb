@@ -1,8 +1,7 @@
 module IntercomEventName
-
-  ONBOARDING_SURVEY_PREFIX = "obs"
-  OWNER_SUFFIX             = "own"
-  COMPANION_SUFFIX         = "com"
+  ONBOARDING_SURVEY_PREFIX = "obs".freeze
+  OWNER_SUFFIX             = "own".freeze
+  COMPANION_SUFFIX         = "com".freeze
 
   def self.create(*keys)
     keys = keys.map(&:to_s)
@@ -15,13 +14,12 @@ module IntercomEventName
     last =  keys.pop
     name += keys
 
-    if last == "companion"
-      name << COMPANION_SUFFIX
-    elsif last == "owner"
-      name << OWNER_SUFFIX
-    else
-      name << last
-    end
+    name << if last == "companion"
+              COMPANION_SUFFIX
+            elsif last == "owner"
+              OWNER_SUFFIX
+            else
+              last
+            end
   end
-
 end

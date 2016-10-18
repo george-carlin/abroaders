@@ -1,7 +1,6 @@
 require "rails_helper"
 
 describe "factories" do
-
   describe "account factory" do
     before { @account = create(:account, *traits, params) }
     let(:traits) { [] }
@@ -53,7 +52,6 @@ describe "factories" do
     end
   end
 
-
   describe "person factory" do
     let(:create_person) { create(:person, *traits) }
     let(:traits) { [] }
@@ -72,7 +70,7 @@ describe "factories" do
     end
 
     it "doesn't create any SpendingInfos" do
-      expect{create_person}.not_to change{SpendingInfo.count}
+      expect { create_person }.not_to change { SpendingInfo.count }
     end
 
     context "with :eligible trait" do

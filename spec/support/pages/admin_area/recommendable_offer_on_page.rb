@@ -2,7 +2,7 @@ require_relative "../record_on_page"
 
 module AdminArea
   class RecommendableOfferOnPage < RecordOnPage
-    alias_method :offer, :model
+    alias offer model
 
     delegate :card, to: :offer
 
@@ -13,6 +13,5 @@ module AdminArea
     def dom_id
       super(:admin_recommend)
     end
-
   end
 end

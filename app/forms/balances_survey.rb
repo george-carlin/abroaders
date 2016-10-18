@@ -97,5 +97,4 @@ class BalancesSurvey
     save
   end
   # ---------------- /DUPE METHODS ---------------
-
 end

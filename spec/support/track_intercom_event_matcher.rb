@@ -27,22 +27,20 @@ RSpec::Matchers.define :track_intercom_event do |*event_names|
   # message, you might want to update the matcher.
   failure_message do
     msg = "expected that "
-    if @event_names.many?
-      msg << "an Intercom event called #{@event_names[0]} "
-    else
-      msg << "Intercom events called #{@event_names.to_sentence} "
-    end
+    msg << if @event_names.many?
+             "an Intercom event called #{@event_names[0]} "
+           else
+             "Intercom events called #{@event_names.to_sentence} "
+           end
     msg << "would be queued for the user with email '#{@email}', but "
 
-    if @jobs.length == 0
-      return msg << "no events were queued"
-    end
+    return msg << "no events were queued" if @jobs.empty?
 
     msg << "an error occurred. The queued events were:\n"
 
     @jobs.each do |job|
       args = job[:args][0]
-      msg << "\n  event name: #{args["event_name"]}, email: #{args["email"]}"
+      msg << "\n  event name: #{args['event_name']}, email: #{args['email']}"
     end
 
     msg
@@ -53,7 +51,6 @@ RSpec::Matchers.define :track_intercom_event do |*event_names|
   def enqueued_track_event_jobs
     enqueued_jobs.select { |job| job[:job] == IntercomJobs::TrackEvent }
   end
-
 end
 
 RSpec::Matchers.alias_matcher :track_intercom_events, :track_intercom_event

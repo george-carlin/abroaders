@@ -5,7 +5,7 @@ class ObjectOnPage < Struct.new(:spec_context)
     I18n.t(*args)
   end
 
-  def self.button(name, text=nil)
+  def self.button(name, text = nil)
     text ||= name.to_s.capitalize
 
     define_method "has_#{name}_button?" do
@@ -36,7 +36,7 @@ class ObjectOnPage < Struct.new(:spec_context)
       end
     end
 
-    define_method "fill_in_#{method}" do |opts={}|
+    define_method "fill_in_#{method}" do |opts = {}|
       field = name.is_a?(Proc) ? instance_eval(&name) : name
       fill_in field, opts
     end
@@ -143,7 +143,7 @@ class ObjectOnPage < Struct.new(:spec_context)
   def within(&block)
     super(dom_selector, &block)
   end
-  alias_method :within_self, :within
+  alias within_self within
 
   %i[button content field selector].each do |element|
     ["has_#{element}?", "has_no_#{element}?"].each do |meth|
@@ -158,5 +158,4 @@ class ObjectOnPage < Struct.new(:spec_context)
       within_self { super(*args) }
     end
   end
-
 end

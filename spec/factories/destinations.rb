@@ -9,7 +9,7 @@ FactoryGirl.define do
   trait :two_letter_code do
     sequence(:code) do |n|
       str = "AA"
-      (n-1).times { |i| str.next! }
+      (n - 1).times { str.next! }
       str
     end
   end
@@ -17,7 +17,7 @@ FactoryGirl.define do
   trait :three_letter_code do
     sequence(:code) do |n|
       str = "AAA"
-      (n-1).times { |i| str.next! }
+      (n - 1).times { str.next! }
       str
     end
   end

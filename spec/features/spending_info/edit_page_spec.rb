@@ -50,7 +50,7 @@ describe "the spending info edit page" do
     choose :spending_info_has_business_with_ein
     fill_in :spending_info_business_spending_usd, with: 1234
     choose :spending_info_has_business_no_business
-    expect{submit_form}.not_to change{SpendingInfo.count}
+    expect { submit_form }.not_to change { SpendingInfo.count }
 
     person.reload
     spending_info = person.spending_info
@@ -59,7 +59,7 @@ describe "the spending info edit page" do
 
   specify "submitting invalid form doesn't forget business info", :js do # bug fix
     choose :spending_info_has_business_with_ein
-    expect{submit_form}.not_to change{SpendingInfo.count}
+    expect { submit_form }.not_to change { SpendingInfo.count }
     expect(page).to have_field :spending_info_has_business_with_ein, checked: true
     expect(page).to have_field :spending_info_business_spending_usd
   end
@@ -68,7 +68,7 @@ describe "the spending info edit page" do
     fill_in :spending_info_monthly_spending_usd, with: 50
     fill_in :spending_info_credit_score, with: 456
     choose  :spending_info_will_apply_for_loan_true
-    expect{submit_form}.not_to change{SpendingInfo.count}
+    expect { submit_form }.not_to change { SpendingInfo.count }
 
     person.reload
     spending_info = person.spending_info
@@ -83,7 +83,7 @@ describe "the spending info edit page" do
     choose  :spending_info_will_apply_for_loan_true
     choose  :spending_info_has_business_without_ein
     fill_in :spending_info_business_spending_usd, with: 5000
-    expect{submit_form}.not_to change{SpendingInfo.count}
+    expect { submit_form }.not_to change { SpendingInfo.count }
 
     person.reload
     spending_info = person.spending_info
@@ -103,7 +103,7 @@ describe "the spending info edit page" do
   example "submitting invalid information" do
     fill_in :spending_info_monthly_spending_usd, with: nil
     fill_in :spending_info_credit_score, with: nil
-    expect{submit_form}.not_to change{SpendingInfo.count}
+    expect { submit_form }.not_to change { SpendingInfo.count }
     expect(page).to have_selector "form#edit_spending_info"
     expect(page).to have_error_message
     within ".alert.alert-danger" do
