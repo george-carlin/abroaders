@@ -2,6 +2,11 @@
 
 ## October 2016
 
+*   Use `Airport` for travel plan's from/to instead `Country`.
+    Pivotal Tracker #132586099
+
+    *Boris Shatalov*
+
 *   Add readiness question at the end of the onboarding survey.
     Pivotal Tracker #131360373 GH #54
 
