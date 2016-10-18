@@ -177,11 +177,7 @@ describe "travel plans" do
 
         context "with trailing whitespace" do
           before do
-<<<<<<< HEAD
             fill_in :travel_plan_departure_date,  with: " #{depart_date.strftime("%m/%d/%Y")} "
-=======
-            fill_in :travel_plan_earliest_departure,  with: " #{date.strftime('%m/%d/%Y')} "
->>>>>>> master
             fill_in :travel_plan_further_information, with: " Something "
             submit_form
           end

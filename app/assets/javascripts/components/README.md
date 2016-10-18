@@ -56,7 +56,6 @@
 
     This is analogous to the difference between the Rails helpers
     `text_field_tag` and `text_field`.
-<<<<<<< HEAD
 
 - When a component can be broken down into sub-components, and it doesn't
   make sense to use those sub-components anywhere else, put it all into one
@@ -82,5 +81,3 @@
   When a component is small and simple enough to not need breaking down, keep
   it all in one file and don't bother putting it in a directory (so no
   package.json)
-=======
->>>>>>> master
