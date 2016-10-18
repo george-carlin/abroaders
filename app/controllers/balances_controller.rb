@@ -58,9 +58,7 @@ class BalancesController < AuthenticatedUserController
   private
 
   def create_balance_params(person)
-    # Virtus will call `to_hash` on the passed attributes, but this method
-    # is deprecated on ActionController::Parameters; call `to_h` instead:
-    params.require(:balance).permit(:value, :currency_id).merge(person: person).to_h
+    params.require(:balance).permit(:value, :currency_id).merge(person: person)
   end
 
   def update_balance_params

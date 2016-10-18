@@ -52,12 +52,12 @@ class CardAccountsController < AuthenticatedUserController
   end
 
   def card_account_params
-    params.require(:card_account).permit(:closed, :closed_year, :closed_month, :opened_year, :opened_month).to_h
+    params.require(:card_account).permit(:closed, :closed_year, :closed_month, :opened_year, :opened_month)
   end
 
   def survey_params
     if params.key?(:cards_survey)
-      params.require(:cards_survey).permit(card_accounts: [:card_id, :opened, :closed, :opened_at_, :closed_at_]).to_h
+      params.require(:cards_survey).permit(card_accounts: [:card_id, :opened, :closed, :opened_at_, :closed_at_])
     else # if they clicked 'I don't have any cards'
       {}
     end

@@ -30,9 +30,7 @@ class RegistrationsController < Devise::RegistrationsController
 
   def sign_up_params
     params.require(:sign_up).permit(
-      :email, :first_name, :password, :password_confirmation
-      # Use to_h or Virtus will call to_hash by default, which raises a
-      # deprecation warning:
-    ).to_h
+      :email, :first_name, :password, :password_confirmation,
+    )
   end
 end
