@@ -18,32 +18,21 @@ describe "home airports survey", :onboarding, :js do
     visit_path
   end
 
-  def fill_in_autocomplete(field, with)
-    fill_in field, with: with
-
-    page.execute_script("$('##{field}').trigger('focus');")
-    page.execute_script ("$('##{field}').trigger('keydown');")
-    selector = ".tt-menu .tt-dataset div.tt-suggestion"
-    page.execute_script("$(\"#{selector}\").mouseenter().click()")
-  end
-
   example "initial layout" do
     expect(page).to have_selector("input.typeahead")
     expect(page).to have_button("Save and continue", disabled: true)
     expect(page).to have_no_sidebar
   end
 
-  # FIXME: both of these specs are broken, probably outdated,  and need
-  # updating
-  xexample "work of autocomplete" do
+  example "work of autocomplete" do
     select = "#{@airport.parent.name} #{@airport.name} (#{@airport.code})"
     with = @airport.code
-    field = "typeahead"
+    field = "#typeahead"
 
     find(field).native.send_keys(with.chars)
 
-    page.execute_script("$('##{field}').trigger('focus');")
-    page.execute_script ("$('##{field}').trigger('keydown');")
+    page.execute_script("$('#{field}').trigger('focus');")
+    page.execute_script ("$('#{field}').trigger('keydown');")
     selector = ".tt-menu .tt-dataset div.tt-suggestion"
     expect(page).to have_selector(selector, text: select)
     page.execute_script("$(\"#{selector}\").mouseenter().click()")
@@ -51,12 +40,12 @@ describe "home airports survey", :onboarding, :js do
     expect(page).to have_button("Save and continue", disabled: false)
   end
 
-  xexample "submitting form" do
+  example "submitting form" do
     fill_in_autocomplete("typeahead", @airport.code)
     submit_form
     account.reload
     expect(account.home_airports.count).to eq 1
-    expect(account.onboarded_home_airports).to eq true
+    expect(account.onboarding_state).to eq "travel_plan"
     expect(account.home_airports.first).to eq @airport
     expect(current_path).to eq new_travel_plan_path
   end

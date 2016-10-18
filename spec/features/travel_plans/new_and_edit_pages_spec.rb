@@ -7,18 +7,7 @@ describe "travel plans" do
   subject { page }
 
   before do
-    @eu = create(:region, name: "Europe")
-    @us = create(:region, name: "United States")
-    @as = create(:region, name: "Asia")
-    @countries = [
-      @uk = create(:country, name: "United Kingdom", parent: @eu),
-      @ha = create(:country, name: "Hawaii",         parent: @us),
-      @al = create(:country, name: "Alaska",         parent: @us),
-      @us = create(:country, name: "United States (Continental 48)", parent: @us),
-      @vn = create(:country, name: "Vietnam",        parent: @as),
-      @tl = create(:country, name: "Thailand",       parent: @as),
-      @fr = create(:country, name: "France",         parent: @eu),
-    ]
+    @airports = create_list(:airport, 5)
     login_as(account)
   end
 
@@ -31,68 +20,7 @@ describe "travel plans" do
 
   let(:submit_form) { click_button "Save" }
 
-  shared_examples "a travel plan form" do
-    it "has inputs for a travel plan" do
-      expect(page).to have_field :travel_plan_departure_date
-      expect(page).to have_field :travel_plan_from_id
-      expect(page).to have_field :travel_plan_no_of_passengers
-      expect(page).to have_field :travel_plan_to_id
-
-      expect(page).to have_field :travel_plan_type_single
-      if page.has_checked_field?(:travel_plan_type_single)
-        expect(page).to have_field :travel_plan_return_date, disabled: true
-      end
-
-      expect(page).to have_field :travel_plan_type_return
-      if page.has_checked_field?(:travel_plan_type_return)
-        expect(page).to have_field :travel_plan_return_date
-      end
-
-      expect(page).to have_field :travel_plan_further_information
-      expect(page).to have_field :travel_plan_will_accept_economy
-      expect(page).to have_field :travel_plan_will_accept_premium_economy
-      expect(page).to have_field :travel_plan_will_accept_business_class
-      expect(page).to have_field :travel_plan_will_accept_first_class
-    end
-
-    # TODO this should be moved out into a spec for app/queries/selectable_countries.rb
-    describe "the 'from'/'to' dropdowns" do
-      def get_options(attr); all("#travel_plan_#{attr}_id option"); end
-
-      specify "have the US, Alaska, and Hawaii sorted to the top" do
-        [:from, :to].each do |attr|
-          options = get_options(attr)
-          if current_path =~ /edit/
-            start = 0
-          else
-            expect(options[0].text).to eq "From" if attr == :from
-            expect(options[0].text).to eq "To" if attr == :to
-            start = 1
-          end
-
-          expect(options[start].text).to eq @us.name
-          expect(options[start + 1].text).to eq @al.name
-          expect(options[start + 2].text).to eq @ha.name
-        end
-      end
-
-      specify "subsequent options are sorted alphabetically" do
-        options_to_drop = current_path =~ /edit/ ? 3 : 4
-
-        [:from, :to].each do |attr|
-          options = get_options(attr)
-          expect(options.drop(options_to_drop).map(&:text)).to eq ([
-              "France",
-              "Thailand",
-              "United Kingdom",
-              "Vietnam",
-          ])
-        end
-      end
-    end
-  end
-
-  describe "new page", :onboarding do
+  describe "new page", :onboarding, :js do
     let(:visit_path) do
       login_as(account)
       visit new_travel_plan_path
@@ -131,19 +59,6 @@ describe "travel plans" do
       it_behaves_like "a travel plan form"
     end
 
-    it "lists countries in the 'from/to' dropdowns" do
-      visit_path
-      from_options = all("#travel_plan_from_id > option")
-      to_options   = all("#travel_plan_to_id   > option")
-
-      country_names = @countries.map(&:name)
-      from_names    = country_names + ["From"]
-      to_names      = country_names + ["To"]
-
-      expect(from_options.map(&:text)).to match_array from_names
-      expect(to_options.map(&:text)).to   match_array to_names
-    end
-
     example "default options" do
       visit_path
 
@@ -162,8 +77,8 @@ describe "travel plans" do
         let(:further_info) { "Something" }
         before do
           create(:travel_plan, :return, account: account)
-          select "United States", from: :travel_plan_from_id
-          select "Vietnam",       from: :travel_plan_to_id
+          fill_in_autocomplete("travel_plan_from_typeahead", @airports[0].code)
+          fill_in_autocomplete("travel_plan_to_typeahead", @airports[1].code)
           # Don't test the JS datepicker for now
           fill_in :travel_plan_departure_date, with: depart_date.strftime("%m/%d/%Y")
           fill_in :travel_plan_return_date, with: return_date.strftime("%m/%d/%Y")
@@ -201,8 +116,8 @@ describe "travel plans" do
           expect{submit_form}.to change{account.travel_plans.count}.by(1)
           plan   = account.reload.travel_plans.last
           flight = plan.flights.first
-          expect(flight.from).to eq @us
-          expect(flight.to).to eq @vn
+          expect(flight.from).to eq @airports[0]
+          expect(flight.to).to eq @airports[1]
           # Don't test the JS datepicker for now
           expect(plan.depart_on).to eq depart_date
           expect(plan.no_of_passengers).to eq 2
@@ -266,18 +181,10 @@ describe "travel plans" do
       expect(form.find("#travel_plan_further_information")[:placeholder]).to eq "Optional: give us any extra information about your travel plans that you think might be relevant"
     end
 
-    it "lists countries in the 'from/to' dropdowns" do
-      from_options = all("#travel_plan_from_id > option")
-      to_options   = all("#travel_plan_to_id   > option")
-      country_names = @countries.map(&:name)
-      expect(from_options.map(&:text)).to match_array country_names
-      expect(to_options.map(&:text)).to   match_array country_names
-    end
-
-    describe "submitting the form with valid information" do
+    describe "submitting the form with valid information", :js do
       before do
-        select "United Kingdom", from: :travel_plan_from_id
-        select "Thailand",       from: :travel_plan_to_id
+        fill_in_autocomplete("travel_plan_from_typeahead", @airports[1].code)
+        fill_in_autocomplete("travel_plan_to_typeahead", @airports[0].code)
         # Don't test the JS datepicker for now
         fill_in :travel_plan_departure_date, with: depart_date.strftime("%m/%d/%Y")
         fill_in :travel_plan_return_date, with: return_date.strftime("%m/%d/%Y")
@@ -293,8 +200,8 @@ describe "travel plans" do
         submit_form
         travel_plan.reload
         flight = travel_plan.flights.first
-        expect(flight.from).to eq @uk
-        expect(flight.to).to eq @tl
+        expect(flight.from).to eq @airports[1]
+        expect(flight.to).to eq @airports[0]
         expect(travel_plan.depart_on).to eq depart_date
         expect(travel_plan.return_on).to eq return_date
         expect(travel_plan.no_of_passengers).to eq 2
