@@ -11,6 +11,17 @@ class AddOnboardedStateToAccounts < ActiveRecord::Migration[5.0]
     end
   end
 
+  class Person < ActiveRecord::Base
+    has_one :spending_info
+
+    def onboarded_spending?
+      !!spending_info&.persisted?
+    end
+  end
+
+  class SpendingInfo < ActiveRecord::Base
+  end
+
   # Needs more testing before we run it in production:
   def get_onboarding_state(account)
     if !account.onboarded_home_airports?
