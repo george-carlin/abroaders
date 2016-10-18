@@ -15,14 +15,6 @@ class Account < ApplicationRecord
     onboarding_survey.complete?
   end
 
-  def eligible?
-    people.any?{ |person| person.eligible? }
-  end
-
-  def ready?
-    people.any?{ |person| person.ready? }
-  end
-
   def has_any_recommendations?
     people.any?{ |person| person.last_recommendations_at.present? }
   end

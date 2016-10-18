@@ -1,0 +1,38 @@
+<%
+   ready = @account.people.any?{ |person| person.ready? }
+   eligible = @account.people.any?{ |person| person.eligible? }
+%>
+
+<div class="hpanel account-dashboard">
+  <div class="panel-heading hbuilt">
+    <div class="row">
+      <div class="col-xs-12">
+        <h1>Great Job <i class="fa fa-thumbs-up" aria-hidden="true"></i></h1>
+        <br/>
+        <h3>
+          <% if ready %>
+            <%= t("dashboard.account.ready.title") %>
+          <% elsif eligible %>
+            <%= t("dashboard.account.eligible.title")%>
+          <% else %>
+            <%= t("dashboard.account.ineligible.title") %>
+          <% end %>
+        </h3>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-body">
+    <div class="col-md-9">
+      <div class="row">
+        <% if ready %>
+          <%= render "accounts/dashboard/ready" %>
+        <% elsif eligible %>
+          <%= render "accounts/dashboard/eligible" %>
+        <% else %>
+          <%= render "accounts/dashboard/ineligible" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
