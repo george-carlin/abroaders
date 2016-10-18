@@ -1,6 +1,6 @@
 <%= render "shared/model_validation_errors", model: travel_plan %>
 <div class="panel-body">
-  <%= form_for travel_plan.form_object do |f| %>
+  <%= form_for travel_plan.form_object, html: { class: "travel-plan-form" } do |f| %>
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <% travel_plan.class.types.each do |type, _| %>
@@ -19,12 +19,12 @@
 
     <div class="travel-plan-input-group">
       <div class="from-to-line">
-        <%= text_field_tag :from_id_typeahead, travel_plan.from_name, class: "form-control typeahead travel-plan-from-field", placeholder: "ex. New York or JFK" %>
+        <%= text_field_tag "travel_plan_from_typeahead", travel_plan.from_name, class: "form-control typeahead travel-plan-from-field", placeholder: "ex. New York or JFK" %>
         <%= f.hidden_field :from_id, class: "airport-id" %>
         <div class="travel-plan-icon-plane">
           <span class="fa fa-plane"></span>
         </div>
-        <%= text_field_tag :to_id_typeahead, travel_plan.to_name, class: "form-control typeahead travel-plan-to-field", placeholder: "ex. New York or JFK" %>
+        <%= text_field_tag "travel_plan_to_typeahead", travel_plan.to_name, class: "form-control typeahead travel-plan-to-field", placeholder: "ex. New York or JFK" %>
         <%= f.hidden_field :to_id, class: "airport-id" %>
       </div>
 

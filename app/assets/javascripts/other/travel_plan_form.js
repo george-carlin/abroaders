@@ -78,7 +78,7 @@ $(document).ready(function () {
   $singleRadio.on('click', travelTypeRadioClick);
   $returnRadio.on('click', travelTypeRadioClick);
 
-  if ($(".new_travel_plan").length > 0) {
+  if ($(".travel-plan-form").length > 0) {
     formTypeahead($('.typeahead')).bind('typeahead:select', function (e, suggestion) {
       $(this).closest('.twitter-typeahead').next('.airport-id').val(suggestion.id);
     });
