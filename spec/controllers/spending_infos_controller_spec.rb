@@ -32,10 +32,5 @@ describe SpendingInfosController do
       let(:onboarded_home_airports) { false }
       it { is_expected.to redirect_to survey_home_airports_path }
     end
-
-    context "when I'm not eligible to apply" do
-      let(:eligible) { false }
-      it { is_expected.to redirect_to survey_person_balances_path(person) }
-    end
   end
 end
