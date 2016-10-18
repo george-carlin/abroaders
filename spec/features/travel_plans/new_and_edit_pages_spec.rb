@@ -7,18 +7,7 @@ describe "travel plans" do
   subject { page }
 
   before do
-    @eu = create(:region, name: "Europe")
-    @us = create(:region, name: "United States")
-    @as = create(:region, name: "Asia")
-    @countries = [
-      @uk = create(:country, name: "United Kingdom", parent: @eu),
-      @ha = create(:country, name: "Hawaii",         parent: @us),
-      @al = create(:country, name: "Alaska",         parent: @us),
-      @us = create(:country, name: "United States (Continental 48)", parent: @us),
-      @vn = create(:country, name: "Vietnam",        parent: @as),
-      @tl = create(:country, name: "Thailand",       parent: @as),
-      @fr = create(:country, name: "France",         parent: @eu),
-    ]
+    @airports = create_list(:airport, 5)
     login_as(account)
   end
 
@@ -31,7 +20,7 @@ describe "travel plans" do
 
   let(:submit_form) { click_button "Save" }
 
-  describe "new page", :onboarding do
+  describe "new page", :onboarding, :js do
     let(:visit_path) do
       login_as(account)
       visit new_travel_plan_path
@@ -70,19 +59,6 @@ describe "travel plans" do
       it_behaves_like "a travel plan form"
     end
 
-    it "lists countries in the 'from/to' dropdowns" do
-      visit_path
-      from_options = all("#travel_plan_from_id > option")
-      to_options   = all("#travel_plan_to_id   > option")
-
-      country_names = @countries.map(&:name)
-      from_names    = country_names + ["From"]
-      to_names      = country_names + ["To"]
-
-      expect(from_options.map(&:text)).to match_array from_names
-      expect(to_options.map(&:text)).to   match_array to_names
-    end
-
     example "default options" do
       visit_path
 
@@ -101,8 +77,8 @@ describe "travel plans" do
         let(:further_info) { "Something" }
         before do
           create(:travel_plan, :return, account: account)
-          select "United States", from: :travel_plan_from_id
-          select "Vietnam",       from: :travel_plan_to_id
+          fill_in_autocomplete("travel_plan_from_typeahead", @airports[0].code)
+          fill_in_autocomplete("travel_plan_to_typeahead", @airports[1].code)
           # Don't test the JS datepicker for now
           fill_in :travel_plan_departure_date, with: depart_date.strftime("%m/%d/%Y")
           fill_in :travel_plan_return_date, with: return_date.strftime("%m/%d/%Y")
@@ -140,8 +116,8 @@ describe "travel plans" do
           expect { submit_form }.to change { account.travel_plans.count }.by(1)
           plan   = account.reload.travel_plans.last
           flight = plan.flights.first
-          expect(flight.from).to eq @us
-          expect(flight.to).to eq @vn
+          expect(flight.from).to eq @airports[0]
+          expect(flight.to).to eq @airports[1]
           # Don't test the JS datepicker for now
           expect(plan.depart_on).to eq depart_date
           expect(plan.no_of_passengers).to eq 2
@@ -205,18 +181,10 @@ describe "travel plans" do
       expect(form.find("#travel_plan_further_information")[:placeholder]).to eq "Optional: give us any extra information about your travel plans that you think might be relevant"
     end
 
-    it "lists countries in the 'from/to' dropdowns" do
-      from_options = all("#travel_plan_from_id > option")
-      to_options   = all("#travel_plan_to_id   > option")
-      country_names = @countries.map(&:name)
-      expect(from_options.map(&:text)).to match_array country_names
-      expect(to_options.map(&:text)).to   match_array country_names
-    end
-
-    describe "submitting the form with valid information" do
+    describe "submitting the form with valid information", :js do
       before do
-        select "United Kingdom", from: :travel_plan_from_id
-        select "Thailand",       from: :travel_plan_to_id
+        fill_in_autocomplete("travel_plan_from_typeahead", @airports[1].code)
+        fill_in_autocomplete("travel_plan_to_typeahead", @airports[0].code)
         # Don't test the JS datepicker for now
         fill_in :travel_plan_departure_date, with: depart_date.strftime("%m/%d/%Y")
         fill_in :travel_plan_return_date, with: return_date.strftime("%m/%d/%Y")
@@ -232,8 +200,8 @@ describe "travel plans" do
         submit_form
         travel_plan.reload
         flight = travel_plan.flights.first
-        expect(flight.from).to eq @uk
-        expect(flight.to).to eq @tl
+        expect(flight.from).to eq @airports[1]
+        expect(flight.to).to eq @airports[0]
         expect(travel_plan.depart_on).to eq depart_date
         expect(travel_plan.return_on).to eq return_date
         expect(travel_plan.no_of_passengers).to eq 2

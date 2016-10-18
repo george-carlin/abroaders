@@ -93,6 +93,15 @@ RSpec.configure do |config|
     login_as admin, scope: :admin
   end
 
+  def fill_in_autocomplete(field, with)
+    fill_in field, with: with
+
+    page.execute_script("$('##{field}').trigger('focus');")
+    page.execute_script ("$('##{field}').trigger('keydown');")
+    selector = ".tt-menu .tt-dataset div.tt-suggestion"
+    page.execute_script("$(\"#{selector}\").mouseenter().click()")
+  end
+
   JQUERY_DEFAULT_SLIDE_DURATION = 0.4
   # Some elements on the page are hidden/shown using jQuery's 'slide' methods,
   # which by default take 400ms to complete. So use this method to wait

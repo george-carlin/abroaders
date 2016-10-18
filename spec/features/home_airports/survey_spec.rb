@@ -24,15 +24,15 @@ describe "home airports survey", :onboarding, :js do
     expect(page).to have_no_sidebar
   end
 
-  xexample "work of autocomplete" do
+  example "work of autocomplete" do
     select = "#{@airport.parent.name} #{@airport.name} (#{@airport.code})"
     with = @airport.code
-    field = "typeahead"
+    field = "#typeahead"
 
     find(field).native.send_keys(with.chars)
 
-    page.execute_script("$('##{field}').trigger('focus');")
-    page.execute_script "$('##{field}').trigger('keydown');"
+    page.execute_script("$('#{field}').trigger('focus');")
+    page.execute_script("$('#{field}').trigger('keydown');")
     selector = ".tt-menu .tt-dataset div.tt-suggestion"
     expect(page).to have_selector(selector, text: select)
     page.execute_script("$(\"#{selector}\").mouseenter().click()")
@@ -45,7 +45,7 @@ describe "home airports survey", :onboarding, :js do
     submit_form
     account.reload
     expect(account.home_airports.count).to eq 1
-    expect(account.onboarded_home_airports).to eq true
+    expect(account.onboarding_state).to eq "travel_plan"
     expect(account.home_airports.first).to eq @airport
     expect(current_path).to eq new_travel_plan_path
   end

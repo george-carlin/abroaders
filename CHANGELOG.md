@@ -2,6 +2,11 @@
 
 ## October 2016
 
+*   Use `Airport` for travel plan's from/to instead `Country`.
+    Pivotal Tracker #132586099
+
+    *Boris Shatalov*
+
 *   Replace dashboard with profile complete page.
     Show old dashboard only if any person on the account has
     received recommendations. Pivotal Tracker #132295779
