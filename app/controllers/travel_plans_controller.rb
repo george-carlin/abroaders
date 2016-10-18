@@ -1,6 +1,5 @@
 class TravelPlansController < AuthenticatedUserController
-  onboard :travel_plan, with: [:new, :create], revisitable: true
-  onboard :travel_plan, with: [:skip_survey]
+  onboard :travel_plan, with: [:new, :create, :skip_survey], revisitable: true
 
   def index
     @travel_plans = current_account.travel_plans.includes_destinations
