@@ -7,6 +7,12 @@
 
     *Boris Shatalov*
 
+*   Replace dashboard with profile complete page.
+    Show old dashboard only if any person on the account has 
+    received recommendations. Pivotal Tracker #132295779
+
+    *Boris Shatalov*
+
 *   Add readiness question at the end of the onboarding survey.
     Pivotal Tracker #131360373 GH #54
 

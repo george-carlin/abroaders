@@ -1,27 +1,14 @@
-<% person = DashboardPerson.new(person) %>
 <div id="<%= dom_id(person) %>" class="<%= dom_class(person) %> col-xs-12 col-md-6">
   <div class="well">
     <h3><%= person.first_name %></h3>
 
-    <% if person.show_travel_plans_link? %>
-      <p>Tell us your travel plans and we'll help you start saving.</p>
-      <p><%= link_to "Add your first travel plan", new_travel_plan_path %></p>
+    <% if person.eligible? %>
+      <p>Eligible to apply for cards</p>
+    <% else %>
+      <p>Ineligible to apply for cards</p>
     <% end %>
 
-
-    <% if person.onboarded_eligibility? %>
-      <% if person.eligible? %>
-        <p>Eligible to apply for cards</p>
-      <% else %>
-        <p>Ineligible to apply for cards</p>
-      <% end %>
-    <% elsif person.show_account_type_link? %>
-      <p>You need to choose an account type before we can help you start saving.</p>
-      <p><%= link_to "Choose account type", type_account_path %></p>
-    <% end %>
-
-
-    <% if person.onboarded_spending? %>
+    <% if person.spending_info %>
       <hr>
       <h4>
         General Info
@@ -29,52 +16,26 @@
       </h4>
       <%= render person.spending_info %>
       <div class="clearfix"></div>
-    <% elsif person.show_spending_link? %>
-      <hr>
-      <p>
-        You have not added this person's financial details. We can't recommend
-        a credit card until you provide this information.
-      </p>
-
-      <p>
-        <%= link_to "Add financial information", new_person_spending_info_path(person) %>
-      </p>
     <% end %>
 
+    <hr>
+    <p>
+      Before we can recommend any credit cards to this person, we need to know
+      which cards they already have.
+    </p>
 
-    <% if person.onboarded_cards %>
-      <%# TODO %>
-    <% elsif person.show_cards_link? %>
-      <hr style="margin-top:0;">
-      <p>
-        Before we can recommend any credit cards to this person, we need to know
-        which cards they already have.
-      </p>
+    <p>
+      <%= link_to "Add existing cards", survey_person_card_accounts_path(person) %>
+    </p>
 
-      <p>
-        <%= link_to "Add existing cards", survey_person_card_accounts_path(person) %>
-      </p>
+    <% if person.balances.any? %>
+      <h4>Balances</h4>
+      <%= render "balances/list", balances: person.balances.includes(:currency) %>
+    <% else %>
+      <p>No existing frequent flyer balances</p>
     <% end %>
 
-
-    <% if person.onboarded_balances? %>
-      <hr style="margin-top:0;">
-      <% if person.balances.any? %>
-        <h4>Balances</h4>
-        <%= render "balances/list", balances: person.balances.includes(:currency) %>
-      <% else %>
-        <p>No existing frequent flyer balances</p>
-      <% end %>
-    <% elsif person.show_balances_link? %>
-      <hr style="margin-top:0;">
-      <p>
-        You have not added any frequent flyer balances for this person.  In
-        order to make the best credit card recommendation, we need to know
-        if this person already has any existing frequent flyer balances.
-      </p>
-
-      <p><%= link_to "Add balances", survey_person_balances_path(person) %></p>
-    <% end %>
+    <p><%= link_to "Add balances", survey_person_balances_path(person) %></p>
 
     <% if person.ready? %>
       <hr>
@@ -83,7 +44,7 @@
         receive recommendations from the Abroaders team.
       </p>
     <% else %>
-      <% if person.onboarded_spending? && !person.has_recent_recommendation? %>
+      <% unless person.has_recent_recommendation? %>
         <hr>
         <p><%= person.first_name %> is not ready to apply for cards.</p>
 
@@ -98,6 +59,5 @@
         </p>
       <% end %>
     <% end %>
-
   </div>
 </div>
