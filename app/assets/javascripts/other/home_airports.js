@@ -1,14 +1,4 @@
-/* global Bloodhound b:true */
-/* global diacritics b:true */
-
-// Note: if the typeahead isn't working for you locally (in that you're
-// not seeing any results when you type in an airport, even though you do
-// have airports in the DB), it may be because typeahead.js has cached
-// an old version of your local `airports` table in your browser's local
-// storage. Running this line in the browser console solved the issue for me:
-//
-//    localStorage.removeItem("__/airports.json__data")
-//
+/* global formTypeahead b:true */
 
 $(document).ready(function () {
   function getSelectedAirportCount() {
@@ -34,62 +24,44 @@ $(document).ready(function () {
     $('.submit-airports-survey').attr('disabled', disabled);
   }
 
-  if ($(".home-airports-survey").length) {
-    var airports = new Bloodhound({
-      datumTokenizer: function (d) {
-        return Bloodhound.tokenizers.whitespace(d.tokens.join(' '));
-      },
-      queryTokenizer: function (q) {
-        return Bloodhound.tokenizers.whitespace(diacritics.remove(q));
-      },
-      prefetch: "/airports.json",
-    });
-
+  if ($(".home-airports-survey").length > 0) {
     var $savedArea = $('.saved-area .home-airports'),
         $airportsForm = $('.home-airport-survey-form'),
         $alertInfo = $airportsForm.find('.info-message'),
         $alertDanger = $airportsForm.find('.error-message');
 
-    $('.typeahead').typeahead({
-      hint: true,
-      highlight: true,
-      minLength: 1, // The minimum character length needed before suggestions start getting rendered
-    },
-      {
-        name: 'airports',
-        display: 'name',
-        limit: 5, // The max number of suggestions to be displayed. Defaults to 5.
-        source: airports,
-      }).bind('typeahead:select', function (e, suggestion) {
-        $(this).typeahead('val', '');
-        manageAlert($alertInfo, "");
-        manageAlert($alertDanger, "");
+    formTypeahead($('.typeahead')).bind('typeahead:select', function (e, suggestion) {
+      $(this).closest('.twitter-typeahead').next('.airport-id').val(suggestion.id);
+    }).bind('typeahead:select', function (e, suggestion) {
+      $(this).typeahead('val', '');
+      manageAlert($alertInfo, "");
+      manageAlert($alertDanger, "");
 
-        if (airportAlreadyAdded(suggestion)) {
-          manageAlert($alertInfo, "You have already added this airport.");
+      if (airportAlreadyAdded(suggestion)) {
+        manageAlert($alertInfo, "You have already added this airport.");
+      } else {
+        var airportDiv = document.createElement('div');
+
+        if (getSelectedAirportCount() < 5) {
+          airportDiv.className = 'airport-selected';
+          $(airportDiv).append('' +
+              '<input class="hidden-airports-ids" ' +
+                'type="hidden" ' +
+                'name="home_airports_survey[airport_ids][]" ' +
+                'value="' + suggestion.id + '">'
+          );
+          $(airportDiv).append('<p>' +
+              '<i class="fa fa-check" aria-hidden="true"></i>' +
+              suggestion.name +
+              '<i class="fa fa-times" aria-hidden="true"></i></p>');
+          $savedArea.append(airportDiv);
         } else {
-          var airportDiv = document.createElement('div');
-
-          if (getSelectedAirportCount() < 5) {
-            airportDiv.className = 'airport-selected';
-            $(airportDiv).append('' +
-                '<input class="hidden-airports-ids" ' +
-                  'type="hidden" ' +
-                  'name="home_airports_survey[airport_ids][]" ' +
-                  'value="' + suggestion.id + '">'
-            );
-            $(airportDiv).append('<p>' +
-                '<i class="fa fa-check" aria-hidden="true"></i>' +
-                suggestion.name +
-                '<i class="fa fa-times" aria-hidden="true"></i></p>');
-            $savedArea.append(airportDiv);
-          } else {
-            manageAlert($alertDanger, "You can't add more than five airports");
-          }
-
-          changeSubmitState();
+          manageAlert($alertDanger, "You can't add more than five airports");
         }
-      });
+
+        changeSubmitState();
+      }
+    });
 
     $savedArea.on('click', '.airport-selected .fa-times', function () {
       $(this).closest('.airport-selected').remove();
