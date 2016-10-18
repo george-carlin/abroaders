@@ -1,7 +1,7 @@
 class AirportsController < AuthenticatedUserController
-  # 'index' action is required for home airports survey to load airport data
-  # for the typeahead
-  onboard :home_airports, with: :index
+  # 'index' action is required for home airports survey and travel plan
+  # to load airport data for the typeahead
+  onboard :home_airports, :travel_plan, :complete, with: :index
 
   def index
     @airports = Airport.joins(:parent).order(code: :asc)
