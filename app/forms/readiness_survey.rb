@@ -19,6 +19,8 @@ class ReadinessSurvey < ReadinessForm
       companion.update!(unreadiness_reason: companion_unreadiness_reason)
     end
 
-    account.update!(onboarded_readiness: true)
+    flow = OnboardingFlow.build(account)
+    flow.add_readiness!
+    account.update!(onboarding_state: flow.workflow_state)
   end
 end
