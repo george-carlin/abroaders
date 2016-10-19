@@ -20,12 +20,12 @@
     <div class="travel-plan-input-group">
       <div class="from-to-line">
         <%= text_field_tag "travel_plan_from_typeahead", travel_plan.from_name, class: "form-control typeahead travel-plan-from-field", placeholder: "From (airport)" %>
-        <%= f.hidden_field :from_id, class: "airport-id" %>
+        <%= f.hidden_field :from_code, class: "airport-code" %>
         <div class="travel-plan-icon-plane">
           <span class="fa fa-plane"></span>
         </div>
         <%= text_field_tag "travel_plan_to_typeahead", travel_plan.to_name, class: "form-control typeahead travel-plan-to-field", placeholder: "To (airport)" %>
-        <%= f.hidden_field :to_id, class: "airport-id" %>
+        <%= f.hidden_field :to_code, class: "airport-code" %>
       </div>
 
       <div class="depart-return-passengers-line">
@@ -122,7 +122,10 @@
         </div>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-5 col-lg-6">
-        <div data-react-component="PointsEstimateTable"></div>
+        <% unless travel_plan.persisted? %>
+          <%# TODO make me work on the edit page too - right now I break the tests: %>
+          <div data-react-component="PointsEstimateTable"></div>
+        <% end %>
       </div>
     </div>
 

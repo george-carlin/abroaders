@@ -1,6 +1,10 @@
 /* global airportTypeahead b:true */
 
 $(document).ready(function () {
+  if (!$(".travel-plan-form").length) {
+    return;
+  }
+
   $('.travel-plan-datepicker').datepicker({
     startDate: "new Date()",
     startView: 1,
@@ -78,9 +82,9 @@ $(document).ready(function () {
   $singleRadio.on('click', travelTypeRadioClick);
   $returnRadio.on('click', travelTypeRadioClick);
 
-  if ($(".travel-plan-form").length > 0) {
-    airportTypeahead($('.typeahead')).bind('typeahead:select', function (e, suggestion) {
-      $(this).closest('.twitter-typeahead').next('.airport-id').val(suggestion.id);
-    });
-  }
+  airportTypeahead($('.typeahead')).bind('typeahead:select', function (e, suggestion) {
+    $(this).closest('.twitter-typeahead').next('.airport-code')
+      .val(suggestion.code)
+      .change();
+  });
 });

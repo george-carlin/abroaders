@@ -1,8 +1,8 @@
 class TravelPlanForm < ApplicationForm
-  attribute :account, Account
-  attribute :from_id, Integer
-  attribute :to_id,   Integer
-  attribute :type,    String, default: "return"
+  attribute :account,   Account
+  attribute :from_code, String
+  attribute :to_code,   String
+  attribute :type,      String, default: "return"
   attribute :no_of_passengers,            Integer
   attribute :will_accept_economy,         Boolean, default: false
   attribute :will_accept_premium_economy, Boolean
@@ -95,14 +95,16 @@ class TravelPlanForm < ApplicationForm
     included do
       with_options presence: true do
         validates :departure_date
-        validates :from_id
-        validates :no_of_passengers,
+        validates :from_code
+        validates(
+          :no_of_passengers,
           numericality: {
             greater_than_or_equal_to: 1,
             # avoid a duplicative error message when blank:
             allow_blank: true,
-          }
-        validates :to_id
+          },
+        )
+        validates :to_code
         validates :type, inclusion: { in: %w[single return] }
       end
 
@@ -138,15 +140,14 @@ class TravelPlanForm < ApplicationForm
         end
       end
     end
-
   end
 
   private
 
   def flight_attributes
     {
-      from: Airport.find(from_id),
-      to:   Airport.find(to_id),
+      from: Airport.find_by!(code: from_code),
+      to:   Airport.find_by!(code: to_code),
     }
   end
 
