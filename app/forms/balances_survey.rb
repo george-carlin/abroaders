@@ -45,9 +45,14 @@ class BalancesSurvey
     if valid?
       ApplicationRecord.transaction do
         @balances.each { |balance| balance.save!(validate: false) }
-        flow = OnboardingFlow.build(account)
-        person.owner? ? flow.add_owner_balances! : flow.add_companion_balances!
-        account.update!(onboarding_state: flow.workflow_state)
+
+        onboarder = AccountOnboarder.new(account)
+        if person.owner?
+          onboarder.add_owner_balances!
+        else
+          onboarder.add_companion_balances!
+        end
+
         if award_wallet_email.present?
           person.award_wallet_email = award_wallet_email
         end
@@ -88,7 +93,7 @@ class BalancesSurvey
     if save
       true
     else
-      raise ActiveRecord::RecordInvalid.new(self)
+      raise ActiveRecord::RecordInvalid.new, self
     end
   end
 

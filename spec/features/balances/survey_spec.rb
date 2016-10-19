@@ -151,7 +151,7 @@ describe "the balance survey page", :onboarding, :js do
     expect { submit_form }.to track_intercom_event("obs_balances_own").for_email(account.email)
   end
 
-  skip "when person is owner, and account has a companion" do
+  describe "when person is owner, and account has a companion" do
     before { create(:companion, account: account) }
 
     it "doesn't send a 'profile complete' email to the admin" do

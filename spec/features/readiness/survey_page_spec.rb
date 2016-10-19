@@ -12,13 +12,6 @@ describe "survey_readiness page", :onboarding, :js do
 
   include_context "set admin email ENV var"
 
-  shared_examples "sending 'profile complete' email to the admin" do
-    it "sends email to the admin" do
-      expect{submit_form}.to \
-        send_email.to(ENV["ADMIN_EMAIL"]).with_subject("App Profile Complete - #{@account.email}")
-    end
-  end
-
   let(:submit_form) { click_button "Save and continue" }
 
   describe "account with companion" do
@@ -56,8 +49,6 @@ describe "survey_readiness page", :onboarding, :js do
           expect{submit_form}.to \
             track_intercom_event("obs_unready_own", "obs_ready_com").for_email(@account.email)
         end
-
-        include_examples "sending 'profile complete' email to the admin"
       end
     end
 
@@ -90,8 +81,6 @@ describe "survey_readiness page", :onboarding, :js do
           expect{submit_form}.to \
             track_intercom_event("obs_ready_own", "obs_unready_com").for_email(@account.email)
         end
-
-        include_examples "sending 'profile complete' email to the admin"
       end
     end
 
@@ -123,8 +112,6 @@ describe "survey_readiness page", :onboarding, :js do
           expect{submit_form}.to \
             track_intercom_events("obs_ready_own", "obs_ready_com").for_email(@account.email)
         end
-
-        include_examples "sending 'profile complete' email to the admin"
       end
 
       context "and choose only owner is ready" do
@@ -141,8 +128,6 @@ describe "survey_readiness page", :onboarding, :js do
           expect{submit_form}.to \
             track_intercom_events("obs_ready_own", "obs_unready_com").for_email(@account.email)
         end
-
-        include_examples "sending 'profile complete' email to the admin"
       end
 
       context "and choose only companion is ready" do
@@ -159,8 +144,6 @@ describe "survey_readiness page", :onboarding, :js do
           expect{submit_form}.to \
             track_intercom_events("obs_unready_own", "obs_ready_com").for_email(@account.email)
         end
-
-        include_examples "sending 'profile complete' email to the admin"
       end
 
       context "and choose neither are ready" do
@@ -177,8 +160,6 @@ describe "survey_readiness page", :onboarding, :js do
           expect{submit_form}.to \
             track_intercom_events("obs_unready_own", "obs_unready_com").for_email(@account.email)
         end
-
-        include_examples "sending 'profile complete' email to the admin"
       end
     end
   end
@@ -212,8 +193,6 @@ describe "survey_readiness page", :onboarding, :js do
         expect{submit_form}.to \
           track_intercom_events("obs_ready_own").for_email(@account.email)
       end
-
-      include_examples "sending 'profile complete' email to the admin"
     end
 
     context "and choose I am not ready" do
@@ -229,8 +208,6 @@ describe "survey_readiness page", :onboarding, :js do
         expect{submit_form}.to \
           track_intercom_events("obs_unready_own").for_email(@account.email)
       end
-
-      include_examples "sending 'profile complete' email to the admin"
     end
   end
 

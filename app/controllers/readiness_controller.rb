@@ -43,18 +43,7 @@ class ReadinessController < AuthenticatedUserController
       @account.people.each do |person|
         track_intercom_event("obs_#{"un" unless person.ready?}ready_#{person.type[0..2]}")
       end
-
-      # reload the account first or .complete? will return a false negative
-      if current_account.reload.onboarded?
-        AccountMailer.notify_admin_of_survey_completion(
-          @account.id, Time.now.to_i
-        ).deliver_later
-        next_path = root_path
-      else
-        next_path = onboarding_survey_path
-      end
-
-      redirect_to next_path
+      redirect_to onboarding_survey_path
     else
       render :survey
     end

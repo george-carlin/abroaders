@@ -1,27 +1,27 @@
-# Defines the routes via which the user can move through the onboarding survey.
+# Updates Account#onboarding_state, and defines which new states are possible
+# given the current state.
 #
 # Example usage:
 #
-#     flow = OnboardingFlow.build(account)
-#     flow.add_home_airports!
+#     AccountOnboarder.new(account).add_home_airports!
 #
-# `flow.add_home_airports!` will return the new state after adding home
-# airports - or it will raise an error if home airports can not be added given
-# the current state.
-class OnboardingFlow
-  include Virtus.model
+# `add_home_airports!` will update account.onboarding_state to the new
+# state after home_airports - or it will raise an error if home airports can
+# not be added given the current state.
+#
+# When updating the account's state to 'complete', sends an email to the
+# admin.
+#
+# Don't use this model when all you need to do is determine whether a given
+# account is onboarded or not. Just call `account.onboarded?
+class AccountOnboarder
   include Workflow
 
-  attribute :account, Account
-  # 'workflow_state' is the default attribute name used by the workflow gem
-  attribute :workflow_state
+  attr_reader :account
   delegate :owner, :companion, to: :account
 
-  def self.build(account)
-    new(
-      account:        account,
-      workflow_state: account.onboarding_state,
-    )
+  def initialize(account)
+    @account = account
   end
 
   workflow do
@@ -94,7 +94,12 @@ class OnboardingFlow
     account.onboarding_state
   end
 
-  def persist_workflow_state(new_value)
-    account.update!(onboarding_state: new_value)
+  def persist_workflow_state(new_state)
+    account.update!(onboarding_state: new_state)
+    if complete?
+      AccountMailer.notify_admin_of_survey_completion(
+        account.id, Time.now.to_i,
+      ).deliver_later
+    end
   end
 end

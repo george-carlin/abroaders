@@ -12,10 +12,7 @@ class PhoneNumbersController < AuthenticatedUserController
   end
 
   def skip
-    flow = OnboardingFlow.build(current_account)
-    flow.skip_phone_number!
-    current_account.update!(onboarding_state: flow.workflow_state)
+    AccountOnboarder.new(current_account).skip_phone_number!
     redirect_to onboarding_survey_path
   end
-
 end

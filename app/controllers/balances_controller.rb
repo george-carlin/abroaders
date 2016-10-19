@@ -43,13 +43,9 @@ class BalancesController < AuthenticatedUserController
     @survey.assign_attributes(survey_params)
     @survey.award_wallet_email = params[:balances_survey_award_wallet_email]
     if @survey.save
-      # TODO does this still belong here?
       if current_account.reload.onboarded?
-        AccountMailer.notify_admin_of_survey_completion(
-          current_account.id, Time.now.to_i,
-        ).deliver_later
+        track_intercom_event("obs_balances_#{@person.type[0..2]}")
       end
-      track_intercom_event("obs_balances_#{@person.type[0..2]}")
       redirect_to onboarding_survey_path
     else
       render "survey"

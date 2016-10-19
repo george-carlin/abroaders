@@ -117,12 +117,8 @@ class SpendingSurvey < ApplicationForm
         will_apply_for_loan:   companion_will_apply_for_loan,
       )
     end
-    flow = OnboardingFlow.build(account)
-    flow.add_spending!
-    account.update_attributes!(
-      monthly_spending_usd: monthly_spending,
-      onboarding_state:     flow.workflow_state,
-    )
+    AccountOnboarder.new(account).add_spending!
+    account.update_attributes!(monthly_spending_usd: monthly_spending)
   end
 
   def owner_has_business?

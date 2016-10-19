@@ -46,9 +46,12 @@ class CardsSurvey < ApplicationForm
       person.card_accounts.from_survey.create!(attributes)
     end
 
-    flow = OnboardingFlow.build(person.account)
-    person.owner? ? flow.add_owner_cards! : flow.add_companion_cards!
-    person.account.update!(onboarding_state: flow.workflow_state)
+    onboarder = AccountOnboarder.new(person.account)
+    if person.owner?
+      onboarder.add_owner_cards!
+    else
+      onboarder.add_companion_cards!
+    end
   end
 
   def end_of_month(year, month)
