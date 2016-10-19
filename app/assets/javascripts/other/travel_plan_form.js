@@ -1,4 +1,4 @@
-/* global formTypeahead b:true */
+/* global airportTypeahead b:true */
 
 $(document).ready(function () {
   $('.travel-plan-datepicker').datepicker({
@@ -79,7 +79,7 @@ $(document).ready(function () {
   $returnRadio.on('click', travelTypeRadioClick);
 
   if ($(".travel-plan-form").length > 0) {
-    formTypeahead($('.typeahead')).bind('typeahead:select', function (e, suggestion) {
+    airportTypeahead($('.typeahead')).bind('typeahead:select', function (e, suggestion) {
       $(this).closest('.twitter-typeahead').next('.airport-id').val(suggestion.id);
     });
   }
