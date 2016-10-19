@@ -6,8 +6,8 @@ shared_examples "a TravelPlan form" do
   end
 
   it { is_expected.to validate_presence_of(:departure_date) }
-  it { is_expected.to validate_presence_of(:from_id) }
-  it { is_expected.to validate_presence_of(:to_id) }
+  it { is_expected.to validate_presence_of(:from_code) }
+  it { is_expected.to validate_presence_of(:to_code) }
   it { is_expected.to validate_presence_of(:no_of_passengers) }
   it do
     is_expected.to validate_numericality_of(:no_of_passengers)
@@ -112,9 +112,9 @@ describe NewTravelPlanForm, type: :model do
     context "when account is not onboarded" do
       it "updates the account's onboarded_state" do
         account = create(:account, onboarding_state: :travel_plan)
-        form.account = account
-        form.from_id = create(:airport).id
-        form.to_id   = create(:airport).id
+        form.account   = account
+        form.from_code = create(:airport).code
+        form.to_code   = create(:airport).code
         form.no_of_passengers = 1
         form.departure_date   = Date.today
         expect { form.save! }.to change { account.travel_plans.count }.by(1)

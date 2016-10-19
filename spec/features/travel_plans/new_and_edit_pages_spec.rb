@@ -7,7 +7,13 @@ describe "travel plans" do
   subject { page }
 
   before do
-    @airports = create_list(:airport, 5)
+    # dummy airports must have a 'real' region (i.e. the region's code must
+    # exist in the points_estimate csv) or the points estimate API call will
+    # crash
+    @usr = create(:region, code: "US")
+    @usc = create(:country, parent: @usr)
+    @city = create(:city, parent: @usc)
+    @airports = create_list(:airport, 5, parent: @city)
     login_as(account)
   end
 
@@ -26,7 +32,7 @@ describe "travel plans" do
       visit new_travel_plan_path
     end
 
-    SKIP_LINK = "I don't have specific plans"
+    SKIP_LINK = "I don't have specific plans".freeze
 
     example "after onboarding survey" do
       complete_onboarding_survey!
@@ -92,7 +98,7 @@ describe "travel plans" do
 
         context "with trailing whitespace" do
           before do
-            fill_in :travel_plan_departure_date,  with: " #{depart_date.strftime("%m/%d/%Y")} "
+            fill_in :travel_plan_departure_date, with: depart_date.strftime('%m/%d/%Y')
             fill_in :travel_plan_further_information, with: " Something "
             submit_form
           end
@@ -166,6 +172,10 @@ describe "travel plans" do
     let(:account) { create(:account, :onboarded) }
     let!(:travel_plan) { create(:travel_plan, :return, account: account) }
     before do
+      travel_plan.flights[0].update!(
+        from: @airports[0],
+        to:   @airports[1],
+      )
       login_as(account)
       visit edit_travel_plan_path(travel_plan)
     end

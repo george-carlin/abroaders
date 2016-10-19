@@ -17,8 +17,8 @@ shared_examples "a travel plan form" do
   it "has inputs for a travel plan", :js do
     expect(page).to have_field "travel_plan_from_typeahead"
     expect(page).to have_field "travel_plan_to_typeahead"
-    expect(page).to have_selector "#travel_plan_from_id", visible: false
-    expect(page).to have_selector "#travel_plan_to_id", visible: false
+    expect(page).to have_selector "#travel_plan_from_code", visible: false
+    expect(page).to have_selector "#travel_plan_to_code", visible: false
     expect(page).to have_field :travel_plan_no_of_passengers
 
     expect(page).to have_field :travel_plan_type_single
