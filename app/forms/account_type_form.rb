@@ -12,7 +12,7 @@ class AccountTypeForm < ApplicationForm
 
   def persist!
     account.create_companion!(first_name: companion_first_name) if couples?
-    AccountOnboarder.new(current_account).choose_account_type!
+    AccountOnboarder.new(account).choose_account_type!
   end
 
   def solo?
