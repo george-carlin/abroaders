@@ -17,11 +17,11 @@ class EditTravelPlanForm < TravelPlanForm
   end
 
   def from_name
-    displayed_name(Airport.find(from_id))
+    displayed_name(Destination.find(from_id))
   end
 
   def to_name
-    displayed_name(Airport.find(to_id))
+    displayed_name(Destination.find(to_id))
   end
 
   def persisted?
@@ -43,7 +43,7 @@ class EditTravelPlanForm < TravelPlanForm
     @travel_plan ||= TravelPlan.find(id)
   end
 
-  def displayed_name(airport)
-    "#{airport.name} (#{airport.code})"
+  def displayed_name(destination)
+    "#{destination.name} (#{destination.code})"
   end
 end

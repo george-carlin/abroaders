@@ -146,8 +146,8 @@ class TravelPlanForm < ApplicationForm
 
   def flight_attributes
     {
-      from: Airport.find(from_id),
-      to:   Airport.find(to_id),
+      from: Destination.find(from_id),
+      to:   Destination.find(to_id),
     }
   end
 
