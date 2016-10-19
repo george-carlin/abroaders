@@ -1,6 +1,7 @@
 import React, { PropTypes } from "react";
 
-import Row from "../core/Row";
+import Row  from "../core/Row";
+import Cols from "../core/Cols";
 
 import SoloForm    from "./SoloForm";
 import CouplesForm from "./CouplesForm";
@@ -23,14 +24,14 @@ const AccountTypeForm = React.createClass({
     const modelName = "account";
     return (
       <Row>
-        <div className="account_type_select_header col-xs-12 col-md-8 col-md-offset-2" >
+        <Cols xs="12" md="8" mdOffset="2" className="account_type_select_header" >
           <h1>How do you want to earn points?</h1>
 
           <p>
             Abroaders will help you earn the right points for
             your {this.getTrip()}
           </p>
-        </div>
+        </Cols>
 
         <SoloForm
           action={this.props.action}

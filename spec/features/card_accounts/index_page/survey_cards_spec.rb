@@ -16,7 +16,7 @@ describe "card accounts page survey cards section" do
   end
 
   def create_companion!
-    create(:person, main: false, account: account, onboarded_balances: true, onboarded_cards: true)
+    create(:person, main: false, account: account)
     account.reload
   end
 

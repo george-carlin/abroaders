@@ -27,10 +27,5 @@ describe SpendingInfosController do
       before { account.update_attributes!(onboarding_state: :complete) }
       it { is_expected.to redirect_to root_path }
     end
-
-    context "when I haven't completed the home airports survey" do
-      let(:onboarded_home_airports) { false }
-      it { is_expected.to redirect_to survey_home_airports_path }
-    end
   end
 end

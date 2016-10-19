@@ -6,8 +6,6 @@ describe "account type select page", :js, :onboarding do
   let(:account) { create(:account, onboarding_state: :account_type) }
   let(:owner) { account.owner }
 
-  let(:onboarded_travel_plans) { true }
-
   before do
     login_as_account(account)
     visit type_account_path
@@ -34,7 +32,7 @@ describe "account type select page", :js, :onboarding do
   example "choosing 'solo'" do
     expect do
       form.click_solo_btn
-    end.to change{Person.count}.by(0).and track_intercom_event
+    end.to change { Person.count }.by(0).and track_intercom_event
     account.reload
     expect(account.onboarding_state).to eq "eligibility"
 
@@ -53,9 +51,8 @@ describe "account type select page", :js, :onboarding do
     end
 
     example "providing a companion name" do
-      form.submit_companion_first_name(companion_name)
       expect do
-        form.click_couples_btn
+        form.submit_companion_first_name(companion_name)
       end.to change { Person.count }.by(1)
       account.reload
       expect(account.companion.first_name).to eq companion_name
@@ -65,10 +62,9 @@ describe "account type select page", :js, :onboarding do
     end
 
     example "providing a name with trailing whitespace" do
-      form.submit_companion_first_name("     Steve   ")
       # strips the whitespace:
       expect do
-        form.click_couples_btn
+        form.submit_companion_first_name("     Steve   ")
       end.to change { Person.count }.by(1)
       account.reload
       expect(account.companion.first_name).to eq "Steve"
