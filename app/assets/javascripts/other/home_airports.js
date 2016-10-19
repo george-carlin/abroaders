@@ -1,4 +1,4 @@
-/* global formTypeahead b:true */
+/* global airportTypeahead b:true */
 
 $(document).ready(function () {
   function getSelectedAirportCount() {
@@ -30,7 +30,7 @@ $(document).ready(function () {
         $alertInfo = $airportsForm.find('.info-message'),
         $alertDanger = $airportsForm.find('.error-message');
 
-    formTypeahead($('.typeahead')).bind('typeahead:select', function (e, suggestion) {
+    airportTypeahead($('.typeahead')).bind('typeahead:select', function (e, suggestion) {
       $(this).closest('.twitter-typeahead').next('.airport-id').val(suggestion.id);
     }).bind('typeahead:select', function (e, suggestion) {
       $(this).typeahead('val', '');

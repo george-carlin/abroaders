@@ -9,7 +9,7 @@
 //    localStorage.removeItem("__/airports.json__data")
 //
 
-function airports() {
+function airportBloodhound() {
   return new Bloodhound({
     datumTokenizer: function (d) {
       return Bloodhound.tokenizers.whitespace(d.tokens.join(' '));
@@ -21,8 +21,8 @@ function airports() {
   });
 }
 
-function formTypeahead(elem) {
-  return elem.typeahead(
+function airportTypeahead($elem) {
+  return $elem.typeahead(
     {
       hint: true,
       highlight: true,
@@ -32,6 +32,6 @@ function formTypeahead(elem) {
       name: 'airports',
       display: 'name',
       limit: 5, // The max number of suggestions to be displayed. Defaults to 5.
-      source: airports(),
+      source: airportBloodhound(),
     });
 }
