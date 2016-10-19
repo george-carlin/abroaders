@@ -39,6 +39,11 @@
         </div>
       </div>
     <% end %>
+
+    <% if current_account && !current_account.onboarded? %>
+      <%= render "layouts/header/progress_info" %>
+    <% end %>
+
     <div class="navbar-right">
       <ul class="nav navbar-nav no-borders">
         <% if current_account || current_admin %>

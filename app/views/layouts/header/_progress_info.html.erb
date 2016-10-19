@@ -1,0 +1,38 @@
+<% current_state = OnboardingFlow.build(current_account).current_state %>
+<div class="progress-info">
+  <div class="progress-block <%= progress_info_class(current_state, :home_airports, :regions_of_interest) %>">
+    <p><i class="fa fa-2x fa-plane"></i></p>
+    <p class="bottom-line">
+      <span class="icon"><i class="fa fa-check"></i></span>
+      <span class="number">1.</span>
+      <span class="title"> Travel Plans</span>
+    </p>
+  </div>
+
+  <div class="progress-block <%= progress_info_class(current_state, :account_type, :eligibility) %>">
+    <p><i class="fa fa-2x fa-user"></i></p>
+    <p class="bottom-line">
+      <span class="icon"><i class="fa fa-check"></i></span>
+      <span class="number">2.</span>
+      <span class="title">Basic Info</span>
+    </p>
+  </div>
+
+  <div class="progress-block <%= progress_info_class(current_state, :owner_cards, :spending) %>">
+    <p><i class="fa fa-2x fa-credit-card"></i></p>
+    <p class="bottom-line">
+      <span class="icon"><i class="fa fa-check"></i></span>
+      <span class="number">3.</span>
+      <span class="title">Your Cards</span>
+    </p>
+  </div>
+
+  <div class="progress-block <%= progress_info_class(current_state, :readiness, :phone_number) %>">
+    <p><i class="fa fa-2x fa-check"></i></p>
+    <p class="bottom-line">
+      <span class="icon"><i class="fa fa-check"></i></span>
+      <span class="number">4.</span>
+      <span class="title">Finished</span>
+    </p>
+  </div>
+</div>

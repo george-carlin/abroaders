@@ -9,4 +9,14 @@ module SurveyHelper
       "I do not own a business"
     end
   end
+
+  def progress_info_class(state, left_edge, right_edge)
+    if state < left_edge
+      "on-hold"
+    elsif state > right_edge
+      "completed"
+    else
+      "in-progress"
+    end
+  end
 end

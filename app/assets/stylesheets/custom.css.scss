@@ -372,3 +372,74 @@ td.offer-days {
 .update-readiness-btn {
   width: 100%;
 }
+
+// Progress Info
+
+.progress-info {
+  margin: 0 auto;
+  width: 100%;
+  float: left;
+
+  @media (min-width: 769px) {
+    width: 50%;
+  }
+
+  @media (min-width: 1024px) {
+    width: 60%;
+  }
+
+  @media (min-width: 1440px) {
+    width: 70%;
+  }
+
+  .progress-block {
+    text-align: center;
+    display: inline-block;
+    float: left;
+    width: 25%;
+
+    .bottom-line {
+      margin: 0;
+    }
+
+    @media (min-width: 769px) {
+      .title {
+        font-size: 16px;
+      }
+    }
+
+    @media (max-width: 320px) {
+      .title {
+        font-size: 11px;
+      }
+    }
+
+    .icon, .number {
+      display: none;
+    }
+
+    &.in-progress {
+      color: #feb728;
+
+      .number {
+        display: inline-block;
+      }
+    }
+
+    &.on-hold {
+      color: #c6c6c6;
+
+      .number {
+        display: inline-block;
+      }
+    }
+
+    &.completed {
+      color: #69c641;
+
+      .icon {
+        display: inline-block;
+      }
+    }
+  }
+}

@@ -2,6 +2,11 @@
 
 ## October 2016
 
+*   Show progress information to users who are on the onboarding survey.
+    Pivotal Tracker #132564533
+
+    *Boris Shatalov*
+
 *   Use `Airport` for travel plan's from/to instead `Country`.
     Pivotal Tracker #132586099
 
