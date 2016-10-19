@@ -96,6 +96,10 @@ class AccountOnboarder
 
   def persist_workflow_state(new_state)
     account.update!(onboarding_state: new_state)
-    # TODO if new_state == 'complete' send email
+    if complete?
+      AccountMailer.notify_admin_of_survey_completion(
+        account.id, Time.now.to_i,
+      ).deliver_later
+    end
   end
 end
