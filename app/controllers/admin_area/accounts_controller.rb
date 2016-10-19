@@ -31,10 +31,5 @@ module AdminArea
     def load_account
       Account.find(params[:id])
     end
-
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def account_params
-      params[:account]
-    end
   end
 end
