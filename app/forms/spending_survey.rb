@@ -35,30 +35,30 @@ class SpendingSurvey < ApplicationForm
   end
 
   validates :monthly_spending,
-    presence: true,
-    numericality: { allow_blank: true, greater_than_or_equal_to: 0 }
+            presence: true,
+            numericality: { allow_blank: true, greater_than_or_equal_to: 0 }
 
   BUSINESS_SPENDING_VALIDATIONS = {
     numericality: {
       # avoid duplicate error message (from presence validation) when nil:
       allow_blank: true,
       greater_than_or_equal_to: 0,
-      less_than_or_equal_to: POSTGRESQL_MAX_INT_VALUE
-    }
-  }
+      less_than_or_equal_to: POSTGRESQL_MAX_INT_VALUE,
+    },
+  }.freeze
 
   CREDIT_SCORE_VALIDATIONS = {
     numericality: {
       # avoid duplicate error message (from presence validation) when nil:
       allow_blank: true,
       greater_than_or_equal_to: ::SpendingInfo::MINIMUM_CREDIT_SCORE,
-      less_than_or_equal_to:    ::SpendingInfo::MAXIMUM_CREDIT_SCORE
-    }
-  }
+      less_than_or_equal_to:    ::SpendingInfo::MAXIMUM_CREDIT_SCORE,
+    },
+  }.freeze
 
   HAS_BUSINESS_VALIDATIONS = {
-    inclusion: { in: %w[with_ein without_ein no_business], allow_blank: true }
-  }
+    inclusion: { in: %w[with_ein without_ein no_business], allow_blank: true },
+  }.freeze
 
   # ---- owner spending validations ----
 
@@ -66,13 +66,13 @@ class SpendingSurvey < ApplicationForm
     :owner_business_spending_usd,
     :owner_credit_score,
     :owner_has_business,
-    unless: :require_owner_spending?
+    unless: :require_owner_spending?,
   )
 
   validates :owner_business_spending_usd,
-    BUSINESS_SPENDING_VALIDATIONS.merge(
-      presence: { if: :require_owner_business_spending? }
-  )
+            BUSINESS_SPENDING_VALIDATIONS.merge(
+              presence: { if: :require_owner_business_spending? },
+            )
 
   with_options presence: { if: :require_owner_spending? } do
     validates :owner_credit_score, CREDIT_SCORE_VALIDATIONS
@@ -85,13 +85,13 @@ class SpendingSurvey < ApplicationForm
     :companion_business_spending_usd,
     :companion_credit_score,
     :companion_has_business,
-    unless: :require_companion_spending?
+    unless: :require_companion_spending?,
   )
 
   validates :companion_business_spending_usd,
-    BUSINESS_SPENDING_VALIDATIONS.merge(
-      presence: { if: :require_companion_business_spending? }
-      )
+            BUSINESS_SPENDING_VALIDATIONS.merge(
+              presence: { if: :require_companion_business_spending? },
+            )
 
   with_options presence: { if: :require_companion_spending? } do
     validates :companion_credit_score, CREDIT_SCORE_VALIDATIONS
@@ -117,12 +117,8 @@ class SpendingSurvey < ApplicationForm
         will_apply_for_loan:   companion_will_apply_for_loan,
       )
     end
-    flow = OnboardingFlow.build(account)
-    flow.add_spending!
-    account.update_attributes!(
-      monthly_spending_usd: monthly_spending,
-      onboarding_state:     flow.workflow_state,
-    )
+    AccountOnboarder.new(account).add_spending!
+    account.update_attributes!(monthly_spending_usd: monthly_spending)
   end
 
   def owner_has_business?
@@ -148,5 +144,4 @@ class SpendingSurvey < ApplicationForm
   def require_companion_business_spending?
     require_companion_spending? && companion_has_business?
   end
-
 end

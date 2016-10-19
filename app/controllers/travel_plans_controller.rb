@@ -39,8 +39,7 @@ class TravelPlansController < AuthenticatedUserController
   end
 
   def skip_survey
-    new_state = OnboardingFlow.build(current_account).skip_travel_plan!
-    current_account.update!(onboarding_state: new_state)
+    AccountOnboarder.new(current_account).skip_travel_plan!
     IntercomJobs::TrackEvent.perform_later(
       email:      current_account.email,
       event_name: "obs_travel_plan",

@@ -1,40 +1,27 @@
-# Defines the routes via which the user can move through the onboarding survey.
-#
-# This class doesn't touch the database or care about persisting the onboarding
-# state. Its only job is to read an account's onboarding state and determine
-# which actions are possible and what the new state show be after that action.
+# Updates Account#onboarding_state, and defines which new states are possible
+# given the current state.
 #
 # Example usage:
 #
-#     flow = OnboardingFlow.build(account)
-#     account.update!(onboarding_state: flow.add_home_airports!)
-# 
-# `flow.add_home_airports!` will return the new state after adding home
-# airports - or it will raise an error if home airports can not be added given
-# the current state.
+#     AccountOnboarder.new(account).add_home_airports!
 #
-# If you don't use the return value of `add_home_airports!` you can get it
-# later from the attribute `workflow_state`:
+# `add_home_airports!` will update account.onboarding_state to the new
+# state after home_airports - or it will raise an error if home airports can
+# not be added given the current state.
 #
-#     flow = OnboardingFlow.build(account)
-#     flow.add_home_airports!
-#     # ... something else ...
-#     new_state = flow.workflow_state
+# When updating the account's state to 'complete', sends an email to the
+# admin.
 #
-class OnboardingFlow
-  include Virtus.model
+# Don't use this model when all you need to do is determine whether a given
+# account is onboarded or not. Just call `account.onboarded?
+class AccountOnboarder
   include Workflow
 
-  attribute :account, Account
-  # 'workflow_state' is the default attribute name used by the workflow gem
-  attribute :workflow_state
+  attr_reader :account
   delegate :owner, :companion, to: :account
 
-  def self.build(account)
-    new(
-      account:        account,
-      workflow_state: account.onboarding_state,
-    )
+  def initialize(account)
+    @account = account
   end
 
   workflow do
@@ -101,4 +88,14 @@ class OnboardingFlow
     state :complete
   end
 
+  private
+
+  def load_workflow_state
+    account.onboarding_state
+  end
+
+  def persist_workflow_state(new_state)
+    account.update!(onboarding_state: new_state)
+    # TODO if new_state == 'complete' send email
+  end
 end

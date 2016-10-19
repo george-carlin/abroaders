@@ -12,9 +12,7 @@ class AccountTypeForm < ApplicationForm
 
   def persist!
     account.create_companion!(first_name: companion_first_name) if couples?
-    flow = OnboardingFlow.build(account)
-    flow.choose_account_type!
-    account.update!(onboarding_state: flow.workflow_state)
+    AccountOnboarder.new(current_account).choose_account_type!
   end
 
   def solo?

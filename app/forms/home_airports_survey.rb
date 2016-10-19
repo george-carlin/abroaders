@@ -9,8 +9,6 @@ class HomeAirportsSurvey < ApplicationForm
 
   def persist!
     account.home_airports << Airport.where(id: airport_ids)
-    new_state = OnboardingFlow.build(account).add_home_airports!
-    account.onboarding_state = new_state
-    account.save!
+    AccountOnboarder.new(account).add_home_airports!
   end
 end

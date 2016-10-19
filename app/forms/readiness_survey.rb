@@ -15,12 +15,10 @@ class ReadinessSurvey < ReadinessForm
       owner.update!(unreadiness_reason: owner_unreadiness_reason)
     end
 
-    if companion && companion.unready && companion_unreadiness_reason
+    if companion.present? && companion.unready && companion_unreadiness_reason
       companion.update!(unreadiness_reason: companion_unreadiness_reason)
     end
 
-    flow = OnboardingFlow.build(account)
-    flow.add_readiness!
-    account.update!(onboarding_state: flow.workflow_state)
+    AccountOnboarder.new(account).add_readiness!
   end
 end

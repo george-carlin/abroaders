@@ -14,9 +14,6 @@ class NewTravelPlanForm < TravelPlanForm
     plan = account.travel_plans.build(travel_plan_attributes)
     plan.flights.build(flight_attributes)
     plan.save!
-    unless account.onboarded?
-      new_state = OnboardingFlow.build(account).add_travel_plan!
-      account.update!(onboarding_state: new_state)
-    end
+    AccountOnboarder.new(account).add_travel_plan! unless account.onboarded?
   end
 end
