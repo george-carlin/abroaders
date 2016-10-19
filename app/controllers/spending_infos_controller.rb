@@ -18,12 +18,12 @@ class SpendingInfosController < AuthenticatedUserController
 
   def edit
     @person = load_person
-    @spending_info = EditSpendingInfoForm.find(@person)
+    @spending_info = EditSpendingInfoForm.load(@person)
   end
 
   def update
     @person = load_person
-    @spending_info = EditSpendingInfoForm.find(@person)
+    @spending_info = EditSpendingInfoForm.load(@person)
     if @spending_info.update(spending_info_params)
       flash[:success] = "Updated spending info"
       redirect_to root_path
