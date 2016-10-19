@@ -4,6 +4,10 @@ class PhoneNumberForm < ApplicationForm
 
   validates :phone_number, presence: true
 
+  def self.model_name
+    Account.model_name
+  end
+
   private
 
   def persist!
