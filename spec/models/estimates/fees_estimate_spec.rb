@@ -9,10 +9,14 @@ module Estimates
       @fr = Country.new(parent: @eu,  name: "France")
       @us = Country.new(parent: @usa, name: "United States")
       @uk = Country.new(parent: @eu,  name: "United Kingdom")
+
+      @cdg = Airport.new(parent: City.new(parent: @fr))
+      @jfk = Airport.new(parent: City.new(parent: @us))
+      @lhr = Airport.new(parent: City.new(parent: @uk))
     end
 
     example "non-US -> non-US estimates" do
-      estimate = FeesEstimate.new(from: @fr, to: @uk, type: "single")
+      estimate = FeesEstimate.new(from: @cdg, to: @lhr, type: "single")
 
       single_fee_low  = FeesEstimate::NON_US_SINGLE_FEES_MIN_USD
       single_fee_high = FeesEstimate::NON_US_SINGLE_FEES_MAX_USD
@@ -42,7 +46,7 @@ module Estimates
     end
 
     example "US -> US estimates" do
-      estimate = FeesEstimate.new(from: @us, to: @us, type: "single")
+      estimate = FeesEstimate.new(from: @jfk, to: @jfk, type: "single")
 
       single_fee = FeesEstimate::US_TO_US_SINGLE_FEES_USD
       estimate.class_of_service = "economy"
@@ -69,7 +73,7 @@ module Estimates
     end
 
     example "US <-> non-US estimates" do
-      estimate = FeesEstimate.new(from: @fr, to: @us, type: "single")
+      estimate = FeesEstimate.new(from: @cdg, to: @jfk, type: "single")
       estimate.no_of_passengers = 1
 
       # NB: estimates are rounded to the nearest $5

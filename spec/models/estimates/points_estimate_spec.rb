@@ -7,13 +7,16 @@ module Estimates
 
       @fr = Country.new(parent: @eu)
       @uk = Country.new(parent: @eu)
+
+      @cdg = Airport.new(parent: City.new(parent: @fr))
+      @lhr = Airport.new(parent: City.new(parent: @uk))
     end
 
     # Note that these tests are based on the real points estimate data,
     # hardcoded in lib/data/points_estimates.csv. If we update the data, this
     # test will start failing.
     example "estimate methods" do
-      estimate = PointsEstimate.new(from: @fr, to: @uk, type: "single")
+      estimate = PointsEstimate.new(from: @cdg, to: @lhr, type: "single")
       estimate.no_of_passengers = 1
 
       estimate.class_of_service = "economy"
