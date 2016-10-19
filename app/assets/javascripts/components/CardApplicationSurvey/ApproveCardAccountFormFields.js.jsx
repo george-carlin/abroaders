@@ -1,3 +1,11 @@
+/* global $ */
+// Technical debt alert: we can't `import $` because then it won't have the
+// .typehead func defined on it. Instead we have to use the window.$ object
+// that's added by the asset pipeiple. I tried to fix this by adding
+// bootstrap-datepicker as an NPM package (instead of including it in
+// vendor/assets) but can't figure out how to make it work with ES6 'import'
+// statements. (I suspect it's not possible at all in our current setup.) See
+// https://github.com/Eonasdan/bootstrap-datetimepicker/issues/576
 import React from "react";
 
 import TextField from "../core/TextField";

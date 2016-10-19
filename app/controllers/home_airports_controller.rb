@@ -21,6 +21,6 @@ class HomeAirportsController < AuthenticatedUserController
 
   def survey_params
     survey_params = params.require(:home_airports_survey).permit(airport_ids: [])
-    survey_params.merge(account: @account).to_h
+    survey_params.merge(account: @account)
   end
 end

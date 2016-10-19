@@ -18,6 +18,13 @@ class ApplicationForm
     instance
   end
 
+  def initialize(attributes = nil)
+    # Virtus will call `attributes.to_hash`, but this will raise a warning
+    # if attributes is an `ActionController::Parameters`. Avoid
+    # this warning by calling `to_h` instead:
+    super(attributes&.to_h)
+  end
+
   # If you're creating a Form object for *editing* a record rather than
   # creating a new one, you should override `persisted?` so that it returns
   # true.
