@@ -53,10 +53,6 @@ class Person < ApplicationRecord
   end
 
   concerning :Readiness do
-    def onboarded_readiness?
-      !ready.nil?
-    end
-
     def unready
       !ready?
     end
