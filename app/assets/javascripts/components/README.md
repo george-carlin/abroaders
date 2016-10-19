@@ -1,6 +1,6 @@
 # React
 
-## Guides
+## Guides/Conventions
 
 -   You don't *have* to use JSX for every file. If a component is very simple,
     and especially if it's just a stateless wrapper around a single HTML tag,
@@ -18,7 +18,8 @@
           return React.createElement("div", { id: foobar(props.id) });
         };
 
-## Conventions
+-   See react_ujs.js and application.js for info about how to output React
+    components in our view.
 
 -   Only one React component per file.
 
@@ -55,3 +56,28 @@
 
     This is analogous to the difference between the Rails helpers
     `text_field_tag` and `text_field`.
+
+- When a component can be broken down into sub-components, and it doesn't
+  make sense to use those sub-components anywhere else, put it all into one
+  directory with a `package.json` file:
+
+        app/assets/javascripts/components/MyComponent
+        ├── MyComponent.js.jsx
+        ├── MySubComponent.js.jsx
+        └── package.json
+
+        // package.json
+        {
+          "name": "CardApplicationSurvey",
+          "version": "0.0.1",
+          "private": true,
+          "main": "./CardApplicationSurvey.js.jsx"
+        }
+
+  At this stage, there's no reason to update the 'version' string of our
+  components when we make changes. It's not worth the effort. Maybe we'll start
+  doing this once our app and team get bigger.
+
+  When a component is small and simple enough to not need breaking down, keep
+  it all in one file and don't bother putting it in a directory (so no
+  package.json)
