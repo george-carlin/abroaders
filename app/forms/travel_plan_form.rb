@@ -24,12 +24,14 @@ class TravelPlanForm < ApplicationForm
 
   US_DATE_FORMAT = "%m/%d/%Y".freeze
 
+  # Used to display the names again after an unsuccesful save. This is shitty
+  # code. I'm sorry.
   def from_name
-    ""
+    @from_name ||= typeahead_name(Airport.find_by_code!(from_code)) if from_code.present?
   end
 
   def to_name
-    ""
+    @to_name ||= typeahead_name(Airport.find_by_code!(to_code)) if to_code.present?
   end
 
   def us_date_format?(date)
@@ -177,5 +179,16 @@ class TravelPlanForm < ApplicationForm
 
   def return?
     type == "return"
+  end
+
+  # Technical debt alert: this is a duplicate of logic in
+  # views/airports/index.json.erb
+  def typeahead_name(airport)
+    city_name = airport.parent.name
+
+    displayed_name = "#{airport.name} (#{airport.code})"
+    unless airport.name.downcase.include?(city_name.downcase)
+      displayed_name = "#{city_name} #{displayed_name}"
+    end
   end
 end

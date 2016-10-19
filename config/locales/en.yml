@@ -7,6 +7,9 @@ en:
         first_name: "Name"
       spending_info:
         business_spending_usd: "Business spending"
+      travel_plan:
+        from_code: "From"
+        to_code:   "To"
     errors:
       messages:
         record_invalid: "Validation failed: %{errors}"
