@@ -102,7 +102,7 @@ describe "the spending info survey", :onboarding do
 
   example "tracking intercom events for owner", :intercom do
     fill_in :spending_info_credit_score, with: 456
-    expect{submit_form}.to \
+    expect { submit_form }.to \
       track_intercom_event("obs_spending_own").for_email(account.email)
   end
 
@@ -110,7 +110,7 @@ describe "the spending info survey", :onboarding do
     create_companion!
     visit new_person_spending_info_path(@companion)
     fill_in :spending_info_credit_score, with: 456
-    expect{submit_form}.to \
+    expect { submit_form }.to \
       track_intercom_event("obs_spending_com").for_email(account.email)
   end
 

@@ -11,7 +11,7 @@ class EditTravelPlanForm < TravelPlanForm
       will_accept_economy: travel_plan.will_accept_economy?,
       will_accept_premium_economy: travel_plan.will_accept_premium_economy?,
       will_accept_business_class: travel_plan.will_accept_business_class?,
-      will_accept_first_class: travel_plan.will_accept_first_class?
+      will_accept_first_class: travel_plan.will_accept_first_class?,
     }
     new(travel_plan.attributes.merge(new_attributes))
   end

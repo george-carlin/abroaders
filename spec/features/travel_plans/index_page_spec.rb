@@ -29,7 +29,7 @@ describe "travel plans index page" do
       acceptable_classes:   [:economy, :premium_economy],
       depart_on:            tomorrow,
       return_on:            next_week,
-      flights_attributes:   [ { from: @lgw, to: @cdg }],
+      flights_attributes:   [{ from: @lgw, to: @cdg }],
       type:                 :single,
     )
 
@@ -37,7 +37,7 @@ describe "travel plans index page" do
       acceptable_classes:   [:business_class, :first_class],
       depart_on:            next_week,
       return_on:            next_month,
-      flights_attributes:   [ { from: @lhr, to: @cdg }],
+      flights_attributes:   [{ from: @lhr, to: @cdg }],
       further_information:  further_info,
       type:                 :return,
     )

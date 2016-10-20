@@ -41,7 +41,7 @@ class ReadinessController < AuthenticatedUserController
 
     if @readiness_survey.update_attributes(readiness_survey_params)
       @account.people.each do |person|
-        track_intercom_event("obs_#{"un" unless person.ready?}ready_#{person.type[0..2]}")
+        track_intercom_event("obs_#{'un' unless person.ready?}ready_#{person.type[0..2]}")
       end
       redirect_to onboarding_survey_path
     else

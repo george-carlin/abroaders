@@ -26,7 +26,7 @@ module Onboarding
 
   def redirect_if_onboarding_wrong_person_type!
     state = current_account.onboarding_state
-    return unless state =~ /\A(owner|companion)_/ && $1 != @person.type
+    return unless state =~ /\A(owner|companion)_/ && Regexp.last_match(1) != @person.type
     redirect_to onboarding_survey_path
   end
 

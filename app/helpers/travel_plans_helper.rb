@@ -4,7 +4,7 @@ module TravelPlansHelper
       "I don't have specific plans",
       skip_survey_travel_plans_path,
       method: :patch,
-      class: "btn btn-block skip-survey-btn form-control"
+      class: "btn btn-block skip-survey-btn form-control",
     )
   end
 end

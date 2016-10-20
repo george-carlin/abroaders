@@ -16,7 +16,7 @@ class InterestRegionsController < AuthenticatedUserController
   private
 
   def interest_regions_survey_params
-    if params.has_key?(:interest_regions_survey)
+    if params.key?(:interest_regions_survey)
       params.require(:interest_regions_survey).permit(regions: [:region_id, :selected])
     else # if user doesn't select anything
       {}

@@ -27,14 +27,14 @@ describe "interest regions survey", :js do
   example "selecting some regions" do
     check_checkbox("interest_regions_survey_#{@regions[0].id}_region_selected")
     check_checkbox("interest_regions_survey_#{@regions[1].id}_region_selected")
-    expect{submit_form}.to change{InterestRegion.count}.by(2)
+    expect { submit_form }.to change { InterestRegion.count }.by(2)
     expect(InterestRegion.last.account).to eq(@account)
     expect(InterestRegion.last.region).to eq(@regions[1])
     expect(current_path).to eq(root_path)
   end
 
   example "selecting none" do
-    expect{submit_form}.not_to change{InterestRegion.count}
+    expect { submit_form }.not_to change { InterestRegion.count }
     expect(current_path).to eq(root_path)
   end
 end

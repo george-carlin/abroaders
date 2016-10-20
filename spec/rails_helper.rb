@@ -97,7 +97,7 @@ RSpec.configure do |config|
     fill_in field, with: with
 
     page.execute_script("$('##{field}').trigger('focus');")
-    page.execute_script ("$('##{field}').trigger('keydown');")
+    page.execute_script "$('##{field}').trigger('keydown');"
     selector = ".tt-menu .tt-dataset div.tt-suggestion"
     page.execute_script("$(\"#{selector}\").mouseenter().click()")
   end

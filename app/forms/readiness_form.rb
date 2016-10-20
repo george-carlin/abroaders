@@ -6,8 +6,8 @@ class ReadinessForm < ApplicationForm
     both: "both",
     owner: "owner",
     companion: "companion",
-    neither: "neither"
-  }
+    neither: "neither",
+  }.freeze
 
   def owner
     @owner ||= account.owner
@@ -34,4 +34,3 @@ class ReadinessForm < ApplicationForm
     end
   end
 end
-

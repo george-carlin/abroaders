@@ -15,7 +15,7 @@ class Account < ApplicationRecord
   end
 
   def has_any_recommendations?
-    people.any?{ |person| person.last_recommendations_at.present? }
+    people.any? { |person| person.last_recommendations_at.present? }
   end
 
   def recommendations_expire_at

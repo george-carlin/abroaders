@@ -11,7 +11,7 @@ describe BalancesSurvey do
     survey.assign_attributes(
       [{ value: 3000, currency_id: currency.id }],
     )
-    expect { survey.save!  }.to change { person.balances.count }.by(1)
+    expect { survey.save! }.to change { person.balances.count }.by(1)
 
     balance = person.balances.last
     expect(balance.value).to eq 3000

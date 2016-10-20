@@ -1,6 +1,10 @@
 require "rails_helper"
 
 shared_examples "a TravelPlan form" do
+  def errors_on(attr)
+    form.tap(&:valid?).errors[attr]
+  end
+
   it { is_expected.to validate_presence_of(:departure_date) }
   it { is_expected.to validate_presence_of(:from_code) }
   it { is_expected.to validate_presence_of(:to_code) }
@@ -19,23 +23,18 @@ shared_examples "a TravelPlan form" do
   end
 
   specify "departure date must be present and not in the past" do
-    def errors
-      form.tap(&:valid?).errors[:earliest_departure]
-    end
-
     form.departure_date = nil
-    expect(errors).to eq ["can't be blank"]
+    expect(errors_on(:departure_date)).to eq ["can't be blank"]
     form.departure_date = Date.yesterday
-    expect(errors).to eq ["date can't be in the past"]
+    expect(errors_on(:departure_date)).to eq ["date can't be in the past"]
     form.departure_date = Date.today
-    expect(errors).to be_empty
+    expect(errors_on(:departure_date)).to be_empty
   end
 
   describe "#no_of_passengers" do
     it "doesn't show a duplicative error message when blank" do
       form.no_of_passengers = nil
-      errors = form.tap(&:valid?).errors[:no_of_passengers]
-      expect(errors).to eq ["can't be blank"]
+      expect(errors_on(:no_of_passengers)).to eq ["can't be blank"]
     end
   end
 
@@ -82,25 +81,22 @@ shared_examples "a TravelPlan form" do
     before { form.type = :return }
 
     specify "return date must be present and in the future" do
-      def errors; form.tap(&:valid?).errors[:return_date] end
       form.departure_date = nil # so we don't get 'must be later than departure' errors
 
       form.return_date = nil
-      expect(errors).to eq ["can't be blank"]
+      expect(errors_on(:return_date)).to eq ["can't be blank"]
       form.return_date = Date.yesterday
-      expect(errors).to eq ["date can't be in the past"]
+      expect(errors_on(:return_date)).to eq ["date can't be in the past"]
       form.return_date = Date.today
-      expect(errors).to be_empty
+      expect(errors_on(:return_date)).to be_empty
     end
 
     specify "return date must be >= departure" do
-      def errors; form.tap(&:valid?).errors[:return_date] end
-
       form.departure_date = Date.tomorrow
       form.return_date = Date.today
-      expect(errors).to eq ["date can't be earlier than departure date"]
+      expect(errors_on(:return_date)).to eq ["date can't be earlier than departure date"]
       form.return_date = Date.tomorrow
-      expect(errors).to be_empty
+      expect(errors_on(:return_date)).to be_empty
     end
   end
 end

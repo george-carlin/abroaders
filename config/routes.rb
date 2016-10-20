@@ -90,9 +90,9 @@ Rails.application.routes.draw do
   end
 
   resource :spending_info,
-    only: [:new, :create],
-    path: :spending,
-    path_names: { new: :survey }
+           only: [:new, :create],
+           path: :spending,
+           path_names: { new: :survey }
 
   resources :notifications, only: :show
 

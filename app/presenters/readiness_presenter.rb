@@ -1,8 +1,6 @@
 class ReadinessPresenter < ApplicationPresenter
   def unready_person
-    if has_companion? && (owner.ready? || owner.ineligible?)
-      return companion
-    end
+    return companion if has_companion? && (owner.ready? || owner.ineligible?)
     owner
   end
 

@@ -190,5 +190,6 @@ class TravelPlanForm < ApplicationForm
     unless airport.name.downcase.include?(city_name.downcase)
       displayed_name = "#{city_name} #{displayed_name}"
     end
+    displayed_name
   end
 end
