@@ -49,7 +49,7 @@ describe "account dashboard" do
   end
 
   context "when account without companion" do
-    let(:account) { create(:account, email: email) }
+    let(:account) { create(:account, :onboarded, email: email) }
 
     context "and owner is eligible" do
       before do
@@ -80,7 +80,7 @@ describe "account dashboard" do
   end
 
   context "when account with companion" do
-    let(:account) { create(:account, :with_companion, email: email) }
+    let(:account) { create(:account, :with_companion, :onboarded, email: email) }
 
     context "and both people are ineligible" do
       before do
@@ -114,11 +114,9 @@ describe "account dashboard" do
   end
 
   context "when account has at least one card recommendation" do
-    let(:account) { create(:account, :with_companion, email: email) }
+    let(:account) { create(:account, :with_companion, :onboarded, email: email) }
     let(:offer) { create(:offer) }
-    before do
-      owner.update!(last_recommendations_at: Time.now)
-    end
+    before { owner.update!(last_recommendations_at: Time.now) }
 
     specify "account owner appears on the LHS of the page" do
       # unresolved_rec:

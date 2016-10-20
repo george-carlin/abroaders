@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  include Onboarding
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
@@ -10,6 +11,8 @@ class ApplicationController < ActionController::Base
     if current_admin
       render "admin_area/dashboard"
     elsif current_account
+      redirect_if_not_onboarded! && return
+
       @account = current_account
       unless @account.has_any_recommendations?
         render("accounts/new_user_dashboard") && return

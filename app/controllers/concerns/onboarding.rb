@@ -4,6 +4,7 @@ module Onboarding
   def redirect_if_not_onboarded!
     return if current_account.onboarded?
     redirect_to onboarding_survey_path
+    true
   end
 
   def onboarding_survey_path
