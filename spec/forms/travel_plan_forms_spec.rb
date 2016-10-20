@@ -26,7 +26,7 @@ shared_examples "a TravelPlan form" do
     form.departure_date = nil
     expect(errors_on(:departure_date)).to eq ["can't be blank"]
     form.departure_date = Date.yesterday
-    expect(errors_on(:departure_date)).to eq ["date can't be in the past"]
+    expect(errors_on(:departure_date)).to eq ["can't be in the past"]
     form.departure_date = Date.today
     expect(errors_on(:departure_date)).to be_empty
   end
@@ -86,7 +86,7 @@ shared_examples "a TravelPlan form" do
       form.return_date = nil
       expect(errors_on(:return_date)).to eq ["can't be blank"]
       form.return_date = Date.yesterday
-      expect(errors_on(:return_date)).to eq ["date can't be in the past"]
+      expect(errors_on(:return_date)).to eq ["can't be in the past"]
       form.return_date = Date.today
       expect(errors_on(:return_date)).to be_empty
     end
@@ -94,7 +94,7 @@ shared_examples "a TravelPlan form" do
     specify "return date must be >= departure" do
       form.departure_date = Date.tomorrow
       form.return_date = Date.today
-      expect(errors_on(:return_date)).to eq ["date can't be earlier than departure date"]
+      expect(errors_on(:return_date)).to eq ["can't be earlier than departure date"]
       form.return_date = Date.tomorrow
       expect(errors_on(:return_date)).to be_empty
     end
