@@ -4,8 +4,9 @@ import numbro from "numbro";
 
 const SpendingInfo = React.createClass({
   propTypes: {
-    spendingInfo: React.PropTypes.object.isRequired,
     account: React.PropTypes.object.isRequired,
+    person: React.PropTypes.object.isRequired,
+    spendingInfo: React.PropTypes.object.isRequired,
   },
 
   numberToCurrency(number) {
@@ -47,6 +48,8 @@ const SpendingInfo = React.createClass({
   },
 
   render() {
+    const person = this.props.person;
+
     return (
       <table className="table table-condensed">
         <tbody>
@@ -74,6 +77,17 @@ const SpendingInfo = React.createClass({
             <td>Will apply for loan in next 6 months:</td>
             <td>{this.willApplyForLoanLabel()}</td>
           </tr>
+
+          {(() => {
+            if (person.readyOn) {
+              return (
+                <tr>
+                  <td>Ready on:</td>
+                  <td>{person.readyOn}</td>
+                </tr>
+              );
+            }
+          })()}
         </tbody>
       </table>
     );

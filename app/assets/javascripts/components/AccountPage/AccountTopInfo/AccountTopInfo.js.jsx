@@ -66,6 +66,7 @@ const AccountTopInfo = React.createClass({
                   return (
                     <SpendingInfo
                       account={account}
+                      person={person}
                       spendingInfo={person.spendingInfo}
                     />
                   );

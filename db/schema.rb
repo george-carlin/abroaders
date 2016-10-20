@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160929214946) do
+ActiveRecord::Schema.define(version: 20161020130727) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -209,6 +209,7 @@ ActiveRecord::Schema.define(version: 20160929214946) do
     t.boolean  "eligible"
     t.boolean  "ready",                   default: false, null: false
     t.string   "unreadiness_reason"
+    t.date     "ready_on"
     t.index ["account_id", "main"], name: "index_people_on_account_id_and_main", unique: true, using: :btree
   end
 

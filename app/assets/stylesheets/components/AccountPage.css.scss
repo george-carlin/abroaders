@@ -35,8 +35,12 @@
       font-style: italic;
     }
 
-    .table.table-condensed td:first-child {
-      font-weight: bold;
+    .table.table-condensed {
+      margin-bottom: 0;
+
+      td:first-child {
+        font-weight: bold;
+      }
     }
   }
 
