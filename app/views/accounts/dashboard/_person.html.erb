@@ -4,11 +4,7 @@
 
     <% if person.eligible? %>
       <p>Eligible to apply for cards</p>
-    <% else %>
-      <p>Ineligible to apply for cards</p>
-    <% end %>
 
-    <% if person.spending_info %>
       <hr>
       <h4>
         General Info
@@ -16,16 +12,15 @@
       </h4>
       <%= render person.spending_info %>
       <div class="clearfix"></div>
+    <% else %>
+      <p>Ineligible to apply for cards</p>
     <% end %>
 
     <hr>
+
     <p>
       Before we can recommend any credit cards to this person, we need to know
       which cards they already have.
-    </p>
-
-    <p>
-      <%= link_to "Add existing cards", survey_person_card_accounts_path(person) %>
     </p>
 
     <% if person.balances.any? %>
@@ -34,8 +29,6 @@
     <% else %>
       <p>No existing frequent flyer balances</p>
     <% end %>
-
-    <p><%= link_to "Add balances", survey_person_balances_path(person) %></p>
 
     <% if person.ready? %>
       <hr>
