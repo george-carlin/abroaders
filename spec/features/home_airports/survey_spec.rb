@@ -1,11 +1,10 @@
 require "rails_helper"
 
 describe "home airports survey", :onboarding, :js do
-  let(:account)       { create(:account) }
-  let(:person)        { account.owner }
+  let(:account) { create(:account) }
+  let(:person)  { account.owner }
 
-  let(:visit_path) do
-    login_as account.reload
+  def visit_path
     visit survey_home_airports_path
   end
 
@@ -15,6 +14,7 @@ describe "home airports survey", :onboarding, :js do
 
   before do
     @airport = create(:airport)
+    login_as account.reload
     visit_path
   end
 
@@ -22,6 +22,14 @@ describe "home airports survey", :onboarding, :js do
     expect(page).to have_selector("input.typeahead")
     expect(page).to have_button("Save and continue", disabled: true)
     expect(page).to have_no_sidebar
+    expect(page).to have_no_content "Saved home airports"
+  end
+
+  example "choosing then removing a home airport" do
+    fill_in_autocomplete("typeahead", @airport.code)
+    expect(page).to have_content "Saved home airports"
+    find(".airport-selected .fa.fa-times").click
+    expect(page).to have_no_content "Saved home airports"
   end
 
   example "work of autocomplete" do

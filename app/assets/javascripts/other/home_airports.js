@@ -25,10 +25,11 @@ $(document).ready(function () {
   }
 
   if ($(".home-airports-survey").length > 0) {
-    var $savedArea = $('.saved-area .home-airports'),
-        $airportsForm = $('.home-airport-survey-form'),
-        $alertInfo = $airportsForm.find('.info-message'),
-        $alertDanger = $airportsForm.find('.error-message');
+    var $savedAreaWrapper = $('.saved-area');
+    var $savedArea        = $('.saved-area .home-airports');
+    var $airportsForm     = $('.home-airport-survey-form');
+    var $alertInfo        = $airportsForm.find('.info-message');
+    var $alertDanger      = $airportsForm.find('.error-message');
 
     airportTypeahead($('.typeahead')).bind('typeahead:select', function (e, suggestion) {
       $(this).closest('.twitter-typeahead').next('.airport-id').val(suggestion.id);
@@ -55,6 +56,7 @@ $(document).ready(function () {
               suggestion.name +
               '<i class="fa fa-times" aria-hidden="true"></i></p>');
           $savedArea.append(airportDiv);
+          $savedAreaWrapper.css({ visibility: "visible"});
         } else {
           manageAlert($alertDanger, "You can't add more than five airports");
         }
@@ -65,6 +67,9 @@ $(document).ready(function () {
 
     $savedArea.on('click', '.airport-selected .fa-times', function () {
       $(this).closest('.airport-selected').remove();
+      if (!$(".airport-selected").length) {
+        $savedAreaWrapper.css({ visibility: "hidden"});
+      }
       changeSubmitState();
     });
 
