@@ -143,7 +143,6 @@ class CardAccount < ApplicationRecord
   belongs_to :person
   belongs_to :offer
 
-
   # Callbacks
 
   before_validation :set_card_to_offer_card
@@ -153,10 +152,10 @@ class CardAccount < ApplicationRecord
     recommendation? && status == "recommended"
   end
 
-  alias_method :declinable?, :applyable?
-  alias_method :openable?, :applyable?
-  alias_method :deniable?, :applyable?
-  alias_method :pendingable?, :applyable?
+  alias declinable?  applyable?
+  alias openable?    applyable?
+  alias deniable?    applyable?
+  alias pendingable? applyable?
 
   def show_survey?
     status_model.show_survey?
@@ -232,15 +231,13 @@ class CardAccount < ApplicationRecord
   private
 
   def card_matches_offer_card
-    if offer.present? && card.present? && card != offer.card
-      errors.add(:card, :doesnt_match_offer)
-    end
+    return unless offer.present? && card.present? && card != offer.card
+    errors.add(:card, :doesnt_match_offer)
   end
 
   def set_card_to_offer_card
-    if offer.present? && offer.card.present? && card.nil?
-      self.card = offer.card
-    end
+    return unless offer.present? && offer.card.present? && card.nil?
+    self.card = offer.card
   end
 
   def status_model

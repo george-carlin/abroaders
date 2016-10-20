@@ -5,7 +5,7 @@ class ApplicationSerializer < ActiveModel::Serializer
   def self.always_include(name, options = {})
     attribute(name, options)
     define_method name do
-      if obj = object.send(name)
+      if (obj = object.send(name))
         resource = ActiveModelSerializers::SerializableResource.new(obj)
         resource.serialization_scope = instance_options[:scope]
         resource.serialization_scope_name = instance_options[:scope_name]

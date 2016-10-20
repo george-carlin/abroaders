@@ -11,7 +11,7 @@ describe CardAccountsController do
         :account,
         onboarded_travel_plans:  onboarded_travel_plans,
         onboarded_type:          onboarded_type,
-        onboarded_home_airports: onboarded_home_airports
+        onboarded_home_airports: onboarded_home_airports,
       )
     end
     let(:person) { account.owner }
@@ -22,7 +22,7 @@ describe CardAccountsController do
         onboarded_cards: onboarded_cards,
         eligible:        eligible,
       )
-     
+
       sign_in account
       get :survey, params: { person_id: person.id }
     end
@@ -64,6 +64,5 @@ describe CardAccountsController do
       let(:onboarded_cards) { true }
       it { is_expected.to redirect_to survey_person_balances_path(person) }
     end
-
   end
 end

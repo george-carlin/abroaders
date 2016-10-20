@@ -7,7 +7,6 @@
 # unlike the other Forms, we won't know the exact list of fields until runtime
 # (because it depends on what's in the Currencies table in the DB).
 class BalancesSurvey
-
   attr_accessor :award_wallet_email
   attr_reader :balances, :errors
 
@@ -56,7 +55,7 @@ class BalancesSurvey
           @balances.push(@person.balances.build(currency: currency))
         end
       end
-      @balances.sort_by! { |b| b.currency_name }
+      @balances.sort_by!(&:currency_name)
       false
     end
   end
@@ -86,5 +85,4 @@ class BalancesSurvey
     save
   end
   # ---------------- /DUPE METHODS ---------------
-
 end

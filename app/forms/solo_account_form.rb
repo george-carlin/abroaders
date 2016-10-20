@@ -9,11 +9,11 @@ class SoloAccountForm < AccountTypeForm
     "SoloAccount"
   end
 
-  def initialize(attributes={})
+  def initialize(attributes = {})
     assign_attributes(attributes)
 
     # Set default:
-    self.eligible = true if self.eligible.nil?
+    self.eligible = true if eligible.nil?
   end
 
   def monthly_spending_usd=(new_spending)
@@ -21,9 +21,9 @@ class SoloAccountForm < AccountTypeForm
   end
 
   validates :monthly_spending_usd,
-    presence: true,
-    numericality: { greater_than_or_equal_to: 0 },
-    if: :eligible?
+            presence: true,
+            numericality: { greater_than_or_equal_to: 0 },
+            if: :eligible?
 
   private
 
@@ -35,5 +35,4 @@ class SoloAccountForm < AccountTypeForm
     @person = account.owner
     @person.update_attributes!(eligible: eligible?)
   end
-
 end

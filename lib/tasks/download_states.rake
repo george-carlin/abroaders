@@ -4,7 +4,7 @@ namespace :ab do
 
     uri = URI.parse(
       "https://bitbucket.org/!api/2.0/snippets/georgemillo/nLz96/"\
-      "788ae2a499a78a81706505e32ed08167a27e2ba9/files/snippet.txt"
+      "788ae2a499a78a81706505e32ed08167a27e2ba9/files/snippet.txt",
     )
 
     puts "Downloading CSV data..."
@@ -35,12 +35,11 @@ namespace :ab do
       [
         country[name_col_index],
         country[code_col_index],
-        country[country_code_col_index]
+        country[country_code_col_index],
       ]
     end
 
-
-    trimmed_data.unshift(["name", "iso_code", "iso_country_code"])
+    trimmed_data.unshift(%w(name iso_code iso_country_code))
 
     path = File.expand_path("../../data/state_data.csv", __FILE__)
     # => (rails_root)/lib/data/state_data.csv
@@ -52,4 +51,3 @@ namespace :ab do
     puts "Saved data to #{path}"
   end
 end
-

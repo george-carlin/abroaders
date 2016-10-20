@@ -18,10 +18,9 @@ class SessionsController < Devise::SessionsController
   end
 
   def redirect_admins!
-    if current_admin
-      flash[:notice] = "You must sign out of your admin account before "\
-                       "you can sign in as a regular user"
-      redirect_to root_path
-    end
+    return unless current_admin
+    flash[:notice] = "You must sign out of your admin account before "\
+      "you can sign in as a regular user"
+    redirect_to root_path
   end
 end

@@ -22,7 +22,7 @@ describe "the sign up page", :onboarding do
 
     def self.it_doesnt_create_a_new_account
       it "doesn't create a new account" do
-        expect{ submit_form }.not_to change{Account.count}
+        expect { submit_form }.not_to change { Account.count }
       end
     end
 
@@ -33,7 +33,7 @@ describe "the sign up page", :onboarding do
       let(:new_person)  { new_account.people.first }
 
       it "creates a new account with 1 person" do
-        expect{ submit_form }.to change{Account.count}.by(1)
+        expect { submit_form }.to change { Account.count }.by(1)
         expect(new_account.people.count).to eq 1
       end
 
@@ -48,10 +48,10 @@ describe "the sign up page", :onboarding do
       end
 
       it "sends an email to the admin with the new user's email address" do
-        expect{submit_form}.to change{enqueued_jobs.size}
+        expect { submit_form }.to change { enqueued_jobs.size }
         expect do
           perform_enqueued_jobs { ActionMailer::DeliveryJob.perform_now(*enqueued_jobs.first[:args]) }
-        end.to change {(ApplicationMailer.deliveries.length)}.by(1)
+        end.to change { ApplicationMailer.deliveries.length }.by(1)
 
         email = ApplicationMailer.deliveries.last
         expect(email.to).to match_array [admin_email]
@@ -59,7 +59,7 @@ describe "the sign up page", :onboarding do
 
       it "creates a user on Intercom", :intercom do
         expect(enqueued_jobs).to be_empty
-        expect{submit_form}.to change{enqueued_jobs.size}
+        expect { submit_form }.to change { enqueued_jobs.size }
         job = enqueued_jobs.detect { |j| j[:job] == IntercomJobs::CreateUser }
         expect(job).not_to be_nil
         expect(job[:args][0]["account_id"]).to eq Account.last.id

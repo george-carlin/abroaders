@@ -12,7 +12,7 @@ describe "travel plans index page" do
   let(:further_info) { "What the fuck ever" }
 
   before do
-    def create_airport(name, code, parent=nil)
+    def create_airport(name, code, parent = nil)
       create(:airport, name: name, code: code, parent: parent)
     end
 
@@ -28,14 +28,14 @@ describe "travel plans index page" do
     @tp_single = account.travel_plans.create!(
       acceptable_classes:   [:economy, :premium_economy],
       departure_date_range: tomorrow..next_week,
-      flights_attributes:   [ { from: @lgw, to: @cdg }],
+      flights_attributes:   [{ from: @lgw, to: @cdg }],
       type:                 :single,
     )
 
     @tp_return = account.travel_plans.create!(
       acceptable_classes:   [:business_class, :first_class],
       departure_date_range: next_week..next_month,
-      flights_attributes:   [ { from: @lhr, to: @cdg }],
+      flights_attributes:   [{ from: @lhr, to: @cdg }],
       further_information:  further_info,
       type:                 :return,
     )
@@ -103,5 +103,4 @@ describe "travel plans index page" do
       yield
     end
   end
-
 end

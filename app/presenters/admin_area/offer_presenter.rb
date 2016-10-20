@@ -1,5 +1,4 @@
 class AdminArea::OfferPresenter < ::OfferPresenter
-
   def card_bp
     card.bp.to_s[0].upcase
   end
@@ -10,7 +9,7 @@ class AdminArea::OfferPresenter < ::OfferPresenter
     h.button_tag(
       "Cancel",
       class: "#{h.dom_class(self, prefix)}_btn #{btn_classes} pull-right",
-      id:    "#{h.dom_id(self, prefix)}_btn"
+      id:    "#{h.dom_id(self, prefix)}_btn",
     )
   end
 
@@ -22,7 +21,7 @@ class AdminArea::OfferPresenter < ::OfferPresenter
       h.admin_person_card_recommendations_path(person),
       class:  "#{h.dom_class(self, prefix)}_btn #{btn_classes} pull-right",
       id:     "#{h.dom_id(self, prefix)}_btn",
-      params: { offer_id: id }
+      params: { offer_id: id },
     )
   end
 
@@ -39,16 +38,16 @@ class AdminArea::OfferPresenter < ::OfferPresenter
   def kill_btn
     btn_classes = "btn btn-xs"
     prefix = :kill
-    #link_to used to allow btn-group functionality
+    # link_to used to allow btn-group functionality
     h.link_to(
-        "Kill",
-        h.kill_admin_offer_path(id),
-        class:  "#{h.dom_class(self, prefix)}_btn #{btn_classes} btn-danger",
-        id:     "#{h.dom_id(self, prefix)}_btn",
-        params: { offer_id: id },
-        method: :patch,
-        remote: true,
-        data: { confirm: "Are you sure?" }
+      "Kill",
+      h.kill_admin_offer_path(id),
+      class:  "#{h.dom_class(self, prefix)}_btn #{btn_classes} btn-danger",
+      id:     "#{h.dom_id(self, prefix)}_btn",
+      params: { offer_id: id },
+      method: :patch,
+      remote: true,
+      data: { confirm: "Are you sure?" },
     )
   end
 
@@ -78,23 +77,22 @@ class AdminArea::OfferPresenter < ::OfferPresenter
     h.button_tag(
       "Recommend",
       class: "#{h.dom_class(self, prefix)}_btn #{btn_classes} pull-right",
-      id:    "#{h.dom_id(self, prefix)}_btn"
+      id:    "#{h.dom_id(self, prefix)}_btn",
     )
   end
 
   def verify_btn
     btn_classes = "btn btn-xs btn-primary"
     prefix = :verify
-    #link_to used to allow btn-group functionality
+    # link_to used to allow btn-group functionality
     h.link_to(
-        "Verify",
-        h.verify_admin_offer_path(id),
-        class:  "#{h.dom_class(self, prefix)}_btn #{btn_classes} ",
-        id:     "#{h.dom_id(self, prefix)}_btn",
-        params: { offer_id: id },
-        method: :patch,
-        remote: true
+      "Verify",
+      h.verify_admin_offer_path(id),
+      class:  "#{h.dom_class(self, prefix)}_btn #{btn_classes} ",
+      id:     "#{h.dom_id(self, prefix)}_btn",
+      params: { offer_id: id },
+      method: :patch,
+      remote: true,
     )
   end
-
 end

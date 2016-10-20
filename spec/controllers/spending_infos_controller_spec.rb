@@ -1,18 +1,17 @@
 require "rails_helper"
 
 describe SpendingInfosController do
-
   describe "GET #new" do
     let(:account) do
       create(
         :account,
         onboarded_travel_plans:  onboarded_travel_plans,
         onboarded_type:          onboarded_type,
-        onboarded_home_airports: onboarded_home_airports
+        onboarded_home_airports: onboarded_home_airports,
       )
     end
 
-    let(:person)  { account.owner }
+    let(:person) { account.owner }
 
     let(:onboarded_travel_plans)  { true }
     let(:onboarded_home_airports) { true }
@@ -52,6 +51,5 @@ describe SpendingInfosController do
       let(:eligible) { false }
       it { is_expected.to redirect_to survey_person_balances_path(person) }
     end
-
   end
 end

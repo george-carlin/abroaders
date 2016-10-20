@@ -2,7 +2,6 @@ require_relative "../object_on_page"
 
 module AdminArea
   class CompleteCardRecsFormOnPage < ObjectOnPage
-
     def dom_selector
       "#complete_card_recommendations"
     end
@@ -14,7 +13,6 @@ module AdminArea
     def add_recommendation_note(note)
       fill_in :recommendation_note, with: note
     end
-    alias_method :add_rec_note, :add_recommendation_note
-
+    alias add_rec_note add_recommendation_note
   end
 end

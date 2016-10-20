@@ -1,5 +1,4 @@
 module SurveyHelper
-
   def has_business_label_text(value)
     case value
     when "with_ein"
@@ -10,7 +9,4 @@ module SurveyHelper
       "I do not own a business"
     end
   end
-
 end
-
-

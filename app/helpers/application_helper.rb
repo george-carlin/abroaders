@@ -2,19 +2,19 @@ module ApplicationHelper
   include BootstrapOverrides::Overrides
 
   # See http://nithinbekal.com/posts/rails-presenters/
-  def present(model, presenter_class=nil)
+  def present(model, presenter_class = nil)
     presenter = get_presenter(model, presenter_class)
     block_given? ? yield(presenter) : presenter
   end
 
-  def present_each(collection, presenter_class=nil, &block)
+  def present_each(collection, presenter_class = nil)
     collection.each do |model|
       presenter = get_presenter(model, presenter_class)
       yield(presenter)
     end
   end
 
-  def present_div(model, presenter_class_or_html_opts=nil, html_opts={})
+  def present_div(model, presenter_class_or_html_opts = nil, html_opts = {})
     if presenter_class_or_html_opts.is_a?(Hash)
       html_opts       = presenter_class_or_html_opts
       presenter_class = nil
@@ -29,7 +29,7 @@ module ApplicationHelper
     end
   end
 
-  def serialize(model, serializer_class=nil)
+  def serialize(model, serializer_class = nil)
     serializer_class ||= "#{model.to_model.class}Serializer".constantize
     serializer_class.new(model).to_json
   end
@@ -41,7 +41,7 @@ module ApplicationHelper
 
   private
 
-  def get_presenter(model, klass=nil)
+  def get_presenter(model, klass = nil)
     if model.is_a?(ApplicationPresenter)
       model
     else

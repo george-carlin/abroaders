@@ -7,6 +7,5 @@ FactoryGirl.define do
       max = SpendingInfo::MAXIMUM_CREDIT_SCORE
       min + rand(max - min)
     end
-
   end
 end

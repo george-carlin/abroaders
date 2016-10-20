@@ -1,7 +1,6 @@
 require "rails_helper"
 
 describe "spending_info/spending_info" do
-
   let(:spending_info) do
     build(
       :spending_info,
@@ -46,5 +45,4 @@ describe "spending_info/spending_info" do
       expect(rendered).to have_selector ".spending-info-business-spending", text: "$1,234.00"
     end
   end
-
 end

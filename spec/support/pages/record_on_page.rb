@@ -28,12 +28,11 @@ class RecordOnPage < ObjectOnPage
     "#" << dom_id
   end
 
-  def dom_id(prefix=nil)
+  def dom_id(prefix = nil)
     super(model, prefix)
   end
 
   def id
     model.id
   end
-
 end

@@ -1,11 +1,11 @@
 module CardsSurveyHelper
   def options_for_cards_survey_month_select(without_wrapping: false)
-    options = Date::MONTHNAMES.compact.map.with_index { |m, i| [m.first(3), i+1] }
+    options = Date::MONTHNAMES.compact.map.with_index { |m, i| [m.first(3), i + 1] }
     if without_wrapping
       options
     else
       options_for_select(
-        options
+        options,
       )
     end
   end
@@ -15,9 +15,7 @@ module CardsSurveyHelper
     if without_wrapping
       options
     else
-      options_for_select(
-          options, Date.today.year
-      )
+      options_for_select options, Date.today.year
     end
   end
 end

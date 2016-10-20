@@ -6,7 +6,6 @@
 # to update things so our app triggers the APIs directly, but it's low
 # priority.
 class AccountMailer < ApplicationMailer
-
   def notify_admin_of_sign_up(account_id)
     @account = Account.find(account_id)
     mail(to: ENV["ADMIN_EMAIL"], subject: "New sign up at Abroaders app - #{@account.email}")
@@ -33,5 +32,4 @@ class AccountMailer < ApplicationMailer
     @timestamp = Time.at(timestamp).in_time_zone("EST")
     mail(to: ENV["ADMIN_EMAIL"], subject: "User is Ready - #{@account.email}")
   end
-
 end

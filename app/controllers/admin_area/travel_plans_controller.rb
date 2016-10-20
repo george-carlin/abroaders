@@ -23,13 +23,12 @@ module AdminArea
       params.require(:travel_plan).permit(
         :type, :earliest_departure, :further_information,
         :no_of_passengers, :will_accept_economy, :will_accept_premium_economy,
-        :will_accept_business_class, :will_accept_first_class, :from_id, :to_id
+        :will_accept_business_class, :will_accept_first_class, :from_id, :to_id,
       )
     end
 
     def load_counties
       SelectableCountries.all
     end
-
   end
 end

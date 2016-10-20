@@ -1,5 +1,4 @@
 class CardRecommendationsController < CardAccountsController
-
   def update
     survey = CardAccount::ApplicationSurvey.new(account: load_card_account)
     respond_to do |f|
@@ -21,7 +20,7 @@ class CardRecommendationsController < CardAccountsController
     @account = load_card_account
 
     # Make sure this is the right type of card account:
-    redirect_to card_accounts_path and return unless @account.applyable?
+    redirect_to(card_accounts_path) && return unless @account.applyable?
 
     # We can't know for sure here if the user has actually applied; the most we
     # can do is note that they've visited this page and (hopefully) been

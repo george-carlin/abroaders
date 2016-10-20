@@ -8,7 +8,6 @@ describe "balances pages" do
   let(:currencies) { @currencies }
 
   describe "new page" do
-
     before { visit new_person_balance_path(me) }
 
     example "creating a new balance" do
@@ -18,7 +17,7 @@ describe "balances pages" do
       # it creates a balance:
       expect do
         click_button "Create Balance"
-      end.to change{me.balances.count}.by(1)
+      end.to change { me.balances.count }.by(1)
 
       # it has the right values:
       balance = me.balances.last
@@ -29,10 +28,9 @@ describe "balances pages" do
     example "submitting a balance without a value" do
       select currencies[1].name, from: :balance_currency_id
       # it doesn't create a balance:
-      expect{ click_button "Create Balance"}.not_to change{me.balances.count}
+      expect { click_button "Create Balance" }.not_to change { me.balances.count }
     end
   end
-
 
   describe "index page" do
     example "viewing my balances" do
@@ -73,7 +71,7 @@ describe "balances pages" do
       expect do
         balance_on_page.update_value_to(-2345)
         balance.reload
-      end.not_to change{balance.value}
+      end.not_to change { balance.value }
 
       expect(page).to have_content "Invalid value"
     end

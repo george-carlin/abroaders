@@ -8,8 +8,8 @@ class Balance < ApplicationRecord
   validates :currency, presence: true
   validates :person, presence: true
   validates :value,
-    numericality: { greater_than_or_equal_to: 0 },
-    presence: true
+            numericality: { greater_than_or_equal_to: 0 },
+            presence: true
 
   # Associations
 

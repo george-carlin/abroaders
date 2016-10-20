@@ -5,7 +5,7 @@ describe "user cards page - nudgeable cards", :js do
 
   let(:me) { account.owner }
 
-  let(:recommended_at) { 7.days.ago.to_date  }
+  let(:recommended_at) { 7.days.ago.to_date }
   let(:applied_at) { 7.days.ago.to_date }
   let(:bp) { :personal }
 
@@ -53,7 +53,7 @@ describe "user cards page - nudgeable cards", :js do
     expect(rec_on_page).to have_content "We strongly recommend that you call #{bank.name}"
     expect(rec_on_page).to have_content(
       "You’re more than twice as likely to get approved if you call #{bank.name} "\
-      "than if you wait for them to send your decision in the mail"
+      "than if you wait for them to send your decision in the mail",
     )
   end
 

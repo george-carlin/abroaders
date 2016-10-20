@@ -39,7 +39,7 @@ describe "cards index page - new recommendation", :js do
       "Spend #{number_to_currency(offer.spend)} within #{offer.days} "\
       "days to receive a bonus of "\
       "#{number_with_delimiter(offer.points_awarded)} "\
-      "#{rec.card.currency.name} points"
+      "#{rec.card.currency.name} points",
     )
   end
 
@@ -64,7 +64,7 @@ describe "cards index page - new recommendation", :js do
 
   example "submitting an empty decline reason" do
     rec_on_page.click_decline_btn
-    expect{click_confirm_btn}.not_to change{rec.reload.attributes}
+    expect { click_confirm_btn }.not_to change { rec.reload.attributes }
     # shows an error message and doesn't save:
     expect(rec_on_page).to have_content "Please include a message"
     expect(rec_on_page.decline_reason_wrapper[:class]).to match(/\bfield_with_errors\b/)
@@ -261,5 +261,4 @@ describe "cards index page - new recommendation", :js do
       end
     end
   end
-
 end

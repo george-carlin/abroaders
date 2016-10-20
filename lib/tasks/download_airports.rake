@@ -10,12 +10,11 @@ namespace :ab do
     # This rake task downloads both files, strips out any columns we don't
     # care about, and saves the data to a single CSV file.
 
-
     # ------ Get the data that maps IATA airport codes to city codes -----
 
     city_codes_uri = URI.parse(
       "https://bitbucket.org/!api/2.0/snippets/georgemillo/y8zMo/"\
-      "8ec4454bc955b27ee278ad92187e046c548312fb/files/snippet.txt"
+      "8ec4454bc955b27ee278ad92187e046c548312fb/files/snippet.txt",
     )
 
     raw_city_code_data = Net::HTTP.get_response(city_codes_uri)
@@ -38,7 +37,7 @@ namespace :ab do
     # ------ Get the airport dataset: -----
     airport_data_uri = URI.parse(
       "https://bitbucket.org/!api/2.0/snippets/georgemillo/"\
-      "Ad9Mb/1852d0a5ba78f4f061d9cd754c02c627b7e643da/files/file"
+      "Ad9Mb/1852d0a5ba78f4f061d9cd754c02c627b7e643da/files/file",
     )
 
     # Raw data is in UTF-8 but Net::HTTP interprets it as ASCII, so fix the
@@ -111,13 +110,12 @@ namespace :ab do
       h[city_code] = country_code
     end
 
-
     # Note that what we call 'states', IATA calls 'regions', but to us a
     # 'region' is a group of countries, not a subdivision within a country.
 
     # Add headers:
     airports.unshift(
-      ["name", "code", "city_code", "state_code", "country_code"]
+      %w(name code city_code state_code country_code),
     )
 
     # ------ Save to CSV -----
@@ -131,7 +129,7 @@ namespace :ab do
     puts "Saved data to #{path}"
 
     cities_data = city_code_data.select do |row|
-      # Here's the dumb way we're doing it - if the airport code is the same 
+      # Here's the dumb way we're doing it - if the airport code is the same
       # as the city code (which is true for the vast majority of rows in the
       # dataset), assume that the "Location" name is the city name. Else,
       # skip this row.
@@ -196,7 +194,5 @@ namespace :ab do
     end
 
     puts "Saved data to #{path}"
-
   end
 end
-

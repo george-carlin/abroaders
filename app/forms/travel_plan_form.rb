@@ -8,7 +8,7 @@ class TravelPlanForm < ApplicationForm
   attribute :will_accept_premium_economy, Boolean
   attribute :will_accept_business_class,  Boolean, default: false
   attribute :will_accept_first_class,     Boolean, default: false
-  attribute :earliest_departure,  Date,  default: lambda { |_, _| Date.today }
+  attribute :earliest_departure,  Date, default: lambda { |_, _| Date.today }
   attribute :further_information, String
 
   def self.name
@@ -19,7 +19,7 @@ class TravelPlanForm < ApplicationForm
     ::TravelPlan.types.slice("single", "return")
   end
 
-  US_DATE_FORMAT = "%m/%d/%Y"
+  US_DATE_FORMAT = "%m/%d/%Y".freeze
 
   def earliest_departure_str
     earliest_departure.strftime(US_DATE_FORMAT)
@@ -56,7 +56,7 @@ class TravelPlanForm < ApplicationForm
         validates :earliest_departure
         validates :from_id
         validates :no_of_passengers,
-          numericality: { greater_than_or_equal_to: 1 }
+                  numericality: { greater_than_or_equal_to: 1 }
         validates :to_id
         validates :type, inclusion: { in: %w[single return] }
       end
@@ -68,9 +68,8 @@ class TravelPlanForm < ApplicationForm
     private
 
     def earliest_departure_is_in_the_future
-      if earliest_departure && earliest_departure < Date.today
-        errors.add(:earliest_departure, "can't be in the past")
-      end
+      return unless earliest_departure && earliest_departure < Date.today
+      errors.add(:earliest_departure, "can't be in the past")
     end
   end
 
@@ -101,5 +100,4 @@ class TravelPlanForm < ApplicationForm
       (:first_class     if will_accept_first_class?),
     ].compact
   end
-
 end

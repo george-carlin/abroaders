@@ -1,7 +1,6 @@
 require "rails_helper"
 
 describe BalancesController do
-
   describe "GET #survey" do
     let(:account) { create(:account) }
     let(:person)  { account.owner }
@@ -55,5 +54,4 @@ describe BalancesController do
   def onboard_home_airports!
     account.update_attributes!(onboarded_home_airports: true)
   end
-
 end

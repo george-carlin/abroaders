@@ -7,7 +7,7 @@ else
       end
     end
 
-    def method_missing(meth, *args, &block)
+    def method_missing(meth, *_args)
       warn "Intercom method `#{meth}` called but Intercom not set up. Make "\
            "sure the INTERCOM_APP_ID and INTERCOM_API_KEY environment "\
            "variables are set"
