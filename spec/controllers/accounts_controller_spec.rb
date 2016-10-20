@@ -4,39 +4,28 @@ describe AccountsController do
   include_context "account devise mapping"
 
   describe "GET #type" do
-    let(:account) do
-      create(
-        :account,
-        onboarded_travel_plans:   onb_travel_plans,
-        onboarded_type:           onb_type,
-        onboarded_home_airports:  onb_home_airports,
-      )
-    end
+    let(:account) { create(:account) }
     before { sign_in account }
 
     subject { get :type }
 
-    let(:onb_home_airports) { true }
-    let(:onb_travel_plans)  { true }
-    let(:onb_type)          { false }
-
-    context "when I haven't completed the home airports survey" do
-      let(:onb_home_airports) { false }
-      it { is_expected.to redirect_to survey_home_airports_path }
-    end
-
-    context "when I haven't completed the travel plan survey" do
-      let(:onb_home_airports) { true }
-      let(:onb_travel_plans) { false }
+    context "when I haven't reached this survey page yet" do
+      before { account.update!(onboarding_state: :travel_plan) }
       it { is_expected.to redirect_to new_travel_plan_path }
     end
 
-    context "when I have already chosen an account type" do
-      let(:onb_type) { true }
+    context "when I have already done this survey page" do
+      before { account.update!(onboarding_state: :owner_balances) }
       it { is_expected.to redirect_to survey_person_balances_path(account.owner) }
     end
 
-    context "when I am at the right point in the survey" do
+    context "when I have completed the entire survey" do
+      before { account.update!(onboarding_state: :complete) }
+      it { is_expected.to redirect_to root_path }
+    end
+
+    context "when I am on this survey page" do
+      before { account.update!(onboarding_state: :account_type) }
       it { is_expected.to have_http_status(200) }
     end
   end

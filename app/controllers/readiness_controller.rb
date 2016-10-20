@@ -1,4 +1,6 @@
 class ReadinessController < AuthenticatedUserController
+  onboard :readiness, with: [:survey, :save_survey]
+
   def edit
     @account = current_account
     @readiness = ReadinessForm.new(account: @account)
@@ -49,7 +51,7 @@ class ReadinessController < AuthenticatedUserController
         ).deliver_later
         next_path = root_path
       else
-        next_path = onboarding_survey.current_page.path
+        next_path = onboarding_survey_path
       end
 
       redirect_to next_path

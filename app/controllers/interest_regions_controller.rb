@@ -1,4 +1,6 @@
 class InterestRegionsController < AuthenticatedUserController
+  onboard :regions_of_interest, with: [:survey, :save_survey]
+
   def survey
     @regions = Region.all
     @interest_regions = InterestRegionsSurvey.new(account: current_account)

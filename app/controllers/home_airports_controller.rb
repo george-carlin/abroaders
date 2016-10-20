@@ -1,4 +1,6 @@
 class HomeAirportsController < AuthenticatedUserController
+  onboard :home_airports, with: [:survey, :save_survey]
+
   def survey
     @account = current_account
     @survey = HomeAirportsSurvey.new(account: @account)
@@ -9,7 +11,7 @@ class HomeAirportsController < AuthenticatedUserController
     @survey = HomeAirportsSurvey.new(survey_params)
 
     if @survey.save
-      redirect_to current_account.onboarding_survey.current_page.path
+      redirect_to onboarding_survey_path
     else
       render :survey
     end

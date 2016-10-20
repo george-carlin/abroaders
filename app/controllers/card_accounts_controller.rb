@@ -1,4 +1,6 @@
 class CardAccountsController < AuthenticatedUserController
+  onboard :owner_cards, :companion_cards, with: [:survey, :save_survey]
+
   def index
     @people = current_account.people
     @card_recommendations = current_account.card_recommendations\
@@ -33,16 +35,18 @@ class CardAccountsController < AuthenticatedUserController
 
   def survey
     @person = load_person
+    redirect_if_onboarding_wrong_person_type!
     @survey = CardsSurvey.new(person: @person)
   end
 
   def save_survey
     @person = load_person
+    redirect_if_onboarding_wrong_person_type!
     # There's currently no way that survey_params can be invalid, so this
     # should never fail:
     CardsSurvey.new(survey_params.merge(person: @person)).save!
     track_intercom_event("obs_cards_#{@person.type[0..2]}")
-    redirect_to current_account.onboarding_survey.current_page.path
+    redirect_to onboarding_survey_path
   end
 
   private

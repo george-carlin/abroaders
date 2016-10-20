@@ -1,5 +1,5 @@
 class SpendingInfosController < AuthenticatedUserController
-  skip_before_action :redirect_if_onboarding_survey_incomplete!, only: [:update]
+  onboard :spending, with: [:survey, :save_survey]
 
   def survey
     @survey = SpendingSurvey.new(account: current_account)
@@ -61,5 +61,4 @@ class SpendingInfosController < AuthenticatedUserController
       :owner_will_apply_for_loan,
     )
   end
-
 end
