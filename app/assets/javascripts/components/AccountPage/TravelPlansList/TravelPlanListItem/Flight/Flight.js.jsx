@@ -10,7 +10,7 @@ const Flight = (_props) => {
   return (
     <p>
       <i className="fa fa-plane"></i>
-      <span> {from} - {to}</span>
+      <span> {from.name} ({from.code}) - {to.name} ({to.code})</span>
     </p>
   );
 };
