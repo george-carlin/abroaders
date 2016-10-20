@@ -11,7 +11,7 @@ class Account < ApplicationRecord
   end
 
   def onboarded?
-    onboarded_home_airports? && onboarded_travel_plans? && onboarded_type? && people.any? && people.all?(&:onboarded?)
+    onboarding_state == "complete"
   end
 
   def eligible?

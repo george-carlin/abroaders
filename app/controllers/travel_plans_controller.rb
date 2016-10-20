@@ -9,7 +9,7 @@ class TravelPlansController < AuthenticatedUserController
   end
 
   def create
-    onboarding = !current_account.onboarded_travel_plans?
+    onboarding = !current_account.onboarded?
     @travel_plan = NewTravelPlanForm.new(account: current_account)
     if @travel_plan.update_attributes(travel_plan_params)
       if onboarding
