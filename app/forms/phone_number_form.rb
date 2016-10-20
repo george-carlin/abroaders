@@ -12,6 +12,6 @@ class PhoneNumberForm < ApplicationForm
 
   def persist!
     AccountOnboarder.new(account).add_phone_number!
-    account.update!(phone_number: phone_number)
+    account.update!(phone_number: phone_number.strip)
   end
 end

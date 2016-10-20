@@ -7,12 +7,21 @@ class PhoneNumbersController < AuthenticatedUserController
 
   def create
     @form = PhoneNumberForm.new(account: current_account)
-    @form.update!(params[:account])
-    redirect_to onboarding_survey_path
+    if @form.update(phone_number_params)
+      redirect_to onboarding_survey_path
+    else
+      render :new
+    end
   end
 
   def skip
     AccountOnboarder.new(current_account).skip_phone_number!
     redirect_to onboarding_survey_path
+  end
+
+  private
+
+  def phone_number_params
+    params.require(:account).permit(:phone_number)
   end
 end
