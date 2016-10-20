@@ -28,7 +28,7 @@ const CouplesForm = React.createClass({
 
 
   onSubmit(e) {
-    if (this.state.companionName.length) {
+    if (this.state.companionName.trim().length) {
       this.setState({ showError: false});
     } else {
       e.preventDefault();

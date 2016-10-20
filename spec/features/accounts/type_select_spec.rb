@@ -50,6 +50,14 @@ describe "account type select page", :js, :onboarding do
       expect(page).to have_error_message
     end
 
+    example "submitting whitespace as companion name" do
+      # strips the whitespace:
+      expect do
+        form.submit_companion_first_name("     ")
+      end.not_to change { Person.count }
+      expect(page).to have_error_message
+    end
+
     example "providing a companion name" do
       expect do
         form.submit_companion_first_name(companion_name)
