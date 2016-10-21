@@ -1,4 +1,6 @@
 [data-react-component=AccountPage] {
+  font-size: 16px;
+
   .account-top-info {
     position: fixed;
     top: 62px;
@@ -99,5 +101,34 @@
   .travel-plan-info {
     margin-bottom: 15px;
     border: 1px solid black;
+  }
+
+  .filters-area {
+
+    .filters-large-column {
+      @media (min-width: 1200px) {
+        float: left;
+        width: 20%;
+        position: relative;
+        min-height: 1px;
+        padding: 1px;
+      }
+
+      label {
+        display: block;
+      }
+
+      .panel-heading {
+        padding: 5px 15px;
+      }
+    }
+
+    .personal-business-filter {
+      margin: 10px -15px;
+
+      label:last-of-type {
+        margin-left: 10px;
+      }
+    }
   }
 }

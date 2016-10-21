@@ -20,6 +20,9 @@ module AdminArea
       ).find(params[:id])
 
       @alliances = Alliance.all
+      @banks = Bank.all
+
+      @independent_currencies = Currency.independent.filterable.order(name: :asc)
 
       @card_accounts = @account.card_accounts.select(&:persisted?)
       @card_recommendation = @account.card_accounts.new

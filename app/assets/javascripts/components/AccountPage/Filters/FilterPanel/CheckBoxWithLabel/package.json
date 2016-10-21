@@ -1,0 +1,6 @@
+{
+  "name": "CheckBoxWithLabel",
+  "version": "0.0.1",
+  "private": true,
+  "main": "./CheckBoxWithLabel.js.jsx"
+}
