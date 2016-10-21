@@ -3,11 +3,11 @@
   <%= render "layouts/head" %>
   <body class="<%= "blank" unless sidebar? %> fixed-navbar fixed-sidebar">
     <%= render "layouts/header" %>
+    <%= render "layouts/sidebar" if sidebar? %>
 
-    <% if sidebar? %>
-      <%= render "layouts/sidebar" %>
-    <% end %>
-
+    <%# '.wrapper' class adds the padding that prevents the main content from %>
+    <%# being overlapped by the navbar. '#wrapper' ID also adds the padding   %>
+    <%# at the left for the sidebar %>
     <div id="<%= "wrapper" if sidebar? %>" class="wrapper">
       <% if content_for?(:header_panel) %>
         <div class="normalheader">
