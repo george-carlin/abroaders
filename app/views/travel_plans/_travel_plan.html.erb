@@ -38,9 +38,6 @@
   <% travel_plan.flights.each do |flight| %>
     <div id="<%= dom_id(flight) %>" class="<%= dom_class(flight) %>">
       <%= fa_icon "plane" %>
-
-      <%# use `dom_id`, even though it's for the HTML class, because %>
-      <%# different TravelPlans might use the same destination %>
       <%= render "travel_plans/destination", destination: flight.from %>
       -
       <%= render "travel_plans/destination", destination: flight.to %>
