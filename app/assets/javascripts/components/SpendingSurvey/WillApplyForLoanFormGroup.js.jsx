@@ -20,8 +20,8 @@ const WillApplyForLoanFormGroup = (props) => {
     <FormGroup className={props.className}>
       <h3>
         {props.useName ? "Does " : "Do "}
-        {props.useName ? <b>{props.firstName}</b> : "you"}&nbsp;
-        plan to apply for a loan of over $5,000 in the next 12 months?
+        {props.useName ? <b>{props.firstName}</b> : "you"}
+        &nbsp;plan to apply for a loan of over $5,000 in the next 12 months?
         &nbsp;
         <small>
           <SpanWithTooltip title={tooltipText}>

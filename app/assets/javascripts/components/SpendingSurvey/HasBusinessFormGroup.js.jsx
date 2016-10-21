@@ -21,8 +21,8 @@ const HasBusinessFormGroup = (props) => {
     <div>
       <h3>
         {props.useName ? "Does " : "Do "}
-        {props.useName ? <b>{props.firstName}</b> : " you "}
-        have a business?
+        {props.useName ? <b>{props.firstName}</b> : "you"}
+        &nbsp;have a business?
       </h3>
 
       <HelpBlock>
