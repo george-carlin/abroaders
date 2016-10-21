@@ -7,31 +7,14 @@ import AccountPeopleNames from "./AccountPeopleNames";
 const AccountTopInfo = React.createClass({
   propTypes: {
     account: React.PropTypes.object.isRequired,
-  },
-
-  getInitialState() {
-    return { currentAction: "ownerInfo" };
-  },
-
-  onChooseOwner() {
-    this.setState({currentAction: "ownerInfo"});
-  },
-
-  onChooseCompanion() {
-    this.setState({currentAction: "companionInfo"});
+    person: React.PropTypes.object.isRequired,
+    onChooseOwner: React.PropTypes.func.isRequired,
+    onChooseCompanion: React.PropTypes.func.isRequired,
   },
 
   render() {
-    let person;
     const account   = this.props.account;
-    const owner     = account.owner;
-    const companion = account.companion;
-
-    if (this.state.currentAction === "ownerInfo") {
-      person = owner;
-    } else if (this.state.currentAction === "companionInfo") {
-      person = companion;
-    }
+    const person    = this.props.person;
 
     return (
       <div className="hpanel account-top-info">
@@ -42,8 +25,8 @@ const AccountTopInfo = React.createClass({
               <AccountPeopleNames
                 account={account}
                 selectedPerson={person}
-                onChooseOwner={this.onChooseOwner}
-                onChooseCompanion={this.onChooseCompanion}
+                onChooseOwner={this.props.onChooseOwner}
+                onChooseCompanion={this.props.onChooseCompanion}
               />
 
               <p>{account.email}</p>

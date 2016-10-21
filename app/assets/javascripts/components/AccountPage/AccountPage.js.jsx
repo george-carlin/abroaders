@@ -1,11 +1,12 @@
 import React from "react";
 
-import Row              from "../core/Row";
-import BalancesTable    from "./BalancesTable";
-import AccountTopInfo   from "./AccountTopInfo";
-import HomeAirportsList from "./HomeAirportsList";
-import TravelPlansList  from "./TravelPlansList";
-import Filters          from "./Filters";
+import Row                     from "../core/Row";
+import BalancesTable           from "./BalancesTable";
+import AccountTopInfo          from "./AccountTopInfo";
+import HomeAirportsList        from "./HomeAirportsList";
+import TravelPlansList         from "./TravelPlansList";
+import Filters                 from "./Filters";
+import CardRecommendationTable from "./CardRecommendationTable";
 
 const AccountPage = React.createClass({
   propTypes: {
@@ -13,6 +14,18 @@ const AccountPage = React.createClass({
     alliances: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
     banks: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
     independentCurrencies: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+  },
+
+  getInitialState() {
+    return { currentAction: "ownerInfo" };
+  },
+
+  onChooseOwner() {
+    this.setState({currentAction: "ownerInfo"});
+  },
+
+  onChooseCompanion() {
+    this.setState({currentAction: "companionInfo"});
   },
 
   filterByCurrency(currencyId) {
@@ -43,14 +56,24 @@ const AccountPage = React.createClass({
   },
 
   render() {
+    let person;
     const account   = this.props.account;
     const alliances = this.props.alliances;
     const banks     = this.props.banks;
 
+    if (this.state.currentAction === "ownerInfo") {
+      person = account.owner;
+    } else if (this.state.currentAction === "companionInfo") {
+      person = account.companion;
+    }
+
     return (
       <div>
         <AccountTopInfo
-          account={this.props.account}
+          account={account}
+          person={person}
+          onChooseOwner={this.onChooseOwner}
+          onChooseCompanion={this.onChooseCompanion}
         />
 
         /*
@@ -96,6 +119,12 @@ const AccountPage = React.createClass({
               onFilterPersonal={this.filterByPersonal}
               onFilterBusiness={this.filterByBusiness}
             />
+
+            <Row>
+              <CardRecommendationTable
+                person={person}
+              />
+            </Row>
           </div>
         </div>
       </div>
