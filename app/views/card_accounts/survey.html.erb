@@ -4,18 +4,22 @@
   <div class="panel-heading hbuilt">
     <div class="row">
       <div class="col-xs-12">
-        <h1><%= @person.first_name %>'s Cards</h1>
+        <h1><%= n "Your", @person %> Cards</h1>
       </div>
     </div><!-- .row -->
   </div><!-- .panel-heading.hbuilt -->
 
   <div id="card-survey-initial" class="panel-body">
     <p>
-      Before we can recommend <%= @person.first_name %> a credit card to apply
-      for, we need to know which cards he/she already has.
+      Before we can recommend <%= n "you", @person %> a credit card to apply
+      for, we need to know which cards <%= n "you", @person %> already
+      <%= n "have", @person %>.
     </p>
 
-    <p>Has <%= @person.first_name %> ever had a credit card that earns points or miles?</p>
+    <p>
+      <%= n "Have", @person %> <%= n "you", @person %>
+      ever had a credit card that earns points or miles?
+    </p>
 
     <p>
       For example, a card that earns airline frequent flyer miles when you use
@@ -34,7 +38,10 @@
   </div>
 
   <div id="card-survey-confirm-no" class="panel-body" style="display:none;">
-    <p><%= @person.first_name %> has never had a card that earns points or miles:</p>
+    <p>
+      <%= n "You", @person %> <%= n "have", @person %> never had a card that
+      earns points or miles:
+    </p>
 
     <%= form_tag survey_person_card_accounts_path(@person) do %>
       <div class="btn-group">
@@ -49,8 +56,8 @@
   <div id="card-survey-main-header" style="display:none;" class="panel-body">
     <p>
       Please select <strong>all</strong> of the credit/debit cards below for
-      which <%= @person.first_name %> has <strong>ever</strong> been the
-      <strong>primary cardholder</strong>.
+      which <%= n "you", @person %> <%= n "have", @person %>
+      <strong>ever</strong> been the <strong>primary cardholder</strong>.
     </p>
 
     <p>
@@ -61,8 +68,8 @@
     </p>
 
     <p>
-      <strong>Only</strong> select cards for which <%= @person.first_name %>
-      is or was the primary cardholder.
+      <strong>Only</strong> select cards for which <%= n "you", @person %>
+      <%= n "are", @person %> or <%= n "were", @person %> the primary cardholder.
     </p>
   </div><!-- .panel-body -->
 </div><!-- .hpanel -->

@@ -39,7 +39,7 @@ describe "the balance survey page", :onboarding, :js do
   example "initial page layout" do
     expect(page).to have_title full_title("Balances")
     expect(page).to have_no_sidebar
-    expect(page).to have_content "Does #{name} have any points balances greater than 5,000?"
+    expect(page).to have_content "Do you have any points balances greater than 5,000?"
     expect(page).to have_link "Yes"
     expect(page).to have_link "No"
   end
@@ -50,18 +50,18 @@ describe "the balance survey page", :onboarding, :js do
 
   example "clicking 'No' asks for confirmation" do
     click_link "No"
-    expect(page).to have_no_content "Does #{name} have any points balances greater than 5,000?"
+    expect(page).to have_no_content "Do you have any points balances greater than 5,000?"
     expect(page).to have_no_link "Yes"
     expect(page).to have_no_link "No"
-    expect(page).to have_content "#{name} has no points balances greater than 5,000"
+    expect(page).to have_content "You have no points balances greater than 5,000"
     expect(page).to have_button "Confirm"
     expect(page).to have_button "Back"
 
     click_button "Back"
-    expect(page).to have_content "Does #{name} have any points balances greater than 5,000?"
+    expect(page).to have_content "Do you have any points balances greater than 5,000?"
     expect(page).to have_link "Yes"
     expect(page).to have_link "No"
-    expect(page).to have_no_content "#{name} has no points balances greater than 5,000"
+    expect(page).to have_no_content "You have no points balances greater than 5,000"
     expect(page).to have_no_button "Confirm"
     expect(page).to have_no_button "Back"
   end

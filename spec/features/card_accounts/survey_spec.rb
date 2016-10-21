@@ -59,7 +59,7 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
   example "initial page layout" do
     expect(page).to have_no_sidebar
     expect(page).to have_content \
-      "Has #{name} ever had a credit card that earns points or miles?"
+      "Have you ever had a credit card that earns points or miles?"
     expect(page).to have_button "Yes"
     expect(page).to have_button "No"
     # doesn't initially list cards:
@@ -70,11 +70,11 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
     click_button "No"
 
     expect(page).to have_no_content \
-      "Has #{name} ever had a credit card that earns points or miles?"
+      "Have you ever had a credit card that earns points or miles?"
     expect(page).to have_no_button "Yes"
     expect(page).to have_no_button "No"
     expect(page).to have_content \
-      "#{name} has never had a card that earns points or miles"
+      "You have never had a card that earns points or miles"
     expect(page).to have_button "Confirm"
     expect(page).to have_button "Back"
 
@@ -90,11 +90,11 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
     click_button "No"
     click_button "Back"
     expect(page).to have_content \
-      "Has #{name} ever had a credit card that earns points or miles?"
+      "Have you ever had a credit card that earns points or miles?"
     expect(page).to have_button "Yes"
     expect(page).to have_button "No"
     expect(page).to have_no_content \
-      "#{name} has never had a card that earns points or miles"
+      "You have never had a card that earns points or miles"
     expect(page).to have_no_button "Confirm"
     expect(page).to have_no_button "Back"
   end
