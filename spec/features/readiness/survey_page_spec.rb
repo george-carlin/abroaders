@@ -16,7 +16,7 @@ describe "survey_readiness page", :onboarding, :js do
 
   describe "account with companion" do
     before do
-      @account = create(:account, :with_companion, :onboarded_balances, :onboarded_cards)
+      @account = create(:account, :with_companion)
       login_as(@account)
     end
 
@@ -166,7 +166,7 @@ describe "survey_readiness page", :onboarding, :js do
 
   describe "account without companion" do
     before do
-      @account = create(:account, :onboarded_balances, :onboarded_cards)
+      @account = create(:account, onboarding_state: "readiness")
       login_as(@account)
       visit survey_readiness_path
     end
@@ -212,7 +212,7 @@ describe "survey_readiness page", :onboarding, :js do
   end
 
   example "unreadiness reasons saving" do
-    account = create(:account, :with_companion, :onboarded_balances, :onboarded_cards)
+    account = create(:account, :with_companion, onboarding_state: "readiness")
     login_as(account)
     visit survey_readiness_path
 
@@ -228,7 +228,7 @@ describe "survey_readiness page", :onboarding, :js do
   end
 
   example "ineligible accounts skip this page" do
-    account = create(:account, :with_companion, :onboarded_balances, :onboarded_cards)
+    account = create(:account, :with_companion, onboarding_state: "readiness")
     login_as(account)
     account.owner.update!(eligible: false)
     account.companion.update!(eligible: false)
@@ -238,7 +238,7 @@ describe "survey_readiness page", :onboarding, :js do
   end
 
   example "hiding and showing unreadiness reason field", :js do
-    account = create(:account, :with_companion, :onboarded_balances, :onboarded_cards)
+    account = create(:account, :with_companion, onboarding_state: "readiness")
     login_as(account)
     visit survey_readiness_path
 

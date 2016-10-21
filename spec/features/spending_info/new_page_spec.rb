@@ -5,9 +5,7 @@ describe "the spending info survey", :onboarding do
 
   include ActiveJob::TestHelper
 
-  let!(:account) do
-    create(:account, :onboarded_type)
-  end
+  let!(:account) { create(:account, onboarding_state: "spending") }
 
   before do
     @person = account.owner
@@ -21,7 +19,6 @@ describe "the spending info survey", :onboarding do
 
   def create_companion!
     create(:spending_info, person: @person)
-    @person.update_attributes!(onboarded_balances: true, onboarded_cards: true)
     @companion = create(:companion, :eligible, account: account)
   end
 

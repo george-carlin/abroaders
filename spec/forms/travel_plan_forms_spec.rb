@@ -110,7 +110,7 @@ describe NewTravelPlanForm, type: :model do
 
   describe "#persist!" do
     context "when account is not onboarded" do
-      it "updates the account's onboarded_state" do
+      it "updates the account's onboarding state" do
         account = create(:account, onboarding_state: :travel_plan)
         form.account   = account
         form.from_code = create(:airport).code
