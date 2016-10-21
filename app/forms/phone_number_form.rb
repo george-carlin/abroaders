@@ -2,7 +2,7 @@ class PhoneNumberForm < ApplicationForm
   attribute :account,      Account
   attribute :phone_number, String
 
-  validates :phone_number, presence: true
+  validates :phone_number, presence: true, length: { maximum: 20 }
 
   def self.model_name
     Account.model_name

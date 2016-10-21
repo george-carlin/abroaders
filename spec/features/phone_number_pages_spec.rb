@@ -29,7 +29,7 @@ describe "phone number pages" do
     end
 
     example "submitting a phone number with trailing whitespace" do
-      fill_in :account_phone_number, with: "     555 000-1234    "
+      fill_in :account_phone_number, with: "  555 000-1234  "
       submit_form
       account.reload
       expect(account.phone_number).to eq "555 000-1234"

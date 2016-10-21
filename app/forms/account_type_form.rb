@@ -4,8 +4,9 @@ class AccountTypeForm < ApplicationForm
   attribute :companion_first_name, String
 
   validates :companion_first_name,
-            presence: { if: :couples? },
-            absence: { if: :solo? }
+            absence:  { if: :solo? },
+            length:   { maximum: Person::NAME_MAX_LENGTH },
+            presence: { if: :couples? }
   validates :type, inclusion: { in: %w[solo couples] }
 
   private
