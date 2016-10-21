@@ -44,10 +44,6 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
     end
   end
 
-  def track_intercom_event
-    super("obs_cards_own").for_email(account.email)
-  end
-
   shared_examples "submitting the form" do
     it "takes me to the next stage of the survey" do
       submit_form
@@ -80,7 +76,7 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
 
     expect do
       click_button "Confirm"
-    end.to change { CardAccount.count }.by(0).and(track_intercom_event)
+    end.to change { CardAccount.count }.by(0) # .and(track_intercom_event("obs_cards_own").for_email(account.email))
 
     expect(account.reload.onboarding_state).to eq "owner_balances"
     expect(current_path).to eq survey_person_balances_path(owner)

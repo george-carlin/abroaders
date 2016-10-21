@@ -44,7 +44,7 @@ class BalancesController < AuthenticatedUserController
     @survey.award_wallet_email = params[:balances_survey_award_wallet_email]
     if @survey.save
       if current_account.reload.onboarded?
-        track_intercom_event("obs_balances_#{@person.type[0..2]}")
+        # track_intercom_event("obs_balances_#{@person.type[0..2]}")
       end
       redirect_to onboarding_survey_path
     else

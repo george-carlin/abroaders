@@ -8,7 +8,6 @@ class SpendingInfosController < AuthenticatedUserController
   def save_survey
     @survey = SpendingSurvey.new(account: current_account)
     if @survey.update_attributes(spending_survey_params)
-      # TODO track intercom events for one or both people:
       # track_intercom_event("obs_spending_#{type}")
       redirect_to onboarding_survey_path
     else

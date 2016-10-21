@@ -45,7 +45,7 @@ class CardAccountsController < AuthenticatedUserController
     # There's currently no way that survey_params can be invalid, so this
     # should never fail:
     CardsSurvey.new(survey_params.merge(person: @person)).save!
-    track_intercom_event("obs_cards_#{@person.type[0..2]}")
+    # track_intercom_event("obs_cards_#{@person.type[0..2]}")
     redirect_to onboarding_survey_path
   end
 

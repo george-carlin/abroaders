@@ -14,7 +14,7 @@ class AccountsController < AuthenticatedUserController
   def submit_type
     form = AccountTypeForm.new(account: current_account)
     form.update!(account_type_params)
-    track_intercom_event("obs_account_type")
+    # track_intercom_event("obs_account_type")
     redirect_to onboarding_survey_path
   end
 

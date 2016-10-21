@@ -6,10 +6,11 @@ class AuthenticatedUserController < ApplicationController
 
   private
 
-  def track_intercom_event(event_name)
-    IntercomJobs::TrackEvent.perform_later(
-      email:      current_account.email,
-      event_name: event_name,
-    )
+  def track_intercom_event(_event_name)
+    raise "intercom event tracking temporarily disabled"
+    # IntercomJobs::TrackEvent.perform_later(
+    #   email:      current_account.email,
+    #   event_name: event_name,
+    # )
   end
 end

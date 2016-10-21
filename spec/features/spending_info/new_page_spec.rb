@@ -100,13 +100,13 @@ describe "the spending info survey", :onboarding do
     expect(current_path).to eq survey_person_card_accounts_path(person)
   end
 
-  example "tracking intercom events for owner", :intercom do
+  skip "tracking intercom events for owner", :intercom do
     fill_in :spending_info_credit_score, with: 456
     expect { submit_form }.to \
       track_intercom_event("obs_spending_own").for_email(account.email)
   end
 
-  example "tracking intercom events for companion", :intercom do
+  skip "tracking intercom events for companion", :intercom do
     create_companion!
     visit new_person_spending_info_path(@companion)
     fill_in :spending_info_credit_score, with: 456

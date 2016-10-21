@@ -45,7 +45,7 @@ describe "survey_readiness page", :onboarding, :js do
           expect(@account.companion).to be_ready
         end
 
-        example "tracking intercom events for unready owner and ready for companion", :intercom do
+        skip "tracking intercom events for unready owner and ready for companion", :intercom do
           expect { submit_form }.to \
             track_intercom_event("obs_unready_own", "obs_ready_com").for_email(@account.email)
         end
@@ -77,7 +77,7 @@ describe "survey_readiness page", :onboarding, :js do
           expect(@account.owner).to be_ready
         end
 
-        example "tracking intercom events for unready companion and ready for owner", :intercom do
+        skip "tracking intercom events for unready companion and ready for owner", :intercom do
           expect { submit_form }.to \
             track_intercom_event("obs_ready_own", "obs_unready_com").for_email(@account.email)
         end
@@ -108,7 +108,7 @@ describe "survey_readiness page", :onboarding, :js do
           expect(current_path).to eq root_path
         end
 
-        example "tracking intercom events for owner and companion", :intercom do
+        skip "tracking intercom events for owner and companion", :intercom do
           expect { submit_form }.to \
             track_intercom_events("obs_ready_own", "obs_ready_com").for_email(@account.email)
         end
@@ -124,7 +124,7 @@ describe "survey_readiness page", :onboarding, :js do
           expect(@account.owner).to be_ready
         end
 
-        example "tracking ready intercom event for owner and unready for companion", :intercom do
+        skip "tracking ready intercom event for owner and unready for companion", :intercom do
           expect { submit_form }.to \
             track_intercom_events("obs_ready_own", "obs_unready_com").for_email(@account.email)
         end
@@ -140,7 +140,7 @@ describe "survey_readiness page", :onboarding, :js do
           expect(@account.companion).to be_ready
         end
 
-        example "tracking ready intercom event for companion and ready for owner", :intercom do
+        skip "tracking ready intercom event for companion and ready for owner", :intercom do
           expect { submit_form }.to \
             track_intercom_events("obs_unready_own", "obs_ready_com").for_email(@account.email)
         end
@@ -156,7 +156,7 @@ describe "survey_readiness page", :onboarding, :js do
           expect(@account.companion).not_to be_ready
         end
 
-        example "tracking unready intercom events for companion for owner", :intercom do
+        skip "tracking unready intercom events for companion for owner", :intercom do
           expect { submit_form }.to \
             track_intercom_events("obs_unready_own", "obs_unready_com").for_email(@account.email)
         end
@@ -189,7 +189,7 @@ describe "survey_readiness page", :onboarding, :js do
         expect(@account.owner).to be_ready
       end
 
-      example "tracking ready intercom event for owner", :intercom do
+      skip "tracking ready intercom event for owner", :intercom do
         expect { submit_form }.to \
           track_intercom_events("obs_ready_own").for_email(@account.email)
       end
@@ -204,7 +204,7 @@ describe "survey_readiness page", :onboarding, :js do
         expect(@account.owner).not_to be_ready
       end
 
-      example "tracking unready intercom event for owner", :intercom do
+      skip "tracking unready intercom event for owner", :intercom do
         expect { submit_form }.to \
           track_intercom_events("obs_unready_own").for_email(@account.email)
       end

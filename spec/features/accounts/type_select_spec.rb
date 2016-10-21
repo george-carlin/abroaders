@@ -13,10 +13,6 @@ describe "account type select page", :js, :onboarding do
 
   let(:form) { AccountTypeFormOnPage.new(self) }
 
-  def track_intercom_event
-    super("obs_account_type").for_email(account.email)
-  end
-
   it { is_expected.to have_title full_title("Select Account Type") }
 
   it "gives me the option to choose a 'Solo' or 'Partner' account" do
@@ -32,7 +28,7 @@ describe "account type select page", :js, :onboarding do
   example "choosing 'solo'" do
     expect do
       form.click_solo_btn
-    end.to change { Person.count }.by(0).and track_intercom_event
+    end.to change { Person.count }.by(0) # .and track_intercom_event("obs_account_type").for_email(account.email)
     account.reload
     expect(account.onboarding_state).to eq "eligibility"
 

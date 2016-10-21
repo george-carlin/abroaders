@@ -146,11 +146,6 @@ describe "the balance survey page", :onboarding, :js do
     expect { submit_form }.not_to change { Balance.count }
   end
 
-  example "tracking an intercom event when person is account owner" do
-    click_link "Yes"
-    expect { submit_form }.to track_intercom_event("obs_balances_own").for_email(account.email)
-  end
-
   describe "when person is owner, and account has a companion" do
     before { create(:companion, account: account) }
 
@@ -160,7 +155,11 @@ describe "the balance survey page", :onboarding, :js do
     end
   end
 
-  # TODO
+  skip "tracking an intercom event when person is account owner" do
+    click_link "Yes"
+    expect { submit_form }.to track_intercom_event("obs_balances_own").for_email(account.email)
+  end
+
   skip "tracking an intercom event when person is companion" do
     click_link "Yes"
     expect { submit_form }.to track_intercom_event("obs_balances_com").for_email(account.email)
