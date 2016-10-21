@@ -104,7 +104,6 @@
   }
 
   .filters-area {
-
     .filters-large-column {
       @media (min-width: 1200px) {
         float: left;
@@ -130,5 +129,10 @@
         margin-left: 10px;
       }
     }
+  }
+
+  .table-wrapper {
+    height: 300px;
+    overflow: scroll;
   }
 }

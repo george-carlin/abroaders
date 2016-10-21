@@ -16,20 +16,14 @@ module AdminArea
       @account = Account.includes(
         home_airports: :parent,
         travel_plans: [flights: [:from, :to]], balances: :currency,
-        owner: :spending_info, companion: :spending_info
+        owner: [:spending_info, card_accounts: [:card, offer: :card]],
+        companion: [:spending_info, card_accounts: [:card, offer: :card]],
       ).find(params[:id])
 
       @alliances = Alliance.all
       @banks = Bank.all
 
       @independent_currencies = Currency.independent.filterable.order(name: :asc)
-
-      @card_accounts = @account.card_accounts.select(&:persisted?)
-      @card_recommendation = @account.card_accounts.new
-      # Use @account.card_accounts here instead of @card_accounts because
-      # the latter is an Array, not a Relation (because of
-      # `.select(&:persisted?)`)
-      @cards = Card.where.not(id: @account.card_accounts.select(:card_id))
     end
 
     def download_user_status_csv
