@@ -34,9 +34,9 @@ module ApplicationHelper
     serializer_class.new(model).to_json
   end
 
-  def serialize_array(models, serializer_class=nil)
+  def serialize_collection(models, serializer_class = nil)
     serializer_class ||= "#{models.first.class.name}Serializer".constantize
-    models.map{ |model| serializer_class.new(model).to_json }
+    models.map{ |model| serializer_class.new(model) }.to_json
   end
 
   private

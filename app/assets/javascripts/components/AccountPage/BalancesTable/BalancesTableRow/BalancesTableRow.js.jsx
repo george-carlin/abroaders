@@ -1,6 +1,6 @@
 import React from "react";
 
-import Row from "../../../core/Row";
+import Row         from "../../../core/Row";
 import CurrencyRow from "./CurrencyRow";
 
 const BalancesTableRow = (_props) => {

@@ -1,6 +1,6 @@
 import React from "react";
 
-import Row from "../../core/Row";
+import Row              from "../../core/Row";
 import BalancesTableRow from "./BalancesTableRow";
 
 const BalancesTable = React.createClass({
@@ -12,8 +12,7 @@ const BalancesTable = React.createClass({
   getCurrenciesByAlliance() {
     const alliances = [];
 
-    this.props.alliances.forEach(allianceString => {
-      const alliance = JSON.parse(allianceString);
+    this.props.alliances.forEach(alliance => {
       const allianceWithCurrencies = { id: alliance.id, name: alliance.name, currencies: [] };
 
       this.props.account.balancesByCurrencies.forEach((currencyWithBalances) => {

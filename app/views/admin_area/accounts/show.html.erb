@@ -4,7 +4,9 @@
   <div
     data-react-component="AccountPage"
     data-account="<%= serialize @account %>"
-    data-alliances="<%= serialize_array(@alliances) %>"
+    data-alliances="<%= serialize_collection(@alliances) %>"
+    data-banks="<%= serialize_collection(@banks) %>"
+    data-independent-currencies="<%= serialize_collection(@independent_currencies) %>"
   >
   </div>
 <% end %>
