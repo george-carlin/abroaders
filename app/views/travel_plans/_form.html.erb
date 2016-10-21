@@ -1,5 +1,11 @@
 <%= render "shared/model_validation_errors", model: travel_plan %>
 <div class="panel-body">
+  <p>
+    If you have specific travel goals, we’ll build a plan to help you get
+    there at a big discount. If you aren’t sure where you want to go,
+    we’ll prioritize earning rewards that give you maximum flexibility.
+  </p>
+
   <%= form_for travel_plan.form_object, html: { class: "travel-plan-form" } do |f| %>
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -59,7 +65,7 @@
             :no_of_passengers,
             min: 1,
             max: TravelPlan::MAX_FLIGHTS,
-            placeholder: 'Travelers',
+            placeholder: 'No of travelers',
             class: "travel-plan-passengers-field"
           ) %>
         </div>

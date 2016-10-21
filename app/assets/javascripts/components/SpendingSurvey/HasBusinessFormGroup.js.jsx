@@ -1,6 +1,7 @@
 import React, { PropTypes } from "react";
 
-import Radio from "../core/Radio";
+import HelpBlock from "../core/HelpBlock";
+import Radio     from "../core/Radio";
 
 const radios = [
   {
@@ -23,6 +24,12 @@ const HasBusinessFormGroup = (props) => {
         {props.useName ? <b>{props.firstName}</b> : " you "}
         have a business?
       </h3>
+
+      <HelpBlock>
+        Small business cards offer excellent opportunities to earn rewards
+        points. If you own a business or work as a freelancer, we’ll help you
+        turn your business spending into valuable rewards too.
+      </HelpBlock>
 
       {radios.map((radio) =>
         <Radio

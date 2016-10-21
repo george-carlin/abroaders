@@ -1,17 +1,19 @@
 import React from "react";
 
-import Row from "../core/Row";
+import Cols from "../core/Cols";
+import Row  from "../core/Row";
 
 const EligibilitySurveyLayout = (props) => {
+  const colClasses = { xs: "12", md: "8", mdOffset: "2" };
   return (
-    <Row>
-      <div className="col-xs-12 col-md-8 col-md-offset-2">
-        <div className="hpanel">
-          <div className="panel-body">
-            {props.children}
-          </div>
+    <Row className="hpanel">
+      <Cols xs="12" md="8" mdOffset="2">
+        <div className="panel-body">
+          <h1>Are You Eligible to Get Credit Cards?</h1>
+          <hr />
+          {props.children}
         </div>
-      </div>
+      </Cols>
     </Row>
   );
 };

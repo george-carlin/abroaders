@@ -2,6 +2,7 @@ import React, { PropTypes } from "react";
 
 import Button from "../core/Button";
 import Cols   from "../core/Cols";
+import FAIcon from "../core/FAIcon";
 import Form   from "../core/Form";
 import Row    from "../core/Row";
 
@@ -172,7 +173,8 @@ const SpendingSurvey = React.createClass({
                 <hr style={{marginTop: 0}} />
                 <Cols xs="12">
                   <Button primary large >
-                    Submit
+                    <FAIcon check />&nbsp;
+                    Save and continue
                   </Button>
                 </Cols>
               </Row>

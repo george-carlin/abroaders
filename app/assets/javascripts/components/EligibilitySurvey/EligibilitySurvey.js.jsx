@@ -1,6 +1,7 @@
 import React, { PropTypes } from "react";
 
 import Button from "../core/Button";
+import FAIcon from "../core/FAIcon";
 import Form   from "../core/Form";
 
 import Fields   from "./Fields";
@@ -10,8 +11,6 @@ import Layout   from "./Layout";
 const EligibilitySurvey = ({ account, action }) => {
   return (
     <Layout>
-      <h1>Are You Eligible to Get Credit Cards?</h1>
-
       <HelpText hasCompanion={!!account.companion} />
 
       <Form action={action} >
@@ -19,8 +18,9 @@ const EligibilitySurvey = ({ account, action }) => {
           account={account}
         />
 
-        <Button primary >
-          Submit
+        <Button primary large >
+          <FAIcon check />&nbsp;
+          Save and continue
         </Button>
       </Form>
     </Layout>

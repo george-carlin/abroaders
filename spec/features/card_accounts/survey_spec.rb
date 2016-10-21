@@ -27,7 +27,7 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
   end
 
   let(:name) { owner.first_name }
-  let(:submit_form) { click_button "Submit" }
+  let(:submit_form) { click_button "Save and continue" }
 
   def card_on_page(card)
     CardOnSurveyPage.new(card, self)

@@ -14,7 +14,7 @@ describe "the balance survey page", :onboarding, :js do
     visit survey_person_balances_path(owner)
   end
 
-  let(:submit_form) { click_button "Submit" }
+  let(:submit_form) { click_button "Save and continue" }
 
   let(:companion) { @companion }
 

@@ -16,12 +16,16 @@ const HelpText = ({hasCompanion}) => {
 
       <p>
         We ask this to confirm that you're eligible to get approved for U.S.
-        credit cards that can earn you points.
+        credit cards that can earn you points.  You generally need to be either
+        a U.S. citizen or a permanent resident to be approved for cards issued by U.S. Banks.
       </p>
 
       <p>
-        You generally need to be either a U.S. citizen or a permanent
-        resident to be approved for cards issued by U.S. Banks.
+        Banks in the U.S. give away thousands of dollars worth of reward points
+        when you open a new credit card account. If you can open a credit card
+        in the United States should choose “Yes - I am eligible” even if you
+        aren’t ready to apply for a new card right away. We’ll ask about when
+        you’re ready to apply for cards later in the survey.
       </p>
     </div>
   );

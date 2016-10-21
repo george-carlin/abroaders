@@ -28,7 +28,11 @@
           <%= f.text_field :phone_number, placeholder: "(xxx) xxx-xxxx" %>
         </div>
 
-        <%= f.submit "Save and continue", class: "btn-primary" %>
+        <button class="btn btn-primary">
+          <i class="fa fa-check" aria-hidden="true"></i>
+          Save and continue
+        </button>
+
         <%= link_to(
           "Skip",
           skip_phone_number_path,

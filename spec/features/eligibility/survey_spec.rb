@@ -6,7 +6,7 @@ describe "eligibility", :js do
   before { login_as(account) }
 
   describe "survey" do
-    let(:click_submit) { click_button "Submit" }
+    let(:click_submit) { click_button "Save and continue" }
 
     context "for a couples account" do
       let!(:companion) { create(:companion, account: account) }
