@@ -53,7 +53,7 @@ class ApplicationForm
 
   def save!
     return true if save
-    raise ActiveRecord::RecordInvalid.new, self
+    raise_invalid!
   end
 
   def assign_attributes(attributes)
@@ -70,7 +70,7 @@ class ApplicationForm
 
   def update!(attributes)
     return true if update_attributes(attributes)
-    raise ActiveRecord::RecordInvalid.new, errors.full_messages.join(", ")
+    raise_invalid!
   end
   alias update_attributes! update!
 
@@ -78,5 +78,9 @@ class ApplicationForm
 
   def persist!
     raise NotImplementedError, "subclasses of ApplicationForm must define a method called `persist!`"
+  end
+
+  def raise_invalid!
+    raise ActiveRecord::RecordInvalid, self
   end
 end
