@@ -1,9 +1,8 @@
 require "rails_helper"
 
 describe "user cards page - callable cards", :js do
-  include_context "logged in"
-
-  let(:me) { account.owner }
+  let(:account) { create(:account, :onboarded) }
+  let(:person)  { account.owner }
 
   let(:recommended_at) { 7.days.ago.to_date }
   let(:applied_at) { 7.days.ago.to_date }
@@ -11,6 +10,8 @@ describe "user cards page - callable cards", :js do
   let(:bp) { :personal }
 
   before do
+    person.update!(eligible: true)
+    login_as_account(account)
     @bank = Bank.find(1)
     @card  = create(:card, bank_id: @bank.id, bp: bp)
     @offer = create(:offer, card: @card)
@@ -19,7 +20,7 @@ describe "user cards page - callable cards", :js do
       recommended_at: recommended_at,
       applied_at: applied_at,
       denied_at: denied_at,
-      person: me,
+      person: person,
       offer: @offer,
     )
     visit card_accounts_path
@@ -41,7 +42,7 @@ describe "user cards page - callable cards", :js do
 
   context "for a personal card" do
     let(:bp) { :personal }
-    it "gives me the bank's personal number" do
+    it "shows the bank's personal number" do
       expect(rec_on_page).to have_content "call #{@bank.name} at 888-245-0625"
       expect(rec_on_page).to have_no_content "800 453-9719"
     end
@@ -49,7 +50,7 @@ describe "user cards page - callable cards", :js do
 
   context "for a business card" do
     let(:bp) { :business }
-    it "gives me the bank's business number" do
+    it "shows the bank's business number" do
       expect(rec_on_page).to have_content "call #{@bank.name} at 800 453-9719"
       expect(rec_on_page).to have_no_content "888-245-0625"
     end
@@ -79,7 +80,7 @@ describe "user cards page - callable cards", :js do
       end
     end
 
-    it "asks me the result", :frontend do
+    it "asks for the result", :frontend do
       expect(rec_on_page).to have_no_i_called_btn
       expect(rec_on_page).to have_approved_btn
       expect(rec_on_page).to have_denied_btn

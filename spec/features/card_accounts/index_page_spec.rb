@@ -1,26 +1,19 @@
 require "rails_helper"
 
 describe "as a user viewing my cards" do
-  include_context "logged in"
-
   subject { page }
 
+  let(:account)   { create(:account, :onboarded, :eligible) }
   let(:owner)     { account.owner }
   let(:companion) { account.companion }
 
   before do
-    create(:companion, account: account) if has_companion
-
-    @existing_notes = create_list(
-      :recommendation_note,
-      no_of_existing_notes,
-      account: account,
-    )
+    create(:companion, account: account, eligible: true) if has_companion
+    login_as(account)
   end
 
   let(:extra_setup) { nil }
   let(:has_companion) { false }
-  let(:no_of_existing_notes) { 0 }
 
   let(:visit_page) { visit card_accounts_path }
 
@@ -51,6 +44,8 @@ describe "as a user viewing my cards" do
 
   example "recommendation notes" do
     existing_notes = create_list(:recommendation_note, 2, account: account)
+    create(:card_recommendation, person: owner)
+    owner.update(last_recommendations_at: Time.zone.now)
     visit_page
     # shows most recent recommendation note only:
     expect(page).to have_content    existing_notes.last.content
@@ -99,7 +94,7 @@ describe "as a user viewing my cards" do
       end
     end
 
-    # has headers with me or my companion's names:
+    # has headers with owner's or companion's names:
     expect(page).to have_selector H, text: "#{owner.first_name}'s Cards"
     expect(page).to have_selector H, text: "#{companion.first_name}'s Cards"
   end
