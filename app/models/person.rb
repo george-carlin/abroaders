@@ -77,6 +77,6 @@ class Person < ApplicationRecord
 
   # Scopes
 
-  scope :owner,      -> { where(owner: true) }
+  scope :owner,     -> { where(owner: true) }
   scope :companion, -> { where(owner: false) }
 end
