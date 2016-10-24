@@ -51,6 +51,7 @@ RSpec.configure do |config|
   config.include AlertsMacros, type: :feature
   config.include DatepickerMacros, type: :feature
   config.include TitleHelper, type: :feature
+  config.include TypeaheadMacros, type: :feature
   config.include WaitForAjax, type: :feature
 
   # For info on how the 'manual_clean' option works, see the notes in
