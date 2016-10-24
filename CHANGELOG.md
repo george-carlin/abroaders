@@ -2,6 +2,37 @@
 
 ## October 2016
 
+*   Extract `Airport#full_name`. `f6baa57d`
+
+    *George Millo*
+
+*   Add a `<noscript>` tag telling users to turn JS on. `d4edb203`, `69aa4ba3`
+
+    *George Millo*
+
+*   Add `<Cols>` component and `columnClassnames.js` helper for adding
+    bootstrap CSS classes. `287dd89`, `925cfacfb`
+
+    *George Millo*
+
+*   Bug fix: make `ApplicationForm#save!` and `update!` raise errors correctly;
+    0c1beb100
+
+    *George Millo*
+
+*   Bug fix when users click balance survey buttons before JS has finished
+    loading; 74c34321e
+
+    *George Millo*
+
+*   Avoid boilerplate when passing params to Virtus; b480a842
+
+    *George Millo*
+
+*   Add ESLint and Rubocop to our workflow and get both tools passing.
+
+    *George Millo*
+
 *   Create a helper method 'n' that intelligently displays "you"
     or a person's name depending on whether or not the current
     account has a companion. Pivotal Tracker #130622249, GH #49
