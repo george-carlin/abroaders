@@ -1,13 +1,17 @@
 require "rails_helper"
 
-shared_examples "a TravelPlan form" do
+describe NewTravelPlanForm, type: :model do
+  let(:account) { Account.new }
+  let(:form)    { described_class.new(account: account, type: "single") }
+  subject { form }
+
   def errors_on(attr)
     form.tap(&:valid?).errors[attr]
   end
 
   it { is_expected.to validate_presence_of(:departure_date) }
-  it { is_expected.to validate_presence_of(:from_code) }
-  it { is_expected.to validate_presence_of(:to_code) }
+  it { is_expected.to validate_presence_of(:from) }
+  it { is_expected.to validate_presence_of(:to) }
   it { is_expected.to validate_presence_of(:no_of_passengers) }
   it do
     is_expected.to validate_numericality_of(:no_of_passengers)\
@@ -99,22 +103,41 @@ shared_examples "a TravelPlan form" do
       expect(errors_on(:return_date)).to be_empty
     end
   end
-end
-
-describe NewTravelPlanForm, type: :model do
-  let(:account) { Account.new }
-  let(:form)    { described_class.new(account: account, type: "single") }
-  subject { form }
-
-  it_behaves_like "a TravelPlan form"
 
   describe "#persist!" do
+    let(:airport_0) { create(:airport) }
+    let(:airport_1) { create(:airport) }
+
+    it "strips whitespace from further_information" do
+      account = form.account = create(:account, onboarding_state: :complete)
+      form.from = airport_0.full_name
+      form.to   = airport_1.full_name
+      form.no_of_passengers = 1
+      form.departure_date   = Date.today
+      form.further_information = '      something      '
+      expect { form.save! }.to change { account.travel_plans.count }.by(1)
+      plan = account.travel_plans.last
+      expect(plan.further_information).to eq 'something'
+    end
+
+    it "saves a blank further_information as nil" do
+      account = form.account = create(:account, onboarding_state: :complete)
+      form.from = airport_0.full_name
+      form.to   = airport_1.full_name
+      form.no_of_passengers = 1
+      form.departure_date   = Date.today
+      form.further_information = '      '
+      expect { form.save! }.to change { account.travel_plans.count }.by(1)
+      plan = account.travel_plans.last
+      expect(plan.further_information).to be nil
+    end
+
     context "when account is not onboarded" do
       it "updates the account's onboarding state" do
         account = create(:account, onboarding_state: :travel_plan)
-        form.account   = account
-        form.from_code = create(:airport).code
-        form.to_code   = create(:airport).code
+        form.account = account
+        form.from = airport_0.full_name
+        form.to   = airport_1.full_name
         form.no_of_passengers = 1
         form.departure_date   = Date.today
         expect { form.save! }.to change { account.travel_plans.count }.by(1)
@@ -122,16 +145,5 @@ describe NewTravelPlanForm, type: :model do
         expect(account.onboarding_state).to eq "account_type"
       end
     end
-  end
-end
-
-describe EditTravelPlanForm, type: :model do
-  skip "need to figure out a better approach for 'edit' form objects" do
-    let(:travel_plan) { create(:travel_plan, :return) }
-    let(:account) { Account.new }
-    let(:form)    { described_class.new(account: account, travel_plan: travel_plan) }
-    subject { form }
-
-    it_behaves_like "a TravelPlan form"
   end
 end

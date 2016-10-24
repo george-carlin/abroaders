@@ -6,9 +6,9 @@
     we’ll prioritize earning rewards that give you maximum flexibility.
   </p>
 
-  <%= form_for travel_plan.form_object, html: { class: "travel-plan-form" } do |f| %>
+  <%= form_for travel_plan, html: { class: "travel-plan-form" } do |f| %>
     <div class="row">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="col-xs-12">
         <% travel_plan.class.types.each do |type, _| %>
           <label class="type-radio">
             <%= t("activerecord.attributes.travel_plan.types.#{type}") %>
@@ -25,13 +25,19 @@
 
     <div class="travel-plan-input-group">
       <div class="from-to-line">
-        <%= text_field_tag "travel_plan_from_typeahead", travel_plan.from_name, class: "form-control typeahead travel-plan-from-field", placeholder: "From (airport)" %>
-        <%= f.hidden_field :from_code, class: "airport-code" %>
+        <%= f.text_field(
+          :from,
+          class: 'typeahead travel-plan-from-field',
+          placeholder: 'From (airport)'
+        ) %>
         <div class="travel-plan-icon-plane">
           <span class="fa fa-plane"></span>
         </div>
-        <%= text_field_tag "travel_plan_to_typeahead", travel_plan.to_name, class: "form-control typeahead travel-plan-to-field", placeholder: "To (airport)" %>
-        <%= f.hidden_field :to_code, class: "airport-code" %>
+        <%= f.text_field(
+          :to,
+          class: 'typeahead travel-plan-to-field',
+          placeholder: 'To (airport)'
+        ) %>
       </div>
 
       <div class="depart-return-passengers-line">
@@ -73,45 +79,20 @@
     </div>
 
     <div class="row">
-      <div class="col-xs-12 col-sm-12 col-md-7 col-lg-6">
+      <div class="col-xs-12 col-md-7 col-lg-6">
         <p>Check all acceptable classes:</p>
 
         <div class="row">
-          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-            <div class="form-group">
-              <%= f.label :will_accept_economy do %>
-                <%= f.check_box :will_accept_economy %>
-                &nbsp;Economy&nbsp;
-              <% end %>
+          <% %w[economy premium_economy business_class first_class].each do |cos| %>
+            <div class="col-xs-6">
+              <div class="form-group">
+                <%= f.label "will_accept_#{cos}" do %>
+                  <%= f.check_box "will_accept_#{cos}" %>
+                  &nbsp;<%= cos.titleize %>&nbsp;
+                <% end %>
+              </div>
             </div>
-          </div>
-
-          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-            <div class="form-group">
-              <%= f.label :will_accept_premium_economy do %>
-                <%= f.check_box :will_accept_premium_economy %>
-                &nbsp;Premium Economy&nbsp;
-              <% end %>
-            </div>
-          </div>
-
-          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-            <div class="form-group">
-              <%= f.label :will_accept_business_class do %>
-                <%= f.check_box :will_accept_business_class %>
-                &nbsp;Business Class&nbsp;
-              <% end %>
-            </div>
-          </div>
-
-          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-            <div class="form-group">
-              <%= f.label :will_accept_first_class do %>
-                <%= f.check_box :will_accept_first_class %>
-                &nbsp;First Class&nbsp;
-              <% end %>
-            </div>
-          </div>
+          <% end %>
         </div>
 
         <div class="row">
@@ -127,7 +108,7 @@
           </div>
         </div>
       </div>
-      <div class="col-xs-12 col-sm-12 col-md-5 col-lg-6">
+      <div class="col-xs-12 col-md-5 col-lg-6">
         <% unless travel_plan.persisted? %>
           <%# TODO make me work on the edit page too - right now I break the tests: %>
           <div data-react-component="PointsEstimateTable"></div>
@@ -136,17 +117,22 @@
     </div>
 
     <div class="row">
-      <div class="col-xs-12 col-sm-12 col-md-7 col-lg-6">
+      <div class="col-xs-12 col-md-7 col-lg-6">
         <div class="row">
           <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
             <%= f.button type: "submit", class: "btn-primary btn-block form-control" do %>
               <span class="fa fa-check"></span>
-              &nbsp;Save my travel Plan
+              &nbsp;Save my travel plan
             <% end %>
           </div>
-          <% if travel_plan.show_skip_survey? %>
+          <% unless current_account.onboarded? %>
             <div class="col-xs-12 col-sm-6">
-              <%= link_to_skip_survey %>
+              <%= link_to(
+                "I don't have specific plans",
+                skip_survey_travel_plans_path,
+                method: :patch,
+                class: "btn btn-block skip-survey-btn form-control",
+              ) %>
             </div>
           <% end %>
         </div>

@@ -1,8 +1,4 @@
 class NewTravelPlanForm < TravelPlanForm
-  def show_skip_survey?
-    !account.onboarded?
-  end
-
   def initialize(*args)
     super
     self.no_of_passengers ||= 1

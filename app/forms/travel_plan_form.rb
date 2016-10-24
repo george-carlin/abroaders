@@ -1,7 +1,13 @@
 class TravelPlanForm < ApplicationForm
   attribute :account,   Account
-  attribute :from_code, String
-  attribute :to_code,   String
+  # For 'from' and 'to', the user will submit a string like "London Heathrow
+  # (LHR)", which is filled in by the typeahead.js plugin. From this string we
+  # parse the airport code (in this case 'LHR') using a regex and find the
+  # right airport in that way. Previously we were saving the code in a hidden
+  # field that got updated by JS listening to custom events from the typeahead
+  # plugin, but it didn't work in some edge cases.
+  attribute :from,      String
+  attribute :to,        String
   attribute :type,      String, default: "return"
   attribute :no_of_passengers,            Integer
   attribute :will_accept_economy,         Boolean, default: false
@@ -23,19 +29,10 @@ class TravelPlanForm < ApplicationForm
   end
 
   US_DATE_FORMAT = "%m/%d/%Y".freeze
-
-  # Used to display the names again after an unsuccesful save. This is shitty
-  # code. I'm sorry.
-  def from_name
-    @from_name ||= typeahead_name(Airport.find_by_code!(from_code)) if from_code.present?
-  end
-
-  def to_name
-    @to_name ||= typeahead_name(Airport.find_by_code!(to_code)) if to_code.present?
-  end
+  US_DATE_REGEX = /\A\s*(?:0?[1-9]|1[0-2])\/(?:0?[1-9]|[1-2]\d|3[01])\/\d{4}\s*\Z/
 
   def us_date_format?(date)
-    date =~ /\A\s*(?:0?[1-9]|1[0-2])\/(?:0?[1-9]|[1-2]\d|3[01])\/\d{4}\s*\Z/
+    !!(date =~ US_DATE_REGEX)
   end
 
   def departure_date_str
@@ -74,20 +71,6 @@ class TravelPlanForm < ApplicationForm
     end
   end
 
-  # TODO this is display logic, doesn't belong in the Form object
-  def show_skip_survey?
-    true
-  end
-
-  # TODO this is display logic, doesn't belong in the Form object
-  def show_departure_date_help_block?
-    true
-  end
-
-  def form_object
-    self
-  end
-
   def owner_name(suffix = false)
     suffix = suffix ? "r" : ""
     "you#{suffix}"
@@ -97,7 +80,7 @@ class TravelPlanForm < ApplicationForm
     included do
       with_options presence: true do
         validates :departure_date
-        validates :from_code
+        validates :from
         validates(
           :no_of_passengers,
           numericality: {
@@ -106,7 +89,7 @@ class TravelPlanForm < ApplicationForm
             allow_blank: true,
           },
         )
-        validates :to_code
+        validates :to
         validates :type, inclusion: { in: %w[single return] }
       end
 
@@ -146,21 +129,31 @@ class TravelPlanForm < ApplicationForm
 
   private
 
+  CODE_REGEX = /\(([A-Z]{3})\)\s*\z/
+
+  def from_code
+    CODE_REGEX.match(from)[1]
+  end
+
+  def to_code
+    CODE_REGEX.match(to)[1]
+  end
+
   def flight_attributes
     {
-      from: Airport.find_by!(code: from_code),
-      to:   Airport.find_by!(code: to_code),
+      from: Airport.find_by_code!(from_code),
+      to:   Airport.find_by_code!(to_code),
     }
   end
 
   def travel_plan_attributes
     {
-      type:                 type,
-      depart_on:            departure_date,
-      return_on:            return_date,
-      further_information:  further_information&.strip,
-      no_of_passengers:     no_of_passengers,
       acceptable_classes:   acceptable_classes,
+      depart_on:            departure_date,
+      further_information:  (further_information.strip if further_information.present?),
+      no_of_passengers:     no_of_passengers,
+      return_on:            return_date,
+      type:                 type,
     }
   end
 
