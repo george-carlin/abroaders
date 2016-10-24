@@ -8,6 +8,8 @@
       <%= fa_icon "male" %> &times; <%= travel_plan.no_of_passengers %>
     </span>
 
+    <% if false %>
+    <%# editing travel plans is temp disabled %>
     <% if local_assigns[:show_links] %>
       &nbsp;
       <%= link_to "Edit", edit_travel_plan_path(travel_plan) %>
@@ -16,6 +18,7 @@
     <% if local_assigns[:show_admin_links] %>
         &nbsp;
         <%= link_to "Edit", edit_admin_travel_plan_path(travel_plan) %>
+    <% end %>
     <% end %>
   </div>
 

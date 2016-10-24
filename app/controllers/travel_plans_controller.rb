@@ -25,17 +25,19 @@ class TravelPlansController < AuthenticatedUserController
   end
 
   def edit
-    @travel_plan = EditTravelPlanForm.find(params[:id])
+    raise 'temporarily disabled'
+    # @travel_plan = EditTravelPlanForm.find(params[:id])
   end
 
   def update
-    @travel_plan = EditTravelPlanForm.find(params[:id])
-    if @travel_plan.update_attributes(travel_plan_params)
-      flash[:success] = "Updated travel plan"
-      redirect_to travel_plans_path
-    else
-      render "edit"
-    end
+    raise 'temporarily disabled'
+    # @travel_plan = EditTravelPlanForm.find(params[:id])
+    # if @travel_plan.update_attributes(travel_plan_params)
+    #   flash[:success] = "Updated travel plan"
+    #   redirect_to travel_plans_path
+    # else
+    #   render "edit"
+    # end
   end
 
   def skip_survey
