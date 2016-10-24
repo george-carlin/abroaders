@@ -69,7 +69,7 @@ describe CardAccountSerializer do
     expect(bank.keys).to match_array(%w[name personal_phone business_phone])
 
     expect(bank["name"]).to eq "Chase"
-    expect(bank["personal_phone"]).to eq "888-245-0625"
+    expect(bank["personal_phone"]).to eq "(888) 609-7805"
     expect(bank["business_phone"]).to eq "800 453-9719"
   end
 end

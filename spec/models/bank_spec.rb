@@ -35,7 +35,7 @@ describe Bank do
 
   example "#personal_phone" do
     bank = Bank.find_by_name("Chase")
-    expect(bank.personal_phone).to eq "888-245-0625"
+    expect(bank.personal_phone).to eq "(888) 609-7805"
   end
 
   example "#business_phone" do
@@ -75,7 +75,7 @@ describe Bank do
     expect(bank.attributes).to eq(
       "id" => 1,
       "name" => "Chase",
-      "personal_phone" => "888-245-0625",
+      "personal_phone" => "(888) 609-7805",
       "business_phone" => "800 453-9719",
     )
   end
