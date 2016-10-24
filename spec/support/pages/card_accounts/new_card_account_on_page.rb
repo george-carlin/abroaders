@@ -1,4 +1,5 @@
-require_relative "./card_account_on_page"
+require_relative './card_account_on_page'
+require_relative '../../datepicker_macros'
 
 class NewCardAccountOnPage < CardAccountOnPage
   include DatepickerMacros
