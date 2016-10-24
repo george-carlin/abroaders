@@ -7,13 +7,7 @@ describe "travel plans" do
   subject { page }
 
   before do
-    # dummy airports must have a 'real' region (i.e. the region's code must
-    # exist in the points_estimate csv) or the points estimate API call will
-    # crash
-    @usr = create(:region, code: "US")
-    @usc = create(:country, parent: @usr)
-    @city = create(:city, parent: @usc)
-    @airports = create_list(:airport, 5, parent: @city)
+    @airports = create_list(:airport, 5)
     login_as(account)
   end
 
