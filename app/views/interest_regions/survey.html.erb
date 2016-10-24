@@ -15,10 +15,7 @@
       <div class="row">
         <% present_each(@regions) do |region_p| %>
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 region-box">
-            <span class="region-name">
-              <%= region_p.name %>
-            </span>
-
+            <%= region_p.name_tag %>
             <%= region_p.survey_checkbox_tag %>
             <%= region_p.image %>
           </div>
