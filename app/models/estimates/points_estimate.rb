@@ -1,6 +1,5 @@
 module Estimates
   class PointsEstimate < BaseEstimate
-
     POINTS = begin
       csv  = File.read(Rails.root.join("lib", "data", "points_estimates.csv"))
       data = CSV.parse(csv)
@@ -29,6 +28,5 @@ module Estimates
     def key
       [from.region.code, to.region.code]
     end
-
   end
 end

@@ -1,7 +1,6 @@
 require "rails_helper"
 
 describe Card do
-
   let(:card) { described_class.new }
 
   describe "#bank" do
@@ -59,5 +58,4 @@ describe Card do
       expect(card.identifier).to eq "02-ABC-?"
     end
   end
-
 end

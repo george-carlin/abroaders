@@ -3,19 +3,19 @@ class SpendingInfosController < AuthenticatedUserController
 
   def new
     @person = load_person
-    redirect_if_inaccessible! and return
+    redirect_if_inaccessible! && return
     @spending_info = SpendingSurvey.new(person: @person)
   end
 
   def create
     @person = load_person
-    redirect_if_inaccessible! and return
+    redirect_if_inaccessible! && return
     @spending_info = SpendingSurvey.new(person: @person)
     if @spending_info.update_attributes(spending_survey_params)
       current_account.save!
       type = @person.type[0..2]
       track_intercom_event("obs_spending_#{type}")
-      track_intercom_event("obs_#{"un" unless @person.ready?}ready_#{type}")
+      track_intercom_event("obs_#{'un' unless @person.ready?}ready_#{type}")
       redirect_to survey_person_card_accounts_path(@person)
     else
       render :new
@@ -50,7 +50,7 @@ class SpendingInfosController < AuthenticatedUserController
       :business_spending_usd,
       :credit_score,
       :has_business,
-      :will_apply_for_loan
+      :will_apply_for_loan,
     )
   end
 
@@ -61,15 +61,17 @@ class SpendingInfosController < AuthenticatedUserController
       :has_business,
       :will_apply_for_loan,
       :unreadiness_reason,
-      :ready
+      :ready,
     )
   end
 
   def redirect_if_inaccessible!
     if !@person.eligible?
-      redirect_to survey_person_balances_path(@person) and return true
+      redirect_to survey_person_balances_path(@person)
+      true
     elsif @person.onboarded_spending?
-      redirect_to survey_person_card_accounts_path(@person) and return true
+      redirect_to survey_person_card_accounts_path(@person)
+      true
     end
   end
 end

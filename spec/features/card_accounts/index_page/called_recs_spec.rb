@@ -7,7 +7,7 @@ describe "user cards page - called cards", :js do
 
   let(:me) { account.owner }
 
-  let(:recommended_at) { 6.days.ago.to_date  }
+  let(:recommended_at) { 6.days.ago.to_date }
   let(:applied_at)     { 5.days.ago.to_date }
   let(:denied_at)      { 4.days.ago.to_date }
   let(:called_at)      { 3.days.ago.to_date }
@@ -19,7 +19,7 @@ describe "user cards page - called cards", :js do
       applied_at: applied_at,
       denied_at:  denied_at,
       called_at:  called_at,
-      person: me
+      person: me,
     )
     visit card_accounts_path
   end

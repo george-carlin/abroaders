@@ -18,6 +18,13 @@ class ApplicationForm
     instance
   end
 
+  def initialize(attributes = nil)
+    # Virtus will call `attributes.to_hash`, but this will raise a warning
+    # if attributes is an `ActionController::Parameters`. Avoid
+    # this warning by calling `to_h` instead:
+    super(attributes&.to_h)
+  end
+
   # If you're creating a Form object for *editing* a record rather than
   # creating a new one, you should override `persisted?` so that it returns
   # true.
@@ -45,16 +52,13 @@ class ApplicationForm
   end
 
   def save!
-    if save
-      true
-    else
-      raise ActiveRecord::RecordInvalid.new(errors.full_messages.join(", "))
-    end
+    return true if save
+    raise_invalid!
   end
 
   def assign_attributes(attributes)
     attributes.each do |key, value|
-      self.send "#{key}=", value
+      send "#{key}=", value
     end
   end
 
@@ -62,16 +66,13 @@ class ApplicationForm
     assign_attributes(attributes)
     save
   end
-  alias_method :update_attributes, :update
+  alias update_attributes update
 
   def update!(attributes)
-    if update_attributes(attributes)
-      true
-    else
-      raise ActiveRecord::RecordInvalid.new(errors.full_messages.join(", "))
-    end
+    return true if update_attributes(attributes)
+    raise_invalid!
   end
-  alias_method :update_attributes!, :update!
+  alias update_attributes! update!
 
   private
 
@@ -79,4 +80,7 @@ class ApplicationForm
     raise NotImplementedError, "subclasses of ApplicationForm must define a method called `persist!`"
   end
 
+  def raise_invalid!
+    raise ActiveRecord::RecordInvalid, self
+  end
 end

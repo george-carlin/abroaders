@@ -10,11 +10,9 @@ const ExpiringText = React.createClass({
     return {delay: 2000};
   },
 
-
   getInitialState() {
     return { visible: true };
   },
-
 
   componentDidMount() {
     // clear any existing timer
@@ -27,11 +25,9 @@ const ExpiringText = React.createClass({
     }, this.props.delay);
   },
 
-
   componentWillUnmount() {
     clearTimeout(this._timer);
   },
-
 
   render() {
     return this.state.visible
@@ -40,4 +36,4 @@ const ExpiringText = React.createClass({
   },
 });
 
-module.exports = ExpiringText;
+export default ExpiringText;

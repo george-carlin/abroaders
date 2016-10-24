@@ -16,25 +16,24 @@ class SignUp < ApplicationForm
   validate :email_is_unique, if: "email.present?"
 
   validates :email,
-    presence: true,
-    format: { with: Account.email_regexp, allow_blank: true }
+            presence: true,
+            format: { with: Account.email_regexp, allow_blank: true }
 
   validates :first_name,
-    presence: true,
-    length: { maximum: Person::NAME_MAX_LENGTH }
+            presence: true,
+            length: { maximum: Person::NAME_MAX_LENGTH }
   validates :password,
-    confirmation: true,
-    presence: true,
-    length: { within: Account.password_length, allow_blank: true }
+            confirmation: true,
+            presence: true,
+            length: { within: Account.password_length, allow_blank: true }
 
   private
 
   # ActiveModel::Validations doesn't provide validates_uniqueness_of, so
   # we have to do it ourselves:
   def email_is_unique
-    if Account.exists?(email: email.downcase) || Admin.exists?(email: email.downcase)
-      errors.add(:email, :taken)
-    end
+    return unless Account.exists?(email: email.downcase) || Admin.exists?(email: email.downcase)
+    errors.add(:email, :taken)
   end
 
   def persist!
@@ -48,5 +47,4 @@ class SignUp < ApplicationForm
     person = account.people.build(first_name: first_name.strip)
     person.save!(validate: false)
   end
-
 end

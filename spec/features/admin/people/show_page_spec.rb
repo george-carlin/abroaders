@@ -26,7 +26,7 @@ module AdminArea
         @chase_b = create_card(:business, @chase,   @currencies[0]),
         @chase_p = create_card(:personal, @chase,   @currencies[1]),
         @usb_b   = create_card(:business, @us_bank, @currencies[2]),
-        @usb_p   = create_card(:personal, @us_bank, @currencies[3])
+        @usb_p   = create_card(:personal, @us_bank, @currencies[3]),
       ]
 
       @independent_card = [@usb_p]
@@ -38,7 +38,7 @@ module AdminArea
         create(:offer, card: @chase_b),
         create(:offer, card: @chase_p),
         create(:offer, card: @usb_b),
-        create(:offer, card: @usb_p)
+        create(:offer, card: @usb_p),
       ]
       @dead_offer = create(:dead_offer, card: @chase_b)
     end
@@ -89,7 +89,7 @@ module AdminArea
       person.create_spending_info!(
         credit_score: 678,
         has_business: :with_ein,
-        business_spending_usd: 1500
+        business_spending_usd: 1500,
       )
       visit_path
       expect(page).to have_content "Credit score: 678"
@@ -108,35 +108,35 @@ module AdminArea
 
     example "person with travel plans" do
       @eu  = create(:region,  name: "Europe")
-      @uk  = create(:country, name: "UK",       parent: @eu)
+      @uk  = create(:country, name: "UK", parent: @eu)
       @lon = create(:city,    parent: @uk)
       @lhr = create(:airport, name: "Heathrow", parent: @lon)
 
       @as  = create(:region,  name: "Asia")
       @vn  = create(:country, name: "Vietnam", parent: @as)
       @hcm = create(:city,    parent: @vn)
-      @sgn = create(:airport, name: "HCMC",    parent: @hcm)
+      @sgn = create(:airport, name: "HCMC", parent: @hcm)
 
       @na  = create(:region,  name: "North America")
       @us  = create(:country, name: "United States", parent: @na)
       @nyc = create(:city,    parent: @us)
-      @jfk = create(:airport, name: "JFK",           parent: @nyc)
+      @jfk = create(:airport, name: "JFK", parent: @nyc)
 
       @tp_0 = create(
         :travel_plan, :single, account: @account,
-        flights: [Flight.new(from: @jfk, to: @lhr)]
+        flights: [Flight.new(from: @jfk, to: @lhr)],
       )
       @tp_1 = create(
         :travel_plan, :return, account: @account,
-        flights: [Flight.new(from: @na, to: @as)]
+        flights: [Flight.new(from: @na, to: @as)],
       )
       @tp_2 = create(
         :travel_plan, :multi, account: @account,
         flights: [
           Flight.new(from: @jfk, to: @eu, position: 0),
           Flight.new(from: @eu,  to: @vn, position: 1),
-          Flight.new(from: @sgn, to: @jfk, position: 2)
-        ]
+          Flight.new(from: @sgn, to: @jfk, position: 2),
+        ],
       )
 
       visit_path
@@ -204,10 +204,10 @@ module AdminArea
 
     example "person with points balances" do
       Balance.create!(
-        person: @person, currency: @currencies[0], value:  5000
+        person: @person, currency: @currencies[0], value:  5000,
       )
       Balance.create!(
-        person: @person, currency: @currencies[2], value: 10000
+        person: @person, currency: @currencies[2], value: 10_000,
       )
       visit_path
 
@@ -251,13 +251,13 @@ module AdminArea
 
     example "person has received recommendations" do
       @new_rec = person.card_recommendations.create!(
-        offer: offers[0], recommended_at: jan, person: person
+        offer: offers[0], recommended_at: jan, person: person,
       )
       @clicked_rec = person.card_recommendations.create!(
-        offer: offers[0], seen_at: jan, recommended_at: mar, clicked_at: oct
+        offer: offers[0], seen_at: jan, recommended_at: mar, clicked_at: oct,
       )
       @declined_rec = person.card_recommendations.create!(
-        offer: offers[0], recommended_at: oct, seen_at: mar, declined_at: dec, decline_reason: "because"
+        offer: offers[0], recommended_at: oct, seen_at: mar, declined_at: dec, decline_reason: "because",
       )
 
       last_recs_date = 5.days.ago
@@ -529,7 +529,7 @@ module AdminArea
         expect(offer_on_page).to have_button "Confirm"
 
         # clicking 'cancel' goes back a step, and doesn't recommend anything
-        expect{offer_on_page.click_cancel_btn}.not_to change{CardAccount.count}
+        expect { offer_on_page.click_cancel_btn }.not_to change { CardAccount.count }
         expect(offer_on_page).to have_button "Recommend"
         expect(offer_on_page).to have_no_button "Confirm"
         expect(offer_on_page).to have_no_button "Cancel"
@@ -542,7 +542,7 @@ module AdminArea
         expect do
           offer_on_page.click_confirm_btn
           wait_for_ajax
-        end.to change{@person.card_recommendations.count}.by(1)
+        end.to change { @person.card_recommendations.count }.by(1)
 
         expect(page).to have_content "Recommended!"
 
@@ -582,9 +582,9 @@ module AdminArea
         complete_card_recs_form.submit
         account.reload
       end.to \
-        change{account.notifications.count}.by(1).and \
-        change{account.unseen_notifications_count}.by(1).and \
-        send_email.to(account.email).with_subject("Action Needed: Card Recommendations Ready")
+        change { account.notifications.count }.by(1).and \
+          change { account.unseen_notifications_count }.by(1).and \
+            send_email.to(account.email).with_subject("Action Needed: Card Recommendations Ready")
 
       new_notification = account.notifications.order(created_at: :asc).last
 
@@ -599,7 +599,7 @@ module AdminArea
 
     example "clicking 'Done' without adding a recommendation note to the user" do
       visit_path
-      expect{complete_card_recs_form.submit}.to_not change{account.recommendation_notes.count}
+      expect { complete_card_recs_form.submit }.to_not change { account.recommendation_notes.count }
     end
 
     example "sending a recommendation note to the user" do
@@ -613,8 +613,8 @@ module AdminArea
       expect do
         complete_card_recs_form.submit
       end.to \
-        change{account.recommendation_notes.count}.by(1).and \
-        send_email.to(account.email).with_subject("Action Needed: Card Recommendations Ready")
+        change { account.recommendation_notes.count }.by(1).and \
+          send_email.to(account.email).with_subject("Action Needed: Card Recommendations Ready")
 
       email = ApplicationMailer.deliveries.last
       expect(email.body).to include note_content
@@ -638,7 +638,7 @@ module AdminArea
       complete_card_recs_form.add_rec_note("     \n \n \t\ \t ")
       expect do
         complete_card_recs_form.submit
-      end.to_not change{account.recommendation_notes.count}
+      end.to_not change { account.recommendation_notes.count }
     end
   end
 end

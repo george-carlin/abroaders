@@ -16,7 +16,7 @@ chdir APP_ROOT do
 
   puts '== Installing dependencies =='
   system! 'gem install bundler --conservative'
-  system('bundle check') or system!('bundle install')
+  system('bundle check') || system!('bundle install')
 
   puts "\n== Copying sample files =="
   unless File.exist?('config/database.yml')
@@ -37,8 +37,8 @@ chdir APP_ROOT do
 
   puts "\n== Setting up config/application.yml =="
   cp(
-    APP_ROOT.join("config","application.yml.template"),
-    APP_ROOT.join("config","application.yml"),
+    APP_ROOT.join("config", "application.yml.template"),
+    APP_ROOT.join("config", "application.yml"),
   )
 
   puts "\n== Restarting application server =="

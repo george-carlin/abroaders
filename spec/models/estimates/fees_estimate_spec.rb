@@ -86,7 +86,6 @@ module Estimates
       expect(estimate.low).to eq 65
       expect(estimate.high).to eq 185
 
-
       estimate.type = "return"
       #   EU,US,64,157,65,222,65,183
       #   US,EU,28,157,28,198,28,183
@@ -103,14 +102,14 @@ module Estimates
 
       estimate.no_of_passengers = 3
       estimate.class_of_service = "economy"
-      expect(estimate.low).to eq 90*3
-      expect(estimate.high).to eq 315*3
+      expect(estimate.low).to eq 90 * 3
+      expect(estimate.high).to eq 315 * 3
       estimate.class_of_service = "business_class"
-      expect(estimate.low).to eq 95*3
-      expect(estimate.high).to eq 420*3
+      expect(estimate.low).to eq 95 * 3
+      expect(estimate.high).to eq 420 * 3
       estimate.class_of_service = "first_class"
-      expect(estimate.low).to eq 95*3
-      expect(estimate.high).to eq 365*3
+      expect(estimate.low).to eq 95 * 3
+      expect(estimate.high).to eq 365 * 3
     end
   end
 end

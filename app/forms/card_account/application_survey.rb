@@ -24,17 +24,17 @@ class CardAccount::ApplicationSurvey < ApplicationForm
     when "call_and_deny"
       account.called_at = account.redenied_at = Time.now
     when "deny"
-      account.denied_at  = Time.now
+      account.denied_at = Time.now
       # Don't update applied_at if it's already present: they may have
       # previously applied, and are now hearing back from the bank (or they
       # nudged);
       account.applied_at ||= Time.now
     when "open"
-      if opened_at.present?
-        account.opened_at = opened_at
-      else
-        account.opened_at = Time.now
-      end
+      account.opened_at = if opened_at.present?
+                            opened_at
+                          else
+                            Time.now
+                          end
       # Don't update applied_at if it's already present: they may have
       # previously applied, and are only now hearing back from the bank:
       account.applied_at ||= account.opened_at
@@ -57,5 +57,4 @@ class CardAccount::ApplicationSurvey < ApplicationForm
 
     account.save!
   end
-
 end

@@ -2,12 +2,11 @@
 require "rails_helper"
 
 describe "user cards page - nudged cards", :js do
-
   include_context "logged in"
 
   let(:me) { account.owner }
 
-  let(:recommended_at) { 6.days.ago.to_date  }
+  let(:recommended_at) { 6.days.ago.to_date }
   let(:applied_at)     { 5.days.ago.to_date }
   let(:nudged_at)      { 4.days.ago.to_date }
 
@@ -17,7 +16,7 @@ describe "user cards page - nudged cards", :js do
       recommended_at: recommended_at,
       applied_at: applied_at,
       nudged_at:  nudged_at,
-      person: me
+      person: me,
     )
     visit card_accounts_path
   end

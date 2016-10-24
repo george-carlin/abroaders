@@ -4,7 +4,7 @@ class RackWithQuietAssets
   def initialize(app)
     @app = app
 
-    quiet_assets_paths = [ %r[\A/{0,2}#{Rails.application.config.assets.prefix}] ]
+    quiet_assets_paths = [%r[\A/{0,2}#{Rails.application.config.assets.prefix}]]
     @assets_regex = /\A(#{quiet_assets_paths.join('|')})/
   end
 

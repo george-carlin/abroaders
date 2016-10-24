@@ -73,5 +73,4 @@ describe OfferPresenter do
       end
     end
   end
-
 end

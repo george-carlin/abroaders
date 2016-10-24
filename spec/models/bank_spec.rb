@@ -1,7 +1,6 @@
 require "rails_helper"
 
 describe Bank do
-
   example ".find" do
     result = Bank.find(1)
     expect(result).to be_a(Bank)
@@ -64,23 +63,20 @@ describe Bank do
   end
 
   example "#==" do
-    b0 = Bank.find(1)
-    b1 = Bank.find(1)
-    b2 = Bank.find(3)
-    expect(b0 == b1).to be true
-    expect(b0 == b2).to be false
+    b_0 = Bank.find(1)
+    b_1 = Bank.find(1)
+    b_2 = Bank.find(3)
+    expect(b_0 == b_1).to be true
+    expect(b_0 == b_2).to be false
   end
 
   example "#attributes" do
     bank = Bank.find(1)
     expect(bank.attributes).to eq(
-      {
-        "id" => 1,
-        "name" => "Chase",
-        "personal_phone" => "888-245-0625",
-        "business_phone" => "800 453-9719",
-      }
+      "id" => 1,
+      "name" => "Chase",
+      "personal_phone" => "888-245-0625",
+      "business_phone" => "800 453-9719",
     )
   end
-
 end

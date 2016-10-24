@@ -11,7 +11,6 @@ module CardAccount::Expiration
   end
 
   module ClassMethods
-
     # Mark as 'expired' all recommendations which:
     #
     # a) were recommended to the user more than 15 days ago
@@ -26,9 +25,8 @@ module CardAccount::Expiration
     # @return [Fixnum] the number of recs that were expired
     def expire_old_recommendations!
       expirable.where(
-        "recommended_at < '#{EXPIRE_AFTER_NO_OF_DAYS.days.ago.utc.to_s(:db)}'"
+        "recommended_at < '#{EXPIRE_AFTER_NO_OF_DAYS.days.ago.utc.to_s(:db)}'",
       ).update_all(expired_at: Time.now)
     end
-
   end
 end

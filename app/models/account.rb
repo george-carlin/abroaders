@@ -2,14 +2,13 @@ class Account < ApplicationRecord
   # Include devise modules. Others available are:
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable,
-    :trackable, :validatable
+         :trackable, :validatable
 
   # Attributes
 
-  def has_companion
+  def has_companion?
     !!companion.try(:persisted?)
   end
-  alias_attribute :has_companion?, :has_companion
 
   def onboarded?
     onboarded_home_airports? && onboarded_travel_plans? && onboarded_type? && people.any? && people.all?(&:onboarded?)
@@ -17,9 +16,8 @@ class Account < ApplicationRecord
 
   def recommendations_expire_at
     expiring_recommendations = card_recommendations.unresolved.unapplied
-    if expiring_recommendations.any?
-      expiring_recommendations.minimum(:recommended_at) + 15.days + 7.hours
-    end
+    return if expiring_recommendations.none?
+    expiring_recommendations.minimum(:recommended_at) + 15.days + 7.hours
   end
 
   def onboarding_survey

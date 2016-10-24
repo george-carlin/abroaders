@@ -18,7 +18,7 @@ class Person < ApplicationRecord
 
   def onboarded?
     onboarded_eligibility? && onboarded_balances? && (
-      (ineligible?) || (onboarded_cards? && onboarded_spending?)
+      ineligible? || (onboarded_cards? && onboarded_spending?)
     )
   end
 
@@ -48,10 +48,6 @@ class Person < ApplicationRecord
   end
 
   concerning :Readiness do
-    def onboarded_readiness?
-      !ready.nil?
-    end
-
     def unready
       !ready?
     end

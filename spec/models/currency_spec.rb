@@ -1,7 +1,6 @@
 require "rails_helper"
 
 describe Currency do
-
   let(:currency) { described_class.new }
 
   describe "#alliance" do
@@ -20,9 +19,9 @@ describe Currency do
 
   describe "#alliance_id=" do
     it "resets the memoized alliance" do
-      currency.alliance_id  = 1
+      currency.alliance_id = 1
       memoized_alliance = currency.alliance
-      currency.alliance_id  = 3
+      currency.alliance_id = 3
       expect(currency.alliance).not_to eq memoized_alliance
     end
   end

@@ -9,16 +9,14 @@ class PersonPresenter < ApplicationPresenter
   delegate :email, :phone_number, to: :account
 
   def eligibility
-    onboarded_eligibility? ? (eligible? ?  "Yes" : "No") : "Unknown"
+    if onboarded_eligibility?
+      eligible? ? "Yes" : "No"
+    else
+      "Unknown"
+    end
   end
 
   def readiness
-    if ready.nil?
-      "Unknown"
-    elsif ready?
-      "Ready"
-    else
-      "Not ready"
-    end
+    ready ? "Ready" : "Not ready"
   end
 end

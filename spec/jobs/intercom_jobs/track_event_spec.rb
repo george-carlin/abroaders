@@ -9,7 +9,7 @@ module IntercomJobs
         @user = INTERCOM.users.create(
           email: email,
           name:  "Someone",
-          signed_up_at: Time.now.to_i
+          signed_up_at: Time.now.to_i,
         )
       end
     end
@@ -27,7 +27,7 @@ module IntercomJobs
         described_class.perform_now(
           event_name: event_name,
           email:      email,
-          created_at: Time.now.to_i
+          created_at: Time.now.to_i,
         )
 
         response = HTTParty.get(

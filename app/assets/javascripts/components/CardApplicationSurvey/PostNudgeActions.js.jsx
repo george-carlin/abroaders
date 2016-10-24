@@ -1,15 +1,14 @@
 import React from "react";
 
-const ConfirmOrCancelBtns = require("../ConfirmOrCancelBtns");
+import ConfirmOrCancelBtns from "../ConfirmOrCancelBtns";
 
-const ApprovedDeniedPendingBtnGroup = require("./ApprovedDeniedPendingBtnGroup");
-const IHeardBackButton              = require("./IHeardBackButton");
+import ApprovedDeniedPendingBtnGroup from "./ApprovedDeniedPendingBtnGroup";
+import IHeardBackButton              from "./IHeardBackButton";
 
 const PostNudgeActions = React.createClass({
   propTypes: {
     submitAction: React.PropTypes.func.isRequired,
   },
-
 
   getInitialState() {
     // Possible currentStates:
@@ -19,7 +18,6 @@ const PostNudgeActions = React.createClass({
     // - confirmDenied
     return { currentState: "initial" };
   },
-
 
   getAction() {
     switch (this.state.currentState) {
@@ -31,7 +29,6 @@ const PostNudgeActions = React.createClass({
         throw "this should never happen";
     }
   },
-
 
   getHelpText() {
     switch (this.state.currentState) {
@@ -46,31 +43,25 @@ const PostNudgeActions = React.createClass({
     }
   },
 
-
   setStateToApproved() {
     this.setState({currentState: "confirmApproved"});
   },
-
 
   setStateToDenied() {
     this.setState({currentState: "confirmDenied"});
   },
 
-
   setStateToInitial() {
     this.setState({currentState: "initial"});
   },
-
 
   setStateToHeardBack() {
     this.setState({currentState: "heardBack"});
   },
 
-
   submitAction() {
     this.props.submitAction(this.getAction());
   },
-
 
   render() {
     return (
@@ -110,4 +101,4 @@ const PostNudgeActions = React.createClass({
   },
 });
 
-module.exports = PostNudgeActions;
+export default PostNudgeActions;

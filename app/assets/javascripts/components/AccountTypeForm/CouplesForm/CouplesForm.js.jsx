@@ -6,11 +6,11 @@ import Form   from "../../core/Form";
 
 import HiddenField from "../../core/HiddenField";
 
-const MonthlySpending = require("../MonthlySpending");
-const PhoneNumber     = require("../PhoneNumber");
+import MonthlySpending from "../MonthlySpending";
+import PhoneNumber     from "../PhoneNumber";
 
-const Eligibility     = require("./Eligibility");
-const NameFields      = require("./NameFields");
+import Eligibility     from "./Eligibility";
+import NameFields      from "./NameFields";
 
 const CouplesForm = React.createClass({
   propTypes: {
@@ -19,7 +19,6 @@ const CouplesForm = React.createClass({
     onChoose:  React.PropTypes.func.isRequired,
     path:      React.PropTypes.string.isRequired,
   },
-
 
   getInitialState() {
     return {
@@ -32,21 +31,17 @@ const CouplesForm = React.createClass({
     };
   },
 
-
   onChangeEligibility(e) {
     this.setState({eligibility: e.target.value});
   },
-
 
   onChangeMonthlySpending(e) {
     this.setState({monthlySpending: parseInt(e.target.value, 10)});
   },
 
-
   onChangeCompanionName(e) {
     this.setState({ companionName: e.target.value });
   },
-
 
   onSubmit(e) {
     if (this.state.nameSubmitted) {
@@ -60,7 +55,6 @@ const CouplesForm = React.createClass({
       this.onSubmitCompanionName(e);
     }
   },
-
 
   onSubmitCompanionName(e, name) {
     e.preventDefault();
@@ -76,7 +70,6 @@ const CouplesForm = React.createClass({
   isMonthlySpendingPresentAndValid() {
     return this.state.monthlySpending && this.state.monthlySpending > 0;
   },
-
 
   render() {
     let classes = "CouplesForm account_type_select well col-xs-12 col-md-4";
@@ -186,4 +179,4 @@ const CouplesForm = React.createClass({
   },
 });
 
-module.exports = CouplesForm;
+export default CouplesForm;

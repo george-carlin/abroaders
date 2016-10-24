@@ -1,6 +1,5 @@
 module AdminArea
   class CardAccountPresenter < ::CardAccountPresenter
-
     def link_to_pull
       h.link_to(
         raw("&times;"),
@@ -25,6 +24,5 @@ module AdminArea
         &block
       )
     end
-
   end
 end

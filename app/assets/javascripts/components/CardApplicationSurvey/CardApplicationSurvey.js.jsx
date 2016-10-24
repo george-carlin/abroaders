@@ -5,15 +5,14 @@ import $     from "jquery";
 
 import Alert from "../core/Alert";
 
-const ApplyActions     = require("./ApplyActions");
-const CallActions      = require("./CallActions");
-const ExpiringText     = require("./ExpiringText");
-const NudgeActions     = require("./NudgeActions");
-const PostCallActions  = require("./PostCallActions");
-const PostNudgeActions = require("./PostNudgeActions");
+import ApplyActions     from "./ApplyActions";
+import CallActions      from "./CallActions";
+import ExpiringText     from "./ExpiringText";
+import NudgeActions     from "./NudgeActions";
+import PostCallActions  from "./PostCallActions";
+import PostNudgeActions from "./PostNudgeActions";
 
 const CardApplicationSurvey = React.createClass({
-
   propTypes: {
     applyPath:   React.PropTypes.string.isRequired,
     cardAccount: React.PropTypes.object.isRequired,
@@ -27,11 +26,9 @@ const CardApplicationSurvey = React.createClass({
     };
   },
 
-
   componentDidMount() {
     this.authenticityToken = $("meta[name='csrf-token']").prop("content");
   },
-
 
   // Return the component that contains the actions for this card account.
   // Note that for some card accounts, no further action is required.
@@ -52,7 +49,6 @@ const CardApplicationSurvey = React.createClass({
       return cardAccount.nudgedAt ? PostNudgeActions : NudgeActions;
     }
   },
-
 
   submitAction(action, extraData) {
     const data = {
@@ -88,7 +84,6 @@ const CardApplicationSurvey = React.createClass({
 
     this.setState({ ajaxStatus: "loading"});
   },
-
 
   render() {
     const actions = React.createElement(

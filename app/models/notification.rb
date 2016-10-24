@@ -1,5 +1,4 @@
 class Notification < ApplicationRecord
-
   def unseen?
     !seen?
   end
@@ -22,9 +21,7 @@ class Notification < ApplicationRecord
   private
 
   def update_account_unseen_notifications_count
-    if seen_changed?
-      account.send("#{seen ? "de" : "in"}crement_unseen_notifications_count")
-    end
+    return unless seen_changed?
+    account.send("#{seen ? 'de' : 'in'}crement_unseen_notifications_count")
   end
-
 end

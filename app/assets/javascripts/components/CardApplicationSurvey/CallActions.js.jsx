@@ -1,10 +1,10 @@
 import React from "react";
 
-const ConfirmOrCancelBtns = require("../ConfirmOrCancelBtns");
+import ConfirmOrCancelBtns from "../ConfirmOrCancelBtns";
 
-const ApprovedDeniedPendingBtnGroup = require("./ApprovedDeniedPendingBtnGroup");
-const ICalledButton                 = require("./ICalledButton");
-const PromptToCallTheBank           = require("./PromptToCallTheBank");
+import ApprovedDeniedPendingBtnGroup from "./ApprovedDeniedPendingBtnGroup";
+import ICalledButton                 from "./ICalledButton";
+import PromptToCallTheBank           from "./PromptToCallTheBank";
 
 const CallActions = React.createClass({
   propTypes: {
@@ -12,13 +12,11 @@ const CallActions = React.createClass({
     submitAction: React.PropTypes.func.isRequired,
   },
 
-
   getInitialState() {
     return { currentState: "initial" };
     // States:
     // "initial", "called", "confirmApproved", "confirmPending", "confirmDenied"
   },
-
 
   getAction() {
     switch (this.state.currentState) {
@@ -32,7 +30,6 @@ const CallActions = React.createClass({
         throw "this should never happen";
     }
   },
-
 
   getHelpText() {
     switch (this.state.currentState) {
@@ -49,41 +46,33 @@ const CallActions = React.createClass({
     }
   },
 
-
   setStateToApproved() {
     this.setState({currentState: "confirmApproved"});
   },
-
 
   setStateToCalled() {
     this.setState({currentState: "called"});
   },
 
-
   setStateToCancel() {
     this.setState({currentState: "called"});
   },
-
 
   setStateToDenied() {
     this.setState({currentState: "confirmDenied"});
   },
 
-
   setStateToPending() {
     this.setState({currentState: "confirmPending"});
   },
-
 
   submitAction() {
     this.props.submitAction(this.getAction());
   },
 
-
   bankName() {
     return this.props.cardAccount.card.bank.name;
   },
-
 
   phoneNumber() {
     const bank = this.props.cardAccount.card.bank;
@@ -93,7 +82,6 @@ const CallActions = React.createClass({
       return bank.businessPhone;
     }
   },
-
 
   render() {
     let buttons, helpText;
@@ -147,4 +135,4 @@ const CallActions = React.createClass({
   },
 });
 
-module.exports = CallActions;
+export default CallActions;

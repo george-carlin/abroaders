@@ -8,12 +8,11 @@ class AuthenticatedUserController < ApplicationController
 
   def redirect_if_onboarding_survey_incomplete!
     survey = current_account.onboarding_survey
-    if survey.redirect_from_request?(request)
-      if survey.complete?
-        redirect_to root_path
-      else
-        redirect_to survey.current_page.path
-      end
+    return unless survey.redirect_from_request?(request)
+    if survey.complete?
+      redirect_to root_path
+    else
+      redirect_to survey.current_page.path
     end
   end
 

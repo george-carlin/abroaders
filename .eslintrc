@@ -6,9 +6,7 @@
     "describe": true,
     "jest": true,
     "it": true,
-    "expect": true,
-    "$": true,
-    "_": true
+    "expect": true
   },
   "plugins": [
     "react"

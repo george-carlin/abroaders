@@ -42,13 +42,13 @@ class TravelPlansController < AuthenticatedUserController
 
   def skip_survey
     if current_account.onboarded_travel_plans
-      redirect_to type_account_path and return
+      redirect_to(type_account_path) && return
     end
     current_account.onboarded_travel_plans = true
     current_account.save!
     IntercomJobs::TrackEvent.perform_later(
       email:      current_account.email,
-      event_name: "obs_travel_plan"
+      event_name: "obs_travel_plan",
     )
     redirect_to type_account_path
   end
@@ -59,7 +59,7 @@ class TravelPlansController < AuthenticatedUserController
     params.require(:travel_plan).permit(
       :type, :earliest_departure, :further_information,
       :no_of_passengers, :will_accept_economy, :will_accept_premium_economy,
-      :will_accept_business_class, :will_accept_first_class, :from_id, :to_id
+      :will_accept_business_class, :will_accept_first_class, :from_id, :to_id,
     )
   end
 
@@ -70,5 +70,4 @@ class TravelPlansController < AuthenticatedUserController
   def load_travel_plan
     current_account.travel_plans.find(params[:id])
   end
-
 end

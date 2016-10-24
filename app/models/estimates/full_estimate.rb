@@ -17,8 +17,8 @@ module Estimates
       )
     end
 
-
-    def as_json(options={})
+    # as_json methods must accept an opts parameter, but we don't use it here
+    def as_json(_ = {})
       {
         from: from.code,
         to:   to.code,
@@ -34,7 +34,5 @@ module Estimates
         },
       }.stringify_keys
     end
-
-
   end
 end

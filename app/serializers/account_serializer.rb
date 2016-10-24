@@ -6,5 +6,4 @@ class AccountSerializer < ApplicationSerializer
 
   always_include :owner
   always_include :companion
-
 end

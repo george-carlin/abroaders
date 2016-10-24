@@ -25,7 +25,7 @@ describe "notifications" do
 
   context "when I have unread notifications" do
     let(:extra_setup) do
-      @notifications = 2.times.map { create(:unseen_notification, account: me) }
+      @notifications = Array.new(2) { create(:unseen_notification, account: me) }
       # My seen notification:
       create(:seen_notification, account: me)
       other_account = create(:account)
@@ -64,7 +64,7 @@ describe "notifications" do
       end
 
       it "decrements unseen_notifications_count" do
-        expect{click}.to change{account.reload.unseen_notifications_count}.by(-1)
+        expect { click }.to change { account.reload.unseen_notifications_count }.by(-1)
       end
     end
   end
@@ -80,5 +80,4 @@ describe "notifications" do
       end
     end
   end
-
 end

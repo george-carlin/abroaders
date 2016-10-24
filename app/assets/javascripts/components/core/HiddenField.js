@@ -18,7 +18,7 @@ import HTMLInput    from "./shared/HTMLInput";
 // tag. Since hidden fields are hidden (duh), they don't need any Bootstrap CSS
 // classes, so there's no need wrapping them in another component.
 const HiddenField = (props) => {
-  return createElement("input", HTMLInput.getProps(props));
+  return createElement("input", HTMLInput.getProps(props, { type: "hidden" }));
 };
 
 HiddenField.propTypes = Object.assign({}, HTMLInput.propTypes);

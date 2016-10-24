@@ -1,6 +1,6 @@
 module AdminArea
   class CardRecommendation < ApplicationForm
-    attribute :offer_id, Fixnum
+    attribute :offer_id, Integer
     attribute :person,   Person
 
     # The card account that is created on save:

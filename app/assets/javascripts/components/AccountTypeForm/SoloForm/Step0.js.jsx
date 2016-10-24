@@ -2,13 +2,10 @@ import React from "react";
 
 import Button from "../../core/Button";
 
-const SoloFormStep0 = React.createClass({
-  propTypes: {
-    onSubmit: React.PropTypes.func.isRequired,
-  },
+const Step0 = (_props) => {
+  const props = Object.assign({}, _props);
 
-  render() {
-    return (
+  return (
       <div>
         <p>
           Abroaders will help you maximize the points you earn with your
@@ -16,14 +13,19 @@ const SoloFormStep0 = React.createClass({
         </p>
 
         <Button
-          onClick={this.props.onSubmit}
+          onClick={props.onSubmit}
           primary
         >
           Sign up for solo earning
         </Button>
       </div>
-    );
-  },
-});
+  );
+};
 
-module.exports = SoloFormStep0;
+Step0.propTypes = Object.assign(
+  {
+    onSubmit: React.PropTypes.func.isRequired,
+  }
+);
+
+export default Step0;

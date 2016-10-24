@@ -1,12 +1,12 @@
 module AdminArea
   class AccountsController < AdminController
-
     # GET /admin/accounts
     def index
       person_assocs = [:spending_info]
       @accounts = Account.includes(
         people: person_assocs,
-        owner: person_assocs, companion: person_assocs,
+        owner: person_assocs,
+        companion: person_assocs,
       ).order("email ASC")
     end
 
@@ -30,11 +30,6 @@ module AdminArea
 
     def load_account
       Account.find(params[:id])
-    end
-
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def account_params
-      params[:account]
     end
   end
 end

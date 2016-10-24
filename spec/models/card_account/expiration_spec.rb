@@ -10,7 +10,8 @@ describe CardAccount::Expiration do
     def create(factory, *args)
       if factory == :card_rec
         opts = args.extract_options!
-        opts.merge!(person: person, offer: offer)
+        opts[:person] = person
+        opts[:offer] = offer
         super(factory, *args, opts)
       else
         super(factory, *args)
@@ -49,7 +50,7 @@ describe CardAccount::Expiration do
       # recommended recently:
       person.card_recommendations.create!(
         offer: offer,
-        recommended_at: keep
+        recommended_at: keep,
       ),
       # added in onboarding survey:
       person.card_accounts.from_survey.create!(offer: offer),
@@ -57,21 +58,21 @@ describe CardAccount::Expiration do
       person.card_recommendations.create!(
         offer: offer,
         recommended_at: keep,
-        seen_at: Time.now
+        seen_at: Time.now,
       ),
       # recommended recently, seen, and clicked
       person.card_recommendations.create!(
         offer: offer,
         recommended_at: keep,
         seen_at: Time.now,
-        clicked_at: Time.now
+        clicked_at: Time.now,
       ),
       # recommended before cutoff point, but clicked
       person.card_recommendations.create!(
         offer: offer,
         recommended_at: lose,
         seen_at: Time.now,
-        clicked_at: Time.now
+        clicked_at: Time.now,
       ),
       # recommended before cutoff point, but declined
       person.card_recommendations.create!(
@@ -79,7 +80,7 @@ describe CardAccount::Expiration do
         recommended_at: lose,
         seen_at: Time.now,
         declined_at: Time.now,
-        decline_reason: "whatever"
+        decline_reason: "whatever",
       ),
       # recommended before cutoff point, but applied
       person.card_recommendations.create!(
@@ -101,7 +102,7 @@ describe CardAccount::Expiration do
     already_expired = person.card_recommendations.create!(
       offer: offer,
       recommended_at: lose,
-      expired_at: 5.days.ago
+      expired_at: 5.days.ago,
     )
 
     # 5.days.ago has nanosecond precision, but when `already_expired` is
@@ -115,20 +116,20 @@ describe CardAccount::Expiration do
       # recommended > 15 days ago:
       person.card_recommendations.create!(
         offer: offer,
-        recommended_at: lose
+        recommended_at: lose,
       ),
       # cards that have only been *seen* should still expire:
       person.card_recommendations.create!(
         offer: offer,
         recommended_at: lose,
-        seen_at: Time.now
+        seen_at: Time.now,
       ),
     ]
 
     expect do
       CardAccount.expire_old_recommendations!
       already_expired.reload
-    end.not_to change{already_expired.expired_at}
+    end.not_to change { already_expired.expired_at }
 
     expect(to_not_expire.all? { |ca| ca.reload.expired_at.nil? }).to be true
 

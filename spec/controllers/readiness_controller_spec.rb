@@ -2,7 +2,6 @@ require "rails_helper"
 
 describe ReadinessController do
   describe "GET #edit" do
-
     subject { get :edit }
 
     context "when account has companion" do

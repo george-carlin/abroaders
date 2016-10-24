@@ -68,5 +68,4 @@ describe "account dashboard" do
 
     expect(page).to have_no_content "#{person.first_name} is not ready to apply for cards."
   end
-
 end

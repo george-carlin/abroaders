@@ -5,7 +5,7 @@ describe "admin pages" do
 
   subject { page }
 
-  let(:image_path) { Rails.root.join("spec","support","example_card_image.png") }
+  let(:image_path) { Rails.root.join("spec", "support", "example_card_image.png") }
 
   def card_selector(card)
     "##{dom_id(card)}"
@@ -34,7 +34,7 @@ describe "admin pages" do
       visit admin_cards_path
     end
 
-    let(:cards) { [ @survey_card, @non_survey_card ] }
+    let(:cards) { [@survey_card, @non_survey_card] }
 
     it { is_expected.to have_title full_title("Cards") }
 
@@ -97,7 +97,7 @@ describe "admin pages" do
           select "Business",   from: :card_bp
           select "Credit",     from: :card_type
           # BUG: allow decimal values TODO
-          fill_in :card_annual_fee, with: 549#.99
+          fill_in :card_annual_fee, with: 549 # .99
           select currency_name, from: :card_currency_id
           select "Wells Fargo", from: :card_bank_id
           uncheck :card_shown_on_survey
@@ -107,7 +107,7 @@ describe "admin pages" do
         let(:card) { Card.last }
 
         it "creates a card" do
-          expect{submit_form}.to change{Card.count}.by(1)
+          expect { submit_form }.to change { Card.count }.by(1)
         end
 
         it "shows me the newly created card" do
@@ -117,7 +117,7 @@ describe "admin pages" do
           expect(page).to have_content "MasterCard"
           expect(page).to have_content "Business"
           expect(page).to have_content "Credit"
-          expect(page).to have_content "$549.00"#99"
+          expect(page).to have_content "$549.00" # 99"
           expect(page).to have_content currency_name
           expect(page).to have_content "Wells Fargo"
           expect(page).to have_selector "img[src='#{card.image.url}']"
@@ -135,7 +135,7 @@ describe "admin pages" do
         context "and no currency" do
           let(:currency_name) { "No currency" }
           it "creates a card with no currency" do
-            expect{submit_form}.to change{Card.count}.by(1)
+            expect { submit_form }.to change { Card.count }.by(1)
             new_card = Card.last
             expect(new_card.currency).to be_nil
           end
@@ -144,7 +144,7 @@ describe "admin pages" do
 
       describe "with invalid information" do
         it "doesn't create a card" do
-          expect{submit_form}.not_to change{Card.count}
+          expect { submit_form }.not_to change { Card.count }
         end
       end
     end
@@ -159,7 +159,7 @@ describe "admin pages" do
         bp:      :personal,
         network: :visa,
         type:    :credit,
-        shown_on_survey: false
+        shown_on_survey: false,
       )
       visit edit_admin_card_path(@card)
     end
@@ -226,7 +226,7 @@ describe "admin pages" do
         before { fill_in :card_code, with: "" }
 
         it "doesn't update the card" do
-          expect{submit_form}.not_to change{@card.reload.attributes}
+          expect { submit_form }.not_to change { @card.reload.attributes }
         end
       end
     end

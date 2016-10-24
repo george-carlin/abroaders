@@ -3,12 +3,12 @@ import _     from "underscore";
 
 import ButtonGroup from "../core/ButtonGroup";
 
-const ConfirmOrCancelBtns = require("../ConfirmOrCancelBtns");
+import ConfirmOrCancelBtns from "../ConfirmOrCancelBtns";
 
-const ApprovedDeniedPendingBtnGroup = require("./ApprovedDeniedPendingBtnGroup");
-const ICalledButton                 = require("./ICalledButton");
-const IHeardBackButton              = require("./IHeardBackButton");
-const PromptToCallTheBank           = require("./PromptToCallTheBank");
+import ApprovedDeniedPendingBtnGroup from "./ApprovedDeniedPendingBtnGroup";
+import ICalledButton                 from "./ICalledButton";
+import IHeardBackButton              from "./IHeardBackButton";
+import PromptToCallTheBank           from "./PromptToCallTheBank";
 
 const NudgeActions = React.createClass({
   propTypes: {
@@ -29,7 +29,6 @@ const NudgeActions = React.createClass({
     return { currentState: "initial" };
   },
 
-
   getAction() {
     switch (this.state.currentState) {
       case "confirmNudgedAndApproved":
@@ -46,7 +45,6 @@ const NudgeActions = React.createClass({
         throw "this should never happen";
     }
   },
-
 
   getHelpText() {
     const bankName = this.bankName();
@@ -84,56 +82,45 @@ const NudgeActions = React.createClass({
     }
   },
 
-
   setStateToApproved() {
     this.setState({currentState: "confirmApproved"});
   },
-
 
   setStateToDenied() {
     this.setState({currentState: "confirmDenied"});
   },
 
-
   setStateToHeardBack() {
     this.setState({currentState: "heardBack"});
   },
-
 
   setStateToInitial() {
     this.setState({currentState: "initial"});
   },
 
-
   setStateToNudged() {
     this.setState({currentState: "nudged"});
   },
-
 
   setStateToNudgedAndApproved() {
     this.setState({currentState: "confirmNudgedAndApproved"});
   },
 
-
   setStateToNudgedAndDenied() {
     this.setState({currentState: "confirmNudgedAndDenied"});
   },
-
 
   setStateToNudgedAndPending() {
     this.setState({currentState: "confirmNudgedAndPending"});
   },
 
-
   submitAction() {
     this.props.submitAction(this.getAction());
   },
 
-
   bankName() {
     return this.props.cardAccount.card.bank.name;
   },
-
 
   render() {
     return (

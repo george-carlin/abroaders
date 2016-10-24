@@ -24,4 +24,4 @@ const IHeardBackButton = ({bankName, onClick}) => {
   );
 };
 
-module.exports = IHeardBackButton;
+export default IHeardBackButton;

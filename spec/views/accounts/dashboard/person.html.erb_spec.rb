@@ -1,7 +1,6 @@
 require "rails_helper"
 
 describe "accounts/dashboard/person" do
-
   let(:person)  { create(:person) }
   let(:account) { person.account }
 
@@ -33,7 +32,7 @@ describe "accounts/dashboard/person" do
           "we need to know if this person already has any existing "\
           "frequent flyer balances."
         expect(rendered).to have_link add_balances,
-          href: survey_person_balances_path(person)
+                                      href: survey_person_balances_path(person)
       end
     end
 
@@ -47,13 +46,13 @@ describe "accounts/dashboard/person" do
           "we need to know if this person already has any existing "\
           "frequent flyer balances."
         expect(rendered).not_to have_link add_balances,
-          href: survey_person_balances_path(person)
+                                          href: survey_person_balances_path(person)
       end
 
       context "but has no balances" do
-        it {
+        it do
           is_expected.to have_content "No existing frequent flyer balances"
-        }
+        end
       end
 
       context "and added some balances" do
@@ -153,7 +152,7 @@ describe "accounts/dashboard/person" do
         expect(rendered).to have_content \
           "You have not added this person's financial details"
         expect(rendered).to have_link add_spending,
-            href: new_person_spending_info_path(person)
+                                      href: new_person_spending_info_path(person)
       end
     end
 
@@ -199,7 +198,7 @@ describe "accounts/dashboard/person" do
             "Before we can recommend any credit cards to this person, "\
             "we need to know which cards they already have."
           expect(rendered).to have_link add_cards,
-              href: survey_person_card_accounts_path(person)
+                                        href: survey_person_card_accounts_path(person)
         end
       end
 

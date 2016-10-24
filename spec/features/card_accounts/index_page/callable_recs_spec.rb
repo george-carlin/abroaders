@@ -1,12 +1,11 @@
 require "rails_helper"
 
 describe "user cards page - callable cards", :js do
-
   include_context "logged in"
 
   let(:me) { account.owner }
 
-  let(:recommended_at) { 7.days.ago.to_date  }
+  let(:recommended_at) { 7.days.ago.to_date }
   let(:applied_at) { 7.days.ago.to_date }
   let(:denied_at)  { 5.days.ago.to_date }
   let(:bp) { :personal }
@@ -35,7 +34,7 @@ describe "user cards page - callable cards", :js do
     expect(rec_on_page).to have_content "We strongly recommend that you call #{@bank.name}"
     expect(rec_on_page).to have_content(
       "More than 30% of applications that are initially denied are "\
-      "overturned with a 5-10 minute phone call."
+      "overturned with a 5-10 minute phone call.",
     )
     expect(rec_on_page).to have_i_called_btn
   end

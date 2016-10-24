@@ -21,7 +21,7 @@ module Capybara
   module Queries
     class SelectorQuery
       def warn(*messages)
-        if messages.first =~ /\AUnused parameters/
+        if messages.first.start_with?('Unused parameters')
           raise messages.first
         else
           super

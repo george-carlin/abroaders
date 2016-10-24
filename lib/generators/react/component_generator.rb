@@ -53,9 +53,9 @@ module React
       DESC
 
       argument :attributes,
-               :type => :array,
-               :default => [],
-               :banner => "field[:type] field[:type] ..."
+               type: :array,
+               default: [],
+               banner: "field[:type] field[:type] ..."
 
       REACT_PROP_TYPES = {
         "node" =>        'React.PropTypes.node',
@@ -71,23 +71,23 @@ module React
         "function" =>    'React.PropTypes.func',
         "any" =>         'React.PropTypes.any',
 
-        "instanceOf" => ->(type) {
+        "instanceOf" => ->(type) do
           'React.PropTypes.instanceOf(%s)' % type.to_s.camelize
-        },
+        end,
 
-        "oneOf" => ->(*options) {
-          enums = options.map{|k| "'#{k.to_s}'"}.join(',')
+        "oneOf" => ->(*options) do
+          enums = options.map { |k| "'#{k}'" }.join(',')
           'React.PropTypes.oneOf([%s])' % enums
-        },
+        end,
 
-        "oneOfType" => ->(*options) {
-          types = options.map{|k| "#{lookup(k.to_s, k.to_s)}" }.join(',')
+        "oneOfType" => ->(*options) do
+          types = options.map { |k| lookup(k.to_s, k.to_s).to_s }.join(',')
           'React.PropTypes.oneOfType([%s])' % types
-        },
-      }
+        end,
+      }.freeze
 
       def create_component_file
-        dir =  File.join('app/assets/javascripts/components', "#{file_name.camelize}")
+        dir = File.join('app/assets/javascripts/components', file_name.camelize.to_s)
         package_path = File.join(dir, "package.json")
         file_path    = File.join(dir, "#{file_name.camelize}.js.jsx")
         template("package.json.erb", package_path)

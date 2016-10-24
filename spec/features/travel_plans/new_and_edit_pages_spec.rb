@@ -41,7 +41,7 @@ describe "travel plans" do
       visit new_travel_plan_path
     end
 
-    SKIP_LINK = "I don't want to add a travel plan right now"
+    SKIP_LINK = "I don't want to add a travel plan right now".freeze
 
     example "after onboarding survey" do
       complete_onboarding_survey!
@@ -60,7 +60,7 @@ describe "travel plans" do
       visit_path
       expect do
         click_link SKIP_LINK
-      end.not_to change{TravelPlan.count}
+      end.not_to change { TravelPlan.count }
 
       # marks travel plans as onboarded:
       expect(account.reload.onboarded_travel_plans).to eq true
@@ -120,7 +120,7 @@ describe "travel plans" do
 
         context "with trailing whitespace" do
           before do
-            fill_in :travel_plan_earliest_departure,  with: " #{date.strftime("%m/%d/%Y")} "
+            fill_in :travel_plan_earliest_departure,  with: " #{date.strftime('%m/%d/%Y')} "
             fill_in :travel_plan_further_information, with: " Something "
             submit_form
           end
@@ -135,12 +135,12 @@ describe "travel plans" do
         context "when further information is blank" do
           let(:further_info) { "" }
           it "is valid" do
-            expect{submit_form}.to change{account.travel_plans.count}.by(1)
+            expect { submit_form }.to change { account.travel_plans.count }.by(1)
           end
         end
 
         it "creates a travel plan" do
-          expect{submit_form}.to change{account.travel_plans.count}.by(1)
+          expect { submit_form }.to change { account.travel_plans.count }.by(1)
           plan   = account.reload.travel_plans.last
           flight = plan.flights.first
           expect(flight.from).to eq @us
@@ -185,7 +185,7 @@ describe "travel plans" do
 
       context "with invalid information" do
         it "doesn't create a travel plan" do
-          expect{submit_form}.not_to change{TravelPlan.count}
+          expect { submit_form }.not_to change { TravelPlan.count }
         end
 
         it "shows me the form again" do

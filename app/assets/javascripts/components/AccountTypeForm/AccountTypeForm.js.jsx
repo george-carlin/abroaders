@@ -2,8 +2,8 @@ import React from "react";
 
 import Row from "../core/Row";
 
-const SoloForm    = require("./SoloForm");
-const CouplesForm = require("./CouplesForm");
+import SoloForm from "./SoloForm";
+import CouplesForm from "./CouplesForm";
 
 const AccountTypeForm = React.createClass({
   propTypes: {
@@ -13,22 +13,18 @@ const AccountTypeForm = React.createClass({
     couplesPath:     React.PropTypes.string.isRequired,
   },
 
-
   getInitialState() {
     // currentAction is one of "initial", "choosingSolo", "choosingCouples"
     return { currentAction: "initial" };
   },
 
-
   onChooseCouples() {
     this.setState({currentAction: "choosingCouples"});
   },
 
-
   onChooseSolo() {
     this.setState({currentAction: "choosingSolo"});
   },
-
 
   getTrip() {
     if (this.props.destinationName && this.props.destinationName.length) {
@@ -36,7 +32,6 @@ const AccountTypeForm = React.createClass({
     }
     return "next trip";
   },
-
 
   render() {
     return (
@@ -49,7 +44,6 @@ const AccountTypeForm = React.createClass({
             your {this.getTrip()}
           </p>
         </div>
-
 
         {(() => {
           if (!(this.state.currentAction === "choosingCouples")) {

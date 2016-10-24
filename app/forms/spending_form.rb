@@ -30,7 +30,7 @@ class SpendingForm < ApplicationForm
               # avoid duplicate error message (from presence validation) when nil:
               allow_blank: true,
                 greater_than_or_equal_to: ::SpendingInfo::MINIMUM_CREDIT_SCORE,
-                less_than_or_equal_to:    ::SpendingInfo::MAXIMUM_CREDIT_SCORE
+                less_than_or_equal_to:    ::SpendingInfo::MAXIMUM_CREDIT_SCORE,
             },
             presence: true
 
@@ -39,17 +39,17 @@ class SpendingForm < ApplicationForm
               # avoid duplicate error message (from presence validation) when nil:
               allow_blank: true,
                 greater_than_or_equal_to: 0,
-                less_than_or_equal_to: POSTGRESQL_MAX_INT_VALUE
+                less_than_or_equal_to: POSTGRESQL_MAX_INT_VALUE,
             },
             presence: true,
             if: :has_business?
 
   def spending_info_attributes
     {
-        business_spending_usd:  has_business? ? business_spending_usd : nil,
-        credit_score:           credit_score,
-        has_business:           has_business,
-        will_apply_for_loan:    will_apply_for_loan
+      business_spending_usd:  has_business? ? business_spending_usd : nil,
+      credit_score:           credit_score,
+      has_business:           has_business,
+      will_apply_for_loan:    will_apply_for_loan,
     }
   end
 end

@@ -48,9 +48,11 @@ RSpec.configure do |config|
   config.include Devise::TestHelpers, type: :controller
   config.include FactoryGirl::Syntax::Methods
   config.include I18nWithErrorRaising
-  config.include WaitForAjax, type: :feature
   config.include AlertsMacros, type: :feature
+  config.include DatepickerMacros, type: :feature
   config.include TitleHelper, type: :feature
+  config.include TypeaheadMacros, type: :feature
+  config.include WaitForAjax, type: :feature
 
   # For info on how the 'manual_clean' option works, see the notes in
   # spec/support/test_data_store.rb
@@ -100,9 +102,8 @@ RSpec.configure do |config|
   end
 
   def send_all_enqueued_emails!
-    enqueued_jobs.select{ |job| job[:job] == ActionMailer::DeliveryJob }.each do |job|
+    enqueued_jobs.select { |job| job[:job] == ActionMailer::DeliveryJob }.each do |job|
       ActionMailer::DeliveryJob.perform_now(*job[:args])
     end
   end
-
 end
