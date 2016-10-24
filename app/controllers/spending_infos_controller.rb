@@ -3,6 +3,7 @@ class SpendingInfosController < AuthenticatedUserController
 
   def survey
     @survey = SpendingSurvey.new(account: current_account)
+    @values = {}
   end
 
   def save_survey
@@ -11,6 +12,7 @@ class SpendingInfosController < AuthenticatedUserController
       # track_intercom_event("obs_spending_#{type}")
       redirect_to onboarding_survey_path
     else
+      @values = params[:spending_survey].to_json
       render :survey
     end
   end

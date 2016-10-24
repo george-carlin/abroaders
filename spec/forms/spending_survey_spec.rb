@@ -94,4 +94,21 @@ describe SpendingSurvey, type: :model do
 
     expect(account.onboarding_state).to eq "readiness"
   end
+
+  specify 'saving ignores business spending when has_business is false' do
+    account = create(:account, :with_companion, :eligible, onboarding_state: :spending)
+    survey = described_class.new(account: account)
+    survey.monthly_spending = 5000
+    survey.owner_credit_score = survey.companion_credit_score = 500
+    survey.owner_has_business = survey.companion_has_business = 'no_business'
+    survey.owner_business_spending_usd = survey.companion_business_spending_usd = 12345
+
+    expect do
+      survey.save!
+    end.to change { SpendingInfo.count }.by(2)
+    account.reload
+
+    expect(account.owner.spending_info.business_spending_usd).to be_nil
+    expect(account.companion.spending_info.business_spending_usd).to be_nil
+  end
 end

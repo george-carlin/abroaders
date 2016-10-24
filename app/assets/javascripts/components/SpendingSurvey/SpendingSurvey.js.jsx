@@ -62,24 +62,30 @@ const SpendingSurvey = React.createClass({
 
   render() {
     const props = this.props;
-    const bothEligible = props.ownerEligible && props.companionEligible;
+    const isCouplesAccount = !!props.companionFirstName;
+    const bothEligible   = props.ownerEligible && props.companionEligible;
 
     if (!props.ownerEligible && !props.companionEligible) { // sanity check
       throw "at least one person must be eligible";
     }
 
+    // If it's a couples account, refer to each person by their name instead of
+    // addressing the account as 'you', so they know which person the
+    // question(s) pertain to. This is the case even when only one person is
+    // eligible so the survey only asks about one person - they still need to
+    // know which person we're talking about.
     const colsClassName = columnClassnames({ xs: 12, md: bothEligible ? 6 : 12 });
     const ownerFormGroupProps = {
       className:  colsClassName,
       firstName:  props.ownerFirstName,
       personType: "owner",
-      useName:    bothEligible,
+      useName:    isCouplesAccount,
     };
     const companionFormGroupProps = {
       className:  colsClassName,
       firstName:  props.companionFirstName,
       personType: "companion",
-      useName:    bothEligible,
+      useName:    isCouplesAccount,
     };
 
     return (
@@ -130,7 +136,7 @@ const SpendingSurvey = React.createClass({
 
                     {this.state.ownerHasBusiness !== "no_business" ?
                       <BusinessSpendingFormGroup
-                        defaultValue={this.ownerBusinessSpending}
+                        defaultValue={this.state.ownerBusinessSpendingUsd}
                         {...ownerFormGroupProps}
                       /> : null
                     }
@@ -146,7 +152,7 @@ const SpendingSurvey = React.createClass({
 
                     {this.state.companionHasBusiness !== "no_business" ?
                       <BusinessSpendingFormGroup
-                        defaultValue={this.companionBusinessSpending}
+                        defaultValue={this.state.companionBusinessSpendingUsd}
                         {...companionFormGroupProps}
                       /> : null
                     }

@@ -24,10 +24,10 @@ class SpendingSurvey < ApplicationForm
 
   def initialize(*args)
     super
-    self.owner_has_business     = "no_business"
-    self.companion_has_business = "no_business" if account&.companion
-    self.owner_will_apply_for_loan     = false
-    self.companion_will_apply_for_loan = false if account&.companion
+    self.owner_has_business     = "no_business" if account.owner&.eligible?
+    self.companion_has_business = "no_business" if account&.companion&.eligible?
+    self.owner_will_apply_for_loan     = false if account.owner&.eligible?
+    self.companion_will_apply_for_loan = false if account&.companion&.eligible?
   end
 
   def self.model_name
@@ -103,7 +103,7 @@ class SpendingSurvey < ApplicationForm
   def persist!
     if require_owner_spending?
       account.owner.create_spending_info!(
-        business_spending_usd: owner_business_spending_usd,
+        business_spending_usd: (owner_business_spending_usd if owner_has_business?),
         credit_score:          owner_credit_score,
         has_business:          owner_has_business,
         will_apply_for_loan:   owner_will_apply_for_loan,
@@ -111,7 +111,7 @@ class SpendingSurvey < ApplicationForm
     end
     if require_companion_spending?
       account.companion.create_spending_info!(
-        business_spending_usd: companion_business_spending_usd,
+        business_spending_usd: (companion_business_spending_usd if companion_has_business?),
         credit_score:          companion_credit_score,
         has_business:          companion_has_business,
         will_apply_for_loan:   companion_will_apply_for_loan,
