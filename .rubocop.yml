@@ -257,12 +257,9 @@ Style/IndentationWidth:
   Exclude:
     - 'lib/tasks/sample_data.rake'
 
-# Offense count: 4
 Style/MethodMissing:
   Exclude:
     - 'app/models/dashboard_person.rb'
-    - 'config/initializers/intercom.rb'
-    - 'spec/support/pages/object_on_page.rb'
 
 # Offense count: 1
 # Cop supports --auto-correct.
@@ -331,11 +328,6 @@ Style/SpaceAroundEqualsInParameterDefault:
 Style/SpaceInsideParens:
   Exclude:
     - 'db/migrate/20160808170547_convert_destinations_to_use_sti.rb'
-
-# Offense count: 1
-Style/StructInheritance:
-  Exclude:
-    - 'spec/support/pages/object_on_page.rb'
 
 # Offense count: 6
 # Cop supports --auto-correct.
