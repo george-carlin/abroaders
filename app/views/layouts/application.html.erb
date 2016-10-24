@@ -18,26 +18,7 @@
       <% end %>
 
       <div class="content">
-        <noscript>
-          <div class="row">
-            <div class="col-xs-12">
-              <div class="alert alert-danger">
-                <p>
-                  Hey there! It looks like you have Javascript disabled in your
-                  web browser. You'll need to enable it in order for our site
-                  to work correctly. Don't be shy, we don't bite.
-                </p>
-
-                <p>
-                  If you're not sure what Javascript is or how you can enable
-                  it, see
-                  <%= link_to "this link", "http://enable-javascript.com" %>
-                  for more information.
-                </p>
-              </div>
-            </div>
-          </div>
-        </noscript>
+        <%= render "layouts/noscript" unless Rails.env.test? %>
 
         <%= flash_alerts %>
         <%= yield %>
