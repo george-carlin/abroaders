@@ -15,12 +15,6 @@
     }
   }
 
-  .helper-message {
-    font-size: 14px;
-    font-weight: 600;
-    text-align: center;
-  }
-
   .panel-body {
     border-top: none;
     padding-bottom: 20px;
@@ -32,47 +26,22 @@
     padding-bottom: 20px;
   }
 
-  .regions-row {
-    margin-bottom: 20px;
-
-    .region-box {
-      margin-bottom: 50px;
-
-      .label-area {
-        label {
-          border-radius: 0;
-          border-width: 2px;
-        }
-      }
-
-      .image-area {
-        img {
-          width: 100%;
-        }
-      }
-    }
-
-    .region-name {
-      display: inline-block;
-      font-family: inherit;
-      font-size: 26px;
-      font-weight: 200;
-      line-height: 1.1;
-      margin-bottom: 8px;
-    }
-
-    .region-checkbox {
-      float: right;
-      font-size: 40px;
-      margin-top: 9px;
-    }
+  .region-box {
+    margin-bottom: 50px;
   }
-}
 
+  .region-name {
+    display: inline-block;
+    font-family: inherit;
+    font-size: 26px;
+    font-weight: 200;
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
 
-.btn span.fa {
-  opacity: 0;
-}
-.btn.active span.fa {
-  opacity: 1;
+  .region-checkbox {
+    float: right;
+    font-size: 40px;
+    margin-top: 9px;
+  }
 }

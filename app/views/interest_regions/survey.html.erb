@@ -11,41 +11,28 @@
   </div>
 
   <div class="panel-body">
-    <div class="col-xs-12 col-md-10 col-md-offset-1">
+    <%= form_tag survey_interest_regions_path, class: "text-center" do |f| %>
+      <div class="row">
+        <% present_each(@regions) do |region_p| %>
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 region-box">
+            <span class="region-name">
+              <%= region_p.name %>
+            </span>
 
-      <%= form_tag survey_interest_regions_path, html: { class: "text-center" } do |f| %>
-        <div class="row">
-          <div class="col-xs-12">
-            <div class="row regions-row">
-              <% @regions.each do |region| %>
-                <div class="col-xs-12 col-sm-6 col-md-4 region-box">
-                  <span class="region-name">
-                    <%= region.name %>
-                  </span>
-
-                  <%= check_box(
-                    :interest_regions_survey,
-                    "region_ids][]",
-                    value: region.id,
-                    class: "region-checkbox"
-                  ) %>
-
-                  <div class="image-area">
-                    <%= image_tag(region.image) %>
-                  </div>
-                </div>
-              <% end %>
-            </div>
-
-            <button class="btn btn-lg btn-primary submit-button">
-              <i class="fa fa-check" aria-hidden="true"></i>
-              Save and continue
-            </button>
+            <%= region_p.survey_checkbox_tag %>
+            <%= region_p.image %>
           </div>
+        <% end %>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <button class="btn btn-lg btn-primary submit-button">
+            <i class="fa fa-check" aria-hidden="true"></i>
+            Save and continue
+          </button>
         </div>
-
-      <% end %>
-    </div>
+      </div>
+    <% end %>
   </div><!-- .panel-body -->
-
 </div>

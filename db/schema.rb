@@ -137,17 +137,13 @@ ActiveRecord::Schema.define(version: 20161011141750) do
   end
 
   create_table "destinations", force: :cascade do |t|
-    t.string   "name",                           null: false
-    t.string   "code",                           null: false
+    t.string   "name",                       null: false
+    t.string   "code",                       null: false
     t.integer  "parent_id"
-    t.integer  "children_count",     default: 0, null: false
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
-    t.string   "type",                           null: false
-    t.string   "image_file_name"
-    t.string   "image_content_type"
-    t.integer  "image_file_size"
-    t.datetime "image_updated_at"
+    t.integer  "children_count", default: 0, null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.string   "type",                       null: false
     t.index ["code", "type"], name: "index_destinations_on_code_and_type", unique: true, using: :btree
     t.index ["name"], name: "index_destinations_on_name", using: :btree
     t.index ["parent_id"], name: "index_destinations_on_parent_id", using: :btree
