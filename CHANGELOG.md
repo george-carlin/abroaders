@@ -2,6 +2,10 @@
 
 ## October 2016
 
+*   Rename `people.main` to `people.owner`. PT #129923947 GH #63
+
+    *Boris Shatalov*
+
 *   Extract `Airport#full_name`. `f6baa57d`
 
     *George Millo*

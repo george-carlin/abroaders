@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
     elsif current_account
       @people = current_account.people.includes(
         :balances, :spending_info, card_accounts: :card,
-      ).order("main DESC")
+      ).order("owner DESC")
       @travel_plans = current_account.travel_plans.includes_destinations
       @unresolved_recommendations = current_account.card_recommendations.unresolved
       @recommendation_expiration = current_account.recommendations_expire_at
