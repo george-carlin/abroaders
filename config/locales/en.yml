@@ -65,7 +65,6 @@ en:
     account:
       eligible:
         title: "We’re here to help as soon as you’re ready"
-        message: "When you’re ready to apply for cards, just let us know, %{link} and an expert will pick the best cards to maximize your travel savings. If we don’t hear back, we’ll remind you in about a month."
       ineligible:
         title: "Since you aren’t eligible to apply for rewards cards in the U.S., we’ll focus on other opportunities."
         message: "We’ll keep track of your points and travel plans and alert you to any big opportunities. If we find a great airfare that could help with your travel plans or a chance to earn points without credit cards, we’ll let you know right away."

@@ -8,13 +8,28 @@
 
 <div class="col-xs-12 col-md-8 main-area">
   <p class="next-question">What's next?</p>
-  <p><%= t("dashboard.account.eligible.message", link: link_to("let us know", edit_readiness_path)).html_safe %></p>
   <p>
-    <%#TODO: add account balance path as soon as we combine it %>
-    <%#TODO: add new card account path after merging GH: 56 %>
-    In the meantime, we’ll track the <%= link_to "points", "edit_balance_path" %>, <%= link_to "travel plans", new_travel_plan_path %>
-    and <%= link_to "cards", "new_card_account_path" %> you added to your account and send you
-    <span class="tooltip-btn" data-toggle="tooltip" title="Alerts might include easy ways to earn free points, cheap flights to places you have listed in your travel plans, or advice about using your points if you have enough to travel already.">an alert (?)</span>
+    When you’re ready to apply for cards, just
+    <%= link_to "let us know", edit_readiness_path %> and an expert will pick
+    the best cards to maximize your travel savings. If we don’t hear back,
+    we’ll remind you in about a month.
+  <p>
+
+  <p>
+    In the meantime, we’ll track the
+    <%= link_to "points", balances_path %>,
+    <%= link_to "travel plans", travel_plans_path %>
+    and <%= link_to "cards", card_accounts_path %> you added to your account
+    and send you an alert
+
+    <span
+      class="tooltip-btn"
+      data-toggle="tooltip"
+      title="Alerts might include easy ways to earn free points, cheap flights
+      to places you have listed in your travel plans, or advice about using
+      your points if you have enough to travel with already."
+    >(?)</span>
+
     if we find any good deals for you.
   </p>
 </div>

@@ -24,7 +24,7 @@ describe "account dashboard" do
       is_expected.to have_content "4. Earn bonus points"
       is_expected.to have_content "5. Book travel"
       is_expected.to have_link "let us know", href: edit_readiness_path
-      is_expected.to have_link "travel plans", href: new_travel_plan_path
+      is_expected.to have_link "travel plans", href: travel_plans_path
     end
   end
 
