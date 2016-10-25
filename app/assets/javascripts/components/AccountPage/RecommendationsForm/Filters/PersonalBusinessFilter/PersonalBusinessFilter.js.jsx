@@ -1,6 +1,6 @@
 import React from "react";
 
-import Row from "../../../core/Row";
+import Row from "../../../../core/Row";
 import CheckBoxWithLabel from "../FilterPanel/CheckBoxWithLabel";
 
 const PersonalBusinessFilter = (_props) => {
@@ -11,14 +11,22 @@ const PersonalBusinessFilter = (_props) => {
       <div className="col-xs-12 col-md-6">
         <CheckBoxWithLabel
           id={"filter-personal"}
+          className="personal-business-cb"
           title="Personal"
-          onClick={props.onFilterPersonal}
+          value="personal"
+          onChange={props.onChangeOne}
+          checked={props.bpChecked.indexOf("personal") > -1}
+          target="bp"
         />
 
         <CheckBoxWithLabel
           id={"filter-business"}
+          className="personal-business-cb"
           title="Business"
-          onClick={props.onFilterBusiness}
+          value="business"
+          onChange={props.onChangeOne}
+          checked={props.bpChecked.indexOf("business") > -1}
+          target="bp"
         />
       </div>
     </Row>
@@ -27,8 +35,8 @@ const PersonalBusinessFilter = (_props) => {
 
 PersonalBusinessFilter.propTypes = Object.assign(
   {
-    onFilterPersonal: React.PropTypes.func.isRequired,
-    onFilterBusiness: React.PropTypes.func.isRequired,
+    onChangeOne: React.PropTypes.func.isRequired,
+    bpChecked: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
   }
 );
 

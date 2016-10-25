@@ -11,9 +11,12 @@ const FilterItem = (_props) => {
     <p>
       <CheckBoxWithLabel
         id={"filter-by-" + target + "-" + item.id}
+        className={props.className}
         title={item.name}
-        item={item}
-        onClick={props.onClick}
+        value={item.id.toString()}
+        onChange={props.onChangeOne}
+        checked={props.idsChecked.indexOf(item.id) > -1}
+        target={target}
       />
     </p>
   );
@@ -23,7 +26,9 @@ FilterItem.propTypes = Object.assign(
   {
     item: React.PropTypes.object.isRequired,
     target: React.PropTypes.string.isRequired,
-    onClick: React.PropTypes.func.isRequired,
+    onChangeOne: React.PropTypes.func.isRequired,
+    className: React.PropTypes.string,
+    idsChecked: React.PropTypes.arrayOf(React.PropTypes.number).isRequired,
   }
 );
 

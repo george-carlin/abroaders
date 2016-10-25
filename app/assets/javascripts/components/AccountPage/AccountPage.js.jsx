@@ -5,8 +5,7 @@ import BalancesTable           from "./BalancesTable";
 import AccountTopInfo          from "./AccountTopInfo";
 import HomeAirportsList        from "./HomeAirportsList";
 import TravelPlansList         from "./TravelPlansList";
-import Filters                 from "./Filters";
-import CardRecommendationTable from "./CardRecommendationTable";
+import RecommendationsForm     from "./RecommendationsForm";
 
 const AccountPage = React.createClass({
   propTypes: {
@@ -17,7 +16,7 @@ const AccountPage = React.createClass({
   },
 
   getInitialState() {
-    return { currentAction: "ownerInfo" };
+    return {currentAction: "ownerInfo"};
   },
 
   onChooseOwner() {
@@ -28,39 +27,11 @@ const AccountPage = React.createClass({
     this.setState({currentAction: "companionInfo"});
   },
 
-  filterByCurrency(currencyId) {
-  },
-
-  filterByBank(bankId) {
-
-  },
-
-  filterByBanks() {
-
-  },
-
-  filterByAlliance(allianceId) {
-
-  },
-
-  filterByIndependent() {
-
-  },
-
-  filterByPersonal() {
-
-  },
-
-  filterByBusiness() {
-
-  },
-
   render() {
-    let person;
     const account   = this.props.account;
     const alliances = this.props.alliances;
-    const banks     = this.props.banks;
 
+    let person;
     if (this.state.currentAction === "ownerInfo") {
       person = account.owner;
     } else if (this.state.currentAction === "companionInfo") {
@@ -107,24 +78,12 @@ const AccountPage = React.createClass({
               </div>
             </Row>
 
-            <Filters
+            <RecommendationsForm
+              person={person}
               alliances={alliances}
-              banks={banks}
+              banks={this.props.banks}
               independentCurrencies={this.props.independentCurrencies}
-              onFilterBank={this.filterByBank}
-              onFilterBanks={this.filterByBanks}
-              onFilterCurrency={this.filterByCurrency}
-              onFilterAlliance={this.filterByAlliance}
-              onFilterIndependent={this.filterByIndependent}
-              onFilterPersonal={this.filterByPersonal}
-              onFilterBusiness={this.filterByBusiness}
             />
-
-            <Row>
-              <CardRecommendationTable
-                person={person}
-              />
-            </Row>
           </div>
         </div>
       </div>

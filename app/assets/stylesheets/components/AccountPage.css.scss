@@ -115,6 +115,7 @@
 
       label {
         display: block;
+        cursor: pointer;
       }
 
       .panel-heading {
@@ -124,6 +125,10 @@
 
     .personal-business-filter {
       margin: 10px -15px;
+
+      label {
+        cursor: pointer;
+      }
 
       label:last-of-type {
         margin-left: 10px;
