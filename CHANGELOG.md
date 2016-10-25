@@ -2,6 +2,11 @@
 
 ## October 2016
 
+*   Huge changes to the onboarding survey flow + architecture (some subtasks of
+    which are already noted in other bullet points below). GH #68
+
+    *George Millo, Anatols Baymaganov, Boris Shatalov*
+
 *   Use `Airport` for travel plan's from/to instead `Country`.
     Pivotal Tracker #132586099
 
