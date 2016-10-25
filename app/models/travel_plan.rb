@@ -48,6 +48,9 @@ class TravelPlan < ApplicationRecord
 
   # Validations
 
+  # return_on must be present for NEW travel plans of type 'return',
+  # but we have some legacy data with type 'return' and `return_on: nil`
+
   validates :depart_on, presence: true
   validates :no_of_passengers,
             numericality: {

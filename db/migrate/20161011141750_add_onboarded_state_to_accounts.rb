@@ -3,11 +3,11 @@ class AddOnboardedStateToAccounts < ActiveRecord::Migration[5.0]
     has_many :people
     has_many :travel_plans
     def owner
-      people.find_by(main: true)
+      people.find_by(owner: true)
     end
 
     def companion
-      people.find_by(main: false)
+      people.find_by(owner: false)
     end
   end
 
@@ -33,31 +33,17 @@ class AddOnboardedStateToAccounts < ActiveRecord::Migration[5.0]
     end
 
     owner = account.owner
-    if owner.eligible?
-      return "owner_spending" unless owner.onboarded_spending?
-
-      return "owner_cards" unless owner.onboarded_cards?
-    end
-
+    return "owner_cards" if owner.eligible? && !owner.onboarded_cards?
     return "owner_balances" unless owner.onboarded_balances?
 
     if (companion = account.companion) # could be nil
-      if companion.eligible?
-        return "companion_spending" unless companion.onboarded_spending?
-
-        return "companion_cards" unless companion.onboarded_cards?
-      end
-
-      if !companion.onboarded_balances?
-        return "companion_balances"
-      else
-        return "complete"
-      end
-    else
-      return "complete"
+      return "companion_cards" if companion.eligible? && !companion.onboarded_cards?
+      return "companion_balances" unless companion.onboarded_balances?
     end
 
-    raise "unknown onboarding state"
+    return "spending" if account.people.any? { |p| p.eligible? && !p.onboarded_spending? }
+
+    "complete"
   end
 
   def change
