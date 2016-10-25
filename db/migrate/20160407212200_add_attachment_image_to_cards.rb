@@ -31,7 +31,7 @@ class AddAttachmentImageToCards < ActiveRecord::Migration
 
       Card.find_each do |card|
         card.update_attributes!(
-          image: File.open(dir.join(card.image_name))
+          image: File.open(dir.join(card.image_name)),
         )
       end
 

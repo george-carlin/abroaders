@@ -20,7 +20,6 @@ AllCops:
 Lint/AssignmentInCondition:
   AllowSafeAssignment: true
   Exclude:
-    - 'lib/generators/react/component_generator.rb'
     - 'lib/tasks/update_currencies.rake'
 
 Style/AlignHash:
@@ -44,7 +43,7 @@ Style/DoubleNegation:
 Style/FormatString:
   Enabled: false
 
-# TODO we want to enable this eventually
+# maybe we want to enable this eventually... it'll become the default in Ruby 3
 Style/FrozenStringLiteralComment:
   Enabled: false
 
@@ -73,23 +72,15 @@ Style/RedundantSelf:
 Style/RegexpLiteral:
   Enabled: false
 
-# Offense count: 1
-# Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyleForMultiline, SupportedStyles.
 # SupportedStyles: comma, consistent_comma, no_comma
 Style/TrailingCommaInArguments:
   EnforcedStyleForMultiline: consistent_comma
-  Exclude:
-    - 'db/migrate/20160407212200_add_attachment_image_to_cards.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyleForMultiline, SupportedStyles.
 # SupportedStyles: comma, consistent_comma, no_comma
 Style/TrailingCommaInLiteral:
   EnforcedStyleForMultiline: consistent_comma
-  Exclude:
-    - 'lib/modules/bootstrap_overrides/overrides.rb'
 
 # Offense count: 12
 # Configuration parameters: SupportedStyles.
@@ -115,33 +106,16 @@ Lint/EndAlignment:
   Exclude:
     - 'lib/tasks/sample_data.rake'
 
-# Offense count: 1
-Lint/IneffectiveAccessModifier:
-  Exclude:
-    - 'lib/generators/react/component_generator.rb'
-
 # Offense count: 2
 # Configuration parameters: ContextCreatingMethods.
 Lint/UselessAccessModifier:
   Exclude:
-    - 'app/forms/travel_plan_form.rb'
     - 'spec/support/pages/card_accounts/card_account_on_page.rb'
-
-# Offense count: 2
-Lint/UselessAssignment:
-  Exclude:
-    - 'lib/generators/react/component_generator.rb'
 
 # Offense count: 1
 Style/AccessorMethodName:
   Exclude:
     - 'spec/support/pages/card_accounts/new_card_account_on_page.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/AlignArray:
-  Exclude:
-    - 'lib/modules/bootstrap_overrides/overrides.rb'
 
 # Offense count: 7
 # Cop supports --auto-correct.
@@ -162,14 +136,6 @@ Style/ClassAndModuleChildren:
     - 'app/models/card_account/status.rb'
     - 'app/presenters/admin_area/offer_presenter.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles, SingleLineConditionsOnly.
-# SupportedStyles: assign_to_condition, assign_inside_condition
-Style/ConditionalAssignment:
-  Exclude:
-    - 'lib/generators/react/component_generator.rb'
-
 # Offense count: 2
 # Cop supports --auto-correct.
 Style/ElseAlignment:
@@ -181,7 +147,6 @@ Style/ElseAlignment:
 Style/EmptyLines:
   Exclude:
     - 'db/migrate/20160316152514_devise_create_admins.rb'
-    - 'lib/modules/bootstrap_overrides/overrides.rb'
 
 # Offense count: 1
 # Cop supports --auto-correct.
@@ -207,14 +172,6 @@ Style/EmptyLinesAroundMethodBody:
     - 'db/migrate/20160105120526_create_surveys.rb'
     - 'db/migrate/20160109141753_create_flights.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: empty_lines, no_empty_lines
-Style/EmptyLinesAroundModuleBody:
-  Exclude:
-    - 'lib/modules/bootstrap_overrides/overrides.rb'
-
 # Offense count: 32
 # Cop supports --auto-correct.
 # Configuration parameters: AllowForAlignment, ForceEqualSignAlignment.
@@ -227,47 +184,12 @@ Style/ExtraSpacing:
     - 'db/migrate/20160428131640_make_card_offer_days_and_spend_nullable.rb'
     - 'db/schema.rb'
 
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles, UseHashRocketsWithSymbolValues, PreferHashRocketsForNonAlnumEndingSymbols.
-# SupportedStyles: ruby19, hash_rockets, no_mixed_keys, ruby19_no_mixed_keys
-Style/HashSyntax:
-  Exclude:
-    - 'lib/generators/react/component_generator.rb'
-
-# Offense count: 1
-Style/IfInsideElse:
-  Exclude:
-    - 'lib/modules/bootstrap_overrides/overrides.rb'
-
-# Offense count: 5
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: normal, rails
-Style/IndentationConsistency:
-  Exclude:
-    - 'lib/generators/react/component_generator.rb'
-    - 'lib/modules/bootstrap_overrides/overrides.rb'
-    - 'spec/support/track_intercom_event_matcher.rb'
-
 # Offense count: 1
 # Cop supports --auto-correct.
 # Configuration parameters: Width.
 Style/IndentationWidth:
   Exclude:
     - 'lib/tasks/sample_data.rake'
-
-Style/MethodMissing:
-  Exclude:
-    - 'app/models/dashboard_person.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: symmetrical, new_line, same_line
-Style/MultilineArrayBraceLayout:
-  Exclude:
-    - 'lib/modules/bootstrap_overrides/overrides.rb'
 
 # Offense count: 3
 Style/MultilineBlockChain:
@@ -286,42 +208,15 @@ Style/MultilineOperationIndentation:
 
 # Offense count: 1
 # Cop supports --auto-correct.
-Style/MutableConstant:
-  Exclude:
-    - 'lib/modules/bootstrap_overrides/overrides.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/ParallelAssignment:
-  Exclude:
-    - 'lib/generators/react/component_generator.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
 Style/SafeNavigation:
   Exclude:
     - 'lib/tasks/sample_data.rake'
 
 # Offense count: 1
 # Cop supports --auto-correct.
-# Configuration parameters: AllowAsExpressionSeparator.
-Style/Semicolon:
-  Exclude:
-    - 'spec/factories/cards.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
 Style/SpaceAfterSemicolon:
   Exclude:
     - 'db/migrate/20160929214946_add_type_to_currencies.rb'
-
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: space, no_space
-Style/SpaceAroundEqualsInParameterDefault:
-  Exclude:
-    - 'lib/modules/bootstrap_overrides/overrides.rb'
 
 # Offense count: 3
 # Cop supports --auto-correct.

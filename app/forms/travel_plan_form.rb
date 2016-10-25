@@ -129,8 +129,6 @@ class TravelPlanForm < ApplicationForm
     end
   end
 
-  private
-
   CODE_REGEX = /\(([A-Z]{3})\)\s*\z/
 
   def from_code_match_data

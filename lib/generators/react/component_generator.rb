@@ -96,41 +96,42 @@ module React
 
       private
 
-       def parse_attributes!
-         self.attributes = (attributes || []).map do |attr|
-           name, type, options = "", "", ""
-           options_regex = /(?<options>{.*})/
+      def parse_attributes!
+        self.attributes = (attributes || []).map do |attr|
+          options = ''
+          options_regex = /(?<options>{.*})/
 
-           name, type = attr.split(':')
+          name, type = attr.split(':')
 
-           if matchdata = options_regex.match(type)
-             options = matchdata[:options]
-             type = type.gsub(options_regex, '')
-           end
+          if (matchdata = options_regex.match(type))
+            options = matchdata[:options]
+            type = type.gsub(options_regex, '')
+          end
 
-           { :name => name, :type => lookup(type, options) }
-         end
-       end
+          { name: name, type: lookup(type, options) }
+        end
+      end
 
-       def self.lookup(type = "node", options = "")
-         react_prop_type = REACT_PROP_TYPES[type]
-         if react_prop_type.blank?
-           if type =~ /^[[:upper:]]/
-             react_prop_type = REACT_PROP_TYPES['instanceOf']
-           else
-             react_prop_type = REACT_PROP_TYPES['node']
-           end
-         end
+      def self.lookup(type = "node", options = "")
+        react_prop_type = REACT_PROP_TYPES[type]
+        if react_prop_type.blank?
+          react_prop_type = if type =~ /^[[:upper:]]/
+                              REACT_PROP_TYPES['instanceOf']
+                            else
+                              REACT_PROP_TYPES['node']
+                            end
+        end
 
-         options = options.to_s.gsub(/[{}]/, '').split(',')
+        options = options.to_s.gsub(/[{}]/, '').split(',')
 
-         react_prop_type = react_prop_type.call(*options) if react_prop_type.respond_to? :call
-         react_prop_type
-       end
+        react_prop_type = react_prop_type.call(*options) if react_prop_type.respond_to? :call
+        react_prop_type
+      end
+      private_class_method :lookup
 
-       def lookup(type = "node", options = "")
-         self.class.lookup(type, options)
-       end
+      def lookup(type = "node", options = "")
+        self.class.lookup(type, options)
+      end
     end
   end
 end
