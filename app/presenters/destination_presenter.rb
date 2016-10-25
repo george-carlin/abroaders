@@ -11,7 +11,7 @@ class DestinationPresenter < ApplicationPresenter
     if airport?
       "#{city.name} (#{code})"
     else
-      name
+      super
     end
   end
 
