@@ -2,6 +2,11 @@
 
 ## October 2016
 
+*   Create `AccountPage` component, use it on `admin/accounts#show` page.
+    Create sub components for it: `AccountTopInfo`, `BalancesTable`, `HomeAirportList`,
+    `RecommendationsForm`, `TravelPlanList`.
+    Pivotal Tracker #131075691
+
 *   Standardise partner/couples/companion terminology
 
     *George Millo*
