@@ -6,13 +6,6 @@ class CardAccount::ApplicationSurvey < ApplicationForm
   attribute :action,    String
   attribute :opened_at, Date
 
-  # TODO once the 'refactor-forms' branch is merged, delete this method:
-  def save
-    super do
-      persist!
-    end
-  end
-
   def persist!
     case action
     when "apply"
