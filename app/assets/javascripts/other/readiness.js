@@ -1,20 +1,25 @@
 $(document).ready(function () {
-  var $unreadinessInputs = $(".unreadiness_reason_form_group");
-
-  $(".readiness-radio").click(function () {
-    $unreadinessInputs.hide();
-
-    var readyPerson = $(this).find("input").val();
-    switch (readyPerson) {
+  $("input[name='readiness_survey[who]']").click(function () {
+    var showOwnerUnreadiness, showCompanionUnreadiness;
+    switch ($(this).val()) {
+      case "both":
+        showCompanionUnreadiness = false;
+        showOwnerUnreadiness     = false;
+        break;
       case "owner":
-        $(".unreadiness_reason_form_group.companion").show();
+        showCompanionUnreadiness = true;
+        showOwnerUnreadiness     = false;
         break;
       case "companion":
-        $(".unreadiness_reason_form_group.owner").show();
+        showCompanionUnreadiness = false;
+        showOwnerUnreadiness     = true;
         break;
       case "neither":
-        $unreadinessInputs.show();
+        showCompanionUnreadiness = true;
+        showOwnerUnreadiness     = true;
         break;
     }
+    $("#readiness_survey_owner_unreadiness_reason_form_group").toggle(showOwnerUnreadiness);
+    $("#readiness_survey_companion_unreadiness_reason_form_group").toggle(showCompanionUnreadiness);
   });
 });

@@ -1,253 +1,227 @@
 require "rails_helper"
 
-describe "survey_readiness page", :onboarding, :js do
-  before { skip 'tests need updating' }
-  def visit_survey_readiness_path(account)
-    login_as(account)
-    visit survey_readiness_path
-  end
+describe "readiness survey page", :onboarding, :js do
+  shared_examples "form for one person" do |type|
+    case type
+    when :owner
+      let(:person) { owner }
+      let(:other_person) { companion }
+      other_type = :companion
+    when :companion
+      let(:person) { companion }
+      let(:other_person) { owner }
+      other_type = :owner
+    else
+      raise "invalid type"
+    end
 
-  def choose_radio(text)
-    find(:radio_button, text).trigger("click")
-  end
+    example "radios" do
+      expect(page).to have_field "readiness_survey_who_#{type}", checked: true
+      expect(page).to have_field :readiness_survey_who_neither
+      expect(page).to have_no_field :readiness_survey_who_both
+      expect(page).to have_no_field "readiness_survey_who_#{other_type}"
+    end
 
-  include_context "set admin email ENV var"
+    example 'hiding/showing unreadiness reason' do
+      field_to_show     = "readiness_survey_#{type}_unreadiness_reason"
+      field_not_to_show = "readiness_survey_#{other_type}_unreadiness_reason"
+      expect(page).to have_no_field field_to_show
+      expect(page).to have_no_field field_not_to_show
+      choose :readiness_survey_who_neither
+      expect(page).to have_field field_to_show
+      expect(page).to have_no_field field_not_to_show
+      choose "readiness_survey_who_#{type}"
+      expect(page).to have_no_field field_to_show
+      expect(page).to have_no_field field_not_to_show
+    end
+
+    example "submitting 'ready'" do
+      choose "readiness_survey_who_#{type}"
+      submit_form
+      person.reload
+      expect(person).to be_ready
+      expect(person.unreadiness_reason).to be_nil
+      if other_person
+        other_person.reload
+        expect(other_person).not_to be_ready
+        expect(other_person.unreadiness_reason).to be_nil
+      end
+      expect(current_path).to eq new_phone_number_path
+      expect(account.reload.onboarding_state).to eq 'phone_number'
+    end
+
+    example "submitting 'not ready'" do
+      choose :readiness_survey_who_neither
+      submit_form
+      person.reload
+      expect(person).not_to be_ready
+      expect(person.unreadiness_reason).to be_nil
+      if other_person
+        other_person.reload
+        expect(other_person).not_to be_ready
+        expect(other_person.unreadiness_reason).to be_nil
+      end
+      expect(current_path).to eq new_phone_number_path
+      expect(account.reload.onboarding_state).to eq 'phone_number'
+    end
+
+    example "submitting 'I'm not ready' with a reason" do
+      choose :readiness_survey_who_neither
+      # strips whitespace:
+      fill_in "readiness_survey_#{type}_unreadiness_reason", with: '  something '
+      submit_form
+      person.reload
+      expect(person).not_to be_ready
+      expect(person.unreadiness_reason).to eq 'something'
+      if other_person
+        other_person.reload
+        expect(other_person).not_to be_ready
+        expect(other_person.unreadiness_reason).to be_nil
+      end
+      expect(current_path).to eq new_phone_number_path
+      expect(account.reload.onboarding_state).to eq 'phone_number'
+    end
+  end
 
   let(:submit_form) { click_button "Save and continue" }
 
-  describe "account with companion" do
+  let(:owner)     { account.owner }
+  let(:companion) { account.companion }
+
+  context 'for a solo account' do
+    let(:account) { create(:account, :eligible, onboarding_state: :readiness) }
     before do
-      @account = create(:account, :with_companion)
-      login_as(@account)
-    end
-
-    context "when owner is ineligible" do
-      before do
-        @account.owner.update!(eligible: false)
-        visit survey_readiness_path
-      end
-
-      example "initial layout" do
-        expect(page).to have_no_field("readiness_survey_who_both")
-        expect(page).to have_no_field("readiness_survey_who_owner")
-        expect(page).to have_field("readiness_survey_who_companion")
-        expect(page).to have_field("readiness_survey_who_neither")
-
-        expect(find(:css, "#readiness_survey_who_companion")).to be_checked
-      end
-
-      context "and choose companion is ready" do
-        before { choose_radio("readiness_survey_who_companion") }
-
-        it "updates companion status" do
-          submit_form
-          @account.reload
-          expect(@account.owner).not_to be_ready
-          expect(@account.companion).to be_ready
-        end
-
-        skip "tracking intercom events for unready owner and ready for companion", :intercom do
-          expect { submit_form }.to \
-            track_intercom_event("obs_unready_own", "obs_ready_com").for_email(@account.email)
-        end
-      end
-    end
-
-    context "when companion is ineligible" do
-      before do
-        @account.companion.update!(eligible: false)
-        visit survey_readiness_path
-      end
-
-      example "initial layout" do
-        expect(page).to have_no_field("readiness_survey_who_both")
-        expect(page).to have_field("readiness_survey_who_owner")
-        expect(page).to have_no_field("readiness_survey_who_companion")
-        expect(page).to have_field("readiness_survey_who_neither")
-
-        expect(find(:css, "#readiness_survey_who_owner")).to be_checked
-      end
-
-      context "and choose owner is ready" do
-        before { choose_radio("readiness_survey_who_owner") }
-
-        it "updates owner status" do
-          submit_form
-          @account.reload
-          expect(@account.companion).not_to be_ready
-          expect(@account.owner).to be_ready
-        end
-
-        skip "tracking intercom events for unready companion and ready for owner", :intercom do
-          expect { submit_form }.to \
-            track_intercom_event("obs_ready_own", "obs_unready_com").for_email(@account.email)
-        end
-      end
-    end
-
-    context "when both people are eligible" do
-      before { visit survey_readiness_path }
-
-      example "initial layout" do
-        visit survey_readiness_path
-        expect(page).to have_field("readiness_survey_who_both")
-        expect(page).to have_field("readiness_survey_who_owner")
-        expect(page).to have_field("readiness_survey_who_companion")
-        expect(page).to have_field("readiness_survey_who_neither")
-
-        expect(find(:css, "#readiness_survey_who_both")).to be_checked
-      end
-
-      context "and choose both are ready" do
-        before { choose_radio("readiness_survey_who_both") }
-
-        example "updating people statuses" do
-          submit_form
-          @account.reload
-          expect(@account.owner).to be_ready
-          expect(@account.companion).to be_ready
-          expect(current_path).to eq root_path
-        end
-
-        skip "tracking intercom events for owner and companion", :intercom do
-          expect { submit_form }.to \
-            track_intercom_events("obs_ready_own", "obs_ready_com").for_email(@account.email)
-        end
-      end
-
-      context "and choose only owner is ready" do
-        before { choose_radio("readiness_survey_who_owner") }
-
-        it "updates owner status" do
-          submit_form
-          @account.reload
-          expect(@account.companion).not_to be_ready
-          expect(@account.owner).to be_ready
-        end
-
-        skip "tracking ready intercom event for owner and unready for companion", :intercom do
-          expect { submit_form }.to \
-            track_intercom_events("obs_ready_own", "obs_unready_com").for_email(@account.email)
-        end
-      end
-
-      context "and choose only companion is ready" do
-        before { choose_radio("readiness_survey_who_companion") }
-
-        it "updates companion status" do
-          submit_form
-          @account.reload
-          expect(@account.owner).not_to be_ready
-          expect(@account.companion).to be_ready
-        end
-
-        skip "tracking ready intercom event for companion and ready for owner", :intercom do
-          expect { submit_form }.to \
-            track_intercom_events("obs_unready_own", "obs_ready_com").for_email(@account.email)
-        end
-      end
-
-      context "and choose neither are ready" do
-        before { choose_radio("readiness_survey_who_neither") }
-
-        it "doesn't update people statuses" do
-          submit_form
-          @account.reload
-          expect(@account.owner).not_to be_ready
-          expect(@account.companion).not_to be_ready
-        end
-
-        skip "tracking unready intercom events for companion for owner", :intercom do
-          expect { submit_form }.to \
-            track_intercom_events("obs_unready_own", "obs_unready_com").for_email(@account.email)
-        end
-      end
-    end
-  end
-
-  describe "account without companion" do
-    before do
-      @account = create(:account, onboarding_state: "readiness")
-      login_as(@account)
+      login_as_account(account)
       visit survey_readiness_path
     end
 
-    example "initial layout" do
-      expect(page).to have_field("readiness_survey_who_owner")
-      expect(page).to have_field("readiness_survey_who_neither")
-      expect(page).to have_no_field("readiness_survey_who_both")
-      expect(page).to have_no_field("readiness_survey_who_companion")
+    include_examples 'form for one person', :owner
 
-      expect(find(:css, "#readiness_survey_who_owner")).to be_checked
+    example "labels" do
+      expect(page).to have_content "Yes - I'm ready now"
+      expect(page).to have_content "No - I'm not ready yet"
+    end
+  end
+
+  context 'for a couples account' do
+    let(:account) { create(:account, :with_companion, onboarding_state: :readiness) }
+
+    before do
+      owner.update!(eligible: owner_eligible)
+      companion.update!(eligible: companion_eligible)
+      login_as_account(account)
+      visit survey_readiness_path
     end
 
-    context "and choose I am ready" do
-      before { choose_radio("readiness_survey_who_owner") }
+    let(:owner_eligible) { false }
+    let(:companion_eligible) { false }
 
-      it "updates owner status" do
+    context 'when only owner is eligible' do
+      let(:owner_eligible) { true }
+
+      include_examples 'form for one person', :owner
+
+      example "labels" do
+        expect(page).to have_content "Yes - I'm ready now"
+        expect(page).to have_content "No - I'm not ready yet"
+      end
+    end
+
+    context 'when only companion is eligible' do
+      let(:companion_eligible) { true }
+
+      include_examples 'form for one person', :companion
+
+      example "labels" do
+        expect(page).to have_content "Yes - I'm ready"
+        expect(page).to have_content "No - I'm not ready"
+      end
+    end
+
+    context 'when both people are eligible' do
+      let(:companion_eligible) { true }
+      let(:owner_eligible) { true }
+
+      example 'radios' do
+        expect(page).to have_field :readiness_survey_who_both, checked: true
+        expect(page).to have_field :readiness_survey_who_owner
+        expect(page).to have_field :readiness_survey_who_neither
+        expect(page).to have_field :readiness_survey_who_companion
+      end
+
+      example 'hiding/showing unreadiness reason' do
+        expect(page).to have_no_field :readiness_survey_owner_unreadiness_reason
+        expect(page).to have_no_field :readiness_survey_companion_unreadiness_reason
+        choose :readiness_survey_who_owner
+        expect(page).to have_no_field :readiness_survey_owner_unreadiness_reason
+        expect(page).to have_field :readiness_survey_companion_unreadiness_reason
+        choose :readiness_survey_who_neither
+        expect(page).to have_field :readiness_survey_owner_unreadiness_reason
+        expect(page).to have_field :readiness_survey_companion_unreadiness_reason
+        choose :readiness_survey_who_companion
+        expect(page).to have_field :readiness_survey_owner_unreadiness_reason
+        expect(page).to have_no_field :readiness_survey_companion_unreadiness_reason
+        choose :readiness_survey_who_both
+        expect(page).to have_no_field :readiness_survey_owner_unreadiness_reason
+        expect(page).to have_no_field :readiness_survey_companion_unreadiness_reason
+      end
+
+      example "labels" do
+        owner_name = owner.first_name
+        comp_name  = companion.first_name
+        expect(page).to have_content "Both #{owner_name} and #{comp_name} are ready now"
+        expect(page).to have_content "#{owner_name} is ready now but #{comp_name} isn't"
+        expect(page).to have_content "#{comp_name} is ready now but #{owner_name} isn't"
+        expect(page).to have_content "Neither of us is ready yet"
+      end
+
+      example "submitting 'both are ready'" do
+        choose :readiness_survey_who_both
         submit_form
-        @account.reload
-        expect(@account.owner).to be_ready
+        owner.reload
+        companion.reload
+        expect(companion).to be_ready
+        expect(owner).to be_ready
+        expect(companion.unreadiness_reason).to be_nil
+        expect(owner.unreadiness_reason).to be_nil
+        expect(current_path).to eq new_phone_number_path
+        expect(account.reload.onboarding_state).to eq 'phone_number'
       end
 
-      skip "tracking ready intercom event for owner", :intercom do
-        expect { submit_form }.to \
-          track_intercom_events("obs_ready_own").for_email(@account.email)
-      end
-    end
-
-    context "and choose I am not ready" do
-      before { choose_radio("readiness_survey_who_neither") }
-
-      it "doesn't update owner status" do
+      example "submitting 'owner is ready'" do
+        choose :readiness_survey_who_owner
+        fill_in :readiness_survey_companion_unreadiness_reason, with: ' whatever '
         submit_form
-        @account.reload
-        expect(@account.owner).not_to be_ready
+        owner.reload
+        companion.reload
+        expect(owner).to be_ready
+        expect(companion).not_to be_ready
+        expect(owner.unreadiness_reason).to be_nil
+        expect(companion.unreadiness_reason).to eq 'whatever'
+        expect(current_path).to eq new_phone_number_path
+        expect(account.reload.onboarding_state).to eq 'phone_number'
       end
 
-      skip "tracking unready intercom event for owner", :intercom do
-        expect { submit_form }.to \
-          track_intercom_events("obs_unready_own").for_email(@account.email)
+      # (haven't written tests for all the different permutations of submitting
+      # unreadiness reasons)
+
+      example "submitting 'companion is ready'" do
+        choose :readiness_survey_who_companion
+        submit_form
+        expect(companion.reload).to be_ready
+        expect(owner.reload).not_to be_ready
+        expect(current_path).to eq new_phone_number_path
+        expect(account.reload.onboarding_state).to eq 'phone_number'
+      end
+
+      example "submitting 'neither is ready'" do
+        choose :readiness_survey_who_neither
+        submit_form
+        expect(owner.reload).not_to be_ready
+        expect(companion.reload).not_to be_ready
+        expect(current_path).to eq new_phone_number_path
+        expect(account.reload.onboarding_state).to eq 'phone_number'
       end
     end
-  end
-
-  example "unreadiness reasons saving" do
-    account = create(:account, :with_companion, onboarding_state: "readiness")
-    login_as(account)
-    visit survey_readiness_path
-
-    choose_radio "readiness_survey_who_neither"
-    fill_in("readiness_survey_owner_unreadiness_reason", with: "reason 1")
-    fill_in("readiness_survey_companion_unreadiness_reason", with: "reason 2")
-
-    submit_form
-
-    account.reload
-    expect(account.owner.unreadiness_reason).to eq("reason 1")
-    expect(account.companion.unreadiness_reason).to eq("reason 2")
-  end
-
-  example "ineligible accounts skip this page" do
-    account = create(:account, :with_companion, onboarding_state: "readiness")
-    login_as(account)
-    account.owner.update!(eligible: false)
-    account.companion.update!(eligible: false)
-
-    visit survey_readiness_path
-    expect(current_path).to eq root_path
-  end
-
-  example "hiding and showing unreadiness reason field", :js do
-    account = create(:account, :with_companion, onboarding_state: "readiness")
-    login_as(account)
-    visit survey_readiness_path
-
-    choose_radio "readiness_survey_who_neither"
-    expect(page).to have_field "readiness_survey_owner_unreadiness_reason"
-    expect(page).to have_field "readiness_survey_companion_unreadiness_reason"
-    choose_radio "readiness_survey_who_both"
-    expect(page).to have_no_field "readiness_survey_owner_unreadiness_reason"
-    expect(page).to have_no_field "readiness_survey_companion_unreadiness_reason"
   end
 end

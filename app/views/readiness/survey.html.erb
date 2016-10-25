@@ -1,96 +1,109 @@
 <% provide :title, "Readiness" %>
 
-<div class="hpanel readiness-survey">
-  <div class="panel-heading hbuilt">
-    <div class="row">
-      <div class="col-xs-12 greeting-message">
-        <h1>Are you ready to start earning points?</h1>
-        <p class="helper-text"><%= t("readiness.explanation") %></p>
+<div class="row hpanel">
+  <div class="col-xs-12 col-md-8 col-md-offset-2">
+    <div class="panel-body">
+      <div class="greeting-message">
+        <h1>Are you ready to apply for rewards cards in the next two weeks? </h1>
+        <hr />
       </div>
-    </div><!-- .row -->
-  </div>
 
-  <div class="panel-body">
-    <!-- TODO: replace it? -->
-    <p class="helper-text">
-      If you're able to apply for a card within the next few days,
-      click "Yes" below and we'll get working on the card recommendation
-      immediately. If, for whatever reason, you're not ready right now,
-      click "No" below and we'll ask again in a week.
-    </p>
+      <p class="helper-text">
+        Credit card offers change frequently, so we want to make sure we create
+        your custom plan when you’re ready to take action. If you’re ready now,
+        your travel expert will have your recommendations ready in 24-48 hours.
+        If not, don’t worry. We’ll remind you later.   
+      </p>
 
-    <div class="col-md-9 col-md-offset-3">
       <%= form_for @readiness_survey, url: survey_readiness_path do |f| %>
-        <div class="row">
-
-          <div class="col-xs-12 col-md-8">
-
-            <div class="row main-row">
-              <div class="col-xs-12">
-
-                <% present @account, SurveyReadinessPresenter do |account| %>
-
-                    <% if account.has_companion? %>
-
-                      <% if account.both_can_update_ready? %>
-                      <div class="btn-group both-people" data-toggle="buttons">
-                        <div class="row top-buttons-row">
-                          <div class="col-xs-12 col-md-6">
-                            <%= account.radio_as_button("Yes, we're both ready", ReadinessForm::WHO[:both], selected: true, icon: "thumbs-up") %>
-                          </div>
-                          <div class="col-xs-12 col-md-6">
-                            <%= account.radio_as_button("I'm ready, they aren't", ReadinessForm::WHO[:owner]) %>
-                          </div>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-xs-12 col-md-6">
-                            <%= account.radio_as_button("They're ready, I'm not", ReadinessForm::WHO[:companion]) %>
-                          </div>
-                          <div class="col-xs-12 col-md-6">
-                            <%= account.radio_as_button("Neither of us are ready", ReadinessForm::WHO[:neither], icon: "") %>
-                          </div>
-                        </div>
-                      </div>
-
-                      <% else %>
-                        <div class="btn-group" data-toggle="buttons">
-                          <%= account.radio_as_button(
-                            "#{account.unready_person.first_name} is want to start earning points",
-                            account.unready_person.type,
-                            selected: true
-                          ) %>
-                          <%= account.radio_as_button("No, thanks", ReadinessForm::WHO[:neither]) %>
-                        </div>
-                      <% end %>
-
-                    <% else %>
-                      <div class="btn-group" data-toggle="buttons">
-                        <%= account.radio_as_button("I want to start earning points", ReadinessForm::WHO[:owner], selected: true) %>
-                        <%= account.radio_as_button("No, thanks", ReadinessForm::WHO[:neither], icon: "") %>
-                      </div>
-                    <% end %>
-
-                  <%= account.unreadiness_reason(account.owner) if account.owner.eligible? %>
-
-                  <% if account.has_companion? && account.companion.eligible? %>
-                    <%= account.unreadiness_reason(account.companion) %>
-                  <% end %>
-                <% end %>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-xs-12 col-md-6 col-md-offset-3">
-                <button class="btn btn-lg btn-primary">
-                  <i class="fa fa-check" aria-hidden="true"></i>
-                  Save and continue
-                </button>
-              </div>
-            </div>
+        <% if current_account.has_companion? && current_account.people.all?(&:eligible?) %>
+          <div class="radio">
+            <label>
+              <%= f.radio_button :who, :both %>
+              Both <%= current_account.owner.first_name %> and
+              <%= current_account.companion.first_name %> are ready now
+            </label>
           </div>
+        <% end %>
+
+        <% if current_account.owner.eligible? %>
+          <div class="radio">
+            <label>
+              <%= f.radio_button :who, :owner %>
+              <% if current_account.has_companion? && current_account.companion.eligible? %>
+                <%= current_account.owner.first_name %> is ready now but
+                <%= current_account.companion.first_name %> isn't
+              <% else %>
+                Yes - I'm ready now
+              <% end %>
+            </label>
+          </div>
+        <% end %>
+
+        <% if current_account.has_companion? && current_account.companion.eligible? %>
+          <div class="radio">
+            <label>
+              <%= f.radio_button :who, :companion %>
+              <% if current_account.owner.eligible? %>
+                <%= current_account.companion.first_name %> is ready now but
+                <%= current_account.owner.first_name %> isn't
+              <% else %>
+                Yes - I'm ready now
+              <% end %>
+            </label>
+          </div>
+        <% end %>
+
+        <div class="radio">
+          <label>
+            <%= f.radio_button :who, :neither %>
+            <% if current_account.has_companion? && current_account.people.all?(&:eligible?) %>
+              Neither of us is ready yet
+            <% else %>
+              No - I'm not ready yet
+            <% end %>
+          </label>
         </div>
+
+        <% if current_account.owner.eligible? %>
+          <div
+            id="readiness_survey_owner_unreadiness_reason_form_group"
+            class="radio"
+            style="display:none;"
+          >
+            <%= f.text_field(
+              :owner_unreadiness_reason,
+              placeholder: (if current_account.companion&.eligible?
+                             "Optional: tell us why #{current_account.owner.first_name} isn't ready to apply just yet"
+                           else
+                             "Optional: tell us why you aren't ready to apply just yet"
+                           end)
+            ) %>
+          </div>
+        <% end %>
+
+        <% if current_account.companion&.eligible? %>
+          <div
+            id="readiness_survey_companion_unreadiness_reason_form_group"
+            class="radio"
+            style="display:none;"
+          >
+            <%= f.text_field(
+              :companion_unreadiness_reason,
+              placeholder: (if current_account.owner.eligible?
+                             "Optional: tell us why #{current_account.companion.first_name} isn't ready to apply just yet"
+                           else
+                             "Optional: tell us why you aren't ready to apply just yet"
+                           end)
+            ) %>
+          </div>
+        <% end %>
+
+        <button class="btn btn-lg btn-primary">
+          <i class="fa fa-check" aria-hidden="true"></i>
+          Save and continue
+        </button>
       <% end %>
-    </div>
-  </div><!-- .panel-body -->
+    </div><!-- .panel-body -->
+  </div>
 </div>
