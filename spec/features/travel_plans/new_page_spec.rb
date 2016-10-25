@@ -68,7 +68,9 @@ describe "new travel plan page", :js do
     code_0 = @airports[0].code
     code_1 = @airports[1].code
     fill_in_typeahead("#travel_plan_from", with: code_0, and_choose: code_0)
-    fill_in_typeahead("#travel_plan_from", with: code_1, and_choose: code_1)
+    wait_for_ajax
+    expect(page).to have_no_selector ".PointsEstimateTable"
+    fill_in_typeahead("#travel_plan_to", with: code_1, and_choose: code_1)
     expect(page).to have_selector ".PointsEstimateTable"
   end
 

@@ -2,6 +2,11 @@
 
 ## October 2016
 
+*   Bug fix: travel plan points estimate table was calculating estimates
+    for 'from' to 'from', not 'from' to 'to'
+
+    *George Millo*
+
 *   Huge changes to the onboarding survey flow + architecture (some subtasks of
     which are already noted in other bullet points below). GH #68
 

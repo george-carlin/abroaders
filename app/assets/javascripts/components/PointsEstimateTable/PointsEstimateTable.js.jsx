@@ -33,7 +33,7 @@ const PointsEstimateTable = React.createClass({
 
     const onChangePointsEstimateParam = () => {
       const fromMatch = codeRegex.exec($from.val());
-      const toMatch   = codeRegex.exec($from.val());
+      const toMatch   = codeRegex.exec($to.val());
       if (!fromMatch || !toMatch) return;
       const fromCode = fromMatch[1];
       const toCode   = toMatch[1];
