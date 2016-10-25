@@ -24,11 +24,20 @@ const FilterPanel = React.createClass({
   },
 
   render() {
-    const props = this.props;
-    const title = props.title;
+    const props          = this.props;
+    const title          = props.title;
     const lowerCaseTitle = title.toLowerCase();
-    const target = props.target;
-    const checkBoxId = "filter-all-for-" + lowerCaseTitle;
+    const target         = props.target;
+    const checkBoxId     = "filter-all-for-" + lowerCaseTitle;
+    const items          = props.items.sort((a, b) => {
+      if (a.name < b.name) {
+        return -1;
+      }
+      if (a.name > b.name) {
+        return 1;
+      }
+      return 0;
+    });
 
     return (
       <div className={"col-xs-12 col-md-6 filters-large-column " + lowerCaseTitle }>
@@ -45,7 +54,7 @@ const FilterPanel = React.createClass({
             />
           </div>
           <div className="panel-body">
-            { props.items.map(item => (
+            { items.map(item => (
               <FilterItem
                 key={item.id}
                 className={target + "-cb"}
