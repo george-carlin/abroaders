@@ -1,5 +1,10 @@
-class ObjectOnPage < Struct.new(:spec_context)
+class ObjectOnPage
   include Capybara::DSL
+  attr_reader :spec_context
+
+  def initialize(spec_context)
+    @spec_context = spec_context
+  end
 
   def self.t(*args)
     I18n.t(*args)
@@ -138,6 +143,10 @@ class ObjectOnPage < Struct.new(:spec_context)
     else
       super
     end
+  end
+
+  def respond_to_missing?(meth, *_)
+    spec_context.respond_to?(meth) || super
   end
 
   def within(&block)

@@ -201,7 +201,7 @@ ActiveRecord::Schema.define(version: 20161020130727) do
     t.string   "first_name",                              null: false
     t.datetime "created_at",                              null: false
     t.datetime "updated_at",                              null: false
-    t.boolean  "main",                    default: true,  null: false
+    t.boolean  "owner",                   default: true,  null: false
     t.boolean  "onboarded_cards",         default: false, null: false
     t.boolean  "onboarded_balances",      default: false, null: false
     t.string   "award_wallet_email"
@@ -210,7 +210,7 @@ ActiveRecord::Schema.define(version: 20161020130727) do
     t.boolean  "ready",                   default: false, null: false
     t.string   "unreadiness_reason"
     t.date     "ready_on"
-    t.index ["account_id", "main"], name: "index_people_on_account_id_and_main", unique: true, using: :btree
+    t.index ["account_id", "owner"], name: "index_people_on_account_id_and_owner", unique: true, using: :btree
   end
 
   create_table "recommendation_notes", force: :cascade do |t|

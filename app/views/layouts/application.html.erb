@@ -20,6 +20,8 @@
       <% end %>
 
       <div class="content">
+        <%= render "layouts/noscript" unless Rails.env.test? %>
+
         <%= flash_alerts %>
         <%= yield %>
       </div><!-- content -->

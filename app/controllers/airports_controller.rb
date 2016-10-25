@@ -2,7 +2,7 @@ class AirportsController < AuthenticatedUserController
   skip_before_action :redirect_if_onboarding_survey_incomplete!, only: [:index]
 
   def index
-    @airports = Airport.joins(:parent).order(code: :asc)
+    @airports = Airport.includes(:parent).order(code: :asc)
 
     respond_to do |format|
       format.json do

@@ -17,12 +17,6 @@ class PersonPresenter < ApplicationPresenter
   end
 
   def readiness
-    if ready.nil?
-      "Unknown"
-    elsif ready?
-      "Ready"
-    else
-      "Not ready"
-    end
+    ready ? "Ready" : "Not ready"
   end
 end

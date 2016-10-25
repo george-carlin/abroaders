@@ -1,6 +1,5 @@
 module AdminArea
   class AccountsController < AdminController
-
     # GET /admin/accounts
     def index
       person_assocs = [:spending_info]
@@ -35,9 +34,8 @@ module AdminArea
 
     private
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def account_params
-      params[:account]
+    def load_account
+      Account.find(params[:id])
     end
   end
 end

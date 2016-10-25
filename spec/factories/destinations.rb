@@ -34,7 +34,7 @@ FactoryGirl.define do
   end
 
   factory :city do
-    sequence(:name) { |n| "Country #{n}" }
+    sequence(:name) { |n| "City #{n}" }
     two_letter_code
     association :parent, factory: :country
   end

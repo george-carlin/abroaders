@@ -98,7 +98,7 @@ module AdminArea
       expect(page).to have_content "(Has EIN)"
     end
 
-    it "says whether this is the main or companion passenger"
+    it "says whether this is the owner or companion passenger"
 
     example "person with no travel plans" do
       visit_path
