@@ -98,6 +98,7 @@ class TravelPlanForm < ApplicationForm
       validate :departure_date_is_in_the_future
       validate :return_date_is_in_the_future
       validate :return_is_later_than_or_equal_to_departure
+      validate :from_and_to_are_valid_airports
     end
 
     private
@@ -131,12 +132,20 @@ class TravelPlanForm < ApplicationForm
 
   CODE_REGEX = /\(([A-Z]{3})\)\s*\z/
 
+  def from_code_match_data
+    CODE_REGEX.match(from)
+  end
+
   def from_code
-    CODE_REGEX.match(from)[1]
+    from_code_match_data[1]
+  end
+
+  def to_code_match_data
+    CODE_REGEX.match(to)
   end
 
   def to_code
-    CODE_REGEX.match(to)[1]
+    to_code_match_data[1]
   end
 
   def flight_attributes
@@ -172,5 +181,14 @@ class TravelPlanForm < ApplicationForm
 
   def return?
     type == "return"
+  end
+
+  def from_and_to_are_valid_airports
+    unless from_code_match_data && Airport.exists?(code: from_code)
+      errors.add(:from, "is invalid")
+    end
+    unless to_code_match_data && Airport.exists?(code: to_code)
+      errors.add(:to, "is invalid")
+    end
   end
 end

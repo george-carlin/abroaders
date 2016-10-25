@@ -24,14 +24,19 @@ const PointsEstimateTable = React.createClass({
 
   componentDidMount() {
     // Yet another hacky solution mixing jQuery and React :(
-    const $from       = $("#travel_plan_from_code");
-    const $to         = $("#travel_plan_to_code");
+    const $from       = $("#travel_plan_from");
+    const $to         = $("#travel_plan_to");
     const $typeSelect = $("input[name='travel_plan[type]']");
     const $noOfPsgrs  = $("input[name='travel_plan[no_of_passengers]']");
 
+    const codeRegex = /\(([A-Z]{3})\)\s*$/;
+
     const onChangePointsEstimateParam = () => {
-      const fromCode = $from.val();
-      const toCode   = $to.val();
+      const fromMatch = codeRegex.exec($from.val());
+      const toMatch   = codeRegex.exec($from.val());
+      if (!fromMatch || !toMatch) return;
+      const fromCode = fromMatch[1];
+      const toCode   = toMatch[1];
       const type     = $typeSelect.filter(":checked").val();
       const psgrs    = parseInt($noOfPsgrs.val(), 10);
 
@@ -41,9 +46,6 @@ const PointsEstimateTable = React.createClass({
         $.get(url, (data) => { this.setState({data}); });
       }
     };
-
-    $from.change(() => {
-    });
 
     $from.change(onChangePointsEstimateParam);
     $to.change(onChangePointsEstimateParam);

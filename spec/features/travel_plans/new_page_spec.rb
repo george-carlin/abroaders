@@ -62,6 +62,16 @@ describe "new travel plan page", :js do
     expect(page).to have_field :travel_plan_return_date, disabled: false
   end
 
+  example "showing points estimate table" do
+    expect(page).to have_no_selector ".PointsEstimateTable"
+    # choosing two airports
+    code_0 = @airports[0].code
+    code_1 = @airports[1].code
+    fill_in_typeahead("#travel_plan_from", with: code_0, and_choose: code_0)
+    fill_in_typeahead("#travel_plan_from", with: code_1, and_choose: code_1)
+    expect(page).to have_selector ".PointsEstimateTable"
+  end
+
   describe "filling in the form" do
     context "with valid information" do
       before do
@@ -114,6 +124,15 @@ describe "new travel plan page", :js do
         submit_form
         expect(page).to have_selector "h2", text: "Add a Travel Plan"
       end
+    end
+
+    example "with an invalid (non-autocompleted) airport" do # bug fix
+      fill_in :travel_plan_from, with: 'blah blah blah'
+      fill_in :travel_plan_to, with: 'not a real code (ZZZ)'
+      raise if Airport.exists?(code: 'ZZZ') # sanity check
+      set_datepicker_field('#travel_plan_departure_date', to: depart_date)
+      set_datepicker_field('#travel_plan_return_date', to: return_date)
+      expect { submit_form }.not_to change { TravelPlan.count }
     end
   end
 end

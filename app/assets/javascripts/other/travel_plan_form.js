@@ -82,5 +82,7 @@ $(document).ready(function () {
   $singleRadio.on('click', travelTypeRadioClick);
   $returnRadio.on('click', travelTypeRadioClick);
 
-  airportTypeahead($('.typeahead'));
+  airportTypeahead($('.typeahead')).on('typeahead:select', function (e, suggestion) {
+    $(this).change();
+  });
 });
