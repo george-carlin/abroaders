@@ -85,6 +85,7 @@ class TravelPlanForm < ApplicationForm
           :no_of_passengers,
           numericality: {
             greater_than_or_equal_to: 1,
+            less_than_or_equal_to: TravelPlan::MAX_PASSENGERS,
             # avoid a duplicative error message when blank:
             allow_blank: true,
           },
