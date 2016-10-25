@@ -3,16 +3,16 @@ Afghanistan,AF,Middle East
 Alaska,AK,Alaska & Canada
 Albania,AL,Europe
 Algeria,DZ,Africa
-American Samoa,AS,Australia / New Zealand & Pacific
+American Samoa,AS,Australia/N.Z. & Pacific
 Andorra,AD,Europe
 Angola,AO,Africa
 Anguilla,AI,Caribbean
-Antarctica,AQ,Australia / New Zealand & Pacific
+Antarctica,AQ,Australia/N.Z. & Pacific
 Antigua and Barbuda,AG,Caribbean
 Argentina,AR,South America
 Armenia,AM,Asia
 Aruba,AW,Caribbean
-Australia,AU,Australia / New Zealand & Pacific
+Australia,AU,Australia/N.Z. & Pacific
 Austria,AT,Europe
 Azerbaijan,AZ,Asia
 Bahamas,BS,Caribbean
@@ -31,7 +31,7 @@ Bosnia and Herzegovina,BA,Europe
 Botswana,BW,Africa
 Brazil,BR,South America
 British Indian Ocean Territory,IO,Africa
-British Virgin Islands,VG,Australia / New Zealand & Pacific
+British Virgin Islands,VG,Australia/N.Z. & Pacific
 Brunei Darussalam,BN,Asia
 Bulgaria,BG,Europe
 Burkina Faso,BF,Africa
@@ -45,11 +45,11 @@ Central African Republic,CF,Africa
 Chad,TD,Africa
 Chile,CL,South America
 China,CN,Asia
-Christmas Island,CX,Australia / New Zealand & Pacific
+Christmas Island,CX,Australia/N.Z. & Pacific
 Cocos (Keeling) Islands,CC,Asia
 Colombia,CO,South America
 Comoros,KM,Africa
-Cook Islands,CK,Australia / New Zealand & Pacific
+Cook Islands,CK,Australia/N.Z. & Pacific
 Costa Rica,CR,Central America
 Croatia,HR,Europe
 Cuba,CU,Caribbean
@@ -72,12 +72,12 @@ Estonia,EE,Europe
 Ethiopia,ET,Africa
 Falkland Islands,FK,South America
 Faroe Islands,FO,Europe
-Federated States of Micronesia,FM,Australia / New Zealand & Pacific
-Fiji,FJ,Australia / New Zealand & Pacific
+Federated States of Micronesia,FM,Australia/N.Z. & Pacific
+Fiji,FJ,Australia/N.Z. & Pacific
 Finland,FI,Europe
 France,FR,Europe
 French Guiana,GF,South America
-French Polynesia,PF,Australia / New Zealand & Pacific
+French Polynesia,PF,Australia/N.Z. & Pacific
 French Southern Territories,TF,Africa
 Gabon,GA,Africa
 Georgia,GE,Asia
@@ -115,7 +115,7 @@ Jersey,JE,Europe
 Jordan,JO,Middle East
 Kazakhstan,KZ,Asia
 Kenya,KE,Africa
-Kiribati,KI,Australia / New Zealand & Pacific
+Kiribati,KI,Australia/N.Z. & Pacific
 Kosovo,XK,Europe
 Kuwait,KW,Middle East
 Kyrgyzstan,KG,Asia
@@ -136,7 +136,7 @@ Malaysia,MY,Asia
 Maldives,MV,Asia
 Mali,ML,Africa
 Malta,MT,Europe
-Marshall Islands,MH,Australia / New Zealand & Pacific
+Marshall Islands,MH,Australia/N.Z. & Pacific
 Martinique,MQ,Caribbean
 Mauritania,MR,Africa
 Mauritius,MU,Africa
@@ -151,29 +151,29 @@ Morocco,MA,Africa
 Mozambique,MZ,Africa
 Myanmar,MM,Asia
 Namibia,NA,Africa
-Nauru,NR,Australia / New Zealand & Pacific
+Nauru,NR,Australia/N.Z. & Pacific
 Nepal,NP,Asia
 Netherlands,NL,Europe
-New Caledonia,NC,Australia / New Zealand & Pacific
-New Zealand,NZ,Australia / New Zealand & Pacific
+New Caledonia,NC,Australia/N.Z. & Pacific
+New Zealand,NZ,Australia/N.Z. & Pacific
 Nicaragua,NI,Central America
 Niger,NE,Africa
 Nigeria,NG,Africa
-Niue,NU,Australia / New Zealand & Pacific
-Norfolk Island,NF,Australia / New Zealand & Pacific
+Niue,NU,Australia/N.Z. & Pacific
+Norfolk Island,NF,Australia/N.Z. & Pacific
 North Korea,KP,Asia
-Northern Mariana Islands,MP,Australia / New Zealand & Pacific
+Northern Mariana Islands,MP,Australia/N.Z. & Pacific
 Norway,NO,Europe
 Oman,OM,Middle East
 Pakistan,PK,Asia
-Palau,PW,Australia / New Zealand & Pacific
+Palau,PW,Australia/N.Z. & Pacific
 Palestinian Territory,PS,Middle East
 Panama,PA,Central America
 Papua New Guinea,PG,Asia
 Paraguay,PY,South America
 Peru,PE,South America
 Philippines,PH,Asia
-Pitcairn,PN,Australia / New Zealand & Pacific
+Pitcairn,PN,Australia/N.Z. & Pacific
 Poland,PL,Europe
 Portugal,PT,Europe
 Puerto Rico,PR,Caribbean
@@ -190,7 +190,7 @@ Saint Lucia,LC,Caribbean
 Saint Martin,MF,Caribbean
 Saint Pierre and Miquelon,PM,Alaska & Canada
 Saint Vincent and the Grenadines,VC,Caribbean
-Samoa,WS,Australia / New Zealand & Pacific
+Samoa,WS,Australia/N.Z. & Pacific
 San Marino,SM,Europe
 Saudi Arabia,SA,Middle East
 Senegal,SN,Africa
@@ -201,7 +201,7 @@ Singapore,SG,Asia
 Sint Maarten,SX,Caribbean
 Slovakia,SK,Europe
 Slovenia,SI,Europe
-Solomon Islands,SB,Australia / New Zealand & Pacific
+Solomon Islands,SB,Australia/N.Z. & Pacific
 Somalia,SO,Africa
 South Africa,ZA,Africa
 South Georgia and the South Sandwich Islands,GS,South America
@@ -223,27 +223,27 @@ Tanzania,TZ,Africa
 Thailand,TH,Asia
 The Gambia,GM,Africa
 Togo,TG,Africa
-Tokelau,TK,Australia / New Zealand & Pacific
-Tonga,TO,Australia / New Zealand & Pacific
+Tokelau,TK,Australia/N.Z. & Pacific
+Tonga,TO,Australia/N.Z. & Pacific
 Trinidad and Tobago,TT,Caribbean
 Tunisia,TN,Africa
 Turkey,TR,Europe
 Turkmenistan,TM,Asia
 Turks and Caicos Islands,TC,Caribbean
-Tuvalu,TV,Australia / New Zealand & Pacific
-US Virgin Islands,VI,Australia / New Zealand & Pacific
+Tuvalu,TV,Australia/N.Z. & Pacific
+US Virgin Islands,VI,Australia/N.Z. & Pacific
 Uganda,UG,Africa
 Ukraine,UA,Europe
 United Arab Emirates,AE,Middle East
 United Kingdom,GB,Europe
-United States (Continental 48),US,"United States - Continental 48"
-United States Minor Outlying Islands,UM,Australia / New Zealand & Pacific
+United States (Continental 48),US,"U.S.A. (Continental 48)"
+United States Minor Outlying Islands,UM,Australia/N.Z. & Pacific
 Uruguay,UY,South America
 Uzbekistan,UZ,Asia
-Vanuatu,VU,Australia / New Zealand & Pacific
+Vanuatu,VU,Australia/N.Z. & Pacific
 Venezuela,VE,South America
 Vietnam,VN,Asia
-Wallis and Futuna,WF,Australia / New Zealand & Pacific
+Wallis and Futuna,WF,Australia/N.Z. & Pacific
 Western Sahara,EH,Africa
 Yemen,YE,Middle East
 Zambia,ZM,Africa
