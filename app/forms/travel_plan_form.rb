@@ -173,16 +173,4 @@ class TravelPlanForm < ApplicationForm
   def return?
     type == "return"
   end
-
-  # Technical debt alert: this is a duplicate of logic in
-  # views/airports/index.json.erb
-  def typeahead_name(airport)
-    city_name = airport.parent.name
-
-    displayed_name = "#{airport.name} (#{airport.code})"
-    unless airport.name.downcase.include?(city_name.downcase)
-      displayed_name = "#{city_name} #{displayed_name}"
-    end
-    displayed_name
-  end
 end
