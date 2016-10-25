@@ -9,6 +9,7 @@
 AllCops:
   Exclude:
     - 'bin/**/*'
+    - 'db/schema.rb'
     - 'log/**/*'
     - 'node_modules/**/*'
     - 'public/**/*'
@@ -138,14 +139,6 @@ Style/EmptyLines:
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles.
 # SupportedStyles: empty_lines, no_empty_lines
-Style/EmptyLinesAroundBlockBody:
-  Exclude:
-    - 'db/schema.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: empty_lines, no_empty_lines
 Style/EmptyLinesAroundClassBody:
   Exclude:
     - 'db/migrate/20160407212200_add_attachment_image_to_cards.rb'
@@ -168,7 +161,6 @@ Style/ExtraSpacing:
     - 'db/migrate/20160108175327_create_destinations.rb'
     - 'db/migrate/20160310183236_add_fields_for_companion_survey.rb'
     - 'db/migrate/20160428131640_make_card_offer_days_and_spend_nullable.rb'
-    - 'db/schema.rb'
 
 # Offense count: 5
 # Cop supports --auto-correct.
