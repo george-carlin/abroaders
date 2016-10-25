@@ -11,10 +11,14 @@ FactoryGirl.define do
       eligible false
     end
 
-    main true
+    owner true
+
+    trait :owner do
+      owner true
+    end
 
     trait :companion do
-      main false
+      owner false
     end
 
     trait :onboarded do
@@ -26,6 +30,9 @@ FactoryGirl.define do
       ready true
     end
 
-    factory :companion, traits: [:companion]
+    factory :companion,               traits: [:companion]
+    factory :person_with_spending,    traits: [:onboarded_spending]
+    factory :owner_with_spending,     traits: [:onboarded_spending, :owner]
+    factory :companion_with_spending, traits: [:onboarded_spending, :companion]
   end
 end

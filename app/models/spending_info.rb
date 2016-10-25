@@ -19,7 +19,7 @@ class SpendingInfo < ActiveRecord::Base
     has_business_with_ein? || has_business_without_ein?
   end
 
-  delegate :main, :main?, to: :person
+  delegate :owner, :owner?, to: :person
 
   # Associations
 

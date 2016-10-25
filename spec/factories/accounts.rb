@@ -26,7 +26,7 @@ FactoryGirl.define do
     #     create(:account, :onboarded, :with_companion)
     trait :with_companion do
       after(:build) do |acc|
-        acc.people.build(first_name: Faker::Name.first_name, main: false)
+        acc.people.build(first_name: Faker::Name.first_name, owner: false)
       end
     end
 

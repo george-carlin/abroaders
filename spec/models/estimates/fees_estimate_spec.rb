@@ -3,7 +3,7 @@ require "rails_helper"
 module Estimates
   describe FeesEstimate do
     before do
-      @usa = Region.new(code: "US", name: "United States (Continental 48)")
+      @usa = Region.new(code: "US", name: 'U.S.A. (Continental 48)')
       @eu  = Region.new(code: "EU", name: "Europe")
 
       @fr = Country.new(parent: @eu,  name: "France")

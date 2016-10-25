@@ -21,7 +21,7 @@ class Bank < FakeDBModel
     #
     # comments after each line contain additional data about the bank
     # that we're not doing anything with yet
-    [1, "Chase", "888-245-0625", "800 453-9719"],
+    [1, "Chase", "(888) 609-7805", "800 453-9719"],
     [3, "Citibank", "(800) 695-5171", "800-763-9795"],
     [5, "Barclays", "866-408-4064", "866-408-4064"],
     # hours: 8am-5pm EST M-F

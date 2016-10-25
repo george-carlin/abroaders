@@ -4,7 +4,6 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  include CurrentUserHelper
   include I18nWithErrorRaising
 
   def dashboard
@@ -20,7 +19,7 @@ class ApplicationController < ActionController::Base
 
       @people = @account.people.includes(
         :balances, :spending_info, card_accounts: :card,
-      ).order(main: :desc)
+      ).order(owner: :desc)
       @travel_plans = current_account.travel_plans.includes_destinations
       @unresolved_recommendations = current_account.card_recommendations.unresolved
       @recommendation_expiration = current_account.recommendations_expire_at

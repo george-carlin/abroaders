@@ -26,6 +26,8 @@ describe "user cards page - nudgeable cards", :js do
 
   let(:rec)  { @rec }
   let(:bank) { @bank }
+  let(:personal_no) { @bank.personal_phone }
+  let(:business_no) { @bank.business_phone }
 
   let(:rec_on_page) { NudgeableCardAccountOnPage.new(rec, self) }
 
@@ -60,17 +62,17 @@ describe "user cards page - nudgeable cards", :js do
 
   context "for a personal card" do
     let(:bp) { :personal }
-    it "shows the bank's personal number" do
-      expect(rec_on_page).to have_content "call #{bank.name} at 888-245-0625"
-      expect(rec_on_page).to have_no_content "800 453-9719"
+    it "gives me the bank's personal number" do
+      expect(rec_on_page).to have_content "call #{bank.name} at #{personal_no}"
+      expect(rec_on_page).to have_no_content business_no
     end
   end
 
   context "for a business card" do
     let(:bp) { :business }
-    it "shows the bank's business number" do
-      expect(rec_on_page).to have_content "call #{bank.name} at 800 453-9719"
-      expect(rec_on_page).to have_no_content "888-245-0625"
+    it "gives me the bank's business number" do
+      expect(rec_on_page).to have_content "call #{bank.name} at #{business_no}"
+      expect(rec_on_page).to have_no_content personal_no
     end
   end
 
