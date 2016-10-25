@@ -8,6 +8,16 @@ namespace :ab do
       JSON.parse(File.read(seeds_dir.join("#{table}.json")))
     end
 
+    # Some of our original airport and city data was taken from here:
+    #
+    # https://bitbucket.org/!api/2.0/snippets/georgemillo/y8zMo/8ec4454bc955b27ee278ad92187e046c548312fb/files/snippet.txt
+    # and
+    # https://bitbucket.org/!api/2.0/snippets/georgemillo/Ad9Mb/1852d0a5ba78f4f061d9cd754c02c627b7e643da/files/file
+    #
+    # But it's been heavily changed/edited since then, and our current airport
+    # data is mostly based on miles.biz's list of airports (as of 25/10/2016).
+    # Keep the note of the above links just for historical reference.
+
     task admins: :environment do
       ApplicationRecord.transaction do
         %w[Erik AJ George].each do |name|

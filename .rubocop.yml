@@ -98,14 +98,6 @@ StringLiterals:
 Metrics:
   Enabled: false
 
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: AlignWith, SupportedStyles, AutoCorrect.
-# SupportedStyles: keyword, variable, start_of_line
-Lint/EndAlignment:
-  Exclude:
-    - 'lib/tasks/sample_data.rake'
-
 # Offense count: 2
 # Configuration parameters: ContextCreatingMethods.
 Lint/UselessAccessModifier:
@@ -135,12 +127,6 @@ Style/ClassAndModuleChildren:
     - 'app/models/card_account/expiration.rb'
     - 'app/models/card_account/status.rb'
     - 'app/presenters/admin_area/offer_presenter.rb'
-
-# Offense count: 2
-# Cop supports --auto-correct.
-Style/ElseAlignment:
-  Exclude:
-    - 'lib/tasks/sample_data.rake'
 
 # Offense count: 2
 # Cop supports --auto-correct.
@@ -184,19 +170,6 @@ Style/ExtraSpacing:
     - 'db/migrate/20160428131640_make_card_offer_days_and_spend_nullable.rb'
     - 'db/schema.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: Width.
-Style/IndentationWidth:
-  Exclude:
-    - 'lib/tasks/sample_data.rake'
-
-# Offense count: 3
-Style/MultilineBlockChain:
-  Exclude:
-    - 'lib/tasks/download_airports.rake'
-    - 'lib/tasks/download_states.rake'
-
 # Offense count: 5
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles, IndentationWidth.
@@ -205,12 +178,6 @@ Style/MultilineOperationIndentation:
   Exclude:
     - 'db/migrate/20160430225929_add_source_to_card_accounts.rb'
     - 'spec/support/pages/card_accounts/card_account_on_page.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/SafeNavigation:
-  Exclude:
-    - 'lib/tasks/sample_data.rake'
 
 # Offense count: 1
 # Cop supports --auto-correct.
