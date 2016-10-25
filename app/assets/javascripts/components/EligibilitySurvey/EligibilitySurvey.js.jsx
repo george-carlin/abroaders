@@ -11,7 +11,7 @@ import Layout   from "./Layout";
 const EligibilitySurvey = ({ account, action }) => {
   return (
     <Layout>
-      <HelpText hasCompanion={!!account.companion} />
+      <HelpText />
 
       <Form action={action} >
         <Fields

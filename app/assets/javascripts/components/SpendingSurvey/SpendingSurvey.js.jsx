@@ -121,7 +121,10 @@ const SpendingSurvey = React.createClass({
               <Row>
                 <MonthlySpendingFormGroup
                   className={columnClassnames({ xs: 12})}
+                  companionFirstName={this.props.companionFirstName}
                   defaultValue={this.state.monthlySpending}
+                  isCouplesAccount={isCouplesAccount}
+                  ownerFirstName={this.props.ownerFirstName}
                 />
               </Row>
 
