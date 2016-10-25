@@ -139,5 +139,18 @@
   .table-wrapper {
     height: 300px;
     overflow: scroll;
+
+    .card-accounts-table {
+      font-size: 13px;
+
+      th {
+        font-weight: 400;
+        outline: none;
+
+        &.reactable-header-sort-desc, &.reactable-header-sort-asc {
+          font-weight: 700;
+        }
+      }
+    }
   }
 }

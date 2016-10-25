@@ -1,7 +1,6 @@
 import React from "react";
 
-import Row            from "../../../core/Row";
-import CardAccountRow from "./CardAccountRow";
+import Reactable from "reactable";
 
 const CardRecommendationTable = React.createClass({
   propTypes: {
@@ -10,33 +9,61 @@ const CardRecommendationTable = React.createClass({
   },
 
   render() {
+    let Table = Reactable.Table;
+    let Thead = Reactable.Thead;
+    let Th    = Reactable.Th;
+    let Tr    = Reactable.Tr;
+    let Td    = Reactable.Td;
+
     return (
       <div className="col-xs-12 col-md-6">
         <p>{this.props.person.firstName}'s Credit Cards</p>
 
         <div className="table-wrapper">
-          <table id="admin_person_card_accounts_table" className="table table-striped">
-            <thead>
-            <tr>
-              <th>ID</th>
-              <th>Bank</th>
-              <th>Name</th>
-              <th>Status</th>
-              <th>Applied</th>
-              <th>Opened</th>
-              <th>Closed</th>
-            </tr>
-            </thead>
+          <Table
+            className="table table-striped card-accounts-table"
+            noDataText="No matching records found"
+            sortable={[
+              {
+                column: "applied",
+                sortFunction: "Date",
+              },
+              {
+                column: "opened",
+                sortFunction: "Date",
+              },
+              {
+                column: "closed",
+                sortFunction: "Date",
+              },
+            ]}
+            defaultSort={{column: "opened", direction: "desc"}}
+            defaultSortDescending
+          >
+            <Thead>
+              <Th column="id">ID</Th>
+              <Th column="bank">Bank</Th>
+              <Th column="name">Name</Th>
+              <Th column="status">Status</Th>
+              <Th column="applied">Applied</Th>
+              <Th column="opened">Open</Th>
+              <Th column="closed">Closed</Th>
+            </Thead>
 
-            <tbody>
             { this.props.cardAccounts.map(cardAccount => (
-              <CardAccountRow
+              <Tr
                 key={cardAccount.id}
-                cardAccount={cardAccount}
-              />
+              >
+                <Td column="id">{cardAccount.card.identifier}</Td>
+                <Td column="bank">{cardAccount.card.bank.name}</Td>
+                <Td column="name">{cardAccount.card.name}</Td>
+                <Td column="status">{cardAccount.status}</Td>
+                <Td column="applied">{cardAccount.appliedAt}</Td>
+                <Td column="opened">{cardAccount.openedAt}</Td>
+                <Td column="closed">{cardAccount.closedAt}</Td>
+              </Tr>
             ))}
-            </tbody>
-          </table>
+          </Table>
         </div>
       </div>
     );
