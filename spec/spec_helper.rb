@@ -14,6 +14,27 @@
 # users commonly want.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+
+spec_dir   = File.expand_path(__dir__)
+spec_files = Dir[File.join(spec_dir, '**', '*.rb')]
+
+bad_file_names = spec_files.reject do |path|
+  path.include?(File.join('spec', 'support')) ||
+    path.include?(File.join('spec', 'factories')) ||
+    path =~ /_spec.rb\z/ || path =~ /_helper.rb\z/
+end
+
+if bad_file_names.any?
+  err_msg = <<-EOL
+Bad spec file names. All files in /spec except spec_helper, rails_helper, \
+and files in spec/support and spec/factories must have names ending in \
+'_spec.rb', or the 'rspec' command won't run them - meaning that any \
+failing specs they contain could easily be overlooked. Rename the following \
+files so their names end in '_spec.rb': \n\n#{bad_file_names.join('\n')}
+  EOL
+  raise err_msg
+end
+
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
