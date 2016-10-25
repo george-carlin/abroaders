@@ -36,7 +36,7 @@ module ApplicationHelper
 
   def serialize_collection(models, serializer_class = nil)
     serializer_class ||= "#{models.first.class.name}Serializer".constantize
-    models.map{ |model| serializer_class.new(model) }.to_json
+    models.map { |model| serializer_class.new(model) }.to_json
   end
 
   # If current_account.has_companion? is false, then the string will be returned unchanged.

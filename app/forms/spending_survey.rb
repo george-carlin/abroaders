@@ -9,7 +9,7 @@ class SpendingSurvey < SpendingForm
     person.update_attributes!(
       ready:              ready,
       unreadiness_reason: unreadiness_reason,
-      ready_on:           ready_on
+      ready_on:           ready_on,
     )
     person.create_spending_info!(spending_info_attributes)
   end
