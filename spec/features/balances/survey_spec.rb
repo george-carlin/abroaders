@@ -3,23 +3,19 @@ require "rails_helper"
 describe "the balance survey page", :onboarding, :js do
   subject { page }
 
-  include_context "set admin email ENV var"
-
+  let(:account) { create(:account, onboarding_state: "owner_balances") }
+  let(:owner)   { account.owner }
+  let(:name)    { owner.first_name }
+  let!(:currencies) { create_list(:currency, 3) }
   before do
-    @account = create(:account, :onboarded_type)
-    @me = account.owner
-    @me.update_attributes!(first_name: "George")
-    @currencies = create_list(:currency, 3)
     @hidden_currency = create(:currency, shown_on_survey: false)
     login_as_account(account)
 
-    visit survey_person_balances_path(@me)
+    visit survey_person_balances_path(owner)
   end
 
-  let(:submit_form) { click_button "Submit" }
+  let(:submit_form) { click_button "Save and continue" }
 
-  let(:account)   { @account }
-  let(:me)        { @me }
   let(:companion) { @companion }
 
   def currency_selector(currency)
@@ -43,7 +39,7 @@ describe "the balance survey page", :onboarding, :js do
   example "initial page layout" do
     expect(page).to have_title full_title("Balances")
     expect(page).to have_no_sidebar
-    expect(page).to have_content "Does George have any points balances greater than 5,000?"
+    expect(page).to have_content "Do you have any points balances greater than 5,000?"
     expect(page).to have_link "Yes"
     expect(page).to have_link "No"
   end
@@ -54,18 +50,18 @@ describe "the balance survey page", :onboarding, :js do
 
   example "clicking 'No' asks for confirmation" do
     click_link "No"
-    expect(page).to have_no_content "Does George have any points balances greater than 5,000?"
+    expect(page).to have_no_content "Do you have any points balances greater than 5,000?"
     expect(page).to have_no_link "Yes"
     expect(page).to have_no_link "No"
-    expect(page).to have_content "George has no points balances greater than 5,000"
+    expect(page).to have_content "You have no points balances greater than 5,000"
     expect(page).to have_button "Confirm"
     expect(page).to have_button "Back"
 
     click_button "Back"
-    expect(page).to have_content "Does George have any points balances greater than 5,000?"
+    expect(page).to have_content "Do you have any points balances greater than 5,000?"
     expect(page).to have_link "Yes"
     expect(page).to have_link "No"
-    expect(page).to have_no_content "George has no points balances greater than 5,000"
+    expect(page).to have_no_content "You have no points balances greater than 5,000"
     expect(page).to have_no_button "Confirm"
     expect(page).to have_no_button "Back"
   end
@@ -73,12 +69,11 @@ describe "the balance survey page", :onboarding, :js do
   example "clicking 'No' and confirming" do
     click_link "No"
     expect { click_button "Confirm" }.not_to change { Balance.count }
-    expect(me.reload.onboarded_balances?).to be true
   end
 
   example "clicking 'Yes' shows list of currencies" do
     click_link "Yes"
-    @currencies.each do |currency|
+    currencies.each do |currency|
       expect(page).to have_content currency.name
       within_currency(currency) do
         expect(page).to have_selector "input[type='checkbox']"
@@ -95,11 +90,11 @@ describe "the balance survey page", :onboarding, :js do
     click_link "Yes"
     fill_in :balances_survey_award_wallet_email, with: "a@b.com"
     submit_form
-    expect(me.reload.award_wallet_email).to eq "a@b.com"
+    expect(owner.reload.award_wallet_email).to eq "a@b.com"
   end
 
   example "hiding and showing a currency's value input" do
-    currency = @currencies.first
+    currency = currencies.first
 
     click_link "Yes"
 
@@ -113,21 +108,20 @@ describe "the balance survey page", :onboarding, :js do
   end
 
   example "submitting a balance" do
-    currency = @currencies.first
+    currency = currencies.first
     click_link "Yes"
     currency_check_box(currency).click
     fill_in balance_field(currency), with: 50_000
-    expect { submit_form }.to change { me.balances.count }.by(1)
-    balance = me.reload.balances.last
+    fill_in balance_field(currency), with: 50_000
+    expect { submit_form }.to change { owner.balances.count }.by(1)
+    balance = owner.reload.balances.last
     expect(balance.currency).to eq currency
-    expect(balance.person).to eq me
+    expect(balance.person).to eq owner
     expect(balance.value).to eq 50_000
-
-    expect(me.reload.onboarded_balances?).to be true
   end
 
   example "clicking 'submit' after unchecking a balance" do
-    currency = @currencies.first
+    currency = currencies.first
     click_link "Yes"
     currency_check_box(currency).click
     fill_in balance_field(currency), with: 50_000
@@ -138,30 +132,18 @@ describe "the balance survey page", :onboarding, :js do
   end
 
   example "submitting a balance that contains commas" do
-    currency = @currencies.first
+    currency = currencies.first
     click_link "Yes"
     currency_check_box(currency).click
     fill_in balance_field(currency), with: "50,000"
-    expect { submit_form }.to change { me.balances.count }.by(1)
-    balance = me.reload.balances.last
+    expect { submit_form }.to change { owner.balances.count }.by(1)
+    balance = owner.reload.balances.last
     expect(balance.value).to eq 50_000
   end
 
   example "clicking 'Yes' then submitting without adding any balances" do
     click_link "Yes"
     expect { submit_form }.not_to change { Balance.count }
-    expect(me.reload.onboarded_balances?).to be true
-  end
-
-  example "tracking an intercom event when person is account owner" do
-    click_link "Yes"
-    expect { submit_form }.to track_intercom_event("obs_balances_own").for_email(account.email)
-  end
-
-  example "sending 'profile complete' email to the admin" do
-    click_link "Yes"
-    expect { submit_form }.to \
-      send_email.to(ENV["ADMIN_EMAIL"]).with_subject("App Profile Complete - #{account.email}")
   end
 
   describe "when person is owner, and account has a companion" do
@@ -173,22 +155,13 @@ describe "the balance survey page", :onboarding, :js do
     end
   end
 
-  describe "when person is account companion" do
-    before do
-      @me.update_attributes!(onboarded_balances: true)
-      @companion = create(:companion, account: account)
-      visit survey_person_balances_path(@companion)
-    end
+  skip "tracking an intercom event when person is account owner" do
+    click_link "Yes"
+    expect { submit_form }.to track_intercom_event("obs_balances_own").for_email(account.email)
+  end
 
-    example "tracking an intercom event when person is companion" do
-      click_link "Yes"
-      expect { submit_form }.to track_intercom_event("obs_balances_com").for_email(account.email)
-    end
-
-    example "sending 'profile complete' email to the admin" do
-      click_link "Yes"
-      expect { submit_form }.to \
-        send_email.to(ENV["ADMIN_EMAIL"]).with_subject("App Profile Complete - #{account.email}")
-    end
+  skip "tracking an intercom event when person is companion" do
+    click_link "Yes"
+    expect { submit_form }.to track_intercom_event("obs_balances_com").for_email(account.email)
   end
 end

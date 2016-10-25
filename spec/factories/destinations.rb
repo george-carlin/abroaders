@@ -24,7 +24,9 @@ FactoryGirl.define do
 
   factory :region do
     sequence(:name) { |n| "Region #{n}" }
-    two_letter_code
+    # this will break if you try to create more than Region::CODES.length
+    # regions (because region codes must be unique), but we should be fine for now:
+    sequence(:code) { |n| Region::CODES[n % Region::CODES.length] }
   end
 
   factory :country do

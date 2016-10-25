@@ -1,12 +1,17 @@
+/* global airportTypeahead b:true */
+
 $(document).ready(function () {
-  $('#travel_plan_earliest_departure').datepicker({
+  if (!$(".travel-plan-form").length) {
+    return;
+  }
+
+  $('.travel-plan-datepicker').datepicker({
     startDate: "new Date()",
     startView: 1,
     maxViewMode: 0,
     autoclose: true,
     todayHighlight: true,
   });
-
 
   /*
    * This is based on (i.e. copied from then stripped of all unecessary
@@ -61,4 +66,23 @@ $(document).ready(function () {
       }
     });
   }
+
+  var $singleRadio = $('#travel_plan_type_single');
+  var $returnRadio = $('#travel_plan_type_return');
+  var travelTypeRadioClick = function (e) {
+    var $returnOnField = $('#travel_plan_return_date');
+
+    if ($singleRadio.prop('checked')) {
+      $returnOnField.prop('disabled', true);
+      $returnOnField.val('');
+    } else if ($returnRadio.prop('checked')) {
+      $returnOnField.prop('disabled', false);
+    }
+  };
+  $singleRadio.on('click', travelTypeRadioClick);
+  $returnRadio.on('click', travelTypeRadioClick);
+
+  airportTypeahead($('.typeahead')).on('typeahead:select', function (e, suggestion) {
+    $(this).change();
+  });
 });

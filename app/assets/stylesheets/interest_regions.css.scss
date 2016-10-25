@@ -1,0 +1,47 @@
+.interest-regions-survey {
+  .submit-button {
+    display: block;
+    margin: 0 auto;
+    @media (max-width: 425px) {
+      font-size: 16px;
+    }
+  }
+
+  .greeting-message {
+    text-align: center;
+    h1 {
+      font-weight: 700;
+      color: #34495e;
+    }
+  }
+
+  .panel-body {
+    border-top: none;
+    padding-bottom: 20px;
+    padding-top: 0;
+  }
+
+  .panel-heading {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  .region-box {
+    margin-bottom: 50px;
+  }
+
+  .region-name {
+    display: inline-block;
+    font-family: inherit;
+    font-size: 26px;
+    font-weight: 200;
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+
+  .region-checkbox {
+    float: right;
+    font-size: 40px;
+    margin-top: 9px;
+  }
+}

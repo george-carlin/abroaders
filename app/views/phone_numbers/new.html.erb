@@ -1,0 +1,46 @@
+<% provide :title, "Phone Number" %>
+
+<div class="hpanel">
+  <div class="col-xs-12 col-md-6 col-md-offset-3">
+    <% if @form.errors.any? %>
+      <%= render "shared/error_message" do %>
+        <%= @form.errors.full_messages.join(", ") %>
+      <% end %>
+    <% end %>
+    <div class="panel-body">
+      <h2>What's your phone number?</h2>
+
+      <hr />
+
+      <%= form_for @form, url: phone_number_path do |f| %>
+        <p class="help-block">
+          <b>Why do we ask for your phone number?</b>
+        </p>
+
+        <p class="help-block">
+          Our team of experts may reach out by text message with additional
+          questions or clarifications. We will never send automated
+          communications to your phone. If you receive a message, it will be
+          from a real person, eager to help make your travel goals a reality.
+        </p>
+
+        <div class="form-group">
+          <%= f.text_field :phone_number, placeholder: "(xxx) xxx-xxxx" %>
+        </div>
+
+        <button class="btn btn-primary">
+          <i class="fa fa-check" aria-hidden="true"></i>
+          Save and continue
+        </button>
+
+        <%= link_to(
+          "Skip",
+          skip_phone_number_path,
+          class: "btn skip-survey-btn",
+          data: { method: :post }
+        )
+        %>
+      <% end %>
+    </div>
+  </div>
+</div>

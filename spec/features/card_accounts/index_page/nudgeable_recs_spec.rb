@@ -3,13 +3,14 @@ require "rails_helper"
 describe "user cards page - nudgeable cards", :js do
   include_context "logged in"
 
-  let(:me) { account.owner }
+  let(:person) { account.owner }
 
   let(:recommended_at) { 7.days.ago.to_date }
   let(:applied_at) { 7.days.ago.to_date }
   let(:bp) { :personal }
 
   before do
+    person.update!(eligible: true)
     @bank = Bank.find(1)
     @card = create(:card, bank_id: @bank.id, bp: bp)
     @offer = create(:offer, card: @card)
@@ -17,7 +18,7 @@ describe "user cards page - nudgeable cards", :js do
       :card_recommendation,
       recommended_at: recommended_at,
       applied_at: applied_at,
-      person: me,
+      person: person,
       offer: @offer,
     )
     visit card_accounts_path
@@ -51,7 +52,7 @@ describe "user cards page - nudgeable cards", :js do
     expect(rec_on_page).to have_no_apply_btn
     expect(rec_on_page).to have_no_decline_btn
     expect(rec_on_page).to have_no_i_applied_btn
-    # it encourages me to call the bank:
+    # it encourages the user to call the bank:
     expect(rec_on_page).to have_content "We strongly recommend that you call #{bank.name}"
     expect(rec_on_page).to have_content(
       "You’re more than twice as likely to get approved if you call #{bank.name} "\
@@ -100,7 +101,7 @@ describe "user cards page - nudgeable cards", :js do
 
     include_examples "clicking 'cancel'"
 
-    it "asks me the result", :frontend do
+    it "asks for the result", :frontend do
       expect(rec_on_page).to have_no_i_called_btn
       expect(rec_on_page).to have_approved_btn
       expect(rec_on_page).to have_denied_btn
@@ -201,7 +202,7 @@ describe "user cards page - nudgeable cards", :js do
       end
     end
 
-    it "asks me the result", :frontend do
+    it "asks for the result", :frontend do
       expect(rec_on_page).to have_no_i_called_btn
       expect(rec_on_page).to have_no_i_heard_back_btn
       expect(rec_on_page).to have_approved_btn

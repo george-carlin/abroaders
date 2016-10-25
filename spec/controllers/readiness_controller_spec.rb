@@ -1,11 +1,34 @@
 require "rails_helper"
 
 describe ReadinessController do
+  let(:account) { create(:account) }
+  let(:owner)   { account.owner }
+  before { sign_in account }
+
+  describe "GET #survey" do
+    subject { get :survey }
+
+    context "when I haven't reached this survey page yet" do
+      before { account.update_attributes!(onboarding_state: :eligibility) }
+      it { is_expected.to redirect_to survey_eligibility_path }
+    end
+
+    context "when I am on this survey page" do
+      before { account.update_attributes!(onboarding_state: :readiness) }
+      it { is_expected.to have_http_status(200) }
+    end
+
+    context "when I have completed the survey" do
+      before { account.update_attributes!(onboarding_state: :complete) }
+      it { is_expected.to redirect_to root_path }
+    end
+  end
+
   describe "GET #edit" do
     subject { get :edit }
 
     context "when account has companion" do
-      let(:account) { create(:account, :with_companion, :onboarded_cards, :onboarded_balances) }
+      let(:account) { create(:account, :with_companion, :onboarded) }
       before { sign_in account }
 
       context "when account owner and member are ineligible" do
@@ -26,7 +49,7 @@ describe ReadinessController do
     end
 
     context "when account hasn't companion" do
-      let(:account) { create(:account, :onboarded_cards, :onboarded_balances) }
+      let(:account) { create(:account, :onboarded) }
       before { sign_in account }
 
       context "when account owner is ineligible" do

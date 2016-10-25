@@ -1,5 +1,6 @@
 class EstimatesController < AuthenticatedUserController
-  skip_before_action :redirect_if_onboarding_survey_incomplete!
+  # 'travel_plan' survey page loads estimates via AJAX:
+  onboard :travel_plan, with: :get
 
   def get
     render json: Estimates::FullEstimate.load(points_estimate_params)

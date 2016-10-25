@@ -4,16 +4,12 @@
 
     &nbsp;&nbsp;&nbsp;&nbsp;
 
-    <span class="travel_plan_departure_date_range">
-      <%= travel_plan.earliest_departure.strftime("%D") %>
-    </span>
-
-    &nbsp;&nbsp;&nbsp;&nbsp;
-
     <span class="travel_plan_no_of_passengers">
       <%= fa_icon "male" %> &times; <%= travel_plan.no_of_passengers %>
     </span>
 
+    <% if false %>
+    <%# editing travel plans is temp disabled %>
     <% if local_assigns[:show_links] %>
       &nbsp;
       <%= link_to "Edit", edit_travel_plan_path(travel_plan) %>
@@ -23,14 +19,28 @@
         &nbsp;
         <%= link_to "Edit", edit_admin_travel_plan_path(travel_plan) %>
     <% end %>
+    <% end %>
+  </div>
+
+  <div>
+    <span class="travel_plan_departure_date_range">
+      Departure:
+      <%= travel_plan.depart_on.strftime("%D") %>
+    </span>
+
+    &nbsp;
+
+    <% if travel_plan.type == "return" %>
+      <span class="travel_plan_departure_date_range">
+        Return:
+        <%= travel_plan.return_on.strftime("%D") %>
+      </span>
+    <% end %>
   </div>
 
   <% travel_plan.flights.each do |flight| %>
     <div id="<%= dom_id(flight) %>" class="<%= dom_class(flight) %>">
       <%= fa_icon "plane" %>
-
-      <%# use `dom_id`, even though it's for the HTML class, because %>
-      <%# different TravelPlans might use the same destination %>
       <%= render "travel_plans/destination", destination: flight.from %>
       -
       <%= render "travel_plans/destination", destination: flight.to %>

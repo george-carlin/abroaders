@@ -47,11 +47,10 @@ module AdminArea
       @person = create(
         :person,
         :eligible,
-        onboarded_cards: true,
-        onboarded_balances: true,
         award_wallet_email: aw_email,
       )
       @account = @person.account.reload
+      @account.update!(onboarding_state: :complete)
     end
 
     def visit_path
@@ -106,21 +105,27 @@ module AdminArea
       expect(page).to have_no_link("Edit")
     end
 
+    # TODO this isn't really the best place to put this test; it's testing
+    # the travel_plan/travel_plan partial, which is used on other pages.
     example "person with travel plans" do
       @eu  = create(:region,  name: "Europe")
-      @uk  = create(:country, name: "UK", parent: @eu)
-      @lon = create(:city,    parent: @uk)
-      @lhr = create(:airport, name: "Heathrow", parent: @lon)
+      @uk  = create(:country, name: "UK",     parent: @eu)
+      @lon = create(:city,    name: "London", parent: @uk)
+      @lhr = create(:airport, name: "Heathrow", code: "LHR", parent: @lon)
 
       @as  = create(:region,  name: "Asia")
       @vn  = create(:country, name: "Vietnam", parent: @as)
-      @hcm = create(:city,    parent: @vn)
-      @sgn = create(:airport, name: "HCMC", parent: @hcm)
+      @hcm = create(:city,    name: "Ho Chi Minh City", parent: @vn)
+      @sgn = create(:airport, name: "HCMC", code: "SGN", parent: @hcm)
 
       @na  = create(:region,  name: "North America")
       @us  = create(:country, name: "United States", parent: @na)
-      @nyc = create(:city,    parent: @us)
-      @jfk = create(:airport, name: "JFK", parent: @nyc)
+      @nyc = create(:city,    name: "New York City", parent: @us)
+      @jfk = create(:airport, name: "John F Kennedy", code: "JFK", parent: @nyc)
+
+      # Currently users can only create travel plans that are from/to airports
+      # Legacy data will be to/from countries, but don't bother testing that
+      # here.
 
       @tp_0 = create(
         :travel_plan, :single, account: @account,
@@ -128,27 +133,12 @@ module AdminArea
       )
       @tp_1 = create(
         :travel_plan, :return, account: @account,
-        flights: [Flight.new(from: @na, to: @as)],
-      )
-      @tp_2 = create(
-        :travel_plan, :multi, account: @account,
-        flights: [
-          Flight.new(from: @jfk, to: @eu, position: 0),
-          Flight.new(from: @eu,  to: @vn, position: 1),
-          Flight.new(from: @sgn, to: @jfk, position: 2),
-        ],
+        flights: [Flight.new(from: @sgn, to: @jfk)],
       )
 
       visit_path
 
       expect(page).to have_no_content "User has no upcoming travel plans"
-
-      # When the destination is a region, just display the region name.
-      # When the destination is anything other than a region, display the
-      # destination name, and the region name, skipping any intermediary
-      # steps. E.g. if the destination is Heathrow, display "Heathrow
-      # (Europe)", and don't bother displaying the intermediary
-      # destinations like London, England, UK, etc.
 
       within ".account_travel_plans" do
         expect(page).to have_selector "##{dom_id(@tp_0)}"
@@ -156,10 +146,11 @@ module AdminArea
           expect(page).to have_content "Single"
           expect(page).to have_selector "##{dom_id(@tp_0.flights[0])}"
           within "##{dom_id(@tp_0.flights[0])}" do
-            expect(page).to have_content "JFK (North America)"
-            expect(page).to have_content "Heathrow (Europe)"
+            expect(page).to have_content "New York City (JFK) - North America"
+            expect(page).to have_content "London (LHR) - Europe"
           end
-          expect(page).to have_link("Edit", href: edit_admin_travel_plan_path(@tp_0))
+          # TODO temporarily disabled
+          # expect(page).to have_link("Edit", href: edit_admin_travel_plan_path(@tp_0))
         end
 
         expect(page).to have_selector "##{dom_id(@tp_1)}"
@@ -167,32 +158,11 @@ module AdminArea
           expect(page).to have_content "Return"
           expect(page).to have_selector "##{dom_id(@tp_1.flights[0])}"
           within "##{dom_id(@tp_1.flights[0])}" do
-            expect(page).to have_content "North America"
-            expect(page).to have_content "Asia"
+            expect(page).to have_content "Ho Chi Minh City (SGN) - Asia"
+            expect(page).to have_content "New York City (JFK) - North America"
           end
-          expect(page).to have_link("Edit", href: edit_admin_travel_plan_path(@tp_1))
-        end
-
-        expect(page).to have_selector "##{dom_id(@tp_2)}"
-        within "##{dom_id(@tp_2)}" do
-          expect(page).to have_content "Multi"
-          expect(page).to have_selector "##{dom_id(@tp_2.flights[0])}"
-          expect(page).to have_selector "##{dom_id(@tp_2.flights[1])}"
-          expect(page).to have_selector "##{dom_id(@tp_2.flights[2])}"
-
-          within "##{dom_id(@tp_2.flights[0])}" do
-            expect(page).to have_content "JFK (North America)"
-            expect(page).to have_content "Europe"
-          end
-          within "##{dom_id(@tp_2.flights[1])}" do
-            expect(page).to have_content "Europe"
-            expect(page).to have_content "Vietnam (Asia)"
-          end
-          within "##{dom_id(@tp_2.flights[2])}" do
-            expect(page).to have_content "HCMC (Asia)"
-            expect(page).to have_content "JFK (North America)"
-          end
-          expect(page).to have_link("Edit", href: edit_admin_travel_plan_path(@tp_2))
+          # TODO temporarily disabled
+          # expect(page).to have_link("Edit", href: edit_admin_travel_plan_path(@tp_1))
         end
       end
     end

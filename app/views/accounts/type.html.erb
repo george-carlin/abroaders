@@ -1,11 +1,9 @@
 <% provide :title, "Select Account Type" %>
-<% provide :no_sidebar, true %>
 
 <div
   data-react-component="AccountTypeForm"
   data-owner-name="<%= @owner.first_name %>"
   data-destination-name="<%= @destination&.name %>"
-  data-solo-path="<%= solo_account_path %>"
-  data-couples-path="<%= couples_account_path %>"
+  data-action="<%= type_account_path %>"
 />
 </div>

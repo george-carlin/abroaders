@@ -1,13 +1,15 @@
 <% if model.errors.any? %>
   <%= render "shared/error_message" do %>
-    There
-    <% if model.errors.count > 1 %>
-      were <%= model.errors.count %> errors
-    <% else %>
-      was an error
+    <% unless !local_assigns[:full].nil? && !local_assigns[:full] %>
+      There
+      <% if model.errors.count > 1 %>
+        were <%= model.errors.count %> errors
+      <% else %>
+        was an error
+      <% end %>
+      and the <%= local_assigns[:model_name] || model.model_name.human.downcase %>
+      could not be saved:
     <% end %>
-    and the <%= local_assigns[:model_name] || model.model_name.human.downcase %>
-    could not be saved:
 
     <ul>
       <% model.errors.full_messages.each do |error| %>

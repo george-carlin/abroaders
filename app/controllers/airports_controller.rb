@@ -1,5 +1,6 @@
-class AirportsController < AuthenticatedUserController
-  skip_before_action :redirect_if_onboarding_survey_incomplete!, only: [:index]
+class AirportsController < ApplicationController
+  # 'index' action is required for home airports survey and travel plan
+  # to load airport data for the typeahead
 
   def index
     @airports = Airport.includes(:parent).order(code: :asc)

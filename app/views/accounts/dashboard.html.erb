@@ -60,11 +60,13 @@
           <p>
             You have <%= pluralize @unresolved_recommendations.size, "card recommendation" %>
             which require<%= "s" unless @unresolved_recommendations.many? %> action.
-            Please apply for <%= @unresolved_recommendations.size > 1 ? "these" : "this"  %> card<%= "s" unless !@unresolved_recommendations.many? %> as soon as possible.
+            Please apply for <%= @unresolved_recommendations.size > 1 ? "these" : "this"  %> card
+            <%= "s" unless !@unresolved_recommendations.many? %> as soon as possible.
           </p>
 
           <p>
-            Your card recommendations will expire in:  <span id="recommendation-countdown" data-countdown="<%= @recommendation_expiration  %>" ></span>
+            Your card recommendations will expire in:
+            <span id="recommendation-countdown" data-countdown="<%= @recommendation_expiration  %>"></span>
           </p>
 
         </div>

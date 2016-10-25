@@ -5,17 +5,15 @@ describe "the spending info edit page" do
 
   include ActiveJob::TestHelper
 
-  let!(:account) do
-    create(:account, :onboarded)
-  end
+  let!(:account) { create(:account, :onboarded) }
+  let(:person)   { account.owner }
 
   before do
-    @person = account.owner
     login_as(account, scope: :account)
-    visit edit_person_spending_info_path(@person)
+    create(:spending_info, person: person)
+    visit edit_person_spending_info_path(person)
   end
 
-  let(:person) { @person }
   let(:submit_form) { click_button "Save" }
 
   example "page layout" do

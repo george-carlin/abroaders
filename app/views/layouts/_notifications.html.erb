@@ -1,0 +1,23 @@
+<li class="dropdown
+  <% if current_account.unseen_notifications_count.nonzero? %>
+    unseen_notifications
+  <% end %>"
+  >
+  <a class="dropdown-toggle label-menu-corner" href="#" data-toggle="dropdown" aria-expanded="true">
+    <i class="pe-7s-mail"></i>
+    <% if current_account.unseen_notifications_count.nonzero? %>
+      <span class="label label-success">
+        <%= current_account.unseen_notifications_count %>
+      </span>
+    <% end %>
+  </a>
+  <ul class="dropdown-menu hdropdown animated flipInX">
+    <div class="title">
+      You have
+      <%= pluralize current_account.unseen_notifications_count, "new notification" %>
+    </div>
+    <% present_each current_account.unseen_notifications do |notification| %>
+      <%= notification.list_item %>
+    <% end %>
+  </ul>
+</li>

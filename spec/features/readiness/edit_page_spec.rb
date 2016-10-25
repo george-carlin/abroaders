@@ -40,7 +40,7 @@ describe "edit readiness page" do
           expect(owner.reload).to be_ready
         end
 
-        example "tracking an Intercom event for owner", :intercom do
+        skip "tracking an Intercom event for owner", :intercom do
           expect { click_ready_button(owner) }.to \
             track_intercom_events("obs_ready_own").for_email(account.email)
         end
@@ -73,7 +73,7 @@ describe "edit readiness page" do
           expect(companion.reload).to be_ready
         end
 
-        example "tracking an Intercom event for companion", :intercom do
+        skip "tracking an Intercom event for companion", :intercom do
           expect { click_ready_button(companion) }.to \
             track_intercom_events("obs_ready_com").for_email(account.email)
         end
@@ -111,7 +111,7 @@ describe "edit readiness page" do
             expect(companion.reload).to be_ready
           end
 
-          example "tracking an Intercom event for owner and companion", :intercom do
+          skip "tracking an Intercom event for owner and companion", :intercom do
             expect { submit_form }.to \
               track_intercom_events("obs_ready_own", "obs_ready_com").for_email(account.email)
           end
@@ -125,7 +125,7 @@ describe "edit readiness page" do
             expect(owner.reload).to be_ready
           end
 
-          example "tracking an Intercom event for owner", :intercom do
+          skip "tracking an Intercom event for owner", :intercom do
             expect { submit_form }.to \
               track_intercom_events("obs_ready_own").for_email(account.email)
           end
@@ -139,7 +139,7 @@ describe "edit readiness page" do
             expect(companion.reload).to be_ready
           end
 
-          example "tracking an Intercom event for companion", :intercom do
+          skip "tracking an Intercom event for companion", :intercom do
             expect { submit_form }.to \
               track_intercom_events("obs_ready_com").for_email(account.email)
           end
@@ -168,7 +168,7 @@ describe "edit readiness page" do
           expect(owner.reload).to be_ready
         end
 
-        example "tracking an Intercom event for owner", :intercom do
+        skip "tracking an Intercom event for owner", :intercom do
           expect { click_ready_button(owner) }.to \
             track_intercom_events("obs_ready_own").for_email(account.email)
         end
@@ -186,7 +186,7 @@ describe "edit readiness page" do
           expect(companion.reload).to be_ready
         end
 
-        example "tracking an Intercom event for companion", :intercom do
+        skip "tracking an Intercom event for companion", :intercom do
           expect { click_ready_button(companion) }.to \
             track_intercom_events("obs_ready_com").for_email(account.email)
         end
@@ -244,7 +244,7 @@ describe "edit readiness page" do
           expect(owner.reload).to be_ready
         end
 
-        example "tracking an Intercom event", :intercom do
+        skip "tracking an Intercom event", :intercom do
           expect { click_ready_button(owner) }.to \
             track_intercom_event("obs_ready_own").for_email(account.email)
         end

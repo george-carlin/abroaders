@@ -372,3 +372,7 @@ td.offer-days {
 .update-readiness-btn {
   width: 100%;
 }
+
+.datepicker {
+  z-index: 1001 !important; // must be higher than navbar
+}

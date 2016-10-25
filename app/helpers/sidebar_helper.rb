@@ -38,9 +38,7 @@ module SidebarHelper
   end
 
   def sidebar?
-    # Urgh... this probably isn't the best way to handle sidebar-less layouts
-    # but it'll do for now.
-    !content_for?(:no_sidebar)
+    current_account&.onboarded? || current_admin.present?
   end
 
   private
