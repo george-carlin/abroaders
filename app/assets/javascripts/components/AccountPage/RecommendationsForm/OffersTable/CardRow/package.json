@@ -1,0 +1,6 @@
+{
+  "name": "CardRow",
+  "version": "0.0.1",
+  "private": true,
+  "main": "./CardRow.js.jsx"
+}

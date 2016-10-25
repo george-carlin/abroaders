@@ -1,5 +1,5 @@
 class CardSerializer < ApplicationSerializer
-  attributes :name, :network, :bp, :type, :identifier
+  attributes :id, :name, :network, :bp, :type, :identifier
 
   has_one :bank
   has_one :currency

@@ -57,7 +57,7 @@ const CardRecommendationTable = React.createClass({
                 <Td column="id">{cardAccount.card.identifier}</Td>
                 <Td column="bank">{cardAccount.card.bank.name}</Td>
                 <Td column="name">{cardAccount.card.name}</Td>
-                <Td column="status">{cardAccount.status}</Td>
+                <Td column="status" className="text-capitalize">{cardAccount.status}</Td>
                 <Td column="applied">{cardAccount.appliedAt}</Td>
                 <Td column="opened">{cardAccount.openedAt}</Td>
                 <Td column="closed">{cardAccount.closedAt}</Td>

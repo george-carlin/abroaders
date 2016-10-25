@@ -152,5 +152,22 @@
         }
       }
     }
+
+    .offers-table {
+      font-size: 13px;
+
+      th {
+        font-weight: 400;
+      }
+
+      .admin-recommend-card {
+        background-color: #34495E;
+        color: #f0f0f0;
+      }
+
+      .link-td {
+        color: #34495e;
+      }
+    }
   }
 }

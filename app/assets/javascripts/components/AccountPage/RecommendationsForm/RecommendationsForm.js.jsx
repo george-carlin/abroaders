@@ -3,6 +3,7 @@ import React from "react";
 import Row                     from "../../core/Row";
 import Filters                 from "./Filters";
 import CardRecommendationTable from "./CardRecommendationTable";
+import OffersTable             from "./OffersTable";
 
 const RecommendationsForm = React.createClass({
   propTypes: {
@@ -10,6 +11,7 @@ const RecommendationsForm = React.createClass({
     alliances: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
     banks: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
     independentCurrencies: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+    offers: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
   },
 
   getInitialState() {
@@ -109,13 +111,13 @@ const RecommendationsForm = React.createClass({
     this.setState({filterAll: newFilterAll});
   },
 
-  filterCardAccounts(cardAccounts) {
+  filterByCard(objects) {
     const filterBP       = this.state.filterBP;
     const filterBank     = this.state.filterBank;
     const filterCurrency = this.state.filterCurrency;
 
-    return cardAccounts.filter((cardAccount) => {
-      const card = cardAccount.card;
+    return objects.filter((object) => {
+      const card = object.card;
       return (
         (filterBP.length === 0 || filterBP.indexOf(card.bp) > -1) &&
         (filterCurrency.length === 0 || filterCurrency.indexOf(card.currency.id) > -1) &&
@@ -126,7 +128,8 @@ const RecommendationsForm = React.createClass({
 
   render() {
     const person       = this.props.person;
-    const cardAccounts = this.filterCardAccounts(person.cardAccounts);
+    const cardAccounts = this.filterByCard(person.cardAccounts);
+    const offers       = this.filterByCard(this.props.offers);
 
     return (
       <div>
@@ -146,6 +149,11 @@ const RecommendationsForm = React.createClass({
           <CardRecommendationTable
             person={person}
             cardAccounts={cardAccounts}
+          />
+
+          <OffersTable
+            person={person}
+            offers={offers}
           />
         </Row>
       </div>

@@ -16,14 +16,16 @@ module AdminArea
       @account = Account.includes(
         home_airports: :parent,
         travel_plans: [flights: [:from, :to]], balances: :currency,
-        owner: [:spending_info, card_accounts: [:card, offer: :card]],
-        companion: [:spending_info, card_accounts: [:card, offer: :card]],
+        owner: [:spending_info, card_accounts: [card: [:currency]]],
+        companion: [:spending_info, card_accounts: [card: [:currency]]],
       ).find(params[:id])
 
       @alliances = Alliance.all
       @banks = Bank.all
 
       @independent_currencies = Currency.independent.filterable.order(name: :asc)
+
+      @offers = Offer.includes(card: :currency).live
     end
 
     def download_user_status_csv

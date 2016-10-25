@@ -13,6 +13,7 @@ const AccountPage = React.createClass({
     alliances: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
     banks: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
     independentCurrencies: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+    offers: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
   },
 
   getInitialState() {
@@ -83,6 +84,7 @@ const AccountPage = React.createClass({
               alliances={alliances}
               banks={this.props.banks}
               independentCurrencies={this.props.independentCurrencies}
+              offers={this.props.offers}
             />
           </div>
         </div>
