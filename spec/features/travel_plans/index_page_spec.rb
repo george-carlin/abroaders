@@ -80,6 +80,11 @@ describe "travel plans index page" do
     end
   end
 
+  it "handles legacy travel plans with no return date" do # bug fix
+    @tp_return.update!(return_on: nil)
+    expect { visit travel_plans_path }.not_to raise_error
+  end
+
   # TODO temporarily disabled
   pending "has a link to edit each plan" do
     expect(page).to have_link "Edit", href: edit_travel_plan_path(@tp_single)
