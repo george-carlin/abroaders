@@ -126,6 +126,11 @@
       .panel-heading {
         padding: 5px 15px;
       }
+
+      .panel-body {
+        height: 300px;
+        overflow-y: auto;
+      }
     }
 
     .personal-business-filter {

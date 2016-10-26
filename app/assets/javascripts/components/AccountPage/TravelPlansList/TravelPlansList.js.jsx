@@ -1,6 +1,6 @@
 import React from "react";
 
-import Row from "../../core/Row";
+import Row                 from "../../core/Row";
 import TravelPlansListItem from "./TravelPlanListItem";
 
 const TravelPlansList = (_props) => {
