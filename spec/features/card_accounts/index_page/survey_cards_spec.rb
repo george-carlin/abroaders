@@ -5,7 +5,11 @@ describe "card accounts page survey cards section" do
 
   include_context "logged in"
 
-  let(:me)        { account.owner }
+  before do
+    person.update!(eligible: true)
+  end
+
+  let(:person)    { account.owner }
   let(:companion) { account.companion }
 
   before(:all) { @cards = create_list(:card, 2) }
@@ -16,7 +20,7 @@ describe "card accounts page survey cards section" do
   end
 
   def create_companion!
-    create(:person, owner: false, account: account, onboarded_balances: true, onboarded_cards: true)
+    create(:person, owner: false, account: account)
     account.reload
   end
 
@@ -36,8 +40,8 @@ describe "card accounts page survey cards section" do
   end
 
   example "no companion; I have 'from survey' cards" do
-    open_acc   = create(:open_survey_card_account,   person: me, card: cards[0])
-    closed_acc = create(:closed_survey_card_account, person: me, card: cards[1])
+    open_acc   = create(:open_survey_card_account,   person: person, card: cards[0])
+    closed_acc = create(:closed_survey_card_account, person: person, card: cards[1])
 
     open_acc_on_page   = CardAccountOnPage.new(open_acc, self)
     closed_acc_on_page = CardAccountOnPage.new(closed_acc, self)
@@ -57,7 +61,7 @@ describe "card accounts page survey cards section" do
     expect(open_acc_on_page).to have_info_for_a_survey_card
     expect(closed_acc_on_page).to have_info_for_a_survey_card
 
-    expect(page).to have_no_selector "h2", text: "#{me.first_name}'s cards"
+    expect(page).to have_no_selector "h2", text: "#{person.first_name}'s cards"
   end
 
   example "companion; no-one has survey cards" do
@@ -70,8 +74,8 @@ describe "card accounts page survey cards section" do
   example "companion; only owner has survey cards" do
     create_companion!
 
-    open_acc   = create(:open_survey_card_account,   person: me, card: cards[0])
-    closed_acc = create(:closed_survey_card_account, person: me, card: cards[1])
+    open_acc   = create(:open_survey_card_account,   person: person, card: cards[0])
+    closed_acc = create(:closed_survey_card_account, person: person, card: cards[1])
 
     open_acc_on_page   = CardAccountOnPage.new(open_acc, self)
     closed_acc_on_page = CardAccountOnPage.new(closed_acc, self)
@@ -107,13 +111,13 @@ describe "card accounts page survey cards section" do
     expect(open_acc_on_page).to have_info_for_a_survey_card
     expect(closed_acc_on_page).to have_info_for_a_survey_card
 
-    expect(page).to have_selector "h3", text: "#{me.first_name}'s Cards"
-    expect(page).to have_content "#{me.first_name} has no other cards"
+    expect(page).to have_selector "h3", text: "#{person.first_name}'s Cards"
+    expect(page).to have_content "#{person.first_name} has no other cards"
   end
 
   example "companion; both people have survey cards" do
-    m_open   = create(:open_survey_card_account,   person: me, card: cards[0])
-    m_closed = create(:closed_survey_card_account, person: me, card: cards[1])
+    m_open   = create(:open_survey_card_account,   person: person, card: cards[0])
+    m_closed = create(:closed_survey_card_account, person: person, card: cards[1])
     create_companion!
     p_open   = create(:open_survey_card_account,   person: companion, card: cards[0])
     p_closed = create(:closed_survey_card_account, person: companion, card: cards[1])

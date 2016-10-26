@@ -1,0 +1,7 @@
+<% provide :title, "Are You Eligible?" %>
+
+<div
+  data-react-component="EligibilitySurvey"
+  data-account="<%= serialize(current_account) %>"
+  data-action="<%= survey_eligibility_path %>"
+></div>

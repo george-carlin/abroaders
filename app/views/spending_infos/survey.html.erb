@@ -1,0 +1,12 @@
+<% provide :title, "Spending" %>
+
+<div
+  data-react-component="SpendingSurvey"
+  data-companion-eligible="<%= !!current_account.companion&.eligible? %>"
+  data-companion-first-name="<%= current_account.companion&.first_name %>"
+  data-default-values="<%= @values %>"
+  data-error-messages="<%= @survey.errors.full_messages %>"
+  data-owner-eligible="<%= current_account.owner.eligible? %>"
+  data-owner-first-name="<%= current_account.owner.first_name %>"
+  data-submit-path="<%= survey_spending_info_path %>"
+></div>

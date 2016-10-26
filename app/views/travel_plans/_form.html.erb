@@ -1,11 +1,16 @@
 <%= render "shared/model_validation_errors", model: travel_plan %>
 <div class="panel-body">
-  <%= form_for travel_plan.form_object, html: { class: "row" } do |f| %>
+  <p>
+    If you have specific travel goals, we’ll build a plan to help you get
+    there at a big discount. If you aren’t sure where you want to go,
+    we’ll prioritize earning rewards that give you maximum flexibility.
+  </p>
 
-    <div class="form-inline col-xs-12 form-group">
-      <% travel_plan.class.types.each do |type, _| %>
-        <div class="form-group">
-          <label>
+  <%= form_for travel_plan, html: { class: "travel-plan-form" } do |f| %>
+    <div class="row">
+      <div class="col-xs-12">
+        <% travel_plan.class.types.each do |type, _| %>
+          <label class="type-radio">
             <%= t("activerecord.attributes.travel_plan.types.#{type}") %>
             &nbsp;
             <%= f.radio_button(
@@ -14,98 +19,124 @@
               checked: type == f.object.type
             ) %>
           </label>
-        </div>
-      <% end %>
-    </div>
-
-    <div class="form-group col-xs-12 col-md-6">
-      <%= f.label :from_id %>
-      <%= f.select(
-        :from_id,
-        options_for_travel_plan_country_select(@countries),
-        prompt: "Select a country of origin"
-      ) %>
-    </div>
-
-    <div class="form-group col-xs-12 col-md-6">
-      <%= f.label :to_id %>
-      <%= f.select(
-        :to_id,
-        options_for_travel_plan_country_select(@countries),
-        prompt: "Select a destination country"
-      ) %>
-    </div>
-
-    <div class="form-group col-xs-12 col-md-6">
-      <%= f.label        :no_of_passengers, "# of passengers" %>
-      <%= f.number_field :no_of_passengers,
-                            min: 1, max: TravelPlan::MAX_FLIGHTS %>
-    </div>
-
-    <div class="form-group col-xs-12 col-md-6">
-      <%= f.label :earliest_departure, "Departure date" %>
-      <%= f.text_field :earliest_departure, value: f.object.earliest_departure_str %>
-      <% if travel_plan.show_earliest_departure_help_block? %>
-        <p class="help-block small">
-          If you don’t yet know exactly when you want to fly, please input the
-          <i>earliest</i> possible date which it might be.
-        </p>
-      <% end %>
-    </div>
-
-    <div class="col-xs-12 col-md-6">
-      <label>What class(es) of service would <%= travel_plan.owner_name %> consider for this trip?</label>
-
-      <div class="form-inline">
-        <div class="radio">
-          <%= f.label :will_accept_economy do %>
-            <%= f.check_box :will_accept_economy %>
-            &nbsp;Economy&nbsp;
-          <% end %>
-        </div>
-
-        <div class="radio">
-          <%= f.label :will_accept_premium_economy do %>
-            <%= f.check_box :will_accept_premium_economy %>
-            &nbsp;Premium Economy&nbsp;
-          <% end %>
-        </div>
-
-        <div class="radio">
-          <%= f.label :will_accept_business_class do %>
-            <%= f.check_box :will_accept_business_class %>
-            &nbsp;Business Class&nbsp;
-          <% end %>
-        </div>
-
-        <div class="radio">
-          <%= f.label :will_accept_first_class do %>
-            <%= f.check_box :will_accept_first_class %>
-            &nbsp;First Class&nbsp;
-          <% end %>
-        </div>
+        <% end %>
       </div>
     </div>
 
-    <div class="col-xs-12 col-md-6">
-      <div class="form-group">
-        <%= f.text_area(
-          :further_information,
-          placeholder: "Optional: give us any extra information about #{travel_plan.owner_name(true)} travel plans that you think might be relevant"
+    <div class="travel-plan-input-group">
+      <div class="from-to-line">
+        <%= f.text_field(
+          :from,
+          class: 'typeahead travel-plan-from-field',
+          placeholder: 'From (airport)'
         ) %>
-        <span id="travel_plan_further_information_counter"></span>
+        <div class="travel-plan-icon-plane">
+          <span class="fa fa-plane"></span>
+        </div>
+        <%= f.text_field(
+          :to,
+          class: 'typeahead travel-plan-to-field',
+          placeholder: 'To (airport)'
+        ) %>
+      </div>
+
+      <div class="depart-return-passengers-line">
+        <div class="depart-return-line">
+          <div class="travel-plan-icon-depart">
+            <span class="fa fa-mail-forward"></span>
+          </div>
+          <%= f.text_field(
+            :departure_date,
+            placeholder: "Depart",
+            class: "travel-plan-datepicker travel-plan-depart-field",
+            value: f.object.departure_date_str
+          ) %>
+          <div class="travel-plan-icon-return">
+            <span class="fa fa-reply"></span>
+          </div>
+          <%= f.text_field(
+            :return_date,
+            placeholder: "Return",
+            class: "travel-plan-datepicker travel-plan-return-field",
+            value: (f.object.return_date_str if f.object.type == "return"),
+            disabled: ("disabled" if f.object.type == "single")
+          ) %>
+        </div>
+
+        <div class="passengers-line">
+          <div class="travel-plan-icon-passengers">
+            <span class="fa fa-user"></span>
+          </div>
+          <%= f.number_field(
+            :no_of_passengers,
+            min: 1,
+            max: TravelPlan::MAX_PASSENGERS,
+            placeholder: 'No of travelers',
+            class: "travel-plan-passengers-field"
+          ) %>
+        </div>
       </div>
     </div>
 
-    <div class="col-xs-12">
-      <%= f.submit "Save", class: "btn-primary" %>
-      <% if travel_plan.show_skip_survey? && !current_account.onboarded_travel_plans? %>
-        <%= link_to_skip_survey %>
-      <% end %>
+    <div class="row">
+      <div class="col-xs-12 col-md-7 col-lg-6">
+        <p>Check all acceptable classes:</p>
+
+        <div class="row">
+          <% %w[economy premium_economy business_class first_class].each do |cos| %>
+            <div class="col-xs-6">
+              <div class="form-group">
+                <%= f.label "will_accept_#{cos}" do %>
+                  <%= f.check_box "will_accept_#{cos}" %>
+                  &nbsp;<%= cos.titleize %>&nbsp;
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="form-group">
+              <%= f.text_area(
+                :further_information,
+                placeholder: "Optional: give us any extra information about #{travel_plan.owner_name(true)} "\
+                "travel plans that you think might be relevant"
+              ) %>
+              <span id="travel_plan_further_information_counter"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-md-5 col-lg-6">
+        <% unless travel_plan.persisted? %>
+          <%# TODO make me work on the edit page too - right now I break the tests: %>
+          <div data-react-component="PointsEstimateTable"></div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-md-7 col-lg-6">
+        <div class="row">
+          <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <%= f.button type: "submit", class: "btn-primary btn-block form-control" do %>
+              <span class="fa fa-check"></span>
+              &nbsp;Save my travel plan
+            <% end %>
+          </div>
+          <% unless current_account.onboarded? %>
+            <div class="col-xs-12 col-sm-6">
+              <%= link_to(
+                "I don't have specific plans",
+                skip_survey_travel_plans_path,
+                method: :patch,
+                class: "btn btn-block skip-survey-btn form-control",
+              ) %>
+            </div>
+          <% end %>
+        </div>
+      </div>
     </div>
   <% end %>
-
-  <hr />
-
-  <div data-react-component="PointsEstimateTable"></div>
 </div><!-- .panel-body -->

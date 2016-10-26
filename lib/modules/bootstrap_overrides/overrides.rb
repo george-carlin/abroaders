@@ -1,13 +1,14 @@
 module BootstrapOverrides
   module Overrides
-    BOOTSTRAP_CLASS = "form-control"
+    BOOTSTRAP_CLASS = 'form-control'.freeze
 
     # Add Bootstrap classes to form elements by default.
     # See stackoverflow.com/a/18844246/1603071
-    [:text_field, :email_field, :password_field, :text_area,
-      :text_field_tag, :number_field
+    [
+      :text_field, :email_field, :password_field, :text_area,
+      :text_field_tag, :number_field,
     ].each do |meth|
-      define_method(meth) do |name, value=nil, options={}|
+      define_method(meth) do |name, value = nil, options = {}|
         options[:class] = add_class(options[:class], BOOTSTRAP_CLASS)
         super(name, value, options)
       end
@@ -56,18 +57,15 @@ module BootstrapOverrides
       super
     end
 
-
     private
 
-      def add_class(classes, new_class)
-        if classes.nil?
-          classes = new_class
-        else
-          classes << " #{new_class}" if
-            " #{classes} ".index(" #{new_class} ").nil?
-        end
-        classes
+    def add_class(classes, new_class)
+      if classes.nil?
+        classes = new_class
+      elsif " #{classes} ".index(" #{new_class} ").nil?
+        classes << " #{new_class}"
       end
-
+      classes
+    end
   end
 end

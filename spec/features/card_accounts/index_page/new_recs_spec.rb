@@ -5,12 +5,12 @@ describe "cards index page - new recommendation", :js do
 
   include_context "logged in"
 
-  let(:me) { account.owner }
+  let(:person) { account.owner }
 
   let!(:rec) do
     create(
       :card_recommendation,
-      person: me,
+      person: person,
       recommended_at: recommended_at,
     )
   end
@@ -18,7 +18,10 @@ describe "cards index page - new recommendation", :js do
   let(:rec_on_page) { NewCardAccountOnPage.new(rec, self) }
   let(:recommended_at) { Date.today }
 
-  before { visit card_accounts_path }
+  before do
+    person.update!(eligible: true)
+    visit card_accounts_path
+  end
 
   let(:click_confirm_btn) do
     before_click_confirm_btn
@@ -110,7 +113,7 @@ describe "cards index page - new recommendation", :js do
     before { rec_on_page.click_i_applied_btn }
 
     shared_examples "asks to confirm" do
-      it "hides the current set of buttons and asks me to confirm", :frontend do
+      it "hides the current set of buttons and asks to confirm", :frontend do
         expect(rec_on_page).to have_no_approved_btn
         expect(rec_on_page).to have_no_denied_btn
         expect(rec_on_page).to have_no_pending_btn

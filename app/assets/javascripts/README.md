@@ -123,7 +123,7 @@
           name: PropTypes.string.isRequired,
         };
 
-- TODO - should we be using React.createClass or ES6 classes?
+- Use ES6 classes, not React.createClass
 
 
 

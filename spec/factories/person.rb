@@ -21,27 +21,8 @@ FactoryGirl.define do
       owner false
     end
 
-    trait :onboarded_spending do
-      eligible
-      after(:build) do |person|
-        person.build_spending_info(attributes_for(:spending_info, person: nil))
-      end
-    end
-
-    trait :onboarded_cards do
-      onboarded_spending
-      onboarded_cards true
-    end
-
-    trait :onboarded_balances do
-      onboarded_balances true
-    end
-
     trait :onboarded do
-      onboarded_spending
-      onboarded_balances
-      onboarded_cards
-      ready false
+      onboarding_state "complete"
     end
 
     trait :ready do

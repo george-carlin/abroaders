@@ -11,7 +11,11 @@ class Account < ApplicationRecord
   end
 
   def onboarded?
-    onboarded_home_airports? && onboarded_travel_plans? && onboarded_type? && people.any? && people.all?(&:onboarded?)
+    onboarding_state == "complete"
+  end
+
+  def has_any_recommendations?
+    people.any? { |person| person.last_recommendations_at.present? }
   end
 
   def recommendations_expire_at
@@ -19,20 +23,6 @@ class Account < ApplicationRecord
     return if expiring_recommendations.none?
     expiring_recommendations.minimum(:recommended_at) + 15.days + 7.hours
   end
-
-  def onboarding_survey
-    OnboardingSurvey.new(account: self)
-  end
-
-  # NOTE: the 'onboarded_travel_plans' column will be set to true when the user
-  # completes the 'add travel plan' part of the onboarding survey. Originally,
-  # we didn't have a separate column, and looked at the account's associated
-  # travel plans to see if they'd added any. (i.e. 'onboarded_travel_plans' was
-  # considered true `if account.travel_plans.any?`, without an extra DB column
-  # to store it explicitly. However, this had a flaw: if a user completed the
-  # onboarding survey, then later on *deleted* their travel plans, they would
-  # no longer be considered onboarded, even though they should have been.  So
-  # now the onboarded-ness of travel plans is stored in a separate DB column.
 
   # Validations
 
@@ -69,6 +59,9 @@ class Account < ApplicationRecord
                           class_name: "Airport",
                           join_table: "accounts_home_airports",
                           association_foreign_key: :airport_id
+
+  has_many :interest_regions, dependent: :destroy
+  has_many :regions_of_interest, through: :interest_regions, source: :region
 
   # TODO these methods don't belong in here; updating the counter cache is a
   # responsibility of the Notification class, not the Account class

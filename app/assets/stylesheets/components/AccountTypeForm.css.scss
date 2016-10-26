@@ -28,17 +28,11 @@
   }
 
 
-  $margin: 20px;
-
   @media (min-width: $mdWidth) {
-    #solo_earning_select.inactive {
+    .SoloForm {
       margin-right: 20px;
       position: relative;
       left: -40px;
     }
-  }
-
-  .account_type_form_step_1 {
-    text-align: start;
   }
 }

@@ -12,16 +12,6 @@ class Person < ApplicationRecord
     owner ? "owner" : "companion"
   end
 
-  def onboarded_spending?
-    !!spending_info&.persisted?
-  end
-
-  def onboarded?
-    onboarded_eligibility? && onboarded_balances? && (
-      ineligible? || (onboarded_cards? && onboarded_spending?)
-    )
-  end
-
   def can_receive_recommendations?
     onboarded? && eligible? && ready?
   end
@@ -37,10 +27,6 @@ class Person < ApplicationRecord
   end
 
   concerning :Eligibility do
-    def onboarded_eligibility?
-      !eligible.nil?
-    end
-
     def ineligible
       !eligible
     end

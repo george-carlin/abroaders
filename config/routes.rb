@@ -44,9 +44,15 @@ Rails.application.routes.draw do
 
   resource :account, only: [] do
     get  :type
-    post :solo,    action: :create_solo_account
-    post :couples, action: :create_couples_account
+    post :type, action: :submit_type
   end
+
+  resource :phone_number, only: [:new, :create] do
+    post :skip
+  end
+
+  get  "eligibility/survey", to: "eligibilities#survey", as: :survey_eligibility
+  post "eligibility/survey", to: "eligibilities#save_survey"
 
   get :slack, to: "slack_invites#new"
   post "slack/invite", to: "slack_invites#create"
@@ -54,6 +60,11 @@ Rails.application.routes.draw do
   # Note that 'cards' is a fixed list, and 'card accounts' is the join table
 
   resources :balances
+
+  resource :spending_info, path: :spending, only: [] do
+    get :survey
+    post :survey, action: :save_survey
+  end
 
   resources :people, only: [] do
     resources :balances, only: [:new, :create] do
@@ -68,12 +79,20 @@ Rails.application.routes.draw do
         post :survey, action: :save_survey
       end
     end
-    resource :spending_info, path: :spending, except: :new do
-      get :survey, action: :new, as: :new
+    resource :spending_info, path: :spending, only: [:edit, :update]
+  end
+
+  resource :readiness, only: [:edit, :update] do
+    collection do
+      get  :survey
+      post :survey, action: :save_survey
     end
   end
 
-  resource :readiness, only: [:edit, :update]
+  resource :spending_info,
+           only: [:new, :create],
+           path: :spending,
+           path_names: { new: :survey }
 
   resources :notifications, only: :show
 
@@ -99,6 +118,13 @@ Rails.application.routes.draw do
 
   resources :airports, only: [:index]
   resources :home_airports, only: [] do
+    collection do
+      get  :survey
+      post :survey, action: :save_survey
+    end
+  end
+
+  resources :interest_regions, only: [], path: "regions_of_interest" do
     collection do
       get  :survey
       post :survey, action: :save_survey

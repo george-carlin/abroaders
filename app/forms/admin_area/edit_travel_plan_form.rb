@@ -1,13 +1,5 @@
 module AdminArea
   class EditTravelPlanForm < ::EditTravelPlanForm
-    def show_skip_survey?
-      false
-    end
-
-    def show_earliest_departure_help_block?
-      false
-    end
-
     def form_object
       [:admin, self]
     end

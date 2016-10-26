@@ -1,4 +1,6 @@
 class BalancesController < AuthenticatedUserController
+  onboard :owner_balances, :companion_balances, with: [:survey, :save_survey]
+
   def index
     @people = current_account.people.includes(balances: :currency)
   end
@@ -28,28 +30,23 @@ class BalancesController < AuthenticatedUserController
 
   def survey
     @person = load_person
-    @survey = BalancesSurvey.new(@person)
+    redirect_if_onboarding_wrong_person_type!
+    @survey     = BalancesSurvey.new(person: @person)
+    @currencies = Currency.survey.order(name: :asc)
   end
 
   def save_survey
     @person = load_person
-    @survey = BalancesSurvey.new(@person)
+    redirect_if_onboarding_wrong_person_type!
+    @survey = BalancesSurvey.new(person: @person)
     # Bleeargh technical debt
     @survey.assign_attributes(survey_params)
     @survey.award_wallet_email = params[:balances_survey_award_wallet_email]
     if @survey.save
-      # reload the account first or onboarding_survey.complete? will return a false negative
-      onboarding_survey = current_account.reload.onboarding_survey
-      if onboarding_survey.complete?
-        AccountMailer.notify_admin_of_survey_completion(
-          current_account.id, Time.now.to_i,
-        ).deliver_later
-        next_path = root_path
-      else
-        next_path = onboarding_survey.current_page.path
+      if current_account.reload.onboarded?
+        # track_intercom_event("obs_balances_#{@person.type[0..2]}")
       end
-      track_intercom_event("obs_balances_#{@person.type[0..2]}")
-      redirect_to next_path
+      redirect_to onboarding_survey_path
     else
       render "survey"
     end

@@ -1,14 +1,11 @@
-<span class="<%= dom_id(destination) %>">
-  <% if destination.region? %>
-    <span class="destination-region-name">
-      <%= destination.region.name %>
-    </span>
-  <% else %>
+<% present(destination, DestinationPresenter) do |destination_p| %>
+  <span class="<%= destination_p.html_class %>">
     <span class="destination-name">
-      <%= destination.name %>
+      <%= destination_p.name %>
     </span>
+    -
     <span class="destination-region-name">
-      (<%= destination.region.name %>)
+      <%= destination_p.region_name %>
     </span>
-  <% end %>
-</span>
+  </span>
+<% end %>

@@ -1,29 +1,16 @@
-import React from "react";
+import React, { PropTypes } from "react";
 
-import Row from "../core/Row";
+import Row  from "../core/Row";
+import Cols from "../core/Cols";
 
-import SoloForm from "./SoloForm";
+import SoloForm    from "./SoloForm";
 import CouplesForm from "./CouplesForm";
 
 const AccountTypeForm = React.createClass({
   propTypes: {
-    destinationName: React.PropTypes.string,
-    ownerName:       React.PropTypes.string.isRequired,
-    soloPath:        React.PropTypes.string.isRequired,
-    couplesPath:     React.PropTypes.string.isRequired,
-  },
-
-  getInitialState() {
-    // currentAction is one of "initial", "choosingSolo", "choosingCouples"
-    return { currentAction: "initial" };
-  },
-
-  onChooseCouples() {
-    this.setState({currentAction: "choosingCouples"});
-  },
-
-  onChooseSolo() {
-    this.setState({currentAction: "choosingSolo"});
+    action:          PropTypes.string.isRequired,
+    destinationName: PropTypes.string,
+    ownerName:       PropTypes.string.isRequired,
   },
 
   getTrip() {
@@ -34,43 +21,28 @@ const AccountTypeForm = React.createClass({
   },
 
   render() {
+    const modelName = "account";
     return (
       <Row>
-        <div className="account_type_select_header col-xs-12 col-md-8 col-md-offset-2" >
+        <Cols xs="12" md="8" mdOffset="2" className="account_type_select_header" >
           <h1>How do you want to earn points?</h1>
 
           <p>
             Abroaders will help you earn the right points for
             your {this.getTrip()}
           </p>
-        </div>
+        </Cols>
 
-        {(() => {
-          if (!(this.state.currentAction === "choosingCouples")) {
-            return (
-              <SoloForm
-                active={!(this.state.currentAction === "initial")}
-                onChoose={this.onChooseSolo}
-                ownerName={this.props.ownerName}
-                path={this.props.soloPath}
-              />
-            );
-          }
-        })()}
+        <SoloForm
+          action={this.props.action}
+          modelName={modelName}
+        />
 
-        {(() => {
-          if (!(this.state.currentAction === "choosingSolo")) {
-            return (
-              <CouplesForm
-                active={!(this.state.currentAction === "initial")}
-                ownerName={this.props.ownerName}
-                onChoose={this.onChooseCouples}
-                path={this.props.couplesPath}
-              />
-            );
-          }
-        })()}
-
+        <CouplesForm
+          action={this.props.action}
+          modelName={modelName}
+          ownerName={this.props.ownerName}
+        />
       </Row>
     );
   },

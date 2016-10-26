@@ -1,6 +1,10 @@
 FactoryGirl.define do
   factory :card do
-    sequence(:code) { |n| str = "AAA"; n.times { str.next! }; str }
+    sequence(:code) do |n|
+      str = "AAA"
+      n.times { str.next! }
+      str
+    end
     sequence(:name) { |n| "Example Card #{n}" }
     network { Card.networks.keys.sample }
     bp      { Card.bps.keys.sample }

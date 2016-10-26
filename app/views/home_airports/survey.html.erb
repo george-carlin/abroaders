@@ -1,5 +1,4 @@
 <% provide :title, "Add Home Aiports" %>
-<% provide :no_sidebar, true unless current_account.onboarded_home_airports? %>
 
 <div class="hpanel home-airports-survey">
   <div class="panel-heading hbuilt">
@@ -7,6 +6,13 @@
       <div class="col-xs-12 greeting-message">
         <h1>Welcome, traveler!</h1>
         <h2>What's your home airport?</h2>
+
+        <p>
+          Knowing your home airports helps us craft a better overall strategy
+          to maximize rewards. Don’t worry if your upcoming travel plans don’t
+          start at your home airport, we’ll ask about specific travel goals
+          next.
+        </p>
       </div>
     </div><!-- .row -->
   </div>

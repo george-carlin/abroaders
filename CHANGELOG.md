@@ -7,6 +7,40 @@
     `RecommendationsForm`, `TravelPlanList`.
     Pivotal Tracker #131075691
 
+*   Bug fix: travel plan points estimate table was calculating estimates
+    for 'from' to 'from', not 'from' to 'to'
+
+    *George Millo*
+
+*   Huge changes to the onboarding survey flow + architecture (some subtasks of
+    which are already noted in other bullet points below). GH #68
+
+    *George Millo, Anatols Baymaganov, Boris Shatalov*
+
+*   Use `Airport` for travel plan's from/to instead `Country`.
+    Pivotal Tracker #132586099
+
+    *Boris Shatalov*
+
+*   Replace dashboard with profile complete page.
+    Show old dashboard only if any person on the account has
+    received recommendations. Pivotal Tracker #132295779
+
+    *Boris Shatalov*
+
+*   Add `regions of interest` page. PT #130901163
+
+    *Boris Shatalov*
+
+*   Updates to the travel plan form. Pivotal Tracker #130904549
+
+    *Anatols Baymaganov*
+
+*   Add readiness question at the end of the onboarding survey.
+    Pivotal Tracker #131360373 GH #54
+
+    *Boris Shatalov*
+
 *   Remove unused module `CurrentUserHelper`.
 
     *George Millo*
@@ -57,7 +91,6 @@
     *George Millo*
 
 *   Add <HiddenField> component
-
     *George Millo*
 
 *   Add PostAffiliatePro tracking code

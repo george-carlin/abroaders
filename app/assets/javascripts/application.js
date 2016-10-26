@@ -11,9 +11,6 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-// TODO we're loading too much goddam javascript! And I'm sure some
-// of this isn't even being used.
-//
 //= require jquery2
 //= require jquery_ujs
 //= require bootstrap.min
@@ -42,7 +39,9 @@ window.components = {
   AccountTypeForm:       require("./components/AccountTypeForm"),
   AccountPage:           require("./components/AccountPage"),
   CardApplicationSurvey: require("./components/CardApplicationSurvey"),
+  EligibilitySurvey:     require("./components/EligibilitySurvey"),
   PointsEstimateTable:   require("./components/PointsEstimateTable"),
+  SpendingSurvey:        require("./components/SpendingSurvey"),
 };
 
 window.numbro = require("numbro");

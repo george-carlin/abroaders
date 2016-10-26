@@ -14,60 +14,33 @@
   <nav role="navigation">
     <% if sidebar? %>
       <div class="header-link hide-menu"><i class="fa fa-bars"></i></div>
-      <div class="small-logo">
-        <span class="text-primary">Abroaders</span>
-      </div>
-      <div class="mobile-menu">
-        <button type="button" class="navbar-toggle mobile-menu-toggle" data-toggle="collapse" data-target="#mobile-collapse">
-          <i class="fa fa-chevron-down"></i>
-        </button>
-        <div class="collapse mobile-navbar" id="mobile-collapse">
-          <ul class="nav navbar-nav">
-            <% if current_account || current_admin %>
-              <li>
-                <%= link_to "Sign out", sign_out_path, method: :delete %>
-              </li>
-            <% else %>
-              <li>
-                <%= link_to "Sign in", new_account_session_path %>
-              </li>
-              <li>
-                <%= link_to "Sign up", new_account_registration_path %>
-              </li>
-            <% end %>
-          </ul>
-        </div>
-      </div>
     <% end %>
+
+    <div class="small-logo" <%= raw 'style="padding-left: 20px"' unless sidebar? %>>
+      <span class="text-primary">Abroaders</span>
+    </div>
+
+    <div class="mobile-menu">
+      <button type="button" class="navbar-toggle mobile-menu-toggle" data-toggle="collapse" data-target="#mobile-collapse">
+        <i class="fa fa-chevron-down"></i>
+      </button>
+      <div class="collapse mobile-navbar" id="mobile-collapse">
+        <ul class="nav navbar-nav">
+          <% if current_account || current_admin %>
+            <li><%= link_to "Sign out", sign_out_path, method: :delete %></li>
+          <% else %>
+            <li><%= link_to "Sign in", new_account_session_path %></li>
+            <li><%= link_to "Sign up", new_account_registration_path %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+
     <div class="navbar-right">
       <ul class="nav navbar-nav no-borders">
         <% if current_account || current_admin %>
-          <% if sidebar? %>
-            <% if current_account&.onboarded? %>
-              <li class="dropdown
-                <% if current_account.unseen_notifications_count.nonzero? %>
-                  unseen_notifications
-                <% end %>"
-              >
-                <a class="dropdown-toggle label-menu-corner" href="#" data-toggle="dropdown" aria-expanded="true">
-                  <i class="pe-7s-mail"></i>
-                  <% if current_account.unseen_notifications_count.nonzero? %>
-                    <span class="label label-success">
-                      <%= current_account.unseen_notifications_count %>
-                    </span>
-                  <% end %>
-                </a>
-                <ul class="dropdown-menu hdropdown animated flipInX">
-                  <div class="title">
-                    You have
-                    <%= pluralize current_account.unseen_notifications_count, "new notification" %>
-                  </div>
-                  <% present_each current_account.unseen_notifications do |notification| %>
-                    <%= notification.list_item %>
-                  <% end %>
-                </ul>
-              </li>
-            <% end %>
+          <% if current_account&.onboarded? %>
+            <%= render "layouts/notifications" %>
           <% end %>
           <li class="text">
             <%= current_account ? current_account.email : current_admin.email %>

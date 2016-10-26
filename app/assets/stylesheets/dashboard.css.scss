@@ -1,0 +1,39 @@
+.account-dashboard {
+  .panel-heading {
+    text-align: center;
+  }
+
+  .panel-body {
+    font-size: 18px;
+
+    .side-area {
+      .complete-profile {
+        text-decoration: line-through;
+        .fa {
+          color: #4dde35;
+        }
+      }
+
+      .next-step {
+        color: #4dde35;
+        font-weight: 700;
+      }
+    }
+
+    .main-area {
+      .next-question {
+        font-weight: 700;
+      }
+
+      a, .tooltip-btn {
+        text-decoration: underline;
+        color: #34495e;
+      }
+
+      .tooltip-btn {
+        cursor: pointer;
+        font-weight: 700;
+      }
+    }
+  }
+}

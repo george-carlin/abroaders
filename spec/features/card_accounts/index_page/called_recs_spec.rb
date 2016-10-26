@@ -5,7 +5,7 @@ describe "user cards page - called cards", :js do
 
   include_context "logged in"
 
-  let(:me) { account.owner }
+  let(:person) { account.owner }
 
   let(:recommended_at) { 6.days.ago.to_date }
   let(:applied_at)     { 5.days.ago.to_date }
@@ -13,13 +13,14 @@ describe "user cards page - called cards", :js do
   let(:called_at)      { 3.days.ago.to_date }
 
   before do
+    person.update!(eligible: true)
     @rec = create(
       :card_recommendation,
       recommended_at: recommended_at,
       applied_at: applied_at,
       denied_at:  denied_at,
       called_at:  called_at,
-      person: me,
+      person:     person,
     )
     visit card_accounts_path
   end
@@ -55,7 +56,7 @@ describe "user cards page - called cards", :js do
       end
     end
 
-    it "asks me the result", :frontend do
+    it "asks person the result", :frontend do
       expect(rec_on_page).to have_no_i_called_btn
       expect(rec_on_page).to have_approved_btn
       expect(rec_on_page).to have_denied_btn

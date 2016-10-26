@@ -1,7 +1,15 @@
 /* global $ */
 import React from "react";
-import $     from "jquery";
 import _     from "underscore";
+
+// FIXME: importing $, as opposed to using window.$ (added by the asset
+// pipeline), breaks the form. travel_plans_form.js manually triggers a change
+// event on the 'code' hidden inputs, but if we import $ in here then our
+// change handler doesn't get called. Presumably this is because the two files
+// are using different copies of the jQuery object, so don't have access to
+// each other's 'events' data (jQuery stores events internally, see
+// http://stackoverflow.com/questions/2518421)
+// import $     from "jquery";
 
 import Row   from "../core/Row";
 import Table from "../core/Table";
@@ -16,17 +24,19 @@ const PointsEstimateTable = React.createClass({
 
   componentDidMount() {
     // Yet another hacky solution mixing jQuery and React :(
-    const $fromSelect = $("#travel_plan_from_id");
-    const $toSelect   = $("#travel_plan_to_id");
+    const $from       = $("#travel_plan_from");
+    const $to         = $("#travel_plan_to");
     const $typeSelect = $("input[name='travel_plan[type]']");
     const $noOfPsgrs  = $("input[name='travel_plan[no_of_passengers]']");
 
-    const onChangePointsEstimateParam = () => {
-      const $from  = $fromSelect.children(":selected");
-      const $to    = $toSelect.children(":selected");
+    const codeRegex = /\(([A-Z]{3})\)\s*$/;
 
-      const fromCode = $from.data("code");
-      const toCode   = $to.data("code");
+    const onChangePointsEstimateParam = () => {
+      const fromMatch = codeRegex.exec($from.val());
+      const toMatch   = codeRegex.exec($to.val());
+      if (!fromMatch || !toMatch) return;
+      const fromCode = fromMatch[1];
+      const toCode   = toMatch[1];
       const type     = $typeSelect.filter(":checked").val();
       const psgrs    = parseInt($noOfPsgrs.val(), 10);
 
@@ -37,8 +47,8 @@ const PointsEstimateTable = React.createClass({
       }
     };
 
-    $fromSelect.change(onChangePointsEstimateParam);
-    $toSelect.change(onChangePointsEstimateParam);
+    $from.change(onChangePointsEstimateParam);
+    $to.change(onChangePointsEstimateParam);
     $typeSelect.click(onChangePointsEstimateParam);
     $noOfPsgrs.change(onChangePointsEstimateParam);
   },
@@ -52,8 +62,8 @@ const PointsEstimateTable = React.createClass({
 
     return (
       <Row className="PointsEstimateTable">
-        <div className="col-xs-12 col-lg-8">
-          <h3>Estimated Cost</h3>
+        <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <span className="EstimatedCost">Estimated Cost</span>
 
           <Table
             id="travel_plan_points_estimate_table"

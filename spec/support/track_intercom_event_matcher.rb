@@ -12,9 +12,9 @@ RSpec::Matchers.define :track_intercom_event do |*event_names|
 
     @jobs = enqueued_track_event_jobs
 
-    @jobs.length == @event_names.length && \
-      @jobs.all? { |job| job[:args][0]["email"] == @email }
-        @event_names.sort == @jobs.map { |job| job[:args][0]["event_name"] }.sort
+    @jobs.length == @event_names.length &&
+      @jobs.all? { |job| job[:args][0]["email"] == @email } &&
+      @event_names.sort == @jobs.map { |job| job[:args][0]["event_name"] }.sort
   end
 
   chain :for_email do |email|

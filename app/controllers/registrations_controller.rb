@@ -1,5 +1,6 @@
 class RegistrationsController < Devise::RegistrationsController
   layout "basic"
+  include Onboarding
 
   def new
     @form = SignUp.new
@@ -14,7 +15,7 @@ class RegistrationsController < Devise::RegistrationsController
       IntercomJobs::CreateUser.perform_later(account_id: @form.account.id)
       set_flash_message! :notice, :signed_up
       sign_in(:account, @form.account)
-      respond_with resource, location: @form.account.onboarding_survey.current_page.path
+      respond_with resource, location: onboarding_survey_path
     else
       @form.clean_up_passwords
       set_minimum_password_length
