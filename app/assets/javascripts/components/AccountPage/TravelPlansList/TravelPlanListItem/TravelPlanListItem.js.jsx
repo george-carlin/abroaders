@@ -14,7 +14,15 @@ const TravelPlanListItem = (_props) => {
           <span>
             <i className="fa fa-male"></i> x {travelPlan.noOfPassengers}
           </span>
-          <span className="font-bold"> {travelPlan.type}</span> {travelPlan.earliestDeparture}
+          <span className="font-bold type"> {travelPlan.type}</span> {travelPlan.departOn}
+
+          {(() => {
+            if (travelPlan.returnOn) {
+              return (
+                " - " + travelPlan.returnOn
+              );
+            }
+          })()}
         </p>
 
         { travelPlan.flights.map(flight => (

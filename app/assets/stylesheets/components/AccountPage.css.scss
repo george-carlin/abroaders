@@ -99,8 +99,13 @@
   }
 
   .travel-plan-info {
-    margin-bottom: 15px;
+    margin-bottom: 5px;
+    padding: 5px;
     border: 1px solid black;
+
+    .type {
+      text-transform: capitalize;
+    }
   }
 
   .filters-area {

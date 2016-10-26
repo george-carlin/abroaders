@@ -1,17 +1,17 @@
 class TravelPlanSerializer < ApplicationSerializer
-  attributes :id, :type, :earliest_departure, :no_of_passengers,
-             :further_information, :acceptable_classes
+  attributes :id, :type, :depart_on, :return_on,
+             :no_of_passengers, :further_information, :acceptable_classes
 
   has_many :flights
 
   always_include :flights
 
-  def type
-    object.type.capitalize
+  def depart_on
+    object.depart_on&.strftime("%D")
   end
 
-  def earliest_departure
-    object.earliest_departure.strftime("%D")
+  def return_on
+    object.return_on&.strftime("%D")
   end
 
   def acceptable_classes
