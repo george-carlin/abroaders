@@ -7,7 +7,7 @@
       <% end %>
     </h1>
 
-    <%= render "shared/model_validation_errors", model: @balance %>
+    <%= render "shared/reform_validation_errors", model: @balance %>
 
     <%= form_for [@person, @balance] do |f| %>
 
@@ -21,11 +21,10 @@
         <%= f.number_field :value %>
       </div>
 
-      <%= f.submit class: "btn btn-primary" %>
+      <%= f.submit 'Save', class: "btn btn-primary" %>
       &nbsp;
 
       <%= link_to "Back", balances_path %>
-
     <% end %>
   </div>
 <% end %>

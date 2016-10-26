@@ -6,14 +6,15 @@ class BalancesController < AuthenticatedUserController
   end
 
   def new
-    @person  = current_account.people.find(params[:person_id])
-    @balance = @person.balances.build
+    @person  = load_person
+    @balance = Balance::NewForm.new(@person.balances.new)
   end
 
   def create
-    @person  = current_account.people.find(params[:person_id])
-    @balance = NewBalanceForm.new(create_balance_params(@person))
-    if @balance.save
+    @person  = load_person
+    @balance = Balance::NewForm.new(@person.balances.new)
+    if @balance.validate(params[:balance])
+      @balance.save
       redirect_to balances_path
     else
       render "new"
@@ -21,8 +22,11 @@ class BalancesController < AuthenticatedUserController
   end
 
   def update
-    @balance = EditBalanceForm.new(current_account.balances.find(params[:id]).attributes)
-    @valid   = @balance.update(update_balance_params)
+    @balance = Balance::EditForm.new(current_account.balances.find(params[:id]))
+    if @balance.validate(params[:balance])
+      @valid = true
+      @balance.save
+    end
     respond_to do |f|
       f.js
     end
@@ -53,14 +57,6 @@ class BalancesController < AuthenticatedUserController
   end
 
   private
-
-  def create_balance_params(person)
-    params.require(:balance).permit(:value, :currency_id).merge(person: person)
-  end
-
-  def update_balance_params
-    params.require(:balance).permit(:value)
-  end
 
   def survey_params
     params.permit(

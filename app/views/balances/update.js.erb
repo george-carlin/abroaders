@@ -1,6 +1,6 @@
 var id      = <%= @balance.id %>;
 var value   = numbro(<%= @balance.value %>).format("0,0");
-var isValid = <%= @valid %>;
+var isValid = <%= !!@valid %>;
 
 if (isValid) {
   window.BalancesIndex.saveNewBalance(id, value);

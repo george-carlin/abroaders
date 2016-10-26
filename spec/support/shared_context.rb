@@ -1,6 +1,7 @@
 shared_context "logged in" do
   let(:account) { create(:account, :onboarded) }
-  before { login_as(account) }
+  let(:owner)   { account.owner }
+  before { login_as_account(account) }
 end
 
 shared_context "logged in as admin" do

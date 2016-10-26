@@ -92,7 +92,7 @@ Style/TrailingCommaInLiteral:
 Style/VariableNumber:
   EnforcedStyle: 'snake_case'
   Exclude:
-    - 'spec/features/balances/pages_spec.rb'
+    - 'spec/features/balances/index_page_spec.rb'
     - 'spec/forms/cards_survey_spec.rb'
 
 StringLiterals:
