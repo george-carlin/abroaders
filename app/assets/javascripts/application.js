@@ -35,6 +35,8 @@ require("./components/react_ujs");
 // to move away from Sprockets and use the Node-y approach for everything,
 // but it's not worth the effort for now.
 
+require('./modules/load');
+
 window.components = {
   AccountTypeForm:       require("./components/AccountTypeForm"),
   CardApplicationSurvey: require("./components/CardApplicationSurvey"),
