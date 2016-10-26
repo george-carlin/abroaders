@@ -10,8 +10,8 @@ module Estimates
 
     def self.load(params)
       new(
-        from: Destination.find_by_code!(params[:from_code].upcase),
-        to:   Destination.find_by_code!(params[:to_code].upcase),
+        from: Destination.includes(:parent).find_by_code!(params[:from_code].upcase),
+        to:   Destination.includes(:parent).find_by_code!(params[:to_code].upcase),
         type: params[:type],
         no_of_passengers: params[:no_of_passengers].to_i,
       )

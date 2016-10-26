@@ -10,8 +10,12 @@ const TravelPlansList = (_props) => {
     <Row>
       <div className="col-xs-12">
         <Row>
-          <div className="col-xs-12">
+          <div className="col-xs-12 col-md-6">
             <p className="section-title">Travel Plans</p>
+          </div>
+
+          <div className="col-xs-12 col-md-6">
+            <p className="section-title">Mileage Est.</p>
           </div>
         </Row>
       </div>

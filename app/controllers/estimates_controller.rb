@@ -1,6 +1,5 @@
-class EstimatesController < AuthenticatedUserController
-  # 'travel_plan' survey page loads estimates via AJAX:
-  onboard :travel_plan, with: :get
+class EstimatesController < ApplicationController
+  # 'travel_plan' survey and 'admin/accounts#show' pages load estimates via AJAX:
 
   def get
     render json: Estimates::FullEstimate.load(points_estimate_params)
