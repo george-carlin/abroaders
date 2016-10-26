@@ -8,6 +8,6 @@ class PersonSerializer < ApplicationSerializer
   always_include :card_accounts
 
   def ready_on
-    object.ready_on.strftime("%m/%d/%y")
+    object.ready_on&.strftime("%m/%d/%y")
   end
 end

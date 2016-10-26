@@ -24,12 +24,12 @@ class ReadinessForm < ApplicationForm
     # of each person
     case who
     when "both"
-      owner.update!(ready: true)
-      companion.update!(ready: true)
+      owner.update!(ready: true, ready_on: Time.now)
+      companion.update!(ready: true, ready_on: Time.now)
     when "owner"
-      owner.update!(ready: true)
+      owner.update!(ready: true, ready_on: Time.now)
     when "companion"
-      companion.update!(ready: true)
+      companion.update!(ready: true, ready_on: Time.now)
     when "neither" # noop
     else
       raise 'unrecognized readiness update'
