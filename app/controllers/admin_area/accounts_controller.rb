@@ -14,10 +14,10 @@ module AdminArea
     def show
       @account = Account.includes(
         :recommendation_notes, :regions_of_interest,
-        { home_airports: :parent,
+        home_airports: :parent,
         travel_plans: [flights: [:from, :to]], balances: :currency,
         owner: [:spending_info, card_accounts: [card: [:currency]]],
-        companion: [:spending_info, card_accounts: [card: [:currency]]] },
+        companion: [:spending_info, card_accounts: [card: [:currency]]],
       ).find(params[:id])
 
       @alliances = Alliance.all
