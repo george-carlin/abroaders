@@ -4,7 +4,7 @@
 
 *   Create `AccountPage` component, use it on `admin/accounts#show` page.
     Create sub components for it: `AccountTopInfo`, `BalancesTable`, `HomeAirportList`,
-    `RecommendationsForm`, `TravelPlanList`.
+    `RecommendationsForm`, `TravelPlanList`, `RecommendationNotes`, `RegionsOfInterest`.
     Pivotal Tracker #131075691
 
 *   Bug fix: travel plan points estimate table was calculating estimates

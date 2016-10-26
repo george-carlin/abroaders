@@ -13,7 +13,6 @@ const Button = (_props) => {
       "btn-lg":      props.large,
       "btn-primary": props.primary,
       "btn-success": props.success,
-      "disabled":    props.disabled,
       "btn-sm":      props.small,
       "btn-small":   props.small,
       "btn-xs":      props.tiny,
@@ -30,7 +29,6 @@ Button.propTypes = {
   link:      PropTypes.bool,
   primary:   PropTypes.bool,
   success:   PropTypes.bool,
-  disabled:  PropTypes.bool,
   small:     PropTypes.bool,
   tiny:      PropTypes.bool,
 };

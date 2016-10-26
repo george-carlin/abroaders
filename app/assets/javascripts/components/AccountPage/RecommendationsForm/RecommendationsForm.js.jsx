@@ -4,9 +4,11 @@ import Row                     from "../../core/Row";
 import Filters                 from "./Filters";
 import CardRecommendationTable from "./CardRecommendationTable";
 import OffersTable             from "./OffersTable";
+import RecommendationNotes     from "./RecommendationNotes";
 
 const RecommendationsForm = React.createClass({
   propTypes: {
+    account: React.PropTypes.object.isRequired,
     person: React.PropTypes.object.isRequired,
     alliances: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
     banks: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
@@ -147,6 +149,11 @@ const RecommendationsForm = React.createClass({
           currenciesChecked={this.state.filterCurrency}
           banksChecked={this.state.filterBank}
           filterAllChecked={this.state.filterAll}
+        />
+
+        <RecommendationNotes
+          account={this.props.account}
+          person={this.props.person}
         />
 
         <Row>

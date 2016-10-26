@@ -93,6 +93,7 @@ const AccountPage = React.createClass({
             </Row>
 
             <RecommendationsForm
+              account={account}
               person={person}
               alliances={alliances}
               banks={this.props.banks}

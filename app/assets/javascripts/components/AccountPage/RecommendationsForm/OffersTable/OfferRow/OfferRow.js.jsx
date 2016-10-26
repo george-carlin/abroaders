@@ -38,7 +38,7 @@ const OfferRow = React.createClass({
 
   submitAction() {
     const data = {
-      "card_recommendation[offer_id]" : this.props.offer.id,
+      "card_recommendation[offer_id]": this.props.offer.id,
       authenticity_token: this.authenticityToken,
     };
 
@@ -107,9 +107,9 @@ const OfferRow = React.createClass({
               case "applied":
                 return (
                   <Button
+                    className="disabled"
                     tiny
                     success
-                    disabled
                   >
                     Recommended!
                   </Button>

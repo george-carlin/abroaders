@@ -26,8 +26,16 @@ module AdminArea
         account_id: form.account.id,
         note:       form.note,
       ).deliver_later
-      flash[:success] = "Sent notification!"
-      redirect_to admin_person_path(@person)
+
+      respond_to do |f|
+        f.html do
+          flash[:success] = "Sent notification!"
+          redirect_to admin_person_path(@person)
+        end
+        f.json do
+          render json: form.account.recommendation_notes.last
+        end
+      end
     end
 
     def pull

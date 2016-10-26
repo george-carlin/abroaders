@@ -13,7 +13,8 @@ module AdminArea
     # GET /admin/accounts/1
     def show
       @account = Account.includes(
-        :regions_of_interest, { home_airports: :parent,
+        :recommendation_notes, :regions_of_interest,
+        { home_airports: :parent,
         travel_plans: [flights: [:from, :to]], balances: :currency,
         owner: [:spending_info, card_accounts: [card: [:currency]]],
         companion: [:spending_info, card_accounts: [card: [:currency]]] },
