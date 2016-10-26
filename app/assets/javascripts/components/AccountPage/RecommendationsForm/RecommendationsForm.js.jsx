@@ -95,6 +95,10 @@ const RecommendationsForm = React.createClass({
     return array;
   },
 
+  addOfferCallback(cardAccount) {
+    this.setState({newCardAccount: cardAccount});
+  },
+
   updateFilterAll(panel) {
     const panelProps = panel.props;
     const checkedPanelItems = [];
@@ -154,6 +158,7 @@ const RecommendationsForm = React.createClass({
           <OffersTable
             person={person}
             offers={offers}
+            addOfferCallback={this.addOfferCallback}
           />
         </Row>
       </div>

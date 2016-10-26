@@ -9,6 +9,9 @@ module AdminArea
           @card_account = rec.card_account
           @offer        = rec.offer
         end
+        f.json do
+          render json: rec.card_account
+        end
       end
     end
 

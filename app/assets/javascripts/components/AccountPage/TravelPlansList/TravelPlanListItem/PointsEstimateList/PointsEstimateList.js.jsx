@@ -1,6 +1,6 @@
-/* global $ */
 import React from "react";
 import _     from "underscore";
+import $     from "jquery";
 
 import EstimateItem from "./EstimateItem";
 

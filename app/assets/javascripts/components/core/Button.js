@@ -12,8 +12,11 @@ const Button = (_props) => {
       "btn-default": props.default,
       "btn-lg":      props.large,
       "btn-primary": props.primary,
+      "btn-success": props.success,
+      "disabled":    props.disabled,
       "btn-sm":      props.small,
       "btn-small":   props.small,
+      "btn-xs":      props.tiny,
     },
   ]);
 
@@ -26,7 +29,10 @@ Button.propTypes = {
   large:     PropTypes.bool,
   link:      PropTypes.bool,
   primary:   PropTypes.bool,
+  success:   PropTypes.bool,
+  disabled:  PropTypes.bool,
   small:     PropTypes.bool,
+  tiny:      PropTypes.bool,
 };
 
 export default Button;

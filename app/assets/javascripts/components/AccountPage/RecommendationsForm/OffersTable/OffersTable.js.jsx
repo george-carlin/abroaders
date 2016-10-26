@@ -7,6 +7,7 @@ const OffersTable = React.createClass({
   propTypes: {
     person: React.PropTypes.object.isRequired,
     offers: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+    addOfferCallback: React.PropTypes.func.isRequired,
   },
 
   groupBy(array, f) {
@@ -50,7 +51,9 @@ const OffersTable = React.createClass({
                 />,
                 offersGroupedByCard.map(offer => (
                   <OfferRow
+                    person={this.props.person}
                     offer={offer}
+                    addOfferCallback={this.props.addOfferCallback}
                   />
                 ))]
               ))}
