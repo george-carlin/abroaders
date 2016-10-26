@@ -1,11 +1,12 @@
 import React from "react";
 
-import Row                     from "../core/Row";
-import BalancesTable           from "./BalancesTable";
-import AccountTopInfo          from "./AccountTopInfo";
-import HomeAirportsList        from "./HomeAirportsList";
-import TravelPlansList         from "./TravelPlansList";
-import RecommendationsForm     from "./RecommendationsForm";
+import Row                   from "../core/Row";
+import BalancesTable         from "./BalancesTable";
+import AccountTopInfo        from "./AccountTopInfo";
+import HomeAirportsList      from "./HomeAirportsList";
+import RegionsOfInterestList from "./RegionsOfInterestList";
+import TravelPlansList       from "./TravelPlansList";
+import RecommendationsForm   from "./RecommendationsForm";
 
 const AccountPage = React.createClass({
   propTypes: {
@@ -63,9 +64,21 @@ const AccountPage = React.createClass({
               />
 
               <div className="col-xs-12 col-md-6">
-                <HomeAirportsList
-                  homeAirports={account.homeAirports}
-                />
+                <Row>
+                  <HomeAirportsList
+                    homeAirports={account.homeAirports}
+                  />
+
+                  {(() => {
+                    if (account.regionsOfInterest.length > 0) {
+                      return (
+                        <RegionsOfInterestList
+                          regionsOfInterest={account.regionsOfInterest}
+                        />
+                      );
+                    }
+                  })()}
+                </Row>
 
                 {(() => {
                   if (account.travelPlans.length > 0) {

@@ -1,0 +1,6 @@
+{
+  "name": "RegionsOfInterestList",
+  "version": "0.0.1",
+  "private": true,
+  "main": "./RegionsOfInterestList.js.jsx"
+}
