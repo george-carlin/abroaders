@@ -1,6 +1,6 @@
 import React from "react";
 
-import Row from "../../../../core/Row";
+import Row from "../../../core/Row";
 
 const Flight = (_props) => {
   const props = Object.assign({}, _props);

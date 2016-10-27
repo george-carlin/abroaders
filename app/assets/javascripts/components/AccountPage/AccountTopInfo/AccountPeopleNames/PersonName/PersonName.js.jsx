@@ -1,10 +1,10 @@
 import React from "react";
 
-import RadioButton  from "../../../core/RadioButton";
-import PersonStatus from "../PersonStatus";
+import RadioButton  from "../../../../core/RadioButton";
+import PersonStatus from "./PersonStatus";
 
 const PersonName = (_props) => {
-  const props = Object.assign({}, _props);
+  const props  = Object.assign({}, _props);
   const person = props.person;
 
   if (props.withRadio) {

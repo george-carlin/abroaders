@@ -55,10 +55,10 @@ const BalancesTable = React.createClass({
     const owner     = account.owner;
     const companion = account.companion;
 
-    const alliances             = this.getCurrenciesByAlliance();
-    const cashCurrencies        = this.getCurrenciesByType("bank");
-    const hotelCurrencies       = this.getCurrenciesByType("hotel");
-    const independentCurrencies = this.getCurrenciesByType("independent");
+    const alliancesWithCurrencies = this.getCurrenciesByAlliance();
+    const cashCurrencies          = this.getCurrenciesByType("bank");
+    const hotelCurrencies         = this.getCurrenciesByType("hotel");
+    const independentCurrencies   = this.getCurrenciesByType("independent");
 
     const currencyClass = companion ? "col-xs-4 header" : "col-xs-7 header";
 
@@ -79,11 +79,11 @@ const BalancesTable = React.createClass({
 
         </Row>
 
-        { alliances.map(alliance => (
+        { alliancesWithCurrencies.map(allianceWithCurrencies => (
           <BalancesTableRow
-            key={alliance.id}
-            title={alliance.name}
-            currencies={alliance.currencies}
+            key={allianceWithCurrencies.id}
+            title={allianceWithCurrencies.name}
+            currencies={allianceWithCurrencies.currencies}
             account={this.props.account}
           />
         ))}

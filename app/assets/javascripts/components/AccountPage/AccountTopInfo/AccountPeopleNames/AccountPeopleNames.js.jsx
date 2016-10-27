@@ -1,7 +1,7 @@
 import React from "react";
 
 import RadioButton from "../../../core/RadioButton";
-import PersonName  from "../PersonName";
+import PersonName  from "./PersonName";
 
 const AccountPeopleNames = (_props) => {
   const props     = Object.assign({}, _props);

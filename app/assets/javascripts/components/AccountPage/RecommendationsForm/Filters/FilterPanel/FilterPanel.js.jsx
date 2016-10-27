@@ -1,7 +1,7 @@
 import React from "react";
 
 import CheckBoxWithLabel from "./CheckBoxWithLabel";
-import FilterItem        from        "./FilterItem";
+import FilterItem        from "./FilterItem";
 
 const FilterPanel = React.createClass({
   propTypes: {

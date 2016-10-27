@@ -1,7 +1,6 @@
 import React from "react";
 
-import Row from "../../../core/Row";
-
+import Row                    from "../../../core/Row";
 import PersonalBusinessFilter from "./PersonalBusinessFilter";
 import BankCurrencyFilter     from "./BankCurrencyFilter";
 

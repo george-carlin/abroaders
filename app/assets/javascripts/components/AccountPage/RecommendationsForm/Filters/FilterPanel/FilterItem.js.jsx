@@ -1,6 +1,6 @@
 import React from "react";
 
-import CheckBoxWithLabel from "../CheckBoxWithLabel";
+import CheckBoxWithLabel from "./CheckBoxWithLabel";
 
 const FilterItem = (_props) => {
   const props  = Object.assign({}, _props);

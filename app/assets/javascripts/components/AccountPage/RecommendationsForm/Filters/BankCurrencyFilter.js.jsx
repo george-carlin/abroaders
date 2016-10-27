@@ -1,7 +1,7 @@
 import React from "react";
 
-import Row         from "../../../../core/Row";
-import FilterPanel from "../FilterPanel";
+import Row         from "../../../core/Row";
+import FilterPanel from "./FilterPanel";
 
 const BankCurrencyFilter = (_props) => {
   const props  = Object.assign({}, _props);

@@ -3,8 +3,8 @@ import ReactDOM from "react-dom";
 import $        from "jquery";
 import humps    from "humps";
 
-import Button      from "../../../../core/Button";
-import Form        from "../../../../core/Form";
+import Button from "../../../core/Button";
+import Form   from "../../../core/Form";
 
 const RecommendationNotesForm = React.createClass({
   propTypes: {

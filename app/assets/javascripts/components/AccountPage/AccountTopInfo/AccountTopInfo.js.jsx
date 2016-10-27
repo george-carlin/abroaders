@@ -13,8 +13,8 @@ const AccountTopInfo = React.createClass({
   },
 
   render() {
-    const account   = this.props.account;
-    const person    = this.props.person;
+    const account = this.props.account;
+    const person  = this.props.person;
 
     return (
       <div className="hpanel account-top-info">

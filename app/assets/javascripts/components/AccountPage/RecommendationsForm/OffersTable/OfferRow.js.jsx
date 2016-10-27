@@ -2,8 +2,8 @@ import React from "react";
 import $     from "jquery";
 import humps from "humps";
 
-import Button              from "../../../../core/Button";
-import ConfirmOrCancelBtns from "../../../../ConfirmOrCancelBtns";
+import Button              from "../../../core/Button";
+import ConfirmOrCancelBtns from "../../../ConfirmOrCancelBtns";
 
 const OfferRow = React.createClass({
   propTypes: {

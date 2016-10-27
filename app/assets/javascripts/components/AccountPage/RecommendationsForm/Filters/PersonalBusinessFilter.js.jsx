@@ -1,7 +1,7 @@
 import React from "react";
 
-import Row from "../../../../core/Row";
-import CheckBoxWithLabel from "../FilterPanel/CheckBoxWithLabel";
+import Row               from "../../../core/Row";
+import CheckBoxWithLabel from "./FilterPanel/CheckBoxWithLabel";
 
 const PersonalBusinessFilter = (_props) => {
   const props  = Object.assign({}, _props);

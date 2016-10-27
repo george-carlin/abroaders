@@ -10,7 +10,7 @@ module AdminArea
       ).order("email ASC")
     end
 
-    # GET /admin/accounts/1
+    # GET /admin/accounts/:account_id
     def show
       @account = Account.includes(
         :recommendation_notes, :regions_of_interest,
