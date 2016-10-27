@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe "card accounts edit page", :js do
-  let(:bank) { Bank.find_by(name: "Chase") }
+  let(:bank) { create(:bank, name: "Chase") }
   let(:account) { create(:account, :onboarded) }
   let(:me) { account.owner }
   let(:card) { create(:card, :business, :visa, bank_id: bank.id, name: "Card 0") }

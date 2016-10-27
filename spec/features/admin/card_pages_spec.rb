@@ -5,6 +5,7 @@ describe "admin pages" do
 
   subject { page }
 
+  let!(:bank) { create(:bank, name: "Wells Fargo") }
   let(:image_path) { Rails.root.join("spec", "support", "example_card_image.png") }
 
   def card_selector(card)
@@ -99,7 +100,7 @@ describe "admin pages" do
           # BUG: allow decimal values TODO
           fill_in :card_annual_fee, with: 549 # .99
           select currency_name, from: :card_currency_id
-          select "Wells Fargo", from: :card_bank_id
+          select bank.name, from: :card_bank_id
           uncheck :card_shown_on_survey
           attach_file :card_image, image_path
         end
@@ -119,7 +120,7 @@ describe "admin pages" do
           expect(page).to have_content "Credit"
           expect(page).to have_content "$549.00" # 99"
           expect(page).to have_content currency_name
-          expect(page).to have_content "Wells Fargo"
+          expect(page).to have_content bank.name
           expect(page).to have_selector "img[src='#{card.image.url}']"
         end
 
@@ -199,7 +200,7 @@ describe "admin pages" do
           # BUG: allow decimal values TODO
           fill_in :card_annual_fee, with: 549
           select @currencies[1].name, from: :card_currency_id
-          select "Wells Fargo", from: :card_bank_id
+          select bank.name, from: :card_bank_id
           check :card_shown_on_survey
           submit_form
         end
@@ -213,7 +214,7 @@ describe "admin pages" do
           expect(@card.type).to eq "credit"
           expect(@card.annual_fee).to eq 549
           expect(@card.currency).to eq @currencies[1]
-          expect(@card.bank).to eq Bank.find_by(name: "Wells Fargo")
+          expect(@card.bank).to eq Bank.find_by(name: bank.name)
           expect(@card).to be_shown_on_survey
         end
 

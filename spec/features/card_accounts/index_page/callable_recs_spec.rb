@@ -12,8 +12,8 @@ describe "user cards page - callable cards", :js do
   before do
     person.update!(eligible: true)
     login_as_account(account)
-    @bank = Bank.find(1)
-    @card  = create(:card, bank_id: @bank.id, bp: bp)
+    @bank  = create(:bank, name: "Chase")
+    @card  = create(:card, bank: @bank, bp: bp)
     @offer = create(:offer, card: @card)
     @rec = create(
       :denied_card_recommendation,

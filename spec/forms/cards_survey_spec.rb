@@ -6,8 +6,8 @@ describe CardsSurvey do
   describe "#each_section" do
     it "yields cards grouped by bank, then by b/p" do
       currency = create(:currency)
-      b0 = Bank.first
-      b1 = Bank.last
+      b0 = create(:bank)
+      b1 = create(:bank)
 
       c0 = create(:card, :personal, bank: b0, currency: currency)
       c1 = create(:card, :personal, bank: b0, currency: currency)
