@@ -9,8 +9,8 @@ module AdminArea
     before(:all) do
       @chase   = Bank.find_by(name: "Chase")
       @us_bank = Bank.find_by(name: "US Bank")
-      @one_world_alliance = Alliance.find_by(name: "OneWorld")
-      @sky_team_alliance  = Alliance.find_by(name: "SkyTeam")
+      @one_world_alliance = Alliance.create!(name: "OneWorld")
+      @sky_team_alliance  = Alliance.create!(name: "SkyTeam")
 
       @currencies = []
       @currencies << create(:currency, alliance_id: @one_world_alliance.id)

@@ -65,6 +65,12 @@ ActiveRecord::Schema.define(version: 20161101194727) do
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
   end
 
+  create_table "alliances", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "balances", force: :cascade do |t|
     t.integer  "person_id",   null: false
     t.integer  "currency_id", null: false
@@ -129,8 +135,8 @@ ActiveRecord::Schema.define(version: 20161101194727) do
     t.string   "award_wallet_id",                null: false
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
-    t.integer  "alliance_id"
     t.boolean  "shown_on_survey", default: true, null: false
+    t.integer  "alliance_id"
     t.string   "type",                           null: false
     t.index ["award_wallet_id"], name: "index_currencies_on_award_wallet_id", unique: true, using: :btree
     t.index ["name"], name: "index_currencies_on_name", unique: true, using: :btree

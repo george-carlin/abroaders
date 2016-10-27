@@ -31,6 +31,19 @@ namespace :ab do
       end
     end
 
+    task alliances: :environment do
+      ApplicationRecord.transaction do
+        [
+          [1, 'OneWorld'],
+          [2, 'StarAlliance'],
+          [3, 'SkyTeam'],
+        ].each do |id, name|
+          Alliance.create!(id: id, name: name)
+        end
+        puts "created #{Alliance.count} alliances"
+      end
+    end
+
     task cards: :environment do
       ApplicationRecord.transaction do
         currency_ids = Currency.pluck(:id)
