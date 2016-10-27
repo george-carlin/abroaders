@@ -18,6 +18,7 @@ gem 'httparty', '~> 0.13.7'
 gem 'intercom'
 gem 'jbuilder', '~> 2.0'
 gem 'jquery-rails'
+gem 'newrelic_rpm'
 gem 'paperclip', '~> 4.3.1'
 gem 'pg', '~> 0.18'
 gem 'puma'
@@ -34,8 +35,8 @@ gem 'will_paginate-bootstrap', '~> 1.0.1'
 gem 'rails_autolink'
 gem 'workflow'
 
-# Required to make the app function properly on Heroku:
 group :production do
+  # Required to make the app function properly on Heroku:
   gem 'rails_12factor'
 end
 
