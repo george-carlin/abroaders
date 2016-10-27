@@ -40,6 +40,7 @@ describe CardAccountSerializer do
       %w[
         id recommended_at applied_at opened_at earned_at closed_at clicked_at
         declined_at denied_at nudged_at called_at redenied_at card decline_reason
+        status offer_id
       ],
     )
 
@@ -58,15 +59,14 @@ describe CardAccountSerializer do
 
     card = parsed_json["card"]
 
-    expect(card.keys).to match_array(%w[name network bp type bank])
+    expect(card.keys).to match_array(%w[id identifier name network bp type bank currency])
 
     expect(card["name"]).to eq "My awesome card"
     expect(card["network"]).to eq "visa"
     expect(card["bp"]).to eq "personal"
 
     bank = card["bank"]
-
-    expect(bank.keys).to match_array(%w[name personal_phone business_phone])
+    expect(bank.keys).to match_array(%w[id name personal_phone business_phone])
 
     expect(bank["name"]).to eq "Chase"
     expect(bank["personal_phone"]).to eq "(888) 609-7805"

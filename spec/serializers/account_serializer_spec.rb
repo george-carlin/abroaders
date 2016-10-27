@@ -23,7 +23,11 @@ describe AccountSerializer do
     parsed_json = JSON.parse(described_class.new(account).to_json)
 
     expect(parsed_json.keys).to match_array(
-      %w[id email owner companion monthly_spending_usd phone_number created_at],
+      %w[
+        id email owner companion monthly_spending_usd phone_number created_at
+        balances_by_currencies home_airports travel_plans regions_of_interest
+        recommendation_notes
+      ],
     )
 
     expect(parsed_json["id"]).to eq account.id
@@ -34,7 +38,7 @@ describe AccountSerializer do
 
     owner = parsed_json["owner"]
     expect(owner.keys).to match_array(
-      %w[id first_name eligible owner ready spending_info type],
+      %w[id first_name eligible owner ready spending_info type ready_on card_accounts],
     )
     expect(owner["id"]).to eq account.owner.id
     expect(owner["owner"]).to be true
