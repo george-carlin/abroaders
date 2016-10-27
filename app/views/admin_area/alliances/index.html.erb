@@ -1,0 +1,39 @@
+<% provide :title, "Alliances" %>
+
+<h1>Alliances</h1>
+
+<h3><%= link_to "Create New", new_admin_alliance_path %></h3>
+
+<%= will_paginate @alliances %>
+
+<div class="row">
+  <div class="col-xs-12 col-md-8">
+    <% if @alliances.any? %>
+      <table class="admin-alliances table table-striped">
+        <thead>
+          <tr>
+            <th class="admin-alliances-name">ID</th>
+            <th class="admin-alliances-code">Name</th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+        <% @alliances.each do |alliance| %>
+          <tr>
+            <td class="admin-alliances-name"><%= alliance.id %></td>
+            <td class="admin-alliances-code"><%= alliance.name %></td>
+            <td>
+              <%= link_to "Edit", edit_admin_alliance_path(alliance) %>
+              <br/>
+              <%= link_to "Delete", admin_alliance_path(alliance), method: :delete, data: { confirm: "Are you sure?" } %>
+            </td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      Nothing to display!
+    <% end %>
+  </div>
+</div>

@@ -6,6 +6,6 @@ class EditBalanceForm < BalanceForm
   private
 
   def persist!
-    Balance.update(id, value: value)
+    Balance.update(id, value: avalue)
   end
 end
