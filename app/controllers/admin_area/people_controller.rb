@@ -3,6 +3,7 @@ module AdminArea
     # GET /admin/people/1
     def show
       @person        = load_person
+      @spending_info = @person.spending_info
       @account       = @person.account
       @travel_plans  = @account.travel_plans.includes_destinations
       @balances      = @person.balances.includes(:currency)
