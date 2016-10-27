@@ -17,9 +17,9 @@ describe "admin new bank" do
   it "has inputs for a bank" do
     form = find("#new_bank")
 
-    expect(form).to(have_field "bank_name")
-    expect(form).to(have_field "bank_personal_phone")
-    expect(form).to(have_field "bank_business_phone")
+    expect(form).to(have_field("bank_name"))
+    expect(form).to(have_field("bank_personal_phone"))
+    expect(form).to(have_field("bank_business_phone"))
     expect(form[:action]).to eq admin_banks_path
   end
 
@@ -31,7 +31,7 @@ describe "admin new bank" do
     end
 
     it "updates the bank" do
-      expect{submit_form}.to change{Bank.count}.by(1)
+      expect { submit_form }.to change { Bank.count }.by(1)
       expect(new_bank.name).to           eq "New bank name"
       expect(new_bank.personal_phone).to eq "1000-1000"
       expect(new_bank.business_phone).to eq "8000-8000"
@@ -45,7 +45,7 @@ describe "admin new bank" do
     end
 
     it "updates the bank" do
-      expect{submit_form}.to change{Bank.count}.by(0)
+      expect { submit_form }.to change { Bank.count }.by(0)
       expect(current_path).to eq admin_banks_path
     end
   end

@@ -17,7 +17,7 @@ class BankForm < ApplicationForm
     {
       name: name,
       business_phone: business_phone,
-      personal_phone: personal_phone
+      personal_phone: personal_phone,
     }
   end
 end

@@ -2,8 +2,8 @@ module AdminArea
   class AlliancesController < AdminController
     def index
       @alliances = Alliance
-                     .order(name: :asc)
-                     .paginate(page: params[:page], per_page: 50)
+                   .order(name: :asc)
+                   .paginate(page: params[:page], per_page: 50)
     end
 
     def new

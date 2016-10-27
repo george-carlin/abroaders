@@ -31,7 +31,7 @@ describe "admin edit bank" do
     end
 
     it "updates the bank" do
-      expect{submit_form}.to change{Bank.count}.by(0)
+      expect { submit_form }.to change { Bank.count }.by(0)
       bank.reload
       expect(bank.name).to           eq "New bank name"
       expect(bank.personal_phone).to eq "1000-1000"
@@ -46,7 +46,7 @@ describe "admin edit bank" do
     end
 
     it "updates the bank" do
-      expect{submit_form}.to change{Bank.count}.by(0)
+      expect { submit_form }.to change { Bank.count }.by(0)
       bank.reload
       expect(bank.name).to eq "My bank"
       expect(current_path).to eq admin_bank_path(bank)

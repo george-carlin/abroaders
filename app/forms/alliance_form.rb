@@ -9,7 +9,6 @@ class AllianceForm < ApplicationForm
 
   validates :name, presence: true
 
-
   private
 
   def alliance_params

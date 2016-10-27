@@ -27,7 +27,7 @@ describe "admin new alliance" do
     end
 
     it "updates the alliance" do
-      expect{submit_form}.to change{Alliance.count}.by(1)
+      expect { submit_form }.to change { Alliance.count }.by(1)
       expect(new_alliance.name).to eq "New Alliance name"
       expect(current_path).to eq admin_alliances_path
     end
@@ -39,7 +39,7 @@ describe "admin new alliance" do
     end
 
     it "updates the alliance" do
-      expect{submit_form}.to change{Alliance.count}.by(0)
+      expect { submit_form }.to change { Alliance.count }.by(0)
       expect(current_path).to eq admin_alliances_path
     end
   end
