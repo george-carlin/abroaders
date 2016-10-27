@@ -1,7 +1,5 @@
 <% provide :title, "Reset Password" %>
 
-<%= bootstrap_devise_error_messages! %>
-
 <div class="login-container">
   <div class="row">
     <div class="col-md-12">
@@ -11,6 +9,12 @@
 
       <% present resource, PasswordPresenter do |password| %>
         <div class="hpanel">
+          <% if resource.errors.any? %>
+            <div class="alert alert-danger alert-block devise-bs">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              Email not found
+            </div>
+          <% end %>
           <div class="panel-body">
             <%= password.recover_form do |f|  %>
               <div class="form-group">
