@@ -191,6 +191,9 @@ Rails.application.routes.draw do
       end
     end
     resources :travel_plans, only: [:edit, :update]
+
+    resources :alliances
+    resources :banks
   end
 
   # ---- /ADMINS -----

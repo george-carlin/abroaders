@@ -26,8 +26,24 @@
             "Review live offers" => review_admin_offers_path,
           },
           AdminArea::OffersController,
-        )%>
+        ) %>
         <%= sidebar_link_to "Users", admin_accounts_path, AdminArea::AccountsController %>
+        <%= sidebar_nested_links(
+          "Alliances",
+          {
+            "View all alliances"  => admin_alliances_path,
+            "Create new alliance" => new_admin_alliance_path,
+          },
+          AdminArea::AlliancesController,
+        ) %>
+        <%= sidebar_nested_links(
+          "Banks",
+          {
+            "View all banks"  => admin_banks_path,
+            "Create new bank" => new_admin_bank_path,
+          },
+          AdminArea::BanksController,
+        ) %>
         <%= sidebar_link_to "My Account", edit_admin_registration_path %>
       <% end %>
     </ul>
