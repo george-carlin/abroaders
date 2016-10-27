@@ -41,7 +41,10 @@ describe "phone number pages" do
       submit_form
       account.reload
       expect(account.phone_number).to be_nil
-      expect(page).to have_error_message
+      expect(page).to have_error_message(
+        "Phone number can't be blank. Please click the 'Skip' button if you "\
+        "do not wish to add a phone number",
+      )
     end
 
     example "submitting a whitespace-only phone number" do

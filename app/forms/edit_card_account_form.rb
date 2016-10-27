@@ -10,8 +10,8 @@ class EditCardAccountForm < ApplicationForm
     "CardAccount"
   end
 
-  def self.find(id)
-    card_account = ::CardAccount.find(id)
+  def self.find(account, id)
+    card_account = account.card_accounts.find(id)
     new_attributes = {
       opened_year:  card_account.opened_at.year,
       opened_month: card_account.opened_at.month,

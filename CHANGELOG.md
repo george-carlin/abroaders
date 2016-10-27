@@ -7,6 +7,16 @@
     `RecommendationsForm`, `TravelPlanList`, `RecommendationNotes`, `RegionsOfInterest`.
     Pivotal Tracker #131075691
 
+*   remove uniqueness constraint on `balances: [:person_id, :currency_id]`.
+    d7af34b.
+
+    *George Millo*
+
+*   Fix security issue where users could view and update each other's
+    card accounts(!). b40cb4a5d0e
+
+    *George Millo*
+
 *   Bug fix: travel plan points estimate table was calculating estimates
     for 'from' to 'from', not 'from' to 'to'
 

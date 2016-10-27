@@ -19,11 +19,11 @@ class CardAccountsController < AuthenticatedUserController
   end
 
   def edit
-    @card_account = EditCardAccountForm.find(params[:id])
+    @card_account = EditCardAccountForm.find(current_account, params[:id])
   end
 
   def update
-    @card_account = EditCardAccountForm.find(params[:id])
+    @card_account = EditCardAccountForm.find(current_account, params[:id])
 
     if @card_account.update(card_account_params)
       flash[:success] = "Updated card"
