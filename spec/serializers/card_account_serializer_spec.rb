@@ -2,7 +2,13 @@ require "rails_helper"
 
 describe CardAccountSerializer do
   it "serializes a CardAccount to JSON" do
-    bank = Bank.find_by(name: "Chase")
+    bank = create(
+      :bank,
+      name: "Chase",
+      personal_phone: "(888) 609-7805",
+      business_phone: "800 453-9719",
+    )
+
     card = create(
       :card,
       bank:    bank,

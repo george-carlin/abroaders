@@ -36,7 +36,7 @@ class Currency < ApplicationRecord
   validates :award_wallet_id, presence: true, uniqueness: true
   validates :type, inclusion: { in: TYPES }
 
-  belongs_to_fake_db_model :alliance
+  belongs_to :alliance
 
   # Scopes
 

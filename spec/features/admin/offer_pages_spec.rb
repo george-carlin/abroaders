@@ -13,6 +13,7 @@ describe "admin section" do
     let(:credit_cards) { "CreditCards.com" }
     let(:award_wallet) { "AwardWallet" }
     let(:card_benefit) { "CardBenefit" }
+    let(:bank)         { create(:bank, name: "Chase") }
 
     describe "new page" do
       before do
@@ -22,7 +23,7 @@ describe "admin section" do
           network: :visa,
           annual_fee_cents: 150_000,
           bp:   :business,
-          bank: Bank.find_by(name: "Chase"),
+          bank: bank,
         )
 
         visit new_admin_card_offer_path(@card)
@@ -33,7 +34,7 @@ describe "admin section" do
       it { is_expected.to have_title full_title("New Offer") }
 
       it "displays information about the card" do
-        expect(page).to have_content "Chase"
+        expect(page).to have_content bank.name
         expect(page).to have_content "Sapphire Preferred"
         expect(page).to have_content "Visa"
         expect(page).to have_content "$1,500"

@@ -44,7 +44,7 @@ class Card < ApplicationRecord
     end
   end
 
-  belongs_to_fake_db_model :bank
+  belongs_to :bank
   delegate :name, to: :bank, prefix: true
 
   # A number which uniquely identifies both which bank this card belongs to,

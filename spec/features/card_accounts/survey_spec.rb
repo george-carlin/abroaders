@@ -4,15 +4,15 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
   subject { page }
 
   before(:all) do
-    chase = Bank.find_by(name: "Chase")
-    citi  = Bank.find_by(name: "Citibank")
+    chase = create(:bank, name: "Chase")
+    citi  = create(:bank, name: "Citibank")
     @banks = [chase, citi]
     @visible_cards = [
-      create(:card, :business, :visa,       bank_id: chase.id, name: "Card 0"),
-      create(:card, :personal, :mastercard, bank_id: chase.id, name: "Card 1"),
-      create(:card, :business, :mastercard, bank_id: citi.id,  name: "Card 2"),
-      create(:card, :personal, :visa,       bank_id: citi.id,  name: "Card 3"),
-      create(:card, :personal, :visa,       bank_id: citi.id,  name: "Card 4"),
+      create(:card, :business, :visa,       bank: chase, name: "Card 0"),
+      create(:card, :personal, :mastercard, bank: chase, name: "Card 1"),
+      create(:card, :business, :mastercard, bank: citi,  name: "Card 2"),
+      create(:card, :personal, :visa,       bank: citi,  name: "Card 3"),
+      create(:card, :personal, :visa,       bank: citi,  name: "Card 4"),
     ]
     @hidden_card = create(:card, shown_on_survey: false)
   end
@@ -105,10 +105,11 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
       @banks.each do |bank|
         expect(page).to have_selector "h2", text: bank.name.upcase
         within "#bank-collapse-#{bank.id}" do
+          bank_parameterized_name = bank.name.downcase.parameterize.underscore
           %w[personal business].each do |type|
             expect(page).to have_selector "h4", text: "#{type.capitalize} Cards"
-            expect(page).to have_selector "##{bank.to_param}_cards"
-            expect(page).to have_selector "##{bank.to_param}_#{type}_cards"
+            expect(page).to have_selector "##{bank_parameterized_name}_cards"
+            expect(page).to have_selector "##{bank_parameterized_name}_#{type}_cards"
           end
         end
       end
@@ -117,9 +118,10 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
     it "only has one 'group' per bank and b/p" do # bug fix
       @banks.each do |bank|
         within "#bank-collapse-#{bank.id}" do
-          expect(all("[id='#{bank.to_param}_cards']").length).to eq 1
-          expect(all("[id='#{bank.to_param}_personal_cards']").length).to eq 1
-          expect(all("[id='#{bank.to_param}_business_cards']").length).to eq 1
+          bank_parameterized_name = bank.name.downcase.parameterize.underscore
+          expect(all("[id='#{bank_parameterized_name}_cards']").length).to eq 1
+          expect(all("[id='#{bank_parameterized_name}_personal_cards']").length).to eq 1
+          expect(all("[id='#{bank_parameterized_name}_business_cards']").length).to eq 1
         end
       end
     end

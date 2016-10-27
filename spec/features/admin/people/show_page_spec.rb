@@ -7,10 +7,10 @@ module AdminArea
     let(:aw_email) { "totallyawesomedude@example.com" }
 
     before(:all) do
-      @chase   = Bank.find_by(name: "Chase")
-      @us_bank = Bank.find_by(name: "US Bank")
-      @one_world_alliance = Alliance.find_by(name: "OneWorld")
-      @sky_team_alliance  = Alliance.find_by(name: "SkyTeam")
+      @chase   = create(:bank, name: "Chase")
+      @us_bank = create(:bank, name: "US Bank")
+      @one_world_alliance = create(:alliance, name: "OneWorld")
+      @sky_team_alliance  = create(:alliance, name: "SkyTeam")
 
       @currencies = []
       @currencies << create(:currency, alliance_id: @one_world_alliance.id)

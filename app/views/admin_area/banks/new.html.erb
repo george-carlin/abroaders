@@ -1,0 +1,14 @@
+<% provide :title, "New Bank" %>
+
+<% content_for :header_panel do %>
+  <div class="panel-body">
+    <h1>New Bank</h1>
+  </div>
+<% end %>
+
+<%= render "shared/hpanel" do  %>
+  <div class="panel-body">
+    <%= render "admin_area/banks/form", bank: @bank %>
+  </div>
+<% end %>
+

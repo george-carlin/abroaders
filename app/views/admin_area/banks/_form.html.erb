@@ -1,0 +1,40 @@
+<%= form_for [:admin, bank] do |f| %>
+  <% if bank.errors.any? %>
+    <%= render "shared/model_validation_errors", model: bank %>
+  <% end %>
+
+  <div class="form-group">
+    <div class="row">
+      <%= f.label :name, class: "col-sm-2 control-label" %>
+      <div class="col-sm-10">
+        <%= f.text_field :name, class: "form-control" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="row">
+      <%= f.label :personal_phone, class: "col-sm-2 control-label" %>
+      <div class="col-sm-10">
+        <%= f.text_field :personal_phone, class: "form-control" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="row">
+      <%= f.label :business_phone, class: "col-sm-2 control-label" %>
+      <div class="col-sm-10">
+        <%= f.text_field :business_phone, class: "form-control" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="row">
+      <div class="col-sm-offset-2 col-sm-10">
+        <%= f.submit "Save", class: "btn btn-primary" %>
+      </div>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,13 @@
+<% provide :title, "Edit Alliance" %>
+
+<% content_for :header_panel do %>
+  <div class="panel-body">
+    <h1>Edit Alliance</h1>
+  </div>
+<% end %>
+
+<%= render "shared/hpanel" do  %>
+  <div class="panel-body">
+    <%= render "admin_area/alliances/form", alliance: @alliance %>
+  </div>
+<% end %>
