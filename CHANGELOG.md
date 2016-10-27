@@ -2,6 +2,11 @@
 
 ## October 2016
 
+*   Convert `Bank` and `Alliance` to real ActiveRecord models.
+    Remove `FakeDBModel`. Pivotal Tracker #132586099
+
+    *Boris Shatalov*
+
 *   remove uniqueness constraint on `balances: [:person_id, :currency_id]`.
     d7af34b.
 
