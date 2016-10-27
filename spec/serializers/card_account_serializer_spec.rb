@@ -6,7 +6,7 @@ describe CardAccountSerializer do
       :bank,
       name: "Chase",
       personal_phone: "(888) 609-7805",
-      business_phone: "800 453-9719"
+      business_phone: "800 453-9719",
     )
 
     card = create(
