@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 describe Card::Identifier do
-  it 'generates an identifier using the bank ID, code, and network' do
+  it "generates the card's unique identifier" do
     card = Card.new(
-      bank:    Bank.new(id: 1),
+      bank:    Bank.new(personal_code: 1),
       bp:      :personal,
       code:    'ABC',
       network: :visa,

@@ -12,7 +12,7 @@ describe "user cards page - callable cards", :js do
   before do
     person.update!(eligible: true)
     login_as_account(account)
-    @bank = Bank.find(1)
+    @bank  = create(:bank, name: "Chase")
     @card  = create(:card, bank_id: @bank.id, bp: bp)
     @offer = create(:offer, card: @card)
     @rec = create(

@@ -7,8 +7,8 @@ module AdminArea
     let(:aw_email) { "totallyawesomedude@example.com" }
 
     before(:all) do
-      @chase   = Bank.find_by(name: "Chase")
-      @us_bank = Bank.find_by(name: "US Bank")
+      @chase   = create(:bank, name: "Chase")
+      @us_bank = create(:bank, name: "US Bank")
       @one_world_alliance = Alliance.create!(name: "OneWorld")
       @sky_team_alliance  = Alliance.create!(name: "SkyTeam")
 

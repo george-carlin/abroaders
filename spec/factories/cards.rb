@@ -9,7 +9,7 @@ FactoryGirl.define do
     network { Card.networks.keys.sample }
     bp      { Card.bps.keys.sample }
     type    { Card.types.keys.sample }
-    bank_id { Bank.all.sample.id }
+    bank
     annual_fee_cents { rand(500_00) + 10_00 }
     image_file_name    { 'example_card_image.png' }
     image_content_type { 'image/png' }

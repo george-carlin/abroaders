@@ -82,6 +82,15 @@ ActiveRecord::Schema.define(version: 20161101194727) do
     t.index ["person_id"], name: "index_balances_on_person_id", using: :btree
   end
 
+  create_table "banks", force: :cascade do |t|
+    t.string   "name",           null: false
+    t.integer  "personal_code",  null: false
+    t.string   "personal_phone"
+    t.string   "business_phone"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
   create_table "card_accounts", force: :cascade do |t|
     t.integer  "card_id"
     t.integer  "person_id",      null: false

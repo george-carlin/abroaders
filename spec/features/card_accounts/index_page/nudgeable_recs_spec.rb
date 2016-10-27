@@ -11,7 +11,7 @@ describe "user cards page - nudgeable cards", :js do
 
   before do
     person.update!(eligible: true)
-    @bank = Bank.find(1)
+    @bank = create(:bank, name: 'Chase')
     @card = create(:card, bank_id: @bank.id, bp: bp)
     @offer = create(:offer, card: @card)
     @rec = create(

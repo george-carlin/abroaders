@@ -4,8 +4,8 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
   subject { page }
 
   before(:all) do
-    chase = Bank.find_by(name: "Chase")
-    citi  = Bank.find_by(name: "Citibank")
+    chase = create(:bank, name: "Chase")
+    citi  = create(:bank, name: "Citibank")
     @banks = [chase, citi]
     @visible_cards = [
       create(:card, :business, :visa,       bank_id: chase.id, name: "Card 0"),
@@ -107,8 +107,8 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
         within "#bank-collapse-#{bank.id}" do
           %w[personal business].each do |type|
             expect(page).to have_selector "h4", text: "#{type.capitalize} Cards"
-            expect(page).to have_selector "##{bank.to_param}_cards"
-            expect(page).to have_selector "##{bank.to_param}_#{type}_cards"
+            expect(page).to have_selector "#bank_#{bank.id}_cards"
+            expect(page).to have_selector "#bank_#{bank.id}_#{type}_cards"
           end
         end
       end
@@ -117,9 +117,9 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
     it "only has one 'group' per bank and b/p" do # bug fix
       @banks.each do |bank|
         within "#bank-collapse-#{bank.id}" do
-          expect(all("[id='#{bank.to_param}_cards']").length).to eq 1
-          expect(all("[id='#{bank.to_param}_personal_cards']").length).to eq 1
-          expect(all("[id='#{bank.to_param}_business_cards']").length).to eq 1
+          expect(all("[id='bank_#{bank.id}_cards']").length).to eq 1
+          expect(all("[id='bank_#{bank.id}_personal_cards']").length).to eq 1
+          expect(all("[id='bank_#{bank.id}_business_cards']").length).to eq 1
         end
       end
     end

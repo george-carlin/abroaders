@@ -68,6 +68,7 @@ describe "admin pages" do
   end
 
   describe "new card page" do
+    let!(:banks) { create_list(:bank, 2) }
     before do
       @currencies = create_list(:currency, 2)
       visit new_admin_card_path
@@ -99,7 +100,7 @@ describe "admin pages" do
           # BUG: allow decimal values TODO
           fill_in :card_annual_fee, with: 549 # .99
           select currency_name, from: :card_currency_id
-          select "Wells Fargo", from: :card_bank_id
+          select banks[1].name, from: :card_bank_id
           uncheck :card_shown_on_survey
           attach_file :card_image, image_path
         end
@@ -119,7 +120,7 @@ describe "admin pages" do
           expect(page).to have_content "Credit"
           expect(page).to have_content "$549.00" # 99"
           expect(page).to have_content currency_name
-          expect(page).to have_content "Wells Fargo"
+          expect(page).to have_content banks[1].name
           expect(page).to have_selector "img[src='#{card.image.url}']"
         end
 
@@ -151,6 +152,7 @@ describe "admin pages" do
   end
 
   describe "edit card page" do
+    let!(:banks) { create_list(:bank, 2) }
     before do
       @currencies = create_list(:currency, 2)
       @card = create(
@@ -160,6 +162,7 @@ describe "admin pages" do
         network: :visa,
         type:    :credit,
         shown_on_survey: false,
+        bank:    banks[0],
       )
       visit edit_admin_card_path(@card)
     end
@@ -199,7 +202,7 @@ describe "admin pages" do
           # BUG: allow decimal values TODO
           fill_in :card_annual_fee, with: 549
           select @currencies[1].name, from: :card_currency_id
-          select "Wells Fargo", from: :card_bank_id
+          select banks[1].name, from: :card_bank_id
           check :card_shown_on_survey
           submit_form
         end
@@ -213,7 +216,7 @@ describe "admin pages" do
           expect(@card.type).to eq "credit"
           expect(@card.annual_fee).to eq 549
           expect(@card.currency).to eq @currencies[1]
-          expect(@card.bank).to eq Bank.find_by(name: "Wells Fargo")
+          expect(@card.bank).to eq banks[1]
           expect(@card).to be_shown_on_survey
         end
 
