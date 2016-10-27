@@ -32,6 +32,9 @@ Style/AsciiComments:
 Style/BlockComments:
   Enabled: false
 
+Style/ClassAndModuleChildren:
+  Enabled: false
+
 Style/CommentAnnotation:
   Enabled: false
 
@@ -118,16 +121,6 @@ Style/AlignParameters:
   Exclude:
     - 'db/migrate/20160310183236_add_fields_for_companion_survey.rb'
     - 'db/migrate/20160316170137_add_onboarded_to_accounts.rb'
-
-# Offense count: 5
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: nested, compact
-Style/ClassAndModuleChildren:
-  Exclude:
-    - 'app/forms/card_account/application_survey.rb'
-    - 'app/models/card_account/expiration.rb'
-    - 'app/models/card_account/status.rb'
-    - 'app/presenters/admin_area/offer_presenter.rb'
 
 # Offense count: 2
 # Cop supports --auto-correct.
