@@ -183,6 +183,10 @@
 
   .recommendation-notes-area {
     margin-bottom: 20px;
+
+    .note-content p {
+      margin: 0 0 5px;
+    }
   }
 
   .recommendation-notes-form .submit-btn {
