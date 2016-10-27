@@ -8,4 +8,13 @@ class AllianceForm < ApplicationForm
   # Validations
 
   validates :name, presence: true
+
+
+  private
+
+  def alliance_params
+    {
+      name: name,
+    }
+  end
 end

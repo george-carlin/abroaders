@@ -9,9 +9,13 @@ class EditAllianceForm < AllianceForm
     true
   end
 
+  def alliance
+    @alliance ||= Alliance.find(id)
+  end
+
   private
 
   def persist!
-    Alliance.create!(name: name)
+    alliance.update!(alliance_params)
   end
 end
