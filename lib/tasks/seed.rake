@@ -152,7 +152,44 @@ namespace :ab do
       end # transaction
     end
 
+    task alliances: :environment do
+      ApplicationRecord.transaction do
+        data = CSV.parse(File.read(Rails.root.join("lib/data/alliances.csv")))
+        data.shift # remove the column headers
+        data.each do |id, name|
+          Alliance.create!(id: id, name: name)
+        end
+        puts "created #{data.length} alliances"
+      end # transaction
+    end
+
+    task banks: :environment do
+      # Note that only odd numbers are used for bank IDs. This is because each card
+      # has a deterministically-generated unique identifier which starts with a
+      # number that represents the bank - but there are two numbers per bank, one
+      # for personal cards are one for business cards. We're using odd numbers for
+      # personal and even numbers for business - so e.g. a Chase personal card's
+      # identifier will start with '01' while a Chase business card's identifier
+      # will start with '02'
+
+      # comments after each bank name contain additional data about the bank
+      # that we're not doing anything with yet
+      # Barclays - hours: 8am-5pm EST M-F
+      # American Express -  when prompted, say "Application Status"
+      # Capital One - hours (M-F 8-8pm EST)
+      # Bank of America - when prompted, dial option 3 for "Application Status"
+      # US Bank - hours: 8am-8pm EST (M-F)"
+      ApplicationRecord.transaction do
+        data = CSV.parse(File.read(Rails.root.join("lib/data/banks.csv")))
+        data.shift # remove the column headers
+        data.each do |id, name, personal_phone, business_phone|
+          Bank.create!(id: id, name: name, personal_phone: personal_phone, business_phone: business_phone)
+        end
+        puts "created #{data.length} banks"
+      end # transaction
+    end
+
     task destinations: [:regions, :countries, :cities, :airports]
-    task all: [:admins, :currencies, :cards, :destinations, :offers]
+    task all: [:admins, :alliances, :banks, :currencies, :cards, :destinations, :offers]
   end
 end
