@@ -9,6 +9,12 @@
     </div><!-- .row -->
   </div>
 
+  <% if @card_account.errors.any? %>
+    <%= render "shared/error_message" do %>
+      <%= @card_account.errors.full_messages.join(", ") %>
+    <% end %>
+  <% end %>
+
   <div class="panel-body">
     <%= form_for @card_account, html: { class: "edit_card_account" } do |f| %>
       <%= present_div @card_account.card_account, class: "row" do |card_account| %>
@@ -44,14 +50,14 @@
                 :opened_year,
                 options_for_cards_survey_year_select(without_wrapping: true),
                 {},
-                class: "cards_survey_select"
+                class: "cards_survey_select card_account_date"
               ) %>
 
               <%= f.select(
                 :opened_month,
                 options_for_cards_survey_month_select(without_wrapping: true),
                 {},
-                class: "cards_survey_select"
+                class: "cards_survey_select card_account_date"
               ) %>
             </div>
           </div>
@@ -66,7 +72,7 @@
             </div>
           </div>
 
-          <div class="row card-survey-closed <%= card_account.closed? ? "" : "hide" %>">
+          <div class="row card-survey-closed <%= @card_account.closed? ? "" : "hide" %>">
             <div class="col-md-12 col-lg-4">
               <label class="card-info-label card-survey-closed">When did you close this card?</label>
             </div>
@@ -76,14 +82,14 @@
                 :closed_year,
                 options_for_cards_survey_year_select(without_wrapping: true),
                 {},
-                class: "cards_survey_select"
+                class: "cards_survey_select card_account_date"
               ) %>
 
               <%= f.select(
                 :closed_month,
                 options_for_cards_survey_month_select(without_wrapping: true),
                 {},
-                class: "cards_survey_select"
+                class: "cards_survey_select card_account_date"
               ) %>
             </div>
           </div>

@@ -70,10 +70,10 @@ describe "card accounts edit page", :js do
     describe "make it closed" do
       before do
         select "Jan",     from: page_card.opened_at_month
-        select this_year, from: page_card.opened_at_year
+        select last_year, from: page_card.opened_at_year
         check "card_account_closed"
         select "Apr",     from: page_card.closed_at_month
-        select last_year, from: page_card.closed_at_year
+        select this_year, from: page_card.closed_at_year
       end
 
       describe "and submitting the form" do
@@ -84,8 +84,8 @@ describe "card accounts edit page", :js do
           end
 
           specify "have the given opened and closed dates" do
-            expect(card_account.opened_at.strftime("%F")).to eq end_of_month(this_year, "01")
-            expect(card_account.closed_at.strftime("%F")).to eq end_of_month(last_year, "04")
+            expect(card_account.opened_at.strftime("%F")).to eq end_of_month(last_year, "01")
+            expect(card_account.closed_at.strftime("%F")).to eq end_of_month(this_year, "04")
           end
 
           specify "have the right statuses" do
@@ -97,6 +97,30 @@ describe "card accounts edit page", :js do
           submit_form
           expect(current_path).to eq card_accounts_path
         end
+      end
+    end
+
+    describe "trying to fill it with close date earlier than open" do
+      example "preventing it on web with js enabled" do
+        select "Jan",     from: page_card.opened_at_month
+        select this_year, from: page_card.opened_at_year
+        check "card_account_closed"
+
+        expect(page).to have_select("card_account_closed_year", selected: this_year)
+      end
+
+      example "preventing it on server with js disabled", js: false do
+        select "Jan",     from: page_card.opened_at_month
+        select this_year, from: page_card.opened_at_year
+        check "card_account_closed"
+        select "Apr",     from: page_card.closed_at_month
+        select last_year, from: page_card.closed_at_year
+
+        submit_form
+        card_account.reload
+        expect(page).to have_content("Open date cannot be greater than the close date")
+        expect(card_account.opened_at.strftime("%F")).to_not eq end_of_month(this_year, "01")
+        expect(card_account.closed_at).to eq(nil)
       end
     end
   end
@@ -126,9 +150,9 @@ describe "card accounts edit page", :js do
     describe "filling fields" do
       before do
         select "Jan",     from: page_card.opened_at_month
-        select this_year, from: page_card.opened_at_year
+        select last_year, from: page_card.opened_at_year
         select "Apr",     from: page_card.closed_at_month
-        select last_year, from: page_card.closed_at_year
+        select this_year, from: page_card.closed_at_year
       end
 
       describe "and submitting the form" do
@@ -139,8 +163,8 @@ describe "card accounts edit page", :js do
           end
 
           specify "have the given opened and closed dates" do
-            expect(card_account.opened_at.strftime("%F")).to eq end_of_month(this_year, "01")
-            expect(card_account.closed_at.strftime("%F")).to eq end_of_month(last_year, "04")
+            expect(card_account.opened_at.strftime("%F")).to eq end_of_month(last_year, "01")
+            expect(card_account.closed_at.strftime("%F")).to eq end_of_month(this_year, "04")
           end
 
           specify "have the right statuses" do

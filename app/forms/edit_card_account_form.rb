@@ -1,10 +1,12 @@
 class EditCardAccountForm < ApplicationForm
   attribute :id,           Integer
   attribute :opened_year,  String
-  attribute :opened_month, String
-  attribute :closed_year,  String
+  attribute :opened_month, String, default: Date.today.month
+  attribute :closed_year,  String, default: Date.today.year
   attribute :closed_month, String
   attribute :closed,       Boolean
+
+  validate :closed_date, if: proc { |card| card.closed? }
 
   def self.name
     "CardAccount"
@@ -41,8 +43,14 @@ class EditCardAccountForm < ApplicationForm
   def persist!
     card_account.update!(
       opened_at: end_of_month(opened_year, opened_month),
-      closed_at: closed ? end_of_month(closed_year, closed_month) : nil,
+      closed_at: closed? ? end_of_month(closed_year, closed_month) : nil,
     )
+  end
+
+  def closed_date
+    if end_of_month(opened_year, opened_month) > end_of_month(closed_year, closed_month)
+      errors.add("Open date", "cannot be greater than the close date")
+    end
   end
 
   def end_of_month(year, month)
