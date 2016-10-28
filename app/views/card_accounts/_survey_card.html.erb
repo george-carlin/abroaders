@@ -5,7 +5,7 @@
 <% present survey_card do |card| %>
   <div
     id="<%= dom_id(card) %>"
-    class="col-xs-12 col-sm-4 col-md-3 col-xl-2"
+    class="col-xs-12 col-sm-4 col-md-3 col-xl-2 card_account_wrapper"
   >
 
     <div class="card-survey-checkbox">
@@ -45,14 +45,14 @@
             "cards_survey[card_accounts][][opened_at_(1i)]",
             options_for_cards_survey_year_select,
             id: "cards_survey_#{card.id}_card_account_opened_at_year",
-            class: "cards_survey_card_account_opened_at_year cards_survey_year",
+            class: "cards_survey_card_account_opened_at_year cards_survey_year card_account_date",
           ) %>
 
           <%= select_tag(
             "cards_survey[card_accounts][][opened_at_(2i)]",
             options_for_cards_survey_month_select,
             id: "cards_survey_#{card.id}_card_account_opened_at_month",
-            class: "cards_survey_card_account_opened_at_month cards_survey_month",
+            class: "cards_survey_card_account_opened_at_month cards_survey_month card_account_date",
           ) %>
 
           <div class="clearfix"></div>
@@ -76,14 +76,14 @@
             "cards_survey[card_accounts][][closed_at_(1i)]",
             options_for_cards_survey_year_select,
             id: "cards_survey_#{card.id}_card_account_closed_at_year",
-            class: "cards_survey_#{card.id}_card_account_closed_at_year cards_survey_year",
+            class: "cards_survey_card_account_closed_at_year cards_survey_year card_account_date",
           ) %>
 
           <%= select_tag(
             "cards_survey[card_accounts][][closed_at_(2i)]",
             options_for_cards_survey_month_select,
             id: "cards_survey_#{card.id}_card_account_closed_at_month",
-            class: "cards_survey_card_account_closed_at_month cards_survey_month",
+            class: "cards_survey_card_account_closed_at_month cards_survey_month card_account_date",
           ) %>
 
           <div class="clearfix"></div>

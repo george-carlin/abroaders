@@ -42,11 +42,14 @@ class CardAccountsController < AuthenticatedUserController
   def save_survey
     @person = load_person
     redirect_if_onboarding_wrong_person_type!
-    # There's currently no way that survey_params can be invalid, so this
-    # should never fail:
-    CardsSurvey.new(survey_params.merge(person: @person)).save!
-    # track_intercom_event("obs_cards_#{@person.type[0..2]}")
-    redirect_to onboarding_survey_path
+
+    @survey = CardsSurvey.new(survey_params.merge(person: @person))
+    if @survey.save
+      # track_intercom_event("obs_cards_#{@person.type[0..2]}")
+      redirect_to onboarding_survey_path
+    else
+      render :survey
+    end
   end
 
   private

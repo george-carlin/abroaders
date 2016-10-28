@@ -34,8 +34,7 @@ $(document).ready(function () {
         $closedMonthElem = $("#card_account_closed_month");
     var openYear = parseInt($("#card_account_opened_year").val(), 10),
         openMonth = parseInt($("#card_account_opened_month").val(), 10),
-        closeYear = parseInt($closedYearElem.val(), 10),
-        closeMonth = parseInt($closedMonthElem.val(), 10);
+        closeYear = parseInt($closedYearElem.val(), 10);
 
     $closedYearElem.find("option").show();
     $closedMonthElem.find("option").show();
@@ -43,7 +42,7 @@ $(document).ready(function () {
     toggleCloseYear(openYear, openMonth);
 
     if (closeYear === openYear) {
-      toggleCloseMonth(openMonth, closeMonth);
+      toggleCloseMonth(openMonth);
     }
   }
 

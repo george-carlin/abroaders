@@ -9,6 +9,12 @@
     </div><!-- .row -->
   </div><!-- .panel-heading.hbuilt -->
 
+  <% if @survey.errors.any? %>
+    <%= render "shared/error_message" do %>
+      <%= @survey.errors.full_messages.join(", ") %>.
+    <% end %>
+  <% end %>
+
   <div id="card-survey-initial" class="panel-body">
     <p>
       Before we can recommend <%= n "you", @person %> a credit card to apply

@@ -12,6 +12,22 @@ class CardsSurvey < ApplicationForm
 
   private
 
+  def valid?
+    card_accounts.each do |card_account|
+      next unless card_account["closed"].present?
+      opened_at_y = card_account["opened_at_(1i)"]
+      opened_at_m = card_account["opened_at_(2i)"]
+      closed_at_y = card_account["closed_at_(1i)"]
+      closed_at_m = card_account["closed_at_(2i)"]
+      if end_of_month(opened_at_y, opened_at_m) > end_of_month(closed_at_y, closed_at_m)
+        errors.add("Open date", "cannot be greater than the close date")
+        return false
+      end
+    end
+
+    super
+  end
+
   def persist!
     card_accounts.each do |card_account|
       # Example hash contents: {
