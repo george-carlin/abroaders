@@ -13,4 +13,11 @@
     src="https://www.facebook.com/tr?id=1557905984459191&ev=PageView&noscript=1"
     /></noscript>
   <!-- End Facebook Pixel Code -->
+
+  <% if @output_fb_signup_code %>
+    <script>
+      fbq('track', 'CompleteRegistration');
+      <% cookies[:cbd50008665cc7269327074d2778d9a6] = true %>
+    </script>"
+  <% end %>
 <% end %>
