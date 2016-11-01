@@ -21,8 +21,10 @@ module DatepickerMacros
 
     # Test that text *exactly* matches or e.g. the selector will return the
     # '11' button when searching for '1'.
-    day = date_to_pick.day.to_s
-    find(".datepicker .day:not(.old):not(.disabled)", text: /\A#{day}\z/).click
+    find(
+      '.datepicker .day:not(.old):not(.new):not(.disabled)',
+      text: /\A#{date_to_pick.day}\z/,
+    ).click
   end
 
   private
