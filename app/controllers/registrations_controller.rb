@@ -3,7 +3,7 @@ class RegistrationsController < Devise::RegistrationsController
   include Onboarding
 
   def new
-    @form = SignUp.new
+    @form = SignUp.new(promo_code: params[:promo_code])
     set_minimum_password_length
   end
 
@@ -32,6 +32,7 @@ class RegistrationsController < Devise::RegistrationsController
   def sign_up_params
     params.require(:sign_up).permit(
       :email, :first_name, :password, :password_confirmation,
+      :promo_code
     )
   end
 end
