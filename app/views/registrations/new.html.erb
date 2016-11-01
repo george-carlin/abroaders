@@ -27,17 +27,17 @@
             url: account_registration_path,
             html: { role: "form" }
           ) do |f| %>
-            <div class="form-group">
+            <div class="form-group required">
               <%= f.label :email %>
               <%= f.email_field :email, autofocus: true %>
             </div>
 
-            <div class="form-group">
+            <div class="form-group required">
               <%= f.label :first_name %>
               <%= f.text_field :first_name %>
             </div>
 
-            <div class="form-group">
+            <div class="form-group required">
               <%= f.label :password %>
               <p class="help-block">
                 Minimum length <%= @minimum_password_length %> characters
@@ -45,7 +45,7 @@
               <%= f.password_field :password %>
             </div>
 
-            <div class="form-group">
+            <div class="form-group required">
               <%= f.label :password_confirmation %>
               <%= f.password_field :password_confirmation %>
             </div>
