@@ -2,6 +2,7 @@ class SignUp < ApplicationForm
   attribute :email,      String
   attribute :first_name, String
   attribute :password,   String
+  attribute :promo_code, String
 
   attr_reader :account
 
@@ -27,6 +28,9 @@ class SignUp < ApplicationForm
             presence: true,
             length: { within: Account.password_length, allow_blank: true }
 
+  validates :promo_code,
+            length: { maximum: 20, allow_blank: true }
+
   private
 
   # ActiveModel::Validations doesn't provide validates_uniqueness_of, so
@@ -41,6 +45,7 @@ class SignUp < ApplicationForm
       email: email.strip,
       password: password,
       password_confirmation: password_confirmation,
+      promo_code: (promo_code&.strip if promo_code.present?),
     )
     account.save!(validate: false)
 
