@@ -29,6 +29,7 @@
         )%>
         <%= sidebar_link_to "Users", admin_accounts_path, AdminArea::AccountsController %>
         <%= sidebar_link_to "My Account", edit_admin_registration_path %>
+        <%= sidebar_link_to 'Banks', admin_banks_path, AdminArea::BanksController %>
       <% end %>
     </ul>
   </div>

@@ -1,0 +1,20 @@
+<h1>Edit Bank</h1>
+
+<%= form_for [:admin, @bank] do |f| %>
+  <div class="form-group">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :personal_phone %>
+    <%= f.text_field :personal_phone %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :business_phone %>
+    <%= f.text_field :business_phone %>
+  </div>
+
+  <%= f.submit 'Save', class: 'btn-lg btn-primary' %>
+<% end %>

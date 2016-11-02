@@ -155,6 +155,7 @@ Rails.application.routes.draw do
         get :download_user_status_csv
       end
     end
+    resources :banks, only: [:index, :edit, :update]
     resources :cards, except: :destroy do
       collection do
         get :images
