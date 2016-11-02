@@ -15,5 +15,7 @@ class CreateAlliances < ActiveRecord::Migration[5.0]
         end
       end
     end
+
+    add_foreign_key :currencies, :alliances
   end
 end

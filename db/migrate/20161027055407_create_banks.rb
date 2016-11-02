@@ -42,5 +42,7 @@ class CreateBanks < ActiveRecord::Migration[5.0]
         end
       end
     end
+
+    add_foreign_key :cards, :banks
   end
 end

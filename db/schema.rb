@@ -275,7 +275,9 @@ ActiveRecord::Schema.define(version: 20161101194727) do
   add_foreign_key "card_accounts", "cards", on_delete: :restrict
   add_foreign_key "card_accounts", "offers", on_delete: :cascade
   add_foreign_key "card_accounts", "people", on_delete: :cascade
+  add_foreign_key "cards", "banks"
   add_foreign_key "cards", "currencies", on_delete: :restrict
+  add_foreign_key "currencies", "alliances"
   add_foreign_key "destinations", "destinations", column: "parent_id", on_delete: :restrict
   add_foreign_key "flights", "destinations", column: "from_id", on_delete: :restrict
   add_foreign_key "flights", "destinations", column: "to_id", on_delete: :restrict
