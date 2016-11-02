@@ -1,4 +1,5 @@
-# TODO why isn't this autoloaded?
+# spec/forms/bank/form_spec.rb doesn't work unless you include this line.
+# What's up with that? Shouldn't it be autoloaded? FIXME
 require "reform/form/coercion"
 
 class Bank::Form < Reform::Form
