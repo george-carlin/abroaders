@@ -2,6 +2,10 @@
 
 ## November 2016
 
+*   Add admin index+edit pages for Banks
+
+    *George Millo*
+
 *   Convert `Bank` and `Alliance` to full DB-backed ActiveRecord models.
 
     *George Millo*
