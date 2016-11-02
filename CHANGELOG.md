@@ -2,6 +2,10 @@
 
 ## November 2016
 
+*   Convert `Bank` and `Alliance` to full DB-backed ActiveRecord models.
+
+    *George Millo*
+
 *   Extract `Card::Identifier` model.
 
     *George Millo*

@@ -89,18 +89,18 @@
         </div>
 
         <div id="bank-collapse-<%= bank.id %>" class="panel-collapse collapse">
-          <div id="<%= bank.to_param %>_cards">
+          <div id="bank_<%= bank.id %>_cards">
 
             <% cards_grouped_by_bp.each do |bp, cards| %>
-              <div id="<%= bank.to_param %>_<%= bp %>_cards">
+              <div id="bank_<%= bank.id %>_<%= bp %>_cards">
                 <h4><%= bp.capitalize %> Cards</h4>
                 <div class="row">
                   <%= render partial: "card_accounts/survey_card", collection: cards %>
                 </div>
-              </div><!-- #cards_onboarding_<%= bank.to_param %>_<%= bp %> -->
+              </div>
             <% end # cards_for_1_bank.group_by(&:bp).each %>
 
-          </div><!-- #cards_onboarding_<%= bank.to_param %> -->
+          </div>
         </div>
       </div>
 

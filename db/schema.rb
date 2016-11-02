@@ -65,6 +65,12 @@ ActiveRecord::Schema.define(version: 20161101194727) do
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
   end
 
+  create_table "alliances", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "balances", force: :cascade do |t|
     t.integer  "person_id",   null: false
     t.integer  "currency_id", null: false
@@ -74,6 +80,15 @@ ActiveRecord::Schema.define(version: 20161101194727) do
     t.index ["currency_id"], name: "index_balances_on_currency_id", using: :btree
     t.index ["person_id", "currency_id"], name: "index_balances_on_person_id_and_currency_id", using: :btree
     t.index ["person_id"], name: "index_balances_on_person_id", using: :btree
+  end
+
+  create_table "banks", force: :cascade do |t|
+    t.string   "name",           null: false
+    t.integer  "personal_code",  null: false
+    t.string   "personal_phone"
+    t.string   "business_phone"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
   create_table "card_accounts", force: :cascade do |t|
@@ -129,8 +144,8 @@ ActiveRecord::Schema.define(version: 20161101194727) do
     t.string   "award_wallet_id",                null: false
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
-    t.integer  "alliance_id"
     t.boolean  "shown_on_survey", default: true, null: false
+    t.integer  "alliance_id"
     t.string   "type",                           null: false
     t.index ["award_wallet_id"], name: "index_currencies_on_award_wallet_id", unique: true, using: :btree
     t.index ["name"], name: "index_currencies_on_name", unique: true, using: :btree
@@ -260,7 +275,9 @@ ActiveRecord::Schema.define(version: 20161101194727) do
   add_foreign_key "card_accounts", "cards", on_delete: :restrict
   add_foreign_key "card_accounts", "offers", on_delete: :cascade
   add_foreign_key "card_accounts", "people", on_delete: :cascade
+  add_foreign_key "cards", "banks"
   add_foreign_key "cards", "currencies", on_delete: :restrict
+  add_foreign_key "currencies", "alliances"
   add_foreign_key "destinations", "destinations", column: "parent_id", on_delete: :restrict
   add_foreign_key "flights", "destinations", column: "from_id", on_delete: :restrict
   add_foreign_key "flights", "destinations", column: "to_id", on_delete: :restrict
