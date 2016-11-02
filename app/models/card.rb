@@ -47,38 +47,8 @@ class Card < ApplicationRecord
   belongs_to_fake_db_model :bank
   delegate :name, to: :bank, prefix: true
 
-  # A number which uniquely identifies both which bank this card belongs to,
-  # and whether it is a business card or a personal one. Displaying this in
-  # the interface allows the admin to determine these things about the card
-  # at a glance.
-  #
-  # The bank number is determined by the bank_id. bank_id is always an odd number.
-  # If this is a personal card, bank_number is equal to bank_id. If this is
-  # a business card, bank_number is equal to bank_id  1.
-  #
-  # (This numbering system is a legacy thing from before the app existed, when
-  # we still doing everything through Fieldbook, Infusionsoft etc.)
-  def bank_number
-    raise "can't determine bank number without bank" unless bank.present?
-    raise "can't determine bank number without B/P"  unless bp.present?
-    personal? ? bank.id : bank.id + 1
-  end
-
-  # A short string that allows the admin to quickly identify the card.
-  # Format: AA-BBB-C.
-  # A: bank_number. An integer.
-  # B: code - a 2-4 letter user-chosen string
-  # C: if network is unknown, then '?'. Else 'A', 'M', or 'V', for Amex,
-  #    MasterCard, or Visa respectively
   def identifier
-    unless bank && bp && code && network
-      raise "can't generate an identifier unless bank, bp, code, and network are all present"
-    end
-    [
-      "%.2d" % bank_number,
-      code,
-      unknown_network? ? "?" : network.upcase[0],
-    ].join("-")
+    Identifier.new(self)
   end
 
   def annual_fee

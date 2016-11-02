@@ -2,6 +2,10 @@
 
 ## November 2016
 
+*   Extract `Card::Identifier` model.
+
+    *George Millo*
+
 *   add promo code to sign up form
 
     *George Millo*
