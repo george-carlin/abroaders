@@ -2,6 +2,11 @@
 
 ## November 2016
 
+*   Don't show the site footer on small screens. (It takes up too much space)
+    GH #73, PT #133142507
+
+    *Boris Shatalov*
+
 *   Add admin index+edit pages for Banks
 
     *George Millo*
