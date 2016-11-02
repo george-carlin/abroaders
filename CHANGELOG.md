@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## November 2016
+
+*   add promo code to sign up form
+
+    *George Millo*
+
 ## October 2016
 
 *   remove uniqueness constraint on `balances: [:person_id, :currency_id]`.
