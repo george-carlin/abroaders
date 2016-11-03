@@ -5,18 +5,7 @@
     <%= render "layouts/header" %>
     <%= render "layouts/sidebar" if sidebar? %>
 
-    <%# '.wrapper' class adds the padding that prevents the main content from %>
-    <%# being overlapped by the navbar. '#wrapper' ID also adds the padding   %>
-    <%# at the left for the sidebar %>
-    <div id="<%= "wrapper" if sidebar? %>" class="wrapper">
-      <% if content_for?(:header_panel) %>
-        <div class="normalheader">
-          <div class="hpanel">
-            <%= yield(:header_panel) %>
-          </div>
-        </div>
-      <% end %>
-
+    <div id="wrapper" class="wrapper <%= 'wrapper-with-sidebar' if sidebar? %>">
       <div class="content">
         <%= render "layouts/noscript" unless Rails.env.test? %>
 

@@ -9,30 +9,32 @@ const SoloForm = (props) => {
   return (
     <Form
       action={props.action}
-      className="SoloForm account_type_select well col-xs-12 col-md-4 col-md-offset-2"
+      className="SoloForm account_type_select hpanel col-xs-12 col-md-4 col-md-offset-2"
       method="post"
     >
-      <HiddenField
-        attribute="type"
-        modelName={props.modelName}
-        value="solo"
-      />
+      <div className="panel-body">
+        <HiddenField
+          attribute="type"
+          modelName={props.modelName}
+          value="solo"
+        />
 
-      <h2>
-        <FAIcon user />
-        &nbsp;
-        Solo Earning
-      </h2>
+        <h2>
+          <FAIcon user />
+          &nbsp;
+          Solo Earning
+        </h2>
 
-      <div>
-        <p>
-          Abroaders will help you maximize the points you earn with your
-          regular monthly spending.
-        </p>
+        <div>
+          <p>
+            Abroaders will help you maximize the points you earn with your
+            regular monthly spending.
+          </p>
 
-        <Button primary >
-          Sign up for solo earning
-        </Button>
+          <Button primary >
+            Sign up for solo earning
+          </Button>
+        </div>
       </div>
     </Form>
   );

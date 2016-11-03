@@ -7,6 +7,16 @@ $darkBlue: #34495e;
   top: 62px;
 }
 
+// Override the original theme so that certain pages can have no sidebar and
+// the main body of the page won't have the left padding
+#wrapper {
+  margin-left: 0;
+
+  &.wrapper-with-sidebar {
+    margin-left: 180px;
+  }
+}
+
 #logo {
   border-right: 1px solid #e4e5e7;
 }
@@ -375,4 +385,38 @@ td.offer-days {
 
 .datepicker {
   z-index: 1001 !important; // must be higher than navbar
+}
+
+// New user dashboard
+.new-user-dashboard {
+  .panel-body {
+    font-size: 18px;
+  }
+
+  a, .tooltip-btn {
+    text-decoration: underline;
+    color: #34495e;
+  }
+
+  .tooltip-btn {
+    cursor: pointer;
+    font-weight: 700;
+  }
+
+  .next-question {
+  }
+}
+
+.new-user-steps {
+  $green: #4dde35;
+
+  .completed {
+    text-decoration: line-through;
+    .fa { color: $green; }
+  }
+
+  .next {
+    color: $green;
+    font-weight: 700;
+  }
 }

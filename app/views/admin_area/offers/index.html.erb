@@ -1,7 +1,7 @@
-<% provide :title, "Offers" %>
+<% provide :title, 'Offers' %>
 
-<% content_for :header_panel do %>
-  <div class="panel-body">
+<div class="hpanel">
+  <div class="panel-heading hbuilt">
     <% if @card.present? %>
       <% present @card do |card| %>
         <h1><%= card.full_name(with_bank: true) %> - Card Offers</h1>
@@ -23,9 +23,7 @@
       </p>
     <% end %>
   </div>
-<% end %>
 
-<%= render "shared/hpanel" do %>
   <div class="panel-body">
     <div class="table-responsive">
       <table
@@ -71,4 +69,4 @@
       </table>
     </div>
   </div>
-<% end %>
+</div>

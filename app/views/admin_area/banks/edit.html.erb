@@ -1,20 +1,28 @@
-<h1>Edit Bank</h1>
+<% provide :title, 'Edit Bank' %>
 
-<%= form_for [:admin, @bank] do |f| %>
-  <div class="form-group">
-    <%= f.label :name %>
-    <%= f.text_field :name %>
+<div class="hpanel">
+  <div class="panel-heading hbuilt">
+    <h1>Edit Bank</h1>
   </div>
 
-  <div class="form-group">
-    <%= f.label :personal_phone %>
-    <%= f.text_field :personal_phone %>
-  </div>
+  <div class="panel-body">
+    <%= form_for [:admin, @bank] do |f| %>
+      <div class="form-group">
+        <%= f.label :name %>
+        <%= f.text_field :name %>
+      </div>
 
-  <div class="form-group">
-    <%= f.label :business_phone %>
-    <%= f.text_field :business_phone %>
-  </div>
+      <div class="form-group">
+        <%= f.label :personal_phone %>
+        <%= f.text_field :personal_phone %>
+      </div>
 
-  <%= f.submit 'Save', class: 'btn-lg btn-primary' %>
-<% end %>
+      <div class="form-group">
+        <%= f.label :business_phone %>
+        <%= f.text_field :business_phone %>
+      </div>
+
+      <%= f.submit 'Save', class: 'btn-lg btn-primary' %>
+    <% end %>
+  </div>
+</div>
