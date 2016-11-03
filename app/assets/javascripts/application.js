@@ -40,7 +40,6 @@ require('./modules/load');
 window.components = {
   AccountTypeForm:       require("./components/AccountTypeForm"),
   CardApplicationSurvey: require("./components/CardApplicationSurvey"),
-  EligibilitySurvey:     require("./components/EligibilitySurvey"),
   PointsEstimateTable:   require("./components/PointsEstimateTable"),
   SpendingSurvey:        require("./components/SpendingSurvey"),
 };
