@@ -1,15 +1,18 @@
 class BalancesController < AuthenticatedUserController
   onboard :owner_balances, :companion_balances, with: [:survey, :save_survey]
 
+  # GET /balances
   def index
     @people = current_account.people.includes(balances: :currency)
   end
 
+  # GET /people/:person_id/balances/new
   def new
     @person  = load_person
     @balance = Balance::NewForm.new(@person.balances.new)
   end
 
+  # POST /people/:person_id/balances
   def create
     @person  = load_person
     @balance = Balance::NewForm.new(@person.balances.new)
@@ -21,6 +24,7 @@ class BalancesController < AuthenticatedUserController
     end
   end
 
+  # PUT/PATCH /balances/:id
   def update
     @balance = Balance::EditForm.new(current_account.balances.find(params[:id]))
     if @balance.validate(params[:balance])
@@ -32,6 +36,7 @@ class BalancesController < AuthenticatedUserController
     end
   end
 
+  # GET /people/:person_id/balances/survey
   def survey
     @person = load_person
     redirect_if_onboarding_wrong_person_type!
@@ -39,6 +44,7 @@ class BalancesController < AuthenticatedUserController
     @currencies = Currency.survey.order(name: :asc)
   end
 
+  # POST /people/:person_id/balances/survey
   def save_survey
     @person = load_person
     redirect_if_onboarding_wrong_person_type!
