@@ -1,15 +1,13 @@
-<% provide :title, "Cards" %>
+<% provide :title, 'Cards' %>
 
-<% content_for :header_panel do %>
-  <div class="panel-body">
+<div class="hpanel">
+  <div class="panel-heading hbuilt">
     <h1 class="font-light m-b-xs">
       Your Cards
     </h1>
     <%= link_to "Add New Card", new_admin_card_path %>
   </div>
-<% end %>
 
-<%= render "shared/hpanel" do %>
   <div class="panel-body">
     <div class="table-responsive">
       <table
@@ -63,7 +61,8 @@
       </table>
     </div>
   </div>
+
   <div class="panel-footer">
     <%= pluralize @cards.size, "card" %>
   </div>
-<% end %>
+</div>

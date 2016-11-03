@@ -1,8 +1,8 @@
 <% provide :title, @person.first_name %>
 
 <% present @person do |person| %>
-  <% content_for :header_panel do %>
-    <div class="panel-body">
+  <div class="hpanel">
+    <div class="panel-heading hbuilt">
       <h1><%= person.first_name %></h1>
       <p>
         <%= person.email %> -
@@ -11,12 +11,9 @@
           - <%= person.phone_number %>
         <% end %>
       </p>
-    </div>
-  <% end %>
+    </div><!-- .panel-heading -->
 
-  <%= render "shared/hpanel" do %>
     <div class="panel-body">
-
       <div class="col-xs-12 col-md-6">
         <% if person.eligible? %>
           <% if @spending_info.present? %>
@@ -26,6 +23,7 @@
           <% end %>
         <% end %>
       </div>
+
       <div class="col-xs-12 col-md-6">
         <% if @balances.any? %>
           <h3>Existing Balances</h3>
@@ -59,82 +57,82 @@
         <% end %>
       </div><!-- .col-xs-12.col-md-6 -->
     </div><!-- .panel-body -->
-  <% end %>
+  </div><!-- .hpanel -->
 
-    <%= render "shared/hpanel" do %>
-      <div id="card-recommendation-filters" class="panel-body">
-          <div class="row">
-            <div class="col-xs-12">
-              <div class="form-inline">
-                <b>B/P: </b>&nbsp;
-                <% Card.bps.keys.each do |bp| %>
-                  <%= card_bp_filter_check_box_tag(bp) %>
-                <% end %>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <%= render "admin_area/people/filter_panel", title: "Bank" do %>
-              <label for="card_bank_filter_all">
-                <%= check_box_tag :card_bank_filter_all, nil, true %>
-                Toggle all
-              </label>
-              <hr>
-              <% Bank.order(name: :asc).each do |bank| %>
-                <p><%= card_bank_filter_check_box_tag(bank) %></p>
-              <% end %>
-            <% end %>
-
-            <% Alliance.all.each do |alliance| %>
-              <%= render "admin_area/people/filter_panel", title: alliance.name do %>
-                <label for="card_currency_alliance_filter_all_for_<%= alliance.id %>">
-                  <%= check_box_tag(
-                    "card_currency_alliance_filter_all_for_#{alliance.id}",
-                    nil,
-                    true,
-                    class: "toggle-all-currency-checkbox"
-                  ) %>
-                  Toggle all
-                </label>
-                <hr>
-                <% present_each(
-                  alliance.currencies.filterable.order(name: :asc),
-                  AdminArea::CurrencyPresenter
-                ) do |currency_p| %>
-                  <%= currency_p.filter_label_tag do %>
-                    <%= currency_p.filter_check_box_tag %>
-                  <% end %>
-                <% end %>
-              <% end %>
-            <% end %>
-
-            <%= render "admin_area/people/filter_panel", title: "Independent" do %>
-              <label for="card_currency_filter_all_independent">
-                <%= check_box_tag(
-                  "card_currency_filter_all_independent",
-                  nil,
-                  true,
-                  class: "toggle-all-currency-checkbox"
-                ) %>
-                Toggle all
-              </label>
-              <hr>
-              <% present_each(
-                Currency.independent.filterable.order(name: :asc),
-                AdminArea::CurrencyPresenter
-              ) do |currency_p| %>
-                <%= currency_p.filter_label_tag do %>
-                  <%= currency_p.filter_check_box_tag %>
-                <% end %>
-              <% end %>
+  <div class="hpanel">
+    <div id="card-recommendation-filters" class="panel-body">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-inline">
+            <b>B/P: </b>&nbsp;
+            <% Card.bps.keys.each do |bp| %>
+              <%= card_bp_filter_check_box_tag(bp) %>
             <% end %>
           </div>
-      </div>
-    <% end %>
+        </div>
+      </div><!-- .row -->
+
+      <div class="row">
+        <%= render "admin_area/people/filter_panel", title: "Bank" do %>
+          <label for="card_bank_filter_all">
+            <%= check_box_tag :card_bank_filter_all, nil, true %>
+            Toggle all
+          </label>
+          <hr>
+          <% Bank.order(name: :asc).each do |bank| %>
+            <p><%= card_bank_filter_check_box_tag(bank) %></p>
+          <% end %>
+        <% end %>
+
+        <% Alliance.all.each do |alliance| %>
+          <%= render "admin_area/people/filter_panel", title: alliance.name do %>
+            <label for="card_currency_alliance_filter_all_for_<%= alliance.id %>">
+              <%= check_box_tag(
+                "card_currency_alliance_filter_all_for_#{alliance.id}",
+                nil,
+                true,
+                class: "toggle-all-currency-checkbox"
+              ) %>
+              Toggle all
+            </label>
+            <hr>
+            <% present_each(
+              alliance.currencies.filterable.order(name: :asc),
+              AdminArea::CurrencyPresenter
+            ) do |currency_p| %>
+              <%= currency_p.filter_label_tag do %>
+                <%= currency_p.filter_check_box_tag %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+
+        <%= render "admin_area/people/filter_panel", title: "Independent" do %>
+          <label for="card_currency_filter_all_independent">
+            <%= check_box_tag(
+              "card_currency_filter_all_independent",
+              nil,
+              true,
+              class: "toggle-all-currency-checkbox"
+            ) %>
+            Toggle all
+          </label>
+          <hr>
+          <% present_each(
+            Currency.independent.filterable.order(name: :asc),
+            AdminArea::CurrencyPresenter
+          ) do |currency_p| %>
+            <%= currency_p.filter_label_tag do %>
+              <%= currency_p.filter_check_box_tag %>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div><!-- .row -->
+    </div><!-- .panel-body -->
+  </div><!-- .hpanel -->
 
   <% if person.eligible? %>
-    <%= render "shared/hpanel" do %>
+    <div class="hpanel">
       <div class="panel-body">
         <h3>Card Accounts</h3>
 
@@ -178,13 +176,13 @@
           ) %>
         <% end %>
       </div>
-    <% end %>
+    </div><!-- .hpanel -->
   <% else %>
     This person is not eligible to apply for cards
   <% end %>
 
   <% if @recommendation_notes.count > 0 %>
-    <%= render "shared/hpanel" do %>
+    <div class="hpanel">
       <div class="panel-body">
         <h3>Recommendation Notes</h3>
         <% @recommendation_notes.order(created_at: :desc).each do |note| %>
@@ -201,15 +199,12 @@
 
         <% end %>
       </div>
-    <% end %>
+    </div>
   <% end %>
 
-
-  <%= render "shared/hpanel" do %>
+  <div class="hpanel">
     <div class="panel-body">
-
       <div class="row">
-
         <div class="col-xs-12">
           <%= form_tag(
             complete_admin_person_card_recommendations_path(person),
@@ -255,7 +250,6 @@
         cellpadding="1"
         cellspacing="1"
       >
-
         <thead class="admin-card-recommendations-table-head">
           <tr>
             <th class="card-identifier">
@@ -362,6 +356,6 @@
           <% end %>
         </tbody>
       </table><!-- .admin-card-recommendation-table -->
-    </div>
-  <% end %>
+    </div><!-- .panel-body -->
+  </div>
 <% end %>

@@ -1,12 +1,10 @@
 <% provide :title, "Accounts" %>
 
-<% content_for :header_panel do %>
-  <div class="panel-body">
+<div class="hpanel">
+  <div class="panel-heading hbuilt">
     <h1>User accounts</h1>
   </div>
-<% end %>
 
-<%= render "shared/hpanel" do  %>
   <div class="panel-body">
     <div class="form-group col-xs-12 col-md-8">
       <input
@@ -113,4 +111,4 @@
 
     <%= link_to "Download User last recommendation statuses as CSV", download_user_status_csv_admin_accounts_path %>
   </div>
-<% end %>
+</div>

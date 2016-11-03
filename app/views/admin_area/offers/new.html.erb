@@ -1,21 +1,19 @@
 <% provide :title, "New Offer" %>
 
-<% present @card do |card| %>
-  <% content_for :header_panel do %>
-    <div class="panel-body">
+<div class="hpanel">
+  <div class="panel-heading hbuilt">
+    <% present @card do |card| %>
       <h1><%= card.full_name(with_bank: true) %> - New Card Offer</h1>
-    </div>
-  <% end %>
-<% end %>
-
-<%= render "shared/hpanel" do  %>
-  <div class="panel-body">
-    <%= render "admin_area/offers/card", card: @card %>
+    <% end %>
   </div>
-<% end %>
 
-<%= render "shared/hpanel" do  %>
   <div class="panel-body">
+    <div class="row">
+      <%= render "admin_area/offers/card", card: @card %>
+    </div>
+
+    <hr>
+
     <%= render 'form' %>
   </div>
-<% end %>
+</div>

@@ -1,19 +1,15 @@
-<% content_for :header_panel do %>
-  <div class="panel-body">
-    <h1 class="font-light m-b-xs">
-      Balances
-    </h1>
+<div class='hpanel'>
+  <div class="panel-heading hbuilt">
+    <h1>Balances</h1>
 
     <% if @people.size == 1 %>
       <%= link_to "Add new balance", new_person_balance_path(@people.first) %>
     <% end %>
   </div>
-<% end %>
 
 <% @people.each do |person| %>
-  <%= render "shared/hpanel" do %>
-    <div id="<%= person.type %>_balannces" class="person_balances panel-body">
-
+  <div class='hpanel'>
+    <div class="person_balances panel-body">
       <% if @people.size > 1 %>
         <h2><%= person.first_name %>'s balances</h2>
 
@@ -86,5 +82,5 @@
         <% end # form_for %>
       <% end # balances.each %>
     </div><!-- .person_balances -->
-  <% end # render hpanel %>
+  </div>
 <% end # people.each %>

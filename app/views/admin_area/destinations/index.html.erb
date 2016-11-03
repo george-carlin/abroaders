@@ -1,9 +1,9 @@
 <% provide :title, @type.pluralize.capitalize %>
 
-<h1><%= @type.pluralize.capitalize %></h1>
+<div class="hpanel">
+  <div class="panel-heading hbuilt">
+    <h1><%= @type.pluralize.capitalize %></h1>
 
-<div class="row">
-  <div class="col-xs-12">
     <div class="admin-destinations-type-select">
       <% (["destinations"] + Destination::TYPES).each_with_index do |type, i| %>
         <% unless i == 0 %>
@@ -17,49 +17,51 @@
         <% end %>
       <% end %>
     </div>
-  </div>
-</div>
+  </div><!-- .panel-heading -->
 
-<%= will_paginate @destinations %>
+  <div class="panel-body">
+    <%= will_paginate @destinations %>
+    <div class="row">
+      <div class="col-xs-12 col-md-8">
+        <% if @destinations.any? %>
+          <table class="admin-destinations table table-striped">
+            <thead>
+              <tr>
+                <% if @type == "destination" %>
+                  <th class="admin-destination-type">Type</th>
+                <% end %>
+                <th class="admin-destination-name">Name</th>
+                <% unless @type == "region" %>
+                  <th class="admin-destination-parent">Parent</th>
+                <% end %>
+                <th class="admin-destination-code">Code</th>
+              </tr>
+            </thead>
 
-<div class="row">
-  <div class="col-xs-12 col-md-8">
-    <% if @destinations.any? %>
-      <table class="admin-destinations table table-striped">
-        <thead>
-          <tr>
-            <% if @type == "destination" %>
-              <th class="admin-destination-type">Type</th>
-            <% end %>
-            <th class="admin-destination-name">Name</th>
-            <% unless @type == "region" %>
-              <th class="admin-destination-parent">Parent</th>
-            <% end %>
-            <th class="admin-destination-code">Code</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <% @destinations.each do |destination| %>
-            <tr>
-              <% if @type == "destination" %>
-                <td class="admin-destination-type">
-                  <%= destination.type.to_s.capitalize %>
-                </td>
+            <tbody>
+              <% @destinations.each do |destination| %>
+                <tr>
+                  <% if @type == "destination" %>
+                    <td class="admin-destination-type">
+                      <%= destination.type.to_s.capitalize %>
+                    </td>
+                  <% end %>
+                  <td class="admin-destination-name"><%= destination.name %></td>
+                  <% unless @type == "region" %>
+                    <td class="admin-destination-parent">
+                      <%= destination.parent_name %>
+                    </td>
+                  <% end %>
+                  <td class="admin-destination-code"><%= destination.code %></td>
+                </tr>
               <% end %>
-              <td class="admin-destination-name"><%= destination.name %></td>
-              <% unless @type == "region" %>
-                <td class="admin-destination-parent">
-                  <%= destination.parent_name %>
-                </td>
-              <% end %>
-              <td class="admin-destination-code"><%= destination.code %></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    <% else %>
-      Nothing to display!
-    <% end %>
+            </tbody>
+          </table>
+        <% else %>
+          Nothing to display!
+        <% end %>
+      </div>
+    </div>
+    <%= will_paginate @destinations %>
   </div>
 </div>

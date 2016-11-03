@@ -1,22 +1,17 @@
 <% provide :title, "Offer ##{@offer.id}" %>
 
 <% present @offer do |offer| %>
-  <% content_for :header_panel do %>
-    <div class="panel-body">
+  <div class="hpanel">
+    <div class="panel-heading hbuilt">
       <h1>Offer #<%= offer.id %></h1>
     </div>
-  <% end %>
 
-  <%= render "shared/hpanel" do  %>
     <div class="panel-body">
       <%= render "admin_area/offers/card", card: @card %>
-    </div>
-  <% end %>
 
-  <%= render "shared/hpanel" do  %>
-    <div class="panel-body">
+      <hr />
+
       <dl class="dl-horizontal">
-
         <dt>Condition:</dt>
         <dd><%= offer.condition.humanize %></dd>
 
@@ -50,11 +45,10 @@
 
         <dt>Notes:</dt>
         <dd><%= offer.notes %></dd>
-
       </dl>
 
       <%= link_to "Back", admin_offers_path %> |
       <%= link_to "Edit", edit_admin_offer_path(offer) %>
     </div>
-  <% end %>
+  </div>
 <% end %>

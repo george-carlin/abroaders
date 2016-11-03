@@ -1,13 +1,10 @@
-<% content_for :header_panel do %>
-  <div class="panel-body">
+<div class="hpanel">
+  <div class="panel-heading hbuilt">
     <h1><%= @person.first_name %> - Pulled card recommendations</h1>
     <p><%= @account.email %></p>
-
     <p><%= link_to "Back to this person's main page", admin_person_path(@person) %></p>
   </div>
-<% end %>
 
-<%= render "shared/hpanel" do %>
   <div class="panel-body">
     <table id="admin_person_pulled_card_accounts" class="table table-striped">
       <thead>
@@ -48,4 +45,4 @@
       </tbody>
     </table>
   </div>
-<% end %>
+</div>

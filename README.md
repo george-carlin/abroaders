@@ -394,6 +394,94 @@ See `app/presenters/README.md`
 
 ### Background Jobs
 
+- Background jobs are queued using Resque, which uses `Redis` to store data
+  about each job. Redis is just a simple key-value datastore, which means
+  that **it can only store basic datatypes like numbers and strings**.
+
+  So the following code won't work:
+
+      widget = Widget.find(1)
+      UpdateWidget.perform_later(widget)
+
+      # within app/jobs/update_widget.rb:
+      def perform(widget)
+        widget.update!
+      end
+
+  ... because instances of 'Widget' can't be stored in Redis. You can fix
+  this by passing in the ID instead:
+
+      UpdateWidget.perform_later(1)
+
+      # app/jobs/update_widget.rb:
+      def perform(widget_id)
+        widget = Widget.find(widget_id)
+        widget.update!
+      end
+
+- Remember that you don't know in advance when a background job will be
+  performed, so there's no guarantee that (e.g.) the database will still be in
+  the same state when the job is performed that it was when the job was
+  enqueued. So, for example, code like this is risky:
+
+      card_account.update_attributes!(something)
+      NotifyAdminOfUpdate.perform_later(card_account.id)
+
+      # app/jobs/notify_admin_of_update.rb:
+      def perform(card_account_id)
+        ca = CardAccount.find(card_account_id)
+        Admin.notify("Card Account ##{ca.id} was updated at #{ca.updated_at}")
+      end
+
+  The problem is that the card account may have been updated *again* since you
+  queued the job, so the admin will get a notification with the more recent
+  timestamp, which probably isn't what you intended.
+
+  When it's important that the background job uses *current* data, pass the
+  data in directly instead of relying on pulling it out of the DB later:
+
+      card_account.update_attributes!(something)
+      NotifyAdminOfUpdate.perform_later(card_account.id, card_account.updated_at)
+
+      # app/jobs/notify_admin_of_update.rb:
+      def perform(card_account_id, updated_at)
+        Admin.notify("Card Account ##{card_account_id} was updated at #{updated_at}")
+      end
+
+### Views + Layouts
+
+We're using a Bootstrap theme that we bought. Most views should have a structure
+like this:
+
+```
+<div class='hpanel'>
+  <div class='panel-heading hbuilt'>
+    My header
+  </div>
+  <div class='panel-body'>
+    My freakin' sweet content
+  </div>
+</div>
+```
+
+Remove the 'hbuilt' class from the `panel-heading` div and it'll lose the
+white background.
+
+Don't wrap the `hpanel` in any `row`/`col-*`-class divs, unless it's to
+make the `hpanel` use less than the full width of the screen. A good
+set of col classes to use is:
+`col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2`. `hpanel`
+doesn't affect width at all, so don't be afraid to stick `hpanel` and `col-*`
+classes on the same div>
+
+You can put `row`/`col-*-` divs within `panel-heading` and `panel-body`, but
+you don't have to.
+
+The original Bootstrap theme (which is called 'homer') uses a header panel on
+some pages with a class called `normalheader`, but don't use that in our app.
+The theme also provides a `panel-footer` class which you can stick at the
+bottom of an hpanel; use it sparingly.
+
 ### Emails
 
 - Remember to add a plain text `.txt(.erb` email template as well as the

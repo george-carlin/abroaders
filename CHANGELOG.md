@@ -2,6 +2,11 @@
 
 ## November 2016
 
+*   Remove 'header_panel' block from views; make views use the 'hpanel' class
+    in a consistent way.
+
+    *George Millo*
+
 *   Don't show the site footer on small screens. (It takes up too much space)
     GH #73, PT #133142507
 

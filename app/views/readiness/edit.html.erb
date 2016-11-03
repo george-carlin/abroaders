@@ -1,22 +1,22 @@
-<%= form_tag readiness_path, method: :patch do |f| %>
-  <% present @account, EditReadinessPresenter do |account| %>
-    <% provide :title, "Update Readiness" %>
+<% provide :title, "Update Readiness" %>
 
-    <div class="row">
-      <div class="col-xs-12 col-md-8 col-md-offset-2">
-        <div class="hpanel">
-          <div class="panel-heading hbuilt">
-            <h1>
-              <% if account.both_can_update_ready? %>
-                Are you
-              <% else %>
-                Is <%= account.unready_person.first_name %>
-              <% end %>
-              ready to apply for cards now?
-            </h1>
-          </div><!-- .panel-heading -->
+<div class="row">
+  <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+    <div class="hpanel">
+      <% present @account, EditReadinessPresenter do |account| %>
+        <div class="panel-heading hbuilt">
+          <h1>
+            <% if account.both_can_update_ready? %>
+              Are you
+            <% else %>
+              Is <%= account.unready_person.first_name %>
+            <% end %>
+            ready to apply for cards now?
+          </h1>
+        </div><!-- .panel-heading -->
 
-          <div class="panel-body">
+        <div class="panel-body">
+          <%= form_tag readiness_path, method: :patch do |f| %>
             <p>
               <% if account.both_can_update_ready? %>
                 Both <%= account.owner.first_name %> and <%= account.companion.first_name %>
@@ -28,14 +28,10 @@
             </p>
 
             <% if account.both_can_update_ready? %>
-
               <%= account.person_reason(account.owner) %>
               <%= account.person_reason(account.companion) %>
-
             <% else %>
-
               <%= account.person_reason(account.unready_person) %>
-
             <% end %>
 
             <p><%= t("readiness.explanation") %></p>
@@ -75,10 +71,9 @@
                 </div>
               <% end %>
             </div>
-          </div>
+          <% end # form_tag %>
         </div>
-      </div>
-    </div>
-    </div>
-  <% end %>
-<% end %>
+      <% end # present %>
+    </div><!-- .hpanel -->
+  </div>
+</div>
