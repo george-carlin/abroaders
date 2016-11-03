@@ -89,11 +89,6 @@ Rails.application.routes.draw do
     end
   end
 
-  resource :spending_info,
-           only: [:new, :create],
-           path: :spending,
-           path_names: { new: :survey }
-
   resources :notifications, only: :show
 
   # Note that 'cards' is a fixed list, and 'card accounts' is the join table
