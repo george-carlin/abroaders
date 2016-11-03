@@ -14,6 +14,7 @@ class Account < ApplicationRecord
   def has_companion?
     !!companion.try(:persisted?)
   end
+  alias couples? has_companion?
 
   def onboarded?
     onboarding_state == "complete"
