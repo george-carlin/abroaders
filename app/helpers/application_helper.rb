@@ -98,6 +98,10 @@ module ApplicationHelper
   end
   alias n name_conjugation
 
+  def current_user
+    current_admin || current_account
+  end
+
   private
 
   def get_presenter(model, klass = nil)
