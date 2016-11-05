@@ -2,6 +2,10 @@
 
 ## November 2016
 
+*   Convert /accounts/type page to ERB (was previously built in React)
+
+    *George Millo*
+
 *   Remove 'header_panel' block from views; make views use the 'hpanel' class
     in a consistent way.
 
