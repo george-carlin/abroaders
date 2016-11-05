@@ -38,7 +38,6 @@ require("./components/react_ujs");
 require('./modules/load');
 
 window.components = {
-  AccountTypeForm:       require("./components/AccountTypeForm"),
   CardApplicationSurvey: require("./components/CardApplicationSurvey"),
   PointsEstimateTable:   require("./components/PointsEstimateTable"),
   SpendingSurvey:        require("./components/SpendingSurvey"),

@@ -1,13 +1,10 @@
-[data-react-component=AccountTypeForm] {
-  // Bootstrap default:
-  $mdWidth: 922px;
-
+#account_type_forms {
   .account_type_select_header {
     margin-bottom: 21px;
     text-align: center;
   }
 
-  .account_type_select {
+  .account_type_form {
     h2 {
       margin-bottom: 22px;
     }
@@ -25,14 +22,5 @@
     }
 
     text-align: center;
-  }
-
-
-  @media (min-width: $mdWidth) {
-    .SoloForm {
-      margin-right: 20px;
-      position: relative;
-      left: -40px;
-    }
   }
 }
