@@ -102,13 +102,26 @@ const ApplyActions = React.createClass({
   },
 
   isRecommendedBeforeToday() {
-    const recommendedAt = new Date(this.props.cardAccount.recommendedAt);
+    const rAt   = new Date(this.props.cardAccount.recommendedAt);
     const today = new Date();
 
-    recommendedAt.setHours(0, 0, 0, 0);
-    today.setHours(0, 0, 0, 0);
+    // Simply comparing the dates will cause bugs when the system time zone is
+    // behind UTC. The below is a quick fix, but this is probably indicative
+    // of some kind of deeper problem with how we're dealing with timezones.
+    // TODO investigate.
+    if (rAt.getFullYear() < today.getUTCFullYear()) {
+      return true;
+    } else if (rAt.getFullYear() > today.getUTCFullYear()) {
+      return false;
+    }
 
-    return recommendedAt < today;
+    if (rAt.getMonth() < today.getUTCMonth()) {
+      return true;
+    } else if (rAt.getMonth() > today.getUTCMonth()) {
+      return false;
+    }
+
+    return rAt.getDate() < today.getUTCDate();
   },
 
   render() {
