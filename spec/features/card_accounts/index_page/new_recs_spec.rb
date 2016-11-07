@@ -16,7 +16,7 @@ describe "cards index page - new recommendation", :js do
   end
 
   let(:rec_on_page) { NewCardAccountOnPage.new(rec, self) }
-  let(:recommended_at) { Date.today }
+  let(:recommended_at) { Time.zone.today }
 
   before do
     person.update!(eligible: true)
@@ -81,7 +81,7 @@ describe "cards index page - new recommendation", :js do
     rec.reload
     # updates the attributes:
     expect(rec.status).to eq "declined"
-    expect(rec.declined_at).to eq Date.today
+    expect(rec.declined_at).to eq Time.zone.today
     expect(page).to have_success_message t("card_accounts.index.declined")
   end
 
@@ -93,7 +93,7 @@ describe "cards index page - new recommendation", :js do
     # This could happen if e.g. they have the same window open in two
     # tabs, and decline the card in one tab before clicking 'decline'
     # again in the other tab. It should fail gracefully:
-    rec.update_attributes!(applied_at: Date.today)
+    rec.update_attributes!(applied_at: Time.zone.today)
     raise if rec.declinable? # sanity check
     rec_on_page.click_confirm_btn
 
@@ -143,7 +143,7 @@ describe "cards index page - new recommendation", :js do
         context "when the account is no longer 'applyable'" do
           # This could happen if e.g. they've made changes in another tab
           let(:before_click_confirm_btn) do
-            rec.update_attributes!(declined_at: Date.today, decline_reason: "x")
+            rec.update_attributes!(declined_at: Time.zone.today, decline_reason: "x")
             raise if rec.openable? # sanity check
           end
 
@@ -167,8 +167,8 @@ describe "cards index page - new recommendation", :js do
 
           it "updates the rec's attributes", :backend do
             expect(rec).to be_open
-            expect(rec.opened_at).to eq Date.today
-            expect(rec.applied_at).to eq Date.today
+            expect(rec.opened_at).to eq Time.zone.today
+            expect(rec.applied_at).to eq Time.zone.today
           end
 
           include_examples "unapplyable"
@@ -176,7 +176,7 @@ describe "cards index page - new recommendation", :js do
       end
 
       context "when I was recommended this card before today" do
-        let(:recommended_at) { Date.yesterday }
+        let(:recommended_at) { Time.zone.yesterday }
 
         it "shows a date picker and Confirm/Cancel buttons", :frontend do
           expect(rec_on_page).to have_approved_at_field
@@ -216,14 +216,14 @@ describe "cards index page - new recommendation", :js do
         specify "card attributes are updated correctly" do
           expect(page).to have_content "We strongly recommend"
           expect(rec.status).to eq "denied"
-          expect(rec.denied_at).to eq Date.today
-          expect(rec.applied_at).to eq Date.today
+          expect(rec.denied_at).to eq Time.zone.today
+          expect(rec.applied_at).to eq Time.zone.today
         end
 
         context "when the account is no longer 'deniable'" do
           # This could happen if e.g. they've made changes in another tab
           let(:before_click_confirm_btn) do
-            rec.update_attributes!(declined_at: Date.today, decline_reason: "x")
+            rec.update_attributes!(declined_at: Time.zone.today, decline_reason: "x")
             raise if rec.deniable? # sanity check
           end
 
@@ -246,13 +246,13 @@ describe "cards index page - new recommendation", :js do
 
         it "updates the card's attributes", :backend do
           expect(rec.status).to eq "applied"
-          expect(rec.applied_at).to eq Date.today
+          expect(rec.applied_at).to eq Time.zone.today
         end
 
         context "when the account is no longer 'pendingable'" do
           # This could happen if e.g. they've made changes in another tab
           let(:before_click_confirm_btn) do
-            rec.update_attributes!(declined_at: Date.today, decline_reason: "x")
+            rec.update_attributes!(declined_at: Time.zone.today, decline_reason: "x")
             raise if rec.pendingable? # sanity check
           end
 

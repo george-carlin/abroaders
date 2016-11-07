@@ -106,7 +106,7 @@ class TravelPlanForm < ApplicationForm
 
     def departure_date_is_in_the_future
       if departure_date.is_a?(Date)
-        if departure_date < Date.today
+        if departure_date < Time.zone.today
           errors.add(:departure_date, "can't be in the past")
         end
       end
@@ -114,7 +114,7 @@ class TravelPlanForm < ApplicationForm
 
     def return_date_is_in_the_future
       if return_date.is_a?(Date)
-        if return_date < Date.today
+        if return_date < Time.zone.today
           errors.add(:return_date, "can't be in the past")
         end
       end

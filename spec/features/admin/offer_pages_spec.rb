@@ -235,7 +235,7 @@ describe "admin section" do
       let(:route) { admin_offers_path }
 
       before do
-        @live_1 = create(:live_offer, last_reviewed_at: DateTime.yesterday)
+        @live_1 = create(:live_offer, last_reviewed_at: Time.zone.yesterday)
         visit route
       end
 
@@ -253,7 +253,7 @@ describe "admin section" do
 
       before do
         @live_1 = create(:live_offer)
-        @live_2 = create(:live_offer, last_reviewed_at: DateTime.yesterday)
+        @live_2 = create(:live_offer, last_reviewed_at: Time.zone.yesterday)
         @live_3 = create(:live_offer)
         @dead_1 = create(:dead_offer)
         visit route
@@ -287,8 +287,8 @@ describe "admin section" do
           click_link("verify_offer_#{@live_1.id}_btn")
           wait_for_ajax
           @live_1.reload
-          expect(@live_1.last_reviewed_at).to be_within(2.seconds).of(Time.now)
-          expect(find("#reviewed_#{@live_1.id}").text).to include(Time.now.strftime("%m/%d/%Y"))
+          expect(@live_1.last_reviewed_at).to be_within(2.seconds).of(Time.zone.now)
+          expect(find("#reviewed_#{@live_1.id}").text).to include(Time.zone.now.strftime("%m/%d/%Y"))
         end
       end
 
@@ -330,7 +330,7 @@ describe "admin section" do
           wait_for_ajax
           @live_2.reload
           expect(@live_2.live?).to be false
-          expect(@live_2.killed_at).to be_within(2.seconds).of(Time.now)
+          expect(@live_2.killed_at).to be_within(2.seconds).of(Time.zone.now)
         end
       end
 

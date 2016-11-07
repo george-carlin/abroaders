@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe CardAccount::Status do
-  let(:date) { Date.today }
+  let(:date) { Time.zone.today }
   let(:error_class) { CardAccount::InvalidStatus }
   let(:status) { described_class.new }
 

@@ -17,8 +17,8 @@ describe "card accounts edit page", :js do
 
   describe "opened card account" do
     let(:card_account) { create(:card_account, :open, card: card, person: me) }
-    let(:this_year) { Date.today.year.to_s }
-    let(:last_year) { (Date.today.year - 1).to_s }
+    let(:this_year) { Time.zone.today.year.to_s }
+    let(:last_year) { (Time.zone.today.year - 1).to_s }
     let(:page_card) { card_on_page(card) }
 
     before do
@@ -103,8 +103,8 @@ describe "card accounts edit page", :js do
 
   describe "closed card account" do
     let(:card_account) { create(:card_account, :closed, card: card, person: me) }
-    let(:this_year) { Date.today.year.to_s }
-    let(:last_year) { (Date.today.year - 1).to_s }
+    let(:this_year) { Time.zone.today.year.to_s }
+    let(:last_year) { (Time.zone.today.year - 1).to_s }
     let(:page_card) { card_on_page(card) }
 
     before do

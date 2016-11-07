@@ -37,5 +37,7 @@ module Abroaders
       "--extension=.jsx",
       "-t [ babelify --presets [ es2015 react ] ]",
     ]
+
+    config.time_zone = "UTC"
   end
 end

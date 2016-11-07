@@ -36,40 +36,40 @@ FactoryGirl.define do
     end
 
     trait :recommendation do
-      recommended_at { Time.now }
+      recommended_at { Time.zone.now }
       card nil
       offer
     end
 
     trait :declined do
       recommendation
-      declined_at { Time.now }
+      declined_at { Time.zone.now }
       decline_reason "You suck!"
     end
 
     trait :expired do
       recommendation
-      expired_at { Time.now }
+      expired_at { Time.zone.now }
     end
 
     trait :called do
       denied
-      called_at { Time.now }
+      called_at { Time.zone.now }
     end
 
     trait :redenied do
       called
-      redenied_at { Time.now }
+      redenied_at { Time.zone.now }
     end
 
     trait :nudged do
       applied
-      nudged_at { Time.now }
+      nudged_at { Time.zone.now }
     end
 
     trait :pulled do
       recommendation
-      pulled_at { Time.now }
+      pulled_at { Time.zone.now }
     end
 
     factory :survey_card_account, traits: [:survey]

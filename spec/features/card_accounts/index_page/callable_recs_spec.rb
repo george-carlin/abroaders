@@ -105,8 +105,8 @@ describe "user cards page - callable cards", :js do
 
         it "updates the card account's attributes", :backend do
           expect(rec.status).to eq "open"
-          expect(rec.opened_at).to eq Date.today
-          expect(rec.called_at).to eq Date.today
+          expect(rec.opened_at).to eq Time.zone.today
+          expect(rec.called_at).to eq Time.zone.today
           expect(rec.applied_at).to eq applied_at # unchanged
         end
       end
@@ -129,8 +129,8 @@ describe "user cards page - callable cards", :js do
           expect(rec.status).to eq "denied"
           expect(rec.denied_at).to eq denied_at
           expect(rec.applied_at).to eq applied_at # unchanged
-          expect(rec.redenied_at).to eq Date.today
-          expect(rec.called_at).to eq Date.today
+          expect(rec.redenied_at).to eq Time.zone.today
+          expect(rec.called_at).to eq Time.zone.today
         end
       end
     end
@@ -152,7 +152,7 @@ describe "user cards page - callable cards", :js do
           expect(rec.status).to eq "denied"
           expect(rec.denied_at).to eq denied_at
           expect(rec.applied_at).to eq applied_at # unchanged
-          expect(rec.called_at).to eq Date.today
+          expect(rec.called_at).to eq Time.zone.today
           # doesn't set:
           expect(rec.opened_at).to be_nil
           expect(rec.redenied_at).to be_nil

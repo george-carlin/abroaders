@@ -14,7 +14,7 @@ FactoryGirl.define do
     image_file_name    { 'example_card_image.png' }
     image_content_type { 'image/png' }
     image_file_size    { 256 }
-    image_updated_at   { Time.now }
+    image_updated_at   { Time.zone.now }
 
     # See https://github.com/thoughtbot/paperclip/issues/1333
     after(:create) do |card|
