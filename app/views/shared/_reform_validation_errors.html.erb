@@ -1,9 +1,9 @@
-<% unless model.errors.messages.empty? %>
+<% unless form.errors.messages.empty? %>
   <%= render "shared/error_message" do %>
     Error:
 
     <ul>
-      <% model.errors.messages.each do |attr, errors| %>
+      <% form.errors.messages.each do |attr, errors| %>
         <li><%= attr.to_s.humanize %> <%= errors.to_sentence %></li>
       <% end %>
     </ul>

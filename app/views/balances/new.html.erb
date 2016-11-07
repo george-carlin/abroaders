@@ -7,7 +7,7 @@
       <% end %>
     </h1>
 
-    <%= render "shared/reform_validation_errors", model: @balance %>
+    <%= render "shared/reform_validation_errors", form: @balance %>
 
     <%= form_for [@person, @balance] do |f| %>
 
