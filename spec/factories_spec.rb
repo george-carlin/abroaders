@@ -20,8 +20,8 @@ describe "factories" do
       end
     end
 
-    describe "with :with_companion trait" do
-      let(:traits) { [:with_companion] }
+    describe "with :couples trait" do
+      let(:traits) { [:couples] }
       it "creates an account with a companion" do
         expect(Account.count).to eq 1
         expect(Person.count).to eq 2
@@ -33,7 +33,7 @@ describe "factories" do
       end
 
       context "and :onboarded trait" do
-        let(:traits) { [:with_companion, :onboarded] }
+        let(:traits) { [:couples, :onboarded] }
         it "creates an onboarded account with a companion" do
           expect(Account.count).to eq 1
           expect(Person.count).to eq 2

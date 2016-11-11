@@ -10,7 +10,7 @@ class SurveyReadinessPresenter < ReadinessPresenter
   end
 
   def unreadiness_reason(person)
-    name = has_companion? ? "#{person.first_name} isn't" : "you aren't"
+    name = couples? ? "#{person.first_name} isn't" : "you aren't"
     h.content_tag(:div, "", class: "form-group unreadiness_reason_form_group #{person.type}") do
       h.text_field("readiness_survey", "#{person.type}_unreadiness_reason", placeholder: "Optional: tell us why #{name} ready to apply just yet")
     end

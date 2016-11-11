@@ -80,7 +80,7 @@ describe "account dashboard" do
   end
 
   context "when account with companion" do
-    let(:account) { create(:account, :with_companion, :onboarded, email: email) }
+    let(:account) { create(:account, :couples, :onboarded, email: email) }
 
     context "and both people are ineligible" do
       before do
@@ -114,7 +114,7 @@ describe "account dashboard" do
   end
 
   context "when account has at least one card recommendation" do
-    let(:account) { create(:account, :with_companion, :onboarded, email: email) }
+    let(:account) { create(:account, :couples, :onboarded, email: email) }
     let(:offer) { create(:offer) }
     before { owner.update!(last_recommendations_at: Time.now) }
 

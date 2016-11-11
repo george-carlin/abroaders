@@ -10,10 +10,10 @@ describe "admin section" do
       @accounts = [
         # Specify the email addresses so we have something to test the filtering
         # with:
-        create(:onboarded_account, email: "aaaaaa@example.com"),
-        create(:onboarded_account, email: "bbbbbb@example.com"),
-        create(:onboarded_account_with_companion, email: "ccccccc@example.com"),
-        create(:account, email: "ddddddd@example.com"),
+        create(:onboarded_account, email: 'aaaaaa@example.com'),
+        create(:onboarded_account, email: 'bbbbbb@example.com'),
+        create(:onboarded_couples_account, email: 'ccccccc@example.com'),
+        create(:account, email: 'ddddddd@example.com'),
       ]
     end
 

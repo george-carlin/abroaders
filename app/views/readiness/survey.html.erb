@@ -15,7 +15,7 @@
     </p>
 
     <%= form_for @readiness_survey, url: survey_readiness_path do |f| %>
-      <% if current_account.has_companion? && current_account.people.all?(&:eligible?) %>
+      <% if current_account.couples? && current_account.people.all?(&:eligible?) %>
         <div class="radio">
           <label>
             <%= f.radio_button :who, :both %>
@@ -29,7 +29,7 @@
         <div class="radio">
           <label>
             <%= f.radio_button :who, :owner %>
-            <% if current_account.has_companion? && current_account.companion.eligible? %>
+            <% if current_account.couples? && current_account.companion.eligible? %>
               <%= current_account.owner.first_name %> is ready now but
               <%= current_account.companion.first_name %> isn't
             <% else %>
@@ -39,7 +39,7 @@
         </div>
       <% end %>
 
-      <% if current_account.has_companion? && current_account.companion.eligible? %>
+      <% if current_account.couples? && current_account.companion.eligible? %>
         <div class="radio">
           <label>
             <%= f.radio_button :who, :companion %>
@@ -56,7 +56,7 @@
       <div class="radio">
         <label>
           <%= f.radio_button :who, :neither %>
-          <% if current_account.has_companion? && current_account.people.all?(&:eligible?) %>
+          <% if current_account.couples? && current_account.people.all?(&:eligible?) %>
             Neither of us is ready yet
           <% else %>
             No - I'm not ready yet

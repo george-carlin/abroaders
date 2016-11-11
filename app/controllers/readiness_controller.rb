@@ -61,7 +61,7 @@ class ReadinessController < AuthenticatedUserController
 
   def redirect_if_ready_or_ineligible
     access =
-      if @account.has_companion?
+      if @account.couples?
         (@account.owner.unready? && @account.owner.eligible?) || (@account.companion.unready? && @account.companion.eligible?)
       else
         @account.owner.unready? && @account.owner.eligible?

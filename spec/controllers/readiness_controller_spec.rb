@@ -27,8 +27,8 @@ describe ReadinessController do
   describe "GET #edit" do
     subject { get :edit }
 
-    context "when account has companion" do
-      let(:account) { create(:account, :with_companion, :onboarded) }
+    context 'for a couples account' do
+      let(:account) { create(:couples_account, :onboarded) }
       before { sign_in account }
 
       context "when account owner and member are ineligible" do
@@ -48,7 +48,7 @@ describe ReadinessController do
       end
     end
 
-    context "when account hasn't companion" do
+    context 'for a solo account' do
       let(:account) { create(:account, :onboarded) }
       before { sign_in account }
 

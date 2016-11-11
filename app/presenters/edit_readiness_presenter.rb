@@ -36,7 +36,7 @@ class EditReadinessPresenter < ReadinessPresenter
   end
 
   def person_reason(person)
-    reason_title = has_companion? ? "#{person.first_name}'s reason:" : "Reason:"
+    reason_title = couples? ? "#{person.first_name}'s reason:" : "Reason:"
     if person.unready? && person.unreadiness_reason.present?
       h.content_tag(:p) do
         "#{reason_title} #{h.content_tag(:i, person.unreadiness_reason)}".html_safe

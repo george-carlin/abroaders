@@ -19,7 +19,7 @@ describe "edit readiness page" do
   let(:submit_form) { click_button "Submit" }
 
   context "when account has companion" do
-    let(:account) { create(:account, :with_companion, :onboarded) }
+    let(:account) { create(:couples_account, :onboarded) }
     let(:owner) { account.owner }
     let(:companion) { account.companion }
 

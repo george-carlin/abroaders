@@ -2,7 +2,7 @@
   card = present @card
   name = @account.owner.first_name
   your = "your"
-  if @account.has_companion?
+  if @account.couples?
     your = "#{@card_holder.first_name}'s"
     name += " and #{@account.companion.first_name}"
   end

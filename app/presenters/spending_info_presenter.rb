@@ -1,6 +1,6 @@
 class SpendingInfoPresenter < ApplicationPresenter
   def monthly_spending_label
-    "#{account.has_companion? ? 'Shared' : 'Personal'} spending"
+    "#{account.couples? ? 'Shared' : 'Personal'} spending"
   end
 
   def monthly_spending_usd

@@ -83,7 +83,7 @@
         We are working on integrating our app with AwardWallet so that we
         can keep track of your loyalty points automatically. For now, if you
         don't have AwardWallet, please estimate (to the nearest 1,000)
-        <% if current_account.has_companion? %>
+        <% if current_account.couples? %>
           <b><%= @person.first_name %>'s</b>
         <% else %>
           your

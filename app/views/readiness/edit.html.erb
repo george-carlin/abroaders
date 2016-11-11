@@ -51,7 +51,7 @@
 
             <div class="row">
               <hr />
-              <% if account.has_companion? && account.both_can_update_ready? %>
+              <% if account.couples? && account.both_can_update_ready? %>
                 <div class="col-xs-12 col-lg-6">
                   <%= account.readiness_who_select %>
                 </div>

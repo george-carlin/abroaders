@@ -21,10 +21,10 @@ FactoryGirl.define do
     # the companion.
     #
     # Good:
-    #     create(:account, :with_companion, :onboarded)
+    #     create(:account, :couples, :eligible)
     # Bad:
-    #     create(:account, :onboarded, :with_companion)
-    trait :with_companion do
+    #     create(:account, :eligible, :couples)
+    trait :couples do
       after(:build) do |acc|
         acc.people.build(first_name: Faker::Name.first_name, owner: false)
       end
@@ -38,8 +38,8 @@ FactoryGirl.define do
       onboarding_state :complete
     end
 
-    factory :onboarded_account, traits: [:onboarded]
-    factory :onboarded_account_with_companion,
-            traits: [:with_companion, :onboarded]
+    factory :couples_account,           traits: [:couples]
+    factory :onboarded_account,         traits: [:onboarded]
+    factory :onboarded_couples_account, traits: [:couples, :onboarded]
   end
 end

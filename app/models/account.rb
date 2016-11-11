@@ -11,10 +11,9 @@ class Account < ApplicationRecord
     promo_code == APP_SUMO_PROMO_CODE
   end
 
-  def has_companion?
+  def couples?
     !!companion.try(:persisted?)
   end
-  alias couples? has_companion?
 
   def onboarded?
     onboarding_state == "complete"

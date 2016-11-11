@@ -1,7 +1,7 @@
 class SpendingInfo < ActiveRecord::Base
   # Attributes
 
-  delegate :has_companion?, to: :account, prefix: true
+  delegate :couples?, to: :account, prefix: true
   delegate :monthly_spending_usd, to: :account
 
   def unready

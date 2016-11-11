@@ -38,7 +38,7 @@ class UserStatusCSV
 
       row = [account.email] + owner_columns
 
-      row += if account.has_companion?
+      row += if account.couples?
                generate_columns_for_person(account.companion)
              else
                [nil] * owner_columns.length

@@ -2,12 +2,12 @@ require "rails_helper"
 
 describe ApplicationHelper do
   describe "#name" do
-    let(:account_with_companion) { create(:account, :with_companion) }
-    let(:account_without_companion) { create(:account) }
-    let(:person) { account_with_companion.owner }
-    let(:name) { person.first_name }
+    let(:couples_account) { create(:couples_account) }
+    let(:solo_account)    { create(:account) }
+    let(:person)          { couples_account.owner }
+    let(:name)            { person.first_name }
 
-    example "renaming account_with_companion" do
+    example "renaming couples_account" do
       expect(n("You have 2 cards", person)).to eq("#{name} has 2 cards")
       expect(n("How do you want to earn points?", person)).to eq("How does #{name} want to earn points?")
       expect(n("Are you eligible to apply?", person)).to eq("Is #{name} eligible to apply?")
@@ -21,7 +21,7 @@ describe ApplicationHelper do
       expect(n("How are you?", person)).to eq("How is #{name}?")
     end
 
-    example "renaming account_with_companion with optional" do
+    example "renaming couples_account with optional" do
       expect(n("You have 2 cards", person, true)).to eq("He/she has 2 cards")
       expect(n("How do you want to earn points?", person, true)).to eq("How does he/she want to earn points?")
       expect(n("Are you eligible to apply?", person, true)).to eq("Is he/she eligible to apply?")
@@ -38,8 +38,8 @@ describe ApplicationHelper do
       expect(n("We will tell you", person, true)).to eq("We will tell he/she")
     end
 
-    example "renaming account_without_companion" do
-      person = account_without_companion.owner
+    example "renaming solo_account" do
+      person = solo_account.owner
       expect(n("You have 2 cards", person)).to eq("You have 2 cards")
       expect(n("How do you want to earn points?", person)).to eq("How do you want to earn points?")
       expect(n("Are you eligible to apply?", person)).to eq("Are you eligible to apply?")

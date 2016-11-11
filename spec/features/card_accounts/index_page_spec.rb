@@ -8,12 +8,12 @@ describe "as a user viewing my cards" do
   let(:companion) { account.companion }
 
   before do
-    create(:companion, account: account, eligible: true) if has_companion
+    create(:companion, account: account, eligible: true) if couples
     login_as(account)
   end
 
   let(:extra_setup) { nil }
-  let(:has_companion) { false }
+  let(:couples) { false }
 
   let(:visit_page) { visit card_accounts_path }
 

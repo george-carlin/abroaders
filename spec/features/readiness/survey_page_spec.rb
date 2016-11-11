@@ -104,7 +104,7 @@ describe "readiness survey page", :onboarding, :js do
   end
 
   context 'for a couples account' do
-    let(:account) { create(:account, :with_companion, onboarding_state: :readiness) }
+    let(:account) { create(:couples_account, onboarding_state: :readiness) }
 
     before do
       owner.update!(eligible: owner_eligible)

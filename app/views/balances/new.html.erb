@@ -2,7 +2,7 @@
   <div class="panel-body">
     <h1>
       Add new Balance
-      <% if current_account.has_companion? %>
+      <% if current_account.couples? %>
         for <%= @person.first_name %>
       <% end %>
     </h1>

@@ -18,7 +18,7 @@ class AccountPresenter < ApplicationPresenter
   end
 
   def link_to_companion
-    has_companion? ? link_to_person(companion) : "-"
+    couples? ? link_to_person(companion) : "-"
   end
 
   def created_at

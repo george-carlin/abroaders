@@ -17,7 +17,7 @@
         <%= form_for @spending_info, url: person_spending_info_path(@person) do |f| %>
 
           <div class="form-group">
-            <% if current_account.has_companion? %>
+            <% if current_account.couples? %>
               <% label_text = "Please estimate the combined monthly spending for #{@spending_info.account.owner.first_name}" \
                               " and #{@spending_info.account.companion.first_name} that could be charged to a credit card account." %>
             <% else %>

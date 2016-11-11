@@ -42,7 +42,7 @@ module ApplicationHelper
     serializer_class.new(model).to_json
   end
 
-  # If current_account.has_companion? is false, then the string will be returned unchanged.
+  # If current_account.couples? is false, then the string will be returned unchanged.
   # If it's true, then any instances of "you", "you're", etc will be replaced with the person's name,
   # and verbs will be changed into the 3rd-person conjugation.
   #
@@ -59,7 +59,7 @@ module ApplicationHelper
   # pass `true` as the third argument to use 'he/she' instead of the person's
   # name.
   def name_conjugation(text, person, he_she = false)
-    return text unless person.account.has_companion?
+    return text unless person.account.couples?
 
     person_name = person.first_name
     rules = {
