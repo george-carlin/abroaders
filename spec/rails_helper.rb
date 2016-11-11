@@ -16,6 +16,12 @@ include Warden::Test::Helpers
 Warden.test_mode!
 
 require 'capybara/poltergeist'
+Capybara.register_driver :poltergeist do |app|
+  Capybara::Poltergeist::Driver.new(
+    app,
+    url_whitelist: ['http://example.com'],
+  )
+end
 Capybara.javascript_driver = :poltergeist
 
 RSpec.configure do |config|
