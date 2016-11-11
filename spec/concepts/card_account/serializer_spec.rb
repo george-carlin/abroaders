@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe CardAccountSerializer do
+describe CardAccount::Serializer do
   it "serializes a CardAccount to JSON" do
     bank = create(
       :bank,
