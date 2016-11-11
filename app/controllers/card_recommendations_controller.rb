@@ -5,7 +5,7 @@ class CardRecommendationsController < CardAccountsController
       f.json do
         begin
           survey.update!(update_params)
-          render json: survey.account, include: { card: :bank }
+          render json: survey.account
         rescue CardAccount::InvalidStatusError
           render json: {
             error: true,

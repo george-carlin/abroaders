@@ -11,7 +11,10 @@ class CardAccount::Serializer < ApplicationSerializer
   # this for now.
   [:to_json, :as_json].each do |method|
     define_method method do |*_args|
-      super(include: { card: :bank })
+      # 'include' must be followed by an array. So this line would be invalid:
+      # super(include: { card: :bank })
+      # See https://stackoverflow.com/questions/27648904
+      super(include: [{ card: :bank }])
     end
   end
 
