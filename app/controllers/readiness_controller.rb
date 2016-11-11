@@ -60,6 +60,7 @@ class ReadinessController < AuthenticatedUserController
   end
 
   def redirect_if_ready_or_ineligible
+    # TODO this is crying out to be extracted into some kind of 'policy object'
     access =
       if @account.couples?
         (@account.owner.unready? && @account.owner.eligible?) || (@account.companion.unready? && @account.companion.eligible?)
