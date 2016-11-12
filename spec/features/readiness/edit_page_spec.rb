@@ -1,13 +1,13 @@
-require "rails_helper"
+require 'rails_helper'
 
-describe "edit readiness page" do
-  shared_examples "blocking visit edit readiness page" do
-    it "takes me to the root path" do
-      expect(current_path).to eq root_path
-    end
-  end
+describe 'edit readiness page' do
+  let(:account)   { create((couples ? :couples_account : :account), :onboarded) }
+  let(:owner)     { account.owner }
+  let(:companion) { account.companion }
 
-  def visit_edit_readiness_path(account)
+  before do
+    owner.update!(ready: own_r, eligible: own_e)
+    companion.update!(ready: com_r, eligible: com_e) if couples
     login_as(account)
     visit edit_readiness_path
   end
@@ -16,247 +16,107 @@ describe "edit readiness page" do
     click_button "#{person.first_name} is now ready"
   end
 
-  let(:submit_form) { click_button "Submit" }
+  let(:own_r) { false }
+  let(:com_r) { false }
 
-  context "when account has companion" do
-    let(:account) { create(:couples_account, :onboarded) }
-    let(:owner) { account.owner }
-    let(:companion) { account.companion }
+  let(:submit_form) { click_button 'Submit' }
 
-    context "and only owner is unready" do
-      before do
-        owner.update_attributes!(ready: false)
-        companion.update_attributes!(ready: true)
-      end
+  # cases where the page is inaccessible (no-one eligible or everyone ready)
+  # are handled by the controller spec
 
-      context "and owner is eligible" do
-        before do
-          owner.update_attributes!(eligible: true)
-          visit_edit_readiness_path(account)
-        end
+  context 'for solo account when unready' do
+    let(:couples) { false }
+    let(:own_e)   { true }
+    let(:own_r)   { false }
 
-        example "updating owner status to 'ready'" do
-          click_ready_button(owner)
-          expect(owner.reload).to be_ready
-        end
-
-        skip "tracking an Intercom event for owner", :intercom do
-          expect { click_ready_button(owner) }.to \
-            track_intercom_events("obs_ready_own").for_email(account.email)
-        end
-      end
-
-      context "and owner is uneligible" do
-        before do
-          owner.update_attributes!(eligible: false)
-          visit_edit_readiness_path(account)
-        end
-
-        include_examples "blocking visit edit readiness page"
-      end
-    end
-
-    context "and only companion is unready" do
-      before do
-        owner.update_attributes!(ready: true)
-        companion.update_attributes!(ready: false)
-      end
-
-      context "and companion is eligible" do
-        before do
-          companion.update_attributes!(eligible: true)
-          visit_edit_readiness_path(account)
-        end
-
-        example "updating companion status to 'ready'" do
-          click_ready_button(companion)
-          expect(companion.reload).to be_ready
-        end
-
-        skip "tracking an Intercom event for companion", :intercom do
-          expect { click_ready_button(companion) }.to \
-            track_intercom_events("obs_ready_com").for_email(account.email)
-        end
-      end
-
-      context "and companion is uneligible" do
-        before do
-          companion.update_attributes!(eligible: false)
-          visit_edit_readiness_path(account)
-        end
-
-        include_examples "blocking visit edit readiness page"
-      end
-    end
-
-    context "and both are unready" do
-      before do
-        owner.update_attributes!(ready: false)
-        companion.update_attributes!(ready: false)
-      end
-
-      context "and both are eligible" do
-        before do
-          owner.update_attributes!(eligible: true)
-          companion.update_attributes!(eligible: true)
-          visit_edit_readiness_path(account)
-        end
-
-        context "and update both" do
-          before { select("Both of us are now ready", from: "readiness[who]") }
-
-          example "updating companion and owner status to 'ready'" do
-            submit_form
-            expect(owner.reload).to be_ready
-            expect(companion.reload).to be_ready
-          end
-
-          skip "tracking an Intercom event for owner and companion", :intercom do
-            expect { submit_form }.to \
-              track_intercom_events("obs_ready_own", "obs_ready_com").for_email(account.email)
-          end
-        end
-
-        context "and update only owner" do
-          before { select("#{owner.first_name} is now ready - #{companion.first_name} still needs more time", from: "readiness[who]") }
-
-          example "updating owner status to 'ready'" do
-            submit_form
-            expect(owner.reload).to be_ready
-          end
-
-          skip "tracking an Intercom event for owner", :intercom do
-            expect { submit_form }.to \
-              track_intercom_events("obs_ready_own").for_email(account.email)
-          end
-        end
-
-        context "and update only companion" do
-          before { select("#{companion.first_name} is now ready - #{owner.first_name} still needs more time", from: "readiness[who]") }
-
-          example "updating companion status to 'ready'" do
-            submit_form
-            expect(companion.reload).to be_ready
-          end
-
-          skip "tracking an Intercom event for companion", :intercom do
-            expect { submit_form }.to \
-              track_intercom_events("obs_ready_com").for_email(account.email)
-          end
-        end
-      end
-
-      context "and both are uneligible" do
-        before do
-          owner.update_attributes!(eligible: false)
-          companion.update_attributes!(eligible: false)
-          visit_edit_readiness_path(account)
-        end
-
-        include_examples "blocking visit edit readiness page"
-      end
-
-      context "and only owner is eligible" do
-        before do
-          owner.update_attributes!(eligible: true)
-          companion.update_attributes!(eligible: false)
-          visit_edit_readiness_path(account)
-        end
-
-        example "updating owner status to 'ready'" do
-          click_ready_button(owner)
-          expect(owner.reload).to be_ready
-        end
-
-        skip "tracking an Intercom event for owner", :intercom do
-          expect { click_ready_button(owner) }.to \
-            track_intercom_events("obs_ready_own").for_email(account.email)
-        end
-      end
-
-      context "and only companion is eligible" do
-        before do
-          owner.update_attributes!(eligible: false)
-          companion.update_attributes!(eligible: true)
-          visit_edit_readiness_path(account)
-        end
-
-        example "updating companion status to 'ready'" do
-          click_ready_button(companion)
-          expect(companion.reload).to be_ready
-        end
-
-        skip "tracking an Intercom event for companion", :intercom do
-          expect { click_ready_button(companion) }.to \
-            track_intercom_events("obs_ready_com").for_email(account.email)
-        end
-      end
-    end
-
-    context "and both are ready" do
-      before do
-        owner.update_attributes!(ready: true)
-        companion.update_attributes!(ready: true)
-        visit_edit_readiness_path(account)
-      end
-
-      include_examples "blocking visit edit readiness page"
+    example 'updating to ready' do
+      expect(owner).to be_unready
+      click_ready_button(owner)
+      expect(owner.reload).to be_ready
+      # TODO what page does it then redirect to?
     end
   end
 
-  context "when account hasn't companion" do
-    let(:account) { create(:account, :onboarded) }
-    let(:owner) { account.owner }
+  context 'for couples account' do
+    let(:couples) { true }
+    let(:own_e)   { true }
+    let(:com_e)   { true }
 
-    context "and owner is ready" do
-      before { owner.update_attributes!(ready: true) }
+    context 'with both people eligible' do
+      context 'and unready' do
+        let(:own_r) { false }
+        let(:com_r) { false }
 
-      context "and owner is eligible" do
-        before do
-          owner.update_attributes!(eligible: true)
-          visit_edit_readiness_path(account)
+        example 'updating both to ready' do
+          select('Both of us are now ready', from: 'readiness[who]')
+          submit_form
+          expect(owner.reload).to be_ready
+          expect(companion.reload).to be_ready
         end
 
-        include_examples "blocking visit edit readiness page"
+        example 'updating owner to ready' do
+          select(
+            "#{owner.first_name} is now ready - #{companion.first_name} still needs more time",
+            from: 'readiness[who]',
+          )
+          submit_form
+          expect(owner.reload).to be_ready
+          expect(companion.reload).to be_unready
+        end
+
+        example 'updating companion to ready' do
+          select(
+            "#{companion.first_name} is now ready - #{owner.first_name} still needs more time",
+            from: 'readiness[who]'
+          )
+          submit_form
+          expect(owner.reload).to be_unready
+          expect(companion.reload).to be_ready
+        end
       end
 
-      context "and owner is ineligible" do
-        before do
-          owner.update_attributes!(eligible: false)
-          visit_edit_readiness_path(account)
-        end
+      context 'and only owner is unready' do
+        let(:own_r) { false }
+        let(:com_r) { true }
 
-        include_examples "blocking visit edit readiness page"
+        example 'updating to ready' do
+          click_ready_button(owner)
+          expect(owner.reload).to be_ready
+          expect(companion.reload).to be_ready # was already ready
+        end
+      end
+
+      context 'and only companion is unready' do
+        let(:own_r) { true }
+        let(:com_r) { false }
+
+        example 'updating to ready' do
+          click_ready_button(companion)
+          expect(companion.reload).to be_ready
+          expect(owner.reload).to be_ready # was already ready
+        end
       end
     end
 
-    context "when owner is unready" do
-      before { owner.update_attributes!(ready: false) }
+    context 'when only owner is eligible' do
+      let(:com_e) { false }
+      let(:own_r) { false }
 
-      context "and owner is eligible" do
-        before do
-          owner.update_attributes!(eligible: true)
-          visit_edit_readiness_path(account)
-        end
-
-        example "updating my status to 'ready'" do
-          click_ready_button(owner)
-          expect(owner.reload).to be_ready
-        end
-
-        skip "tracking an Intercom event", :intercom do
-          expect { click_ready_button(owner) }.to \
-            track_intercom_event("obs_ready_own").for_email(account.email)
-        end
+      example 'updating to ready' do
+        click_ready_button(owner)
+        expect(owner.reload).to be_ready
+        expect(companion.reload).to be_unready
       end
+    end
 
-      context "and owner is ineligible" do
-        before do
-          owner.update_attributes!(eligible: false)
-          visit_edit_readiness_path(account)
-        end
+    context 'when only companion is eligible' do
+      let(:own_e) { false }
+      let(:com_r) { false }
 
-        include_examples "blocking visit edit readiness page"
+      example 'updating to ready' do
+        click_ready_button(companion)
+        expect(owner.reload).to be_unready
+        expect(companion.reload).to be_ready
       end
     end
   end
