@@ -45,13 +45,5 @@ FactoryGirl.define do
     trait :personal do
       bp :personal
     end
-
-    trait :chase do
-      bank :chase
-    end
-
-    trait :us_bank do
-      bank :us_bank
-    end
   end
 end
