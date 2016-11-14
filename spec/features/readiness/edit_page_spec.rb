@@ -67,7 +67,7 @@ describe 'edit readiness page' do
         example 'updating companion to ready' do
           select(
             "#{companion.first_name} is now ready - #{owner.first_name} still needs more time",
-            from: 'readiness[who]'
+            from: 'readiness[who]',
           )
           submit_form
           expect(owner.reload).to be_unready
