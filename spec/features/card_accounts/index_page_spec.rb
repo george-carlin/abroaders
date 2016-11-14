@@ -33,8 +33,8 @@ describe "as a user viewing my cards" do
       recs.each do |rec|
         rec_on_page = CardAccountOnPage.new(rec, self)
         expect(rec_on_page).to be_present
-        expect(rec_on_page).to have_content rec.card.name
-        expect(rec_on_page).to have_content rec.card.bank_name
+        expect(rec_on_page).to have_content rec.product.name
+        expect(rec_on_page).to have_content rec.product.bank_name
       end
     end
 
@@ -88,8 +88,8 @@ describe "as a user viewing my cards" do
         recs.each do |rec|
           rec_on_page = CardAccountOnPage.new(rec, self)
           expect(rec_on_page).to be_present
-          expect(rec_on_page).to have_content rec.card.name
-          expect(rec_on_page).to have_content rec.card.bank_name
+          expect(rec_on_page).to have_content rec.product.name
+          expect(rec_on_page).to have_content rec.product.bank_name
         end
       end
     end

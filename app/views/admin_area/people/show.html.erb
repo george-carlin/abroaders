@@ -65,7 +65,7 @@
         <div class="col-xs-12">
           <div class="form-inline">
             <b>B/P: </b>&nbsp;
-            <% Card.bps.keys.each do |bp| %>
+            <% Card::Product.bps.keys.each do |bp| %>
               <%= card_bp_filter_check_box_tag(bp) %>
             <% end %>
           </div>
@@ -271,41 +271,41 @@
         </thead>
 
         <tbody>
-          <% @offers_grouped_by_card.each do |card, offers| %>
+          <% @offers_grouped_by_product.each do |product, offers| %>
             <tr
-              id="<%= dom_id(card, :admin_recommend) %>"
-              class="<%= dom_class(card, :admin_recommend) %>"
-              data-bp="<%= card.bp %>"
-              data-bank="<%= card.bank_id %>"
-              data-currency="<%= card.currency_id %>"
+              id="<%= dom_id(product, :admin_recommend) %>"
+              class="<%= dom_class(product, :admin_recommend) %>"
+              data-bp="<%= product.bp %>"
+              data-bank="<%= product.bank_id %>"
+              data-currency="<%= product.currency_id %>"
             >
-              <% present card do |card_p| %>
+              <% present product do |product_p| %>
                 <td class="card-identifier">
-                  Card <%= card_p.identifier %>
+                  Card <%= product_p.identifier %>
                 </td>
                 <td class="card-name">
-                  <%= card_p.name %>
+                  <%= product_p.name %>
                 </td>
                 <td class="card-bank-name">
-                  <%= card_p.bank_name %>
+                  <%= product_p.bank_name %>
                 </td>
                 <td class="card-bp">
-                  <%= card_p.bp %>
+                  <%= product_p.bp %>
                 </td>
                 <td class="card-currency">
-                  <%= card_p.currency_name %>
+                  <%= product_p.currency_name %>
                 </td>
               <% end %>
-            </tr><!-- .admin_recommend_card_(id) -->
+            </tr><!-- .admin_recommend_card_product_(id) -->
 
             <tr
-              id="<%= dom_id(card, :admin_recommend) %>_offers"
-              class="<%= dom_class(card, :admin_recommend) %>_offers"
+              id="<%= dom_id(product, :admin_recommend) %>_offers"
+              class="<%= dom_class(product, :admin_recommend) %>_offers"
             >
               <td colspan="5">
                 <table
-                  id="<%= dom_id(card, :admin_recommend) %>_offers_table"
-                  class="<%= dom_class(card, :admin_recommend) %>_offers_table table"
+                  id="<%= dom_id(product, :admin_recommend) %>_offers_table"
+                  class="<%= dom_class(product, :admin_recommend) %>_offers_table table"
                   cellpadding="1"
                   cellspacing="1"
                 >
@@ -352,7 +352,7 @@
                   </tbody>
                 </table>
               </td>
-            </tr><!-- .admin_recommend_card_(id) -->
+            </tr><!-- .admin_recommend_card_product_(id) -->
           <% end %>
         </tbody>
       </table><!-- .admin-card-recommendation-table -->

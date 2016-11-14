@@ -84,9 +84,9 @@ namespace :ab do
             Rails.root.join("lib", "seeds", "cards", data.delete("image_name")),
           )
           data["currency_id"] = currency_ids.sample
-          Card.create!(data)
+          Card::Product.create!(data)
         end
-        puts "created #{Card.count} cards"
+        puts "created #{Card::Product.count} cards"
       end
     end
 

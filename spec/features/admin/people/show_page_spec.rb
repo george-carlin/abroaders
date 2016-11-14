@@ -18,15 +18,15 @@ module AdminArea
       @currencies << create(:currency, alliance_id: @one_world_alliance.id)
       @currencies << create(:currency, alliance_id: nil)
 
-      def create_card(bp, bank, currency)
-        create(:card, bp, bank_id: bank.id, currency: currency)
+      def create_product(bp, bank, currency)
+        create(:card_product, bp, bank_id: bank.id, currency: currency)
       end
 
-      @cards = [
-        @chase_b = create_card(:business, @chase,   @currencies[0]),
-        @chase_p = create_card(:personal, @chase,   @currencies[1]),
-        @usb_b   = create_card(:business, @us_bank, @currencies[2]),
-        @usb_p   = create_card(:personal, @us_bank, @currencies[3]),
+      @products = [
+        @chase_b = create_product(:business, @chase,   @currencies[0]),
+        @chase_p = create_product(:personal, @chase,   @currencies[1]),
+        @usb_b   = create_product(:business, @us_bank, @currencies[2]),
+        @usb_p   = create_product(:personal, @us_bank, @currencies[3]),
       ]
 
       @independent_card = [@usb_p]
@@ -34,13 +34,13 @@ module AdminArea
       @sky_team_cards = [@chase_p]
 
       @offers = [
-        create(:offer, card: @chase_b),
-        create(:offer, card: @chase_b),
-        create(:offer, card: @chase_p),
-        create(:offer, card: @usb_b),
-        create(:offer, card: @usb_p),
+        create(:offer, product: @chase_b),
+        create(:offer, product: @chase_b),
+        create(:offer, product: @chase_p),
+        create(:offer, product: @usb_b),
+        create(:offer, product: @usb_p),
       ]
-      @dead_offer = create(:dead_offer, card: @chase_b)
+      @dead_offer = create(:dead_offer, product: @chase_b)
     end
 
     before do
@@ -347,33 +347,33 @@ module AdminArea
       describe "filters", :js do
         let(:filters) { CardRecommendationFiltersOnPage.new(self) }
 
-        def have_recommendable_card(card)
-          have_selector recommendable_card_selector(card)
+        def recommendable_card_product_selector(product)
+          '#' << dom_id(product, :admin_recommend)
         end
 
-        def recommendable_card_selector(card)
-          "##{dom_id(card, :admin_recommend)}"
+        def page_should_have_recommendable_products(*products)
+          products.each do |product|
+            expect(page).to have_selector recommendable_card_product_selector(product)
+          end
         end
 
-        def page_should_have_recommendable_cards(*cards)
-          cards.each { |card| expect(page).to have_recommendable_card(card) }
-        end
-
-        def page_should_not_have_recommendable_cards(*cards)
-          cards.each { |card| expect(page).not_to have_recommendable_card(card) }
+        def page_should_not_have_recommendable_products(*products)
+          products.each do |product|
+            expect(page).to have_no_selector recommendable_card_product_selector(product)
+          end
         end
 
         example "filtering by b/p" do
           filters.uncheck_business
-          page_should_have_recommendable_cards(@chase_p, @usb_p)
-          page_should_not_have_recommendable_cards(@chase_b, @usb_b)
+          page_should_have_recommendable_products(@chase_p, @usb_p)
+          page_should_not_have_recommendable_products(@chase_b, @usb_b)
           filters.uncheck_personal
-          page_should_not_have_recommendable_cards(*@cards)
+          page_should_not_have_recommendable_products(*@products)
           filters.check_business
-          page_should_have_recommendable_cards(@chase_b, @usb_b)
-          page_should_not_have_recommendable_cards(@chase_p, @usb_p)
+          page_should_have_recommendable_products(@chase_b, @usb_b)
+          page_should_not_have_recommendable_products(@chase_p, @usb_p)
           filters.check_personal
-          page_should_have_recommendable_cards(*@cards)
+          page_should_have_recommendable_products(*@products)
         end
 
         example "filtering by bank" do
@@ -382,15 +382,15 @@ module AdminArea
           end
 
           filters.uncheck_chase
-          page_should_have_recommendable_cards(@usb_b, @usb_p)
-          page_should_not_have_recommendable_cards(@chase_b, @chase_p)
+          page_should_have_recommendable_products(@usb_b, @usb_p)
+          page_should_not_have_recommendable_products(@chase_b, @chase_p)
           filters.uncheck_us_bank
-          page_should_not_have_recommendable_cards(*@cards)
+          page_should_not_have_recommendable_products(*@products)
           filters.check_chase
-          page_should_have_recommendable_cards(@chase_b, @chase_p)
-          page_should_not_have_recommendable_cards(@usb_b, @usb_p)
+          page_should_have_recommendable_products(@chase_b, @chase_p)
+          page_should_not_have_recommendable_products(@usb_b, @usb_p)
           filters.check_us_bank
-          page_should_have_recommendable_cards(*@cards)
+          page_should_have_recommendable_products(*@products)
         end
 
         example "filtering by currency" do
@@ -401,23 +401,23 @@ module AdminArea
           # TODO eh?
           uncheck "card_currency_filter_#{@chase_b.id}"
           uncheck "card_currency_filter_#{@chase_p.id}"
-          page_should_have_recommendable_cards(@usb_p, @usb_p)
-          page_should_not_have_recommendable_cards(@chase_b, @chase_p)
+          page_should_have_recommendable_products(@usb_p, @usb_p)
+          page_should_not_have_recommendable_products(@chase_b, @chase_p)
           uncheck "card_currency_filter_#{@usb_b.id}"
           uncheck "card_currency_filter_#{@usb_p.id}"
-          page_should_not_have_recommendable_cards(*@cards)
+          page_should_not_have_recommendable_products(*@products)
           check "card_currency_filter_#{@chase_p.id}"
-          page_should_have_recommendable_cards(@chase_p)
+          page_should_have_recommendable_products(@chase_p)
         end
 
         example "toggling all banks" do
           filters.uncheck_all_banks
-          page_should_not_have_recommendable_cards(*@cards)
+          page_should_not_have_recommendable_products(*@products)
           Bank.all.each do |bank|
             expect(find("#card_bank_filter_#{bank.id}")).not_to be_checked
           end
           filters.check_all_banks
-          page_should_have_recommendable_cards(*@cards)
+          page_should_have_recommendable_products(*@products)
           Bank.all.each do |bank|
             expect(find("#card_bank_filter_#{bank.id}")).to be_checked
           end
@@ -434,7 +434,7 @@ module AdminArea
           filters.uncheck_all_one_world_currencies
           filters.uncheck_all_sky_team_currencies
 
-          page_should_not_have_recommendable_cards(*@cards)
+          page_should_not_have_recommendable_products(*@products)
           Currency.all.each do |currency|
             expect(find("#card_currency_filter_#{currency.id}")).not_to be_checked
           end
@@ -443,7 +443,7 @@ module AdminArea
           filters.check_all_one_world_currencies
           filters.check_all_sky_team_currencies
 
-          page_should_have_recommendable_cards(*@cards)
+          page_should_have_recommendable_products(*@products)
           Currency.all.each do |currency|
             expect(find("#card_currency_filter_#{currency.id}")).to be_checked
           end
@@ -451,12 +451,12 @@ module AdminArea
 
         example "toggling all independent currencies" do
           filters.uncheck_all_independent_currencies
-          page_should_not_have_recommendable_cards(*@independent_card)
+          page_should_not_have_recommendable_products(*@independent_card)
           Currency.where(alliance_id: nil).each do |currency|
             expect(find("#card_currency_filter_#{currency.id}")).not_to be_checked
           end
           filters.check_all_independent_currencies
-          page_should_have_recommendable_cards(*@independent_card)
+          page_should_have_recommendable_products(*@independent_card)
           Currency.where(alliance_id: nil).each do |currency|
             expect(find("#card_currency_filter_#{currency.id}")).to be_checked
           end
@@ -470,12 +470,12 @@ module AdminArea
 
         example "toggling all one world alliance currencies" do
           filters.uncheck_all_one_world_currencies
-          page_should_not_have_recommendable_cards(*@one_world_cards)
+          page_should_not_have_recommendable_products(*@one_world_cards)
           Currency.where(alliance_id: @one_world_alliance.id).each do |currency|
             expect(find("#card_currency_filter_#{currency.id}")).not_to be_checked
           end
           filters.check_all_one_world_currencies
-          page_should_have_recommendable_cards(*@one_world_cards)
+          page_should_have_recommendable_products(*@one_world_cards)
           Currency.where(alliance_id: @one_world_alliance.id).each do |currency|
             expect(find("#card_currency_filter_#{currency.id}")).to be_checked
           end
@@ -518,7 +518,7 @@ module AdminArea
 
         # the rec has the correct attributes:
         rec = CardAccount.recommendations.last
-        expect(rec.card).to eq offer.card
+        expect(rec.product).to eq offer.product
         expect(rec.offer).to eq offer
         expect(rec.person).to eq @person
         expect(rec.recommended_at).to eq Date.today

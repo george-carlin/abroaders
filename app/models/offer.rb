@@ -22,10 +22,6 @@ class Offer < ApplicationRecord
     card_benefit: 3,
   }
 
-  # TODO move me to presenter
-  delegate :name, :identifier, to: :card, prefix: true
-  delegate :bank_name, to: :card
-
   # Validations
 
   with_options presence: true do
@@ -42,7 +38,7 @@ class Offer < ApplicationRecord
 
   # Associations
 
-  belongs_to :card
+  belongs_to :product, class_name: 'Card::Product'
   has_many :card_accounts, foreign_key: :offer_id
 
   # Callbacks

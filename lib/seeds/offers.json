@@ -1,6 +1,6 @@
 [
   {
-    "card_id": 1,
+    "product_id": 1,
     "condition": "on_minimum_spend",
     "cost": 450,
     "days": 90,
@@ -11,7 +11,7 @@
     "spend": 3000
   },
   {
-    "card_id": 3,
+    "product_id": 3,
     "condition": "on_minimum_spend",
     "cost": 0,
     "days": 90,
@@ -22,7 +22,7 @@
     "spend": 2000
   },
   {
-    "card_id": 4,
+    "product_id": 4,
     "condition": "on_minimum_spend",
     "cost": 450,
     "days": 90,
@@ -33,7 +33,7 @@
     "spend": 5000
   },
   {
-    "card_id": 5,
+    "product_id": 5,
     "condition": "on_minimum_spend",
     "cost": 0,
     "days": 90,
@@ -44,7 +44,7 @@
     "spend": 1000
   },
   {
-    "card_id": 6,
+    "product_id": 6,
     "condition": "on_minimum_spend",
     "cost": 95,
     "days": 90,
@@ -55,7 +55,7 @@
     "spend": 1000
   },
   {
-    "card_id": 8,
+    "product_id": 8,
     "condition": "on_minimum_spend",
     "cost": 0,
     "days": 90,
@@ -66,7 +66,7 @@
     "spend": 5000
   },
   {
-    "card_id": 10,
+    "product_id": 10,
     "condition": "on_minimum_spend",
     "cost": 195,
     "days": 90,
@@ -77,7 +77,7 @@
     "spend": 1000
   },
   {
-    "card_id": 11,
+    "product_id": 11,
     "condition": "on_minimum_spend",
     "cost": 0,
     "days": 90,
@@ -88,7 +88,7 @@
     "spend": 1000
   },
   {
-    "card_id": 12,
+    "product_id": 12,
     "condition": "on_minimum_spend",
     "cost": 0,
     "days": 90,
@@ -99,7 +99,7 @@
     "spend": 1000
   },
   {
-    "card_id": 13,
+    "product_id": 13,
     "condition": "on_minimum_spend",
     "cost": 195,
     "days": 90,
@@ -110,7 +110,7 @@
     "spend": 1000
   },
   {
-    "card_id": 15,
+    "product_id": 15,
     "condition": "on_minimum_spend",
     "cost": 75,
     "days": 90,
@@ -121,7 +121,7 @@
     "spend": 3000
   },
   {
-    "card_id": 16,
+    "product_id": 16,
     "condition": "on_minimum_spend",
     "cost": 0,
     "days": 90,
@@ -132,7 +132,7 @@
     "spend": 1000
   },
   {
-    "card_id": 17,
+    "product_id": 17,
     "condition": "on_minimum_spend",
     "cost": 0,
     "days": 90,
@@ -143,7 +143,7 @@
     "spend": 3000
   },
   {
-    "card_id": 18,
+    "product_id": 18,
     "condition": "on_minimum_spend",
     "cost": 0,
     "days": 90,
@@ -154,7 +154,7 @@
     "spend": 5000
   },
   {
-    "card_id": 22,
+    "product_id": 22,
     "condition": "on_minimum_spend",
     "cost": 0,
     "days": 90,
@@ -165,7 +165,7 @@
     "spend": 1000
   },
   {
-    "card_id": 30,
+    "product_id": 30,
     "condition": "on_minimum_spend",
     "cost": 0,
     "days": 90,
@@ -176,7 +176,7 @@
     "spend": 1000
   },
   {
-    "card_id": 31,
+    "product_id": 31,
     "condition": "on_minimum_spend",
     "cost": 0,
     "days": 90,
@@ -187,7 +187,7 @@
     "spend": 3000
   },
   {
-    "card_id": 32,
+    "product_id": 32,
     "condition": "on_minimum_spend",
     "cost": 0,
     "days": 90,
@@ -198,7 +198,7 @@
     "spend": 500
   },
   {
-    "card_id": 34,
+    "product_id": 34,
     "condition": "on_minimum_spend",
     "cost": 89,
     "days": 90,
@@ -209,7 +209,7 @@
     "spend": 1000
   },
   {
-    "card_id": 36,
+    "product_id": 36,
     "condition": "on_minimum_spend",
     "cost": 99,
     "days": 90,
@@ -220,7 +220,7 @@
     "spend": 1000
   },
   {
-    "card_id": 37,
+    "product_id": 37,
     "condition": "on_minimum_spend",
     "cost": 99,
     "days": 90,
@@ -231,7 +231,7 @@
     "spend": 1000
   },
   {
-    "card_id": 40,
+    "product_id": 40,
     "condition": "on_minimum_spend",
     "cost": 0,
     "days": 90,
@@ -242,7 +242,7 @@
     "spend": 5000
   },
   {
-    "card_id": 43,
+    "product_id": 43,
     "condition": "on_minimum_spend",
     "cost": 0,
     "days": 90,
@@ -253,7 +253,7 @@
     "spend": 4500
   },
   {
-    "card_id": 44,
+    "product_id": 44,
     "condition": "on_minimum_spend",
     "cost": 0,
     "days": 90,
@@ -264,7 +264,7 @@
     "spend": 3000
   },
   {
-    "card_id": 45,
+    "product_id": 45,
     "condition": "on_minimum_spend",
     "cost": 0,
     "days": 90,
@@ -275,7 +275,7 @@
     "spend": 1000
   },
   {
-    "card_id": 48,
+    "product_id": 48,
     "condition": "on_minimum_spend",
     "cost": 95,
     "days": 90,
@@ -286,7 +286,7 @@
     "spend": 2000
   },
   {
-    "card_id": 49,
+    "product_id": 49,
     "condition": "on_minimum_spend",
     "cost": 0,
     "days": 90,
@@ -297,7 +297,7 @@
     "spend": 500
   },
   {
-    "card_id": 51,
+    "product_id": 51,
     "condition": "on_minimum_spend",
     "cost": 0,
     "days": 90,
@@ -308,7 +308,7 @@
     "spend": 3000
   },
   {
-    "card_id": 57,
+    "product_id": 57,
     "condition": "on_minimum_spend",
     "cost": 0,
     "days": 90,
@@ -319,7 +319,7 @@
     "spend": 4000
   },
   {
-    "card_id": 59,
+    "product_id": 59,
     "condition": "on_minimum_spend",
     "cost": 95,
     "days": 90,
@@ -330,7 +330,7 @@
     "spend": 5000
   },
   {
-    "card_id": 64,
+    "product_id": 64,
     "condition": "on_minimum_spend",
     "cost": 0,
     "days": 90,
@@ -341,7 +341,7 @@
     "spend": 1000
   },
   {
-    "card_id": 66,
+    "product_id": 66,
     "condition": "on_minimum_spend",
     "cost": 0,
     "days": 90,
@@ -352,7 +352,7 @@
     "spend": 1000
   },
   {
-    "card_id": 67,
+    "product_id": 67,
     "condition": "on_minimum_spend",
     "cost": 85,
     "days": 90,
@@ -363,7 +363,7 @@
     "spend": 3000
   },
   {
-    "card_id": 68,
+    "product_id": 68,
     "condition": "on_minimum_spend",
     "cost": 99,
     "days": 90,
@@ -374,7 +374,7 @@
     "spend": 3000
   },
   {
-    "card_id": 69,
+    "product_id": 69,
     "condition": "on_minimum_spend",
     "cost": 395,
     "days": 90,
@@ -385,7 +385,7 @@
     "spend": 4000
   },
   {
-    "card_id": 71,
+    "product_id": 71,
     "condition": "on_minimum_spend",
     "cost": 99,
     "days": 90,
@@ -396,7 +396,7 @@
     "spend": 2000
   },
   {
-    "card_id": 73,
+    "product_id": 73,
     "condition": "on_minimum_spend",
     "cost": 99,
     "days": 90,
@@ -407,7 +407,7 @@
     "spend": 2000
   },
   {
-    "card_id": 74,
+    "product_id": 74,
     "condition": "on_minimum_spend",
     "cost": 0,
     "days": 90,
@@ -418,7 +418,7 @@
     "spend": 1000
   },
   {
-    "card_id": 75,
+    "product_id": 75,
     "condition": "on_first_purchase",
     "cost": 350,
     "days": 90,
@@ -429,7 +429,7 @@
     "spend": 0
   },
   {
-    "card_id": 77,
+    "product_id": 77,
     "condition": "on_minimum_spend",
     "cost": 0,
     "days": 90,
@@ -440,7 +440,7 @@
     "spend": 2000
   },
   {
-    "card_id": 78,
+    "product_id": 78,
     "condition": "on_first_purchase",
     "cost": 350,
     "days": 90,
@@ -451,7 +451,7 @@
     "spend": 0
   },
   {
-    "card_id": 79,
+    "product_id": 79,
     "condition": "on_minimum_spend",
     "cost": 0,
     "days": 90,
@@ -462,7 +462,7 @@
     "spend": 1000
   },
   {
-    "card_id": 82,
+    "product_id": 82,
     "condition": "on_minimum_spend",
     "cost": 0,
     "days": 90,
@@ -473,7 +473,7 @@
     "spend": 3000
   },
   {
-    "card_id": 84,
+    "product_id": 84,
     "condition": "on_minimum_spend",
     "cost": 450,
     "days": 90,
@@ -484,7 +484,7 @@
     "spend": 5000
   },
   {
-    "card_id": 86,
+    "product_id": 86,
     "condition": "on_minimum_spend",
     "cost": 0,
     "days": 90,
@@ -495,7 +495,7 @@
     "spend": 750
   },
   {
-    "card_id": 88,
+    "product_id": 88,
     "condition": "on_minimum_spend",
     "cost": 0,
     "days": 90,
@@ -506,7 +506,7 @@
     "spend": 30000
   },
   {
-    "card_id": 89,
+    "product_id": 89,
     "condition": "on_minimum_spend",
     "cost": 450,
     "days": 90,
@@ -517,7 +517,7 @@
     "spend": 3000
   },
   {
-    "card_id": 90,
+    "product_id": 90,
     "condition": "on_minimum_spend",
     "cost": 0,
     "days": 90,
@@ -528,7 +528,7 @@
     "spend": 2000
   },
   {
-    "card_id": 91,
+    "product_id": 91,
     "condition": "on_minimum_spend",
     "cost": 95,
     "days": 120,
@@ -539,7 +539,7 @@
     "spend": 2500
   },
   {
-    "card_id": 92,
+    "product_id": 92,
     "condition": "on_first_purchase",
     "cost": 0,
     "days": 90,
@@ -550,7 +550,7 @@
     "spend": 0
   },
   {
-    "card_id": 93,
+    "product_id": 93,
     "condition": "on_minimum_spend",
     "cost": 75,
     "days": 90,
@@ -561,7 +561,7 @@
     "spend": 2500
   },
   {
-    "card_id": 94,
+    "product_id": 94,
     "condition": "on_minimum_spend",
     "cost": 0,
     "days": 90,
@@ -572,7 +572,7 @@
     "spend": 1000
   },
   {
-    "card_id": 95,
+    "product_id": 95,
     "condition": "on_minimum_spend",
     "cost": 50,
     "days": 90,
@@ -583,7 +583,7 @@
     "spend": 1500
   },
   {
-    "card_id": 96,
+    "product_id": 96,
     "condition": "on_minimum_spend",
     "cost": 60,
     "days": 90,
@@ -594,7 +594,7 @@
     "spend": 2500
   },
   {
-    "card_id": 97,
+    "product_id": 97,
     "condition": "on_first_purchase",
     "cost": 80,
     "days": 90,
@@ -605,7 +605,7 @@
     "spend": 0
   },
   {
-    "card_id": 98,
+    "product_id": 98,
     "condition": "on_first_purchase",
     "cost": 0,
     "days": 90,
@@ -616,7 +616,7 @@
     "spend": 0
   },
   {
-    "card_id": 99,
+    "product_id": 99,
     "condition": "on_minimum_spend",
     "cost": 0,
     "days": 120,
@@ -627,7 +627,7 @@
     "spend": 3500
   },
   {
-    "card_id": 100,
+    "product_id": 100,
     "condition": "on_minimum_spend",
     "cost": 0,
     "days": 120,

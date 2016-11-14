@@ -5,7 +5,7 @@
 # C: network code - if network is unknown, then '?'. Else 'A', 'M', or 'V', for
 #                   Amex, MasterCard, or Visa respectively
 #
-class Card::Identifier
+class Card::Product::Identifier
   attr_reader :identifier
   alias to_str identifier
   alias to_s   identifier

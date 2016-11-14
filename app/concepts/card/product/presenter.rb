@@ -1,4 +1,4 @@
-class CardPresenter < ApplicationPresenter
+class Card::Product::Presenter < ApplicationPresenter
   delegate :name, to: :currency, prefix: true, allow_nil: true
 
   def currency_name
@@ -10,7 +10,7 @@ class CardPresenter < ApplicationPresenter
   end
 
   def network
-    t("activerecord.attributes.card.networks.#{super()}")
+    t("activerecord.attributes.card_product.networks.#{super()}")
   end
 
   def full_name(with_bank: false)
@@ -33,6 +33,6 @@ class CardPresenter < ApplicationPresenter
   end
 
   def type
-    t("activerecord.attributes.card.types.#{super()}")
+    t("activerecord.attributes.card_product.types.#{super()}")
   end
 end

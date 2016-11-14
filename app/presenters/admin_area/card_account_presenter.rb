@@ -18,9 +18,9 @@ module AdminArea
       h.content_tag_for(
         :tr,
         self,
-        "data-bp":       card.model.bp,
-        "data-bank":     card.model.bank_id,
-        "data-currency": card.model.currency_id,
+        "data-bp":       product.model.bp,
+        "data-bank":     product.model.bank_id,
+        "data-currency": product.model.currency_id,
         &block
       )
     end

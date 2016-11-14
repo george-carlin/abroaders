@@ -12,8 +12,8 @@ describe "card accounts page survey cards section" do
   let(:person)    { account.owner }
   let(:companion) { account.companion }
 
-  before(:all) { @cards = create_list(:card, 2) }
-  let(:cards)  { @cards }
+  before(:all)   { @products = create_list(:card_product, 2) }
+  let(:products) { @products }
 
   def visit_page
     visit card_accounts_path
@@ -40,8 +40,8 @@ describe "card accounts page survey cards section" do
   end
 
   example "no companion; I have 'from survey' cards" do
-    open_acc   = create(:open_survey_card_account,   person: person, card: cards[0])
-    closed_acc = create(:closed_survey_card_account, person: person, card: cards[1])
+    open_acc   = create(:open_survey_card_account,   person: person, product: products[0])
+    closed_acc = create(:closed_survey_card_account, person: person, product: products[1])
 
     open_acc_on_page   = CardAccountOnPage.new(open_acc, self)
     closed_acc_on_page = CardAccountOnPage.new(closed_acc, self)
@@ -74,8 +74,8 @@ describe "card accounts page survey cards section" do
   example "companion; only owner has survey cards" do
     create_companion!
 
-    open_acc   = create(:open_survey_card_account,   person: person, card: cards[0])
-    closed_acc = create(:closed_survey_card_account, person: person, card: cards[1])
+    open_acc   = create(:open_survey_card_account,   person: person, product: products[0])
+    closed_acc = create(:closed_survey_card_account, person: person, product: products[1])
 
     open_acc_on_page   = CardAccountOnPage.new(open_acc, self)
     closed_acc_on_page = CardAccountOnPage.new(closed_acc, self)
@@ -94,8 +94,8 @@ describe "card accounts page survey cards section" do
 
   example "companion; only companion has survey cards" do
     create_companion!
-    open_acc   = create(:open_survey_card_account, person: companion, card: cards[0])
-    closed_acc = create(:closed_survey_card_account, person: companion, card: cards[1])
+    open_acc   = create(:open_survey_card_account, person: companion, product: products[0])
+    closed_acc = create(:closed_survey_card_account, person: companion, product: products[1])
 
     open_acc_on_page   = CardAccountOnPage.new(open_acc, self)
     closed_acc_on_page = CardAccountOnPage.new(closed_acc, self)
@@ -116,11 +116,11 @@ describe "card accounts page survey cards section" do
   end
 
   example "companion; both people have survey cards" do
-    m_open   = create(:open_survey_card_account,   person: person, card: cards[0])
-    m_closed = create(:closed_survey_card_account, person: person, card: cards[1])
+    m_open   = create(:open_survey_card_account,   person: person, product: products[0])
+    m_closed = create(:closed_survey_card_account, person: person, product: products[1])
     create_companion!
-    p_open   = create(:open_survey_card_account,   person: companion, card: cards[0])
-    p_closed = create(:closed_survey_card_account, person: companion, card: cards[1])
+    p_open   = create(:open_survey_card_account,   person: companion, product: products[0])
+    p_closed = create(:closed_survey_card_account, person: companion, product: products[1])
 
     m_open   = CardAccountOnPage.new(m_open,   self)
     m_closed = CardAccountOnPage.new(m_closed, self)

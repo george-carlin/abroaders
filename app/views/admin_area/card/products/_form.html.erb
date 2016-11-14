@@ -26,7 +26,7 @@
 
   <div class="form-group">
     <%= f.label  :bp %>
-    <%= f.select :bp, options_for_enum_select(Card.bps, f.object.bp) %>
+    <%= f.select :bp, options_for_enum_select(Card::Product.bps, f.object.bp) %>
   </div>
 
   <div class="form-group">
@@ -64,14 +64,14 @@
     <%= f.check_box :shown_on_survey %>
   </div>
 
-  <%= f.submit "Save Card", class: "btn btn-primary" %>
+  <%= f.submit "Save Card Product", class: "btn btn-primary" %>
 
   &nbsp;&nbsp;
 
-  <% if @card.persisted? %>
-    <%= link_to "Cancel", admin_card_path(@card) %>
+  <% if f.object.persisted? %>
+    <%= link_to "Cancel", admin_card_product_path(f.object) %>
     |
   <% end %>
-  <%= link_to "Show all cards", admin_cards_path %>
+  <%= link_to "Show all cards", admin_card_products_path %>
 
 <% end %>

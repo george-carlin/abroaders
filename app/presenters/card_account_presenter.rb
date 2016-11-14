@@ -27,18 +27,18 @@ class CardAccountPresenter < ApplicationPresenter
     end
   end
 
-  delegate :name, :identifier, :currency, :bank_name, to: :card, prefix: true
+  delegate :name, :identifier, :currency, :bank_name, to: :product, prefix: true
 
   def status
     super().humanize
   end
 
-  def card_bp
-    card.bp.to_s.capitalize
+  def product_bp
+    product.bp.to_s.capitalize
   end
 
-  def card
-    @card ||= CardPresenter.new(super, view)
+  def product
+    @product ||= Card::Product::Presenter.new(super, view)
   end
 
   def offer

@@ -4,15 +4,15 @@ describe "card accounts edit page", :js do
   let(:bank) { create(:bank, name: "Chase") }
   let(:account) { create(:account, :onboarded) }
   let(:me) { account.owner }
-  let(:card) { create(:card, :business, :visa, bank_id: bank.id, name: "Card 0") }
+  let(:product) { create(:card_product, :business, :visa, bank_id: bank.id, name: "Card 0") }
   let(:submit_form) { click_button "Submit" }
 
   def end_of_month(year, month)
     Date.parse("#{year}-#{month}-01").end_of_month.strftime("%F")
   end
 
-  describe "opened card account" do
-    let(:card_account) { create(:card_account, :open, card: card, person: me) }
+  describe "opened card" do
+    let(:card_account) { create(:card_account, :open, product: product, person: me) }
     let(:this_year) { Date.today.year.to_s }
     let(:last_year) { (Date.today.year - 1).to_s }
 
@@ -39,7 +39,7 @@ describe "card accounts edit page", :js do
       end
 
       describe "and submitting the form" do
-        describe "the updated card accounts" do
+        describe "the updated cards" do
           before do
             submit_form
             card_account.reload
@@ -72,7 +72,7 @@ describe "card accounts edit page", :js do
       end
 
       describe "and submitting the form" do
-        describe "the updated card accounts" do
+        describe "the updated cards" do
           before do
             submit_form
             card_account.reload
@@ -96,8 +96,8 @@ describe "card accounts edit page", :js do
     end
   end
 
-  describe "closed card account" do
-    let(:card_account) { create(:card_account, :closed, card: card, person: me) }
+  describe "closed cards" do
+    let(:card_account) { create(:card_account, :closed, product: product, person: me) }
     let(:this_year) { Date.today.year.to_s }
     let(:last_year) { (Date.today.year - 1).to_s }
 
@@ -126,7 +126,7 @@ describe "card accounts edit page", :js do
       end
 
       describe "and submitting the form" do
-        describe "the updated card accounts" do
+        describe "the updated cards" do
           before do
             submit_form
             card_account.reload
@@ -157,7 +157,7 @@ describe "card accounts edit page", :js do
       end
 
       describe "and submitting the form" do
-        describe "the updated card accounts" do
+        describe "the updated cards" do
           before do
             submit_form
             card_account.reload

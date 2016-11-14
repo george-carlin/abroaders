@@ -1,5 +1,5 @@
 <%
-  card = present @card
+  product = present @product
   name = @account.owner.first_name
   your = "your"
   if @account.couples?
@@ -9,8 +9,8 @@
 %>
 <p>Hey <%= name %>,</p>
 <p>
-  This is just a friendly reminder that the annual fee of <%= card.annual_fee %> for <%= your %>
-  <%= card.full_name(with_bank: true) %> <%= card.bp.downcase %> card will post sometime soon.
+  This is just a friendly reminder that the annual fee of <%= product.annual_fee %> for <%= your %>
+  <%= product.full_name(with_bank: true) %> <%= product.bp.downcase %> card will post sometime soon.
 </p>
 <p>Sometimes, you can get the fee waived or earn other compensation by calling the number on the back of your card.</p>
 <p>For more detail, check out this resource:</p>

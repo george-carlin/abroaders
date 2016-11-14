@@ -89,4 +89,35 @@ describe "factories" do
       end
     end
   end
+
+  describe 'offer factory' do
+    let(:create_offer) { create(:offer, *traits) }
+    let(:traits) { [] }
+
+    let(:offer) { Offer.last }
+
+    it 'creates an offer with a card product' do
+      create_offer
+      expect(Offer.count).to eq 1
+      expect(Card::Product.count).to eq 1
+      expect(offer.product).to eq Card::Product.last
+    end
+  end
+
+  describe 'card account factory' do
+    let(:create_account) { create(:card_account, *traits) }
+    let(:traits) { [] }
+
+    let(:account) { CardAccount.last }
+
+    it 'creates a card account with a card product and no offer' do
+      create_account
+      expect(CardAccount.count).to eq 1
+      expect(Card::Product.count).to eq 1
+      expect(Offer.count).to eq 0
+      product = Card::Product.last
+      expect(account.product).to eq product
+      expect(account.offer).to be nil
+    end
+  end
 end

@@ -46,7 +46,7 @@ describe OfferPresenter do
     subject(:description) { presenter.description }
 
     before do
-      offer.card = Card.new(currency: Currency.new(name: "Dinero"))
+      offer.product = Card::Product.new(currency: Currency.new(name: "Dinero"))
       offer.points_awarded = 7_500
     end
 

@@ -1,4 +1,4 @@
-<% provide :title, @card.name %>
+<% provide :title, @product.name %>
 
 <p>
   This is just a crappy placeholder page that I threw together in five minutes
@@ -7,7 +7,7 @@
   but it's not urgent.
 </p>
 
-<% present @card do |card| %>
+<% present @product do |card| %>
 
   <div class="row">
     <div class="col-xs-12">
@@ -58,9 +58,9 @@
       <p><%= card.image %></p>
 
       <p>
-        <%= link_to "Edit", edit_admin_card_path(@card) %>
+        <%= link_to 'Edit', edit_admin_card_product_path(@product) %>
         |
-        <%= link_to "Back to all cards", admin_cards_path %>
+        <%= link_to 'Back to all cards', admin_card_products_path %>
       </p>
     </div>
   </div>

@@ -1,23 +1,23 @@
-require "rails_helper"
+require 'rails_helper'
 
-describe "card accounts survey", :onboarding, :js, :manual_clean do
+describe 'card accounts survey', :onboarding, :js, :manual_clean do
   subject { page }
 
   before(:all) do
-    chase = create(:bank, name: "Chase")
-    citi  = create(:bank, name: "Citibank")
+    chase = create(:bank, name: 'Chase')
+    citi  = create(:bank, name: 'Citibank')
     @banks = [chase, citi]
-    @visible_cards = [
-      create(:card, :business, :visa,       bank_id: chase.id, name: "Card 0"),
-      create(:card, :personal, :mastercard, bank_id: chase.id, name: "Card 1"),
-      create(:card, :business, :mastercard, bank_id: citi.id,  name: "Card 2"),
-      create(:card, :personal, :visa,       bank_id: citi.id,  name: "Card 3"),
-      create(:card, :personal, :visa,       bank_id: citi.id,  name: "Card 4"),
+    @visible_products = [
+      create(:card_product, :business, :visa,       bank_id: chase.id, name: 'Card 0'),
+      create(:card_product, :personal, :mastercard, bank_id: chase.id, name: 'Card 1'),
+      create(:card_product, :business, :mastercard, bank_id: citi.id,  name: 'Card 2'),
+      create(:card_product, :personal, :visa,       bank_id: citi.id,  name: 'Card 3'),
+      create(:card_product, :personal, :visa,       bank_id: citi.id,  name: 'Card 4'),
     ]
-    @hidden_card = create(:card, shown_on_survey: false)
+    @hidden_product = create(:card_product, :hidden)
   end
 
-  let(:account) { create(:account, onboarding_state: "owner_cards") }
+  let(:account) { create(:account, onboarding_state: 'owner_cards') }
   let(:owner)   { account.owner }
 
   before do
@@ -27,14 +27,14 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
   end
 
   let(:name) { owner.first_name }
-  let(:submit_form) { click_button "Save and continue" }
+  let(:submit_form) { click_button 'Save and continue' }
 
-  def card_on_page(card)
-    CardOnSurveyPage.new(card, self)
+  def product_on_page(product)
+    CardProductOnSurveyPage.new(product, self)
   end
 
   def end_of_month(year, month)
-    Date.parse("#{year}-#{month}-01").end_of_month.strftime("%F")
+    Date.parse("#{year}-#{month}-01").end_of_month.strftime('%F')
   end
 
   def expand_banks
@@ -44,11 +44,11 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
     end
   end
 
-  shared_examples "submitting the form" do
-    it "takes me to the next stage of the survey" do
+  shared_examples 'submitting the form' do
+    it 'takes me to the next stage of the survey' do
       submit_form
       expect(current_path).to eq survey_person_balances_path(owner)
-      expect(account.reload.onboarding_state).to eq "owner_balances"
+      expect(account.reload.onboarding_state).to eq 'owner_balances'
     end
   end
 
@@ -101,7 +101,7 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
       expand_banks
     end
 
-    it "shows cards grouped by bank, then B/P" do
+    it "shows card products grouped by bank, then B/P" do
       @banks.each do |bank|
         expect(page).to have_selector "h2", text: bank.name.upcase
         within "#bank-collapse-#{bank.id}" do
@@ -124,9 +124,9 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
       end
     end
 
-    it "has a checkbox for each card" do
-      @visible_cards.each do |card|
-        expect(card_on_page(card)).to have_opened_check_box
+    it "has a checkbox for each card product" do
+      @visible_products.each do |product|
+        expect(page).to have_field :"cards_survey_#{product.id}_card_account_opened"
       end
     end
 
@@ -141,33 +141,33 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
 
     describe "a business card's displayed name" do
       it "follows the format 'card name, BUSINESS, network'" do
-        within "##{dom_id(@visible_cards[0])}" do
-          expect(page).to have_content "Card 0 business Visa"
+        within "##{dom_id(@visible_products[0])}" do
+          expect(page).to have_content 'Card 0 business Visa'
         end
-        within "##{dom_id(@visible_cards[2])}" do
-          expect(page).to have_content "Card 2 business MasterCard"
+        within "##{dom_id(@visible_products[2])}" do
+          expect(page).to have_content 'Card 2 business MasterCard'
         end
       end
     end
 
     describe "a personal card's displayed name" do
       it "follows the format 'card name, network'" do
-        within "##{dom_id(@visible_cards[1])}" do
+        within "##{dom_id(@visible_products[1])}" do
           expect(page).to have_content "Card 1 MasterCard"
         end
-        within "##{dom_id(@visible_cards[3])}" do
+        within "##{dom_id(@visible_products[3])}" do
           expect(page).to have_content "Card 3 Visa"
         end
       end
     end
 
     it "doesn't show cards which the admin has opted to hide" do
-      expect(card_on_page(@hidden_card)).not_to be_present
+      expect(product_on_page(@hidden_product)).not_to be_present
     end
 
-    describe "clicking on a card" do
+    describe "clicking on a card product" do
       before { skip } # This is too much goddamn effort and I don't have time before launch
-      let(:card) { @visible_cards[0] }
+      let(:card) { @visible_products[0] }
       let(:card_selector) { "##{dom_id(card)}" }
 
       let(:checkbox) { find(card_selector + " input[type=checkbox]") }
@@ -197,24 +197,24 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
     end
 
     describe "selecting a card" do
-      let(:card) { card_on_page(@visible_cards[0]) }
+      let(:product) { product_on_page(@visible_products[0]) }
 
-      before { card.check_opened }
+      before { product.check_opened }
 
       it "asks when the card was opened" do
-        expect(card).to have_opened_at_month_field
-        expect(card).to have_opened_at_year_field
+        expect(product).to have_opened_at_month_field
+        expect(product).to have_opened_at_year_field
       end
 
       context "and unselecting it again" do
-        before { card.uncheck_opened }
+        before { product.uncheck_opened }
 
         it "hides the opened/closed inputs" do
-          expect(card).to have_no_opened_at_month_field
-          expect(card).to have_no_opened_at_year_field
-          expect(card).to have_no_closed_check_box
-          expect(card).to have_no_closed_at_month_field
-          expect(card).to have_no_closed_at_year_field
+          expect(product).to have_no_opened_at_month_field
+          expect(product).to have_no_opened_at_year_field
+          expect(product).to have_no_closed_check_box
+          expect(product).to have_no_closed_at_month_field
+          expect(product).to have_no_closed_at_year_field
         end
       end
 
@@ -223,18 +223,18 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
       end
 
       it "asks if (but not when) the card was closed" do
-        expect(card).to have_closed_check_box
-        expect(card).to have_no_closed_at_month_field
-        expect(card).to have_no_closed_at_year_field
+        expect(product).to have_closed_check_box
+        expect(product).to have_no_closed_at_month_field
+        expect(product).to have_no_closed_at_year_field
       end
 
       describe "checking 'I closed the card'" do
-        before { card.check_closed }
+        before { product.check_closed }
 
         it "asks when the card was closed" do
-          expect(card).to have_closed_check_box
-          expect(card).to have_closed_at_month_field
-          expect(card).to have_closed_at_year_field
+          expect(product).to have_closed_check_box
+          expect(product).to have_closed_at_month_field
+          expect(product).to have_closed_at_year_field
         end
 
         describe "selecting an 'opened at' date" do
@@ -244,12 +244,12 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
         end
 
         describe "then unchecking it again" do
-          before { card.uncheck_closed }
+          before { product.uncheck_closed }
 
           it "hides the 'when did I close it'" do
-            expect(card).to have_closed_check_box
-            expect(card).to have_no_closed_at_month_field
-            expect(card).to have_no_closed_at_year_field
+            expect(product).to have_closed_check_box
+            expect(product).to have_no_closed_at_month_field
+            expect(product).to have_no_closed_at_year_field
           end
 
           describe "and submitting the form" do
@@ -260,7 +260,7 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
     end
 
     describe "selecting some cards" do
-      let(:selected_cards) { @visible_cards.values_at(0, 2, 3).map { |c| card_on_page(c) } }
+      let(:selected_cards) { @visible_products.values_at(0, 2, 3).map { |c| product_on_page(c) } }
       let(:closed_card) { selected_cards.first }
       let(:open_cards)  { selected_cards.drop(1) }
 
@@ -292,41 +292,41 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
           before { submit_form }
           let(:new_accounts) { owner.card_accounts }
 
-          specify "have the right cards" do
-            expect(new_accounts.map(&:card)).to match_array selected_cards.map(&:card)
+          specify 'have the right cards' do
+            expect(new_accounts.map(&:product)).to match_array selected_cards.map(&:product)
           end
 
-          specify "have no offers" do
+          specify 'have no offers' do
             expect(new_accounts.map(&:offer).compact).to be_empty
           end
 
-          specify "have the given opened and closed dates" do
-            open_acc_0 = new_accounts.find_by(card_id: open_cards[0].id)
-            open_acc_1 = new_accounts.find_by(card_id: open_cards[1].id)
-            closed_acc = new_accounts.find_by(card_id: closed_card.id)
-            expect(open_acc_0.opened_at.strftime("%F")).to eq end_of_month(this_year, "01")
+          specify 'have the given opened and closed dates' do
+            open_acc_0 = new_accounts.find_by(product_id: open_cards[0].id)
+            open_acc_1 = new_accounts.find_by(product_id: open_cards[1].id)
+            closed_acc = new_accounts.find_by(product_id: closed_card.id)
+            expect(open_acc_0.opened_at.strftime('%F')).to eq end_of_month(this_year, '01')
             expect(open_acc_0.closed_at).to be_nil
-            expect(open_acc_1.opened_at.strftime("%F")).to eq end_of_month(last_year, "03")
+            expect(open_acc_1.opened_at.strftime('%F')).to eq end_of_month(last_year, '03')
             expect(open_acc_1.closed_at).to be_nil
-            expect(closed_acc.opened_at.strftime("%F")).to eq end_of_month(ten_years_ago, "11")
-            expect(closed_acc.closed_at.strftime("%F")).to eq end_of_month(last_year, "04")
+            expect(closed_acc.opened_at.strftime('%F')).to eq end_of_month(ten_years_ago, '11')
+            expect(closed_acc.closed_at.strftime('%F')).to eq end_of_month(last_year, '04')
           end
 
-          specify "have the right statuses" do
-            open_acc_0 = new_accounts.find_by(card_id: open_cards[0].id)
-            open_acc_1 = new_accounts.find_by(card_id: open_cards[1].id)
-            closed_acc = new_accounts.find_by(card_id: closed_card.id)
-            expect(open_acc_0.status).to eq "open"
-            expect(open_acc_1.status).to eq "open"
-            expect(closed_acc.status).to eq "closed"
+          specify 'have the right statuses' do
+            open_acc_0 = new_accounts.find_by(product_id: open_cards[0].id)
+            open_acc_1 = new_accounts.find_by(product_id: open_cards[1].id)
+            closed_acc = new_accounts.find_by(product_id: closed_card.id)
+            expect(open_acc_0.status).to eq 'open'
+            expect(open_acc_1.status).to eq 'open'
+            expect(closed_acc.status).to eq 'closed'
           end
 
-          specify "have 'from survey' as their source" do
+          specify 'have "from survey" as their source' do
             expect(owner.card_accounts.all?(&:from_survey?)).to be true
           end
         end
 
-        include_examples "submitting the form"
+        include_examples 'submitting the form'
       end
     end # selecting some cards
 

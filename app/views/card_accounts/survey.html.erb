@@ -45,7 +45,7 @@
 
     <%= form_tag survey_person_card_accounts_path(@person) do %>
       <div class="btn-group">
-        <%= submit_tag "Confirm", class: "btn btn-primary" %>
+        <%= submit_tag 'Confirm', class: 'btn btn-primary' %>
         <button id="card-survey-confirm-no-back-btn" class="btn btn-default">
           Back
         </button>
@@ -77,7 +77,7 @@
 <div id="card-survey-main-body" class="card-survey-form-wrapper" style="display:none;">
   <%= form_tag survey_person_card_accounts_path(@person) do %>
     <p class="helper-message">Click a bank's name to see the list of cards for that bank</p>
-    <% @survey.each_section do |bank, cards_grouped_by_bp| %>
+    <% @survey.each_section do |bank, products_grouped_by_bp| %>
 
       <div class="bank-section">
 
@@ -91,11 +91,11 @@
         <div id="bank-collapse-<%= bank.id %>" class="panel-collapse collapse">
           <div id="bank_<%= bank.id %>_cards">
 
-            <% cards_grouped_by_bp.each do |bp, cards| %>
+            <% products_grouped_by_bp.each do |bp, products| %>
               <div id="bank_<%= bank.id %>_<%= bp %>_cards">
                 <h4><%= bp.capitalize %> Cards</h4>
                 <div class="row">
-                  <%= render partial: "card_accounts/survey_card", collection: cards %>
+                  <%= render partial: "card_accounts/survey/product", collection: products %>
                 </div>
               </div>
             <% end # cards_for_1_bank.group_by(&:bp).each %>
@@ -104,7 +104,7 @@
         </div>
       </div>
 
-    <% end # @cards.group_by(&:bank).each %>
+    <% end %>
 
     <div class="row">
       <div class="col-xs-12">

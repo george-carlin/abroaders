@@ -1,7 +1,7 @@
 require_relative "./record_on_page"
 
-class CardOnSurveyPage < RecordOnPage
-  alias_attribute :card, :model
+class CardProductOnSurveyPage < RecordOnPage
+  alias_attribute :product, :model
 
   check_box :opened, proc { "cards_survey_#{id}_card_account_opened" }
   check_box :closed, proc { "cards_survey_#{id}_card_account_closed" }

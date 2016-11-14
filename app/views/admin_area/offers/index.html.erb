@@ -2,24 +2,24 @@
 
 <div class="hpanel">
   <div class="panel-heading hbuilt">
-    <% if @card.present? %>
-      <% present @card do |card| %>
-        <h1><%= card.full_name(with_bank: true) %> - Card Offers</h1>
+    <% if @product.present? %>
+      <% present @product do |product| %>
+        <h1><%= product.full_name(with_bank: true) %> - Card Offers</h1>
       <% end %>
 
       <p>
-        <%= link_to "Add a new offer for this card", new_admin_card_offer_path(@card) %>
+        <%= link_to 'Add a new offer for this card product', new_admin_card_product_offer_path(@product) %>
       </p>
     <% else %>
-      <h1>All Card Offers</h1>
+      <h1>All Offers</h1>
 
       <p>
-        To add a new offer, find the card on the
-        <%= link_to "cards page", admin_cards_path %> and click 'New Offer'
+        To add a new offer, find the card product on the
+        <%= link_to 'products page', admin_card_products_path %> and click 'New Offer'
       </p>
 
       <p>
-        Click on a card's name below to see all existing offers for that card.
+        Click on a card product's name below to see all existing offers for that product.
       </p>
     <% end %>
   </div>
@@ -34,7 +34,7 @@
         <thead>
           <tr>
             <th>ID</th>
-            <th>Card</th>
+            <th>Product</th>
             <th>Bank</th>
             <th>Partner</th>
             <th>Points awarded</th>
@@ -51,8 +51,13 @@
         <tbody>
           <% present_each @offers, AdminArea::OfferPresenter do |offer| %>
             <%= content_tag_for :tr, offer do %>
-              <td><%= offer.identifier(with_card: true) %></td>
-              <td><%= offer.link_to_show_for_card %></td>
+              <td><%= offer.identifier(with_product: true) %></td>
+              <td>
+                <%= link_to(
+                  offer.product_name,
+                  admin_card_product_offers_path(offer.product),
+                ) %>
+              </td>
               <td><%= offer.bank_name %></td>
               <td><%= offer.partner_short_name %></td>
               <td><%= offer.points_awarded %></td>
