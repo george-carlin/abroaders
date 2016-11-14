@@ -7,10 +7,6 @@ describe "card accounts edit page", :js do
   let(:card) { create(:card, :business, :visa, bank_id: bank.id, name: "Card 0") }
   let(:submit_form) { click_button "Submit" }
 
-  def card_on_page(card)
-    CardOnEditPage.new(card, self)
-  end
-
   def end_of_month(year, month)
     Date.parse("#{year}-#{month}-01").end_of_month.strftime("%F")
   end
@@ -19,7 +15,6 @@ describe "card accounts edit page", :js do
     let(:card_account) { create(:card_account, :open, card: card, person: me) }
     let(:this_year) { Date.today.year.to_s }
     let(:last_year) { (Date.today.year - 1).to_s }
-    let(:page_card) { card_on_page(card) }
 
     before do
       login_as(account)
@@ -39,8 +34,8 @@ describe "card accounts edit page", :js do
 
     describe "filling fields" do
       before do
-        select "Jan",     from: page_card.opened_at_month
-        select this_year, from: page_card.opened_at_year
+        select "Jan",     from: :card_account_opened_month
+        select this_year, from: :card_account_opened_year
       end
 
       describe "and submitting the form" do
@@ -69,11 +64,11 @@ describe "card accounts edit page", :js do
 
     describe "make it closed" do
       before do
-        select "Jan",     from: page_card.opened_at_month
-        select this_year, from: page_card.opened_at_year
+        select "Jan",     from: :card_account_opened_month
+        select this_year, from: :card_account_opened_year
         check "card_account_closed"
-        select "Apr",     from: page_card.closed_at_month
-        select last_year, from: page_card.closed_at_year
+        select "Apr",     from: :card_account_closed_month
+        select last_year, from: :card_account_closed_year
       end
 
       describe "and submitting the form" do
@@ -105,7 +100,6 @@ describe "card accounts edit page", :js do
     let(:card_account) { create(:card_account, :closed, card: card, person: me) }
     let(:this_year) { Date.today.year.to_s }
     let(:last_year) { (Date.today.year - 1).to_s }
-    let(:page_card) { card_on_page(card) }
 
     before do
       login_as(account)
@@ -125,10 +119,10 @@ describe "card accounts edit page", :js do
 
     describe "filling fields" do
       before do
-        select "Jan",     from: page_card.opened_at_month
-        select this_year, from: page_card.opened_at_year
-        select "Apr",     from: page_card.closed_at_month
-        select last_year, from: page_card.closed_at_year
+        select "Jan",     from: :card_account_opened_month
+        select this_year, from: :card_account_opened_year
+        select "Apr",     from: :card_account_closed_month
+        select last_year, from: :card_account_closed_year
       end
 
       describe "and submitting the form" do
@@ -157,8 +151,8 @@ describe "card accounts edit page", :js do
 
     describe "make it opened" do
       before do
-        select "Jan",     from: page_card.opened_at_month
-        select this_year, from: page_card.opened_at_year
+        select "Jan",     from: :card_account_opened_month
+        select this_year, from: :card_account_opened_year
         uncheck "card_account_closed"
       end
 
