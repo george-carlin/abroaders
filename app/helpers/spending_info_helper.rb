@@ -1,4 +1,4 @@
-module SurveyHelper
+module SpendingInfoHelper
   def has_business_label_text(value)
     case value
     when "with_ein"
