@@ -21,6 +21,7 @@ spec_files = Dir[File.join(spec_dir, '**', '*.rb')]
 bad_file_names = spec_files.reject do |path|
   path.include?(File.join('spec', 'support')) ||
     path.include?(File.join('spec', 'factories')) ||
+    path.include?(File.join('spec', 'docs')) ||
     path =~ /_spec.rb\z/ || path =~ /_helper.rb\z/
 end
 
