@@ -1,3 +1,8 @@
+# A brand of Card offered by a particular bank, e.g. "Chase Sapphire". A
+# specific instance of a card owned owned by a particular person (i.e. the one
+# physical copy of a Chase Sapphire card which you keep in your wallet, as
+# opposed to the general concept of a Chase Sapphire card), is represented by
+# the CardAccount model (which we plan on eventually renaming to just 'card')
 class Card::Product < ApplicationRecord
   self.inheritance_column = :_no_sti
 
@@ -36,7 +41,6 @@ class Card::Product < ApplicationRecord
     end
   end
 
-  belongs_to :bank
   delegate :name, to: :bank, prefix: true
 
   def identifier
@@ -71,8 +75,9 @@ class Card::Product < ApplicationRecord
   has_many :offers
   has_many :accounts, class_name: "CardAccount"
   belongs_to :currency
+  belongs_to :bank
 
-  # Scope
+  # Scopes
 
   scope :survey, -> { where(shown_on_survey: true) }
 
