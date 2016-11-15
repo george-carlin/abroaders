@@ -1,0 +1,13 @@
+<%= sidebar_link_to 'Destinations', admin_destinations_path, ::AdminArea::DestinationsController %>
+<%= sidebar_link_to 'Cards', admin_cards_path, AdminArea::CardsController %>
+<%= sidebar_nested_links(
+  'Offers',
+  {
+    'View all offers'    => admin_offers_path,
+    'Review live offers' => review_admin_offers_path,
+  },
+  AdminArea::OffersController,
+) %>
+<%= sidebar_link_to 'Users', admin_accounts_path, AdminArea::AccountsController %>
+<%= sidebar_link_to 'My Account', edit_admin_registration_path %>
+<%= sidebar_link_to 'Banks', admin_banks_path, AdminArea::BanksController %>

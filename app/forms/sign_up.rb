@@ -45,7 +45,7 @@ class SignUp < ApplicationForm
       email: email.strip,
       password: password,
       password_confirmation: password_confirmation,
-      promo_code: (promo_code&.strip if promo_code.present?),
+      promo_code: (promo_code.strip.downcase if promo_code.present?),
     )
     account.save!(validate: false)
 

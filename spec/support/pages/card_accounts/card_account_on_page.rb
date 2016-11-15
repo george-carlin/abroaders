@@ -44,10 +44,6 @@ class CardAccountOnPage < RecordOnPage
     end
   end
 
-  def has_apply_and_decline_btns?
-    has_apply_btn? && has_decline_btn?
-  end
-
   def has_no_apply_or_decline_btns?
     has_no_apply_btn? && has_no_decline_btn?
   end

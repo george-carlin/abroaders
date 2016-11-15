@@ -2,7 +2,7 @@
 
 ## November 2016
 
-*   Rename `Card` to `Card::Product`
+*   Rename `Card` to `Card::Product`. GH #76
 
     *George Millo*
 

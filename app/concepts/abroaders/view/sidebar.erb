@@ -1,0 +1,14 @@
+<aside id="menu">
+  <div id="navigation">
+    <ul class="nav" id="side-menu">
+      <% if admin? %>
+        <%= cell AdminArea::Cell::Sidebar %>
+      <% else %>
+        <%= sidebar_link_to 'Dashboard', root_path %>
+        <%= sidebar_link_to 'Travel Plans', travel_plans_path, TravelPlansController %>
+        <%= sidebar_link_to 'Cards', card_accounts_path, CardAccountsController %>
+        <%= sidebar_link_to 'Balances', balances_path, BalancesController %>
+      <% end %>
+    </ul>
+  </div>
+</aside>
