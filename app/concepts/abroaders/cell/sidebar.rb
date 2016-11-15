@@ -2,7 +2,7 @@ module Abroaders
   module Cell
     class Sidebar < Trailblazer::Cell
       def admin?
-        options[:current_user].is_an?(Admin)
+        options[:current_user].is_a?(Admin)
       end
 
       def sidebar_link_to(text, href, controller_class = nil)
