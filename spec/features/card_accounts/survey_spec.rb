@@ -62,7 +62,7 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
     expect(page).to have_no_selector ".card-survey-checkbox"
   end
 
-  example "clicking 'No'", :intercom do
+  example "clicking 'No'" do
     click_button "No"
 
     expect(page).to have_no_content \
@@ -76,7 +76,7 @@ describe "card accounts survey", :onboarding, :js, :manual_clean do
 
     expect do
       click_button "Confirm"
-    end.to change { CardAccount.count }.by(0) # .and(track_intercom_event("obs_cards_own").for_email(account.email))
+    end.to change { CardAccount.count }.by(0)
 
     expect(account.reload.onboarding_state).to eq "owner_balances"
     expect(current_path).to eq survey_person_balances_path(owner)

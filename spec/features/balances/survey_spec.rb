@@ -154,14 +154,4 @@ describe "the balance survey page", :onboarding, :js do
       expect { submit_form }.not_to change { ApplicationMailer.deliveries.last }
     end
   end
-
-  skip "tracking an intercom event when person is account owner" do
-    click_link "Yes"
-    expect { submit_form }.to track_intercom_event("obs_balances_own").for_email(account.email)
-  end
-
-  skip "tracking an intercom event when person is companion" do
-    click_link "Yes"
-    expect { submit_form }.to track_intercom_event("obs_balances_com").for_email(account.email)
-  end
 end
