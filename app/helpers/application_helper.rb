@@ -115,6 +115,8 @@ module ApplicationHelper
   def get_presenter(model, klass = nil)
     if model.is_a?(ApplicationPresenter)
       model
+    elsif model.respond_to?(:presenter_class)
+      model.presenter_class.new(model, self)
     else
       klass ||= "#{model.class}Presenter".constantize
       klass.new(model, self)

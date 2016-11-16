@@ -1,5 +1,5 @@
 class Bank < ApplicationRecord
-  has_many :cards
+  has_many :card_products, class_name: 'Card::Product'
 
   # 'person_code' column = Abroaders' internal identifier for the bank. For legacy
   # reasons we have two codes per bank, one for personal banking and the other
@@ -12,5 +12,9 @@ class Bank < ApplicationRecord
 
   def business_code
     personal_code + 1
+  end
+
+  def serializer_class
+    Bank::Serializer
   end
 end

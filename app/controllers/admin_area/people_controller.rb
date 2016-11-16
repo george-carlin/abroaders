@@ -8,13 +8,13 @@ module AdminArea
       @travel_plans  = @account.travel_plans.includes_destinations
       @balances      = @person.balances.includes(:currency)
 
-      card_account_scope = @person.card_accounts.includes(:card, offer: :card)
+      card_account_scope = @person.card_accounts.includes(:product, offer: :product)
       @card_accounts = card_account_scope.unpulled
       @pulled_card_accounts = card_account_scope.pulled
       @card_recommendation  = card_account_scope.recommendations.build
 
-      @offers_grouped_by_card = \
-        Offer.includes(:card, card: :currency).live.group_by(&:card)
+      @offers_grouped_by_product = \
+        Offer.includes(:product, product: :currency).live.group_by(&:product)
       @recommendation_notes = @account.recommendation_notes
     end
 

@@ -46,7 +46,7 @@ $(document).ready(function () {
       return cb.dataset.value;
     }).toArray();
 
-    $("tr.admin_recommend_card").each(function (i, tr) {
+    $("tr.admin_recommend_card_product").each(function (i, tr) {
       var bankIsShown = checkedBanks.indexOf(tr.dataset.bank) > -1,
           bpIsShown   = checkedBPs.indexOf(tr.dataset.bp) > -1,
           currIsShown = checkedCurrencies.indexOf(tr.dataset.currency) > -1,

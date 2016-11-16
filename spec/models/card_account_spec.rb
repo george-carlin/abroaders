@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 describe CardAccount do
-  let(:account)   { build(:account) }
-  let(:person)    { account.people.first }
-  let(:card)      { build(:card) }
-  let(:offer)     { build(:offer, card: card) }
+  let(:account) { build(:account) }
+  let(:person)  { account.people.first }
+  let(:product) { build(:card_product) }
+  let(:offer)   { build(:offer, product: product) }
   let(:card_account) { described_class.from_survey.new(person: person) }
 
   before { card_account.offer = offer }
@@ -84,28 +84,28 @@ describe CardAccount do
     include_examples "applyable?"
   end
 
-  specify "card_id must match offer.card_id" do
+  specify "product_id must match offer.product_id" do
     def errors
       card_account.tap(&:valid?).errors
     end
 
-    msg = t("activerecord.errors.models.card_account.attributes.card.doesnt_match_offer")
+    msg = t("activerecord.errors.models.card_account.attributes.product.doesnt_match_offer")
 
-    # no card or offer:
-    expect(errors[:card]).not_to include(msg)
+    # no card_product or offer:
+    expect(errors[:product]).not_to include(msg)
     # no offer:
-    card_account.card = card
-    expect(errors[:card]).not_to include(msg)
+    card_account.product = product
+    expect(errors[:product]).not_to include(msg)
     # offer with no card
-    card_account.card  = nil
+    card_account.product = nil
     card_account.offer = Offer.new
-    expect(errors[:card]).not_to include(msg)
-    # mismatching card:
-    card_account.card = Card.new
-    expect(errors[:card]).to include(msg)
-    # correct card
-    card_account.offer.card = card_account.card
-    expect(errors[:card]).not_to include(msg)
+    expect(errors[:product]).not_to include(msg)
+    # mismatching product:
+    card_account.product = Card::Product.new
+    expect(errors[:product]).to include(msg)
+    # correct product
+    card_account.offer.product = card_account.product
+    expect(errors[:product]).not_to include(msg)
   end
 
   example "#recommended?" do
@@ -133,12 +133,13 @@ describe CardAccount do
   # Callbacks
 
   describe "before validation" do
-    it "sets #card to #offer.card" do
-      offer = create(:offer)
-      card  = offer.card
-      card_account = build(:card_account, card: nil, offer: offer)
+    # TODO this shouldn't be handled by the model, do it in the Operation
+    it "sets #product to #offer.product" do
+      offer   = create(:offer)
+      product = offer.product
+      card_account = build(:card_account, product: nil, offer: offer)
       card_account.valid?
-      expect(card_account.card_id).to eq card.id
+      expect(card_account.product_id).to eq product.id
     end
   end
 
@@ -157,9 +158,9 @@ describe CardAccount do
   end
 
   example ".visible" do
-    card   = create(:card)
-    offer  = create(:offer, card: card)
-    person = create(:person)
+    product = create(:card_product)
+    offer   = create(:offer, product: product)
+    person  = create(:person)
     visible = [
       create(:card_recommendation,            offer: offer, person: person),
       create(:card_recommendation, :clicked,  offer: offer, person: person),
@@ -174,7 +175,7 @@ describe CardAccount do
     ]
 
     # invisible:
-    create(:survey_card_account,            card: card,   person: person)
+    create(:survey_card_account,            product: product, person: person)
     create(:card_recommendation, :declined, offer: offer, person: person)
     create(:card_recommendation, :expired,  offer: offer, person: person)
     create(:card_recommendation, :pulled,   offer: offer, person: person)
@@ -183,9 +184,9 @@ describe CardAccount do
   end
 
   example ".resolved + .unresolved" do
-    card   = create(:card)
-    offer  = create(:offer, card: card)
-    person = create(:person)
+    product = create(:card_product)
+    offer   = create(:offer, product: product)
+    person  = create(:person)
 
     resolved = [
       create(:card_rec, :open,            offer: offer, person: person),
@@ -202,7 +203,7 @@ describe CardAccount do
     ]
 
     # irrelevant:
-    create(:card_account, :survey, card: card, person: person)
+    create(:card_account, :survey, product: product, person: person)
 
     unresolved = [
       # brand new:
@@ -222,9 +223,9 @@ describe CardAccount do
   end
 
   example ".not_irreversibly_denied & .irreversibly_denied" do
-    c = create(:card)
-    o = create(:offer, card: c)
-    p = create(:person)
+    cp = create(:card_product)
+    o  = create(:offer, product: cp)
+    p  = create(:person)
     attrs = { offer: o, person: p }
 
     irreversibly_denied = [

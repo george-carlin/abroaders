@@ -1,4 +1,4 @@
-<%= form_for [:admin, @card, @offer], html: { class: "form-horizontal", role: "form" } do |f| %>
+<%= form_for [:admin, @product, @offer], html: { class: "form-horizontal", role: "form" } do |f| %>
   <% if @offer.errors.any? %>
     <%= render "shared/model_validation_errors", model: @offer %>
   <% end %>

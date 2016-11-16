@@ -1,7 +1,7 @@
-# A 'card account' is the join table between a Person and a Card.
+# A 'card account' is the join table between a Person and a Card::Product.
 #
 # Note that 'card account' is the terminology we use internally to distinguish
-# this model from a Card, but from the user's point of view he doesn't care
+# this model from a Product, but from the user's point of view he doesn't care
 # about 'card accounts', he just thinks that he 'has cards'. (This is why, for
 # example, the user accesses the card_accounts#index page at the path '/cards',
 # not at '/card_accounts/')
@@ -11,8 +11,8 @@ class CardAccount < ApplicationRecord
   # A card account has the following timestamps, all of which are nullable:
   #
   # recommended_at:
-  #   the date the admin recommended the card to the user. May be null,
-  #   if the user added the card in the onboarding survey, or if the admin
+  #   the date the admin recommended the product to the user. May be null,
+  #   if the user added the product in the onboarding survey, or if the admin
   #   assigned the card to the user 'manually' (not through the recommendation
   #   system), e.g. to handle legacy data.
   #
@@ -117,7 +117,7 @@ class CardAccount < ApplicationRecord
 
   validates :decline_reason, presence: true, if: "declined_at.present?"
 
-  validate :card_matches_offer_card
+  validate :product_matches_offer_product
 
   # Associations
 
@@ -126,28 +126,28 @@ class CardAccount < ApplicationRecord
   # equal to the offer's card.
   #
   # To handle this, we're slightly denormalizing the DB schema. The
-  # `card_accounts` table has columns `card_id` and `offer_id`. When the card
-  # has an offer, `card_id` will be equal to `offer.card_id`, which is set by a
+  # `card_accounts` table has columns `product_id` and `offer_id`. When the card
+  # has an offer, `product_id` will be equal to `offer.product_id`, which is set by a
   # callback and reinforced by a validation.
   #
-  # Previously we were trying to avoid this 'redundant' data by leaving card_id
+  # Previously we were trying to avoid this 'redundant' data by leaving product_id
   # blank when offer_id was present and getting the card directly from the
   # other, but this created some subtle bugs, mainly that person.cards or
   # account.cards would *only* return cards that were from a card account with
-  # no offer. So instead we're now *always* storing card_id even when we
+  # no offer. So instead we're now *always* storing product_id even when we
   # technically don't need to.
   #
   # I'm open to suggestions for how we can handle this better.
 
-  belongs_to :card
+  belongs_to :product, class_name: 'Card::Product'
   belongs_to :person
   belongs_to :offer
 
   # Callbacks
 
-  before_validation :set_card_to_offer_card
+  before_validation :set_product_to_offer_product
 
-  # returns true iff the card can be applied for
+  # returns true iff the product can be applied for
   def applyable?
     recommendation? && status == "recommended"
   end
@@ -230,14 +230,14 @@ class CardAccount < ApplicationRecord
 
   private
 
-  def card_matches_offer_card
-    return unless offer.present? && card.present? && card != offer.card
-    errors.add(:card, :doesnt_match_offer)
+  def product_matches_offer_product
+    return unless offer.present? && product.present? && product != offer.product
+    errors.add(:product, :doesnt_match_offer)
   end
 
-  def set_card_to_offer_card
-    return unless offer.present? && offer.card.present? && card.nil?
-    self.card = offer.card
+  def set_product_to_offer_product
+    return unless offer.present? && offer.product.present? && product.nil?
+    self.product = offer.product
   end
 
   def status_model

@@ -26,7 +26,7 @@ class CardRecommendationsController < CardAccountsController
     # can do is note that they've visited this page and (hopefully) been
     # redirected to the bank's page
     @account.update_attributes!(clicked_at: Time.now)
-    @card = @account.card
+    @product = @account.product
   end
 
   def decline

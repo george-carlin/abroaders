@@ -1,7 +1,10 @@
 class OfferPresenter < ApplicationPresenter
+  delegate :name, :identifier, to: :product, prefix: true
+  delegate :bank_name, to: :product
+
   # A shorthand code that identifies the offer based on the points awarded,
   # minimum spend, and days. Note that this isn't necessarily unique per offer.
-  def identifier(with_card: false)
+  def identifier(with_product: false)
     parts = [abbreviated_points]
     case model.condition
     when "on_minimum_spend"
@@ -16,8 +19,8 @@ class OfferPresenter < ApplicationPresenter
     result = parts.join("/")
     # Note - we might eventually want to add a unique code per affiliate
     # to the end here
-    if with_card
-      "#{card_identifier}-#{result}"
+    if with_product
+      "#{product_identifier}-#{result}"
     else
       result
     end
@@ -45,7 +48,7 @@ class OfferPresenter < ApplicationPresenter
   end
 
   def currency_name
-    card.currency_name
+    product.currency_name
   end
 
   def partner_full_name
@@ -83,8 +86,8 @@ class OfferPresenter < ApplicationPresenter
 
   private
 
-  def card
-    @card ||= CardPresenter.new(super(), view)
+  def product
+    @product ||= Card::Product::Presenter.new(super(), view)
   end
 
   def abbreviated_points

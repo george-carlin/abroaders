@@ -1,42 +1,42 @@
 module AdminArea
   class OffersController < AdminController
     def index
-      if params[:card_id]
-        @card   = load_card
-        @offers = @card.offers
+      if params[:product_id]
+        @product = load_product
+        @offers  = @product.offers
       else
-        @offers = Offer.includes(:card)
+        @offers = Offer.includes(:product)
       end
     end
 
     def show
-      if params[:card_id]
-        @card  = load_card
-        @offer = @card.offers.find(params[:id])
+      if params[:product_id]
+        @product = load_product
+        @offer   = @product.offers.find(params[:id])
       else
         @offer = Offer.find(params[:id])
-        redirect_to admin_card_offer_path(@offer.card, @offer)
+        redirect_to admin_card_product_offer_path(@offer.product, @offer)
       end
     end
 
     def new
-      @card  = load_card
-      @offer = @card.offers.build
+      @product = load_product
+      @offer   = @product.offers.build
     end
 
     def edit
-      if params[:card_id]
-        @card  = load_card
-        @offer = @card.offers.find(params[:id])
+      if params[:product_id]
+        @product = load_product
+        @offer   = @product.offers.find(params[:id])
       else
         @offer = Offer.find(params[:id])
-        redirect_to edit_admin_card_offer_path(@offer.card, @offer)
+        redirect_to edit_admin_card_product_offer_path(@offer.product, @offer)
       end
     end
 
     def create
-      @card  = load_card
-      @offer = @card.offers.build(offer_params)
+      @product = load_product
+      @offer   = @product.offers.build(offer_params)
 
       if @offer.save
         flash[:success] = "Offer was successfully created."
@@ -66,7 +66,7 @@ module AdminArea
     end
 
     def review
-      @offers = Offer.includes(:card).live.order('last_reviewed_at ASC NULLS FIRST')
+      @offers = Offer.includes(:product).live.order('last_reviewed_at ASC NULLS FIRST')
     end
 
     def verify
@@ -80,8 +80,8 @@ module AdminArea
 
     private
 
-    def load_card
-      Card.find(params[:card_id])
+    def load_product
+      ::Card::Product.find(params[:product_id])
     end
 
     def load_offer

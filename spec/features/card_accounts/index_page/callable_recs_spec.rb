@@ -12,9 +12,9 @@ describe "user cards page - callable cards", :js do
   before do
     person.update!(eligible: true)
     login_as_account(account)
-    @bank  = create(:bank, name: "Chase")
-    @card  = create(:card, bank_id: @bank.id, bp: bp)
-    @offer = create(:offer, card: @card)
+    @bank    = create(:bank, name: "Chase")
+    @product = create(:card_product, bank_id: @bank.id, bp: bp)
+    @offer = create(:offer, product: @product)
     @rec = create(
       :denied_card_recommendation,
       recommended_at: recommended_at,
@@ -43,7 +43,7 @@ describe "user cards page - callable cards", :js do
     expect(rec_on_page).to have_i_called_btn
   end
 
-  context "for a personal card" do
+  context "for a personal card product" do
     let(:bp) { :personal }
     it "gives me the bank's personal number" do
       expect(rec_on_page).to have_content "call #{@bank.name} at #{personal_phone}"
@@ -51,7 +51,7 @@ describe "user cards page - callable cards", :js do
     end
   end
 
-  context "for a business card" do
+  context "for a business card product" do
     let(:bp) { :business }
     it "gives me the bank's business number" do
       expect(rec_on_page).to have_content "call #{@bank.name} at #{business_phone}"

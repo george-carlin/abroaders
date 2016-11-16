@@ -14,11 +14,11 @@
         cellspacing="1"
       >
         <tbody>
-          <% present_each(@cards) do |card| %>
+          <% present_each(@products) do |card| %>
             <tr id="<%= dom_id(card) %>">
               <td><%= card.identifier %></td>
               <td><%= card.bank_name %></td>
-              <td><%= link_to card.name, admin_card_path(card) %></td>
+              <td><%= link_to card.name, admin_card_product_path(card) %></td>
               <td><%= card.network %></td>
               <td><%= card.image %></td>
             </tr>
@@ -29,6 +29,6 @@
   </div>
 
   <div class="panel-footer">
-    <%= pluralize @cards.size, "card" %>
+    <%= pluralize @products.size, "card" %>
   </div>
 </div>

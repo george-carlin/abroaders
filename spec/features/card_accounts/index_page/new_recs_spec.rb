@@ -42,7 +42,7 @@ describe "cards index page - new recommendation", :js do
       "Spend #{number_to_currency(offer.spend)} within #{offer.days} "\
       "days to receive a bonus of "\
       "#{number_with_delimiter(offer.points_awarded)} "\
-      "#{rec.card.currency.name} points",
+      "#{rec.product.currency.name} points",
     )
   end
 
@@ -91,7 +91,7 @@ describe "cards index page - new recommendation", :js do
     rec_on_page.fill_in_decline_reason(with: message)
 
     # This could happen if e.g. they have the same window open in two
-    # tabs, and decline the card in one tab before clicking 'decline'
+    # tabs, and decline the rec in one tab before clicking 'decline'
     # again in the other tab. It should fail gracefully:
     rec.update_attributes!(applied_at: Date.today)
     raise if rec.declinable? # sanity check
@@ -155,7 +155,7 @@ describe "cards index page - new recommendation", :js do
         end
       end
 
-      context "when I was recommended this card today" do
+      context "when I received this rec today" do
         it "shows Confirm/Cancel buttons with no datepicker", :frontend do
           expect(rec_on_page).to have_no_approved_at_field
           expect(rec_on_page).to have_confirm_btn
@@ -175,7 +175,7 @@ describe "cards index page - new recommendation", :js do
         end
       end
 
-      context "when I was recommended this card before today" do
+      context "when I received rec before today" do
         let(:recommended_at) { Date.yesterday }
 
         it "shows a date picker and Confirm/Cancel buttons", :frontend do

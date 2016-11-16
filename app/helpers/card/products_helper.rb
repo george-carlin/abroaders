@@ -1,4 +1,4 @@
-module CardsHelper
+module Card::ProductsHelper
   def card_bp_filter_check_box_tag(bp)
     klass =  :card_bp_filter
     id    =  :"#{klass}_#{bp}"
@@ -29,8 +29,8 @@ module CardsHelper
 
   def options_for_card_network_select(selected_network)
     options_for_select(
-      Card.networks.map do |network, _|
-        [t("activerecord.attributes.card.networks.#{network}"), network]
+      Card::Product.networks.map do |network, _|
+        [t("activerecord.attributes.card_product.networks.#{network}"), network]
       end,
       selected_network,
     )
@@ -38,8 +38,8 @@ module CardsHelper
 
   def options_for_card_type_select(selected_type)
     options_for_select(
-      Card.types.map do |type, _|
-        [t("activerecord.attributes.card.types.#{type}"), type]
+      Card::Product.types.map do |type, _|
+        [t("activerecord.attributes.card_product.types.#{type}"), type]
       end,
       selected_type,
     )

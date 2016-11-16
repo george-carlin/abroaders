@@ -17,8 +17,8 @@ describe "admin section" do
     describe "new page" do
       let(:bank) { create(:bank) }
       before do
-        @card = create(
-          :card,
+        @product = create(
+          :card_product,
           name:    "Sapphire Preferred",
           network: :visa,
           annual_fee_cents: 150_000,
@@ -26,14 +26,14 @@ describe "admin section" do
           bank: bank,
         )
 
-        visit new_admin_card_offer_path(@card)
+        visit new_admin_card_product_offer_path(@product)
       end
 
       let(:submit) { click_button t("admin.offers.submit") }
 
       it { is_expected.to have_title full_title("New Offer") }
 
-      it "displays information about the card" do
+      it "displays information about the product" do
         expect(page).to have_content bank.name
         expect(page).to have_content "Sapphire Preferred"
         expect(page).to have_content "Visa"
@@ -85,7 +85,7 @@ describe "admin section" do
           it "creates an offer" do
             expect { submit }.to change { Offer.count }.by 1
             expect(new_offer.condition).to eq "on_approval"
-            expect(new_offer.card).to eq @card
+            expect(new_offer.product).to eq @product
             expect(new_offer.points_awarded).to eq 40_000
             expect(new_offer.link).to eq "http://something.com"
           end
@@ -134,7 +134,7 @@ describe "admin section" do
           it "creates an offer" do
             expect { submit }.to change { Offer.count }.by 1
             expect(new_offer.condition).to eq "on_first_purchase"
-            expect(new_offer.card).to eq @card
+            expect(new_offer.product).to eq @product
             expect(new_offer.days).to eq 120
             expect(new_offer.points_awarded).to eq 40_000
             expect(new_offer.link).to eq "http://something.com"
@@ -200,7 +200,7 @@ describe "admin section" do
         describe "the created offer" do
           before { submit }
           it "has the correct attributes" do
-            expect(new_offer.card).to eq @card
+            expect(new_offer.product).to eq @product
             expect(new_offer.points_awarded).to eq 40_000
             expect(new_offer.spend).to eq 5_000
             expect(new_offer.link).to eq "http://something.com"
@@ -241,7 +241,7 @@ describe "admin section" do
 
       describe "when viewing offers" do
         it "shows offer details", js: true do
-          expect(page).to have_content @live_1.card.name
+          expect(page).to have_content @live_1.product.name
           expect(find("tr#offer_#{@live_1.id}").text).to include(@live_1.last_reviewed_at.strftime("%m/%d/%Y"))
           expect(find("tr#offer_#{@live_1.id}").text).to include("CB")
         end
@@ -267,8 +267,8 @@ describe "admin section" do
 
       describe "when viewing non-reviewed offers" do
         it "shows offer details" do
-          expect(page).to have_content @live_1.card.name
-          expect(page).to have_content @live_1.card.bp.to_s[0].upcase
+          expect(page).to have_content @live_1.product.name
+          expect(page).to have_content @live_1.product.bp.to_s[0].upcase
           expect(find("tr#offer_#{@live_1.id}").text).to include('never')
           expect(page).to have_link('Link', href: @live_1.link)
           expect(page).to have_link "kill_offer_#{@live_1.id}_btn"
@@ -345,42 +345,42 @@ describe "admin section" do
     end # review page
 
     describe "show page" do
-      let(:offer)  { create(:offer, notes: 'aisjhdoifajsdf') }
-      let(:card)   { offer.card }
+      let(:offer)   { create(:offer, notes: 'aisjhdoifajsdf') }
+      let(:product) { offer.product }
       before { visit route }
 
-      let(:route) { admin_card_offer_path(card, offer) }
+      let(:route) { admin_card_product_offer_path(product, offer) }
 
       describe "when accessing the shallow path" do
         let(:route) { admin_offer_path(offer) }
         it "redirects to the nested path" do
-          expect(current_path).to eq admin_card_offer_path(card, offer)
+          expect(current_path).to eq admin_card_product_offer_path(product, offer)
         end
       end
 
-      it "displays information about the offer and card" do
-        expect(page).to have_content card.name
+      it "displays information about the offer and product" do
+        expect(page).to have_content product.name
         expect(page).to have_content card_benefit
         expect(page).to have_content offer.notes
       end
     end # show page
 
     describe "edit page" do
-      let(:offer) { create(:offer) }
-      let(:card)  { offer.card }
+      let(:offer)   { create(:offer) }
+      let(:product) { offer.product }
       before { visit route }
 
-      let(:route) { edit_admin_card_offer_path(card, offer) }
+      let(:route) { edit_admin_card_product_offer_path(product, offer) }
 
       describe "when accessing the shallow path" do
         let(:route) { edit_admin_offer_path(offer) }
         it "redirects to the nested path" do
-          expect(current_path).to eq edit_admin_card_offer_path(card, offer)
+          expect(current_path).to eq edit_admin_card_product_offer_path(product, offer)
         end
       end
 
-      it "displays information about the card" do
-        expect(page).to have_content card.name
+      it "displays information about the product" do
+        expect(page).to have_content product.name
       end
 
       it "display information about the offer" do

@@ -8,8 +8,8 @@ describe CardAccount::Serializer do
       name: 'Chase',
       personal_phone: "(888) 609-7805",
     )
-    card = create(
-      :card,
+    product = create(
+      :card_product,
       bank:    bank,
       bp:      :personal,
       name:    "My awesome card",
@@ -17,7 +17,7 @@ describe CardAccount::Serializer do
     )
 
     card_account = CardAccount.new(
-      card: card,
+      product: product,
       person: create(:person),
       # Note that these dates, of course, make no sense, and a real card
       # account would never have all of them present:
@@ -44,7 +44,7 @@ describe CardAccount::Serializer do
     expect(parsed_json.keys).to match_array(
       %w[
         id recommended_at applied_at opened_at earned_at closed_at clicked_at
-        declined_at denied_at nudged_at called_at redenied_at card decline_reason
+        declined_at denied_at nudged_at called_at redenied_at product decline_reason
       ],
     )
 
@@ -61,15 +61,15 @@ describe CardAccount::Serializer do
     expect(parsed_json["redenied_at"]).to eq    "2015-09-20"
     expect(parsed_json["decline_reason"]).to eq "something"
 
-    card = parsed_json["card"]
+    product = parsed_json["product"]
 
-    expect(card.keys).to match_array(%w[name network bp type bank])
+    expect(product.keys).to match_array(%w[name network bp type bank])
 
-    expect(card["name"]).to eq "My awesome card"
-    expect(card["network"]).to eq "visa"
-    expect(card["bp"]).to eq "personal"
+    expect(product["name"]).to eq "My awesome card"
+    expect(product["network"]).to eq "visa"
+    expect(product["bp"]).to eq "personal"
 
-    bank = card["bank"]
+    bank = product["bank"]
 
     expect(bank.keys).to match_array(%w[name personal_phone business_phone])
 

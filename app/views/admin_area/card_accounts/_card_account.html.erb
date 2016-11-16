@@ -1,7 +1,7 @@
 <% present card_account, AdminArea::CardAccountPresenter do |card_account| %>
   <%= card_account.tr_tag do %>
-    <td><%= card_account.card_identifier %></td>
-    <td><%= card_account.card_name %></td>
+    <td><%= card_account.product_identifier %></td>
+    <td><%= card_account.product_name %></td>
     <td class="card_account_status">
       <%= card_account.status %>
       <% if card_account.declined? %>

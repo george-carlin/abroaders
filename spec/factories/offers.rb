@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :offer, aliases: [:live_offer] do
-    card
+    association(:product, factory: :card_product)
     condition "on_minimum_spend"
     points_awarded { rand(20) * 5_000 }
     spend { rand(10) * 500 }

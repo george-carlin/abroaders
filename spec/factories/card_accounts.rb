@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :card_account do
     person
-    card
+    association(:product, factory: :card_product)
 
     trait :open do
       opened_at { 2.years.ago }
@@ -37,7 +37,7 @@ FactoryGirl.define do
 
     trait :recommendation do
       recommended_at { Time.now }
-      card nil
+      product nil
       offer
     end
 

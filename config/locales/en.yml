@@ -16,7 +16,7 @@ en:
 
   activerecord:
     attributes:
-      card:
+      card_product:
         bp: "Business / Personal"
         types:
           charge:       "Charge"
@@ -47,7 +47,7 @@ en:
       models:
         card_account:
           attributes:
-            card:
+            product:
               doesnt_match_offer: "doesnt match the offer"
 
   card_accounts:

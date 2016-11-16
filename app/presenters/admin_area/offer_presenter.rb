@@ -1,6 +1,6 @@
 class AdminArea::OfferPresenter < ::OfferPresenter
-  def card_bp
-    card.bp.to_s[0].upcase
+  def product_bp
+    product.bp.to_s[0].upcase
   end
 
   def cancel_recommend_btn
@@ -60,7 +60,7 @@ class AdminArea::OfferPresenter < ::OfferPresenter
   end
 
   def link_to_show_for_card
-    h.link_to card_name, h.admin_card_offers_path(card)
+    h.link_to product_name, h.admin_card_product_offers_path(product)
   end
 
   def link_to_show_for_offer

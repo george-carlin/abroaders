@@ -1,10 +1,10 @@
-<% provide :title, "Edit Card ##{@card.id}" %>
+<% provide :title, "Edit Card ##{@product.id}" %>
 
 <div class="hpanel">
   <div class="panel-heading hbuilt">
     <h1>Edit Card</h1>
   </div>
   <div class="panel-body">
-    <%= render "form", card: @card %>
+    <%= render 'form', card: @product %>
   </div>
 </div>

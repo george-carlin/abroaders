@@ -2,14 +2,14 @@
 
 <div class="hpanel">
   <div class="panel-heading hbuilt">
-    <% present @card do |card| %>
-      <h1><%= card.full_name(with_bank: true) %> - New Card Offer</h1>
+    <% present @product do |product| %>
+      <h1><%= product.full_name(with_bank: true) %> - New Offer</h1>
     <% end %>
   </div>
 
   <div class="panel-body">
     <div class="row">
-      <%= render "admin_area/offers/card", card: @card %>
+      <%= render "admin_area/offers/product", product: @product %>
     </div>
 
     <hr>

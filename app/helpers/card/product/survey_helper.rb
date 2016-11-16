@@ -1,4 +1,5 @@
-module CardsSurveyHelper
+module Card::Product::SurveyHelper
+  # TODO couldn't this be replaced with Rails's 'date_select'?
   def options_for_cards_survey_month_select(without_wrapping: false)
     options = Date::MONTHNAMES.compact.map.with_index { |m, i| [m.first(3), i + 1] }
     if without_wrapping

@@ -2,6 +2,10 @@
 
 ## November 2016
 
+*   Rename `Card` to `Card::Product`. GH #76
+
+    *George Millo*
+
 *   Convert /accounts/type page to ERB (was previously built in React)
 
     *George Millo*

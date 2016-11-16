@@ -18,7 +18,7 @@ module AdminArea
       # Use @account.card_accounts here instead of @card_accounts because
       # the latter is an Array, not a Relation (because of
       # `.select(&:persisted?)`)
-      @cards = Card.where.not(id: @account.card_accounts.select(:card_id))
+      @products = Card::Product.where.not(id: @account.card_accounts.select(:product_id))
     end
 
     def download_user_status_csv

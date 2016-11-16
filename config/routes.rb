@@ -151,12 +151,13 @@ Rails.application.routes.draw do
       end
     end
     resources :banks, only: [:index, :edit, :update]
-    resources :cards, except: :destroy do
-      collection do
-        get :images
+    namespace :card do
+      resources :products, except: :destroy do
+        collection do
+          get :images
+        end
+        resources :offers, except: :destroy
       end
-
-      resources :offers, except: :destroy
     end
 
     # show and edit redirect to the nested action:

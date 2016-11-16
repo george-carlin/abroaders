@@ -93,7 +93,6 @@ Style/VariableNumber:
   EnforcedStyle: 'snake_case'
   Exclude:
     - 'spec/features/balances/index_page_spec.rb'
-    - 'spec/forms/cards_survey_spec.rb'
 
 StringLiterals:
   Enabled: false

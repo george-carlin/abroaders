@@ -14,7 +14,7 @@
       >
         <thead>
           <tr>
-            <th>Card</th>
+            <th>Product</th>
             <th>Bank</th>
             <th>B/P</th>
             <th>Points</th>
@@ -30,10 +30,10 @@
           <% present_each @offers, AdminArea::OfferPresenter do |offer| %>
             <%= content_tag_for :tr, offer do %>
               <td class="offer_card_name">
-                <%= offer.card_name %>
+                <%= offer.product_name %>
               </td>
               <td><%= offer.bank_name %></td>
-              <td><%= offer.card_bp %></td>
+              <td><%= offer.product_bp %></td>
               <td><%= offer.points_awarded %></td>
               <td><%= offer.spend %></td>
               <td><%= offer.cost %></td>
