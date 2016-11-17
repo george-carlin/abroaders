@@ -1,4 +1,4 @@
-class SpendingInfo < ActiveRecord::Base
+class SpendingInfo < ApplicationRecord
   # Attributes
 
   delegate :couples?, to: :account, prefix: true
