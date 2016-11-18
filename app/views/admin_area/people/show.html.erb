@@ -80,26 +80,7 @@
 
         <% Alliance.in_order.each do |alliance| %>
           <%# TODO this is a prime candidate for extracting to a Cell: %>
-          <%= render "admin_area/people/filter_panel", title: alliance.name do %>
-            <label for="card_currency_alliance_filter_all_for_<%= alliance.id %>">
-              <%= check_box_tag(
-                "card_currency_alliance_filter_all_for_#{alliance.id}",
-                nil,
-                true,
-                class: "toggle-all-currency-checkbox"
-              ) %>
-              Toggle all
-            </label>
-            <hr>
-            <% present_each(
-              alliance.currencies.filterable.order(name: :asc),
-              AdminArea::CurrencyPresenter
-            ) do |currency_p| %>
-              <%= currency_p.filter_label_tag do %>
-                <%= currency_p.filter_check_box_tag %>
-              <% end %>
-            <% end %>
-          <% end %>
+          <%= cell Alliance::Cell::CurrencyFilterPanel, alliance %>
         <% end %>
       </div><!-- .row -->
     </div><!-- .panel-body -->
