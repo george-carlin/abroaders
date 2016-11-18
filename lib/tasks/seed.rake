@@ -1,12 +1,8 @@
+require 'seeder'
+
+# TODO extract the rest of these to the 'Seeder' module
 namespace :ab do
   namespace :seeds do
-    # TODO the files which contain the sample data are split between lib/seeds
-    # and lib/data for no apparent reason. Standardise where it's kept.
-
-    def load_data_for(table)
-      seeds_dir = Rails.root.join("lib", "seeds")
-      JSON.parse(File.read(seeds_dir.join("#{table}.json")))
-    end
 
     # Some of our original airport and city data was taken from here:
     #
@@ -32,16 +28,7 @@ namespace :ab do
     end
 
     task alliances: :environment do
-      ApplicationRecord.transaction do
-        [
-          [1, 'OneWorld'],
-          [2, 'StarAlliance'],
-          [3, 'SkyTeam'],
-        ].each do |id, name|
-          Alliance.create!(id: id, name: name)
-        end
-        puts "created #{Alliance.count} alliances"
-      end
+      Seeder.seed_alliances
     end
 
     task banks: :environment do
@@ -79,7 +66,7 @@ namespace :ab do
     task cards: :environment do
       ApplicationRecord.transaction do
         currency_ids = Currency.pluck(:id)
-        load_data_for("cards").each do |data|
+        Seeder.load_data_for("cards").each do |data|
           data["image"] = File.open(
             Rails.root.join("lib", "seeds", "cards", data.delete("image_name")),
           )
@@ -92,7 +79,7 @@ namespace :ab do
 
     task offers: :environment do
       ApplicationRecord.transaction do
-        load_data_for("offers").each do |data|
+        Seeder.load_data_for("offers").each do |data|
           Offer.create!(data)
         end
         puts "created #{Offer.count} offers"
@@ -100,40 +87,7 @@ namespace :ab do
     end
 
     task currencies: :environment do
-      # Note that we have the following currencies in FieldBook, but we're
-      # not currently including them in the Rails app:
-      #  - Aegean Airlines (Miles & Bonus)
-      #  - Aer Lingus (Gold Circle)
-      #  - Aeroflot Bonus
-      #  - Aerolineas Argentinas (Plus)
-      #  - Brussels Airlines (LOOPs)
-      #  - China Airlines (Dynasty Flyer)
-      #  - Copa Airlines ConnectMiles (Prefer)
-      #  - Czech Airlines (OK Plus)
-      #  - EL AL Israel Airlines (Matmid)
-      #  - Ethiopian Airlines (ShebaMiles)
-      #  - Finnair Plus
-      #  - Garuda Indonesia (Frequent Flyer)
-      #  - Royal Jordanian Airlines (Royal Plus)
-      #  - S7 Priority
-      #  - Saudi Arabian Airlines (Alfursan)
-      #  - South African Airways (Voyager)
-      #  - SriLankan (FlySmiLes)
-      #  - Turkish Airlines (Miles & Smiles)
-      #  - Ukraine International Airlines (Panorama Club)
-      #  - Vietnam Airlines (Golden Lotus Plus)
-      ApplicationRecord.transaction do
-        load_data_for("currencies").each do |data|
-          alliance_name = data.delete("alliance")
-          data["alliance_id"] = Alliance.find_by(name: alliance_name).id if alliance_name
-          if data["award_wallet_id"] == "unknown"
-            # AW ids must be present and unique:
-            data["award_wallet_id"] << "-#{SecureRandom.hex}"
-          end
-          Currency.create!(data)
-        end
-        puts "created #{Currency.count} currencies"
-      end
+      Seeder.seed_currencies
     end
 
     task regions: :environment do
