@@ -12,7 +12,7 @@ class Account < ApplicationRecord
   end
 
   def couples?
-    !!companion.try(:persisted?)
+    companion.present?
   end
 
   def onboarded?
