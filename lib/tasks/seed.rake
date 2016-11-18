@@ -3,7 +3,6 @@ require 'seeder'
 # TODO extract the rest of these to the 'Seeder' module
 namespace :ab do
   namespace :seeds do
-
     # Some of our original airport and city data was taken from here:
     #
     # https://bitbucket.org/!api/2.0/snippets/georgemillo/y8zMo/8ec4454bc955b27ee278ad92187e046c548312fb/files/snippet.txt

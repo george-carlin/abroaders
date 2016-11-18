@@ -43,8 +43,6 @@ class Currency < ApplicationRecord
   # Scopes
 
   scope :survey, -> { where(shown_on_survey: true) }
-
   # currencies that the admin can filter by on people/show
   scope :filterable, -> { where(type: "airline") }
-  scope :independent, -> { where(alliance_id: nil) }
 end

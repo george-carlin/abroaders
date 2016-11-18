@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161113030115) do
+ActiveRecord::Schema.define(version: 20161118120131) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,6 +69,7 @@ ActiveRecord::Schema.define(version: 20161113030115) do
     t.string   "name",       null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "order",      null: false
   end
 
   create_table "balances", force: :cascade do |t|
@@ -144,7 +145,7 @@ ActiveRecord::Schema.define(version: 20161113030115) do
     t.string   "award_wallet_id",                null: false
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
-    t.integer  "alliance_id"
+    t.integer  "alliance_id",                    null: false
     t.boolean  "shown_on_survey", default: true, null: false
     t.string   "type",                           null: false
     t.index ["award_wallet_id"], name: "index_currencies_on_award_wallet_id", unique: true, using: :btree
@@ -232,6 +233,7 @@ ActiveRecord::Schema.define(version: 20161113030115) do
     t.boolean  "eligible"
     t.boolean  "ready",                   default: false, null: false
     t.string   "unreadiness_reason"
+    t.date     "ready_on"
     t.index ["account_id", "owner"], name: "index_people_on_account_id_and_owner", unique: true, using: :btree
   end
 

@@ -10,8 +10,10 @@ describe Seeder do
   example '.seed_alliances' do
     expect do
       described_class.seed_alliances
-    end.to change { Alliance.count }.by(3)
-    expect(Alliance.pluck(:name)).to match_array %w[OneWorld StarAlliance SkyTeam]
+    end.to change { Alliance.count }.by(4)
+    expect(Alliance.pluck(:name)).to match_array(
+      %w[OneWorld StarAlliance SkyTeam Independent],
+    )
   end
 
   example '.seed_currencies' do
@@ -24,6 +26,6 @@ describe Seeder do
     expect(Currency.joins(:alliance).where(alliances: { name: 'OneWorld' }).count).to eq 10
     expect(Currency.joins(:alliance).where(alliances: { name: 'StarAlliance' }).count).to eq 12
     expect(Currency.joins(:alliance).where(alliances: { name: 'SkyTeam' }).count).to eq 6
-    expect(Currency.where(alliance_id: nil).count).to eq 25
+    expect(Currency.joins(:alliance).where(alliances: { name: 'Independent' }).count).to eq 25
   end
 end
