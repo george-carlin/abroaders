@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Alliance::Cell::CurrencyFilterPanel, type: :view do
   let(:alliance)   { Alliance.create(id: 1, name: 'My Alliance') }
-  let(:currencies) { 3.times.map { |i| alliance.currencies.airline.build(name: "Currency #{i}") } }
+  let(:currencies) { Array.new(alliance.currencies.airline) { |c| c.build(name: "Currency #{i}") } }
   let(:hotel_currency) { alliance.currencies.hotel.build(name: 'Bank') }
   let(:bank_currency)  { alliance.currencies.bank.build(name: 'Hotel') }
 

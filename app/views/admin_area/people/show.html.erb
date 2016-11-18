@@ -67,19 +67,9 @@
       </div><!-- .row -->
 
       <div class="row">
-        <%= render "admin_area/people/filter_panel", title: "Bank" do %>
-          <label for="card_bank_filter_all">
-            <%= check_box_tag :card_bank_filter_all, nil, true %>
-            Toggle all
-          </label>
-          <hr>
-          <% Bank.order(name: :asc).each do |bank| %>
-            <p><%= card_bank_filter_check_box_tag(bank) %></p>
-          <% end %>
-        <% end %>
+        <%= cell Bank::Cell::FilterPanel, Bank.order(name: :asc) %>
 
         <% Alliance.in_order.each do |alliance| %>
-          <%# TODO this is a prime candidate for extracting to a Cell: %>
           <%= cell Alliance::Cell::CurrencyFilterPanel, alliance %>
         <% end %>
       </div><!-- .row -->

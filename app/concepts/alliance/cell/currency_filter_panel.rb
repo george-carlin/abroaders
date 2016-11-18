@@ -1,17 +1,21 @@
-module Alliance::Cell
+class Alliance::Cell < Trailblazer::Cell
   class CurrencyFilterPanel < Trailblazer::Cell
+    include Recommendation::FilterPanel
+
     alias alliance model
     property :id
     property :name
 
     private
 
+    alias title name
+
     def filter_all_check_box_tag
       check_box_tag(
         "card_currency_alliance_filter_all_for_#{id}",
         nil,
         true,
-        class: "toggle-all-currency-checkbox"
+        class: "toggle-all-currency-checkbox",
       )
     end
 
@@ -50,4 +54,3 @@ module Alliance::Cell
     end
   end
 end
-

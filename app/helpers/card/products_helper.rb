@@ -13,20 +13,6 @@ module Card::ProductsHelper
     end
   end
 
-  def card_bank_filter_check_box_tag(bank)
-    klass =  :card_bank_filter
-    id    =  :"#{klass}_#{bank.id}"
-    label_tag id do
-      check_box_tag(
-        id,
-        nil,
-        true,
-        class: klass,
-        data: { key: :bank, value: bank.id },
-      ) << raw("&nbsp;&nbsp#{bank.name}")
-    end
-  end
-
   def options_for_card_network_select(selected_network)
     options_for_select(
       Card::Product.networks.map do |network, _|
