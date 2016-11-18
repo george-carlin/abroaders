@@ -84,7 +84,8 @@
           <% end %>
         <% end %>
 
-        <% Alliance.all.each do |alliance| %>
+        <% Alliance.in_order.each do |alliance| %>
+          <%# TODO this is a prime candidate for extracting to a Cell: %>
           <%= render "admin_area/people/filter_panel", title: alliance.name do %>
             <label for="card_currency_alliance_filter_all_for_<%= alliance.id %>">
               <%= check_box_tag(
@@ -103,27 +104,6 @@
               <%= currency_p.filter_label_tag do %>
                 <%= currency_p.filter_check_box_tag %>
               <% end %>
-            <% end %>
-          <% end %>
-        <% end %>
-
-        <%= render "admin_area/people/filter_panel", title: "Independent" do %>
-          <label for="card_currency_filter_all_independent">
-            <%= check_box_tag(
-              "card_currency_filter_all_independent",
-              nil,
-              true,
-              class: "toggle-all-currency-checkbox"
-            ) %>
-            Toggle all
-          </label>
-          <hr>
-          <% present_each(
-            Currency.independent.filterable.order(name: :asc),
-            AdminArea::CurrencyPresenter
-          ) do |currency_p| %>
-            <%= currency_p.filter_label_tag do %>
-              <%= currency_p.filter_check_box_tag %>
             <% end %>
           <% end %>
         <% end %>

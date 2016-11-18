@@ -4,11 +4,12 @@ module Seeder
   def self.seed_alliances
     ApplicationRecord.transaction do
       [
-        [1, 'OneWorld'],
-        [2, 'StarAlliance'],
-        [3, 'SkyTeam'],
-      ].each do |id, name|
-        Alliance.create!(id: id, name: name)
+        [1, 'OneWorld',     0],
+        [2, 'StarAlliance', 1],
+        [3, 'SkyTeam',      2],
+        [4, 'Independent',  99],
+      ].each do |id, name, order|
+        Alliance.create!(id: id, name: name, order: order)
       end
       Rails.logger.info "created #{Alliance.count} alliances"
     end
@@ -41,7 +42,11 @@ module Seeder
     ApplicationRecord.transaction do
       load_data_for("currencies").each do |data|
         alliance_name = data.delete("alliance")
-        data["alliance_id"] = Alliance.find_by(name: alliance_name).id if alliance_name
+        data["alliance_id"] = if alliance_name
+                                Alliance.find_by(name: alliance_name).id
+                              else
+                                Alliance.find_by(name: 'Independent').id
+                              end
         if data["award_wallet_id"] == "unknown"
           # AW ids must be present and unique:
           data["award_wallet_id"] << "-#{SecureRandom.hex}"
