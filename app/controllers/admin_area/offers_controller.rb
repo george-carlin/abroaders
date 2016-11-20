@@ -5,7 +5,7 @@ module AdminArea
         @product = load_product
         @offers  = @product.offers
       else
-        @offers = Offer.includes(:product)
+        @offers = Offer.includes(product: :bank)
       end
     end
 
@@ -66,7 +66,7 @@ module AdminArea
     end
 
     def review
-      @offers = Offer.includes(:product).live.order('last_reviewed_at ASC NULLS FIRST')
+      @offers = Offer.includes(product: :bank).live.order('last_reviewed_at ASC NULLS FIRST')
     end
 
     def verify
