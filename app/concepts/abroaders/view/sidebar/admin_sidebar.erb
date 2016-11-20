@@ -1,0 +1,15 @@
+<%= container do %>
+  <%= link 'Destinations', admin_destinations_path, ::AdminArea::DestinationsController %>
+  <%= link 'Cards', admin_card_products_path, AdminArea::Card::ProductsController %>
+  <%= nested_links(
+    'Offers',
+    {
+      'View all offers'    => admin_offers_path,
+      'Review live offers' => review_admin_offers_path,
+    },
+    AdminArea::OffersController,
+  ) %>
+  <%= link 'Users', admin_accounts_path, AdminArea::AccountsController %>
+  <%= link 'My Account', edit_admin_registration_path %>
+  <%= link 'Banks', admin_banks_path, AdminArea::BanksController %>
+<% end %>
