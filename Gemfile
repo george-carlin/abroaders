@@ -3,6 +3,8 @@ source 'https://rubygems.org'
 ruby '2.3.0'
 
 gem 'rails', '~> 5.0.0.1'
+gem 'trailblazer-rails'
+gem 'trailblazer', '~> 1.1.2'
 
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'acts_as_tree', '~> 2.4.0'
