@@ -13,18 +13,6 @@ class ReadinessController < AuthenticatedUserController
     @readiness = ReadinessForm.new(account: @account)
     @readiness.update_attributes!(readiness_params)
 
-    # case @readiness.who
-    # when ReadinessForm::WHO[:both]
-    #   track_intercom_event("obs_ready_own")
-    #   track_intercom_event("obs_ready_com")
-    # when ReadinessForm::WHO[:owner]
-    #   track_intercom_event("obs_ready_own")
-    # when ReadinessForm::WHO[:companion]
-    #   track_intercom_event("obs_ready_com")
-    # else
-    #   raise RuntimeError
-    # end
-
     AccountMailer.notify_admin_of_user_readiness_update(@account.id, Time.now.to_i).deliver_later
 
     set_flash_and_redirect
@@ -40,9 +28,6 @@ class ReadinessController < AuthenticatedUserController
     @readiness_survey = ReadinessSurvey.new(account: @account)
 
     if @readiness_survey.update_attributes(readiness_survey_params)
-      @account.people.each do |person|
-        # track_intercom_event("obs_#{'un' unless person.ready?}ready_#{person.type[0..2]}")
-      end
       redirect_to onboarding_survey_path
     else
       render :survey

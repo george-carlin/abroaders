@@ -34,7 +34,7 @@ describe "account type select page", :js, :onboarding do
   example "choosing 'solo'" do
     expect do
       click_button solo_btn
-    end.to change { Person.count }.by(0) # .and track_intercom_event("obs_account_type").for_email(account.email)
+    end.to change { Person.count }.by(0)
     account.reload
     expect(account.onboarding_state).to eq "eligibility"
 

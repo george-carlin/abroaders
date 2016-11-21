@@ -215,18 +215,4 @@ describe "the spending info survey", :js, :onboarding do
     choose :spending_survey_owner_has_business_no_business
     expect(page).to have_no_field :spending_survey_owner_business_spending_usd
   end
-
-  skip "tracking intercom events for owner", :intercom do
-    fill_in :spending_survey_owner_credit_score, with: 456
-    expect { submit_form }.to \
-      track_intercom_event("obs_spending_own").for_email(account.email)
-  end
-
-  skip "tracking intercom events for companion", :intercom do
-    create_companion!
-    visit new_person_spending_survey_path(@companion)
-    fill_in :spending_survey_owner_credit_score, with: 456
-    expect { submit_form }.to \
-      track_intercom_event("obs_spending_com").for_email(account.email)
-  end
 end
