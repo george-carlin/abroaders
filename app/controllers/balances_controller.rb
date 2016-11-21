@@ -8,20 +8,15 @@ class BalancesController < AuthenticatedUserController
 
   # GET /people/:person_id/balances/new
   def new
-    @person  = load_person
-    @balance = Balance::NewForm.new(@person.balances.new)
+    form Balance::Create
   end
 
   # POST /people/:person_id/balances
   def create
-    @person  = load_person
-    @balance = Balance::NewForm.new(@person.balances.new)
-    if @balance.validate(params[:balance])
-      @balance.save
-      redirect_to balances_path
-    else
-      render "new"
+    run Balance::Create do
+      return redirect_to balances_path
     end
+    render 'new'
   end
 
   # PUT/PATCH /balances/:id

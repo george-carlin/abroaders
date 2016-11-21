@@ -1,6 +1,13 @@
-class Balance::EditForm < Balance::Form
-  # EditForm only has one property, 'value', which is already defined in
-  # 'Form'. ('NewForm' adds the property 'currency_id' too). So EditForm
-  # doesn't actually need to exist, we could just use 'Form', but create and
-  # use an empty class anyway just to make the controller clearer.
+class Balance::EditForm < Reform::Form
+  feature Reform::Form::Dry
+
+  def self.model_name
+    Balance.model_name
+  end
+
+  property :value
+
+  validation do
+    required(:value).filled(:int?, gteq?: 0, lteq?: POSTGRESQL_MAX_INT_VALUE)
+  end
 end

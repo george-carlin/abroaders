@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'new balance pages' do
-  include_context "logged in"
+  include_context 'logged in'
 
   before(:all) { @currencies = create_list(:currency, 2) }
   let(:currencies) { @currencies }
