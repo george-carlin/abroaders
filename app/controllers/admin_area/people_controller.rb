@@ -14,7 +14,7 @@ module AdminArea
       @card_recommendation  = card_account_scope.recommendations.build
 
       @offers_grouped_by_product = \
-        Offer.includes(:product, product: :currency).live.group_by(&:product)
+        Offer.includes(product: [:bank, :currency]).live.group_by(&:product)
       @recommendation_notes = @account.recommendation_notes
     end
 
