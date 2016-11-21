@@ -2,6 +2,10 @@
 
 ## November 2016
 
+*   Extract `Abroaders::Cell::Navbar`.
+
+    *George Millo*
+
 *   Extract `Notification::Cell::List`.
 
     *George Millo*

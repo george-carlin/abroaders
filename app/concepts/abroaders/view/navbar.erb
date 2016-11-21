@@ -1,0 +1,36 @@
+<div id="header">
+  <div class="color-line"></div>
+  <%= logo %>
+
+  <nav role="navigation">
+    <%= bars %>
+
+    <div class="small-logo" <%= raw('style="padding-left: 20px"') if pad_logo? %>>
+      <span class="text-primary">Abroaders</span>
+    </div>
+
+    <div class="mobile-menu">
+      <button
+        type="button"
+        class="navbar-toggle mobile-menu-toggle"
+        data-toggle="collapse"
+        data-target="#mobile-collapse"
+      >
+        <i class="fa fa-chevron-down"></i>
+      </button>
+      <div class="collapse mobile-navbar" id="mobile-collapse">
+        <ul class="nav navbar-nav">
+          <%= mobile_links %>
+        </ul>
+      </div>
+    </div>
+
+    <div class="navbar-right">
+      <ul class="nav navbar-nav no-borders">
+        <%= notifications %>
+        <%= username %>
+        <%= links %>
+      </ul>
+    </div>
+  </nav>
+</div>
