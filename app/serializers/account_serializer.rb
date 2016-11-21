@@ -6,4 +6,8 @@ class AccountSerializer < ApplicationSerializer
 
   always_include :owner
   always_include :companion
+
+  def phone_number
+    object.phone_number.number
+  end
 end

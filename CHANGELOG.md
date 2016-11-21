@@ -2,6 +2,10 @@
 
 ## November 2016
 
+*   Extract `PhoneNumber` to a separate model.
+
+    *George Millo*
+
 *   Extract `Balance::Create` operation.
 
     *George Millo*

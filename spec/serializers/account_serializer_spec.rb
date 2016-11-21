@@ -6,8 +6,8 @@ describe AccountSerializer do
       :account,
       email: "test@example.com",
       monthly_spending_usd: 234,
-      phone_number: "555 1234 555",
     )
+    PhoneNumber::Create.(phone_number: { number: '555 1234 555' }, current_account: account)
 
     account.owner.update_attributes!(
       eligible: true,

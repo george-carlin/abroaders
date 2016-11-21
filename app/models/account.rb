@@ -48,6 +48,8 @@ class Account < ApplicationRecord
 
   has_many :balances, through: :people
 
+  has_one :phone_number
+
   has_one :owner_spending_info, through: :owner, source: :spending_info
   has_one :companion_spending_info, through: :owner, source: :spending_info
 
