@@ -34,8 +34,6 @@ class Abroaders::Cell < Trailblazer::Cell
       cell(NestedLinks, nil, title: title, links: links, controller_class: controller_class)
     end
 
-    private
-
     class AdminSidebar < self
     end
 
