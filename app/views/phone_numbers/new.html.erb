@@ -2,9 +2,10 @@
 
 <div class="row">
   <div class="hpanel col-xs-12 col-md-6 col-md-offset-3">
-    <% if @form.errors.any? %>
+    <% if @form.errors.messages.any? %>
       <%= render "shared/error_message" do %>
-        <%= @form.errors.full_messages.join(", ") %>.
+        Error: Phone number
+        <%= @form.errors.messages[:number].to_sentence %>.
         Please click the 'Skip' button if you do not wish to add a phone number.
       <% end %>
     <% end %>
@@ -13,7 +14,7 @@
 
       <hr />
 
-      <%= form_for @form, url: phone_number_path do |f| %>
+      <%= form_for @form.model, url: phone_number_path do |f| %>
         <p class="help-block">
           <b>Why do we ask for your phone number?</b>
         </p>
@@ -26,7 +27,7 @@
         </p>
 
         <div class="form-group">
-          <%= f.text_field :phone_number, placeholder: "(xxx) xxx-xxxx" %>
+          <%= f.text_field :number, placeholder: "(xxx) xxx-xxxx" %>
         </div>
 
         <button class="btn btn-primary">

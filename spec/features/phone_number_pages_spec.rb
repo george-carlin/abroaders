@@ -1,39 +1,40 @@
-require "rails_helper"
+require 'rails_helper'
 
-describe "phone number pages" do
+describe 'phone number pages' do
   let!(:account) { create(:account, onboarding_state: :phone_number) }
-  before do
-    login_as_account(account)
-    visit new_phone_number_path
-  end
+  before { login_as_account(account) }
 
-  include_context "set admin email ENV var"
+  include_context 'set admin email ENV var'
 
-  let(:submit_form) { click_button "Save and continue" }
+  let(:submit_form) { click_button 'Save and continue' }
 
-  describe "new page" do
-    example "submitting a phone number" do
-      fill_in :account_phone_number, with: "555 000-1234"
+  describe 'new page' do
+    before { visit new_phone_number_path }
+
+    example 'submitting a phone number' do
+      fill_in :phone_number_number, with: '555 000-1234'
       submit_form
       account.reload
-      expect(account.phone_number).to eq "555 000-1234"
-      expect(account.onboarding_state).to eq "complete"
+      expect(account.phone_number.number).to eq '555 000-1234'
+      expect(account.phone_number.normalized_number).to eq '5550001234'
+      expect(account.onboarding_state).to eq 'complete'
       expect(current_path).to eq root_path
     end
 
-    example "notifying the admin that the survey is complete" do
-      fill_in :account_phone_number, with: "555 000-1234"
+    example 'notifying the admin that the survey is complete' do
+      fill_in :phone_number_number, with: '555 000-1234'
       expect { submit_form }.to \
-        send_email.to(ENV["ADMIN_EMAIL"])
+        send_email.to(ENV['ADMIN_EMAIL'])
         .with_subject("App Profile Complete - #{account.email}")
     end
 
     example "submitting a phone number with trailing whitespace" do
-      fill_in :account_phone_number, with: "  555 000-1234  "
+      fill_in :phone_number_number, with: "  555 000-1234  "
       submit_form
       account.reload
-      expect(account.phone_number).to eq "555 000-1234"
-      expect(account.onboarding_state).to eq "complete"
+      expect(account.phone_number.number).to eq '555 000-1234'
+      expect(account.phone_number.normalized_number).to eq '5550001234'
+      expect(account.onboarding_state).to eq 'complete'
       expect(current_path).to eq root_path
     end
 
@@ -42,13 +43,13 @@ describe "phone number pages" do
       account.reload
       expect(account.phone_number).to be_nil
       expect(page).to have_error_message(
-        "Phone number can't be blank. Please click the 'Skip' button if you "\
-        "do not wish to add a phone number",
+        "Error: Phone number must be filled and size cannot be greater than 15. "\
+        "Please click the 'Skip' button if you do not wish to add a phone number",
       )
     end
 
     example "submitting a whitespace-only phone number" do
-      fill_in :account_phone_number, with: "       "
+      fill_in :phone_number_number, with: "       "
       submit_form
       account.reload
       expect(account.phone_number).to be_nil

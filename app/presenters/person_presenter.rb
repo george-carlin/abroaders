@@ -6,7 +6,11 @@ class PersonPresenter < ApplicationPresenter
     account.created_at.strftime("%D")
   end
 
-  delegate :email, :phone_number, to: :account
+  delegate :email, to: :account
+
+  def phone_number
+    account.phone_number&.number
+  end
 
   def eligibility
     if eligible?
