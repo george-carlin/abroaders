@@ -40,7 +40,7 @@
       <ul class="nav navbar-nav no-borders">
         <% if current_account || current_admin %>
           <% if current_account&.onboarded? %>
-            <%= render "layouts/notifications" %>
+            <%= cell(Notification::Cell::List, current_account) %>
           <% end %>
           <li class="text">
             <%= current_account ? current_account.email : current_admin.email %>

@@ -2,6 +2,10 @@
 
 ## November 2016
 
+*   Extract `Notification::Cell::List`.
+
+    *George Millo*
+
 *   Rename `Card` to `Card::Product`. GH #76
 
     *George Millo*
