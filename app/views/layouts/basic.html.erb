@@ -2,7 +2,7 @@
 <html>
   <%= render "layouts/head" %>
   <body class="blank">
-    <%= render "layouts/header" %>
+    <%= cell Abroaders::Cell::Navbar, current_user %>
 
     <%= flash_alerts %>
     <%= yield %>

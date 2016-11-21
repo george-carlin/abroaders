@@ -2,7 +2,7 @@
 <html>
   <%= render "layouts/head" %>
   <body class="<%= "blank" unless sidebar? %> fixed-navbar fixed-sidebar">
-    <%= render "layouts/header" %>
+    <%= cell Abroaders::Cell::Navbar,  current_user %>
     <%= cell Abroaders::Cell::Sidebar, current_user if sidebar? %>
 
     <div id="wrapper" class="wrapper <%= 'wrapper-with-sidebar' if sidebar? %>">
