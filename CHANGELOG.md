@@ -2,6 +2,10 @@
 
 ## November 2016
 
+*   Extract `Balance::Create` operation.
+
+    *George Millo*
+
 *   Extract `Abroaders::Cell::Navbar`.
 
     *George Millo*

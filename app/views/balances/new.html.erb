@@ -3,13 +3,13 @@
     <h1>
       Add new Balance
       <% if current_account.couples? %>
-        for <%= @person.first_name %>
+        for <%= @form.model.person.first_name %>
       <% end %>
     </h1>
 
-    <%= render "shared/reform_validation_errors", form: @balance %>
+    <%= render "shared/reform_validation_errors", form: @form %>
 
-    <%= form_for [@person, @balance] do |f| %>
+    <%= form_for [@form.model.person, @form.model] do |f| %>
 
       <div class="form-group">
         <%= f.label :currency_id %>

@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-describe Balance::Form do
+describe Balance::EditForm do
   let(:balance) { Struct.new(:value, :currency_id).new }
 
   def errors_for(key, value)
-    form = Balance::Form.new(balance)
+    form = described_class.new(balance)
     form.validate(key => value)
     form.errors[key]
   end
