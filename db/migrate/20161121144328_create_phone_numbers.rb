@@ -1,11 +1,4 @@
 class CreatePhoneNumbers < ActiveRecord::Migration[5.0]
-  class Account < ActiveRecord::Base
-  end
-
-  class PhoneNumber < ActiveRecord::Base
-    belongs_to :account
-  end
-
   def change
     create_table :phone_numbers do |t|
       t.references :account, foreign_key: { on_delete: :cascade }, null: false
@@ -19,10 +12,11 @@ class CreatePhoneNumbers < ActiveRecord::Migration[5.0]
       d.up do
         Account.where.not(phone_number: nil).find_each do |account|
           number = account.phone_number
-          PhoneNumber.create!(
-            account: account,
-            number:  number,
-            normalized_number: ::PhoneNumber.normalize(number),
+          ::PhoneNumber::Create.(
+            phone_number: {
+              number:  number,
+            },
+            current_account: account,
           )
         end
       end
