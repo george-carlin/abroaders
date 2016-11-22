@@ -1,4 +1,12 @@
 class CreatePhoneNumbers < ActiveRecord::Migration[5.0]
+  class Account < ActiveRecord:::Base
+    has_one :phone_number
+  end
+
+  class PhoneNumber < ActiveRecord::Base
+    belongs_to :account
+  end
+
   def change
     create_table :phone_numbers do |t|
       t.references :account, foreign_key: { on_delete: :cascade }, null: false
