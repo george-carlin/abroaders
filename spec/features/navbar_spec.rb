@@ -19,6 +19,10 @@ describe "navbar" do
         end
       end
     end
+
+    it 'has no search bar' do
+      expect(page).to have_no_selector '#admin_accounts_search_bar'
+    end
   end
 
   context "when I am logged in as a normal user" do
@@ -33,6 +37,19 @@ describe "navbar" do
           expect(page).to have_link "Sign out"
         end
       end
+    end
+
+    it 'has no search bar' do
+      expect(page).to have_no_selector '#admin_accounts_search_bar'
+    end
+  end
+
+  context "when I am logged in as an account" do
+    include_context "logged in as admin"
+    before { visit root_path }
+
+    it 'has a search bar for accounts' do
+      expect(page).to have_selector '#admin_accounts_search_bar'
     end
   end
 end

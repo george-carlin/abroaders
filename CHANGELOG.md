@@ -2,6 +2,10 @@
 
 ## November 2016
 
+*   Admins can search accounts by email, people names, or phone number.
+
+    *George Millo*
+
 *   Extract `PhoneNumber` to a separate model.
 
     *George Millo*
@@ -10,11 +14,8 @@
 
     *George Millo*
 
-*   Extract `Abroaders::Cell::Navbar`.
-
-    *George Millo*
-
-*   Extract `Notification::Cell::List`.
+*   Extract cells: `Abroaders::Cell::Navbar`, `Notification::Cell::List`,
+    `Account::Cell::TableRow`.
 
     *George Millo*
 

@@ -147,6 +147,7 @@ Rails.application.routes.draw do
   namespace :admin, module: :admin_area do
     resources :accounts, only: [:index, :show] do
       collection do
+        get :search
         get :download_user_status_csv
       end
     end

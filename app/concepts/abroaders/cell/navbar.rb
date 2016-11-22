@@ -16,12 +16,18 @@ class Abroaders::Cell < Trailblazer::Cell
       render view: 'navbar' # use the same ERB file even in subclasses
     end
 
+    private
+
     def bars
       if sidebar?
         '<div class="header-link hide-menu"><i class="fa fa-bars"></i></div>'
       else
         ''
       end
+    end
+
+    def search_form
+      ''
     end
 
     def pad_logo?
@@ -78,6 +84,10 @@ class Abroaders::Cell < Trailblazer::Cell
 
     class AdminNavbar < SignedInNavbar
       private
+
+      def search_form
+        cell(::Account::Cell::Admin::SearchForm)
+      end
 
       def sidebar?
         true
