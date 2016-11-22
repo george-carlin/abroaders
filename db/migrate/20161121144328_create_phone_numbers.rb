@@ -1,5 +1,5 @@
 class CreatePhoneNumbers < ActiveRecord::Migration[5.0]
-  class Account < ActiveRecord:::Base
+  class Account < ActiveRecord::Base
     has_one :phone_number
   end
 
