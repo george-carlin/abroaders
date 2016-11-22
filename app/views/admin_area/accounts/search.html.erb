@@ -1,0 +1,37 @@
+<% provide :title, "Accounts" %>
+
+<div class="hpanel">
+  <div class="panel-heading hbuilt">
+    <h1>Account Search</h1>
+  </div>
+
+  <div class="panel-body">
+    <% if @accounts.any? %>
+      Showing <%= pluralize @accounts.size, 'result' %> for
+      '<%= params[:accounts][:search].squish %>':
+      <table
+        id="admin_accounts_table"
+        class="accounts table table-striped"
+        cellpadding="1"
+        cellspacing="1"
+      >
+        <thead>
+          <tr>
+            <th>O?</th>
+            <th>Email</th>
+            <th>Owner</th>
+            <th>Companion</th>
+            <th>Phone number</th>
+            <th>Signed up</th>
+            <th>Last rec</th>
+          </tr>
+        </thead>
+        <tbody id="admin_accounts_table_body">
+          <%= cell(Account::Cell::TableRow, collection: @accounts) %>
+        </tbody>
+      </table>
+    <% else %>
+      No results for '<%= params[:accounts][:search].squish %>'
+    <% end %>
+  </div>
+</div>

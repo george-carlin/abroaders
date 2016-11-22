@@ -87,4 +87,7 @@ class Account < ApplicationRecord
   before_save { self.email = email.downcase if email.present? }
 
   # Scopes
+
+  # Hack to prevent annoying autoload error. See Rails issue #14844
+  autoload :Cell, 'account/cell'
 end

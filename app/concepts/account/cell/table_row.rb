@@ -16,6 +16,10 @@ class Account::Cell < Trailblazer::Cell
       onboarded? ? raw('<i class="fa fa-check"> </i>') : ''
     end
 
+    def phone_number
+      model.phone_number&.number || ''
+    end
+
     def tr(&block)
       content_tag_for(
         :tr,

@@ -21,6 +21,10 @@ module AdminArea
       @products = Card::Product.where.not(id: @account.card_accounts.select(:product_id))
     end
 
+    def search
+      @accounts = Account::Admin::Search.(query: params[:accounts][:search])
+    end
+
     def download_user_status_csv
       csv = UserStatusCSV.generate
       send_data csv, filename: "user_status.csv", type: "text/csv", disposition: "attachment"
