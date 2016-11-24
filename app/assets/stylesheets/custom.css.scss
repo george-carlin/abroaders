@@ -211,10 +211,7 @@ footer.footer {
 
 // SPENDING INFO
 
-.spending_info > .table td:first-child {
-  font-weight: bold;
-}
-
+// TODO move me to under the dir of the relevant cell
 .has-ein {
   position: relative;
   bottom: 1px;

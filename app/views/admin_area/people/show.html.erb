@@ -15,13 +15,7 @@
 
     <div class="panel-body">
       <div class="col-xs-12 col-md-6">
-        <% if person.eligible? %>
-          <% if @spending_info.present? %>
-            <%= render "spending_infos/spending_info", spending_info: @spending_info, show_eligibility: true, show_readiness: true %>
-          <% else %>
-            User has not added their spending info
-          <% end %>
-        <% end %>
+        <%= cell(Person::Cell::Admin::SpendingInfo, @person) %>
       </div>
 
       <div class="col-xs-12 col-md-6">
