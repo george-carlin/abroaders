@@ -10,6 +10,7 @@ require 'database_cleaner'
 
 require 'active_record'
 
+require APP_ROOT.join('app', 'models', 'application_record')
 require_relative './support/test_data_store'
 
 connection_info = YAML.load_file('config/database.yml')['test']
