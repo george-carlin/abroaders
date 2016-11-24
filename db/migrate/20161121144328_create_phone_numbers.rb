@@ -1,6 +1,8 @@
 class CreatePhoneNumbers < ActiveRecord::Migration[5.0]
   class Account < ActiveRecord::Base
-    has_one :phone_number
+    # don't include has_one :phone_number because then the name of
+    # the association will conflict with the name of the column we're
+    # trying to remove
   end
 
   class PhoneNumber < ActiveRecord::Base
@@ -20,11 +22,10 @@ class CreatePhoneNumbers < ActiveRecord::Migration[5.0]
       d.up do
         Account.where.not(phone_number: nil).find_each do |account|
           number = account.phone_number
-          ::PhoneNumber::Create.(
-            phone_number: {
-              number:  number,
-            },
-            current_account: account,
+          PhoneNumber.create!(
+            account: account,
+            number:  number,
+            normalized_number: ::PhoneNumber::Create.normalize(number),
           )
         end
       end
