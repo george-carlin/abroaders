@@ -34,7 +34,7 @@ describe Alliance::Create do
     end
 
     example 'strips whitespace' do
-      res, op = described_class.run(alliance: { name: '   Yo   '})
+      res, op = described_class.run(alliance: { name: '   Yo   ' })
       raise unless res
       expect(op.model.name).to eq 'Yo'
     end

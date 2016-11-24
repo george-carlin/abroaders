@@ -6,7 +6,7 @@ class Alliance < ApplicationRecord
     contract do
       feature Reform::Form::Coercion
 
-      property :name,  type: Types::Stripped::String
+      property :name, type: Types::Stripped::String
       property :order
 
       validation do
