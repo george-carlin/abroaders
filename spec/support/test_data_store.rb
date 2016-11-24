@@ -20,7 +20,7 @@ class TestDataStore
   end
 end
 
-class ApplicationRecord < ActiveRecord::Base
+ApplicationRecord.class_eval do
   cattr_accessor :__storing_on
   after_create :__store_test_data, if: :__storing_on
 
