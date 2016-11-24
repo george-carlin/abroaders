@@ -14,16 +14,7 @@ namespace :ab do
     # Keep the note of the above links just for historical reference.
 
     task admins: :environment do
-      ApplicationRecord.transaction do
-        %w[Erik AJ George].each do |name|
-          Admin.create!(
-            email: "#{name.downcase}@abroaders.com",
-            password:              "abroaders123",
-            password_confirmation: "abroaders123",
-          )
-        end
-        puts "created #{Admin.count} admins"
-      end
+      Seeder.seed_admins
     end
 
     task alliances: :environment do
@@ -31,54 +22,19 @@ namespace :ab do
     end
 
     task banks: :environment do
-      [
-        # comments after each line contain additional data about the bank
-        # that we're not doing anything with yet
-        [1, 'Chase', '(888) 609-7805', '800 453-9719'],
-        [3, 'Citibank', '(800) 695-5171', '800-763-9795'],
-        [5, 'Barclays', '866-408-4064', '866-408-4064'],
-        # hours: 8am-5pm EST M-F
-        [7, 'American Express', '(877) 399-3083', '(877) 399-3083'],
-        # when prompted, say 'Application Status'
-        [9, 'Capital One', '(800) 625-7866', '(800) 625-7866'],
-        # hours (M-F 8-8pm EST)
-        [11, 'Bank of America', '(877) 721-9405', '800-481-8277'],
-        # when prompted, dial option 3 for 'Application Status'
-        [13, 'US Bank', '800 685-7680', '800 685-7680'],
-        # hours: 8am-8pm EST (M-F)'
-        [15, 'Discover'],
-        [17, 'Diners Club'],
-        [19, 'SunTrust'],
-        [21, 'TD Bank'],
-        [23, 'Wells Fargo'],
-      ].each do |id, name, personal_phone, business_phone|
-        Bank.create!(
-          business_phone: business_phone,
-          id:             id,
-          identifier:     identifier,
-          name:           name,
-          personal_phone: personal_phone,
-        )
-      end
+      Seeder.seed_banks
     end
 
-    task cards: :environment do
-      ApplicationRecord.transaction do
-        currency_ids = Currency.pluck(:id)
-        Seeder.load_data_for("cards").each do |data|
-          data["image"] = File.open(
-            Rails.root.join("lib", "seeds", "cards", data.delete("image_name")),
-          )
-          data["currency_id"] = currency_ids.sample
-          Card::Product.create!(data)
-        end
-        puts "created #{Card::Product.count} cards"
-      end
+    task card_products: :environment do
+      Seeder.seed_card_products
     end
 
     task offers: :environment do
       ApplicationRecord.transaction do
+        product_ids = Card::Product.pluck(:id)
         Seeder.load_data_for("offers").each do |data|
+          data['product_id'] = product_ids.sample
+          data['link']       = 'http://example.com'
           Offer.create!(data)
         end
         puts "created #{Offer.count} offers"
@@ -151,6 +107,6 @@ namespace :ab do
     end
 
     task destinations: [:regions, :countries, :cities, :airports]
-    task all: [:admins, :currencies, :cards, :destinations, :offers]
+    task all: [:admins, :alliances, :banks, :currencies, :card_products, :destinations, :offers]
   end
 end
