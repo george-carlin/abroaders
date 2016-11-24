@@ -2,7 +2,7 @@
 
 <p>I've just finished picking the best cards based on your travel plans, current points, and monthly spending.</p>
 
-<p>You can see my recommendations here: <%= link_to card_accounts_url, card_accounts_url %>
+<p>You can see my recommendations here: <%= link_to cards_url, cards_url %>
 
 <% if @note %>
   <p><%= auto_link(simple_format(@note)) %></p>
@@ -15,6 +15,6 @@ Erik</p>
 
 <p>
   p.s. If you decide not to apply for any of the cards, please
-  <%= link_to "log in to your account", card_accounts_url %>
+  <%= link_to "log in to your account", cards_url %>
   and click "No thanks" under the picture of the card.
 </p>

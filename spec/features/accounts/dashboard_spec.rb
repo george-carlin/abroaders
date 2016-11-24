@@ -138,7 +138,7 @@ describe "account dashboard" do
 
       within_modal do
         expect(page).to have_content "You have 1 card recommendation which requires action"
-        expect(page).to have_link "Continue", href: card_accounts_path
+        expect(page).to have_link "Continue", href: cards_path
       end
     end
 
@@ -147,12 +147,12 @@ describe "account dashboard" do
       # resolved_rec:
       create(:card_recommendation, :applied, :open, person: owner, offer: offer)
       # CA from onboarding survey:
-      create(:survey_card_account, person: owner)
+      create(:survey_card, person: owner)
 
       visit_path
 
       expect(page).to have_no_modal
-      expect(page).to have_no_link "Continue", href: card_accounts_path
+      expect(page).to have_no_link "Continue", href: cards_path
     end
 
     example "visit dashboard with recently accepted recommendation" do

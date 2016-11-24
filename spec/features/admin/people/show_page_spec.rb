@@ -194,16 +194,16 @@ module AdminArea
 
     example "person added cards in onboarding survey" do
       @opened_acc = \
-        create(:open_survey_card_account,   opened_at: jan, person: person)
+        create(:open_survey_card,   opened_at: jan, person: person)
       @closed_acc = \
-        create(:closed_survey_card_account, opened_at: mar, closed_at: oct, person: person)
+        create(:closed_survey_card, opened_at: mar, closed_at: oct, person: person)
 
       visit_path
 
-      opened_acc = CardAccountOnPage.new(@opened_acc, self)
-      closed_acc = CardAccountOnPage.new(@closed_acc, self)
+      opened_acc = CardOnPage.new(@opened_acc, self)
+      closed_acc = CardOnPage.new(@closed_acc, self)
 
-      within "#admin_person_card_accounts" do
+      within "#admin_person_cards" do
         expect(opened_acc).to be_present
         expect(closed_acc).to be_present
       end
@@ -232,11 +232,11 @@ module AdminArea
 
       visit_path
 
-      new_rec      = CardAccountOnPage.new(@new_rec, self)
+      new_rec      = CardOnPage.new(@new_rec, self)
       clicked_rec  = CardAccountOnPage.new(@clicked_rec, self)
       declined_rec = CardAccountOnPage.new(@declined_rec, self)
 
-      within "#admin_person_card_accounts_table" do
+      within "#admin_person_cards_table" do
         expect(new_rec).to be_present
         expect(clicked_rec).to be_present
         expect(declined_rec).to be_present
@@ -505,8 +505,8 @@ module AdminArea
         expect(rec.recommendation?).to be true
 
         # the rec is added to the table:
-        within "#admin_person_card_accounts_table" do
-          expect(page).to have_selector "#card_account_#{rec.id}"
+        within "#admin_person_cards_table" do
+          expect(page).to have_selector "#card_#{rec.id}"
         end
       end
     end

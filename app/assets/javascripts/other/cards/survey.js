@@ -2,7 +2,7 @@
 $(document).ready(function () {
   // Allow the user to check/uncheck the box by clicking anywhere within the
   // picture/description of the card:
-  $(".cards_survey_card_account_opened").click(function (e) {
+  $(".cards_survey_card_opened").click(function (e) {
     var $this = $(this);
     var checked = $this.prop("checked");
 
@@ -11,7 +11,7 @@ $(document).ready(function () {
     $this.closest(".card-survey-checkbox").toggleClass("opened", checked);
   });
 
-  $(".cards_survey_card_account_closed").click(function () {
+  $(".cards_survey_card_closed").click(function () {
     var $this = $(this);
     var checked = $this.prop("checked");
 

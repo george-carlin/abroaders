@@ -66,7 +66,7 @@ const ApproveCardAccountFormFields = React.createClass({
   render() {
     const confirmOrCancel = (
       <ConfirmOrCancelBtns
-        className="card_account_confirm_approved_btn_group"
+        className="card_confirm_approved_btn_group"
         onClickCancel={this.props.onClickCancel}
         onClickConfirm={this.props.submitAction}
         small
@@ -81,10 +81,10 @@ const ApproveCardAccountFormFields = React.createClass({
       return (
         <div>
           <input
-            className="card_account_opened_at form-control input-sm"
+            className="card_opened_at form-control input-sm"
             defaultValue={this.props.openedAt}
-            id="card_account_opened_at"
-            modelName="card_account"
+            id="card_opened_at"
+            modelName="card"
             ref={setTextField}
             small
             type="text"

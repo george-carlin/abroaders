@@ -60,7 +60,7 @@ describe "notifications" do
 
       it "takes me to the relevant path" do
         click
-        expect(current_path).to eq card_accounts_path
+        expect(current_path).to eq cards_path
       end
 
       it "decrements unseen_notifications_count" do

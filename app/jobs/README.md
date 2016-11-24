@@ -30,13 +30,13 @@
   the same state when the job is performed that it was when the job was
   enqueued. So, for example, code like this is risky:
 
-      card_account.update_attributes!(something)
-      NotifyAdminOfUpdate.perform_later(card_account.id)
+      card.update_attributes!(something)
+      NotifyAdminOfUpdate.perform_later(card.id)
 
       # app/jobs/notify_admin_of_update.rb:
-      def perform(card_account_id)
-        ca = CardAccount.find(card_account_id)
-        Admin.notify("Card Account ##{ca.id} was updated at #{ca.updated_at}")
+      def perform(card_id)
+        ca = Card.find(card_id)
+        Admin.notify("Card ##{ca.id} was updated at #{ca.updated_at}")
       end
 
   The problem is that the card account may have been updated *again* since you
@@ -46,11 +46,11 @@
   When it's important that the background job uses *current* data, pass the
   data in directly instead of relying on pulling it out of the DB later:
 
-      card_account.update_attributes!(something)
-      NotifyAdminOfUpdate.perform_later(card_account.id, card_account.updated_at)
+      card.update_attributes!(something)
+      NotifyAdminOfUpdate.perform_later(card.id, card.updated_at)
 
       # app/jobs/notify_admin_of_update.rb:
-      def perform(card_account_id, updated_at)
-        Admin.notify("Card Account ##{card_account_id} was updated at #{updated_at}")
+      def perform(card_id, updated_at)
+        Admin.notify("Card Account ##{card_id} was updated at #{updated_at}")
       end
 

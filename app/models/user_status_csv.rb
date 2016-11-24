@@ -27,7 +27,7 @@ class UserStatusCSV
       onboarded
     ]
 
-    person_includes = [:card_accounts, :card_recommendations, :spending_info]
+    person_includes = [:cards, :card_recommendations, :spending_info]
 
     rows = Account.includes(
       people:    person_includes,

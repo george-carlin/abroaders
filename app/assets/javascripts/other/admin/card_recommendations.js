@@ -1,12 +1,12 @@
 /* eslint no-param-reassign: 0 */
 
 $(document).ready(function () {
-  $(".new_card_account table").tablesorter({
+  $(".new_card table").tablesorter({
     // The table can't be sorted by the first column:
     headers: { 0: { sorter: false } },
   });
 
-  var $personCardTable = $("#admin_person_card_accounts_table");
+  var $personCardTable = $("#admin_person_cards_table");
   $personCardTable.tablesorter({
     headers: {
       0:  { sorter: false }, // ID
@@ -62,7 +62,7 @@ $(document).ready(function () {
           .toggle(show);
     });
 
-    $("tr.card_account").each(function (i, tr) {
+    $("tr.card").each(function (i, tr) {
       var bankIsShown = checkedBanks.indexOf(tr.dataset.bank) > -1;
       var bpIsShown   = checkedBPs.indexOf(tr.dataset.bp) > -1;
       var currIsShown = checkedCurrencies.indexOf(tr.dataset.currency) > -1;

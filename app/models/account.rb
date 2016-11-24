@@ -42,9 +42,8 @@ class Account < ApplicationRecord
   delegate :first_name, to: :owner,     prefix: true
   delegate :first_name, to: :companion, prefix: true
 
-  has_many :card_accounts, through: :people
+  has_many :cards, through: :people
   has_many :card_recommendations, through: :people
-  has_many :cards, through: :card_accounts
 
   has_many :balances, through: :people
 

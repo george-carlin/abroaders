@@ -6,8 +6,8 @@ module AdminArea
       rec.update_attributes!(card_rec_params)
       respond_to do |f|
         f.js do
-          @card_account = rec.card_account
-          @offer        = rec.offer
+          @card = rec.card
+          @offer = rec.offer
         end
       end
     end
@@ -53,7 +53,7 @@ module AdminArea
     end
 
     def load_recommendation
-      CardAccount.recommendations.find(params[:id])
+      Card.recommendations.find(params[:id])
     end
 
     def recommendation_note

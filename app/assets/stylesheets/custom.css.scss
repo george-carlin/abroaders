@@ -122,7 +122,7 @@ footer.footer {
     margin-bottom: 4px;
   }
 
-  .cards_survey_card_account_closed {
+  .cards_survey_card_closed {
     height: 25px;
     position: relative;
     left: 5px;
@@ -131,7 +131,7 @@ footer.footer {
 
 }
 
-.cards_survey_card_account_opened_at_wrapper, .cards_survey_card_account_closed_wrapper {
+.cards_survey_card_opened_at_wrapper, .cards_survey_card_closed_wrapper {
   display: none;
 
   label {
@@ -144,7 +144,7 @@ footer.footer {
   }
 }
 
-.cards_survey_card_account_closed_at_wrapper {
+.cards_survey_card_closed_at_wrapper {
   display: none;
 
   label {
@@ -226,7 +226,7 @@ footer.footer {
 
 // ???? //
 
-.card_account .card_account_offer {
+.card .card_offer {
   font-size: 0.8em;
 }
 

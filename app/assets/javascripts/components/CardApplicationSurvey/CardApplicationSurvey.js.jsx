@@ -53,12 +53,12 @@ const CardApplicationSurvey = React.createClass({
   submitAction(action, extraData) {
     const data = {
       _method: "patch",
-      "card_account[action]" : action,
+      "card[action]" : action,
       authenticity_token: this.authenticityToken,
     };
 
     if (action === "open" && extraData && extraData.openedAt) {
-      data["card_account[opened_at]"] = extraData.openedAt;
+      data["card[opened_at]"] = extraData.openedAt;
     }
 
     $.post(

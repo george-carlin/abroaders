@@ -4,12 +4,12 @@ module AdminArea
     attribute :person,   Person
 
     # The card account that is created on save:
-    attribute :card_account, CardAccount
+    attribute :card, Card
 
     validate :offer_is_live
 
     def self.name
-      "CardRecommendation"
+      'Card'
     end
 
     def offer
@@ -26,7 +26,7 @@ module AdminArea
     end
 
     def persist!
-      self.card_account = person.card_recommendations.create!(offer: offer, recommended_at: Time.now)
+      self.card = person.card_recommendations.create!(offer: offer, recommended_at: Time.now)
     end
   end
 end

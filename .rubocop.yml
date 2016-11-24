@@ -104,16 +104,10 @@ StringLiterals:
 Metrics:
   Enabled: false
 
-# Offense count: 2
-# Configuration parameters: ContextCreatingMethods.
-Lint/UselessAccessModifier:
-  Exclude:
-    - 'spec/support/pages/card_accounts/card_account_on_page.rb'
-
 # Offense count: 1
 Style/AccessorMethodName:
   Exclude:
-    - 'spec/support/pages/card_accounts/new_card_account_on_page.rb'
+    - 'spec/support/pages/cards/new_card_on_page.rb'
 
 # Offense count: 7
 # Cop supports --auto-correct.

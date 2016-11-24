@@ -4,11 +4,11 @@ $("#admin_recommend_offer_" + offerId + " .offer-recommend").html(
   "<button class='btn btn-xs btn-success pull-right' disabled>Recommended!</button>"
 );
 
-var tr = "<%= j render "admin_area/card_accounts/card_account", card_account: @card_account %>";
+var tr = "<%= j render "admin_area/cards/card", card: @card %>";
 
 // If the user had no card accounts when the page was initially loaded, the table will
 // be hidden, so show it:
-$("#admin_person_card_accounts").show();
+$("#admin_person_cards").show();
 // And hide the text that says there are no card accounts:
-$("#admin_person_card_accounts_none").hide();
-$("#admin_person_card_accounts_table tbody").append(tr);
+$("#admin_person_cards_none").hide();
+$("#admin_person_cards_table tbody").append(tr);

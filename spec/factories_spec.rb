@@ -105,14 +105,14 @@ describe "factories" do
   end
 
   describe 'card account factory' do
-    let(:create_account) { create(:card_account, *traits) }
+    let(:create_account) { create(:card, *traits) }
     let(:traits) { [] }
 
-    let(:account) { CardAccount.last }
+    let(:account) { Card.last }
 
     it 'creates a card account with a card product and no offer' do
       create_account
-      expect(CardAccount.count).to eq 1
+      expect(Card.count).to eq 1
       expect(Card::Product.count).to eq 1
       expect(Offer.count).to eq 0
       product = Card::Product.last

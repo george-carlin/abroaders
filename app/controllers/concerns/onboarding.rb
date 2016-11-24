@@ -14,9 +14,9 @@ module Onboarding
     when "regions_of_interest" then survey_interest_regions_path
     when "account_type"        then type_account_path
     when "eligibility"         then survey_eligibility_path
-    when "owner_cards"         then survey_person_card_accounts_path(current_account.owner)
+    when "owner_cards"         then survey_person_cards_path(current_account.owner)
     when "owner_balances"      then survey_person_balances_path(current_account.owner)
-    when "companion_cards"     then survey_person_card_accounts_path(current_account.companion)
+    when "companion_cards"     then survey_person_cards_path(current_account.companion)
     when "companion_balances"  then survey_person_balances_path(current_account.companion)
     when "spending"            then survey_spending_info_path
     when "readiness"           then survey_readiness_path
