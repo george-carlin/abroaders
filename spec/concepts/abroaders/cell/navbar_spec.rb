@@ -1,12 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Abroaders::Cell::Navbar, type: :view do
-  class Controller # haaaaack :(
-    include Rails.application.routes.url_helpers
-  end
-  let(:context) { { controller: Controller.new } }
-
-  subject(:cell) { described_class.(user, context: context).to_s }
+  subject(:cell) { described_class.(user, context: CELL_CONTEXT).show }
 
   context 'when not signed in' do
     subject(:user) { nil }
