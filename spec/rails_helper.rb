@@ -1,6 +1,7 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
 require_relative 'spec_helper'
+require_relative 'active_record_spec_helper'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'capybara-screenshot/rspec' unless ENV["CI"]
@@ -60,35 +61,8 @@ RSpec.configure do |config|
   config.include TypeaheadMacros, type: :feature
   config.include WaitForAjax, type: :feature
 
-  # For info on how the 'manual_clean' option works, see the notes in
-  # spec/support/test_data_store.rb
-  config.around(:each) do |example|
-    if example.metadata[:js]
-      if example.metadata[:manual_clean]
-        ApplicationRecord.__storing_on = true
-        example.run
-        TestDataStore.clean
-        ApplicationRecord.__storing_on = false
-      else
-        DatabaseCleaner.strategy = :truncation
-        DatabaseCleaner.start
-        example.run
-        DatabaseCleaner.clean
-      end
-    else
-      DatabaseCleaner.strategy = :transaction
-      DatabaseCleaner.start
-      example.run
-      DatabaseCleaner.clean
-    end
-  end
-
   config.after(:each) do
     Warden.test_reset!
-  end
-
-  config.after(:all) do
-    DatabaseCleaner.clean_with :truncation
   end
 
   def login_as_account(account)
