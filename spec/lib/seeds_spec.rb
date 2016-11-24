@@ -12,10 +12,10 @@ RSpec.describe Seeder do
       described_class.seed_admins
     end.to change { Admin.count }.by(3)
     expect(Admin.pluck(:email)).to match_array(%w[
-      erik@abroaders.com
-      george@abroaders.com
-      aj@abroaders.com
-    ])
+                                                 erik@abroaders.com
+                                                 george@abroaders.com
+                                                 aj@abroaders.com
+                                               ],)
   end
 
   example '.seed_alliances' do
@@ -33,20 +33,19 @@ RSpec.describe Seeder do
     end.to change { Bank.count }.by(12)
 
     expect(Bank.pluck(:name)).to match_array([
-      'American Express',
-      'Bank of America',
-      'Barclays',
-      'Capital One',
-      'Chase',
-      'Citibank',
-      'Diners Club',
-      'Discover',
-      'SunTrust',
-      'TD Bank',
-      'US Bank',
-      'Wells Fargo',
-      ]
-    )
+                                               'American Express',
+                                               'Bank of America',
+                                               'Barclays',
+                                               'Capital One',
+                                               'Chase',
+                                               'Citibank',
+                                               'Diners Club',
+                                               'Discover',
+                                               'SunTrust',
+                                               'TD Bank',
+                                               'US Bank',
+                                               'Wells Fargo',
+                                             ],)
   end
 
   example '.seed_currencies' do
