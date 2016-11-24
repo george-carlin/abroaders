@@ -26,7 +26,7 @@ class PhoneNumber < ApplicationRecord
     private
 
     def model!(params)
-      params[:current_account].build_phone_number
+      PhoneNumber.new(account: params[:current_account])
     end
   end
 end
