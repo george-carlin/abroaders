@@ -91,32 +91,6 @@ ActiveRecord::Schema.define(version: 20161121144328) do
     t.datetime "updated_at",     null: false
   end
 
-  create_table "card_accounts", force: :cascade do |t|
-    t.integer  "product_id"
-    t.integer  "person_id",      null: false
-    t.integer  "offer_id"
-    t.date     "recommended_at"
-    t.date     "applied_at"
-    t.date     "opened_at"
-    t.date     "earned_at"
-    t.date     "closed_at"
-    t.string   "decline_reason"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-    t.date     "clicked_at"
-    t.date     "declined_at"
-    t.date     "denied_at"
-    t.date     "nudged_at"
-    t.date     "called_at"
-    t.date     "redenied_at"
-    t.datetime "seen_at"
-    t.datetime "expired_at"
-    t.datetime "pulled_at"
-    t.index ["pulled_at"], name: "index_card_accounts_on_pulled_at", using: :btree
-    t.index ["recommended_at"], name: "index_card_accounts_on_recommended_at", using: :btree
-    t.index ["seen_at"], name: "index_card_accounts_on_seen_at", using: :btree
-  end
-
   create_table "card_products", force: :cascade do |t|
     t.string   "code",                              null: false
     t.string   "name",                              null: false
@@ -139,13 +113,39 @@ ActiveRecord::Schema.define(version: 20161121144328) do
     t.index ["wallaby_id"], name: "index_card_products_on_wallaby_id", using: :btree
   end
 
+  create_table "cards", force: :cascade do |t|
+    t.integer  "product_id"
+    t.integer  "person_id",      null: false
+    t.integer  "offer_id"
+    t.date     "recommended_at"
+    t.date     "applied_at"
+    t.date     "opened_at"
+    t.date     "earned_at"
+    t.date     "closed_at"
+    t.string   "decline_reason"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.date     "clicked_at"
+    t.date     "declined_at"
+    t.date     "denied_at"
+    t.date     "nudged_at"
+    t.date     "called_at"
+    t.date     "redenied_at"
+    t.datetime "seen_at"
+    t.datetime "expired_at"
+    t.datetime "pulled_at"
+    t.index ["pulled_at"], name: "index_cards_on_pulled_at", using: :btree
+    t.index ["recommended_at"], name: "index_cards_on_recommended_at", using: :btree
+    t.index ["seen_at"], name: "index_cards_on_seen_at", using: :btree
+  end
+
   create_table "currencies", force: :cascade do |t|
     t.string   "name",                           null: false
     t.string   "award_wallet_id",                null: false
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
-    t.integer  "alliance_id",                    null: false
     t.boolean  "shown_on_survey", default: true, null: false
+    t.integer  "alliance_id",                    null: false
     t.string   "type",                           null: false
     t.index ["award_wallet_id"], name: "index_currencies_on_award_wallet_id", unique: true, using: :btree
     t.index ["name"], name: "index_currencies_on_name", unique: true, using: :btree
@@ -232,7 +232,6 @@ ActiveRecord::Schema.define(version: 20161121144328) do
     t.boolean  "eligible"
     t.boolean  "ready",                   default: false, null: false
     t.string   "unreadiness_reason"
-    t.date     "ready_on"
     t.index ["account_id", "owner"], name: "index_people_on_account_id_and_owner", unique: true, using: :btree
   end
 
@@ -283,11 +282,11 @@ ActiveRecord::Schema.define(version: 20161121144328) do
   add_foreign_key "accounts_home_airports", "destinations", column: "airport_id", on_delete: :restrict
   add_foreign_key "balances", "currencies", on_delete: :cascade
   add_foreign_key "balances", "people", on_delete: :cascade
-  add_foreign_key "card_accounts", "card_products", column: "product_id", on_delete: :restrict
-  add_foreign_key "card_accounts", "offers", on_delete: :cascade
-  add_foreign_key "card_accounts", "people", on_delete: :cascade
   add_foreign_key "card_products", "banks"
   add_foreign_key "card_products", "currencies", on_delete: :restrict
+  add_foreign_key "cards", "card_products", column: "product_id", on_delete: :restrict
+  add_foreign_key "cards", "offers", on_delete: :cascade
+  add_foreign_key "cards", "people", on_delete: :cascade
   add_foreign_key "currencies", "alliances"
   add_foreign_key "destinations", "destinations", column: "parent_id", on_delete: :restrict
   add_foreign_key "flights", "destinations", column: "from_id", on_delete: :restrict

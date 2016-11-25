@@ -41,7 +41,7 @@ const ApplyOrDeclineBtns = React.createClass({
     let actions;
 
     let errorMessageStyle = {};
-    let declineReasonWrapperClass = "card_account_decline_reason_wrapper";
+    let declineReasonWrapperClass = "card_decline_reason_wrapper";
     if (this.state.showErrorMessage) {
       declineReasonWrapperClass += " field_with_errors";
     } else {
@@ -55,7 +55,7 @@ const ApplyOrDeclineBtns = React.createClass({
           <div className={declineReasonWrapperClass}>
             <TextField
               attribute="decline_reason"
-              modelName="card_account"
+              modelName="card"
               onChange={this.onChangeDeclineReason}
               placeholder="Why don't you want to apply for this card?"
               small
@@ -69,7 +69,7 @@ const ApplyOrDeclineBtns = React.createClass({
           />
 
           <span
-            className="decline_card_account_error_message"
+            className="decline_card_error_message"
             style={errorMessageStyle}
           >
             Please include a message

@@ -45,12 +45,12 @@ en:
 
     errors:
       models:
-        card_account:
+        card:
           attributes:
             product:
               doesnt_match_offer: "doesnt match the offer"
 
-  card_accounts:
+  cards:
     invalid_status_error: "Couldn't save. This may happen if you already made the update in a different window or tab, or hit the 'back' button after making the update the first time. Try refreshing the page."
     index:
       application_pending: "Thanks for taking our recommendation and applying for the card! When you hear back from the bank, please come back and tell us whether or not your application for the card was successful."
@@ -77,7 +77,7 @@ en:
       submit: "Submit"
 
     people:
-      card_accounts:
+      cards:
         none: "User has no cards on file. Use the form below to recommend them their first card."
 
       card_recommendations:

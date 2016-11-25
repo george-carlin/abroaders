@@ -194,16 +194,16 @@ module AdminArea
 
     example "person added cards in onboarding survey" do
       @opened_acc = \
-        create(:open_survey_card_account,   opened_at: jan, person: person)
+        create(:open_survey_card,   opened_at: jan, person: person)
       @closed_acc = \
-        create(:closed_survey_card_account, opened_at: mar, closed_at: oct, person: person)
+        create(:closed_survey_card, opened_at: mar, closed_at: oct, person: person)
 
       visit_path
 
-      opened_acc = CardAccountOnPage.new(@opened_acc, self)
-      closed_acc = CardAccountOnPage.new(@closed_acc, self)
+      opened_acc = CardOnPage.new(@opened_acc, self)
+      closed_acc = CardOnPage.new(@closed_acc, self)
 
-      within "#admin_person_card_accounts" do
+      within "#admin_person_cards" do
         expect(opened_acc).to be_present
         expect(closed_acc).to be_present
       end
@@ -232,11 +232,11 @@ module AdminArea
 
       visit_path
 
-      new_rec      = CardAccountOnPage.new(@new_rec, self)
-      clicked_rec  = CardAccountOnPage.new(@clicked_rec, self)
-      declined_rec = CardAccountOnPage.new(@declined_rec, self)
+      new_rec      = CardOnPage.new(@new_rec, self)
+      clicked_rec  = CardOnPage.new(@clicked_rec, self)
+      declined_rec = CardOnPage.new(@declined_rec, self)
 
-      within "#admin_person_card_accounts_table" do
+      within "#admin_person_cards_table" do
         expect(new_rec).to be_present
         expect(clicked_rec).to be_present
         expect(declined_rec).to be_present
@@ -300,8 +300,8 @@ module AdminArea
       unpulled_rec = create(:card_recommendation, offer: o, person: person)
       visit_path
 
-      pulled_rec_on_page   = AdminArea::CardAccountOnPage.new(pulled_rec, self)
-      unpulled_rec_on_page = AdminArea::CardAccountOnPage.new(unpulled_rec, self)
+      pulled_rec_on_page   = AdminArea::CardOnPage.new(pulled_rec, self)
+      unpulled_rec_on_page = AdminArea::CardOnPage.new(unpulled_rec, self)
 
       expect(pulled_rec_on_page).to be_absent
       expect(unpulled_rec_on_page).to be_present
@@ -311,7 +311,7 @@ module AdminArea
     example "pulling a rec", :js do
       rec = create(:card_recommendation, offer: offers[0], person: person)
       visit_path
-      rec_on_page = AdminArea::CardAccountOnPage.new(rec, self)
+      rec_on_page = AdminArea::CardOnPage.new(rec, self)
 
       page.accept_confirm do
         rec_on_page.click_pull_btn
@@ -479,7 +479,7 @@ module AdminArea
         expect(offer_on_page).to have_button "Confirm"
 
         # clicking 'cancel' goes back a step, and doesn't recommend anything
-        expect { offer_on_page.click_cancel_btn }.not_to change { CardAccount.count }
+        expect { offer_on_page.click_cancel_btn }.not_to change { ::Card.count }
         expect(offer_on_page).to have_button "Recommend"
         expect(offer_on_page).to have_no_button "Confirm"
         expect(offer_on_page).to have_no_button "Cancel"
@@ -497,7 +497,7 @@ module AdminArea
         expect(page).to have_content "Recommended!"
 
         # the rec has the correct attributes:
-        rec = CardAccount.recommendations.last
+        rec = ::Card.recommendations.last
         expect(rec.product).to eq offer.product
         expect(rec.offer).to eq offer
         expect(rec.person).to eq @person
@@ -505,8 +505,8 @@ module AdminArea
         expect(rec.recommendation?).to be true
 
         # the rec is added to the table:
-        within "#admin_person_card_accounts_table" do
-          expect(page).to have_selector "#card_account_#{rec.id}"
+        within "#admin_person_cards_table" do
+          expect(page).to have_selector "#card_#{rec.id}"
         end
       end
     end

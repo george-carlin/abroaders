@@ -73,7 +73,7 @@ Rails.application.routes.draw do
         post :survey, action: :save_survey
       end
     end
-    resources :card_accounts, path: :cards, only: [] do
+    resources :cards, only: [] do
       collection do
         get  :survey
         post :survey, action: :save_survey
@@ -91,14 +91,9 @@ Rails.application.routes.draw do
 
   resources :notifications, only: :show
 
-  # Note that 'cards' is a fixed list, and 'card accounts' is the join table
-  # between a user and a card. But the user doesn't care about anyone's cards
-  # except his own, and from his perspective he doesn't have a "card account"
-  # in the app, he just has a "card". So show the path 'cards' to the user even
-  # though we're dealing with the CardAccount model, not the Card model.
-  resources :card_accounts, path: :cards
+  resources :cards
 
-  resources :card_recommendations do
+  resources :recommendations do
     member do
       get   :apply
       patch :decline
@@ -176,14 +171,14 @@ Rails.application.routes.draw do
       get type.pluralize, to: "destinations##{type}"
     end
     resources :people, only: :show do
-      resources :card_recommendations, only: [:create] do
+      resources :recommendations, only: [:create] do
         collection do
           post :complete
           get  :pulled
         end
       end
     end
-    resources :card_recommendations do
+    resources :recommendations do
       member do
         patch :pull
       end

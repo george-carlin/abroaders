@@ -8,10 +8,10 @@ module AdminArea
       @travel_plans  = @account.travel_plans.includes_destinations
       @balances      = @person.balances.includes(:currency)
 
-      card_account_scope = @person.card_accounts.includes(product: :bank, offer: :product)
-      @card_accounts = card_account_scope.unpulled
-      @pulled_card_accounts = card_account_scope.pulled
-      @card_recommendation  = card_account_scope.recommendations.build
+      card_scope = @person.cards.includes(product: :bank, offer: :product)
+      @cards     = card_scope.unpulled
+      @pulled_cards   = card_scope.pulled
+      @recommendation = card_scope.recommendations.build
 
       @offers_grouped_by_product = \
         Offer.includes(product: [:bank, :currency]).live.group_by(&:product)

@@ -50,9 +50,9 @@ class Person < ApplicationRecord
 
   belongs_to :account
   has_one :spending_info, dependent: :destroy
-  has_many :card_accounts
-  has_many :card_recommendations, -> { recommendations }, class_name: "CardAccount"
-  has_many :cards, through: :card_accounts
+  has_many :cards
+  has_many :card_recommendations, -> { recommendations }, class_name: 'Card'
+  has_many :card_products, through: :cards
 
   has_many :balances
   has_many :currencies, through: :balances

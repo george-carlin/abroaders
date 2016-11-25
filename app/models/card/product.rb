@@ -2,7 +2,7 @@
 # specific instance of a card owned owned by a particular person (i.e. the one
 # physical copy of a Chase Sapphire card which you keep in your wallet, as
 # opposed to the general concept of a Chase Sapphire card), is represented by
-# the CardAccount model (which we plan on eventually renaming to just 'card')
+# the Card model (which we plan on eventually renaming to just 'card')
 class Card::Product < ApplicationRecord
   self.inheritance_column = :_no_sti
 
@@ -73,7 +73,7 @@ class Card::Product < ApplicationRecord
   # Associations
 
   has_many :offers
-  has_many :accounts, class_name: "CardAccount"
+  has_many :cards
   belongs_to :currency
   belongs_to :bank
 

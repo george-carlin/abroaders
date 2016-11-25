@@ -25,7 +25,7 @@ describe "eligibility" do
         expect(account.owner.reload).to be_eligible
         expect(account.companion.reload).to be_eligible
         expect(account.reload.onboarding_state).to eq "owner_cards"
-        expect(current_path).to eq survey_person_card_accounts_path(account.owner)
+        expect(current_path).to eq survey_person_cards_path(account.owner)
       end
 
       example "selecting 'owner'" do
@@ -34,7 +34,7 @@ describe "eligibility" do
         expect(account.owner.reload).to be_eligible
         expect(account.companion.reload).not_to be_eligible
         expect(account.reload.onboarding_state).to eq "owner_cards"
-        expect(current_path).to eq survey_person_card_accounts_path(account.owner)
+        expect(current_path).to eq survey_person_cards_path(account.owner)
       end
 
       example "selecting 'companion'" do
@@ -71,7 +71,7 @@ describe "eligibility" do
         click_submit
         expect(account.owner.reload).to be_eligible
         expect(account.reload.onboarding_state).to eq "owner_cards"
-        expect(current_path).to eq survey_person_card_accounts_path(owner)
+        expect(current_path).to eq survey_person_cards_path(owner)
       end
 
       example "selecting 'owner'" do

@@ -1,0 +1,61 @@
+<%= present_div card, class: "row" do |card| %>
+  <div class="col-xs-12 col-sm-6 col-md-2">
+    <%= card.product.image("130x81") %>
+  </div>
+
+  <div class="col-xs-12 col-sm-6 col-md-6">
+    <p>
+      <b>Card Name:</b>
+      <span class="card-account-card-name">
+        <%= card.product.name %>
+        <% unless card.product.unknown_network? %>
+          (<%= card.product.network %>)
+        <% end %>
+      </span>
+    </p>
+
+    <p>
+      <b>Bank:</b>
+      <span class="card-account-bank">
+        <%= card.product.bank_name %>
+      </span>
+    </p>
+
+    <% if card.offer.present? %>
+      <div class="card_offer">
+        <%= card.offer.description %>
+      </div><!-- .product-account-offer -->
+    <% end %>
+  </div>
+
+  <% if card.from_survey? %>
+    <div class="col-xs-12 col-md-3">
+      <% if card.opened_at? %>
+        <p><b>Opened:</b> <%= card.opened_at %></p>
+      <% end %>
+      <% if card.closed_at? %>
+        <p><b>Closed:</b> <%= card.closed_at %></p>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if card.from_survey? %>
+    <div class="col-xs-12 col-md-1">
+      <%= link_to "Edit", edit_card_path(card) %>
+    </div>
+  <% end %>
+
+  <div class="col-xs-12">
+    <br>
+
+    <div
+      data-react-component="CardApplicationSurvey"
+      data-apply-path="<%= apply_recommendation_path(card) %>"
+      data-decline-path="<%= decline_recommendation_path(card) %>"
+      data-update-path="<%= recommendation_path(card) %>"
+      data-card-account="<%= serialize(card) %>"
+    ></div>
+  </div>
+<% end # div_for %>
+
+<hr>

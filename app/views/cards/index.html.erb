@@ -1,0 +1,89 @@
+<% provide :title, "Your Cards" %>
+
+<div class="hpanel">
+  <div class="panel-heading hbuilt">
+    <h2>Card Recommendations</h2>
+  </div><!-- panel-heading -->
+
+  <div class="panel-body">
+    <% if current_account.people.any?(&:eligible?) %>
+      <% if @recommendations.any? %>
+        <h3>Notes from the Abroaders team</h3>
+
+        <p>
+          These cards were hand picked by the Abroaders founders (not by a
+          computer) based on your travel plans and the information in your
+          profile. Because offers change all the time, these recommendations
+          will expire in 2 weeks. Please click “Apply” below the card image
+          and complete the application on the bank's website. If you decide not
+          to apply for a card, please click “No Thanks”.
+        </p>
+
+        <% if @recommendation_notes.any? %>
+          <%= auto_link(simple_format(@recommendation_notes.last.content)) %>
+        <% end %>
+
+        <hr />
+
+        <div id="card_recommendations">
+          <% @people.each do |person| %>
+            <div id="<%= person.type %>_card_recommendations">
+              <% if @people.many? %>
+                <h3><%= cards_index_subheader(person) %></h3>
+              <% end %>
+
+              <% card_recs = @recommendations.where(person: person) %>
+              <% if card_recs.any? %>
+                <%= render card_recs %>
+              <% else %>
+                No recommendations for <%= person.first_name %>
+              <% end %>
+            </div><!-- #<%= person.type %>_card_recommendations -->
+          <% end %>
+        </div><!-- #card_recommendations -->
+      <% else %>
+        <div class="alert alert-info">
+          The Abroaders team is hand selecting the ideal rewards cards
+          based on your current points, travel plans and spending. We’ll
+          let you know as soon as the card recommendations are ready to
+          view.
+        </div>
+      <% end %>
+    <% else # no eligible people %>
+      <p><%= t("dashboard.account.ineligible.title") %></p>
+      <p><%= t("dashboard.account.ineligible.message") %></p>
+    <% end %>
+  </div><!-- .panel-body -->
+</div><!-- .hpanel -->
+
+<% if @cards_from_survey.any? %>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="hpanel">
+        <div class="panel-heading hbuilt">
+          <h2>Other Cards</h2>
+          <p>You told us when you signed up that you already had these cards:</p>
+        </div>
+
+        <div class="panel-body">
+          <div id="cards_from_survey">
+            <% @people.each do |person| %>
+              <div id="<%= person.type %>_cards_from_survey">
+                <% if @people.many? %>
+                  <h3><%= cards_index_subheader(person) %></h3>
+                <% end %>
+
+                <% survey_cards = @cards_from_survey.where(person: person) %>
+                <% if survey_cards.any? %>
+                  <%= render survey_cards %>
+                <% else %>
+                  <p><%= person.first_name %> has no other cards</p>
+                <% end %>
+              </div><!-- #<%= person.type %>_cards_from_survey -->
+            <% end %>
+          </div>
+        </div><!-- .panel-body -->
+      </div>
+    </div>
+  </div>
+<% end %>

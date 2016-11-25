@@ -39,7 +39,7 @@ class Offer < ApplicationRecord
   # Associations
 
   belongs_to :product, class_name: 'Card::Product'
-  has_many :card_accounts, foreign_key: :offer_id
+  has_many :cards
 
   # Callbacks
 

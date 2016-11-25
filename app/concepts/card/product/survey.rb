@@ -1,8 +1,8 @@
 class Card::Product::Survey < ApplicationForm
   attribute :person,        Person
   # TODO keep this consistent with other form objects and call the attribute
-  # 'card_account_ids'
-  attribute :card_accounts, Array
+  # 'card_ids'
+  attribute :cards, Array
 
   def each_section
     Card::Product.survey.group_by(&:bank).each do |bank, products|
@@ -13,7 +13,7 @@ class Card::Product::Survey < ApplicationForm
   private
 
   def persist!
-    card_accounts.each do |card_account|
+    cards.each do |card|
       # Example hash contents: {
       #   product_id: '3'
       #   opened: 'true'
@@ -27,23 +27,23 @@ class Card::Product::Survey < ApplicationForm
       # Note that 'opened' and 'closed' will be nil, not false or 'false', if
       # the value is false.
       #
-      next unless card_account['opened'].present?
+      next unless card['opened'].present?
 
-      opened_at_y = card_account['opened_at_(1i)']
-      opened_at_m = card_account['opened_at_(2i)']
+      opened_at_y = card['opened_at_(1i)']
+      opened_at_m = card['opened_at_(2i)']
 
       attributes = {
-        product: Card::Product.survey.find(card_account['product_id']),
+        product: Card::Product.survey.find(card['product_id']),
         opened_at: end_of_month(opened_at_y, opened_at_m),
       }
 
-      if card_account["closed"].present?
-        closed_at_y = card_account["closed_at_(1i)"]
-        closed_at_m = card_account["closed_at_(2i)"]
+      if card["closed"].present?
+        closed_at_y = card["closed_at_(1i)"]
+        closed_at_m = card["closed_at_(2i)"]
         attributes["closed_at"] = end_of_month(closed_at_y, closed_at_m)
       end
 
-      person.card_accounts.from_survey.create!(attributes)
+      person.cards.from_survey.create!(attributes)
     end
 
     onboarder = AccountOnboarder.new(person.account)

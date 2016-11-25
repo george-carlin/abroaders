@@ -110,14 +110,14 @@
       <div class="panel-body">
         <h3>Card Accounts</h3>
 
-        <div id="admin_person_card_accounts"
-          <% if @card_accounts.size == 0 %>
+        <div id="admin_person_cards"
+          <% if @cards.size == 0 %>
             <%# this table is hidden, but still output, because it will be    %>
             <%# once a card is recommended and added to the table shown by JS %>
             style="display:none;"
           <% end %>
         >
-          <table id="admin_person_card_accounts_table" class="table table-striped tablesorter">
+          <table id="admin_person_cards_table" class="table table-striped tablesorter">
             <thead>
               <th>Card ID</th>
               <th>Name</th>
@@ -133,20 +133,20 @@
               <th></th>
             </thead>
             <tbody>
-              <%= render @card_accounts, partial: "admin_area/card_accounts/card_account" %>
+              <%= render @cards, partial: "admin_area/cards/card" %>
             </tbody>
           </table>
 
         </div>
 
-        <% if @card_accounts.size == 0 %>
-          <p id="admin_person_card_accounts_none">User has no existing card accounts</p>
+        <% if @cards.size == 0 %>
+          <p id="admin_person_cards_none">User has no existing card accounts</p>
         <% end %>
 
-        <% if @pulled_card_accounts.any? %>
+        <% if @pulled_cards.any? %>
           <%= link_to(
-            "View #{pluralize(@pulled_card_accounts.size, "pulled recommendation")}",
-            pulled_admin_person_card_recommendations_path(@person)
+            "View #{pluralize(@pulled_cards.size, "pulled recommendation")}",
+            pulled_admin_person_recommendations_path(@person)
           ) %>
         <% end %>
       </div>
@@ -181,7 +181,7 @@
       <div class="row">
         <div class="col-xs-12">
           <%= form_tag(
-            complete_admin_person_card_recommendations_path(person),
+            complete_admin_person_recommendations_path(person),
             id: 'complete_card_recommendations'
           ) do %>
             <%= text_area_tag(

@@ -51,7 +51,7 @@ window.diacritics = require("diacritics");
 // window.components = {}
 //
 // _.each([
-//   "CardAccountApplyOrDecline",
+//   "CardApplyOrDecline",
 //   "CardApplicationSurvey",
 //   "AccountTypeForm"
 //  ], function (name) {
