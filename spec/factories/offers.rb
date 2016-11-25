@@ -10,7 +10,7 @@ FactoryGirl.define do
     partner "card_benefit"
 
     factory :dead_offer do
-      killed_at { DateTime.now - (rand * 21) }
+      killed_at { Time.zone.now - (rand * 21) }
     end
   end
 end

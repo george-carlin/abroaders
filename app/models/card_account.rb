@@ -225,7 +225,7 @@ class CardAccount < ApplicationRecord
   scope :visible, -> { recommendations.undeclined.unexpired.unpulled }
 
   def pull!
-    update_attributes!(pulled_at: Time.now)
+    update_attributes!(pulled_at: Time.zone.now)
   end
 
   private

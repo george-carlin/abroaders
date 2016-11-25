@@ -26,7 +26,7 @@ module CardAccount::Expiration
     def expire_old_recommendations!
       expirable.where(
         "recommended_at < '#{EXPIRE_AFTER_NO_OF_DAYS.days.ago.utc.to_s(:db)}'",
-      ).update_all(expired_at: Time.now)
+      ).update_all(expired_at: Time.zone.now)
     end
   end
 end

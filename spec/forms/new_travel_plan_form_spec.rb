@@ -30,9 +30,9 @@ describe NewTravelPlanForm, type: :model do
   specify "departure date must be present and not in the past" do
     form.departure_date = nil
     expect(errors_on(:departure_date)).to eq ["can't be blank"]
-    form.departure_date = Date.yesterday
+    form.departure_date = Time.zone.yesterday
     expect(errors_on(:departure_date)).to eq ["can't be in the past"]
-    form.departure_date = Date.today
+    form.departure_date = Time.zone.today
     expect(errors_on(:departure_date)).to be_empty
   end
 
@@ -85,22 +85,22 @@ describe NewTravelPlanForm, type: :model do
   context "when type is return" do
     before { form.type = :return }
 
-    specify "return date must be present and in the future" do
+    specify "return date must be present and not in the past" do
       form.departure_date = nil # so we don't get 'must be later than departure' errors
 
       form.return_date = nil
       expect(errors_on(:return_date)).to eq ["can't be blank"]
-      form.return_date = Date.yesterday
+      form.return_date = Time.zone.yesterday
       expect(errors_on(:return_date)).to eq ["can't be in the past"]
-      form.return_date = Date.today
+      form.return_date = Time.zone.today
       expect(errors_on(:return_date)).to be_empty
     end
 
     specify "return date must be >= departure" do
-      form.departure_date = Date.tomorrow
-      form.return_date = Date.today
+      form.departure_date = Time.zone.tomorrow
+      form.return_date = Time.zone.today
       expect(errors_on(:return_date)).to eq ["can't be earlier than departure date"]
-      form.return_date = Date.tomorrow
+      form.return_date = Time.zone.tomorrow
       expect(errors_on(:return_date)).to be_empty
     end
   end
@@ -114,7 +114,7 @@ describe NewTravelPlanForm, type: :model do
       form.from = airport_0.full_name
       form.to   = airport_1.full_name
       form.no_of_passengers = 1
-      form.departure_date   = Date.today
+      form.departure_date   = Time.zone.today
       form.further_information = '      something      '
       expect { form.save! }.to change { account.travel_plans.count }.by(1)
       plan = account.travel_plans.last
@@ -126,7 +126,7 @@ describe NewTravelPlanForm, type: :model do
       form.from = airport_0.full_name
       form.to   = airport_1.full_name
       form.no_of_passengers = 1
-      form.departure_date   = Date.today
+      form.departure_date   = Time.zone.today
       form.further_information = '      '
       expect { form.save! }.to change { account.travel_plans.count }.by(1)
       plan = account.travel_plans.last
@@ -140,7 +140,7 @@ describe NewTravelPlanForm, type: :model do
         form.from = airport_0.full_name
         form.to   = airport_1.full_name
         form.no_of_passengers = 1
-        form.departure_date   = Date.today
+        form.departure_date   = Time.zone.today
         expect { form.save! }.to change { account.travel_plans.count }.by(1)
         account.reload
         expect(account.onboarding_state).to eq "account_type"

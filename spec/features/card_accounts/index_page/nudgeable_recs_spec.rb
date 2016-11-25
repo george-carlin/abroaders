@@ -123,8 +123,8 @@ describe "user cards page - nudgeable cards", :js do
 
         it "updates the rec's attributes", :backend do
           expect(rec.status).to eq "open"
-          expect(rec.opened_at).to eq Date.today
-          expect(rec.nudged_at).to eq Date.today
+          expect(rec.opened_at).to eq Time.zone.today
+          expect(rec.nudged_at).to eq Time.zone.today
           expect(rec.applied_at).to eq applied_at # unchanged
         end
       end
@@ -146,8 +146,8 @@ describe "user cards page - nudgeable cards", :js do
         it "updates the rec's attributes", :backend do
           expect(rec.status).to eq "denied"
           expect(rec.applied_at).to eq applied_at # unchanged
-          expect(rec.denied_at).to eq Date.today
-          expect(rec.nudged_at).to eq Date.today
+          expect(rec.denied_at).to eq Time.zone.today
+          expect(rec.nudged_at).to eq Time.zone.today
         end
       end
     end
@@ -168,7 +168,7 @@ describe "user cards page - nudgeable cards", :js do
         it "updates the rec's attributes", :backend do
           expect(rec.status).to eq "applied"
           expect(rec.applied_at).to eq applied_at # unchanged
-          expect(rec.nudged_at).to eq Date.today
+          expect(rec.nudged_at).to eq Time.zone.today
         end
       end
     end
@@ -226,7 +226,7 @@ describe "user cards page - nudgeable cards", :js do
 
         it "updates the rec's attributes", :backend do
           expect(rec.status).to eq "open"
-          expect(rec.opened_at).to eq Date.today
+          expect(rec.opened_at).to eq Time.zone.today
         end
 
         include_examples "doesn't change applied or nudged"
@@ -248,7 +248,7 @@ describe "user cards page - nudgeable cards", :js do
 
         it "updates the rec's attributes", :backend do
           expect(rec.status).to eq "denied"
-          expect(rec.denied_at).to eq Date.today
+          expect(rec.denied_at).to eq Time.zone.today
         end
 
         include_examples "doesn't change applied or nudged"

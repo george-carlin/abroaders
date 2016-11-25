@@ -25,7 +25,7 @@ class CardRecommendationsController < CardAccountsController
     # We can't know for sure here if the user has actually applied; the most we
     # can do is note that they've visited this page and (hopefully) been
     # redirected to the bank's page
-    @account.update_attributes!(clicked_at: Time.now)
+    @account.update_attributes!(clicked_at: Time.zone.now)
     @product = @account.product
   end
 
@@ -49,7 +49,7 @@ class CardRecommendationsController < CardAccountsController
   end
 
   def decline_params
-    params.require(:card_account).permit(:decline_reason).merge(declined_at: Time.now)
+    params.require(:card_account).permit(:decline_reason).merge(declined_at: Time.zone.now)
   end
 
   def update_params

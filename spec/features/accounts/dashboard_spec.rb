@@ -116,7 +116,7 @@ describe "account dashboard" do
   context "when account has at least one card recommendation" do
     let(:account) { create(:account, :couples, :onboarded, email: email) }
     let(:offer) { create(:offer) }
-    before { owner.update!(last_recommendations_at: Time.now) }
+    before { owner.update!(last_recommendations_at: Time.zone.now) }
 
     specify "account owner appears on the LHS of the page" do
       # unresolved_rec:
@@ -157,7 +157,7 @@ describe "account dashboard" do
 
     example "visit dashboard with recently accepted recommendation" do
       person = account.people.first
-      person.update_attributes(last_recommendations_at: Time.current)
+      person.update_attributes(last_recommendations_at: Time.zone.now)
       create(:spending_info, person: person)
 
       visit_path

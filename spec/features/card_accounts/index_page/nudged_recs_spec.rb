@@ -73,7 +73,7 @@ describe "user cards page - nudged cards", :js do
 
         it "updates the card account's attributes", :backend do
           expect(rec.status).to eq "open"
-          expect(rec.opened_at).to eq Date.today
+          expect(rec.opened_at).to eq Time.zone.today
           expect(rec.applied_at).to eq applied_at # unchanged
           expect(rec.nudged_at).to eq nudged_at # unchanged
           expect(rec.called_at).to be_nil # unchanged
@@ -97,7 +97,7 @@ describe "user cards page - nudged cards", :js do
 
         it "updates the card account's attributes", :backend do
           expect(rec.status).to eq "denied"
-          expect(rec.denied_at).to eq Date.today
+          expect(rec.denied_at).to eq Time.zone.today
           expect(rec.applied_at).to eq applied_at # unchanged
           expect(rec.nudged_at).to eq nudged_at # unchanged
           expect(rec.called_at).to be_nil # unchanged

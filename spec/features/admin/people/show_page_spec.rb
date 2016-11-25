@@ -318,7 +318,7 @@ module AdminArea
       end
 
       expect(rec_on_page).to be_absent
-      expect(rec.reload.pulled_at).to be_within(5.seconds).of(Time.now)
+      expect(rec.reload.pulled_at).to be_within(5.seconds).of(Time.zone.now)
     end
 
     let(:offers_on_page) { @offers.map { |o| RecommendableOfferOnPage.new(o, self) } }
@@ -501,7 +501,7 @@ module AdminArea
         expect(rec.product).to eq offer.product
         expect(rec.offer).to eq offer
         expect(rec.person).to eq @person
-        expect(rec.recommended_at).to eq Date.today
+        expect(rec.recommended_at).to eq Time.zone.today
         expect(rec.recommendation?).to be true
 
         # the rec is added to the table:
@@ -544,7 +544,7 @@ module AdminArea
 
       # it updates the person's 'last recs' timestamp:
       person.reload
-      expect(person.last_recommendations_at).to be_within(5.seconds).of(Time.now)
+      expect(person.last_recommendations_at).to be_within(5.seconds).of(Time.zone.now)
     end
 
     example "clicking 'Done' without adding a recommendation note to the user" do

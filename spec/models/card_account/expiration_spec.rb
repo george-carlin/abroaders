@@ -58,42 +58,42 @@ describe CardAccount::Expiration do
       person.card_recommendations.create!(
         offer: offer,
         recommended_at: keep,
-        seen_at: Time.now,
+        seen_at: Time.current,
       ),
       # recommended recently, seen, and clicked
       person.card_recommendations.create!(
         offer: offer,
         recommended_at: keep,
-        seen_at: Time.now,
-        clicked_at: Time.now,
+        seen_at: Time.current,
+        clicked_at: Time.current,
       ),
       # recommended before cutoff point, but clicked
       person.card_recommendations.create!(
         offer: offer,
         recommended_at: lose,
-        seen_at: Time.now,
-        clicked_at: Time.now,
+        seen_at: Time.current,
+        clicked_at: Time.current,
       ),
       # recommended before cutoff point, but declined
       person.card_recommendations.create!(
         offer: offer,
         recommended_at: lose,
-        seen_at: Time.now,
-        declined_at: Time.now,
+        seen_at: Time.current,
+        declined_at: Time.current,
         decline_reason: "whatever",
       ),
       # recommended before cutoff point, but applied
       person.card_recommendations.create!(
         offer: offer,
         recommended_at: lose,
-        seen_at: Time.now,
-        applied_at: Time.now,
+        seen_at: Time.current,
+        applied_at: Time.current,
       ),
       # recommended before cutoff point, but pulled:
       person.card_recommendations.create!(
         offer: offer,
         recommended_at: lose,
-        pulled_at: Time.now,
+        pulled_at: Time.current,
       ),
     ]
 
@@ -122,7 +122,7 @@ describe CardAccount::Expiration do
       person.card_recommendations.create!(
         offer: offer,
         recommended_at: lose,
-        seen_at: Time.now,
+        seen_at: Time.current,
       ),
     ]
 
@@ -134,7 +134,7 @@ describe CardAccount::Expiration do
     expect(to_not_expire.all? { |ca| ca.reload.expired_at.nil? }).to be true
 
     to_expire.each do |card_account|
-      expect(card_account.reload.expired_at).to be_within(5.seconds).of(Time.now)
+      expect(card_account.reload.expired_at).to be_within(5.seconds).of(Time.current)
     end
   end
 end

@@ -19,7 +19,7 @@ describe "card recommendation apply page" do
 
     it "saves the 'clicked at' timestamp" do
       visit_path
-      expect(rec.reload.clicked_at).to eq Date.today
+      expect(rec.reload.clicked_at).to eq Time.zone.today
     end
   end
 
@@ -28,7 +28,7 @@ describe "card recommendation apply page" do
 
     it "updates the 'clicked at' timestamp" do
       visit_path
-      expect(rec.reload.clicked_at).to eq Date.today
+      expect(rec.reload.clicked_at).to eq Time.zone.today
     end
   end
 

@@ -16,7 +16,7 @@ class NewCardAccountOnPage < CardAccountOnPage
   end
 
   def set_approved_at_to(date)
-    raise "error: approved at must be today or in the past" if date > Date.today
+    raise "error: approved at must be today or in the past" if date > Time.zone.today
 
     set_datepicker_field("##{approved_at}", to: date)
   end

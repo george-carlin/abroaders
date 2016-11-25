@@ -5,7 +5,7 @@ describe "travel plans index page" do
 
   include_context "logged in"
 
-  let(:tomorrow)   { Date.tomorrow }
+  let(:tomorrow)   { Time.zone.tomorrow }
   let(:next_week)  { 1.week.from_now }
   let(:next_month) { 1.month.from_now }
 

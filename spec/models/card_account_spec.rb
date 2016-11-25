@@ -13,7 +13,7 @@ describe CardAccount do
     it "is true iff recommended_at is nil" do
       card_account.recommended_at = nil
       expect(card_account.from_survey?).to be true
-      card_account.recommended_at = Time.now
+      card_account.recommended_at = Time.current
       expect(card_account.from_survey?).to be false
     end
   end
@@ -22,7 +22,7 @@ describe CardAccount do
     it "is true iff recommended_at is not nil" do
       card_account.recommended_at = nil
       expect(card_account.recommendation?).to be false
-      card_account.recommended_at = Time.now
+      card_account.recommended_at = Time.current
       expect(card_account.recommendation?).to be true
     end
   end
@@ -36,7 +36,7 @@ describe CardAccount do
     end
 
     context "when card is a recommendation" do
-      before { card_account.recommended_at = Time.now }
+      before { card_account.recommended_at = Time.current }
 
       context "and status is 'recommended'" do
         it "returns true" do
@@ -47,7 +47,7 @@ describe CardAccount do
 
       context "and status is not 'recommended' or" do
         it "returns false" do
-          card_account.applied_at = Time.now
+          card_account.applied_at = Time.current
           raise if card_account.status == "recommended" # sanity check
           expect(card_account.send(method)).to be false
         end
@@ -109,24 +109,24 @@ describe CardAccount do
   end
 
   example "#recommended?" do
-    card_account.recommended_at = Time.now
+    card_account.recommended_at = Time.current
     expect(card_account.recommended?).to be true
-    card_account.declined_at = Time.now
+    card_account.declined_at = Time.current
     expect(card_account.recommended?).to be false
   end
 
   example "#declined?" do
-    card_account.recommended_at = Time.now
+    card_account.recommended_at = Time.current
     expect(card_account.declined?).to be false
-    card_account.declined_at = Time.now
+    card_account.declined_at = Time.current
     expect(card_account.declined?).to be true
   end
 
   example "#denied?" do
-    card_account.recommended_at = Time.now
-    card_account.applied_at = Time.now
+    card_account.recommended_at = Time.current
+    card_account.applied_at = Time.current
     expect(card_account.denied?).to be false
-    card_account.denied_at = Time.now
+    card_account.denied_at = Time.current
     expect(card_account.denied?).to be true
   end
 

@@ -26,7 +26,7 @@ module AdminArea
     end
 
     def persist!
-      self.card_account = person.card_recommendations.create!(offer: offer, recommended_at: Time.now)
+      self.card_account = person.card_recommendations.create!(offer: offer, recommended_at: Time.zone.now)
     end
   end
 end

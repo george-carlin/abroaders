@@ -12,11 +12,11 @@ module Card::Product::SurveyHelper
   end
 
   def options_for_cards_survey_year_select(without_wrapping: false)
-    options = (Date.today.year - 15)..Date.today.year
+    options = (Time.zone.today.year - 15)..Time.zone.today.year
     if without_wrapping
       options
     else
-      options_for_select options, Date.today.year
+      options_for_select options, Time.zone.today.year
     end
   end
 end

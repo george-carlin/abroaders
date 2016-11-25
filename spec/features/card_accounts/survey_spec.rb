@@ -264,9 +264,9 @@ describe 'card accounts survey', :onboarding, :js, :manual_clean do
       let(:closed_card) { selected_cards.first }
       let(:open_cards)  { selected_cards.drop(1) }
 
-      let(:this_year) { Date.today.year.to_s }
-      let(:last_year) { (Date.today.year - 1).to_s }
-      let(:ten_years_ago) { (Date.today.year - 10).to_s }
+      let(:this_year) { Time.zone.today.year.to_s }
+      let(:last_year) { (Time.zone.today.year - 1).to_s }
+      let(:ten_years_ago) { (Time.zone.today.year - 10).to_s }
 
       before do
         selected_cards.each(&:check_opened)

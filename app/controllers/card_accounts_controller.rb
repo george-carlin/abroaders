@@ -15,7 +15,9 @@ class CardAccountsController < AuthenticatedUserController
 
     @recommendation_notes = current_account.recommendation_notes
 
-    current_account.card_recommendations.unseen.update_all(seen_at: Time.now)
+    current_account.card_recommendations.unseen.each do |c|
+      c.update!(seen_at: Time.zone.now)
+    end
   end
 
   def edit
