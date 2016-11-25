@@ -93,7 +93,7 @@ Rails.application.routes.draw do
 
   resources :cards
 
-  resources :card_recommendations do
+  resources :recommendations do
     member do
       get   :apply
       patch :decline
@@ -171,14 +171,14 @@ Rails.application.routes.draw do
       get type.pluralize, to: "destinations##{type}"
     end
     resources :people, only: :show do
-      resources :card_recommendations, only: [:create] do
+      resources :recommendations, only: [:create] do
         collection do
           post :complete
           get  :pulled
         end
       end
     end
-    resources :card_recommendations do
+    resources :recommendations do
       member do
         patch :pull
       end

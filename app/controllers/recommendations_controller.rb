@@ -1,11 +1,11 @@
-class CardRecommendationsController < CardsController
+class RecommendationsController < CardsController
   def update
-    survey = Card::ApplicationSurvey.new(account: load_card)
+    survey = Card::ApplicationSurvey.new(card: load_card)
     respond_to do |f|
       f.json do
         begin
           survey.update!(update_params)
-          render json: survey.account
+          render json: survey.card
         rescue Card::InvalidStatusError
           render json: {
             error: true,
@@ -17,24 +17,24 @@ class CardRecommendationsController < CardsController
   end
 
   def apply
-    @account = load_card
+    @card = load_card
 
-    # Make sure this is the right type of card account:
-    redirect_to(cards_path) && return unless @account.applyable?
+    # Make sure this is the right type of card:
+    redirect_to(cards_path) && return unless @card.applyable?
 
     # We can't know for sure here if the user has actually applied; the most we
     # can do is note that they've visited this page and (hopefully) been
     # redirected to the bank's page
-    @account.update_attributes!(clicked_at: Time.now)
-    @product = @account.product
+    @card.update_attributes!(clicked_at: Time.now)
+    @product = @card.product
   end
 
   def decline
-    @account = load_card
+    @card = load_card
 
-    # Make sure this is the right type of card account:
-    if @account.declinable?
-      @account.update_attributes!(decline_params)
+    # Make sure this is the right type of card:
+    if @card.declinable?
+      @card.update_attributes!(decline_params)
       flash[:success] = t("cards.index.declined")
     else
       flash[:info] = t("cards.index.couldnt_decline")

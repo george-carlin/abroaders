@@ -1,9 +1,9 @@
 module AdminArea
-  class CardRecommendationsController < AdminController
+  class RecommendationsController < AdminController
     def create
       person = load_person
-      rec = AdminArea::CardRecommendation.new(person: person)
-      rec.update_attributes!(card_rec_params)
+      rec = AdminArea::Recommendation.new(person: person)
+      rec.update_attributes!(recommendation_params)
       respond_to do |f|
         f.js do
           @card = rec.card
@@ -14,12 +14,12 @@ module AdminArea
 
     def complete
       @person = load_person
-      form = CompleteCardRecommendations.create!(
+      form = CompleteRecommendations.create!(
         note:   params[:recommendation_note],
         person: @person,
       )
       Notifications::NewRecommendations.notify!(@person)
-      CardRecommendationsMailer.recommendations_ready(
+      RecommendationsMailer.recommendations_ready(
         account_id: form.account.id,
         note:       form.note,
       ).deliver_later
@@ -44,8 +44,8 @@ module AdminArea
 
     private
 
-    def card_rec_params
-      params.require(:card_recommendation).permit(:offer_id)
+    def recommendation_params
+      params.require(:recommendation).permit(:offer_id)
     end
 
     def load_person
@@ -53,7 +53,7 @@ module AdminArea
     end
 
     def load_recommendation
-      Card.recommendations.find(params[:id])
+      ::Recommendation.find(params[:id])
     end
 
     def recommendation_note

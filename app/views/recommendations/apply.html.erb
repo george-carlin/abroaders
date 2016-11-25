@@ -17,7 +17,7 @@
 
       <p>
         If you are not redirected within 10 seconds,
-        <%= present(@account.offer).link_to_link(text: "click here") %>
+        <%= present(@card.offer).link_to_link(text: "click here") %>
       </p>
     </div>
   </div>
@@ -25,6 +25,6 @@
 
 <script type="text/javascript">
   window.setTimeout(function () {
-    window.location = "<%= @account.offer.link %>";
+    window.location = "<%= @card.offer.link %>";
   }, 5000);
 </script>

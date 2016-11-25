@@ -13,12 +13,12 @@ module AdminArea
     # GET /admin/accounts/1
     def show
       @account = load_account
-      @cards = @account.cards.select(&:persisted?)
-      @card_recommendation = @account.cards.new
+      @cards   = @account.cards.select(&:persisted?)
+      @recommendation = @account.cards.new
       # Use @account.cards here instead of @cards because
       # the latter is an Array, not a Relation (because of
       # `.select(&:persisted?)`)
-      @products = Card::Product.where.not(id: @account.cards.select(:product_id))
+      @products = ::Card::Product.where.not(id: @account.cards.select(:product_id))
     end
 
     def search

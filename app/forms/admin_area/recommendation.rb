@@ -1,5 +1,5 @@
 module AdminArea
-  class CardRecommendation < ApplicationForm
+  class Recommendation < ApplicationForm
     attribute :offer_id, Integer
     attribute :person,   Person
 
@@ -8,14 +8,11 @@ module AdminArea
 
     validate :offer_is_live
 
-    def self.name
-      'Card'
+    def self.model_name
+      ::Recommendation.model_name
     end
 
     def offer
-      # Not sure why, but if you don't put "::" in front of "Offer" then
-      # you get an error saying 'A copy of AdminArea::CardRecommendation has been
-      # removed from the module tree but is still active'
       @offer ||= ::Offer.find(offer_id)
     end
 

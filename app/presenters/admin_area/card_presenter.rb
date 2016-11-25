@@ -3,7 +3,7 @@ module AdminArea
     def link_to_pull
       h.link_to(
         raw("&times;"),
-        h.pull_admin_card_recommendation_path(self),
+        h.pull_admin_recommendation_path(self),
         data: {
           confirm: "Really pull this recommendation?",
           method: :patch,

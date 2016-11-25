@@ -7,7 +7,7 @@
 
   <div class="panel-body">
     <% if current_account.people.any?(&:eligible?) %>
-      <% if @card_recommendations.any? %>
+      <% if @recommendations.any? %>
         <h3>Notes from the Abroaders team</h3>
 
         <p>
@@ -32,7 +32,7 @@
                 <h3><%= cards_index_subheader(person) %></h3>
               <% end %>
 
-              <% card_recs = @card_recommendations.where(person: person) %>
+              <% card_recs = @recommendations.where(person: person) %>
               <% if card_recs.any? %>
                 <%= render card_recs %>
               <% else %>

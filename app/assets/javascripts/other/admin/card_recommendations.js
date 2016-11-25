@@ -139,7 +139,7 @@ $(document).ready(function () {
     e.preventDefault();
     $(this)
       .hide()
-      .siblings(".new_card_recommendation")
+      .siblings(".new_recommendation")
         .show();
   });
 

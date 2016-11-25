@@ -3,9 +3,9 @@ class CardsController < AuthenticatedUserController
 
   def index
     @people = current_account.people
-    @card_recommendations = current_account.card_recommendations\
-                                           .includes(:product, offer: { product: :currency })\
-                                           .visible
+    @recommendations = current_account.card_recommendations\
+                                      .includes(:product, offer: { product: :currency })\
+                                      .visible
     @cards_from_survey = current_account.cards\
                                         .includes(:product, :offer)\
                                         .from_survey
@@ -19,11 +19,11 @@ class CardsController < AuthenticatedUserController
   end
 
   def edit
-    @card = EditCard.find(current_account, params[:id])
+    @card = EditCardForm.find(current_account, params[:id])
   end
 
   def update
-    @card = EditCard.find(current_account, params[:id])
+    @card = EditCardForm.find(current_account, params[:id])
 
     if @card.update(card_params)
       flash[:success] = 'Updated card'

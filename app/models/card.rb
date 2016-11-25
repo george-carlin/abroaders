@@ -219,6 +219,10 @@ class Card < ApplicationRecord
     update_attributes!(pulled_at: Time.now)
   end
 
+  def presenter_class
+    Card::Presenter
+  end
+
   private
 
   def product_matches_offer_product

@@ -18,12 +18,12 @@ class CardOnPage < RecordOnPage
 
   def has_apply_btn?
     # The apply 'button' is actually a link styled like a button:
-    has_link? "Apply", href: apply_card_recommendation_path(card)
+    has_link? "Apply", href: apply_recommendation_path(card)
   end
 
   def has_no_apply_btn?
     # The apply 'button' is actually a link styled like a button:
-    has_no_link? "Apply", href: apply_card_recommendation_path(card)
+    has_no_link? "Apply", href: apply_recommendation_path(card)
   end
 
   # =================================================

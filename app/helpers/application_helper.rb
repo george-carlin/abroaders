@@ -113,6 +113,7 @@ module ApplicationHelper
   private
 
   def get_presenter(model, klass = nil)
+    return klass.new(model, self) if klass
     if model.is_a?(ApplicationPresenter)
       model
     elsif model.respond_to?(:presenter_class)

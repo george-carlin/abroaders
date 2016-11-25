@@ -1,5 +1,5 @@
 module AdminArea
-  class CardRecommendationsMailer < ApplicationMailer
+  class RecommendationsMailer < ApplicationMailer
     def recommendations_ready(opts = {})
       opts.symbolize_keys!
       @account = Account.find(opts.fetch(:account_id))

@@ -1,5 +1,5 @@
 module AdminArea
-  class CompleteCardRecommendations < ApplicationForm
+  class CompleteRecommendations < ApplicationForm
     include Virtus.model
 
     attribute :person, Person

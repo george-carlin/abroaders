@@ -18,7 +18,7 @@ class AdminArea::OfferPresenter < ::OfferPresenter
     prefix = :confirm_recommend
     h.button_to(
       "Confirm",
-      h.admin_person_card_recommendations_path(person),
+      h.admin_person_recommendations_path(person),
       class:  "#{h.dom_class(self, prefix)}_btn #{btn_classes} pull-right",
       id:     "#{h.dom_id(self, prefix)}_btn",
       params: { offer_id: id },
@@ -27,7 +27,7 @@ class AdminArea::OfferPresenter < ::OfferPresenter
 
   def confirm_recommend_form(person)
     h.form_for(
-      [:admin, person, AdminArea::CardRecommendation.new(offer_id: id)],
+      [:admin, person, AdminArea::Recommendation.new(offer_id: id)],
       data: { remote: true },
       html: { style: "display:none" },
     ) do |f|

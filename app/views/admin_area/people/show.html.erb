@@ -152,7 +152,7 @@
         <% if @pulled_cards.any? %>
           <%= link_to(
             "View #{pluralize(@pulled_cards.size, "pulled recommendation")}",
-            pulled_admin_person_card_recommendations_path(@person)
+            pulled_admin_person_recommendations_path(@person)
           ) %>
         <% end %>
       </div>
@@ -187,7 +187,7 @@
       <div class="row">
         <div class="col-xs-12">
           <%= form_tag(
-            complete_admin_person_card_recommendations_path(person),
+            complete_admin_person_recommendations_path(person),
             id: 'complete_card_recommendations'
           ) do %>
             <%= text_area_tag(
