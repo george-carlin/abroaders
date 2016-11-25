@@ -165,28 +165,6 @@ module AdminArea
       end
     end
 
-    example "person with no points balances" do
-      visit_path
-      expect(page).to have_content t("admin.people.card_recommendations.no_balances")
-    end
-
-    example "person with points balances" do
-      Balance.create!(
-        person: @person, currency: @currencies[0], value:  5000,
-      )
-      Balance.create!(
-        person: @person, currency: @currencies[2], value: 10_000,
-      )
-      visit_path
-
-      expect(page).to have_selector "##{dom_id(@currencies[0])} .balance",
-                                    text: "5,000"
-      expect(page).to have_selector "##{dom_id(@currencies[2])} .balance",
-                                    text: "10,000"
-
-      expect(page).to have_no_selector "##{dom_id(@currencies[1])}_balance"
-    end
-
     let(:jan) { Date.parse("2015-01-01") }
     let(:mar) { Date.parse("2015-03-01") }
     let(:oct) { Date.parse("2015-10-01") }

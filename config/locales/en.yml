@@ -79,6 +79,3 @@ en:
     people:
       cards:
         none: "User has no cards on file. Use the form below to recommend them their first card."
-
-      card_recommendations:
-        no_balances: "User does not have any existing points/miles balances"
