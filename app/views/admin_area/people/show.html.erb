@@ -19,20 +19,7 @@
       </div>
 
       <div class="col-xs-12 col-md-6">
-        <% if @balances.any? %>
-          <h3>Existing Balances</h3>
-
-          <ul class="person-balances">
-            <% @balances.each do |balance| %>
-              <li id="<%= dom_id(balance.currency) %>">
-                <b><%= balance.currency_name %>:</b>
-                <span class="balance"><%= number_with_delimiter(balance.value) %></span>
-              </li>
-            <% end %>
-          </ul>
-        <% else %>
-          <%= t("admin.people.card_recommendations.no_balances") %>
-        <% end # @balances.any? %>
+        <%= cell(Person::Cell::Admin::Balances, @person) %>
 
         <% if person.award_wallet_email.present? %>
           <p><b>AwardWallet email:</b> <%= person.award_wallet_email %></p>
