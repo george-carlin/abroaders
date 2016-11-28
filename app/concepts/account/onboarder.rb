@@ -103,4 +103,3 @@ class Account::Onboarder
     end
   end
 end
-
