@@ -9,99 +9,88 @@
     </div><!-- .row -->
   </div>
 
+  <%= render 'shared/model_validation_errors', model: @form %>
+
   <div class="panel-body">
+    <%= form_for @form, url: card_path(@model), html: { class: "edit_card" } do |f| %>
 
-    <%= form_for @card, html: { class: "edit_card" } do |f| %>
-
-      <%= present_div @card.card, class: "row" do |card| %>
+      <div class="row">
         <div class="col-xs-12 col-sm-6 col-md-2">
-          <%= card.product.image("130x81")  %>
+          <%= Card::Cell.(@model.product).image_tag("130x81") %>
         </div>
 
         <div class="col-xs-12 col-sm-6 col-md-4">
           <p>
             <span class="card-account-card-name">
-              <%= card.product.name %>
-              <% unless card.product.unknown_network? %>
-                (<%= card.product.network %>)
+              <%= @model.product.name %>
+              <% unless @model.product.unknown_network? %>
+                (<%= @model.product.network %>)
               <% end %>
             </span>
           </p>
 
           <p>
             <span class="card-account-bank">
-              <%= card.product.bank_name %>
+              <%= @model.product.bank_name %>
             </span>
           </p>
         </div>
 
-          <div class="col-xs-12 col-md-6">
-            <div class="row">
-              <div class="col-md-12 col-lg-4">
-                <label class="card-info-label">When did you open this card?</label>
-              </div>
-
-              <div class="col-md-12 col-lg-8">
-                <%= f.select(
-                        :opened_year,
-                        options_for_cards_survey_year_select(without_wrapping: true),
-                        {},
-                        class: "cards_survey_select"
-                    ) %>
-
-                <%= f.select(
-                        :opened_month,
-                        options_for_cards_survey_month_select(without_wrapping: true),
-                        {},
-                        class: "cards_survey_select"
-                    ) %>
-              </div>
+        <div class="col-xs-12 col-md-6">
+          <div class="row">
+            <div class="col-md-12 col-lg-4">
+              <label class="card-info-label">When did you open this card?</label>
             </div>
 
-            <div class="row">
-              <div class="col-md-12 col-lg-4">
-                <label class="card-info-label">Is this account now closed?</label>
-              </div>
-
-              <div class=" col-md-12 col-lg-8">
-                <%= f.check_box :closed, class: "cards_survey_card_closed input-lg" %>
-              </div>
+            <div class="col-md-12 col-lg-8">
+              <%= f.date_select(
+                :opened_at,
+                end_year:   Date.today.year,
+                order:      [:month, :year],
+                start_year: Date.today.year - 10,
+                use_short_month: true,
+                discard_day: true,
+              ) %>
             </div>
 
-            <div class="row card-survey-closed <%= card.closed? ? "" : "hide" %>">
+            <div class="col-md-12 col-lg-4">
+              <%= f.label :closed, class: 'card-info-label' do %>
+                Is this account now closed?
+              <% end %>
+            </div>
+
+            <div class="col-md-12 col-lg-8">
+              <%= f.check_box :closed, class: "cards_survey_card_closed input-lg" %>
+            </div>
+
+            <div class="card-survey-closed <%= @form.closed ? '' : 'hide' %>">
               <div class="col-md-12 col-lg-4">
                 <label class="card-info-label card-survey-closed">When did you close this card?</label>
               </div>
 
               <div class="col-md-12 col-lg-8">
-                <%= f.select(
-                        :closed_year,
-                        options_for_cards_survey_year_select(without_wrapping: true),
-                        {},
-                        class: "cards_survey_select"
-                    ) %>
-
-                <%= f.select(
-                        :closed_month,
-                        options_for_cards_survey_month_select(without_wrapping: true),
-                        {},
-                        class: "cards_survey_select"
-                    ) %>
+                <%= f.date_select(
+                    :closed_at,
+                    end_year:   Date.today.year,
+                    order:      [:month, :year],
+                    start_year: Date.today.year - 10,
+                    use_short_month: true,
+                    discard_day: true,
+                    class: "cards_survey_select"
+                ) %>
               </div>
             </div>
           </div>
-
-      <% end%>
+        </div>
+      </div>
 
       <hr>
 
       <div class="row">
         <div class="col-xs-12">
-          <%= f.submit "Submit", class: "btn btn-primary btn-lg" %>
+          <%= f.submit 'Save', class: 'btn btn-primary btn-lg' %>
         </div>
       </div>
-
     <% end %>
-
   </div>
 </div>

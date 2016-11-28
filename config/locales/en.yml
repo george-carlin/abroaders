@@ -1,6 +1,9 @@
 en:
   hello: "Hello world"
 
+  errors:
+    not_in_the_future?: "must not be in the future"
+
   activemodel:
     attributes:
       companion:
