@@ -35,7 +35,7 @@
 </div>
 
 <div class="row">
-  <%= render partial: "accounts/dashboard/person", collection: @people, as: :person %>
+  <%= cell Person::Cell::Dashboard, collection: @people %>
 </div>
 
 <% if @unresolved_recommendations.any? && !cookies[:recommendation_timeout] %>
