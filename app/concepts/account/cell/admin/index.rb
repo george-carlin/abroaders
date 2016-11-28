@@ -1,17 +1,42 @@
 class Account::Cell < Trailblazer::Cell
   module Admin
-    class Show < Trailblazer::Cell
-      private
+    class Index < Trailblazer::Cell
+      extend Dry::Configurable
 
-      def rows
-        cell(TableRow, collection: model)
-      end
+      include Kaminari::Cells
+      alias accounts model
+
+      # Expose this as a configurable setting so that we can override it
+      # in tests, then the tests won't have to create 50+ accounts per example.
+      setting :accounts_per_page, 50
+
+      private
 
       def link_to_download_csv
         link_to(
           'Download User last recommendation statuses as CSV',
           download_user_status_csv_admin_accounts_path,
         )
+      end
+
+      def table_rows
+        cell(TableRow, collection: paginated_accounts)
+      end
+
+      def paginated_accounts
+        @paginated_accounts ||= accounts.page(page).per_page(accounts_per_page)
+      end
+
+      def page
+        options[:page] || 1
+      end
+
+      def paginator
+        paginate(paginated_accounts)
+      end
+
+      def accounts_per_page
+        self.class.config.accounts_per_page
       end
 
       class TableRow < Trailblazer::Cell

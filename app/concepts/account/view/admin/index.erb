@@ -22,10 +22,14 @@
         </tr>
       </thead>
       <tbody id="admin_accounts_table_body">
-        <%= rows %>
+        <%= table_rows %>
       </tbody>
     </table>
 
-    <%= link_to_download_csv%>
+    <%= paginator %>
+
+    <hr>
+
+    <%= link_to_download_csv %>
   </div>
 </div>
