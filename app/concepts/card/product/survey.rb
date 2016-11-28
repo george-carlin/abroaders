@@ -46,7 +46,7 @@ class Card::Product::Survey < ApplicationForm
       person.cards.from_survey.create!(attributes)
     end
 
-    onboarder = AccountOnboarder.new(person.account)
+    onboarder = Account::Onboarder.new(person.account)
     if person.owner?
       onboarder.add_owner_cards!
     else

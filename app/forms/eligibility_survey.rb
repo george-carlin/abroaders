@@ -19,6 +19,6 @@ class EligibilitySurvey < ApplicationForm
       account.companion.update_attributes!(eligible: true)
     when "neither" # noop
     end
-    AccountOnboarder.new(account).add_eligibility!
+    Account::Onboarder.new(account).add_eligibility!
   end
 end

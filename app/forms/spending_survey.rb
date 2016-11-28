@@ -125,7 +125,7 @@ class SpendingSurvey < ApplicationForm
         will_apply_for_loan:   companion_will_apply_for_loan,
       )
     end
-    AccountOnboarder.new(account).add_spending!
+    Account::Onboarder.new(account).add_spending!
     account.update_attributes!(monthly_spending_usd: monthly_spending)
   end
 

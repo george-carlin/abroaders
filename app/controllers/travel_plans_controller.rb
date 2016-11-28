@@ -40,7 +40,7 @@ class TravelPlansController < AuthenticatedUserController
   end
 
   def skip_survey
-    AccountOnboarder.new(current_account).skip_travel_plan!
+    Account::Onboarder.new(current_account).skip_travel_plan!
     redirect_to type_account_path
   end
 

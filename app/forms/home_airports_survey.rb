@@ -9,6 +9,6 @@ class HomeAirportsSurvey < ApplicationForm
 
   def persist!
     account.home_airports << Airport.where(id: airport_ids)
-    AccountOnboarder.new(account).add_home_airports!
+    Account::Onboarder.new(account).add_home_airports!
   end
 end

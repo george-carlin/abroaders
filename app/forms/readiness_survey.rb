@@ -15,6 +15,6 @@ class ReadinessSurvey < ReadinessForm
       companion.update!(unreadiness_reason: companion_unreadiness_reason.strip)
     end
 
-    AccountOnboarder.new(account).add_readiness!
+    Account::Onboarder.new(account).add_readiness!
   end
 end

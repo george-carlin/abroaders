@@ -11,6 +11,6 @@ class InterestRegionsSurvey < ApplicationForm
   def persist!
     selected_regions = ::Region.where(id: region_ids)
     account.regions_of_interest << selected_regions unless selected_regions.blank?
-    AccountOnboarder.new(account).add_regions_of_interest!
+    Account::Onboarder.new(account).add_regions_of_interest!
   end
 end

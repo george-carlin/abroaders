@@ -3,7 +3,7 @@
 #
 # Example usage:
 #
-#     AccountOnboarder.new(account).add_home_airports!
+#     Account::Onboarder.new(account).add_home_airports!
 #
 # `add_home_airports!` will update account.onboarding_state to the new
 # state after home_airports - or it will raise an error if home airports can
@@ -14,7 +14,7 @@
 #
 # Don't use this model when all you need to do is determine whether a given
 # account is onboarded or not. Just call `account.onboarded?
-class AccountOnboarder
+class Account::Onboarder
   include Workflow
 
   attr_reader :account
@@ -103,3 +103,4 @@ class AccountOnboarder
     end
   end
 end
+

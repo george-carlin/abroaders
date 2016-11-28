@@ -46,7 +46,7 @@ class BalancesSurvey
       ApplicationRecord.transaction do
         @balances.each { |balance| balance.save!(validate: false) }
 
-        onboarder = AccountOnboarder.new(account)
+        onboarder = Account::Onboarder.new(account)
         if person.owner?
           onboarder.add_owner_balances!
         else
