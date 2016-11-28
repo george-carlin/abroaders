@@ -228,8 +228,8 @@ class Card < ApplicationRecord
   private
 
   def change_dates_to_end_of_month
-    self.opened_at = opened_at.end_of_month
-    self.closed_at = closed_at.end_of_month if self.closed_at.present?
+    self.opened_at = opened_at.end_of_month if opened_at.present?
+    self.closed_at = closed_at.end_of_month if closed_at.present?
   end
 
   # TODO move these validations to the operation/contract layer:
