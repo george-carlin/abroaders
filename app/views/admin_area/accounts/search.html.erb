@@ -27,7 +27,7 @@
           </tr>
         </thead>
         <tbody id="admin_accounts_table_body">
-          <%= cell(Account::Cell::TableRow, collection: @accounts) %>
+          <%= cell(Account::Cell::Admin::Index::TableRow, collection: @accounts) %>
         </tbody>
       </table>
     <% else %>

@@ -25,6 +25,8 @@ module Abroaders
     require "modules/bootstrap_overrides/overrides"
     require "modules/auto_strip_attributes"
 
+    config.cells.with_assets = ['account/cell/admin/index']
+
     config.autoload_paths << Rails.root.join("app", "models", "destinations")
 
     config.generators.jbuilder = false
