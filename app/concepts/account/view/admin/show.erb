@@ -1,0 +1,31 @@
+<div class="hpanel">
+  <div class="panel-heading hbuilt">
+    <h1>User accounts</h1>
+  </div>
+
+  <div class="panel-body">
+    <table
+      id="admin_accounts_table"
+      class="accounts table table-striped"
+      cellpadding="1"
+      cellspacing="1"
+    >
+      <thead>
+        <tr>
+          <th>O?</th>
+          <th>Email</th>
+          <th>Owner</th>
+          <th>Companion</th>
+          <th>Phone number</th>
+          <th>Signed up</th>
+          <th>Last rec</th>
+        </tr>
+      </thead>
+      <tbody id="admin_accounts_table_body">
+        <%= rows %>
+      </tbody>
+    </table>
+
+    <%= link_to_download_csv%>
+  </div>
+</div>
