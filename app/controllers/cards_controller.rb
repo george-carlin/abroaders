@@ -21,18 +21,15 @@ class CardsController < AuthenticatedUserController
   end
 
   def edit
-    @card = EditCardForm.find(current_account, params[:id])
+    form Card::Update
   end
 
   def update
-    @card = EditCardForm.find(current_account, params[:id])
-
-    if @card.update(card_params)
+    run Card::Update do |_op|
       flash[:success] = 'Updated card'
-      redirect_to cards_path
-    else
-      render :edit
+      return redirect_to cards_path
     end
+    render :edit
   end
 
   def survey
@@ -55,10 +52,6 @@ class CardsController < AuthenticatedUserController
 
   def load_person
     current_account.people.find(params[:person_id])
-  end
-
-  def card_params
-    params.require(:card).permit(:closed, :closed_year, :closed_month, :opened_year, :opened_month)
   end
 
   def survey_params

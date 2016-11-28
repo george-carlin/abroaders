@@ -12,6 +12,10 @@ require "action_view/railtie"
 require "sprockets/railtie"
 # require "rails/test_unit/railtie"
 
+# make sure this is explicitly loaded before dry-validation can kick in, or
+# dry-v won't have the custom error messages loaded.
+require 'i18n'
+
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)

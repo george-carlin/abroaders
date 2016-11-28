@@ -21,7 +21,7 @@
     "consistent-return": 0,
     "default-case" : 0,
     "eqeqeq" : 1,
-    "func-names" : 1,
+    "func-names" : 0,
     "indent" : [1, 2, {
       "VariableDeclarator": { "var": 2, "let": 2, "const": 3 },
       "SwitchCase" : 1
