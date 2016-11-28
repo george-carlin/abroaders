@@ -1,7 +1,7 @@
 require "rails_helper"
 
-describe ApplicationHelper do
-  describe "#name" do
+RSpec.describe NameHelper, type: :helper do
+  describe '#name_conjugation' do
     let(:couples_account) { create(:couples_account) }
     let(:solo_account)    { create(:account) }
     let(:person)          { couples_account.owner }
