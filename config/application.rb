@@ -29,8 +29,6 @@ module Abroaders
 
     config.generators.jbuilder = false
 
-    config.reform.validations = :dry
-
     config.browserify_rails.commandline_options = [
       "--extension=.js",
       "--extension=.js.jsx",

@@ -1,9 +1,9 @@
-# spec/forms/bank/form_spec.rb doesn't work unless you include this line.
-# What's up with that? Shouldn't it be autoloaded? FIXME
-require "reform/form/coercion"
+require_dependency 'reform/form/coercion'
+require_dependency 'reform/form/dry'
 
 class Bank::Form < Reform::Form
   feature Reform::Form::Coercion
+  feature Reform::Form::Dry
 
   property :name,           type: Types::Stripped::String
   property :business_phone, type: Types::Stripped::String.optional

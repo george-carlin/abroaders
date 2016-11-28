@@ -1,3 +1,5 @@
+require_dependency 'reform/form/dry'
+
 class PhoneNumber < ApplicationRecord
   class Create < Trailblazer::Operation
     def self.normalize(string)
@@ -6,6 +8,7 @@ class PhoneNumber < ApplicationRecord
 
     contract do
       feature Reform::Form::Coercion
+      feature Reform::Form::Dry
 
       property :number, type: Types::Stripped::String
 

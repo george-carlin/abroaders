@@ -1,3 +1,5 @@
+require_dependency 'reform/form/dry'
+
 class Alliance < ApplicationRecord
   class Create < Trailblazer::Operation
     include Model
@@ -5,9 +7,10 @@ class Alliance < ApplicationRecord
 
     contract do
       feature Reform::Form::Coercion
+      feature Reform::Form::Dry
 
       property :name, type: Types::Stripped::String
-      property :order
+      property :order, type: ::Types::Form::Int
 
       validation do
         required(:name).filled { str? }
