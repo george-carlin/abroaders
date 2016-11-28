@@ -4,6 +4,7 @@ module AdminArea
     def index
       person_assocs = [:spending_info]
       @accounts = Account.includes(
+        :phone_number,
         people: person_assocs,
         owner: person_assocs,
         companion: person_assocs,
