@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe "the sign up page", :onboarding do
-  include_context "set admin email ENV var"
+  before { visit new_account_registration_path }
 
   it "has fields to create a new account" do
     expect(page).to have_field :sign_up_email
@@ -54,7 +54,7 @@ describe "the sign up page", :onboarding do
         end.to change { ApplicationMailer.deliveries.length }.by(1)
 
         email = ApplicationMailer.deliveries.last
-        expect(email.to).to match_array [admin_email]
+        expect(email.to).to match_array [ENV['MAILPARSER_NEW_SIGNUP']]
       end
 
       it "creates a user on Intercom", :intercom do
