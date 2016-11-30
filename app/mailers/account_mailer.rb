@@ -8,7 +8,7 @@
 class AccountMailer < ApplicationMailer
   def notify_admin_of_sign_up(account_id)
     @account = Account.find(account_id)
-    mail(to: ENV["ADMIN_EMAIL"], subject: "New sign up at Abroaders app - #{@account.email}")
+    mail(to: ENV['MAILPARSER_NEW_SIGNUP'], subject: "New sign up at Abroaders app - #{@account.email}")
   end
 
   # `timestamp` is an Unix integer timestamp, not a Date object, because the
@@ -16,7 +16,7 @@ class AccountMailer < ApplicationMailer
   def notify_admin_of_survey_completion(account_id, timestamp)
     @account = Account.find(account_id)
     @timestamp = Time.at(timestamp).in_time_zone("EST")
-    mail(to: ENV["ADMIN_EMAIL"], subject: "App Profile Complete - #{@account.email}")
+    mail(to: ENV['MAILPARSER_SURVEY_COMPLETE'], subject: "App Profile Complete - #{@account.email}")
   end
 
   # `timestamp` is an Unix integer timestamp, not a Date object, because the
@@ -30,6 +30,6 @@ class AccountMailer < ApplicationMailer
     @owner     = @account.owner
     @companion = @account.companion
     @timestamp = Time.at(timestamp).in_time_zone("EST")
-    mail(to: ENV["ADMIN_EMAIL"], subject: "User is Ready - #{@account.email}")
+    mail(to: ENV['MAILPARSER_USER_READY'], subject: "User is Ready - #{@account.email}")
   end
 end
