@@ -7,8 +7,6 @@ class PhoneNumbersController < AuthenticatedUserController
 
   def create
     run PhoneNumber::Create do
-      # TODO move this inside the operation, and wrap in a transaction
-      Account::Onboarder.new(current_account).add_phone_number!
       return redirect_to onboarding_survey_path
     end
     render :new

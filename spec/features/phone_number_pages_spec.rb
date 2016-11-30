@@ -10,54 +10,30 @@ describe 'phone number pages' do
     before { visit new_phone_number_path }
 
     example 'submitting a phone number' do
+      # saves phone number and completes onboarding survey
       fill_in :phone_number_number, with: '555 000-1234'
       submit_form
-      account.reload
-      expect(account.phone_number.number).to eq '555 000-1234'
-      expect(account.phone_number.normalized_number).to eq '5550001234'
-      expect(account.onboarding_state).to eq 'complete'
       expect(current_path).to eq root_path
     end
 
-    example 'notifying the admin that the survey is complete' do
-      fill_in :phone_number_number, with: '555 000-1234'
-      expect { submit_form }.to \
-        send_email.to(ENV['MAILPARSER_SURVEY_COMPLETE'])
-        .with_subject("App Profile Complete - #{account.email}")
-    end
-
-    example "submitting a phone number with trailing whitespace" do
-      fill_in :phone_number_number, with: "  555 000-1234  "
-      submit_form
-      account.reload
-      expect(account.phone_number.number).to eq '555 000-1234'
-      expect(account.phone_number.normalized_number).to eq '5550001234'
-      expect(account.onboarding_state).to eq 'complete'
-      expect(current_path).to eq root_path
-    end
-
-    example "submitting with no phone number" do
-      submit_form
-      account.reload
-      expect(account.phone_number).to be_nil
+    example 'submitting with no phone number' do
+      # doesn't continue; shows page again with error message
+      expect do
+        submit_form
+        account.reload
+      end.not_to change { PhoneNumber.count }
       expect(page).to have_error_message(
         "Error: Phone number must be filled and size cannot be greater than 15. "\
         "Please click the 'Skip' button if you do not wish to add a phone number",
       )
     end
 
-    example "submitting a whitespace-only phone number" do
-      fill_in :phone_number_number, with: "       "
-      submit_form
-      account.reload
-      expect(account.phone_number).to be_nil
-      expect(page).to have_error_message
-    end
-
-    example "skipping the form" do
+    example 'skipping the page' do
+      # doesn't save a phone number, completes onboarding survey
       expect { click_link "Skip" }.to \
         send_email.to(ENV['MAILPARSER_SURVEY_COMPLETE'])
         .with_subject("App Profile Complete - #{account.email}")
+      expect(PhoneNumber.count).to eq 0
     end
   end
 end

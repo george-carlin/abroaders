@@ -22,7 +22,10 @@ class PhoneNumber < ApplicationRecord
         # TODO urgh
         f.sync
         f.model.normalized_number = self.class.normalize(f.number)
-        f.model.save
+        ApplicationRecord.transaction do
+          f.model.save
+          Account::Onboarder.new(params[:current_account]).add_phone_number!
+        end
       end
     end
 
