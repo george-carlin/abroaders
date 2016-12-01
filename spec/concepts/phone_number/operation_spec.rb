@@ -9,7 +9,8 @@ describe PhoneNumber::Create do
   end
 
   example 'valid save' do
-    res, op = [nil, nil]
+    res = nil
+    op  = nil
 
     expect do
       res, op = described_class.run(
