@@ -217,47 +217,7 @@
               class="<%= dom_class(product, :admin_recommend) %>_offers"
             >
               <td colspan="5">
-                <table
-                  id="<%= dom_id(product, :admin_recommend) %>_offers_table"
-                  class="<%= dom_class(product, :admin_recommend) %>_offers_table table"
-                  cellpadding="1"
-                  cellspacing="1"
-                >
-                  <tbody>
-                    <% present_each offers, AdminArea::OfferPresenter do |offer| %>
-                      <tr
-                        id="<%= dom_id(offer, :admin_recommend) %>"
-                        class="<%= dom_class(offer, :admin_recommend) %>"
-                      >
-                        <td class="offer-identifier">
-                          <%= offer.identifier %>
-                        </td>
-                        <td class="offer-points-awarded">
-                          Points: &nbsp;
-                          <b><%= offer.points_awarded %></b>
-                        </td>
-                        <td class="offer-spend">
-                          Spend:&nbsp;
-                          <b><%= offer.spend %></b>
-                        </td>
-                        <td class="offer-cost">
-                          Cost:&nbsp;
-                          <b><%= offer.cost %></b>
-                        </td>
-                        <td class="offer-days">
-                          Days:&nbsp;
-                          <b><%= offer.days %></b>
-                        </td>
-                        <td class="offer-link">
-                          <b><%= offer.link_to_link %></b>
-                        </td>
-                        <td class="offer-recommend">
-                          <%= cell(Recommendation::Cell::Admin::New,  nil, offer: offer, person: person) %>
-                        </td>
-                      </tr>
-                    <% end %>
-                  </tbody>
-                </table>
+                <%= cell(Product::Cell::Admin::OffersTable, product, person: @person) %>
               </td>
             </tr><!-- .admin_recommend_card_product_(id) -->
           <% end %>

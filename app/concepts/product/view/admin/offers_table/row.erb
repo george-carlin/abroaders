@@ -1,0 +1,27 @@
+<tr id="<%= html_id %>" class="<%= html_classes %>">
+  <td class="offer-identifier">
+    <%= offer.identifier %>
+  </td>
+  <td class="offer-points-awarded">
+    Points: &nbsp;
+    <b><%= offer.points_awarded %></b>
+  </td>
+  <td class="offer-spend">
+    Spend:&nbsp;
+    <b><%= offer.spend %></b>
+  </td>
+  <td class="offer-cost">
+    Cost:&nbsp;
+    <b><%= offer.cost %></b>
+  </td>
+  <td class="offer-days">
+    Days:&nbsp;
+    <b><%= offer.days %></b>
+  </td>
+  <td class="offer-link">
+    <b><%= link_to_link %></b>
+  </td>
+  <td class="offer-recommend">
+    <%= buttons_to_recommend %>
+  </td>
+</tr>
