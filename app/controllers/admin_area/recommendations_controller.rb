@@ -21,7 +21,6 @@ module AdminArea
       Notifications::NewRecommendations.notify!(@person)
       RecommendationsMailer.recommendations_ready(
         account_id: form.account.id,
-        note:       form.note,
       ).deliver_later
       flash[:success] = "Sent notification!"
       redirect_to admin_person_path(@person)
