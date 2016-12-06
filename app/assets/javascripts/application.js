@@ -20,6 +20,7 @@
 //= require metisMenu
 //= require typeahead.bundle.js
 //= require jquery.countdown.min.js
+//= require admin_recommendations
 //= require_tree ./other
 
 // Load all browserify modules below.
