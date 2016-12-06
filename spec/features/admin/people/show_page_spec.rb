@@ -256,7 +256,7 @@ module AdminArea
     example "person has not received recommendations" do
       visit_path
       # sanity check:
-      raise if person.last_recommendations_at.present?
+      raise unless person.last_recommendations_at.nil?
 
       # no last recs timestamp:
       expect(page).to have_no_selector ".person_last_recommendations_at"

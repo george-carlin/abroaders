@@ -11,7 +11,7 @@ class ReadinessSurvey < ReadinessForm
       owner.update!(unreadiness_reason: owner_unreadiness_reason.strip)
     end
 
-    if companion.present? && companion.unready && companion_unreadiness_reason.present?
+    if companion&.unready && companion_unreadiness_reason.present?
       companion.update!(unreadiness_reason: companion_unreadiness_reason.strip)
     end
 

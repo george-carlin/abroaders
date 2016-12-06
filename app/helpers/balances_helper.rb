@@ -3,7 +3,7 @@ module BalancesHelper
     check_box_tag(
       "balances[][currency_id]",
       balance.currency_id,
-      balance.value.present?,
+      !balance.value.nil?,
       class: "currency_balance_checkbox input-lg",
       id:    "currency_#{balance.currency_id}_balance",
     )
@@ -11,7 +11,7 @@ module BalancesHelper
 
   def currency_balance_value_field(balance)
     currency = balance.currency
-    visible  = balance.value.present?
+    visible  = !balance.value.nil?
     text_field_tag(
       "balances[][value]",
       balance.value,

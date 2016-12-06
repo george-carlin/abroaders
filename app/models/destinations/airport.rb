@@ -33,7 +33,7 @@ class Airport < Destination
   private
 
   def parent_is_correct_type
-    return unless parent.present? && parent.type.present? && parent.type != "City"
+    return unless !parent.nil? && !parent.type.nil? && parent.type != "City"
     errors.add(:parent, "must be a city")
   end
 end

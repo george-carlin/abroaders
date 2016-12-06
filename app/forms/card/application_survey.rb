@@ -23,11 +23,7 @@ class Card::ApplicationSurvey < ApplicationForm
       # nudged);
       card.applied_at ||= Time.now
     when "open"
-      card.opened_at = if opened_at.present?
-                         opened_at
-                       else
-                         Time.now
-                       end
+      card.opened_at = opened_at || Time.now
       # Don't update applied_at if it's already present: they may have
       # previously applied, and are only now hearing back from the bank:
       card.applied_at ||= card.opened_at

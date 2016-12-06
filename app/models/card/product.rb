@@ -48,7 +48,7 @@ class Card::Product < ApplicationRecord
   end
 
   def annual_fee
-    annual_fee_cents / 100.0 if annual_fee_cents.present?
+    annual_fee_cents / 100.0 unless annual_fee_cents.nil?
   end
 
   def annual_fee=(annual_fee_dollars)

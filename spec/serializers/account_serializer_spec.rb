@@ -6,7 +6,7 @@ describe AccountSerializer do
       :account,
       email: "test@example.com",
       monthly_spending_usd: 234,
-      onboarding_state: :phone_number
+      onboarding_state: :phone_number,
     )
     PhoneNumber::Create.(phone_number: { number: '555 1234 555' }, current_account: account)
 

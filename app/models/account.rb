@@ -12,7 +12,7 @@ class Account < ApplicationRecord
   end
 
   def couples?
-    companion.present?
+    !companion.nil?
   end
 
   def onboarded?

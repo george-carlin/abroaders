@@ -21,7 +21,7 @@
       </span>
     </p>
 
-    <% if card.offer.present? %>
+    <% if !card.offer.nil? %>
       <div class="card_offer">
         <%= card.offer.description %>
       </div><!-- .product-account-offer -->

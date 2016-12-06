@@ -2,7 +2,7 @@
 
 <div class="hpanel">
   <div class="panel-heading hbuilt">
-    <% if @product.present? %>
+    <% if !@product.nil? %>
       <% present @product do |product| %>
         <h1><%= product.full_name(with_bank: true) %> - Card Offers</h1>
       <% end %>

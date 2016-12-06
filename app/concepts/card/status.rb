@@ -24,14 +24,14 @@ class Card::Status
 
   def name
     # Note: the order of these return statements matters!
-    return "pulled"      if pulled_at.present?
-    return "expired"     if expired_at.present?
-    return "closed"      if closed_at.present?
-    return "open"        if opened_at.present?
-    return "declined"    if declined_at.present?
-    return "denied"      if denied_at.present?
-    return "applied"     if applied_at.present?
-    return "recommended" if recommended_at.present?
+    return "pulled"      unless pulled_at.nil?
+    return "expired"     unless expired_at.nil?
+    return "closed"      unless closed_at.nil?
+    return "open"        unless opened_at.nil?
+    return "declined"    unless declined_at.nil?
+    return "denied"      unless denied_at.nil?
+    return "applied"     unless applied_at.nil?
+    return "recommended" unless recommended_at.nil?
     raise "this should never happen!"
   end
 
@@ -42,7 +42,7 @@ class Card::Status
     when "applied"
       true
     when "denied"
-      !(nudged_at.present? || redenied_at.present?) # TODO also disallow reconsideration after 30
+      nudged_at.nil? && redenied_at.nil? # TODO also disallow reconsideration after 30
     else
       false
     end
@@ -60,7 +60,7 @@ class Card::Status
       return
     end
 
-    if declined_at.present?
+    unless declined_at.nil?
       %i[
         applied_at denied_at nudged_at called_at redenied_at opened_at closed_at
         expired_at pulled_at
@@ -70,7 +70,7 @@ class Card::Status
       return
     end
 
-    if expired_at.present?
+    unless expired_at.nil?
       %i[
         applied_at nudged_at called_at redenied_at opened_at closed_at
         denied_at pulled_at
@@ -80,13 +80,13 @@ class Card::Status
       return
     end
 
-    if applied_at.present?
-      errors.add(:opened_at, :blank) if closed_at.present? && opened_at.nil?
-      errors.add(:denied_at, :blank) if redenied_at.present? && denied_at.nil?
-    else
+    if applied_at.nil?
       %i[denied_at nudged_at called_at redenied_at opened_at closed_at pulled_at].each do |timestamp|
         errors.add(timestamp, :present) if attributes[timestamp].present?
       end
+    else
+      errors.add(:opened_at, :blank) if closed_at.present? && opened_at.nil?
+      errors.add(:denied_at, :blank) if redenied_at.present? && denied_at.nil?
     end
   end
 end

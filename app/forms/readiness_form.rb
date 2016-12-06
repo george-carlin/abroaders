@@ -4,11 +4,11 @@ class ReadinessForm < ApplicationForm
 
   def initialize(*_)
     super
-    self.who = if owner.eligible? && companion.present? && companion.eligible?
+    self.who = if owner.eligible? && !companion.nil? && companion.eligible?
                  'both'
                elsif owner.eligible?
                  'owner'
-               elsif companion.present? && companion.eligible?
+               elsif companion&.eligible?
                  'companion'
                end
   end

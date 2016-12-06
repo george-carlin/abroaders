@@ -14,7 +14,7 @@ class SignUp < ApplicationForm
     super(new_email.strip)
   end
 
-  validate :email_is_unique, if: "email.present?"
+  validate :email_is_unique, if: 'email.present?'
 
   validates :email,
             presence: true,

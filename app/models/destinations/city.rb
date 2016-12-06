@@ -6,7 +6,7 @@ class City < Destination
   private
 
   def parent_is_country
-    return unless parent.present? && parent.type.present? && parent.type != "Country"
+    return unless !parent.nil? && !parent.type.nil? && parent.type != "Country"
     errors.add(:parent, "must be a country")
   end
 end

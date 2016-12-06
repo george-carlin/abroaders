@@ -1,7 +1,7 @@
 class Card::Contract < Reform::Form
   feature Reform::Form::MultiParameterAttributes
 
-  property :closed, virtual: true, prepopulator: ->(_) { self.closed = closed_at.present? }
+  property :closed, virtual: true, prepopulator: ->(_) { self.closed = !closed_at.nil? }
   property :closed_at
   property :opened_at
 

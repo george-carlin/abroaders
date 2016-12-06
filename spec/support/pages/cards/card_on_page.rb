@@ -35,7 +35,7 @@ class CardOnPage < RecordOnPage
                      has_content?(card.opened_at.strftime("%b %Y")) &&
                      has_no_apply_or_decline_btns?
 
-    if card.closed_at.present?
+    if !card.closed_at.nil?
       has_basic_info &&
         has_content?("Closed") &&
         has_content?(card.closed_at.strftime("%b %Y"))

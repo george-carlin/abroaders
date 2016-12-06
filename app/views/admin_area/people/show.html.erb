@@ -7,7 +7,7 @@
       <p>
         <%= person.email %> -
         Account created on <%= person.signed_up %>
-        <% if person.phone_number.present? %>
+        <% if !person.phone_number.nil? %>
           - <%= person.phone_number %>
         <% end %>
       </p>
@@ -16,7 +16,7 @@
     <div class="panel-body">
       <div class="col-xs-12 col-md-6">
         <%= cell(Person::Cell::Admin::SpendingInfo, @person) %>
-        <% if @person.spending_info.present? %>
+        <% if !@person.spending_info.nil? %>
           <%= link_to 'Edit', edit_admin_person_spending_info_path(@person) %>
         <% end %>
       </div>
@@ -166,7 +166,7 @@
             <input class="btn btn-primary btn-lg" style="float:right;" type="submit" value="Done">
 
 
-            <% if person.last_recommendations_at.present? %>
+            <% if !person.last_recommendations_at.nil? %>
               <br>
               Person last received recommendations on:
               <span class="person_last_recommendations_at">

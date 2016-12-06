@@ -112,7 +112,7 @@ class Card < ApplicationRecord
 
   validates :person, presence: true
 
-  validates :decline_reason, presence: true, if: "declined_at.present?"
+  validates :decline_reason, presence: true, unless: 'declined_at.nil?'
 
   validate :product_matches_offer_product
 
@@ -228,18 +228,18 @@ class Card < ApplicationRecord
   private
 
   def change_dates_to_end_of_month
-    self.opened_at = opened_at.end_of_month if opened_at.present?
-    self.closed_at = closed_at.end_of_month if closed_at.present?
+    self.opened_at = opened_at.end_of_month unless opened_at.nil?
+    self.closed_at = closed_at.end_of_month unless closed_at.nil?
   end
 
   # TODO move these validations to the operation/contract layer:
   def product_matches_offer_product
-    return unless offer.present? && product.present? && product != offer.product
+    return unless !offer.nil? && !product.nil? && product != offer.product
     errors.add(:product, :doesnt_match_offer)
   end
 
   def set_product_to_offer_product
-    return unless offer.present? && offer.product.present? && product.nil?
+    return unless !offer.nil? && !offer.product.nil? && product.nil?
     self.product = offer.product
   end
 
