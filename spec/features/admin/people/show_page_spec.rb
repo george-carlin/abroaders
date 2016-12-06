@@ -544,9 +544,6 @@ module AdminArea
         change { account.recommendation_notes.count }.by(1).and \
           send_email.to(account.email).with_subject("Action Needed: Card Recommendations Ready")
 
-      email = ApplicationMailer.deliveries.last
-      expect(email.body).to include note_content
-
       new_note = account.recommendation_notes.order(created_at: :asc).last
       expect(new_note.content).to eq note_content
     end
