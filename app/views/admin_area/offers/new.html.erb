@@ -2,9 +2,7 @@
 
 <div class="hpanel">
   <div class="panel-heading hbuilt">
-    <% present @product do |product| %>
-      <h1><%= product.full_name(with_bank: true) %> - New Offer</h1>
-    <% end %>
+      <h1><%= Product::Cell.(@product).full_name(with_bank: true) %> - New Offer</h1>
   </div>
 
   <div class="panel-body">

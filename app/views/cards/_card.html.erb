@@ -8,7 +8,7 @@
       <b>Card Name:</b>
       <span class="card-account-card-name">
         <%= card.product.name %>
-        <% unless card.product.unknown_network? %>
+        <% unless card.product.network == 'Unknown' %>
           (<%= card.product.network %>)
         <% end %>
       </span>

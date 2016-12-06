@@ -87,7 +87,7 @@ class OfferPresenter < ApplicationPresenter
   private
 
   def product
-    @product ||= Card::Product::Presenter.new(super(), view)
+    @product ||= Product::Cell.(super)
   end
 
   def abbreviated_points
