@@ -12,5 +12,9 @@ FactoryGirl.define do
     factory :dead_offer do
       killed_at { Time.zone.now - (rand * 21) }
     end
+
+    trait :dead do
+      killed_at { Time.zone.now - (rand * 21) }
+    end
   end
 end

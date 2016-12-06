@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :card_product, class: 'Card::Product' do
+  factory :card_product, aliases: [:product], class: 'Card::Product' do
     sequence(:code) do |n|
       str = "AAA"
       n.times { str.next! }

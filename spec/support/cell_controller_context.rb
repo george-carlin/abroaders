@@ -8,6 +8,10 @@
 
 class CellContextController
   include Rails.application.routes.url_helpers
+
+  def protect_against_forgery?
+    false
+  end
 end
 
 CELL_CONTEXT = { controller: CellContextController.new }.freeze
