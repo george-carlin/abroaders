@@ -273,11 +273,7 @@
                           <b><%= offer.link_to_link %></b>
                         </td>
                         <td class="offer-recommend">
-                          <%= offer.recommend_btn %>
-                          <div class="new_recommendation" role="group" style="display:none;">
-                            <%= offer.confirm_recommend_btn(person) %>
-                            <%= offer.cancel_recommend_btn %>
-                          </div>
+                          <%= cell(Recommendation::Cell::Admin::New,  nil, offer: offer, person: person) %>
                         </td>
                       </tr>
                     <% end %>

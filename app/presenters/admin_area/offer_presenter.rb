@@ -3,29 +3,6 @@ class AdminArea::OfferPresenter < ::OfferPresenter
     product.bp.to_s[0].upcase
   end
 
-  def cancel_recommend_btn
-    btn_classes = "btn btn-xs btn-default"
-    prefix = :cancel_recommend
-    h.button_tag(
-      "Cancel",
-      class: "#{h.dom_class(self, prefix)}_btn #{btn_classes} pull-right",
-      id:    "#{h.dom_id(self, prefix)}_btn",
-    )
-  end
-
-  def confirm_recommend_btn(person)
-    btn_classes = "btn btn-xs btn-primary"
-    prefix = :confirm_recommend
-    h.button_to(
-      "Confirm",
-      h.admin_person_recommendations_path(person),
-      class:  "#{h.dom_class(self, prefix)}_btn #{btn_classes} pull-right",
-      id:     "#{h.dom_id(self, prefix)}_btn",
-      remote: true,
-      params: { recommendation: { offer_id: id } },
-    )
-  end
-
   def kill_btn
     btn_classes = "btn btn-xs"
     prefix = :kill
@@ -60,16 +37,6 @@ class AdminArea::OfferPresenter < ::OfferPresenter
 
   def last_reviewed_at
     super().nil? ? "never" : super().strftime("%m/%d/%Y")
-  end
-
-  def recommend_btn
-    btn_classes = "btn btn-xs btn-primary"
-    prefix = :recommend
-    h.button_tag(
-      "Recommend",
-      class: "#{h.dom_class(self, prefix)}_btn #{btn_classes} pull-right",
-      id:    "#{h.dom_id(self, prefix)}_btn",
-    )
   end
 
   def verify_btn
