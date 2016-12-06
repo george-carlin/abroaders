@@ -69,7 +69,10 @@
   <% if person.eligible? %>
     <div class="hpanel">
       <div class="panel-body">
-        <h3>Card Accounts</h3>
+        <h3>
+          Cards
+          <small><%= link_to raw('&plus; Add'), new_admin_person_card_path(@person) %></small>
+        </h3>
 
         <div id="admin_person_cards"
           <% if @cards.size == 0 %>
