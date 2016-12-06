@@ -88,8 +88,4 @@ class Card::Product < ApplicationRecord
   def serializer_class
     Card::Product::Serializer
   end
-
-  def presenter_class
-    Card::Product::Presenter
-  end
 end
