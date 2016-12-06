@@ -17,16 +17,14 @@ class RecommendationsController < CardsController
   end
 
   def apply
-    @card = load_card
+    @model = load_card
 
-    # Make sure this is the right type of card:
-    redirect_to(cards_path) && return unless @card.applyable?
+    raise 'unapplyable card' unless @model.applyable?
 
     # We can't know for sure here if the user has actually applied; the most we
     # can do is note that they've visited this page and (hopefully) been
     # redirected to the bank's page
-    @card.update_attributes!(clicked_at: Time.now)
-    @product = @card.product
+    @model.update_attributes!(clicked_at: Time.zone.now)
   end
 
   def decline
