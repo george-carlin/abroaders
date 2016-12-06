@@ -35,6 +35,7 @@
       <%= card.closed_at || "-" %>
     </td>
     <td>
+      <%= link_to 'Edit', edit_admin_card_path(card) %>
       <%= card.link_to_pull if card.recommendation? %>
     </td>
   <% end # content_tag_for %>

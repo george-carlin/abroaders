@@ -28,7 +28,7 @@ class Card < ApplicationRecord
 
   module Admin
     class Create < Operation
-      contract ::Card::Admin::Contract
+      contract ::Card::Admin::Contract::Update
 
       def process(params)
         validate(params[:card]) do |f|
@@ -48,6 +48,16 @@ class Card < ApplicationRecord
 
       def model!(params)
         params[:person].cards.new
+      end
+    end
+
+    class Update < ::Card::Update
+      contract ::Card::Admin::Contract
+
+      private
+
+      def model!(params)
+        Card.find(params[:id])
       end
     end
   end

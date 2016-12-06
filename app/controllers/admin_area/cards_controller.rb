@@ -14,12 +14,20 @@ module AdminArea
       render :new
     end
 
-    private
-
-    def params!(params)
-      params[:person] = Person.find(params[:person_id])
-      params
+    def edit
+      form ::Card::Admin::Update
     end
+
+    def update
+      run ::Card::Admin::Update do
+        flash[:success] = 'Added card!'
+        return redirect_to admin_person_path(@model.person)
+      end
+      @products = load_products_for_select
+      render :new
+    end
+
+    private
 
     # TODO argh this is terrible
     def load_products_for_select

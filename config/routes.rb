@@ -156,6 +156,8 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :cards, only: [:edit, :update, :destroy]
+
     # show and edit redirect to the nested action:
     resources :offers, only: [:show, :edit, :index] do
       collection do
@@ -171,7 +173,7 @@ Rails.application.routes.draw do
       get type.pluralize, to: "destinations##{type}"
     end
     resources :people, only: :show do
-      resources :cards
+      resources :cards, only: [:new, :create]
       resource :spending_info
       resources :cards
       resources :recommendations, only: [:create] do
