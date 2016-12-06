@@ -29,7 +29,10 @@ module Abroaders
     require "modules/bootstrap_overrides/overrides"
     require "modules/auto_strip_attributes"
 
-    config.cells.with_assets = ['account/cell/admin/index']
+    config.cells.with_assets = [
+      'account/cell/admin/index',
+      'recommendation/admin/cell/new',
+    ]
 
     config.autoload_paths << Rails.root.join("app", "models", "destinations")
 

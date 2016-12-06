@@ -134,21 +134,4 @@ $(document).ready(function () {
     var checkboxes = $(this).closest(".panel-body").find(".card_currency_filter");
     toggleAll(this, checkboxes);
   });
-
-  $(".recommend_offer_btn").click(function (e) {
-    e.preventDefault();
-    $(this)
-      .hide()
-      .siblings(".new_recommendation")
-        .show();
-  });
-
-  $(".cancel_recommend_offer_btn").click(function (e) {
-    e.preventDefault();
-    $(this)
-      .closest("form")
-        .hide()
-        .siblings(".recommend_offer_btn")
-          .show();
-  });
 });

@@ -21,18 +21,9 @@ class AdminArea::OfferPresenter < ::OfferPresenter
       h.admin_person_recommendations_path(person),
       class:  "#{h.dom_class(self, prefix)}_btn #{btn_classes} pull-right",
       id:     "#{h.dom_id(self, prefix)}_btn",
-      params: { offer_id: id },
+      remote: true,
+      params: { recommendation: { offer_id: id } },
     )
-  end
-
-  def confirm_recommend_form(person)
-    h.form_for(
-      [:admin, person, AdminArea::Recommendation.new(offer_id: id)],
-      data: { remote: true },
-      html: { style: "display:none" },
-    ) do |f|
-      yield(f)
-    end
   end
 
   def kill_btn
