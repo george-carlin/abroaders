@@ -42,6 +42,6 @@ class Card::Presenter < ApplicationPresenter
   end
 
   def offer
-    @offer ||= super.present? ? OfferPresenter.new(super, view) : nil
+    @offer ||= super.present? ? Offer::Cell.(super) : nil
   end
 end
