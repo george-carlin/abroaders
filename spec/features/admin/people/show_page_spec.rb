@@ -176,20 +176,26 @@ module AdminArea
 
       visit_path
 
-      opened_acc = CardOnPage.new(@opened_acc, self)
-      closed_acc = CardOnPage.new(@closed_acc, self)
+      opened_acc_selector = '#' << dom_id(@opened_acc)
+      closed_acc_selector = '#' << dom_id(@closed_acc)
 
       within "#admin_person_cards" do
-        expect(opened_acc).to be_present
-        expect(closed_acc).to be_present
+        expect(page).to have_selector opened_acc_selector
+        expect(page).to have_selector closed_acc_selector
       end
-      expect(opened_acc).to have_status "Open"
-      expect(closed_acc).to have_status "Closed"
-      # says when they were opened/closed:
-      expect(opened_acc).to have_opened_at_date("Jan 2015")
-      expect(opened_acc).to have_no_closed_at_date
-      expect(closed_acc).to have_opened_at_date("Mar 2015")
-      expect(closed_acc).to have_closed_at_date("Oct 2015")
+
+      within opened_acc_selector do
+        expect(page).to have_selector '.card_opened_at', text: 'Jan 2015'
+        expect(page).to have_selector '.card_closed_at', text: '-'
+        expect(page).to have_selector '.card_status', text: 'Open'
+      end
+
+      within closed_acc_selector do
+        expect(page).to have_selector '.card_status', text: 'Closed'
+        # says when they were opened/closed:
+        expect(page).to have_selector '.card_opened_at', text: 'Mar 2015'
+        expect(page).to have_selector '.card_closed_at', text: 'Oct 2015'
+      end
     end
 
     example "person has received recommendations" do
@@ -208,41 +214,41 @@ module AdminArea
 
       visit_path
 
-      new_rec      = CardOnPage.new(@new_rec, self)
-      clicked_rec  = CardOnPage.new(@clicked_rec, self)
-      declined_rec = CardOnPage.new(@declined_rec, self)
+      new_rec_selector      = '#' << dom_id(@new_rec)
+      clicked_rec_selector  = '#' << dom_id(@clicked_rec)
+      declined_rec_selector = '#' << dom_id(@declined_rec)
 
       within "#admin_person_cards_table" do
-        expect(new_rec).to be_present
-        expect(clicked_rec).to be_present
-        expect(declined_rec).to be_present
+        expect(page).to have_selector new_rec_selector
+        expect(page).to have_selector clicked_rec_selector
+        expect(page).to have_selector declined_rec_selector
       end
 
-      # shows each card's status:
-      expect(new_rec).to have_status "Recommended"
-      expect(clicked_rec).to have_status "Recommended"
-      expect(declined_rec).to have_status "Declined"
+      within new_rec_selector do
+        expect(page).to have_selector '.card_status', text: 'Recommended'
+        expect(page).to have_selector '.card_recommended_at', text: '01/01/15'
+        expect(page).to have_selector '.card_seen_at',        text: '-'
+        expect(page).to have_selector '.card_clicked_at',     text: '-'
+        expect(page).to have_selector '.card_applied_at',     text: '-'
+      end
 
-      # shows the recommended/applied/opened/closed dates:
-      expect(new_rec).to have_recommended_at_date("01/01/15")
-      expect(new_rec).to have_no_seen_at_date
-      expect(new_rec).to have_no_clicked_at_date
-      expect(new_rec).to have_no_applied_at_date
+      within clicked_rec_selector do
+        expect(page).to have_selector '.card_recommended_at', text: '03/01/15'
+        expect(page).to have_selector '.card_seen_at',        text: '01/01/15'
+        expect(page).to have_selector '.card_clicked_at',     text: '10/01/15'
+        expect(page).to have_selector '.card_applied_at',     text: '-'
+        expect(page).to have_selector '.card_status', text: 'Recommended'
+      end
 
-      expect(clicked_rec).to have_recommended_at_date("03/01/15")
-      expect(clicked_rec).to have_seen_at_date("01/01/15")
-      expect(clicked_rec).to have_clicked_at_date("10/01/15")
-      expect(clicked_rec).to have_no_applied_at_date
-
-      expect(declined_rec).to have_recommended_at_date("10/01/15")
-      expect(declined_rec).to have_seen_at_date("03/01/15")
-      expect(declined_rec).to have_no_clicked_at_date
-      expect(declined_rec).to have_declined_at_date("12/01/15")
-
-      # shows decline reasons in a tooltip:
-      expect(declined_rec).to have_selector "a[data-toggle='tooltip']"
-      tooltip = declined_rec.find("a[data-toggle='tooltip']")
-      expect(tooltip["title"]).to eq "because"
+      within declined_rec_selector do
+        expect(page).to have_selector '.card_recommended_at', text: '10/01/15'
+        expect(page).to have_selector '.card_seen_at',        text: '03/01/15'
+        expect(page).to have_selector '.card_clicked_at',     text: '-'
+        expect(page).to have_selector '.card_declined_at',    text: '12/01/15'
+        expect(page).to have_selector '.card_status', text: 'Declined'
+        expect(page).to have_selector "a[data-toggle='tooltip']"
+        expect(find("a[data-toggle='tooltip']")["title"]).to eq "because"
+      end
 
       # displays the last recs timestamp:
       expect(page).to have_selector(
@@ -276,42 +282,21 @@ module AdminArea
       unpulled_rec = create(:card_recommendation, offer: o, person: person)
       visit_path
 
-      pulled_rec_on_page   = AdminArea::CardOnPage.new(pulled_rec, self)
-      unpulled_rec_on_page = AdminArea::CardOnPage.new(unpulled_rec, self)
-
-      expect(pulled_rec_on_page).to be_absent
-      expect(unpulled_rec_on_page).to be_present
-      expect(page).to have_link "View 1 pulled recommendation"
+      expect(page).to have_no_selector "##{dom_id(pulled_rec)}"
+      expect(page).to have_selector "##{dom_id(unpulled_rec)}"
+      expect(page).to have_link 'View 1 pulled recommendation'
     end
 
     example "pulling a rec", :js do
       rec = create(:card_recommendation, offer: offers[0], person: person)
       visit_path
-      rec_on_page = AdminArea::CardOnPage.new(rec, self)
 
       page.accept_confirm do
-        rec_on_page.click_pull_btn
+        find("#card_#{rec.id}_pull_btn").click
       end
 
-      expect(rec_on_page).to be_absent
+      expect(page).to have_no_selector "##{dom_id(rec)}"
       expect(rec.reload.pulled_at).to be_within(5.seconds).of(Time.zone.now)
-    end
-
-    specify "page has buttons to recommend each live offer" do
-      visit_path
-      within ".admin-card-recommendation-table" do
-        @offers.each do |offer|
-          selector = "##{dom_id(offer, :admin_recommend)}"
-          expect(page).to have_selector selector
-          within selector do
-            expect(page).to have_button 'Recommend'
-            expect(page).to have_link 'Link', href: offer.link
-            expect(find("a[href='#{offer.link}']")[:target]).to eq "_blank"
-          end
-        end
-      end
-
-      expect(page).not_to have_selector "##{dom_id(@dead_offer, :admin_recommend)}"
     end
 
     describe "the card recommendation form" do
