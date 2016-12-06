@@ -4,7 +4,6 @@ require_relative 'spec_helper'
 require_relative 'active_record_spec_helper'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
-require 'capybara-screenshot/rspec' unless ENV["CI"]
 # Add additional requires below this line. Rails is not loaded until this point!
 
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }

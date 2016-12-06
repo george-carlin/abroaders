@@ -47,7 +47,4 @@ Rails.application.configure do
   config.log_level = :error
 
   config.active_job.queue_adapter = :test
-
-  # Keep only the screenshots generated from the last failing test suite
-  Capybara::Screenshot.prune_strategy = :keep_last_run
 end

@@ -71,7 +71,6 @@ end
 
 group :test do
   gem 'capybara'
-  gem 'capybara-screenshot'
   gem 'poltergeist'
   gem 'shoulda-matchers', '~> 3.1.1'
   gem 'launchy'
