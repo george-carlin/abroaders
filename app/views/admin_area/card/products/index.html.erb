@@ -33,27 +33,28 @@
         </thead>
 
         <tbody>
-          <% present_each(@products) do |product| %>
-            <tr id="<%= dom_id(product) %>">
+          <% @products.each do |_product| %>
+            <% product = cell(Product::Cell, _product) %>
+            <tr id="<%= dom_id(_product) %>">
               <td><%= product.identifier %></td>
               <td><%= product.bank_name %></td>
-              <td><%= link_to product.name, admin_card_product_path(product) %></td>
+              <td><%= link_to product.name, admin_card_product_path(_product) %></td>
               <td><%= product.network %></td>
               <td><%= product.currency_name %></td>
               <td><%= product.bp %></td>
               <td><%= product.type %></td>
               <td><%= product.annual_fee %></td>
               <td class="card_shown_on_survey">
-                <% if product.shown_on_survey? %>
+                <% if _product.shown_on_survey? %>
                   <i class="fa fa-check"> </i>
                 <% end %>
               </td>
               <td>
-                <%= link_to 'Edit', edit_admin_card_product_path(product) %>
+                <%= link_to 'Edit', edit_admin_card_product_path(_product) %>
               </td>
               <td class="card-offer-ctrls">
-                <%= link_to 'View', admin_card_product_offers_path(product) %> |
-                <%= link_to 'New', new_admin_card_product_offer_path(product) %>
+                <%= link_to 'View', admin_card_product_offers_path(_product) %> |
+                <%= link_to 'New', new_admin_card_product_offer_path(_product) %>
               </td>
             </tr>
           <% end # present_each %>

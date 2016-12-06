@@ -38,7 +38,7 @@ class Card::Presenter < ApplicationPresenter
   end
 
   def product
-    @product ||= Card::Product::Presenter.new(super, view)
+    @product ||= Product::Cell.(super)
   end
 
   def offer

@@ -7,7 +7,7 @@
     </div>
 
     <div class="panel-body">
-      <%= render "admin_area/offers/product", product: @product %>
+      <%= cell(Product::Cell::Admin::Summary, @product) %>
 
       <hr />
 

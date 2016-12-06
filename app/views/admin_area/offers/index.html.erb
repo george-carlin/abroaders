@@ -3,9 +3,7 @@
 <div class="hpanel">
   <div class="panel-heading hbuilt">
     <% if !@product.nil? %>
-      <% present @product do |product| %>
-        <h1><%= product.full_name(with_bank: true) %> - Card Offers</h1>
-      <% end %>
+      <h1><%= Product::Cell.(@product).full_name(with_bank: true) %> - Card Offers</h1>
 
       <p>
         <%= link_to 'Add a new offer for this card product', new_admin_card_product_offer_path(@product) %>

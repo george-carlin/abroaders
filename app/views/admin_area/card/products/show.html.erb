@@ -7,55 +7,56 @@
   but it's not urgent.
 </p>
 
-<% present @product do |card| %>
+<% product = Product::Cell.(@product) %>
 
-  <div class="row">
+<div class="hpanel">
+  <div class="panel-heading hbuilt row">
     <div class="col-xs-12">
-      <h1><%= card.name %></h1>
+      <h1><%= product.name %></h1>
     </div>
   </div>
 
-  <div class="row">
+  <div class="panel-body row">
     <div class="col-xs-7">
       <dt>Code</dt>
-      <dd><%= card.code %></dd>
+      <dd><%= product.code %></dd>
 
       <dt>Name</dt>
-      <dd><%= card.name %></dd>
+      <dd><%= product.name %></dd>
 
       <dt>Network</dt>
-      <dd><%= card.network %></dd>
+      <dd><%= product.network %></dd>
 
       <dt>B/P</dt>
-      <dd><%= card.bp %></dd>
+      <dd><%= product.bp %></dd>
 
       <dt>Type</dt>
-      <dd><%= card.type %></dd>
+      <dd><%= product.type %></dd>
 
       <dt>Annual fee</dt>
-      <dd><%= card.annual_fee %></dd>
+      <dd><%= product.annual_fee %></dd>
 
       <dt>Currency</dt>
-      <dd><%= card.currency_name %></dd>
+      <dd><%= product.currency_name %></dd>
 
       <dt>Bank</dt>
-      <dd><%= card.bank_name %></dd>
+      <dd><%= product.bank_name %></dd>
 
       <dt>Wallaby ID</dt>
-      <dd><%= card.wallaby_id %></dd>
+      <dd><%= product.wallaby_id %></dd>
 
       <dt>Shown on survey?</dt>
-      <dd><%= card.shown_on_survey %></dd>
+      <dd><%= @product.shown_on_survey %></dd>
 
       <dt>Created at</dt>
-      <dd><%= card.created_at %></dd>
+      <dd><%= product.created_at %></dd>
 
       <dt>Last updated at</dt>
-      <dd><%= card.updated_at %></dd>
+      <dd><%= product.updated_at %></dd>
     </div>
 
     <div class="col-xs-5">
-      <p><%= card.image %></p>
+      <p><%= product.image %></p>
 
       <p>
         <%= link_to 'Edit', edit_admin_card_product_path(@product) %>
@@ -64,4 +65,4 @@
       </p>
     </div>
   </div>
-<% end # present %>
+</div>

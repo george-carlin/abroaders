@@ -217,23 +217,22 @@
               data-bank="<%= product.bank_id %>"
               data-currency="<%= product.currency_id %>"
             >
-              <% present product do |product_p| %>
-                <td class="card-identifier">
-                  Card <%= product_p.identifier %>
-                </td>
-                <td class="card-name">
-                  <%= product_p.name %>
-                </td>
-                <td class="card-bank-name">
-                  <%= product_p.bank_name %>
-                </td>
-                <td class="card-bp">
-                  <%= product_p.bp %>
-                </td>
-                <td class="card-currency">
-                  <%= product_p.currency_name %>
-                </td>
-              <% end %>
+              <% product_c = Product::Cell.(product) %>
+              <td class="card-identifier">
+                Card <%= product_c.identifier %>
+              </td>
+              <td class="card-name">
+                <%= product_c.name %>
+              </td>
+              <td class="card-bank-name">
+                <%= product_c.bank_name %>
+              </td>
+              <td class="card-bp">
+                <%= product_c.bp %>
+              </td>
+              <td class="card-currency">
+                <%= product_c.currency_name %>
+              </td>
             </tr><!-- .admin_recommend_card_product_(id) -->
 
             <tr

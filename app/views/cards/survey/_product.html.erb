@@ -2,92 +2,91 @@
 <%# to make a fancy over-engineered solution by subclassing FormBuilder, %>
 <%# but it was definitely, definitely not worth the effort               %>
 
-<% present product do |product| %>
-  <div
-    id="<%= dom_id(product) %>"
-    class="col-xs-12 col-sm-4 col-md-3 col-xl-2"
-  >
+<% product = Product::Cell.(product) %>
+<div
+  id="<%= dom_id(product.model) %>"
+  class="col-xs-12 col-sm-4 col-md-3 col-xl-2"
+>
 
-    <div class="card-survey-checkbox">
-      <%= hidden_field_tag(
-        'cards_survey[cards][][product_id]',
-        product.id,
-        id: "cards_survey_#{product.id}_card_product_id",
-      ) %>
+  <div class="card-survey-checkbox">
+    <%= hidden_field_tag(
+      'cards_survey[cards][][product_id]',
+      product.id,
+      id: "cards_survey_#{product.id}_card_product_id",
+    ) %>
 
-      <%= product.image %>
+    <%= product.image %>
 
+    <div>
       <div>
-        <div>
-          <%= check_box_tag(
-            "cards_survey[cards][][opened]",
-            true,  # value
-            false, # checked
-            id: "cards_survey_#{product.id}_card_opened",
-            class: "cards_survey_card_opened cards_survey_opened input-lg",
-          ) %>
-        </div>
-        <div>
-          <%= label_tag(
-            "cards_survey_#{product.id}_card_opened",
-            product.full_name,
-          ) %>
-        </div>
-        <div>
-          Annual fee: <%= product.annual_fee %>/yr
-        </div>
-        <div class="cards_survey_card_opened_at_wrapper">
-          <hr>
-
-          <label>Roughly when did you open this card?</label>
-          <%= select_tag(
-            "cards_survey[cards][][opened_at_(1i)]",
-            options_for_cards_survey_year_select,
-            id: "cards_survey_#{product.id}_card_opened_at_year",
-            class: "cards_survey_card_opened_at_year cards_survey_year",
-          ) %>
-
-          <%= select_tag(
-            "cards_survey[cards][][opened_at_(2i)]",
-            options_for_cards_survey_month_select,
-            id: "cards_survey_#{product.id}_card_opened_at_month",
-            class: "cards_survey_card_opened_at_month cards_survey_month",
-          ) %>
-
-          <div class="clearfix"></div>
-        </div>
-        <div class="cards_survey_card_closed_wrapper">
-          <%= label_tag(
-            "cards_survey_#{product.id}_card_closed",
-            "Is this account now closed?"
-          ) %>
-          <%= check_box_tag(
-            "cards_survey[cards][][closed]",
-            true,  # value
-            false, # checked
-            id: "cards_survey_#{product.id}_card_closed",
-            class: "cards_survey_card_closed input-lg",
-          ) %>
-        </div>
-        <div class="cards_survey_card_closed_at_wrapper">
-          <label>Roughly when did you close this card?</label>
-          <%= select_tag(
-            "cards_survey[cards][][closed_at_(1i)]",
-            options_for_cards_survey_year_select,
-            id: "cards_survey_#{product.id}_card_closed_at_year",
-            class: "cards_survey_#{product.id}_card_closed_at_year cards_survey_year",
-          ) %>
-
-          <%= select_tag(
-            "cards_survey[cards][][closed_at_(2i)]",
-            options_for_cards_survey_month_select,
-            id: "cards_survey_#{product.id}_card_closed_at_month",
-            class: "cards_survey_card_closed_at_month cards_survey_month",
-          ) %>
-
-          <div class="clearfix"></div>
-        </div>
+        <%= check_box_tag(
+          "cards_survey[cards][][opened]",
+          true,  # value
+          false, # checked
+          id: "cards_survey_#{product.id}_card_opened",
+          class: "cards_survey_card_opened cards_survey_opened input-lg",
+        ) %>
       </div>
-    </div><!-- .card-survey-checkbox -->
-  </div><!-- cols -->
-<% end %>
+      <div>
+        <%= label_tag(
+          "cards_survey_#{product.id}_card_opened",
+          product.full_name,
+        ) %>
+      </div>
+      <div>
+        Annual fee: <%= product.annual_fee %>/yr
+      </div>
+      <div class="cards_survey_card_opened_at_wrapper">
+        <hr>
+
+        <label>Roughly when did you open this card?</label>
+        <%= select_tag(
+          "cards_survey[cards][][opened_at_(1i)]",
+          options_for_cards_survey_year_select,
+          id: "cards_survey_#{product.id}_card_opened_at_year",
+          class: "cards_survey_card_opened_at_year cards_survey_year",
+        ) %>
+
+        <%= select_tag(
+          "cards_survey[cards][][opened_at_(2i)]",
+          options_for_cards_survey_month_select,
+          id: "cards_survey_#{product.id}_card_opened_at_month",
+          class: "cards_survey_card_opened_at_month cards_survey_month",
+        ) %>
+
+        <div class="clearfix"></div>
+      </div>
+      <div class="cards_survey_card_closed_wrapper">
+        <%= label_tag(
+          "cards_survey_#{product.id}_card_closed",
+          "Is this account now closed?"
+        ) %>
+        <%= check_box_tag(
+          "cards_survey[cards][][closed]",
+          true,  # value
+          false, # checked
+          id: "cards_survey_#{product.id}_card_closed",
+          class: "cards_survey_card_closed input-lg",
+        ) %>
+      </div>
+      <div class="cards_survey_card_closed_at_wrapper">
+        <label>Roughly when did you close this card?</label>
+        <%= select_tag(
+          "cards_survey[cards][][closed_at_(1i)]",
+          options_for_cards_survey_year_select,
+          id: "cards_survey_#{product.id}_card_closed_at_year",
+          class: "cards_survey_#{product.id}_card_closed_at_year cards_survey_year",
+        ) %>
+
+        <%= select_tag(
+          "cards_survey[cards][][closed_at_(2i)]",
+          options_for_cards_survey_month_select,
+          id: "cards_survey_#{product.id}_card_closed_at_month",
+          class: "cards_survey_card_closed_at_month cards_survey_month",
+        ) %>
+
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div><!-- .card-survey-checkbox -->
+</div><!-- cols -->

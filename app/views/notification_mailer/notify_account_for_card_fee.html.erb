@@ -1,5 +1,5 @@
 <%
-  product = present @product
+  product = Product::Cell.(@product)
   name = @account.owner.first_name
   your = "your"
   if @account.couples?
