@@ -32,7 +32,9 @@ class PhoneNumber < ApplicationRecord
     private
 
     def model!(params)
-      PhoneNumber.new(account: params[:current_account])
+      account = params[:current_account]
+      raise 'account in wrong state' unless account.onboarding_state == 'phone_number'
+      PhoneNumber.new(account: account)
     end
   end
 end

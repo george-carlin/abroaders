@@ -17,11 +17,13 @@ describe Account::Admin::Search do
     accounts[2].companion.update!(first_name: 'Gabi')
     accounts[3].owner.update!(first_name: 'Erik')
 
+    accounts[2].update!(onboarding_state: :phone_number)
     PhoneNumber::Create.(
       current_account: accounts[2],
       phone_number: { number: '(555) 123-4567' },
     )
 
+    accounts[1].update!(onboarding_state: :phone_number)
     PhoneNumber::Create.(
       current_account: accounts[1],
       phone_number: { number: '(555) 0001111' },
