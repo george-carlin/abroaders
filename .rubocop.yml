@@ -60,6 +60,9 @@ Style/Lambda:
 Style/LambdaCall:
   Enabled: false
 
+Style/MultilineBlockChain:
+  Enabled: false
+
 Style/NumericLiterals:
   Enabled: false
 
