@@ -31,7 +31,7 @@
     &nbsp;
 
     <%# legacy data may be of type 'return' but have no return_on date: %>
-    <% if travel_plan.type == "return" && travel_plan.return_on.present? %>
+    <% if travel_plan.type == "return" && !travel_plan.return_on.nil? %>
       <span class="travel_plan_departure_date_range">
         Return:
         <%= travel_plan.return_on.strftime("%D") %>

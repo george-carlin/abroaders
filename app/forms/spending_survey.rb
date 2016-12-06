@@ -146,7 +146,7 @@ class SpendingSurvey < ApplicationForm
   end
 
   def require_companion_spending?
-    account.companion.present? && account.companion.eligible?
+    account.companion&.eligible?
   end
 
   def require_companion_business_spending?

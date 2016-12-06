@@ -54,9 +54,9 @@ class Account::Onboarder
 
     state :owner_balances do
       event :add_owner_balances, transition_to: :companion_cards,
-            if: -> (of) { of.companion.present? && of.companion.eligible? }
+            if: -> (of) { of.companion&.eligible? }
       event :add_owner_balances, transition_to: :companion_balances,
-            if: -> (of) { of.companion.present? }
+            if: -> (of) { !of.companion.nil? }
       event :add_owner_balances, transition_to: :spending,
             if: -> (of) { of.owner.eligible? }
       event :add_owner_balances, transition_to: :phone_number

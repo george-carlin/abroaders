@@ -2,7 +2,7 @@ class Card::Product::Presenter < ApplicationPresenter
   delegate :name, to: :currency, prefix: true, allow_nil: true
 
   def currency_name
-    currency.present? ? currency.name : "None"
+    currency.nil? ? 'None' : currency.name
   end
 
   def image(size = "180x114")
