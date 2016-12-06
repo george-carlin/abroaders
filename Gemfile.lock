@@ -420,6 +420,7 @@ DEPENDENCIES
   figaro (~> 1.1.1)
   font-awesome-rails
   httparty (~> 0.13.7)
+  inflecto
   intercom
   jbuilder (~> 2.0)
   jquery-rails
