@@ -63,8 +63,6 @@ module AdminArea
     let(:us_bank) { @us_bank }
     let(:offers)  { @offers }
 
-    let(:dead_offer) { RecommendableOfferOnPage.new(@dead_offer, self) }
-
     let(:complete_card_recs_form) { CompleteCardRecsFormOnPage.new(self) }
 
     example "basic information" do
@@ -299,21 +297,21 @@ module AdminArea
       expect(rec.reload.pulled_at).to be_within(5.seconds).of(Time.zone.now)
     end
 
-    let(:offers_on_page) { @offers.map { |o| RecommendableOfferOnPage.new(o, self) } }
-
     specify "page has buttons to recommend each live offer" do
       visit_path
       within ".admin-card-recommendation-table" do
-        offers_on_page.each do |offer_on_page|
-          expect(offer_on_page).to be_present
-          expect(offer_on_page).to have_recommend_btn
-          link = offer_on_page.offer.link
-          expect(offer_on_page).to have_link "Link", href: link
-          expect(offer_on_page.find("a[href='#{link}']")[:target]).to eq "_blank"
+        @offers.each do |offer|
+          selector = "##{dom_id(offer, :admin_recommend)}"
+          expect(page).to have_selector selector
+          within selector do
+            expect(page).to have_button 'Recommend'
+            expect(page).to have_link 'Link', href: offer.link
+            expect(find("a[href='#{offer.link}']")[:target]).to eq "_blank"
+          end
         end
       end
 
-      expect(dead_offer).to be_absent
+      expect(page).not_to have_selector "##{dom_id(@dead_offer, :admin_recommend)}"
     end
 
     describe "the card recommendation form" do
@@ -447,28 +445,34 @@ module AdminArea
       end
 
       let(:offer) { @offers[3] }
-      let(:offer_on_page) { RecommendableOfferOnPage.new(offer, self) }
+      let(:offer_selector) { "##{dom_id(offer, :admin_recommend)}" }
 
-      example "confirmation when clicking 'recommend'", :js do
+      example 'confirmation when clicking "recommend"', :js do
         # clicking 'recommend' shows confirm/cancel buttons
-        offer_on_page.click_recommend_btn
-        expect(offer_on_page).to have_no_button "Recommend"
-        expect(offer_on_page).to have_button "Cancel"
-        expect(offer_on_page).to have_button "Confirm"
+        within offer_selector do
+          click_button 'Recommend'
+          expect(page).to have_no_button 'Recommend'
+          expect(page).to have_button 'Cancel'
+          expect(page).to have_button 'Confirm'
 
-        # clicking 'cancel' goes back a step, and doesn't recommend anything
-        expect { offer_on_page.click_cancel_btn }.not_to change { ::Card.count }
-        expect(offer_on_page).to have_button "Recommend"
-        expect(offer_on_page).to have_no_button "Confirm"
-        expect(offer_on_page).to have_no_button "Cancel"
+          # clicking 'cancel' goes back a step, and doesn't recommend anything
+          expect { click_button 'Cancel' }.not_to change { ::Card.count }
+          expect(page).to have_button 'Recommend'
+          expect(page).to have_no_button 'Confirm'
+          expect(page).to have_no_button 'Cancel'
+        end
       end
 
       example "recommending an offer", :js do
-        offer_on_page.click_recommend_btn
+        within offer_selector do
+          click_button 'Recommend'
+        end
 
         # it recommends the card to the person
         expect do
-          offer_on_page.click_confirm_btn
+          within offer_selector do
+            click_button 'Confirm'
+          end
           wait_for_ajax
         end.to change { @person.card_recommendations.count }.by(1)
 
