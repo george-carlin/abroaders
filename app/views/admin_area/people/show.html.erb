@@ -210,30 +210,7 @@
 
         <tbody>
           <% @offers_grouped_by_product.each do |product, offers| %>
-            <tr
-              id="<%= dom_id(product, :admin_recommend) %>"
-              class="<%= dom_class(product, :admin_recommend) %>"
-              data-bp="<%= product.bp %>"
-              data-bank="<%= product.bank_id %>"
-              data-currency="<%= product.currency_id %>"
-            >
-              <% product_c = Product::Cell.(product) %>
-              <td class="card-identifier">
-                Card <%= product_c.identifier %>
-              </td>
-              <td class="card-name">
-                <%= product_c.name %>
-              </td>
-              <td class="card-bank-name">
-                <%= product_c.bank_name %>
-              </td>
-              <td class="card-bp">
-                <%= product_c.bp %>
-              </td>
-              <td class="card-currency">
-                <%= product_c.currency_name %>
-              </td>
-            </tr><!-- .admin_recommend_card_product_(id) -->
+            <%= cell(Recommendation::Cell::Admin::New::ProductsTable::Row, product) %>
 
             <tr
               id="<%= dom_id(product, :admin_recommend) %>_offers"
