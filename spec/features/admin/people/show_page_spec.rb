@@ -63,7 +63,13 @@ module AdminArea
     let(:us_bank) { @us_bank }
     let(:offers)  { @offers }
 
-    let(:complete_card_recs_form) { CompleteCardRecsFormOnPage.new(self) }
+    let(:complete_recs_form_selector) { '#complete_card_recommendations' }
+
+    def click_complete_recs_button
+      within complete_recs_form_selector do
+        click_button 'Done'
+      end
+    end
 
     example "basic information" do
       visit_path
@@ -497,7 +503,7 @@ module AdminArea
     example "marking recommendations as complete" do
       visit_path
       expect do
-        complete_card_recs_form.submit
+        click_complete_recs_button
         account.reload
       end.to \
         change { account.notifications.count }.by(1).and \
@@ -517,7 +523,7 @@ module AdminArea
 
     example "clicking 'Done' without adding a recommendation note to the user" do
       visit_path
-      expect { complete_card_recs_form.submit }.to_not change { account.recommendation_notes.count }
+      expect { click_complete_recs_button }.to_not change { account.recommendation_notes.count }
     end
 
     # TODO extract to a Trailblazer operation called Recommendation::Create
@@ -526,11 +532,11 @@ module AdminArea
       expect(page).to have_field :recommendation_note
 
       note_content = "I like to leave notes."
-      complete_card_recs_form.add_rec_note(note_content)
+      fill_in :recommendation_note, with: note_content
 
       # it sends the note to the user:
       expect do
-        complete_card_recs_form.submit
+        click_complete_recs_button
       end.to \
         change { account.recommendation_notes.count }.by(1).and \
           send_email.to(account.email).with_subject("Action Needed: Card Recommendations Ready")
@@ -543,8 +549,8 @@ module AdminArea
     example "recommendation note with trailing whitespace" do
       visit_path
       note_content = "  I like to leave notes.   "
-      complete_card_recs_form.add_rec_note(note_content)
-      complete_card_recs_form.submit
+      fill_in :recommendation_note, with: note_content
+      click_complete_recs_button
 
       new_note = account.recommendation_notes.order(created_at: :asc).last
       expect(new_note.content).to eq note_content.strip
@@ -553,9 +559,9 @@ module AdminArea
     # TODO extract to a Trailblazer operation called Recommendation::Create
     example "recommendation note that's only whitespace" do
       visit_path
-      complete_card_recs_form.add_rec_note("     \n \n \t\ \t ")
+      fill_in :recommendation_note, with: "     \n \n \t\ \t "
       expect do
-        complete_card_recs_form.submit
+        click_complete_recs_button
       end.to_not change { account.recommendation_notes.count }
     end
   end
