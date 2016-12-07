@@ -175,37 +175,6 @@ describe 'cards survey', :onboarding, :js, :manual_clean do
       expect(page).to have_no_selector product_selector(@hidden_product)
     end
 
-    describe "clicking on a card product" do
-      before { skip } # This is too much goddamn effort and I don't have time before launch
-      let(:card) { @visible_products[0] }
-      let(:card_selector) { "##{dom_id(card)}" }
-
-      let(:checkbox) { find(card_selector + " input[type=checkbox]") }
-
-      before { raise if checkbox[:checked] } # sanity check
-
-      describe "on the checkbox itself" do
-        before { checkbox.click }
-        it "checks the checkbox" do
-          expect(checkbox.reload[:checked]).to be true
-        end
-      end
-
-      describe "on the label" do
-        before { find(card_selector + " label").click }
-        it "checks the checkbox" do
-          expect(checkbox.reload[:checked]).to be true
-        end
-      end
-
-      describe "anywhere else in the card's box" do
-        before { find(card_selector).click }
-        it "checks the checkbox" do
-          expect(checkbox.reload[:checked]).to be true
-        end
-      end
-    end
-
     describe "selecting a card" do
       let(:selected_product) { @visible_products[0] }
       let(:id) { selected_product.id }
