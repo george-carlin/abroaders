@@ -57,5 +57,6 @@ class Product::Cell < Trailblazer::Cell
   end
 
   # Hack to prevent annoying autoload error. See Rails issue #14844
-  autoload :Admin, 'product/cell/admin'
+  autoload :Admin,  'product/cell/admin'
+  autoload :Survey, 'product/cell/survey'
 end

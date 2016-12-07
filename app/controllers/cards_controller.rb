@@ -1,3 +1,5 @@
+require_dependency 'product/cell/survey/product'
+
 class CardsController < AuthenticatedUserController
   onboard :owner_cards, :companion_cards, with: [:survey, :save_survey]
 

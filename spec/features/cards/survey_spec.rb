@@ -143,25 +143,6 @@ describe 'cards survey', :onboarding, :js, :manual_clean do
       end
     end
 
-    # TODO this belongs in a cell spec... and the HTML belongs in a cell
-    example 'displayed card names' do
-      # for a business card product, follows the format 'card name, BUSINESS, network'
-      within "##{dom_id(@visible_products[0])}" do
-        expect(page).to have_content 'Card 0 business Visa'
-      end
-      within "##{dom_id(@visible_products[2])}" do
-        expect(page).to have_content 'Card 2 business MasterCard'
-      end
-
-      # for a personal card product, follows the format 'card name, network'
-      within "##{dom_id(@visible_products[1])}" do
-        expect(page).to have_content "Card 1 MasterCard"
-      end
-      within "##{dom_id(@visible_products[3])}" do
-        expect(page).to have_content "Card 3 Visa"
-      end
-    end
-
     it "doesn't show cards which the admin has opted to hide" do
       expect(page).to have_no_selector product_selector(@hidden_product)
     end
