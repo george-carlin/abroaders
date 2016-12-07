@@ -210,7 +210,6 @@ describe 'cards survey', :onboarding, :js, :manual_clean do
         expect(page).to have_field    "cards_survey_#{id}_card_closed"
         expect(page).to have_no_field "cards_survey_#{id}_card_closed_at_month"
         expect(page).to have_no_field "cards_survey_#{id}_card_closed_at_year"
-
       end
 
       pending "selecting an 'opened at' date hides earlier dates from the 'closed at' input"
