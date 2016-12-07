@@ -44,10 +44,14 @@ class Card < ApplicationRecord
         end
       end
 
+      def person
+        @model.person
+      end
+
       private
 
       def model!(params)
-        params[:person].cards.new
+        Person.find(params[:person_id]).cards.new
       end
     end
 
