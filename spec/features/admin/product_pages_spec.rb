@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "admin card product pages" do
+describe "admin product pages" do
   include_context "logged in as admin"
 
   subject { page }
@@ -107,11 +107,11 @@ describe "admin card product pages" do
 
         let(:product) { Card::Product.last }
 
-        it 'creates a card product' do
+        it 'creates a product' do
           expect { submit_form }.to change { Card::Product.count }.by(1)
         end
 
-        it "shows me the newly created card product" do
+        it "shows me the newly created product" do
           submit_form
           expect(page).to have_selector 'h1', text: "Chase Visa Something"
           expect(page).to have_content "XXX"
@@ -135,7 +135,7 @@ describe "admin card product pages" do
 
         context "and no currency" do
           let(:currency_name) { "No currency" }
-          it "creates a card product with no currency" do
+          it "creates a product with no currency" do
             expect { submit_form }.to change { Card::Product.count }.by(1)
             expect(product.currency).to be_nil
           end
@@ -143,7 +143,7 @@ describe "admin card product pages" do
       end
 
       describe "with invalid information" do
-        it "doesn't create a card product" do
+        it "doesn't create a product" do
           expect { submit_form }.not_to change { Card::Product.count }
         end
       end
@@ -166,24 +166,24 @@ describe "admin card product pages" do
       visit edit_admin_card_product_path(@product)
     end
 
-    it "has fields to edit the card product" do
+    it "has fields to edit the product" do
       it_has_fields_for_card_product
     end
 
     describe "the 'b/p' input" do
-      it "correctly defaults to the card product's current BP" do # bug fix
+      it "correctly defaults to the product's current BP" do # bug fix
         expect(page).to have_select :card_product_bp, selected: "Personal"
       end
     end
 
     describe "the 'network' input" do
-      it "correctly defaults to the card product's current network" do # bug fix
+      it "correctly defaults to the product's current network" do # bug fix
         expect(page).to have_select :card_product_network, selected: "Visa"
       end
     end
 
     describe "the 'type' input" do
-      it "correctly defaults to the card product's current type" do # bug fix
+      it "correctly defaults to the product's current type" do # bug fix
         expect(page).to have_select :card_product_type, selected: "Credit"
       end
     end
