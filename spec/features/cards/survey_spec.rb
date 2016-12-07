@@ -29,8 +29,18 @@ describe 'cards survey', :onboarding, :js, :manual_clean do
   let(:name) { owner.first_name }
   let(:submit_form) { click_button 'Save and continue' }
 
-  def product_on_page(product)
-    CardProductOnSurveyPage.new(product, self)
+  def product_selector(product)
+    '#' << dom_id(product)
+  end
+
+  def check_product_opened(product, checked)
+    field = "cards_survey_#{product.id}_card_opened"
+    checked ? check(field) : uncheck(field)
+  end
+
+  def check_product_closed(product, checked)
+    field = "cards_survey_#{product.id}_card_closed"
+    checked ? check(field) : uncheck(field)
   end
 
   def end_of_month(year, month)
@@ -162,7 +172,7 @@ describe 'cards survey', :onboarding, :js, :manual_clean do
     end
 
     it "doesn't show cards which the admin has opted to hide" do
-      expect(product_on_page(@hidden_product)).not_to be_present
+      expect(page).to have_no_selector product_selector(@hidden_product)
     end
 
     describe "clicking on a card product" do
@@ -197,24 +207,25 @@ describe 'cards survey', :onboarding, :js, :manual_clean do
     end
 
     describe "selecting a card" do
-      let(:product) { product_on_page(@visible_products[0]) }
+      let(:selected_product) { @visible_products[0] }
+      let(:id) { selected_product.id }
 
-      before { product.check_opened }
+      before { check_product_opened(selected_product, true) }
 
       it "asks when the card was opened" do
-        expect(product).to have_opened_at_month_field
-        expect(product).to have_opened_at_year_field
+        expect(page).to have_field "cards_survey_#{id}_card_opened_at_month"
+        expect(page).to have_field "cards_survey_#{id}_card_opened_at_year"
       end
 
       context "and unselecting it again" do
-        before { product.uncheck_opened }
+        before { check_product_opened(selected_product, false) }
 
         it "hides the opened/closed inputs" do
-          expect(product).to have_no_opened_at_month_field
-          expect(product).to have_no_opened_at_year_field
-          expect(product).to have_no_closed_check_box
-          expect(product).to have_no_closed_at_month_field
-          expect(product).to have_no_closed_at_year_field
+          expect(page).to have_no_field "cards_survey_#{id}_card_opened_at_month"
+          expect(page).to have_no_field "cards_survey_#{id}_card_opened_at_year"
+          expect(page).to have_no_field "cards_survey_#{id}_card_closed"
+          expect(page).to have_no_field "cards_survey_#{id}_card_closed_at_month"
+          expect(page).to have_no_field "cards_survey_#{id}_card_closed_at_year"
         end
       end
 
@@ -223,33 +234,31 @@ describe 'cards survey', :onboarding, :js, :manual_clean do
       end
 
       it "asks if (but not when) the card was closed" do
-        expect(product).to have_closed_check_box
-        expect(product).to have_no_closed_at_month_field
-        expect(product).to have_no_closed_at_year_field
+        expect(page).to have_no_field "cards_survey_#{id}_card_closed"
+        expect(page).to have_no_field "cards_survey_#{id}_card_closed_at_month"
+        expect(page).to have_no_field "cards_survey_#{id}_card_closed_at_year"
       end
 
       describe "checking 'I closed the card'" do
-        before { product.check_closed }
+        before { check_product_closed(selected_product, true) }
 
         it "asks when the card was closed" do
-          expect(product).to have_closed_check_box
-          expect(product).to have_closed_at_month_field
-          expect(product).to have_closed_at_year_field
+          expect(page).to have_field "cards_survey_#{id}_card_closed"
+          expect(page).to have_field "cards_survey_#{id}_card_closed_at_month"
+          expect(page).to have_field "cards_survey_#{id}_card_closed_at_year"
         end
 
         describe "selecting an 'opened at' date" do
-          it "hides earlier dates from the 'closed at' input" do
-            skip
-          end
+          skip "hides earlier dates from the 'closed at' input" # not yet implemented
         end
 
         describe "then unchecking it again" do
-          before { product.uncheck_closed }
+          before { check_product_closed(selected_product, false) }
 
           it "hides the 'when did I close it'" do
-            expect(product).to have_closed_check_box
-            expect(product).to have_no_closed_at_month_field
-            expect(product).to have_no_closed_at_year_field
+            expect(page).to have_field    "cards_survey_#{id}_card_closed"
+            expect(page).to have_no_field "cards_survey_#{id}_card_closed_at_month"
+            expect(page).to have_no_field "cards_survey_#{id}_card_closed_at_year"
           end
 
           describe "and submitting the form" do
@@ -260,32 +269,34 @@ describe 'cards survey', :onboarding, :js, :manual_clean do
     end
 
     describe "selecting some cards" do
-      let(:selected_cards) { @visible_products.values_at(0, 2, 3).map { |c| product_on_page(c) } }
-      let(:closed_card) { selected_cards.first }
-      let(:open_cards)  { selected_cards.drop(1) }
+      let(:visible_products) { @visible_products }
+      let(:closed_card) { visible_products.first }
+      let(:open_cards)  { visible_products.drop(1) }
 
       let(:this_year) { Time.zone.today.year.to_s }
       let(:last_year) { (Time.zone.today.year - 1).to_s }
       let(:ten_years_ago) { (Time.zone.today.year - 10).to_s }
 
       before do
-        selected_cards.each(&:check_opened)
-        select "Jan",     from: open_cards[0].opened_at_month
-        select this_year, from: open_cards[0].opened_at_year
-        select "Mar",     from: open_cards[1].opened_at_month
-        select last_year, from: open_cards[1].opened_at_year
-        select "Nov",     from: closed_card.opened_at_month
-        select ten_years_ago, from: closed_card.opened_at_year
-        closed_card.check_closed
-        select "Apr",     from: closed_card.closed_at_month
-        select last_year, from: closed_card.closed_at_year
+        visible_products.each do |product|
+          check_product_opened(product, true)
+        end
+        select "Jan",     from: "cards_survey_#{open_cards[0].id}_card_opened_at_month"
+        select this_year, from: "cards_survey_#{open_cards[0].id}_card_opened_at_year"
+        select "Mar",     from: "cards_survey_#{open_cards[1].id}_card_opened_at_month"
+        select last_year, from: "cards_survey_#{open_cards[1].id}_card_opened_at_year"
+        select "Nov",     from: "cards_survey_#{closed_card.id}_card_opened_at_month"
+        select ten_years_ago, from: "cards_survey_#{closed_card.id}_card_opened_at_year"
+        check_product_closed(closed_card, true)
+        select "Apr",     from: "cards_survey_#{closed_card.id}_card_closed_at_month"
+        select last_year, from: "cards_survey_#{closed_card.id}_card_closed_at_year"
       end
 
       describe "and submitting the form" do
-        it "assigns the cards to owner person" do
+        it 'assigns the cards to owner' do
           expect do
             submit_form
-          end.to change { owner.cards.count }.by selected_cards.length
+          end.to change { owner.cards.count }.by visible_products.length
         end
 
         describe "the created card accounts" do
@@ -293,7 +304,7 @@ describe 'cards survey', :onboarding, :js, :manual_clean do
           let(:new_accounts) { owner.cards }
 
           specify 'have the right cards' do
-            expect(new_accounts.map(&:product)).to match_array selected_cards.map(&:product)
+            expect(new_accounts.map(&:product)).to match_array visible_products
           end
 
           specify 'have no offers' do
