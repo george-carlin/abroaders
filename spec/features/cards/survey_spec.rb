@@ -111,7 +111,8 @@ describe 'cards survey', :onboarding, :js, :manual_clean do
       expand_banks
     end
 
-    it "shows card products grouped by bank, then B/P" do
+    it "shows products" do
+      # products are grouped by bank, then B/P
       @banks.each do |bank|
         expect(page).to have_selector "h2", text: bank.name.upcase
         within "#bank-collapse-#{bank.id}" do
@@ -119,28 +120,21 @@ describe 'cards survey', :onboarding, :js, :manual_clean do
             expect(page).to have_selector "h4", text: "#{type.capitalize} Cards"
             expect(page).to have_selector "#bank_#{bank.id}_cards"
             expect(page).to have_selector "#bank_#{bank.id}_#{type}_cards"
+
+            # page has only has one 'group' per bank and b/p (bug fix)
+            expect(all("[id='bank_#{bank.id}_cards']").length).to eq 1
+            expect(all("[id='bank_#{bank.id}_personal_cards']").length).to eq 1
+            expect(all("[id='bank_#{bank.id}_business_cards']").length).to eq 1
           end
         end
       end
-    end
 
-    it "only has one 'group' per bank and b/p" do # bug fix
-      @banks.each do |bank|
-        within "#bank-collapse-#{bank.id}" do
-          expect(all("[id='bank_#{bank.id}_cards']").length).to eq 1
-          expect(all("[id='bank_#{bank.id}_personal_cards']").length).to eq 1
-          expect(all("[id='bank_#{bank.id}_business_cards']").length).to eq 1
-        end
-      end
-    end
-
-    it "has a checkbox for each card product" do
+      # page has a checkbox for each card product:
       @visible_products.each do |product|
         expect(page).to have_field :"cards_survey_#{product.id}_card_opened"
       end
-    end
 
-    it "initially has no inputs for opened/closed dates" do
+      # page initially has no inputs for opened/closed dates:
       %w[
         opened_at_month opened_at_year closed closed_at_month
         closed_at_year
@@ -149,25 +143,22 @@ describe 'cards survey', :onboarding, :js, :manual_clean do
       end
     end
 
-    describe "a business card's displayed name" do
-      it "follows the format 'card name, BUSINESS, network'" do
-        within "##{dom_id(@visible_products[0])}" do
-          expect(page).to have_content 'Card 0 business Visa'
-        end
-        within "##{dom_id(@visible_products[2])}" do
-          expect(page).to have_content 'Card 2 business MasterCard'
-        end
+    # TODO this belongs in a cell spec... and the HTML belongs in a cell
+    example 'displayed card names' do
+      # for a business card product, follows the format 'card name, BUSINESS, network'
+      within "##{dom_id(@visible_products[0])}" do
+        expect(page).to have_content 'Card 0 business Visa'
       end
-    end
+      within "##{dom_id(@visible_products[2])}" do
+        expect(page).to have_content 'Card 2 business MasterCard'
+      end
 
-    describe "a personal card's displayed name" do
-      it "follows the format 'card name, network'" do
-        within "##{dom_id(@visible_products[1])}" do
-          expect(page).to have_content "Card 1 MasterCard"
-        end
-        within "##{dom_id(@visible_products[3])}" do
-          expect(page).to have_content "Card 3 Visa"
-        end
+      # for a personal card product, follows the format 'card name, network'
+      within "##{dom_id(@visible_products[1])}" do
+        expect(page).to have_content "Card 1 MasterCard"
+      end
+      within "##{dom_id(@visible_products[3])}" do
+        expect(page).to have_content "Card 3 Visa"
       end
     end
 
@@ -186,55 +177,43 @@ describe 'cards survey', :onboarding, :js, :manual_clean do
         expect(page).to have_field "cards_survey_#{id}_card_opened_at_year"
       end
 
-      context "and unselecting it again" do
-        before { check_product_opened(selected_product, false) }
+      example "unselecting it again" do
+        check_product_opened(selected_product, false)
 
-        it "hides the opened/closed inputs" do
-          expect(page).to have_no_field "cards_survey_#{id}_card_opened_at_month"
-          expect(page).to have_no_field "cards_survey_#{id}_card_opened_at_year"
-          expect(page).to have_no_field "cards_survey_#{id}_card_closed"
-          expect(page).to have_no_field "cards_survey_#{id}_card_closed_at_month"
-          expect(page).to have_no_field "cards_survey_#{id}_card_closed_at_year"
-        end
-      end
-
-      describe "the 'opened at' input" do
-        it "has a date range from 10 years ago - this month"
-      end
-
-      it "asks if (but not when) the card was closed" do
+        # hides all other inputs
+        expect(page).to have_no_field "cards_survey_#{id}_card_opened_at_month"
+        expect(page).to have_no_field "cards_survey_#{id}_card_opened_at_year"
         expect(page).to have_no_field "cards_survey_#{id}_card_closed"
         expect(page).to have_no_field "cards_survey_#{id}_card_closed_at_month"
         expect(page).to have_no_field "cards_survey_#{id}_card_closed_at_year"
       end
 
-      describe "checking 'I closed the card'" do
-        before { check_product_closed(selected_product, true) }
+      specify "the 'opened at' input has a date range from 10 years ago - this month"
 
-        it "asks when the card was closed" do
-          expect(page).to have_field "cards_survey_#{id}_card_closed"
-          expect(page).to have_field "cards_survey_#{id}_card_closed_at_month"
-          expect(page).to have_field "cards_survey_#{id}_card_closed_at_year"
-        end
+      example "checking/unchecking 'I closed the card'" do
+        # doesn't initially show closed_at inputs:
+        expect(page).to have_field    "cards_survey_#{id}_card_closed"
+        expect(page).to have_no_field "cards_survey_#{id}_card_closed_at_month"
+        expect(page).to have_no_field "cards_survey_#{id}_card_closed_at_year"
 
-        describe "selecting an 'opened at' date" do
-          skip "hides earlier dates from the 'closed at' input" # not yet implemented
-        end
+        check_product_closed(selected_product, true)
 
-        describe "then unchecking it again" do
-          before { check_product_closed(selected_product, false) }
+        # shows closed_at inputs:
+        expect(page).to have_field "cards_survey_#{id}_card_closed"
+        expect(page).to have_field "cards_survey_#{id}_card_closed_at_month"
+        expect(page).to have_field "cards_survey_#{id}_card_closed_at_year"
 
-          it "hides the 'when did I close it'" do
-            expect(page).to have_field    "cards_survey_#{id}_card_closed"
-            expect(page).to have_no_field "cards_survey_#{id}_card_closed_at_month"
-            expect(page).to have_no_field "cards_survey_#{id}_card_closed_at_year"
-          end
+        # unchecking it again:
+        check_product_closed(selected_product, false)
 
-          describe "and submitting the form" do
-            it "doesn't mark the card as closed"
-          end
-        end
+        # hides closed_at inputs:
+        expect(page).to have_field    "cards_survey_#{id}_card_closed"
+        expect(page).to have_no_field "cards_survey_#{id}_card_closed_at_month"
+        expect(page).to have_no_field "cards_survey_#{id}_card_closed_at_year"
+
       end
+
+      pending "selecting an 'opened at' date hides earlier dates from the 'closed at' input"
     end
 
     describe "selecting some cards" do
@@ -262,48 +241,37 @@ describe 'cards survey', :onboarding, :js, :manual_clean do
       end
 
       describe "and submitting the form" do
-        it 'assigns the cards to owner' do
+        it 'creates the cards to owner' do
           expect do
             submit_form
           end.to change { owner.cards.count }.by visible_products.length
-        end
 
-        describe "the created card accounts" do
-          before { submit_form }
-          let(:new_accounts) { owner.cards }
+          new_accounts = owner.cards
 
-          specify 'have the right cards' do
-            expect(new_accounts.map(&:product)).to match_array visible_products
-          end
+          # the cards have the right products
+          expect(new_accounts.map(&:product)).to match_array visible_products
 
-          specify 'have no offers' do
-            expect(new_accounts.map(&:offer).compact).to be_empty
-          end
+          # the cards have no offers
+          expect(new_accounts.map(&:offer).compact).to be_empty
 
-          specify 'have the given opened and closed dates' do
-            open_acc_0 = new_accounts.find_by(product_id: open_cards[0].id)
-            open_acc_1 = new_accounts.find_by(product_id: open_cards[1].id)
-            closed_acc = new_accounts.find_by(product_id: closed_card.id)
-            expect(open_acc_0.opened_at.strftime('%F')).to eq end_of_month(this_year, '01')
-            expect(open_acc_0.closed_at).to be_nil
-            expect(open_acc_1.opened_at.strftime('%F')).to eq end_of_month(last_year, '03')
-            expect(open_acc_1.closed_at).to be_nil
-            expect(closed_acc.opened_at.strftime('%F')).to eq end_of_month(ten_years_ago, '11')
-            expect(closed_acc.closed_at.strftime('%F')).to eq end_of_month(last_year, '04')
-          end
+          # the cards have the given opened and closed dates
+          open_acc_0 = new_accounts.find_by(product_id: open_cards[0].id)
+          open_acc_1 = new_accounts.find_by(product_id: open_cards[1].id)
+          closed_acc = new_accounts.find_by(product_id: closed_card.id)
+          expect(open_acc_0.opened_at.strftime('%F')).to eq end_of_month(this_year, '01')
+          expect(open_acc_0.closed_at).to be_nil
+          expect(open_acc_1.opened_at.strftime('%F')).to eq end_of_month(last_year, '03')
+          expect(open_acc_1.closed_at).to be_nil
+          expect(closed_acc.opened_at.strftime('%F')).to eq end_of_month(ten_years_ago, '11')
+          expect(closed_acc.closed_at.strftime('%F')).to eq end_of_month(last_year, '04')
 
-          specify 'have the right statuses' do
-            open_acc_0 = new_accounts.find_by(product_id: open_cards[0].id)
-            open_acc_1 = new_accounts.find_by(product_id: open_cards[1].id)
-            closed_acc = new_accounts.find_by(product_id: closed_card.id)
-            expect(open_acc_0.status).to eq 'open'
-            expect(open_acc_1.status).to eq 'open'
-            expect(closed_acc.status).to eq 'closed'
-          end
-
-          specify 'have "from survey" as their source' do
-            expect(owner.cards.all?(&:from_survey?)).to be true
-          end
+          # the cards have the right statuses
+          open_acc_0 = new_accounts.find_by(product_id: open_cards[0].id)
+          open_acc_1 = new_accounts.find_by(product_id: open_cards[1].id)
+          closed_acc = new_accounts.find_by(product_id: closed_card.id)
+          expect(open_acc_0.status).to eq 'open'
+          expect(open_acc_1.status).to eq 'open'
+          expect(closed_acc.status).to eq 'closed'
         end
 
         include_examples 'submitting the form'
