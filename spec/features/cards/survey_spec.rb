@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'card accounts survey', :onboarding, :js, :manual_clean do
+describe 'cards survey', :onboarding, :js, :manual_clean do
   subject { page }
 
   before(:all) do
