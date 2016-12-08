@@ -25,5 +25,4 @@ class TravelPlan::Representer < Representable::Decorator
   #   t.index ["travel_plan_id", "position"], name: "index_flights_on_travel_plan_id_and_position", unique: true, using: :btree
   #   t.index ["travel_plan_id"], name: "index_flights_on_travel_plan_id", using: :btree
   # end
-
 end

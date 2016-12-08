@@ -10,7 +10,7 @@ module AdminArea
         def index
           render(
             json: TravelPlan::Representer.for_collection.new(TravelPlan.all).as_json,
-            content_type: 'application/json'
+            content_type: 'application/json',
           )
         end
       end
