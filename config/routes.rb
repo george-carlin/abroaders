@@ -191,5 +191,7 @@ Rails.application.routes.draw do
     resources :travel_plans, only: [:edit, :update]
   end
 
+  get '/admin/api/v1/travel_plans', to: 'admin_area/api/v1/travel_plans#index'
+
   # ---- /ADMINS -----
 end
