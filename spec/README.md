@@ -166,18 +166,3 @@ Some general guidelines for how we test:
     [this article](https://blog.codeship.com/faster-rails-tests/) to understand
     why.
 
-### Page Objects
-
-In some of the feature specs (especially those related to the `/cards` page)
-I (George) have been experimenting with an abstraction called "Page Objects",
-heavily inspired by [this ThoughtBot article](https://robots.thoughtbot.com/better-acceptance-tests-with-page-objects)
-(although the way I've done it is not exactly the same as the approach in that
-article.) I like the page object concept, but I haven't quite figured out the
-best way to do it, and there and some inconsistencies in the way I've been
-doing it with the page objects I've already created.
-
-I need to think about this more heavily and more clearly define the way that
-page objects should work and how we should use them. In the meantime, don't
-worry about page objects for now and don't create any new ones.
-
-
