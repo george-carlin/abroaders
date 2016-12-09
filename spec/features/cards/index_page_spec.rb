@@ -19,6 +19,10 @@ describe "as a user viewing my cards" do
 
   H = "h3".freeze
 
+  def rec_selector(rec)
+    '#' << dom_id(rec)
+  end
+
   example "not recommended any cards yet" do
     visit_page
     expect(page).to have_content t("cards.index.recs_coming_soon")
@@ -31,10 +35,9 @@ describe "as a user viewing my cards" do
     # Lists my recs:
     within "#owner_card_recommendations" do
       recs.each do |rec|
-        rec_on_page = CardOnPage.new(rec, self)
-        expect(rec_on_page).to be_present
-        expect(rec_on_page).to have_content rec.product.name
-        expect(rec_on_page).to have_content rec.product.bank_name
+        expect(page).to have_selector rec_selector(rec)
+        expect(page).to have_content rec.product.name
+        expect(page).to have_content rec.product.bank_name
       end
     end
 
@@ -86,10 +89,9 @@ describe "as a user viewing my cards" do
     { owner: own_recs, companion: com_recs }.each do |person_type, recs|
       within "##{person_type}_card_recommendations" do
         recs.each do |rec|
-          rec_on_page = CardOnPage.new(rec, self)
-          expect(rec_on_page).to be_present
-          expect(rec_on_page).to have_content rec.product.name
-          expect(rec_on_page).to have_content rec.product.bank_name
+          expect(page).to have_selector rec_selector(rec)
+          expect(page).to have_content rec.product.name
+          expect(page).to have_content rec.product.bank_name
         end
       end
     end
@@ -109,8 +111,7 @@ describe "as a user viewing my cards" do
     visit_page
 
     pulled_recs.each do |rec|
-      rec_on_page = CardOnPage.new(rec, self)
-      expect(rec_on_page).to be_absent
+      expect(page).to have_no_selector rec_selector(rec)
     end
   end
 end

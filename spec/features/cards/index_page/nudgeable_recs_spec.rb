@@ -30,8 +30,6 @@ describe "user cards page - nudgeable cards", :js do
   let(:personal_no) { @bank.personal_phone }
   let(:business_no) { @bank.business_phone }
 
-  let(:rec_on_page) { NudgeableCardOnPage.new(rec, self) }
-
   let(:approved_btn) { "My application was approved" }
   let(:denied_btn)   { "My application was denied" }
   let(:pending_btn)  { "I'm still waiting to hear back" }
@@ -83,7 +81,7 @@ describe "user cards page - nudgeable cards", :js do
   end
 
   describe "clicking 'I called'" do
-    before { rec_on_page.click_i_called_btn }
+    before { click_button i_called_btn(rec) }
 
     shared_examples "asks to confirm" do
       it "asks to confirm", :frontend do
@@ -111,7 +109,7 @@ describe "user cards page - nudgeable cards", :js do
     end
 
     describe "clicking 'I was approved'" do
-      before { rec_on_page.click_approved_btn }
+      before { click_button approved_btn }
 
       include_examples "asks to confirm"
 
@@ -133,7 +131,7 @@ describe "user cards page - nudgeable cards", :js do
     end
 
     describe "clicking 'I was denied'" do
-      before { rec_on_page.click_denied_btn }
+      before { click_button denied_btn }
 
       include_examples "asks to confirm"
 
@@ -155,7 +153,7 @@ describe "user cards page - nudgeable cards", :js do
     end
 
     describe "clicking 'I'm still waiting'" do
-      before { rec_on_page.click_pending_btn }
+      before { click_button pending_btn }
 
       include_examples "asks to confirm"
 
@@ -177,7 +175,7 @@ describe "user cards page - nudgeable cards", :js do
   end
 
   describe "clicking 'I heard back'" do
-    before { rec_on_page.click_i_heard_back_btn }
+    before { click_button i_heard_back_btn }
 
     shared_examples "asks to confirm" do
       it "asks to confirm", :frontend do
@@ -214,7 +212,7 @@ describe "user cards page - nudgeable cards", :js do
     include_examples "clicking 'cancel'"
 
     describe "clicking 'I was approved'" do
-      before { rec_on_page.click_approved_btn }
+      before { click_button approved_btn }
 
       include_examples "asks to confirm"
 
@@ -236,7 +234,7 @@ describe "user cards page - nudgeable cards", :js do
     end
 
     describe "clicking 'I was denied'" do
-      before { rec_on_page.click_denied_btn }
+      before { click_button denied_btn }
 
       include_examples "asks to confirm"
 

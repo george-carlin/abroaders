@@ -4,14 +4,13 @@ module ApplicationSurveyMacros
   def self.included(base)
     base.include DatepickerMacros
     base.instance_eval do
+      # some of these buttons have different text for different survey stages,
+      # so you'll have to override these let variables where appropriate:
       let(:approved_at)      { 'card_opened_at' }
       let(:decline_btn)      { 'No Thanks' }
       let(:i_applied_btn)    { 'I applied' }
       let(:i_heard_back_btn) { 'I heard back from the bank' }
       let(:pending_btn)      { "I'm waiting to hear back" }
-
-      # the text of these buttons is different for some stages of rec, so
-      # you'll have to override these vars in their specs:
       let(:approved_btn) { 'I was approved' }
       let(:denied_btn)   { 'My application was denied' }
     end

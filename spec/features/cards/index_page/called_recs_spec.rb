@@ -30,7 +30,6 @@ describe "user cards page - called cards", :js do
     visit cards_path
   end
   let(:rec) { @rec }
-  let(:rec_on_page) { CalledCardOnPage.new(rec, self) }
 
   example "rec on page", :frontend do
     expect(page).to have_no_apply_btn(rec)
@@ -41,7 +40,7 @@ describe "user cards page - called cards", :js do
   end
 
   describe "clicking 'I heard back'" do
-    before { rec_on_page.click_i_heard_back_btn }
+    before { click_button i_heard_back_btn }
 
     shared_examples "asks to confirm" do
       it "asks to confirm", :frontend do
@@ -64,7 +63,7 @@ describe "user cards page - called cards", :js do
     end
 
     describe "clicking 'I was approved'" do
-      before { rec_on_page.click_approved_btn }
+      before { click_button approved_btn }
 
       include_examples "asks to confirm"
 
@@ -88,7 +87,7 @@ describe "user cards page - called cards", :js do
     end
 
     describe "clicking 'I was denied'" do
-      before { rec_on_page.click_denied_btn }
+      before { click_button denied_btn }
 
       include_examples "asks to confirm"
 

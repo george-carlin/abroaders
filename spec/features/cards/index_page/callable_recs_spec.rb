@@ -32,7 +32,6 @@ describe "user cards page - callable cards", :js do
     visit cards_path
   end
   let(:rec) { @rec }
-  let(:rec_on_page) { CallableCardOnPage.new(rec, self) }
 
   let(:personal_phone) { @bank.personal_phone }
   let(:business_phone) { @bank.business_phone }
@@ -66,7 +65,7 @@ describe "user cards page - callable cards", :js do
   end
 
   describe "clicking 'I called'" do
-    before { rec_on_page.click_i_called_btn }
+    before { click_button i_called_btn(rec) }
 
     shared_examples "asks to confirm" do
       it "asks to confirm", :frontend do
@@ -93,7 +92,7 @@ describe "user cards page - callable cards", :js do
     end
 
     describe "clicking 'I was approved'" do
-      before { rec_on_page.click_approved_btn }
+      before { click_button approved_btn }
 
       include_examples "asks to confirm"
 
@@ -115,7 +114,7 @@ describe "user cards page - callable cards", :js do
     end
 
     describe "clicking 'I was denied again'" do
-      before { rec_on_page.click_denied_btn }
+      before { click_button denied_btn }
 
       include_examples "asks to confirm"
 
@@ -138,7 +137,7 @@ describe "user cards page - callable cards", :js do
     end
 
     describe "clicking 'I'm now pending'" do
-      before { rec_on_page.click_pending_btn }
+      before { click_button pending_btn }
 
       include_examples "asks to confirm"
 
