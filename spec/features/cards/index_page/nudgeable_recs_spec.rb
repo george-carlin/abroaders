@@ -92,16 +92,12 @@ describe "user cards page - nudgeable cards", :js do
         expect(page).to have_no_button pending_btn
         expect(page).to have_button 'Cancel'
         expect(page).to have_button 'Confirm'
-      end
-
-      describe "and clicking 'cancel'" do
-        before { click_button 'Cancel' }
-        it "goes back a step", :frontend do
-          expect(page).to have_button approved_btn
-          expect(page).to have_button denied_btn
-          expect(page).to have_button pending_btn
-          expect(page).to have_no_button 'Confirm'
-        end
+        # going back
+        click_button 'Cancel'
+        expect(page).to have_button approved_btn
+        expect(page).to have_button denied_btn
+        expect(page).to have_button pending_btn
+        expect(page).to have_no_button 'Confirm'
       end
     end
 

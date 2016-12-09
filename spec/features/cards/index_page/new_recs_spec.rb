@@ -120,18 +120,13 @@ describe "cards index page - new recommendation", :js do
         expect(page).to have_no_button pending_btn
         expect(page).to have_button 'Cancel'
         expect(page).to have_button 'Confirm'
-      end
-
-      describe "and clicking 'Cancel'" do
-        before { click_button 'Cancel' }
-
-        it "goes back a step", :frontend do
-          expect(page).to have_button approved_btn
-          expect(page).to have_button denied_btn
-          expect(page).to have_button pending_btn
-          expect(page).to have_no_button 'Cancel'
-          expect(page).to have_no_button 'Confirm'
-        end
+        # going back
+        click_button 'Cancel'
+        expect(page).to have_button approved_btn
+        expect(page).to have_button denied_btn
+        expect(page).to have_button pending_btn
+        expect(page).to have_no_button 'Cancel'
+        expect(page).to have_no_button 'Confirm'
       end
     end
 
@@ -193,11 +188,8 @@ describe "cards index page - new recommendation", :js do
             click_confirm_btn
           end
 
-          it "sets the card account to 'opened'", :backend do
+          it "sets the card's attributes", :backend do
             expect(rec).to be_open
-          end
-
-          it "sets 'opened at' and 'applied at' to the chosen date", :backend do
             expect(rec.opened_at.to_date).to eq date.to_date
             expect(rec.applied_at.to_date).to eq date.to_date
           end
