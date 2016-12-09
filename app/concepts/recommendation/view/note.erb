@@ -1,0 +1,58 @@
+<h3><em><strong>What Erik says</strong></em></h3>
+
+<blockquote>
+  <p><%= content %></p>
+
+  <small>
+    <strong>Erik Paquet</strong> co-founder,
+    <cite title="" data-original-title="">
+      Abroaders <strong><%= timestamp %></strong>
+    </cite>
+  </small>
+  <%= headshot %>
+  <small>
+    <a data-toggle="modal" data-target="#myModal">
+      See Erik's bio
+    </a>
+  </small>
+</blockquote>
+
+
+<div class="modal fade hmodal-info" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="color-line"></div>
+      <div class="modal-header text-center" style="background-color: #35495d;">
+        <h4 class="modal-title" style="color: #ffffff;">Erik Paquet</h4>
+        <p style="color: #ffffff;">Co-founder, Abroaders.com</p>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-3">
+            <%= headshot_big %>
+          </div>
+          <div class="col-md-9">
+            <p>
+              Erik <strong>has recommended over 1,000 credit cards to Abroaders
+              users</strong>. Resulting in tens of millions of points earned.
+            </p>
+            <p>
+              Erik typically redeems 300,000 points a year,
+              <strong>saving between $15,000-$20,000</strong>
+              on flights each year using points.
+            </p>
+
+            <p>
+              Erik is fluent in Spanish and Portuguese and splits his time
+              between Europe and South America.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
