@@ -1,5 +1,5 @@
 # See http://emaxime.com/2014/adding-a-staging-environment-to-rails.html
-# 
+#
 # This is just a basic env file that was copied from production.rb (except
 # force_ssl has been set to false and mailers have been disabled).  There are
 # still many ways the staging env could be improved.
