@@ -1,6 +1,7 @@
 require "rails_helper"
 
 describe "user cards page - nudgeable cards", :js do
+  include ApplicationSurveyMacros
   include_context "logged in"
 
   let(:person) { account.owner }
@@ -31,30 +32,35 @@ describe "user cards page - nudgeable cards", :js do
 
   let(:rec_on_page) { NudgeableCardOnPage.new(rec, self) }
 
+  let(:approved_btn) { "My application was approved" }
+  let(:denied_btn)   { "My application was denied" }
+  let(:pending_btn)  { "I'm still waiting to hear back" }
+  let(:i_heard_back_btn) { "I heard back from #{@bank.name} by mail or email" }
+
   shared_examples "clicking 'cancel'" do
     describe "and clicking 'cancel'" do
-      before { rec_on_page.click_cancel_btn }
+      before { click_button 'Cancel' }
 
       it "goes back to the 'I called'/'I heard back' buttons", :frontend do
-        expect(rec_on_page).to have_i_called_btn
-        expect(rec_on_page).to have_i_heard_back_btn
-        expect(rec_on_page).to have_no_approved_btn
-        expect(rec_on_page).to have_no_denied_btn
-        expect(rec_on_page).to have_no_pending_btn
+        expect(page).to have_button i_called_btn(rec)
+        expect(page).to have_button i_heard_back_btn
+        expect(page).to have_no_button approved_btn
+        expect(page).to have_no_button denied_btn
+        expect(page).to have_no_button pending_btn
       end
     end
   end
 
   example "nudgeable rec on page", :frontend do
     # has buttons:
-    expect(rec_on_page).to have_i_called_btn
-    expect(rec_on_page).to have_i_heard_back_btn
-    expect(rec_on_page).to have_no_apply_btn
-    expect(rec_on_page).to have_no_decline_btn
-    expect(rec_on_page).to have_no_i_applied_btn
+    expect(page).to have_button i_called_btn(rec)
+    expect(page).to have_button i_heard_back_btn
+    expect(page).to have_no_apply_btn(rec)
+    expect(page).to have_no_button decline_btn
+    expect(page).to have_no_button i_applied_btn
     # it encourages the user to call the bank:
-    expect(rec_on_page).to have_content "We strongly recommend that you call #{bank.name}"
-    expect(rec_on_page).to have_content(
+    expect(page).to have_content "We strongly recommend that you call #{bank.name}"
+    expect(page).to have_content(
       "You’re more than twice as likely to get approved if you call #{bank.name} "\
       "than if you wait for them to send your decision in the mail",
     )
@@ -63,16 +69,16 @@ describe "user cards page - nudgeable cards", :js do
   context "for a personal card product" do
     let(:bp) { :personal }
     it "gives me the bank's personal number" do
-      expect(rec_on_page).to have_content "call #{bank.name} at #{personal_no}"
-      expect(rec_on_page).to have_no_content business_no
+      expect(page).to have_content "call #{bank.name} at #{personal_no}"
+      expect(page).to have_no_content business_no
     end
   end
 
   context "for a business card product" do
     let(:bp) { :business }
     it "gives me the bank's business number" do
-      expect(rec_on_page).to have_content "call #{bank.name} at #{business_no}"
-      expect(rec_on_page).to have_no_content personal_no
+      expect(page).to have_content "call #{bank.name} at #{business_no}"
+      expect(page).to have_no_content personal_no
     end
   end
 
@@ -81,20 +87,20 @@ describe "user cards page - nudgeable cards", :js do
 
     shared_examples "asks to confirm" do
       it "asks to confirm", :frontend do
-        expect(rec_on_page).to have_no_approved_btn
-        expect(rec_on_page).to have_no_denied_btn
-        expect(rec_on_page).to have_no_pending_btn
-        expect(rec_on_page).to have_cancel_btn
-        expect(rec_on_page).to have_confirm_btn
+        expect(page).to have_no_button approved_btn
+        expect(page).to have_no_button denied_btn
+        expect(page).to have_no_button pending_btn
+        expect(page).to have_button 'Cancel'
+        expect(page).to have_button 'Confirm'
       end
 
       describe "and clicking 'cancel'" do
-        before { rec_on_page.click_cancel_btn }
+        before { click_button 'Cancel' }
         it "goes back a step", :frontend do
-          expect(rec_on_page).to have_approved_btn
-          expect(rec_on_page).to have_denied_btn
-          expect(rec_on_page).to have_pending_btn
-          expect(rec_on_page).to have_no_confirm_btn
+          expect(page).to have_button approved_btn
+          expect(page).to have_button denied_btn
+          expect(page).to have_button pending_btn
+          expect(page).to have_no_button 'Confirm'
         end
       end
     end
@@ -102,10 +108,10 @@ describe "user cards page - nudgeable cards", :js do
     include_examples "clicking 'cancel'"
 
     it "asks for the result", :frontend do
-      expect(rec_on_page).to have_no_i_called_btn
-      expect(rec_on_page).to have_approved_btn
-      expect(rec_on_page).to have_denied_btn
-      expect(rec_on_page).to have_pending_btn
+      expect(page).to have_no_button i_called_btn(rec)
+      expect(page).to have_button approved_btn
+      expect(page).to have_button denied_btn
+      expect(page).to have_button pending_btn
     end
 
     describe "clicking 'I was approved'" do
@@ -115,7 +121,7 @@ describe "user cards page - nudgeable cards", :js do
 
       describe "and clicking 'confirm'" do
         before do
-          rec_on_page.click_confirm_btn
+          click_button 'Confirm'
           # FIXME can't figure out a more elegant solution than this:
           sleep 1.5
           rec.reload
@@ -137,7 +143,7 @@ describe "user cards page - nudgeable cards", :js do
 
       describe "and clicking 'confirm'" do
         before do
-          rec_on_page.click_confirm_btn
+          click_button 'Confirm'
           # FIXME can't figure out a more elegant solution than this:
           sleep 1.5
           rec.reload
@@ -159,7 +165,7 @@ describe "user cards page - nudgeable cards", :js do
 
       describe "and clicking 'confirm'" do
         before do
-          rec_on_page.click_confirm_btn
+          click_button 'Confirm'
           # FIXME can't figure out a more elegant solution than this:
           sleep 1.5
           rec.reload
@@ -179,18 +185,18 @@ describe "user cards page - nudgeable cards", :js do
 
     shared_examples "asks to confirm" do
       it "asks to confirm", :frontend do
-        expect(rec_on_page).to have_no_approved_btn
-        expect(rec_on_page).to have_no_denied_btn
-        expect(rec_on_page).to have_cancel_btn
-        expect(rec_on_page).to have_confirm_btn
+        expect(page).to have_no_button approved_btn
+        expect(page).to have_no_button denied_btn
+        expect(page).to have_button 'Cancel'
+        expect(page).to have_button 'Confirm'
       end
 
       describe "and clicking 'cancel'" do
-        before { rec_on_page.click_cancel_btn }
+        before { click_button 'Cancel' }
         it "goes back a step", :frontend do
-          expect(rec_on_page).to have_approved_btn
-          expect(rec_on_page).to have_denied_btn
-          expect(rec_on_page).to have_no_confirm_btn
+          expect(page).to have_button approved_btn
+          expect(page).to have_button denied_btn
+          expect(page).to have_no_button 'Confirm'
         end
       end
     end
@@ -203,10 +209,10 @@ describe "user cards page - nudgeable cards", :js do
     end
 
     it "asks for the result", :frontend do
-      expect(rec_on_page).to have_no_i_called_btn
-      expect(rec_on_page).to have_no_i_heard_back_btn
-      expect(rec_on_page).to have_approved_btn
-      expect(rec_on_page).to have_denied_btn
+      expect(page).to have_no_button i_called_btn(rec)
+      expect(page).to have_no_button i_heard_back_btn
+      expect(page).to have_button approved_btn
+      expect(page).to have_button denied_btn
     end
 
     include_examples "clicking 'cancel'"
@@ -218,7 +224,7 @@ describe "user cards page - nudgeable cards", :js do
 
       describe "and clicking 'confirm'" do
         before do
-          rec_on_page.click_confirm_btn
+          click_button 'Confirm'
           # FIXME can't figure out a more elegant solution than this:
           sleep 1.5
           rec.reload
@@ -240,7 +246,7 @@ describe "user cards page - nudgeable cards", :js do
 
       describe "and clicking 'confirm'" do
         before do
-          rec_on_page.click_confirm_btn
+          click_button 'Confirm'
           # FIXME can't figure out a more elegant solution than this:
           sleep 1.5
           rec.reload

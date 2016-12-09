@@ -1,6 +1,8 @@
 require "rails_helper"
 
 describe "card accounts page survey cards section" do
+  include ApplicationSurveyMacros
+
   subject { page }
 
   include_context "logged in"

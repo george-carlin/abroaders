@@ -1,7 +1,7 @@
-
 require "rails_helper"
 
 describe "user cards page - nudged cards", :js do
+  include ApplicationSurveyMacros
   include_context "logged in"
 
   let(:person) { account.owner }
@@ -9,6 +9,9 @@ describe "user cards page - nudged cards", :js do
   let(:recommended_at) { 6.days.ago.to_date }
   let(:applied_at)     { 5.days.ago.to_date }
   let(:nudged_at)      { 4.days.ago.to_date }
+
+  let(:approved_btn) { 'My application was approved' }
+  let(:denied_btn)   { 'My application was declined' }
 
   before do
     person.update!(eligible: true)
@@ -25,11 +28,11 @@ describe "user cards page - nudged cards", :js do
   let(:rec_on_page) { NudgedCardOnPage.new(rec, self) }
 
   example "rec on page", :frontend do
-    expect(rec_on_page).to have_no_apply_btn
-    expect(rec_on_page).to have_no_decline_btn
-    expect(rec_on_page).to have_no_i_applied_btn
-    expect(rec_on_page).to have_no_i_called_btn
-    expect(rec_on_page).to have_i_heard_back_btn
+    expect(page).to have_no_apply_btn(rec)
+    expect(page).to have_no_button decline_btn
+    expect(page).to have_no_button i_applied_btn
+    expect(page).to have_no_button i_called_btn(rec)
+    expect(page).to have_button i_heard_back_btn
   end
 
   describe "clicking 'I heard back'" do
@@ -37,26 +40,26 @@ describe "user cards page - nudged cards", :js do
 
     shared_examples "asks to confirm" do
       it "asks to confirm", :frontend do
-        expect(rec_on_page).to have_no_approved_btn
-        expect(rec_on_page).to have_no_denied_btn
-        expect(rec_on_page).to have_cancel_btn
-        expect(rec_on_page).to have_confirm_btn
+        expect(page).to have_no_button approved_btn
+        expect(page).to have_no_button denied_btn
+        expect(page).to have_button 'Cancel'
+        expect(page).to have_button 'Confirm'
       end
 
       describe "and clicking 'cancel'" do
-        before { rec_on_page.click_cancel_btn }
+        before { click_button 'Cancel' }
         it "goes back a step", :frontend do
-          expect(rec_on_page).to have_approved_btn
-          expect(rec_on_page).to have_denied_btn
-          expect(rec_on_page).to have_no_confirm_btn
+          expect(page).to have_button approved_btn
+          expect(page).to have_button denied_btn
+          expect(page).to have_no_button 'Confirm'
         end
       end
     end
 
     it "asks for the result", :frontend do
-      expect(rec_on_page).to have_no_i_called_btn
-      expect(rec_on_page).to have_approved_btn
-      expect(rec_on_page).to have_denied_btn
+      expect(page).to have_no_button i_called_btn(rec)
+      expect(page).to have_button approved_btn
+      expect(page).to have_button denied_btn
     end
 
     describe "clicking 'I was approved'" do
@@ -66,7 +69,7 @@ describe "user cards page - nudged cards", :js do
 
       describe "and clicking 'confirm'" do
         before do
-          rec_on_page.click_confirm_btn
+          click_button 'Confirm'
           sleep 1.5
           rec.reload
         end
@@ -90,7 +93,7 @@ describe "user cards page - nudged cards", :js do
 
       describe "and clicking 'confirm'" do
         before do
-          rec_on_page.click_confirm_btn
+          click_button 'Confirm'
           sleep 1.5
           rec.reload
         end

@@ -1,6 +1,7 @@
 require "rails_helper"
 
 describe "user cards page - callable cards", :js do
+  include ApplicationSurveyMacros
   let(:account) { create(:account, :onboarded) }
   let(:person)  { account.owner }
 
@@ -8,6 +9,11 @@ describe "user cards page - callable cards", :js do
   let(:applied_at) { 7.days.ago.to_date }
   let(:denied_at)  { 5.days.ago.to_date }
   let(:bp) { :personal }
+
+  # override variables set by ApplicationSurveyMacros:
+  let(:approved_btn) { 'I was approved after reconsideration' }
+  let(:denied_btn) { 'My application is still denied' }
+  let(:pending_btn) { "I'm being reconsidered, but waiting to hear back about whether it was successful" }
 
   before do
     person.update!(eligible: true)
@@ -32,30 +38,30 @@ describe "user cards page - callable cards", :js do
   let(:business_phone) { @bank.business_phone }
 
   example "rec on page", :frontend do
-    expect(rec_on_page).to have_no_apply_btn
-    expect(rec_on_page).to have_no_decline_btn
-    expect(rec_on_page).to have_no_i_applied_btn
-    expect(rec_on_page).to have_content "We strongly recommend that you call #{@bank.name}"
-    expect(rec_on_page).to have_content(
+    expect(page).to have_no_apply_btn(rec)
+    expect(page).to have_no_button decline_btn
+    expect(page).to have_no_button i_applied_btn
+    expect(page).to have_content "We strongly recommend that you call #{@bank.name}"
+    expect(page).to have_content(
       "More than 30% of applications that are initially denied are "\
       "overturned with a 5-10 minute phone call.",
     )
-    expect(rec_on_page).to have_i_called_btn
+    expect(page).to have_button i_called_btn(rec)
   end
 
   context "for a personal card product" do
     let(:bp) { :personal }
     it "gives me the bank's personal number" do
-      expect(rec_on_page).to have_content "call #{@bank.name} at #{personal_phone}"
-      expect(rec_on_page).to have_no_content business_phone
+      expect(page).to have_content "call #{@bank.name} at #{personal_phone}"
+      expect(page).to have_no_content business_phone
     end
   end
 
   context "for a business card product" do
     let(:bp) { :business }
     it "gives me the bank's business number" do
-      expect(rec_on_page).to have_content "call #{@bank.name} at #{business_phone}"
-      expect(rec_on_page).to have_no_content personal_phone
+      expect(page).to have_content "call #{@bank.name} at #{business_phone}"
+      expect(page).to have_no_content personal_phone
     end
   end
 
@@ -64,30 +70,30 @@ describe "user cards page - callable cards", :js do
 
     shared_examples "asks to confirm" do
       it "asks to confirm", :frontend do
-        expect(rec_on_page).to have_no_approved_btn
-        expect(rec_on_page).to have_no_denied_btn
-        expect(rec_on_page).to have_no_pending_btn
-        expect(rec_on_page).to have_cancel_btn
-        expect(rec_on_page).to have_confirm_btn
+        expect(page).to have_no_button approved_btn
+        expect(page).to have_no_button denied_btn
+        expect(page).to have_no_button pending_btn
+        expect(page).to have_button 'Cancel'
+        expect(page).to have_button 'Confirm'
       end
 
       describe "and clicking 'cancel'" do
-        before { rec_on_page.click_cancel_btn }
+        before { click_button 'Cancel' }
         it "goes back a step", :frontend do
-          expect(rec_on_page).to have_approved_btn
-          expect(rec_on_page).to have_denied_btn
-          expect(rec_on_page).to have_pending_btn
-          expect(rec_on_page).to have_no_cancel_btn
-          expect(rec_on_page).to have_no_confirm_btn
+          expect(page).to have_button approved_btn
+          expect(page).to have_button denied_btn
+          expect(page).to have_button pending_btn
+          expect(page).to have_no_button 'Cancel'
+          expect(page).to have_no_button 'Confirm'
         end
       end
     end
 
     it "asks for the result", :frontend do
-      expect(rec_on_page).to have_no_i_called_btn
-      expect(rec_on_page).to have_approved_btn
-      expect(rec_on_page).to have_denied_btn
-      expect(rec_on_page).to have_pending_btn
+      expect(page).to have_no_button i_called_btn(rec)
+      expect(page).to have_button approved_btn
+      expect(page).to have_button denied_btn
+      expect(page).to have_button pending_btn
     end
 
     describe "clicking 'I was approved'" do
@@ -97,7 +103,7 @@ describe "user cards page - callable cards", :js do
 
       describe "and clicking 'confirm'" do
         before do
-          rec_on_page.click_confirm_btn
+          click_button 'Confirm'
           # FIXME can't figure out a more elegant solution than this:
           sleep 1.5
           rec.reload
@@ -119,7 +125,7 @@ describe "user cards page - callable cards", :js do
 
       describe "and clicking 'confirm'" do
         before do
-          rec_on_page.click_confirm_btn
+          click_button 'Confirm'
           # FIXME can't figure out a more elegant solution than this:
           sleep 1.5
           rec.reload
@@ -142,7 +148,7 @@ describe "user cards page - callable cards", :js do
 
       describe "and clicking 'confirm'" do
         before do
-          rec_on_page.click_confirm_btn
+          click_button 'Confirm'
           # FIXME can't figure out a more elegant solution than this:
           sleep 1.5
           rec.reload
