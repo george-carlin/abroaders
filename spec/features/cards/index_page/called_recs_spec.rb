@@ -1,6 +1,7 @@
 require "rails_helper"
 
 describe "user cards page - called cards", :js do
+  include ApplicationSurveyMacros
   subject { page }
 
   include_context "logged in"
@@ -11,6 +12,10 @@ describe "user cards page - called cards", :js do
   let(:applied_at)     { 5.days.ago.to_date }
   let(:denied_at)      { 4.days.ago.to_date }
   let(:called_at)      { 3.days.ago.to_date }
+
+  # override variables set by ApplicationSurveyMacros:
+  let(:approved_btn) { 'My application was approved after reconsideration' }
+  let(:denied_btn)   { 'My application is still denied' }
 
   before do
     person.update!(eligible: true)
@@ -25,51 +30,46 @@ describe "user cards page - called cards", :js do
     visit cards_path
   end
   let(:rec) { @rec }
-  let(:rec_on_page) { CalledCardOnPage.new(rec, self) }
 
   example "rec on page", :frontend do
-    expect(rec_on_page).to have_no_apply_btn
-    expect(rec_on_page).to have_no_decline_btn
-    expect(rec_on_page).to have_no_i_applied_btn
-    expect(rec_on_page).to have_no_i_called_btn
-    expect(rec_on_page).to have_i_heard_back_btn
+    expect(page).to have_no_apply_btn(rec)
+    expect(page).to have_no_button decline_btn
+    expect(page).to have_no_button i_applied_btn
+    expect(page).to have_no_button i_called_btn(rec)
+    expect(page).to have_button i_heard_back_btn
   end
 
   describe "clicking 'I heard back'" do
-    before { rec_on_page.click_i_heard_back_btn }
+    before { click_button i_heard_back_btn }
 
     shared_examples "asks to confirm" do
       it "asks to confirm", :frontend do
-        expect(rec_on_page).to have_no_approved_btn
-        expect(rec_on_page).to have_no_denied_btn
-        expect(rec_on_page).to have_cancel_btn
-        expect(rec_on_page).to have_confirm_btn
-      end
-
-      describe "and clicking 'cancel'" do
-        before { rec_on_page.click_cancel_btn }
-        it "goes back a step", :frontend do
-          expect(rec_on_page).to have_approved_btn
-          expect(rec_on_page).to have_denied_btn
-          expect(rec_on_page).to have_no_confirm_btn
-        end
+        expect(page).to have_no_button approved_btn
+        expect(page).to have_no_button denied_btn
+        expect(page).to have_button 'Cancel'
+        expect(page).to have_button 'Confirm'
+        # going back
+        click_button 'Cancel'
+        expect(page).to have_button approved_btn
+        expect(page).to have_button denied_btn
+        expect(page).to have_no_button 'Confirm'
       end
     end
 
     it "asks person the result", :frontend do
-      expect(rec_on_page).to have_no_i_called_btn
-      expect(rec_on_page).to have_approved_btn
-      expect(rec_on_page).to have_denied_btn
+      expect(page).to have_no_button i_called_btn(rec)
+      expect(page).to have_button approved_btn
+      expect(page).to have_button denied_btn
     end
 
     describe "clicking 'I was approved'" do
-      before { rec_on_page.click_approved_btn }
+      before { click_button approved_btn }
 
       include_examples "asks to confirm"
 
       describe "and clicking 'confirm'" do
         before do
-          rec_on_page.click_confirm_btn
+          click_button 'Confirm'
           # FIXME can't figure out a more elegant solution than this:
           sleep 1.5
           rec.reload
@@ -87,13 +87,13 @@ describe "user cards page - called cards", :js do
     end
 
     describe "clicking 'I was denied'" do
-      before { rec_on_page.click_denied_btn }
+      before { click_button denied_btn }
 
       include_examples "asks to confirm"
 
       describe "and clicking 'confirm'" do
         before do
-          rec_on_page.click_confirm_btn
+          click_button 'Confirm'
           # FIXME can't figure out a more elegant solution than this:
           sleep 1.5
           rec.reload
