@@ -23,6 +23,9 @@ Lint/AssignmentInCondition:
   Exclude:
     - 'lib/tasks/update_currencies.rake'
 
+Style/AccessorMethodName:
+  Enabled: false
+
 Style/AlignHash:
   Enabled: false
 
@@ -106,11 +109,6 @@ StringLiterals:
 # TODO we may actually want some of these:
 Metrics:
   Enabled: false
-
-# Offense count: 1
-Style/AccessorMethodName:
-  Exclude:
-    - 'spec/support/pages/cards/new_card_on_page.rb'
 
 # Offense count: 7
 # Cop supports --auto-correct.
