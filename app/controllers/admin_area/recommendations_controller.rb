@@ -14,7 +14,8 @@ module AdminArea
 
     def complete
       @person = load_person
-      form = CompleteRecommendations.create!(
+      # form = CompleteRecommendations.create!(
+      CompleteRecommendations.create!(
         note:   params[:recommendation_note],
         person: @person,
       )

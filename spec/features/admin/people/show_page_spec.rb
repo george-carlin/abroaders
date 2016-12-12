@@ -508,7 +508,7 @@ module AdminArea
       end.to \
         change { account.notifications.count }.by(1).and \
           change { account.unseen_notifications_count }.by(1)
-          # .and send_email.to(account.email).with_subject("Action Needed: Card Recommendations Ready")
+      # .and send_email.to(account.email).with_subject("Action Needed: Card Recommendations Ready")
 
       new_notification = account.notifications.order(created_at: :asc).last
 
@@ -539,7 +539,7 @@ module AdminArea
         click_complete_recs_button
       end.to \
         change { account.recommendation_notes.count }.by(1)
-        #.and send_email.to(account.email).with_subject("Action Needed: Card Recommendations Ready")
+      # .and send_email.to(account.email).with_subject("Action Needed: Card Recommendations Ready")
 
       new_note = account.recommendation_notes.order(created_at: :asc).last
       expect(new_note.content).to eq note_content
