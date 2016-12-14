@@ -11,11 +11,12 @@
   <div class="panel-body">
     <%= form_tag survey_interest_regions_path, class: "text-center" do |f| %>
       <div class="row">
-        <% present_each(@regions) do |region_p| %>
+        <% @regions.each do |region| %>
+          <% region_cell = cell(Region::Cell, region) %>
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 region-box">
-            <%= region_p.name_tag %>
-            <%= region_p.survey_checkbox_tag %>
-            <%= region_p.image %>
+            <%= region_cell.name_tag %>
+            <%= region_cell.survey_checkbox_tag %>
+            <%= region_cell.image %>
           </div>
         <% end %>
       </div>
