@@ -15,7 +15,10 @@ class CardsController < AuthenticatedUserController
       cookies[:recommendation_timeout] = { value: "timeout", expires: 24.hours.from_now }
     end
 
-    @recommendation_notes = current_account.recommendation_notes
+    # admins can't edit notes, so our crude way of allowing it for now
+    # is to let admins submit a new updated note, and we only ever show
+    # the most recent note to the user:
+    @newest_rec_note = current_account.recommendation_notes.order(created_at: :desc).first
 
     current_account.card_recommendations.unseen.each do |c|
       c.update!(seen_at: Time.zone.now)
