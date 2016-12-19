@@ -21,6 +21,19 @@ module AdminArea
           end
         end
 
+        # If the account has any home airports, display Cells::HomeAirports::List.
+        # Else display text saying there are no home airports.
+        def home_airports
+          if account.home_airports.any?
+            raw(
+              '<h3>Home Airports</h3>' +
+              cell(AdminArea::Cells::HomeAirports::List, account.home_airports).to_s,
+            )
+          else
+            'User has not added any home airports'
+          end
+        end
+
         private
 
         def account
