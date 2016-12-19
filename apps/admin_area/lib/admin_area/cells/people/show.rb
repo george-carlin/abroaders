@@ -1,0 +1,32 @@
+module AdminArea
+  module Cells
+    module People
+      # placeholder class; eventually the whole template should be moved in here
+      class Show < Trailblazer::Cell
+        alias person model
+
+        # TODO once this cell is being used in the proper way, these methods
+        # should be made private
+
+        # If the account has any ROIs, display Cells::RegionsOfInterest::List.
+        # Else display text saying there are no ROIs.
+        def regions_of_interest
+          if account.regions_of_interest.any?
+            raw(
+              '<h3>Regions of Interest</h3>' +
+              cell(AdminArea::Cells::RegionsOfInterest::List, account.regions_of_interest).to_s,
+            )
+          else
+            'User has not added any regions of interest'
+          end
+        end
+
+        private
+
+        def account
+          @account ||= person.account
+        end
+      end
+    end
+  end
+end

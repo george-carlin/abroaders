@@ -38,7 +38,7 @@ module Abroaders
     config.autoload_paths << Rails.root.join('lib')
     config.autoload_paths << Rails.root.join('apps', 'onboarding', 'lib')
     config.autoload_paths << Rails.root.join('apps', 'main', 'lib')
-    config.autoload_paths << Rails.root.join('apps', 'admin', 'lib')
+    config.autoload_paths << Rails.root.join('apps', 'admin_area', 'lib')
 
     config.generators.jbuilder = false
 
