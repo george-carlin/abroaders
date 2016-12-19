@@ -1,16 +1,7 @@
 module AdminArea
   module Cells
     module RegionsOfInterest
-      class List < Trailblazer::Cell
-        # TODO reduce the need for all this boilerplate:
-        def self.view_name
-          'regions_of_interest/list'
-        end
-
-        def self.prefixes
-          ['apps/admin_area/lib/admin_area/views']
-        end
-
+      class List < AdminArea::Cell
         def show
           content_tag :ul, regions
         end
@@ -21,7 +12,7 @@ module AdminArea
           cell(Item, collection: model)
         end
 
-        class Item < Trailblazer::Cell
+        class Item < AdminArea::Cell
           alias region model
 
           property :name
