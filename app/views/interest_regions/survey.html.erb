@@ -1,3 +1,34 @@
 <% provide :title, 'Regions of Interest' %>
 
-<%= cell(Onboarding::Cells::RegionsOfInterest::Survey) %>
+<div class="hpanel interest-regions-survey">
+  <div class="panel-heading hbuilt">
+    <div class="greeting-message">
+      <h1>Interested in any of these locations?</h1>
+      <h4>Select all the regions you would be interested in visiting. We'll save the regions to your profile and alert when there are great deals</h4>
+    </div>
+  </div>
+
+  <div class="panel-body">
+    <%= form_tag survey_interest_regions_path, class: "text-center" do |f| %>
+      <div class="row">
+        <% @regions.each do |region| %>
+          <% region_cell = cell(Region::Cell, region) %>
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 region-box">
+            <%= region_cell.name_tag %>
+            <%= region_cell.survey_checkbox_tag %>
+            <%= region_cell.image %>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <button class="btn btn-lg btn-primary submit-button">
+            <i class="fa fa-check" aria-hidden="true"></i>
+            Save and continue
+          </button>
+        </div>
+      </div>
+    <% end %>
+  </div><!-- .panel-body -->
+</div>
