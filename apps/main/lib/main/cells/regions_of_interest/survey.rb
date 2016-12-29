@@ -1,4 +1,4 @@
-module Onboarding
+module Main
   module Cells
     module RegionsOfInterest
       class Survey < Trailblazer::Cell
@@ -8,7 +8,7 @@ module Onboarding
         end
 
         def self.prefixes
-          ['apps/onboarding/lib/onboarding/views']
+          ['apps/main/lib/main/views']
         end
 
         private
@@ -30,7 +30,7 @@ module Onboarding
           end
 
           def self.prefixes
-            ['apps/onboarding/lib/onboarding/views']
+            ['apps/main/lib/main/views']
           end
 
           property :id

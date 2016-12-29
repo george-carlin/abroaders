@@ -1,3 +1,5 @@
+require_dependency 'abroaders/presenter'
+
 module Main
   module Presenters
     class Region < Abroaders::Presenter
