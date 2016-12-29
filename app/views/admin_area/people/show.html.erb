@@ -1,5 +1,8 @@
 <% provide :title, @person.first_name %>
 
+<%# TODO: move everything within this cell %>
+<% page_cell = AdminArea::Cells::People::Show.(@person) %>
+
 <% present @person do |person| %>
   <div class="hpanel">
     <div class="panel-heading hbuilt">
@@ -39,6 +42,12 @@
         <% else %>
           User has no upcoming travel plans
         <% end %>
+      </div><!-- .col-xs-12.col-md-6 -->
+
+      <div class="col-xs-12 col-md-6">
+        <%= page_cell.regions_of_interest %>
+
+        <%= page_cell.home_airports %>
       </div><!-- .col-xs-12.col-md-6 -->
     </div><!-- .panel-body -->
   </div><!-- .hpanel -->
