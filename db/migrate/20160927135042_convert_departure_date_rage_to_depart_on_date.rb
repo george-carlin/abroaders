@@ -1,4 +1,7 @@
 class ConvertDepartureDateRageToDepartOnDate < ActiveRecord::Migration[5.0]
+  class TravelPlan < ActiveRecord::Base
+  end
+
   def up
     add_column :travel_plans, :depart_on, :date
     add_column :travel_plans, :return_on, :date

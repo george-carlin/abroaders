@@ -1,4 +1,7 @@
 class AddSourceToCardAccounts < ActiveRecord::Migration[5.0]
+  class CardAccount < ActiveRecord::Base
+  end
+
   def change
     CardAccount.transaction do
       add_column :card_accounts, :source, :integer
@@ -11,12 +14,6 @@ class AddSourceToCardAccounts < ActiveRecord::Migration[5.0]
           # not the pretty string defined in the class
 
           if CardAccount.any?
-            # Safety check:
-            unless CardAccount.sources["from_survey"] == 0 &&
-                    CardAccount.sources["recommendation"] == 1
-              raise "something's grone wrong, cap'n!"
-            end
-
             CardAccount.where(recommended_at: nil).update_all(source: 0) # from_survey
             CardAccount.where.not(recommended_at: nil).update_all(source: 1) # recommendation
           end
