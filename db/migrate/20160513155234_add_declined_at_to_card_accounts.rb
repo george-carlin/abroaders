@@ -1,4 +1,6 @@
 class AddDeclinedAtToCardAccounts < ActiveRecord::Migration[5.0]
+  class CardAccount < ActiveRecord::Base
+  end
   def up
     add_column :card_accounts, :declined_at, :datetime
 

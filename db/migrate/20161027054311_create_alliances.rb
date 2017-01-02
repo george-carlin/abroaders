@@ -1,4 +1,7 @@
 class CreateAlliances < ActiveRecord::Migration[5.0]
+  class Alliance < ActiveRecord::Base
+  end
+
   def change
     create_table :alliances do |t|
       t.string :name, null: false
