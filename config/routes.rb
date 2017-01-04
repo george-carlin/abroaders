@@ -1,5 +1,7 @@
 require 'resque/server'
 
+require 'admin_api/application'
+
 Rails.application.routes.draw do
   root to: "application#dashboard"
   # Even though we're overriding all the generated routes, we still need to
@@ -192,6 +194,8 @@ Rails.application.routes.draw do
   end
 
   get '/admin/api/v1/travel_plans', to: 'admin_area/api/v1/travel_plans#index'
+
+  mount AdminAPI::Application, at: '/admin/api/v1'
 
   # ---- /ADMINS -----
 end
