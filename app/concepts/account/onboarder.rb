@@ -53,7 +53,7 @@ class Account::Onboarder
         # special case to handle a user who I had to manually reset because
         # she entered some data wrong. TODO revert the commit that added this
         # comment once she's completed the survey again.
-        if: -> (account) { account.email != 'trobbins2214@gmail.com' }
+        if: -> (onboarder) { onboarder.account.email != 'trobbins2214@gmail.com' }
       event :add_owner_cards, transition_to: :spending
     end
 
@@ -86,7 +86,7 @@ class Account::Onboarder
             # special case to handle a user who I had to manually reset because
             # she entered some data wrong. TODO revert the commit that added this
             # comment once she's completed the survey again.
-            if: -> (account) { account.email != 'trobbins2214@gmail.com' }
+            if: -> (onboarder) { onboarder.account.email != 'trobbins2214@gmail.com' }
       event :add_readiness, transition_to: :complete
     end
 
