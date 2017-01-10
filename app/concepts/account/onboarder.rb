@@ -44,7 +44,7 @@ class Account::Onboarder
 
     state :eligibility do
       event :add_eligibility, transition_to: :owner_cards,
-            if: -> (of) { of.owner.eligible? }
+            if: -> (onboarder) { onboarder.owner.eligible? }
       event :add_eligibility, transition_to: :owner_balances
     end
 
@@ -59,11 +59,11 @@ class Account::Onboarder
 
     state :owner_balances do
       event :add_owner_balances, transition_to: :companion_cards,
-            if: -> (of) { of.companion&.eligible? }
+            if: -> (onboarder) { onboarder.companion&.eligible? }
       event :add_owner_balances, transition_to: :companion_balances,
-            if: -> (of) { !of.companion.nil? }
+            if: -> (onboarder) { !onboarder.companion.nil? }
       event :add_owner_balances, transition_to: :spending,
-            if: -> (of) { of.owner.eligible? }
+            if: -> (onboarder) { onboarder.owner.eligible? }
       event :add_owner_balances, transition_to: :phone_number
     end
 
@@ -73,7 +73,7 @@ class Account::Onboarder
 
     state :companion_balances do
       event :add_companion_balances, transition_to: :spending,
-            if: -> (of) { of.owner.eligible? || of.companion.eligible? }
+            if: -> (onboarder) { onboarder.owner.eligible? || onboarder.companion.eligible? }
       event :add_companion_balances, transition_to: :phone_number
     end
 
