@@ -65,7 +65,7 @@ module Seeder
     # the card products in this JSON file don't necessarily correspond to card
     # products that exist in real life. Originally they did, but we don't need
     # to keep a hyper-accurate list of cards in the repo anymore; that's what
-    # the production DB is more. So I've massively cut the size of
+    # the production DB is for. So I've massively cut the size of
     # card_products.json for the sake of making the seeds run faster, and
     # changed the attributes of some of the remaining products for the sake of
     # diversity.
