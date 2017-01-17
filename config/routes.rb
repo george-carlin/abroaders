@@ -1,7 +1,5 @@
 require 'resque/server'
 
-require 'admin_api/application'
-
 Rails.application.routes.draw do
   root to: "application#dashboard"
   # Even though we're overriding all the generated routes, we still need to
@@ -192,8 +190,6 @@ Rails.application.routes.draw do
     end
     resources :travel_plans, only: [:edit, :update]
   end
-
-  mount AdminAPI::Application, at: '/admin/api/v1'
 
   # ---- /ADMINS -----
 end

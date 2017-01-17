@@ -6,8 +6,6 @@ gem 'rails', '~> 5.0.0.1'
 gem 'trailblazer-rails'
 gem 'trailblazer', '~> 1.1.2'
 
-gem 'abroaders-admin_api', git: "https://#{ENV['GITHUB_OAUTH_TOKEN']}:x-oauth-basic@github.com/georgemillo/abroaders-admin_api.git"
-
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'acts_as_tree', '~> 2.4.0'
 gem 'aws-sdk', '1.61.0'
