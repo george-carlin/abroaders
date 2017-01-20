@@ -40,12 +40,8 @@ class EditCardForm < ApplicationForm
 
   def persist!
     card.update!(
-      opened_at: end_of_month(opened_year, opened_month),
-      closed_at: closed ? end_of_month(closed_year, closed_month) : nil,
+      opened_at: Date.new(opened_year, opened_month),
+      closed_at: closed ? Date.new(closed_year, closed_month) : nil,
     )
-  end
-
-  def end_of_month(year, month)
-    Date.parse("#{year}-#{month}-01").end_of_month
   end
 end

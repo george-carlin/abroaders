@@ -43,10 +43,6 @@ describe 'cards survey', :onboarding, :js, :manual_clean do
     checked ? check(field) : uncheck(field)
   end
 
-  def end_of_month(year, month)
-    Date.parse("#{year}-#{month}-01").end_of_month.strftime('%F')
-  end
-
   def expand_banks
     @banks.each do |bank|
       click_on bank.name.upcase
@@ -201,9 +197,9 @@ describe 'cards survey', :onboarding, :js, :manual_clean do
       let(:closed_card) { visible_products.first }
       let(:open_cards)  { visible_products.drop(1) }
 
-      let(:this_year) { Time.zone.today.year.to_s }
-      let(:last_year) { (Time.zone.today.year - 1).to_s }
-      let(:ten_years_ago) { (Time.zone.today.year - 10).to_s }
+      let(:this_year) { Time.zone.today.year }
+      let(:last_year) { (Time.zone.today.year - 1) }
+      let(:ten_years_ago) { (Time.zone.today.year - 10) }
 
       before do
         visible_products.each do |product|
@@ -238,12 +234,12 @@ describe 'cards survey', :onboarding, :js, :manual_clean do
           open_acc_0 = new_accounts.find_by(product_id: open_cards[0].id)
           open_acc_1 = new_accounts.find_by(product_id: open_cards[1].id)
           closed_acc = new_accounts.find_by(product_id: closed_card.id)
-          expect(open_acc_0.opened_at.strftime('%F')).to eq end_of_month(this_year, '01')
+          expect(open_acc_0.opened_at).to eq Date.new(this_year, 1)
           expect(open_acc_0.closed_at).to be_nil
-          expect(open_acc_1.opened_at.strftime('%F')).to eq end_of_month(last_year, '03')
+          expect(open_acc_1.opened_at).to eq Date.new(last_year, 3)
           expect(open_acc_1.closed_at).to be_nil
-          expect(closed_acc.opened_at.strftime('%F')).to eq end_of_month(ten_years_ago, '11')
-          expect(closed_acc.closed_at.strftime('%F')).to eq end_of_month(last_year, '04')
+          expect(closed_acc.opened_at).to eq Date.new(ten_years_ago, 11)
+          expect(closed_acc.closed_at).to eq Date.new(last_year, 4)
 
           # the cards have the right statuses
           open_acc_0 = new_accounts.find_by(product_id: open_cards[0].id)

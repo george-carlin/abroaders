@@ -60,7 +60,7 @@ describe Card::Operation do
       card = op.model
       expect(card.product).to eq product
       expect(card.closed_at).to be nil
-      expect(card.opened_at).to eq Date.today.end_of_month
+      expect(card.opened_at).to eq Date.today
     end
   end
 end

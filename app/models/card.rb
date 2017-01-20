@@ -223,14 +223,7 @@ class Card < ApplicationRecord
     Card::Presenter
   end
 
-  before_save :change_dates_to_end_of_month, if: :from_survey?
-
   private
-
-  def change_dates_to_end_of_month
-    self.opened_at = opened_at.end_of_month unless opened_at.nil?
-    self.closed_at = closed_at.end_of_month unless closed_at.nil?
-  end
 
   # TODO move these validations to the operation/contract layer:
   def product_matches_offer_product
