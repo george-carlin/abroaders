@@ -29,18 +29,18 @@ class Card::Product::Survey < ApplicationForm
       #
       next unless card['opened'].present?
 
-      opened_at_y = card['opened_at_(1i)']
-      opened_at_m = card['opened_at_(2i)']
+      opened_at_y = card['opened_at_(1i)'].to_i
+      opened_at_m = card['opened_at_(2i)'].to_i
 
       attributes = {
         product: Card::Product.survey.find(card['product_id']),
-        opened_at: end_of_month(opened_at_y, opened_at_m),
+        opened_at: Date.new(opened_at_y, opened_at_m),
       }
 
       if card["closed"].present?
-        closed_at_y = card["closed_at_(1i)"]
-        closed_at_m = card["closed_at_(2i)"]
-        attributes["closed_at"] = end_of_month(closed_at_y, closed_at_m)
+        closed_at_y = card["closed_at_(1i)"].to_i
+        closed_at_m = card["closed_at_(2i)"].to_i
+        attributes["closed_at"] = Date.new(closed_at_y, closed_at_m)
       end
 
       person.cards.from_survey.create!(attributes)
@@ -52,9 +52,5 @@ class Card::Product::Survey < ApplicationForm
     else
       onboarder.add_companion_cards!
     end
-  end
-
-  def end_of_month(year, month)
-    Date.parse("#{year}-#{month}-01").end_of_month
   end
 end
