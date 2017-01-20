@@ -6,8 +6,14 @@ class AuthenticatedUserController < ApplicationController
 
   private
 
-  # TODO is this the correct Trailblazer-y way to do this?
-  def params!(params)
-    params.to_unsafe_h.merge(current_account: current_account)
+  # Pass these options by default into Trailblazer operations when calling
+  # them with 'run'
+  def _run_options(options)
+    options['current_account'] = current_account
+    if params[:person_id]
+      person = current_account.people.find(params[:person_id])
+      options['person'] = person
+    end
+    options
   end
 end
