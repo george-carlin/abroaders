@@ -8,7 +8,8 @@ class BalancesController < AuthenticatedUserController
 
   # GET /people/:person_id/balances/new
   def new
-    form Balance::Create
+    run Balance::Create
+    # TODO TRB convert view to cell
   end
 
   # POST /people/:person_id/balances
@@ -16,6 +17,7 @@ class BalancesController < AuthenticatedUserController
     run Balance::Create do
       return redirect_to balances_path
     end
+    # TODO TRB convert view to cell
     render 'new'
   end
 

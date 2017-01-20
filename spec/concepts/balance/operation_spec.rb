@@ -6,30 +6,33 @@ describe Balance::Create do
   let(:person)   { account.owner }
 
   example 'valid save' do
-    res, op = described_class.run(
-      balance: {
-        value:       1,
-        currency_id: currency.id,
+    result = Balance::Create.(
+      {
+        balance: {
+          currency_id: currency.id,
+          value: 1,
+        },
       },
-      current_account: account,
-      person_id:       person.id,
+      'person' => person,
     )
-    expect(res).to be true
+    expect(result.success?).to be true
 
-    balance = op.model
+    balance = result['model']
+    expect(balance).to be_persisted
     expect(balance.value).to eq 1
     expect(balance.currency).to eq currency
   end
 
   example 'invalid save' do
-    res, = described_class.run(
-      balance: {
-        value:       -1,
-        currency_id: currency.id,
+    result = described_class.(
+      {
+        balance: {
+          value:       -1,
+          currency_id: currency.id,
+        },
       },
-      current_account: account,
-      person_id: person.id,
+      'person' => person,
     )
-    expect(res).to be false
+    expect(result.success?).to be false
   end
 end
