@@ -1,39 +1,31 @@
 module AdminArea
   class CardsController < AdminController
     def new
-      form ::Card::Admin::Create
-      @products = load_products_for_select
+      run AdminArea::Card::Operations::New
+      @products = AdminArea::Card::Operations::New.product_options
     end
 
     def create
-      run ::Card::Admin::Create do
+      run AdminArea::Card::Operations::Create do
         flash[:success] = 'Added card!'
         return redirect_to admin_person_path(@model.person)
       end
-      @products = load_products_for_select
+      @products = AdminArea::Card::Operations::New.product_options
       render :new
     end
 
     def edit
-      form ::Card::Admin::Update
+      run ::AdminArea::Card::Operations::Edit
+      @form.prepopulate!
     end
 
     def update
-      run ::Card::Admin::Update do
-        flash[:success] = 'Added card!'
+      run ::AdminArea::Card::Operations::Update do
+        flash[:success] = 'Updated card!'
         return redirect_to admin_person_path(@model.person)
       end
-      @products = load_products_for_select
+      @products = AdminArea::Card::Operations::Edit.product_options
       render :new
-    end
-
-    private
-
-    # TODO argh this is terrible
-    def load_products_for_select
-      ::Card::Product.all.map do |product|
-        [::Card::Product::Identifier.new(product).to_s, product.id]
-      end.sort_by { |p| p[0] }
     end
   end
 end
