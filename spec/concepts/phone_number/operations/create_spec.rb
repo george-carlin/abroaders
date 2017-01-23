@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe PhoneNumber::Create do
+describe PhoneNumber::Operations::Create do
   let(:account) { create(:account) }
 
   example 'valid save' do

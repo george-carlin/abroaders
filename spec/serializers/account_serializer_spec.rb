@@ -8,7 +8,7 @@ describe AccountSerializer do
       monthly_spending_usd: 234,
       onboarding_state: :phone_number,
     )
-    PhoneNumber::Create.(
+    PhoneNumber::Operations::Create.(
       { phone_number: { number: '555 1234 555' } },
       'current_account' => account,
     )
