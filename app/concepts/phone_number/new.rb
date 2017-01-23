@@ -1,3 +1,5 @@
+require 'reform/form/dry'
+
 class PhoneNumber < ApplicationRecord
   class New < Trailblazer::Operation
     extend Contract::DSL
