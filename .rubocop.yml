@@ -10,6 +10,7 @@ AllCops:
   Exclude:
     - 'bin/**/*'
     - 'db/schema.rb'
+    - 'db/migrate/*'
     - 'log/**/*'
     - 'node_modules/**/*'
     - 'public/**/*'
@@ -110,68 +111,13 @@ StringLiterals:
 Metrics:
   Enabled: false
 
-# Offense count: 7
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles, IndentationWidth.
-# SupportedStyles: with_first_parameter, with_fixed_indentation
-Style/AlignParameters:
-  Exclude:
-    - 'db/migrate/20160310183236_add_fields_for_companion_survey.rb'
-    - 'db/migrate/20160316170137_add_onboarded_to_accounts.rb'
-
-# Offense count: 2
-# Cop supports --auto-correct.
-Style/EmptyLines:
-  Exclude:
-    - 'db/migrate/20160316152514_devise_create_admins.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: empty_lines, no_empty_lines
-Style/EmptyLinesAroundClassBody:
-  Exclude:
-    - 'db/migrate/20160407212200_add_attachment_image_to_cards.rb'
-
-# Offense count: 3
-# Cop supports --auto-correct.
-Style/EmptyLinesAroundMethodBody:
-  Exclude:
-    - 'db/migrate/20151230154346_create_card_accounts.rb'
-    - 'db/migrate/20160105120526_create_surveys.rb'
-    - 'db/migrate/20160109141753_create_flights.rb'
-
-# Offense count: 32
-# Cop supports --auto-correct.
-# Configuration parameters: AllowForAlignment, ForceEqualSignAlignment.
-Style/ExtraSpacing:
-  Exclude:
-    - 'db/migrate/20151230154346_create_card_accounts.rb'
-    - 'db/migrate/20160105120526_create_surveys.rb'
-    - 'db/migrate/20160108175327_create_destinations.rb'
-    - 'db/migrate/20160310183236_add_fields_for_companion_survey.rb'
-    - 'db/migrate/20160428131640_make_card_offer_days_and_spend_nullable.rb'
-
 # Offense count: 5
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles, IndentationWidth.
 # SupportedStyles: aligned, indented
 Style/MultilineOperationIndentation:
   Exclude:
-    - 'db/migrate/20160430225929_add_source_to_card_accounts.rb'
     - 'spec/support/pages/card_accounts/card_account_on_page.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/SpaceAfterSemicolon:
-  Exclude:
-    - 'db/migrate/20160929214946_add_type_to_currencies.rb'
-
-# Offense count: 3
-# Cop supports --auto-correct.
-Style/SpaceInsideParens:
-  Exclude:
-    - 'db/migrate/20160808170547_convert_destinations_to_use_sti.rb'
 
 # Offense count: 6
 # Cop supports --auto-correct.
