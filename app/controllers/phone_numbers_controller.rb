@@ -2,11 +2,11 @@ class PhoneNumbersController < AuthenticatedUserController
   onboard :phone_number, with: [:new, :create, :skip]
 
   def new
-    run PhoneNumber::New
+    run PhoneNumber::Operations::New
   end
 
   def create
-    run PhoneNumber::CreateFromSurvey do
+    run PhoneNumber::Operations::Onboard do
       return redirect_to onboarding_survey_path
     end
     render :new
