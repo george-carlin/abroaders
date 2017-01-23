@@ -219,6 +219,28 @@ perfectly, so some older commits won't have followed the above procedures.
   somewhere, and every dependency upgrade needs a new round of testing and QA.
   (This is especially true as the codebase and userbase grow bigger)
 
+## Trailblazer
+
+We're using [Trailblazer 2](http://trailblazer.to) on top of Rails.
+
+### File Structure
+
+For a concept called `user` within `app/concepts`, add dirs `cell`, `view`, and
+`operations` as necessary:
+
+    ├── user
+    │   ├── cell
+    │   │   └── cell_name.rb
+    │   ├── operations
+    │   │   └── new.rb
+    │   │   └── create.rb
+    │   └── view
+    │       ├── user.css.scss
+    │       └── cell_name.erb
+
+### Operations
+
+All business logic should live in operations. TODO expand.
 
 ## Rails
 
@@ -375,13 +397,13 @@ we have some extra top level folders in `/app`. They're mostly based on
 
 #### `forms`
 
-See `app/forms/README.md`
+TODO - this will be removed soon in favour of Trailblazer
 
 #### `serializers`
 
 Serializers as used by the
 [`active_model_serializers`](https://github.com/rails-api/active_model_serializers)
-gem.
+gem. TODO this should also be removed, in favour of representers with the `representable` gem.
 
 #### `presenters`
 
@@ -479,7 +501,7 @@ bottom of an hpanel; use it sparingly.
 
 ### Emails
 
-- Remember to add a plain text `.txt(.erb` email template as well as the
+- Remember to add a plain text `.txt(.erb)` email template as well as the
   `.html(.erb)` one.
 
 - Emails will usually be enqueued as background jobs using `deliver_later`,

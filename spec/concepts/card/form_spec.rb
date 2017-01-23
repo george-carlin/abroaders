@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Card::Contract do
+describe Card::Form do
   let(:card) { Card.new }
 
   def validate(attrs)

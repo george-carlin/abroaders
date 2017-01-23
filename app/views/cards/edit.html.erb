@@ -63,7 +63,7 @@
               <%= f.check_box :closed, class: "cards_survey_card_closed input-lg" %>
             </div>
 
-            <div class="card-survey-closed <%= @form.closed ? '' : 'hide' %>">
+            <div class="card-survey-closed <%= 'hide' unless @form.closed %>">
               <div class="col-md-12 col-lg-4">
                 <label class="card-info-label card-survey-closed">When did you close this card?</label>
               </div>

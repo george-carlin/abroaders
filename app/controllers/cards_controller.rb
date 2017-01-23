@@ -26,11 +26,12 @@ class CardsController < AuthenticatedUserController
   end
 
   def edit
-    form Card::Update
+    run Card::Operations::Edit
+    @form.prepopulate!
   end
 
   def update
-    run Card::Update do |_op|
+    run Card::Operations::Update do |_result|
       flash[:success] = 'Updated card'
       return redirect_to cards_path
     end
