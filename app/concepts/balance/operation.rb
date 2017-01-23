@@ -1,16 +1,16 @@
-require_dependency 'reform/form/dry'
+require 'reform/form/dry'
+require 'trailblazer/operation/contract'
 
 class Balance < ApplicationRecord
   class Create < Trailblazer::Operation
-    include Model
-    model Balance, :create
+    extend Contract::DSL
 
     contract do
       feature Reform::Form::Coercion
       feature Reform::Form::Dry
 
-      property :value,       type: ::Types::Form::Int
-      property :currency_id, type: ::Types::Form::Int
+      property :value,       type: Types::Form::Int
+      property :currency_id, type: Types::Form::Int
 
       validation do
         required(:currency_id).filled
@@ -18,14 +18,15 @@ class Balance < ApplicationRecord
       end
     end
 
-    def process(params)
-      validate(params[:balance], &:save)
-    end
+    step :setup_model!
+    step Contract::Build()
+    step Contract::Validate(key: :balance)
+    step Contract::Persist()
 
     private
 
-    def setup_model!(params)
-      model.person = params[:current_account].people.find(params[:person_id])
+    def setup_model!(options)
+      options['model'] = options['person'].balances.new
     end
   end
 end
