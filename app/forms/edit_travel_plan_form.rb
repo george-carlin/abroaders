@@ -8,10 +8,10 @@ class EditTravelPlanForm < TravelPlanForm
     new_attributes = {
       departure_date: travel_plan.depart_on,
       return_date: travel_plan.return_on,
-      will_accept_economy: travel_plan.will_accept_economy?,
-      will_accept_premium_economy: travel_plan.will_accept_premium_economy?,
-      will_accept_business_class: travel_plan.will_accept_business_class?,
-      will_accept_first_class: travel_plan.will_accept_first_class?,
+      accepts_economy: travel_plan.accepts_economy?,
+      accepts_premium_economy: travel_plan.accepts_premium_economy?,
+      accepts_business_class: travel_plan.accepts_business_class?,
+      accepts_first_class: travel_plan.accepts_first_class?,
     }
     new(travel_plan.attributes.merge(new_attributes))
   end

@@ -28,9 +28,9 @@ shared_examples "a travel plan form" do
     end
 
     expect(page).to have_field :travel_plan_further_information
-    expect(page).to have_field :travel_plan_will_accept_economy
-    expect(page).to have_field :travel_plan_will_accept_premium_economy
-    expect(page).to have_field :travel_plan_will_accept_business_class
-    expect(page).to have_field :travel_plan_will_accept_first_class
+    expect(page).to have_field :travel_plan_accepts_economy
+    expect(page).to have_field :travel_plan_accepts_premium_economy
+    expect(page).to have_field :travel_plan_accepts_business_class
+    expect(page).to have_field :travel_plan_accepts_first_class
   end
 end
