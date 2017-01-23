@@ -86,8 +86,8 @@
           <% %w[economy premium_economy business_class first_class].each do |cos| %>
             <div class="col-xs-6">
               <div class="form-group">
-                <%= f.label "will_accept_#{cos}" do %>
-                  <%= f.check_box "will_accept_#{cos}" %>
+                <%= f.label "accepts_#{cos}" do %>
+                  <%= f.check_box "accepts_#{cos}" %>
                   &nbsp;<%= cos.titleize %>&nbsp;
                 <% end %>
               </div>

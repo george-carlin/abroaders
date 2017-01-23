@@ -49,10 +49,10 @@ describe "new travel plan page", :js do
     expect(page).to have_field :travel_plan_departure_date
     expect(page).to have_field :travel_plan_return_date
     expect(page).to have_field :travel_plan_further_information
-    expect(page).to have_field :travel_plan_will_accept_economy
-    expect(page).to have_field :travel_plan_will_accept_premium_economy
-    expect(page).to have_field :travel_plan_will_accept_business_class
-    expect(page).to have_field :travel_plan_will_accept_first_class
+    expect(page).to have_field :travel_plan_accepts_economy
+    expect(page).to have_field :travel_plan_accepts_premium_economy
+    expect(page).to have_field :travel_plan_accepts_business_class
+    expect(page).to have_field :travel_plan_accepts_first_class
   end
 
   specify 'checking "single" disables the return date' do
@@ -94,10 +94,10 @@ describe "new travel plan page", :js do
         set_datepicker_field('#travel_plan_return_date', to: return_date)
         fill_in :travel_plan_no_of_passengers, with: 2
         fill_in :travel_plan_further_information, with: 'Something'
-        check :travel_plan_will_accept_economy
-        check :travel_plan_will_accept_premium_economy
-        check :travel_plan_will_accept_business_class
-        check :travel_plan_will_accept_first_class
+        check :travel_plan_accepts_economy
+        check :travel_plan_accepts_premium_economy
+        check :travel_plan_accepts_business_class
+        check :travel_plan_accepts_first_class
       end
 
       it "creates a travel plan" do
@@ -110,10 +110,10 @@ describe "new travel plan page", :js do
         expect(plan.return_on).to eq return_date
         expect(plan.no_of_passengers).to eq 2
         expect(plan.further_information).to eq 'Something'
-        expect(plan.will_accept_economy?).to be true
-        expect(plan.will_accept_premium_economy?).to be true
-        expect(plan.will_accept_business_class?).to be true
-        expect(plan.will_accept_first_class?).to be true
+        expect(plan.accepts_economy?).to be true
+        expect(plan.accepts_premium_economy?).to be true
+        expect(plan.accepts_business_class?).to be true
+        expect(plan.accepts_first_class?).to be true
       end
     end
 

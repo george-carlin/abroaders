@@ -55,11 +55,11 @@
   <div>
     Acceptable classes:
     <b>
-      <% if travel_plan.acceptable_classes.any? %>
-        <%= "E"   if travel_plan.will_accept_economy? %>
-        <%= "PE"  if travel_plan.will_accept_premium_economy? %>
-        <%= "B"   if travel_plan.will_accept_business_class? %>
-        <%= "1st" if travel_plan.will_accept_first_class? %>
+      <% if travel_plan.acceptable_classes_given? %>
+        <%= "E"   if travel_plan.accepts_economy? %>
+        <%= "PE"  if travel_plan.accepts_premium_economy? %>
+        <%= "B"   if travel_plan.accepts_business_class? %>
+        <%= "1st" if travel_plan.accepts_first_class? %>
       <% else %>
         None given
       <% end %>

@@ -26,7 +26,8 @@ describe "travel plans index page" do
     @cdg = create_airport("Paris",           :CDG, @par)
 
     @tp_single = account.travel_plans.create!(
-      acceptable_classes:   [:economy, :premium_economy],
+      accepts_economy:         true,
+      accepts_premium_economy: true,
       depart_on:            tomorrow,
       return_on:            next_week,
       flights_attributes:   [{ from: @lgw, to: @cdg }],
@@ -34,7 +35,8 @@ describe "travel plans index page" do
     )
 
     @tp_return = account.travel_plans.create!(
-      acceptable_classes:   [:business_class, :first_class],
+      accepts_business_class: true,
+      accepts_first_class:    true,
       depart_on:            next_week,
       return_on:            next_month,
       flights_attributes:   [{ from: @lhr, to: @cdg }],

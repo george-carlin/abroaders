@@ -9,11 +9,11 @@ class TravelPlanForm < ApplicationForm
   attribute :from,      String
   attribute :to,        String
   attribute :type,      String, default: "return"
-  attribute :no_of_passengers,            Integer
-  attribute :will_accept_economy,         Boolean, default: false
-  attribute :will_accept_premium_economy, Boolean
-  attribute :will_accept_business_class,  Boolean, default: false
-  attribute :will_accept_first_class,     Boolean, default: false
+  attribute :no_of_passengers, Integer
+  attribute :accepts_economy,         Boolean, default: false
+  attribute :accepts_premium_economy, Boolean
+  attribute :accepts_business_class,  Boolean, default: false
+  attribute :accepts_first_class,     Boolean, default: false
   # Call these '*_date' rather than '*_on' (which are the names of the
   # underlying DB column) so that we get friendly error messages
   attribute :departure_date, Date
@@ -156,22 +156,16 @@ class TravelPlanForm < ApplicationForm
 
   def travel_plan_attributes
     {
-      acceptable_classes:   acceptable_classes,
       depart_on:            departure_date,
       further_information:  (further_information.strip if further_information.present?),
       no_of_passengers:     no_of_passengers,
       return_on:            return_date,
       type:                 type,
+      accepts_economy: accepts_economy,
+      accepts_premium_economy: accepts_premium_economy,
+      accepts_business_class: accepts_business_class,
+      accepts_first_class: accepts_first_class,
     }
-  end
-
-  def acceptable_classes
-    [
-      (:economy         if will_accept_economy?),
-      (:premium_economy if will_accept_premium_economy?),
-      (:business_class  if will_accept_business_class?),
-      (:first_class     if will_accept_first_class?),
-    ].compact
   end
 
   def single?

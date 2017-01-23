@@ -39,10 +39,10 @@ describe "admin edit travel plan" do
       fill_in :travel_plan_return_date, with: return_date.strftime("%m/%d/%Y")
       fill_in :travel_plan_no_of_passengers, with: 2
       fill_in :travel_plan_further_information, with: "Something"
-      check :travel_plan_will_accept_economy
-      check :travel_plan_will_accept_premium_economy
-      check :travel_plan_will_accept_business_class
-      check :travel_plan_will_accept_first_class
+      check :travel_plan_accepts_economy
+      check :travel_plan_accepts_premium_economy
+      check :travel_plan_accepts_business_class
+      check :travel_plan_accepts_first_class
     end
 
     it "updates the travel plan" do
@@ -55,10 +55,10 @@ describe "admin edit travel plan" do
       expect(travel_plan.return_on).to eq return_date
       expect(travel_plan.no_of_passengers).to eq 2
       expect(travel_plan.further_information).to eq "Something"
-      expect(travel_plan.will_accept_economy?).to be_truthy
-      expect(travel_plan.will_accept_premium_economy?).to be_truthy
-      expect(travel_plan.will_accept_business_class?).to be_truthy
-      expect(travel_plan.will_accept_first_class?).to be_truthy
+      expect(travel_plan.accepts_economy?).to be_truthy
+      expect(travel_plan.accepts_premium_economy?).to be_truthy
+      expect(travel_plan.accepts_business_class?).to be_truthy
+      expect(travel_plan.accepts_first_class?).to be_truthy
     end
   end
 end
