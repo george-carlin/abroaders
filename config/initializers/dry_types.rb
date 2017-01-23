@@ -24,13 +24,13 @@ Dry::Types.register(
   'form.american_date',
   Dry::Types::Definition.new(Date).constructor do |date|
     if date.is_a?(String) && (date =~ Types::Form::AmericanDate.meta[:regex])
-      Date.strptime(date.strip, Types::Form::AmericanDate.meta[:strptime_format])
+      Date.strptime(date.strip, Types::Form::AmericanDate.meta[:format])
     else
       Dry::Types['form.date'][date]
     end
   end.meta(
     regex: /\A\s*(?:0?[1-9]|1[0-2])\/(?:0?[1-9]|[1-2]\d|3[01])\/\d{4}\s*\Z/.freeze,
-    strptime_format: '%m/%d/%Y'.freeze,
+    format: '%m/%d/%Y'.freeze,
   )
 )
 
