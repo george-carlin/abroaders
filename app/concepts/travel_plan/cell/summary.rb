@@ -27,6 +27,10 @@ class TravelPlan < ApplicationRecord
         cell Dates, travel_plan
       end
 
+      def flight
+        model.flights[0]
+      end
+
       def html_class
         "#{dom_class(travel_plan)} well"
       end
@@ -47,6 +51,12 @@ class TravelPlan < ApplicationRecord
 
       def type
         super == 'single' ? 'One-way' : 'Round trip'
+      end
+
+      # See comment in TravelPlan::Operations::Edit about old-style TPs
+      # being uneditable
+      def editable?
+        ![flight.to.class, flight.from.class].include?(Country)
       end
 
       # A <span>: 'Departure: MM/DD/YYYY Return: MM/DD/YYYY'
