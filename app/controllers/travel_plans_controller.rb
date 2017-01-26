@@ -27,8 +27,7 @@ class TravelPlansController < AuthenticatedUserController
   end
 
   def edit
-    raise 'temporarily disabled'
-    # @travel_plan = EditTravelPlanForm.find(params[:id])
+    run TravelPlan::Operations::Edit
   end
 
   def update

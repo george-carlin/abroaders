@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe TravelPlan::Cell::Summary, type: :view do
   let(:plan) do
     p = TravelPlan.new(
+      id: 1,
       depart_on: Date.new(2020, 2, 1),
       return_on: Date.new(2025, 2, 1),
       type: 'return',
@@ -11,6 +12,7 @@ RSpec.describe TravelPlan::Cell::Summary, type: :view do
       accepts_economy: true,
     )
     p.flights << Flight.new(from: create(:airport), to: create(:airport))
+    allow(p).to receive(:persisted?).and_return(true)
     p
   end
 
@@ -47,9 +49,12 @@ RSpec.describe TravelPlan::Cell::Summary, type: :view do
     expect(cell).to have_content 'Round trip'
   end
 
-  # TODO temporarily disabled
-  skip "has a link to edit each plan" do
-    expect(page).to have_link "Edit", href: edit_travel_plan_path(@tp_single)
-    expect(page).to have_link "Edit", href: edit_travel_plan_path(@tp_return)
+  it "has a link to edit the plan iff it is editable" do
+    yes = render_cell(plan)
+    expect(yes).to have_link 'Edit', href: edit_travel_plan_path(1)
+    plan.flights = nil
+    plan.flights << Flight.new(from: create(:country), to: create(:country))
+    no = render_cell(plan)
+    expect(no).not_to have_link 'Edit'
   end
 end
