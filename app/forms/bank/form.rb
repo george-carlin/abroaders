@@ -5,9 +5,9 @@ class Bank::Form < Reform::Form
   feature Reform::Form::Coercion
   feature Reform::Form::Dry
 
-  property :name,           type: Types::Stripped::String
-  property :business_phone, type: Types::Stripped::String.optional
-  property :personal_phone, type: Types::Stripped::String.optional
+  property :name,           type: Types::StrippedString
+  property :business_phone, type: Types::StrippedString.optional
+  property :personal_phone, type: Types::StrippedString.optional
 
   validation do
     required(:name).filled(:str?)
