@@ -29,11 +29,6 @@ class TravelPlan < ApplicationRecord
   MAX_FLIGHTS    = 20
   MAX_PASSENGERS = 20
 
-  def acceptable_classes_given?
-    accepts_economy? || accepts_premium_economy? ||
-      accepts_business_class? || accepts_first_class?
-  end
-
   # Validations
 
   # return_on must be present for NEW travel plans of type 'return',
