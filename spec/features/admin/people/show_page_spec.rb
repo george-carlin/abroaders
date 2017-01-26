@@ -145,7 +145,7 @@ module AdminArea
       within ".account_travel_plans" do
         expect(page).to have_selector "##{dom_id(@tp_0)}"
         within "##{dom_id(@tp_0)}" do
-          expect(page).to have_content "Single"
+          expect(page).to have_content "One-way"
           expect(page).to have_selector "##{dom_id(@tp_0.flights[0])}"
           within "##{dom_id(@tp_0.flights[0])}" do
             expect(page).to have_content "New York City (JFK) - North America"
@@ -157,7 +157,7 @@ module AdminArea
 
         expect(page).to have_selector "##{dom_id(@tp_1)}"
         within "##{dom_id(@tp_1)}" do
-          expect(page).to have_content "Return"
+          expect(page).to have_content "Round trip"
           expect(page).to have_selector "##{dom_id(@tp_1.flights[0])}"
           within "##{dom_id(@tp_1.flights[0])}" do
             expect(page).to have_content "Ho Chi Minh City (SGN) - Asia"
