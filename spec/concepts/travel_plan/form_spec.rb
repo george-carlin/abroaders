@@ -9,83 +9,98 @@ RSpec.describe TravelPlan::Form, type: :model do
     described_class.new(account.travel_plans.new)
   end
 
-  def validate(attrs)
-    new_form.validate(attrs)
-  end
-
-  def errors_for(attrs={})
+  # Returns the errors object for the given attributes. For convenience, if
+  # your attributes hash only has one key, it will return the errors for
+  # that specific key rather than the whole error object.
+  def errors_for(attrs = {})
     form = new_form
     form.validate(attrs)
-    form.errors
+    if attrs.keys.length == 1
+      form.errors[attrs.keys.first]
+    else
+      form.errors
+    end
   end
 
-  it { is_expected.to validate_presence_of(:depart_on) }
-  it { is_expected.to validate_presence_of(:no_of_passengers) }
+  describe 'validations' do
+    %w[from to].each do |dest|
+      describe dest do
+        it 'fails gracefully when blank or invalid' do
+          expect(errors_for(dest => ' ')).to include "can't be blank"
+          [
+            'ioajwera',
+            'jaoiwerj a (AA)',
+            'iajower (AAAA)',
+            'iajower (AAAA',
+          ].each do |val|
+            expect(errors_for(dest => val)).to include 'is invalid'
+          end
+        end
+      end
+    end
 
-  it 'from and to must be present' do
-    errors_when_blank = errors_for()
-    expect(errors_when_blank[:from]).to eq ["can't be blank"]
-    expect(errors_when_blank[:to]).to eq ["can't be blank"]
-  end
+    it { is_expected.to validate_presence_of(:depart_on) }
+    it { is_expected.to validate_presence_of(:no_of_passengers) }
 
-  describe "#no_of_passengers" do
-    it 'must be >= 1, <= 20' do
-      def errors_for_no(no)
-        errors_for(no_of_passengers: no)[:no_of_passengers]
+    describe "#no_of_passengers" do
+      it 'must be >= 1, <= 20' do
+        def errors_for_no(no)
+          errors_for(no_of_passengers: no)
+        end
+
+        expect(errors_for_no(0)).to eq ['must be greater than or equal to 1']
+        expect(errors_for_no(1)).to be_empty
+        expect(errors_for_no(20)).to be_empty
+        expect(errors_for_no(21)).to eq ['must be less than or equal to 20']
+      end
+    end
+
+    it 'further_information is <= 500 chars' do
+      def errors_for_length(l)
+        errors_for(further_information: ('a' * l))
       end
 
-      expect(errors_for_no(0)).to eq ['must be greater than or equal to 1']
-      expect(errors_for_no(1)).to be_empty
-      expect(errors_for_no(20)).to be_empty
-      expect(errors_for_no(21)).to eq ['must be less than or equal to 20']
-    end
-  end
-
-  it 'further_information is <= 500 chars' do
-    def errors_for_length(l)
-      errors_for(further_information: ('a' * l))[:further_information]
+      expect(errors_for_length(500)).to be_empty
+      expect(errors_for_length(501)).to eq ['is too long (maximum is 500 characters)']
     end
 
-    expect(errors_for_length(500)).to be_empty
-    expect(errors_for_length(501)).to eq ['is too long (maximum is 500 characters)']
-  end
-
-  specify "depart_on must be present and not in the past" do
-    def errors_for_date(date)
-      errors_for(depart_on: date)[:depart_on]
-    end
-
-    expect(errors_for_date(nil)).to eq ["can't be blank"]
-    form.depart_on = Time.zone.yesterday
-    expect(errors_for_date(Time.zone.yesterday)).to eq ["can't be in the past"]
-    expect(errors_for_date(Time.zone.today)).to be_empty
-  end
-
-  specify 'return_on must be blank when type is single' do
-    form.type = 'single'
-    expect(form).to validate_absence_of(:return_on)
-  end
-
-  context "when type is return" do
-    specify "return date must be present and not in the past" do
+    specify "depart_on must be present and not in the past" do
       def errors_for_date(date)
-        errors_for(return_on: date, type: 'return')[:return_on]
+        errors_for(depart_on: date)
       end
 
-      expect(errors_for_date(nil)).to include "can't be blank"
-      expect(errors_for_date(Time.zone.yesterday)).to include "can't be in the past"
+      expect(errors_for_date(nil)).to eq ["can't be blank"]
+      form.depart_on = Time.zone.yesterday
+      expect(errors_for_date(Time.zone.yesterday)).to eq ["can't be in the past"]
       expect(errors_for_date(Time.zone.today)).to be_empty
     end
 
-    specify "return date must be >= departure" do
-      def errors_for_dates(dep, ret)
-        errors_for(depart_on: dep, return_on: ret, type: 'return')[:return_on]
+    specify 'return_on must be blank when type is single' do
+      form.type = 'single'
+      expect(form).to validate_absence_of(:return_on)
+    end
+
+    context "when type is return" do
+      specify "return date must be present and not in the past" do
+        def errors_for_date(date)
+          errors_for(return_on: date, type: 'return')[:return_on]
+        end
+
+        expect(errors_for_date(nil)).to include "can't be blank"
+        expect(errors_for_date(Time.zone.yesterday)).to include "can't be in the past"
+        expect(errors_for_date(Time.zone.today)).to be_empty
       end
 
-      tomorrow = Time.zone.tomorrow
-      today    = Time.zone.today
-      expect(errors_for_dates(tomorrow, today)).to eq ["can't be earlier than departure date"]
-      expect(errors_for_dates(tomorrow, tomorrow)).to be_empty
+      specify "return date must be >= departure" do
+        def errors_for_dates(dep, ret)
+          errors_for(depart_on: dep, return_on: ret, type: 'return')[:return_on]
+        end
+
+        tomorrow = Time.zone.tomorrow
+        today    = Time.zone.today
+        expect(errors_for_dates(tomorrow, today)).to eq ["can't be earlier than departure date"]
+        expect(errors_for_dates(tomorrow, tomorrow)).to be_empty
+      end
     end
   end
 
@@ -109,7 +124,7 @@ RSpec.describe TravelPlan::Form, type: :model do
           depart_on: '05/08/2025',
           return_on: '02/03/2026',
           further_information: 'blah blah blah',
-        )
+        ),
       ).to be true
       expect(form.save).to be true
       tp = form.model
@@ -134,7 +149,7 @@ RSpec.describe TravelPlan::Form, type: :model do
         form.from = airport_0.full_name
         form.to   = airport_1.full_name
         form.no_of_passengers = 1
-        form.depart_on   = Time.zone.today
+        form.depart_on = Time.zone.today
         expect { form.save! }.to change { account.travel_plans.count }.by(1)
         account.reload
         expect(account.onboarding_state).to eq "account_type"

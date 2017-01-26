@@ -6,21 +6,26 @@ class TravelPlansController < AuthenticatedUserController
   end
 
   def new
-    @travel_plan = NewTravelPlanForm.new(account: current_account)
+    run TravelPlan::Operations::New
   end
 
   def create
-    onboarding = !current_account.onboarded?
-    @travel_plan = NewTravelPlanForm.new(account: current_account)
-    if @travel_plan.update_attributes(travel_plan_params)
-      if onboarding
-        redirect_to onboarding_survey_path
-      else
-        redirect_to travel_plans_path
-      end
-    else
-      render "new"
+    run TravelPlan::Operations::Create do
+      flash[:success] = "Saved travel plan!"
+      redirect_to travel_plans_path
+      return
     end
+    render "new"
+  end
+
+  def onboard
+    raise "TODO"
+    # onboarding = !current_account.onboarded?
+    #   if onboarding
+    #     redirect_to onboarding_survey_path
+    #   else
+    #     redirect_to travel_plans_path
+    #   end
   end
 
   def edit
@@ -42,15 +47,5 @@ class TravelPlansController < AuthenticatedUserController
   def skip_survey
     Account::Onboarder.new(current_account).skip_travel_plan!
     redirect_to type_account_path
-  end
-
-  private
-
-  def travel_plan_params
-    params.require(:travel_plan).permit(
-      :type, :departure_date, :return_date, :further_information,
-      :no_of_passengers, :accepts_economy, :accepts_premium_economy,
-      :accepts_business_class, :accepts_first_class, :from, :to,
-    )
   end
 end

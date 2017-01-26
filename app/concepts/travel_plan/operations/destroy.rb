@@ -10,7 +10,7 @@ class TravelPlan < ApplicationRecord
         opts['model'] = current_account.travel_plans.find(params[:id])
       end
 
-      def destroy_travel_plan!(opts, model:, **)
+      def destroy_travel_plan!(_opts, model:, **)
         model.destroy!
       end
     end

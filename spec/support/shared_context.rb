@@ -19,12 +19,12 @@ shared_examples "a travel plan form" do
 
     expect(page).to have_field :travel_plan_type_single
     if page.has_checked_field?(:travel_plan_type_single)
-      expect(page).to have_field :travel_plan_return_date, disabled: true
+      expect(page).to have_field :travel_plan_return_on, disabled: true
     end
 
     expect(page).to have_field :travel_plan_type_return
     if page.has_checked_field?(:travel_plan_type_return)
-      expect(page).to have_field :travel_plan_return_date
+      expect(page).to have_field :travel_plan_return_on
     end
 
     expect(page).to have_field :travel_plan_further_information
