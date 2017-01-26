@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe TravelPlan::Operations::Create do
+RSpec.describe TravelPlan::Operations::Create do
   let(:account) { create(:account) }
   let(:op) { described_class }
 
@@ -86,5 +86,37 @@ describe TravelPlan::Operations::Create do
       'current_account' => account,
     )
     expect(result.success?).to be false
+  end
+
+  describe TravelPlan::Operations::Onboard do
+    let(:op) { TravelPlan::Operations::Onboard }
+    let(:account) { create(:account, onboarding_state: :travel_plan) }
+
+    example 'valid save' do
+      result = op.(
+        {
+          travel_plan: {
+            from: jfk_s,
+            to: lhr_s,
+            type: 'return',
+            no_of_passengers: 1,
+            depart_on: '05/08/2020',
+            return_on: '12/03/2023',
+          },
+        },
+        'current_account' => account,
+      )
+      expect(result.success?).to be true
+      expect(account.reload.onboarding_state).to eq 'account_type'
+    end
+
+    example 'invalid save' do
+      result = op.(
+        { travel_plan: {} },
+        'current_account' => account,
+      )
+      expect(result.success?).to be false
+      expect(account.reload.onboarding_state).to eq 'travel_plan'
+    end
   end
 end
