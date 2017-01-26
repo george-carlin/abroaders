@@ -16,15 +16,5 @@ module AdminArea
       #   render "travel_plans/edit"
       # end
     end
-
-    private
-
-    def travel_plan_params
-      params.require(:travel_plan).permit(
-        :type, :departure_date, :return_date, :further_information,
-        :no_of_passengers, :accepts_economy, :accepts_premium_economy,
-        :accepts_business_class, :accepts_first_class, :from_id, :to_id,
-      )
-    end
   end
 end

@@ -35,8 +35,8 @@ describe "admin edit travel plan" do
     before do
       fill_in_autocomplete("travel_plan_from_typeahead", @airports[0].code)
       fill_in_autocomplete("travel_plan_to_typeahead", @airports[1].code)
-      fill_in :travel_plan_departure_date, with: depart_date.strftime("%m/%d/%Y")
-      fill_in :travel_plan_return_date, with: return_date.strftime("%m/%d/%Y")
+      fill_in :travel_plan_depart_on, with: depart_date.strftime("%m/%d/%Y")
+      fill_in :travel_plan_return_on, with: return_date.strftime("%m/%d/%Y")
       fill_in :travel_plan_no_of_passengers, with: 2
       fill_in :travel_plan_further_information, with: "Something"
       check :travel_plan_accepts_economy

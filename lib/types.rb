@@ -46,7 +46,6 @@ Dry::Types.register(
   ),
 )
 
-
 module Types
   # A thought - gem dependencies might have their own module which includes
   # Dry::Types.module, and they might register their own custom types. Isn't

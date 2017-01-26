@@ -46,8 +46,8 @@ describe "new travel plan page", :js do
     expect(page).to have_field :travel_plan_no_of_passengers
     expect(page).to have_field :travel_plan_type_single
     expect(page).to have_field :travel_plan_type_return, checked: true
-    expect(page).to have_field :travel_plan_departure_date
-    expect(page).to have_field :travel_plan_return_date
+    expect(page).to have_field :travel_plan_depart_on
+    expect(page).to have_field :travel_plan_return_on
     expect(page).to have_field :travel_plan_further_information
     expect(page).to have_field :travel_plan_accepts_economy
     expect(page).to have_field :travel_plan_accepts_premium_economy
@@ -57,9 +57,9 @@ describe "new travel plan page", :js do
 
   specify 'checking "single" disables the return date' do
     choose :travel_plan_type_single
-    expect(page).to have_field :travel_plan_return_date, disabled: true
+    expect(page).to have_field :travel_plan_return_on, disabled: true
     choose :travel_plan_type_return
-    expect(page).to have_field :travel_plan_return_date, disabled: false
+    expect(page).to have_field :travel_plan_return_on, disabled: false
   end
 
   example "showing points estimate table" do
@@ -90,8 +90,8 @@ describe "new travel plan page", :js do
           and_choose: "(#{@airports[1].code})",
         )
 
-        set_datepicker_field('#travel_plan_departure_date', to: depart_date)
-        set_datepicker_field('#travel_plan_return_date', to: return_date)
+        set_datepicker_field('#travel_plan_depart_on', to: depart_date)
+        set_datepicker_field('#travel_plan_return_on', to: return_date)
         fill_in :travel_plan_no_of_passengers, with: 2
         fill_in :travel_plan_further_information, with: 'Something'
         check :travel_plan_accepts_economy
@@ -117,23 +117,20 @@ describe "new travel plan page", :js do
       end
     end
 
-    context "with invalid information" do
-      it "doesn't create a travel plan" do
-        expect { submit_form }.not_to change { TravelPlan.count }
-      end
-
-      it "shows me the form again" do
-        submit_form
-        expect(page).to have_selector "h2", text: "Add a Travel Plan"
-      end
+    example "invalid save" do
+      # doesn't create a travel plan
+      expect { submit_form }.not_to change { TravelPlan.count }
+      # shows me the form again
+      submit_form
+      expect(page).to have_selector 'h2', text: 'Add a Travel Plan'
     end
 
     example "with an invalid (non-autocompleted) airport" do # bug fix
       fill_in :travel_plan_from, with: 'blah blah blah'
       fill_in :travel_plan_to, with: 'not a real code (ZZZ)'
       raise if Airport.exists?(code: 'ZZZ') # sanity check
-      set_datepicker_field('#travel_plan_departure_date', to: depart_date)
-      set_datepicker_field('#travel_plan_return_date', to: return_date)
+      set_datepicker_field('#travel_plan_depart_on', to: depart_date)
+      set_datepicker_field('#travel_plan_return_on', to: return_date)
       expect { submit_form }.not_to change { TravelPlan.count }
     end
   end
