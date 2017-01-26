@@ -1,12 +1,12 @@
 require "rails_helper"
 
-describe "new travel plan page", :js do
+RSpec.describe "new travel plan page", :js do
   let(:account) { create(:account, onboarding_state: ob_state) }
   let(:person) { account.owner }
 
   subject { page }
 
-  let(:ob_state) { :travel_plan }
+  let(:ob_state) { :complete }
 
   before do
     @airports = create_list(:airport, 2)
@@ -30,7 +30,7 @@ describe "new travel plan page", :js do
       expect { click_link SKIP_LINK }.not_to change { TravelPlan.count }
       account.reload
       expect(account.onboarding_state).to eq "regions_of_interest"
-      expect(current_path).to eq survey_interest_regions_path
+      expect(page).to have_selector '.interest-regions-survey'
     end
   end
 
@@ -114,6 +114,25 @@ describe "new travel plan page", :js do
         expect(plan.accepts_premium_economy?).to be true
         expect(plan.accepts_business_class?).to be true
         expect(plan.accepts_first_class?).to be true
+      end
+
+      context "when I'm onboarding my first travel plan" do
+        let(:ob_state) { :travel_plan }
+
+        it 'takes me to the next page' do
+          submit_form
+          expect(account.reload.onboarding_state).to eq 'account_type'
+          expect(page).to have_selector '#account_type_forms'
+        end
+      end
+
+      context "when I'm not on the onboarding survey" do
+        let(:ob_state) { :complete }
+
+        it 'takes me to the travel plans index' do
+          submit_form
+          expect(page).to have_selector 'h1', text: /My Travel Plans/
+        end
       end
     end
 

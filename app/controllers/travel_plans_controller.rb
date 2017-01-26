@@ -10,22 +10,20 @@ class TravelPlansController < AuthenticatedUserController
   end
 
   def create
-    run TravelPlan::Operations::Create do
-      flash[:success] = "Saved travel plan!"
-      redirect_to travel_plans_path
-      return
+    if current_account.onboarded?
+      run TravelPlan::Operations::Create do
+        flash[:success] = "Saved travel plan!"
+        redirect_to travel_plans_path
+        return
+      end
+    else
+      run TravelPlan::Operations::Onboard do
+        flash[:success] = "Saved your first travel plan!"
+        redirect_to onboarding_survey_path
+        return
+      end
     end
     render "new"
-  end
-
-  def onboard
-    raise "TODO"
-    # onboarding = !current_account.onboarded?
-    #   if onboarding
-    #     redirect_to onboarding_survey_path
-    #   else
-    #     redirect_to travel_plans_path
-    #   end
   end
 
   def edit
