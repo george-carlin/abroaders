@@ -2,7 +2,7 @@ class TravelPlan < ApplicationRecord
   class Form < Reform::Form
     feature Reform::Form::Coercion
 
-    AIRPORT_REGEX  = /\(([A-Z]{3})\)\s*\z/
+    AIRPORT_REGEX = /\(([A-Z]{3})\)\s*\z/
     # An AirportString is a string in the format "Airport Name (XXX)" where XXX
     # is an IATA code. E.g. "London Heathrow (LHR)". On the front-end,
     # typeahead.js will fill the HTML <input> with a string in this format
@@ -29,7 +29,7 @@ class TravelPlan < ApplicationRecord
     # underlying DB column) so that we get friendly error messages
     property :depart_on, type: Types::Form::AmericanDate
     property :return_on, type: Types::Form::AmericanDate
-    property :further_information, type: Types::Stripped::String.optional
+    property :further_information, type: Types::StrippedString.optional
 
     def sync
       super

@@ -52,3 +52,7 @@ module Abroaders
     config.time_zone = "UTC"
   end
 end
+
+# eager-load lib/types; don't leave it to the autoloader, because the file will
+# crash if the autoloader loads it twice
+require 'types'
