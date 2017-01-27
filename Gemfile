@@ -51,11 +51,6 @@ gem 'will_paginate-bootstrap', '~> 1.0.1'
 gem 'rails_autolink'
 gem 'workflow'
 
-group :production do
-  # Required to make the app function properly on Heroku:
-  gem 'rails_12factor'
-end
-
 group :development, :test do
   gem 'byebug'
   gem 'database_cleaner'

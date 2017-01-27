@@ -55,9 +55,14 @@ Rails.application.configure do
   # Prepend all log lines with the following tags.
   # config.log_tags = [ :subdomain, :request_id ]
 
-  # Use a different logger for distributed setups.
-  # require 'syslog/logger'
-  # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
+  config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
+
+  # From https://github.com/heroku/rails_12factor/blob/master/README.md
+  if ENV["RAILS_LOG_TO_STDOUT"].present?
+     logger           = ActiveSupport::Logger.new(STDOUT)
+     logger.formatter = config.log_formatter
+     config.logger = ActiveSupport::TaggedLogging.new(logger)
+  end
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
