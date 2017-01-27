@@ -24,6 +24,10 @@ class HomeAirportsController < AuthenticatedUserController
     end
   end
 
+  def index
+    render cell(HomeAirports::Cell::Index, current_account.home_airports)
+  end
+
   private
 
   def survey_params
