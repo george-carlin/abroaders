@@ -41,6 +41,13 @@ class TravelPlansController < AuthenticatedUserController
     render 'edit'
   end
 
+  def destroy
+    run TravelPlan::Operations::Destroy do
+      flash[:success] = 'Deleted travel plan!'
+      redirect_to travel_plans_path
+    end
+  end
+
   def skip_survey
     Account::Onboarder.new(current_account).skip_travel_plan!
     redirect_to type_account_path

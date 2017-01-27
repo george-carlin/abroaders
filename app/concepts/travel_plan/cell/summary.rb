@@ -43,6 +43,21 @@ class TravelPlan < ApplicationRecord
         "Notes: #{super}" if super.present?
       end
 
+      def link_to_destroy
+        link_to(
+          'Delete',
+          travel_plan_path(travel_plan),
+          method: :delete,
+          data: {
+            confirm: 'Are you sure? You cannot undo this action',
+          },
+        )
+      end
+
+      def link_to_edit
+        link_to 'Edit', edit_travel_plan_path(travel_plan)
+      end
+
       def no_of_passengers
         content_tag :span, class: 'travel_plan_no_of_passengers' do
           "#{fa_icon('male')} &times; #{travel_plan.no_of_passengers}"
