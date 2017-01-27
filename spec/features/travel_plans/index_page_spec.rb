@@ -1,123 +1,34 @@
 require "rails_helper"
 
-describe "travel plans index page" do
+RSpec.describe "travel plans index page" do
   subject { page }
 
   include_context "logged in"
 
-  let(:tomorrow)   { Time.zone.tomorrow }
-  let(:next_week)  { 1.week.from_now }
-  let(:next_month) { 1.month.from_now }
-
-  let(:further_info) { "What the fuck ever" }
-
   before do
-    def create_airport(name, code, parent = nil)
-      create(:airport, name: name, code: code, parent: parent)
-    end
-
-    @eu  = create(:region, name: "Europe")
-    @uk  = create(:country, name: "UK",     parent: @eu)
-    @fr  = create(:country, name: "France", parent: @eu)
-    @lon = create(:city,    parent: @uk)
-    @par = create(:city,    parent: @fr)
-    @lhr = create_airport("London Heathrow", :LHR, @lon)
-    @lgw = create_airport("London Gatwick",  :LGW, @lon)
-    @cdg = create_airport("Paris",           :CDG, @par)
-
-    @tp_single = account.travel_plans.create!(
-      acceptable_classes:   [:economy, :premium_economy],
-      depart_on:            tomorrow,
-      return_on:            next_week,
-      flights_attributes:   [{ from: @lgw, to: @cdg }],
-      type:                 :single,
-    )
-
-    @tp_return = account.travel_plans.create!(
-      acceptable_classes:   [:business_class, :first_class],
-      depart_on:            next_week,
-      return_on:            next_month,
-      flights_attributes:   [{ from: @lhr, to: @cdg }],
-      further_information:  further_info,
-      type:                 :return,
-    )
-
-    # We're forggeting about 'multi' plans for the time being'
-    # @tp_multi  = whatever
-
+    create_tps!
     visit travel_plans_path
   end
 
-  it { is_expected.to have_title full_title("Travel Plans") }
+  let(:create_tps!) { nil }
 
-  it "lists my travel plans" do
-    expect(page).to have_selector "##{dom_id(@tp_single)}"
-    expect(page).to have_selector "##{dom_id(@tp_return)}"
-    # expect(page).to have_selector "##{dom_id(@tp_multi)}"
+  # don't know how to do this when using render(cell)
+  skip { is_expected.to have_title full_title("Travel Plans") }
+
+  example 'when I have no travel plans' do
+    expect(page).to have_content "You haven't added any travel plans yet."
   end
 
-  it "shows the departure date for each travel plan" do
-    within_travel_plan(@tp_single) do
-      expect(page).to have_content tomorrow.strftime("%D")
-    end
-    within_travel_plan(@tp_return) do
-      expect(page).to have_content next_week.strftime("%D")
-    end
-  end
+  context 'when I have travel plans' do
+    let(:create_tps!) { @tps = create_list(:travel_plan, 2, account: account) }
 
-  it "shows the return date for each travel plan" do
-    within_travel_plan(@tp_single) do
-      expect(page).not_to have_content next_week.strftime("%D")
+    it 'lists them' do
+      expect(page).to have_no_content 'No travel plans!'
+      expect(page).to have_selector "##{dom_id(@tps[0])}"
+      expect(page).to have_selector "##{dom_id(@tps[1])}"
     end
-    within_travel_plan(@tp_return) do
-      expect(page).to have_content next_month.strftime("%D")
-    end
-  end
 
-  it "shows any 'further information' notes" do
-    within_travel_plan(@tp_return) do
-      expect(page).to have_content further_info
-    end
-  end
-
-  it "handles legacy travel plans with no return date" do # bug fix
-    @tp_return.update!(return_on: nil)
-    expect { visit travel_plans_path }.not_to raise_error
-  end
-
-  # TODO temporarily disabled
-  pending "has a link to edit each plan" do
-    expect(page).to have_link "Edit", href: edit_travel_plan_path(@tp_single)
-    expect(page).to have_link "Edit", href: edit_travel_plan_path(@tp_return)
-  end
-
-  it "shows which classes of service are acceptable" do
-    within_travel_plan(@tp_single) do
-      expect(page).to have_content "E PE"
-    end
-    within_travel_plan(@tp_return) do
-      expect(page).to have_content "B 1st"
-    end
-  end
-
-  context "a multi travel plan" do
-    before { skip "ignore multi plans for now" }
-    it "lists the flights in the right order" do
-      within_travel_plan(@tp_multi) do
-        dom_flights = all(".flight")
-        flight_0 = @tp_multi.flights.find_by!(position: 0)
-        flight_1 = @tp_multi.flights.find_by!(position: 1)
-        flight_2 = @tp_multi.flights.find_by!(position: 2)
-        expect(dom_flights[0][:id]).to eq "flight_#{flight_0.id}"
-        expect(dom_flights[1][:id]).to eq "flight_#{flight_1.id}"
-        expect(dom_flights[2][:id]).to eq "flight_#{flight_2.id}"
-      end
-    end
-  end
-
-  def within_travel_plan(plan)
-    within "##{dom_id(plan)}" do
-      yield
-    end
+    # the details about what is displayed for each plan is tested
+    # in the spec for TravelPlan::Cell::Summary
   end
 end

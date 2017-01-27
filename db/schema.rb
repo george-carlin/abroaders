@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161121144328) do
+ActiveRecord::Schema.define(version: 20170123150952) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -265,15 +265,18 @@ ActiveRecord::Schema.define(version: 20161121144328) do
   end
 
   create_table "travel_plans", force: :cascade do |t|
-    t.integer  "account_id",                      null: false
-    t.integer  "type",                default: 0, null: false
-    t.integer  "no_of_passengers",    default: 1, null: false
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.integer  "account_id",                              null: false
+    t.integer  "type",                    default: 0,     null: false
+    t.integer  "no_of_passengers",        default: 1,     null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
     t.text     "further_information"
-    t.integer  "acceptable_classes",              null: false
-    t.date     "depart_on",                       null: false
+    t.date     "depart_on",                               null: false
     t.date     "return_on"
+    t.boolean  "accepts_economy",         default: false, null: false
+    t.boolean  "accepts_premium_economy", default: false, null: false
+    t.boolean  "accepts_business_class",  default: false, null: false
+    t.boolean  "accepts_first_class",     default: false, null: false
     t.index ["account_id"], name: "index_travel_plans_on_account_id", using: :btree
     t.index ["type"], name: "index_travel_plans_on_type", using: :btree
   end

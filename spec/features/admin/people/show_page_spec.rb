@@ -129,43 +129,15 @@ module AdminArea
       # Legacy data will be to/from countries, but don't bother testing that
       # here.
 
-      @tp_0 = create(
-        :travel_plan, :single, account: @account,
-        flights: [Flight.new(from: @jfk, to: @lhr)],
-      )
-      @tp_1 = create(
-        :travel_plan, :return, account: @account,
-        flights: [Flight.new(from: @sgn, to: @jfk)],
-      )
+      @tps = create_list(:travel_plan, 2, account: account)
 
       visit_path
 
       expect(page).to have_no_content "User has no upcoming travel plans"
 
       within ".account_travel_plans" do
-        expect(page).to have_selector "##{dom_id(@tp_0)}"
-        within "##{dom_id(@tp_0)}" do
-          expect(page).to have_content "Single"
-          expect(page).to have_selector "##{dom_id(@tp_0.flights[0])}"
-          within "##{dom_id(@tp_0.flights[0])}" do
-            expect(page).to have_content "New York City (JFK) - North America"
-            expect(page).to have_content "London (LHR) - Europe"
-          end
-          # TODO temporarily disabled
-          # expect(page).to have_link("Edit", href: edit_admin_travel_plan_path(@tp_0))
-        end
-
-        expect(page).to have_selector "##{dom_id(@tp_1)}"
-        within "##{dom_id(@tp_1)}" do
-          expect(page).to have_content "Return"
-          expect(page).to have_selector "##{dom_id(@tp_1.flights[0])}"
-          within "##{dom_id(@tp_1.flights[0])}" do
-            expect(page).to have_content "Ho Chi Minh City (SGN) - Asia"
-            expect(page).to have_content "New York City (JFK) - North America"
-          end
-          # TODO temporarily disabled
-          # expect(page).to have_link("Edit", href: edit_admin_travel_plan_path(@tp_1))
-        end
+        expect(page).to have_selector "##{dom_id(@tps[0])}"
+        expect(page).to have_selector "##{dom_id(@tps[1])}"
       end
     end
 
