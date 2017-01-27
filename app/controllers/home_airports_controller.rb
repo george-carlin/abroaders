@@ -28,6 +28,31 @@ class HomeAirportsController < AuthenticatedUserController
     render cell(HomeAirports::Cell::Index, current_account.home_airports)
   end
 
+  def edit
+    @account = current_account
+    @survey = HomeAirportsSurvey.new(account: @account)
+    render 'survey'
+  end
+
+  # This is a quick solution to the problem of how users can update their home
+  # airport after the onboarding survey - I've just taken the existing survey
+  # logic and re-used it, with a couple of conditionals thrown in to make the
+  # two pages function very slightly differently from each other.
+  #
+  # This isn't great design, but it's not a very important feature and we
+  # needed something built quickly.
+  def overwrite
+    @account = current_account
+    @survey = HomeAirportsSurvey.new(survey_params)
+
+    if @survey.save
+      flash[:success] = 'Updated home airports!'
+      redirect_to home_airports_path
+    else
+      render :survey
+    end
+  end
+
   private
 
   def survey_params
