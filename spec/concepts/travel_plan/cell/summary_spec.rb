@@ -62,4 +62,9 @@ RSpec.describe TravelPlan::Cell::Summary, type: :view do
     no = render_cell(plan)
     expect(no).not_to have_link 'Edit'
   end
+
+  it 'escapes HTML' do
+    plan.further_information = '<script>'
+    expect(render_cell(plan)).to include('&lt;script&gt;')
+  end
 end

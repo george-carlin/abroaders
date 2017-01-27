@@ -248,6 +248,7 @@ All business logic should live in operations. TODO expand.
 
 - If a cell is rendered directly from a controller (i.e. it's conceptually equivalent to a Rails view, as opposed to a Rails partial), its name should match the name of the controller action. E.g. travel_plans#index should render `TravelPlans::Cell::Index`. Otherwise use a descriptive name that won't be confused with a controller action (so no RESTful verbs).
 - Generally, the cell should accept an object that matches the outermost part of its name. E.g. if the cell is called `TravelPlan::Cell::FurtherInformation`, it should be called like `TravelPlan::Cell::FurtherInformation.(travel_plan)`, rather than `TravelPlan::Cell::FurtherInformation.(travel_plan.further_information)`. I've found it's easier to use this blanket approach and let the cell get the precise data it needs from the `model` than to create cells with a more complex API that inevitably requires a bunch of boilerplate every time the cell is called.
+- Remember that, unlike Rails views, Cells don't escape HTML automatically, so make sure that all user-generated content is escaped before it gets displayed on the page. See [HTML Escaping](http://trailblazer.to/gems/cells/api.html#html-escaping) in the Cells docs.
 
 ## Rails
 
