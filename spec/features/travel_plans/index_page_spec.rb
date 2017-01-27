@@ -6,25 +6,29 @@ RSpec.describe "travel plans index page" do
   include_context "logged in"
 
   before do
-    @tps = create_list(:travel_plan, 2, account: account)
+    create_tps!
     visit travel_plans_path
   end
 
-  it { is_expected.to have_title full_title("Travel Plans") }
+  let(:create_tps!) { nil }
 
-  it 'lists the travel plans' do
-    expect(page).to have_selector "##{dom_id(@tps[0])}"
-    expect(page).to have_selector "##{dom_id(@tps[1])}"
+  # don't know how to do this when using render(cell)
+  skip { is_expected.to have_title full_title("Travel Plans") }
+
+  example 'when I have no travel plans' do
+    expect(page).to have_content "You haven't added any travel plans yet."
   end
 
-  example 'deleting a travel plan' do
-    plan = @tps[0]
-    within "##{dom_id(plan)}" do
-      click_link 'Delete'
-      expect(TravelPlan.find_by_id(plan)).to be nil
+  context 'when I have travel plans' do
+    let(:create_tps!) { @tps = create_list(:travel_plan, 2, account: account) }
+
+    it 'lists them' do
+      expect(page).to have_no_content 'No travel plans!'
+      expect(page).to have_selector "##{dom_id(@tps[0])}"
+      expect(page).to have_selector "##{dom_id(@tps[1])}"
     end
-    expect(page).to have_success_message
-  end
 
-  # TODO display something smart when there are no TPs
+    # the details about what is displayed for each plan is tested
+    # in the spec for TravelPlan::Cell::Summary
+  end
 end
