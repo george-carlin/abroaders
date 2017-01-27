@@ -2,7 +2,8 @@ class TravelPlansController < AuthenticatedUserController
   onboard :travel_plan, with: [:new, :create, :skip_survey], revisitable: true
 
   def index
-    @travel_plans = current_account.travel_plans.includes_destinations
+    travel_plans = current_account.travel_plans.includes_destinations
+    render cell(TravelPlan::Cell::Index, travel_plans)
   end
 
   def new
