@@ -20,7 +20,7 @@ RSpec.describe 'edit travel plan page' do
           to:   airports[1].full_name,
         },
       },
-      'current_account' => account,
+      'account' => account,
     )
     create(:travel_plan, :return, account: account)
   end

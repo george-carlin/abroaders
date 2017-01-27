@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe AccountSerializer do
+RSpec.describe AccountSerializer do
   it "serializes a solo account to JSON" do
     account = create(
       :account,
@@ -10,7 +10,7 @@ describe AccountSerializer do
     )
     PhoneNumber::Operations::Create.(
       { phone_number: { number: '555 1234 555' } },
-      'current_account' => account,
+      'account' => account,
     )
 
     account.owner.update_attributes!(

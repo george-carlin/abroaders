@@ -23,7 +23,7 @@ RSpec.describe TravelPlan::Operations::Create do
           further_information: 'blah blah blah',
         },
       },
-      'current_account' => account,
+      'account' => account,
     )
     expect(result.success?).to be true
 
@@ -53,7 +53,7 @@ RSpec.describe TravelPlan::Operations::Create do
           return_on: '12/03/2023',
         },
       },
-      'current_account' => account,
+      'account' => account,
     )
     expect(result.success?).to be true
 
@@ -81,7 +81,7 @@ RSpec.describe TravelPlan::Operations::Create do
           depart_on: '05/03/2015', # in the past
         },
       },
-      'current_account' => account,
+      'account' => account,
     )
     expect(result.success?).to be false
   end
@@ -102,7 +102,7 @@ RSpec.describe TravelPlan::Operations::Create do
             return_on: '12/03/2023',
           },
         },
-        'current_account' => account,
+        'account' => account,
       )
       expect(result.success?).to be true
       expect(account.reload.onboarding_state).to eq 'account_type'
@@ -111,7 +111,7 @@ RSpec.describe TravelPlan::Operations::Create do
     example 'invalid save' do
       result = op.(
         { travel_plan: {} },
-        'current_account' => account,
+        'account' => account,
       )
       expect(result.success?).to be false
       expect(account.reload.onboarding_state).to eq 'travel_plan'

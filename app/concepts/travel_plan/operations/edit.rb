@@ -16,12 +16,12 @@ class TravelPlan < ApplicationRecord
       end
 
       # Where to search for the travel plan. Must return an object which
-      # responds to `find`. By default, returns the current account's travel
+      # responds to `find`. By default, returns the account's travel
       # plans, but you can override this with the 'travel_plan_scope' skill
       # (e.g. you could set it to `TravelPlan` if you want to search *all*
       # travel plans for an admin action.)
       def scope(*)
-        self['scope'] || self['current_account'].travel_plans
+        self['scope'] || self['account'].travel_plans
       end
 
       # In the early days of the app, users created travel plans that were to

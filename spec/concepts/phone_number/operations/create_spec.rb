@@ -6,7 +6,7 @@ describe PhoneNumber::Operations::Create do
   example 'valid save' do
     result = described_class.(
       { phone_number: { number: '(123) 5678-555' } },
-      current_account: account,
+      account: account,
     )
 
     expect(result.success?).to be true
@@ -19,7 +19,7 @@ describe PhoneNumber::Operations::Create do
   example 'valid save with trailing whitespace' do
     result = described_class.(
       { phone_number: { number: ' (123) 5678-555 ' } },
-      current_account: account,
+      account: account,
     )
     expect(result.success?).to be true
 
@@ -31,7 +31,7 @@ describe PhoneNumber::Operations::Create do
   example 'invalid save' do
     result = described_class.(
       { phone_number: { number: '   ' } },
-      current_account: account,
+      account: account,
     )
     expect(result.success?).to be false
   end

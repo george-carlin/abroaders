@@ -16,7 +16,7 @@ describe Card::Operations::Update do
     card = Card.create!(person: person, product: product, opened_at: dec_2015)
     params[:card] = { opened_at: jan_2016 }
     params[:id]   = card.id
-    result = described_class.(params, 'current_account' => account)
+    result = described_class.(params, 'account' => account)
     expect(result.success?).to be true
 
     card = result['model']
@@ -28,7 +28,7 @@ describe Card::Operations::Update do
     card = Card.create!(person: person, product: product, opened_at: dec_2015)
     params[:card] = { closed: true, closed_at: jan_2016, opened_at: dec_2015 }
     params[:id]   = card.id
-    result = described_class.(params, 'current_account' => account)
+    result = described_class.(params, 'account' => account)
     expect(result.success?).to be true
 
     card = result['model']
@@ -42,7 +42,7 @@ describe Card::Operations::Update do
     )
     params[:card] = { opened_at: dec_2015 }
     params[:id]   = card.id
-    result = described_class.(params, 'current_account' => account)
+    result = described_class.(params, 'account' => account)
     expect(result.success?).to be true
 
     card = result['model']
@@ -55,7 +55,7 @@ describe Card::Operations::Update do
     # closed before opened:
     params[:card] = { opened_at: dec_2015, closed_at: nov_2015, closed: true }
     params[:id]   = card.id
-    result = described_class.(params, 'current_account' => account)
+    result = described_class.(params, 'account' => account)
     expect(result.success?).to be false
   end
 end

@@ -21,8 +21,8 @@ class PhoneNumber < ApplicationRecord
 
       private
 
-      def setup_model!(options, current_account:, **)
-        options['model'] = PhoneNumber.new(account: current_account)
+      def setup_model!(options, account:, **)
+        options['model'] = PhoneNumber.new(account: account)
       end
     end
   end

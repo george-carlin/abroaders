@@ -20,13 +20,13 @@ describe Account::Admin::Search do
     accounts[2].update!(onboarding_state: :phone_number)
     PhoneNumber::Operations::Create.(
       { phone_number: { number: '(555) 123-4567' } },
-      'current_account' => accounts[2],
+      'account' => accounts[2],
     )
 
     accounts[1].update!(onboarding_state: :phone_number)
     PhoneNumber::Operations::Create.(
       { phone_number: { number: '(555) 0001111' } },
-      'current_account' => accounts[1],
+      'account' => accounts[1],
     )
   end
 

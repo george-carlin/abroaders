@@ -183,7 +183,7 @@ RSpec.describe TravelPlan::Form, type: :model do
             further_information: 'blah blah blah',
           },
         },
-        'current_account' => account,
+        'account' => account,
       )['model']
 
       form = described_class.new(plan)

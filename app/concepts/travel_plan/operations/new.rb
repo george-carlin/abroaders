@@ -10,9 +10,9 @@ class TravelPlan < ApplicationRecord
 
       private
 
-      def setup_model!(opts, current_account:, **)
+      def setup_model!(opts, account:, **)
         # DB default for type is 'single' but we should change this
-        opts['model'] = current_account.travel_plans.new(type: :return)
+        opts['model'] = account.travel_plans.new(type: :return)
       end
     end
   end
