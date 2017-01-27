@@ -10,6 +10,7 @@ class TravelPlan < ApplicationRecord
     # - travel_plans#index
     class Summary < Trailblazer::Cell
       include ActionView::Helpers::RecordTagHelper
+      include Escaped
       include FontAwesome::Rails::IconHelper
 
       alias travel_plan model
