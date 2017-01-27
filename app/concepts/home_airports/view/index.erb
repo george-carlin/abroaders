@@ -6,18 +6,26 @@
   <div class='panel-body'>
     <% case airports.size
        when 0 %>
-      You have not told us what your home airport(s) are.
+       <p>
+         You have not told us what your home airport(s) are.
+        <%= link_to 'Click here to add a home airport', edit_home_airports_path %></p>.
+       </p>
     <% when 1 %>
-      You have told us that
-      <b><%= airports[0].full_name %></b> is your home airport.
+      <p>
+        You have told us that
+        <b><%= airports[0].full_name %></b> is your home airport.
+        <%= link_to 'Click here to change', edit_home_airports_path %>.
+      </p>
     <% else %>
-      You have told us that your home airports are:
+      <p>You have told us that your home airports are:</p>
 
       <ul>
         <% airports.each do |airport| %>
           <li><b><%= airport.full_name %></b></li>
         <% end %>
       </ul>
+
+      <p><%= link_to 'Click here to change', edit_home_airports_path %>.</p>
     <% end %>
   </div>
 </div>

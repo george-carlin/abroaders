@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe HomeAirports::Cell::Index, type: :view do
   def render_cell(model, options = {})
-    described_class.(model, options).()
+    described_class.(model, options.merge(context: CELL_CONTEXT)).()
   end
 
   # a user shouldn't be able to get through the onboarding survey without
