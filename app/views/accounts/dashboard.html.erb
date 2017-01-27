@@ -17,7 +17,9 @@
 
     <% if @travel_plans.any? %>
       <div class="account_travel_plans">
-        <%= render collection: @travel_plans, partial: "travel_plans/travel_plan" %>
+        <% @travel_plans.each do |plan| %>
+          <%= cell TravelPlan::Cell::Summary, plan %>
+        <% end %>
       </div>
     <% else %>
       You have no upcoming travel plans.

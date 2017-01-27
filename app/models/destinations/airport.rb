@@ -21,6 +21,7 @@ class Airport < Destination
   alias city parent
   alias city= parent=
   delegate :name, to: :city, prefix: true
+  delegate :country, to: :city
 
   def full_name
     if name.downcase.include?(city_name.downcase)

@@ -9,7 +9,7 @@ class PhoneNumber < ApplicationRecord
         feature Reform::Form::Coercion
         feature Reform::Form::Dry
 
-        property :number, type: Types::Stripped::String
+        property :number, type: Types::StrippedString
 
         validation do
           required(:number).filled { str? && max_size?(15) }

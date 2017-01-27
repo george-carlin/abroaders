@@ -6,11 +6,24 @@ $(document).ready(function () {
   }
 
   $('.travel-plan-datepicker').datepicker({
-    startDate: "new Date()",
-    startView: 1,
-    maxViewMode: 0,
     autoclose: true,
+    format: 'mm/dd/yyyy',
+    maxViewMode: 0,
+    startDate: "new Date()", // today
+    startView: 1,
     todayHighlight: true,
+  }).each(function () {
+    // When the travel plan is being edited, by default the inputs will show
+    // the existing values in the format YYYY-MM-DD. Fixing this is
+    // fundamentally display logic, so I feel it makes sense to correct it on
+    // the front-end rather than doing something which involves editing the
+    // form object (which was how we were doing it before.) This solution still
+    // isn't great though:
+    var $input = $(this);
+    if ($input.val().trim()) {
+      var parts = $input.val().trim().split('-');
+      $input.datepicker('update', new Date(parts[0], parts[1] - 1, parts[2]));
+    }
   });
 
   /*
@@ -70,7 +83,7 @@ $(document).ready(function () {
   var $singleRadio = $('#travel_plan_type_single');
   var $returnRadio = $('#travel_plan_type_return');
   var travelTypeRadioClick = function (e) {
-    var $returnOnField = $('#travel_plan_return_date');
+    var $returnOnField = $('#travel_plan_return_on');
 
     if ($singleRadio.prop('checked')) {
       $returnOnField.prop('disabled', true);

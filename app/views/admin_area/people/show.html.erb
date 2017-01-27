@@ -37,7 +37,9 @@
           <h3>Travel Plans</h3>
 
           <div class="account_travel_plans">
-            <%= render collection: @travel_plans, partial: "travel_plans/travel_plan", locals: { show_admin_links: true } %>
+            <% @travel_plans.each do |plan| %>
+              <%= cell TravelPlan::Cell::Summary, plan %>
+            <% end %>
           </div>
         <% else %>
           User has no upcoming travel plans
