@@ -3,7 +3,8 @@
   <p class="helper-message">You can add five airports maximum</p>
   <div class="col-md-9">
 
-    <%= form_for survey_home_airports_path, html: { class: "home-airport-survey-form text-center" } do |f| %>
+    <% path = %w[survey save_survey].include?(params[:action]) ? survey_home_airports_path : overwrite_home_airports_path %>
+    <%= form_tag path, html: { class: "home-airport-survey-form text-center" } do %>
       <div class="row">
         <div class="col-xs-12 col-md-4 saved-area" style="visibility:hidden;">
           <p class="title">Saved home airports:</p>
@@ -21,7 +22,7 @@
 
           <div class="row">
             <div class="col-xs-12">
-              <%= f.button type: "submit", class: "submit-airports-survey form-control btn btn-lg btn-primary", disabled: true do %>
+              <%= button_tag type: "submit", class: "submit-airports-survey form-control btn btn-lg btn-primary", disabled: true do %>
                 <i class="fa fa-check" aria-hidden="true"></i>
                 Save and continue
               <% end %>

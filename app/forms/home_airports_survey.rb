@@ -8,7 +8,8 @@ class HomeAirportsSurvey < ApplicationForm
   private
 
   def persist!
+    account.home_airports.destroy_all
     account.home_airports << Airport.where(id: airport_ids)
-    Account::Onboarder.new(account).add_home_airports!
+    Account::Onboarder.new(account).add_home_airports! unless account.onboarded?
   end
 end
