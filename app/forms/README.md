@@ -1,5 +1,11 @@
 # Form Objects
 
+---
+
+## Form Objects are deprecated. Don't add new ones. The existing ones will eventually be phased out and replaced with Reform objects. If you need to edit an existing form object, and your changes are non-trivial, consider removing the form object entirely and replacing it with Reform.
+
+---
+
 Form objects are our own custom abstraction, inspired by
 [Code Climate](blog.codeclimate.com/blog/2012/10/17/7-ways-to-decompose-fat-activerecord-models/).
 Form objects live under `app/forms` and inherit from `ApplicationForm`.
