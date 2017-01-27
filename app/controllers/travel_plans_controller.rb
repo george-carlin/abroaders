@@ -23,22 +23,22 @@ class TravelPlansController < AuthenticatedUserController
         return
       end
     end
-    render "new"
+    render 'new'
   end
 
   def edit
     run TravelPlan::Operations::Edit
+    # initialize 'from' and 'to' correctly:
+    @form.prepopulate!
   end
 
   def update
-    raise 'temporarily disabled'
-    # @travel_plan = EditTravelPlanForm.find(params[:id])
-    # if @travel_plan.update_attributes(travel_plan_params)
-    #   flash[:success] = "Updated travel plan"
-    #   redirect_to travel_plans_path
-    # else
-    #   render "edit"
-    # end
+    run TravelPlan::Operations::Update do
+      flash[:success] = 'Updated travel plan!'
+      redirect_to travel_plans_path
+      return
+    end
+    render 'edit'
   end
 
   def skip_survey
