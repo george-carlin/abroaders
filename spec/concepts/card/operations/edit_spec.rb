@@ -7,12 +7,12 @@ RSpec.describe Card::Operations::Edit do
 
   describe 'prepopulation' do
     it 'sets "closed" correctly' do
-      contract = op.({ id: card.id }, 'current_account' => account)['contract.default']
+      contract = op.({ id: card.id }, 'account' => account)['contract.default']
       contract.prepopulate!
       expect(contract.closed).to be false
 
       card.update!(closed_at: Date.today)
-      contract = op.({ id: card.id }, 'current_account' => account)['contract.default']
+      contract = op.({ id: card.id }, 'account' => account)['contract.default']
       contract.prepopulate!
       expect(contract.closed).to be true
     end

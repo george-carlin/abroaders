@@ -9,7 +9,7 @@ class AuthenticatedUserController < ApplicationController
   # Pass these options by default into Trailblazer operations when calling
   # them with 'run'
   def _run_options(options)
-    options['current_account'] = current_account
+    options['account'] = current_account
     if params[:person_id]
       person = current_account.people.find(params[:person_id])
       options['person'] = person

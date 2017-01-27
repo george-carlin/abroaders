@@ -17,7 +17,7 @@ RSpec.describe TravelPlan::Operations::Update do
           no_of_passengers: 1,
         },
       },
-      'current_account' => account,
+      'account' => account,
     )['model']
   end
   let(:op) { described_class }
@@ -40,7 +40,7 @@ RSpec.describe TravelPlan::Operations::Update do
           further_information: 'blah blah blah',
         },
       },
-      'current_account' => account,
+      'account' => account,
     )
     expect(result.success?).to be true
 
@@ -70,7 +70,7 @@ RSpec.describe TravelPlan::Operations::Update do
           return_on: '08/05/2024',
         },
       },
-      'current_account' => account,
+      'account' => account,
     )
     expect(result.success?).to be false
   end
