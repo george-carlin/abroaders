@@ -3,6 +3,7 @@ class TravelPlan < ApplicationRecord
     class Destroy < Trailblazer::Operation
       step :setup_model!
       step :destroy_travel_plan!
+      failure :raise_error!
 
       private
 
@@ -12,6 +13,10 @@ class TravelPlan < ApplicationRecord
 
       def destroy_travel_plan!(_opts, model:, **)
         model.destroy!
+      end
+
+      def raise_error!(*)
+        raise 'an unknown error occurred' # this should never happen
       end
     end
   end

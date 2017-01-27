@@ -43,6 +43,11 @@ RSpec.describe TravelPlan::Cell::Summary, type: :view do
     expect(one_way).to have_content 'Notes: qwerqwerqwer'
   end
 
+  it 'has a link to delete the plan' do
+    cell = render_cell(plan)
+    expect(cell).to have_link 'Delete', href: travel_plan_path(plan)
+  end
+
   it "handles legacy travel plans with no return date" do # bug fix
     plan.return_on = nil
     cell = render_cell(plan)

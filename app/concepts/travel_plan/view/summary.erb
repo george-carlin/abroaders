@@ -8,8 +8,10 @@
 
     <% if editable? %>
       &nbsp;
-      <%= link_to 'Edit', edit_travel_plan_path(travel_plan) %>
+      <%= link_to_edit %>
+      |
     <% end %>
+    <%= link_to_destroy %>
   </div>
 
   <%= dates %>
