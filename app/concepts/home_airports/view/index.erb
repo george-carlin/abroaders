@@ -1,0 +1,23 @@
+<div class='hpanel'>
+  <div class='panel-heading hbuilt'>
+    <h1>Home Airports</h1>
+  </div>
+
+  <div class='panel-body'>
+    <% case airports.size
+       when 0 %>
+      You have not told us what your home airport(s) are.
+    <% when 1 %>
+      You have told us that
+      <b><%= airports[0].full_name %></b> is your home airport.
+    <% else %>
+      You have told us that your home airports are:
+
+      <ul>
+        <% airports.each do |airport| %>
+          <li><b><%= airport.full_name %></b></li>
+        <% end %>
+      </ul>
+    <% end %>
+  </div>
+</div>
