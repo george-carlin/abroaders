@@ -221,8 +221,7 @@ GEM
     parser (2.3.3.1)
       ast (~> 2.2)
     pg (0.18.4)
-    pipetree (0.1.0)
-      uber
+    pipetree (0.1.1)
     poltergeist (1.9.0)
       capybara (~> 2.1)
       cliver (~> 0.3.1)
@@ -337,18 +336,17 @@ GEM
     thor (0.19.4)
     thread_safe (0.3.5)
     tilt (2.0.5)
-    trailblazer (2.0.1)
+    trailblazer (2.0.3)
       declarative
       reform (>= 2.2.0, < 3.0.0)
-      trailblazer-operation (>= 0.0.10, < 0.1.0)
-      uber (>= 0.1.0, < 0.2.0)
+      trailblazer-operation (>= 0.0.12, < 0.1.0)
     trailblazer-cells (0.0.3)
       cells (>= 4.1.0.rc1, < 5.0.0)
     trailblazer-loader (0.1.0)
-    trailblazer-operation (0.0.10)
+    trailblazer-operation (0.0.12)
       declarative
-      pipetree (>= 0.1.0, < 0.2.0)
-      uber (>= 0.1.0, < 0.2.0)
+      pipetree (>= 0.1.1, < 0.2.0)
+      uber
     trailblazer-rails (1.0.2)
       reform-rails (>= 0.1.4, < 0.2.0)
       trailblazer (>= 2.0.0, < 2.1.0)
