@@ -107,8 +107,10 @@ Rails.application.routes.draw do
   end
 
   resources :airports, only: [:index]
-  resources :home_airports, only: [] do
+  resources :home_airports do
     collection do
+      get  :edit
+      post :overwrite
       get  :survey
       post :survey, action: :save_survey
     end

@@ -12,8 +12,13 @@
   <div class="panel-heading hbuilt">
     <div class="row">
       <div class="col-xs-12 greeting-message">
-        <h1>Welcome, traveler!</h1>
-        <h2>What's your home airport?</h2>
+        <% if %w[survey save_survey].include?(params[:action]) %>
+          <h1>Welcome, traveler!</h1>
+
+          <h2>What's your home airport?</h2>
+        <% else %>
+          <h1>Update Home Airports</h1>
+        <% end %>
 
         <p>
           Knowing your home airports helps us craft a better overall strategy
@@ -28,11 +33,13 @@
   <%= render "home_airports/survey_form", survey: @survey %>
 </div>
 
-<%# make sure this is only output when the user has first signed up, %>
-<%# and at no other time: %>
-<div id='papSaleTrackingPlaceholder'></div>
-
 <% if Rails.env.production? %>
+  <% if @output_fb_signup_code %>
+    <%# make sure this is only output when the user has first signed up, %>
+    <%# and at no other time: %>
+    <div id='papSaleTrackingPlaceholder'></div>
+  <% end %>
+
   <script type="text/javascript">
     (function(d,t) {
       var script = d.createElement(t); script.id= 'pap_x2s6df8d'; script.async = true;
