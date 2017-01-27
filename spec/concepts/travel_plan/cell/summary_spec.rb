@@ -52,7 +52,7 @@ RSpec.describe TravelPlan::Cell::Summary, type: :view do
   it "has a link to edit the plan iff it is editable" do
     yes = render_cell(plan)
     expect(yes).to have_link 'Edit', href: edit_travel_plan_path(1)
-    plan.flights = nil
+    plan.flights = []
     plan.flights << Flight.new(from: create(:country), to: create(:country))
     no = render_cell(plan)
     expect(no).not_to have_link 'Edit'

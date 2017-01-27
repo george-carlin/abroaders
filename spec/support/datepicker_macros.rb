@@ -1,7 +1,13 @@
 module DatepickerMacros
   # JS must be enabled for this to work - obviously.
+  #
+  # 'to' will be processed by Types::Form::AmericanDate, so if it's a string
+  # it must be 'm/d/y', not 'd/m/y'
   def set_datepicker_field(selector, to:)
-    date_to_pick = to.to_date
+    # call to_date to discard any hours or minutes ('to' might actually be e.g.
+    # a Time or an ActiveSupport::TimeWithZone, in which case dry-types won't
+    # convert them to a Date)
+    date_to_pick = Types::Form::AmericanDate.(to).to_date
 
     find(selector).click # show the datepicker calendar
 

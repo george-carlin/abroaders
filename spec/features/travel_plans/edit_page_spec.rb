@@ -1,19 +1,31 @@
 require 'rails_helper'
 
-describe 'edit travel plan page' do
-  before { skip 'tests need updating' }
-  include_context 'logged in'
+RSpec.describe 'edit travel plan page' do
+  let(:account) { create(:account, :onboarded) }
   let(:person) { account.owner }
 
   subject { page }
 
-  let!(:travel_plan) { create(:travel_plan, :return, account: account) }
+  let(:submit_form) { click_button 'Save my travel plan' }
+
+  let(:airports) { create_list(:airport, 2) }
+  let!(:travel_plan) do
+    TravelPlan::Operations::Create.(
+      {
+        travel_plan: {
+          type: 'return',
+          depart_on: Date.today + 1,
+          return_on: Date.today + 10,
+          from: airports[0].full_name,
+          to:   airports[1].full_name,
+        },
+      },
+      'current_account' => account,
+    )
+    create(:travel_plan, :return, account: account)
+  end
 
   before do
-    travel_plan.flights[0].update!(
-      from: @airports[0],
-      to:   @airports[1],
-    )
     login_as(account)
     visit edit_travel_plan_path(travel_plan)
   end
@@ -22,42 +34,45 @@ describe 'edit travel plan page' do
 
   it { is_expected.to have_title full_title("Edit Travel Plan") }
 
-  it "form filled for user" do
-    form = find("#edit_travel_plan_#{travel_plan.id}")
+  example 'valid update', :js do
+    fill_in_typeahead(
+      "#travel_plan_from",
+      with:       airports[0].code,
+      and_choose: "(#{airports[0].code})",
+    )
 
-    expect(form[:action]).to eq travel_plan_path(travel_plan)
-    expect(form.find("#travel_plan_further_information")[:placeholder]).to eq "Optional: give us any extra information about your travel plans that you think might be relevant"
+    fill_in_typeahead(
+      "#travel_plan_to",
+      with:       airports[1].code,
+      and_choose: "(#{airports[1].code})",
+    )
+
+    set_datepicker_field('#travel_plan_depart_on', to: '01/02/2020')
+    set_datepicker_field('#travel_plan_return_on', to: '12/02/2025')
+
+    submit_form
+    travel_plan.reload
+
+    # travel plan is updated:
+    expect(travel_plan.depart_on).to eq Date.new(2020, 1, 2)
+    expect(travel_plan.return_on).to eq Date.new(2025, 12, 2)
+
+    # show travel plan index:
+    expect(page).to have_selector 'h1', text: 'My Travel Plans'
   end
 
-  describe "submitting the form with valid information", :js do
-    before do
-      fill_in_autocomplete("travel_plan_from_typeahead", @airports[1].code)
-      fill_in_autocomplete("travel_plan_to_typeahead", @airports[0].code)
-      # Don't test the JS datepicker for now
-      fill_in :travel_plan_depart_on, with: depart_date.strftime("%m/%d/%Y")
-      fill_in :travel_plan_return_on, with: return_date.strftime("%m/%d/%Y")
-      fill_in :travel_plan_no_of_passengers, with: 2
-      fill_in :travel_plan_further_information, with: "Something"
-      check :travel_plan_accepts_economy
-      check :travel_plan_accepts_premium_economy
-      check :travel_plan_accepts_business_class
-      check :travel_plan_accepts_first_class
-    end
+  example 'invalid update', :js do
+    # return before departure:
+    set_datepicker_field('#travel_plan_depart_on', to: '01/02/2030')
+    set_datepicker_field('#travel_plan_return_on', to: '01/02/2025')
 
-    it "updates the travel plan" do
-      submit_form
-      travel_plan.reload
-      flight = travel_plan.flights.first
-      expect(flight.from).to eq @airports[1]
-      expect(flight.to).to eq @airports[0]
-      expect(travel_plan.depart_on).to eq depart_date
-      expect(travel_plan.return_on).to eq return_date
-      expect(travel_plan.no_of_passengers).to eq 2
-      expect(travel_plan.further_information).to eq "Something"
-      expect(travel_plan.accepts_economy?).to be_truthy
-      expect(travel_plan.accepts_premium_economy?).to be_truthy
-      expect(travel_plan.accepts_business_class?).to be_truthy
-      expect(travel_plan.accepts_first_class?).to be_truthy
-    end
+    return_on_before_save = travel_plan.return_on
+    submit_form
+    # travel plan not updated:
+    expect(travel_plan.reload.return_on).to eq return_on_before_save
+
+    # show form again with error message:
+    expect(page).to have_selector "#edit_travel_plan_#{travel_plan.id}"
+    expect(page).to have_error_message
   end
 end

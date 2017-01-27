@@ -49,7 +49,7 @@
             :depart_on,
             placeholder: "Depart",
             class: "travel-plan-datepicker travel-plan-depart-field",
-            value: f.object.depart_on_str
+            # value: f.object.depart_on_str
           ) %>
           <div class="travel-plan-icon-return">
             <span class="fa fa-reply"></span>
@@ -58,7 +58,7 @@
             :return_on,
             placeholder: "Return",
             class: "travel-plan-datepicker travel-plan-return-field",
-            value: (f.object.return_on_str if f.object.type == "return"),
+            # value: (f.object.return_on_str if f.object.type == "return"),
             disabled: ("disabled" if f.object.type == "single")
           ) %>
         </div>

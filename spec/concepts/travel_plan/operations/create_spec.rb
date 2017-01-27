@@ -6,15 +6,13 @@ RSpec.describe TravelPlan::Operations::Create do
 
   let(:lhr) { create(:airport, name: 'Heathrow', code: 'LHR') }
   let(:jfk) { create(:airport, name: 'JFK', code: 'JFK') }
-  let(:lhr_s) { "#{lhr.name} (#{lhr.code})" }
-  let(:jfk_s) { "#{jfk.name} (#{jfk.code})" }
 
   example 'creating a one-way travel plan' do
     result = op.(
       {
         travel_plan: {
-          from: lhr_s,
-          to: jfk_s,
+          from: lhr.full_name,
+          to: jfk.full_name,
           type: 'single',
           no_of_passengers: 2,
           accepts_economy: true,
@@ -47,8 +45,8 @@ RSpec.describe TravelPlan::Operations::Create do
     result = op.(
       {
         travel_plan: {
-          from: jfk_s,
-          to: lhr_s,
+          from: jfk.full_name,
+          to: lhr.full_name,
           type: 'return',
           no_of_passengers: 4,
           depart_on: '05/08/2020',
@@ -77,8 +75,8 @@ RSpec.describe TravelPlan::Operations::Create do
     result = op.(
       {
         travel_plan: {
-          from: jfk_s,
-          to: lhr_s,
+          from: jfk.full_name,
+          to: lhr.full_name,
           type: 'single',
           depart_on: '05/03/2015', # in the past
         },
@@ -96,8 +94,8 @@ RSpec.describe TravelPlan::Operations::Create do
       result = op.(
         {
           travel_plan: {
-            from: jfk_s,
-            to: lhr_s,
+            from: jfk.full_name,
+            to: lhr.full_name,
             type: 'return',
             no_of_passengers: 1,
             depart_on: '05/08/2020',

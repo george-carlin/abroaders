@@ -18,9 +18,18 @@ class TravelPlan < ApplicationRecord
     # edge cases, so the current 'least bad' solution is to submit the full
     # string and let the server figure out the airport ID for itself.
     AIRPORT_REGEX = /\(([A-Z]{3})\)\s*\z/
-
+    # The underlying TravelPlan model stores 'from' and 'to' in a nested
+    # Flight (although for legacy reasons every TP only has one flight). The
+    # simplest solution I could find was to make these virtual attributes
+    # and build the flight 'manually' when syncing. (See also #prepopulate!)
     property :from, type: Types::Strict::String, virtual: true
     property :to,   type: Types::Strict::String, virtual: true
+
+    # The input for dates will be set with the bootstrap-datepicker.js plugin,
+    # and will be received as a string in the format m/d/y.
+    property :depart_on, type: Types::Form::AmericanDate
+    property :return_on, type: Types::Form::AmericanDate
+
     # It's not possible to submit an invalid type through the normal form, so let it blow up:
     property :type, type: Types::Strict::String.enum('single', 'return')
     property :no_of_passengers,        type: Types::Form::Int, default: 1
@@ -28,40 +37,27 @@ class TravelPlan < ApplicationRecord
     property :accepts_premium_economy, type: Types::Form::Bool, default: false
     property :accepts_business_class,  type: Types::Form::Bool, default: false
     property :accepts_first_class,     type: Types::Form::Bool, default: false
-    # Call these '*_date' rather than '*_on' (which are the names of the
-    # underlying DB column) so that we get friendly error messages
-    property :depart_on, type: Types::Form::AmericanDate
-    property :return_on, type: Types::Form::AmericanDate
     property :further_information, type: Types::StrippedString.optional
 
     # Override the default 'sync' method so that the Flights get built
     # correctly.
     def sync
       super
-      model.flights.build(
-        from: Airport.find_by_code!(AIRPORT_REGEX.match(from)[1]),
-        to:   Airport.find_by_code!(AIRPORT_REGEX.match(to)[1]),
-      )
+      f = Airport.find_by_code!(AIRPORT_REGEX.match(from)[1])
+      t = Airport.find_by_code!(AIRPORT_REGEX.match(to)[1])
+      if model.persisted?
+        model.flights[0].attributes = { to: t, from: f }
+      else
+        model.flights.build(to: t, from: f)
+      end
       model
     end
 
-    def depart_on_str
-      if depart_on.is_a?(Date)
-        depart_on.strftime(Types::Form::AmericanDate.meta[:format])
-      elsif depart_on.nil?
-        ""
-      else
-        depart_on
-      end
-    end
-
-    def return_on_str
-      if return_on.is_a?(Date)
-        return_on.strftime(Types::Form::AmericanDate.meta[:format])
-      elsif return_on.nil?
-        ""
-      else
-        return_on
+    # Prepopulate should be called before editing.
+    def prepopulate!(_opts = {})
+      if (flight = model.flights[0])
+        self.from = flight.from&.full_name
+        self.to   = flight.to&.full_name
       end
     end
 

@@ -10,8 +10,8 @@ RSpec.describe TravelPlan::Form, type: :model do
   end
 
   # Returns the errors object for the given attributes. For convenience, if
-  # your attributes hash only has one key, it will return the errors for
-  # that specific key rather than the whole error object.
+  # your attributes hash only has one key, it will return the errors for that
+  # specific key rather than the whole error object.
   def errors_for(attrs = {})
     form = new_form
     form.validate(attrs)
@@ -19,6 +19,30 @@ RSpec.describe TravelPlan::Form, type: :model do
       form.errors[attrs.keys.first]
     else
       form.errors
+    end
+  end
+
+  describe 'prepopulate!' do
+    let(:form) { described_class.new(travel_plan) }
+
+    context 'when TP is being edited' do
+      let(:travel_plan) { create(:travel_plan, depart_on: '2020-01-02', return_on: '2025-12-05') }
+      let(:flight) { travel_plan.flights[0] }
+
+      before { form.prepopulate! }
+
+      it 'fills "from" and "to" with the airport info' do
+        expect(form.from).to eq flight.from.full_name
+        expect(form.to).to eq flight.to.full_name
+      end
+    end
+
+    context 'when TP is new' do
+      let(:travel_plan) { TravelPlan.new }
+      it 'leaves from/to and dates blank' do
+        expect(form.from).to be nil
+        expect(form.to).to be nil
+      end
     end
   end
 
@@ -105,12 +129,13 @@ RSpec.describe TravelPlan::Form, type: :model do
   end
 
   describe 'saving' do
+    let(:account) { create(:account, :onboarded) }
     let(:airport_0) { create(:airport) }
     let(:airport_1) { create(:airport) }
+    let(:account)   { create(:account, :onboarded) }
 
-    it 'creates a new travel plan with flights' do
-      account = create(:account, :onboarded)
-      form    = described_class.new(account.travel_plans.new)
+    example 'creating a new travel plan' do
+      form = described_class.new(account.travel_plans.new)
       expect(
         form.validate(
           from: "#{airport_0.name} (#{airport_0.code})",
@@ -141,19 +166,55 @@ RSpec.describe TravelPlan::Form, type: :model do
       expect(tp.further_information).to eq 'blah blah blah'
     end
 
-    # TODO move to an operation called TravelPlan::Onboard
-    skip "when account is not onboarded" do
-      it "updates the account's onboarding state" do
-        account = create(:account, onboarding_state: :travel_plan)
-        form.account = account
-        form.from = airport_0.full_name
-        form.to   = airport_1.full_name
-        form.no_of_passengers = 1
-        form.depart_on = Time.zone.today
-        expect { form.save! }.to change { account.travel_plans.count }.by(1)
-        account.reload
-        expect(account.onboarding_state).to eq "account_type"
-      end
+    example 'updating a travel plan' do
+      plan = TravelPlan::Operations::Create.(
+        {
+          travel_plan: {
+            from: "#{airport_0.name} (#{airport_0.code})",
+            to: "#{airport_1.name} (#{airport_1.code})",
+            type: 'return',
+            no_of_passengers: 5,
+            accepts_economy: true,
+            accepts_premium_economy: true,
+            accepts_business_class: true,
+            accepts_first_class: true,
+            depart_on: '05/08/2025',
+            return_on: '02/03/2026',
+            further_information: 'blah blah blah',
+          },
+        },
+        'current_account' => account,
+      )['model']
+
+      form = described_class.new(plan)
+      expect(
+        form.validate(
+          from: "#{airport_1.name} (#{airport_1.code})",
+          to: "#{airport_0.name} (#{airport_0.code})",
+          type: 'return',
+          no_of_passengers: 3,
+          accepts_economy: false,
+          accepts_premium_economy: false,
+          accepts_business_class: false,
+          accepts_first_class: false,
+          depart_on: '05/08/2023',
+          return_on: '02/03/2024',
+          further_information: 'yeah yeah yeah',
+        ),
+      ).to be true
+      expect(form.save).to be true
+      plan.reload
+      expect(plan.flights[0].from).to eq airport_1
+      expect(plan.flights[0].to).to eq airport_0
+      expect(plan.type).to eq 'return'
+      expect(plan.no_of_passengers).to eq 3
+      expect(plan.accepts_economy).to be false
+      expect(plan.accepts_premium_economy).to be false
+      expect(plan.accepts_business_class).to be false
+      expect(plan.accepts_first_class).to be false
+      expect(plan.depart_on).to eq Date.new(2023, 5, 8)
+      expect(plan.return_on).to eq Date.new(2024, 2, 3)
+      expect(plan.further_information).to eq 'yeah yeah yeah'
     end
   end
 end
