@@ -1,5 +1,3 @@
-require_dependency 'main'
-
 class InterestRegionsController < AuthenticatedUserController
   onboard :regions_of_interest, with: [:survey, :save_survey]
 
