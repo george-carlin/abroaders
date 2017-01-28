@@ -1,4 +1,4 @@
 require "rails_helper"
 
-describe Card::Product do
+RSpec.describe CardProduct do
 end

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "factories" do
+RSpec.describe "factories" do
   describe "account factory" do
     before { @account = create(:account, *traits, params) }
     let(:traits) { [] }
@@ -99,8 +99,8 @@ describe "factories" do
     it 'creates an offer with a card product' do
       create_offer
       expect(Offer.count).to eq 1
-      expect(Card::Product.count).to eq 1
-      expect(offer.product).to eq Card::Product.last
+      expect(CardProduct.count).to eq 1
+      expect(offer.product).to eq CardProduct.last
     end
   end
 
@@ -113,9 +113,9 @@ describe "factories" do
     it 'creates a card with a product and no offer' do
       create_card
       expect(Card.count).to eq 1
-      expect(Card::Product.count).to eq 1
+      expect(CardProduct.count).to eq 1
       expect(Offer.count).to eq 0
-      product = Card::Product.last
+      product = CardProduct.last
       expect(card.product).to eq product
       expect(card.offer).to be nil
     end

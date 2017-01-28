@@ -1,14 +1,14 @@
 FactoryGirl.define do
-  factory :card_product, aliases: [:product], class: 'Card::Product' do
+  factory :card_product, aliases: [:product] do
     sequence(:code) do |n|
       str = "AAA"
       n.times { str.next! }
       str
     end
     sequence(:name) { |n| "Example Card #{n}" }
-    network { Card::Product.networks.keys.sample }
-    bp      { Card::Product.bps.keys.sample }
-    type    { Card::Product.types.keys.sample }
+    network { CardProduct.networks.keys.sample }
+    bp      { CardProduct.bps.keys.sample }
+    type    { CardProduct.types.keys.sample }
     bank
     annual_fee_cents { rand(500_00) + 10_00 }
     image_file_name    { 'example_card_image.png' }

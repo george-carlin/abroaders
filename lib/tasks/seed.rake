@@ -31,7 +31,7 @@ namespace :ab do
 
     task offers: :environment do
       ApplicationRecord.transaction do
-        product_ids = Card::Product.pluck(:id)
+        product_ids = CardProduct.pluck(:id)
         Seeder.load_data_for("offers").each do |data|
           data['product_id'] = product_ids.sample
           data['link']       = 'http://example.com'

@@ -81,7 +81,7 @@ module AdminArea
     private
 
     def load_product
-      ::Card::Product.find(params[:product_id])
+      ::CardProduct.find(params[:product_id])
     end
 
     def load_offer

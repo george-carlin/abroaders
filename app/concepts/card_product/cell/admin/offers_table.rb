@@ -1,4 +1,4 @@
-module Product::Cell::Admin
+module CardProduct::Cell::Admin
   class OffersTable < Trailblazer::Cell
     include ActionView::Helpers::RecordTagHelper
 

@@ -34,7 +34,7 @@
 
         <tbody>
           <% @products.each do |_product| %>
-            <% product = cell(Product::Cell, _product) %>
+            <% product = cell(CardProduct::Cell, _product) %>
             <tr id="<%= dom_id(_product) %>">
               <td><%= product.identifier %></td>
               <td><%= product.bank_name %></td>

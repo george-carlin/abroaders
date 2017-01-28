@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Product::Cell::Admin::OffersTable, type: :view do
+RSpec.describe CardProduct::Cell::Admin::OffersTable, type: :view do
   let(:person)  { create(:person) }
   let(:product) { create(:product) }
   let!(:offers) { create_list(:offer, 2, product: product) }

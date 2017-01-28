@@ -12,8 +12,8 @@ module AdminArea
         # This isn't pretty... also, it's display logic, so not sure it belongs
         # in here. FIXME
         def self.product_options
-          ::Card::Product.all.map do |product|
-            [::Card::Product::Identifier.new(product).to_s, product.id]
+          ::CardProduct.all.map do |product|
+            [::CardProduct::Identifier.new(product).to_s, product.id]
           end.sort_by { |p| p[0] }
         end
 

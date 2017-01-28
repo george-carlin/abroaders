@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Card do
+RSpec.describe Card do
   let(:account) { build(:account) }
   let(:person)  { account.people.first }
   let(:product) { build(:card_product) }
@@ -101,7 +101,7 @@ describe Card do
     card.offer = Offer.new
     expect(errors[:product]).not_to include(msg)
     # mismatching product:
-    card.product = Card::Product.new
+    card.product = CardProduct.new
     expect(errors[:product]).to include(msg)
     # correct product
     card.offer.product = card.product

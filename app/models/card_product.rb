@@ -3,7 +3,7 @@
 # physical copy of a Chase Sapphire card which you keep in your wallet, as
 # opposed to the general concept of a Chase Sapphire card), is represented by
 # the Card model (which we plan on eventually renaming to just 'card')
-class Card::Product < ApplicationRecord
+class CardProduct < ApplicationRecord
   self.inheritance_column = :_no_sti
 
   # Attributes
@@ -72,7 +72,7 @@ class Card::Product < ApplicationRecord
 
   # Associations
 
-  has_many :offers
+  has_many :offers, foreign_key: :product_id
   has_many :cards
   belongs_to :currency
   belongs_to :bank
@@ -86,6 +86,8 @@ class Card::Product < ApplicationRecord
   auto_strip_attributes :code, :name, callback: :before_validation
 
   def serializer_class
-    Card::Product::Serializer
+    CardProduct::Serializer
   end
+
+  autoload :Cell, 'card_product/cell'
 end

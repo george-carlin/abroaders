@@ -1,7 +1,6 @@
-# A Card is a specific instance of a Card::Product. If 10 people have
-# a Chase Sapphire credit card, then there are 10 Cards (one in each person's
-# wallet), but only one card *product* (the general concept of a Chase Sapphire
-# card).
+# A Card is a specific copy of a CardProduct. If 10 people have a Chase
+# Sapphire credit card, then there are 10 Cards (one in each person's wallet),
+# but only one card *product* (the general concept of a Chase Sapphire card).
 class Card < ApplicationRecord
   include Expiration
 
@@ -118,11 +117,11 @@ class Card < ApplicationRecord
 
   # Associations
 
-  # All Cards have a Card::Product and, if the user has the card because we
+  # All Cards have a CardProduct and, if the user has the card because we
   # recommended it to them, the Card will also be associated with a particular
   # offer.
   #
-  # An Offer also belongs_to a Card::Product, so a Card with an offer is only
+  # An Offer also belongs_to a Card:roduct, so a Card with an offer is only
   # valid if the offer belongs to the right product. This results in a slightly
   # denormalized DB schema (because product_id will always equal
   # offer.product_id if offer is not nil, so product_id can sometimes contain
@@ -130,7 +129,7 @@ class Card < ApplicationRecord
   # all cards have a product, and all offers have a product, but not all cards
   # have an offer.
 
-  belongs_to :product
+  belongs_to :product, class_name: 'CardProduct'
   belongs_to :person
   belongs_to :offer
 

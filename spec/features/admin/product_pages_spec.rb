@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "admin product pages" do
+RSpec.describe "admin product pages" do
   include_context "logged in as admin"
 
   subject { page }
@@ -105,10 +105,10 @@ describe "admin product pages" do
           attach_file :card_product_image, image_path
         end
 
-        let(:product) { Card::Product.last }
+        let(:product) { CardProduct.last }
 
         it 'creates a product' do
-          expect { submit_form }.to change { Card::Product.count }.by(1)
+          expect { submit_form }.to change { CardProduct.count }.by(1)
         end
 
         it "shows me the newly created product" do
@@ -136,7 +136,7 @@ describe "admin product pages" do
         context "and no currency" do
           let(:currency_name) { "No currency" }
           it "creates a product with no currency" do
-            expect { submit_form }.to change { Card::Product.count }.by(1)
+            expect { submit_form }.to change { CardProduct.count }.by(1)
             expect(product.currency).to be_nil
           end
         end
@@ -144,7 +144,7 @@ describe "admin product pages" do
 
       describe "with invalid information" do
         it "doesn't create a product" do
-          expect { submit_form }.not_to change { Card::Product.count }
+          expect { submit_form }.not_to change { CardProduct.count }
         end
       end
     end

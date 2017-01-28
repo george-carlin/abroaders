@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Card::Product::Serializer do
+RSpec.describe CardProduct::Serializer do
   it 'serializes a card product to JSON' do
     bank = build(
       :bank,

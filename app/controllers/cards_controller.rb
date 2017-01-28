@@ -1,4 +1,4 @@
-require_dependency 'product/cell/survey/product'
+require_dependency 'card_product/cell/survey/product'
 
 class CardsController < AuthenticatedUserController
   onboard :owner_cards, :companion_cards, with: [:survey, :save_survey]
@@ -41,7 +41,7 @@ class CardsController < AuthenticatedUserController
   def survey
     @person = load_person
     redirect_if_onboarding_wrong_person_type!
-    @survey = Card::Product::Survey.new(person: @person)
+    @survey = CardProduct::Survey.new(person: @person)
   end
 
   def save_survey
@@ -49,7 +49,7 @@ class CardsController < AuthenticatedUserController
     redirect_if_onboarding_wrong_person_type!
     # There's currently no way that survey_params can be invalid, so this
     # should never fail:
-    Card::Product::Survey.new(survey_params.merge(person: @person)).save!
+    CardProduct::Survey.new(survey_params.merge(person: @person)).save!
     # track_intercom_event("obs_cards_#{@person.type[0..2]}")
     redirect_to onboarding_survey_path
   end

@@ -1,7 +1,7 @@
 namespace :ab do
   namespace :export do
     task cards: :environment do
-      card_data = Card::Product.find_each.map do |card|
+      card_data = CardProduct.find_each.map do |card|
         card.as_json.slice(
           "shown_on_survey",
           "annual_fee_cents",

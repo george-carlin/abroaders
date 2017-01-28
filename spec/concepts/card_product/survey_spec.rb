@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Card::Product::Survey do
+RSpec.describe CardProduct::Survey do
   let(:survey) { described_class.new }
 
   describe '#each_section' do
