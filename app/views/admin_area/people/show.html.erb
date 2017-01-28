@@ -60,7 +60,7 @@
         <div class="col-xs-12">
           <div class="form-inline">
             <b>B/P: </b>&nbsp;
-            <% Card::Product.bps.keys.each do |bp| %>
+            <% CardProduct.bps.keys.each do |bp| %>
               <%= card_bp_filter_check_box_tag(bp) %>
             <% end %>
           </div>
@@ -228,7 +228,7 @@
               class="<%= dom_class(product, :admin_recommend) %>_offers"
             >
               <td colspan="5">
-                <%= cell(Product::Cell::Admin::OffersTable, product, person: @person) %>
+                <%= cell(CardProduct::Cell::Admin::OffersTable, product, person: @person) %>
               </td>
             </tr><!-- .admin_recommend_card_product_(id) -->
           <% end %>

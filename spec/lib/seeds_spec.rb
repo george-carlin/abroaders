@@ -67,6 +67,6 @@ RSpec.describe Seeder do
     described_class.seed_currencies
     expect do
       described_class.seed_card_products
-    end.to change { Card::Product.count }.by(9)
+    end.to change { CardProduct.count }.by(9)
   end
 end

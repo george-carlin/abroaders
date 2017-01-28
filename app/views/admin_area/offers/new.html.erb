@@ -2,11 +2,11 @@
 
 <div class="hpanel">
   <div class="panel-heading hbuilt">
-      <h1><%= Product::Cell.(@product).full_name(with_bank: true) %> - New Offer</h1>
+      <h1><%= CardProduct::Cell.(@product).full_name(with_bank: true) %> - New Offer</h1>
   </div>
 
   <div class="panel-body">
-    <%= cell(Product::Cell::Admin::Summary, @product) %>
+    <%= cell(CardProduct::Cell::Admin::Summary, @product) %>
 
     <hr>
 

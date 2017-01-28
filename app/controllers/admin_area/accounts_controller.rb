@@ -19,7 +19,7 @@ module AdminArea
       # Use @account.cards here instead of @cards because
       # the latter is an Array, not a Relation (because of
       # `.select(&:persisted?)`)
-      @products = ::Card::Product.where.not(id: @account.cards.select(:product_id))
+      @products = ::CardProduct.where.not(id: @account.cards.select(:product_id))
     end
 
     def search

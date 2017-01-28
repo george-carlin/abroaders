@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-describe Card::Product::Identifier do
+RSpec.describe CardProduct::Identifier do
   it "generates the card's unique identifier" do
-    product = Card::Product.new(
+    product = CardProduct.new(
       bank:    Bank.new(personal_code: 1),
       bp:      :personal,
       code:    'ABC',

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe OfferPresenter do
+RSpec.describe OfferPresenter do
   let(:offer)         { Offer.new }
   subject(:presenter) { described_class.new(offer, view) }
 
@@ -46,7 +46,7 @@ describe OfferPresenter do
     subject(:description) { presenter.description }
 
     before do
-      offer.product = Card::Product.new(currency: Currency.new(name: "Dinero"))
+      offer.product = CardProduct.new(currency: Currency.new(name: "Dinero"))
       offer.points_awarded = 7_500
     end
 

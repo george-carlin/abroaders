@@ -1,4 +1,4 @@
-class Recommendation::Cell::Admin::New::ProductsTable::Row < ::Product::Cell
+class Recommendation::Cell::Admin::New::ProductsTable::Row < ::CardProduct::Cell
   include ActionView::Helpers::RecordTagHelper
 
   private

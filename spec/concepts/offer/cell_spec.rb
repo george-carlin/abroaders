@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Offer::Cell do
+RSpec.describe Offer::Cell do
   let(:offer) { Offer.new }
   let(:cell)  { described_class.(offer) }
 
@@ -46,7 +46,7 @@ describe Offer::Cell do
     subject(:description) { cell.description }
 
     before do
-      offer.product = Card::Product.new(currency: Currency.new(name: "Dinero"))
+      offer.product = CardProduct.new(currency: Currency.new(name: "Dinero"))
       offer.points_awarded = 7_500
     end
 
@@ -76,7 +76,7 @@ describe Offer::Cell do
   example "#currency_name" do
     # minor code smell: introducing so many dependencies on Offer::Cell
     currency      = Currency.new(name: 'My currency')
-    offer.product = Card::Product.new(currency: currency)
+    offer.product = CardProduct.new(currency: currency)
     expect(cell.currency_name).to eq 'My currency'
   end
 

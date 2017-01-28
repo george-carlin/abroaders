@@ -15,7 +15,7 @@
       >
         <tbody>
           <% @products.each do |_product| %>
-            <% product = Product::Cell.(_product) %>
+            <% product = CardProduct::Cell.(_product) %>
             <tr id="<%= dom_id(_product) %>">
               <td><%= product.identifier %></td>
               <td><%= product.bank_name %></td>

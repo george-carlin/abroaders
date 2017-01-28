@@ -75,9 +75,9 @@ module Seeder
       )
       data['currency_id'] = currency_ids.sample
       data['bank_id']     = bank_ids.sample
-      Card::Product.create!(data)
+      CardProduct.create!(data)
     end
-    Rails.logger.info "created #{Card::Product.count} cards"
+    Rails.logger.info "created #{CardProduct.count} cards"
   end
 
   def self.seed_currencies

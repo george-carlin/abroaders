@@ -38,7 +38,7 @@ class Offer < ApplicationRecord
 
   # Associations
 
-  belongs_to :product, class_name: 'Card::Product'
+  belongs_to :product, class_name: 'CardProduct'
   has_many :cards
 
   # Callbacks

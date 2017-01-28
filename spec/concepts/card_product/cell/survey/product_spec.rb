@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Product::Cell::Survey::Product, type: :view do
+RSpec.describe CardProduct::Cell::Survey::Product, type: :view do
   let(:product) { create(:product, name: 'Sapphire', network: :visa) }
   let(:cell)    { described_class.(product, context: CELL_CONTEXT).show }
 
