@@ -3,7 +3,7 @@ module AdminArea
     # GET /admin/accounts
     def index
       person_assocs = [:spending_info]
-      @accounts = Account.includes(
+      @accounts = ::Account.includes(
         :phone_number,
         people: person_assocs,
         owner: person_assocs,
@@ -13,7 +13,7 @@ module AdminArea
 
     # GET /admin/accounts/1
     def show
-      @account = load_account
+      @account = ::Account.find(params[:id])
       @cards   = @account.cards.select(&:persisted?)
       @recommendation = @account.cards.new
       # Use @account.cards here instead of @cards because
@@ -23,18 +23,17 @@ module AdminArea
     end
 
     def search
-      @accounts = Account::Admin::Search.(query: params[:accounts][:search])
+      result = run(AdminArea::Account::Operations::Search)
+      if result.success?
+        @collection = result['collection']
+      else
+        raise 'this should never happen!'
+      end
     end
 
     def download_user_status_csv
       csv = UserStatusCSV.generate
       send_data csv, filename: "user_status.csv", type: "text/csv", disposition: "attachment"
-    end
-
-    private
-
-    def load_account
-      Account.find(params[:id])
     end
   end
 end

@@ -6,8 +6,8 @@
   </div>
 
   <div class="panel-body">
-    <% if @accounts.any? %>
-      Showing <%= pluralize @accounts.size, 'result' %> for
+    <% if @collection.any? %>
+      Showing <%= pluralize @collection.size, 'result' %> for
       '<%= params[:accounts][:search].squish %>':
       <table
         id="admin_accounts_table"
@@ -27,7 +27,7 @@
           </tr>
         </thead>
         <tbody id="admin_accounts_table_body">
-          <%= cell(Account::Cell::Admin::Index::TableRow, collection: @accounts) %>
+          <%= cell(Account::Cell::Admin::Index::TableRow, collection: @collection) %>
         </tbody>
       </table>
     <% else %>
