@@ -7,7 +7,7 @@ class TravelPlan < ApplicationRecord
     # acceptable, returns "E PE B 1st". If only business and 1st class are
     # acceptable, returns "B 1st".
     class AcceptableClasses < Trailblazer::Cell
-      def render
+      def show
         abbreviations = []
         abbreviations << 'E'   if model.accepts_economy?
         abbreviations << 'PE'  if model.accepts_premium_economy?
