@@ -2,12 +2,9 @@ module AdminArea
   module Card
     module Operations
       class New < Trailblazer::Operation
-        extend Contract::DSL
-        contract ::Card::NewForm
-
         step :setup_person!
-        step :setup_model!
-        step Contract::Build()
+        # pass the 'person' option into New
+        step Nested(::Card::Operations::New, input: ->(_, person:, **) { { person: person } })
 
         # This isn't pretty... also, it's display logic, so not sure it belongs
         # in here. FIXME
@@ -23,8 +20,8 @@ module AdminArea
           opts['person'] = ::Person.find(params[:person_id])
         end
 
-        def setup_model!(opts)
-          opts['model'] = ::Card.new(person: opts['person'])
+        def setup_model!(opts, person:, **)
+          opts['model'] = ::Card.new(person: person)
         end
       end
     end
