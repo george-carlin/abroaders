@@ -1,11 +1,12 @@
 require 'rails_helper'
 
-describe AdminArea::Card::Operations::Create do
+RSpec.describe AdminArea::Card::Operations::Create do
   let(:person)  { create(:account).owner }
   let(:product) { create(:card_product) }
+  let(:op)      { described_class }
 
   example 'creating a card' do
-    result = AdminArea::Card::Operations::Create.(
+    result = op.(
       person_id: person.id,
       card: { product_id: product.id, opened_at: Date.today },
     )
@@ -18,7 +19,7 @@ describe AdminArea::Card::Operations::Create do
   end
 
   example 'creating a closed card' do
-    result = AdminArea::Card::Operations::Create.(
+    result = op.(
       person_id: person.id,
       card: {
         closed: true,
@@ -36,7 +37,7 @@ describe AdminArea::Card::Operations::Create do
   end
 
   example 'invalid save - opened in future' do
-    result = AdminArea::Card::Operations::Create.(
+    result = op.(
       person_id: person.id,
       card: { product_id: product.id, opened_at: Date.tomorrow },
     )
@@ -44,7 +45,7 @@ describe AdminArea::Card::Operations::Create do
   end
 
   example 'invalid save - closed before opened' do
-    result = AdminArea::Card::Operations::Create.(
+    result = op.(
       person_id: person.id,
       card: {
         closed: true,
