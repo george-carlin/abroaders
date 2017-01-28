@@ -59,9 +59,9 @@ Rails.application.configure do
 
   # From https://github.com/heroku/rails_12factor/blob/master/README.md
   if ENV["RAILS_LOG_TO_STDOUT"].present?
-     logger           = ActiveSupport::Logger.new(STDOUT)
-     logger.formatter = config.log_formatter
-     config.logger = ActiveSupport::TaggedLogging.new(logger)
+    logger = ActiveSupport::Logger.new(STDOUT)
+    logger.formatter = config.log_formatter
+    config.logger = ActiveSupport::TaggedLogging.new(logger)
   end
 
   # Use a different cache store in production.
