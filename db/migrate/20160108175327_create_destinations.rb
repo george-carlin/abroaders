@@ -3,7 +3,7 @@ class CreateDestinations < ActiveRecord::Migration[5.0]
     create_table :destinations do |t|
       t.string  :name,           null: false, index: true
       t.string  :code,           null: false
-      t.integer :type,           null: false, index: true
+      t.string  :type,           null: false, index: true
       t.integer :parent_id,                   index: true
       t.integer :children_count, null: false,              default: 0
 

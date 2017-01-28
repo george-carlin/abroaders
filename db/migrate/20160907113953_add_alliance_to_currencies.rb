@@ -1,5 +1,5 @@
 class AddAllianceToCurrencies < ActiveRecord::Migration[5.0]
   def change
-    add_column :currencies, :alliance_id, :integer, null: true
+    add_column :currencies, :alliance_id, :integer, null: false
   end
 end
