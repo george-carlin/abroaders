@@ -1,20 +1,20 @@
 <div class="col-sm-2 col-sm-offset-2">
-  <%= product.image("130x81") %>
+  <%= image %>
   <br><br>
   <%= link_to 'View all offers', admin_card_product_offers_path(model) %> |
   <%= link_to 'Edit card product', edit_admin_card_product_path(model) %>
 </div>
 
 <div class="col-sm-4">
-  <p><b>Code:</b> <%= product.code %></p>
-  <p><b>Bank:</b> <%= product.bank_name %></p>
-  <p><b>Name:</b> <%= product.name %></p>
-  <p><b>Network:</b> <%= product.network %></p>
+  <p><b>Code:</b> <%= code %></p>
+  <p><b>Bank:</b> <%= bank_name %></p>
+  <p><b>Name:</b> <%= name %></p>
+  <p><b>Network:</b> <%= network %></p>
 </div>
 
 <div class="col-sm-4">
-  <p><b>B/P:</b> <%= product.bp %></p>
-  <p><b>Type:</b> <%= product.type %></p>
-  <p><b>Annual Fee:</b> <%= product.annual_fee %></p>
-  <p><b>Currency:</b> <%= product.currency_name %></p>
+  <p><b>B/P:</b> <%= bp %></p>
+  <p><b>Type:</b> <%= type %></p>
+  <p><b>Annual Fee:</b> <%= annual_fee %></p>
+  <p><b>Currency:</b> <%= currency_name %></p>
 </div>

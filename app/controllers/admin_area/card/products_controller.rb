@@ -5,7 +5,7 @@ module AdminArea
 
       # GET /admin/cards
       def index
-        @products = ::CardProduct.all.includes(:offers, :currency, :bank).sort_by(&:identifier)
+        @products = ::CardProduct.all.includes(:offers, :currency, :bank).sort_by(&:bank_id)
       end
 
       # GET /admin/cards/1

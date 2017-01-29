@@ -43,10 +43,6 @@ class CardProduct < ApplicationRecord
 
   delegate :name, to: :bank, prefix: true
 
-  def identifier
-    Identifier.new(self)
-  end
-
   def annual_fee
     annual_fee_cents / 100.0 unless annual_fee_cents.nil?
   end
@@ -88,6 +84,4 @@ class CardProduct < ApplicationRecord
   def serializer_class
     CardProduct::Serializer
   end
-
-  autoload :Cell, 'card_product/cell'
 end

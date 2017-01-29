@@ -1,6 +1,6 @@
 <% present card, AdminArea::CardPresenter do |card| %>
   <%= card.tr_tag do %>
-    <td><%= card.product_identifier %></td>
+    <td><%= AdminArea::CardProduct::Cell::Identifier.(card.model.product) %></td>
     <td><%= card.product_name %></td>
     <td class="card_status">
       <%= card.status %>

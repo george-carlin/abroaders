@@ -48,7 +48,7 @@ class Offer::Cell < Trailblazer::Cell
     # Note - we might eventually want to add a unique code per affiliate
     # to the end here
     if with_product
-      "#{product_identifier}-#{result}"
+      "#{AdminArea::CardProduct::Cell::Identifier.(offer.product)}-#{result}"
     else
       result
     end
