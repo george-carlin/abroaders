@@ -28,7 +28,7 @@ module AdminArea
     private
 
     def load_person
-      Person.includes(:spending_info).find(params[:id])
+      ::Person.includes(:spending_info).find(params[:id])
     end
   end
 end

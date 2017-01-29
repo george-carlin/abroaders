@@ -2,7 +2,7 @@ module AdminArea
   class CompleteRecommendations < ApplicationForm
     include Virtus.model
 
-    attribute :person, Person
+    attribute :person, ::Person
     attribute :note,   String
 
     delegate :account, to: :person

@@ -86,7 +86,7 @@ class Abroaders::Cell < Trailblazer::Cell
       private
 
       def search_form
-        cell(::Account::Cell::Admin::SearchForm)
+        cell(AdminArea::Account::Cell::SearchForm)
       end
 
       def sidebar?

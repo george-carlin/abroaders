@@ -2,7 +2,7 @@ module AdminArea
   class RecommendationsController < AdminController
     def create
       person = load_person
-      rec = AdminArea::Recommendation.new(person: person)
+      rec = AdminArea::RecommendationForm.new(person: person)
       rec.update_attributes!(recommendation_params)
       respond_to do |f|
         f.js do
@@ -49,7 +49,7 @@ module AdminArea
     end
 
     def load_person
-      Person.find(params[:person_id])
+      ::Person.find(params[:person_id])
     end
 
     def load_recommendation

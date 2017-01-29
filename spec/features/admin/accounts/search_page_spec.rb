@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 module AdminArea
-  describe 'searching for accounts', :js do
+  RSpec.describe 'searching for accounts', :js do
     include_context 'logged in as admin'
     let!(:account) { create(:account) }
     before { visit root_path }
