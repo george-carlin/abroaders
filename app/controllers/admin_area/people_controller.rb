@@ -1,10 +1,3 @@
-# temporary hack
-require 'admin_area'
-require 'admin_area/cells'
-require 'admin_area/cells/people/show'
-require 'admin_area/cells/regions_of_interest/list'
-require 'admin_area/cells/home_airports/list'
-
 module AdminArea
   class PeopleController < AdminController
     # GET /admin/people/1
