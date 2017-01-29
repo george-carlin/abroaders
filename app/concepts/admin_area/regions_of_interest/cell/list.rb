@@ -1,7 +1,7 @@
 module AdminArea
-  module Cells
-    module RegionsOfInterest
-      class List < AdminArea::Cell
+  module RegionsOfInterest
+    module Cell
+      class List < Trailblazer::Cell
         def show
           content_tag :ul, regions
         end
@@ -12,7 +12,7 @@ module AdminArea
           cell(Item, collection: model)
         end
 
-        class Item < AdminArea::Cell
+        class Item < Trailblazer::Cell
           alias region model
 
           property :name

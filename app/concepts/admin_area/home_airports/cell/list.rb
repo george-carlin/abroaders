@@ -1,7 +1,7 @@
 module AdminArea
-  module Cells
-    module HomeAirports
-      class List < AdminArea::Cell
+  module HomeAirports
+    module Cell
+      class List < Trailblazer::Cell
         def show
           content_tag :ul, airports
         end
@@ -12,14 +12,9 @@ module AdminArea
           cell(Airport, collection: model)
         end
 
-        class Airport < AdminArea::Cell
-          alias airport model
-
-          property :code
-          property :name
-
+        class Airport < Trailblazer::Cell
           def show
-            content_tag :li, "#{name} (#{code})"
+            content_tag(:li, full_name)
           end
         end
       end

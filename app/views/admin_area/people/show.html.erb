@@ -1,7 +1,7 @@
 <% provide :title, @person.first_name %>
 
 <%# TODO: move everything within this cell %>
-<% page_cell = AdminArea::Cells::People::Show.(@person) %>
+<% page_cell = AdminArea::Person::Cell::Show.(@person) %>
 
 <% present @person do |person| %>
   <div class="hpanel">

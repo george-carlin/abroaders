@@ -1,6 +1,6 @@
 module AdminArea
-  module Cells
-    module People
+  module Person
+    module Cell
       # placeholder class; eventually the whole template should be moved in here
       class Show < Trailblazer::Cell
         alias person model
@@ -14,7 +14,7 @@ module AdminArea
           if account.regions_of_interest.any?
             raw(
               '<h3>Regions of Interest</h3>' +
-              cell(AdminArea::Cells::RegionsOfInterest::List, account.regions_of_interest).to_s,
+              cell(AdminArea::RegionsOfInterest::Cell::List, account.regions_of_interest).to_s,
             )
           else
             'User has not added any regions of interest'
@@ -27,7 +27,7 @@ module AdminArea
           if account.home_airports.any?
             raw(
               '<h3>Home Airports</h3>' +
-              cell(AdminArea::Cells::HomeAirports::List, account.home_airports).to_s,
+              cell(AdminArea::HomeAirports::Cell::List, account.home_airports).to_s,
             )
           else
             'User has not added any home airports'
