@@ -38,28 +38,20 @@ RSpec.describe "admin product pages" do
 
     it { is_expected.to have_title full_title('Card Products') }
 
-    it "lists all cards" do
+    it 'lists info about each cards' do
       expect(page).to have_selector card_product_selector(@survey_card)
       expect(page).to have_selector card_product_selector(@non_survey_card)
-    end
 
-    it "has a link to edit each card" do
       products.each do |product|
         within card_product_selector(product) do
+          # it has a link to edit each card
           expect(page).to have_link "Edit", href: edit_admin_card_product_path(product)
-        end
-      end
-    end
-
-    it "displays each card's currency" do
-      products.each do |product|
-        within card_product_selector(product) do
+          # it displays each card's currency
           expect(page).to have_content product.currency.name
         end
       end
-    end
 
-    it "says whether or not the card is shown on the survey" do
+      # says whether or not the card is shown on the survey
       expect(page).to have_selector \
         "##{dom_id(@survey_card)} .card_shown_on_survey .fa.fa-check"
       expect(page).to have_no_selector \
@@ -107,12 +99,8 @@ RSpec.describe "admin product pages" do
 
         let(:product) { CardProduct.last }
 
-        it 'creates a product' do
-          expect { submit_form }.to change { CardProduct.count }.by(1)
-        end
-
         it "shows me the newly created product" do
-          submit_form
+          expect { submit_form }.to change { CardProduct.count }.by(1)
           expect(page).to have_selector 'h1', text: "Chase Visa Something"
           expect(page).to have_content "XXX"
           expect(page).to have_content "MasterCard"
@@ -168,24 +156,11 @@ RSpec.describe "admin product pages" do
 
     it "has fields to edit the product" do
       it_has_fields_for_card_product
-    end
 
-    describe "the 'b/p' input" do
-      it "correctly defaults to the product's current BP" do # bug fix
-        expect(page).to have_select :card_product_bp, selected: "Personal"
-      end
-    end
-
-    describe "the 'network' input" do
-      it "correctly defaults to the product's current network" do # bug fix
-        expect(page).to have_select :card_product_network, selected: "Visa"
-      end
-    end
-
-    describe "the 'type' input" do
-      it "correctly defaults to the product's current type" do # bug fix
-        expect(page).to have_select :card_product_type, selected: "Credit"
-      end
+      # with correct pre-filled dropdown (bug fix):
+      expect(page).to have_select :card_product_bp, selected: "Personal"
+      expect(page).to have_select :card_product_network, selected: "Visa"
+      expect(page).to have_select :card_product_type, selected: "Credit"
     end
 
     describe "submitting the form" do
@@ -206,7 +181,7 @@ RSpec.describe "admin product pages" do
           submit_form
         end
 
-        it 'updates the product' do
+        it 'updates the product and display it' do
           @product.reload
           expect(@product.code).to eq "XXX"
           expect(@product.name).to eq "Chase Visa Something"
@@ -217,11 +192,10 @@ RSpec.describe "admin product pages" do
           expect(@product.currency).to eq @currencies[1]
           expect(@product.bank).to eq banks[1]
           expect(@product).to be_shown_on_survey
-        end
 
-        it 'shows me the updated product' do
           expect(current_path).to eq admin_card_product_path(@product)
         end
+
       end
 
       describe "with invalid information" do
