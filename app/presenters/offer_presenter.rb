@@ -1,6 +1,19 @@
 class OfferPresenter < ApplicationPresenter
-  delegate :name, :identifier, to: :product, prefix: true
-  delegate :bank_name, to: :product
+  def product
+    model.product
+  end
+
+  def currency
+    product.currency
+  end
+
+  def bank_name
+    product.bank_name
+  end
+
+  def product_name
+    product.name
+  end
 
   # A shorthand code that identifies the offer based on the points awarded,
   # minimum spend, and days. Note that this isn't necessarily unique per offer.
@@ -20,7 +33,7 @@ class OfferPresenter < ApplicationPresenter
     # Note - we might eventually want to add a unique code per affiliate
     # to the end here
     if with_product
-      "#{product_identifier}-#{result}"
+      "#{AdminArea::CardProduct::Cell::Identifier.(product)}-#{result}"
     else
       result
     end
@@ -48,7 +61,7 @@ class OfferPresenter < ApplicationPresenter
   end
 
   def currency_name
-    product.currency_name
+    currency.name
   end
 
   def partner_full_name
@@ -85,10 +98,6 @@ class OfferPresenter < ApplicationPresenter
   end
 
   private
-
-  def product
-    @product ||= CardProduct::Cell.(super)
-  end
 
   def abbreviated_points
     # Show points and spend as multiples of 1000, but don't print the decimal

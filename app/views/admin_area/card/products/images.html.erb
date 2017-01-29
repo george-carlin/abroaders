@@ -14,14 +14,13 @@
         cellspacing="1"
       >
         <tbody>
-          <% @products.each do |_product| %>
-            <% product = CardProduct::Cell.(_product) %>
-            <tr id="<%= dom_id(_product) %>">
-              <td><%= product.identifier %></td>
-              <td><%= product.bank_name %></td>
-              <td><%= link_to product.name, admin_card_product_path(_product) %></td>
-              <td><%= product.network %></td>
-              <td><%= product.image %></td>
+          <% @products.each do |product| %>
+            <tr id="<%= dom_id(product) %>">
+              <td><%= cell(CardProduct::Cell::Identifier, product) %></td>
+              <td><%= product.bank.name %></td>
+              <td><%= link_to product.name, admin_card_product_path(product) %></td>
+              <td><%= cell(CardProduct::Cell::Product, network) %></td>
+              <td><%= cell(CardProduct::Cell::Image, network) %></td>
             </tr>
           <% end # present_each %>
         </tbody>
