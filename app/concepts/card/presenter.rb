@@ -27,7 +27,15 @@ class Card::Presenter < ApplicationPresenter
     end
   end
 
-  delegate :name, :identifier, :currency, :bank_name, to: :product, prefix: true
+  def product_name
+    product.name
+  end
+
+  def product_identifier
+    AdminArea::CardProduct::Cell::Identifier.(product).()
+  end
+
+  delegate :currency, :bank_name, to: :product, prefix: true
 
   def status
     super().humanize
@@ -38,7 +46,7 @@ class Card::Presenter < ApplicationPresenter
   end
 
   def product
-    @product ||= CardProduct::Cell.(super)
+    model.product
   end
 
   def offer

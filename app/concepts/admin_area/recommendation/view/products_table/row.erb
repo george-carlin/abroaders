@@ -1,6 +1,6 @@
 <%= tr_tag do %>
   <td class="card-identifier">
-    Card <%= identifier %>
+    Card <%= product_identifier %>
   </td>
   <td class="card-name">
     <%= name %>
@@ -9,7 +9,7 @@
     <%= bank_name %>
   </td>
   <td class="card-bp">
-    <%= bp %>
+    <%= bp.capitalize %>
   </td>
   <td class="card-currency">
     <%= currency_name %>

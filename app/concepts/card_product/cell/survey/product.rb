@@ -1,11 +1,29 @@
+# TODO really this belongs under the 'cards' concept, not under 'card
+# products'
 class CardProduct < ApplicationRecord
-  class Cell < Trailblazer::Cell
-    class Survey < Trailblazer::Cell
-      class Product < ::CardProduct::Cell
+  module Cell
+    module Survey
+      # An individual product on the cards survey. Displays the product's image
+      # and has inputs to set the opened and closed dates.
+      class Product < Trailblazer::Cell
         include ActionView::Helpers::FormOptionsHelper
         include BootstrapOverrides::Overrides
 
+        property :id
+
         private
+
+        def annual_fee
+          cell(AnnualFee, model)
+        end
+
+        def image(size = "180x114")
+          cell(Image, model, size: size)
+        end
+
+        def html_id
+          dom_id(model)
+        end
 
         def opened_check_box
           cell(Opened::CheckBox, model)
@@ -13,10 +31,6 @@ class CardProduct < ApplicationRecord
 
         def opened_label
           cell(Opened::Label, model)
-        end
-
-        def html_id
-          dom_id(model)
         end
 
         # TODO could these be replaced with Rails's 'date_select'? (the date <selects>
@@ -32,7 +46,14 @@ class CardProduct < ApplicationRecord
           options_for_select options, Date.today.year
         end
 
-        class Opened < ::CardProduct::Cell
+        # Superclass for the 'opened' attribute's checkbox and label, each of
+        # which are their own subclass. Don't instantiate directly. Subclasses
+        # take a CardProduct as their model.
+        class Opened < Trailblazer::Cell
+          include BootstrapOverrides::Overrides
+
+          property :id
+
           private
 
           def html_id
@@ -55,7 +76,7 @@ class CardProduct < ApplicationRecord
             def show
               label_tag(
                 "cards_survey_#{id}_card_opened",
-                full_name,
+                CardProduct::Cell::FullName.(model).(),
               )
             end
           end

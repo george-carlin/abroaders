@@ -2,35 +2,42 @@ module AdminArea
   module Recommendation
     module Cell
       module ProductsTable
-        class Row < ::CardProduct::Cell
+        class Row < Trailblazer::Cell
           include ActionView::Helpers::RecordTagHelper
 
+          property :bank
+          property :bank_id
+          property :bp
+          property :currency
+          property :currency_id
+          property :name
+
           private
+
+          def bank_name
+            bank.name
+          end
+
+          def currency_name
+            currency.name
+          end
+
+          def product_identifier
+            cell(AdminArea::CardProduct::Cell::Identifier, model)
+          end
 
           def tr_tag(&block)
             content_tag(
               :tr,
-              id: html_id,
-              class: html_classes,
-              data: data,
+              id: dom_id(model, :admin_recommend),
+              class: dom_class(model, :admin_recommend),
+              data: {
+                bp:       bp,
+                bank:     bank_id,
+                currency: currency_id,
+              },
               &block
             )
-          end
-
-          def data
-            {
-              bp:       model.bp,
-              bank:     model.bank_id,
-              currency: model.currency_id,
-            }
-          end
-
-          def html_id
-            dom_id(model, :admin_recommend)
-          end
-
-          def html_classes
-            dom_class(model, :admin_recommend)
           end
         end
       end

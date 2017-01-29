@@ -13,7 +13,7 @@ module AdminArea
         # in here. FIXME
         def self.product_options
           ::CardProduct.all.map do |product|
-            [::CardProduct::Identifier.new(product).to_s, product.id]
+            [AdminArea::CardProduct::Cell::Identifier.(product).(), product.id]
           end.sort_by { |p| p[0] }
         end
 
