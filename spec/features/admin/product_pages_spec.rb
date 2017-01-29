@@ -87,7 +87,7 @@ RSpec.describe "admin product pages" do
           fill_in :card_product_code, with: "XXX"
           fill_in :card_product_name, with: "Chase Visa Something"
           select "MasterCard", from: :card_product_network
-          select "Business",   from: :card_product_bp
+          select 'Business',   from: :card_product_bp
           select "Credit",     from: :card_product_type
           # BUG: allow decimal values TODO
           fill_in :card_product_annual_fee, with: 549 # .99
@@ -104,7 +104,7 @@ RSpec.describe "admin product pages" do
           expect(page).to have_selector 'h1', text: "Chase Visa Something"
           expect(page).to have_content "XXX"
           expect(page).to have_content "MasterCard"
-          expect(page).to have_content "Business"
+          expect(page).to have_content "business"
           expect(page).to have_content "Credit"
           expect(page).to have_content "$549.00" # 99"
           expect(page).to have_content currency_name

@@ -3,6 +3,10 @@ class AdminArea::OfferPresenter < ::OfferPresenter
     product.bp.to_s[0].upcase
   end
 
+  def product_identifier
+    AdminArea::CardProduct::Cell::Identifier.(product).()
+  end
+
   def kill_btn
     btn_classes = "btn btn-xs"
     prefix = :kill

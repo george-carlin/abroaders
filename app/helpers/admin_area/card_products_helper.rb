@@ -1,5 +1,5 @@
-class Card < ApplicationRecord
-  module ProductsHelper
+module AdminArea
+  module CardProductsHelper
     def card_bp_filter_check_box_tag(bp)
       klass =  :card_bp_filter
       id    =  :"#{klass}_#{bp}"
@@ -16,8 +16,8 @@ class Card < ApplicationRecord
 
     def options_for_card_network_select(selected_network)
       options_for_select(
-        CardProduct.networks.map do |network, _|
-          [t("activerecord.attributes.card_product.networks.#{network}"), network]
+        ::CardProduct.networks.map do |network, _|
+          [::CardProduct::Cell::Network::NAMES.fetch(network.to_sym), network]
         end,
         selected_network,
       )
@@ -25,8 +25,8 @@ class Card < ApplicationRecord
 
     def options_for_card_type_select(selected_type)
       options_for_select(
-        CardProduct.types.map do |type, _|
-          [t("activerecord.attributes.card_product.types.#{type}"), type]
+        ::CardProduct.types.map do |type, _|
+          [::CardProduct::Cell::Type::NAMES.fetch(type.to_sym), type]
         end,
         selected_type,
       )
