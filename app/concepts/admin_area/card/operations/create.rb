@@ -11,7 +11,7 @@ module AdminArea
         private
 
         def model!(params)
-          Person.find(params[:person_id]).cards.new
+          ::Person.find(params[:person_id]).cards.new
         end
       end
     end

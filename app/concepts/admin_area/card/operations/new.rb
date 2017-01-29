@@ -20,7 +20,7 @@ module AdminArea
         private
 
         def setup_person!(opts, params:, **)
-          opts['person'] = Person.find(params[:person_id])
+          opts['person'] = ::Person.find(params[:person_id])
         end
 
         def setup_model!(opts)

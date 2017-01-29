@@ -1,7 +1,7 @@
 module AdminArea
   class SpendingInfosController < AdminController
     def edit
-      @person  = Person.find(params[:person_id])
+      @person  = ::Person.find(params[:person_id])
       @account = @person.account
       @model   = @person.spending_info
       raise "person doesn't have spending info" unless @model
@@ -9,7 +9,7 @@ module AdminArea
     end
 
     def update
-      @person  = Person.find(params[:person_id])
+      @person  = ::Person.find(params[:person_id])
       @account = @person.account
       @model   = @person.spending_info
       raise "person doesn't have spending info" unless @model

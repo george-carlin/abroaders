@@ -18,14 +18,14 @@
 
     <div class="panel-body">
       <div class="col-xs-12 col-md-6">
-        <%= cell(Person::Cell::Admin::SpendingInfo, @person) %>
+        <%= cell(AdminArea::Person::Cell::SpendingInfo, @person) %>
         <% if !@person.spending_info.nil? %>
           <%= link_to 'Edit', edit_admin_person_spending_info_path(@person) %>
         <% end %>
       </div>
 
       <div class="col-xs-12 col-md-6">
-        <%= cell(Person::Cell::Admin::Balances, @person) %>
+        <%= cell(AdminArea::Person::Cell::Balances, @person) %>
 
         <% if person.award_wallet_email.present? %>
           <p><b>AwardWallet email:</b> <%= person.award_wallet_email %></p>
@@ -221,14 +221,14 @@
 
         <tbody>
           <% @offers_grouped_by_product.each do |product, offers| %>
-            <%= cell(Recommendation::Cell::Admin::New::ProductsTable::Row, product) %>
+            <%= cell(AdminArea::Recommendation::Cell::ProductsTable::Row, product) %>
 
             <tr
               id="<%= dom_id(product, :admin_recommend) %>_offers"
               class="<%= dom_class(product, :admin_recommend) %>_offers"
             >
               <td colspan="5">
-                <%= cell(CardProduct::Cell::Admin::OffersTable, product, person: @person) %>
+                <%= cell(AdminArea::CardProduct::Cell::OffersTable, product, person: @person) %>
               </td>
             </tr><!-- .admin_recommend_card_product_(id) -->
           <% end %>

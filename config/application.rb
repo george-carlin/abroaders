@@ -30,8 +30,8 @@ module Abroaders
     require "modules/auto_strip_attributes"
 
     config.cells.with_assets = [
-      'account/cell/admin/index',
-      'recommendation/cell/admin/new',
+      'admin_area/account/cell/index',
+      'admin_area/recommendation/cell/new',
     ]
 
     config.autoload_paths << Rails.root.join("app", "models", "destinations")
