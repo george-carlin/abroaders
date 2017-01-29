@@ -8,7 +8,7 @@ module AdminArea
         # TODO once this cell is being used in the proper way, these methods
         # should be made private
 
-        # If the account has any ROIs, display Cells::RegionsOfInterest::List.
+        # If the account has any ROIs,  list them.
         # Else display text saying there are no ROIs.
         def regions_of_interest
           if account.regions_of_interest.any?
@@ -21,7 +21,7 @@ module AdminArea
           end
         end
 
-        # If the account has any home airports, display Cells::HomeAirports::List.
+        # If the account has any home airports, list them.
         # Else display text saying there are no home airports.
         def home_airports
           if account.home_airports.any?
