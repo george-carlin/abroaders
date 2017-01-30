@@ -195,7 +195,6 @@ RSpec.describe "admin product pages" do
 
           expect(current_path).to eq admin_card_product_path(@product)
         end
-
       end
 
       describe "with invalid information" do
