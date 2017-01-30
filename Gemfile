@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.3.3'
 
-gem 'rails', '5.0.0.1'
+gem 'rails', '5.0.1'
 gem 'trailblazer', '~> 2.0.1'
 gem 'trailblazer-rails', '>= 1.0.0'
 gem 'disposable'
