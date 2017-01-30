@@ -96,13 +96,8 @@ Style/TrailingCommaInArguments:
 Style/TrailingCommaInLiteral:
   EnforcedStyleForMultiline: consistent_comma
 
-# Offense count: 12
-# Configuration parameters: SupportedStyles.
-# SupportedStyles: snake_case, normalcase, non_integer
 Style/VariableNumber:
-  EnforcedStyle: 'snake_case'
-  Exclude:
-    - 'spec/features/balances/index_page_spec.rb'
+  Enabled: false
 
 StringLiterals:
   Enabled: false
