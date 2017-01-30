@@ -32,6 +32,7 @@ module Abroaders
     config.cells.with_assets = [
       'admin_area/account/cell/index',
       'admin_area/recommendation/cell/new',
+      'card/cell/new/select_product',
     ]
 
     config.autoload_paths << Rails.root.join("app", "models", "destinations")

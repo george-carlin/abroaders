@@ -16,6 +16,21 @@ class Card < ApplicationRecord
       def setup_model!(opts, person:, **)
         opts['model'] = person.cards.new
       end
+
+      class SelectProduct < Trailblazer::Operation
+        step :load_products!
+        step :load_banks!
+
+        private
+
+        def load_products!(opts)
+          opts['collection'] = CardProduct.includes(:bank).order(name: :asc)
+        end
+
+        def load_banks!(opts)
+          opts['banks'] = Bank.order(name: :asc)
+        end
+      end
     end
   end
 end

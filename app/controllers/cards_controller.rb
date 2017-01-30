@@ -23,6 +23,19 @@ class CardsController < AuthenticatedUserController
     end
   end
 
+  def new
+    if params[:product_id]
+      run Card::Operations::New
+      render cell(Card::Cell::New, @_result)
+    else
+      run Card::Operations::New::SelectProduct
+      render cell(Card::Cell::New::SelectProduct, @collection, banks: @_result['banks'])
+    end
+  end
+
+  def create
+  end
+
   def edit
     run Card::Operations::Edit
     @form.prepopulate!
