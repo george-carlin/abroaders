@@ -57,8 +57,6 @@ Rails.application.routes.draw do
   get :slack, to: "slack_invites#new"
   post "slack/invite", to: "slack_invites#create"
 
-  # Note that 'cards' is a fixed list, and 'card accounts' is the join table
-
   resources :balances, only: [:index, :update]
 
   resource :spending_info, path: :spending, only: [] do
