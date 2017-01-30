@@ -6,7 +6,6 @@ namespace :ab do
     [
       ["Forms",       "app/forms"],
       ["Presenters",  "app/presenters"],
-      ["Queries",     "app/queries"],
       ["Serializers", "app/serializers"],
     ].each do |name, dir|
       ::STATS_DIRECTORIES << [name, Rails.root.join(dir)]
