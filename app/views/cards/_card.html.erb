@@ -7,10 +7,7 @@
     <p>
       <b>Card Name:</b>
       <span class="card-account-card-name">
-        <%= card.product.name %>
-        <% unless card.product.network == 'Unknown' %>
-          (<%= card.product.network %>)
-        <% end %>
+        <%= cell(CardProduct::Cell::FullName, card.product, with_bank: true, network_in_brackets: true) %>
       </span>
     </p>
 
