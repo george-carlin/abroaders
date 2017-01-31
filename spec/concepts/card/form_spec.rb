@@ -14,8 +14,8 @@ describe Card::Form do
     form.errors
   end
 
-  let(:yesterday) { Date.yesterday }
-  let(:tomorrow)  { Date.tomorrow }
+  let(:yesterday) { Date.today - 2 }
+  let(:tomorrow)  { Date.today + 2 }
   let(:today)     { Date.today }
 
   # remember that if the card is not a recommendation, we massage the

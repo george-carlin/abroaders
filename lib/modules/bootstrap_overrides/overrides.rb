@@ -1,4 +1,6 @@
 module BootstrapOverrides
+  # Note that this won't be available by default in cells - you must include it
+  # manually.
   module Overrides
     BOOTSTRAP_CLASS = 'form-control'.freeze
 

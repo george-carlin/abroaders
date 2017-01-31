@@ -23,12 +23,7 @@ module AdminArea
     end
 
     def search
-      result = run(AdminArea::Account::Operations::Search)
-      if result.success?
-        @collection = result['collection']
-      else
-        raise 'this should never happen!'
-      end
+      run(AdminArea::Account::Operations::Search)
     end
 
     def download_user_status_csv

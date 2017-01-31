@@ -1,0 +1,16 @@
+<div id="<%= html_id %>" class="row">
+  <div class="col-xs-12 col-sm-3">
+    <%= cell(CardProduct::Cell::Image, model) %>
+  </div>
+
+  <div class="col-xs-12 col-sm-7">
+    <%= cell(CardProduct::Cell::FullName, model, network_in_brackets: true) %><br>
+    Annual Fee: <%= cell(CardProduct::Cell::AnnualFee, model) %>
+  </div>
+
+  <div class="col-xs-12 col-sm-2">
+    <%= link_to_select %>
+  </div>
+</div>
+
+<hr>

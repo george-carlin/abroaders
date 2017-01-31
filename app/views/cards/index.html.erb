@@ -2,7 +2,7 @@
 
 <div class="hpanel">
   <div class="panel-heading hbuilt">
-    <h2>Card Recommendations</h2>
+    <h1>Your Cards</h1>
   </div><!-- panel-heading -->
 
   <div class="panel-body">
@@ -21,9 +21,12 @@
         <div id="card_recommendations">
           <% @people.each do |person| %>
             <div id="<%= person.type %>_card_recommendations">
-              <% if @people.many? %>
-                <h3><%= cards_index_subheader(person) %></h3>
-              <% end %>
+              <%= cell(
+                Card::Cell::Index::Subheader,
+                nil,
+                account: current_account,
+                person: person
+              ) %>
 
               <% card_recs = @recommendations.where(person: person) %>
               <% if card_recs.any? %>
@@ -49,22 +52,27 @@
   </div><!-- .panel-body -->
 </div><!-- .hpanel -->
 
-<% if @cards_from_survey.any? %>
-  <div class="row">
-    <div class="col-xs-12">
-      <div class="hpanel">
-        <div class="panel-heading hbuilt">
-          <h2>Other Cards</h2>
-          <p>You told us when you signed up that you already had these cards:</p>
-        </div>
+<div class="row">
+  <div class="col-xs-12">
+    <div class="hpanel">
+      <div class="panel-heading hbuilt">
+        <h2>
+          Other Cards
+          <%= link_to 'Add New', new_card_path %>
+        </h2>
+      </div>
 
-        <div class="panel-body">
+      <div class="panel-body">
+        <% if @cards_from_survey.any? %>
           <div id="cards_from_survey">
             <% @people.each do |person| %>
               <div id="<%= person.type %>_cards_from_survey">
-                <% if @people.many? %>
-                  <h3><%= cards_index_subheader(person) %></h3>
-                <% end %>
+                <%= cell(
+                  Card::Cell::Index::Subheader,
+                  nil,
+                  account: current_account,
+                  person: person
+                ) %>
 
                 <% survey_cards = @cards_from_survey.where(person: person) %>
                 <% if survey_cards.any? %>
@@ -75,8 +83,8 @@
               </div><!-- #<%= person.type %>_cards_from_survey -->
             <% end %>
           </div>
-        </div><!-- .panel-body -->
-      </div>
+        <% end %>
+      </div><!-- .panel-body -->
     </div>
   </div>
-<% end %>
+</div>
