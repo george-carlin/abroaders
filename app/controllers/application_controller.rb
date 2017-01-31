@@ -35,7 +35,8 @@ class ApplicationController < ActionController::Base
   # extend the method provided by trailblazer so that it sets
   # @collection from result['collection'] (if collection is provided)
   def run(*args)
-    super
+    result = super
     @collection = @_result['collection']
+    result
   end
 end
