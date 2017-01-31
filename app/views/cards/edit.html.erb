@@ -22,10 +22,7 @@
         <div class="col-xs-12 col-sm-6 col-md-4">
           <p>
             <span class="card-account-card-name">
-              <%= @model.product.name %>
-              <% unless @model.product.unknown_network? %>
-                (<%= @model.product.network %>)
-              <% end %>
+              <%= CardProduct::Cell::FullName.(@model.product, network_in_brackets: true) %>
             </span>
           </p>
 
