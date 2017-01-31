@@ -1,8 +1,6 @@
 class Card < ApplicationRecord
   module Operations
-    # Setup the form for a new card. Initializes the Card with a Person
-    # (from params, or defaults to account owner) and a CardProduct (from
-    # params)
+    # Setup the form for a new card. If
     #
     # This op is also nested within from Card::Operations::Create
     #
@@ -37,7 +35,7 @@ class Card < ApplicationRecord
       # if params contain product_id (will come from a GET param), find the
       # CardProduct and set card.product. (This will be used to fill the value
       # of a hidden field in the <form>). Also set opts['product']
-      def find_product!(opts, model:, params:, **)
+      def find_product!(opts, params:, **)
         if (id = product_id(params))
           opts['model'].product ||= opts['product'] = CardProduct.find(id)
         end
@@ -47,6 +45,8 @@ class Card < ApplicationRecord
         params[:product_id] || (params[:card] && params[:card][:product_id])
       end
 
+      # when no product ID is provided in the params, show this page instead so
+      # they can choose a product.
       class SelectProduct < Trailblazer::Operation
         step :load_products!
         step :load_banks!
