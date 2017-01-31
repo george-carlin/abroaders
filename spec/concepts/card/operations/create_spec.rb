@@ -6,33 +6,49 @@ RSpec.describe Card::Operations::Create do
   let(:product) { create(:card_product) }
   let(:op) { described_class }
 
-  example 'creating a card' do
+  let(:params) { { product_id: product.id } }
+
+  example 'creating a card - no person specified' do
     result = op.(
-      { card: { product_id: product.id, opened_at: Date.today } },
+      params.merge(card: { product_id: product.id, opened_at: Date.today }),
       'account' => account,
-      'person' => person,
     )
     expect(result.success?).to be true
 
     card = result['model']
-    expect(card.person).to eq person
+    expect(card.person).to eq person # default
     expect(card.product).to eq product
     expect(card.closed_at).to be nil
     expect(card.opened_at).to eq Date.today
   end
 
+  example 'creating a card - specifying a person-id' do
+    companion = create(:companion, account: account)
+    result = op.(
+      params.merge(
+        card: {
+          opened_at: Date.today,
+          person_id: companion.id,
+          product_id: product.id,
+        },
+      ),
+      'account' => account,
+    )
+    expect(result.success?).to be true
+
+    expect(result['model'].person).to eq companion
+  end
+
   example 'creating a closed card' do
     result = op.(
-      {
+      params.merge(
         card: {
           closed: true,
           closed_at: Date.today,
           opened_at: Date.yesterday,
-          product_id: product.id,
         },
-      },
+      ),
       'account' => account,
-      'person' => person,
     )
     expect(result.success?).to be true
 
@@ -45,25 +61,22 @@ RSpec.describe Card::Operations::Create do
 
   example 'invalid save - opened in future' do
     result = op.(
-      { card: { opened_at: Date.tomorrow, product_id: product.id } },
+      params.merge(card: { opened_at: Date.tomorrow, product_id: product.id }),
       'account' => account,
-      'person' => person,
     )
     expect(result.success?).to be false
   end
 
   example 'invalid save - closed before opened' do
     result = op.(
-      {
+      params.merge(
         card: {
           closed: true,
-          closed_at: Date.yesterday,
+          closed_at: Date.today - 10,
           opened_at: Date.today,
-          product_id: product.id,
         },
-      },
+      ),
       'account' => account,
-      'person' => person,
     )
     expect(result.success?).to be false
   end

@@ -1,31 +1,43 @@
 class Card < ApplicationRecord
   module Operations
-    # Setup the form for a new card. If
+    # Setup the form for a new card.
     #
     # This op is also nested within from Card::Operations::Create
     #
     # options:
     #   'account': the currently logged-in account
-    #   'person' (optional) the Person who the card will belong to. Defaults
-    #       to the account owner.
     #
     # params:
-    #   'product_id': the pre-selected CardProduct that the card will belong_to.
-    #       optional, because it's only used by the 'new' action, not 'create'.
+    #   'product_id': the id of CardProduct that the Card will belong_to.
+    #       The user will select the product on /cards/new (which
+    #       uses the SelectProduct op, not the New op), then they'll see the
+    #       'real' form on /products/:product_id/cards/new. The form
+    #       will then post to /products/:product_id/cards, meaning that
+    #       :product_id should *always* be present in the params for New
+    #   'card': the attributes of the new card. optional (only used by Create).
+    #       params[:card][:person_id] will only be present if the current
+    #       user is a couples account. If it's not present, the person will
+    #       default to the account's owner. Note that a 'person' option WON'T
+    #       be passed in from the controller in either case, since we're
+    #       talking about params[:card][:person_id], not params[:person_id]
     #
     class New < Trailblazer::Operation
       extend Contract::DSL
       contract ::Card::NewForm
 
-      step :set_default_person!
+      step :setup_person!
       step :setup_model!
       success :find_product!
       step Contract::Build()
 
       private
 
-      def set_default_person!(opts, account:, **)
-        opts['person'] ||= account.owner
+      def setup_person!(opts, params:, account:, **)
+        if params[:card] && params[:card][:person_id]
+          opts['person'] = account.people.find(params[:card][:person_id])
+        else
+          opts['person'] = account.owner
+        end
       end
 
       def setup_model!(opts, person:, **)
@@ -36,13 +48,7 @@ class Card < ApplicationRecord
       # CardProduct and set card.product. (This will be used to fill the value
       # of a hidden field in the <form>). Also set opts['product']
       def find_product!(opts, params:, **)
-        if (id = product_id(params))
-          opts['model'].product ||= opts['product'] = CardProduct.find(id)
-        end
-      end
-
-      def product_id(params)
-        params[:product_id] || (params[:card] && params[:card][:product_id])
+        opts['model'].product = opts['product'] = CardProduct.find(params[:product_id])
       end
 
       # when no product ID is provided in the params, show this page instead so

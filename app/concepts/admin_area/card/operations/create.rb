@@ -7,7 +7,7 @@ module AdminArea
         #
         # (Note: the above issue has been resolved, and the fix should be
         # coming in an upcoming (> 0.0.12) version of trailblazer-operation
-        step Nested(AdminArea::Card::Operations::New)
+        step Nested(::AdminArea::Card::Operations::New)
         step Contract::Validate(key: :card)
         step Contract::Persist()
       end

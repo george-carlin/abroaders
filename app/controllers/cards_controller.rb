@@ -23,6 +23,8 @@ class CardsController < AuthenticatedUserController
     end
   end
 
+  # GET /cards/new
+  # GET /products/:product_id/cards/new
   def new
     if params[:product_id]
       run Card::Operations::New

@@ -91,6 +91,10 @@ Rails.application.routes.draw do
 
   resources :cards
 
+  resources :products, only: [] do
+    resources :cards, only: [:new, :create]
+  end
+
   resources :recommendations do
     member do
       get   :apply

@@ -8,7 +8,7 @@
   </div>
 
   <div class="panel-body">
-    <%= form_for form, url: cards_path do |f| %>
+    <%= form_for form, url: product_cards_path(params[:product_id]) do |f| %>
       <%= f.hidden_field :product_id %>
 
       <div class="row">
