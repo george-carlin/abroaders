@@ -29,4 +29,14 @@ class ApplicationController < ActionController::Base
       redirect_to new_account_session_path
     end
   end
+
+  private
+
+  # extend the method provided by trailblazer so that it sets
+  # @collection from result['collection'] (if collection is provided)
+  def run(*args)
+    result = super
+    @collection = @_result['collection']
+    result
+  end
 end

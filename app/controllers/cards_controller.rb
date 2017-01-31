@@ -23,6 +23,28 @@ class CardsController < AuthenticatedUserController
     end
   end
 
+  # GET /cards/new
+  # GET /products/:product_id/cards/new
+  def new
+    if params[:product_id]
+      run Card::Operations::New
+      render cell(Card::Cell::New, result)
+    else
+      run Card::Operations::New::SelectProduct
+      # TODO pass result to the cell directly
+      render cell(Card::Cell::New::SelectProduct, @collection, banks: result['banks'])
+    end
+  end
+
+  def create
+    run Card::Operations::Create do
+      flash[:success] = 'Added card!'
+      redirect_to cards_path
+      return
+    end
+    render cell(Card::Cell::New, result)
+  end
+
   def edit
     run Card::Operations::Edit
     @form.prepopulate!

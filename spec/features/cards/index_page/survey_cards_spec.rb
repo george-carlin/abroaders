@@ -57,14 +57,6 @@ describe "card accounts page survey cards section" do
     end
   end
 
-  example "no companion and no 'from survey' cards" do
-    visit_page
-    # it has no 'Other cards' section
-    expect(page).to have_no_survey_cards_header
-    expect(page).to have_no_selector survey_cards_section
-    expect(page).to have_no_content "has no other cards"
-  end
-
   example "no companion; I have 'from survey' cards" do
     open_acc   = create(:open_survey_card,   person: person, product: products[0])
     closed_acc = create(:closed_survey_card, person: person, product: products[1])
@@ -89,13 +81,6 @@ describe "card accounts page survey cards section" do
     end
 
     expect(page).to have_no_selector "h2", text: "#{person.first_name}'s cards"
-  end
-
-  example "companion; no-one has survey cards" do
-    create_companion!
-    visit_page
-    expect(page).to have_no_survey_cards_header
-    expect(page).to have_no_selector survey_cards_section
   end
 
   example "companion; only owner has survey cards" do
