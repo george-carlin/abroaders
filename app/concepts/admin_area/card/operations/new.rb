@@ -2,12 +2,14 @@ module AdminArea
   module Card
     module Operations
       class New < Trailblazer::Operation
-        step :setup_person!
-        # pass the 'person' option into New
-        step Nested(::Card::Operations::New, input: ->(_, person:, **) { { person: person } })
+        extend Contract::DSL
+        contract ::Card::NewForm
 
-        # This isn't pretty... also, it's display logic, so not sure it belongs
-        # in here. FIXME
+        step :setup_person!
+        step :setup_model!
+        step Contract::Build()
+
+        # This is display logic, it belongs in a cell, not an operation. FIXME
         def self.product_options
           ::CardProduct.all.map do |product|
             [AdminArea::CardProduct::Cell::Identifier.(product).(), product.id]

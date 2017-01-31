@@ -70,17 +70,16 @@ class Card < ApplicationRecord
           end
         end
 
+        # model: a CardProduct
         class Product < Trailblazer::Cell
           include ActionView::Helpers::RecordTagHelper
-
-          property :id
 
           private
 
           def link_to_select
             link_to(
               'Add this Card',
-              new_card_path(product_id: id),
+              new_product_card_path(model),
               class: 'btn btn-primary',
             )
           end
