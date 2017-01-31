@@ -246,9 +246,83 @@ All business logic should live in operations. TODO expand.
 
 ### Cells
 
-- If a cell is rendered directly from a controller (i.e. it's conceptually equivalent to a Rails view, as opposed to a Rails partial), its name should match the name of the controller action. E.g. travel_plans#index should render `TravelPlans::Cell::Index`. Otherwise use a descriptive name that won't be confused with a controller action (so no RESTful verbs).
-- Generally, the cell should accept an object that matches the outermost part of its name. E.g. if the cell is called `TravelPlan::Cell::FurtherInformation`, it should be called like `TravelPlan::Cell::FurtherInformation.(travel_plan)`, rather than `TravelPlan::Cell::FurtherInformation.(travel_plan.further_information)`. I've found it's easier to use this blanket approach and let the cell get the precise data it needs from the `model` than to create cells with a more complex API that inevitably requires a bunch of boilerplate every time the cell is called.
-- Remember that, unlike Rails views, Cells don't escape HTML automatically, so make sure that all user-generated content is escaped before it gets displayed on the page. See [HTML Escaping](http://trailblazer.to/gems/cells/api.html#html-escaping) in the Cells docs.
+- There are essentially two types of cells: 'high level' ones which contain all
+  the HTML for a given page and which are rendered from the controller using
+  `render cell(Cell)`, and 'lower level' ones which render smaller fragments of
+  HTML and text and which will be used internally by the higher level cells.
+  The different between the two is basically the same as the difference between
+  a view in a partial in Rails. Perhaps we should have namespaced our cells
+  separately to reflect this, but it's too late to bother now. For the purposes
+  of this guide I'll call them 'view cells' and 'partial cells'.
+
+- A cell's "model" is the first argument that it gets passed, which can
+  be anything and which is available in the cell as `model`. Its "options"
+  are the second argument when rendering, which must be a hash (or nil).
+
+- By convention, view cells should take a Trailblazer Result object as their
+  model. They can pull out whatever information they need from the result
+  themselves. Following this convention simplifies our controllers means that
+  all our cells have a consistent API, and it means that if we change something
+  about how the result object works then it's much less likely that we'll need
+  to change the controller.
+
+- Partial cells can use model whatever you want, but it should generally be
+  an ActiveRecord model. If the cell only needs to use a particular attribute
+  of a model, pass in the whole model anyway:
+
+        # GOOD
+        # app/concepts/user/cell/show.erb
+        <%= email %>
+
+        # app/concepts/user/cell/show.rb
+        def email
+          model.email.nil? ? 'None provided' : model.email
+        end
+
+        # rendering
+        cell(User::Cell::Show, user)
+
+        # BAD
+        # app/concepts/user/cell/show.erb
+        <%= email %>
+
+        # app/concepts/user/cell/show.rb
+        def email
+          options[:email].nil? ? 'None provided' : options[:email]
+        end
+
+        # rendering
+        cell(User::Cell::Show, nil, email: user.email)
+
+  The above 'bad' example isn't terrible, but what if we need to use not just
+  the user's email but 3 or 4 of its attributes? That quickly results in a lot
+  of ugly boilerplate every time we want to render the cell. And what if the
+  requirements later change and we need to use a bunch of extra attributes from
+  the user, or something about the user changes and we need to update how
+  we get its email? If each attribute is being passed in individually, the API
+  is extremely fragile and will require changes in multiple places every
+  time the requirements change. By passing in the whole user object, then
+  it's likely that all future changes can be safely handled within the cell
+  itself's code.
+
+  This is in line with Trailblazer's approach of passing the entire `params`
+  hash into each operation rather than extracting a subset of the params within
+  the controller.
+
+- Generally, a partial cell should accept an object that matches the outermost part
+  of its name. E.g. if the cell is called
+  `TravelPlan::Cell::FurtherInformation`, it should be called like
+  `TravelPlan::Cell::FurtherInformation.(travel_plan)`, rather than
+  `TravelPlan::Cell::FurtherInformation.(travel_plan.further_information)`.
+  I've found it's easier to use this blanket approach and let the cell get the
+  precise data it needs from the `model` than to create cells with a more
+  complex API that inevitably requires a bunch of boilerplate every time the
+  cell is called.
+
+- Remember that, unlike Rails views, Cells don't escape HTML automatically, so
+  make sure that all user-generated content is escaped before it gets displayed
+  on the page. See [HTML Escaping](http://trailblazer.to/gems/cells/api.html#html-escaping)
+  in the Cells docs.
 
 ## Rails
 
