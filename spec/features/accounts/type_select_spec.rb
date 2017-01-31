@@ -19,9 +19,9 @@ describe "account type select page", :js, :onboarding do
     click_button couples_btn
   end
 
-  it { is_expected.to have_title full_title("Select Account Type") }
+  pending { is_expected.to have_title full_title('Select Account Type') }
 
-  it "gives me the option to choose a 'Solo' or 'Partner' account" do
+  it 'gives me the option to choose a "Solo" or "Partner" account' do
     expect(page).to have_button solo_btn
     expect(page).to have_button couples_btn
     expect(page).to have_field :account_companion_first_name
