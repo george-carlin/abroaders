@@ -6,6 +6,19 @@
 # to update things so our app triggers the APIs directly, but it's low
 # priority.
 class AccountMailer < ApplicationMailer
+  class << self
+    def method_missing(meth, *args, &block)
+      if action_methods.include?(meth) && ENV['DISABLE_ACCOUNT_MAILER']
+        require 'dummy_message'
+
+        Rails.logger.info("Not performing #{meth} - AccountMailer is disabled")
+        DummyMessage.new
+      else
+        super
+      end
+    end
+  end
+
   def notify_admin_of_sign_up(account_id)
     @account = Account.find(account_id)
     mail(to: ENV['MAILPARSER_NEW_SIGNUP'], subject: "New sign up at Abroaders app - #{@account.email}")

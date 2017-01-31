@@ -6,5 +6,7 @@
      intercom
      post_affiliate_pro
    ].each do |script| %>
-  <%= render File.join "shared", "third_party_scripts", script %>
+  <% unless ENV['DISABLE_THIRD_PARTY_SCRIPTS'] %>
+    <%= render File.join 'shared', 'third_party_scripts', script %>
+  <% end %>
 <% end %>
