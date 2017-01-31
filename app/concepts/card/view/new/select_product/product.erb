@@ -4,7 +4,7 @@
   </div>
 
   <div class="col-xs-12 col-sm-7">
-    <%= cell(CardProduct::Cell::FullName, model) %><br>
+    <%= cell(CardProduct::Cell::FullName, model, network_in_brackets: true) %><br>
     Annual Fee: <%= cell(CardProduct::Cell::AnnualFee, model) %>
   </div>
 

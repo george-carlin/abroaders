@@ -1,22 +1,19 @@
-<% provide :title, "Edit Card" %>
-
 <div class="hpanel">
   <div class="panel-heading hbuilt">
     <div class="row">
       <div class="col-xs-12">
-        <h1>Edit Card</h1>
+        <h1>Add Card</h1>
       </div>
     </div><!-- .row -->
   </div>
 
-  <%= render 'shared/model_validation_errors', model: @form %>
-
   <div class="panel-body">
-    <%= form_for @form, url: card_path(@model), html: { class: "edit_card" } do |f| %>
+    <%= form_for form, url: cards_path, html: { class: "edit_card" } do |f| %>
+      <%= f.hidden_field :product_id %>
 
       <div class="row">
         <%# two divs with cols XS 12/12, SM 6/6, MD 2/4: %>
-        <%= cell(CardProduct::Cell::Summary, @model.product) %>
+        <%= cell(CardProduct::Cell::Summary, product) %>
 
         <div class="col-xs-12 col-md-6">
           <div class="row">
@@ -45,7 +42,7 @@
               <%= f.check_box :closed, class: "cards_survey_card_closed input-lg" %>
             </div>
 
-            <div class="card-survey-closed <%= 'hide' unless @form.closed %>">
+            <div class="card-survey-closed <%= 'hide' unless form.closed %>">
               <div class="col-md-12 col-lg-4">
                 <label class="card-info-label card-survey-closed">When did you close this card?</label>
               </div>
