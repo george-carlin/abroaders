@@ -52,15 +52,18 @@
   </div><!-- .panel-body -->
 </div><!-- .hpanel -->
 
-<% if @cards_from_survey.any? %>
-  <div class="row">
-    <div class="col-xs-12">
-      <div class="hpanel">
-        <div class="panel-heading hbuilt">
-          <h2>Other Cards</h2>
-        </div>
+<div class="row">
+  <div class="col-xs-12">
+    <div class="hpanel">
+      <div class="panel-heading hbuilt">
+        <h2>
+          Other Cards
+          <%= link_to 'Add New', new_card_path %>
+        </h2>
+      </div>
 
-        <div class="panel-body">
+      <div class="panel-body">
+        <% if @cards_from_survey.any? %>
           <div id="cards_from_survey">
             <% @people.each do |person| %>
               <div id="<%= person.type %>_cards_from_survey">
@@ -80,8 +83,8 @@
               </div><!-- #<%= person.type %>_cards_from_survey -->
             <% end %>
           </div>
-        </div><!-- .panel-body -->
-      </div>
+        <% end %>
+      </div><!-- .panel-body -->
     </div>
   </div>
-<% end %>
+</div>
