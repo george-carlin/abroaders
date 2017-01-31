@@ -1,13 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe Card::Operations::Create do
-  let(:person)  { create(:account).owner }
+  let(:account) { create(:account) }
+  let(:person)  { account.owner }
   let(:product) { create(:card_product) }
   let(:op) { described_class }
 
   example 'creating a card' do
     result = op.(
       { card: { product_id: product.id, opened_at: Date.today } },
+      'account' => account,
       'person' => person,
     )
     expect(result.success?).to be true
@@ -29,6 +31,7 @@ RSpec.describe Card::Operations::Create do
           product_id: product.id,
         },
       },
+      'account' => account,
       'person' => person,
     )
     expect(result.success?).to be true
@@ -43,6 +46,7 @@ RSpec.describe Card::Operations::Create do
   example 'invalid save - opened in future' do
     result = op.(
       { card: { opened_at: Date.tomorrow, product_id: product.id } },
+      'account' => account,
       'person' => person,
     )
     expect(result.success?).to be false
@@ -58,6 +62,7 @@ RSpec.describe Card::Operations::Create do
           product_id: product.id,
         },
       },
+      'account' => account,
       'person' => person,
     )
     expect(result.success?).to be false
