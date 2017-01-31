@@ -16,11 +16,11 @@
         <tbody>
           <% @products.each do |product| %>
             <tr id="<%= dom_id(product) %>">
-              <td><%= cell(CardProduct::Cell::Identifier, product) %></td>
+              <td><%= cell(AdminArea::CardProduct::Cell::Identifier, product) %></td>
               <td><%= product.bank.name %></td>
               <td><%= link_to product.name, admin_card_product_path(product) %></td>
-              <td><%= cell(CardProduct::Cell::Product, network) %></td>
-              <td><%= cell(CardProduct::Cell::Image, network) %></td>
+              <td><%= cell(CardProduct::Cell::Network, product) %></td>
+              <td><%= cell(CardProduct::Cell::Image, product) %></td>
             </tr>
           <% end # present_each %>
         </tbody>
