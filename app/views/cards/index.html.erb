@@ -76,7 +76,7 @@
 
                 <% survey_cards = @cards_from_survey.where(person: person) %>
                 <% if survey_cards.any? %>
-                  <%= render survey_cards %>
+                  <%= cell(Card::Cell::BasicCard, collection: survey_cards, editable: true) %>
                 <% else %>
                   <p><%= person.first_name %> has no other cards</p>
                 <% end %>
