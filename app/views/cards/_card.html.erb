@@ -1,6 +1,6 @@
 <%= present_div card, class: "row" do |card| %>
   <div class="col-xs-12 col-sm-6 col-md-2">
-    <%= card.product.image("130x81") %>
+    <%= CardProduct::Cell::Image.(card.product, size: '130x81') %>
   </div>
 
   <div class="col-xs-12 col-sm-6 col-md-6">
