@@ -64,6 +64,10 @@ Style/Lambda:
 Style/LambdaCall:
   Enabled: false
 
+Style/MethodMissing:
+  Exclude:
+    - 'app/mailers/account_mailer.rb'
+
 Style/MultilineBlockChain:
   Enabled: false
 
