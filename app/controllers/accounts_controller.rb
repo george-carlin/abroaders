@@ -7,8 +7,14 @@ class AccountsController < AuthenticatedUserController
   # (root_path)
 
   def type
-    @destination = current_account.travel_plans&.last&.flights&.first&.to
-    @owner       = current_account.owner
+    destination = current_account.travel_plans&.last&.flights&.first&.to
+    # TODO convert to Trailblazer op
+    @result = {
+      'destination' => destination,
+      'account'     => current_account,
+    }
+    # TODO provide :title, 'Select Account Type'
+    render cell(Onboarding::Cell::Account::Type, @result)
   end
 
   def submit_type
