@@ -5,7 +5,8 @@ class Card < ApplicationRecord
       include ActionView::Helpers::DateHelper
       include ActionView::Helpers::FormOptionsHelper
       include BootstrapOverrides::Overrides
-      include Partial # for the validation errors. TODO extract partial to cell
+      # this include is necessary otherwise the specs fail; appears to be
+      # a bug in Cells. See https://github.com/trailblazer/cells/issues/298 FIXME
       include ::Cell::Erb
 
       alias result model
@@ -35,10 +36,6 @@ class Card < ApplicationRecord
 
       def product
         result['product']
-      end
-
-      def validation_errors
-        render partial: 'shared/reform_validation_errors', model: form
       end
 
       # should only be called when the account has a companion

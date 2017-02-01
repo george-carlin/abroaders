@@ -108,8 +108,7 @@ RSpec.describe 'new card page', :js do
       select 'Jan', from: CLOSED_MONTH
       select year, from: CLOSED_YEAR
       expect { click_button 'Save' }.not_to change { person.cards.count }
-      # TODO add error message (reform_validation_errors partial needs updating
-      # to a Cell)
+      expect(page).to have_error_message
     end
 
     context 'for a solo account' do

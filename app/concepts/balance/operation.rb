@@ -2,6 +2,7 @@ require 'reform/form/dry'
 require 'trailblazer/operation/contract'
 
 class Balance < ApplicationRecord
+  # TODO rename me to Balance::Operations::Create
   class Create < Trailblazer::Operation
     extend Contract::DSL
 
