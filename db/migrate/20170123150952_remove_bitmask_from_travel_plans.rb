@@ -10,14 +10,21 @@ class RemoveBitmaskFromTravelPlans < ActiveRecord::Migration[5.0]
     # value of the column.
     #
     # The integer will be between 0 and 15, because it's a 4-bit binary number.
-    TravelPlan.pluck(:id, :acceptable_classes).each do |id, ac|
-      TravelPlan.update(
-        id,
-        accepts_economy:         ac % 2 == 1,
-        accepts_premium_economy: (ac >> 1) % 2 == 1,
-        accepts_business_class:  (ac >> 2) % 2 == 1,
-        accepts_first_class:     (ac >> 3) % 2 == 1,
-      )
+    reversible do |d|
+      d.up do
+        TravelPlan.pluck(:id, :acceptable_classes).each do |id, ac|
+          TravelPlan.update(
+            id,
+            accepts_economy:         ac % 2 == 1,
+            accepts_premium_economy: (ac >> 1) % 2 == 1,
+            accepts_business_class:  (ac >> 2) % 2 == 1,
+            accepts_first_class:     (ac >> 3) % 2 == 1,
+          )
+        end
+      end
+      d.down do
+        raise NotImplentedError
+      end
     end
 
     remove_column :travel_plans, :acceptable_classes, :integer, null: false
