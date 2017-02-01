@@ -82,16 +82,16 @@ describe "the sign up page", :onboarding do
         end
       end
 
-      describe "and trailing whitespace for name and email" do
+      describe 'and trailing whitespace for name and email' do
         before do
-          fill_in :sign_up_email,      with: " testaccount@example.com "
-          fill_in :sign_up_first_name, with: " Luke "
+          fill_in :sign_up_email,      with: ' testaccount@example.com '
+          fill_in :sign_up_first_name, with: ' Luke '
           submit_form
         end
 
-        it "strips the whitespace before save" do
-          expect(new_account.email).to eq "testaccount@example.com"
-          expect(new_person.first_name).to eq "Luke"
+        it 'strips the whitespace before save' do
+          expect(new_account.email).to eq 'testaccount@example.com'
+          expect(new_person.first_name).to eq 'Luke'
         end
       end
     end
