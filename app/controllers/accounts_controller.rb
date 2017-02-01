@@ -7,25 +7,13 @@ class AccountsController < AuthenticatedUserController
   # (root_path)
 
   def type
-    destination = current_account.travel_plans&.last&.flights&.first&.to
-    # TODO convert to Trailblazer op
-    @result = {
-      'destination' => destination,
-      'account'     => current_account,
-    }
+    run Account::Operations::Type
     # TODO provide :title, 'Select Account Type'
-    render cell(Onboarding::Cell::Account::Type, @result)
+    render cell(Onboarding::Cell::Account::Type, result)
   end
 
   def submit_type
-    form = AccountTypeForm.new(account: current_account)
-    form.update!(account_type_params)
+    run Account::Operations::Type::Onboard
     redirect_to onboarding_survey_path
-  end
-
-  private
-
-  def account_type_params
-    params.require(:account).permit(:type, :companion_first_name)
   end
 end
