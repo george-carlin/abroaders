@@ -1,8 +1,2 @@
-<div class="alert alert-danger alert-dismissable" role="alert">
-  <button type="button" class="close" data-dismiss="alert">
-    <span aria-hidden="true">&times;</span>
-    <span class="sr-only">Close</span>
-  </button>
-
-  <%= yield %>
-</div>
+<%# TODO remove this partial and call the cell directly in all cases %>
+<%= cell(Abroaders::Cell::ErrorAlert, nil, content: yield) %>
