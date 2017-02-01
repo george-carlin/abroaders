@@ -39,7 +39,8 @@ class Account < ApplicationRecord
 
         def create_companion_if_couples!(opts, params:, **)
           if params[:account][:type] == 'couples'
-            opts['account'].create_companion!(first_name: params[:account][:companion_first_name])
+            name = params[:account][:companion_first_name].strip
+            opts['account'].create_companion!(first_name: name)
           end
           true
         end

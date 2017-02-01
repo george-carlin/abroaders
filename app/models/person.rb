@@ -59,8 +59,6 @@ class Person < ApplicationRecord
 
   # Callbacks
 
-  auto_strip_attributes :first_name
-
   # Scopes
 
   scope :owner,     -> { where(owner: true) }
