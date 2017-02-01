@@ -7,7 +7,7 @@
       <% end %>
     </h1>
 
-    <%= render "shared/reform_validation_errors", form: @form %>
+    <%= cell(Abroaders::Cell::ValidationErrorsAlert, @form) %>
 
     <%= form_for [@form.model.person, @form.model] do |f| %>
 
