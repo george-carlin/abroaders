@@ -43,7 +43,7 @@ RSpec.describe Offer::Cell do
   end
 
   describe "#description" do
-    subject(:description) { cell.description }
+    let(:description) { cell.description }
 
     before do
       offer.product = CardProduct.new(currency: Currency.new(name: "Dinero"))

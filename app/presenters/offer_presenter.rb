@@ -49,15 +49,24 @@ class OfferPresenter < ApplicationPresenter
   end
 
   def spend
-    h.number_to_currency super()
+    warn 'OfferPresenter#spend is deprecated. Use Offer::Cell::Spend instead.'
+    line = caller.select { |l| l.include?(Rails.root.to_s) }[1].split(':')[0..1].join(':')
+    warn "Called from #{line}"
+    Offer::Cell::Spend.(model).()
   end
 
   def cost
-    h.number_to_currency super()
+    warn 'OfferPresenter#cost is deprecated. Use Offer::Cell::Cost instead'
+    line = caller.select { |l| l.include?(Rails.root.to_s) }[1].split(':')[0..1].join(':')
+    warn "Called from #{line}"
+    Offer::Cell::Cost.(model).()
   end
 
   def points_awarded
-    h.number_with_delimiter super()
+    warn 'OfferPresenter#points_awarded is deprecated. Use Offer::Cell::PointsAwarded instead'
+    line = caller.select { |l| l.include?(Rails.root.to_s) }[1].split(':')[0..1].join(':')
+    warn "Called from #{line}"
+    Offer::Cell::PointsAwarded.(model).()
   end
 
   def currency_name
@@ -85,16 +94,10 @@ class OfferPresenter < ApplicationPresenter
   end
 
   def description
-    case model.condition
-    when "on_minimum_spend"
-      "Spend #{spend} within #{days} days to receive a bonus of "\
-        "#{points_awarded} #{currency_name} points"
-    when "on_approval"
-      "#{points_awarded} #{currency_name} points awarded upon a successful application for this card."
-    when "on_first_purchase"
-      "#{points_awarded} #{currency_name} points awarded upon making your first purchase using this card."
-    else raise "this should never happen"
-    end
+    warn 'OfferPresenter#description is deprecated. Use Offer::Cell::Description instead'
+    line = caller.select { |l| l.include?(Rails.root.to_s) }[1].split(':')[0..1].join(':')
+    warn "Called from #{line}"
+    Offer::Cell::Description.(model).()
   end
 
   private
