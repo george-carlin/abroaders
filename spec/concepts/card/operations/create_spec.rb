@@ -28,6 +28,7 @@ RSpec.describe Card::Operations::Create do
       params.merge(
         card: {
           opened_at: Date.today,
+          closed: false,
           person_id: companion.id,
           product_id: product.id,
         },

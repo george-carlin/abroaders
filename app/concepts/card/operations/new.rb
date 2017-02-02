@@ -32,23 +32,23 @@ class Card < ApplicationRecord
 
       private
 
-      def setup_person!(opts, params:, account:, **)
-        if params[:card] && params[:card][:person_id]
-          opts['person'] = account.people.find(params[:card][:person_id])
-        else
-          opts['person'] = account.owner
-        end
+      # if params contain product_id (will come from a GET param), find the
+      # CardProduct and set card.product. (This will be used to fill the value
+      # of a hidden field in the <form>). Also set opts['product']
+      def find_product!(opts, params:, **)
+        opts['model'].product = opts['product'] = CardProduct.find(params[:product_id])
       end
 
       def setup_model!(opts, person:, **)
         opts['model'] = person.cards.new
       end
 
-      # if params contain product_id (will come from a GET param), find the
-      # CardProduct and set card.product. (This will be used to fill the value
-      # of a hidden field in the <form>). Also set opts['product']
-      def find_product!(opts, params:, **)
-        opts['model'].product = opts['product'] = CardProduct.find(params[:product_id])
+      def setup_person!(opts, params:, account:, **)
+        if params[:card] && params[:card][:person_id]
+          opts['person'] = account.people.find(params[:card][:person_id])
+        else
+          opts['person'] = account.owner
+        end
       end
 
       # when no product ID is provided in the params, show this page instead so

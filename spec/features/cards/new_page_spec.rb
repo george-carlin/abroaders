@@ -85,6 +85,10 @@ RSpec.describe 'new card page', :js do
       expect do
         click_button 'Save'
       end.to change { person.cards.count }.by(1)
+
+      card = person.cards.last
+      expect(card.opened_at).to eq Date.new(year.to_i, 12, 1)
+      expect(card.closed_at).to be nil
       expect(page).to have_content full_name_for(person.cards.last.product)
     end
 
@@ -109,6 +113,8 @@ RSpec.describe 'new card page', :js do
       select year, from: CLOSED_YEAR
       expect { click_button 'Save' }.not_to change { person.cards.count }
       expect(page).to have_error_message
+      expect(find("##{CLOSED_MONTH}")[:disabled]).not_to be_truthy
+      expect(find("##{CLOSED_YEAR}")[:disabled]).not_to be_truthy
     end
 
     context 'for a solo account' do

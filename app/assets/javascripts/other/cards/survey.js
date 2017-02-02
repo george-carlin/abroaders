@@ -16,6 +16,7 @@ $(document).ready(function () {
     var checked = $this.prop("checked");
 
     $this.closest(".card-survey-checkbox").toggleClass("closed", checked);
+    $('.card-survey-closed').toggleClass("hide", !checked);
   });
 
   $("#card-survey-initial-yes-btn").click(function (e) {

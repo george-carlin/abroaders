@@ -27,9 +27,9 @@
               <div class="col-md-12 col-lg-8">
                 <%= f.select :person_id, options_for_person_id_select %>
               </div>
-
-            <br/>
             <% end %>
+
+            <br />
 
             <div class="col-md-12 col-lg-4">
               <label class="card-info-label">When did you open this card?</label>
@@ -62,15 +62,7 @@
               </div>
 
               <div class="col-md-12 col-lg-8">
-                <%= f.date_select(
-                    :closed_at,
-                    end_year:   Date.today.year,
-                    order:      [:month, :year],
-                    start_year: Date.today.year - 10,
-                    use_short_month: true,
-                    discard_day: true,
-                    class: "cards_survey_select"
-                ) %>
+                <%= closed_at_select(f) %>
               </div>
             </div>
           </div>
@@ -82,6 +74,10 @@
       <div class="row">
         <div class="col-xs-12">
           <%= f.submit 'Save', class: 'btn btn-primary btn-lg' %>
+
+          &nbsp;
+
+          <%= link_to_select_different_product %>
         </div>
       </div>
     <% end %>

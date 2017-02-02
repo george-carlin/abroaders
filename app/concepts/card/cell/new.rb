@@ -1,6 +1,12 @@
 class Card < ApplicationRecord
   module Cell
-    # model: the result of the Card::Operations::New operation
+    # Shows a form to add a new card. The card *product* will already have been
+    # selected on a previous page and is passed into this page by the params.
+    #
+    # if current account has a companion, has an extra input to select whether
+    # the card is for the owner or for the companiothe companion
+    #
+    # model: the Result of the Card::Operations::New operation
     class New < Trailblazer::Cell
       include ActionView::Helpers::DateHelper
       include ActionView::Helpers::FormOptionsHelper
@@ -18,27 +24,40 @@ class Card < ApplicationRecord
 
       private
 
+      def ask_for_person_id?
+        current_account.couples?
+      end
+
+      def closed_at_select(f)
+        f.date_select(
+          :closed_at,
+          class: 'cards_survey_select',
+          disabled: disable_closed_at?,
+          discard_day: true,
+          end_year:   Date.today.year,
+          order:      [:month, :year],
+          start_year: Date.today.year - 10,
+          use_short_month: true,
+        )
+      end
+
       def current_account
         result['account']
       end
 
-      def ask_for_person_id?
-        current_account.couples?
+      def disable_closed_at?
+        !form.closed
       end
 
       def form
         result['contract.default']
       end
 
-      def _model
-        result['model']
+      def link_to_select_different_product
+        link_to 'Add a different card', new_card_path
       end
 
-      def product
-        result['product']
-      end
-
-      # should only be called when the account has a companion
+      # don't call this 'options' as that conflicts with the Cells method!
       def options_for_person_id_select
         owner     = current_account.owner
         companion = current_account.companion
@@ -48,6 +67,10 @@ class Card < ApplicationRecord
             [companion.first_name, companion.id],
           ],
         )
+      end
+
+      def product
+        result['product']
       end
     end
   end
