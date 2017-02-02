@@ -6,6 +6,8 @@
 class CardProduct < ApplicationRecord
   self.inheritance_column = :_no_sti
 
+  # hello!
+
   # Attributes
 
   enum bp: [:business, :personal]
