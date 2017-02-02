@@ -35,7 +35,7 @@ class Card < ApplicationRecord
         # model: a collection of Banks
         class BankSelect < Trailblazer::Cell
           include ActionView::Helpers::FormOptionsHelper
-          include BootstrapOverrides::Overrides
+          include BootstrapOverrides
 
           HTML_ID = :new_card_bank_id
 

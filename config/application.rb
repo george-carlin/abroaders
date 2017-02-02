@@ -26,7 +26,6 @@ module Abroaders
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
 
-    require "modules/bootstrap_overrides/overrides"
     require "modules/auto_strip_attributes"
 
     config.cells.with_assets = [

@@ -7,7 +7,7 @@ class CardProduct < ApplicationRecord
       # and has inputs to set the opened and closed dates.
       class Product < Trailblazer::Cell
         include ActionView::Helpers::FormOptionsHelper
-        include BootstrapOverrides::Overrides
+        include BootstrapOverrides
 
         property :id
 
@@ -50,7 +50,7 @@ class CardProduct < ApplicationRecord
         # which are their own subclass. Don't instantiate directly. Subclasses
         # take a CardProduct as their model.
         class Opened < Trailblazer::Cell
-          include BootstrapOverrides::Overrides
+          include BootstrapOverrides
 
           property :id
 

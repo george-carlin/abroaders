@@ -4,7 +4,7 @@ class Card < ApplicationRecord
     class New < Trailblazer::Cell
       include ActionView::Helpers::DateHelper
       include ActionView::Helpers::FormOptionsHelper
-      include BootstrapOverrides::Overrides
+      include BootstrapOverrides
       # this include is necessary otherwise the specs fail; appears to be
       # a bug in Cells. See https://github.com/trailblazer/cells/issues/298 FIXME
       include ::Cell::Erb

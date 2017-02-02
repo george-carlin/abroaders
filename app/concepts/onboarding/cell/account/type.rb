@@ -43,7 +43,7 @@ module Onboarding
         end
 
         class Form < Trailblazer::Cell
-          include BootstrapOverrides::Overrides
+          include BootstrapOverrides
 
           private
 
