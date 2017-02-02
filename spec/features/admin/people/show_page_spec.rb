@@ -1,7 +1,7 @@
 require "rails_helper"
 
 module AdminArea
-  describe "admin section - person page", :manual_clean do
+  describe 'show person page', :manual_clean do
     include_context "logged in as admin"
 
     let(:aw_email) { "totallyawesomedude@example.com" }
@@ -138,6 +138,16 @@ module AdminArea
       within ".account_travel_plans" do
         expect(page).to have_selector "##{dom_id(@tps[0])}"
         expect(page).to have_selector "##{dom_id(@tps[1])}"
+      end
+    end
+
+    example 'person with home airports' do
+      airports = create_list(:airport, 2)
+      account.home_airports << airports
+      visit_path
+
+      airports.each do |airport|
+        expect(page).to have_content airport.full_name
       end
     end
 
