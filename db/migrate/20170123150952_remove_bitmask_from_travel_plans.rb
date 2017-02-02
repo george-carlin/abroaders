@@ -1,5 +1,9 @@
 class RemoveBitmaskFromTravelPlans < ActiveRecord::Migration[5.0]
-  def up
+  class TravelPlan < ActiveRecord::Base
+    self.inheritance_column = :_no_sti
+  end
+
+  def change
     add_column :travel_plans, :accepts_economy, :boolean, null: false, default: false
     add_column :travel_plans, :accepts_premium_economy, :boolean, null: false, default: false
     add_column :travel_plans, :accepts_business_class, :boolean, null: false, default: false
@@ -23,10 +27,52 @@ class RemoveBitmaskFromTravelPlans < ActiveRecord::Migration[5.0]
         end
       end
       d.down do
-        raise NotImplentedError
+        TravelPlan.pluck(
+          :id,
+          :accepts_economy,
+          :accepts_premium_economy,
+          :accepts_business_class,
+          :accepts_first_class,
+        ).each do |id, e, pe, b, f|
+          bitmask = if     f &&  b &&  pe &&  e
+                      15
+                    elsif  f &&  b &&  pe && !e
+                      14
+                    elsif  f &&  b && !pe &&  e
+                      13
+                    elsif  f &&  b && !pe && !e
+                      12
+                    elsif  f && !b &&  pe &&  e
+                      11
+                    elsif  f && !b &&  pe && !e
+                      10
+                    elsif  f && !b && !pe &&  e
+                       9
+                    elsif  f && !b && !pe && !e
+                       8
+                    elsif !f &&  b &&  pe &&  e
+                       7
+                    elsif !f &&  b &&  pe && !e
+                       6
+                    elsif !f &&  b && !pe &&  e
+                       5
+                    elsif !f &&  b && !pe && !e
+                       4
+                    elsif !f && !b &&  pe &&  e
+                       3
+                    elsif !f && !b &&  pe && !e
+                       2
+                    elsif !f && !b && !pe &&  e
+                       1
+                    elsif !f && !b && !pe && !e
+                       0
+                    end
+          TravelPlan.update(id, acceptable_classes: bitmask)
+        end
+        change_column_null :travel_plans, :acceptable_classes, false
       end
     end
 
-    remove_column :travel_plans, :acceptable_classes, :integer, null: false
+    remove_column :travel_plans, :acceptable_classes, :integer
   end
 end
