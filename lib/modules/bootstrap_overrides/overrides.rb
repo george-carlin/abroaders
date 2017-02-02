@@ -31,7 +31,7 @@ module BootstrapOverrides
       super
     end
 
-    def select(object, method, choices, options = {}, html_options = {})
+    def select(object, method, choices = nil, options = {}, html_options = {}, &block)
       html_options[:class] = add_class(html_options[:class], BOOTSTRAP_CLASS)
       super
     end
