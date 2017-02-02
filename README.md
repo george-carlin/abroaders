@@ -33,7 +33,7 @@ bin/setup
 Note that `bin/setup` is intended for *nix operating systems. There's no
 guarantee that it will work on Windows. If you're on Windows, look in
 `bin/setup` and figure out what the equivalent steps are for your OS. (If you
-want to write a similar script that will work on Windows - `bin/setup.exe`?, be
+want to write a similar script that will work on Windows - `bin/setup.exe`? - be
 my guest)
 
 Have a look inside the `bin/setup` script if you have problems, or want to
@@ -41,12 +41,13 @@ learn more about what's going on.
 
 Tell me (George) immediately if `bin/setup` doesn't work smoothly for you!
 There may be some steps that I've missed and it's important I keep the script
-updated and working well for every new developer!
+updated and working well for every new developer.
 
 The setup script should also seed your database with some sample data,
-including some admin accounts. Get the admin login info from
-`lib/tasks/seed.rake` and you can log in at `/admin/sign_in`. (Remember that
-'normal' user accounts log in at `/sign_in`.
+including some admin accounts: `george@abroaders.com`, `erik@abroaders.com`,
+and `aj@abroaders.com`, all of which have the password `abroaders123`. Remember
+that admins sign in at `/admin/sign_in`, while non-admins sign in at
+`/sign_in`.
 
 We use the gem [figaro](https://github.com/laserlemon/figaro) to manage ENV
 variable settings. With Figaro, your ENV variables are stored in the file
