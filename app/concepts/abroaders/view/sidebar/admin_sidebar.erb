@@ -1,6 +1,6 @@
 <%= container do %>
   <%= link 'Destinations', admin_destinations_path, ::AdminArea::DestinationsController %>
-  <%= link 'Cards', admin_card_products_path, AdminArea::Card::ProductsController %>
+  <%= link 'Card Products', admin_card_products_path, ::AdminArea::Card::ProductsController %>
   <%= nested_links(
     'Offers',
     {
