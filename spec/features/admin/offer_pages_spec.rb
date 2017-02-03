@@ -52,7 +52,7 @@ module AdminArea
         expect(page).to have_field :offer_notes
       end
 
-      let(:new_offer) { Offer.last }
+      let(:new_offer) { ::Offer.last }
 
       describe "the 'condition' dropdown" do
         it "has 'on minimum spend' selected by default" do

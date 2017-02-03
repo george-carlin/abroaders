@@ -40,7 +40,11 @@ class AdminArea::OfferPresenter < ::OfferPresenter
   end
 
   def last_reviewed_at
-    super().nil? ? "never" : super().strftime("%m/%d/%Y")
+    warn "#{self.class}#spend is deprecated. Use AdminArea::Offer::Cell::LastReviewedAt instead."
+    line = caller.select { |l| l.include?(Rails.root.to_s) }[1].split(':')[0..1].join(':')
+    warn "Called from #{line}"
+
+    AdminArea::Offer::Cell::LastReviewedAt.(model).()
   end
 
   def verify_btn

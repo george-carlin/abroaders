@@ -44,7 +44,7 @@ module AdminArea
           private
 
           def cost
-            cell(Offer::Cell::Cost, model)
+            cell(::Offer::Cell::Cost, model)
           end
 
           def person
@@ -69,7 +69,7 @@ module AdminArea
           end
 
           def offer
-            @offer ||= cell(Offer::Cell, model)
+            @offer ||= cell(AdminArea::Offer::Cell, model)
           end
         end
       end
