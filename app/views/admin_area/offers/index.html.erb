@@ -48,6 +48,7 @@
 
         <tbody>
           <% present_each @offers, AdminArea::OfferPresenter do |offer| %>
+            <% model = offer.model %>
             <%= content_tag_for :tr, offer do %>
               <td><%= offer.identifier(with_product: true) %></td>
               <td>
@@ -58,11 +59,11 @@
               </td>
               <td><%= offer.bank_name %></td>
               <td><%= offer.partner_short_name %></td>
-              <td><%= offer.points_awarded %></td>
-              <td><%= offer.spend %></td>
-              <td><%= offer.cost %></td>
-              <td><%= offer.days %></td>
-              <td><%= offer.live? ? "Yes" : "No" %></td>
+              <td><%= cell(Offer::Cell::PointsAwarded, model) %></td>
+              <td><%= cell(Offer::Cell::Spend, model) %></td>
+              <td><%= cell(Offer::Cell::Cost, model) %></td>
+              <td><%= model.days %></td>
+              <td><%= model.live? ? "Yes" : "No" %></td>
               <td><%= offer.last_reviewed_at %></td>
               <td><%= offer.link_to_show %></td>
               <td><%= offer.link_to_edit %></td>

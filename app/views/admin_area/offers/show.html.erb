@@ -22,19 +22,19 @@
         <dd><%= offer.partner_full_name %></dd>
 
         <dt>Points awarded:</dt>
-        <dd><%= offer.points_awarded %></dd>
+        <dd><%= cell(Offer::Cell::PointsAwarded, @offer) %></dd>
 
         <% if offer.on_minimum_spend? %>
           <dt>Spend:</dt>
-          <dd><%= offer.spend %></dd>
+          <dd><%= cell(Offer::Cell::Spend, @offer) %></dd>
         <% end %>
 
         <dt>Cost:</dt>
-        <dd><%= offer.cost %></dd>
+        <dd><%= cell(Offer::Cell::Cost, @offer) %></dd>
 
         <% unless offer.on_approval? %>
           <dt>Days:</dt>
-          <dd><%= offer.days %></dd>
+          <dd><%= @offer.days %></dd>
         <% end %>
 
         <dt>Link:</dt>

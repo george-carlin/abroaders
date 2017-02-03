@@ -48,27 +48,6 @@ class OfferPresenter < ApplicationPresenter
     h.link_to text, link, rel: "nofollow", target: "_blank"
   end
 
-  def spend
-    warn 'OfferPresenter#spend is deprecated. Use Offer::Cell::Spend instead.'
-    line = caller.select { |l| l.include?(Rails.root.to_s) }[1].split(':')[0..1].join(':')
-    warn "Called from #{line}"
-    Offer::Cell::Spend.(model).()
-  end
-
-  def cost
-    warn 'OfferPresenter#cost is deprecated. Use Offer::Cell::Cost instead'
-    line = caller.select { |l| l.include?(Rails.root.to_s) }[1].split(':')[0..1].join(':')
-    warn "Called from #{line}"
-    Offer::Cell::Cost.(model).()
-  end
-
-  def points_awarded
-    warn 'OfferPresenter#points_awarded is deprecated. Use Offer::Cell::PointsAwarded instead'
-    line = caller.select { |l| l.include?(Rails.root.to_s) }[1].split(':')[0..1].join(':')
-    warn "Called from #{line}"
-    Offer::Cell::PointsAwarded.(model).()
-  end
-
   def currency_name
     currency.name
   end
