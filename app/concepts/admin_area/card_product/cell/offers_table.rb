@@ -39,37 +39,47 @@ module AdminArea
         # options:
         #   person: the Person who the offer will be recommended to.
         class Row < Trailblazer::Cell
+          property :id
           property :link
 
           private
+
+          def buttons_to_recommend
+            person = options.fetch(:person)
+            cell(AdminArea::Recommendation::Cell::New, nil, offer: model, person: person)
+          end
 
           def cost
             cell(::Offer::Cell::Cost, model)
           end
 
-          def person
-            options.fetch(:person)
-          end
-
-          def buttons_to_recommend
-            cell(AdminArea::Recommendation::Cell::New, nil, offer: model, person: person)
-          end
-
-          def html_id
-            dom_id(model, :admin_recommend)
+          def days
+            model.days
           end
 
           def html_classes
-            dom_class(model, :admin_recommend)
+            'admin_recommend_offer'
           end
 
-          # Note that any links to the offer MUST be nofollowed, for compliance reasons
+          def html_id
+            "admin_recommend_offer_#{id}"
+          end
+
+          # Note that any links to the offer MUST be nofollowed for compliance reasons
           def link_to_link
             link_to 'Link', link, rel: 'nofollow', target: '_blank'
           end
 
-          def offer
-            @offer ||= cell(AdminArea::Offer::Cell, model)
+          def identifier
+            cell(AdminArea::Offer::Cell::Identifier, model)
+          end
+
+          def points_awarded
+            cell(::Offer::Cell::PointsAwarded, model)
+          end
+
+          def spend
+            cell(::Offer::Cell::Spend, model)
           end
         end
       end
