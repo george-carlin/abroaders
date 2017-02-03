@@ -39,6 +39,23 @@ module AdminArea
         def account
           @account ||= person.account
         end
+
+        # the <table> of available products and offers that can be recommended.
+        #
+        # model: the Person
+        # options:
+        #   offers: the recommendable offers. Be wary of n+1 issues, as this
+        #           cell will read the offers' products, and the banks and
+        #           currencies of those products.
+        class RecommendationTable < Trailblazer::Cell
+          alias person model
+
+          private
+
+          def offers_grouped_by_product
+            @_ogbp ||= options.fetch(:offers).group_by(&:product)
+          end
+        end
       end
     end
   end

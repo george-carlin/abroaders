@@ -1,15 +1,26 @@
 module AdminArea
   module CardProduct
     module Cell
+      # The table of offers for a particular product. Each offer has a
+      # 'recommend' button for the admin to recommend the offer to a person.
+      #
+      # model: a collection of offers
+      # options:
+      #   product: the product which the offers belong to
+      #   person: the person who the offers will be recommended to
       class OffersTable < Trailblazer::Cell
         include ActionView::Helpers::RecordTagHelper
 
-        alias product model
+        alias offers model
 
         private
 
-        def offers
-          product.offers.live
+        def person
+          options.fetch(:person)
+        end
+
+        def product
+          options.fetch(:product)
         end
 
         def rows
@@ -24,11 +35,17 @@ module AdminArea
           "#{dom_class(product, :admin_recommend)}_offers_table table"
         end
 
-        # Wraps an Offer, needs a Person as an option
+        # model: an Offer
+        # options:
+        #   person: the Person who the offer will be recommended to.
         class Row < Trailblazer::Cell
           property :link
 
           private
+
+          def cost
+            cell(Offer::Cell::Cost, model)
+          end
 
           def person
             options.fetch(:person)

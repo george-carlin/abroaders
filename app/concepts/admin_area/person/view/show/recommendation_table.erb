@@ -1,0 +1,45 @@
+<table
+  class="admin-card-recommendation-table table"
+  cellpadding="1"
+  cellspacing="1"
+>
+  <thead class="admin-card-recommendations-table-head">
+    <tr>
+      <th class="card-identifier">
+        Identifier
+      </th>
+      <th class="card-name">
+        Name
+      </th>
+      <th class="card-bank-name">
+        Bank
+      </th>
+      <th class="card-bp">
+        B/P
+      </th>
+      <th class="card-currency">
+        Currency
+      </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% offers_grouped_by_product.each do |product, offers| %>
+      <%= cell(AdminArea::Recommendation::Cell::ProductsTable::Row, product) %>
+
+      <tr
+        id="<%= dom_id(product, :admin_recommend) %>_offers"
+        class="<%= dom_class(product, :admin_recommend) %>_offers"
+        >
+        <td colspan="5">
+          <%= cell(
+            AdminArea::CardProduct::Cell::OffersTable,
+            offers,
+            product: product,
+            person:  person,
+          ) %>
+        </td>
+      </tr><!-- .admin_recommend_card_product_(id) -->
+    <% end %>
+  </tbody>
+</table><!-- .admin-card-recommendation-table -->
