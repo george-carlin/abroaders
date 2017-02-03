@@ -1,4 +1,11 @@
 class OfferPresenter < ApplicationPresenter
+  def initialize(*)
+    warn "#{self.class} is deprecated"
+    line = caller.select { |l| l.include?(Rails.root.to_s) }[1].split(':')[0..1].join(':')
+    warn "Called from #{line}"
+    super
+  end
+
   def product
     model.product
   end

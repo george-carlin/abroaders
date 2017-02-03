@@ -1,4 +1,11 @@
 class AdminArea::OfferPresenter < ::OfferPresenter
+  def initialize(*)
+    warn "#{self.class} is deprecated"
+    line = caller.select { |l| l.include?(Rails.root.to_s) }[1].split(':')[0..1].join(':')
+    warn "Called from #{line}"
+    super
+  end
+
   def product_bp
     product.bp.to_s[0].upcase
   end

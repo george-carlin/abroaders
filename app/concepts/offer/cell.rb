@@ -1,6 +1,13 @@
 class Offer::Cell < Trailblazer::Cell
   alias offer model
 
+  def initialize(*args)
+    warn "#{self.class} is deprecated"
+    line = caller.select { |l| l.include?(Rails.root.to_s) }[1].split(':')[0..1].join(':')
+    warn "Called from #{line}"
+    super
+  end
+
   property :cost
   property :days
   property :points_awarded
@@ -10,14 +17,23 @@ class Offer::Cell < Trailblazer::Cell
   include ::ActionView::Helpers::NumberHelper
 
   def cost
-    number_to_currency super
+    warn "#{self.class}#cost is deprecated. Use Offer::Cell::Cost instead"
+    line = caller.select { |l| l.include?(Rails.root.to_s) }[1].split(':')[0..1].join(':')
+    warn "Called from #{line}"
+    Offer::Cell::Cost.(model).()
   end
 
   def currency_name
+    warn "#{self.class}#currency_name is deprecated."
+    line = caller.select { |l| l.include?(Rails.root.to_s) }[1].split(':')[0..1].join(':')
+    warn "Called from #{line}"
     offer.product.currency.name
   end
 
   def description
+    warn "Offer::Cell#description is deprecated"
+    line = caller.select { |l| l.include?(Rails.root.to_s) }[1].split(':')[0..1].join(':')
+    warn "Called from #{line}"
     case model.condition
     when "on_minimum_spend"
       "Spend #{spend} within #{days} days to receive a bonus of "\
