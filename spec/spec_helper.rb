@@ -36,6 +36,10 @@ files so their names end in '_spec.rb': \n\n#{bad_file_names.join('\n')}
   raise err_msg
 end
 
+$LOAD_PATH << APP_ROOT.join('lib')
+$LOAD_PATH << APP_ROOT.join('app', 'concepts')
+$LOAD_PATH << APP_ROOT.join('app', 'models')
+
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
