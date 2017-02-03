@@ -43,23 +43,7 @@
                   Edit
                 </button>
 
-                <div
-                  class="editing_balance_btn_group btn-group"
-                  style="display:none;"
-                >
-                  <button
-                    class="save_balance_btn btn btn-sm btn-primary"
-                    data-balance-id="<%= balance.id %>"
-                  >
-                    Save
-                  </button>
-                  <button
-                    class="cancel_edit_balance_btn btn btn-sm btn-default"
-                    data-balance-id="<%= balance.id %>"
-                  >
-                    Cancel
-                  </button>
-                </div>
+                <%= cell(Balance::Cell::Index::Balance::Buttons, balance) %>
 
                 <span
                   class="editing_balance_error_msg"
