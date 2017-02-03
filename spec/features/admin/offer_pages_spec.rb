@@ -83,7 +83,7 @@ module AdminArea
           end
 
           it "creates an offer" do
-            expect { submit }.to change { Offer.count }.by 1
+            expect { submit }.to change { ::Offer.count }.by 1
             expect(new_offer.condition).to eq "on_approval"
             expect(new_offer.product).to eq @product
             expect(new_offer.points_awarded).to eq 40_000
@@ -132,7 +132,7 @@ module AdminArea
           end
 
           it "creates an offer" do
-            expect { submit }.to change { Offer.count }.by 1
+            expect { submit }.to change { ::Offer.count }.by 1
             expect(new_offer.condition).to eq "on_first_purchase"
             expect(new_offer.product).to eq @product
             expect(new_offer.days).to eq 120
@@ -177,7 +177,7 @@ module AdminArea
           end
 
           it "creates an offer" do
-            expect { submit }.to change { Offer.count }.by 1
+            expect { submit }.to change { ::Offer.count }.by 1
             expect(new_offer.partner).to eq "card_ratings"
           end
         end
@@ -192,7 +192,7 @@ module AdminArea
         end
 
         it "creates a new offer" do
-          expect { submit }.to change { Offer.count }.by(1)
+          expect { submit }.to change { ::Offer.count }.by(1)
           expect(new_offer.condition).to eq "on_minimum_spend"
           expect(new_offer.partner).to eq "award_wallet"
         end
@@ -231,20 +231,21 @@ module AdminArea
       end
     end # new page
 
-    describe "offers page" do
-      let(:route) { admin_offers_path }
+    describe 'index page' do
+      let!(:offer) { create(:live_offer, last_reviewed_at: Time.zone.yesterday) }
 
-      before do
-        @live_1 = create(:live_offer, last_reviewed_at: Time.zone.yesterday)
-        visit route
+      example 'for all offers' do
+        visit admin_offers_path
+        expect(page).to have_content offer.product.name
+        expect(find("tr#offer_#{offer.id}").text).to include(offer.last_reviewed_at.strftime('%m/%d/%Y'))
+        expect(find("tr#offer_#{offer.id}").text).to include('CB')
       end
 
-      describe "when viewing offers" do
-        it "shows offer details", js: true do
-          expect(page).to have_content @live_1.product.name
-          expect(find("tr#offer_#{@live_1.id}").text).to include(@live_1.last_reviewed_at.strftime("%m/%d/%Y"))
-          expect(find("tr#offer_#{@live_1.id}").text).to include("CB")
-        end
+      example 'for offers for a specific card product' do
+        visit admin_card_product_offers_path(offer.product)
+        expect(page).to have_content offer.product.name
+        expect(find("tr#offer_#{offer.id}").text).to include(offer.last_reviewed_at.strftime('%m/%d/%Y'))
+        expect(find("tr#offer_#{offer.id}").text).to include('CB')
       end
     end # offers page
 
@@ -261,7 +262,7 @@ module AdminArea
 
       describe "when page loads" do
         it "shows only live offers" do
-          expect(page).to have_selector(".offer", count: Offer.live.count)
+          expect(page).to have_selector(".offer", count: ::Offer.live.count)
         end
       end
 
@@ -309,7 +310,7 @@ module AdminArea
             page.dismiss_confirm do
               click_link("kill_offer_#{@live_1.id}_btn")
             end
-          end.not_to change { Offer.live.count }
+          end.not_to change { ::Offer.live.count }
         end
       end
 
@@ -318,7 +319,7 @@ module AdminArea
           page.accept_confirm do
             find_link("kill_offer_#{@live_1.id}_btn").click
           end
-          expect(page).to have_selector(".offer", count: Offer.live.count)
+          expect(page).to have_selector(".offer", count: ::Offer.live.count)
         end
       end
 
