@@ -43,7 +43,7 @@ class Alliance::Cell < Trailblazer::Cell
       private
 
       def label_text
-        ::Currency::Cell.(model).short_name
+        Currency::Cell::ShortName.(model).to_s
       end
 
       CSS_CLASS = 'card_currency_filter'.freeze
