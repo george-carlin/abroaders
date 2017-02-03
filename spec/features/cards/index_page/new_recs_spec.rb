@@ -75,6 +75,8 @@ describe "cards index page - new recommendation", :js do
   end
 
   example "declining a recommendation" do
+    # this spec fails when run late in the day when your machine's time
+    # is earlier than UTC # TZFIXME
     click_button decline_btn
     message = "Because I say so, bitch!"
     fill_in :card_decline_reason, with: message
@@ -153,6 +155,8 @@ describe "cards index page - new recommendation", :js do
 
       context "when I received this rec today" do
         it "shows Confirm/Cancel buttons with no datepicker", :frontend do
+          # this spec fails when run late in the day when your machine's time
+          # is earlier than UTC # TZFIXME
           expect(page).to have_no_field approved_at
           expect(page).to have_button 'Confirm'
           expect(page).to have_button 'Cancel'
@@ -162,6 +166,8 @@ describe "cards index page - new recommendation", :js do
           before { click_confirm_btn }
 
           it "updates the rec's attributes", :backend do
+            # this spec fails when run late in the day when your machine's time
+            # is earlier than UTC # TZFIXME
             wait_for_ajax
             expect(rec).to be_open
             expect(rec.opened_at).to eq Time.zone.today
@@ -208,6 +214,8 @@ describe "cards index page - new recommendation", :js do
         before { click_confirm_btn }
 
         specify "card attributes are updated correctly" do
+          # this spec fails when run late in the day when your machine's time
+          # is earlier than UTC # TZFIXME
           expect(page).to have_content "We strongly recommend"
           expect(rec.status).to eq "denied"
           expect(rec.denied_at).to eq Time.zone.today
@@ -239,6 +247,8 @@ describe "cards index page - new recommendation", :js do
         before { click_confirm_btn }
 
         it "updates the card's attributes", :backend do
+          # this spec fails when run late in the day when your machine's time
+          # is earlier than UTC # TZFIXME
           expect(rec.status).to eq "applied"
           expect(rec.applied_at).to eq Time.zone.today
         end
