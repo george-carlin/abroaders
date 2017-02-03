@@ -44,8 +44,8 @@
               <td><%= offer.link_to_edit %></td>
               <td class="offer_verification_ctrls">
                 <div class="btn-group">
-                  <%= offer.verify_btn %>
-                  <%= offer.kill_btn %>
+                  <%= cell(AdminArea::Offer::Cell::Review::VerifyButton, model) %>
+                  <%= cell(AdminArea::Offer::Cell::Review::KillButton, model) %>
                 </div>
               </td>
             <% end %>
