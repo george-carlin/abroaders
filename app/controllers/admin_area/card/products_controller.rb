@@ -46,7 +46,7 @@ module AdminArea
       end
 
       def images
-        @products = ::CardProduct.all
+        @products = ::CardProduct.includes(:bank)
       end
 
       private
