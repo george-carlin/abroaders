@@ -7,6 +7,9 @@ RSpec.describe AdminArea::Offer::Cell::Identifier do
     let(:offer) { OpenStruct.new }
     let(:identifier) { cell.(offer).() }
 
+    # default condition = on_minimum_spend
+    before { offer.condition = 'on_minimum_spend' }
+
     it 'returns points/spend/days' do
       offer.points_awarded = 10_000
       offer.spend = 4_000
