@@ -46,30 +46,6 @@ class Offer::Cell < Trailblazer::Cell
     end
   end
 
-  # A shorthand code that identifies the offer based on the points awarded,
-  # minimum spend, and days. Note that this isn't necessarily unique per offer.
-  def identifier(with_product: false)
-    parts = [abbreviated_points]
-    case offer.condition
-    when "on_minimum_spend"
-      parts.push(abbreviated_spend)
-      parts.push(days)
-    when "on_approval"
-      parts.push("A")
-    when "on_first_purchase"
-      parts.push("P")
-    else raise "this should never happen"
-    end
-    result = parts.join("/")
-    # Note - we might eventually want to add a unique code per affiliate
-    # to the end here
-    if with_product
-      "#{AdminArea::CardProduct::Cell::Identifier.(offer.product)}-#{result}"
-    else
-      result
-    end
-  end
-
   def points_awarded
     number_with_delimiter super
   end

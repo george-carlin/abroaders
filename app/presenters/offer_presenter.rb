@@ -85,16 +85,4 @@ class OfferPresenter < ApplicationPresenter
     warn "Called from #{line}"
     Offer::Cell::Description.(model).()
   end
-
-  private
-
-  def abbreviated_points
-    # Show points and spend as multiples of 1000, but don't print the decimal
-    # point if it's an exact multiple:
-    (model.points_awarded / 1000.0).to_s.sub(/\.0+\z/, '')
-  end
-
-  def abbreviated_spend
-    (model.spend / 1000.0).to_s.sub(/\.0+\z/, '')
-  end
 end

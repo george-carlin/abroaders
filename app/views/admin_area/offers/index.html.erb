@@ -50,7 +50,9 @@
           <% present_each @offers, AdminArea::OfferPresenter do |offer| %>
             <% model = offer.model %>
             <%= content_tag_for :tr, offer do %>
-              <td><%= offer.identifier(with_product: true) %></td>
+              <td>
+                <%= AdminArea::CardProduct::Cell::Identifier.(model.product).() %>-<%= AdminArea::Offer::Cell::Identifier.(model).() %>
+              </td>
               <td>
                 <%= link_to(
                   offer.product_name,
