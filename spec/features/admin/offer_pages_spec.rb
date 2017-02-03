@@ -1,10 +1,10 @@
 require "rails_helper"
 
-describe "admin section" do
-  include_context "logged in as admin"
-  subject { page }
+module AdminArea
+  RSpec.describe 'offers pages' do
+    include_context 'logged in as admin'
+    subject { page }
 
-  describe "offers pages" do
     let(:approval)       { t("activerecord.attributes.offer.conditions.on_approval") }
     let(:first_purchase) { t("activerecord.attributes.offer.conditions.on_first_purchase") }
     let(:minimum_spend)  { t("activerecord.attributes.offer.conditions.on_minimum_spend") }
