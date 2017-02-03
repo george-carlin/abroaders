@@ -27,27 +27,29 @@
         </thead>
 
         <tbody>
-          <% present_each @offers, AdminArea::OfferPresenter do |offer| %>
-            <%= content_tag_for :tr, offer do %>
+          <% @offers.each do |offer| %>
+            <tr id="<%= dom_id(offer) %>" class="<%= dom_class(offer) %>">
               <td class="offer_card_name">
-                <%= offer.product_name %>
+                <%= offer.product.name %>
               </td>
-              <td><%= offer.bank_name %></td>
-              <td><%= offer.product_bp %></td>
-              <td><%= offer.points_awarded %></td>
-              <td><%= offer.spend %></td>
-              <td><%= offer.cost %></td>
+              <td><%= offer.product.bank.name %></td>
+              <td><%= offer.product.bp[0].upcase %></td>
+              <td><%= cell(Offer::Cell::PointsAwarded, offer) %></td>
+              <td><%= cell(Offer::Cell::Spend, offer) %></td>
+              <td><%= cell(Offer::Cell::Cost, offer) %></td>
               <td><%= offer.days %></td>
-              <td id="reviewed_<%= offer.id %>"><%= offer.last_reviewed_at %></td>
-              <td><%= offer.link_to_show_for_offer %></td>
-              <td><%= offer.link_to_edit %></td>
+              <td id="reviewed_<%= offer.id %>">
+                <%= AdminArea::Offer::Cell::LastReviewedAt.(offer) %>
+              </td>
+              <td><%= link_to 'Link', offer.link, target: '_blank' %></td>
+              <td><%= link_to 'Edit', edit_admin_offer_path(offer) %></td>
               <td class="offer_verification_ctrls">
                 <div class="btn-group">
-                  <%= offer.verify_btn %>
-                  <%= offer.kill_btn %>
+                  <%= cell(AdminArea::Offer::Cell::Review::VerifyButton, offer) %>
+                  <%= cell(AdminArea::Offer::Cell::Review::KillButton, offer) %>
                 </div>
               </td>
-            <% end %>
+            </tr>
           <% end %>
         </tbody>
       </table>

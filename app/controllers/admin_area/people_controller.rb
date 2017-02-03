@@ -13,7 +13,7 @@ module AdminArea
       @pulled_cards   = card_scope.pulled
       @recommendation = card_scope.recommendations.build
 
-      @offers = Offer.includes(product: [:bank, :currency]).live
+      @offers = ::Offer.includes(product: [:bank, :currency]).live
       @recommendation_notes = @account.recommendation_notes
     end
   end

@@ -1,5 +1,5 @@
 class Offer < ApplicationRecord
-  class Cell < Trailblazer::Cell # TODO remove Offer::Cell; this should be a module
+  module Cell
     # takes an offer, returns its spend in the format '$X.XX'
     class Spend < Trailblazer::Cell
       include ActionView::Helpers::NumberHelper

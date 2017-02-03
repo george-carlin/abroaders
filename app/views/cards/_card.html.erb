@@ -1,4 +1,6 @@
+<%# TODO convert me to a partial %>
 <%= present_div card, class: "row" do |card| %>
+  <% model = card.model %>
   <div class="col-xs-12 col-sm-6 col-md-2">
     <%= CardProduct::Cell::Image.(card.product, size: '130x81') %>
   </div>
@@ -18,9 +20,9 @@
       </span>
     </p>
 
-    <% if !card.offer.nil? %>
+    <% if !model.offer.nil? %>
       <div class="card_offer">
-        <%= card.offer.description %>
+        <%= cell(::Offer::Cell::Description, model.offer) %>
       </div><!-- .product-account-offer -->
     <% end %>
   </div>

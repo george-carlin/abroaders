@@ -1,5 +1,5 @@
 class Offer < ApplicationRecord
-  class Cell < Trailblazer::Cell # TODO remove Offer::Cell; this should be a module
+  module Cell
     # takes an offer, returns how many points that offer awards
     # as a comma-delimited number string
     class PointsAwarded < Trailblazer::Cell

@@ -1,5 +1,5 @@
 class Offer < ApplicationRecord
-  class Cell < Trailblazer::Cell # TODO remove Offer::Cell; this should be a module
+  module Cell
     # Takes an Offer, returns a nice English sentence that describes how one
     # can earn the offer's bonus.
     class Description < Trailblazer::Cell
