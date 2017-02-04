@@ -1,17 +1,18 @@
-<div id="<%= html_id %>" class="<%= html_class %>">
+<div id="<%= html_id %>" class="<%= html_classes %>">
+  <div style="float:right;">
+    <% if editable? %>
+      <%= link_to_edit %>
+      &nbsp;
+    <% end %>
+    <%= link_to_destroy %>
+  </div>
+
   <div>
     <span class="travel_plan_type"><%= type %></span>
 
     &nbsp;&nbsp;&nbsp;&nbsp;
 
     <%= no_of_passengers %>
-
-    <% if editable? %>
-      &nbsp;
-      <%= link_to_edit %>
-      |
-    <% end %>
-    <%= link_to_destroy %>
   </div>
 
   <%= dates %>
@@ -21,3 +22,7 @@
   <div><%= further_information %></div>
   <div>Acceptable classes: <b><%= acceptable_classes %></b></div>
 </div>
+
+<% if options.fetch(:hr, false) %>
+  <hr>
+<% end %>

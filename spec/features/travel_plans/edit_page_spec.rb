@@ -58,7 +58,7 @@ RSpec.describe 'edit travel plan page' do
     expect(travel_plan.return_on).to eq Date.new(2025, 12, 2)
 
     # show travel plan index:
-    expect(page).to have_selector 'h1', text: 'My Travel Plans'
+    expect(page).to have_selector 'h1', text: 'Travel Plans'
   end
 
   example 'invalid update', :js do

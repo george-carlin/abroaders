@@ -90,7 +90,7 @@ RSpec.describe "new travel plan page", :js do
 
         it 'takes me to the travel plans index' do
           submit_form
-          expect(page).to have_selector 'h1', text: /My Travel Plans/
+          expect(page).to have_selector 'h1', text: /Travel Plans/
         end
       end
     end

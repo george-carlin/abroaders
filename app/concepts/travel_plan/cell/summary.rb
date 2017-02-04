@@ -8,6 +8,11 @@ class TravelPlan < ApplicationRecord
     # - admin/people#show
     # - accounts#dashboard
     # - travel_plans#index
+    #
+    # model: a TravelPlan
+    # options:
+    #   well: whether the outermost div should have the Bootstrap 'well' CSS class. default true
+    #   hr:   whether the HTML should have an <hr> on the end. default false
     class Summary < Trailblazer::Cell
       include ActionView::Helpers::RecordTagHelper
       include Escaped
@@ -15,6 +20,7 @@ class TravelPlan < ApplicationRecord
 
       alias travel_plan model
 
+      property :id
       property :further_information
       property :type
 
@@ -28,12 +34,18 @@ class TravelPlan < ApplicationRecord
         cell Dates, travel_plan
       end
 
+      # See comment in TravelPlan::Operations::Edit about old-style TPs
+      # being uneditable
+      def editable?
+        ![flight.to.class, flight.from.class].include?(Country)
+      end
+
       def flight
         model.flights[0]
       end
 
-      def html_class
-        "#{dom_class(travel_plan)} well"
+      def html_classes
+        "travel_plan #{'well' if options.fetch(:well, true)}"
       end
 
       def html_id
@@ -47,7 +59,8 @@ class TravelPlan < ApplicationRecord
       def link_to_destroy
         link_to(
           'Delete',
-          travel_plan_path(travel_plan),
+          travel_plan_path(id),
+          class: 'btn btn-primary btn-xs',
           method: :delete,
           data: {
             confirm: 'Are you sure? You cannot undo this action',
@@ -56,7 +69,11 @@ class TravelPlan < ApplicationRecord
       end
 
       def link_to_edit
-        link_to 'Edit', edit_travel_plan_path(travel_plan)
+        link_to(
+          'Edit',
+          edit_travel_plan_path(id),
+          class: 'btn btn-primary btn-xs',
+        )
       end
 
       def no_of_passengers
@@ -67,12 +84,6 @@ class TravelPlan < ApplicationRecord
 
       def type
         super == 'single' ? 'One-way' : 'Round trip'
-      end
-
-      # See comment in TravelPlan::Operations::Edit about old-style TPs
-      # being uneditable
-      def editable?
-        ![flight.to.class, flight.from.class].include?(Country)
       end
 
       # A <span>: 'Departure: MM/DD/YYYY Return: MM/DD/YYYY'

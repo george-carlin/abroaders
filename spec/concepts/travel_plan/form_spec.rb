@@ -1,4 +1,4 @@
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe TravelPlan::Form, type: :model do
   let(:account) { Account.new }
