@@ -57,7 +57,8 @@ Rails.application.routes.draw do
   get :slack, to: "slack_invites#new"
   post "slack/invite", to: "slack_invites#create"
 
-  resources :balances, only: [:index, :update]
+  # balances#new and balances#create are nested under 'people'
+  resources :balances, only: [:index, :update, :destroy]
 
   resource :spending_info, path: :spending, only: [] do
     get :survey

@@ -24,6 +24,7 @@ class BalancesController < AuthenticatedUserController
 
   # PUT/PATCH /balances/:id
   def update
+    warn "#{self.class}#update needs updating to use a TRB operation"
     @balance = Balance::EditForm.new(current_account.balances.find(params[:id]))
     if @balance.validate(params[:balance])
       @valid = true
@@ -31,6 +32,14 @@ class BalancesController < AuthenticatedUserController
     end
     respond_to do |f|
       f.js
+    end
+  end
+
+  # DELETE /balances/:id
+  def destroy
+    run Balance::Operations::Destroy do
+      flash[:success] = 'Destroyed balance!'
+      redirect_to balances_path
     end
   end
 
