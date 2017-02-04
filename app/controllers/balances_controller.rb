@@ -8,14 +8,14 @@ class BalancesController < AuthenticatedUserController
 
   # GET /people/:person_id/balances/new
   def new
-    # TODO this needs to be split into another op called 'New' for TRB 2
-    run Balance::Operations::Create
+    run Balance::Operations::New
     # TODO TRB convert view to cell
   end
 
   # POST /people/:person_id/balances
   def create
     run Balance::Operations::Create do
+      flash[:success] = 'Created balance!'
       return redirect_to balances_path
     end
     # TODO TRB convert view to cell
