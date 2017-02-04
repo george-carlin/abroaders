@@ -1,12 +1,13 @@
 require 'rails_helper'
 
-describe Balance::Create do
+RSpec.describe Balance::Operations::Create do
+  let(:op) { described_class }
   let(:currency) { create(:currency) }
   let(:account)  { create(:account, :onboarded) }
   let(:person)   { account.owner }
 
   example 'valid save' do
-    result = Balance::Create.(
+    result = op.(
       {
         balance: {
           currency_id: currency.id,
@@ -24,7 +25,7 @@ describe Balance::Create do
   end
 
   example 'invalid save' do
-    result = described_class.(
+    result = op.(
       {
         balance: {
           value:       -1,
