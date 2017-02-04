@@ -54,7 +54,7 @@ class Card < ApplicationRecord
       end
 
       def link_to_select_different_product
-        link_to 'Add a different card', new_card_path
+        link_to 'Cancel', cards_path
       end
 
       # don't call this 'options' as that conflicts with the Cells method!
