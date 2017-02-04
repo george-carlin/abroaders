@@ -25,6 +25,24 @@
       <% person.balances.each do |balance| %>
         <%= form_for balance, data: { remote: true } do |f| %>
           <div id="<%= dom_id(balance) %>" class="<%= dom_class(balance) %> row">
+            <div style="float:right;">
+              <button
+                class="edit_balance_btn btn btn-sm btn-primary"
+                data-balance-id="<%= balance.id %>"
+              >
+                Edit
+              </button>
+              <%= link_to(
+                'Delete',
+                balance_path(balance),
+                class: 'destroy_balance_btn btn btn-sm btn-primary',
+                data: {
+                  confirm: 'Are you sure? You can not undo this action',
+                },
+                method: :delete,
+              ) %>
+            </div>
+
             <div class="col-xs-12 col-md-4">
               <%= balance.currency_name %>
             </div>
@@ -39,14 +57,8 @@
                 style: "display: none; height: 30px;"
               ) %>
             </div>
+
             <div class="col-xs-6 col-md-3">
-              <button
-                class="edit_balance_btn btn btn-sm btn-primary"
-                data-balance-id="<%= balance.id %>"
-                style="float:right;"
-              >
-                Edit
-              </button>
 
               <%= cell(Balance::Cell::Index::Balance::Buttons, balance) %>
 

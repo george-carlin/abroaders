@@ -1,6 +1,6 @@
 var BalancesIndex = {
   showWhenEditing: ".editing_balance_btn_group, .balance_value_editing",
-  hideWhenEditing: ".edit_balance_btn, .balance_value",
+  hideWhenEditing: ".edit_balance_btn, .balance_value, .destroy_balance_btn",
   errorMessage:    ".editing_balance_error_msg",
 
   hideEditBalanceForm: function (id) {

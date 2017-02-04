@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'balance index page' do
+RSpec.describe 'balance index page' do
   include_context 'logged in'
   let(:owner) { account.owner }
 
@@ -41,6 +41,17 @@ describe 'balance index page' do
     end.not_to change { balance.value }
 
     expect(page).to have_content "Invalid value"
+  end
+
+  example 'deleting a balance', :js do
+    balance = owner.balances.create!(currency: currencies[0], value: 1234)
+    visit balances_path
+
+    within_balance(balance) do
+      click_link 'Delete'
+    end
+    expect(page).not_to have_content currencies[0].name
+    expect(Balance.exists?(id: balance.id)).to be false
   end
 
   def balance_selector(balance)

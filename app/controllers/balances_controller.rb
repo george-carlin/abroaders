@@ -35,6 +35,14 @@ class BalancesController < AuthenticatedUserController
     end
   end
 
+  # DELETE /balances/:id
+  def destroy
+    run Balance::Operations::Destroy do
+      flash[:success] = 'Destroyed balance!'
+      redirect_to balances_path
+    end
+  end
+
   # GET /people/:person_id/balances/survey
   def survey
     @person = load_person
