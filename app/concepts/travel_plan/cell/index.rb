@@ -7,7 +7,7 @@ class TravelPlan < ApplicationRecord
 
       def travel_plans
         if collection.any?
-          cell(TravelPlan::Cell::Summary, collection: collection)
+          cell(TravelPlan::Cell::Summary, collection: collection, hr: true, well: false)
         else
           "You haven't added any travel plans yet. Click 'Add New' above to get started."
         end

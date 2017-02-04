@@ -1,8 +1,20 @@
-<%# TODO provide :title, "My Travel Plans" %>
+<%# TODO provide :title, "Travel Plans" %>
 
-<h1>
-  My Travel Plans
-  <small><%= link_to "Add new", new_travel_plan_path %></small>
-</h1>
+<div class="hpanel">
+  <div class="panel-heading hbuilt">
+    <h1>
+      Travel Plans
 
-<%= travel_plans %>
+      <%= link_to(
+        'Add new',
+        new_travel_plan_path,
+        class: 'btn btn-primary btn-sm',
+        style: 'float: right; margin-top: 6px;',
+      ) %>
+    </h1>
+  </div>
+
+  <div class="panel-body">
+    <%= travel_plans %>
+  </div>
+</div>
