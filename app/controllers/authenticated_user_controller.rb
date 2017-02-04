@@ -16,4 +16,9 @@ class AuthenticatedUserController < ApplicationController
     end
     options
   end
+
+  def run(*args)
+    @_run_called = true
+    super
+  end
 end
