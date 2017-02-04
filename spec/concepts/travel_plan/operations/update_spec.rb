@@ -1,26 +1,30 @@
 require 'rails_helper'
 
 RSpec.describe TravelPlan::Operations::Update do
+  let(:op) { described_class }
   let(:lhr) { create(:airport, name: 'Heathrow', code: 'LHR') }
   let(:jfk) { create(:airport, name: 'JFK', code: 'JFK') }
+
+  def create_travel_plan(attrs)
+    result = TravelPlan::Operations::Create.(
+      { travel_plan: attrs },
+      'account' => account,
+    )
+    raise unless result.success? # TODO once trailblazer-test has been released this shouldn't be necessary
+    result['model']
+  end
 
   let(:next_year) { Date.today.year + 1 }
   let(:account) { create(:account) }
   let(:plan) do
-    TravelPlan::Operations::Create.(
-      {
-        travel_plan: {
-          depart_on: "05/18/#{next_year}",
-          from: lhr.full_name,
-          to:   jfk.full_name,
-          type: 'single',
-          no_of_passengers: 1,
-        },
-      },
-      'account' => account,
-    )['model']
+    create_travel_plan(
+      depart_on: "05/18/#{next_year}",
+      from: lhr.full_name,
+      no_of_passengers: 1,
+      to: jfk.full_name,
+      type: 'single',
+    )
   end
-  let(:op) { described_class }
 
   example 'successful update' do
     result = op.(
@@ -56,6 +60,32 @@ RSpec.describe TravelPlan::Operations::Update do
     expect(plan.depart_on).to eq Date.new(2025, 5, 8)
     expect(plan.return_on).to eq Date.new(2026, 8, 5)
     expect(plan.further_information).to eq 'blah blah blah'
+  end
+
+  example 'changing a round-trip TP to one-way' do
+    round_trip_plan = create_travel_plan(
+      depart_on: "05/18/#{next_year}",
+      return_on: "07/21/#{next_year}",
+      from: lhr.full_name,
+      no_of_passengers: 1,
+      to: jfk.full_name,
+      type: 'return',
+    )
+
+    result = op.(
+      {
+        id: round_trip_plan.id,
+        travel_plan: {
+          depart_on: "05/18/#{next_year}",
+          from: lhr.full_name,
+          no_of_passengers: 1,
+          to: jfk.full_name,
+          type: 'single',
+        },
+      },
+      'account' => account,
+    )
+    expect(result.success?).to be true
   end
 
   example 'invalid update' do

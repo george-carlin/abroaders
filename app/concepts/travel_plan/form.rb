@@ -97,35 +97,29 @@ class TravelPlan < ApplicationRecord
     private
 
     def depart_on_is_in_the_future
-      if depart_on.is_a?(Date)
-        if depart_on < Time.zone.today
-          errors.add(:depart_on, "can't be in the past")
-        end
+      if depart_on.is_a?(Date) && depart_on < Time.zone.today
+        errors.add(:depart_on, "can't be in the past")
       end
     end
 
     def return_on_is_in_the_future
-      if return_on.is_a?(Date)
-        if return_on < Time.zone.today
-          errors.add(:return_on, "can't be in the past")
-        end
+      if return_on.is_a?(Date) && return_on < Time.zone.today
+        errors.add(:return_on, "can't be in the past")
       end
     end
 
     def return_is_later_than_or_equal_to_departure
-      if return_on.is_a?(Date)
-        if depart_on.is_a?(Date) && return_on < depart_on
-          errors.add(:return_on, "can't be earlier than departure date")
-        end
+      if return_on.is_a?(Date) && depart_on.is_a?(Date) && return_on < depart_on
+        errors.add(:return_on, "can't be earlier than departure date")
       end
     end
 
-    def single?
-      type == "single"
+    def return?
+      type == 'return'
     end
 
-    def return?
-      type == "return"
+    def single?
+      type == 'single'
     end
   end
 end
