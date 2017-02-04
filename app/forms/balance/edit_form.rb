@@ -1,4 +1,4 @@
-require_dependency 'reform/form/dry'
+require 'reform/form/dry'
 
 class Balance::EditForm < Reform::Form
   feature Reform::Form::Coercion

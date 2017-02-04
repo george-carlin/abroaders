@@ -12,6 +12,7 @@ RSpec.describe AdminArea::Person::Cell::Balances, type: :view do
   end
 
   context 'when the person has balances' do
+    # TODO use Balance::Operations::Create, not a Factory
     let!(:balances) { create_list(:balance, 2, person: person) }
 
     it 'lists them' do
