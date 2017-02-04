@@ -1,10 +1,17 @@
 <div class='hpanel'>
   <div class="panel-heading hbuilt">
-    <h1>Balances</h1>
+    <h1>
+      Balances
 
-    <% if @people.size == 1 %>
-      <%= link_to "Add new balance", new_person_balance_path(@people.first) %>
-    <% end %>
+      <% if @people.size == 1 %>
+        <%= link_to(
+          'Add new',
+          new_person_balance_path(@people.first),
+          class: 'btn btn-primary btn-sm',
+          style: 'float: right; margin-bottom: 6px;',
+        ) %>
+      <% end %>
+    </h1>
   </div>
 
   <% @people.each do |person| %>
@@ -36,6 +43,7 @@
               <button
                 class="edit_balance_btn btn btn-sm btn-primary"
                 data-balance-id="<%= balance.id %>"
+                style="float:right;"
               >
                 Edit
               </button>
