@@ -1,48 +1,46 @@
 require 'rails_helper'
 
-describe 'balances pages' do
+describe 'balance index page' do
   include_context 'logged in'
   let(:owner) { account.owner }
 
   before(:all) { @currencies = create_list(:currency, 2) }
   let(:currencies) { @currencies }
 
-  describe "index page" do
-    example "viewing my balances" do
-      balance_0 = owner.balances.create!(currency: currencies[0], value: 1234)
-      balance_1 = owner.balances.create!(currency: currencies[1], value: 2468)
-      visit balances_path
+  example "viewing my balances" do
+    balance_0 = owner.balances.create!(currency: currencies[0], value: 1234)
+    balance_1 = owner.balances.create!(currency: currencies[1], value: 2468)
+    visit balances_path
 
-      within_balance(balance_0) do
-        expect(page).to have_content "1,234"
-        expect(page).to have_content currencies[0].name
-      end
-
-      within_balance(balance_1) do
-        expect(page).to have_content "2,468"
-        expect(page).to have_content currencies[1].name
-      end
+    within_balance(balance_0) do
+      expect(page).to have_content "1,234"
+      expect(page).to have_content currencies[0].name
     end
 
-    example "updating a balance", :js, :manual_clean do
-      balance = owner.balances.create!(currency: currencies[0], value: 1234)
-      visit balances_path
-      update_balance_value(balance, 2345)
+    within_balance(balance_1) do
+      expect(page).to have_content "2,468"
+      expect(page).to have_content currencies[1].name
+    end
+  end
+
+  example "updating a balance", :js, :manual_clean do
+    balance = owner.balances.create!(currency: currencies[0], value: 1234)
+    visit balances_path
+    update_balance_value(balance, 2345)
+    balance.reload
+    expect(balance.value).to eq 2345
+  end
+
+  example "trying to update a balance invalidly", :js, :manual_clean do
+    balance = owner.balances.create!(currency: currencies[0], value: 1234)
+    visit balances_path
+
+    expect do
+      update_balance_value(balance, -2345)
       balance.reload
-      expect(balance.value).to eq 2345
-    end
+    end.not_to change { balance.value }
 
-    example "trying to update a balance invalidly", :js, :manual_clean do
-      balance = owner.balances.create!(currency: currencies[0], value: 1234)
-      visit balances_path
-
-      expect do
-        update_balance_value(balance, -2345)
-        balance.reload
-      end.not_to change { balance.value }
-
-      expect(page).to have_content "Invalid value"
-    end
+    expect(page).to have_content "Invalid value"
   end
 
   def balance_selector(balance)
