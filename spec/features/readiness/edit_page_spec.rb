@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'edit readiness page' do
+RSpec.describe 'edit readiness page' do
   let(:account)   { create((couples ? :couples_account : :account), :onboarded) }
   let(:owner)     { account.owner }
   let(:companion) { account.companion }

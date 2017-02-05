@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe EligibilitiesController do
+RSpec.describe EligibilitiesController do
   describe "GET #survey" do
     let(:account) { create(:account) }
     before { sign_in account }

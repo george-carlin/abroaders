@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "interest regions survey", :js do
+RSpec.describe "interest regions survey", :js do
   def check_checkbox(name)
     find(:checkbox, name).trigger("click")
   end

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "admin edit travel plan" do
+RSpec.describe "admin edit travel plan" do
   # travel plan form needs updating because some old travel plans are to/from
   # countries but new ones are to/from airports. Not sure how to handle this.
   before { skip 'tests need updating' }

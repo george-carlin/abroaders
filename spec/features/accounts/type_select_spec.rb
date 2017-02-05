@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "account type select page", :js, :onboarding do
+RSpec.describe "account type select page", :js, :onboarding do
   subject { page }
 
   let(:account) { create(:account, onboarding_state: :account_type) }

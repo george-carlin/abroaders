@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe SpendingInfosController do
+RSpec.describe SpendingInfosController do
   describe "GET #survey" do
     let(:account) { create(:account) }
     let(:owner)   { account.owner }

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe BalancesSurvey do
+RSpec.describe BalancesSurvey do
   let(:person)  { create(:owner) }
   let(:account) { person.account }
   before { account.update!(onboarding_state: "owner_balances") }

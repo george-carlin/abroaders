@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "the sign in page" do
+RSpec.describe "the sign in page" do
   before do
     @pw = "foobar123"
     attrs = { password: @pw, password_confirmation: @pw }

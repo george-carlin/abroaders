@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "the balance survey page", :onboarding, :js do
+RSpec.describe "the balance survey page", :onboarding, :js do
   subject { page }
 
   let(:account) { create(:account, onboarding_state: "owner_balances") }

@@ -1,7 +1,7 @@
 require "rails_helper"
 
 module Estimates
-  describe FeesEstimate do
+  RSpec.describe FeesEstimate do
     before do
       @usa = Region.new(code: "US", name: 'U.S.A. (Continental 48)')
       @eu  = Region.new(code: "EU", name: "Europe")

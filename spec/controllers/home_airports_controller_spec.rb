@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe HomeAirportsController do
+RSpec.describe HomeAirportsController do
   describe "GET #survey" do
     let(:account) { create(:account) }
     before { sign_in account }

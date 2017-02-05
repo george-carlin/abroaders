@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe TravelPlansController do
+RSpec.describe TravelPlansController do
   describe "GET #new" do
     let(:account) { create(:account) }
 

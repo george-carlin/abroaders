@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe InterestRegionsSurvey do
+RSpec.describe InterestRegionsSurvey do
   let(:account) { create(:account, onboarding_state: :regions_of_interest) }
 
   describe "#persist!" do

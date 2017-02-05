@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'card accounts edit page', :js do
+RSpec.describe 'card accounts edit page', :js do
   let(:bank)    { create(:bank, name: 'Chase') }
   let(:account) { create(:account, :onboarded) }
   let(:person)  { account.owner }

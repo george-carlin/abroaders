@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "cards index page - new recommendation", :js do
+RSpec.describe "cards index page - new recommendation", :js do
   include ActionView::Helpers::NumberHelper
   include ApplicationSurveyMacros
 

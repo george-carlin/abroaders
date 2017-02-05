@@ -2,7 +2,7 @@ require 'rails_helper'
 
 # Destination uses STI. This spec file tests Destination and all its
 # subclasses.  If it gets too long we can split it later.
-describe Destination do
+RSpec.describe Destination do
   let(:region)  { Region.new }
   let(:country) { Country.new }
   let(:city)    { City.new }

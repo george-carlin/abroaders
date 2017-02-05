@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'phone number pages' do
+RSpec.describe 'phone number pages' do
   let!(:account) { create(:account, onboarding_state: :phone_number) }
   before { login_as_account(account) }
 

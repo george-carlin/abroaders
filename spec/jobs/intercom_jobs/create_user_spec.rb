@@ -1,7 +1,7 @@
 require "rails_helper"
 
 module IntercomJobs
-  describe CreateUser do
+  RSpec.describe CreateUser do
     it "creates a user on Intercom" do
       time    = Time.zone.parse("2016-05-03 12:41 PM UTC")
       email   = "testtesttest@example.com"

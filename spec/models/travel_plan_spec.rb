@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe TravelPlan do
+RSpec.describe TravelPlan do
   let(:travel_plan) { described_class.new }
 
   it do

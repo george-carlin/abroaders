@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "the spending info edit page" do
+RSpec.describe "the spending info edit page" do
   subject { page }
 
   include ActiveJob::TestHelper

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "user cards page - callable cards", :js do
+RSpec.describe "user cards page - callable cards", :js do
   include ApplicationSurveyMacros
   let(:account) { create(:account, :onboarded) }
   let(:person)  { account.owner }

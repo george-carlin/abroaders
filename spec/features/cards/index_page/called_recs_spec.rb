@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "user cards page - called cards", :js do
+RSpec.describe "user cards page - called cards", :js do
   include ApplicationSurveyMacros
   subject { page }
 

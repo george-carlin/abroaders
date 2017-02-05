@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Airport do
+RSpec.describe Airport do
   describe '#full_name' do
     example 'airport name includes city name' do
       city    = City.new(name: 'Frankfurt')

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Person do
+RSpec.describe Person do
   let(:person) { described_class.new }
 
   describe "#has_recent_recommendation?" do

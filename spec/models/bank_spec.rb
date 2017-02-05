@@ -1,4 +1,4 @@
 require "rails_helper"
 
-describe Bank do
+RSpec.describe Bank do
 end

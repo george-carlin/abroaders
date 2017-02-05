@@ -1,15 +1,15 @@
-shared_context "logged in" do
+RSpec.shared_context "logged in" do
   let(:account) { create(:account, :onboarded) }
   let(:owner)   { account.owner }
   before { login_as_account(account) }
 end
 
-shared_context "logged in as admin" do
+RSpec.shared_context "logged in as admin" do
   let(:admin) { create(:admin) }
   before { login_as_admin(admin) }
 end
 
-shared_examples "a travel plan form" do
+RSpec.shared_examples "a travel plan form" do
   it "has inputs for a travel plan", :js do
     expect(page).to have_field :travel_plan_from
     expect(page).to have_field :travel_plan_to

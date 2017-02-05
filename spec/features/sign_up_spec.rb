@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "the sign up page", :onboarding do
+RSpec.describe "the sign up page", :onboarding do
   before { visit new_account_registration_path }
 
   it "has fields to create a new account" do

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe Card::Status do
+RSpec.describe Card::Status do
   let(:date) { Time.zone.today }
   let(:error_class) { Card::InvalidStatus }
   let(:status) { described_class.new }

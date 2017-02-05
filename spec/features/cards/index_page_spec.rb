@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "as a user viewing my cards" do
+RSpec.describe "as a user viewing my cards" do
   subject { page }
 
   let(:account)   { create(:account, :eligible, :onboarded) }

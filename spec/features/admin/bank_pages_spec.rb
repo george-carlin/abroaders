@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 module AdminArea
-  describe 'bank pages' do
+  RSpec.describe 'bank pages' do
     include_context 'logged in as admin'
 
     describe 'index page' do

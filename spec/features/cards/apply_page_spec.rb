@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "card recommendation apply page" do
+RSpec.describe "card recommendation apply page" do
   subject { page }
 
   include_context "logged in"

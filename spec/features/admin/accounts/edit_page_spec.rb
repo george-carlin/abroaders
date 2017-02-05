@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "admin section" do
+RSpec.describe "admin section" do
   describe "edit user page" do
     subject { page }
 

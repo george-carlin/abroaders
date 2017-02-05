@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require "rails_helper"
 
-describe "the spending info survey", :js, :onboarding do
+RSpec.describe "the spending info survey", :js, :onboarding do
   subject { page }
 
   include ActiveJob::TestHelper

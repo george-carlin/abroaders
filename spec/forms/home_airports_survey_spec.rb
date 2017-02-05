@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe HomeAirportsSurvey, type: :model do
+RSpec.describe HomeAirportsSurvey, type: :model do
   it { is_expected.to validate_presence_of :account }
   it { is_expected.to validate_presence_of :airport_ids }
 

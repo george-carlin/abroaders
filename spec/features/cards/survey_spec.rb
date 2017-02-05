@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'cards survey', :onboarding, :js, :manual_clean do
+RSpec.describe 'cards survey', :onboarding, :js, :manual_clean do
   subject { page }
 
   before(:all) do

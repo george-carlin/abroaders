@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe CardsController do
+RSpec.describe CardsController do
   describe "GET #survey" do
     let(:account) { create(:account) }
     let(:owner)   { account.owner }

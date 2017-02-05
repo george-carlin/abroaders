@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 module AdminArea
-  describe OffersController do
+  RSpec.describe OffersController do
     before { sign_in create(:admin) }
 
     describe 'GET #show' do

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe InterestRegionsController do
+RSpec.describe InterestRegionsController do
   describe "GET #survey" do
     let(:account) { create(:account) }
     let(:owner)   { account.owner }

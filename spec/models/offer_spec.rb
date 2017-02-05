@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Offer do
+RSpec.describe Offer do
   let(:offer) { described_class.new }
 
   describe "validations" do

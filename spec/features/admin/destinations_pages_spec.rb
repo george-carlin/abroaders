@@ -1,7 +1,7 @@
 require "rails_helper"
 
 module AdminArea
-  describe "destinations pages" do
+  RSpec.describe "destinations pages" do
     include_context "logged in as admin"
 
     example "destinations index" do

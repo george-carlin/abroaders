@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Balance::EditForm do
+RSpec.describe Balance::EditForm do
   let(:balance) { Struct.new(:value, :currency_id).new }
 
   def errors_for(key, value)

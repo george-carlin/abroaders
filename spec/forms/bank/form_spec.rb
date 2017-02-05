@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Bank::Form do
+RSpec.describe Bank::Form do
   def errors_for(attrs)
     form = described_class.new(Bank.new)
     form.validate(attrs)

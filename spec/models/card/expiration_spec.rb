@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe Card::Expiration do
+RSpec.describe Card::Expiration do
   let(:person) { create(:person) }
   let(:offer)  { create(:offer) }
 

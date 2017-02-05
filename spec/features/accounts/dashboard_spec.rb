@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "account dashboard" do
+RSpec.describe "account dashboard" do
   include ModalMacros
   include ActionView::Helpers::UrlHelper
 

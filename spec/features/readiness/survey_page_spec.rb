@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "readiness survey page", :onboarding, :js do
+RSpec.describe "readiness survey page", :onboarding, :js do
   shared_examples "form for one person" do |type|
     case type
     when :owner

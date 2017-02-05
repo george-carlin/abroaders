@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe SpendingSurvey, type: :model do
+RSpec.describe SpendingSurvey, type: :model do
   describe "validations" do
     before do
       @account = Account.new

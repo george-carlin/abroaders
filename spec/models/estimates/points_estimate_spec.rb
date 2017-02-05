@@ -1,7 +1,7 @@
 require "rails_helper"
 
 module Estimates
-  describe PointsEstimate do
+  RSpec.describe PointsEstimate do
     before do
       @eu = Region.new(code: "EU", name: "Europe")
 

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe AccountsController do
+RSpec.describe AccountsController do
   include_context "account devise mapping"
 
   describe "GET #type" do

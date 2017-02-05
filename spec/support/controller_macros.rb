@@ -1,8 +1,8 @@
-shared_context "account devise mapping" do
+RSpec.shared_context "account devise mapping" do
   before { @request.env["devise.mapping"] = Devise.mappings[:account] }
 end
 
-shared_context "admin devise mapping" do
+RSpec.shared_context "admin devise mapping" do
   before { @request.env["devise.mapping"] = Devise.mappings[:admin] }
 end
 

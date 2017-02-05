@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "home airports survey", :onboarding, :js do
+RSpec.describe "home airports survey", :onboarding, :js do
   let(:account) { create(:account) }
   let(:person)  { account.owner }
 

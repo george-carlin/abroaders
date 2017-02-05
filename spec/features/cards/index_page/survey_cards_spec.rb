@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "card accounts page survey cards section" do
+RSpec.describe "card accounts page survey cards section" do
   include ApplicationSurveyMacros
 
   subject { page }

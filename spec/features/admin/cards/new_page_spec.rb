@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 module AdminArea
-  describe 'new card page' do
+  RSpec.describe 'new card page' do
     include_context 'logged in as admin'
 
     let(:account) { create(:account, :onboarded) }

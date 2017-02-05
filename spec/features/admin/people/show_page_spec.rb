@@ -1,7 +1,7 @@
 require "rails_helper"
 
 module AdminArea
-  describe 'show person page', :manual_clean do
+  RSpec.describe 'show person page', :manual_clean do
     include_context "logged in as admin"
 
     let(:aw_email) { "totallyawesomedude@example.com" }

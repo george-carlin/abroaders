@@ -1,4 +1,4 @@
-shared_examples "don't send any emails" do
+RSpec.shared_examples "don't send any emails" do
   it "doesn't send any emails" do
     expect do
       submit_form

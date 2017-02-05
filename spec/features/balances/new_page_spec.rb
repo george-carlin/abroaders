@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'new balance pages' do
+RSpec.describe 'new balance pages' do
   include_context 'logged in'
 
   before(:all) { @currencies = create_list(:currency, 2) }

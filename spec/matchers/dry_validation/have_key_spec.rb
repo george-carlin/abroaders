@@ -1,7 +1,7 @@
 require APP_ROOT.join 'spec', 'support', 'matchers', 'dry_validation', 'have_key'
 
 module Dry::Validation
-  describe Matchers do
+  RSpec.describe Matchers do
     include Matchers
 
     let(:schema) do
