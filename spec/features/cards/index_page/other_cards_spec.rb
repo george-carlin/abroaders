@@ -1,11 +1,11 @@
-require "rails_helper"
+require 'rails_helper'
 
-RSpec.describe "card accounts page survey cards section" do
+RSpec.describe 'cards index page - "other cards" section' do
   include ApplicationSurveyMacros
 
   subject { page }
 
-  include_context "logged in"
+  include_context 'logged in'
 
   before do
     person.update!(eligible: true)
@@ -33,11 +33,11 @@ RSpec.describe "card accounts page survey cards section" do
   let(:have_survey_cards_header)    { have_selector "h2", text: "Other Cards" }
   let(:have_no_survey_cards_header) { have_no_selector "h2", text: "Other Cards" }
 
-  let(:survey_cards_section)           { "#cards_from_survey" }
-  let(:owner_survey_cards_section)     { "#owner_cards_from_survey" }
-  let(:companion_survey_cards_section) { "#companion_cards_from_survey" }
+  let(:other_cards_section)           { "#cards_from_survey" }
+  let(:owner_other_cards_section)     { "#owner_cards_from_survey" }
+  let(:companion_other_cards_section) { "#companion_cards_from_survey" }
 
-  example "no companion; I have 'from survey' cards" do
+  example "no companion; I have non-recommendation cards" do
     open_acc   = create(:open_survey_card,   person: person, product: products[0])
     closed_acc = create(:closed_survey_card, person: person, product: products[1])
 
@@ -45,10 +45,10 @@ RSpec.describe "card accounts page survey cards section" do
 
     # has a section for them:
     expect(page).to have_survey_cards_header
-    expect(page).to have_selector owner_survey_cards_section
+    expect(page).to have_selector owner_other_cards_section
 
     # lists them and their info:
-    within owner_survey_cards_section do
+    within owner_other_cards_section do
       expect(page).to have_selector card_selector(open_acc)
       expect(page).to have_selector card_selector(closed_acc)
     end
@@ -56,7 +56,7 @@ RSpec.describe "card accounts page survey cards section" do
     expect(page).to have_no_selector "h2", text: "#{person.first_name}'s cards"
   end
 
-  example "companion; only owner has survey cards" do
+  example "companion; only owner has non-recommendation cards" do
     create_companion!
 
     open_acc   = create(:open_survey_card,   person: person, product: products[0])
@@ -65,7 +65,7 @@ RSpec.describe "card accounts page survey cards section" do
     visit_page
 
     # lists them and their info:
-    within owner_survey_cards_section do
+    within owner_other_cards_section do
       expect(page).to have_selector card_selector(open_acc)
       expect(page).to have_selector card_selector(closed_acc)
     end
@@ -74,7 +74,7 @@ RSpec.describe "card accounts page survey cards section" do
     expect(page).to have_content "#{companion.first_name} has no other cards"
   end
 
-  example "companion; only companion has survey cards" do
+  example "companion; only companion has non-recommendation cards" do
     create_companion!
     open_acc   = create(:open_survey_card, person: companion, product: products[0])
     closed_acc = create(:closed_survey_card, person: companion, product: products[1])
@@ -83,7 +83,7 @@ RSpec.describe "card accounts page survey cards section" do
 
     expect(page).to have_selector "h3", text: "#{companion.first_name}'s Cards"
 
-    within companion_survey_cards_section do
+    within companion_other_cards_section do
       expect(page).to have_selector card_selector(open_acc)
       expect(page).to have_selector card_selector(closed_acc)
     end
@@ -92,7 +92,7 @@ RSpec.describe "card accounts page survey cards section" do
     expect(page).to have_content "#{person.first_name} has no other cards"
   end
 
-  example "companion; both people have survey cards" do
+  example "companion; both people have non-recommendation cards" do
     o_open   = create(:open_survey_card,   person: person, product: products[0])
     o_closed = create(:closed_survey_card, person: person, product: products[1])
     create_companion!
@@ -101,12 +101,12 @@ RSpec.describe "card accounts page survey cards section" do
 
     visit_page
 
-    within owner_survey_cards_section do
+    within owner_other_cards_section do
       expect(page).to have_selector card_selector(o_open)
       expect(page).to have_selector card_selector(o_closed)
     end
 
-    within companion_survey_cards_section do
+    within companion_other_cards_section do
       expect(page).to have_selector card_selector(c_open)
       expect(page).to have_selector card_selector(c_closed)
     end
