@@ -18,7 +18,7 @@
         <th>Pulled</th>
       </thead>
       <tbody>
-        <% present_each @pulled_recommendations, AdminArea::CardPresenter do |card| %>
+        <% present_each @pulled_recommendations do |card| %>
           <%= content_tag_for :tr, card do %>
             <td><%= AdminArea::CardProduct::Cell::Identifier.(card.model.product) %></td>
             <td><%= card.product_name %></td>

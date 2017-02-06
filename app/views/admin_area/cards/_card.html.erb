@@ -1,5 +1,12 @@
-<% present card, AdminArea::CardPresenter do |card| %>
-  <%= card.tr_tag do %>
+<% present card do |card| %>
+  <% model = card.model %>
+  <%= content_tag_for(
+    :tr,
+    card.model,
+    "data-bp":       model.product.bp,
+    "data-bank":     model.product.bank_id,
+    "data-currency": model.product.currency_id,
+  ) do %>
     <td><%= AdminArea::CardProduct::Cell::Identifier.(card.model.product) %></td>
     <td><%= card.product_name %></td>
     <td class="card_status">
@@ -36,7 +43,20 @@
     </td>
     <td>
       <%= link_to 'Edit', edit_admin_card_path(card) %>
-      <%= card.link_to_pull if card.recommendation? %>
+      <% if model.recommendation? %>
+        <%= link_to(
+          raw("&times;"),
+          pull_admin_recommendation_path(model),
+          data: {
+            confirm: "Really pull this recommendation?",
+            method: :patch,
+            remote: true,
+          },
+          id:    "card_#{model.id}_pull_btn",
+          class: "card_pull_btn",
+        )
+      %>
+      <% end %>
     </td>
   <% end # content_tag_for %>
 <% end # present %>
