@@ -30,7 +30,7 @@
 
               <% card_recs = @recommendations.where(person: person) %>
               <% if card_recs.any? %>
-                <%= render card_recs %>
+                <%= cell(Recommendation::Cell::UnresolvedRec, collection: card_recs) %>
               <% else %>
                 No recommendations for <%= person.first_name %>
               <% end %>

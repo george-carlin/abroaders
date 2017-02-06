@@ -1,0 +1,39 @@
+<div id="<%= dom_id(rec) %>" class="<%= dom_class(rec) %>">
+  <div class="col-xs-12 col-sm-6 col-md-2">
+    <%= image %>
+  </div>
+
+  <div class="col-xs-12 col-sm-6 col-md-6">
+    <p>
+      <b>Card Name:</b>
+      <span class="card-account-card-name">
+        <%= product_name %>
+      </span>
+    </p>
+
+    <p>
+      <b>Bank:</b>
+      <span class="card-account-bank">
+        <%= bank_name %>
+      </span>
+    </p>
+
+    <div class="card_offer">
+      <%= offer_description %>
+    </div><!-- .product-account-offer -->
+  </div>
+
+  <div class="col-xs-12">
+    <br>
+
+    <div
+      data-react-component="CardApplicationSurvey"
+      data-apply-path="<%= apply_recommendation_path(rec) %>"
+      data-decline-path="<%= decline_recommendation_path(rec) %>"
+      data-update-path="<%= recommendation_path(rec) %>"
+      data-card-account="<%= rec_as_json %>"
+    ></div>
+  </div>
+</div>
+
+<hr>
