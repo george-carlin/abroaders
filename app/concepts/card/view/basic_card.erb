@@ -1,12 +1,12 @@
 <div id="<%= html_id %>" class="<%= html_classes %>">
   <div class="col-xs-12 col-sm-6 col-md-2">
-    <%= CardProduct::Cell::Image.(product, size: '130x81') %>
+    <%= image %>
   </div>
 
   <div class="col-xs-12 col-sm-6 col-md-6">
     <p>
       <b>Card Name:</b>
-      <span class="card-account-card-name"><%= full_name %></span>
+      <span class="card-account-card-name"><%= product_full_name %></span>
     </p>
 
     <p>

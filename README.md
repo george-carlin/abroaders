@@ -267,7 +267,7 @@ All business logic should live in operations. TODO expand.
   about how the result object works then it's much less likely that we'll need
   to change the controller.
 
-- Partial cells can use model whatever you want, but it should generally be
+- Partial cells can use whatever model you want, but it should generally be
   an ActiveRecord model. If the cell only needs to use a particular attribute
   of a model, pass in the whole model anyway:
 
@@ -324,6 +324,21 @@ All business logic should live in operations. TODO expand.
   make sure that all user-generated content is escaped before it gets displayed
   on the page. See [HTML Escaping](http://trailblazer.to/gems/cells/api.html#html-escaping)
   in the Cells docs.
+
+- When testing cells, you probably want to add `type: :view` to the spec:
+
+        RSpec.describe Card::Cell::BasicCard, type: :view do
+          ... specs go here
+        end
+
+  This gives you access to Capybara matchers like `have_link`. Note that
+  negative matchers like `have_no_link` won't be available, but it doesn't
+  matter - unlike in feature specs, you can just write `expect(...).not_to
+  have_link(...)` and it won't slow anything down because there's no AJAX to
+  worry about.
+
+  > TODO is there a way to make RSpec add 'type/view' by default to every
+  > cell spec?
 
 ## Rails
 

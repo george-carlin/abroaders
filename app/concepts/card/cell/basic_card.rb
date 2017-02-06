@@ -29,7 +29,7 @@ class Card < ApplicationRecord
         super.strftime(MONTH_YEAR_FORMAT)
       end
 
-      def full_name
+      def product_full_name
         cell(CardProduct::Cell::FullName, product, network_in_brackets: true)
       end
 

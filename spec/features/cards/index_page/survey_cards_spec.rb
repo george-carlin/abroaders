@@ -37,26 +37,6 @@ RSpec.describe "card accounts page survey cards section" do
   let(:owner_survey_cards_section)     { "#owner_cards_from_survey" }
   let(:companion_survey_cards_section) { "#companion_cards_from_survey" }
 
-  # TODO this used to be part of a page object. I would convert it
-  # to a matcher that this spec can use, but this doesn't belong in
-  # a feature spec anyway. Extract the survey card display to a cell
-  # and move the test into there
-  def have_info_for_a_survey_card
-    has_basic_info = has_content?("Card Name: #{product.name}") &&
-                     has_content?("Bank: #{product.bank_name}") &&
-                     has_content?("Open") &&
-                     has_content?(card.opened_at.strftime("%b %Y")) &&
-                     has_no_apply_or_decline_btns?
-
-    if !card.closed_at.nil?
-      has_basic_info &&
-        has_content?("Closed") &&
-        has_content?(card.closed_at.strftime("%b %Y"))
-    else
-      has_basic_info && has_no_content?("Closed")
-    end
-  end
-
   example "no companion; I have 'from survey' cards" do
     open_acc   = create(:open_survey_card,   person: person, product: products[0])
     closed_acc = create(:closed_survey_card, person: person, product: products[1])
@@ -71,13 +51,6 @@ RSpec.describe "card accounts page survey cards section" do
     within owner_survey_cards_section do
       expect(page).to have_selector card_selector(open_acc)
       expect(page).to have_selector card_selector(closed_acc)
-    end
-
-    within card_selector(open_acc) do
-      # expect(page).to have_info_for_a_survey_card
-    end
-    within card_selector(closed_acc) do
-      # expect(page).to have_info_for_a_survey_card
     end
 
     expect(page).to have_no_selector "h2", text: "#{person.first_name}'s cards"
@@ -115,13 +88,6 @@ RSpec.describe "card accounts page survey cards section" do
       expect(page).to have_selector card_selector(closed_acc)
     end
 
-    within card_selector(open_acc) do
-      # expect(page).to have_info_for_a_survey_card
-    end
-    within card_selector(closed_acc) do
-      # expect(page).to have_info_for_a_survey_card
-    end
-
     expect(page).to have_selector "h3", text: "#{person.first_name}'s Cards"
     expect(page).to have_content "#{person.first_name} has no other cards"
   end
@@ -143,19 +109,6 @@ RSpec.describe "card accounts page survey cards section" do
     within companion_survey_cards_section do
       expect(page).to have_selector card_selector(c_open)
       expect(page).to have_selector card_selector(c_closed)
-    end
-
-    within card_selector(o_open) do
-      # expect(page).to have_info_for_a_survey_card
-    end
-    within card_selector(o_closed) do
-      # expect(page).to have_info_for_a_survey_card
-    end
-    within card_selector(c_open) do
-      # expect(page).to have_info_for_a_survey_card
-    end
-    within card_selector(c_closed) do
-      # expect(page).to have_info_for_a_survey_card
     end
   end
 end
