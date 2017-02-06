@@ -111,4 +111,12 @@ RSpec.describe 'cards index page - "other cards" section' do
       expect(page).to have_selector card_selector(c_closed)
     end
   end
+
+  example 'deleting a card', :js do
+    card = create(:open_survey_card, person: person, product: products[0])
+    visit_page
+    click_link 'Delete'
+    expect(page).to have_success_message 'Removed card'
+    expect(Card.exists?(id: card.id)).to be false
+  end
 end

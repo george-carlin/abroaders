@@ -33,8 +33,12 @@ RSpec.describe Card::Cell::BasicCard, type: :view do
 
   example ':editable option' do
     # with:
-    expect(render_cell(card)).not_to have_link 'Edit'
+    rendered = render_cell(card)
+    expect(rendered).not_to have_link 'Edit'
+    expect(rendered).not_to have_link 'Delete'
     # without:
-    expect(render_cell(card, editable: true)).to have_link 'Edit'
+    rendered = render_cell(card, editable: true)
+    expect(rendered).to have_link 'Edit'
+    expect(rendered).to have_link 'Delete'
   end
 end

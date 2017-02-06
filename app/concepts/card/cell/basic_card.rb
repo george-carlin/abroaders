@@ -6,7 +6,8 @@ class Card < ApplicationRecord
     #   - card opened/closed dates
     #
     # options:
-    #   - editable: default false. If true, display a link to the card's edit page
+    #   - editable: default false. If true, display a link to the card's edit page,
+    #               and a link to delete the card
     class BasicCard < Trailblazer::Cell
       property :id
       property :closed_at
@@ -33,20 +34,37 @@ class Card < ApplicationRecord
         cell(CardProduct::Cell::FullName, product, network_in_brackets: true)
       end
 
-      def html_id
-        "card_#{id}"
-      end
-
       def html_classes
         'card row'
+      end
+
+      def html_id
+        "card_#{id}"
       end
 
       def image
         cell(CardProduct::Cell::Image, product, size: '130x81')
       end
 
+      def link_to_delete
+        link_to(
+          'Delete',
+          card_path(model),
+          class: 'btn btn-primary btn-xs',
+          method: :delete,
+          data: {
+            confirm: 'Are you sure you want to remove this card from your '\
+                     'account? You can not undo this action.',
+          },
+        )
+      end
+
       def link_to_edit
-        link_to 'Edit', edit_card_path(model)
+        link_to(
+          'Edit',
+          edit_card_path(model),
+          class: 'btn btn-primary btn-xs',
+        )
       end
 
       def opened_at

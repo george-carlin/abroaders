@@ -51,11 +51,19 @@ class CardsController < AuthenticatedUserController
   end
 
   def update
-    run Card::Operations::Update do |_result|
+    run Card::Operations::Update do
       flash[:success] = 'Updated card'
       return redirect_to cards_path
     end
     render :edit
+  end
+
+  def destroy
+    run Card::Operations::Destroy do
+      flash[:success] = 'Removed card'
+      return redirect_to cards_path
+    end
+    raise 'this should never happen'
   end
 
   def survey

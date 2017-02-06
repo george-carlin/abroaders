@@ -58,7 +58,13 @@
       <div class="panel-heading hbuilt">
         <h2>
           Other Cards
-          <small><%= link_to 'Add New', new_card_path %></small>
+
+          <%= link_to(
+            'Add New',
+            new_card_path,
+            class: 'btn btn-primary btn-sm',
+            style: 'float: right; margin-top: 6px;',
+          ) %>
         </h2>
       </div>
 

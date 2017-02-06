@@ -15,7 +15,7 @@
     </p>
   </div>
 
-  <div class="col-xs-12 col-md-3">
+  <div class="col-xs-12 col-md-2">
     <p><b>Opened:</b> <%= opened_at %></p>
     <% if closed? %>
       <p><b>Closed:</b> <%= closed_at %></p>
@@ -23,8 +23,9 @@
   </div>
 
   <% if options[:editable] %>
-    <div class="col-xs-12 col-md-1">
+    <div class="col-xs-12 col-md-2">
       <%= link_to_edit %>
+      <%= link_to_delete %>
     </div>
   <% end %>
 </div>
