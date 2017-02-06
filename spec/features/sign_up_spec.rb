@@ -62,7 +62,11 @@ RSpec.describe "the sign up page", :onboarding do
         expect { submit_form }.to change { enqueued_jobs.size }
         job = enqueued_jobs.detect { |j| j[:job] == IntercomJobs::CreateUser }
         expect(job).not_to be_nil
-        expect(job[:args][0]["account_id"]).to eq Account.last.id
+        job_args = job[:args][0]
+        account = Account.last
+        expect(job_args['email']).to eq account.email
+        expect(job_args['name']).to eq account.owner.first_name
+        expect(job_args['signed_up_at']).to eq account.created_at.to_i
       end
 
       describe "the created account" do

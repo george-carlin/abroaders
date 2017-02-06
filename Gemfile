@@ -79,8 +79,6 @@ group :test do
   gem 'poltergeist', '1.9.0'
   gem 'shoulda-matchers', '~> 3.1.1'
   gem 'launchy'
-  gem 'vcr'
-  gem 'webmock', '1.24.3'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

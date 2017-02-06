@@ -534,6 +534,27 @@ See `app/presenters/README.md`
         widget.update!
       end
 
+- Similarly, **use strings, not symbols, as option keys** - otherwise
+  you'll break Redis:
+
+        # bad
+        def perform(opts = {})
+          do_something_with(opts.fetch(:my_key))
+        end
+
+        # good
+        def perform(opts = {})
+          do_something_with(opts.fetch('my_key'))
+        end
+
+  A corollary here is that **background jobs can't use Ruby keyword arguments**.
+
+        # this won't work
+        def perform(my_key:)
+          do_something_with(my_key)
+        end
+
+
 - Remember that you don't know in advance when a background job will be
   performed, so there's no guarantee that (e.g.) the database will still be in
   the same state when the job is performed that it was when the job was

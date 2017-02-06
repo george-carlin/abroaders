@@ -2,26 +2,24 @@ require "rails_helper"
 
 module IntercomJobs
   RSpec.describe CreateUser do
-    it "creates a user on Intercom" do
-      time    = Time.zone.parse("2016-05-03 12:41 PM UTC")
-      email   = "testtesttest@example.com"
-      # .to_s(:db) is necessary here or the suite will fail on codeship when the VCR
-      # cassette has been recorded locally in a timezone other than UTC
-      account = create(:account, email: email, created_at: time.utc.to_s(:db))
-      account.owner.update_attributes!(first_name: "Dave")
+    it 'creates a user on Intercom' do
+      time  = Time.now
+      email = 'testtesttest@example.com'
 
-      new_user = nil
-      VCR.use_cassette("intercom_jobs.create_user") do
-        described_class.perform_now(account_id: account.id)
+      intercom_user_service = double
+      allow(INTERCOM).to receive(:users).and_return(intercom_user_service)
 
-        expect do
-          new_user = INTERCOM.users.find(email: email)
-        end.not_to raise_error
-      end
+      expect(intercom_user_service).to receive(:create).with(
+        email:        email,
+        name:         'Dave',
+        signed_up_at: time.to_i,
+      )
 
-      expect(new_user.email).to eq "testtesttest@example.com"
-      expect(new_user.name).to eq "Dave"
-      expect(new_user.signed_up_at.to_i).to eq time.to_i
+      described_class.perform_now(
+        'email'        => email,
+        'name'         => 'Dave',
+        'signed_up_at' => time.to_i,
+      )
     end
   end
 end
