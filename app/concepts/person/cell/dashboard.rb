@@ -1,4 +1,4 @@
-class Person < ApplicationRecord
+class Person < Person.superclass
   module Cell
     class Dashboard < Trailblazer::Cell
       include ActionView::Helpers::RecordTagHelper
