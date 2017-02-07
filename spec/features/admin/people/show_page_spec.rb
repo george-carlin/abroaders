@@ -71,19 +71,23 @@ module AdminArea
       end
     end
 
-    example "basic information" do
+    example 'basic information' do
       visit_path
       expect(page).to have_title full_title(@person.first_name)
-      expect(page).to have_content @account.created_at.strftime("%D")
+      expect(page).to have_content @account.created_at.strftime('%D')
       # person's name as the page header
-      expect(page).to have_selector "h1", text: name
+      expect(page).to have_selector 'h1', text: name
       # award wallet email
       expect(page).to have_content "AwardWallet email: #{aw_email}"
-    end
-
-    example "person with no spending info" do
-      visit_path
-      expect(page).to have_content "User has not added their spending info"
+      # no spending info:
+      expect(page).to have_content 'User has not added their spending info'
+      # no travel plans:
+      expect(page).to have_content 'User has no upcoming travel plans'
+      # no recommendations, so no last recs timestamp:
+      raise unless person.last_recommendations_at.nil? # sanity check:
+      expect(page).to have_no_selector '.person_last_recommendations_at'
+      # no recommendation notes yet:
+      expect(page).to have_no_content 'Recommendation Notes'
     end
 
     example "person with spending info" do
@@ -99,33 +103,8 @@ module AdminArea
       expect(page).to have_content "(Has EIN)"
     end
 
-    it "says whether this is the owner or companion passenger"
-
-    example "person with no travel plans" do
-      visit_path
-      expect(page).to have_content "User has no upcoming travel plans"
-      expect(page).to have_no_link("Edit")
-    end
-
-    # TODO this isn't really the best place to put this test; it's testing
-    # the travel_plan/travel_plan partial, which is used on other pages.
     example "person with travel plans" do
-      @eu  = create(:region,  name: "Europe")
-      @uk  = create(:country, name: "UK",     parent: @eu)
-      @lon = create(:city,    name: "London", parent: @uk)
-      @lhr = create(:airport, name: "Heathrow", code: "LHR", parent: @lon)
-
-      @as  = create(:region,  name: "Asia")
-      @vn  = create(:country, name: "Vietnam", parent: @as)
-      @hcm = create(:city,    name: "Ho Chi Minh City", parent: @vn)
-      @sgn = create(:airport, name: "HCMC", code: "SGN", parent: @hcm)
-
-      @na  = create(:region,  name: "North America")
-      @us  = create(:country, name: "United States", parent: @na)
-      @nyc = create(:city,    name: "New York City", parent: @us)
-      @jfk = create(:airport, name: "John F Kennedy", code: "JFK", parent: @nyc)
-
-      # Currently users can only create travel plans that are from/to airports
+      # Currently users can only create travel plans that are from/to airports.
       # Legacy data will be to/from countries, but don't bother testing that
       # here.
 
@@ -133,12 +112,9 @@ module AdminArea
 
       visit_path
 
-      expect(page).to have_no_content "User has no upcoming travel plans"
-
-      within ".account_travel_plans" do
-        expect(page).to have_selector "##{dom_id(@tps[0])}"
-        expect(page).to have_selector "##{dom_id(@tps[1])}"
-      end
+      expect(page).to have_no_content 'User has no upcoming travel plans'
+      expect(page).to have_selector "##{dom_id(@tps[0])}"
+      expect(page).to have_selector "##{dom_id(@tps[1])}"
     end
 
     example 'person with home airports' do
@@ -156,11 +132,11 @@ module AdminArea
     let(:oct) { Date.parse("2015-10-01") }
     let(:dec) { Date.parse("2015-12-01") }
 
-    example "person added cards in onboarding survey" do
+    example '"other" (non-recommendation) cards' do
       @opened_acc = \
-        create(:open_survey_card,   opened_at: jan, person: person)
+        create(:card, opened_at: jan, person: person)
       @closed_acc = \
-        create(:closed_survey_card, opened_at: mar, closed_at: oct, person: person)
+        create(:card, opened_at: mar, closed_at: oct, person: person)
 
       visit_path
 
@@ -243,25 +219,6 @@ module AdminArea
         ".person_last_recommendations_at",
         text: last_recs_date.strftime("%D"),
       )
-    end
-
-    example "person has not received recommendations" do
-      visit_path
-      # sanity check:
-      raise unless person.last_recommendations_at.nil?
-
-      # no last recs timestamp:
-      expect(page).to have_no_selector ".person_last_recommendations_at"
-    end
-
-    example "person has not given their eligibility"
-    example "person is ineligible"
-
-    context "person is eligible" do
-      example "and has not provided readiness"
-      example "and is not ready (no reason given)"
-      example "and is not ready (reason given)"
-      example "and is ready"
     end
 
     example "pulled recs", :js do
@@ -467,12 +424,7 @@ module AdminArea
       end
     end
 
-    it "doesn't display the recommendation notes panel when account has no notes" do
-      visit_path
-      expect(page).to have_no_content "Recommendation Notes"
-    end
-
-    example "displaying recommendation notes" do
+    example 'recommendation notes' do
       create_list(:recommendation_note, 3, account: account)
       visit_path
       expect(page).to have_content "Recommendation Notes"
