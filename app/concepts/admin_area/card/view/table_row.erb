@@ -1,0 +1,37 @@
+
+<%= tr_tag do %>
+  <td><%= product_identifier %></td>
+  <td><%= product_name %></td>
+  <td class="card_status">
+    <%= status %>
+    <%= decline_reason %>
+  </td>
+  <td class="card_recommended_at" data-text="<%= model.recommended_at %>">
+    <%= recommended_at %>
+  </td>
+  <td class="card_seen_at">
+    <%= seen_at %>
+  </td>
+  <td class="card_clicked_at">
+    <%= clicked_at %>
+  </td>
+  <td class="card_applied_at" data-text="<%= model.applied_at %>">
+    <%= applied_at %>
+  </td>
+  <td class="card_denied_at">
+    <%= denied_at %>
+  </td>
+  <td class="card_declined_at">
+    <%= declined_at %>
+  </td>
+  <td class="card_opened_at" data-text="<%= model.opened_at %>">
+    <%= opened_at %>
+  </td>
+  <td class="card_closed_at" data-text="<%= model.closed_at %>">
+    <%= closed_at %>
+  </td>
+  <td>
+    <%= link_to_edit %>
+    <%= link_to_pull if model.recommendation? %>
+  </td>
+<% end # tr_tag %>

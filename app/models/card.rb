@@ -218,10 +218,6 @@ class Card < ApplicationRecord
     update_attributes!(pulled_at: Time.now)
   end
 
-  def presenter_class
-    Card::Presenter
-  end
-
   private
 
   # TODO move these validations to the operation/contract layer:

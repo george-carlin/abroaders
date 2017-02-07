@@ -1,4 +1,5 @@
 module AdminArea
+  # TODO rename me to CardRecommendationsController
   class RecommendationsController < AdminController
     def create
       person = load_person
@@ -37,9 +38,15 @@ module AdminArea
     end
 
     def pulled
-      @person  = load_person
-      @account = @person.account
-      @pulled_recommendations = @person.card_recommendations.pulled
+      warn "#{self.class}#{__method__} needs extracting to a TRB op"
+      person = ::Person.find(params[:person_id])
+      # fake a TRB result op for future-compatibility:
+      @_result = {
+        'account'    => person.account,
+        'collection' => person.card_recommendations.pulled,
+        'person'     => person,
+      }
+      render cell(AdminArea::CardRecommendation::Cell::Pulled, result)
     end
 
     private

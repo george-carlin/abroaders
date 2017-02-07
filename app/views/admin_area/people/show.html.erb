@@ -107,7 +107,7 @@
               <th></th>
             </thead>
             <tbody>
-              <%= render @cards, partial: "admin_area/cards/card" %>
+              <%= cell(AdminArea::Card::Cell::TableRow, collection: @cards) %>
             </tbody>
           </table>
 

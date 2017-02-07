@@ -4,7 +4,7 @@ $("#admin_recommend_offer_" + offerId + " .offer-recommend").html(
   "<button class='btn btn-xs btn-success pull-right' disabled>Recommended!</button>"
 );
 
-var tr = "<%= j render "admin_area/cards/card", card: @card %>";
+var tr = "<%= j cell(AdminArea::Card::Cell::TableRow, @card).() %>";
 
 // If the user had no card accounts when the page was initially loaded, the table will
 // be hidden, so show it:
