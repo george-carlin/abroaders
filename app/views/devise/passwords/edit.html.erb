@@ -9,30 +9,28 @@
         <h4>CHANGE YOUR PASSWORD</h4>
       </div>
 
-      <% present resource, PasswordPresenter do |password| %>
-        <div class="hpanel">
-          <div class="panel-body">
-            <%= password.update_form do |f|  %>
-              <%= f.hidden_field :reset_password_token %>
+      <div class="hpanel">
+        <div class="panel-body">
+          <%= form_for resource, url: password_path, method: :put, html: { role: "form" } do |f| %>
+            <%= f.hidden_field :reset_password_token %>
 
-              <div class="form-group">
-                <%= f.label :password, t('.new_password', :default => 'New password') %>
-                <%= f.password_field :password, autofocus: true  %>
-              </div>
+            <div class="form-group">
+              <%= f.label :password, t('.new_password', :default => 'New password') %>
+              <%= f.password_field :password, autofocus: true  %>
+            </div>
 
-              <div class="form-group">
-                <%= f.label :password_confirmation, t('.confirm_new_password', :default => 'Confirm new password') %>
-                <%= f.password_field :password_confirmation  %>
-              </div>
+            <div class="form-group">
+              <%= f.label :password_confirmation, t('.confirm_new_password', :default => 'Confirm new password') %>
+              <%= f.password_field :password_confirmation  %>
+            </div>
 
-              <%= f.submit t('.change_my_password', :default => 'Change my password'), class: "btn btn-success btn-block" %>
-            <% end # update_form %>
-            <br>
-            <%= link_to  "Sign in", new_account_session_path %> |
-            <%= link_to "Sign up", new_account_registration_path %>
-          </div><!-- .panel-body -->
-        </div><!-- .hpanel -->
-      <% end # present %>
+            <%= f.submit t('.change_my_password', :default => 'Change my password'), class: "btn btn-success btn-block" %>
+          <% end # form_for %>
+          <br>
+          <%= link_to  "Sign in", new_account_session_path %> |
+          <%= link_to "Sign up", new_account_registration_path %>
+        </div><!-- .panel-body -->
+      </div><!-- .hpanel -->
     </div><!-- .col-md-12 -->
   </div><!-- .row -->
 

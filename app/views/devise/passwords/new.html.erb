@@ -9,24 +9,22 @@
         <h4>FORGOT YOUR PASSWORD?</h4>
       </div>
 
-      <% present resource, PasswordPresenter do |password| %>
-        <div class="hpanel">
-          <div class="panel-body">
-            <%= password.recover_form do |f|  %>
-              <div class="form-group">
-                <%= f.label :email, class: "control-label" %>
-                <%= f.email_field :email, autofocus: true %>
-              </div>
+      <div class="hpanel">
+        <div class="panel-body">
+          <%= form_for resource, url: password_path, html: { role: "form" } do |f| %>
+            <div class="form-group">
+              <%= f.label :email, class: "control-label" %>
+              <%= f.email_field :email, autofocus: true %>
+            </div>
 
-              <%= f.submit t('.send_me_reset_password_instructions', :default => "Send me reset password instructions"), class: "btn btn-success btn-block" %>
+            <%= f.submit t('.send_me_reset_password_instructions', :default => "Send me reset password instructions"), class: "btn btn-success btn-block" %>
 
-            <% end # recover_form %>
-            <br>
-            <%= link_to "Sign in", new_account_session_path %> |
-            <%= link_to "Sign up", new_account_registration_path %>
-          </div><!-- .panel-body -->
-        </div><!-- .hpanel -->
-      <% end # present %>
+          <% end # form_for %>
+          <br>
+          <%= link_to "Sign in", new_account_session_path %> |
+          <%= link_to "Sign up", new_account_registration_path %>
+        </div><!-- .panel-body -->
+      </div><!-- .hpanel -->
     </div><!-- .col-md-12 -->
   </div><!-- .row -->
 
