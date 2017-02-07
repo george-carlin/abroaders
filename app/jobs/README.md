@@ -1,4 +1,8 @@
-# Background Jobs
+### Background Jobs
+
+- Look at the 'worker' task in the `Procfile` to see the command that processes
+  background jobs. You probably also need to set the `QUEUE` env variable (if
+  in doubt, set it to `*`).
 
 - Background jobs are queued using Resque, which uses `Redis` to store data
   about each job. Redis is just a simple key-value datastore, which means
@@ -25,18 +29,39 @@
         widget.update!
       end
 
+- Similarly, **use strings, not symbols, as option keys** - otherwise
+  you'll break Redis:
+
+        # bad
+        def perform(opts = {})
+          do_something_with(opts.fetch(:my_key))
+        end
+
+        # good
+        def perform(opts = {})
+          do_something_with(opts.fetch('my_key'))
+        end
+
+  A corollary here is that **background jobs can't use Ruby keyword arguments**.
+
+        # this won't work
+        def perform(my_key:)
+          do_something_with(my_key)
+        end
+
+
 - Remember that you don't know in advance when a background job will be
   performed, so there's no guarantee that (e.g.) the database will still be in
   the same state when the job is performed that it was when the job was
   enqueued. So, for example, code like this is risky:
 
-      card.update_attributes!(something)
-      NotifyAdminOfUpdate.perform_later(card.id)
+      card_account.update_attributes!(something)
+      NotifyAdminOfUpdate.perform_later(card_account.id)
 
       # app/jobs/notify_admin_of_update.rb:
-      def perform(card_id)
-        ca = Card.find(card_id)
-        Admin.notify("Card ##{ca.id} was updated at #{ca.updated_at}")
+      def perform(card_account_id)
+        ca = CardAccount.find(card_account_id)
+        Admin.notify("Card Account ##{ca.id} was updated at #{ca.updated_at}")
       end
 
   The problem is that the card account may have been updated *again* since you
@@ -46,11 +71,11 @@
   When it's important that the background job uses *current* data, pass the
   data in directly instead of relying on pulling it out of the DB later:
 
-      card.update_attributes!(something)
-      NotifyAdminOfUpdate.perform_later(card.id, card.updated_at)
+      card_account.update_attributes!(something)
+      NotifyAdminOfUpdate.perform_later(card_account.id, card_account.updated_at)
 
       # app/jobs/notify_admin_of_update.rb:
-      def perform(card_id, updated_at)
-        Admin.notify("Card Account ##{card_id} was updated at #{updated_at}")
+      def perform(card_account_id, updated_at)
+        Admin.notify("Card Account ##{card_account_id} was updated at #{updated_at}")
       end
 
