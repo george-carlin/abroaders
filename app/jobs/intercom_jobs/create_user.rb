@@ -1,5 +1,5 @@
 module IntercomJobs
-  class CreateUser < ApplicationJob
+  class CreateUser < IntercomJobs::Base
     queue_as :intercom
 
     # opts (all string keys):
