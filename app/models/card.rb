@@ -28,15 +28,17 @@ class Card < ApplicationRecord
   # applied_at:
   #   the date the user *applied* for the card (according to them).
   #
-  # opened_at:
+  # opened_on:
   #   the date the user was approved for the card and their account was opened.
+  #   the actual name of the DB column is 'opened_at', opened_on is an alias.
   #
   # earned_at:
   #   the date the user earned their signup bonus. (It might be the same date
   #   they opened the card, if the offer is 'on approval')
   #
-  # closed_at:
+  # closed_on:
   #   the date the user's card expired or they closed the card's account.
+  #   the actual name of the DB column is 'closed_at', closed_on is an alias.
   #
   # denied_at:
   #   If the user applied for the card but their application was denied,
@@ -88,6 +90,9 @@ class Card < ApplicationRecord
   # created_at/updated_at
   #   The normal Rails/PSQL timestamp columns. But you already knew that ;)
   #
+
+  alias_attribute :opened_on, :opened_at
+  alias_attribute :closed_on, :closed_at
 
   def status
     status_model.name
