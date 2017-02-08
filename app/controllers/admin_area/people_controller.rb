@@ -2,19 +2,18 @@ module AdminArea
   class PeopleController < AdminController
     # GET /admin/people/1
     def show
-      @person        = ::Person.includes(:spending_info).find(params[:id])
-      @spending_info = @person.spending_info
+      run(Person::Operations::Show)
+
+      @person        = result['person']
       @account       = @person.account
-      @travel_plans  = @account.travel_plans.includes_destinations
       @balances      = @person.balances.includes(:currency)
 
       card_scope = @person.cards.includes(product: :bank, offer: :product)
-      @cards     = card_scope.unpulled
-      @pulled_cards   = card_scope.pulled
       @recommendation = card_scope.recommendations.build
 
-      @offers = ::Offer.includes(product: [:bank, :currency]).live
-      @recommendation_notes = @account.recommendation_notes
+      # until we've finished extracting show.html.erb, initializing the
+      # incomplete cell here, pass it into the view, and use what we can.
+      @cell = cell(AdminArea::Person::Cell::Show, result)
     end
   end
 end

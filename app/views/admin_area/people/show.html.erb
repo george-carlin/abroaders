@@ -1,8 +1,5 @@
 <% provide :title, @person.first_name %>
 
-<%# TODO: move everything within this cell %>
-<% page_cell = AdminArea::Person::Cell::Show.(@person) %>
-
   <div class="hpanel">
     <div class="panel-heading hbuilt">
       <h1><%= @person.first_name %></h1>
@@ -17,14 +14,11 @@
 
     <div class="panel-body">
       <div class="col-xs-12 col-md-6">
-        <%= cell(AdminArea::Person::Cell::SpendingInfo, @person) %>
-        <% if !@person.spending_info.nil? %>
-          <%= link_to 'Edit', edit_admin_person_spending_info_path(@person) %>
-        <% end %>
+        <%= @cell.spending_info %>
       </div>
 
       <div class="col-xs-12 col-md-6">
-        <%= cell(AdminArea::Person::Cell::Balances, @person) %>
+        <%= @cell.balances %>
 
         <% if !@person.award_wallet_email.nil? %>
           <p><b>AwardWallet email:</b> <%= @person.award_wallet_email %></p>
@@ -32,21 +26,13 @@
       </div><!-- .col-xs-12.col-md-6 -->
 
       <div class="col-xs-12 col-md-6">
-        <% if @travel_plans.any? %>
-          <h3>Travel Plans</h3>
-
-          <div class="account_travel_plans">
-            <%= cell TravelPlan::Cell::Summary, collection: @travel_plans, editable: false %>
-          </div>
-        <% else %>
-          User has no upcoming travel plans
-        <% end %>
+        <%= @cell.travel_plans %>
       </div><!-- .col-xs-12.col-md-6 -->
 
       <div class="col-xs-12 col-md-6">
-        <%= page_cell.regions_of_interest %>
+        <%= @cell.regions_of_interest %>
 
-        <%= page_cell.home_airports %>
+        <%= @cell.home_airports %>
       </div><!-- .col-xs-12.col-md-6 -->
     </div><!-- .panel-body -->
   </div><!-- .hpanel -->
@@ -74,75 +60,9 @@
     </div><!-- .panel-body -->
   </div><!-- .hpanel -->
 
-  <div class="hpanel">
-    <div class="panel-body">
-      <h3>
-        Cards
-        <small><%= link_to raw('&plus; Add'), new_admin_person_card_path(@person) %></small>
-      </h3>
+  <%= @cell.cards %>
 
-      <div id="admin_person_cards"
-        <% if @cards.size == 0 %>
-          <%# this table is hidden, but still output, because it will be    %>
-          <%# once a card is recommended and added to the table shown by JS %>
-          style="display:none;"
-        <% end %>
-      >
-        <table id="admin_person_cards_table" class="table table-striped tablesorter">
-          <thead>
-            <th>Card ID</th>
-            <th>Name</th>
-            <th>Status</th>
-            <th class="sortable-column recommended">Rec'ed</th>
-            <th>Seen</th>
-            <th>Clicked</th>
-            <th class="sortable-column applied">Applied</th>
-            <th>Denied</th>
-            <th>Declined</th>
-            <th class="sortable-column opened sorted-column">Opened</th>
-            <th class="sortable-column closed">Closed</th>
-            <th></th>
-          </thead>
-          <tbody>
-            <%= cell(AdminArea::Card::Cell::TableRow, collection: @cards) %>
-          </tbody>
-        </table>
-
-      </div>
-
-      <% if @cards.size == 0 %>
-        <p id="admin_person_cards_none">User has no existing card accounts</p>
-      <% end %>
-
-      <% if @pulled_cards.any? %>
-        <%= link_to(
-          "View #{pluralize(@pulled_cards.size, "pulled recommendation")}",
-          pulled_admin_person_card_recommendations_path(@person)
-        ) %>
-      <% end %>
-    </div>
-  </div><!-- .hpanel -->
-
-  <% if @recommendation_notes.count > 0 %>
-    <div class="hpanel">
-      <div class="panel-body">
-        <h3>Recommendation Notes</h3>
-        <% @recommendation_notes.order(created_at: :desc).each do |note| %>
-
-          <div class="row">
-            <div class="col-xs-2 recommendation-notes-date">
-              <b><%= "#{ note.created_at }:" %></b>
-            </div>
-
-            <div class="col-xs-10">
-              <%= auto_link(simple_format(note.content)) %>
-            </div>
-          </div>
-
-        <% end %>
-      </div>
-    </div>
-  <% end %>
+  <%= @cell.recommendation_notes %>
 
   <div class="hpanel">
     <div class="panel-body">
@@ -186,10 +106,6 @@
 
       <hr>
 
-      <%= cell(
-        AdminArea::Person::Cell::Show::RecommendationTable,
-        @person,
-        offers: @offers
-      ) %>
+      <%= @cell.recommendable_offers %>
     </div><!-- .panel-body -->
   </div>
