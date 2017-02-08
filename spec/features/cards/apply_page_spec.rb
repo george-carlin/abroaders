@@ -9,7 +9,7 @@ RSpec.describe "card recommendation apply page" do
 
   let(:rec) { create(:card_recommendation, person: me) }
 
-  let(:visit_path) { visit apply_recommendation_path(rec) }
+  let(:visit_path) { visit apply_card_recommendation_path(rec) }
 
   # TODO How can we test this?
   it "redirects to the bank's page after a delay"

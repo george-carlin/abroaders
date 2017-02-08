@@ -96,7 +96,7 @@ Rails.application.routes.draw do
     resources :cards, only: [:new, :create]
   end
 
-  resources :recommendations do
+  resources :card_recommendations do
     member do
       get   :apply
       patch :decline
@@ -179,14 +179,14 @@ Rails.application.routes.draw do
       resources :cards, only: [:new, :create]
       resource :spending_info
       resources :cards
-      resources :recommendations, only: [:create] do
+      resources :card_recommendations, only: [:create] do
         collection do
           post :complete
           get  :pulled
         end
       end
     end
-    resources :recommendations do
+    resources :card_recommendations do
       member do
         patch :pull
       end

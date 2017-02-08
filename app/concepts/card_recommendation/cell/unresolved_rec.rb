@@ -1,4 +1,4 @@
-class Recommendation < Recommendation.superclass
+class CardRecommendation < CardRecommendation.superclass
   module Cell
     class UnresolvedRec < Trailblazer::Cell
       include SerializeHelper

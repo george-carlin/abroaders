@@ -62,7 +62,7 @@ const CardApplicationSurvey = React.createClass({
     }
 
     $.post(
-      `/recommendations/${this.props.cardAccount.id}`,
+      `/card_recommendations/${this.props.cardAccount.id}`,
       data,
       (response, textStatus, jqXHR) => {
         if (response.error) {

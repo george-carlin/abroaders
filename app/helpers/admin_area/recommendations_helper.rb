@@ -5,7 +5,7 @@ module AdminArea
       prefix = :confirm_recommend
       button_to(
         "Confirm",
-        admin_person_recommendations_path(@person),
+        admin_person_card_recommendations_path(@person),
         class:  "#{dom_class(offer, prefix)}_btn #{btn_classes} pull-right",
         id:     "#{dom_id(offer, prefix)}_btn",
         params: { offer_id: offer.id },

@@ -1,4 +1,4 @@
-class Recommendation
+class CardRecommendation
   module Cell
     # model: a RecommendationNote.
     class Note < Trailblazer::Cell

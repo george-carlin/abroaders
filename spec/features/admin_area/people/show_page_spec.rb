@@ -393,7 +393,7 @@ module AdminArea
         end
       end
 
-      # TODO extract to a Trailblazer operation called Recommendation::Create
+      # TODO extract to a Trailblazer operation called CardRecommendation::Create
       example "recommending an offer", :js do
         within offer_selector do
           click_button 'Recommend'
@@ -427,7 +427,7 @@ module AdminArea
     example 'recommendation notes' do
       create_list(:recommendation_note, 3, account: account)
       visit_path
-      expect(page).to have_content "Recommendation Notes"
+      expect(page).to have_content 'Recommendation Notes'
       account.recommendation_notes.each do |note|
         expect(page).to have_content note.created_at
         expect(page).to have_content note.content
@@ -460,7 +460,7 @@ module AdminArea
       expect { click_complete_recs_button }.to_not change { account.recommendation_notes.count }
     end
 
-    # TODO extract to a Trailblazer operation called Recommendation::Create
+    # TODO extract to a Trailblazer operation called CardRecommendation::Create
     example "sending a recommendation note to the user" do
       visit_path
       expect(page).to have_field :recommendation_note
@@ -479,7 +479,7 @@ module AdminArea
       expect(new_note.content).to eq note_content
     end
 
-    # TODO extract to a Trailblazer operation called Recommendation::Create
+    # TODO extract to a Trailblazer operation called CardRecommendation::Create
     example "recommendation note with trailing whitespace" do
       visit_path
       note_content = "  I like to leave notes.   "
@@ -490,7 +490,7 @@ module AdminArea
       expect(new_note.content).to eq note_content.strip
     end
 
-    # TODO extract to a Trailblazer operation called Recommendation::Create
+    # TODO extract to a Trailblazer operation called CardRecommendation::Create
     example "recommendation note that's only whitespace" do
       visit_path
       fill_in :recommendation_note, with: "     \n \n \t\ \t "

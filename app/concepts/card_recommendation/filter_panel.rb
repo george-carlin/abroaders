@@ -1,4 +1,4 @@
-class Recommendation
+class CardRecommendation
   module FilterPanel
     def self.included(base)
       base.inheritable_attr :title
@@ -7,7 +7,7 @@ class Recommendation
     def title
       raise(
         NotImplementedError,
-        "cells which include Recommendation::FilterPanel must define a method called 'title'",
+        "cells which include #{self.class} must define a method called 'title'",
       )
     end
 

@@ -25,7 +25,7 @@
 
   <tbody>
     <% offers_grouped_by_product.each do |product, offers| %>
-      <%= cell(AdminArea::Recommendation::Cell::ProductsTable::Row, product) %>
+      <%= cell(AdminArea::CardRecommendation::Cell::ProductsTable::Row, product) %>
 
       <tr
         id="<%= dom_id(product, :admin_recommend) %>_offers"

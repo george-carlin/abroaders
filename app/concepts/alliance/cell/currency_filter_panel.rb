@@ -1,7 +1,7 @@
 class Alliance < ApplicationRecord
   module Cell
     class CurrencyFilterPanel < Trailblazer::Cell
-      include Recommendation::FilterPanel
+      include CardRecommendation::FilterPanel
 
       alias alliance model
       property :id

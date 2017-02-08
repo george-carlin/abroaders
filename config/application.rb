@@ -30,7 +30,7 @@ module Abroaders
 
     config.cells.with_assets = [
       'admin_area/account/cell/index',
-      'admin_area/recommendation/cell/new',
+      'admin_area/card_recommendation/cell/new',
       'card/cell/new/select_product',
     ]
 

@@ -1,5 +1,5 @@
 module AdminArea
-  module Recommendation
+  module CardRecommendation
     module Cell
       module ProductsTable
         class Row < Trailblazer::Cell

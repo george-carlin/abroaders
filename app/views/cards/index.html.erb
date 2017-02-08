@@ -8,7 +8,7 @@
   <div class="panel-body">
     <% if current_account.people.any?(&:eligible?) %>
       <% if @recommendations.any? %>
-        <%= cell(Recommendation::Cell::Note, @newest_rec_note) if @newest_rec_note %>
+        <%= cell(CardRecommendation::Cell::Note, @newest_rec_note) if @newest_rec_note %>
 
         <p>
           Your recommendations will expire after two weeks. Please click “Apply”
@@ -30,7 +30,7 @@
 
               <% card_recs = @recommendations.where(person: person) %>
               <% if card_recs.any? %>
-                <%= cell(Recommendation::Cell::UnresolvedRec, collection: card_recs) %>
+                <%= cell(CardRecommendation::Cell::UnresolvedRec, collection: card_recs) %>
               <% else %>
                 No recommendations for <%= person.first_name %>
               <% end %>

@@ -37,7 +37,7 @@ module AdminArea
         def link_to_pull
           link_to(
             raw('&times;'),
-            pull_admin_recommendation_path(model),
+            pull_admin_card_recommendation_path(model),
             data: {
               confirm: 'Really pull this recommendation?',
               method: :patch,

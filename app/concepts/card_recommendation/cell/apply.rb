@@ -1,4 +1,4 @@
-class Recommendation
+class CardRecommendation
   module Cell
     class Apply < Trailblazer::Cell
       alias recommendation model

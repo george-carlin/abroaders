@@ -1,7 +1,7 @@
 class Bank < ApplicationRecord
   module Cell
     class FilterPanel < Trailblazer::Cell
-      include Recommendation::FilterPanel
+      include CardRecommendation::FilterPanel
       alias banks model
 
       property :name

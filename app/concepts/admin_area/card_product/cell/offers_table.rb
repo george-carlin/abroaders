@@ -46,7 +46,7 @@ module AdminArea
 
           def buttons_to_recommend
             person = options.fetch(:person)
-            cell(AdminArea::Recommendation::Cell::New, nil, offer: model, person: person)
+            cell(AdminArea::CardRecommendation::Cell::New, nil, offer: model, person: person)
           end
 
           def cost

@@ -1,4 +1,4 @@
-class RecommendationsController < CardsController
+class CardRecommendationsController < CardsController
   def update
     survey = Card::ApplicationSurvey.new(card: load_card)
     respond_to do |f|

@@ -1,5 +1,5 @@
 module AdminArea
-  module Recommendation
+  module CardRecommendation
     module Cell
       class New < Trailblazer::Cell
         private
@@ -25,7 +25,7 @@ module AdminArea
         def confirm_recommend_btn
           button_to(
             'Confirm',
-            admin_person_recommendations_path(person),
+            admin_person_card_recommendations_path(person),
             class:  "#{dom_class(offer, :confirm_recommend)}_btn #{BTN_CLASSES} btn-primary pull-right",
             id:     "#{dom_id(offer, :confirm_recommend)}_btn",
             remote: true,

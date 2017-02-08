@@ -9,7 +9,7 @@ module AdminArea
     validate :offer_is_live
 
     def self.model_name
-      ::Recommendation.model_name
+      ::CardRecommendation.model_name
     end
 
     def offer

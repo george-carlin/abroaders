@@ -1,6 +1,5 @@
 module AdminArea
-  # TODO rename me to CardRecommendationsController
-  class RecommendationsController < AdminController
+  class CardRecommendationsController < AdminController
     def create
       person = load_person
       rec = AdminArea::RecommendationForm.new(person: person)
@@ -60,7 +59,7 @@ module AdminArea
     end
 
     def load_recommendation
-      ::Recommendation.find(params[:id])
+      ::CardRecommendation.find(params[:id])
     end
 
     def recommendation_note
