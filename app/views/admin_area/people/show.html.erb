@@ -36,9 +36,7 @@
           <h3>Travel Plans</h3>
 
           <div class="account_travel_plans">
-            <% @travel_plans.each do |plan| %>
-              <%= cell TravelPlan::Cell::Summary, plan %>
-            <% end %>
+            <%= cell TravelPlan::Cell::Summary, collection: @travel_plans, editable: false %>
           </div>
         <% else %>
           User has no upcoming travel plans

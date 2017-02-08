@@ -13,6 +13,9 @@ class TravelPlan < ApplicationRecord
     # options:
     #   well: whether the outermost div should have the Bootstrap 'well' CSS class. default true
     #   hr:   whether the HTML should have an <hr> on the end. default false
+    #   editable: whether 'edit' and 'delete' links should be displayed. If 'editable' is not
+    #       specified explicitly, then the links will be displayed iff the TP
+    #       is 'new-style' (to/from airports, as opposed to countries)
     class Summary < Trailblazer::Cell
       include ActionView::Helpers::RecordTagHelper
       include Escaped
@@ -34,10 +37,15 @@ class TravelPlan < ApplicationRecord
         cell Dates, travel_plan
       end
 
-      # See comment in TravelPlan::Operations::Edit about old-style TPs
-      # being uneditable
+      # See comment in TravelPlan::Operations::Edit about old-style TPs being
+      # uneditable. Allow the caller to override this if they want (this is a
+      # temporary solution to hide the edit links on the admin side until we've
+      # given the admin the ability to edit a TP)
       def editable?
-        ![flight.to.class, flight.from.class].include?(Country)
+        options.fetch(
+          :editable,
+          ![flight.to.class, flight.from.class].include?(Country),
+        )
       end
 
       def flight
