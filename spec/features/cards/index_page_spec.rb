@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "as a user viewing my cards" do
+RSpec.describe 'as a user viewing my cards' do
   subject { page }
 
   let(:account)   { create(:account, :eligible, :onboarded) }
@@ -17,7 +17,7 @@ RSpec.describe "as a user viewing my cards" do
 
   let(:visit_page) { visit cards_path }
 
-  H = "h3".freeze
+  H = 'h3'.freeze
 
   def rec_selector(rec)
     '#' << dom_id(rec)
@@ -45,14 +45,19 @@ RSpec.describe "as a user viewing my cards" do
     expect(page).to have_no_selector H, text: "#{owner.first_name}'s Cards"
   end
 
-  example "recommendation notes" do
-    existing_notes = create_list(:recommendation_note, 2, account: account)
+  example 'recommendation notes' do
+    account.recommendation_notes.create!(content: 'whatever')
+    account.recommendation_notes.create!(content: "new note\n\nhttp://example.com")
+
     create(:card_recommendation, person: owner)
     owner.update(last_recommendations_at: Time.zone.now)
     visit_page
     # shows most recent recommendation note only:
-    expect(page).to have_content    existing_notes.last.content
-    expect(page).to have_no_content existing_notes.first.content
+    expect(page).to have_content    'new note'
+    expect(page).to have_no_content 'whatever'
+    # formats note properly:
+    expect(page).to have_selector 'p', text: /\Anew note\z/
+    expect(page).to have_link 'http://example.com', href: 'http://example.com'
   end
 
   example "marking recs as 'seen'" do
