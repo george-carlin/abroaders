@@ -1,7 +1,7 @@
 module AdminArea
   class OffersController < AdminController
     def index
-      if params[:product_id]
+      if params[:card_product_id]
         @product = load_product
         @offers  = @product.offers
       else
@@ -10,7 +10,7 @@ module AdminArea
     end
 
     def show
-      if params[:product_id]
+      if params[:card_product_id]
         @product = load_product
         @offer   = @product.offers.find(params[:id])
       else
@@ -25,7 +25,7 @@ module AdminArea
     end
 
     def edit
-      if params[:product_id]
+      if params[:card_product_id]
         @product = load_product
         @offer   = @product.offers.find(params[:id])
       else
@@ -81,7 +81,7 @@ module AdminArea
     private
 
     def load_product
-      ::CardProduct.find(params[:product_id])
+      ::CardProduct.find(params[:card_product_id])
     end
 
     def load_offer

@@ -152,13 +152,11 @@ Rails.application.routes.draw do
       end
     end
     resources :banks, only: [:index, :edit, :update]
-    namespace :card do
-      resources :products, except: :destroy do
-        collection do
-          get :images
-        end
-        resources :offers, except: :destroy
+    resources :card_products, except: :destroy do
+      collection do
+        get :images
       end
+      resources :offers, except: :destroy
     end
 
     resources :cards, only: [:edit, :update, :destroy]
