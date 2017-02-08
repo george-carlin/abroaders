@@ -76,58 +76,54 @@
     </div><!-- .panel-body -->
   </div><!-- .hpanel -->
 
-  <% if @person.eligible? %>
-    <div class="hpanel">
-      <div class="panel-body">
-        <h3>
-          Cards
-          <small><%= link_to raw('&plus; Add'), new_admin_person_card_path(@person) %></small>
-        </h3>
+  <div class="hpanel">
+    <div class="panel-body">
+      <h3>
+        Cards
+        <small><%= link_to raw('&plus; Add'), new_admin_person_card_path(@person) %></small>
+      </h3>
 
-        <div id="admin_person_cards"
-          <% if @cards.size == 0 %>
-            <%# this table is hidden, but still output, because it will be    %>
-            <%# once a card is recommended and added to the table shown by JS %>
-            style="display:none;"
-          <% end %>
-        >
-          <table id="admin_person_cards_table" class="table table-striped tablesorter">
-            <thead>
-              <th>Card ID</th>
-              <th>Name</th>
-              <th>Status</th>
-              <th class="sortable-column recommended">Rec'ed</th>
-              <th>Seen</th>
-              <th>Clicked</th>
-              <th class="sortable-column applied">Applied</th>
-              <th>Denied</th>
-              <th>Declined</th>
-              <th class="sortable-column opened sorted-column">Opened</th>
-              <th class="sortable-column closed">Closed</th>
-              <th></th>
-            </thead>
-            <tbody>
-              <%= cell(AdminArea::Card::Cell::TableRow, collection: @cards) %>
-            </tbody>
-          </table>
-
-        </div>
-
+      <div id="admin_person_cards"
         <% if @cards.size == 0 %>
-          <p id="admin_person_cards_none">User has no existing card accounts</p>
+          <%# this table is hidden, but still output, because it will be    %>
+          <%# once a card is recommended and added to the table shown by JS %>
+          style="display:none;"
         <% end %>
+      >
+        <table id="admin_person_cards_table" class="table table-striped tablesorter">
+          <thead>
+            <th>Card ID</th>
+            <th>Name</th>
+            <th>Status</th>
+            <th class="sortable-column recommended">Rec'ed</th>
+            <th>Seen</th>
+            <th>Clicked</th>
+            <th class="sortable-column applied">Applied</th>
+            <th>Denied</th>
+            <th>Declined</th>
+            <th class="sortable-column opened sorted-column">Opened</th>
+            <th class="sortable-column closed">Closed</th>
+            <th></th>
+          </thead>
+          <tbody>
+            <%= cell(AdminArea::Card::Cell::TableRow, collection: @cards) %>
+          </tbody>
+        </table>
 
-        <% if @pulled_cards.any? %>
-          <%= link_to(
-            "View #{pluralize(@pulled_cards.size, "pulled recommendation")}",
-            pulled_admin_person_recommendations_path(@person)
-          ) %>
-        <% end %>
       </div>
-    </div><!-- .hpanel -->
-  <% else %>
-    This person is not eligible to apply for cards
-  <% end %>
+
+      <% if @cards.size == 0 %>
+        <p id="admin_person_cards_none">User has no existing card accounts</p>
+      <% end %>
+
+      <% if @pulled_cards.any? %>
+        <%= link_to(
+          "View #{pluralize(@pulled_cards.size, "pulled recommendation")}",
+          pulled_admin_person_recommendations_path(@person)
+        ) %>
+      <% end %>
+    </div>
+  </div><!-- .hpanel -->
 
   <% if @recommendation_notes.count > 0 %>
     <div class="hpanel">
