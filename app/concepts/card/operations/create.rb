@@ -8,8 +8,13 @@ class Card < ApplicationRecord
       step Contract::Validate(key: :card)
       success :sanity_check!
       step Contract::Persist()
+      success :enqueue_zapier_webhook!
 
       private
+
+      def enqueue_zapier_webhook!(_opts, model:, **)
+        ZapierWebhooks::Card::Created.enqueue(model)
+      end
 
       # the HTML form should disable the 'closed_at' input(s) when 'closed' is
       # unchecked, so that closed_at only gets included in the params when it's
