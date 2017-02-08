@@ -340,6 +340,44 @@ All business logic should live in operations. TODO expand.
   > TODO is there a way to make RSpec add 'type/view' by default to every
   > cell spec?
 
+- **Dependency injection.** If a cell uses another cell internally:
+
+        class MyCell < Trailblazer::Cell
+          private
+
+          def foo
+            cell(MyOtherCell, ...)
+          end
+        end
+
+    ... you might want to inject this cell as a dependency:
+
+        class MyCell < Trailblazer::Cell
+          private
+
+          def my_other_cell_class
+            options.fetch(:my_other_cell_class, MyOtherCell)
+          end
+
+          def foo
+            cell(my_other_cell_class, ...)
+          end
+        end
+
+    This lets you e.g. stub out the MyOtherCell dependency in a test. Note that
+    the object you pass in to `:my_other_cell_class` must be a `Class` that
+    responds to `call`. (Technically it doesn't have to be a Class; if it's not
+    a class then trailblazer-cells will call
+    `my_other_cell_class.camelize.constantize` to try and find the 'correct'
+    class, so using something other than a Class for DI is probably more
+    trouble than it's worth.)
+
+    In the future we may start using a more complicated DI system using
+    something like dry-container as described
+    [here](https://www.icelab.com.au/notes/effective-ruby-dependency-injection-at-scale/).
+    In the meantime, don't bother injecting cell dependencies unless you
+    have a good reason to.
+
 ## Rails
 
 ### General
