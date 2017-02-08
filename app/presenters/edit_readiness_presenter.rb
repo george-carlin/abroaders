@@ -1,4 +1,17 @@
-class EditReadinessPresenter < ReadinessPresenter
+# I've removed all presenters except this one. This one needs to go too, but
+# it's not worth the effort of converting readiness/edit (the only page that
+# uses this presenter) into a cell because we're going to make big changes to
+# the readiness system in the near future and that page is likely to be
+# completely overhauled (or removed) anyway
+class EditReadinessPresenter < SimpleDelegator
+  include I18nWithErrorRaising
+
+  def initialize(model, view)
+    @model = model
+    @view  = view
+    super(@model)
+  end
+
   def submit_btn
     h.submit_tag(
       "Submit",
@@ -43,4 +56,29 @@ class EditReadinessPresenter < ReadinessPresenter
       end
     end
   end
+
+  def unready_person
+    return companion if couples? && (owner.ready? || owner.ineligible?)
+    owner
+  end
+
+  def both_can_update_ready?
+    if couples?
+      owner.unready? && companion.unready? && owner.eligible? && companion.eligible?
+    else
+      false
+    end
+  end
+
+  private
+
+  def h
+    view
+  end
+
+  def raw(*args)
+    h.raw(*args)
+  end
+
+  attr_reader :view
 end
