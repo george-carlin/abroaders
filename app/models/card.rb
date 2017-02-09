@@ -91,8 +91,9 @@ class Card < ApplicationRecord
   #   The normal Rails/PSQL timestamp columns. But you already knew that ;)
   #
 
-  alias_attribute :opened_on, :opened_at
+  alias_attribute :applied_on, :applied_at
   alias_attribute :closed_on, :closed_at
+  alias_attribute :opened_on, :opened_at
 
   def status
     status_model.name
@@ -218,10 +219,6 @@ class Card < ApplicationRecord
 
   # Recommendations which the user can still see:
   scope :visible, -> { recommendations.undeclined.unexpired.unpulled }
-
-  def pull!
-    update_attributes!(pulled_at: Time.now)
-  end
 
   private
 
