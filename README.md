@@ -323,7 +323,8 @@ All business logic should live in operations. TODO expand.
 - Remember that, unlike Rails views, Cells don't escape HTML automatically, so
   make sure that all user-generated content is escaped before it gets displayed
   on the page. See [HTML Escaping](http://trailblazer.to/gems/cells/api.html#html-escaping)
-  in the Cells docs.
+  in the Cells docs. If the `Escape` module won't cut it for whatever reason,
+  you can escape things with `ERB::Util.html_escape`.
 
 - When testing cells, you probably want to add `type: :view` to the spec:
 

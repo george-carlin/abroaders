@@ -67,8 +67,10 @@ class Balance < Balance.superclass
       # model: a Balance
       class EditableBalance < Trailblazer::Cell
         include BootstrapOverrides
+        include Escaped
 
         property :id
+        property :currency_name
 
         private
 
