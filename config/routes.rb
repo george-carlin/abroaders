@@ -12,7 +12,7 @@ Rails.application.routes.draw do
 
   get "/accounts/connect/awardwallet", to: "oauth#award_wallet"
 
-  get "/styles", to: "application#styles"
+  # --- NON-LOGGED-IN USERS ---
 
   devise_scope :account do
     get    :sign_in,  to: "sessions#new",     as: :new_account_session
@@ -37,33 +37,58 @@ Rails.application.routes.draw do
     delete :accounts, to: "registrations#destroy"
   end
 
+  # --- EVERYBODY ---
+
   controller :static_pages do
     get :privacy_policy
     get :terms_and_conditions
   end
+
+  get "/styles", to: "application#styles"
+
+  # --- LOGGED IN ACCOUNTS ---
 
   resource :account, only: [] do
     get  :type
     post :type, action: :submit_type
   end
 
-  resource :phone_number, only: [:new, :create] do
-    post :skip
-  end
-
-  get  "eligibility/survey", to: "eligibilities#survey", as: :survey_eligibility
-  post "eligibility/survey", to: "eligibilities#save_survey"
-
-  get :slack, to: "slack_invites#new"
-  post "slack/invite", to: "slack_invites#create"
+  resources :airports, only: [:index]
 
   # balances#new and balances#create are nested under 'people'
   resources :balances, only: [:index, :update, :destroy]
 
-  resource :spending_info, path: :spending, only: [] do
-    get :survey
-    post :survey, action: :save_survey
+  resources :card_recommendations do
+    member do
+      get   :apply
+      patch :decline
+    end
   end
+
+  resources :cards
+
+  get  "eligibility/survey", to: "eligibilities#survey", as: :survey_eligibility
+  post "eligibility/survey", to: "eligibilities#save_survey"
+
+  get "estimates/:from_code/:to_code/:type/:no_of_passengers", to: "estimates#get"
+
+  resources :interest_regions, only: [], path: "regions_of_interest" do
+    collection do
+      get  :survey
+      post :survey, action: :save_survey
+    end
+  end
+
+  resources :home_airports do
+    collection do
+      get  :edit
+      post :overwrite
+      get  :survey
+      post :survey, action: :save_survey
+    end
+  end
+
+  resources :notifications, only: :show
 
   resources :people, only: [] do
     resources :balances, only: [:new, :create] do
@@ -81,6 +106,14 @@ Rails.application.routes.draw do
     resource :spending_info, path: :spending, only: [:edit, :update]
   end
 
+  resource :phone_number, only: [:new, :create] do
+    post :skip
+  end
+
+  resources :products, only: [] do
+    resources :cards, only: [:new, :create]
+  end
+
   resource :readiness, only: [:edit, :update] do
     collection do
       get  :survey
@@ -88,19 +121,12 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :notifications, only: :show
+  get :slack, to: "slack_invites#new"
+  post "slack/invite", to: "slack_invites#create"
 
-  resources :cards
-
-  resources :products, only: [] do
-    resources :cards, only: [:new, :create]
-  end
-
-  resources :card_recommendations do
-    member do
-      get   :apply
-      patch :decline
-    end
+  resource :spending_info, path: :spending, only: [] do
+    get :survey
+    post :survey, action: :save_survey
   end
 
   resources :travel_plans do
@@ -108,25 +134,6 @@ Rails.application.routes.draw do
       patch :skip_survey
     end
   end
-
-  resources :airports, only: [:index]
-  resources :home_airports do
-    collection do
-      get  :edit
-      post :overwrite
-      get  :survey
-      post :survey, action: :save_survey
-    end
-  end
-
-  resources :interest_regions, only: [], path: "regions_of_interest" do
-    collection do
-      get  :survey
-      post :survey, action: :save_survey
-    end
-  end
-
-  get "estimates/:from_code/:to_code/:type/:no_of_passengers", to: "estimates#get"
 
   # ---- ADMINS -----
 
