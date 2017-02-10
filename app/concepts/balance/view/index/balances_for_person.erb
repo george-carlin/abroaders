@@ -1,0 +1,9 @@
+<div class="person_balances panel-body">
+  <% if account.couples? %>
+    <h2><%= first_name %>'s balances</h2>
+
+    <%= link_to_add_new_balance %>
+  <% end %>
+
+  <%= balances %>
+</div><!-- .person_balances.panel-body -->

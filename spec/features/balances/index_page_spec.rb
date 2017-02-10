@@ -55,7 +55,7 @@ RSpec.describe 'balance index page' do
   end
 
   def balance_selector(balance)
-    "##{dom_id(balance)}"
+    "#balance_#{balance.id}"
   end
 
   def within_balance(balance, &block)

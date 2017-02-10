@@ -3,7 +3,8 @@ class BalancesController < AuthenticatedUserController
 
   # GET /balances
   def index
-    @people = current_account.people.includes(balances: :currency)
+    run Balance::Operation::Index
+    render cell(Balance::Cell::Index, result)
   end
 
   # GET /people/:person_id/balances/new
