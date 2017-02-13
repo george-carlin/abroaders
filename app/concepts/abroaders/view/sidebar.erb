@@ -1,7 +1,7 @@
 <%= container do %>
-  <%= link 'Dashboard', root_path %>
-  <%= link 'Travel Plans', travel_plans_path, TravelPlansController %>
-  <%= link 'Cards', cards_path, CardsController %>
-  <%= link 'Balances', balances_path, BalancesController %>
-  <%= link 'Home Airports', home_airports_path, HomeAirportsController %>
+  <%= link 'Dashboard', root_path, 'dashboard' %>
+  <%= link 'Travel Plans', travel_plans_path, 'plane', TravelPlansController %>
+  <%= link 'Cards', cards_path, 'credit-card', CardsController %>
+  <%= link 'Balances', balances_path, 'bar-chart', BalancesController %>
+  <%= link 'Home Airports', home_airports_path, 'home', HomeAirportsController %>
 <% end %>

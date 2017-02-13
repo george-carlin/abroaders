@@ -2,6 +2,7 @@ module Abroaders
   module Cell
     class Sidebar < Trailblazer::Cell
       include ::Cell::Builder
+      include FontAwesome::Rails::IconHelper
 
       builds do |model|
         case model
@@ -9,6 +10,8 @@ module Abroaders
         when Admin   then AdminSidebar
         end
       end
+
+      private
 
       def container(&block)
         content_tag :aside, id: :menu do
@@ -18,7 +21,7 @@ module Abroaders
         end
       end
 
-      def link(text, href, controller_class = nil)
+      def link(text, href, icon_name = nil, controller_class = nil)
         active = if controller_class
                    controller.is_a?(controller_class)
                  else
@@ -26,6 +29,8 @@ module Abroaders
                  end
         content_tag :li, class: ('active' if active) do
           link_to href do
+            text = icon_name.nil? ? text : "#{fa_icon(icon_name)} #{text}"
+
             content_tag :span, text, class: 'nav-label'
           end
         end
@@ -36,6 +41,9 @@ module Abroaders
       end
 
       class AdminSidebar < self
+        def link(text, href, controller_class = nil)
+          super(text, href, nil, controller_class)
+        end
       end
 
       class NestedLinks < self
