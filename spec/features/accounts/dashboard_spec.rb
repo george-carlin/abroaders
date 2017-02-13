@@ -130,7 +130,7 @@ RSpec.describe "account dashboard" do
       # unresolved_rec:
       create(:card_recommendation, person: owner, offer: offer)
       # resolved_rec:
-      create(:card_recommendation, :applied, :open, person: owner, offer: offer)
+      create(:card_recommendation, :applied, :approved, person: owner, offer: offer)
 
       visit_path
 
@@ -145,7 +145,7 @@ RSpec.describe "account dashboard" do
     example "no 'unresolved cards' modal", :js do
       offer = create(:offer)
       # resolved_rec:
-      create(:card_recommendation, :applied, :open, person: owner, offer: offer)
+      create(:card_recommendation, :applied, :approved, person: owner, offer: offer)
       # CA from onboarding survey:
       create(:card, person: owner)
 

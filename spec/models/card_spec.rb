@@ -155,8 +155,7 @@ RSpec.describe Card do
     visible = [
       create(:card_recommendation,            offer: offer, person: person),
       create(:card_recommendation, :clicked,  offer: offer, person: person),
-      create(:card_recommendation, :open,     offer: offer, person: person),
-      create(:card_recommendation, :closed,   offer: offer, person: person),
+      create(:card_recommendation, :approved, offer: offer, person: person),
       create(:card_recommendation, :denied,   offer: offer, person: person),
       create(:card_recommendation, :seen,     offer: offer, person: person),
       create(:card_recommendation, :applied,  offer: offer, person: person),
@@ -180,17 +179,15 @@ RSpec.describe Card do
     person  = create(:person)
 
     resolved = [
-      create(:card_rec, :open,            offer: offer, person: person),
+      create(:card_rec, :approved,        offer: offer, person: person),
       create(:card_rec, :pulled,          offer: offer, person: person),
       create(:card_rec, :nudged, :denied, offer: offer, person: person),
       create(:card_rec, :redenied,        offer: offer, person: person),
       create(:card_rec, :expired,         offer: offer, person: person),
       # open after reconsideration:
-      create(:card_rec, :denied, :called, :open, offer: offer, person: person),
+      create(:card_rec, :denied, :called, :approved, offer: offer, person: person),
       # open after nudging:
-      create(:card_rec, :applied, :nudged, :open, offer: offer, person: person),
-      # opened, then closed:
-      create(:card_rec, :open, :closed, offer: offer, person: person),
+      create(:card_rec, :applied, :nudged, :approved, offer: offer, person: person),
     ]
 
     # irrelevant:
@@ -232,11 +229,10 @@ RSpec.describe Card do
       create(:card_rec, :applied, :denied, attrs),
       create(:card_rec, :applied, :denied, :called, attrs),
       # not denied at all:
-      create(:card_rec, :open,                    attrs),
+      create(:card_rec, :approved, attrs),
       create(:card_rec, :pulled,                  attrs),
       create(:card_rec, :expired,                 attrs),
-      create(:card_rec, :applied, :nudged, :open, attrs),
-      create(:card_rec, :open, :closed,           attrs),
+      create(:card_rec, :applied, :nudged, :approved, attrs),
     ]
 
     expect(described_class.irreversibly_denied).to match_array(irreversibly_denied)

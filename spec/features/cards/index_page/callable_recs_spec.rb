@@ -22,7 +22,7 @@ RSpec.describe "user cards page - callable cards", :js do
     @product = create(:card_product, bank_id: @bank.id, bp: bp)
     @offer = create(:offer, product: @product)
     @rec = create(
-      :denied_card_recommendation,
+      :card_recommendation,
       recommended_at: recommended_at,
       applied_at: applied_at,
       denied_at: denied_at,
