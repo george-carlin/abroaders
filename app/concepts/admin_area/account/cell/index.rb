@@ -13,31 +13,24 @@ module AdminArea
 
         private
 
-        def link_to_download_csv
-          link_to(
-            'Download User last recommendation statuses as CSV',
-            download_user_status_csv_admin_accounts_path,
-          )
-        end
-
-        def table_rows
-          cell(TableRow, collection: paginated_accounts)
-        end
-
-        def paginated_accounts
-          @paginated_accounts ||= accounts.page(page).per_page(accounts_per_page)
+        def accounts_per_page
+          self.class.config.accounts_per_page
         end
 
         def page
           options[:page] || 1
         end
 
+        def paginated_accounts
+          @paginated_accounts ||= accounts.page(page).per_page(accounts_per_page)
+        end
+
         def paginator
           paginate(paginated_accounts)
         end
 
-        def accounts_per_page
-          self.class.config.accounts_per_page
+        def table_rows
+          cell(TableRow, collection: paginated_accounts)
         end
 
         class TableRow < Trailblazer::Cell

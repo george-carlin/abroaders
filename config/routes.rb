@@ -155,7 +155,6 @@ Rails.application.routes.draw do
     resources :accounts, only: [:index, :show] do
       collection do
         get :search
-        get :download_user_status_csv
       end
     end
     resources :banks, only: [:index, :edit, :update]
