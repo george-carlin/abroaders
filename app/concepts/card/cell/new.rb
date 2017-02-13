@@ -6,7 +6,7 @@ class Card < ApplicationRecord
     # if current account has a companion, has an extra input to select whether
     # the card is for the owner or for the companiothe companion
     #
-    # model: the Result of the Card::Operations::New operation
+    # model: the Result of the Card::Operation::New operation
     class New < Trailblazer::Cell
       include ActionView::Helpers::DateHelper
       include ActionView::Helpers::FormOptionsHelper

@@ -167,7 +167,7 @@ RSpec.describe TravelPlan::Form, type: :model do
     end
 
     example 'updating a travel plan' do
-      plan = TravelPlan::Operations::Create.(
+      plan = TravelPlan::Operation::Create.(
         {
           travel_plan: {
             from: "#{airport_0.name} (#{airport_0.code})",

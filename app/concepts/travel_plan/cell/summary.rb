@@ -37,7 +37,7 @@ class TravelPlan < ApplicationRecord
         cell Dates, travel_plan
       end
 
-      # See comment in TravelPlan::Operations::Edit about old-style TPs being
+      # See comment in TravelPlan::Operation::Edit about old-style TPs being
       # uneditable. Allow the caller to override this if they want (this is a
       # temporary solution to hide the edit links on the admin side until we've
       # given the admin the ability to edit a TP)

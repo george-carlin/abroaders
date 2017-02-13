@@ -8,7 +8,7 @@ RSpec.describe AccountSerializer do
       monthly_spending_usd: 234,
       onboarding_state: :phone_number,
     )
-    PhoneNumber::Operations::Create.(
+    PhoneNumber::Operation::Create.(
       { phone_number: { number: '555 1234 555' } },
       'account' => account,
     )

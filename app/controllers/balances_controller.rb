@@ -9,13 +9,13 @@ class BalancesController < AuthenticatedUserController
 
   # GET /people/:person_id/balances/new
   def new
-    run Balance::Operations::New
+    run Balance::Operation::New
     # TODO TRB convert view to cell
   end
 
   # POST /people/:person_id/balances
   def create
-    run Balance::Operations::Create do
+    run Balance::Operation::Create do
       flash[:success] = 'Created balance!'
       return redirect_to balances_path
     end
@@ -38,7 +38,7 @@ class BalancesController < AuthenticatedUserController
 
   # DELETE /balances/:id
   def destroy
-    run Balance::Operations::Destroy do
+    run Balance::Operation::Destroy do
       flash[:success] = 'Destroyed balance!'
       redirect_to balances_path
     end

@@ -23,7 +23,7 @@ module AdminArea
     end
 
     def search
-      run(AdminArea::Account::Operations::Search)
+      run(AdminArea::Account::Operation::Search)
     end
 
     def download_user_status_csv

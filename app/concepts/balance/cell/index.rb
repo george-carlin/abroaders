@@ -1,6 +1,6 @@
 class Balance < Balance.superclass
   module Cell
-    # model: the result of Balance::Operations::Index
+    # model: the result of Balance::Operation::Index
     # result must have these keys defined:
     #   account: the current account
     #   people_with_balances:

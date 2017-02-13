@@ -2,7 +2,7 @@ module AdminArea
   class PeopleController < AdminController
     # GET /admin/people/1
     def show
-      run(Person::Operations::Show)
+      run(Person::Operation::Show)
 
       @person        = result['person']
       @account       = @person.account

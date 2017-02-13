@@ -7,13 +7,13 @@ class AccountsController < AuthenticatedUserController
   # (root_path)
 
   def type
-    run Account::Operations::Type
+    run Account::Operation::Type
     # TODO provide :title, 'Select Account Type'
     render cell(Onboarding::Cell::Account::Type, result)
   end
 
   def submit_type
-    run Account::Operations::Type::Onboard
+    run Account::Operation::Type::Onboard
     redirect_to onboarding_survey_path
   end
 end
