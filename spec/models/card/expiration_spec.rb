@@ -53,7 +53,7 @@ RSpec.describe Card::Expiration do
         recommended_at: keep,
       ),
       # added in onboarding survey:
-      person.cards.from_survey.create!(offer: offer),
+      person.cards.non_recommendation.create!(offer: offer),
       # recommended recently and seen:
       person.card_recommendations.create!(
         offer: offer,

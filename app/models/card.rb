@@ -30,12 +30,8 @@ class Card < ApplicationRecord
     status_model.name
   end
 
-  def from_survey?
-    recommended_at.nil?
-  end
-
   def recommendation?
-    !from_survey?
+    !recommended_at.nil?
   end
 
   %w[recommended declined denied open closed].each do |status|
@@ -90,13 +86,8 @@ class Card < ApplicationRecord
 
   # Scopes
 
-  # There are currently two ways that a card can be added to a user's Abroaders
-  # account: they can add it on the onboarding survey, or it can be recommended
-  # to them by an admin. We know which source the Card came from because
-  # recommended_at will be nil in the former case and present in the latter.
-
-  scope :recommendations, -> { where.not(recommended_at: nil) }
-  scope :from_survey,     -> { where(recommended_at: nil) }
+  scope :recommendations,    -> { where.not(recommended_at: nil) }
+  scope :non_recommendation, -> { where(recommended_at: nil) }
 
   # basic 'timestamp present' scopes:
   scope :applied,  -> { where.not(applied_at: nil) }

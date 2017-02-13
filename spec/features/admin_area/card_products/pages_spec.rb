@@ -29,18 +29,18 @@ RSpec.describe "admin product pages" do
 
   describe 'index page' do
     before do
-      @survey_card     = create(:card_product)
-      @non_survey_card = create(:card_product, shown_on_survey: false)
+      @product        = create(:card_product)
+      @hidden_product = create(:card_product, shown_on_survey: false)
       visit admin_card_products_path
     end
 
-    let(:products) { [@survey_card, @non_survey_card] }
+    let(:products) { [@product, @hidden_product] }
 
     it { is_expected.to have_title full_title('Card Products') }
 
     it 'lists info about each cards' do
-      expect(page).to have_selector card_product_selector(@survey_card)
-      expect(page).to have_selector card_product_selector(@non_survey_card)
+      expect(page).to have_selector card_product_selector(@product)
+      expect(page).to have_selector card_product_selector(@hidden_product)
 
       products.each do |product|
         within card_product_selector(product) do
@@ -53,9 +53,9 @@ RSpec.describe "admin product pages" do
 
       # says whether or not the card is shown on the survey
       expect(page).to have_selector \
-        "##{dom_id(@survey_card)} .card_shown_on_survey .fa.fa-check"
+        "##{dom_id(@product)} .card_shown_on_survey .fa.fa-check"
       expect(page).to have_no_selector \
-        "##{dom_id(@non_survey_card)} .card_shown_on_survey .fa.fa-check"
+        "##{dom_id(@hidden_product)} .card_shown_on_survey .fa.fa-check"
     end
   end
 

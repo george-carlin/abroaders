@@ -5,18 +5,9 @@ RSpec.describe Card do
   let(:person)  { account.people.first }
   let(:product) { build(:card_product) }
   let(:offer)   { build(:offer, product: product) }
-  let(:card) { described_class.from_survey.new(person: person) }
+  let(:card) { described_class.non_recommendation.new(person: person) }
 
   before { card.offer = offer }
-
-  describe "#from_survey?" do
-    it "is true iff recommended_at is nil" do
-      card.recommended_at = nil
-      expect(card.from_survey?).to be true
-      card.recommended_at = Time.current
-      expect(card.from_survey?).to be false
-    end
-  end
 
   describe "#recommendation?" do
     it "is true iff recommended_at is not nil" do
@@ -145,14 +136,14 @@ RSpec.describe Card do
 
   # Scopes
 
-  example ".from_survey" do
-    returned = create(:survey_card)
+  example ".non_recommendation" do
+    returned = create(:card)
     create(:card_recommendation)
-    expect(described_class.from_survey).to eq [returned]
+    expect(described_class.non_recommendation).to eq [returned]
   end
 
   example ".recommendations" do
-    create(:survey_card)
+    create(:card)
     returned = create(:card_recommendation)
     expect(described_class.recommendations).to eq [returned]
   end
@@ -175,7 +166,7 @@ RSpec.describe Card do
     ]
 
     # invisible:
-    create(:survey_card, product: product, person: person)
+    create(:card, :open, product: product, person: person)
     create(:card_recommendation, :declined, offer: offer, person: person)
     create(:card_recommendation, :expired,  offer: offer, person: person)
     create(:card_recommendation, :pulled,   offer: offer, person: person)
@@ -203,7 +194,7 @@ RSpec.describe Card do
     ]
 
     # irrelevant:
-    create(:card, :survey, product: product, person: person)
+    create(:card, :open, product: product, person: person)
 
     unresolved = [
       # brand new:
@@ -234,7 +225,7 @@ RSpec.describe Card do
     ]
 
     # irrelevant:
-    create(:survey_card)
+    create(:card, :open)
 
     not_irreversibly_denied = [
       # denied but reconsiderable:

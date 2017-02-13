@@ -69,10 +69,10 @@
       </div>
 
       <div class="panel-body">
-        <% if @cards_from_survey.any? %>
-          <div id="cards_from_survey">
+        <% if @cards.any? %>
+          <div id="cards">
             <% @people.each do |person| %>
-              <div id="<%= person.type %>_cards_from_survey">
+              <div id="<%= person.type %>_cards">
                 <%= cell(
                   Card::Cell::Index::Subheader,
                   nil,
@@ -80,13 +80,13 @@
                   person: person
                 ) %>
 
-                <% survey_cards = @cards_from_survey.where(person: person) %>
+                <% survey_cards = @cards.where(person: person) %>
                 <% if survey_cards.any? %>
                   <%= cell(Card::Cell::BasicCard, collection: survey_cards, editable: true) %>
                 <% else %>
                   <p><%= person.first_name %> has no other cards</p>
                 <% end %>
-              </div><!-- #<%= person.type %>_cards_from_survey -->
+              </div><!-- #<%= person.type %>_cards -->
             <% end %>
           </div>
         <% end %>

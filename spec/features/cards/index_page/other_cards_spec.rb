@@ -30,21 +30,19 @@ RSpec.describe 'cards index page - "other cards" section' do
     '#' << dom_id(card)
   end
 
-  let(:have_survey_cards_header)    { have_selector "h2", text: "Other Cards" }
-  let(:have_no_survey_cards_header) { have_no_selector "h2", text: "Other Cards" }
-
-  let(:other_cards_section)           { "#cards_from_survey" }
-  let(:owner_other_cards_section)     { "#owner_cards_from_survey" }
-  let(:companion_other_cards_section) { "#companion_cards_from_survey" }
+  let(:other_cards_section)           { '#cards' }
+  let(:owner_other_cards_section)     { '#owner_cards' }
+  let(:companion_other_cards_section) { '#companion_cards' }
 
   example "no companion; I have non-recommendation cards" do
-    open_acc   = create(:open_survey_card,   person: person, product: products[0])
-    closed_acc = create(:closed_survey_card, person: person, product: products[1])
+    open_acc   = create(:card, :open, person: person, product: products[0])
+    closed_acc = create(:card, :closed, person: person, product: products[1])
 
     visit_page
 
     # has a section for them:
-    expect(page).to have_survey_cards_header
+    expect(page).to have_selector 'h2', text: 'Other Cards'
+
     expect(page).to have_selector owner_other_cards_section
 
     # lists them and their info:
@@ -53,14 +51,14 @@ RSpec.describe 'cards index page - "other cards" section' do
       expect(page).to have_selector card_selector(closed_acc)
     end
 
-    expect(page).to have_no_selector "h2", text: "#{person.first_name}'s cards"
+    expect(page).to have_no_selector 'h2', text: "#{person.first_name}'s cards"
   end
 
   example "companion; only owner has non-recommendation cards" do
     create_companion!
 
-    open_acc   = create(:open_survey_card,   person: person, product: products[0])
-    closed_acc = create(:closed_survey_card, person: person, product: products[1])
+    open_acc   = create(:card, :open, person: person, product: products[0])
+    closed_acc = create(:card, :closed, person: person, product: products[1])
 
     visit_page
 
@@ -76,8 +74,8 @@ RSpec.describe 'cards index page - "other cards" section' do
 
   example "companion; only companion has non-recommendation cards" do
     create_companion!
-    open_acc   = create(:open_survey_card, person: companion, product: products[0])
-    closed_acc = create(:closed_survey_card, person: companion, product: products[1])
+    open_acc   = create(:card, :open, person: companion, product: products[0])
+    closed_acc = create(:card, :closed, person: companion, product: products[1])
 
     visit_page
 
@@ -93,11 +91,11 @@ RSpec.describe 'cards index page - "other cards" section' do
   end
 
   example "companion; both people have non-recommendation cards" do
-    o_open   = create(:open_survey_card,   person: person, product: products[0])
-    o_closed = create(:closed_survey_card, person: person, product: products[1])
+    o_open   = create(:card, :open, person: person, product: products[0])
+    o_closed = create(:card, :closed, person: person, product: products[1])
     create_companion!
-    c_open   = create(:open_survey_card,   person: companion, product: products[0])
-    c_closed = create(:closed_survey_card, person: companion, product: products[1])
+    c_open   = create(:card, :open, person: companion, product: products[0])
+    c_closed = create(:card, :closed, person: companion, product: products[1])
 
     visit_page
 
@@ -113,7 +111,7 @@ RSpec.describe 'cards index page - "other cards" section' do
   end
 
   example 'deleting a card', :js do
-    card = create(:open_survey_card, person: person, product: products[0])
+    card = create(:card, :open, person: person, product: products[0])
     visit_page
     click_link 'Delete'
     expect(page).to have_success_message 'Removed card'

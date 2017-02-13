@@ -21,10 +21,6 @@ FactoryGirl.define do
       clicked_at { 3.days.ago }
     end
 
-    trait :survey do
-      open
-    end
-
     trait :applied do
       recommendation
       applied_at { 4.days.ago }
@@ -71,11 +67,6 @@ FactoryGirl.define do
       recommendation
       pulled_at { Time.zone.now }
     end
-
-    factory :survey_card, traits: [:survey]
-    factory :open_survey_card, traits: [:survey, :open]
-    # The order of the traits is important here:
-    factory :closed_survey_card, traits: [:survey, :closed]
 
     factory :card_recommendation, traits: [:recommendation], aliases: [:card_rec]
     factory :clicked_card_recommendation, traits: [:recommendation, :clicked]

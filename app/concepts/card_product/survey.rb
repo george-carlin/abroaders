@@ -45,7 +45,7 @@ class CardProduct < ApplicationRecord
           attributes["closed_at"] = Date.new(closed_at_y, closed_at_m)
         end
 
-        person.cards.from_survey.create!(attributes)
+        person.cards.create!(attributes)
       end
 
       onboarder = Account::Onboarder.new(person.account)

@@ -147,7 +147,7 @@ RSpec.describe "account dashboard" do
       # resolved_rec:
       create(:card_recommendation, :applied, :open, person: owner, offer: offer)
       # CA from onboarding survey:
-      create(:survey_card, person: owner)
+      create(:card, person: owner)
 
       visit_path
 

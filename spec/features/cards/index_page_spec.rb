@@ -63,7 +63,7 @@ RSpec.describe 'as a user viewing my cards' do
   example "marking recs as 'seen'" do
     unseen_rec  = create(:card_recommendation, person: owner)
     seen_rec    = create(:card_recommendation, seen_at: Time.zone.yesterday, person: owner)
-    survey_card = create(:card, :survey, person: owner)
+    card        = create(:card, :open, person: owner)
 
     other_persons_rec = create(:card_recommendation, person: create(:person))
 
@@ -72,7 +72,7 @@ RSpec.describe 'as a user viewing my cards' do
       seen_rec.reload
     end.not_to change { seen_rec.seen_at }
     expect(unseen_rec.reload.seen_at).to be_within(5.seconds).of(Time.zone.now)
-    expect(survey_card.reload.seen_at).to be_nil
+    expect(card.reload.seen_at).to be_nil
     expect(other_persons_rec.reload.seen_at).to be_nil
   end
 
