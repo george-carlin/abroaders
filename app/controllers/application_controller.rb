@@ -14,12 +14,11 @@ class ApplicationController < ActionController::Base
     elsif current_account
       redirect_if_not_onboarded! && return
 
-      @account = current_account
-      unless @account.has_any_recommendations?
+      unless current_account.has_any_recommendations?
         render("accounts/new_user_dashboard") && return
       end
 
-      @people = @account.people.includes(
+      @people = current_account.people.includes(
         :balances, :spending_info, cards: :product,
       ).order(owner: :desc)
       @travel_plans = current_account.travel_plans.includes_destinations

@@ -1,6 +1,6 @@
 <%
-   ready = @account.people.any?{ |person| person.ready? }
-   eligible = @account.people.any?{ |person| person.eligible? }
+   ready = current_account.people.any?{ |person| person.ready? }
+   eligible = current_account.people.any?{ |person| person.eligible? }
 %>
 
 <div class="hpanel new-user-dashboard">
