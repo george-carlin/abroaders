@@ -1,9 +1,13 @@
-class Flight < ApplicationRecord
+class Flight < Flight.superclass
   module Cell
-    # A <span> that has a little pic of plane and says where the flight is from
+    # A `<span>` that has a little pic of plane and says where the flight is from
     # and to.
     #
-    # model: a Flight
+    # @!method self.call(model, opts = {})
+    #   @param model [Flight]
+    #   @option opts [Trailblazer::Cell] airport_name_cell (Destination::Cell::NameAndRegion)
+    #     The dependency-injected cell which takes the flight's nested Airports
+    #     and renders their names
     class Summary < Trailblazer::Cell
       include FontAwesome::Rails::IconHelper
 

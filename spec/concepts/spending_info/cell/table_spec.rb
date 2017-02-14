@@ -1,6 +1,6 @@
-require 'rails_helper'
+require 'cells_helper'
 
-RSpec.describe SpendingInfo::Cell::Table, type: :view do
+RSpec.describe SpendingInfo::Cell::Table do
   # Hmmmm.... this is kind of a code smell, that a basic view for displaying a
   # SpendingInfo should be so tightly coupled to the Info's Person and Account
   let(:account) { Account.new(monthly_spending_usd: 1000) }
@@ -22,19 +22,19 @@ RSpec.describe SpendingInfo::Cell::Table, type: :view do
   let(:has_business)      { 'no_business' }
   let(:couples_account)   { false }
 
-  subject(:cell) { described_class.(info).call }
+  let(:rendered) { show(info) }
 
   context 'for a solo account' do
     let(:couples_account) { false }
     specify 'spending is described as "personal spending"' do
-      expect(cell).to have_content 'Personal spending$1,000'
+      expect(rendered).to have_content 'Personal spending$1,000'
     end
   end
 
   context 'for a couples account' do
     let(:couples_account) { true }
     specify 'spending is described as "shared spending"' do
-      expect(cell).to have_content 'Shared spending$1,000'
+      expect(rendered).to have_content 'Shared spending$1,000'
     end
   end
 

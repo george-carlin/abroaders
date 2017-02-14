@@ -1,22 +1,24 @@
-require 'rails_helper'
+require 'cells_helper'
 
-RSpec.describe Abroaders::Cell::Navbar, type: :view do
-  subject(:cell) { described_class.(user, context: CELL_CONTEXT).show }
+RSpec.describe Abroaders::Cell::Navbar do
+  controller ApplicationController
+
+  let(:rendered) { show(user) }
 
   context 'when not signed in' do
     subject(:user) { nil }
 
     it 'has links to sign in/up' do
-      expect(cell).to have_link 'Sign up', href: new_account_registration_path
-      expect(cell).to have_link 'Sign in', href: new_account_session_path
+      expect(rendered).to have_link 'Sign up', href: new_account_registration_path
+      expect(rendered).to have_link 'Sign in', href: new_account_session_path
     end
 
     it 'shows the regular logo' do
-      expect(cell).to have_selector '#logo:not(.admin-navbar)', text: /Abroaders\s*\z/
+      expect(rendered).to have_selector '#logo:not(.admin-navbar)', text: /Abroaders\s*\z/
     end
 
     it 'has no search bar for accounts' do
-      expect(cell).not_to have_selector '#admin_accounts_search_bar'
+      expect(rendered).not_to have_selector '#admin_accounts_search_bar'
     end
   end
 
@@ -24,15 +26,15 @@ RSpec.describe Abroaders::Cell::Navbar, type: :view do
     let(:user) { Account.new(email: 'admin@example.com') }
 
     it 'has a link to sign out' do
-      expect(cell).to have_link('', href: destroy_account_session_path)
+      expect(rendered).to have_link('', href: destroy_account_session_path)
     end
 
     it 'shows the regular logo' do
-      expect(cell).to have_selector '#logo:not(.admin-navbar)', text: /Abroaders\s*\z/
+      expect(rendered).to have_selector '#logo:not(.admin-navbar)', text: /Abroaders\s*\z/
     end
 
     it 'has no search bar for accounts' do
-      expect(cell).not_to have_selector '#admin_accounts_search_bar'
+      expect(rendered).not_to have_selector '#admin_accounts_search_bar'
     end
   end
 
@@ -40,15 +42,15 @@ RSpec.describe Abroaders::Cell::Navbar, type: :view do
     let(:user) { Admin.new(email: 'admin@example.com') }
 
     it 'has a link to sign out' do
-      expect(cell).to have_link('', href: destroy_admin_session_path)
+      expect(rendered).to have_link('', href: destroy_admin_session_path)
     end
 
     it 'shows the admin logo' do
-      expect(cell).to have_selector '#logo.admin-navbar', text: 'Abroaders (Admin)'
+      expect(rendered).to have_selector '#logo.admin-navbar', text: 'Abroaders (Admin)'
     end
 
     it 'has a search bar for accounts' do
-      expect(cell).to have_selector '#admin_accounts_search_bar'
+      expect(rendered).to have_selector '#admin_accounts_search_bar'
     end
   end
 end

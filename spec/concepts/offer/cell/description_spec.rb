@@ -1,17 +1,13 @@
-require 'rails_helper'
+require 'cells_helper'
 
 RSpec.describe Offer::Cell::Description do
-  let(:cell) { described_class }
-
-  describe "#show" do
-    let(:currency) { Currency.new(name: "Dinero") }
+  describe '#show' do
+    let(:currency) { Currency.new(name: 'Dinero') }
     let(:product)  { CardProduct.new(currency: currency) }
 
     let(:offer) { Offer.new(product: product, points_awarded: 7_500) }
 
-    def rendered
-      cell.(offer).()
-    end
+    let(:rendered) { show(offer).raw }
 
     example 'points awarded on first purchase' do
       offer.condition = 'on_first_purchase'

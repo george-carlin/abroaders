@@ -1,20 +1,18 @@
-require 'rails_helper'
+require 'cells_helper'
 
-RSpec.describe AdminArea::Person::Cell::SpendingInfo, type: :view do
-  let(:cell) { described_class }
-  let(:person) { Struct.new(:id, :spending_info).new(1, nil) }
+RSpec.describe AdminArea::Person::Cell::SpendingInfo do
+  controller AdminArea::PeopleController
 
-  def render_cell(person)
-    cell.(person, context: CELL_CONTEXT).()
-  end
+  let(:account) { Account.new(monthly_spending_usd: 1234) }
+  let(:person) { Person.new(id: 1, account: account) }
 
   example 'when person has no spending info' do
-    expect(render_cell(person)).to eq 'User has not added their spending info'
+    expect(show(person).raw).to eq 'User has not added their spending info'
   end
 
   example 'when person has spending info' do
-    person.spending_info = build(:spending_info)
-    rendered = render_cell(person)
+    person.spending_info = build(:spending_info, person: nil)
+    rendered = show(person)
     expect(rendered).not_to have_content 'User has not added their spending info'
     expect(rendered).to have_link 'Edit'
   end

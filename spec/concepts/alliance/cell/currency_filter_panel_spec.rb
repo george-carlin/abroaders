@@ -1,6 +1,6 @@
-require 'rails_helper'
+require 'cells_helper'
 
-RSpec.describe Alliance::Cell::CurrencyFilterPanel, type: :view do
+RSpec.describe Alliance::Cell::CurrencyFilterPanel do
   let(:alliance)   { Alliance.create(id: 1, name: 'My Alliance') }
   let(:currencies) { Array.new(alliance.currencies.airline) { |c| c.build(name: "Currency #{i}") } }
   let(:hotel_currency) { alliance.currencies.hotel.build(name: 'Bank') }

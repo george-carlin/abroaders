@@ -1,23 +1,22 @@
-class TravelPlan < ApplicationRecord
+class TravelPlan < TravelPlan.superclass
   module Cell
     # Overview of the entire travel plan, displaying as much data as possible
-    # in a small area
+    # in a small area.
     #
-    # At the time of writing, this cell is used by:
+    # At the time of writing, this cell is used on:
     #
     # - admin/people#show
     # - accounts#dashboard
     # - travel_plans#index
     #
-    # model: a TravelPlan
-    # options:
-    #   well: whether the outermost div should have the Bootstrap 'well' CSS class. default true
-    #   hr:   whether the HTML should have an <hr> on the end. default false
-    #   editable: whether 'edit' and 'delete' links should be displayed. If 'editable' is not
-    #       specified explicitly, then the links will be displayed iff the TP
-    #       is 'new-style' (to/from airports, as opposed to countries)
+    # @!method self.call(model, opts = {})
+    #   @param model [TravelPlan]
+    #   @option opts [String] well (true) when true, the outermost `<div`> in
+    #     the rendered HTML will have the CSS class `well`.
+    #   @option opts [Trailblazer::Cell] flight_summary_cell
+    #     (Flight::Summary::Cell) the dependency-injected cell that renders the
+    #     summary about the *flight*.
     class Summary < Trailblazer::Cell
-      include ActionView::Helpers::RecordTagHelper
       include Escaped
       include FontAwesome::Rails::IconHelper
 
@@ -38,26 +37,26 @@ class TravelPlan < ApplicationRecord
       end
 
       # See comment in TravelPlan::Operation::Edit about old-style TPs being
-      # uneditable. Allow the caller to override this if they want (this is a
-      # temporary solution to hide the edit links on the admin side until we've
-      # given the admin the ability to edit a TP)
+      # uneditable.
       def editable?
-        options.fetch(
-          :editable,
-          ![flight.to.class, flight.from.class].include?(Country),
-        )
+        if options[:admin]
+          false
+        else
+          model.editable?
+        end
       end
 
       def flight
         model.flights[0]
       end
 
-      def html_classes
-        "travel_plan #{'well' if options.fetch(:well, true)}"
+      def flight_summary
+        cell_class = options.fetch(:flight_summary_cell, Flight::Cell::Summary)
+        cell(cell_class, flight)
       end
 
-      def html_id
-        dom_id(travel_plan)
+      def html_classes
+        "travel_plan #{'well' if options.fetch(:well, true)}"
       end
 
       def further_information

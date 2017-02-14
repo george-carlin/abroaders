@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'cells_helper'
 
 RSpec.describe AdminArea::Offer::Cell::Identifier do
   let(:cell) { described_class }

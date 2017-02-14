@@ -1,11 +1,10 @@
-require 'rails_helper'
+require 'cells_helper'
 
-RSpec.describe Abroaders::Cell::ErrorAlert, type: :view do
-  let(:cell) { described_class }
-
+RSpec.describe Abroaders::Cell::ErrorAlert do
   example '#show' do
-    rendered = cell.(nil, content: 'My totally awesome content!').()
-    expect(rendered).to include('My totally awesome content!')
+    rendered = show(nil, content: 'My totally awesome content!')
+
+    expect(rendered).to have_content 'My totally awesome content!'
 
     expect(rendered).to have_selector '.alert.alert-danger'
     expect(rendered).to have_selector 'button.close'

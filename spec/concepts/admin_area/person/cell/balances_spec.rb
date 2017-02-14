@@ -1,27 +1,35 @@
-require 'rails_helper'
+require 'cells_helper'
 
-RSpec.describe AdminArea::Person::Cell::Balances, type: :view do
-  let(:person) { create(:person) }
+RSpec.describe AdminArea::Person::Cell::Balances do
+  controller AdminArea::PeopleController
+
+  let(:person) { Person.new(id: 123, first_name: 'Erik') }
   include ActionView::Helpers::NumberHelper
 
-  subject(:cell) { described_class.(person, balances: balances).show }
-
   let(:balances) { [] }
+  let(:rendered) { show(person, balances: balances) }
 
   example 'when the person has no balances' do
-    expect(cell).not_to have_selector 'h3', text: 'Existing Balances'
-    expect(cell).to have_content 'User does not have any existing points/miles balances'
+    expect(rendered).not_to have_selector 'h3', text: 'Existing Balances'
+    expect(rendered).to have_content 'User does not have any existing points/miles balances'
   end
 
   context 'when the person has balances' do
-    # TODO use Balance::Operation::Create, not a Factory
-    let!(:balances) { create_list(:balance, 2, person: person) }
+    let(:currencies) { Array.new(2) { |i| Currency.new(name: "Curr #{i}") } }
+    let(:balances) do
+      [
+        person.balances.build(currency: currencies[0], value: 1234),
+        person.balances.build(currency: currencies[1], value: 4321),
+      ]
+    end
+
+    before { allow(person).to receive(:balances).and_return(balances) }
 
     it 'lists them' do
-      expect(cell).to have_selector 'h3', text: 'Existing Balances'
+      expect(rendered).to have_selector 'h3', text: 'Existing Balances'
       balances.each do |balance|
-        expect(cell).to have_content balance.currency.name
-        expect(cell).to have_content number_with_delimiter(balance.value)
+        expect(rendered).to have_content balance.currency.name
+        expect(rendered).to have_content number_with_delimiter(balance.value)
       end
     end
   end

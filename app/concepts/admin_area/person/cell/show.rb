@@ -66,7 +66,7 @@ module AdminArea
         end
 
         def spending_info
-          cell(AdminArea::Person::Cell::SpendingInfo, person)
+          cell(AdminArea::Person::Cell::SpendingInfo, person, account: account)
         end
 
         def travel_plans

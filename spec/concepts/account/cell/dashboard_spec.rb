@@ -1,16 +1,14 @@
-require 'rails_helper'
+require 'cells_helper'
 
-RSpec.describe Account::Cell::Dashboard, type: :view do
+RSpec.describe Account::Cell::Dashboard do
+  controller ApplicationController
+
   let(:account) { Account.new }
   let!(:owner)     { account.build_owner(id: 1, first_name: 'Erik', last_recommendations_at: Time.zone.now) }
   let!(:companion) { account.build_companion(id: 2, first_name: 'Gabi') }
 
-  def render_cell(result, opts = {})
-    described_class.(result, opts.merge(context: CELL_CONTEXT)).()
-  end
-
   example 'rendering' do
-    rendered = render_cell(
+    rendered = show(
       'account' => account,
       'people'  => [owner, companion],
       'travel_plans' => [],
@@ -24,7 +22,7 @@ RSpec.describe Account::Cell::Dashboard, type: :view do
   end
 
   example 'with "unresolved recs" modal' do
-    rendered = render_cell(
+    rendered = show(
       'account' => account,
       'people'  => [owner, companion],
       'travel_plans' => [],
@@ -37,7 +35,7 @@ RSpec.describe Account::Cell::Dashboard, type: :view do
   end
 
   example 'unresolved recs modal hidden by cookie' do
-    rendered = render_cell(
+    rendered = show(
       {
         'account' => account,
         'people'  => [owner, companion],

@@ -1,4 +1,4 @@
-<div id="<%= html_id %>" class="<%= html_classes %>">
+<div id="travel_plan_<%= id %>" class="<%= html_classes %>">
   <div style="float:right;">
     <% if editable? %>
       <%= link_to_edit %>
@@ -17,12 +17,8 @@
 
   <%= dates %>
 
-  <%= cell(Flight::Cell::Summary, flight) %>
+  <%= flight_summary %>
 
   <div><%= further_information %></div>
   <div>Acceptable classes: <b><%= acceptable_classes %></b></div>
 </div>
-
-<% if options.fetch(:hr, false) %>
-  <hr>
-<% end %>

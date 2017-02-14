@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'cells_helper'
 
 RSpec.describe Person::Cell::ReadinessIcon do
   let(:person) { Struct.new(:ready?, :eligible?).new(r, el) }

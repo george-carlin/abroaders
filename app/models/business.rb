@@ -1,6 +1,8 @@
 # In future we may extract the 'business spending' columns from SpendingInfo
 # and create a full-blown ActiveRecord model called Business. For now, just
 # leave this placeholder class here as a wrapper to be used by certain Cells:
+#
+# TODO maybe this would be better as a Disposable::Twin
 class Business
   attr_reader :spending_usd, :ein
 

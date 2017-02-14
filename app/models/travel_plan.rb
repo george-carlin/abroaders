@@ -29,6 +29,11 @@ class TravelPlan < ApplicationRecord
   MAX_FLIGHTS    = 20
   MAX_PASSENGERS = 20
 
+  def editable?
+    flight = flights[0]
+    ![flight.to.class, flight.from.class].include?(Country)
+  end
+
   # Validations
 
   # return_on must be present for NEW travel plans of type 'return',

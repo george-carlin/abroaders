@@ -17,6 +17,7 @@ class Destination < ApplicationRecord
         dom_id(model)
       end
 
+      # TODO this is wrong for airports
       def name
         if model.airport?
           "#{model.city.name} (#{model.code})"

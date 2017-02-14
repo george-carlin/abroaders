@@ -5,7 +5,10 @@ module AdminArea
       # each airport's name and IATA code.
       #
       # Note that this will return '<ul></ul>', not an empty string,
-      # if the collection is empty
+      # if the collection is empty.
+      #
+      # @!method self.call(model, opts = {})
+      #   @param model [Collection<Airport>]
       class List < Trailblazer::Cell
         def show
           content_tag :ul, items

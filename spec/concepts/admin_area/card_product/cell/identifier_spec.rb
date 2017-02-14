@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'cells_helper'
 
 RSpec.describe AdminArea::CardProduct::Cell::Identifier do
   def render_cell(product)

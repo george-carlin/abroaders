@@ -1,34 +1,34 @@
-require 'rails_helper'
+require 'cells_helper'
 
-RSpec.describe HomeAirports::Cell::Index, type: :view do
-  def render_cell(model, options = {})
-    described_class.(model, options.merge(context: CELL_CONTEXT)).()
-  end
+RSpec.describe HomeAirports::Cell::Index do
+  controller HomeAirportsController
+
+  let(:airport_class) { Struct.new(:full_name) }
 
   # a user shouldn't be able to get through the onboarding survey without
   # adding at least one home airport, but handle the case any just in case (is
   # there legacy data with no HAs?) and for future-proofing.
   example '0 home airports' do
-    cell = render_cell([])
-    expect(cell).to have_content(
-      "You have not told us what your home airport(s) are.",
+    rendered = show([])
+    expect(rendered).to have_content(
+      'You have not told us what your home airport(s) are.',
     )
   end
 
   example 'only 1 home airport' do
-    airport = create(:airport)
+    airport = airport_class.new('Heathrow')
 
-    cell = render_cell([airport])
-    expect(cell).to have_content("You have told us that #{airport.full_name} is your home airport")
+    rendered = show([airport])
+    expect(rendered).to have_content('You have told us that Heathrow is your home airport')
   end
 
   example '> 1 home airport' do
-    airports = create_list(:airport, 3)
+    airports = Array.new(2) { |i| airport_class.new("Airport #{i}") }
 
-    cell = render_cell(airports)
-    expect(cell).to have_content "You have told us that your home airports are"
+    rendered = show(airports)
+    expect(rendered).to have_content 'You have told us that your home airports are'
     airports.each do |airport|
-      expect(cell).to have_content airport.full_name
+      expect(rendered).to have_content airport.full_name
     end
   end
 end

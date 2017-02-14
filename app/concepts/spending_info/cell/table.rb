@@ -1,4 +1,4 @@
-class SpendingInfo < ApplicationRecord
+class SpendingInfo < SpendingInfo.superclass
   module Cell
     class Table < Trailblazer::Cell
       property :business_spending_usd

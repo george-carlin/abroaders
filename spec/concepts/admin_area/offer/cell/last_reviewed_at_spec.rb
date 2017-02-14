@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'cells_helper'
 
 require 'admin_area/offer/cell/last_reviewed_at'
 

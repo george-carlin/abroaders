@@ -4,7 +4,7 @@
 # records get cleaned up (i.e. deleted) at the end of the test run.
 #
 # In non-JS tests this is already taken care of, because everything created
-# in before(:each) is wrapped within a transation and so never truly gets
+# in before(:each) is wrapped within a transaction and so never truly gets
 # saved, and everything created in before(:all) gets cleaned up in after(:all)
 # by DatabaseCleaner (see rails_helper). But this doesn't work in JS tests
 # because they're not wrapped in a transaction. So pass :manual_clean

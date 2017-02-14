@@ -1,7 +1,10 @@
 module AdminArea
   module Person
     module Cell
-      # model: a Person
+      # TODO this cell sucks
+      #
+      # @!method self.call(model, opts = {})
+      #   @param [Person] model
       class SpendingInfo < Trailblazer::Cell
         property :spending_info
 

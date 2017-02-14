@@ -1,10 +1,10 @@
-require 'rails_helper'
+require 'cells_helper'
 
-RSpec.describe Card::Cell::BasicCard, type: :view do
-  let(:cell) { described_class }
+RSpec.describe Card::Cell::BasicCard do
+  controller CardsController
 
-  def render_cell(*args)
-    instance = cell.(*args)
+  def show(model, opts = {})
+    instance = cell(described_class, model, opts)
     # this would be much better handled by some kind of dependency-injection
     # system :/
     allow(instance).to receive(:edit_card_path).and_return '/stubbed/path'
@@ -18,7 +18,7 @@ RSpec.describe Card::Cell::BasicCard, type: :view do
   let(:card) { Card.new(opened_at: Date.new(2015, 6, 1)) }
 
   it 'displays info about the card' do
-    rendered = render_cell(card)
+    rendered = show(card)
     expect(rendered).to have_content "Card Name: My awesome card"
     expect(rendered).to have_content 'Bank: My awesome bank'
     expect(rendered).to have_content 'Bank: My awesome bank'
@@ -27,17 +27,16 @@ RSpec.describe Card::Cell::BasicCard, type: :view do
 
   example 'card is closed' do
     card.closed_at = Date.new(2016, 2, 1)
-    rendered = render_cell(card)
-    expect(rendered).to have_content 'Closed: Feb 2016'
+    expect(show(card)).to have_content 'Closed: Feb 2016'
   end
 
   example ':editable option' do
     # with:
-    rendered = render_cell(card)
+    rendered = show(card)
     expect(rendered).not_to have_link 'Edit'
     expect(rendered).not_to have_link 'Delete'
     # without:
-    rendered = render_cell(card, editable: true)
+    rendered = show(card, editable: true)
     expect(rendered).to have_link 'Edit'
     expect(rendered).to have_link 'Delete'
   end

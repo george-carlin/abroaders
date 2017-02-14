@@ -1,12 +1,14 @@
-require 'rails_helper'
+require 'cells_helper'
 
-RSpec.describe Account::Cell::Dashboard::Person, type: :view do
+RSpec.describe Account::Cell::Dashboard::Person do
+  controller AccountsController
+
   let(:account) { Account.new }
   let(:person)  { account.build_owner(id: 1, first_name: 'Erik') }
 
   before { person.account = account }
 
-  subject(:rendered) { described_class.(person, context: CELL_CONTEXT).() }
+  subject(:rendered) { show(person) }
 
   it { is_expected.to have_selector 'h3', text: person.first_name }
 
@@ -23,6 +25,6 @@ RSpec.describe Account::Cell::Dashboard::Person, type: :view do
 
   example 'XSS protection' do
     person.first_name = '<script>alert()</script>'
-    expect(rendered).to include '&lt;script&gt;alert()&lt;/script&gt;'
+    expect(rendered.raw).to include '&lt;script&gt;alert()&lt;/script&gt;'
   end
 end

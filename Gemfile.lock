@@ -284,6 +284,9 @@ GEM
       redis (~> 3.3)
       resque (~> 1.26)
       rufus-scheduler (~> 3.2)
+    rspec-cells (0.3.4)
+      cells (>= 4.0.0, < 6.0.0)
+      rspec-rails (~> 3.2)
     rspec-core (3.5.4)
       rspec-support (~> 3.5.0)
     rspec-expectations (3.5.0)
@@ -425,6 +428,7 @@ DEPENDENCIES
   reform-rails
   resque
   resque-scheduler (= 4.2.1)
+  rspec-cells
   rspec-rails (~> 3.5.0)
   rubocop (~> 0.43.0)
   sass-rails

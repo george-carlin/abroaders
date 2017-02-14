@@ -1,21 +1,22 @@
-require 'rails_helper'
+require 'cells_helper'
 
-RSpec.describe RecommendationNote::Cell::FormattedContent, type: :view do
-  let(:cell) { described_class }
-
+RSpec.describe RecommendationNote::Cell::FormattedContent do
+  let(:rec_note_class) { Struct.new(:content) }
   example '#show' do
-    note = Struct.new(:content).new(<<-EOL.strip_heredoc
+    note = rec_note_class.new(<<-EOL.strip_heredoc
       Multiple paragraphs.
 
       And a link! http://example.com
-
-      <script>alert('watch out for XSS')</script>
     EOL
-                                   )
-    rendered = cell.(note).()
+                             )
+    rendered = show(note)
     expect(rendered).to have_selector 'p', text: 'Multiple paragraphs'
     expect(rendered).to have_selector 'p', text: 'And a link!'
     expect(rendered).to have_link 'http://example.com', href: 'http://example.com'
-    expect(rendered).to include('&lt;script&gt;')
+  end
+
+  example 'protected against XSS' do
+    note = rec_note_class.new('<script>')
+    expect(show(note).to_s).to include('&lt;script&gt;')
   end
 end

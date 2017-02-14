@@ -1,4 +1,4 @@
-class TravelPlan < ApplicationRecord
+class TravelPlan < TravelPlan.superclass
   module Cell
     # Takes a TravelPlan, and returns a short string representing the COS for
     # that plan. If no classes have been marked as acceptable, returns "None
