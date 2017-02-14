@@ -1,0 +1,17 @@
+<div class="row">
+  <div class="col-xs-12">
+    <h2>
+      Travel Plans
+      <%= link_to_add_new if any_travel_plans? %>
+    </h2>
+
+    <% if any_travel_plans? %>
+      <%= travel_plans %>
+    <% else %>
+      You have no upcoming travel plans.
+      <%= link_to 'Add one', new_travel_plan_path %>
+    <% end %>
+  </div>
+
+  <hr>
+</div>

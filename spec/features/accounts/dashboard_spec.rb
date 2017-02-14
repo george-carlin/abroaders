@@ -1,7 +1,6 @@
 require "rails_helper"
 
 RSpec.describe "account dashboard" do
-  include ModalMacros
   include ActionView::Helpers::UrlHelper
 
   let(:account) { create(:account, :onboarded) }
@@ -93,60 +92,6 @@ RSpec.describe "account dashboard" do
     context 'at least one ready person' do
       before { owner.update!(ready: true) }
       include_examples "showing dashboard for ready"
-    end
-  end
-
-  context "when account has at least one card recommendation" do
-    let(:account) { create(:account, :couples, :onboarded) }
-    let(:companion) { account.companion }
-    let(:offer) { create(:offer) }
-    before { owner.update!(last_recommendations_at: Time.zone.now) }
-
-    specify "account owner appears on the LHS of the page" do
-      # unresolved_rec:
-      create(:card_recommendation, person: owner, offer: offer)
-      visit_path
-      # owner selector goes before companion selector:
-      expect(page).to have_selector "##{dom_id(owner)} + ##{dom_id(companion)}"
-    end
-
-    example "'unresolved cards' modal", :js do
-      # unresolved_rec:
-      create(:card_recommendation, person: owner, offer: offer)
-      # resolved_rec:
-      create(:card_recommendation, :applied, :approved, person: owner, offer: offer)
-
-      visit_path
-
-      expect(page).to have_modal
-
-      within_modal do
-        expect(page).to have_content "You have 1 card recommendation which requires action"
-        expect(page).to have_link "Continue", href: cards_path
-      end
-    end
-
-    example "no 'unresolved cards' modal", :js do
-      offer = create(:offer)
-      # resolved_rec:
-      create(:card_recommendation, :applied, :approved, person: owner, offer: offer)
-      # CA from onboarding survey:
-      create(:card, person: owner)
-
-      visit_path
-
-      expect(page).to have_no_modal
-      expect(page).to have_no_link "Continue", href: cards_path
-    end
-
-    example "visit dashboard with recently accepted recommendation" do
-      person = account.people.first
-      person.update_attributes(last_recommendations_at: Time.zone.now)
-      create(:spending_info, person: person)
-
-      visit_path
-
-      expect(page).to have_no_content "#{person.first_name} is not ready to apply for cards."
     end
   end
 end

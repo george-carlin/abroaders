@@ -18,14 +18,11 @@ class ApplicationController < ActionController::Base
         render("accounts/new_user_dashboard") && return
       end
 
-      @people = current_account.people.includes(
-        :balances, :spending_info, cards: :product,
-      ).order(owner: :desc)
-      @travel_plans = current_account.travel_plans.includes_destinations
-      @unresolved_recommendations = current_account.card_recommendations.unresolved
-      @recommendation_expiration = current_account.recommendations_expire_at
+      run(Account::Operation::Dashboard, {}, account: current_account)
 
-      render "accounts/dashboard"
+      rec_timeout = cookies[:recommendation_timeout]
+
+      render cell(Account::Cell::Dashboard, result, recommendation_timeout: rec_timeout)
     else
       redirect_to new_account_session_path
     end
@@ -35,6 +32,8 @@ class ApplicationController < ActionController::Base
 
   # extend the method provided by trailblazer so that it sets
   # @collection from result['collection'] (if collection is provided)
+  #
+  # TODO remove me
   def run(*args)
     result = super
     @collection = @_result['collection']

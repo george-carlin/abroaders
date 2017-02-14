@@ -23,12 +23,6 @@ class Account < ApplicationRecord
     people.any? { |person| person.last_recommendations_at.present? }
   end
 
-  def recommendations_expire_at
-    expiring_recommendations = card_recommendations.unresolved.unapplied
-    return if expiring_recommendations.none?
-    expiring_recommendations.minimum(:recommended_at) + 15.days + 7.hours
-  end
-
   # Validations
 
   # Associations
