@@ -28,7 +28,7 @@ class Account < Account.superclass
 
       def people
         content_tag :div, class: 'row' do
-          cell Person::Cell::Dashboard, collection: result['people']
+          cell self.class::Person, collection: result['people']
         end
       end
 
@@ -41,6 +41,34 @@ class Account < Account.superclass
           cell(UnresolvedRecsModal)
         else
           ''
+        end
+      end
+
+      # model: a Person
+      class Person < Trailblazer::Cell
+        include Escaped
+
+        property :id
+        property :first_name
+        property :eligible?
+
+        private
+
+        def balances
+          if model.balances.any?
+            balances = cell(Balance::Cell::List, model.balances.includes(:currency))
+            "<h4>Balances</h4> #{balances}"
+          else
+            '<p>No existing frequent flyer balances</p>'
+          end
+        end
+
+        def link_to_edit_spending
+          link_to 'Edit', edit_person_spending_info_path(model)
+        end
+
+        def spending_info
+          cell(SpendingInfo::Cell::Table, model.spending_info)
         end
       end
 
