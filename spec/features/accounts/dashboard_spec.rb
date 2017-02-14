@@ -4,18 +4,18 @@ RSpec.describe "account dashboard" do
   include ModalMacros
   include ActionView::Helpers::UrlHelper
 
-  let(:email) { "thedude@lebowski.com" }
+  let(:account) { create(:account, :onboarded) }
 
   before { login_as_account(account.reload) }
 
   let(:visit_path) { visit root_path }
 
-  let(:owner)     { account.owner }
-  let(:companion) { account.companion }
+  let(:owner) { account.owner }
 
   subject { page }
 
   shared_examples "showing dashboard for eligible" do
+    before { visit_path }
     example "initial layout" do
       is_expected.to have_content t("dashboard.account.eligible.title")
       is_expected.to have_content "1. Complete profile"
@@ -29,6 +29,7 @@ RSpec.describe "account dashboard" do
   end
 
   shared_examples "showing dashboard for ineligible" do
+    before { visit_path }
     example "initial layout" do
       is_expected.to have_content t("dashboard.account.ineligible.message")
       is_expected.to have_content "1. Complete profile"
@@ -38,6 +39,7 @@ RSpec.describe "account dashboard" do
   end
 
   shared_examples "showing dashboard for ready" do
+    before { visit_path }
     example "initial layout" do
       is_expected.to have_content t("dashboard.account.ready.message")
       is_expected.to have_content "1. Complete profile"
@@ -48,60 +50,36 @@ RSpec.describe "account dashboard" do
     end
   end
 
-  context "when account without companion" do
-    let(:account) { create(:account, :onboarded, email: email) }
-
-    context "and owner is eligible" do
-      before do
-        owner.update!(eligible: true)
-        visit_path
-      end
-
-      include_examples "showing dashboard for eligible"
+  context 'solo account' do
+    context 'eligible' do
+      before { owner.update!(eligible: true) }
+      include_examples 'showing dashboard for eligible'
     end
 
-    context "and owner is ineligible" do
-      before do
-        owner.update!(eligible: false)
-        visit_path
-      end
-
-      include_examples "showing dashboard for ineligible"
+    context 'ineligible' do
+      before { owner.update!(eligible: false) }
+      include_examples 'showing dashboard for ineligible'
     end
 
-    context "and owner is ready" do
-      before do
-        owner.update!(ready: true)
-        visit_path
-      end
-
-      include_examples "showing dashboard for ready"
+    context 'ready' do
+      before { owner.update!(eligible: true, ready: true) }
+      include_examples 'showing dashboard for ready'
     end
   end
 
-  context "when account with companion" do
-    let(:account) { create(:account, :couples, :onboarded, email: email) }
+  context 'couples account' do
+    let(:companion) { account.create_companion!(first_name: 'Gabi') }
 
-    context "and both people are ineligible" do
+    context 'both people are ineligible' do
       before do
         owner.update!(eligible: false)
         companion.update!(eligible: false)
-        visit_path
       end
 
       include_examples "showing dashboard for ineligible"
     end
 
-    context "and at least one person is ready" do
-      before do
-        owner.update!(ready: true)
-        visit_path
-      end
-
-      include_examples "showing dashboard for ready"
-    end
-
-    context "and either is ready, but at least one person is eligible" do
+    context 'at least one eligible person, neither ready' do
       before do
         owner.update!(ready: false)
         companion.update!(ready: false)
@@ -111,10 +89,16 @@ RSpec.describe "account dashboard" do
 
       include_examples "showing dashboard for eligible"
     end
+
+    context 'at least one ready person' do
+      before { owner.update!(ready: true) }
+      include_examples "showing dashboard for ready"
+    end
   end
 
   context "when account has at least one card recommendation" do
-    let(:account) { create(:account, :couples, :onboarded, email: email) }
+    let(:account) { create(:account, :couples, :onboarded) }
+    let(:companion) { account.companion }
     let(:offer) { create(:offer) }
     before { owner.update!(last_recommendations_at: Time.zone.now) }
 
