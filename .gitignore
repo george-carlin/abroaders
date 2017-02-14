@@ -30,3 +30,6 @@ public/system
 vendor/homer
 
 *.dump
+
+/doc
+/.yardoc
