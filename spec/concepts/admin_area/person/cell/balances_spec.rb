@@ -4,7 +4,9 @@ RSpec.describe AdminArea::Person::Cell::Balances, type: :view do
   let(:person) { create(:person) }
   include ActionView::Helpers::NumberHelper
 
-  subject(:cell) { described_class.(person).show }
+  subject(:cell) { described_class.(person, balances: balances).show }
+
+  let(:balances) { [] }
 
   example 'when the person has no balances' do
     expect(cell).not_to have_selector 'h3', text: 'Existing Balances'

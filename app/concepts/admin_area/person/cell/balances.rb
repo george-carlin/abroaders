@@ -3,6 +3,12 @@ module AdminArea
     module Cell
       # If the person has balances, displays them. Else displays a message
       # saying that the person has no balances.
+      #
+      # @!method self.call(model, opts = {})
+      #   @param model [Person]
+      #   @option opts [Collection<Balance>] the person's balances.
+      #     The cell calls .currency.name on each balance so be wary of
+      #     N+1 issues
       class Balances < Trailblazer::Cell
         property :balances
 
@@ -23,7 +29,7 @@ module AdminArea
         end
 
         def list
-          ::Balance::Cell::List.(balances.includes(:currency)).show
+          cell(::Balance::Cell::List, options.fetch(:balances)).()
         end
       end
     end

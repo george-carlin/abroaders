@@ -6,6 +6,7 @@ module AdminArea
       class Show < Trailblazer::Operation
         step :load_person!
         step :set_account!
+        step :set_balances!
         step :set_card_scope!
         step :set_cards!
         step :set_home_airports!
@@ -23,6 +24,10 @@ module AdminArea
 
         def set_account!(opts, person:, **)
           opts['account'] = person.account
+        end
+
+        def set_balances!(opts, person:, **)
+          opts['balances'] = person.balances.includes(:currency)
         end
 
         def set_card_scope!(opts, person:, **)

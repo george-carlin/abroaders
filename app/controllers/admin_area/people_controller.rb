@@ -6,7 +6,6 @@ module AdminArea
 
       @person        = result['person']
       @account       = @person.account
-      @balances      = @person.balances.includes(:currency)
 
       card_scope = @person.cards.includes(product: :bank, offer: :product)
       @recommendation = card_scope.recommendations.build
