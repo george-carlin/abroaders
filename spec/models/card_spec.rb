@@ -173,22 +173,21 @@ RSpec.describe Card do
     expect(described_class.visible).to match_array(visible)
   end
 
-  example ".resolved + .unresolved" do
+  example ".unresolved" do
     product = create(:card_product)
     offer   = create(:offer, product: product)
     person  = create(:person)
 
-    resolved = [
-      create(:card_rec, :approved,        offer: offer, person: person),
-      create(:card_rec, :pulled,          offer: offer, person: person),
-      create(:card_rec, :nudged, :denied, offer: offer, person: person),
-      create(:card_rec, :redenied,        offer: offer, person: person),
-      create(:card_rec, :expired,         offer: offer, person: person),
-      # open after reconsideration:
-      create(:card_rec, :denied, :called, :approved, offer: offer, person: person),
-      # open after nudging:
-      create(:card_rec, :applied, :nudged, :approved, offer: offer, person: person),
-    ]
+    # resolved:
+    create(:card_rec, :approved,        offer: offer, person: person)
+    create(:card_rec, :pulled,          offer: offer, person: person)
+    create(:card_rec, :nudged, :denied, offer: offer, person: person)
+    create(:card_rec, :redenied,        offer: offer, person: person)
+    create(:card_rec, :expired,         offer: offer, person: person)
+    # open after reconsideration:
+    create(:card_rec, :denied, :called, :approved, offer: offer, person: person)
+    # open after nudging:
+    create(:card_rec, :applied, :nudged, :approved, offer: offer, person: person)
 
     # irrelevant:
     create(:card, :open, product: product, person: person)
@@ -206,20 +205,18 @@ RSpec.describe Card do
       create(:card_rec, :denied, :called, person: person),
     ]
 
-    expect(Card.resolved).to match_array(resolved)
     expect(Card.unresolved).to match_array(unresolved)
   end
 
-  example ".not_irreversibly_denied & .irreversibly_denied" do
+  example ".not_irreversibly_denied" do
     cp = create(:card_product)
     o  = create(:offer, product: cp)
     p  = create(:person)
     attrs = { offer: o, person: p }
 
-    irreversibly_denied = [
-      create(:card_rec, :applied, :nudged, :denied, attrs),
-      create(:card_rec, :applied, :denied, :called, :redenied, attrs),
-    ]
+    # irreversibly denied:
+    create(:card_rec, :applied, :nudged, :denied, attrs)
+    create(:card_rec, :applied, :denied, :called, :redenied, attrs)
 
     # irrelevant:
     create(:card, :open)
@@ -235,7 +232,6 @@ RSpec.describe Card do
       create(:card_rec, :applied, :nudged, :approved, attrs),
     ]
 
-    expect(described_class.irreversibly_denied).to match_array(irreversibly_denied)
     expect(described_class.not_irreversibly_denied).to match_array(not_irreversibly_denied)
   end
 end

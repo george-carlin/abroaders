@@ -89,37 +89,18 @@ class Card < ApplicationRecord
   scope :recommendations,    -> { where.not(recommended_at: nil) }
   scope :non_recommendation, -> { where(recommended_at: nil) }
 
-  # basic 'timestamp present' scopes:
-  scope :applied,  -> { where.not(applied_at: nil) }
-  scope :clicked,  -> { where.not(clicked_at: nil) }
-  scope :declined, -> { where.not(declined_at: nil) }
-  scope :denied,   -> { where.not(denied_at: nil) }
-  scope :expired,  -> { where.not(expired_at: nil) }
-  scope :nudged,   -> { where.not(nudged_at: nil) }
-  scope :open,     -> { where.not(opened_at: nil) }
-  scope :pulled,   -> { where.not(pulled_at: nil) }
-  scope :redenied, -> { where.not(redenied_at: nil) }
-  scope :seen,     -> { where.not(seen_at: nil) }
-
-  # basic 'timestamp not present' scopes:
+  scope :pulled,     -> { where.not(pulled_at: nil) }
   scope :unapplied,  -> { where(applied_at: nil) }
   scope :unclicked,  -> { where(clicked_at: nil) }
   scope :undeclined, -> { where(declined_at: nil) }
   scope :undenied,   -> { where(denied_at: nil) }
   scope :unexpired,  -> { where(expired_at: nil) }
-  scope :unnudged,   -> { where(nudged_at: nil) }
   scope :unopen,     -> { where(opened_at: nil) }
   scope :unpulled,   -> { where(pulled_at: nil) }
   scope :unredenied, -> { where(redenied_at: nil) }
   scope :unseen,     -> { where(seen_at: nil) }
-  scope :unclosed,   -> { where(closed_at: nil) }
 
   # compound scopes:
-
-  # Recommendations which have been denied and we don't encourage the user to
-  # call for reconsideration. (In other words, recommendations which have been
-  # denied after calling or denied after nudging
-  scope :irreversibly_denied, -> { recommendations.redenied.or(denied.nudged) }
 
   # Not the best name (any better ideas?), but the opposite of
   # irreversibly_denied. Any recommendation which HASN'T been
@@ -130,11 +111,6 @@ class Card < ApplicationRecord
   end
 
   # Recommendations which still require user action:
-  scope :resolved, -> do
-    pulled.or(open).or(expired).or(irreversibly_denied).recommendations
-  end
-
-  # Recommendations which no longer require user action:
   scope :unresolved, -> do
     recommendations.unpulled.unopen.not_irreversibly_denied.unexpired
   end
