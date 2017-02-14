@@ -7,14 +7,14 @@ module SerializeHelper
   # is very low priority.
   def serialize(model, serializer_class = nil)
     klass = model.to_model.class
-    serializer_class = begin
-                         "#{klass}::Serializer".constantize
-                       rescue NameError # FIXME
-                         # Not an ideal solution, but as we move towards a
-                         # TRB-style 'concepts' file structure, eventually we
-                         # should no longer need this rescue clause... maybe.
-                         "#{klass}Serializer".constantize
-                       end
+    serializer_class ||= begin
+                           "#{klass}::Serializer".constantize
+                         rescue NameError # FIXME
+                           # Not an ideal solution, but as we move towards a
+                           # TRB-style 'concepts' file structure, eventually we
+                           # should no longer need this rescue clause... maybe.
+                           "#{klass}Serializer".constantize
+                         end
     serializer_class.new(model).to_json
   end
 end
