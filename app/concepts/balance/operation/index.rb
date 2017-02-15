@@ -7,7 +7,10 @@ class Balance < Balance.superclass
 
       def setup_balances_and_people!(opts, account:, **)
         # a hash with Persons as the keys and their Balances as the values:
-        opts['people_with_balances'] = account.balances.group_by(&:person)
+        pwb = {}
+        pwb[account.owner] = account.owner.balances
+        pwb[account.companion] = account.companion.balances if account.couples?
+        opts['people_with_balances'] = pwb
       end
     end
   end
