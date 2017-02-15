@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe SpendingInfosController do
   describe "GET #survey" do
-    let(:account) { create(:account) }
+    let(:account) { create(:account, :eligible) }
     let(:owner)   { account.owner }
     before { sign_in account }
 

@@ -31,16 +31,13 @@ require("babel-polyfill");
 
 require("./components/react_ujs");
 
-// I really don't like this 'hybrid of Sprockets and Node' setup that we have,
-// but I'm still learning Node/Browserify etc and haven't figured out the
-// best way to handle things yet. The long-term solution will probably be
-// to move away from Sprockets and use the Node-y approach for everything,
-// but it's not worth the effort for now.
+// This sprockets/node/browserify hybrid was a terrible idea and we're moving
+// away from it ASAP. The remaining React components need to be converted
+// to ERB.
 
 window.components = {
   CardApplicationSurvey: require("./components/CardApplicationSurvey"),
   PointsEstimateTable:   require("./components/PointsEstimateTable"),
-  SpendingSurvey:        require("./components/SpendingSurvey"),
 };
 
 window.numbro = require("numbro");

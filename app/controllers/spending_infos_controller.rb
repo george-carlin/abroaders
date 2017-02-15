@@ -1,27 +1,52 @@
 class SpendingInfosController < AuthenticatedUserController
-  onboard :spending, with: [:survey, :save_survey]
+  onboard :spending, with: [:survey, :new_survey, :save_survey]
 
   def survey
-    @survey = SpendingSurvey.new(account: current_account)
+    @form = SpendingSurvey.new(account: current_account)
+    # fake a real TRB result until we've extracted things to an op
+    warn "#{self.class}##{__method__} needs updating to use a TRB operation"
+    @_result = {
+      'account' => current_account,
+      'values_remove_me' => @values,
+      'contract.default' => @form,
+      'eligible_people' => current_account.people.select(&:eligible?),
+      'render_jsx' => true,
+    }
+    # TODO provide title
+    render cell(SpendingInfo::Cell::Survey, @_result)
+  end
+
+  def new_survey
+    @form = SpendingSurvey.new(account: current_account)
     @values = {}
   end
 
   def save_survey
-    @survey = SpendingSurvey.new(account: current_account)
-    if @survey.update_attributes(spending_survey_params)
+    warn "#{self.class}##{__method__} needs updating to use a TRB operation"
+    @form = SpendingSurvey.new(account: current_account)
+    if @form.update_attributes(spending_survey_params)
       redirect_to onboarding_survey_path
     else
-      @values = params[:spending_survey].to_json
-      render :survey
+      # fake a real TRB result until we've extracted things to an op
+      @_result = {
+        'account' => current_account,
+        'values_remove_me' => @values,
+        'contract.default' => @form,
+        'eligible_people' => current_account.people.select(&:eligible?),
+        'render_jsx' => true,
+      }
+      render cell(SpendingInfo::Cell::Survey, @_result)
     end
   end
 
   def edit
+    warn "#{self.class}##{__method__} needs updating to use a TRB operation"
     @person = load_person
     @spending_info = EditSpendingInfoForm.load(@person)
   end
 
   def update
+    warn "#{self.class}##{__method__} needs updating to use a TRB operation"
     @person = load_person
     @spending_info = EditSpendingInfoForm.load(@person)
     if @spending_info.update(spending_info_params)
@@ -49,7 +74,7 @@ class SpendingInfosController < AuthenticatedUserController
   end
 
   def spending_survey_params
-    params.require(:spending_survey).permit(
+    params.require(:spending_info).permit(
       :monthly_spending,
       :companion_business_spending_usd,
       :companion_credit_score,

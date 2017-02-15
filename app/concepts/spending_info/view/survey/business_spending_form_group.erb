@@ -1,0 +1,34 @@
+<div class="form-group">
+  <h3><%= header_text %></h3>
+
+  <p class="help-block">
+    Small business cards offer excellent opportunities to earn rewards
+    points. If you own a business or work as a freelancer, we’ll help you
+    turn your business spending into valuable rewards too.
+  </p>
+
+  <%= has_business_radios %>
+</div>
+
+<div
+  class="form-group"
+  id="<%= type %>_business_spending_form_group"
+  style="<%= 'display:none;' if spending_field_is_hidden? %>"
+>
+  <p class="help-block">
+    What is the average <b>monthly</b> spending of the business?
+  </p>
+
+  <p class="help-block">
+    Do not include business expenses that cannot be charged to a credit
+    card.
+  </p>
+
+  <div class="input-group">
+    <div class="input-group-addon">
+      $
+    </div>
+
+    <%= spending_field %>
+  </div>
+</div>
