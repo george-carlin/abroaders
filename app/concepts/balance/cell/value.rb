@@ -1,6 +1,9 @@
 class Balance < Balance.superclass
   module Cell
-    # takes a Balance, returns its value as a comma-delimited string
+    # Takes a `Balance`, returns its `value` as a comma-delimited string
+    #
+    # @!method self.call(balance)
+    #   @param balance [Balance]
     class Value < Trailblazer::Cell
       include ActionView::Helpers::NumberHelper
 

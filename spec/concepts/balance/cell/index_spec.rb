@@ -3,39 +3,81 @@ require 'cells_helper'
 RSpec.describe Balance::Cell::Index do
   controller BalancesController
 
+  let(:currencies) { Array.new(2) { |i| Currency.new(name: "Curr #{i}") } }
+
   let(:account) { Account.new }
   let(:owner) { account.build_owner(id: 1, first_name: 'Erik') }
 
-  example 'subheaders and links for solo vs couple account' do
-    # solo account doesn't have subheaders for the people's names:
-    rendered = show(
+  def get_result(data)
+    Trailblazer::Operation::Result.new(true, data)
+  end
+
+  example 'solo account with no balances' do
+    result = get_result(
       'account' => account,
       'people_with_balances' => { owner => [] },
     )
-    expect(rendered).not_to have_selector 'h2', text: "Erik's balances"
-    expect(rendered).to have_link 'Add new'
-    expect(rendered).not_to have_link "Add new balance for Erik"
-    companion = account.build_companion(id: 5, first_name: 'Gabi')
-    rendered = show(
-      'account' => account,
-      'people_with_balances' => { owner => [], companion => [] },
-    )
-    expect(rendered).to have_selector 'h2', text: "Erik's balances"
-    expect(rendered).to have_selector 'h2', text: "Gabi's balances"
-    expect(rendered).not_to have_link(/\AAdd new\z/)
-    expect(rendered).to have_link "Add new balance for Erik"
-    expect(rendered).to have_link "Add new balance for Gabi"
+    rendered = show(result)
+    expect(rendered).to have_selector 'h1', text: 'My points'
+    expect(rendered).to have_content 'No balances'
   end
 
-  example 'avoid XSS attacks' do
-    currency = Currency.new(name: '<script>currency</script>')
-    balances = [Balance.new(id: 123, value: 1, currency: currency)]
-    companion = account.build_companion(id: 5, first_name: '<hacker>')
-    rendered = show(
+  example 'solo account with balances' do
+    balances = Array.new(2) do |i|
+      owner.balances.build(id: i, value: 1234, currency: currencies[i])
+    end
+
+    result = get_result(
       'account' => account,
-      'people_with_balances' => { owner => balances, companion => [] },
+      'people_with_balances' => { owner => balances },
     )
-    expect(rendered.to_s).to include('&lt;script&gt;currency&lt;/script&gt;')
-    expect(rendered.to_s).to include('&lt;hacker&gt;')
+
+    rendered = show(result)
+    expect(rendered).to have_selector 'h1', text: 'My points'
+    expect(rendered).not_to have_content 'No balances'
+    expect(rendered).to have_content 'Curr 0'
+    expect(rendered).to have_content 'Curr 1'
+  end
+
+  describe 'couples account' do
+    let!(:companion) { account.build_companion(id: 2, first_name: 'Gabi') }
+
+    let!(:owner_balances) do
+      Array.new(2) do |i|
+        owner.balances.build(id: i, value: 1234, currency: currencies[i])
+      end
+    end
+
+    it '' do
+      companion_balances = Array.new(2) do |i|
+        companion.balances.build(id: i, value: 1234, currency: currencies[i])
+      end
+
+      result = get_result(
+        'account' => account,
+        'people_with_balances' => {
+          owner => owner_balances, companion => companion_balances,
+        },
+      )
+
+      rendered = show(result)
+      expect(rendered).not_to have_content 'My points'
+      expect(rendered).not_to have_content 'No balances'
+      expect(rendered).to have_selector 'h1', text: "Erik's points"
+      expect(rendered).to have_selector 'h1', text: "Gabi's points"
+    end
+
+    example 'where one person has no balances' do
+      result = get_result(
+        'account' => account,
+        'people_with_balances' => {
+          owner => owner_balances, companion => [],
+        },
+      )
+
+      rendered = show(result)
+      expect(rendered).to have_selector 'h1', text: "Erik's points"
+      expect(rendered).to have_selector 'h1', text: "Gabi's points"
+    end
   end
 end
