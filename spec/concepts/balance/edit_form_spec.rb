@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+# 100% mutation coverage as of 14/2/17
 RSpec.describe Balance::EditForm do
   let(:balance) { Struct.new(:value, :currency_id).new }
 
@@ -21,5 +22,9 @@ RSpec.describe Balance::EditForm do
         include("must be less than or equal to #{POSTGRESQL_MAX_INT_VALUE}")
       expect(errors_for(:value, 0)).to be_empty
     end
+  end
+
+  example '.model_name' do
+    expect(described_class.model_name).to eq Balance.model_name
   end
 end

@@ -25,11 +25,8 @@ class BalancesController < AuthenticatedUserController
 
   # PUT/PATCH /balances/:id
   def update
-    warn "#{self.class}#update needs updating to use a TRB operation"
-    @balance = Balance::EditForm.new(current_account.balances.find(params[:id]))
-    if @balance.validate(params[:balance])
+    run Balance::Operation::Update do
       @valid = true
-      @balance.save
     end
     respond_to do |f|
       f.js
