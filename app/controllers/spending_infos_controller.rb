@@ -1,5 +1,5 @@
 class SpendingInfosController < AuthenticatedUserController
-  onboard :spending, with: [:survey, :new_survey, :save_survey]
+  onboard :spending, with: [:survey, :save_survey]
 
   def survey
     @form = SpendingSurvey.new(account: current_account)
@@ -14,11 +14,6 @@ class SpendingInfosController < AuthenticatedUserController
     }
     # TODO provide title
     render cell(SpendingInfo::Cell::Survey, @_result)
-  end
-
-  def new_survey
-    @form = SpendingSurvey.new(account: current_account)
-    @values = {}
   end
 
   def save_survey
