@@ -1,10 +1,7 @@
 class Card < ApplicationRecord
   module Operation
     class Create < Trailblazer::Operation
-      # specify the full name of 'New' to avoid an ugly collision; see
-      # https://github.com/trailblazer/trailblazer/issues/168. This can
-      # be changed here once the fix to #168 has been released.
-      step Nested(::Card::Operation::New)
+      step Nested(New)
       step Contract::Validate(key: :card)
       success :sanity_check!
       step Contract::Persist()

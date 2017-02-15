@@ -116,8 +116,7 @@ GEM
     concurrent-ruby (1.0.4)
     database_cleaner (1.5.3)
     debug_inspector (0.0.2)
-    declarative (0.0.8)
-      uber (>= 0.0.15)
+    declarative (0.0.9)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
     devise (4.1.1)
@@ -386,7 +385,7 @@ GEM
     trailblazer-cells (0.0.3)
       cells (>= 4.1.0.rc1, < 5.0.0)
     trailblazer-loader (0.1.0)
-    trailblazer-operation (0.0.12)
+    trailblazer-operation (0.0.13)
       declarative
       pipetree (>= 0.1.1, < 0.2.0)
       uber
