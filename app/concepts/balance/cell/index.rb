@@ -1,3 +1,5 @@
+require 'abroaders/cell/result'
+
 class Balance < Balance.superclass
   module Cell
     # The top-level cell for the balances#index action.
@@ -9,11 +11,13 @@ class Balance < Balance.superclass
     #     as the keys, and the Balances of each pereson as the values.
     class Index < Trailblazer::Cell
       include FontAwesome::Rails::IconHelper
+      extend Abroaders::Cell::Result
 
-      alias result model
+      skill :account
+      skill :people_with_balances
 
       def show
-        result['people_with_balances'].map do |person, balances|
+        people_with_balances.map do |person, balances|
           cell(BalanceTable, person, use_name: use_name?, balances: balances)
         end.join # people_with_balances.each
       end
@@ -23,7 +27,7 @@ class Balance < Balance.superclass
       # If true, refer to people by name ("Erik's points" etc.). Else, use
       # pronouns ("My points").
       def use_name?
-        result['account'].couples?
+        account.couples?
       end
     end
   end
