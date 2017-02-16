@@ -11,7 +11,7 @@
 
       <div class="hpanel">
         <div class="panel-body">
-          <%= form_for resource, url: password_path, html: { role: "form" } do |f| %>
+          <%= form_for resource, url: accounts_password_path, html: { role: "form" } do |f| %>
             <div class="form-group">
               <%= f.label :email, class: "control-label" %>
               <%= f.email_field :email, autofocus: true %>

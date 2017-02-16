@@ -11,7 +11,7 @@
 
       <div class="hpanel">
         <div class="panel-body">
-          <%= form_for resource, url: password_path, method: :put, html: { role: "form" } do |f| %>
+          <%= form_for resource, url: accounts_password_path, method: :put, html: { role: "form" } do |f| %>
             <%= f.hidden_field :reset_password_token %>
 
             <div class="form-group">
