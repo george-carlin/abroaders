@@ -1,20 +1,24 @@
+require 'abroaders/cell/options'
+
 module AdminArea
   module Person
     module Cell
       # placeholder class; eventually the whole template should be moved in here
       #
-      # model: the result of the Person::Show operation (although that op doesn't actually exist yet!)
-      #   result should have keys:
-      #     account
-      #     home_airports
-      #     offers - the offers that can be recommended
-      #     person
-      #     regions_of_interest
+      # @!method self.call(result, opts = {})
+      #   @param result [Result] result of AdminArea::People::Operation::Show
+      #   @option result [Account] account
+      #   @option result [Collection<Balance>] balances
+      #   @option result [Collection<Airport>] home_airports
+      #   @option result [Collection<Offer>] offers the recommendable offers
+      #   @option result [Person] person
+      #   @option result [Collection<Region>] regions_of_interest
       class Show < Trailblazer::Cell
         alias result model
 
         def balances
-          cell(AdminArea::Person::Cell::Balances, person)
+          collection = result['balances']
+          cell(AdminArea::Person::Cell::Balances, person, balances: collection)
         end
 
         def cards
@@ -95,18 +99,22 @@ module AdminArea
 
         # the <table> of available products and offers that can be recommended.
         #
-        # model: the Person
-        # options:
-        #   offers: the recommendable offers. Be wary of n+1 issues, as this
-        #           cell will read the offers' products, and the banks and
-        #           currencies of those products.
+        # @!method self.call(person, opts = {})
+        #   @param person [Person]
+        #   @option opts [Collection<Offer>] the recommendable offers. Be wary
+        #     of n+1 issues, as this cell will read the offers' products, and
+        #     the banks and currencies of those products.
         class RecommendationTable < Trailblazer::Cell
+          extend Abroaders::Cell::Options
+
           alias person model
+
+          option :offers
 
           private
 
           def offers_grouped_by_product
-            @_ogbp ||= options.fetch(:offers).group_by(&:product)
+            @_ogbp ||= offers.group_by(&:product)
           end
         end
       end

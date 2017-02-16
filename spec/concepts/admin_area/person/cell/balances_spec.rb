@@ -9,6 +9,13 @@ RSpec.describe AdminArea::Person::Cell::Balances do
   let(:balances) { [] }
   let(:rendered) { show(person, balances: balances) }
 
+  example 'required options' do # this could be extracted to a matcher
+    # without balances:
+    expect do
+      described_class.(person)
+    end.to raise_error Abroaders::Cell::MissingOptionsError
+  end
+
   example 'when the person has no balances' do
     expect(rendered).not_to have_selector 'h3', text: 'Existing Balances'
     expect(rendered).to have_content 'User does not have any existing points/miles balances'

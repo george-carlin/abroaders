@@ -1,18 +1,21 @@
+require 'abroaders/cell/options'
+
 module AdminArea
   module Person
     module Cell
-      # If the person has balances, displays them. Else displays a message
-      # saying that the person has no balances.
+      # If the person has balances, lists them with a header and a <ul>. Else
+      # returns a simple string with a message saying that the person has no
+      # balances.
       #
-      # @!method self.call(model, opts = {})
-      #   @param model [Person]
-      #   @option opts [Collection<Balance>] the person's balances.
-      #     The cell calls .currency.name on each balance so be wary of
+      # @!method self.call(person, opts = {})
+      #   @param person [Person]
+      #   @option opts [Collection<Balance>] balances the person's balances.
+      #     The cell will call .currency.name on each balance so be wary of
       #     N+1 issues
       class Balances < Trailblazer::Cell
-        property :balances
+        extend Abroaders::Cell::Options
 
-        include ActionView::Helpers::NumberHelper
+        option :balances
 
         def show
           if balances.any?
