@@ -1,0 +1,94 @@
+<div class="hpanel">
+  <%= heading %>
+
+  <div class="panel-body">
+    <div class="col-xs-12 col-md-6">
+      <%= spending_info %>
+    </div>
+
+    <div class="col-xs-12 col-md-6">
+      <%= balances %>
+
+      <%= award_wallet_email %>
+    </div><!-- .col-xs-12.col-md-6 -->
+
+    <div class="col-xs-12 col-md-6">
+      <%= travel_plans %>
+    </div><!-- .col-xs-12.col-md-6 -->
+
+    <div class="col-xs-12 col-md-6">
+      <%= regions_of_interest %>
+
+      <%= home_airports %>
+    </div><!-- .col-xs-12.col-md-6 -->
+  </div><!-- .panel-body -->
+</div><!-- .hpanel -->
+
+<div class="hpanel">
+  <div id="card-recommendation-filters" class="panel-body">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="form-inline">
+          <b>B/P: </b>&nbsp;
+          <% CardProduct.bps.keys.each do |bp| %>
+            <%= card_bp_filter_check_box_tag(bp) %>
+          <% end %>
+        </div>
+      </div>
+    </div><!-- .row -->
+
+    <div class="row">
+      <%= bank_filter_panels %>
+
+      <%= currency_filter_panels %>
+    </div><!-- .row -->
+  </div><!-- .panel-body -->
+</div><!-- .hpanel -->
+
+<%= cards %>
+
+<%= recommendation_notes %>
+
+<div class="hpanel">
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-xs-12">
+        <%= form_tag(
+          complete_admin_person_card_recommendations_path(person),
+          id: 'complete_card_recommendations'
+        ) do %>
+        <%= text_area_tag(
+          :recommendation_note, "",
+          class: "form-control",
+          rows: "3",
+          placeholder: 'Recommendation notes (optional)',
+        ) %>
+
+      <p class="help-block">
+        When you're finished recommending cards to this user, click
+        'Done' to send them a notification. Optionally add some notes
+        above which the user will see with their recommendations.
+
+        Recommendations and notes are per account, not per person.  If
+        an account has a companion, only click 'Done' (on either
+        person's page) once you've finished making recommendations
+        for both the account owner and the companion.
+      </p>
+
+      <input class="btn btn-primary btn-lg" style="float:right;" type="submit" value="Done">
+
+
+      <% if !person.last_recommendations_at.nil? %>
+        <br>
+        Person last received recommendations on:
+        <span class="person_last_recommendations_at">
+          <%= person.last_recommendations_at.strftime("%D") %>
+        </span>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<hr/>
+
+<%= recommendable_offers %>

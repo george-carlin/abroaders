@@ -26,23 +26,26 @@ module Abroaders
     #     cell(TravelPersonSummary, nil)
     #     # => MissingOptionsError missing option 'editable'
     module Options
+      def self.included(_base)
+        raise "extend Options, don't include it"
+      end
+
       def call(model = nil, opts = {}, &block)
-        missing_keys = @__abroaders_required_options - opts.keys
+        missing_keys = __abroaders_required_options - opts.keys
         raise MissingOptionsError, missing_keys if missing_keys.any?
         super
       end
 
       def option(name, optional: false)
-        unless optional
-          @__abroaders_required_options ||= []
-          @__abroaders_required_options << name
-        end
+        __abroaders_required_options << name unless optional
 
-        define_method name do
-          options[name]
-        end
+        define_method(name) { options[name] }
 
         private name
+      end
+
+      def __abroaders_required_options
+        @__abroaders_required_options ||= []
       end
     end
   end

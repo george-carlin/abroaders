@@ -4,15 +4,9 @@ module AdminArea
     def show
       run(Person::Operation::Show)
 
-      @person        = result['person']
-      @account       = @person.account
+      # TODO <% provide :title, @person.first_name %>
 
-      card_scope = @person.cards.includes(product: :bank, offer: :product)
-      @recommendation = card_scope.recommendations.build
-
-      # until we've finished extracting show.html.erb, initializing the
-      # incomplete cell here, pass it into the view, and use what we can.
-      @cell = cell(AdminArea::Person::Cell::Show, result)
+      render cell(Person::Cell::Show, result)
     end
   end
 end

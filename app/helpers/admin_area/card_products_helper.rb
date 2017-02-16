@@ -1,19 +1,5 @@
 module AdminArea
   module CardProductsHelper
-    def card_bp_filter_check_box_tag(bp)
-      klass =  :card_bp_filter
-      id    =  :"#{klass}_#{bp}"
-      label_tag id do
-        check_box_tag(
-          id,
-          nil,
-          true,
-          class: klass,
-          data: { key: :bp, value: bp },
-        ) << raw("&nbsp;&nbsp#{bp.capitalize}")
-      end
-    end
-
     def options_for_card_network_select(selected_network)
       options_for_select(
         ::CardProduct.networks.map do |network, _|

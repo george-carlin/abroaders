@@ -1,4 +1,5 @@
 require 'abroaders/cell/options'
+require 'abroaders/cell/result'
 
 module AdminArea
   module Person
@@ -14,33 +15,61 @@ module AdminArea
       #   @option result [Person] person
       #   @option result [Collection<Region>] regions_of_interest
       class Show < Trailblazer::Cell
-        alias result model
+        extend Abroaders::Cell::Result
+
+        skill :account
+        skill :offers
+        skill :person
+        skill :pulled_recs
+
+        private
+
+        def award_wallet_email
+          cell(AwardWalletEmail, person)
+        end
 
         def balances
           collection = result['balances']
           cell(AdminArea::Person::Cell::Balances, person, balances: collection)
         end
 
-        def cards
-          cell(
-            AdminArea::Person::Cell::Show::Cards,
-            result['cards'],
-            person: person,
-            pulled_recs: result['pulled_recs'],
-          )
+        def bank_filter_panels
+          cell(Bank::Cell::FilterPanel, Bank.order(name: :asc))
         end
 
-        # TODO once this cell is being used in the proper way, these methods
-        # should all be made private
+        def card_bp_filter_check_box_tag(bp)
+          klass =  :card_bp_filter
+          id    =  :"#{klass}_#{bp}"
+          label_tag id do
+            check_box_tag(
+              id,
+              nil,
+              true,
+              class: klass,
+              data: { key: :bp, value: bp },
+            ) << raw("&nbsp;&nbsp#{bp.capitalize}")
+          end
+        end
+
+        def cards
+          cell(Cards, result['cards'], person: person, pulled_recs: pulled_recs)
+        end
+
+        def currency_filter_panels
+          alliances = Alliance.in_order
+          cell(Alliance::Cell::CurrencyFilterPanel, collection: alliances)
+        end
+
+        def heading
+          cell(Heading, person, account: account)
+        end
 
         # If the account has any home airports, list them.
         # Else display text saying there are no home airports.
         def home_airports
           if result['home_airports'].any?
-            raw(
-              '<h3>Home Airports</h3>' +
-              cell(HomeAirports::Cell::List, result['home_airports']).(),
-            )
+            '<h3>Home Airports</h3>' +
+              cell(HomeAirports::Cell::List, result['home_airports']).()
           else
             'User has not added any home airports'
           end
@@ -49,7 +78,7 @@ module AdminArea
         # list the offers that can be recommended to the current user, grouped
         # by their product
         def recommendable_offers
-          cell(RecommendationTable, person, offers: result['offers'])
+          cell(RecommendationTable, person, offers: offers)
         end
 
         def recommendation_notes
@@ -60,10 +89,8 @@ module AdminArea
         # Else display text saying there are no ROIs.
         def regions_of_interest
           if result['regions_of_interest'].any?
-            raw(
-              '<h3>Regions of Interest</h3>' +
-              cell(RegionsOfInterest::Cell::List, result['regions_of_interest']).(),
-            )
+            '<h3>Regions of Interest</h3>' +
+              cell(RegionsOfInterest::Cell::List, result['regions_of_interest']).()
           else
             'User has not added any regions of interest'
           end
@@ -87,14 +114,53 @@ module AdminArea
           raw('<h3>Travel Plans</h3>' << plans)
         end
 
-        private
+        # @param model [Person]
+        class AwardWalletEmail < Trailblazer::Cell
+          include Escaped
 
-        def account
-          result['account']
+          property :award_wallet_email
+
+          def show
+            return '' if award_wallet_email.nil?
+            "<p><b>AwardWallet email:</b> #{award_wallet_email}</p>"
+          end
         end
 
-        def person
-          result['person']
+        # @!method self.call(person, opts = {})
+        #   @param person [Person]
+        #   @option opts [Account] account
+        class Heading < Trailblazer::Cell
+          extend Abroaders::Cell::Options
+          include Escaped
+
+          property :first_name
+
+          option :account
+
+          def show
+            <<-HTML
+              <div class="panel-heading hbuilt">
+                <h1>#{first_name}</h1>
+                <p>#{text}</p>
+              </div>
+            HTML
+          end
+
+          private
+
+          def created_on
+            cell(::Account::Cell::SignedUp, account)
+          end
+
+          def escape(*args)
+            ERB::Util.html_escape(*args)
+          end
+
+          def text
+            t = "#{escape(account.email)} - Account created on #{created_on}"
+            t << account.phone_number.number unless account.phone_number.nil?
+            t
+          end
         end
 
         # the <table> of available products and offers that can be recommended.
