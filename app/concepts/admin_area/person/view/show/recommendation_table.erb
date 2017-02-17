@@ -25,21 +25,8 @@
 
   <tbody>
     <% offers_grouped_by_product.each do |product, offers| %>
-      <%= cell(AdminArea::CardRecommendation::Cell::ProductsTable::Row, product) %>
-
-      <tr
-        id="<%= dom_id(product, :admin_recommend) %>_offers"
-        class="<%= dom_class(product, :admin_recommend) %>_offers"
-        >
-        <td colspan="5">
-          <%= cell(
-            AdminArea::CardProduct::Cell::OffersTable,
-            offers,
-            product: product,
-            person:  person,
-          ) %>
-        </td>
-      </tr><!-- .admin_recommend_card_product_(id) -->
+      <%= product_row(product) %>
+      <%= offers_table(offers, product) %>
     <% end %>
   </tbody>
 </table><!-- .admin-card-recommendation-table -->

@@ -1,10 +1,8 @@
-require "rails_helper"
+require 'rails_helper'
 
 module AdminArea
   RSpec.describe 'show person page', :manual_clean do
-    include_context "logged in as admin"
-
-    let(:aw_email) { "totallyawesomedude@example.com" }
+    include_context 'logged in as admin'
 
     before(:all) do
       @chase   = create(:bank, name: "Chase")
@@ -42,11 +40,7 @@ module AdminArea
     end
 
     before do
-      @person = create(
-        :person,
-        :eligible,
-        award_wallet_email: aw_email,
-      )
+      @person = create(:person, :eligible)
       @account = @person.account.reload
       @account.update!(onboarding_state: :complete)
     end
@@ -73,155 +67,6 @@ module AdminArea
 
     pending do
       expect(page).to have_title full_title(@person.first_name)
-    end
-
-    example 'basic information' do
-      visit_path
-      expect(page).to have_content @account.created_at.strftime('%D')
-      # person's name as the page header
-      expect(page).to have_selector 'h1', text: name
-      # award wallet email
-      expect(page).to have_content "AwardWallet email: #{aw_email}"
-      # no spending info:
-      expect(page).to have_content 'User has not added their spending info'
-      # no travel plans:
-      expect(page).to have_content 'User has no upcoming travel plans'
-      # no recommendations, so no last recs timestamp:
-      raise unless person.last_recommendations_at.nil? # sanity check:
-      expect(page).to have_no_selector '.person_last_recommendations_at'
-      # no recommendation notes yet:
-      expect(page).to have_no_content 'Recommendation Notes'
-    end
-
-    example "person with spending info" do
-      person.create_spending_info!(
-        credit_score: 678,
-        has_business: :with_ein,
-        business_spending_usd: 1500,
-      )
-      visit_path
-      expect(page).to have_content "Credit score: 678"
-      expect(page).to have_content "Will apply for loan in next 6 months: No"
-      expect(page).to have_content "Business spending: $1,500.00"
-      expect(page).to have_content "(Has EIN)"
-    end
-
-    example "person with travel plans" do
-      # Currently users can only create travel plans that are from/to airports.
-      # Legacy data will be to/from countries, but don't bother testing that
-      # here.
-
-      @tps = create_list(:travel_plan, 2, account: account)
-
-      visit_path
-
-      expect(page).to have_no_content 'User has no upcoming travel plans'
-      expect(page).to have_selector "##{dom_id(@tps[0])}"
-      expect(page).to have_selector "##{dom_id(@tps[1])}"
-    end
-
-    example 'person with home airports' do
-      airports = create_list(:airport, 2)
-      account.home_airports << airports
-      visit_path
-
-      airports.each do |airport|
-        expect(page).to have_content airport.full_name
-      end
-    end
-
-    let(:jan) { Date.parse("2015-01-01") }
-    let(:mar) { Date.parse("2015-03-01") }
-    let(:oct) { Date.parse("2015-10-01") }
-    let(:dec) { Date.parse("2015-12-01") }
-
-    example '"other" (non-recommendation) cards' do
-      @opened_acc = \
-        create(:card, opened_at: jan, person: person)
-      @closed_acc = \
-        create(:card, opened_at: mar, closed_at: oct, person: person)
-
-      visit_path
-
-      opened_acc_selector = '#' << dom_id(@opened_acc)
-      closed_acc_selector = '#' << dom_id(@closed_acc)
-
-      within "#admin_person_cards" do
-        expect(page).to have_selector opened_acc_selector
-        expect(page).to have_selector closed_acc_selector
-      end
-
-      within opened_acc_selector do
-        expect(page).to have_selector '.card_opened_at', text: 'Jan 2015'
-        expect(page).to have_selector '.card_closed_at', text: '-'
-        expect(page).to have_selector '.card_status', text: 'Open'
-      end
-
-      within closed_acc_selector do
-        expect(page).to have_selector '.card_status', text: 'Closed'
-        # says when they were opened/closed:
-        expect(page).to have_selector '.card_opened_at', text: 'Mar 2015'
-        expect(page).to have_selector '.card_closed_at', text: 'Oct 2015'
-      end
-    end
-
-    example "person has received recommendations" do
-      @new_rec = person.card_recommendations.create!(
-        offer: offers[0], recommended_at: jan, person: person,
-      )
-      @clicked_rec = person.card_recommendations.create!(
-        offer: offers[0], seen_at: jan, recommended_at: mar, clicked_at: oct,
-      )
-      @declined_rec = person.card_recommendations.create!(
-        offer: offers[0], recommended_at: oct, seen_at: mar, declined_at: dec, decline_reason: "because",
-      )
-
-      last_recs_date = 5.days.ago
-      person.update_attributes!(last_recommendations_at: last_recs_date)
-
-      visit_path
-
-      new_rec_selector      = '#' << dom_id(@new_rec)
-      clicked_rec_selector  = '#' << dom_id(@clicked_rec)
-      declined_rec_selector = '#' << dom_id(@declined_rec)
-
-      within "#admin_person_cards_table" do
-        expect(page).to have_selector new_rec_selector
-        expect(page).to have_selector clicked_rec_selector
-        expect(page).to have_selector declined_rec_selector
-      end
-
-      within new_rec_selector do
-        expect(page).to have_selector '.card_status', text: 'Recommended'
-        expect(page).to have_selector '.card_recommended_at', text: '01/01/15'
-        expect(page).to have_selector '.card_seen_at',        text: '-'
-        expect(page).to have_selector '.card_clicked_at',     text: '-'
-        expect(page).to have_selector '.card_applied_at',     text: '-'
-      end
-
-      within clicked_rec_selector do
-        expect(page).to have_selector '.card_recommended_at', text: '03/01/15'
-        expect(page).to have_selector '.card_seen_at',        text: '01/01/15'
-        expect(page).to have_selector '.card_clicked_at',     text: '10/01/15'
-        expect(page).to have_selector '.card_applied_at',     text: '-'
-        expect(page).to have_selector '.card_status', text: 'Recommended'
-      end
-
-      within declined_rec_selector do
-        expect(page).to have_selector '.card_recommended_at', text: '10/01/15'
-        expect(page).to have_selector '.card_seen_at',        text: '03/01/15'
-        expect(page).to have_selector '.card_clicked_at',     text: '-'
-        expect(page).to have_selector '.card_declined_at',    text: '12/01/15'
-        expect(page).to have_selector '.card_status', text: 'Declined'
-        expect(page).to have_selector "a[data-toggle='tooltip']"
-        expect(find("a[data-toggle='tooltip']")["title"]).to eq "because"
-      end
-
-      # displays the last recs timestamp:
-      expect(page).to have_selector(
-        ".person_last_recommendations_at",
-        text: last_recs_date.strftime("%D"),
-      )
     end
 
     example "pulled recs", :js do
@@ -378,7 +223,7 @@ module AdminArea
       end
 
       let(:offer) { @offers[3] }
-      let(:offer_selector) { "##{dom_id(offer, :admin_recommend)}" }
+      let(:offer_selector) { "#admin_recommend_offer_#{offer.id}" }
 
       example 'confirmation when clicking "recommend"', :js do
         # clicking 'recommend' shows confirm/cancel buttons
@@ -424,16 +269,6 @@ module AdminArea
         within "#admin_person_cards_table" do
           expect(page).to have_selector "#card_#{rec.id}"
         end
-      end
-    end
-
-    example 'recommendation notes' do
-      create_list(:recommendation_note, 3, account: account)
-      visit_path
-      expect(page).to have_content 'Recommendation Notes'
-      account.recommendation_notes.each do |note|
-        expect(page).to have_content note.created_at
-        expect(page).to have_content note.content
       end
     end
 

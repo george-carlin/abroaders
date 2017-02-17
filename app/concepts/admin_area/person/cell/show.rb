@@ -14,6 +14,13 @@ module AdminArea
       #   @option result [Collection<Offer>] offers the recommendable offers
       #   @option result [Person] person
       #   @option result [Collection<Region>] regions_of_interest
+      #   @option result [Collection<Card>] cards
+      #   @option result [Collection<Airport>] home_airports
+      #   @option result [Collection<Offer>] offers the recommendable offers
+      #   @option result [Person] person
+      #   @option result [Collection<RecommendationNote>] recommendation_notes
+      #   @option result [Collection<Region>] regions_of_interest
+      #   @option result [Collection<TravelPlan>] travel_plans
       class Show < Trailblazer::Cell
         extend Abroaders::Cell::Result
 
@@ -21,6 +28,13 @@ module AdminArea
         skill :offers
         skill :person
         skill :pulled_recs
+
+        # the cell that renders an individual travel plan. Sticking it in a
+        # class method like this so I can easily stub it when testing.  Still
+        # haven't figured out the best way to handle DI in cells. FIXME
+        def self.travel_plan_cell
+          TravelPlan::Cell::Summary
+        end
 
         private
 
@@ -104,14 +118,9 @@ module AdminArea
           collection = result['travel_plans']
           return 'User has no upcoming travel plans' if collection.none?
           plans = content_tag :div, class: 'account_travel_plans' do
-            cell(
-              TravelPlan::Cell::Summary,
-              collection: collection,
-              editable: false,
-            )
+            cell(self.class.travel_plan_cell, collection: collection, editable: false)
           end
-          # using 'raw' all over the place is not ideal :(
-          raw('<h3>Travel Plans</h3>' << plans)
+          '<h3>Travel Plans</h3>' << plans
         end
 
         # @param model [Person]
@@ -181,6 +190,27 @@ module AdminArea
 
           def offers_grouped_by_product
             @_ogbp ||= offers.group_by(&:product)
+          end
+
+          def offers_table(offers, product)
+            content_tag(
+              :tr,
+              id: "admin_recommend_product_#{product.id}_offers",
+              class: "admin_recommend_product_offers",
+            ) do
+              content_tag :td, colspan: 5 do
+                cell(
+                  AdminArea::CardProduct::Cell::OffersTable,
+                  offers,
+                  product: product,
+                  person:  person,
+                )
+              end
+            end
+          end
+
+          def product_row(product)
+            cell(AdminArea::CardRecommendation::Cell::ProductsTable::Row, product)
           end
         end
       end

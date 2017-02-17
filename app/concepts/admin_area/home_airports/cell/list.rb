@@ -14,10 +14,17 @@ module AdminArea
           content_tag :ul, items
         end
 
+        # the cell that renders an individual list item. Sticking it in a
+        # class method like this so I can easily stub it when testing.  Still
+        # haven't figured out the best way to handle DI in cells. FIXME
+        def self.item_cell
+          Item
+        end
+
         private
 
         def items
-          cell(Item, collection: model)
+          cell(self.class.item_cell, collection: model)
         end
 
         # model: an Airport
