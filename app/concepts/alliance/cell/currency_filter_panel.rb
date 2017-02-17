@@ -1,11 +1,20 @@
-class Alliance < ApplicationRecord
+require 'abroaders/cell/options'
+
+class Alliance < Alliance.superclass
   module Cell
+    # @!method self.call(alliance, options = {})
+    #   @param alliance [Alliance]
+    #   @option opts [Collection<Currency>] currencies
     class CurrencyFilterPanel < Trailblazer::Cell
       include CardRecommendation::FilterPanel
+      extend Abroaders::Cell::Options
 
       alias alliance model
+
       property :id
       property :name
+
+      option :currencies
 
       private
 
@@ -21,7 +30,7 @@ class Alliance < ApplicationRecord
       end
 
       def currency_check_boxes
-        alliance.currencies.filterable.order(name: :asc).map do |currency|
+        currencies.map do |currency|
           cell(CheckBox, currency)
         end.join
       end

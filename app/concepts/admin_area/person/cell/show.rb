@@ -74,8 +74,14 @@ module AdminArea
         end
 
         def currency_filter_panels
-          alliances = Alliance.in_order
-          cell(Alliance::Cell::CurrencyFilterPanel, collection: alliances)
+          # TODO this is querying the DB from a cell. Bad!
+          Alliance.in_order.map do |alliance|
+            cell(
+              Alliance::Cell::CurrencyFilterPanel,
+              alliance,
+              currencies: alliance.currencies.filterable.order(name: :asc),
+            )
+          end
         end
 
         def heading
