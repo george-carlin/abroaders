@@ -11,6 +11,10 @@ module AdminArea
         # in tests, then the tests won't have to create 50+ accounts per example.
         setting :accounts_per_page, 50
 
+        def title
+          'Accounts'
+        end
+
         private
 
         def accounts_per_page

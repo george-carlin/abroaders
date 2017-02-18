@@ -1,6 +1,10 @@
 module RegionsOfInterest
   module Cell
     class Survey < Trailblazer::Cell
+      def title
+        'Regions of Interest'
+      end
+
       private
 
       def regions

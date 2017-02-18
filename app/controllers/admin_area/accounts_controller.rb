@@ -9,6 +9,7 @@ module AdminArea
         owner: person_assocs,
         companion: person_assocs,
       ).order("email ASC")
+      render cell(AdminArea::Account::Cell::Index, @accounts, page: params[:page])
     end
 
     # GET /admin/accounts/1
