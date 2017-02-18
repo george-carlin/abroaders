@@ -36,6 +36,10 @@ module AdminArea
           TravelPlan::Cell::Summary
         end
 
+        def title
+          person.first_name
+        end
+
         private
 
         def award_wallet_email

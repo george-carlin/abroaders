@@ -12,8 +12,7 @@ RSpec.describe "travel plans index page" do
 
   let(:create_tps!) { nil }
 
-  # don't know how to do this when using render(cell)
-  skip { is_expected.to have_title full_title("Travel Plans") }
+  it { is_expected.to have_title full_title('Travel Plans') }
 
   example 'when I have no travel plans' do
     expect(page).to have_content "You haven't added any travel plans yet."

@@ -31,6 +31,7 @@ RSpec.describe "the spending info survey", :js, :onboarding do
   let(:submit_form) { click_button "Save and continue" }
 
   it { is_expected.to have_no_sidebar }
+  it { is_expected.to have_title full_title 'Spending Information' }
 
   context 'solo account, owner eligible' do
     let(:owner_eligible) { true }

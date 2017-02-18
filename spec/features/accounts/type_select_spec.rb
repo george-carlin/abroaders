@@ -19,7 +19,7 @@ RSpec.describe "account type select page", :js, :onboarding do
     click_button couples_btn
   end
 
-  pending { is_expected.to have_title full_title('Select Account Type') }
+  it { is_expected.to have_title full_title('Select Account Type') }
 
   it 'gives me the option to choose a "Solo" or "Partner" account' do
     expect(page).to have_button solo_btn

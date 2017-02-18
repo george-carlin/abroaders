@@ -4,8 +4,6 @@ module AdminArea
     def show
       run(Person::Operation::Show)
 
-      # TODO <% provide :title, @person.first_name %>
-
       render cell(Person::Cell::Show, result)
     end
   end

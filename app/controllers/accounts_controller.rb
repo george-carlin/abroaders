@@ -8,7 +8,6 @@ class AccountsController < AuthenticatedUserController
 
   def type
     run Account::Operation::Type
-    # TODO provide :title, 'Select Account Type'
     render cell(Onboarding::Cell::Account::Type, result)
   end
 

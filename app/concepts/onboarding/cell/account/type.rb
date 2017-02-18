@@ -16,6 +16,10 @@ module Onboarding
           end
         end
 
+        def title
+          'Select Account Type'
+        end
+
         # the header for the account type page. no model.
         #
         # options:

@@ -3,6 +3,10 @@ class TravelPlan < ApplicationRecord
     class Index < Trailblazer::Cell
       alias collection model
 
+      def title
+        'Travel Plans'
+      end
+
       private
 
       def travel_plans

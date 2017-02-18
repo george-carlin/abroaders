@@ -28,6 +28,29 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # Extend `render` (which is already being extended by the trailblazer-rails
+  # gem to allow Cells to be rendered directly without going through the
+  # ActionView layer) so that if you're directly rendering a cell from the
+  # controller and the cell responds to `title` (that's as an instance method,
+  # not a class method - `render` deals with instances of the cell, not the
+  # cell's class), then the return value of `title` will be stored in an ivar
+  # `@cell_title`. This ivar will be used later by TitleHelper to fill the
+  # page's <title> tag.
+  #
+  # This is the solution, for now, to how we can provide custom <title>s for
+  # cell-based pages when the <title> tag itself lives in an ActionView
+  # template. (The standard AV approach with `provide` doesn't work, or at
+  # least I couldn't get it to work.) This is kinda hacky but I can't see a
+  # better way for now. If we ever manage to completely remove the ActionView
+  # layer and use Cells for everything including the layout, we can probably
+  # remove this override:
+  def render(cell = nil, opts = {}, *, &block)
+    if cell.is_a?(::Cell::ViewModel) && cell.respond_to?(:title)
+      @cell_title = cell.title
+    end
+    super
+  end
+
   private
 
   # extend the method provided by trailblazer so that it sets

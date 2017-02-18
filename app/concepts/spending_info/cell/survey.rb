@@ -25,6 +25,10 @@ class SpendingInfo < SpendingInfo.superclass
         render view: 'survey'
       end
 
+      def title
+        'Spending Information'
+      end
+
       private
 
       def account

@@ -12,7 +12,6 @@ class SpendingInfosController < AuthenticatedUserController
       'eligible_people' => current_account.people.select(&:eligible?),
       'render_jsx' => true,
     }
-    # TODO provide title
     render cell(SpendingInfo::Cell::Survey, @_result)
   end
 
