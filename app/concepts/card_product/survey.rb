@@ -7,7 +7,7 @@ class CardProduct < ApplicationRecord
     attribute :cards, Array
 
     def each_section
-      CardProduct.survey.group_by(&:bank).each do |bank, products|
+      CardProduct.survey.includes(:bank).group_by(&:bank).each do |bank, products|
         yield bank, products.group_by(&:bp)
       end
     end
