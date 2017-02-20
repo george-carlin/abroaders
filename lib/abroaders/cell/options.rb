@@ -31,7 +31,11 @@ module Abroaders
       end
 
       def call(model = nil, opts = {}, &block)
-        missing_keys = __abroaders_required_options - opts.keys
+        missing_keys = if model.is_a?(Hash) && model.key?(:collection)
+                         __abroaders_required_options - model.keys
+                       else
+                         __abroaders_required_options - opts.keys
+                       end
         raise MissingOptionsError, missing_keys if missing_keys.any?
         super
       end

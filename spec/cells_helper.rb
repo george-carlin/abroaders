@@ -53,8 +53,12 @@ module Abroaders
     end
 
     module CellMacros
+      # render a cell, and extend the result with CapybaraRaw. By default will
+      # assume that `described_class` is the cell class. Override this by
+      # passing `:__cell_class` as an option.
       def show(model = nil, opts = {})
-        rendered = cell(described_class, model, opts).()
+        cell_class = opts.fetch(:__cell_class, described_class)
+        rendered = cell(cell_class, model, opts).()
         rendered.extend(CapybaraRaw) if ::Cell::Testing.capybara?
         rendered
       end
