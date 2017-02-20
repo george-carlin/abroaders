@@ -257,6 +257,14 @@ footer.footer {
 tr.admin_recommend_card_product {
   background-color: #34495E;
   color: #f0f0f0;
+
+  a {
+    color: white;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 
 .admin_recommend_offer:first-child > td {

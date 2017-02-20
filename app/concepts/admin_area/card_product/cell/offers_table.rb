@@ -22,7 +22,7 @@ module AdminArea
         private
 
         def rows
-          cell(Row, collection: offers, person: options[:person])
+          cell(Row, collection: offers, person: person)
         end
 
         def html_id

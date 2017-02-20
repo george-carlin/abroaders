@@ -23,7 +23,10 @@ module AdminArea
           end
 
           def product_identifier
-            cell(AdminArea::CardProduct::Cell::Identifier, model)
+            link_to(
+              "Card #{AdminArea::CardProduct::Cell::Identifier.(model)}",
+              admin_card_product_offers_path(model),
+            )
           end
 
           def tr_tag(&block)
