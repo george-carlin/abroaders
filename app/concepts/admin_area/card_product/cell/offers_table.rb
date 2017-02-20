@@ -4,57 +4,59 @@ module AdminArea
       # The table of offers for a particular product. Each offer has a
       # 'recommend' button for the admin to recommend the offer to a person.
       #
-      # model: a collection of offers
-      # options:
-      #   product: the product which the offers belong to
-      #   person: the person who the offers will be recommended to
+      # @!method self.call(model, opts = {})
+      #   @param model [Collection<Offer>] a collection of offers that
+      #     can be recommended
+      #   @option opts [CardProduct] product the product being offered
+      #   @option opts [Person] person the person whom the offers will be
+      #     recommended to
       class OffersTable < Trailblazer::Cell
         include ActionView::Helpers::RecordTagHelper
+        extend Abroaders::Cell::Options
 
         alias offers model
 
+        option :person
+        option :product
+
         private
-
-        def person
-          options.fetch(:person)
-        end
-
-        def product
-          options.fetch(:product)
-        end
 
         def rows
           cell(Row, collection: offers, person: options[:person])
         end
 
         def html_id
-          "#{dom_id(product, :admin_recommend)}_offers_table"
+          "admin_recommend_card_product_#{product.id}_offers_table"
         end
 
         def html_classes
-          "#{dom_class(product, :admin_recommend)}_offers_table table"
+          'admin_recommend_card_product_offers_table table'
         end
 
-        # model: an Offer
-        # options:
-        #   person: the Person who the offer will be recommended to.
+        # a single `<tr>` containing an signup offer that can be recommended
+        #   for the product
+        #
+        # @!method self.call(model, opts = {})
+        #   @param model [Offer]
+        #   @option opts [Person] the Person whom the offer will be recommended
+        #     to
         class Row < Trailblazer::Cell
+          extend Abroaders::Cell::Options
+
           property :id
+          property :days
           property :link
+
+          option :person
 
           private
 
           def buttons_to_recommend
-            person = options.fetch(:person)
             cell(AdminArea::CardRecommendation::Cell::New, nil, offer: model, person: person)
           end
 
           def cost
             cell(::Offer::Cell::Cost, model)
-          end
-
-          def days
-            model.days
           end
 
           def html_classes
