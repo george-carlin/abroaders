@@ -80,10 +80,6 @@ class Card < ApplicationRecord
   alias deniable?    applyable?
   alias pendingable? applyable?
 
-  def show_survey?
-    status_model.show_survey?
-  end
-
   # Scopes
 
   scope :recommendations,    -> { where.not(recommended_at: nil) }
