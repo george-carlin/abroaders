@@ -1,15 +1,22 @@
+require 'abroaders/cell/options'
+
 module AdminArea
   module CardRecommendation
     module Cell
       class New < Trailblazer::Cell
+        extend Abroaders::Cell::Options
+
+        option :offer
+        option :person
+
         private
 
         def cancel_recommend_btn
           prefix = :cancel_recommend
           button_tag(
             'Cancel',
-            class: "#{dom_class(offer, prefix)}_btn #{BTN_CLASSES} btn-default pull-right",
-            id:    "#{dom_id(offer, prefix)}_btn",
+            class: "#{prefix}_offer_btn #{BTN_CLASSES} btn-default pull-right",
+            id:    "#{prefix}_offer_#{offer.id}",
           )
         end
 
@@ -20,16 +27,8 @@ module AdminArea
             class:  "#{dom_class(offer, :confirm_recommend)}_btn #{BTN_CLASSES} btn-primary pull-right",
             id:     "#{dom_id(offer, :confirm_recommend)}_btn",
             remote: true,
-            params: { recommendation: { offer_id: offer.id } },
+            params: { card_recommendation: { offer_id: offer.id } },
           )
-        end
-
-        def offer
-          options.fetch(:offer)
-        end
-
-        def person
-          options.fetch(:person)
         end
 
         BTN_CLASSES = 'btn btn-xs'.freeze

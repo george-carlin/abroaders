@@ -1,15 +1,16 @@
 module AdminArea
   class CardRecommendationsController < AdminController
     def create
-      person = load_person
-      rec = AdminArea::RecommendationForm.new(person: person)
-      rec.update_attributes!(recommendation_params)
-      respond_to do |f|
-        f.js do
-          @card = rec.card
-          @offer = rec.offer
+      run AdminArea::CardRecommendation::Operation::Create do
+        respond_to do |f|
+          f.js do
+            @card  = @model
+            @offer = @model.offer
+          end
         end
+        return
       end
+      raise 'this should never happen!'
     end
 
     def complete
