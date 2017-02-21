@@ -75,10 +75,7 @@ class Card < ApplicationRecord
     recommendation? && status == "recommended"
   end
 
-  alias declinable?  applyable?
-  alias openable?    applyable?
-  alias deniable?    applyable?
-  alias pendingable? applyable?
+  alias declinable? applyable?
 
   # Scopes
 
