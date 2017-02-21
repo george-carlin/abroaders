@@ -9,12 +9,10 @@ FactoryGirl.define do
     link { Faker::Internet.url("example.com") }
     partner "card_benefit"
 
-    factory :dead_offer do
-      killed_at { Time.zone.now - (rand * 21) }
-    end
-
     trait :dead do
       killed_at { Time.zone.now - (rand * 21) }
     end
+
+    factory :dead_offer, traits: [:dead]
   end
 end
