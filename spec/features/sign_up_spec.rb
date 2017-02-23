@@ -4,20 +4,20 @@ RSpec.describe "the sign up page", :onboarding do
   before { visit new_account_registration_path }
 
   it "has fields to create a new account" do
-    expect(page).to have_field :sign_up_email
-    expect(page).to have_field :sign_up_password
-    expect(page).to have_field :sign_up_password_confirmation
-    expect(page).to have_field :sign_up_first_name
+    expect(page).to have_field :account_email
+    expect(page).to have_field :account_password
+    expect(page).to have_field :account_password_confirmation
+    expect(page).to have_field :account_first_name
   end
 
   describe "submitting the form" do
     let(:submit_form) { click_button "Sign up" }
 
     def fill_in_valid_info
-      fill_in :sign_up_email,    with: "TestAccount@example.com"
-      fill_in :sign_up_password, with: "password123"
-      fill_in :sign_up_password_confirmation, with: "password123"
-      fill_in :sign_up_first_name, with: "Luke"
+      fill_in :account_email,    with: 'TestAccount@example.com'
+      fill_in :account_password, with: 'password123'
+      fill_in :account_password_confirmation, with: 'password123'
+      fill_in :account_first_name, with: 'Luke'
     end
 
     def self.it_doesnt_create_a_new_account
@@ -88,8 +88,8 @@ RSpec.describe "the sign up page", :onboarding do
 
       describe 'and trailing whitespace for name and email' do
         before do
-          fill_in :sign_up_email,      with: ' testaccount@example.com '
-          fill_in :sign_up_first_name, with: ' Luke '
+          fill_in :account_email,      with: ' testaccount@example.com '
+          fill_in :account_first_name, with: ' Luke '
           submit_form
         end
 
@@ -103,7 +103,7 @@ RSpec.describe "the sign up page", :onboarding do
     describe "with mismatching passwords" do
       before do
         fill_in_valid_info
-        fill_in :sign_up_password_confirmation, with: "mismatch"
+        fill_in :account_password_confirmation, with: "mismatch"
       end
 
       it_doesnt_create_a_new_account

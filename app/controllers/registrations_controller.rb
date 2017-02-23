@@ -3,18 +3,20 @@ class RegistrationsController < Devise::RegistrationsController
   include Onboarding
 
   def new
-    @form = SignUp.new(promo_code: params[:promo_code])
+    @form = Registration::SignUpForm.new
     set_minimum_password_length
   end
 
   def create
-    @form = SignUp.new(sign_up_params)
+    @form = Registration::SignUpForm.new
 
-    if @form.save
-      AccountMailer.notify_admin_of_sign_up(@form.account.id).deliver_later
-      create_intercom_user!(@form.account)
+    if @form.validate(params[:account])
+      @form.save
+      account = @form.model
+      AccountMailer.notify_admin_of_sign_up(account.id).deliver_later
+      create_intercom_user!(account)
       set_flash_message! :notice, :signed_up
-      sign_in(:account, @form.account)
+      sign_in(:account, account)
       respond_with resource, location: onboarding_survey_path
     else
       @form.clean_up_passwords
@@ -34,13 +36,6 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def set_minimum_password_length
-    @minimum_password_length = Account.password_length.min
-  end
-
-  def sign_up_params
-    params.require(:sign_up).permit(
-      :email, :first_name, :password, :password_confirmation,
-      :promo_code,
-    )
+    @minimum_password_length = Registration::SignUpForm::PASSWORD_LENGTH.min
   end
 end
