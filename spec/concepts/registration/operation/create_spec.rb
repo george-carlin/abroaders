@@ -118,4 +118,35 @@ RSpec.describe Registration::Operation::Create do
       expect(result.success?).to be false
     end.not_to change { Account.count }
   end
+
+  example 'setting test user flag' do
+    test_emails = %w[
+      anything@example.com
+      anything@abroaders.com
+      georgejulianmillo+anything@gmail.com
+    ]
+    non_test_emails = %w[
+      real@gmail.com
+      stillreal@hotmail.com
+      whatever@yahoo.com
+    ]
+
+    account_params = {
+      password: 'password123',
+      password_confirmation:  'password123',
+      first_name: 'Paul',
+    }
+
+    test_emails.each do |email|
+      result = op.(account: account_params.merge(email: email))
+      expect(result.success?).to be true
+      expect(result['model'].test?).to be true
+    end
+
+    non_test_emails.each do |email|
+      result = op.(account: account_params.merge(email: email))
+      expect(result.success?).to be true
+      expect(result['model'].test?).to be false
+    end
+  end
 end

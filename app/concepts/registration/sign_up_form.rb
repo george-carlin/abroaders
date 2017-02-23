@@ -7,6 +7,8 @@ module Registration
     property :password_confirmation, virtual: true
     property :promo_code, type: Types::StrippedString
 
+    property :test, type: Types::Bool
+
     property :owner do
       property :first_name, type: Types::StrippedString
     end
@@ -21,8 +23,6 @@ module Registration
     end
 
     validation do
-      # TODO convert to use dry-validation
-
       validates :email,
                 presence: true,
                 format: { with: EMAIL_REGEXP, allow_blank: true }
