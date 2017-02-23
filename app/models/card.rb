@@ -2,8 +2,6 @@
 # Sapphire credit card, then there are 10 Cards (one in each person's wallet),
 # but only one card *product* (the general concept of a Chase Sapphire card).
 class Card < ApplicationRecord
-  include Expiration
-
   # A card has the following timestamps, all of which are nullable:
   #
   # opened_on:
