@@ -9,32 +9,25 @@ class Offer < ApplicationRecord
   #           nofollowed, for compliance reasons.
 
   # condition = what does the customer have to do to receive the points?
-  enum condition: {
-    on_minimum_spend:  0, # points awarded if you spend $X within Y days
-    on_approval:       1, # points awarded as soon as approved for card
-    on_first_purchase: 2, # points awarded once you make 1st purchase with card
-  }
+  CONDITIONS = {
+    'on_minimum_spend' =>  0, # points awarded if you spend $X within Y days
+    'on_approval' =>       1, # points awarded as soon as approved for card
+    'on_first_purchase' => 2, # points awarded once you make 1st purchase with card
+  }.freeze
+  enum condition: CONDITIONS
 
-  enum partner: {
-    card_ratings: 0,
-    credit_cards: 1,
-    award_wallet: 2,
-    card_benefit: 3,
-  }
+  # TODO add 'none' as a partner
+  PARTNERS = {
+    'card_ratings' => 0,
+    'credit_cards' => 1,
+    'award_wallet' => 2,
+    'card_benefit' => 3,
+  }.freeze
+  enum partner: PARTNERS
 
   # Validations
 
-  with_options presence: true do
-    validates :link # TODO validate it looks like a valid link
-    validates :partner, inclusion: { in: Offer.partners.keys }, allow_blank: true
-
-    with_options numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: POSTGRESQL_MAX_INT_VALUE } do
-      validates :cost
-      validates :days, unless: :on_approval?
-      validates :points_awarded
-      validates :spend, if: :on_minimum_spend?
-    end
-  end
+  # TODO validate that only one offer per product_id can be 'dummy'
 
   # Associations
 

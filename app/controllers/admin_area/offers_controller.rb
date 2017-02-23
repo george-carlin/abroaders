@@ -21,13 +21,13 @@ module AdminArea
 
     def new
       @product = load_product
-      @offer   = @product.offers.build
+      @offer   = Offers::Form.new(@product.offers.build)
     end
 
     def edit
       if params[:card_product_id]
         @product = load_product
-        @offer   = @product.offers.find(params[:id])
+        @offer   = Offers::Form.new(@product.offers.find(params[:id]))
       else
         @offer = Offer.find(params[:id])
         redirect_to edit_admin_card_product_offer_path(@offer.product, @offer)
@@ -36,9 +36,10 @@ module AdminArea
 
     def create
       @product = load_product
-      @offer   = @product.offers.build(offer_params)
+      @offer   = Offers::Form.new(@product.offers.build)
 
-      if @offer.save
+      if @offer.validate(params[:offer])
+        @offer.save
         flash[:success] = 'Offer was successfully created.'
         redirect_to admin_offer_path(@offer)
       else
@@ -47,8 +48,9 @@ module AdminArea
     end
 
     def update
-      @offer = load_offer
-      if @offer.update_attributes(offer_params)
+      @offer = Offers::Form.new(Offer.find(params[:id]))
+      if @offer.validate(params[:offer])
+        @offer.save
         flash[:success] = 'Offer was successfully updated.'
         redirect_to admin_offer_path(@offer)
       else
@@ -82,17 +84,6 @@ module AdminArea
 
     def load_product
       ::CardProduct.find(params[:card_product_id])
-    end
-
-    def load_offer
-      Offer.find(params[:id])
-    end
-
-    def offer_params
-      params.require(:offer).permit(
-        :condition, :points_awarded, :spend, :cost, :days,
-        :link, :partner, :notes,
-      )
     end
   end
 end
