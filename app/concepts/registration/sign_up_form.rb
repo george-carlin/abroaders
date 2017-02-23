@@ -2,14 +2,6 @@ module Registration
   class SignUpForm < Reform::Form
     feature Coercion
 
-    def initialize
-      super(Account.new.tap(&:build_owner))
-    end
-
-    def self.model_name
-      Account.model_name
-    end
-
     property :email, type: Types::StrippedString
     property :password
     property :password_confirmation, virtual: true
