@@ -51,8 +51,27 @@ RSpec.describe Card do
     include_examples "applyable?"
   end
 
+  # For the time being, 'declinable?', 'openable?' and 'denyable?' are all
+  # functionally equivalent to 'applyable?'. This will change when we add the
+  # 'call the bank' mechanism
+
   describe "#declinable?" do
     let(:method) { :declinable? }
+    include_examples "applyable?"
+  end
+
+  describe "#openable?" do
+    let(:method) { :openable? }
+    include_examples "applyable?"
+  end
+
+  describe "#deniable?" do
+    let(:method) { :deniable? }
+    include_examples "applyable?"
+  end
+
+  describe "#pendingable?" do
+    let(:method) { :pendingable? }
     include_examples "applyable?"
   end
 
