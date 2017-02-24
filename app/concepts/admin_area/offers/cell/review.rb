@@ -1,5 +1,5 @@
 module AdminArea
-  module Offer
+  module Offers
     module Cell
       class Review < Trailblazer::Cell
         # Takes an Offer, returns a link (an <a>, but styled liked a button)

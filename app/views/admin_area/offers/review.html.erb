@@ -39,14 +39,14 @@
               <td><%= cell(Offer::Cell::Cost, offer) %></td>
               <td><%= offer.days %></td>
               <td id="reviewed_<%= offer.id %>">
-                <%= AdminArea::Offer::Cell::LastReviewedAt.(offer) %>
+                <%= AdminArea::Offers::Cell::LastReviewedAt.(offer) %>
               </td>
               <td><%= link_to 'Link', offer.link, target: '_blank' %></td>
               <td><%= link_to 'Edit', edit_admin_offer_path(offer) %></td>
               <td class="offer_verification_ctrls">
                 <div class="btn-group">
-                  <%= cell(AdminArea::Offer::Cell::Review::VerifyButton, offer) %>
-                  <%= cell(AdminArea::Offer::Cell::Review::KillButton, offer) %>
+                  <%= cell(AdminArea::Offers::Cell::Review::VerifyButton, offer) %>
+                  <%= cell(AdminArea::Offers::Cell::Review::KillButton, offer) %>
                 </div>
               </td>
             </tr>

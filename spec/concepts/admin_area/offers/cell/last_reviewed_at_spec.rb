@@ -1,8 +1,8 @@
 require 'cells_helper'
 
-require 'admin_area/offer/cell/last_reviewed_at'
+require 'admin_area/offers/cell/last_reviewed_at'
 
-RSpec.describe AdminArea::Offer::Cell::LastReviewedAt do
+RSpec.describe AdminArea::Offers::Cell::LastReviewedAt do
   let(:cell) { described_class }
 
   let(:offer_class) { Struct.new(:last_reviewed_at) }

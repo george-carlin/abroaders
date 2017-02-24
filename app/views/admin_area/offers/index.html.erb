@@ -50,7 +50,7 @@
           <% @offers.each do |offer| %>
             <%= content_tag_for :tr, offer do %>
               <td>
-                <%= AdminArea::CardProduct::Cell::Identifier.(offer.product) %>-<%= AdminArea::Offer::Cell::Identifier.(offer) %>
+                <%= AdminArea::CardProduct::Cell::Identifier.(offer.product) %>-<%= AdminArea::Offers::Cell::Identifier.(offer) %>
               </td>
               <td>
                 <%= link_to(
@@ -65,7 +65,7 @@
               <td><%= cell(Offer::Cell::Cost, offer) %></td>
               <td><%= offer.days %></td>
               <td><%= offer.live? ? "Yes" : "No" %></td>
-              <td><%= AdminArea::Offer::Cell::LastReviewedAt.(offer) %></td>
+              <td><%= AdminArea::Offers::Cell::LastReviewedAt.(offer) %></td>
               <td><%= link_to 'Show', admin_offer_path(offer) %>
               <td><%= link_to 'Edit', edit_admin_offer_path(offer) %>
             <% end %>

@@ -5,7 +5,7 @@ module AdminArea
         @product = load_product
         @offers  = @product.offers
       else
-        @offers = ::Offer.includes(product: :bank)
+        @offers = Offer.includes(product: :bank)
       end
     end
 
@@ -14,7 +14,7 @@ module AdminArea
         @product = load_product
         @offer   = @product.offers.find(params[:id])
       else
-        @offer = ::Offer.find(params[:id])
+        @offer = Offer.find(params[:id])
         redirect_to admin_card_product_offer_path(@offer.product, @offer)
       end
     end
@@ -29,7 +29,7 @@ module AdminArea
         @product = load_product
         @offer   = @product.offers.find(params[:id])
       else
-        @offer = ::Offer.find(params[:id])
+        @offer = Offer.find(params[:id])
         redirect_to edit_admin_card_product_offer_path(@offer.product, @offer)
       end
     end
@@ -57,7 +57,7 @@ module AdminArea
     end
 
     def kill
-      @offer = ::Offer.live.find(params[:id])
+      @offer = Offer.live.find(params[:id])
       @offer.killed_at = Time.zone.now
       @offer.save!
       respond_to do |format|
@@ -66,11 +66,11 @@ module AdminArea
     end
 
     def review
-      @offers = ::Offer.includes(product: :bank).live.order('last_reviewed_at ASC NULLS FIRST')
+      @offers = Offer.includes(product: :bank).live.order('last_reviewed_at ASC NULLS FIRST')
     end
 
     def verify
-      @offer = ::Offer.live.find(params[:id])
+      @offer = Offer.live.find(params[:id])
       @offer.last_reviewed_at = Time.zone.now
       @offer.save!
       respond_to do |format|
@@ -85,7 +85,7 @@ module AdminArea
     end
 
     def load_offer
-      ::Offer.find(params[:id])
+      Offer.find(params[:id])
     end
 
     def offer_params

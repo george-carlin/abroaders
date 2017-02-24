@@ -1,5 +1,5 @@
 module AdminArea
-  module Offer
+  module Offers
     module Cell
       # Takes an Offer. If the offer has never been reviewed by an Admin,
       # returns 'never'. If it has, returns the date of the last review in the

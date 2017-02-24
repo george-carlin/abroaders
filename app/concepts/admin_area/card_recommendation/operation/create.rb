@@ -38,7 +38,7 @@ module AdminArea
         end
 
         def validate_offer_is_live!(_opts, params:, **)
-          ::Offer.live.exists?(id: params[:card_recommendation][:offer_id])
+          Offer.live.exists?(id: params[:card_recommendation][:offer_id])
         end
       end
     end

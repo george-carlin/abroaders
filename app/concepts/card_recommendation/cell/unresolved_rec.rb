@@ -20,7 +20,7 @@ class CardRecommendation < CardRecommendation.superclass
       end
 
       def offer_description
-        cell(::Offer::Cell::Description, offer)
+        cell(Offer::Cell::Description, offer)
       end
 
       def product

@@ -56,7 +56,7 @@ module AdminArea
           end
 
           def cost
-            cell(::Offer::Cell::Cost, model)
+            cell(Offer::Cell::Cost, model)
           end
 
           def html_classes
@@ -73,15 +73,15 @@ module AdminArea
           end
 
           def identifier
-            cell(AdminArea::Offer::Cell::Identifier, model)
+            cell(Offers::Cell::Identifier, model)
           end
 
           def points_awarded
-            cell(::Offer::Cell::PointsAwarded, model)
+            cell(Offer::Cell::PointsAwarded, model)
           end
 
           def spend
-            cell(::Offer::Cell::Spend, model)
+            cell(Offer::Cell::Spend, model)
           end
         end
       end

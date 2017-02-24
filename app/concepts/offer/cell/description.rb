@@ -25,11 +25,11 @@ class Offer < ApplicationRecord
       end
 
       def points_awarded
-        Offer::Cell::PointsAwarded.(model).()
+        PointsAwarded.(model).()
       end
 
       def spend
-        Offer::Cell::Spend.(model).()
+        Spend.(model).()
       end
     end
   end

@@ -52,7 +52,7 @@ module AdminArea
         expect(page).to have_field :offer_notes
       end
 
-      let(:new_offer) { ::Offer.last }
+      let(:new_offer) { Offer.last }
 
       describe "the 'condition' dropdown" do
         it "has 'on minimum spend' selected by default" do
@@ -83,7 +83,7 @@ module AdminArea
           end
 
           it "creates an offer" do
-            expect { submit }.to change { ::Offer.count }.by 1
+            expect { submit }.to change { Offer.count }.by 1
             expect(new_offer.condition).to eq "on_approval"
             expect(new_offer.product).to eq @product
             expect(new_offer.points_awarded).to eq 40_000
@@ -132,7 +132,7 @@ module AdminArea
           end
 
           it "creates an offer" do
-            expect { submit }.to change { ::Offer.count }.by 1
+            expect { submit }.to change { Offer.count }.by 1
             expect(new_offer.condition).to eq "on_first_purchase"
             expect(new_offer.product).to eq @product
             expect(new_offer.days).to eq 120
@@ -192,7 +192,7 @@ module AdminArea
         end
 
         it "creates a new offer" do
-          expect { submit }.to change { ::Offer.count }.by(1)
+          expect { submit }.to change { Offer.count }.by(1)
           expect(new_offer.condition).to eq "on_minimum_spend"
           expect(new_offer.partner).to eq "award_wallet"
         end
@@ -262,7 +262,7 @@ module AdminArea
 
       describe "when page loads" do
         it "shows only live offers" do
-          expect(page).to have_selector(".offer", count: ::Offer.live.count)
+          expect(page).to have_selector(".offer", count: Offer.live.count)
         end
       end
 
@@ -310,7 +310,7 @@ module AdminArea
             page.dismiss_confirm do
               click_link("kill_offer_#{@live_1.id}_btn")
             end
-          end.not_to change { ::Offer.live.count }
+          end.not_to change { Offer.live.count }
         end
       end
 
@@ -319,7 +319,7 @@ module AdminArea
           page.accept_confirm do
             find_link("kill_offer_#{@live_1.id}_btn").click
           end
-          expect(page).to have_selector(".offer", count: ::Offer.live.count)
+          expect(page).to have_selector(".offer", count: Offer.live.count)
         end
       end
 

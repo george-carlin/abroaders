@@ -1,6 +1,6 @@
 require 'cells_helper'
 
-RSpec.describe AdminArea::Offer::Cell::Identifier do
+RSpec.describe AdminArea::Offers::Cell::Identifier do
   let(:cell) { described_class }
 
   describe "#show" do

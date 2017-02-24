@@ -1,5 +1,5 @@
 module AdminArea
-  module Offer
+  module Offers
     module Cell
       # model: an offer
       class Identifier < Trailblazer::Cell

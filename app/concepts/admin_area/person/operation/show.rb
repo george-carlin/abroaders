@@ -45,7 +45,7 @@ module AdminArea
         end
 
         def set_offers!(opts)
-          opts['offers'] = ::Offer.includes(product: [:bank, :currency]).live
+          opts['offers'] = Offer.includes(product: [:bank, :currency]).live
         end
 
         def set_pulled_recs!(opts)
