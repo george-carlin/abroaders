@@ -12,7 +12,7 @@ class CardRecommendation < CardRecommendation.superclass
       end
 
       def image
-        cell(::CardProduct::Cell::Image, product, size: '130x81')
+        cell(CardProduct::Cell::Image, product, size: '130x81')
       end
 
       def offer

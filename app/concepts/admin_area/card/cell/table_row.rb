@@ -89,7 +89,7 @@ module AdminArea
         end
 
         def product_identifier
-          cell(AdminArea::CardProduct::Cell::Identifier, product)
+          cell(CardProducts::Cell::Identifier, product)
         end
 
         def product_name

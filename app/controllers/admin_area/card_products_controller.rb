@@ -4,7 +4,7 @@ module AdminArea
 
     # GET /admin/cards
     def index
-      @products = ::CardProduct.all.includes(:offers, :currency, :bank).sort_by(&:bank_id)
+      @products = CardProduct.all.includes(:offers, :currency, :bank).sort_by(&:bank_id)
     end
 
     # GET /admin/cards/1
@@ -14,12 +14,12 @@ module AdminArea
 
     # GET /admin/cards/new
     def new
-      @product = ::CardProduct.new
+      @product = CardProduct.new
     end
 
     # POST /admin/cards
     def create
-      @product = ::CardProduct.new(card_product_params)
+      @product = CardProduct.new(card_product_params)
 
       if @product.save
         flash[:success] = 'Card product was successfully created.'
@@ -45,13 +45,13 @@ module AdminArea
     end
 
     def images
-      @products = ::CardProduct.includes(:bank)
+      @products = CardProduct.includes(:bank)
     end
 
     private
 
     def load_card_product
-      ::CardProduct.find(params[:id])
+      CardProduct.find(params[:id])
     end
 
     def card_product_params

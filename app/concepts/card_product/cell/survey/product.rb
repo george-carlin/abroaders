@@ -1,6 +1,6 @@
 # TODO really this belongs under the 'cards' concept, not under 'card
 # products'
-class CardProduct < ApplicationRecord
+class CardProduct < CardProduct.superclass
   module Cell
     module Survey
       # An individual product on the cards survey. Displays the product's image

@@ -50,7 +50,7 @@
           <% @offers.each do |offer| %>
             <%= content_tag_for :tr, offer do %>
               <td>
-                <%= AdminArea::CardProduct::Cell::Identifier.(offer.product) %>-<%= AdminArea::Offers::Cell::Identifier.(offer) %>
+                <%= AdminArea::CardProducts::Cell::Identifier.(offer.product) %>-<%= AdminArea::Offers::Cell::Identifier.(offer) %>
               </td>
               <td>
                 <%= link_to(

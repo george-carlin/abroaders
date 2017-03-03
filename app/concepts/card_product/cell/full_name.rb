@@ -1,4 +1,4 @@
-class CardProduct < ApplicationRecord
+class CardProduct < CardProduct.superclass
   module Cell
     # Takes a card product and returns a pretty name for it
     #

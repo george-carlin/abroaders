@@ -1,5 +1,5 @@
 module AdminArea
-  module CardProduct
+  module CardProducts
     module Cell
       # Takes a CardProduct, returns a short string that allows the admin to
       # quickly identify it.

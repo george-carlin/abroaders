@@ -1,4 +1,4 @@
-class CardProduct < ApplicationRecord
+class CardProduct < CardProduct.superclass
   module Cell
     # Takes a CardProduct and returns an <img> tag for the product's image.
     #

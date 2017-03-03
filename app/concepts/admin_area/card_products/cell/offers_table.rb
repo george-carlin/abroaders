@@ -1,5 +1,5 @@
 module AdminArea
-  module CardProduct
+  module CardProducts
     module Cell
       # The table of offers for a particular product. Each offer has a
       # 'recommend' button for the admin to recommend the offer to a person.

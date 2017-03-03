@@ -1,4 +1,4 @@
-class CardProduct < ApplicationRecord
+class CardProduct < CardProduct.superclass
   # TODO delete me, use Reform
   class Survey < ApplicationForm
     attribute :person, Person
