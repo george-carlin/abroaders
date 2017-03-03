@@ -16,7 +16,7 @@
         <tbody>
           <% @products.each do |product| %>
             <tr id="<%= dom_id(product) %>">
-              <td><%= cell(AdminArea::CardProduct::Cell::Identifier, product) %></td>
+              <td><%= cell(AdminArea::CardProducts::Cell::Identifier, product) %></td>
               <td><%= product.bank.name %></td>
               <td><%= link_to product.name, admin_card_product_path(product) %></td>
               <td><%= cell(CardProduct::Cell::Network, product) %></td>

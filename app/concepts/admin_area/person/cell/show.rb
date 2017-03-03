@@ -210,7 +210,7 @@ module AdminArea
             ) do
               content_tag :td, colspan: 5 do
                 cell(
-                  AdminArea::CardProduct::Cell::OffersTable,
+                  CardProducts::Cell::OffersTable,
                   offers,
                   product: product,
                   person:  person,

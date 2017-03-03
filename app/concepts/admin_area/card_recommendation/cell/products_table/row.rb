@@ -24,7 +24,7 @@ module AdminArea
 
           def product_identifier
             link_to(
-              "Card #{AdminArea::CardProduct::Cell::Identifier.(model)}",
+              "Card #{CardProducts::Cell::Identifier.(model)}",
               admin_card_product_offers_path(model),
             )
           end

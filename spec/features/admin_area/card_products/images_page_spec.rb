@@ -13,7 +13,7 @@ module AdminArea
 
     it 'lists the cards' do
       @products.each do |product|
-        expect(page).to have_content CardProduct::Cell::Identifier.(product).()
+        expect(page).to have_content CardProducts::Cell::Identifier.(product).()
       end
     end
   end

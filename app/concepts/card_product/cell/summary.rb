@@ -1,4 +1,4 @@
-class CardProduct < ApplicationRecord
+class CardProduct < CardProduct.superclass
   module Cell
     class Summary < Trailblazer::Cell
       private

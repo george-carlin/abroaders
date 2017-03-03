@@ -1,6 +1,6 @@
 require 'cells_helper'
 
-RSpec.describe AdminArea::CardProduct::Cell::Identifier do
+RSpec.describe AdminArea::CardProducts::Cell::Identifier do
   def render_cell(product)
     described_class.(product).()
   end

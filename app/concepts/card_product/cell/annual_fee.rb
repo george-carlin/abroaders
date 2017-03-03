@@ -1,4 +1,4 @@
-class CardProduct < ApplicationRecord
+class CardProduct < CardProduct.superclass
   module Cell
     # Takes a CardProduct, returns its annual fee in the format $X.XX.
     #

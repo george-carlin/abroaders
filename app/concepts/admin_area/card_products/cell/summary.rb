@@ -1,5 +1,5 @@
 module AdminArea
-  module CardProduct
+  module CardProducts
     module Cell
       class Summary < Trailblazer::Cell
         property :bank
@@ -22,15 +22,15 @@ module AdminArea
         end
 
         def image
-          cell(::CardProduct::Cell::Image, model, size: '130x81')
+          cell(CardProduct::Cell::Image, model, size: '130x81')
         end
 
         def network
-          cell(::CardProduct::Cell::AnnualFee, model)
+          cell(CardProduct::Cell::AnnualFee, model)
         end
 
         def type
-          cell(::CardProduct::Cell::Type, model)
+          cell(CardProduct::Cell::Type, model)
         end
       end
     end
