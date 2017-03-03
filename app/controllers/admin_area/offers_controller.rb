@@ -11,11 +11,12 @@ module AdminArea
 
     def show
       if params[:card_product_id]
-        @product = load_product
-        @offer   = @product.offers.find(params[:id])
+        product = load_product
+        offer   = product.offers.find(params[:id])
+        render cell(Offers::Cell::Show, offer)
       else
-        @offer = Offer.find(params[:id])
-        redirect_to admin_card_product_offer_path(@offer.product, @offer)
+        offer = Offer.find(params[:id])
+        redirect_to admin_card_product_offer_path(offer.product, offer)
       end
     end
 
