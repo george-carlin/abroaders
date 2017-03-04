@@ -121,12 +121,14 @@ RSpec.describe Registration::Operation::Create do
 
   example 'setting test user flag' do
     test_emails = %w[
-      anything@example.com
       anything@abroaders.com
+      anything@example.com
       georgejulianmillo+anything@gmail.com
+      something+test@gmail.com
     ]
     non_test_emails = %w[
       real@gmail.com
+      somethingtest@gmail.com
       stillreal@hotmail.com
       whatever@yahoo.com
     ]

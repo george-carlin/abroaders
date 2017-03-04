@@ -33,8 +33,9 @@ module Registration
       # boolean flag on the account to TRUE, so that we can filter out these
       # fake accounts from our analytics:
       TEST_EMAILS = [
-        /@example.com/i,
         /@abroaders.com/i,
+        /@example.com/i,
+        /\+test/i,
         /georgejulianmillo/i,
       ].freeze
     end
