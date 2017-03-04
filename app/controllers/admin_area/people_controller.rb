@@ -2,9 +2,9 @@ module AdminArea
   class PeopleController < AdminController
     # GET /admin/people/1
     def show
-      run(Person::Operation::Show)
+      run(People::Operation::Show)
 
-      render cell(Person::Cell::Show, result)
+      render cell(People::Cell::Show, result)
     end
   end
 end

@@ -52,7 +52,7 @@ module AdminArea
           private
 
           def buttons_to_recommend
-            cell(AdminArea::CardRecommendation::Cell::New, nil, offer: model, person: person)
+            cell(CardRecommendations::Cell::New, nil, offer: model, person: person)
           end
 
           def cost
