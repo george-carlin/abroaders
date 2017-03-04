@@ -29,8 +29,8 @@ module Abroaders
     require "modules/auto_strip_attributes"
 
     config.cells.with_assets = [
-      'admin_area/account/cell/index',
-      'admin_area/card_recommendation/cell/new',
+      'admin_area/accounts/cell/index',
+      'admin_area/card_recommendations/cell/new',
       'card/cell/new/select_product',
     ]
 

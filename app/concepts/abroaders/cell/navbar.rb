@@ -87,7 +87,7 @@ module Abroaders
         private
 
         def search_form
-          cell(AdminArea::Account::Cell::SearchForm)
+          cell(AdminArea::Accounts::Cell::SearchForm)
         end
 
         def sidebar?

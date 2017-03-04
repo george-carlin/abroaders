@@ -1,7 +1,7 @@
 module AdminArea
   class CardRecommendationsController < AdminController
     def create
-      run AdminArea::CardRecommendation::Operation::Create do
+      run CardRecommendations::Operation::Create do
         respond_to do |f|
           f.js do
             @card  = @model
@@ -46,7 +46,7 @@ module AdminArea
         'collection' => person.card_recommendations.pulled,
         'person'     => person,
       }
-      render cell(AdminArea::CardRecommendation::Cell::Pulled, result)
+      render cell(CardRecommendations::Cell::Pulled, result)
     end
 
     private
@@ -60,7 +60,7 @@ module AdminArea
     end
 
     def load_recommendation
-      ::CardRecommendation.find(params[:id])
+      CardRecommendation.find(params[:id])
     end
 
     def recommendation_note

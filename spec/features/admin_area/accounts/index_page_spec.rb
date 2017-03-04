@@ -1,7 +1,7 @@
-require "rails_helper"
+require 'rails_helper'
 
-RSpec.describe "admin section" do
-  describe "account pages index page", :js, :manual_clean do
+module AdminArea
+  RSpec.describe 'account pages index page', :js, :manual_clean do
     subject { page }
 
     include_context "logged in as admin"
@@ -16,11 +16,11 @@ RSpec.describe "admin section" do
     end
 
     before do
-      @real_accounts_per_page = AdminArea::Account::Cell::Index.config.accounts_per_page
-      AdminArea::Account::Cell::Index.config.accounts_per_page = 2
+      @real_accounts_per_page = Accounts::Cell::Index.config.accounts_per_page
+      Accounts::Cell::Index.config.accounts_per_page = 2
       visit admin_accounts_path
     end
-    after { AdminArea::Account::Cell::Index.config.accounts_per_page = @real_accounts_per_page }
+    after { Accounts::Cell::Index.config.accounts_per_page = @real_accounts_per_page }
 
     example 'pagination' do
       @accounts[0..1].each { |acc| expect(page).to have_account(acc) }
