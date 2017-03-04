@@ -1,27 +1,20 @@
-<% provide :title, resource_name == :admin ? "Admin Sign In" : "Sign In" %>
-
 <div class="login-container">
   <div class="row">
     <div class="col-md-12">
       <div class="text-center m-b-md">
-        <h4>SIGN IN<%= " AS ADMIN" if resource_name == :admin %></h4>
+        <h4><%= title.upcase %></h4>
       </div>
       <div class="hpanel">
         <div class="panel-body">
-          <%= form_for(
-            resource,
-            as: resource_name,
-            url: session_path(resource_name),
-            html: { role: "form" }
-          ) do |f| %>
+          <%= form_tag do |f| %>
             <div class="form-group">
-              <%= f.label :email, class: "control-label" %>
+              <%= f.label :email, class: 'control-label' %>
               <%= f.email_field :email, autofocus: true %>
             </div>
 
             <div class="form-group">
               <%= f.label :password %>
-              <%= f.password_field :password, autocomplete: "off", placeholder: "******" %>
+              <%= f.password_field :password, autocomplete: 'off', placeholder: '******' %>
             </div>
 
             <div class="checkbox">
@@ -30,16 +23,12 @@
                 <%= f.label :remember_me %>
               </label>
             </div>
-            <%= f.submit "Sign in", class: "btn btn-success btn-block" %>
-            <%= link_to(
-              "Register",
-              new_account_registration_path,
-              class: "btn btn-default btn-block"
-            ) %>
+            <%= f.submit 'Sign in', class: 'btn btn-success btn-block' %>
+            <%= link_to_register %>
           <% end %>
 
           <br>
-          <%= link_to "Forgot your password?", new_password_path(resource_name) %>
+          <%= link_to_recover_password %>
         </div><!-- .panel-body -->
       </div><!-- .hpanel -->
     </div><!-- .text-center -->
