@@ -1,7 +1,16 @@
 class SessionsController < Devise::SessionsController
   before_action :redirect_admins!
 
-  layout "basic"
+  layout 'basic'
+
+  def new
+    account = Account.new(sign_in_params)
+    account.clean_up_passwords
+    render cell(Sessions::Cell::New, account)
+  end
+
+  # no need to override #create to make it use the Cell; failed sign ins
+  # redirect to #new rather than rendering from within #create
 
   private
 

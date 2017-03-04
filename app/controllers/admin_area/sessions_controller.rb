@@ -2,7 +2,13 @@ module AdminArea
   class SessionsController < Devise::SessionsController
     before_action :redirect_non_admins!
 
-    layout "basic"
+    layout 'basic'
+
+    def new
+      admin = Admin.new(sign_in_params)
+      admin.clean_up_passwords
+      render cell(Sessions::Cell::New, admin)
+    end
 
     private
 
