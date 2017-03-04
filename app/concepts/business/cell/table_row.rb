@@ -1,4 +1,4 @@
-class Business
+class Business < Business.superclass
   module Cell
     # Pass `nil` if there is no business. Else pass an object with the properties
     # declared below.

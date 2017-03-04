@@ -10,6 +10,7 @@ gem 'disposable'
 gem 'reform'
 gem 'cells', '~> 4.1.5'
 gem 'cells-erb', '0.0.9'
+gem 'dry-struct'
 
 gem 'active_model_serializers', '0.10.0'
 gem 'acts_as_tree', '~> 2.4.0'
