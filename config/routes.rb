@@ -7,6 +7,9 @@ Rails.application.routes.draw do
   # `authenticate_account!`
   devise_for :account, only: []
 
+  get  'logger_test', to: 'application#new_log'
+  post 'logger_test', to: 'application#create_log'
+
   # Mount this at a hard-to-guess URL
   mount Resque::Server.new, at: "/resque-c08cb17ca6581cbcad1501a7da7e8579"
 
