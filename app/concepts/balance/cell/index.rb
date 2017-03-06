@@ -7,19 +7,21 @@ class Balance < Balance.superclass
     # @!method self.call(result, opts = {})
     #   @param result [Result] the result of Balance::Operation::Index
     #   @option result [Account] account the currently-logged in Account
-    #   @option result [Hash] people_with_balances a hash with Person objects
-    #     as the keys, and the Balances of each pereson as the values.
+    #   @option result [Collection<Person>] people
+    #   @option result [Collection<Balance>] balances
     class Index < Trailblazer::Cell
       include FontAwesome::Rails::IconHelper
       extend Abroaders::Cell::Result
 
       skill :account
-      skill :people_with_balances
+      skill :people
+      skill :balances
 
       def show
-        people_with_balances.map do |person, balances|
-          cell(BalanceTable, person, use_name: use_name?, balances: balances)
-        end.join # people_with_balances.each
+        people.map do |person|
+          bals = balances.select { |b| b.person_id == person.id }
+          cell(BalanceTable, person, use_name: use_name?, balances: bals)
+        end.join
       end
 
       private

@@ -15,7 +15,8 @@ RSpec.describe Balance::Cell::Index do
   example 'solo account with no balances' do
     result = get_result(
       'account' => account,
-      'people_with_balances' => { owner => [] },
+      'people'  => [owner],
+      'balances' => [],
     )
     rendered = show(result)
     expect(rendered).to have_selector 'h1', text: 'My points'
@@ -28,8 +29,9 @@ RSpec.describe Balance::Cell::Index do
     end
 
     result = get_result(
-      'account' => account,
-      'people_with_balances' => { owner => balances },
+      'account'  => account,
+      'people'   => [owner],
+      'balances' => balances,
     )
 
     rendered = show(result)
@@ -55,9 +57,8 @@ RSpec.describe Balance::Cell::Index do
 
       result = get_result(
         'account' => account,
-        'people_with_balances' => {
-          owner => owner_balances, companion => companion_balances,
-        },
+        'people' => [owner, companion],
+        'balances' => [*owner_balances, *companion_balances],
       )
 
       rendered = show(result)
@@ -70,9 +71,8 @@ RSpec.describe Balance::Cell::Index do
     example 'where one person has no balances' do
       result = get_result(
         'account' => account,
-        'people_with_balances' => {
-          owner => owner_balances, companion => [],
-        },
+        'people' => [owner, companion],
+        'balances' => owner_balances,
       )
 
       rendered = show(result)

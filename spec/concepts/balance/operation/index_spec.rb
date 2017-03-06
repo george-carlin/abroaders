@@ -9,7 +9,6 @@ RSpec.describe Balance::Operation::Index do
     companion = account.companion
 
     result = op.({}, 'account' => account)
-    # must have people as keys even when they have no balances (bug fix)
-    expect(result['people_with_balances'].keys).to eq [owner, companion]
+    expect(result['people']).to eq [owner, companion]
   end
 end

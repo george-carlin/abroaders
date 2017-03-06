@@ -6,11 +6,8 @@ class Balance < Balance.superclass
       private
 
       def setup_balances_and_people!(opts, account:, **)
-        # a hash with Persons as the keys and their Balances as the values:
-        pwb = {}
-        pwb[account.owner] = account.owner.balances
-        pwb[account.companion] = account.companion.balances if account.couples?
-        opts['people_with_balances'] = pwb
+        opts['people']   = account.people
+        opts['balances'] = account.balances
       end
     end
   end
