@@ -68,8 +68,6 @@ GEM
       equalizer (~> 0.0.11)
     arel (7.1.4)
     ast (2.3.0)
-    aws-sdk (1.61.0)
-      aws-sdk-v1 (= 1.61.0)
     aws-sdk-v1 (1.61.0)
       json (~> 1.4)
       nokogiri (>= 1.4.4)
@@ -444,7 +442,7 @@ DEPENDENCIES
   active_model_serializers (= 0.10.0)
   acts_as_tree (~> 2.4.0)
   addressable (= 2.4.0)
-  aws-sdk (= 1.61.0)
+  aws-sdk-v1 (= 1.61.0)
   binding_of_caller
   browserify-rails (= 3.1.0)
   bullet (= 5.3.0)

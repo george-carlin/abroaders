@@ -14,7 +14,7 @@ gem 'dry-struct'
 
 gem 'active_model_serializers', '0.10.0'
 gem 'acts_as_tree', '~> 2.4.0'
-gem 'aws-sdk', '1.61.0'
+gem 'aws-sdk-v1', '1.61.0'
 gem 'browserify-rails', '3.1.0'
 gem 'cells-rails'
 gem 'devise', '~> 4.1.0'
