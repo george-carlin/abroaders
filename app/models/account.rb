@@ -30,8 +30,16 @@ class Account < ApplicationRecord
   has_many :travel_plans
 
   has_many :people
-  has_one :owner, -> { owner }, class_name: "Person"
-  has_one :companion, -> { companion }, class_name: "Person"
+  has_one :owner, -> { owner }, class_name: 'Person'
+  has_one :companion, -> { companion }, class_name: 'Person'
+
+  has_one :award_wallet_user
+  has_many :award_wallet_owners,   through: :award_wallet_user
+  has_many :award_wallet_accounts, through: :award_wallet_owners
+
+  def connected_to_award_wallet?
+    award_wallet_user && award_wallet_user.loaded?
+  end
 
   delegate :first_name, to: :owner,     prefix: true
   delegate :first_name, to: :companion, prefix: true
