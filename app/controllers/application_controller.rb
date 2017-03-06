@@ -51,18 +51,6 @@ class ApplicationController < ActionController::Base
     super
   end
 
-  def new_log
-  end
-
-  def create_log
-    Rails.logger.debug "DEBUG: #{params[:log]}"
-    Rails.logger.info  "INFO: #{params[:log]}"
-    Rails.logger.warn  "WARN: #{params[:log]}"
-    Rails.logger.error "ERROR: #{params[:log]}"
-    Rails.logger.fatal "FATAL: #{params[:log]}"
-    respond_to { |f| f.js }
-  end
-
   private
 
   # extend the method provided by trailblazer so that it sets
