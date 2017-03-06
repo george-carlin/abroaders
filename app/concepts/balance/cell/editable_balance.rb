@@ -12,6 +12,7 @@ class Balance < Balance.superclass
 
       property :id
       property :currency_name
+      property :value
 
       private
 
@@ -53,7 +54,12 @@ class Balance < Balance.superclass
       end
 
       def form_tag(&block)
-        form_for model, data: { remote: true }, &block
+        super(
+          balance_path(id),
+          data: { remote: true },
+          method: :patch,
+          &block
+        )
       end
 
       def loading_spinner
@@ -83,15 +89,17 @@ class Balance < Balance.superclass
         end
       end
 
-      def value
+      def formatted_value
         cell(Balance::Cell::Value, model)
       end
 
-      def value_field(form_builder)
-        form_builder.number_field(
+      def value_field
+        number_field(
+          :balance,
           :value,
           class: 'balance_value_editing',
           style: 'display: none; height: 30px;',
+          value: value,
         )
       end
 

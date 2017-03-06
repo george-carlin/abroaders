@@ -1,16 +1,16 @@
 <%= wrapping_div do %>
-  <%= form_tag do |f| %>
+  <%= form_tag do %>
     <div class="col-xs-12 col-md-4">
       <%= currency_name %>
     </div>
 
     <div class="col-xs-6 col-md-5">
       <span class="balance_value">
-        <%= value %>
+        <%= formatted_value %>
       </span>
 
       <%# initially hidden: %>
-      <%= value_field(f) %>
+      <%= value_field %>
     </div>
 
     <div class="col-xs-6 col-md-3">
