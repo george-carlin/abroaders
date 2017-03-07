@@ -2,6 +2,7 @@ module Integrations
   module AwardWallet
     module User
       module Operation
+        # stub
         class Refresh < Trailblazer::Operation
           # get the data from the API
           # begin transaction
@@ -16,6 +17,9 @@ module Integrations
           #     update the attrs
           #     create the account
           # end transaction
+
+          class Job < ApplicationJob
+          end
         end
       end
     end
