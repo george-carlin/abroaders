@@ -18,12 +18,14 @@ module Abroaders
     def self.underscore_keys(hash, recursive = nil)
       hash.each_with_object({}) do |(key, value), h|
         new_key = Inflecto.underscore(key)
-        new_value = if value.is_a?(Hash)
-                      recursive ? underscore_keys(value) : value.dup
-                    else
-                      value
-                    end
-        h[new_key] = new_value
+        h[new_key] = case value
+                     when Hash
+                       recursive ? underscore_keys(value, true) : value.dup
+                     when Array
+                       value.map { |el| recursive ? underscore_keys(el, true) : el.dup }
+                     else
+                       value
+                     end
       end
     end
   end
