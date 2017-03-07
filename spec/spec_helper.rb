@@ -16,8 +16,8 @@
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
 APP_ROOT   = Pathname.new(File.expand_path('../../', __FILE__))
-spec_dir   = APP_ROOT.join('spec')
-spec_files = Dir[spec_dir.join('**', '*.rb')]
+SPEC_ROOT  = APP_ROOT.join('spec')
+spec_files = Dir[SPEC_ROOT.join('**', '*.rb')]
 
 bad_file_names = spec_files.reject do |path|
   path.include?(File.join('spec', 'support')) ||
