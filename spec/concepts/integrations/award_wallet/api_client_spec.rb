@@ -4,22 +4,12 @@ require SPEC_ROOT.join('support', 'sample_data_macros')
 require 'integrations/award_wallet/api_client'
 require 'integrations/award_wallet/error'
 
-# mutation testing fails in two places: 1) when mutant messes with the api_key
-# and 2) when mutant messes with the auth headers. But I don't care for now
+# mutation testing passing as of 8/Mar/17
 RSpec.describe Integrations::AwardWallet::APIClient do
   include AwardWalletMacros
   include SampleDataMacros
 
   pending 'logs all JSON to S3'
-
-  def self.unstub_award_wallet_api_key!
-    before do
-      @old_api_key = ENV['AWARD_WALLET_API_KEY']
-      ENV['AWARD_WALLET_API_KEY'] = nil
-    end
-
-    after { ENV['AWARD_WALLET_API_KEY'] = @old_api_key }
-  end
 
   stub_award_wallet_api_key!
 
@@ -76,15 +66,52 @@ RSpec.describe Integrations::AwardWallet::APIClient do
         )
       end
     end
-
-    context 'when AWARD_WALLET_API_KEY is not set in the env' do
-      unstub_award_wallet_api_key!
-
-      it 'raises an error' do
-        expect do
-          described_class.connected_user(12345)
-        end.to raise_error Integrations::AwardWallet::Error
-      end
-    end
   end # .connected_user
+
+  describe '.account' do
+    let(:json) { sample_json('award_wallet_account') }
+    before { stub_award_wallet_api(json) }
+
+    example '' do
+      result = described_class.connected_user(12345)
+      expect(result['account_id']).to eq 7654321
+      expect(result['display_name']).to eq 'British Airways (Executive Club)'
+      expect(result['kind']).to eq 'Airlines'
+      expect(result['login']).to eq 'johnsmith'
+      expect(result['autologin_url']).to eq \
+        'https://business.awardwallet.com/account/redirect.php?ID=7654321'
+      expect(result['update_url']).to eq \
+        'https://business.awardwallet.com/account/edit/7654321?autosubmit=1'
+      expect(result['edit_url']).to eq \
+        'https://business.awardwallet.com/account/edit/7654321'
+      expect(result['balance']).to eq '146,780'
+      expect(result['balance_raw']).to eq 146780
+      expect(result['owner']).to eq 'John Smith'
+      expect(result['error_code']).to eq 2
+      expect(result['error_message']).to eq 'invalid credentials'
+      expect(result['last_detected_change']).to eq '+750'
+      expect(result['expiration_date']).to eq '2018-12-10T00:00:00+00:00'
+      expect(result['last_retrieve_date']).to eq '2016-01-15T00:00:00+00:00'
+      expect(result['last_change_date']).to eq '2016-01-15T00:49:33+00:00'
+    end
+  end
+
+  context 'when AWARD_WALLET_API_KEY is not set in the env' do
+    before do
+      @old_api_key = ENV['AWARD_WALLET_API_KEY']
+      ENV['AWARD_WALLET_API_KEY'] = nil
+    end
+
+    after { ENV['AWARD_WALLET_API_KEY'] = @old_api_key }
+
+    it 'raises an error' do
+      expect do
+        described_class.connected_user(12345)
+      end.to raise_error Integrations::AwardWallet::Error
+
+      expect do
+        described_class.account(12345)
+      end.to raise_error Integrations::AwardWallet::Error
+    end
+  end
 end
