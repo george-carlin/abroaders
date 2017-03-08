@@ -1,4 +1,3 @@
-# TODO this is in the wrong dir
 class CardRecommendationsController < CardsController
   def update
     survey = Card::ApplicationSurvey.new(card: load_card)
