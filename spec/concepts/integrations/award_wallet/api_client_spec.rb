@@ -16,14 +16,9 @@ RSpec.describe Integrations::AwardWallet::APIClient do
     let(:json) { sample_json('award_wallet_user') }
     let(:api_key) { 'abcdefghijk' }
 
-    before do
-      @old_api_key = ENV['AWARD_WALLET_API_KEY']
-      ENV['AWARD_WALLET_API_KEY'] = api_key
+    stub_award_wallet_api_key!
 
-      # stub the HTTP request:
-      stub_award_wallet_api(json)
-    end
-    after { ENV['AWARD_WALLET_API_KEY'] = @old_api_key }
+    before { stub_award_wallet_api(json) }
 
     example '' do
       result = described_class.connected_user(12345)
@@ -135,7 +130,12 @@ RSpec.describe Integrations::AwardWallet::APIClient do
     end
 
     context 'when AWARD_WALLET_API_KEY is not set in the env' do
-      let(:api_key) { nil }
+      before do
+        @old_api_key = ENV['AWARD_WALLET_API_KEY']
+        ENV['AWARD_WALLET_API_KEY'] = nil
+      end
+
+      after { ENV['AWARD_WALLET_API_KEY'] = @old_api_key }
 
       it 'raises an error' do
         expect do

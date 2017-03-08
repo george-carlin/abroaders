@@ -8,6 +8,8 @@ RSpec.describe Integrations::AwardWallet::User::Operation::Update do
 
   let(:account) { create(:account) }
 
+  stub_award_wallet_api_key!
+
   before { stub_award_wallet_api(sample_json('award_wallet_user')) }
 
   let(:data) { Integrations::AwardWallet::APIClient.connected_user(12345) }
