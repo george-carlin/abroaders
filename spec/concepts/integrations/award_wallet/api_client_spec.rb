@@ -1,3 +1,4 @@
+require SPEC_ROOT.join('support', 'award_wallet_macros')
 require SPEC_ROOT.join('support', 'sample_data_macros')
 
 require 'integrations/award_wallet/api_client'
@@ -6,9 +7,9 @@ require 'integrations/award_wallet/error'
 # mutation testing fails in two places: 1) when mutant messes with the api_key
 # and 2) when mutant messes with the auth headers. But I don't care for now
 RSpec.describe Integrations::AwardWallet::APIClient do
+  include AwardWalletMacros
   include SampleDataMacros
 
-  Response = Struct.new(:body)
   pending 'logs all JSON to S3'
 
   describe '.connected_user' do
@@ -20,8 +21,7 @@ RSpec.describe Integrations::AwardWallet::APIClient do
       ENV['AWARD_WALLET_API_KEY'] = api_key
 
       # stub the HTTP request:
-      response = Response.new(json)
-      allow(described_class).to receive(:get).and_return(response)
+      stub_award_wallet_api(json)
     end
     after { ENV['AWARD_WALLET_API_KEY'] = @old_api_key }
 
