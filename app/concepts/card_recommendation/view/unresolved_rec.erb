@@ -1,4 +1,4 @@
-<div id="<%= dom_id(rec) %>" class="<%= dom_class(rec) %> row">
+<div id="card_recommendation_<%= id %>" class="btn-group card_recommendation row">
   <div class="col-xs-12 col-sm-6 col-md-2">
     <%= image %>
   </div>
@@ -26,10 +26,20 @@
   <div class="col-xs-12">
     <br>
 
+    <% if model.applied_at.nil? %>
+      <div class="card_recommendation_apply_decline_btn_group btn-group">
+        <%= apply_btn %>
+        <%= decline_btn %>
+      </div>
+
+      <%= decline_form %>
+
+      <br />
+      <br />
+    <% end %>
+
     <div
       data-react-component="CardApplicationSurvey"
-      data-apply-path="<%= apply_card_recommendation_path(rec) %>"
-      data-decline-path="<%= decline_card_recommendation_path(rec) %>"
       data-update-path="<%= card_recommendation_path(rec) %>"
       data-card-account="<%= rec_as_json %>"
     ></div>

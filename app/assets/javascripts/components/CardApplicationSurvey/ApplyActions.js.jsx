@@ -6,13 +6,10 @@ import ConfirmOrCancelBtns from "../ConfirmOrCancelBtns";
 
 import ApprovedDeniedPendingBtnGroup from "./ApprovedDeniedPendingBtnGroup";
 import ApproveCardAccountFormFields  from "./ApproveCardAccountFormFields";
-import ApplyOrDeclineBtns            from "./ApplyOrDeclineBtns";
 
 const ApplyActions = React.createClass({
   propTypes: {
-    applyPath:    React.PropTypes.string.isRequired,
     cardAccount:  React.PropTypes.object.isRequired,
-    declinePath:  React.PropTypes.string.isRequired,
     submitAction: React.PropTypes.func.isRequired,
   },
 
@@ -127,14 +124,6 @@ const ApplyActions = React.createClass({
   render() {
     return (
       <div>
-        <ApplyOrDeclineBtns
-          applyPath={this.props.applyPath}
-          declinePath={this.props.declinePath}
-        />
-
-        <br />
-        <br />
-
         <p>{this.getHelpText()}</p>
 
         {(() => {

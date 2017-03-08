@@ -19,10 +19,6 @@ RSpec.describe 'as a user viewing my cards' do
 
   H = 'h3'.freeze
 
-  def rec_selector(rec)
-    '#' << dom_id(rec)
-  end
-
   example "not recommended any cards yet" do
     visit_page
     expect(page).to have_content t("cards.index.recs_coming_soon")
@@ -35,7 +31,7 @@ RSpec.describe 'as a user viewing my cards' do
     # Lists my recs:
     within "#owner_card_recommendations" do
       recs.each do |rec|
-        expect(page).to have_selector rec_selector(rec)
+        expect(page).to have_selector "#card_recommendation_#{rec.id}"
         expect(page).to have_content rec.product.name
         expect(page).to have_content rec.product.bank_name
       end
@@ -94,7 +90,7 @@ RSpec.describe 'as a user viewing my cards' do
     { owner: own_recs, companion: com_recs }.each do |person_type, recs|
       within "##{person_type}_card_recommendations" do
         recs.each do |rec|
-          expect(page).to have_selector rec_selector(rec)
+          expect(page).to have_selector "#card_recommendation_#{rec.id}"
           expect(page).to have_content rec.product.name
           expect(page).to have_content rec.product.bank_name
         end
@@ -116,7 +112,7 @@ RSpec.describe 'as a user viewing my cards' do
     visit_page
 
     pulled_recs.each do |rec|
-      expect(page).to have_no_selector rec_selector(rec)
+      expect(page).to have_no_selector "#card_recommendation_#{rec.id}"
     end
   end
 end

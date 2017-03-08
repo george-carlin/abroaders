@@ -22,6 +22,7 @@
 //= require jquery.countdown.min.js
 //= require admin_recommendations
 //= require card.new.select_product
+//= require unresolved_rec
 //= require_tree ./other
 
 // Load all browserify modules below.
