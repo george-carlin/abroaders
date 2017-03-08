@@ -4,4 +4,8 @@
 # an 'Account', AW calls a 'User'.
 class AwardWalletAccount < ApplicationRecord
   belongs_to :award_wallet_owner
+  has_one :award_wallet_user, through: :award_wallet_owner
+  belongs_to :person
+
+  alias owner award_wallet_owner
 end
