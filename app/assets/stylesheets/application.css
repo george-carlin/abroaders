@@ -19,6 +19,7 @@
  *= require typeahead
  *= require font-awesome
  *= require account
+ *= require unresolved_rec
  *= require_tree .
  *= require_self
  */

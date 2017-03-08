@@ -14,9 +14,7 @@ import PostNudgeActions from "./PostNudgeActions";
 
 const CardApplicationSurvey = React.createClass({
   propTypes: {
-    applyPath:   React.PropTypes.string.isRequired,
     cardAccount: React.PropTypes.object.isRequired,
-    declinePath: React.PropTypes.string.isRequired,
   },
 
   getInitialState() {
@@ -91,9 +89,7 @@ const CardApplicationSurvey = React.createClass({
     const actions = React.createElement(
       this.getActionsComponent(),
       {
-        applyPath:    this.props.applyPath,
         cardAccount,
-        declinePath:  this.props.declinePath,
         submitAction: this.submitAction,
       }
     );
