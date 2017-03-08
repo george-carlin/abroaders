@@ -28,14 +28,11 @@ class CardRecommendationsController < CardsController
   end
 
   def decline
-    @card = load_card
-
-    # Make sure this is the right type of card:
-    if @card.declinable?
-      @card.update_attributes!(decline_params)
+    result = run CardRecommendation::Operation::Decline
+    if result.success?
       flash[:success] = t("cards.index.declined")
     else
-      flash[:info] = t("cards.index.couldnt_decline")
+      flash[:info] = result['error']
     end
     redirect_to cards_path
   end
@@ -44,10 +41,6 @@ class CardRecommendationsController < CardsController
 
   def load_card
     current_account.cards.find(params[:id])
-  end
-
-  def decline_params
-    params.require(:card).permit(:decline_reason).merge(declined_at: Time.now)
   end
 
   def update_params
