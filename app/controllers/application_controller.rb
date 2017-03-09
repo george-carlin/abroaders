@@ -53,19 +53,6 @@ class ApplicationController < ActionController::Base
 
   private
 
-  # extend the method provided by trailblazer so that it sets
-  # @collection from result['collection'] (if collection is provided)
-  #
-  # TODO remove me. If an operation has been run, our SOP is to pass the result
-  # object directly to the cell. Maybe override `cell` this so it automatically
-  # passes in the @_result object if @_result is present and no other argument
-  # has been passed  to the cell.
-  def run(*args)
-    result = super
-    @collection = @_result['collection']
-    result
-  end
-
   def warn_if_no_trb
     # Enable this to help in the upgrade to Trailblazer
     if ENV['WARN_IF_NOT_TRB_OP'] && !@_run_called

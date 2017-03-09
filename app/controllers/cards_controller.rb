@@ -29,8 +29,9 @@ class CardsController < AuthenticatedUserController
       render cell(Card::Cell::New, result)
     else
       run Card::Operation::New::SelectProduct
-      # TODO pass result to the cell directly
-      render cell(Card::Cell::New::SelectProduct, @collection, banks: result['banks'])
+      # TODO use new style, pass result to the cell directly
+      collection = result['collection']
+      render cell(Card::Cell::New::SelectProduct, collection, banks: result['banks'])
     end
   end
 
