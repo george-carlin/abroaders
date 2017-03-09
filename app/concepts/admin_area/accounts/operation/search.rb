@@ -10,11 +10,16 @@ module AdminArea
         self['account.class'] = Account
         extend Contract::DSL
 
+        step :set_query
         step :find_accounts!
 
         private
 
-        def find_accounts!(opts, params:, **)
+        def set_query(opts, params:, **)
+          opts['query'] = params.fetch(:accounts).fetch(:search).squish
+        end
+
+        def find_accounts!(opts, query:, **)
           # this is very far from ideal, but I think we can get away with it for now:
           ids = opts['account.class'].find_by_sql(
             [
@@ -28,11 +33,11 @@ module AdminArea
               AND concat_ws(' ', accounts.email, people.first_name, phone_numbers.normalized_number)
               ILIKE ?
               ],
-              "%#{params[:accounts][:search]}%",
+              "%#{query}%",
             ],
           ).pluck(:id)
           opts['collection'] = \
-            opts['account.class'].includes(:phone_number).order("email ASC").where(id: ids)
+            opts['account.class'].includes(:phone_number).order('email ASC').where(id: ids)
         end
       end
     end
