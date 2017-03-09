@@ -45,47 +45,53 @@ RSpec.describe "cards index page - new recommendation", :js do
       "#{number_with_delimiter(offer.points_awarded)} "\
       "#{rec.product.currency.name} points",
     )
+
+    # 'apply' btn opens the link in a new tab
+    btn = find 'a', text: 'Apply'
+    expect(btn[:target]).to eq '_blank'
   end
 
-  specify "'apply' btn opens the link in a new tab" do
-    btn = find "a", text: "Apply"
-    expect(btn[:target]).to eq "_blank"
-  end
-
-  example "clicking the 'decline' button" do
+  # combining this all into one example because it's so damn slow:
+  example 'declining a recommendation' do
+    # clicking the button hides the apply/decline btns and shows the form:
     click_button decline_btn
     expect(page).to have_field :card_decline_reason
     expect(page).to have_button 'Confirm'
     expect(page).to have_button 'Cancel'
-    expect(page).to have_apply_btn(rec, false)
+    expect(page).to have_no_link 'Apply'
     expect(page).to have_no_button decline_btn
 
     # clicking 'cancel' shows the first set of buttons again:
     click_button 'Cancel'
-    expect(page).to have_apply_btn(rec)
+    expect(page).to have_link 'Apply'
     expect(page).to have_button decline_btn
-  end
 
-  example "submitting an empty decline reason" do
     click_button decline_btn
-    expect { click_confirm_btn }.not_to change { rec.reload.attributes }
-    # shows an error message and doesn't save:
-    expect(page).to have_content "Please include a message"
-    expect(decline_reason_wrapper[:class]).to match(/\bfield_with_errors\b/)
-  end
 
-  example "declining a recommendation" do
+    # fails if you try to submit with no decline reason:
+    expect { click_button 'Confirm' }.not_to change { rec.reload.attributes }
+    # shows an error message and doesn't save:
+    expect(page).to have_content 'Please include a message'
+    expect(decline_reason_wrapper[:class]).to match(/\bfield_with_errors\b/)
+
+    # fails if you try to submit a decline reason that's just whitespace:
+    fill_in :card_decline_reason, with: '     '
+    expect { click_button 'Confirm' }.not_to change { rec.reload.attributes }
+    expect(page).to have_content 'Please include a message'
+    expect(decline_reason_wrapper[:class]).to match(/\bfield_with_errors\b/)
+
+    # and actually declining successfully
+
     # this spec fails when run late in the day when your machine's time
     # is earlier than UTC # TZFIXME
-    click_button decline_btn
-    message = "Because I say so, bitch!"
+    message = 'Just because'
     fill_in :card_decline_reason, with: message
-    click_confirm_btn
-    rec.reload
+    click_button 'Confirm'
+    expect(page).to have_success_message t('cards.index.declined')
     # updates the attributes:
-    expect(rec.status).to eq "declined"
-    expect(rec.declined_at).to eq Time.zone.today
-    expect(page).to have_success_message t("cards.index.declined")
+    rec.reload
+    expect(rec.decline_reason).to eq message
+    expect(rec.declined_at).to eq Time.zone.today # TODO change to datetime
   end
 
   example "trying to decline a rec that's already declined" do
