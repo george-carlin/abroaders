@@ -1,8 +1,11 @@
+require_relative 'sample_data_macros'
+
 module AwardWalletMacros
   Response = Struct.new(:body)
 
   def self.included(base)
     base.extend ClassMethods
+    base.include SampleDataMacros
   end
 
   def stub_award_wallet_api(json)
@@ -14,8 +17,22 @@ module AwardWalletMacros
     result = Integrations::AwardWallet::Operation::Callback.(
       { userId: 12345 }, 'account' => account,
     )
-    raise unless result.success?
+    raise unless result.success? # sanity check
     result['model']
+  end
+
+  def refresh_award_wallet_user_from_sample_data(user)
+    op = Integrations::AwardWallet::User::Operation::Refresh
+    op['api'] = double(connected_user: parsed_sample_json('award_wallet_user'))
+    result = op.(user: user)
+    raise unless result.success? # sanity check
+    result['model']
+  end
+
+  # create example AwardWalletUser by mimicking the real flow of operations
+  def setup_award_wallet_user_from_sample_data(account)
+    user = get_award_wallet_user_from_callback(account)
+    refresh_award_wallet_user_from_sample_data(user)
   end
 
   module ClassMethods
