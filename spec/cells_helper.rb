@@ -66,9 +66,6 @@ module Abroaders
   end
 end
 
-module Cell::Testing::Capybara
-end
-
 # This is a heavily-modified version of the RSpec.configure block that's
 # included by the `rspec-cells` gem:
 RSpec.configure do |config|
