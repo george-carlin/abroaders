@@ -1,3 +1,5 @@
+require 'abroaders/operation/transaction'
+
 module Integrations
   module AwardWallet
     module User
@@ -18,15 +20,17 @@ module Integrations
         # @!method self.call(params, options = {})
         #   @options params [AwardWalletUser] user
         class Refresh < Trailblazer::Operation
+          extend Abroaders::Operation::Transaction
+
           self['api'] = APIClient
           self['update_op'] = User::Operation::Update
 
-          # TODO wrap the whole thing in a transaction
-          step :get_data_from_api
-          step :update_user
-          step :update_accounts
-          step :delete_old_accounts_and_owners
-          # TODO end_transaction
+          step wrap_in_transaction {
+            step :get_data_from_api
+            step :update_user
+            step :update_accounts
+            step :delete_old_accounts_and_owners
+          }
 
           private
 
