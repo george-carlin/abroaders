@@ -1,13 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe Integrations::AwardWallet::Operation::Callback do
+  include AwardWalletMacros
+
   let(:op) { described_class }
 
   let(:account) { create(:account, :onboarded) }
 
   example 'account already has a loaded AWU' do
-    # TODO replace with ops:
-    account.create_award_wallet_user!(loaded: true, aw_id: 1)
+    setup_award_wallet_user_from_sample_data(account)
 
     # userId param is irrelevant:
     [nil, 1, 2].each do |aw_id|
@@ -18,12 +19,11 @@ RSpec.describe Integrations::AwardWallet::Operation::Callback do
   end
 
   example 'account already has an unloaded AWU' do
-    # operation succeeds, but don't queue a new BG job
-    # TODO replace with ops:
-    user = account.create_award_wallet_user!(loaded: false, aw_id: 1)
+    # operation succeeds, but don't queue a new BG job:
+    user = get_award_wallet_user_from_callback(account)
 
     # userId param is irrelevant:
-    [nil, 1, 2].each do |aw_id|
+    [12345, 2, nil].each do |aw_id|
       result = op.({ userId: aw_id }, 'account' => account)
       expect(result.success?).to be true
       expect(result['error']).to be nil

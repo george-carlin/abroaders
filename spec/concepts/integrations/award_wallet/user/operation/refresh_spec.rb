@@ -72,8 +72,9 @@ RSpec.describe Integrations::AwardWallet::User::Operation::Refresh do
     john = owners.detect { |o| o.name == 'John Smith' }
     fred = owners.detect { |o| o.name == 'Fred Bloggs' }
 
-    # TODO replace with UpdatePerson op once it's ready:
-    john.update!(person: nil)
+    Integrations::AwardWallet::Owner::Operation::UpdatePerson.(
+      { id: john.id, person_id: nil }, 'account' => account,
+    )
 
     # refresh again:
     op.(user: user)
