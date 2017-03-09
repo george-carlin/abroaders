@@ -7,6 +7,7 @@ RSpec.describe Integrations::AwardWallet::User::Operation::Refresh do
   let(:op) { described_class }
 
   let(:account) { create(:account, :onboarded) }
+  let(:owner)   { account.owner }
 
   let(:json) { sample_json('award_wallet_user') }
   before { stub_award_wallet_api(sample_json('award_wallet_user')) }
@@ -33,6 +34,10 @@ RSpec.describe Integrations::AwardWallet::User::Operation::Refresh do
 
     john = owners.detect { |o| o.name == 'John Smith' }
     fred = owners.detect { |o| o.name == 'Fred Bloggs' }
+
+    # owner.person is owner by default:
+    expect(john.person).to eq owner
+    expect(fred.person).to eq owner
 
     expect(john.award_wallet_accounts.length).to eq 2
     expect(fred.award_wallet_accounts.length).to eq 1
@@ -64,5 +69,22 @@ RSpec.describe Integrations::AwardWallet::User::Operation::Refresh do
 
     expect(AwardWalletOwner.find_by_id(owner.id)).to be nil
     expect(AwardWalletAccount.find_by_id(acc.id)).to be nil
+  end
+
+  example 'when an existing owner is not assigned to a person' do
+    owners = op.(user: user)['model'].award_wallet_owners
+    john = owners.detect { |o| o.name == 'John Smith' }
+    fred = owners.detect { |o| o.name == 'Fred Bloggs' }
+
+    # TODO replace with UpdatePerson op once it's ready:
+    john.update!(person: nil)
+
+    # refresh again:
+    op.(user: user)
+
+    john.reload
+    fred.reload
+    expect(john.person).to be nil
+    expect(fred.person).to eq owner
   end
 end

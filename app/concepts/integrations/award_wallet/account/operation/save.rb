@@ -54,9 +54,17 @@ module Integrations
                                 .find_or_initialize_by(aw_id: id)
           end
 
+          # remember: the owner of the AwardWalletAccount and the owner of the
+          # Abroaders account (a Person) are two separate concepts.
           def find_or_create_owner(opts, account_data:, user:, **)
             name = account_data.fetch('owner')
-            opts['owner'] = user.award_wallet_owners.find_or_create_by!(name: name)
+            # AwardWalletOwner#person = Account#owner by default, but make sure
+            # we don't overwrite the existing Person if the AwardWalletOwner
+            # already existed:
+            owner = user.award_wallet_owners.find_or_initialize_by(name: name)
+            owner.person = user.account.owner if owner.new_record?
+            owner.save!
+            opts['owner'] = owner
           end
 
           def create_or_update_account(account_data:, model:, owner:, **)

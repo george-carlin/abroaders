@@ -5,7 +5,7 @@ RSpec.describe Integrations::AwardWallet::Account::Operation::Save do
   include AwardWalletMacros
   include SampleDataMacros
   let(:op) { described_class }
-  let(:account) { create(:account) }
+  let(:account) { create(:account, :couples, :onboarded) }
 
   stub_award_wallet_api_key!
 
@@ -23,16 +23,33 @@ RSpec.describe Integrations::AwardWallet::Account::Operation::Save do
 
   context "when User doesn't already have this account" do
     example 'and recognises the owner' do
-      owner =  user.award_wallet_owners.create!(name: owner_name)
+      owner = user.award_wallet_owners.create!(
+        name: owner_name,
+        person: account.companion,
+      )
 
       result = op.(user: user, account_data: data)
       expect(result.success?).to be true
 
-      aw_account = result['model'] # don't clash names with the Account
+      aw_account = result['model']
       expect(aw_account.award_wallet_user).to eq user
-      expect(aw_account.award_wallet_owner).to eq owner
+
+      aw_owner = aw_account.award_wallet_owner
+      expect(aw_owner).to eq owner
+      # doesn't change the person:
+      expect(aw_owner.person).to eq account.companion
 
       it_has_correct_attributes(aw_account)
+    end
+
+    example 'recognises the owner, owner person is nil' do
+      owner = user.award_wallet_owners.create!(name: owner_name, person: nil)
+
+      aw_account = op.(user: user, account_data: data)['model']
+      aw_owner   = aw_account.award_wallet_owner
+      # doesn't change the person:
+      expect(aw_owner).to eq owner
+      expect(aw_owner.person).to be nil
     end
 
     example "and doesn't recognise the owner" do
@@ -41,7 +58,12 @@ RSpec.describe Integrations::AwardWallet::Account::Operation::Save do
 
       aw_account = result['model']
       expect(aw_account.award_wallet_user).to eq user
-      expect(aw_account.award_wallet_owner.name).to eq owner_name
+
+      aw_owner = aw_account.award_wallet_owner
+      expect(aw_owner.name).to eq owner_name
+      # AW account owner = Abroaders account owner by default.
+      # Aargh, confusing terminology!
+      expect(aw_owner.person).to eq account.owner
 
       it_has_correct_attributes(aw_account)
     end
