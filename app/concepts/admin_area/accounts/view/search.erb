@@ -1,14 +1,11 @@
-<% provide :title, "Accounts" %>
-
 <div class="hpanel">
   <div class="panel-heading hbuilt">
     <h1>Account Search</h1>
   </div>
 
   <div class="panel-body">
-    <% if @collection.any? %>
-      Showing <%= pluralize @collection.size, 'result' %> for
-      '<%= params[:accounts][:search].squish %>':
+    <% if collection.any? %>
+      Showing <%= pluralize collection.size, 'result' %> for '<%= query %>':
       <table
         id="admin_accounts_table"
         class="accounts table table-striped"
@@ -27,11 +24,11 @@
           </tr>
         </thead>
         <tbody id="admin_accounts_table_body">
-          <%= cell(AdminArea::Accounts::Cell::Index::TableRow, collection: @collection) %>
+          <%= table_rows %>
         </tbody>
       </table>
     <% else %>
-      No results for '<%= params[:accounts][:search].squish %>'
+      No results for '<%= query %>'
     <% end %>
   </div>
 </div>

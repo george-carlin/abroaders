@@ -25,7 +25,7 @@ module AdminArea
 
     def search
       run Accounts::Operation::Search
-      @collection = result['collection']
+      render cell(Accounts::Cell::Search, result)
     end
   end
 end
