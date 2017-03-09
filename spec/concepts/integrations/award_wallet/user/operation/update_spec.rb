@@ -14,11 +14,7 @@ RSpec.describe Integrations::AwardWallet::User::Operation::Update do
 
   let(:data) { Integrations::AwardWallet::APIClient.connected_user(12345) }
 
-  let(:user) do
-    Integrations::AwardWallet::Operation::Callback.(
-      { userId: 12345 }, 'account' => account,
-    )['model']
-  end
+  let(:user) { get_award_wallet_user_from_callback(account) }
 
   example '.call' do
     result = op.(user: user, data: data)

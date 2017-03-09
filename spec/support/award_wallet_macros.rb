@@ -10,6 +10,14 @@ module AwardWalletMacros
     allow(Integrations::AwardWallet::APIClient).to receive(:get).and_return(response)
   end
 
+  def get_award_wallet_user_from_callback(account)
+    result = Integrations::AwardWallet::Operation::Callback.(
+      { userId: 12345 }, 'account' => account,
+    )
+    raise unless result.success?
+    result['model']
+  end
+
   module ClassMethods
     def stub_award_wallet_api_key!
       return if ENV['AWARD_WALLET_API_KEY']

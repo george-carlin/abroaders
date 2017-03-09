@@ -12,11 +12,7 @@ RSpec.describe Integrations::AwardWallet::User::Operation::Refresh do
   let(:json) { sample_json('award_wallet_user') }
   before { stub_award_wallet_api(sample_json('award_wallet_user')) }
 
-  let(:user) do
-    Integrations::AwardWallet::Operation::Callback.(
-      { userId: 12345 }, 'account' => account,
-    )['model']
-  end
+  let(:user) { get_award_wallet_user_from_callback(account) }
 
   example 'initial load' do
     result = op.(user: user)

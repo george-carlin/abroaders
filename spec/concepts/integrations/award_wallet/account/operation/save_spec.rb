@@ -13,11 +13,7 @@ RSpec.describe Integrations::AwardWallet::Account::Operation::Save do
 
   let(:data) { Integrations::AwardWallet::APIClient.account(7654321) }
 
-  let(:user) do
-    Integrations::AwardWallet::Operation::Callback.(
-      { userId: 7654321 }, 'account' => account,
-    )['model']
-  end
+  let(:user) { get_award_wallet_user_from_callback(account) }
 
   let(:owner_name) { data['owner'] }
 
