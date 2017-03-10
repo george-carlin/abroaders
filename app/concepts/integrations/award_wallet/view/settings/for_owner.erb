@@ -2,7 +2,7 @@
   <hr class="clearfix" />
 </div>
 
-<div class="col-xs-12">
+<div class="award_wallet_owner col-xs-12">
   Name on AwardWallet: <b><%= name %></b> <br />
   Person on Abroaders: 
   <%= form_to_update_person do %>
@@ -10,10 +10,7 @@
   <% end %>
 
   <%# this must be shown by changing the 'display' to 'inline-block', not 'block; %>
-  <div
-    class='LoadingSpinner'
-    style='display: none; left: 16px; bottom: 2px;'
-  >
+  <div class='LoadingSpinner' style='display: none; left: 16px; bottom: 2px;'>
   </div>
 </div>
 

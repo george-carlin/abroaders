@@ -33,6 +33,7 @@ module Abroaders
       'admin_area/card_recommendations/cell/new',
       'card/cell/new/select_product',
       'card_recommendation/cell/unresolved_rec',
+      'integrations/award_wallet/cell/settings',
     ]
 
     config.autoload_paths << Rails.root.join('app', 'models', 'destinations')

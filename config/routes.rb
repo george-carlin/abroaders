@@ -76,7 +76,9 @@ Rails.application.routes.draw do
     get 'award_wallet/settings'
     namespace :award_wallet do
       resources :owners, only: [] do
-        patch :update_person
+        member do
+          patch :update_person
+        end
       end
     end
   end

@@ -23,11 +23,13 @@ module Integrations::AwardWallet
       class ForOwner < Trailblazer::Cell
         extend Abroaders::Cell::Options
         include ActionView::Helpers::FormOptionsHelper
+        include ::Cell::Erb
         include ActionView::Helpers::NumberHelper
         # include ActionView::Helpers::TextHelper
         include BootstrapOverrides
         include Escaped
 
+        property :id
         property :award_wallet_accounts
         property :name
 
@@ -40,21 +42,28 @@ module Integrations::AwardWallet
         end
 
         def form_to_update_person(&block)
-          url  = integrations_award_wallet_owner_update_person_path(model)
-          opts = { data: { remote: true }, style: 'display:inline-block;' }
-          form_tag(url, opts, &block)
+          form_tag(
+            update_person_integrations_award_wallet_owner_path(model),
+            {
+              data: { remote: true },
+              method: :patch,
+              style: 'display:inline-block;',
+              class: 'owner_update_person_form',
+            },
+            &block
+          )
         end
 
         def person_id_select
           options = options_from_collection_for_select(
             account.people, :id, :first_name, selected: model.person_id,
           )
-          select(
-            :award_wallet_owner,
+          select_tag(
             :person_id,
             options,
-            { include_blank: 'Other' },
-            class: 'input-sm',
+            include_blank: 'Someone else',
+            id: "award_wallet_owner_#{id}_person_id",
+            class: 'award_wallet_owner_person_id input-sm',
           )
         end
       end
