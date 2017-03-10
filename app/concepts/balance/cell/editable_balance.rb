@@ -56,6 +56,7 @@ class Balance < Balance.superclass
       def form_tag(&block)
         super(
           balance_path(id),
+          class: 'edit_balance',
           data: { remote: true },
           method: :patch,
           &block
