@@ -75,6 +75,9 @@ Rails.application.routes.draw do
   namespace :integrations do
     get 'award_wallet/settings'
     namespace :award_wallet do
+      get :callback
+      get :poll
+
       resources :owners, only: [] do
         member do
           patch :update_person

@@ -1,36 +1,29 @@
 require 'rails_helper'
 
 RSpec.describe Integrations::AwardWalletController do
-  include AwardWalletMacros
-  include SampleDataMacros
-
   let(:account) { create(:account, :onboarded) }
+
   before { sign_in account }
 
-  describe 'GET #settings' do
-    subject { get :settings }
+  # TODO there should be a test for the redirects on ':connect' but it seems
+  # to have been lost; look in the git history and on other branches
+  skip 'GET connect' do
+    subject { get :connect }
 
-    context 'when account is not connected to AW' do
+    context "when I already have an unloaded AwardWalletUser" do
+      # TODO replace with op
+      before { account.create_award_wallet_user!(aw_id: 1) }
+      it { is_expected.to redirect_to integrations_award_wallet_callback_path }
+    end
+
+    context "when I already have a loaded AwardWalletUser" do
+      # TODO replace with op
+      before { account.create_award_wallet_user!(aw_id: 1, loaded: true) }
       it { is_expected.to redirect_to balances_path }
     end
 
-    context 'when account is connected to AW' do
-      # create the unloaded AwardWalletUser:
-      let!(:awu) { get_award_wallet_user_from_callback(account) }
-
-      context 'but AW data is not loaded' do
-        it { is_expected.to redirect_to balances_path }
-      end
-
-      context 'and AW data is loaded' do
-        before do
-          stub_award_wallet_api(sample_json('award_wallet_user'))
-          r = Integrations::AwardWallet::User::Operation::Refresh.(user: awu)
-          raise unless r.success? # sanity check
-        end
-
-        it { is_expected.to have_http_status(200) }
-      end
+    context "when I don't already have an AwardWalletUser" do
+      it { is_expected.to have_http_status(200) }
     end
   end
 end

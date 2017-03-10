@@ -1,0 +1,27 @@
+<div class="row" style="margin-top: 20px; font-size: 1.5em;">
+  <div class="col-xs-1">
+    <div class='LoadingSpinner' style="font-size: 8px; top: 10px; left: 20px;"> </div>
+  </div>
+  <div class="col-xs-11">
+    Loading your data from AwardWallet...
+  </div>
+</div>
+
+<script type="text/javascript">
+  var userId = <%= params[:userId] %>;
+  function pollUntilAWDataIsLoaded(userId) {
+    $.get('/integrations/award_wallet/poll?aw_id=' + userId, function (data) {
+      if (data.loaded) {
+        window.location = '/integrations/award_wallet/settings/';
+      } else {
+        window.setTimeout(
+          function () {
+            pollUntilAWDataIsLoaded(userId);
+          },
+          2000
+        );
+      }
+    });
+  }
+  pollUntilAWDataIsLoaded(userId);
+</script>

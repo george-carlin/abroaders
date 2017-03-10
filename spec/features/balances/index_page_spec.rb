@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'balance index page' do
+  include AwardWalletMacros
+
   include_context 'logged in'
   let(:owner) { account.owner }
 
@@ -24,6 +26,7 @@ RSpec.describe 'balance index page' do
   end
 
   example "updating a balance", :js, :manual_clean do
+    # TODO replace with op
     balance = owner.balances.create!(currency: currencies[0], value: 1234)
     visit balances_path
     update_balance_value(balance, 2345)
@@ -32,6 +35,7 @@ RSpec.describe 'balance index page' do
   end
 
   example "trying to update a balance invalidly", :js, :manual_clean do
+    # TODO replace with op
     balance = owner.balances.create!(currency: currencies[0], value: 1234)
     visit balances_path
 
@@ -44,6 +48,7 @@ RSpec.describe 'balance index page' do
   end
 
   example 'deleting a balance', :js do
+    # TODO replace with op
     balance = owner.balances.create!(currency: currencies[0], value: 1234)
     visit balances_path
 
@@ -52,6 +57,13 @@ RSpec.describe 'balance index page' do
     end
     expect(page).not_to have_content currencies[0].name
     expect(Balance.exists?(id: balance.id)).to be false
+  end
+
+  example "when I've linked my account to AwardWallet" do
+    setup_award_wallet_user_from_sample_data(account)
+    visit balances_path
+    expect(page).to have_no_link 'Add new'
+    expect(page).to have_content "You're managing your points balances on AwardWallet.com."
   end
 
   def balance_selector(balance)
