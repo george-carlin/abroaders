@@ -11,7 +11,7 @@ module AdminArea
         private
 
         def setup_model(opts, params:)
-          opts['model'] = Offer.find(params[:id])
+          opts['model'] = Offer.find(params.fetch(:id))
         end
 
         def offer_live?(model:, **)
@@ -23,7 +23,7 @@ module AdminArea
         end
 
         def kill!(model:, **)
-          model.update!(killed_at: Time.zone.now)
+          model.update!(killed_at: Time.now)
         end
       end
     end

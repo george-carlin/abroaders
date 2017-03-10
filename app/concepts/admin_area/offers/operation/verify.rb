@@ -10,7 +10,7 @@ module AdminArea
         private
 
         def setup_model(opts, params:)
-          opts['model'] = Offer.find(params[:id])
+          opts['model'] = Offer.find(params.fetch(:id))
         end
 
         def offer_live?(model:, **)
@@ -22,7 +22,7 @@ module AdminArea
         end
 
         def verify!(model:, **)
-          model.update!(last_reviewed_at: Time.zone.now)
+          model.update!(last_reviewed_at: Time.now)
         end
       end
     end
