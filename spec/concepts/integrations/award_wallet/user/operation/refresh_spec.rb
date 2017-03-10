@@ -87,6 +87,10 @@ RSpec.describe Integrations::AwardWallet::User::Operation::Refresh do
 
   example '::Job' do
     expect(op).to receive(:call).with(user: user)
+<<<<<<< HEAD
     described_class::Job.perform_now('id' => user.id)
+=======
+    described_class::Job.perform_now(id: user.id)
+>>>>>>> AW: fill out User::Refresh bg job from stub
   end
 end
