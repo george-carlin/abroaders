@@ -1,4 +1,4 @@
-require "rails_helper"
+require 'rails_helper'
 
 module AdminArea
   RSpec.describe 'offers pages' do
@@ -248,99 +248,6 @@ module AdminArea
         expect(find("tr#offer_#{offer.id}").text).to include('CB')
       end
     end # offers page
-
-    describe "review page" do
-      before do
-        @live_1 = create(:live_offer)
-        @live_2 = create(:live_offer, last_reviewed_at: Time.zone.yesterday)
-        @live_3 = create(:live_offer)
-        @dead_1 = create(:dead_offer)
-        visit review_admin_offers_path
-      end
-
-      describe "when page loads" do
-        it "shows only live offers" do
-          expect(page).to have_selector(".offer", count: Offer.live.count)
-        end
-      end
-
-      describe "when viewing non-reviewed offers" do
-        it "shows offer details" do
-          expect(page).to have_content @live_1.product.name
-          expect(page).to have_content @live_1.product.bp.to_s[0].upcase
-          expect(find("tr#offer_#{@live_1.id}").text).to include('never')
-          expect(page).to have_link('Link', href: @live_1.link)
-          expect(page).to have_link "kill_offer_#{@live_1.id}_btn"
-          expect(page).to have_link "verify_offer_#{@live_1.id}_btn"
-        end
-      end
-
-      describe "when viewing reviewed offers" do
-        it "shows reviewed date" do
-          expect(find("tr#offer_#{@live_2.id}").text).to include(@live_2.last_reviewed_at.to_date.strftime("%m/%d/%Y"))
-        end
-      end
-
-      example 'verifying', :js do
-        # it "updates selected last_reviewed_at datetime", js: true do
-        click_link("verify_offer_#{@live_1.id}_btn")
-        wait_for_ajax
-        @live_1.reload
-        expect(@live_1.last_reviewed_at).to be_within(2.seconds).of(Time.zone.now)
-        expect(find("#reviewed_#{@live_1.id}").text).to include(Time.zone.now.strftime("%m/%d/%Y"))
-      end
-
-      describe "when pressing Verify" do
-        it "does not update other last_reviewed_at datetimes", js: true do
-          expect do
-            click_link("verify_offer_#{@live_1.id}_btn")
-            wait_for_ajax
-            @live_2.reload
-            @dead_1.reload
-          end.not_to change { @live_2.last_reviewed_at }
-        end
-      end
-
-      describe "pressing kill then cancel" do
-        it "doesn't kill the offer", js: true do
-          expect do
-            page.dismiss_confirm do
-              click_link("kill_offer_#{@live_1.id}_btn")
-            end
-          end.not_to change { Offer.live.count }
-        end
-      end
-
-      describe "pressing Kill then confirm" do
-        it "removes offer from the user display", js: true do
-          page.accept_confirm do
-            find_link("kill_offer_#{@live_1.id}_btn").click
-          end
-          expect(page).to have_selector(".offer", count: Offer.live.count)
-        end
-      end
-
-      describe "pressing Kill then confirm", js: true do
-        it "changes offer live value to false" do
-          page.accept_confirm do
-            find_link("kill_offer_#{@live_2.id}_btn").click
-          end
-          wait_for_ajax
-          @live_2.reload
-          expect(@live_2.live?).to be false
-          expect(@live_2.killed_at).to be_within(2.seconds).of(Time.zone.now)
-        end
-      end
-
-      describe "when killing offers" do
-        it "doesnt't delete offers from the database", js: true do
-          page.accept_confirm do
-            find_link("kill_offer_#{@live_3.id}_btn").click
-          end
-          expect(@live_3).to_not be_nil
-        end
-      end
-    end # review page
 
     describe "show page" do
       let(:offer)   { create(:offer, notes: 'aisjhdoifajsdf') }
