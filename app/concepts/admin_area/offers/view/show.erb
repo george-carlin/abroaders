@@ -1,0 +1,43 @@
+<div class="hpanel">
+  <div class="panel-heading hbuilt">
+    <h1><%= title %></h1>
+  </div>
+
+  <div class="panel-body">
+    <div class="row">
+      <%= product_summary %>
+    </div>
+
+    <hr />
+
+    <dl class="dl-horizontal">
+      <dt>Condition:</dt>
+      <dd><%= condition %></dd>
+
+      <dt>Bank:</dt>
+      <dd><%= bank_name %></dd>
+
+      <dt>Partner:</dt>
+      <dd><%= partner_name %></dd>
+
+      <dt>Points awarded:</dt>
+      <dd><%= points_awarded %></dd>
+
+      <%= spend %>
+
+      <dt>Cost:</dt>
+      <dd><%= cost %></dd>
+
+      <%= days %>
+
+      <dt>Link:</dt>
+      <dd><%= link_to_link %></dd>
+
+      <dt>Notes:</dt>
+      <dd><%= notes %></dd>
+    </dl>
+
+    <%= link_to_back %> |
+    <%= link_to_edit %>
+  </div>
+</div>
