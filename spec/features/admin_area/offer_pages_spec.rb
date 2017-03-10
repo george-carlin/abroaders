@@ -250,14 +250,12 @@ module AdminArea
     end # offers page
 
     describe "review page" do
-      let(:route) { review_admin_offers_path }
-
       before do
         @live_1 = create(:live_offer)
         @live_2 = create(:live_offer, last_reviewed_at: Time.zone.yesterday)
         @live_3 = create(:live_offer)
         @dead_1 = create(:dead_offer)
-        visit route
+        visit review_admin_offers_path
       end
 
       describe "when page loads" do
