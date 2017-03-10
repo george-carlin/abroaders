@@ -3,6 +3,7 @@ require 'trailblazer/operation/contract'
 
 class Balance < Balance.superclass
   module Operation
+    # params: person_id
     class New < Trailblazer::Operation
       extend Contract::DSL
 
@@ -19,13 +20,18 @@ class Balance < Balance.superclass
         end
       end
 
-      step :setup_model!
+      step :setup_person
+      step :setup_model
       step Contract::Build()
 
       private
 
-      def setup_model!(options)
-        options['model'] = options['person'].balances.new
+      def setup_person(opts, account:, params:, **)
+        opts['person'] = account.people.find(params.fetch(:person_id))
+      end
+
+      def setup_model(opts, person:, **)
+        opts['model'] = person.balances.new
       end
     end
   end

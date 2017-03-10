@@ -7,9 +7,11 @@ RSpec.describe Balance::Operation::Update do
   let(:person)  { account.owner }
   let(:balance) do
     Balance::Operation::Create.(
-      { balance: { value: 1234, currency_id: currency.id } },
+      {
+        balance: { value: 1234, currency_id: currency.id },
+        person_id: person.id,
+      },
       'account' => account,
-      'person'  => person,
     )['model']
   end
 

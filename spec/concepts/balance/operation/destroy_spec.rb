@@ -6,9 +6,11 @@ RSpec.describe Balance::Operation::Destroy do
   let(:currency) { create(:currency) }
   let(:balance) do
     Balance::Operation::Create.(
-      { balance: { currency_id: currency.id, value: 1_234_567 } },
+      {
+        balance: { currency_id: currency.id, value: 1_234_567 },
+        person_id: person.id,
+      },
       'account' => account,
-      'person' => person,
     )['model']
   end
   let(:op) { described_class }

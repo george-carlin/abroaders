@@ -13,8 +13,9 @@ RSpec.describe Balance::Operation::Create do
           currency_id: currency.id,
           value: 1,
         },
+        person_id: person.id,
       },
-      'person' => person,
+      'account' => account,
     )
     expect(result.success?).to be true
 
@@ -31,8 +32,9 @@ RSpec.describe Balance::Operation::Create do
           value:       -1,
           currency_id: currency.id,
         },
+        person_id: person.id,
       },
-      'person' => person,
+      'account' => account,
     )
     expect(result.success?).to be false
   end

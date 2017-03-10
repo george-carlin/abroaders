@@ -10,10 +10,6 @@ class AuthenticatedUserController < ApplicationController
   # them with 'run'
   def _run_options(options)
     options['account'] = current_account
-    if params[:person_id]
-      person = current_account.people.find(params[:person_id])
-      options['person'] = person
-    end
     options
   end
 
