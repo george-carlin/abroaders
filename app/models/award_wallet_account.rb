@@ -8,4 +8,8 @@ class AwardWalletAccount < ApplicationRecord
   belongs_to :person
 
   alias owner award_wallet_owner
+
+  def owner_name
+    owner.name
+  end
 end
