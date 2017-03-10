@@ -70,7 +70,7 @@ module Integrations
 
         # Let them get away with not having a userID in the URL if there's
         # already an unloaded AWU
-        def user_id_is_present?(params:, account:)
+        def user_id_is_present?(params:, account:, **)
           !params[:userId].nil? || !account.award_wallet_user.nil?
         end
 
@@ -81,7 +81,7 @@ module Integrations
         # Create an unloaded AWU and enqueue a job to load it. If the account
         # already has an unloaded AWU, they probably just refreshed the page;
         # no need to create a second AWU or re-enqueue the job.
-        def create_user_and_enqueue_job(opts, account:, params:)
+        def create_user_and_enqueue_job(opts, account:, params:, **)
           if account.award_wallet_user.nil?
             id = params.fetch(:userId)
             model = account.create_award_wallet_user!(aw_id: id, loaded: false)

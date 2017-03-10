@@ -11,7 +11,7 @@ RSpec.describe Integrations::AwardWallet::Operation::Callback do
     setup_award_wallet_user_from_sample_data(account)
 
     # userId param is irrelevant:
-    [nil, 1, 2].each do |aw_id|
+    [12345, nil, 2].each do |aw_id|
       result = op.({ userId: aw_id }, 'account' => account)
       expect(result['error']).to eq 'already loaded'
       expect(enqueued_jobs).to be_empty
@@ -28,7 +28,7 @@ RSpec.describe Integrations::AwardWallet::Operation::Callback do
       expect(result.success?).to be true
       expect(result['error']).to be nil
       expect(result['model']).to eq user
-      expect(result['model'].aw_id).to eq 1
+      expect(result['model'].aw_id).to eq 12345
       expect(result['model'].loaded).to be false
       expect(enqueued_jobs).to be_empty
     end

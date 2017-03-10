@@ -15,7 +15,10 @@ module AwardWalletMacros
 
   def get_award_wallet_user_from_callback(account)
     result = Integrations::AwardWallet::Operation::Callback.(
-      { userId: 12345 }, 'account' => account,
+      { userId: 12345 },
+      'account' => account,
+      # don't enqueue a real BG job:
+      'load_user.job' => double(perform_later: nil),
     )
     raise unless result.success? # sanity check
     result['model']
@@ -23,8 +26,10 @@ module AwardWalletMacros
 
   def refresh_award_wallet_user_from_sample_data(user)
     op = Integrations::AwardWallet::User::Operation::Refresh
-    op['api'] = double(connected_user: parsed_sample_json('award_wallet_user'))
-    result = op.(user: user)
+    result = op.(
+      { user: user },
+      'api' => double(connected_user: parsed_sample_json('award_wallet_user')),
+    )
     raise unless result.success? # sanity check
     result['model']
   end

@@ -34,7 +34,7 @@ module Integrations
 
           private
 
-          def get_data_from_api(opts, params:)
+          def get_data_from_api(opts, params:, **)
             user = params.fetch(:user)
             opts['user_data'] = self['api'].connected_user(user.aw_id)
           end
