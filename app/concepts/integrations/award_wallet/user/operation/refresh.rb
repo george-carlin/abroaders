@@ -64,6 +64,13 @@ module Integrations
           end
 
           class Job < ApplicationJob
+            # @param opts [Hash]
+            # @option opts [Integer] 'id' the ID of the AwardWalletUser to
+            #   refresh
+            def perform(opts = {})
+              id = opts.fetch('id')
+              Refresh.(user: AwardWalletUser.find(id))
+            end
           end
         end
       end

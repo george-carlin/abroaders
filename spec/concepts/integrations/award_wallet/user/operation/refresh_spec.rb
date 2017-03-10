@@ -84,4 +84,9 @@ RSpec.describe Integrations::AwardWallet::User::Operation::Refresh do
     expect(john.person).to be nil
     expect(fred.person).to eq owner
   end
+
+  example '::Job' do
+    expect(op).to receive(:call).with(user: user)
+    described_class::Job.perform_now('id' => user.id)
+  end
 end
