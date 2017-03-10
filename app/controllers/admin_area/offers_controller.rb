@@ -60,12 +60,8 @@ module AdminArea
     end
 
     def kill
-      @offer = Offer.live.find(params[:id])
-      @offer.killed_at = Time.zone.now
-      @offer.save!
-      respond_to do |format|
-        format.js
-      end
+      run Offers::Operation::Kill
+      respond_to { |f| f.js }
     end
 
     def review
@@ -73,12 +69,8 @@ module AdminArea
     end
 
     def verify
-      @offer = Offer.live.find(params[:id])
-      @offer.last_reviewed_at = Time.zone.now
-      @offer.save!
-      respond_to do |format|
-        format.js
-      end
+      run Offers::Operation::Verify
+      respond_to { |f| f.js }
     end
 
     private

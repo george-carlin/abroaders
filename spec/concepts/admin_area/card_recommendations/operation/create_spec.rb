@@ -25,8 +25,7 @@ RSpec.describe AdminArea::CardRecommendations::Operation::Create do
   end
 
   specify 'offer must be live' do
-    # TODO replace with op
-    offer.update!(killed_at: Time.zone.now)
+    AdminArea::Offers::Operation::Kill.(id: offer.id)
     expect do
       result = op.(
         person_id: person.id,

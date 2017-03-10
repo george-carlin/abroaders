@@ -1,6 +1,6 @@
-$('#verify_offer_<%= @offer.id %>_btn').fadeIn(function () {
-  $('#verify_offer_<%= @offer.id %>_btn').prop("text",'Verified!');
-  window.setTimeout(function() {$('#verify_offer_<%= @offer.id %>_btn').prop("text",'Verify')}, 2000);
+$('#verify_offer_<%= @model.id %>_btn').fadeIn(function () {
+  $('#verify_offer_<%= @model.id %>_btn').prop("text",'Verified!');
+  window.setTimeout(function() {$('#verify_offer_<%= @model.id %>_btn').prop("text",'Verify')}, 2000);
 });
 
-$("#reviewed_<%= @offer.id %>").text("<%= @offer.last_reviewed_at.strftime("%m/%d/%Y") %>");
+$("#reviewed_<%= @model.id %>").text("<%= @model.last_reviewed_at.strftime("%m/%d/%Y") %>");
