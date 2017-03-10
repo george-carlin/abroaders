@@ -12,7 +12,7 @@ RSpec.describe Integrations::AwardWallet::Owner::Operation::UpdatePerson do
   let(:aw_user) { setup_award_wallet_user_from_sample_data(account) }
   let(:aw_owner) { aw_user.award_wallet_owners.first }
 
-  example 'account not created to award wallet' do
+  example 'account not connected to award wallet' do
     raise unless account.award_wallet_user.nil? # sanity check
     expect do
       op.({ id: 1, person_id: owner.id }, 'account' => account)
@@ -35,6 +35,15 @@ RSpec.describe Integrations::AwardWallet::Owner::Operation::UpdatePerson do
     updated_owner = result['model']
     expect(updated_owner).to eq aw_owner
     expect(updated_owner.person).to be nil
+  end
+
+  example 'passing a blank string as the person ID' do
+    # this is what the HTML form will do, so we must be able to handle it
+    raise unless aw_owner.person == owner # sanity check
+
+    result = op.({ id: aw_owner.id, person_id: '' }, 'account' => account)
+    expect(result.success?).to be true
+    expect(result['model'].person).to be nil
   end
 
   example 'updating from nil to non-nil' do
