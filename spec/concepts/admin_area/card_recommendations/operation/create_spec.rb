@@ -16,11 +16,16 @@ RSpec.describe AdminArea::CardRecommendations::Operation::Create do
     )
     expect(result.success?).to be true
     rec = result['model']
-    # TODO this should be a datetime, not a date!
+    expect(rec.offer).to eq offer
+    expect(rec.product).to eq offer.product
+    expect(rec.person).to eq person
+    # TODO this should be a datetime, not a date! DATETIMEFIXME
     expect(rec.recommended_at).to eq Time.zone.now.to_date
+    expect(rec.recommendation?).to be true
   end
 
   specify 'offer must be live' do
+    # TODO replace with op
     offer.update!(killed_at: Time.zone.now)
     expect do
       result = op.(

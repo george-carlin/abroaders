@@ -65,8 +65,9 @@ module AdminArea
       end
     end
 
-    pending do
-      expect(page).to have_title full_title(@person.first_name)
+    it 'has the correct title' do
+      visit_path
+      expect(page).to have_title full_title(person.first_name)
     end
 
     example "pulled recs", :js do
@@ -241,32 +242,19 @@ module AdminArea
         end
       end
 
-      # TODO extract to a Trailblazer operation called CardRecommendation::Create
       example "recommending an offer", :js do
         within offer_selector do
           click_button 'Recommend'
+          click_button 'Confirm'
         end
 
-        # it recommends the card to the person
-        expect do
-          within offer_selector do
-            click_button 'Confirm'
-          end
-          wait_for_ajax
-        end.to change { @person.card_recommendations.count }.by(1)
+        wait_for_ajax
 
-        expect(page).to have_content "Recommended!"
-
-        # the rec has the correct attributes:
-        rec = ::Card.recommendations.last
-        expect(rec.product).to eq offer.product
-        expect(rec.offer).to eq offer
-        expect(rec.person).to eq @person
-        expect(rec.recommended_at).to eq Time.zone.today
-        expect(rec.recommendation?).to be true
+        expect(page).to have_content 'Recommended!'
 
         # the rec is added to the table:
-        within "#admin_person_cards_table" do
+        rec = Card.recommendations.last
+        within '#admin_person_cards_table' do
           expect(page).to have_selector "#card_#{rec.id}"
         end
       end
@@ -298,7 +286,6 @@ module AdminArea
       expect { click_complete_recs_button }.to_not change { account.recommendation_notes.count }
     end
 
-    # TODO extract to a Trailblazer operation called CardRecommendation::Create
     example "sending a recommendation note to the user" do
       visit_path
       expect(page).to have_field :recommendation_note
@@ -317,7 +304,6 @@ module AdminArea
       expect(new_note.content).to eq note_content
     end
 
-    # TODO extract to a Trailblazer operation called CardRecommendation::Create
     example "recommendation note with trailing whitespace" do
       visit_path
       note_content = "  I like to leave notes.   "
@@ -328,7 +314,6 @@ module AdminArea
       expect(new_note.content).to eq note_content.strip
     end
 
-    # TODO extract to a Trailblazer operation called CardRecommendation::Create
     example "recommendation note that's only whitespace" do
       visit_path
       fill_in :recommendation_note, with: "     \n \n \t\ \t "
