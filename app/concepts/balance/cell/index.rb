@@ -28,7 +28,7 @@ class Balance < Balance.superclass
       end
 
       def show
-        cell(AwardWalletConnectPanel).show + cell(Balances, balances, account: account).show
+        cell(AwardWalletConnectPanel).show + cell(Balances, balances, account: account, people: people).show
       end
 
       private
@@ -69,9 +69,10 @@ class Balance < Balance.superclass
         alias balances model
 
         option :account
+        option :people
 
         def show
-          account.people.map do |person|
+          people.map do |person|
             bals = balances.select { |b| b.person_id == person.id }
             cell(BalanceTable, person, use_name: use_name?, balances: bals)
           end.join
