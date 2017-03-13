@@ -7,9 +7,24 @@ RSpec.describe 'balance index page' do
   before(:all) { @currencies = create_list(:currency, 2) }
   let(:currencies) { @currencies }
 
+  def create_balance(currency, value)
+    result = Balance::Operation::Create.(
+      {
+        balance: {
+          currency_id: currency.id,
+          value: value,
+        },
+        person_id: owner.id,
+      },
+      'account' => account,
+    )
+    raise unless result.success?
+    result['model']
+  end
+
   example "viewing my balances" do
-    balance_0 = owner.balances.create!(currency: currencies[0], value: 1234)
-    balance_1 = owner.balances.create!(currency: currencies[1], value: 2468)
+    balance_0 = create_balance(currencies[0], 1234)
+    balance_1 = create_balance(currencies[1], 2468)
     visit balances_path
 
     within_balance(balance_0) do
@@ -24,7 +39,7 @@ RSpec.describe 'balance index page' do
   end
 
   example "updating a balance", :js, :manual_clean do
-    balance = owner.balances.create!(currency: currencies[0], value: 1234)
+    balance = create_balance(currencies[0], 1234)
     visit balances_path
     update_balance_value(balance, 2345)
     balance.reload
@@ -32,7 +47,7 @@ RSpec.describe 'balance index page' do
   end
 
   example "trying to update a balance invalidly", :js, :manual_clean do
-    balance = owner.balances.create!(currency: currencies[0], value: 1234)
+    balance = create_balance(currencies[0], 1234)
     visit balances_path
 
     expect do
@@ -44,7 +59,7 @@ RSpec.describe 'balance index page' do
   end
 
   example 'deleting a balance', :js do
-    balance = owner.balances.create!(currency: currencies[0], value: 1234)
+    balance = create_balance(currencies[0], 1234)
     visit balances_path
 
     within_balance(balance) do
