@@ -7,8 +7,6 @@ class Balance < Balance.superclass
     #
     # @!method self.call(person, opts = {})
     #   @param person [Person]
-    #   @option opts [Collection<Balance>] balances the person's balances (may
-    #     be empty)
     #   @option opts [Boolean] use_name (false) if true the header will say
     #     "(Person name)'s points" and the link will say "Add new balance for
     #     (name)". When false, they will simply say "My points" and "Add new".
@@ -26,9 +24,8 @@ class Balance < Balance.superclass
       end
 
       def balances
-        collection = options.fetch(:balances)
-        if collection.any?
-          cell(balance_cell, collection: collection).join('<hr>') { |c| c }
+        if model.balances.any?
+          cell(balance_cell, collection: model.balances).join('<hr>') { |c| c }
         else
           'No balances'
         end

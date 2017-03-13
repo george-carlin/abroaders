@@ -16,7 +16,6 @@ RSpec.describe Balance::Cell::Index do
     result = get_result(
       'account' => account,
       'people'  => [owner],
-      'balances' => [],
     )
     rendered = show(result)
     expect(rendered).to have_selector 'h1', text: 'My points'
@@ -24,14 +23,13 @@ RSpec.describe Balance::Cell::Index do
   end
 
   example 'solo account with balances' do
-    balances = Array.new(2) do |i|
+    2.times do |i|
       owner.balances.build(id: i, value: 1234, currency: currencies[i], updated_at: 5.minutes.ago)
     end
 
     result = get_result(
       'account'  => account,
       'people'   => [owner],
-      'balances' => balances,
     )
 
     rendered = show(result)
@@ -41,24 +39,45 @@ RSpec.describe Balance::Cell::Index do
     expect(rendered).to have_content 'Curr 1'
   end
 
+  example 'account not connected to AwardWallet' do
+    result = get_result('account' => account, 'people' => [owner])
+
+    rendered = show(result)
+    expect(rendered).to have_content 'Connect your AwardWallet account'
+    expect(rendered).not_to have_link(
+      'Manage settings', href: integrations_award_wallet_settings_path,
+    )
+  end
+
+  example 'account connected to AwardWallet' do
+    account.build_award_wallet_user(loaded: true, user_name: 'AWUser')
+    result = get_result('account' => account, 'people' => [owner])
+
+    rendered = show(result)
+    expect(rendered).not_to have_content 'Connect your AwardWallet account'
+    expect(rendered).to have_content 'AWUser'
+    expect(rendered).to have_link(
+      'Manage settings', href: integrations_award_wallet_settings_path,
+    )
+  end
+
   describe 'couples account' do
     let!(:companion) { account.build_companion(id: 2, first_name: 'Gabi') }
 
-    let!(:owner_balances) do
-      Array.new(2) do |i|
-        owner.balances.build(id: i, value: 1234, currency: currencies[i], updated_at: 5.minutes.ago)
+    before do
+      2.times do |i|
+        owner.balances.build(id: i, value: 1234, currency: currencies[i])
       end
     end
 
-    it '' do
-      companion_balances = Array.new(2) do |i|
-        companion.balances.build(id: i, value: 1234, currency: currencies[i], updated_at: 5.minutes.ago)
+    example 'both people have balances' do
+      2.times do |i|
+        companion.balances.build(id: i, value: 1234, currency: currencies[i])
       end
 
       result = get_result(
         'account' => account,
         'people' => [owner, companion],
-        'balances' => [*owner_balances, *companion_balances],
       )
 
       rendered = show(result)
@@ -72,7 +91,6 @@ RSpec.describe Balance::Cell::Index do
       result = get_result(
         'account' => account,
         'people' => [owner, companion],
-        'balances' => owner_balances,
       )
 
       rendered = show(result)

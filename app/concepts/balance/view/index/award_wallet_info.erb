@@ -1,23 +1,7 @@
-<%= success_alert %>
+<div class="hpanel hblue">
+  <div class="panel-body">
+    You're connected to your AwardWallet account <b><%= user_name %></b>.
 
-<div class="hpanel">
-  <div class="panel-body text-center">
-    <p class="lead text-center" style="color: #8492a5;">
-      You're managing your points balances on AwardWallet.com. You've given Abroaders permission
-      to view these balances on AwardWallet.
-    </p>
-    
-    <p class="lead text-center" style="color: #8492a5;">
-      We're working on further integration that will let you view your
-      AwardWallet balances here on Abroaders.com.
-    </p>
-
-    <a
-      class="btn btn-info2 btn-lg text-center"
-      style="background-color: #1fb6ff; color: #ffffff;"
-      href="https://awardwallet.com"
-    >
-      <span class="fa fa-bar-chart"></span> View and manage my points balances on AwardWallet.com
-    </a>
+    <%= link_to_settings %>
   </div>
 </div>

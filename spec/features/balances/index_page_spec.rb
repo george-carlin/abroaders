@@ -71,11 +71,10 @@ RSpec.describe 'balance index page' do
     expect(Balance.exists?(id: balance.id)).to be false
   end
 
-  example "when I've linked my account to AwardWallet" do
+  skip "when I've linked my account to AwardWallet" do
     setup_award_wallet_user_from_sample_data(account)
     visit balances_path
-    expect(page).to have_no_link 'Add new'
-    expect(page).to have_content "You're managing your points balances on AwardWallet.com."
+    # it shows my award wallet balances
   end
 
   def balance_selector(balance)
