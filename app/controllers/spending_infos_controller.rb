@@ -1,6 +1,14 @@
 class SpendingInfosController < AuthenticatedUserController
   onboard :spending, with: [:survey, :save_survey]
 
+  def show
+    run SpendingInfo::Operation::Show do |result|
+      render cell(SpendingInfo::Cell::Show, result)
+      return
+    end
+    redirect_to root_path
+  end
+
   def survey
     @form = SpendingSurvey.new(account: current_account)
     # fake a real TRB result until we've extracted things to an op

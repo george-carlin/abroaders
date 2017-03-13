@@ -1,4 +1,4 @@
-class Account < ApplicationRecord
+class Account < Account.superclass
   module Cell
     module MonthlySpending
       class TableRow < Trailblazer::Cell
@@ -20,7 +20,7 @@ class Account < ApplicationRecord
         end
 
         def label
-          "#{couples? ? 'Shared' : 'Personal'} spending"
+          "#{couples? ? 'Shared' : 'Personal'} spending:"
         end
       end
     end

@@ -72,6 +72,8 @@ Rails.application.routes.draw do
 
   get "estimates/:from_code/:to_code/:type/:no_of_passengers", to: "estimates#get"
 
+  resource :spending_info, path: :financials, only: [:show]
+
   resources :interest_regions, only: [], path: "regions_of_interest" do
     collection do
       get  :survey
