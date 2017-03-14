@@ -10,10 +10,12 @@ RSpec.describe "the spending info edit page" do
 
   before do
     login_as(account, scope: :account)
+    account.create_companion!(first_name: 'Gabi') if couples?
     create(:spending_info, person: person)
     visit edit_person_spending_info_path(person)
   end
 
+  let(:couples?) { false }
   let(:submit_form) { click_button "Save" }
 
   example "page layout" do
@@ -126,6 +128,28 @@ RSpec.describe "the spending info edit page" do
     submit_form
     within ".alert.alert-danger" do
       expect(page).to have_content "Business spending can't be blank"
+    end
+  end
+
+  example "page layout" do
+    expect(page).to have_sidebar
+    expect(page).to have_field :spending_info_credit_score
+    expect(page).to have_field :spending_info_will_apply_for_loan_true
+    expect(page).to have_field :spending_info_will_apply_for_loan_false
+    expect(page).to have_field :spending_info_has_business_with_ein
+    expect(page).to have_field :spending_info_has_business_without_ein
+    expect(page).to have_field :spending_info_has_business_no_business, checked: true
+    expect(page).to have_no_field :spending_info_ready_true
+    expect(page).to have_no_field :spending_info_ready_false
+    # Not initially visible:
+    expect(page).to have_no_field :spending_info_business_spending_usd
+    expect(page).to have_no_field :spending_info_unreadiness_reason
+  end
+
+  context 'for a couples account' do
+    let(:couples?) { true }
+    it 'asks for shared spending' do
+      expect(page).to have_content 'combined monthly spending'
     end
   end
 end

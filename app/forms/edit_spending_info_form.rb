@@ -56,6 +56,10 @@ class EditSpendingInfoForm < ApplicationForm
     %w(with_ein without_ein).include?(has_business)
   end
 
+  def account
+    person.account
+  end
+
   private
 
   def persist!
