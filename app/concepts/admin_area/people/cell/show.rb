@@ -70,7 +70,12 @@ module AdminArea
         end
 
         def cards
-          cell(People::Cell::Show::Cards, result['cards'], person: person, pulled_recs: pulled_recs)
+          cell(
+            People::Cell::Show::Cards,
+            result['cards'],
+            person: person,
+            pulled_recs: pulled_recs,
+          )
         end
 
         def currency_filter_panels
