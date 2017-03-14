@@ -15,7 +15,7 @@ module AdminArea
     let(:card_benefit) { "CardBenefit" }
 
     describe 'index page' do
-      let!(:offer) { create(:live_offer, last_reviewed_at: Time.zone.yesterday) }
+      let!(:offer) { create_offer(:verified) }
 
       example 'for all offers' do
         visit admin_offers_path
@@ -33,7 +33,7 @@ module AdminArea
     end # offers page
 
     describe "show page" do
-      let(:offer)   { create(:offer, notes: 'aisjhdoifajsdf') }
+      let(:offer)   { create_offer(notes: 'aisjhdoifajsdf') }
       let(:product) { offer.product }
       before { visit route }
 
@@ -54,7 +54,7 @@ module AdminArea
     end # show page
 
     describe "edit page" do
-      let(:offer)   { create(:offer) }
+      let(:offer)   { create_offer }
       let(:product) { offer.product }
       before { visit route }
 

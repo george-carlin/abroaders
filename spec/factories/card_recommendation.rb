@@ -3,7 +3,7 @@ FactoryGirl.define do
     person
     recommended_at { Time.zone.now }
     product nil
-    offer
+    offer { create_offer }
 
     trait :applied do
       applied_at { 4.days.ago }

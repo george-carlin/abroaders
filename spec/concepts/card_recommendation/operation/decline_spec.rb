@@ -5,7 +5,7 @@ RSpec.describe CardRecommendation::Operation::Decline do
 
   let(:account) { create(:account, :onboarded) }
   let(:person)  { account.owner }
-  let(:offer)   { create(:offer) }
+  let(:offer)   { create_offer }
 
   let(:rec) do
     AdminArea::CardRecommendations::Operation::Create.(
