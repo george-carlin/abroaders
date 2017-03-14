@@ -40,7 +40,7 @@
 @media (max-width: 667px) {
   .travel-plan-icon-xs {
     padding: 9px 12px;
-    margin-bottom: 15px;
+    margin-bottom: 0;
     font-size: 14px;
     font-weight: 400;
     line-height: 1;
@@ -113,6 +113,7 @@
 
   .from-to-line, .depart-return-line {
     display: flex;
+    margin-bottom: 15px;
   }
 
   .passengers-line {
@@ -192,7 +193,7 @@
 @media (min-width: 668px) and (max-width: 991px) {
   .travel-plan-icon-sm {
     padding: 9px 12px;
-    margin-bottom: 15px;
+    margin-bottom: 0;
     font-size: 14px;
     font-weight: 400;
     line-height: 1;
@@ -265,6 +266,7 @@
 
   .from-to-line {
     display: flex;
+    margin-bottom: 15px;
   }
 
   .depart-return-passengers-line {
@@ -352,7 +354,7 @@
 @media (min-width: 992px) {
   .travel-plan-icon-md-lg {
     padding: 9px 12px;
-    margin-bottom: 15px;
+    margin-bottom: 0;
     font-size: 14px;
     font-weight: 400;
     line-height: 1;
@@ -503,5 +505,25 @@
     @extend .right-border-radius-md-lg;
 
     display: inline-block;
+  }
+}
+
+.travel-plan-form {
+  .travel-plan-input-group {
+    margin-bottom: 15px;
+
+    .form-control {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.travel-plan-form {
+  .travel-plan-input-group {
+    margin-bottom: 15px;
+
+    .form-control {
+      margin-bottom: 0;
+    }
   }
 }
