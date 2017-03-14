@@ -3,12 +3,10 @@ require 'rails_helper'
 RSpec.describe 'admin - review offers page' do
   include_context 'logged in as admin'
 
-  let(:reviewed_date) { Time.zone.yesterday }
-
   before do
-    @live_1 = create(:offer)
-    @live_2 = create(:offer, last_reviewed_at: reviewed_date)
-    @dead = AdminArea::Offers::Operation::Kill.(id: create(:offer).id)['model']
+    @live_1 = create_offer
+    @live_2 = create_offer(:verified)
+    @dead   = create_offer(:dead)
     visit review_admin_offers_path
   end
 
@@ -27,7 +25,7 @@ RSpec.describe 'admin - review offers page' do
       expect(page).to have_content 'never'
     end
     within offer_selector(@live_2) do
-      expect(page).to have_content reviewed_date.to_date.strftime("%m/%d/%Y")
+      expect(page).to have_content @live_2.last_reviewed_at.to_date.strftime("%m/%d/%Y")
       expect(page).to have_no_content 'never'
     end
 

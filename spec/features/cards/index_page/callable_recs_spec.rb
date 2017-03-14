@@ -20,7 +20,7 @@ RSpec.describe "user cards page - callable cards", :js do
     login_as_account(account)
     @bank    = create(:bank, name: "Chase")
     @product = create(:card_product, bank_id: @bank.id, bp: bp)
-    @offer = create(:offer, product: @product)
+    @offer = create_offer(product: @product)
     @rec = create(
       :card_recommendation,
       recommended_at: recommended_at,

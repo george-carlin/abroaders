@@ -4,7 +4,7 @@ RSpec.describe Card do
   let(:account) { build(:account) }
   let(:person)  { account.people.first }
   let(:product) { build(:card_product) }
-  let(:offer)   { build(:offer, product: product) }
+  let(:offer)   { Offer.new(product: product) }
   let(:card) { described_class.non_recommendation.new(person: person) }
 
   before { card.offer = offer }
@@ -126,7 +126,7 @@ RSpec.describe Card do
   describe "before validation" do
     # TODO this shouldn't be handled by the model, do it in the Operation
     it "sets #product to #offer.product" do
-      offer   = create(:offer)
+      offer   = create_offer
       product = offer.product
       card = build(:card, product: nil, offer: offer)
       card.valid?
@@ -150,7 +150,7 @@ RSpec.describe Card do
 
   example ".visible" do
     product = create(:card_product)
-    offer   = create(:offer, product: product)
+    offer   = create_offer(product: product)
     person  = create(:person)
     visible = [
       create(:card_recommendation,            offer: offer, person: person),
@@ -175,7 +175,7 @@ RSpec.describe Card do
 
   example ".unresolved" do
     product = create(:card_product)
-    offer   = create(:offer, product: product)
+    offer   = create_offer(product: product)
     person  = create(:person)
 
     # resolved:
@@ -210,7 +210,7 @@ RSpec.describe Card do
 
   example ".not_irreversibly_denied" do
     cp = create(:card_product)
-    o  = create(:offer, product: cp)
+    o  = create_offer(product: cp)
     p  = create(:person)
     attrs = { offer: o, person: p }
 

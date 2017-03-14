@@ -31,12 +31,12 @@ module AdminArea
       @sky_team_cards = [@chase_p]
 
       @offers = [
-        create(:offer, product: @chase_b),
-        create(:offer, product: @chase_b),
-        create(:offer, product: @chase_p),
-        create(:offer, product: @usb_b),
+        create_offer(product: @chase_b),
+        create_offer(product: @chase_b),
+        create_offer(product: @chase_p),
+        create_offer(product: @usb_b),
       ]
-      @dead_offer = create(:dead_offer, product: @chase_b)
+      @dead_offer = create_offer(:dead, product: @chase_b)
     end
 
     before do
