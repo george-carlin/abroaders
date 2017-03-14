@@ -42,17 +42,16 @@ class SpendingInfosController < AuthenticatedUserController
   end
 
   def edit
-    warn "#{self.class}##{__method__} needs updating to use a TRB operation"
-    @person = load_person
-    @spending_info = EditSpendingInfoForm.load(@person)
+    @model = load_person.spending_info
+    @form  = SpendingInfo::Form.new(@model)
   end
 
   def update
-    warn "#{self.class}##{__method__} needs updating to use a TRB operation"
-    @person = load_person
-    @spending_info = EditSpendingInfoForm.load(@person)
-    if @spending_info.update(spending_info_params)
-      flash[:success] = "Updated spending info"
+    @model = load_person.spending_info
+    @form  = SpendingInfo::Form.new(@model)
+    if @form.validate(params[:spending_info])
+      @form.save
+      flash[:success] = 'Updated spending info'
       redirect_to root_path
     else
       render :edit
@@ -63,16 +62,6 @@ class SpendingInfosController < AuthenticatedUserController
 
   def load_person
     current_account.people.find(params[:person_id])
-  end
-
-  def spending_info_params
-    params.require(:spending_info).permit(
-      :monthly_spending_usd,
-      :business_spending_usd,
-      :credit_score,
-      :has_business,
-      :will_apply_for_loan,
-    )
   end
 
   def spending_survey_params
