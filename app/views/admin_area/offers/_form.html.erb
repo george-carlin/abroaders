@@ -1,7 +1,6 @@
-<%= form_for [:admin, @product, @offer], html: { style: 'clear:both;', class: "form-horizontal", role: "form" } do |f| %>
-  <% if @offer.errors.any? %>
-    <%= render "shared/model_validation_errors", model: @offer %>
-  <% end %>
+<%= form_for [:admin, @model.product, @form], html: { style: 'clear:both;', class: "form-horizontal", role: "form" } do |f| %>
+
+  <%= cell(Abroaders::Cell::ValidationErrorsAlert, @form) %>
 
   <div class="form-group">
     <%= f.label :condition, class: "col-sm-2 control-label" %>

@@ -6,12 +6,12 @@
   </div>
 
   <div class="panel-body">
-    <%= cell(CardProduct::Cell::Summary, @product) %>
+    <%= cell(CardProduct::Cell::Summary, @model.product) %>
 
     <hr />
 
     <%= render 'form' %>
 
-    <%= link_to "Show offer", admin_offer_path(@offer) %>
+    <%= link_to "Show offer", admin_offer_path(@model) %>
   </div>
 </div>
