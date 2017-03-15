@@ -1,8 +1,6 @@
 class Balance < Balance.superclass
   module Cell
-    class List < Trailblazer::Cell
-      include ActionView::Helpers::RecordTagHelper
-
+    class List < Abroaders::Cell::Base
       def show
         content_tag :ul, class: 'person-balances' do
           cell(ListItem, collection: model)
@@ -10,7 +8,7 @@ class Balance < Balance.superclass
       end
     end
 
-    class ListItem < Trailblazer::Cell
+    class ListItem < Abroaders::Cell::Base
       include ActionView::Helpers::NumberHelper
 
       property :currency

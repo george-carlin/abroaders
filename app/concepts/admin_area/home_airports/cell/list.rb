@@ -9,7 +9,7 @@ module AdminArea
       #
       # @!method self.call(model, opts = {})
       #   @param model [Collection<Airport>]
-      class List < Trailblazer::Cell
+      class List < Abroaders::Cell::Base
         def show
           content_tag :ul, items
         end
@@ -28,7 +28,7 @@ module AdminArea
         end
 
         # model: an Airport
-        class Item < Trailblazer::Cell
+        class Item < Abroaders::Cell::Base
           property :full_name
 
           def show

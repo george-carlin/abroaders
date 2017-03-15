@@ -6,8 +6,7 @@ class Balance < Balance.superclass
     #
     # @!method self.call(balance, opts = {})
     #   @param balance [Balance]
-    class EditableBalance < Trailblazer::Cell
-      include BootstrapOverrides
+    class EditableBalance < Abroaders::Cell::Base
       include Escaped
 
       property :id

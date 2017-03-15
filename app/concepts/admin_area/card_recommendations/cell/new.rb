@@ -3,9 +3,7 @@ require 'abroaders/cell/options'
 module AdminArea
   module CardRecommendations
     module Cell
-      class New < Trailblazer::Cell
-        extend Abroaders::Cell::Options
-
+      class New < Abroaders::Cell::Base
         option :offer
         option :person
 

@@ -1,9 +1,7 @@
 class Offer < ApplicationRecord
   module Cell
     # takes an offer, returns its cost in the format '$X.XX'
-    class Cost < Trailblazer::Cell
-      include ActionView::Helpers::NumberHelper
-
+    class Cost < Abroaders::Cell::Base
       property :cost
 
       def show

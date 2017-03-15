@@ -5,7 +5,7 @@ module AdminArea
     module Cell
       # @!method self.call(offer)
       #   @param offer [Offer]
-      class Show < Trailblazer::Cell
+      class Show < Abroaders::Cell::Base
         property :id
         property :condition
         property :link

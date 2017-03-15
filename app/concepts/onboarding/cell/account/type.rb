@@ -5,7 +5,7 @@ module Onboarding
       #
       # key:
       #   destinations: the user's next destination
-      class Type < Trailblazer::Cell
+      class Type < Abroaders::Cell::Base
         def show
           content_tag :div, id: 'account_type_forms' do
             content_tag :div, class: 'row' do
@@ -24,7 +24,7 @@ module Onboarding
         #
         # options:
         #   destination: (optional) the destination of the user's next trip
-        class Header < Trailblazer::Cell
+        class Header < Abroaders::Cell::Base
           private
 
           def destination
@@ -46,9 +46,7 @@ module Onboarding
           end
         end
 
-        class Form < Trailblazer::Cell
-          include BootstrapOverrides
-
+        class Form < Abroaders::Cell::Base
           private
 
           def form_tag(&block)

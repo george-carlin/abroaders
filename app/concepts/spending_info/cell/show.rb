@@ -1,6 +1,6 @@
 class SpendingInfo < SpendingInfo.superclass
   module Cell
-    class Show < Trailblazer::Cell
+    class Show < Abroaders::Cell::Base
       extend Abroaders::Cell::Result
 
       skill :account
@@ -28,7 +28,7 @@ class SpendingInfo < SpendingInfo.superclass
       # @!method self.call(person, options = {}
       #   @param person [Person]
       #   @option options [Boolean] use_name
-      class PersonFinancials < Trailblazer::Cell
+      class PersonFinancials < Abroaders::Cell::Base
         include ::Cell::Builder
         include Escaped
 

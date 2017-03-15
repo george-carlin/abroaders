@@ -4,7 +4,7 @@ class CardProduct < CardProduct.superclass
     #
     # p = CardProduct.new(network: 'amex')
     # CardProduct::Cell::Network.(p).() # => 'American Express'
-    class Network < Trailblazer::Cell
+    class Network < Abroaders::Cell::Base
       property :network
 
       NAMES = {

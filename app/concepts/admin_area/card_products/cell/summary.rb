@@ -1,7 +1,7 @@
 module AdminArea
   module CardProducts
     module Cell
-      class Summary < Trailblazer::Cell
+      class Summary < Abroaders::Cell::Base
         property :bank
         property :bp
         property :code

@@ -1,7 +1,7 @@
 module AdminArea
   module Accounts
     module Cell
-      class Index < Trailblazer::Cell
+      class Index < Abroaders::Cell::Base
         extend Dry::Configurable
 
         include Kaminari::Cells
@@ -37,9 +37,7 @@ module AdminArea
           cell(TableRow, collection: paginated_accounts)
         end
 
-        class TableRow < Trailblazer::Cell
-          include ActionView::Helpers::RecordTagHelper
-
+        class TableRow < Abroaders::Cell::Base
           property :companion
           property :couples?
           property :created_at

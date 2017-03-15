@@ -2,9 +2,7 @@ module AdminArea
   module CardRecommendations
     module Cell
       module ProductsTable
-        class Row < Trailblazer::Cell
-          include ActionView::Helpers::RecordTagHelper
-
+        class Row < Abroaders::Cell::Base
           property :bank
           property :bank_id
           property :bp

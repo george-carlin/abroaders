@@ -17,7 +17,7 @@ class Account < Account.superclass
     #     when they visit /cards it will set the 'recommendation_timeout' cookie,
     #     which prevents the modal from being shown again until the cookie
     #     expires after 24 hours
-    class Dashboard < Trailblazer::Cell
+    class Dashboard < Abroaders::Cell::Base
       alias result model
 
       private
@@ -45,7 +45,7 @@ class Account < Account.superclass
       end
 
       # model: a Person
-      class Person < Trailblazer::Cell
+      class Person < Abroaders::Cell::Base
         include Escaped
 
         property :id
@@ -73,7 +73,7 @@ class Account < Account.superclass
       end
 
       # model: a collection of TravelPlans
-      class TravelPlans < Trailblazer::Cell
+      class TravelPlans < Abroaders::Cell::Base
         alias collection model
 
         private
@@ -99,7 +99,7 @@ class Account < Account.superclass
       # attention.
       #
       # model: a collection of unresolved recommendations (may be empty)
-      class UnresolvedRecsModal < Trailblazer::Cell
+      class UnresolvedRecsModal < Abroaders::Cell::Base
         private
 
         def container(&block)

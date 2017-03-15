@@ -5,10 +5,7 @@ class CardProduct < CardProduct.superclass
     module Survey
       # An individual product on the cards survey. Displays the product's image
       # and has inputs to set the opened and closed dates.
-      class Product < Trailblazer::Cell
-        include ActionView::Helpers::FormOptionsHelper
-        include BootstrapOverrides
-
+      class Product < Abroaders::Cell::Base
         property :id
 
         private
@@ -49,7 +46,7 @@ class CardProduct < CardProduct.superclass
         # Superclass for the 'opened' attribute's checkbox and label, each of
         # which are their own subclass. Don't instantiate directly. Subclasses
         # take a CardProduct as their model.
-        class Opened < Trailblazer::Cell
+        class Opened < Abroaders::Cell::Base
           include BootstrapOverrides
 
           property :id

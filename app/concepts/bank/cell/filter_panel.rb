@@ -1,6 +1,6 @@
 class Bank < ApplicationRecord
   module Cell
-    class FilterPanel < Trailblazer::Cell
+    class FilterPanel < Abroaders::Cell::Base
       include CardRecommendation::FilterPanel
       alias banks model
 

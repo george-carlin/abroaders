@@ -8,7 +8,7 @@ class Card < ApplicationRecord
     # options:
     #   - editable: default false. If true, display a link to the card's edit page,
     #               and a link to delete the card
-    class BasicCard < Trailblazer::Cell
+    class BasicCard < Abroaders::Cell::Base
       property :id
       property :closed_at
       property :opened_at

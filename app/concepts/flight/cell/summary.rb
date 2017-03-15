@@ -8,9 +8,7 @@ class Flight < Flight.superclass
     #   @option opts [Trailblazer::Cell] airport_name_cell (Destination::Cell::NameAndRegion)
     #     The dependency-injected cell which takes the flight's nested Airports
     #     and renders their names
-    class Summary < Trailblazer::Cell
-      include FontAwesome::Rails::IconHelper
-
+    class Summary < Abroaders::Cell::Base
       property :id
 
       def show

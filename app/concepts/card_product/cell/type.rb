@@ -4,7 +4,7 @@ class CardProduct < CardProduct.superclass
     #
     # p = CardProduct.new(type: :unknown_type)
     # CardProduct::Cell::Type.(p).() # => 'Unknown'
-    class Type < Trailblazer::Cell
+    class Type < Abroaders::Cell::Base
       property :type
 
       NAMES = {

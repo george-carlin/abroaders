@@ -9,7 +9,7 @@ class CardProduct < CardProduct.superclass
     #     included in the name.
     #   network_in_brackets: default false. Wrap the name of the network
     #     in brackets, e.g. 'Chase Sapphire (Visa)'
-    class FullName < Trailblazer::Cell
+    class FullName < Abroaders::Cell::Base
       property :bank
       property :bp
       property :name

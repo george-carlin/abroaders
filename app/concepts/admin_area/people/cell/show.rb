@@ -21,7 +21,7 @@ module AdminArea
       #   @option result [Collection<RecommendationNote>] recommendation_notes
       #   @option result [Collection<Region>] regions_of_interest
       #   @option result [Collection<TravelPlan>] travel_plans
-      class Show < Trailblazer::Cell
+      class Show < Abroaders::Cell::Base
         extend Abroaders::Cell::Result
 
         skill :account
@@ -139,7 +139,7 @@ module AdminArea
         end
 
         # @param model [Person]
-        class AwardWalletEmail < Trailblazer::Cell
+        class AwardWalletEmail < Abroaders::Cell::Base
           include Escaped
 
           property :award_wallet_email
@@ -153,7 +153,7 @@ module AdminArea
         # @!method self.call(person, opts = {})
         #   @param person [Person]
         #   @option opts [Account] account
-        class Heading < Trailblazer::Cell
+        class Heading < Abroaders::Cell::Base
           extend Abroaders::Cell::Options
           include Escaped
 
@@ -194,9 +194,7 @@ module AdminArea
         #   @option opts [Collection<Offer>] the recommendable offers. Be wary
         #     of n+1 issues, as this cell will read the offers' products, and
         #     the banks and currencies of those products.
-        class RecommendationTable < Trailblazer::Cell
-          extend Abroaders::Cell::Options
-
+        class RecommendationTable < Abroaders::Cell::Base
           alias person model
 
           option :offers

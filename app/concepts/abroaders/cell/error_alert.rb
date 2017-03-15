@@ -6,7 +6,7 @@ module Abroaders
     #
     # This isn't much use unless you give the alert some content, so pass
     # `:content` in as an option, which must be a string of HTML.
-    class ErrorAlert < Trailblazer::Cell
+    class ErrorAlert < Abroaders::Cell::Base
       private
 
       def content

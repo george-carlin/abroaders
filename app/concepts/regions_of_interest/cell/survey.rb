@@ -2,7 +2,7 @@ module RegionsOfInterest
   module Cell
     # @!method self.call(regions)
     #   @param regions [Collection<Region>]
-    class Survey < Trailblazer::Cell
+    class Survey < Abroaders::Cell::Base
       def title
         'Regions of Interest'
       end
@@ -15,7 +15,7 @@ module RegionsOfInterest
 
       # @!method self.call(region)
       #   @param region [Region]
-      class RegionInput < Trailblazer::Cell
+      class RegionInput < Abroaders::Cell::Base
         alias region model
 
         def show

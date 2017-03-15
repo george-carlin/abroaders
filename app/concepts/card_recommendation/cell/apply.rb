@@ -1,6 +1,6 @@
 class CardRecommendation
   module Cell
-    class Apply < Trailblazer::Cell
+    class Apply < Abroaders::Cell::Base
       alias recommendation model
 
       property :offer

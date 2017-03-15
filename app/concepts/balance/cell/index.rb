@@ -9,8 +9,7 @@ class Balance < Balance.superclass
     #   @option result [Account] account the currently-logged in Account
     #   @option result [Collection<Person>] people
     #   @option result [Collection<Balance>] balances
-    class Index < Trailblazer::Cell
-      include FontAwesome::Rails::IconHelper
+    class Index < Abroaders::Cell::Base
       extend Abroaders::Cell::Result
 
       skill :account
