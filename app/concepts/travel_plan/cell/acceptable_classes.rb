@@ -6,7 +6,7 @@ class TravelPlan < TravelPlan.superclass
     # initials of the acceptable classes. E.g. if all four classes are
     # acceptable, returns "E PE B 1st". If only business and 1st class are
     # acceptable, returns "B 1st".
-    class AcceptableClasses < Trailblazer::Cell
+    class AcceptableClasses < Abroaders::Cell::Base
       def show
         abbreviations = []
         abbreviations << 'E'   if model.accepts_economy?

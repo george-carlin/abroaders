@@ -1,8 +1,6 @@
 module Abroaders
   module Cell
-    class ConfirmOrCancelButtons < Trailblazer::Cell
-      extend Abroaders::Cell::Options
-
+    class ConfirmOrCancelButtons < Abroaders::Cell::Base
       option :small
       option :id, optional: true
       option :class_name, optional: true

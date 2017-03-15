@@ -9,7 +9,7 @@ module Partner
     #
     # ... and just returns an abbreviation. If we ever upgrade Partner
     # to a full DB-backed model, this cell might become more complicated
-    class FullName < Trailblazer::Cell
+    class FullName < Abroaders::Cell::Base
       def show
         case model
         when 'card_ratings' then 'CardRatings.com'

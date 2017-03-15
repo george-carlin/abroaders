@@ -1,10 +1,10 @@
 module AdminArea
   module Offers
     module Cell
-      class Review < Trailblazer::Cell
+      class Review < Abroaders::Cell::Base
         # Takes an Offer, returns a link (an <a>, but styled liked a button)
         # that the admin can click to kill the offer
-        class KillButton < Trailblazer::Cell
+        class KillButton < Abroaders::Cell::Base
           property :id
 
           def show
@@ -25,7 +25,7 @@ module AdminArea
 
         # Takes an Offer, returns a link (an <a>, but styled liked a button)
         # that the admin can click to verify the offer is still live
-        class VerifyButton < Trailblazer::Cell
+        class VerifyButton < Abroaders::Cell::Base
           property :id
 
           def show

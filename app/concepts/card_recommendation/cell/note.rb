@@ -1,7 +1,7 @@
 class CardRecommendation
   module Cell
     # model: a RecommendationNote.
-    class Note < Trailblazer::Cell
+    class Note < Abroaders::Cell::Base
       property :created_at
 
       private

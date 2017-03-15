@@ -2,7 +2,7 @@ class Offer < ApplicationRecord
   module Cell
     # Takes an Offer, returns a nice English sentence that describes how one
     # can earn the offer's bonus.
-    class Description < Trailblazer::Cell
+    class Description < Abroaders::Cell::Base
       property :days
 
       def show

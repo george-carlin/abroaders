@@ -1,6 +1,6 @@
 class SpendingInfo < SpendingInfo.superclass
   module Cell
-    class Table < Trailblazer::Cell
+    class Table < Abroaders::Cell::Base
       property :business_spending_usd
       property :credit_score
       property :has_business

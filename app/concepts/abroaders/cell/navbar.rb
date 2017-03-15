@@ -1,6 +1,6 @@
 module Abroaders
   module Cell
-    class Navbar < Trailblazer::Cell
+    class Navbar < Abroaders::Cell::Base
       include ::Cell::Builder
 
       builds do |user|
@@ -138,7 +138,7 @@ module Abroaders
         end
       end
 
-      class Logo < Trailblazer::Cell
+      class Logo < Abroaders::Cell::Base
         private
 
         def html_classes

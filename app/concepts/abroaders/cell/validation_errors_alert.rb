@@ -7,7 +7,7 @@ module Abroaders
     #
     # NOTE: the contract must use dry-validation for validation, not
     # ActiveModel. For ActiveModel errors use ValidationErrorsAlert::ActiveModel
-    class ValidationErrorsAlert < Trailblazer::Cell
+    class ValidationErrorsAlert < Abroaders::Cell::Base
       alias contract model
 
       def show
@@ -24,7 +24,7 @@ module Abroaders
 
       # reform will drop support for ActiveModel eventually, so we should start
       # thinking about converting all AM forms to use dry-v.
-      class ActiveModel < Trailblazer::Cell
+      class ActiveModel < Abroaders::Cell::Base
         alias contract model
 
         def show

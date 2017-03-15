@@ -1,6 +1,6 @@
 class Card < ApplicationRecord
   module Cell
-    class New < Trailblazer::Cell
+    class New < Abroaders::Cell::Base
       # The new card page is actually split into two 'pages'. When they first
       # go to add a new card, they'll see a page which lists the different card
       # products. Once they've selected a product they see a more
@@ -12,7 +12,7 @@ class Card < ApplicationRecord
       # model = a collection of CardProducts.
       #
       # option: :banks = a collection of Banks
-      class SelectProduct < Trailblazer::Cell
+      class SelectProduct < Abroaders::Cell::Base
         alias collection model
 
         private
@@ -33,10 +33,7 @@ class Card < ApplicationRecord
         end
 
         # model: a collection of Banks
-        class BankSelect < Trailblazer::Cell
-          include ActionView::Helpers::FormOptionsHelper
-          include BootstrapOverrides
-
+        class BankSelect < Abroaders::Cell::Base
           HTML_ID = :new_card_bank_id
 
           def show
@@ -52,7 +49,7 @@ class Card < ApplicationRecord
 
         # model: a Bank
         # option: :products = the products for this bank
-        class ProductsGroupedByBank < Trailblazer::Cell
+        class ProductsGroupedByBank < Abroaders::Cell::Base
           property :id
 
           def show
@@ -71,7 +68,7 @@ class Card < ApplicationRecord
         end
 
         # model: a CardProduct
-        class Product < Trailblazer::Cell
+        class Product < Abroaders::Cell::Base
           include ActionView::Helpers::RecordTagHelper
 
           private

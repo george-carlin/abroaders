@@ -13,7 +13,7 @@ module Abroaders
     #
     # Also aliases `model` to `result` for convenience.
     #
-    #     class Person::Cell::Shoe < Trailblazer::Cell
+    #     class Person::Cell::Shoe < Abroaders::Cell::Base
     #       extend Abroaders::Cell::Result
     #       skill :person
     #       # use `as` to get a different method name:

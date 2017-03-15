@@ -3,7 +3,7 @@ class CardProduct < CardProduct.superclass
     # Takes a CardProduct and returns an <img> tag for the product's image.
     #
     # options: 'size'. Default '180x114'
-    class Image < Trailblazer::Cell
+    class Image < Abroaders::Cell::Base
       property :image
 
       delegate :url, to: :image

@@ -1,7 +1,7 @@
 class Account < Account.superclass
   module Cell
     # model: an Account. returns the accounts signup date in the format m/d/y
-    class SignedUp < Trailblazer::Cell
+    class SignedUp < Abroaders::Cell::Base
       property :created_at
 
       def show

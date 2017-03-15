@@ -1,7 +1,7 @@
 module HomeAirports
   module Cell
     # model = a collection of Airports
-    class Index < Trailblazer::Cell
+    class Index < Abroaders::Cell::Base
       alias airports model
 
       private

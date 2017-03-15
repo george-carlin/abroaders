@@ -1,6 +1,6 @@
 class Currency < ApplicationRecord
   module Cell
-    class ShortName < Trailblazer::Cell
+    class ShortName < Abroaders::Cell::Base
       property :name
 
       # "Bank of America (Americard Points)" => "Bank of America"

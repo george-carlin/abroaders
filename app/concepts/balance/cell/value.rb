@@ -4,9 +4,7 @@ class Balance < Balance.superclass
     #
     # @!method self.call(balance)
     #   @param balance [Balance]
-    class Value < Trailblazer::Cell
-      include ActionView::Helpers::NumberHelper
-
+    class Value < Abroaders::Cell::Base
       def show
         number_with_delimiter(model.value)
       end

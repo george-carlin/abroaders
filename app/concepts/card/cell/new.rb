@@ -7,14 +7,7 @@ class Card < ApplicationRecord
     # the card is for the owner or for the companiothe companion
     #
     # model: the Result of the Card::Operation::New operation
-    class New < Trailblazer::Cell
-      include ActionView::Helpers::DateHelper
-      include ActionView::Helpers::FormOptionsHelper
-      include BootstrapOverrides
-      # this include is necessary otherwise the specs fail; appears to be
-      # a bug in Cells. See https://github.com/trailblazer/cells/issues/298 FIXME
-      include ::Cell::Erb
-
+    class New < Abroaders::Cell::Base
       alias result model
 
       def initialize(result, opts = {}, *)

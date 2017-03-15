@@ -4,9 +4,8 @@ module Sessions
   module Cell
     # @!method self.call(usern)
     #   @param usern [Admin|Account]
-    class New < Trailblazer::Cell
+    class New < Abroaders::Cell::Base
       include ::Cell::Builder
-      include BootstrapOverrides
 
       alias user model
 

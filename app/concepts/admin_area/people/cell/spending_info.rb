@@ -5,7 +5,7 @@ module AdminArea
       #
       # @!method self.call(model, opts = {})
       #   @param [Person] model
-      class SpendingInfo < Trailblazer::Cell
+      class SpendingInfo < Abroaders::Cell::Base
         property :spending_info
 
         def show

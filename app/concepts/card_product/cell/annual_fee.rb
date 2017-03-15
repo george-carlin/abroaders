@@ -4,9 +4,7 @@ class CardProduct < CardProduct.superclass
     #
     # p = CardProduct.new(annual_fee_cents: 1234)
     # CardProduct::Cell::AnnualFee.(p).() # => '$1,234.00'
-    class AnnualFee < Trailblazer::Cell
-      include ActionView::Helpers::NumberHelper
-
+    class AnnualFee < Abroaders::Cell::Base
       property :annual_fee_cents
 
       def show

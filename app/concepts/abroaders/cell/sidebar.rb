@@ -1,8 +1,7 @@
 module Abroaders
   module Cell
-    class Sidebar < Trailblazer::Cell
+    class Sidebar < Abroaders::Cell::Base
       include ::Cell::Builder
-      include FontAwesome::Rails::IconHelper
 
       builds do |model|
         case model

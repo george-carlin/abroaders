@@ -1,6 +1,6 @@
 class Region < Destination
   module Cell
-    class Image < Trailblazer::Cell
+    class Image < Abroaders::Cell::Base
       property :code
 
       def show

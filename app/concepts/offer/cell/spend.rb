@@ -1,9 +1,7 @@
 class Offer < ApplicationRecord
   module Cell
     # takes an offer, returns its spend in the format '$X.XX'
-    class Spend < Trailblazer::Cell
-      include ActionView::Helpers::NumberHelper
-
+    class Spend < Abroaders::Cell::Base
       property :spend
 
       def show

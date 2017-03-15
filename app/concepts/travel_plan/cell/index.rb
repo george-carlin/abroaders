@@ -1,6 +1,6 @@
 class TravelPlan < ApplicationRecord
   module Cell
-    class Index < Trailblazer::Cell
+    class Index < Abroaders::Cell::Base
       alias collection model
 
       def title

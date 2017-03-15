@@ -12,9 +12,7 @@ module AdminArea
       #   @option opts [Collection<Balance>] balances the person's balances.
       #     The cell will call .currency.name on each balance so be wary of
       #     N+1 issues
-      class Balances < Trailblazer::Cell
-        extend Abroaders::Cell::Options
-
+      class Balances < Abroaders::Cell::Base
         option :balances
 
         def show

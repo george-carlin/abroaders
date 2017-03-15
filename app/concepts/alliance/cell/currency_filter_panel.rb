@@ -5,9 +5,8 @@ class Alliance < Alliance.superclass
     # @!method self.call(alliance, options = {})
     #   @param alliance [Alliance]
     #   @option opts [Collection<Currency>] currencies
-    class CurrencyFilterPanel < Trailblazer::Cell
+    class CurrencyFilterPanel < Abroaders::Cell::Base
       include CardRecommendation::FilterPanel
-      extend Abroaders::Cell::Options
 
       alias alliance model
 
@@ -35,7 +34,7 @@ class Alliance < Alliance.superclass
         end.join
       end
 
-      class CheckBox < Trailblazer::Cell
+      class CheckBox < Abroaders::Cell::Base
         property :id
 
         def show

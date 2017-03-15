@@ -12,7 +12,7 @@ module AdminArea
         #   person: the Person
         #   pulled_recs: The person's recommendations that were pulled by an
         #                admin. May be empty
-        class Cards < Trailblazer::Cell
+        class Cards < Abroaders::Cell::Base
           alias collection model
 
           private

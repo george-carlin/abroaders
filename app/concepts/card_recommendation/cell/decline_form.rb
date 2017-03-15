@@ -2,9 +2,8 @@ class CardRecommendation < CardRecommendation.superclass
   module Cell
     # @!method self.call(rec)
     #   @param rec (CardRecommendation)
-    class DeclineForm < Trailblazer::Cell
+    class DeclineForm < Abroaders::Cell::Base
       alias rec model
-      include BootstrapOverrides
 
       private
 

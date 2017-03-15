@@ -15,7 +15,7 @@ module Abroaders
     # required by default), meaning that if you forget to add it, an error will
     # be raised on .call.
     #
-    #     class TravelPersonSummary < Trailblazer::Cell
+    #     class TravelPersonSummary < Abroaders::Cell::Base
     #       extend Abroaders::Cell::Options
     #
     #       # define private instance methods `editable` and `assigned_admin`:

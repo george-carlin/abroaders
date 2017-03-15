@@ -3,9 +3,8 @@ module AdminArea
     module Cell
       # @!method self.call(card)
       #   @param card [Card]
-      class TableRow < Trailblazer::Cell
+      class TableRow < Abroaders::Cell::Base
         include Escaped
-        include FontAwesome::Rails::IconHelper
 
         property :id
         property :applied_at

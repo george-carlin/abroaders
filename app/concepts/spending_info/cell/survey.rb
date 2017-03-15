@@ -5,10 +5,8 @@ class SpendingInfo < SpendingInfo.superclass
     #   @option result [Collection<People>] eligible_people
     #   @option result [Account] account
     #   @option result [Reform::Form] contract.default
-    class Survey < Trailblazer::Cell
-      include BootstrapOverrides
+    class Survey < Abroaders::Cell::Base
       include ::Cell::Builder
-      include FontAwesome::Rails::IconHelper
 
       builds do |result|
         case result['eligible_people'].size
@@ -89,7 +87,7 @@ class SpendingInfo < SpendingInfo.superclass
         end
       end
 
-      class BusinessSpendingFormGroup < Trailblazer::Cell
+      class BusinessSpendingFormGroup < Abroaders::Cell::Base
         include Escaped
 
         property :first_name
@@ -142,7 +140,7 @@ class SpendingInfo < SpendingInfo.superclass
         end
       end
 
-      class CreditScoreFormGroup < Trailblazer::Cell
+      class CreditScoreFormGroup < Abroaders::Cell::Base
         include Escaped
 
         property :first_name
@@ -209,7 +207,7 @@ class SpendingInfo < SpendingInfo.superclass
         end
       end
 
-      class MonthlySpendingFormGroup < Trailblazer::Cell
+      class MonthlySpendingFormGroup < Abroaders::Cell::Base
         alias people model
 
         private
@@ -261,7 +259,7 @@ class SpendingInfo < SpendingInfo.superclass
         end
       end
 
-      class WillApplyForLoanFormGroup < Trailblazer::Cell
+      class WillApplyForLoanFormGroup < Abroaders::Cell::Base
         include Escaped
 
         property :first_name
