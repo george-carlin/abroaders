@@ -1,0 +1,13 @@
+<div class="hpanel">
+  <div class="panel-heading hbuilt">
+    <h2>My Cards <%= btn_to_add_new %></h2>
+  </div>
+
+  <div id="card_accounts" class="panel-body">
+    <% if card_accounts.any? %>
+      <%= card_accounts_for_each_person %>
+    <% else %>
+      No cards!
+    <% end %>
+  </div><!-- #card_accounts.panel-body -->
+</div>

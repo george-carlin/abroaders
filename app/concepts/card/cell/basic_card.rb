@@ -1,4 +1,4 @@
-class Card < ApplicationRecord
+class Card < Card.superclass
   module Cell
     # takes a Card. returns a .row div containing the basic overview of the card:
     #   - card picture
@@ -13,6 +13,12 @@ class Card < ApplicationRecord
       property :closed_at
       property :opened_at
       property :product
+
+      # Defining this as a method so we can stub it in tests. I need to think
+      # of a better solution for DI. FIXME
+      def self.product_name_cell
+        CardProduct::Cell::FullName
+      end
 
       private
 
@@ -31,7 +37,7 @@ class Card < ApplicationRecord
       end
 
       def product_full_name
-        cell(CardProduct::Cell::FullName, product, network_in_brackets: true)
+        cell(self.class.product_name_cell, product, network_in_brackets: true)
       end
 
       def html_classes

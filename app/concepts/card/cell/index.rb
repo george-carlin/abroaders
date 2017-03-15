@@ -1,4 +1,4 @@
-class Card < ApplicationRecord
+class Card < Card.superclass
   module Cell
     class Index < Abroaders::Cell::Base
       # Takes options :account and :person. If the account is a solo account,
