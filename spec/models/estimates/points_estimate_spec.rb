@@ -3,10 +3,8 @@ require "rails_helper"
 module Estimates
   RSpec.describe PointsEstimate do
     before do
-      @eu = Region.new(code: "EU", name: "Europe")
-
-      @fr = Country.new(parent: @eu)
-      @uk = Country.new(parent: @eu)
+      @fr = Country.new(region_code: 'EU')
+      @uk = Country.new(region_code: 'EU')
 
       @cdg = Airport.new(parent: City.new(parent: @fr))
       @lhr = Airport.new(parent: City.new(parent: @uk))

@@ -5,14 +5,16 @@ module AdminArea
     include_context "logged in as admin"
 
     example "destinations index" do
-      region  = create(:region)
-      country = create(:country, parent: region)
+      country = create(:country, region_code: Region.codes)
       city    = create(:city,    parent: country)
       airport = create(:airport, parent: city)
 
       visit admin_destinations_path
 
-      expect(page).to have_content region.name
+      Region.all do |region|
+        expect(page).to have_content region.name
+      end
+
       expect(page).to have_content country.name
       expect(page).to have_content city.name
       expect(page).to have_content airport.name

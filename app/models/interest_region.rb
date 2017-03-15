@@ -1,4 +1,7 @@
 class InterestRegion < ApplicationRecord
-  belongs_to :region
+  def region
+    Region.find_by_code(region_code)
+  end
+
   belongs_to :account
 end

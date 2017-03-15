@@ -1,4 +1,4 @@
-class Region < Destination
+class Region < Region.superclass
   module Cell
     class Image < Trailblazer::Cell
       property :code

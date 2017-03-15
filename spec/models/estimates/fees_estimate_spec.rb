@@ -3,12 +3,9 @@ require "rails_helper"
 module Estimates
   RSpec.describe FeesEstimate do
     before do
-      @usa = Region.new(code: "US", name: 'U.S.A. (Continental 48)')
-      @eu  = Region.new(code: "EU", name: "Europe")
-
-      @fr = Country.new(parent: @eu,  name: "France")
-      @us = Country.new(parent: @usa, name: "United States")
-      @uk = Country.new(parent: @eu,  name: "United Kingdom")
+      @fr = Country.new(region_code: 'EU', name: 'France')
+      @us = Country.new(region_code: 'US', name: 'United States')
+      @uk = Country.new(region_code: 'EU', name: 'United Kingdom')
 
       @cdg = Airport.new(parent: City.new(parent: @fr))
       @jfk = Airport.new(parent: City.new(parent: @us))

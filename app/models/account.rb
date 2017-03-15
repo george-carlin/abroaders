@@ -60,8 +60,11 @@ class Account < ApplicationRecord
                           join_table: :accounts_home_airports,
                           association_foreign_key: :airport_id
 
+  # join table:
   has_many :interest_regions, dependent: :destroy
-  has_many :regions_of_interest, through: :interest_regions, source: :region
+  def regions_of_interest
+    interest_regions.map(&:region)
+  end
 
   # TODO these methods don't belong in here; updating the counter cache is a
   # responsibility of the Notification class, not the Account class

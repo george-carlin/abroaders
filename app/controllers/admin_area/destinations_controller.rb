@@ -13,10 +13,15 @@ module AdminArea
       end
     end
 
+    def regions
+      @type = 'region'
+      @destinations = Region.all
+    end
+
     private
 
     def load_destinations
-      Destination.includes(:parent).order("name ASC").paginate(
+      Destination.where.not(type: 'Region').order('name ASC').paginate(
         page: params[:page], per_page: 50,
       )
     end

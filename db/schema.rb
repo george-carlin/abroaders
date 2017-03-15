@@ -145,8 +145,8 @@ ActiveRecord::Schema.define(version: 20170221191006) do
     t.string   "award_wallet_id",                null: false
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
-    t.integer  "alliance_id",                    null: false
     t.boolean  "shown_on_survey", default: true, null: false
+    t.integer  "alliance_id",                    null: false
     t.string   "type",                           null: false
     t.index ["award_wallet_id"], name: "index_currencies_on_award_wallet_id", unique: true, using: :btree
     t.index ["name"], name: "index_currencies_on_name", unique: true, using: :btree
@@ -156,11 +156,12 @@ ActiveRecord::Schema.define(version: 20170221191006) do
   create_table "destinations", force: :cascade do |t|
     t.string   "name",                       null: false
     t.string   "code",                       null: false
-    t.string   "type",                       null: false
     t.integer  "parent_id"
     t.integer  "children_count", default: 0, null: false
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+    t.string   "type",                       null: false
+    t.string   "region_code"
     t.index ["code", "type"], name: "index_destinations_on_code_and_type", unique: true, using: :btree
     t.index ["name"], name: "index_destinations_on_name", using: :btree
     t.index ["parent_id"], name: "index_destinations_on_parent_id", using: :btree
@@ -181,10 +182,12 @@ ActiveRecord::Schema.define(version: 20170221191006) do
   end
 
   create_table "interest_regions", force: :cascade do |t|
-    t.integer  "account_id", null: false
-    t.integer  "region_id",  null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "account_id",  null: false
+    t.integer  "region_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.string   "region_code", null: false
+    t.index ["account_id", "region_code"], name: "index_interest_regions_on_account_id_and_region_code", unique: true, using: :btree
     t.index ["account_id", "region_id"], name: "index_interest_regions_on_account_id_and_region_id", unique: true, using: :btree
     t.index ["account_id"], name: "index_interest_regions_on_account_id", using: :btree
     t.index ["region_id"], name: "index_interest_regions_on_region_id", using: :btree
@@ -297,7 +300,6 @@ ActiveRecord::Schema.define(version: 20170221191006) do
   add_foreign_key "flights", "destinations", column: "to_id", on_delete: :restrict
   add_foreign_key "flights", "travel_plans", on_delete: :cascade
   add_foreign_key "interest_regions", "accounts", on_delete: :cascade
-  add_foreign_key "interest_regions", "destinations", column: "region_id", on_delete: :restrict
   add_foreign_key "notifications", "accounts"
   add_foreign_key "offers", "card_products", column: "product_id", on_delete: :cascade
   add_foreign_key "people", "accounts", on_delete: :cascade

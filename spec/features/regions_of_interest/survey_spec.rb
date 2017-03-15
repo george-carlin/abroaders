@@ -15,6 +15,7 @@ RSpec.describe 'regions of interest survey' do
 
   let(:submit_form) { click_on 'Save and continue' }
 
+  # TODO this belongs in the cell spec, not the feature spec:
   example 'initial page layout' do
     expect(page).to have_no_sidebar
     expect(page).to have_button 'Save and continue'

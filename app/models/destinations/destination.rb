@@ -14,7 +14,7 @@ class Destination < ApplicationRecord
   # about including Alaska and Hawaii separately. In the future when the travel
   # plan form setup is more complicated, we may change them to regions.
 
-  TYPES = %w[airport city country region].freeze
+  TYPES = %w[airport city country].freeze
 
   TYPES.each do |type|
     scope type, -> { where(type: type.capitalize) }
@@ -33,10 +33,8 @@ class Destination < ApplicationRecord
 
   # Assocations
 
-  # If this is a Region, return self. Else return the Region at the top
-  # of the hierarchy.
   def region
-    root.region? ? root : nil
+    root.country? ? root.region : nil
   end
 
   # Validations

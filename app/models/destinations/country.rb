@@ -1,12 +1,9 @@
 class Country < Destination
-  validates :parent, presence: true
+  def region
+    Region.find_by_code(region_code)
+  end
 
-  validate :parent_is_region
-
-  private
-
-  def parent_is_region
-    return unless !parent.nil? && !parent.type.nil? && parent.type != "Region"
-    errors.add(:parent, "must be a region")
+  def region=(region)
+    self.region_code = region.code
   end
 end
