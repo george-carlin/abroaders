@@ -4,10 +4,9 @@ require 'abroaders/cell/options'
 
 RSpec.describe Abroaders::Cell::Options do
   class CellWithOptions < Cell::ViewModel
-    extend Abroaders::Cell::Options
+    include Abroaders::Cell::Options
 
     option :bar, optional: true
-    # option :buzz, default: 'hello'
 
     def show
       bar || '"bar" not given'
@@ -19,7 +18,7 @@ RSpec.describe Abroaders::Cell::Options do
   end
 
   class CellWithRequiredOption < Cell::ViewModel
-    extend Abroaders::Cell::Options
+    include Abroaders::Cell::Options
     option :foo
 
     def show
@@ -44,6 +43,20 @@ RSpec.describe Abroaders::Cell::Options do
 
     # bar is optional
     expect(render_options(not_bar: 'yo')).to eq '"bar" not given'
+  end
+
+  example 'with :default' do
+    class MyCell < Trailblazer::Cell
+      include Abroaders::Cell::Options
+      option :buzz, default: 'hello'
+
+      def show
+        buzz
+      end
+    end
+
+    expect(cell(MyCell).().to_s).to include 'hello'
+    expect(cell(MyCell, nil, buzz: 'hola').().to_s).to include 'hola'
   end
 
   example 'with :collection option' do

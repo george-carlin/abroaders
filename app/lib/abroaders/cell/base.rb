@@ -1,7 +1,7 @@
 module Abroaders
   module Cell
     class Base < Trailblazer::Cell
-      extend Abroaders::Cell::Options
+      include Abroaders::Cell::Options
 
       include ActionView::Helpers::DateHelper
       include ActionView::Helpers::FormOptionsHelper

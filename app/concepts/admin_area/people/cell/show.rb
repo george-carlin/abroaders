@@ -154,7 +154,6 @@ module AdminArea
         #   @param person [Person]
         #   @option opts [Account] account
         class Heading < Abroaders::Cell::Base
-          extend Abroaders::Cell::Options
           include Escaped
 
           property :first_name

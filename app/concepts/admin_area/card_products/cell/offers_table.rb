@@ -38,8 +38,6 @@ module AdminArea
         #   @option opts [Person] the Person whom the offer will be recommended
         #     to
         class Row < Abroaders::Cell::Base
-          extend Abroaders::Cell::Options
-
           property :id
           property :days
           property :link
