@@ -52,45 +52,4 @@
   </div><!-- .panel-body -->
 </div><!-- .hpanel -->
 
-<div class="row">
-  <div class="col-xs-12">
-    <div class="hpanel">
-      <div class="panel-heading hbuilt">
-        <h2>
-          Other Cards
-
-          <%= link_to(
-            'Add New',
-            new_card_path,
-            class: 'btn btn-primary btn-sm',
-            style: 'float: right; margin-top: 6px;',
-          ) %>
-        </h2>
-      </div>
-
-      <div class="panel-body">
-        <% if @cards.any? %>
-          <div id="cards">
-            <% @people.each do |person| %>
-              <div id="<%= person.type %>_cards">
-                <%= cell(
-                  Card::Cell::Index::Subheader,
-                  nil,
-                  account: current_account,
-                  person: person
-                ) %>
-
-                <% survey_cards = @cards.where(person: person) %>
-                <% if survey_cards.any? %>
-                  <%= cell(Card::Cell::BasicCard, collection: survey_cards, editable: true) %>
-                <% else %>
-                  <p><%= person.first_name %> has no other cards</p>
-                <% end %>
-              </div><!-- #<%= person.type %>_cards -->
-            <% end %>
-          </div>
-        <% end %>
-      </div><!-- .panel-body -->
-    </div>
-  </div>
-</div>
+<%= cell(Card::Cell::Index::CardAccounts, current_account) %>
