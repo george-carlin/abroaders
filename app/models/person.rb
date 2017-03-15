@@ -53,6 +53,7 @@ class Person < ApplicationRecord
   has_many :cards
   has_many :card_accounts, -> { where.not(opened_at: nil) }, class_name: 'Card'
   has_many :card_recommendations, -> { recommendations }, class_name: 'Card'
+  has_many :card_accounts, -> { where.not(opened_at: nil) }, class_name: 'Card'
   has_many :card_products, through: :cards
 
   has_many :balances

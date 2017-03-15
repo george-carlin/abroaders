@@ -1,0 +1,38 @@
+<%= panel_heading do %>
+  <h1><%= first_name %></h1>
+  <p>Please confirm that all your information is up-to-date</p>
+<% end %>
+
+<%= panel_body do %>
+  <p>Is the following financial information for <%= first_name %> still accurate?</p>
+  <%= spending_info_table %>
+  <%= link_to_edit_spending %>
+
+  <hr>
+
+  <p>
+    Do you still have all these cards? Have you closed any of the accounts? Is
+    the information still up-to-date?
+  </p>
+
+  <%= cards_summary %>
+
+  <p>
+    If you have a new card that's not on this list,
+    <%= link_to 'click here to add it', new_card_path %>
+  </p>
+
+  <hr>
+
+  <p>
+    Do you still have all these cards? Have you closed any of the accounts? Is
+    the information still up-to-date?
+  </p>
+
+  <%= balances_summary %>
+
+  <p>
+    If you have another loyalty program balance that's not on this list,
+    <%= link_to 'click here to add it', new_person_balance_path(model) %>
+  </p>
+<% end %>
