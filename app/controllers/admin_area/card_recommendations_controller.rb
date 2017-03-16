@@ -14,7 +14,7 @@ module AdminArea
     end
 
     def complete
-      @person = load_person
+      @person = Person.find(params[:person_id])
       # form = CompleteRecommendations.create!(
       CompleteRecommendations.create!(
         note:   params[:recommendation_note],
@@ -29,7 +29,7 @@ module AdminArea
     end
 
     def pull
-      @recommendation = load_recommendation
+      @recommendation = CardRecommendation.find(params[:id])
       @recommendation.pull!
 
       respond_to do |f|
@@ -38,33 +38,8 @@ module AdminArea
     end
 
     def pulled
-      warn "#{self.class}#{__method__} needs extracting to a TRB op"
-      person = ::Person.find(params[:person_id])
-      # fake a TRB result op for future-compatibility:
-      @_result = {
-        'account'    => person.account,
-        'collection' => person.card_recommendations.pulled,
-        'person'     => person,
-      }
+      run CardRecommendations::Operation::Pulled
       render cell(CardRecommendations::Cell::Pulled, result)
-    end
-
-    private
-
-    def recommendation_params
-      params.require(:recommendation).permit(:offer_id)
-    end
-
-    def load_person
-      ::Person.find(params[:person_id])
-    end
-
-    def load_recommendation
-      CardRecommendation.find(params[:id])
-    end
-
-    def recommendation_note
-      params[:recommendation_note]
     end
   end
 end

@@ -13,6 +13,11 @@ module AdminArea
       class Pulled < Abroaders::Cell::Base
         alias result model
 
+        def initialize(result, opts = {})
+          raise 'op must be a success' unless result.success?
+          super
+        end
+
         private
 
         def account
