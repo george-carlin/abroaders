@@ -2,30 +2,19 @@ module AdminArea
   class CardRecommendationsController < AdminController
     def create
       run CardRecommendations::Operation::Create do
-        respond_to do |f|
-          f.js do
-            @card  = @model
-            @offer = @model.offer
-          end
-        end
+        respond_to(&:js)
         return
       end
       raise 'this should never happen!'
     end
 
     def complete
-      @person = load_person
-      # form = CompleteRecommendations.create!(
-      CompleteRecommendations.create!(
-        note:   params[:recommendation_note],
-        person: @person,
-      )
-      Notifications::NewRecommendations.notify!(@person)
-      # RecommendationsMailer.recommendations_ready(
-      #   account_id: form.account.id,
-      # ).deliver_later
-      flash[:success] = "Sent notification!"
-      redirect_to admin_person_path(@person)
+      run CardRecommendations::Operation::Complete do |result|
+        flash[:success] = 'Sent notification!'
+        redirect_to admin_person_path(result['person'])
+        return
+      end
+      raise 'this should never happen!'
     end
 
     def pull
