@@ -1,4 +1,6 @@
-$darkBlue: #34495e;
+$darkBlue:  #34495e;
+$lightBlue: #1fb6ff;
+$midGray:   #8492a5;
 
 // Prevent the navbar from obscuring the main content when the sidebar
 // is not present
@@ -10,10 +12,11 @@ $darkBlue: #34495e;
 // Override the original theme so that certain pages can have no sidebar and
 // the main body of the page won't have the left padding
 #wrapper {
+  background-color: #fff;
   margin-left: 0;
 
   &.wrapper-with-sidebar {
-    margin-left: 180px;
+    margin-left: 179px;
   }
 }
 
@@ -23,6 +26,18 @@ $darkBlue: #34495e;
 
 .header-link {
   border-left: none;
+}
+
+#header {
+  height: 56px;
+}
+
+.fixed-navbar #wrapper {
+  top: 56px;
+}
+
+#menu {
+  top: 55px;
 }
 
 .navbar-nav {
