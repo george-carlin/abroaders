@@ -280,46 +280,5 @@ module AdminArea
       person.reload
       expect(person.last_recommendations_at).to be_within(5.seconds).of(Time.zone.now)
     end
-
-    example "clicking 'Done' without adding a recommendation note to the user" do
-      visit_path
-      expect { click_complete_recs_button }.to_not change { account.recommendation_notes.count }
-    end
-
-    example "sending a recommendation note to the user" do
-      visit_path
-      expect(page).to have_field :recommendation_note
-
-      note_content = "I like to leave notes."
-      fill_in :recommendation_note, with: note_content
-
-      # it sends the note to the user:
-      expect do
-        click_complete_recs_button
-      end.to \
-        change { account.recommendation_notes.count }.by(1)
-      # .and send_email.to(account.email).with_subject("Action Needed: Card Recommendations Ready")
-
-      new_note = account.recommendation_notes.order(created_at: :asc).last
-      expect(new_note.content).to eq note_content
-    end
-
-    example "recommendation note with trailing whitespace" do
-      visit_path
-      note_content = "  I like to leave notes.   "
-      fill_in :recommendation_note, with: note_content
-      click_complete_recs_button
-
-      new_note = account.recommendation_notes.order(created_at: :asc).last
-      expect(new_note.content).to eq note_content.strip
-    end
-
-    example "recommendation note that's only whitespace" do
-      visit_path
-      fill_in :recommendation_note, with: "     \n \n \t\ \t "
-      expect do
-        click_complete_recs_button
-      end.to_not change { account.recommendation_notes.count }
-    end
   end
 end
