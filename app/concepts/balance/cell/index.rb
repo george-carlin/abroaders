@@ -46,7 +46,7 @@ class Balance < Balance.superclass
       # their AwardWallet account. It's just static HTML so needs no arguments.
       #
       # This is a separate .hpanel that sits above the 'main' .hpanel.
-      class AwardWalletConnectPanel < Trailblazer::Cell
+      class AwardWalletConnectPanel < Abroaders::Cell::Base
         include FontAwesome::Rails::IconHelper
 
         AWARD_WALLET_URL = \
@@ -65,9 +65,7 @@ class Balance < Balance.superclass
 
       # @param balances [Collection<Balance>]
       # @option opts [Collection<People>]
-      class Balances < Trailblazer::Cell
-        extend Abroaders::Cell::Options
-
+      class Balances < Abroaders::Cell::Base
         alias balances model
 
         option :account
@@ -90,7 +88,7 @@ class Balance < Balance.superclass
       # this cell instead of the regular balance index:
       #
       # model: the result object
-      class AwardWalletInfo < Trailblazer::Cell
+      class AwardWalletInfo < Abroaders::Cell::Base
         def success_alert
           if options[:flash] && options[:flash][:award_wallet] == 'connected'
             cell(SuccessAlert)
@@ -99,7 +97,7 @@ class Balance < Balance.superclass
           end
         end
 
-        class SuccessAlert < Trailblazer::Cell
+        class SuccessAlert < Abroaders::Cell::Base
           include FontAwesome::Rails::IconHelper
         end
       end

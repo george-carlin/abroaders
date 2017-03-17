@@ -1,7 +1,7 @@
 module Integrations::AwardWallet
   module User::Cell
     # @!method self.call(user)
-    class Info < Trailblazer::Cell
+    class Info < Abroaders::Cell::Base
       include Escaped
 
       property :id

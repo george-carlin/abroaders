@@ -1,6 +1,6 @@
 module Integrations::AwardWallet
   module Cell
-    class Settings < Trailblazer::Cell
+    class Settings < Abroaders::Cell::Base
       extend Abroaders::Cell::Result
       include ActionView::Helpers::FormOptionsHelper
       include BootstrapOverrides
@@ -20,8 +20,7 @@ module Integrations::AwardWallet
       end
 
       # @!method self.call(award_wallet_owner)
-      class ForOwner < Trailblazer::Cell
-        extend Abroaders::Cell::Options
+      class ForOwner < Abroaders::Cell::Base
         include ActionView::Helpers::FormOptionsHelper
         include ::Cell::Erb
         include ActionView::Helpers::NumberHelper
@@ -68,9 +67,7 @@ module Integrations::AwardWallet
         end
       end
 
-      class AccountsSummary < Trailblazer::Cell
-        extend Abroaders::Cell::Options
-
+      class AccountsSummary < Abroaders::Cell::Base
         option :accounts
         option :owner_name
 

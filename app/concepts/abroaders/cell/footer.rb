@@ -1,6 +1,6 @@
 module Abroaders
   module Cell
-    class Footer < Trailblazer::Cell
+    class Footer < Base
       def show
         # The fixed position footer messes up tests because Capybara or
         # Poltergeist sometimes try to click on the footer instead of the
