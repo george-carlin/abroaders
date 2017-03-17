@@ -12,8 +12,6 @@ module Abroaders
       end
 
       def show
-        root_path
-
         render view: 'navbar' # use the same ERB file even in subclasses
       end
 
