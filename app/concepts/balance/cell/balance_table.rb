@@ -14,7 +14,7 @@ class Balance < Balance.superclass
     #     (name)". When false, they will simply say "My points" and "Add new".
     #   @option opts [Cell] balance_cell (EditableBalance) the cell which will
     #     be used to render each individual balance.
-    class BalanceTable < Trailblazer::Cell
+    class BalanceTable < Abroaders::Cell::Base
       include Escaped
 
       property :first_name

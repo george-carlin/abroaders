@@ -3,59 +3,88 @@ require 'cells_helper'
 require 'abroaders/cell/options'
 
 RSpec.describe Abroaders::Cell::Options do
-  class MyCell < Cell::ViewModel
-    extend Abroaders::Cell::Options
+  class CellWithOptions < Cell::ViewModel
+    include Abroaders::Cell::Options
 
-    option :foo
     option :bar, optional: true
 
     def show
-      result = "foo: #{foo}"
-      result << ", bar: #{bar}" if bar
-      result
+      bar || '"bar" not given'
     end
   end
 
-  example 'required and optional' do
-    expect do
-      cell(MyCell, nil, bar: 'present')
-    end.to raise_error Abroaders::Cell::MissingOptionsError, /\bfoo\b/
+  def render_options(opts = {})
+    show(nil, opts.merge(__cell_class: CellWithOptions)).raw
+  end
 
-    instance = show(nil, foo: 'something', bar: 'algo', __cell_class: MyCell)
-    expect(instance.raw).to eq 'foo: something, bar: algo'
+  class CellWithRequiredOption < Cell::ViewModel
+    include Abroaders::Cell::Options
+    option :foo
+
+    def show
+      "foo: #{foo}"
+    end
+  end
+
+  def render_required(opts = {})
+    show(nil, opts.merge(__cell_class: CellWithRequiredOption)).raw
+  end
+
+  example 'required option' do
+    expect(render_required(foo: 'hello')).to eq 'foo: hello'
+
+    expect do
+      render_required(not_foo: 'hello')
+    end.to raise_error Abroaders::Cell::MissingOptionsError, /\bfoo\b/
+  end
+
+  example 'optional option' do
+    expect(render_options(bar: 'algo')).to eq 'algo'
 
     # bar is optional
-    expect do
-      cell(MyCell, nil, foo: 'something')
-    end.not_to raise_error
+    expect(render_options(not_bar: 'yo')).to eq '"bar" not given'
+  end
+
+  example 'with :default' do
+    class MyCell < Trailblazer::Cell
+      include Abroaders::Cell::Options
+      option :buzz, default: 'hello'
+
+      def show
+        buzz
+      end
+    end
+
+    expect(cell(MyCell).().to_s).to include 'hello'
+    expect(cell(MyCell, nil, buzz: 'hola').().to_s).to include 'hola'
   end
 
   example 'with :collection option' do
     expect do
-      cell(MyCell, nil, bar: 'yo', collection: true)
+      cell(CellWithRequiredOption, nil, collection: true)
     end.to raise_error Abroaders::Cell::MissingOptionsError, /\bfoo\b/
 
     expect do
-      cell(MyCell, nil, foo: 'yo', collection: true)
+      cell(CellWithRequiredOption, nil, foo: 'yo', collection: true)
     end.not_to raise_error
   end
 
   example 'when cell is nested in another cell' do # bug fix
     class WrapperCell < Cell::ViewModel
       def basic
-        "<wrap>#{cell(MyCell, nil, foo: model)}</wrap>"
+        "<wrap>#{cell(CellWithRequiredOption, nil, foo: model)}</wrap>"
       end
 
-      def error # foo is missing:
-        "<wrap>#{cell(MyCell, nil, bar: model)}</wrap>"
+      def error # required key is missing:
+        "<wrap>#{cell(CellWithRequiredOption, nil)}</wrap>"
       end
 
       def collection
-        "<wrap>#{cell(MyCell, foo: model, collection: [1, 2])}</wrap>"
+        "<wrap>#{cell(CellWithRequiredOption, foo: model, collection: [1, 2])}</wrap>"
       end
 
-      def collection_error # foo is missing:
-        "<wrap>#{cell(MyCell, bar: model, collection: [1, 2])}</wrap>"
+      def collection_error # required key is missing:
+        "<wrap>#{cell(CellWithRequiredOption, collection: [1, 2])}</wrap>"
       end
     end
 

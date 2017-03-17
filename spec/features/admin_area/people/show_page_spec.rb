@@ -31,12 +31,12 @@ module AdminArea
       @sky_team_cards = [@chase_p]
 
       @offers = [
-        create(:offer, product: @chase_b),
-        create(:offer, product: @chase_b),
-        create(:offer, product: @chase_p),
-        create(:offer, product: @usb_b),
+        create_offer(product: @chase_b),
+        create_offer(product: @chase_b),
+        create_offer(product: @chase_p),
+        create_offer(product: @usb_b),
       ]
-      @dead_offer = create(:dead_offer, product: @chase_b)
+      @dead_offer = create_offer(:dead, product: @chase_b)
     end
 
     before do
@@ -279,47 +279,6 @@ module AdminArea
       # it updates the person's 'last recs' timestamp:
       person.reload
       expect(person.last_recommendations_at).to be_within(5.seconds).of(Time.zone.now)
-    end
-
-    example "clicking 'Done' without adding a recommendation note to the user" do
-      visit_path
-      expect { click_complete_recs_button }.to_not change { account.recommendation_notes.count }
-    end
-
-    example "sending a recommendation note to the user" do
-      visit_path
-      expect(page).to have_field :recommendation_note
-
-      note_content = "I like to leave notes."
-      fill_in :recommendation_note, with: note_content
-
-      # it sends the note to the user:
-      expect do
-        click_complete_recs_button
-      end.to \
-        change { account.recommendation_notes.count }.by(1)
-      # .and send_email.to(account.email).with_subject("Action Needed: Card Recommendations Ready")
-
-      new_note = account.recommendation_notes.order(created_at: :asc).last
-      expect(new_note.content).to eq note_content
-    end
-
-    example "recommendation note with trailing whitespace" do
-      visit_path
-      note_content = "  I like to leave notes.   "
-      fill_in :recommendation_note, with: note_content
-      click_complete_recs_button
-
-      new_note = account.recommendation_notes.order(created_at: :asc).last
-      expect(new_note.content).to eq note_content.strip
-    end
-
-    example "recommendation note that's only whitespace" do
-      visit_path
-      fill_in :recommendation_note, with: "     \n \n \t\ \t "
-      expect do
-        click_complete_recs_button
-      end.to_not change { account.recommendation_notes.count }
     end
   end
 end

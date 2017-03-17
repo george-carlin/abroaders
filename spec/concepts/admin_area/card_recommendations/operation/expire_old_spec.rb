@@ -1,10 +1,9 @@
 require 'rails_helper'
 
 module AdminArea
-  # don't forget to rename this file
   RSpec.describe CardRecommendations::Operation::ExpireOld do
     let(:person) { create(:person) }
-    let(:offer)  { create(:offer) }
+    let(:offer)  { create_offer }
     let(:now) { Time.zone.now }
 
     let(:op) { described_class }

@@ -10,7 +10,7 @@ module AdminArea
       # C: network code - if network is unknown, then '?'. Else 'A', 'M', or 'V', for
       #                   Amex, MasterCard, or Visa respectively
       #
-      class Identifier < Trailblazer::Cell
+      class Identifier < Abroaders::Cell::Base
         def render
           [bank_code, code, network_code].join('-')
         end

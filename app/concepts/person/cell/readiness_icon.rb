@@ -1,6 +1,6 @@
 class Person < ApplicationRecord
   module Cell
-    class ReadinessIcon < Trailblazer::Cell
+    class ReadinessIcon < Abroaders::Cell::Base
       property :ready?
       property :eligible?
 

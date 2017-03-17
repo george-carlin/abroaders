@@ -21,42 +21,45 @@
 
       <%= home_airports %>
     </div><!-- .col-xs-12.col-md-6 -->
-  </div><!-- .panel-body -->
-</div><!-- .hpanel -->
 
-<div class="hpanel">
-  <div id="card-recommendation-filters" class="panel-body">
-    <div class="row">
-      <div class="col-xs-12">
-        <div class="form-inline">
-          <b>B/P: </b>&nbsp;
-          <% CardProduct.bps.keys.each do |bp| %>
-            <%= card_bp_filter_check_box_tag(bp) %>
-          <% end %>
+    <div id="card-recommendation-filters" class="col-xs-12">
+      <hr />
+
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-inline">
+            <b>B/P: </b>&nbsp;
+            <% CardProduct.bps.keys.each do |bp| %>
+              <%= card_bp_filter_check_box_tag(bp) %>
+            <% end %>
+          </div>
         </div>
-      </div>
-    </div><!-- .row -->
+      </div><!-- .row -->
 
-    <div class="row">
-      <%= bank_filter_panels %>
+      <div class="row">
+        <%= bank_filter_panels %>
 
-      <%= currency_filter_panels %>
-    </div><!-- .row -->
-  </div><!-- .panel-body -->
-</div><!-- .hpanel -->
+        <%= currency_filter_panels %>
+      </div><!-- .row -->
+    </div><!-- #card-recommendation-filters.col-xs-12 -->
 
-<%= cards %>
+    <div class='col-xs-12'>
+      <hr>
+      <%= cards %>
+    </div>
 
-<%= recommendation_notes %>
+    <div class='col-xs-12'>
+      <hr>
+      <%= recommendation_notes %>
+    </div>
 
-<div class="hpanel">
-  <div class="panel-body">
-    <div class="row">
-      <div class="col-xs-12">
-        <%= form_tag(
-          complete_admin_person_card_recommendations_path(person),
-          id: 'complete_card_recommendations'
-        ) do %>
+    <div class="col-xs-12">
+      <hr>
+
+      <%= form_tag(
+        complete_admin_person_card_recommendations_path(person),
+        id: 'complete_card_recommendations'
+      ) do %>
         <%= text_area_tag(
           :recommendation_note, "",
           class: "form-control",
@@ -64,31 +67,33 @@
           placeholder: 'Recommendation notes (optional)',
         ) %>
 
-      <p class="help-block">
-        When you're finished recommending cards to this user, click
-        'Done' to send them a notification. Optionally add some notes
-        above which the user will see with their recommendations.
+        <p class="help-block">
+          When you're finished recommending cards to this user, click
+          'Done' to send them a notification. Optionally add some notes
+          above which the user will see with their recommendations.
 
-        Recommendations and notes are per account, not per person.  If
-        an account has a companion, only click 'Done' (on either
-        person's page) once you've finished making recommendations
-        for both the account owner and the companion.
-      </p>
+          Recommendations and notes are per account, not per person.  If
+          an account has a companion, only click 'Done' (on either
+          person's page) once you've finished making recommendations
+          for both the account owner and the companion.
+        </p>
 
-      <input class="btn btn-primary btn-lg" style="float:right;" type="submit" value="Done">
+        <input class="btn btn-primary btn-lg" style="float:right;" type="submit" value="Done">
 
+        <% if !person.last_recommendations_at.nil? %>
+          <br>
+          Person last received recommendations on:
+          <span class="person_last_recommendations_at">
+            <%= person.last_recommendations_at.strftime("%D") %>
+          </span>
+        <% end %>
+      <% end # form_tag %>
+    </div><!-- .col-xs-12 -->
 
-      <% if !person.last_recommendations_at.nil? %>
-        <br>
-        Person last received recommendations on:
-        <span class="person_last_recommendations_at">
-          <%= person.last_recommendations_at.strftime("%D") %>
-        </span>
-      <% end %>
-    </div>
-  <% end %>
-</div>
+    <div class="col-xs-12">
+      <hr/>
 
-<hr/>
-
-<%= recommendable_offers %>
+      <%= recommendable_offers %>
+    </div><!-- .col-xs-12 -->
+  </div><!-- .panel-body -->
+</div><!-- .hpanel -->

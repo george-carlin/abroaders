@@ -1,7 +1,7 @@
 module AdminArea
   module Accounts
     module Cell
-      class SearchForm < Trailblazer::Cell
+      class SearchForm < Abroaders::Cell::Base
         def show
           form_tag(
             search_admin_accounts_path,

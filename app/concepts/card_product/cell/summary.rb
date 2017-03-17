@@ -1,6 +1,6 @@
 class CardProduct < CardProduct.superclass
   module Cell
-    class Summary < Trailblazer::Cell
+    class Summary < Abroaders::Cell::Base
       private
 
       def bank_name

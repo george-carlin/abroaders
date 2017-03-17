@@ -1,6 +1,8 @@
 module RegionsOfInterest
   module Cell
-    class Survey < Trailblazer::Cell
+    # @!method self.call(regions)
+    #   @param regions [Collection<Region>]
+    class Survey < Abroaders::Cell::Base
       def title
         'Regions of Interest'
       end
@@ -8,18 +10,25 @@ module RegionsOfInterest
       private
 
       def regions
-        cell(RegionInput, collection: models)
+        cell(RegionInput, collection: model)
       end
 
-      def models
-        ::Region.order(name: :asc)
-      end
-
-      class RegionInput < Trailblazer::Cell
+      # @!method self.call(region)
+      #   @param region [Region]
+      class RegionInput < Abroaders::Cell::Base
         alias region model
 
+        def show
+          <<-HTML
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 region-box">
+              #{name_tag}
+              #{survey_checkbox_tag}
+              #{image}
+            </div>
+          HTML
+        end
+
         property :id
-        property :code
         property :name
 
         private

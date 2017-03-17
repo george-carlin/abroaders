@@ -2,7 +2,7 @@ module AdminArea
   module Offers
     module Cell
       # model: an offer
-      class Identifier < Trailblazer::Cell
+      class Identifier < Abroaders::Cell::Base
         # A shorthand code that identifies the offer based on the points awarded,
         # minimum spend, and days. Note that this isn't necessarily unique per offer.
         def show

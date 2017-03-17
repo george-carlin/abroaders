@@ -10,10 +10,7 @@ module AdminArea
       #   @option opts [CardProduct] product the product being offered
       #   @option opts [Person] person the person whom the offers will be
       #     recommended to
-      class OffersTable < Trailblazer::Cell
-        include ActionView::Helpers::RecordTagHelper
-        extend Abroaders::Cell::Options
-
+      class OffersTable < Abroaders::Cell::Base
         alias offers model
 
         option :person
@@ -40,9 +37,7 @@ module AdminArea
         #   @param model [Offer]
         #   @option opts [Person] the Person whom the offer will be recommended
         #     to
-        class Row < Trailblazer::Cell
-          extend Abroaders::Cell::Options
-
+        class Row < Abroaders::Cell::Base
           property :id
           property :days
           property :link

@@ -1,6 +1,6 @@
 class Notification < ApplicationRecord
   module Cell
-    class List < Trailblazer::Cell
+    class List < Abroaders::Cell::Base
       private
 
       def html_classes
@@ -24,7 +24,7 @@ class Notification < ApplicationRecord
         cell(Item, collection: model.unseen_notifications)
       end
 
-      class Item < Trailblazer::Cell
+      class Item < Abroaders::Cell::Base
         include ActionView::Helpers::RecordTagHelper
 
         def show

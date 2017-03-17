@@ -10,8 +10,13 @@ module AdminArea
       #   collection: a collection of CardRecommendations
       #   person: the person
       #   account: the person's account
-      class Pulled < Trailblazer::Cell
+      class Pulled < Abroaders::Cell::Base
         alias result model
+
+        def initialize(result, opts = {})
+          raise 'op must be a success' unless result.success?
+          super
+        end
 
         private
 
@@ -41,7 +46,7 @@ module AdminArea
 
         # @!method self.call(card_rec, opts = {})
         #   @param card_rec [CardRecommendation]
-        class TableRow < Trailblazer::Cell
+        class TableRow < Abroaders::Cell::Base
           property :applied_at
           property :clicked_at
           property :declined_at

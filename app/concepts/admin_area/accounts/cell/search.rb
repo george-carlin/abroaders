@@ -1,7 +1,7 @@
 module AdminArea
   module Accounts
     module Cell
-      class Search < Trailblazer::Cell
+      class Search < Abroaders::Cell::Base
         extend Abroaders::Cell::Result
 
         skill :collection

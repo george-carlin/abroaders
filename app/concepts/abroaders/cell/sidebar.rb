@@ -1,12 +1,11 @@
 module Abroaders
   module Cell
-    class Sidebar < Trailblazer::Cell
+    class Sidebar < Abroaders::Cell::Base
       include ::Cell::Builder
-      include FontAwesome::Rails::IconHelper
 
       builds do |model|
         case model
-        when Account then self
+        when Account then AccountSidebar
         when Admin   then AdminSidebar
         end
       end
@@ -38,6 +37,13 @@ module Abroaders
 
       def nested_links(title, links, controller_class = nil)
         cell(NestedLinks, nil, title: title, links: links, controller_class: controller_class)
+      end
+
+      class AccountSidebar < self
+        def link_to_financials
+          return '' unless model.people.any?(&:eligible)
+          link 'My Financials', spending_info_path, 'dollar', SpendingInfosController
+        end
       end
 
       class AdminSidebar < self

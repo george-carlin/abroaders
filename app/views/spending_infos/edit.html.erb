@@ -7,19 +7,15 @@
         <h1>Edit Spending</h1>
       </div><!-- .panel-heading.hbuilt -->
 
-      <%= render(
-        "shared/model_validation_errors",
-        model: @spending_info,
-        model_name: "information"
-      ) %>
+      <%= cell(Abroaders::Cell::ValidationErrorsAlert::ActiveModel, @form) %>
 
       <div class="panel-body">
-        <%= form_for @spending_info, url: person_spending_info_path(@person) do |f| %>
+        <%= form_for @form, url: person_spending_info_path(@model.person) do |f| %>
 
           <div class="form-group">
             <% if current_account.couples? %>
-              <% label_text = "Please estimate the combined monthly spending for #{@spending_info.account.owner.first_name}" \
-                              " and #{@spending_info.account.companion.first_name} that could be charged to a credit card account." %>
+              <% label_text = "Please estimate the combined monthly spending for #{@model.account.owner.first_name}" \
+                              " and #{@model.account.companion.first_name} that could be charged to a credit card account." %>
             <% else %>
               <% label_text = "What is your average monthly spending that could be charged to a credit card account?" %>
             <% end %>
@@ -33,7 +29,6 @@
               <div class="input-group-addon">$</div>
               <%= f.number_field(
                 :monthly_spending_usd,
-                value: @spending_info.monthly_spending_usd,
                 class: "form-control",
                 placeholder: "Estimated monthly spending"
               ) %>

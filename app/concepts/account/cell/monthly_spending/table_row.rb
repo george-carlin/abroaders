@@ -1,11 +1,9 @@
-class Account < ApplicationRecord
+class Account < Account.superclass
   module Cell
     module MonthlySpending
-      class TableRow < Trailblazer::Cell
+      class TableRow < Abroaders::Cell::Base
         property :couples?
         property :monthly_spending_usd
-
-        include ActionView::Helpers::NumberHelper
 
         def show
           content_tag :tr do
@@ -20,7 +18,7 @@ class Account < ApplicationRecord
         end
 
         def label
-          "#{couples? ? 'Shared' : 'Personal'} spending"
+          "#{couples? ? 'Shared' : 'Personal'} spending:"
         end
       end
     end

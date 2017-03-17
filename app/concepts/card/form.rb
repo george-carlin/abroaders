@@ -6,7 +6,7 @@ class Card < ApplicationRecord
     property :closed_at
     property :opened_at
 
-    validation do # TODO convert to use dry-validation
+    validation do
       validates :opened_at, presence: true
 
       validate :closed_when_closed

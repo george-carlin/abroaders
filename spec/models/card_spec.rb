@@ -4,7 +4,7 @@ RSpec.describe Card do
   let(:account) { build(:account) }
   let(:person)  { account.people.first }
   let(:product) { build(:card_product) }
-  let(:offer)   { build(:offer, product: product) }
+  let(:offer)   { Offer.new(product: product) }
   let(:card) { described_class.non_recommendation.new(person: person) }
 
   before { card.offer = offer }
@@ -126,7 +126,7 @@ RSpec.describe Card do
   describe "before validation" do
     # TODO this shouldn't be handled by the model, do it in the Operation
     it "sets #product to #offer.product" do
-      offer   = create(:offer)
+      offer   = create_offer
       product = offer.product
       card = build(:card, product: nil, offer: offer)
       card.valid?
@@ -148,34 +148,9 @@ RSpec.describe Card do
     expect(described_class.recommendations).to eq [returned]
   end
 
-  example ".visible" do
-    product = create(:card_product)
-    offer   = create(:offer, product: product)
-    person  = create(:person)
-    visible = [
-      create(:card_recommendation,            offer: offer, person: person),
-      create(:card_recommendation, :clicked,  offer: offer, person: person),
-      create(:card_recommendation, :approved, offer: offer, person: person),
-      create(:card_recommendation, :denied,   offer: offer, person: person),
-      create(:card_recommendation, :seen,     offer: offer, person: person),
-      create(:card_recommendation, :applied,  offer: offer, person: person),
-      create(:card_recommendation, :redenied, offer: offer, person: person),
-      create(:card_recommendation, :nudged,   offer: offer, person: person),
-      create(:card_recommendation, :redenied, offer: offer, person: person),
-    ]
-
-    # invisible:
-    create(:card, :open, product: product, person: person)
-    create(:card_recommendation, :declined, offer: offer, person: person)
-    create(:card_recommendation, :expired,  offer: offer, person: person)
-    create(:card_recommendation, :pulled,   offer: offer, person: person)
-
-    expect(described_class.visible).to match_array(visible)
-  end
-
   example ".unresolved" do
     product = create(:card_product)
-    offer   = create(:offer, product: product)
+    offer   = create_offer(product: product)
     person  = create(:person)
 
     # resolved:
@@ -184,13 +159,11 @@ RSpec.describe Card do
     create(:card_rec, :nudged, :denied, offer: offer, person: person)
     create(:card_rec, :redenied,        offer: offer, person: person)
     create(:card_rec, :expired,         offer: offer, person: person)
+    create(:card, :open, product: product, person: person)
     # open after reconsideration:
     create(:card_rec, :denied, :called, :approved, offer: offer, person: person)
     # open after nudging:
     create(:card_rec, :applied, :nudged, :approved, offer: offer, person: person)
-
-    # irrelevant:
-    create(:card, :open, product: product, person: person)
 
     unresolved = [
       # brand new:
@@ -206,32 +179,5 @@ RSpec.describe Card do
     ]
 
     expect(Card.unresolved).to match_array(unresolved)
-  end
-
-  example ".not_irreversibly_denied" do
-    cp = create(:card_product)
-    o  = create(:offer, product: cp)
-    p  = create(:person)
-    attrs = { offer: o, person: p }
-
-    # irreversibly denied:
-    create(:card_rec, :applied, :nudged, :denied, attrs)
-    create(:card_rec, :applied, :denied, :called, :redenied, attrs)
-
-    # irrelevant:
-    create(:card, :open)
-
-    not_irreversibly_denied = [
-      # denied but reconsiderable:
-      create(:card_rec, :applied, :denied, attrs),
-      create(:card_rec, :applied, :denied, :called, attrs),
-      # not denied at all:
-      create(:card_rec, :approved, attrs),
-      create(:card_rec, :pulled,                  attrs),
-      create(:card_rec, :expired,                 attrs),
-      create(:card_rec, :applied, :nudged, :approved, attrs),
-    ]
-
-    expect(described_class.not_irreversibly_denied).to match_array(not_irreversibly_denied)
   end
 end

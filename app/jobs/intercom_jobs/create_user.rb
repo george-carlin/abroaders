@@ -2,10 +2,10 @@ module IntercomJobs
   class CreateUser < IntercomJobs::Base
     queue_as :intercom
 
-    # opts (all string keys):
-    #   email: email of the new account
-    #   name: name of the new account's owner
-    #   signed_up_at: an INTEGER that represents a UNIX time
+    # @param opts
+    # @option opts [String] email email of the new account
+    # @option opts [String] name name of the new account's owner
+    # @option opts [Integer] signed_up_at an int that represents a UNIX time
     def perform(opts = {})
       INTERCOM.users.create(
         email:        opts.fetch('email'),

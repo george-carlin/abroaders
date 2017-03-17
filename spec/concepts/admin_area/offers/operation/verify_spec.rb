@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe AdminArea::Offers::Operation::Verify do
   let(:op) { described_class }
 
-  let(:offer) { create(:offer, :live) }
+  let(:offer) { create_offer }
 
   example 'verifying an offer' do
     result = op.(id: offer.id)

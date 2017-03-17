@@ -5,9 +5,7 @@ class Destination < ApplicationRecord
     # it will also show the IATA code after then mae. Used while displaying
     # travel plans. New travel plans always have airports as destinations;
     # legacy data countries.
-    class NameAndRegion < Trailblazer::Cell
-      include ActionView::Helpers::RecordTagHelper
-
+    class NameAndRegion < Abroaders::Cell::Base
       private
 
       def html_class

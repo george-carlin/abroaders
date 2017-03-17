@@ -6,8 +6,7 @@ class Balance < Balance.superclass
     #
     # @!method self.call(balance, opts = {})
     #   @param balance [Balance]
-    class EditableBalance < Trailblazer::Cell
-      include BootstrapOverrides
+    class EditableBalance < Abroaders::Cell::Base
       include Escaped
 
       property :id
@@ -56,6 +55,7 @@ class Balance < Balance.superclass
       def form_tag(&block)
         super(
           balance_path(id),
+          class: 'edit_balance',
           data: { remote: true },
           method: :patch,
           &block

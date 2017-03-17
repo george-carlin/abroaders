@@ -2,7 +2,7 @@ class CardRecommendation < CardRecommendation.superclass
   module Cell
     # @!method self.call(rec)
     #   @param rec (CardRecommendation)
-    class UnresolvedRec < Trailblazer::Cell
+    class UnresolvedRec < Abroaders::Cell::Base
       include SerializeHelper
 
       property :id

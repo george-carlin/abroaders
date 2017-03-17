@@ -1,6 +1,6 @@
 module Abroaders
   module Cell
-    class Navbar < Trailblazer::Cell
+    class Navbar < Abroaders::Cell::Base
       include ::Cell::Builder
 
       builds do |user|
@@ -12,8 +12,6 @@ module Abroaders
       end
 
       def show
-        root_path
-
         render view: 'navbar' # use the same ERB file even in subclasses
       end
 
@@ -138,7 +136,7 @@ module Abroaders
         end
       end
 
-      class Logo < Trailblazer::Cell
+      class Logo < Abroaders::Cell::Base
         private
 
         def html_classes

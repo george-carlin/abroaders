@@ -16,9 +16,8 @@ class TravelPlan < TravelPlan.superclass
     #   @option opts [Trailblazer::Cell] flight_summary_cell
     #     (Flight::Summary::Cell) the dependency-injected cell that renders the
     #     summary about the *flight*.
-    class Summary < Trailblazer::Cell
+    class Summary < Abroaders::Cell::Base
       include Escaped
-      include FontAwesome::Rails::IconHelper
 
       alias travel_plan model
 
@@ -94,7 +93,7 @@ class TravelPlan < TravelPlan.superclass
       end
 
       # A <span>: 'Departure: MM/DD/YYYY Return: MM/DD/YYYY'
-      class Dates < Trailblazer::Cell
+      class Dates < Abroaders::Cell::Base
         property :depart_on
         property :return_on
         property :type

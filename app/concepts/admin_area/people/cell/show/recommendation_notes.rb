@@ -7,7 +7,7 @@ module AdminArea
         # with an h3 header.
         #
         # model: a collection of rec notes. may be empty.
-        class RecommendationNotes < Trailblazer::Cell
+        class RecommendationNotes < Abroaders::Cell::Base
           alias collection model
 
           def show
@@ -21,7 +21,7 @@ module AdminArea
             cell(ListItem, collection: collection)
           end
 
-          class ListItem < Trailblazer::Cell
+          class ListItem < Abroaders::Cell::Base
             property :created_at
 
             private

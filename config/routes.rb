@@ -138,7 +138,7 @@ Rails.application.routes.draw do
   get :slack, to: "slack_invites#new"
   post "slack/invite", to: "slack_invites#create"
 
-  resource :spending_info, path: :spending, only: [] do
+  resource :spending_info, path: :financials, only: [:show] do
     get :survey
     post :survey, action: :save_survey
   end

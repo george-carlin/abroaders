@@ -2,7 +2,7 @@ class Business < Business.superclass
   module Cell
     # Pass `nil` if there is no business. Else pass an object with the properties
     # declared below.
-    class TableRow < Trailblazer::Cell
+    class TableRow < Abroaders::Cell::Base
       property :spending_usd # int
       property :ein          # bool
 
@@ -14,8 +14,6 @@ class Business < Business.superclass
           ]
         end
       end
-
-      include ActionView::Helpers::NumberHelper
 
       private
 
