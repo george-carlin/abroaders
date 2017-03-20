@@ -30,7 +30,9 @@ RSpec.describe Account::Cell::Dashboard do
     )
 
     expect(rendered).to have_selector '.modal'
-    expect(rendered).to have_content 'You have card recommendations which require immediate action'
+    expect(rendered).to have_content(
+      'You have card recommendations that require immediate action',
+    )
     expect(rendered).to have_link 'Continue', href: cards_path
   end
 
