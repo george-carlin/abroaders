@@ -6,13 +6,6 @@ class AuthenticatedUserController < ApplicationController
 
   private
 
-  # Pass these options by default into Trailblazer operations when calling
-  # them with 'run'
-  def _run_options(options)
-    options['account'] = current_account
-    options
-  end
-
   def run(*args)
     @_run_called = true
     super

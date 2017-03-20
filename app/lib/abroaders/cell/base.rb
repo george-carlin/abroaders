@@ -13,6 +13,14 @@ module Abroaders
       # this include is necessary otherwise the specs fail; appears to be
       # a bug in Cells. See https://github.com/trailblazer/cells/issues/298 FIXME
       include ::Cell::Erb
+
+      private
+
+      # Shorthand for cells to use the cookies from parent_controller. Use
+      # sparingly
+      def cookies
+        request.cookie_jar
+      end
     end
   end
 end

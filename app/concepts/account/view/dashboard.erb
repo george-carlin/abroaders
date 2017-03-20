@@ -1,17 +1,72 @@
 <div class="row">
-  <div class="col-xs-12">
-    <h1>Dashboard</h1>
-  </div>
-</div>
+  <div class="col-xs-12 text-center">
+    <%= image_tag(
+      'erik-white-bg-sm.jpg',
+      alt: 'Erik',
+      class: 'img img-responsive img-circle center text-center',
+      size: '90x90',
+      style: 'margin: 0 auto;',
+    ) %>
 
-<%= travel_plans %>
+    <p class="text-center">Erik Paquet</p>
+    <p class="text-center">Co-founder, Abroaders</p>
+    <p class="lead text-center">
+      Welcome to Abroaders, <%= owner_first_name %>. We are amped up to help
+      you save on travel.
+      <br/>
+      Don't be shy to reach out if you have any questions.
+    </p>
+
+    <a
+      class="btn btn-info2 text-center"
+      href="<%= ExternalLinks::SCHEDULE_A_CALL %>"
+      style="background-color: #1fb6ff; color: #ffffff;"
+    >
+      <span class="fa fa-phone"></span> Have a question? Schedule a call with us
+    </a>
+
+    <hr>
+  </div><!-- .col-xs-12 -->
+</div><!-- .row -->
 
 <div class="row">
-  <div class="col-xs-12">
-    <h2>Points Earning</h2>
+  <div class="col-md-12 text-center">
+    <p class="lead" style="color: #8492a5;">
+      <strong>Abroaders is here to help you...</strong>
+    </p>
   </div>
 </div>
 
-<%= people %>
+<div class="row">
+  <div class="col-md-4 text-center">
+    <span class="fa fa-line-chart" style="font-size: 65px; color: #1fb6ff;"></span>
+    <h4 style="color: #8492a5;"><strong>Earn points and miles</strong></h4>
+
+    <p>
+      The <em>Abroaders method</em> to earning and using points is unlike any,
+      due to its highly personalized nature.
+    </p>
+  </div><!-- .col-md-4 -->
+
+  <div class="col-md-4 text-center">
+    <span class="fa fa-plane" style="font-size: 65px; color: #1fb6ff;"></span>
+    <h4 style="color: #8492a5;"><strong>Use points and miles</strong></h4>
+
+    <p>Our experience has shaped our strategy that helps you <em>use the fewest miles, spend the least on out of pocket expenses like taxes and fees, optimize for the best airlines, and avoid unecessary layovers and connections.</em></p>
+  </div>
+
+  <div class="col-md-4 text-center">
+    <span class="fa fa-globe" style="font-size: 65px; color: #1fb6ff;"></span>
+    <h4 style="color: #8492a5;">
+      <strong>Help with travel questions</strong>
+    </h4>
+
+    <p>
+      <strong>We love travel.</strong>
+      Our team has been on countless international trips, spanning the globe.
+      We're happy to answer any questions you have about your travel dreams.
+    </p>
+  </div><!-- col-md-4 -->
+</div><!-- .row -->
 
 <%= unresolved_recs_modal %>
