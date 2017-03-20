@@ -14,10 +14,6 @@ class ApplicationController < ActionController::Base
     elsif current_account
       redirect_if_not_onboarded! && return
 
-      unless current_account.has_any_recommendations?
-        render("accounts/new_user_dashboard") && return
-      end
-
       run Account::Operation::Dashboard
       render cell(Account::Cell::Dashboard, result)
     else

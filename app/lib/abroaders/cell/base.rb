@@ -21,6 +21,14 @@ module Abroaders
       def cookies
         request.cookie_jar
       end
+
+      def escape(*args)
+        ERB::Util.html_escape(*args)
+      end
+
+      def t(*args)
+        I18n.t(*args)
+      end
     end
   end
 end
