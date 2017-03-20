@@ -7,15 +7,13 @@ RSpec.describe "account dashboard" do
 
   before { login_as_account(account.reload) }
 
-  let(:visit_path) { visit root_path }
-
   let(:owner) { account.owner }
 
   subject { page }
 
   shared_examples "showing dashboard for eligible" do
-    before { visit_path }
     example "initial layout" do
+      visit root_path
       is_expected.to have_content t("dashboard.account.eligible.title")
       is_expected.to have_content "1. Complete profile"
       is_expected.to have_content "2. Tell us when you're ready"
@@ -28,8 +26,8 @@ RSpec.describe "account dashboard" do
   end
 
   shared_examples "showing dashboard for ineligible" do
-    before { visit_path }
     example "initial layout" do
+      visit root_path
       is_expected.to have_content t("dashboard.account.ineligible.message")
       is_expected.to have_content "1. Complete profile"
       is_expected.to have_content "2. Earn point"
@@ -38,8 +36,8 @@ RSpec.describe "account dashboard" do
   end
 
   shared_examples "showing dashboard for ready" do
-    before { visit_path }
     example "initial layout" do
+      visit root_path
       is_expected.to have_content t("dashboard.account.ready.message")
       is_expected.to have_content "1. Complete profile"
       is_expected.to have_content "2. Wait 24-48 hours"
@@ -83,7 +81,7 @@ RSpec.describe "account dashboard" do
         owner.update!(ready: false)
         companion.update!(ready: false)
         owner.update!(eligible: true)
-        visit_path
+        visit root_path
       end
 
       include_examples "showing dashboard for eligible"
@@ -92,6 +90,37 @@ RSpec.describe "account dashboard" do
     context 'at least one ready person' do
       before { owner.update!(ready: true) }
       include_examples "showing dashboard for ready"
+    end
+  end
+
+  describe 'unresolved recs modal' do
+    let(:text) { 'You have card recommendations that require immediate action' }
+    example "when I have no recs that require action" do
+      visit root_path
+      expect(page).to have_no_content text
+    end
+
+    context "when I have recs that require action" do
+      before do
+        run!(
+          AdminArea::CardRecommendations::Operation::Create,
+          card_recommendation: { offer_id: create_offer.id }, person_id: owner.id,
+        )['model']
+        run!(AdminArea::CardRecommendations::Operation::Complete, person_id: owner.id)
+        visit root_path
+      end
+
+      it 'shows unresolved recs modal' do
+        expect(page).to have_content text
+        expect(page).to have_link 'Continue', href: cards_path
+      end
+
+      example "and I've already clicked the link" do
+        # it sets a cookie that prevents the modal from appearing for 24hrs
+        click_link 'Continue'
+        visit root_path
+        expect(page).to have_no_content text
+      end
     end
   end
 end
