@@ -14,7 +14,7 @@
       ) %>
 
       <div class="panel-body">
-        <%= form_for @form, url: [:admin, @person, @model] do |f| %>
+        <%= form_for @form, url: admin_person_spending_info_path(@person) do |f| %>
           <div class="form-group">
             <% if @account.couples? %>
               <% label_text = "Please estimate the combined monthly spending for #{@model.account.owner.first_name}" \
