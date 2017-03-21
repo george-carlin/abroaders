@@ -1,3 +1,7 @@
 module ExternalLinks
-  SCHEDULE_A_CALL = 'https://calendly.com/erik-abroaders'.freeze
+  module ScheduleACall
+    BookTravel = 'https://calendly.com/abroaders/book-travel'.freeze
+    EarnPoints = 'https://calendly.com/abroaders/earn-points'.freeze
+    Generic    = 'https://calendly.com/abroaders'.freeze
+  end
 end
