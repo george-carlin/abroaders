@@ -14,15 +14,8 @@ class ApplicationController < ActionController::Base
     elsif current_account
       redirect_if_not_onboarded! && return
 
-      unless current_account.has_any_recommendations?
-        render("accounts/new_user_dashboard") && return
-      end
-
-      run(Account::Operation::Dashboard, {}, account: current_account)
-
-      rec_timeout = cookies[:recommendation_timeout]
-
-      render cell(Account::Cell::Dashboard, result, recommendation_timeout: rec_timeout)
+      run Account::Operation::Dashboard
+      render cell(Account::Cell::Dashboard, result)
     else
       redirect_to new_account_session_path
     end
@@ -52,6 +45,16 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  # Pass these options by default into Trailblazer operations when calling
+  # them with 'run'.
+  #
+  # This needs to live here rather than AuthenticatedUserController so that
+  # 'account' will be set in Account::Operation::Dashboard
+  def _run_options(options)
+    options['account'] = current_account if current_account
+    options
+  end
 
   def warn_if_no_trb
     # Enable this to help in the upgrade to Trailblazer

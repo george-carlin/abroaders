@@ -1,104 +1,215 @@
 class Account < Account.superclass
   module Cell
-    # result keys:
-    #   account: the currently logged-in account
-    #   people:  the account's people
-    #   travel_plans: the account's travel plans
-    #   unresolved_recommendations: unresolved recommendations belonging to
-    #       either person. Used to determine whether the 'unresolved recs'
-    #       modal should be shown
+    # The main user dashboard. For most users it's just a static page. For users
+    # who have only just completed the onboarding survey, they'll see some
+    # extra content, contained within the ForNewUser subclass (which itself
+    # has three subclasses; see the class comments on those subclasses)
     #
-    # options:
-    #   recommendation_timeout: the value of the 'recommendation_timeout' cookie.
-    #     If it's present, hide the 'new recs' modal when it would otherwise be
-    #     shown. How this works is that when a user first receives new
-    #     recs they'll see the modal when they visit this page, and they
-    #     have no choice but to click 'continue' and go to /cards. But
-    #     when they visit /cards it will set the 'recommendation_timeout' cookie,
-    #     which prevents the modal from being shown again until the cookie
-    #     expires after 24 hours
+    # @!self.call(account)
     class Dashboard < Abroaders::Cell::Base
-      alias result model
+      extend Abroaders::Cell::Result
+      include ::Cell::Builder
 
-      private
+      skill :account
+      skill :unresolved_recommendations
 
-      def account
-        result['account']
-      end
-
-      def people
-        content_tag :div, class: 'row' do
-          cell self.class::Person, collection: result['people']
+      # annoyingly, it seems like you can't nest calls to builds. I'd rather
+      # just have this block choose between self/ForNewUser, then a 2nd
+      # `builds` block in ForNewUser that chooses between Ready / Unready /
+      # Ineligible. But it doesn't work. Possibly addition to cells itself?
+      builds do |result|
+        account = result['account']
+        if account.people.any? { |p| !p.last_recommendations_at.nil? }
+          self
+        elsif account.people.any?(&:ready?)
+          ForNewUser::Ready
+        elsif account.people.any?(&:eligible?)
+          ForNewUser::Unready
+        else
+          ForNewUser::Ineligible
         end
       end
 
-      def travel_plans
-        cell(TravelPlans, result['travel_plans'])
+      def show
+        render view: 'dashboard' # use the same ERB file for all subclasses:
+      end
+
+      private
+
+      def lead_text
+        %[
+          We are amped up to help you save on travel. <br/> Don't be shy to
+          reach out if you have any questions.
+        ]
+      end
+
+      def new_user_instructions
+        ''
+      end
+
+      def owner_first_name
+        ERB::Util.html_escape(account.owner_first_name)
       end
 
       def unresolved_recs_modal
-        if result['unresolved_recommendations'].any? && options[:recommendation_timeout].nil?
+        if result['unresolved_recommendations'].any? && cookies[:recommendation_timeout].nil?
           cell(UnresolvedRecsModal)
         else
           ''
         end
       end
 
-      # model: a Person
-      class Person < Abroaders::Cell::Base
-        include Escaped
+      def welcome
+        "Welcome to Abroaders, #{owner_first_name}."
+      end
 
-        property :id
-        property :first_name
-        property :eligible?
+      # @!self.call(account)
+      class ForNewUser < self
+        property :people
 
-        private
+        def new_user_instructions
+          %[
+            <div class="row new-user-instructions">
+              <div class="col-xs-12 col-md-4 new-user-steps">
+                <p class="completed">
+                  1. Complete profile <i class="fa fa-check" aria-hidden="true"> </i>
+                </p>
+                #{steps}
+              </div><!-- .new-user-steps -->
 
-        def balances
-          if model.balances.any?
-            balances = cell(Balance::Cell::List, model.balances.includes(:currency))
-            "<h4>Balances</h4> #{balances}"
-          else
-            '<p>No existing frequent flyer balances</p>'
+              <div class="col-xs-12 col-md-8 main-area">
+                <p><b>What's next?</b></p>
+                #{whats_next}
+              </div>
+            </div>
+
+            <hr />
+          ]
+        end
+
+        %w[main_text step_2 whats_next].each do |meth|
+          define_method meth do
+            raise NotImplementedError, "subclasses must implement ##{meth}"
           end
         end
 
-        def link_to_edit_spending
-          link_to 'Edit', edit_person_spending_info_path(model)
+        def step_3
+          'Apply for card'
         end
 
-        def spending_info
-          cell(SpendingInfo::Cell::Table, model.spending_info)
+        def step_4
+          'Earn bonus points'
+        end
+
+        def step_5
+          'Book travel'
+        end
+
+        def steps
+          [step_2, step_3, step_4, step_5].compact.each_with_index.map do |step_text, i|
+            # step 1 is the same for all three subclasses, so it's hardcoded into
+            # the HTML in #show. Start counting from step 2:
+            step_number = i + 2
+            css_class = current_step == step_number ? 'next' : ''
+            %[<p class='#{css_class}'>#{step_number}. #{step_text}</p>]
+          end.join
+        end
+
+        # Shown to new users who have at least one ready person on their account
+        class Ready < self
+          def current_step
+            2
+          end
+
+          def lead_text
+            t('dashboard.account.ready.title')
+          end
+
+          def step_2
+            'Wait 24-48 hours'
+          end
+
+          def whats_next
+            %[<p>#{t('dashboard.account.ready.message')}</p>]
+          end
+        end
+
+        # Shown to new users who have at least one eligible person on their
+        # account, but no ready people.
+        class Unready < self
+          def current_step
+            2
+          end
+
+          def lead_text
+            t('dashboard.account.eligible.title')
+          end
+
+          def step_2
+            "Tell us when you're ready"
+          end
+
+          def whats_next
+            %[
+          <p>
+            When you’re ready to apply for cards, just
+            #{link_to 'let us know', edit_readiness_path} and an expert will pick
+            the best cards to maximize your travel savings. If we don’t hear back,
+            we’ll remind you in about a month.
+          </p>
+
+          <p>
+            In the meantime, we’ll track the
+            #{link_to 'points', balances_path},
+            #{link_to 'travel plans', travel_plans_path}
+            and #{link_to 'cards', cards_path} you added to your account
+            and send you an alert
+
+            <span
+              class="tooltip-btn"
+              data-toggle="tooltip"
+              title="Alerts might include easy ways to earn free points, cheap flights
+              to places you have listed in your travel plans, or advice about using
+              your points if you have enough to travel with already."
+            >(?)</span>
+
+            if we find any good deals for you.
+          </p>]
+          end
+        end
+
+        # Shown to new users who have no eligible people on their account
+        class Ineligible < self
+          def current_step
+            2
+          end
+
+          def lead_text
+            t('dashboard.account.ineligible.title')
+          end
+
+          def step_2
+            'Earn points'
+          end
+
+          def step_3
+            'Travel'
+          end
+
+          def step_4
+            nil
+          end
+
+          def step_5
+            nil
+          end
+
+          def whats_next
+            %[<p>#{t('dashboard.account.ineligible.message')}</p>]
+          end
         end
       end
 
-      # model: a collection of TravelPlans
-      class TravelPlans < Abroaders::Cell::Base
-        alias collection model
-
-        private
-
-        def any_travel_plans?
-          collection.any?
-        end
-
-        def link_to_add_new
-          content_tag :small do
-            link_to 'Add new', new_travel_plan_path
-          end
-        end
-
-        def travel_plans
-          content_tag :div, class: 'account_travel_plans' do
-            cell TravelPlan::Cell::Summary, collection: collection
-          end
-        end
-      end
-
-      # a modal that appears if the user has new recommendations that require
-      # attention.
-      #
-      # model: a collection of unresolved recommendations (may be empty)
       class UnresolvedRecsModal < Abroaders::Cell::Base
         private
 
