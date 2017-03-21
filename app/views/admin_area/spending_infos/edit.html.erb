@@ -7,11 +7,7 @@
         <h1>Edit Spending for <%= @person.first_name %></h1>
       </div><!-- .panel-heading.hbuilt -->
 
-      <%= render(
-        "shared/model_validation_errors",
-        model: @model,
-        model_name: "information"
-      ) %>
+      <%= cell(Abroaders::Cell::ValidationErrorsAlert, @form, model_name: 'information') %>
 
       <div class="panel-body">
         <%= form_for @form, url: admin_person_spending_info_path(@person) do |f| %>
