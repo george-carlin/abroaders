@@ -1,43 +1,38 @@
-require "rails_helper"
+require 'rails_helper'
 
-RSpec.describe "the sign in page" do
+RSpec.describe 'the sign in page' do
+  let(:password) { 'foobar123' }
+  let(:email)    { 'example@example.com' }
+
   before do
-    @pw = "foobar123"
-    attrs = { password: @pw, password_confirmation: @pw }
-    @account = create(:account, :onboarded, attrs)
+    run!(
+      Registration::Operation::Create,
+      account: {
+        email: email,
+        first_name: 'George',
+        password: password,
+        password_confirmation: password,
+      },
+    )['model']
     visit new_account_session_path
   end
 
-  it "has fields for signing in" do
-    expect(page).to have_field :account_email
-    expect(page).to have_field :account_password
+  let(:submit_form) { click_button 'Sign in' }
+
+  example 'signing in', :js do
+    fill_in :account_email,    with: email
+    fill_in :account_password, with: password
+    submit_form
+    expect(page).to have_selector '#sign_out_link'
+    expect(page).to have_content email
+    expect(page).to have_no_content 'Sign in'
+    expect(current_path).to eq survey_home_airports_path # first onboarding page
   end
 
-  describe "submitting the form" do
-    let(:submit_form) { click_button "Sign in" }
-
-    describe "with my valid logon details" do
-      before do
-        fill_in :account_email,    with: @account.email
-        fill_in :account_password, with: @pw
-        submit_form
-      end
-
-      it "signs me in" do
-        expect(page).to have_selector "#sign_out_link"
-        expect(page).to have_content @account.email
-        expect(page).to have_no_content "Sign in"
-        expect(current_path).to eq root_path
-      end
-    end
-
-    describe "with invalid logon details" do
-      before { submit_form }
-      it "doesn't sign me in" do
-        expect(page).to have_content "Sign in"
-        expect(page).to have_no_selector "#sign_out_link"
-        expect(page).to have_no_content @account.email
-      end
-    end
+  example 'invalid sign in' do
+    submit_form
+    expect(page).to have_content 'Sign in'
+    expect(page).to have_no_selector '#sign_out_link'
+    expect(page).to have_no_content email
   end
 end

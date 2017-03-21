@@ -10,17 +10,20 @@ class HomeAirportsController < AuthenticatedUserController
     # Use a randomly-generated cookie name to obfuscate what it's for if the
     # user looks at their cookies.
     @output_fb_signup_code = !cookies[:cbd50008665cc7269327074d2778d9a6]
-    @survey = HomeAirportsSurvey.new(account: @account)
+    @survey = HomeAirports::Survey.new(@account)
   end
 
   def save_survey
     @account = current_account
-    @survey = HomeAirportsSurvey.new(survey_params)
+    @survey = HomeAirports::Survey.new(@account)
 
-    if @survey.save
+    if @survey.validate(params[:home_airports_survey])
+      @survey.save
+      Account::Onboarder.new(current_account).add_home_airports!
       redirect_to onboarding_survey_path
     else
-      render :survey
+      # It's impossible to submit an invalid form through the web interface
+      raise 'this should never happen!'
     end
   end
 
@@ -30,7 +33,7 @@ class HomeAirportsController < AuthenticatedUserController
 
   def edit
     @account = current_account
-    @survey = HomeAirportsSurvey.new(account: @account)
+    @survey = HomeAirports::Survey.new(@account)
     render 'survey'
   end
 
@@ -43,13 +46,14 @@ class HomeAirportsController < AuthenticatedUserController
   # needed something built quickly.
   def overwrite
     @account = current_account
-    @survey = HomeAirportsSurvey.new(survey_params)
+    @survey = HomeAirports::Survey.new(@account)
 
-    if @survey.save
-      flash[:success] = 'Updated home airports!'
-      redirect_to home_airports_path
+    if @survey.validate(params[:home_airports_survey])
+      @survey.save
+      redirect_to onboarding_survey_path
     else
-      render :survey
+      # It's impossible to submit an invalid form through the web interface
+      raise 'this should never happen!'
     end
   end
 

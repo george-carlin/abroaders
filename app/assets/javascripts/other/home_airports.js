@@ -48,7 +48,7 @@ $(document).ready(function () {
           $(airportDiv).append('' +
               '<input class="hidden-airports-ids" ' +
                 'type="hidden" ' +
-                'name="home_airports_survey[airport_ids][]" ' +
+                'name="home_airports_survey[home_airports][]" ' +
                 'value="' + suggestion.id + '">'
           );
           $(airportDiv).append('<p>' +
