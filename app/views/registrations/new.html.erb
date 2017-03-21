@@ -9,17 +9,7 @@
       </div>
 
       <div class="hpanel">
-        <% if @form.errors.any? %>
-          <%= render "shared/error_message" do %>
-            Couldn't create an account:
-
-            <ul>
-              <% @form.errors.full_messages.each do |error| %>
-                <li><%= error %></li>
-              <% end %>
-            </ul>
-          <% end  %>
-        <% end %>
+        <%= cell(Abroaders::Cell::ValidationErrorsAlert, @form) %>
 
         <div class="panel-body">
           <p>Fields with a * are required</p>
