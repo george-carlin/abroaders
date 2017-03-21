@@ -6,7 +6,7 @@ class Balance < Balance.superclass
       private
 
       def setup_balances_and_people!(opts, account:, **)
-        opts['people']   = account.people
+        opts['people']   = account.people.order(owner: :desc)
         opts['balances'] = account.balances
       end
     end
