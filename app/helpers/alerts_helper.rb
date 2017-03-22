@@ -1,5 +1,18 @@
 module AlertsHelper
   def flash_alerts
+    # If you want to display a Bootstrap alert using the flash, use one of these keys:
+    #
+    # danger (red) o
+    # success (green)
+    # warning (orange)
+    # info (blue)
+    #
+    # This corresponds to the CSS class names used by Bootstrap itself. Or use
+    # 'error' as well; it'll look the same as 'danger', but 'error' feels like
+    # a word we shoul include.
+    #
+    # This method will output alerts for the keys 'alert' and 'notice' too,
+    # because these are the keys Devise uses, but don't use them yourself.
     result = ""
     {
       alert:   "danger",
