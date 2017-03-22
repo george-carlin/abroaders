@@ -9,7 +9,7 @@ module AlertsHelper
     #
     # This corresponds to the CSS class names used by Bootstrap itself. Or use
     # 'error' as well; it'll look the same as 'danger', but 'error' feels like
-    # a word we shoul include.
+    # a word we should include.
     #
     # This method will output alerts for the keys 'alert' and 'notice' too,
     # because these are the keys Devise uses, but don't use them yourself.
