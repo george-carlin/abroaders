@@ -1,0 +1,52 @@
+// We'll probably want to use these colours in other places in the app.  Before
+// you copy and paste these hex values somewhere else, see if you can figure
+// out how to share the variables between our CSS files.
+$blue:   #35a7ff;
+$gray:   #e4e5e7;
+$green:  #47da95;
+$orange: #fca17d;
+$red:    #ff5964;
+
+// Override the default alert styles provided by bootstrap
+.alert {
+  border-radius: 2px;
+  border: 1px solid $gray;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.4;
+  margin-bottom: 25px;
+  padding: 20px;
+  position: relative;
+  text-align: center;
+
+  .hpanel & {
+    margin-bottom: 0;
+    text-align: left;
+    font-size: 13px;
+    padding: 15px;
+  }
+
+  &.alert-success {
+    background-color: $green;
+  }
+
+  &.alert-info {
+    background-color: $blue;
+  }
+
+  &.alert-warning {
+    background-color: $orange;
+  }
+
+  &.alert-danger {
+    background-color: $red;
+  }
+}
+
+
+@media (min-width: 768px) {
+  .alert {
+    font-size: 21px;
+  }
+}

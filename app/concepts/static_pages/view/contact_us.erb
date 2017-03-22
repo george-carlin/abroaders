@@ -1,0 +1,63 @@
+<div class="row">
+  <div class="col-md-12 text-center">
+    <%= image_tag(
+      'jake-white-bg-sm.jpg',
+      alt: 'Jake',
+      class: 'img img-responsive img-circle center text-center',
+      size: '90x90',
+      style: 'margin: 0 auto;',
+    ) %>
+    <p class="text-center">Jake Miller</p>
+    <p class="text-center">Co-founder, Abroaders</p>
+    <p class="lead text-center">
+      <%= hey %>. We're a small team (only 5 of us), so email, text, and
+      scheduled calls are the best way we can offer great support.
+    </p>
+
+    <a
+      class="btn btn-info2 text-center"
+      href="<%= ExternalLinks::ScheduleACall::Generic %>"
+      style="background-color: #1fb6ff; color: #ffffff;"
+    >
+      <%= fa_icon 'phone' %> Schedule a call with us
+    </a>
+
+    <hr>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-md-12 text-center">
+    <p class="lead" style="color: #8492a5;"><strong>How can we help?</strong></p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-4 text-center">
+    <span class="fa fa-envelope" style="font-size: 65px; color: #1fb6ff;"></span>
+    <h4 style="color: #8492a5;"> <strong>Shoot us an email</strong> </h4>
+
+    <p style="color: #1fb6ff;"><a href="mailto:support@abroaders.com">support@abroaders.com</a></p>
+  </div>
+
+  <div class="col-md-4 text-center">
+    <span class="fa fa-phone" style="font-size: 65px; color: #1fb6ff;"></span>
+    <h4 style="color: #8492a5;"><strong>Schedule a call</strong></h4>
+
+    <p style="color: #1fb6ff;">
+      <a href="<%= ExternalLinks::ScheduleACall::Generic %>">
+        Click here to schedule a call
+      </a>
+    </p>
+  </div>
+
+  <div class="col-md-4 text-center">
+    <span class="fa fa-mobile" style="font-size: 65px; color: #1fb6ff;"></span>
+    <h4 style="color: #8492a5;"><strong>Send a text</strong></h4>
+
+    <p style="color: #1fb6ff;">Text <b>517-489-2244</b></p>
+
+  </div>
+
+
+</div><!-- content -->

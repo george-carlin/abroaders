@@ -1,4 +1,5 @@
-<%= render "shared/model_validation_errors", model: travel_plan %>
+<%= cell(Abroaders::Cell::ValidationErrorsAlert, travel_plan) %>
+
 <div class="panel-body">
   <p>
     If you have specific travel goals, we’ll build a plan to help you get

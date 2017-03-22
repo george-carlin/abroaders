@@ -46,8 +46,9 @@ class Card < Card.superclass
           def show
             content_tag :div, id: "#{type}_card_accounts" do
               if card_accounts.any?
+                collection = cell(Card::Cell::BasicCard, collection: card_accounts, editable: true)
                 "<h3>#{first_name}'s cards</h4>" <<
-                  cell(Card::Cell::BasicCard, collection: card_accounts, editable: true).()
+                  collection.join('<hr>') { |c| c }
               else
                 "<p>#{first_name} has no cards</p>"
               end

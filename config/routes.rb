@@ -42,6 +42,7 @@ Rails.application.routes.draw do
   controller :static_pages do
     get :privacy_policy
     get :terms_and_conditions
+    get :contact_us
   end
 
   get "/styles", to: "application#styles"

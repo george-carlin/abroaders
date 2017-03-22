@@ -4,6 +4,9 @@
   <div class="panel-heading hbuilt">
     <h1>Edit Card</h1>
   </div>
+
+  <%= cell(Abroaders::Cell::ValidationErrorsAlert::ActiveModel, @product) %>
+
   <div class="panel-body">
     <%= render 'form', card: @product %>
   </div>

@@ -7,10 +7,10 @@ module Abroaders
       end
     end
 
-    # This module (which should be extended, not included) provides what I feel
-    # is a glaring omission from Cells itself - a simple one-line class method
-    # that defines getters for the `options` hash, similar to how the
-    # `property` class method lets you define getters for the model.
+    # This module provides what I feel is a glaring omission from Cells itself
+    # - a simple one-line class method that defines getters for the `options`
+    # hash, similar to how the `property` class method lets you define getters
+    # for the model.
     #
     # Options are required by default. If a required option isn't provided when
     # the cell is initialized, an error will be raised. To make an option
@@ -20,7 +20,7 @@ module Abroaders
     # `default:` implies that `optional:` is true.
     #
     #     class TravelPlanSummary < Abroaders::Cell::Base
-    #       extend Abroaders::Cell::Options
+    #       include Abroaders::Cell::Options
     #
     #       # define private instance methods `editable` and `assigned_admin`:
     #       option :editable

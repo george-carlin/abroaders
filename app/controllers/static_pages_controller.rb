@@ -3,4 +3,8 @@ class StaticPagesController < ApplicationController
   # http://www.bennadel.com/coldfusion/privacy-policy-generator.htm#primary-navigation
   #
   # We should get a pair of legal eyes on them at some point, just in case.
+
+  def contact_us
+    render cell(StaticPages::Cell::ContactUs, nil, account: current_account)
+  end
 end

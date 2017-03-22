@@ -117,4 +117,15 @@ RSpec.configure do |config|
   # Required for --only-failures to work; see
   # https://relishapp.com/rspec/rspec-core/docs/command-line/only-failures
   config.example_status_persistence_file_path = File.expand_path("../.examples.txt", __FILE__)
+
+  # Runs a trailblazer op and raises an exception if it fails. Use when you
+  # know that your test data is good and that a failed op means that you wrote
+  # the test wrong (or the op is broken.)
+  def run!(op, *args)
+    result = op.(*args)
+    if result.failure?
+      raise "op #{op} was expected to succeed, but it failed. Args: #{args.join(', ')}"
+    end
+    result
+  end
 end

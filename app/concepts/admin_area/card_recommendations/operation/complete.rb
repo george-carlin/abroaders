@@ -1,6 +1,8 @@
 module AdminArea
   module CardRecommendations
     module Operation
+      # @!method self.call(params, options = {})
+      #   @option params [Integer] person_id
       class Complete < Trailblazer::Operation
         step :process
 
