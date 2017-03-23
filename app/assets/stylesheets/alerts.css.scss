@@ -1,11 +1,4 @@
-// We'll probably want to use these colours in other places in the app.  Before
-// you copy and paste these hex values somewhere else, see if you can figure
-// out how to share the variables between our CSS files.
-$blue:   #35a7ff;
-$gray:   #e4e5e7;
-$green:  #47da95;
-$orange: #fca17d;
-$red:    #ff5964;
+@import 'colors';
 
 // Override the default alert styles provided by bootstrap
 .alert {
