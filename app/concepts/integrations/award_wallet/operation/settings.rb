@@ -17,7 +17,7 @@ module Integrations::AwardWallet
       end
 
       def set_owners_with_accounts(opts, user:, **)
-        opts['owners'] = user.award_wallet_owners.includes(:person, :award_wallet_accounts).order(name: :asc)
+        opts['owners'] = user.award_wallet_owners.includes(:person, award_wallet_accounts: :award_wallet_owner).order(name: :asc)
       end
 
       def eager_load_people(account:, **)

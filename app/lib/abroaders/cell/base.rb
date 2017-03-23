@@ -26,6 +26,10 @@ module Abroaders
         ERB::Util.html_escape(*args)
       end
 
+      def flash
+        request.flash
+      end
+
       def t(*args)
         I18n.t(*args)
       end

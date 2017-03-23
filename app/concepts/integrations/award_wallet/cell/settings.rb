@@ -5,18 +5,63 @@ module Integrations::AwardWallet
       include ActionView::Helpers::FormOptionsHelper
       include BootstrapOverrides
 
-      skill :owners
       skill :account
+      skill :owners
       skill :user
 
+      def title
+        'AwardWallet settings'
+      end
+
       private
+
+      def user_name
+        escape(user.user_name)
+      end
 
       def user_info
         cell(User::Cell::Info, user)
       end
 
       def owner_settings
-        cell(ForOwner, collection: owners, account: account)
+        cell(ForOwner, collection: owners, account: account).join('<hr>') do |cell, i|
+          cell.show(index: i)
+        end
+      end
+
+      # @!self.call(award_wallet_account)
+      #   @param award_wallet_account [AwardWalletAccount]
+      class Accounts < Abroaders::Cell::Base
+        include Escaped
+
+        property :display_name
+        property :owner_name
+        property :balance_raw
+
+        def show
+          <<-HTML
+            <tr>
+              <td>#{display_name}</td>
+              <td>#{owner_name}</td>
+              <td>#{balance_raw}</td>
+            </tr>
+          HTML
+        end
+
+        # @!self.call(award_wallet_owner)
+        #   @param owner [AwardWalletOwner]
+        class Table < Abroaders::Cell::Base
+          property :award_wallet_accounts
+
+          private
+
+          def rows
+            # sort_by.reverse is faster than sort_by { (opposite of <=>) }:
+            # http://stackoverflow.com/a/2651028/1603071
+            ordered_accounts = award_wallet_accounts.sort_by(&:balance_raw).reverse
+            cell(Accounts, collection: ordered_accounts)
+          end
+        end
       end
 
       # @!method self.call(award_wallet_owner)
@@ -34,10 +79,20 @@ module Integrations::AwardWallet
 
         option :account
 
+        def show(opts = {})
+          # assume this is the first person if it hasn't been specified
+          @index = opts.fetch(:index, 0)
+          render
+        end
+
         private
 
-        def accounts_summary
-          cell(AccountsSummary, nil, accounts: award_wallet_accounts, owner_name: name)
+        def accounts_table
+          cell(Integrations::AwardWallet::Cell::Settings::Accounts::Table, model)
+        end
+
+        def first?
+          @index == 0
         end
 
         def form_to_update_person(&block)
@@ -46,7 +101,6 @@ module Integrations::AwardWallet
             {
               data: { remote: true },
               method: :patch,
-              style: 'display:inline-block;',
               class: 'owner_update_person_form',
             },
             &block
@@ -64,25 +118,6 @@ module Integrations::AwardWallet
             id: "award_wallet_owner_#{id}_person_id",
             class: 'award_wallet_owner_person_id input-sm',
           )
-        end
-      end
-
-      class AccountsSummary < Abroaders::Cell::Base
-        option :accounts
-        option :owner_name
-
-        def show
-          result = "#{owner_name} has "
-          # they should always have at least one account, else the owner
-          # shouldn't exist in the first place:
-          raise unless accounts.size >= 1
-          result << "#{pluralize(accounts.size, 'account')} on AwardWallet"
-          currencies = accounts.first(3).map(&:display_name).to_sentence
-          result << if accounts.size <= 3
-                      ": #{currencies}."
-                    else
-                      ", including #{currencies}."
-                    end
         end
       end
     end

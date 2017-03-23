@@ -1,7 +1,6 @@
 module Integrations
   class AwardWalletController < AuthenticatedUserController
     # before_action :redirect_if_already_connected!, only: [:callback, :connect]
-
     def callback
       run Integrations::AwardWallet::Operation::Callback do
         render cell(Integrations::AwardWallet::Cell::Callback)
@@ -14,7 +13,7 @@ module Integrations
       user = AwardWalletUser.find_by_aw_id!(params[:aw_id])
       # The JS will redirect them back to /balances; use the flash
       # to trigger the one-time success message on that page
-      flash[:award_wallet] = 'connected' if user.loaded
+      flash[:award_wallet_just_connected] = 'connected' if user.loaded
       render json: {
         aw_id:  user.aw_id,
         loaded: user.loaded,
@@ -22,9 +21,8 @@ module Integrations
     end
 
     def settings
-      run AwardWallet::Operation::Settings do |result|
-        render cell(AwardWallet::Cell::Settings, result)
-      end
+      run AwardWallet::Operation::Settings
+      render cell(AwardWallet::Cell::Settings, result)
     end
 
     private
