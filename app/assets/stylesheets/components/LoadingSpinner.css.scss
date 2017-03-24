@@ -1,7 +1,5 @@
-// FIXME duplicate of variable in alerts.css.scss. How can we share variables
-// between files? See
-// http://stackoverflow.com/questions/8887824/persisting-scss-variables-in-rails-asset-pipeline
-$blue:   #35a7ff;
+@import 'colors';
+$color: $blue;
 
 // From http://projects.lukehaas.me/css-loaders/
 .LoadingSpinner {

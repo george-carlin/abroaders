@@ -3,8 +3,6 @@ import _     from "underscore";
 import humps from "humps";
 import $     from "jquery";
 
-import Alert from "../core/Alert";
-
 import ApplyActions     from "./ApplyActions";
 import CallActions      from "./CallActions";
 import ExpiringText     from "./ExpiringText";
@@ -105,7 +103,7 @@ const CardApplicationSurvey = React.createClass({
             case "done":
               return <ExpiringText text="Saved!" />;
             case "error":
-              return <Alert danger >{this.state.ajaxError}</Alert>;
+              return <div className="alert alert-danger" role="alert">{this.state.ajaxError}</div>;
           }
         })()}
 

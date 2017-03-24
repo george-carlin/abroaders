@@ -22,6 +22,7 @@
  *= require account_dashboard
  *= require award_wallet
  *= require unresolved_rec
+ *= require editable_balance
  *= require_tree .
  *= require_self
  */

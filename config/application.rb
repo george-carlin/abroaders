@@ -32,6 +32,7 @@ module Abroaders
       'account/cell/dashboard',
       'admin_area/accounts/cell/index',
       'admin_area/card_recommendations/cell/new',
+      'balance/cell/editable_balance',
       'card/cell/new/select_product',
       'card_recommendation/cell/unresolved_rec',
       'integrations/award_wallet/cell/settings',
