@@ -1,5 +1,5 @@
 var BalancesIndex = {
-  showWhenEditing: ".editing_balance_btn_group, .balance_value_editing",
+  showWhenEditing: ".edit_balance, .balance_value_editing",
   hideWhenEditing: ".edit_balance_btn, .balance_value, .destroy_balance_btn",
   errorMessage:    ".editing_balance_error_msg",
 
@@ -44,16 +44,16 @@ $(document).ready(function () {
 
   $personBalances.on("ajax:beforeSend", ".edit_balance", function (e) {
     // Show spinner and disable buttons
-    var $this = $(this);
-    $this.find(".LoadingSpinner").show();
-    $this.find("button").prop("disabled", true);
+    var $balance = $(this).closest('.editable_balance');
+    $balance.find(".LoadingSpinner").show();
+    $balance.find("button").prop("disabled", true);
   });
 
   $personBalances.on("ajax:complete", ".edit_balance", function (e) {
     // Hide spinner
-    var $this = $(this);
-    $this.find(".LoadingSpinner").hide();
-    $this.find("button").prop("disabled", false);
+    var $balance = $(this).closest('.editable_balance');
+    $balance.find(".LoadingSpinner").hide();
+    $balance.find("button").prop("disabled", false);
   });
 });
 

@@ -25,7 +25,7 @@ RSpec.describe Balance::Cell::Index do
 
   example 'solo account with balances' do
     balances = Array.new(2) do |i|
-      owner.balances.build(id: i, value: 1234, currency: currencies[i])
+      owner.balances.build(id: i, value: 1234, currency: currencies[i], updated_at: 5.minutes.ago)
     end
 
     result = get_result(
@@ -46,13 +46,13 @@ RSpec.describe Balance::Cell::Index do
 
     let!(:owner_balances) do
       Array.new(2) do |i|
-        owner.balances.build(id: i, value: 1234, currency: currencies[i])
+        owner.balances.build(id: i, value: 1234, currency: currencies[i], updated_at: 5.minutes.ago)
       end
     end
 
     it '' do
       companion_balances = Array.new(2) do |i|
-        companion.balances.build(id: i, value: 1234, currency: currencies[i])
+        companion.balances.build(id: i, value: 1234, currency: currencies[i], updated_at: 5.minutes.ago)
       end
 
       result = get_result(

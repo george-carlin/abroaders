@@ -11,35 +11,44 @@ class Balance < Balance.superclass
 
       property :id
       property :currency_name
+      property :updated_at
       property :value
 
       private
+
+      def delete_btn
+        link_to(
+          balance_path(id),
+          class: 'destroy_balance_btn btn btn-xs btn-dng12',
+          data: {
+            confirm: 'Are you sure? You can not undo this action',
+          },
+          method: :delete,
+          style: 'color: #ffffff; background-color: #ff5964;',
+        ) do
+          '<i class="fa fa-trash"> </i> Delete'
+        end
+      end
+
+      def edit_btn
+        button_tag(
+          class: 'edit_balance_btn btn btn-xs btn-info2',
+          'data-balance-id': id,
+          style: 'background-color: #35a7ff; color: #ffffff;',
+        ) do
+          '<i class="fa fa-pencil"> </i> Edit'
+        end
+      end
+
+      def updated_at
+        super.strftime('%D')
+      end
 
       def cancel_btn
         button_tag(
           'Cancel',
           class: 'cancel_edit_balance_btn btn btn-sm btn-default',
           data: { 'balance-id': id },
-        )
-      end
-
-      def delete_btn
-        link_to(
-          'Delete',
-          balance_path(id),
-          class: 'destroy_balance_btn btn btn-sm btn-primary',
-          data: {
-            confirm: 'Are you sure? You can not undo this action',
-          },
-          method: :delete,
-        )
-      end
-
-      def edit_btn
-        button_tag(
-          'Edit',
-          class: 'edit_balance_btn btn btn-sm btn-primary',
-          'data-balance-id': id,
         )
       end
 
@@ -58,6 +67,7 @@ class Balance < Balance.superclass
           class: 'edit_balance',
           data: { remote: true },
           method: :patch,
+          style: 'display:none;',
           &block
         )
       end
@@ -67,7 +77,7 @@ class Balance < Balance.superclass
           :div,
           '',
           class: 'LoadingSpinner',
-          style: 'float: right; top: 13px; right: 22px; display:none;',
+          style: 'float: right; top: 13px; right: 22px; display: none;',
         )
       end
 
@@ -106,7 +116,7 @@ class Balance < Balance.superclass
       def wrapping_div(&block)
         content_tag(
           :div,
-          class: 'balance row',
+          class: 'balance row editable_balance',
           id: "balance_#{id}",
           &block
         )
