@@ -1,9 +1,19 @@
 @import url("//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700");
+@import 'colors';
 
-// duplicate of colors.css.scss FIXME
-$lightGray: #e4e5e7;
-$gray:     #c6c7c9;
-$darkGray: #6a6c6f;
+// This is based on the Bootstrap theme we bought, which is called 'Homer'.
+//
+// wrapbootstrap.com/preview/WB055J451
+//
+// Note that much of the original CSS from the theme has been removed
+// (although we still have the original files lying around if you want to
+// get something from them), and some of it has been modified or overwritten.
+//
+// More importantly, this theme was always meant as a temporary measure to
+// have an app that doesn't look like complete dog-shit until we can afford to
+// hire a real designer. If all goes well we'll replacing the below CSS soon
+// with a custom-built theme, so don't spent too much time tweaking it because
+// it will probably be thrown away.
 
 /* MARGINS & PADDINGS */
 .p-xxs {
