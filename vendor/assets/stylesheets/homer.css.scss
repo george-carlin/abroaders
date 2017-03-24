@@ -896,45 +896,53 @@ body {
   margin: 0;
 }
 /* Panels */
-.hpanel > .panel-heading {
-  color: inherit;
-  font-weight: 600;
-  padding: 10px 4px;
-  transition: all .3s;
-  border: 1px solid transparent;
-}
-.hpanel .hbuilt.panel-heading {
-  border-bottom: none;
-}
-.hpanel > .panel-footer,
-.hpanel > .panel-section {
-  color: inherit;
-  border: 1px solid $gray;
-  border-top: none;
-  font-size: 90%;
-  background: #f7f9fa;
-  padding: 10px 15px;
-}
-.hpanel.panel-collapse > .panel-heading,
-.hpanel .hbuilt {
-  background: #fff;
-  border-color: $gray;
-  border: 1px solid $gray;
-  padding: 10px 10px;
-  border-radius: 2px;
-}
-.hpanel .panel-body {
-  background: #fff;
-  border: 1px solid $gray;
-  border-radius: 2px;
-  padding: 20px;
-  position: relative;
-}
-.hpanel.panel-group .panel-body:first-child {
-  border-top: 1px solid $gray;
-}
-.hpanel.panel-group .panel-body {
-  border-top: none;
+.hpanel {
+  > .panel-heading {
+    color: inherit;
+    font-weight: 600;
+    padding: 10px 4px;
+    transition: all .3s;
+    border: 1px solid transparent;
+  }
+
+  .hbuilt.panel-heading {
+    border-bottom: none;
+  }
+
+  > .panel-footer,
+  > .panel-section {
+    color: inherit;
+    border: 1px solid $lightGray;
+    border-top: none;
+    font-size: 90%;
+    background: #f7f9fa;
+    padding: 10px 15px;
+  }
+
+  &.panel-collapse > .panel-heading,
+  .hbuilt {
+    background: #fff;
+    border-color: $lightGray;
+    border: 1px solid $lightGray;
+    padding: 10px 10px;
+    border-radius: 2px;
+  }
+
+  .panel-body {
+    background: #fff;
+    border: 1px solid $lightGray;
+    border-radius: 2px;
+    padding: 20px;
+    position: relative;
+  }
+
+  &.panel-group .panel-body:first-child {
+    border-top: 1px solid $lightGray;
+  }
+
+  &.panel-group .panel-body {
+    border-top: none;
+  }
 }
 .panel-collapse .panel-body {
   border: none;
