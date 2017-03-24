@@ -56,8 +56,6 @@ module Integrations
             path,
             headers: { 'X-Authentication' => api_key },
           ).body
-          # TODO can this be replaced with '#parsed_response'? Would require
-          # updating the stubs in the specs.
           response = JSON.parse(raw_response)
           raise(Error, response.fetch('error')) if response['error']
           Abroaders::Util.underscore_keys(response, true)
