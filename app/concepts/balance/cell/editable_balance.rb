@@ -19,12 +19,11 @@ class Balance < Balance.superclass
       def delete_btn
         link_to(
           balance_path(id),
-          class: 'destroy_balance_btn btn btn-xs btn-dng12',
+          class: 'destroy_balance_btn btn btn-xs btn-danger',
           data: {
             confirm: 'Are you sure? You can not undo this action',
           },
           method: :delete,
-          style: 'color: #ffffff; background-color: #ff5964;',
         ) do
           '<i class="fa fa-trash"> </i> Delete'
         end
@@ -32,9 +31,8 @@ class Balance < Balance.superclass
 
       def edit_btn
         button_tag(
-          class: 'edit_balance_btn btn btn-xs btn-info2',
+          class: 'edit_balance_btn btn btn-xs btn-primary',
           'data-balance-id': id,
-          style: 'background-color: #35a7ff; color: #ffffff;',
         ) do
           '<i class="fa fa-pencil"> </i> Edit'
         end
@@ -77,7 +75,7 @@ class Balance < Balance.superclass
           :div,
           '',
           class: 'LoadingSpinner',
-          style: 'float: right; top: 13px; right: 22px; display: none;',
+          style: 'display: none;',
         )
       end
 
@@ -107,8 +105,8 @@ class Balance < Balance.superclass
         number_field(
           :balance,
           :value,
-          class: 'balance_value_editing',
-          style: 'display: none; height: 30px;',
+          class: 'balance_value_editing input-sm',
+          style: 'display: none;',
           value: value,
         )
       end

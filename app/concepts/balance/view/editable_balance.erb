@@ -2,14 +2,14 @@
   <div class="col-xs-12 col-md-4">
     <%= currency_name %>
 
-    <p class="small" style="color: #35a7ff;"><em>Last update: <%= updated_at %></em></p>
+    <p class="balance_updated_at">Last update: <%= updated_at %></p>
 
     <%= edit_btn %>
     <%= delete_btn %>
   </div>
   <div class="col-xs-6 col-md-5">
     <span class="balance_value">
-      <p class="lead"> <%= formatted_value %></p>
+      <p class="lead"><%= formatted_value %></p>
     </span>
 
     <%= form_tag do %>
