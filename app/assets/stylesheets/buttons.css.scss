@@ -116,8 +116,8 @@ $dangerActive: $darkerRed;
 
 .btn-default {
   background-color: #fff;
-  border-color: #e4e5e7;
-  color: #6a6c6f;
+  border-color: $gray;
+  color: $darkGray;
 
   &:hover,
   &:focus,
@@ -148,8 +148,8 @@ $dangerActive: $darkerRed;
   fieldset[disabled] &:focus,
   fieldset[disabled] &:active,
   fieldset[disabled] &.active {
-    background-color: #e4ebee;
-    border-color: #e4ebee;
+    background-color: $gray;
+    border-color: $gray;
   }
 }
 
@@ -187,8 +187,8 @@ $dangerActive: $darkerRed;
   fieldset[disabled] &:focus,
   fieldset[disabled] &:active,
   fieldset[disabled] &.active {
-    background-color: #e6a300;
-    border-color: #e6a300;
+    background-color: $gray;
+    border-color: $gray;
   }
 }
 
@@ -226,8 +226,8 @@ $dangerActive: $darkerRed;
   fieldset[disabled] &:focus,
   fieldset[disabled] &:active,
   fieldset[disabled] &.active {
-    background-color: #e43321;
-    border-color: #e43321;
+    background-color: $gray;
+    border-color: $gray;
   }
 }
 
@@ -239,7 +239,7 @@ $dangerActive: $darkerRed;
   &:active,
   &.active,
   .open &.dropdown-toggle {
-    color: #6a6c6f;
+    color: $darkGray;
   }
   &:active,
   &.active,
