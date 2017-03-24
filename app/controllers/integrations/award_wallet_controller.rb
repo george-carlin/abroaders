@@ -1,12 +1,15 @@
 module Integrations
   class AwardWalletController < AuthenticatedUserController
-    # before_action :redirect_if_already_connected!, only: [:callback, :connect]
     def callback
-      run Integrations::AwardWallet::Operation::Callback do
+      result = run Integrations::AwardWallet::Operation::Callback
+      if result.success?
         render cell(Integrations::AwardWallet::Cell::Callback)
-        return
+      else
+        case result['error']
+        when 'not found' then raise ActiveRecord::RecordNotFound # 404
+        when 'already loaded' then redirect_to integrations_award_wallet_settings_path
+        end
       end
-      raise ActionController::RoutingError
     end
 
     def poll
@@ -21,13 +24,15 @@ module Integrations
     end
 
     def settings
-      run AwardWallet::Operation::Settings
-      render cell(AwardWallet::Cell::Settings, result)
+      run AwardWallet::Operation::Settings do |result|
+        render cell(AwardWallet::Cell::Settings, result)
+        return
+      end
+      redirect_to balances_path
     end
 
     private
 
-    # TODO use the operation to handle this:
     def redirect_if_already_connected!
       redirect_to(balances_path) if current_account.connected_to_award_wallet?
     end

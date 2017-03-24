@@ -71,7 +71,7 @@ module Integrations
         # Let them get away with not having a userID in the URL if there's
         # already an unloaded AWU
         def user_id_is_present?(params:, account:, **)
-          !params[:userId].nil? || !account.award_wallet_user.nil?
+          params[:userId].present? || !account.award_wallet_user.nil?
         end
 
         def log_user_id_is_missing(opts)

@@ -13,6 +13,7 @@ RSpec.describe Integrations::AwardWallet::Operation::Callback do
     # userId param is irrelevant:
     [12345, nil, 2].each do |aw_id|
       result = op.({ userId: aw_id }, 'account' => account)
+      expect(result.success?).to be false
       expect(result['error']).to eq 'already loaded'
       expect(enqueued_jobs).to be_empty
     end
@@ -36,6 +37,13 @@ RSpec.describe Integrations::AwardWallet::Operation::Callback do
 
   example 'no existing AWU, no userId in params' do
     result = op.({}, 'account' => account)
+    expect(result.success?).to be false
+    expect(result['error']).to eq 'not found'
+    expect(enqueued_jobs).to be_empty
+  end
+
+  example 'no existing AWU, userId key in params with no value' do
+    result = op.({ userId: '' }, 'account' => account)
     expect(result.success?).to be false
     expect(result['error']).to eq 'not found'
     expect(enqueued_jobs).to be_empty

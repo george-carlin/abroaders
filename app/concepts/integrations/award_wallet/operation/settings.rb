@@ -3,6 +3,7 @@ module Integrations::AwardWallet
     class Settings < Trailblazer::Operation
       step :set_user
       step :user_loaded?
+      failure :log_not_connected
       step :set_owners_with_accounts
       step :eager_load_people
 
@@ -14,6 +15,10 @@ module Integrations::AwardWallet
 
       def user_loaded?(opts)
         opts['user'].loaded?
+      end
+
+      def log_not_connected(opts)
+        opts['error'] = 'not connected'
       end
 
       def set_owners_with_accounts(opts, user:, **)
