@@ -1,7 +1,5 @@
 @import 'colors';
 
-$darkBlue:  #34495e;
-
 // Prevent the navbar from obscuring the main content when the sidebar
 // is not present
 .wrapper {
@@ -270,7 +268,7 @@ footer.footer {
 }
 
 tr.admin_recommend_card_product {
-  background-color: #34495E;
+  background-color: $darkBlue;
   color: #f0f0f0;
 
   a {
@@ -415,4 +413,14 @@ td.offer-days {
 .SpanWithTooltip {
   color: #34495e;
   text-decoration: underline;
+}
+
+.panel-primary {
+  border-color: $darkerBlue;
+
+  > .panel-heading {
+    color: #fff;
+    background-color: $darkerBlue;
+    border-color: $darkerBlue;
+  }
 }
