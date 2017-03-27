@@ -5,7 +5,7 @@
 class AwardWalletAccount < ApplicationRecord
   belongs_to :award_wallet_owner
   has_one :award_wallet_user, through: :award_wallet_owner
-  belongs_to :person
+  has_one :person, through: :award_wallet_owner
 
   alias owner award_wallet_owner
 
