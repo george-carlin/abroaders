@@ -27,7 +27,7 @@ class CardRecommendation < Disposable::Twin
   # The time the user *first* saw this recommendation (by visiting /cards)
   property :seen_at
 
-  # The time the user *first* clicked the 'Apply' button. Note that we don't
+  # The time the user *first* clicked the 'Find My Card' button. Note that we don't
   # know for sure that they actually applied, just that they clicked the link.
   # (We have to rely on them coming back and telling us that they applied).
   property :clicked_at

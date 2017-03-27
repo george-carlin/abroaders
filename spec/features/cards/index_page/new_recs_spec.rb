@@ -47,7 +47,7 @@ RSpec.describe "cards index page - new recommendation", :js do
     )
 
     # 'apply' btn opens the link in a new tab
-    btn = find 'a', text: 'Apply'
+    btn = find 'a', text: 'Find My Card'
     expect(btn[:target]).to eq '_blank'
   end
 
@@ -58,12 +58,12 @@ RSpec.describe "cards index page - new recommendation", :js do
     expect(page).to have_field :card_decline_reason
     expect(page).to have_button 'Confirm'
     expect(page).to have_button 'Cancel'
-    expect(page).to have_no_link 'Apply'
+    expect(page).to have_no_link 'Find My Card'
     expect(page).to have_no_button decline_btn
 
     # clicking 'cancel' shows the first set of buttons again:
     click_button 'Cancel'
-    expect(page).to have_link 'Apply'
+    expect(page).to have_link 'Find My Card'
     expect(page).to have_button decline_btn
 
     click_button decline_btn
