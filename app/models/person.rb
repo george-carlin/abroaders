@@ -61,10 +61,6 @@ class Person < ApplicationRecord
   has_many :award_wallet_owners
   has_many :award_wallet_accounts, through: :award_wallet_owners
 
-  def award_wallet_accounts
-    account.award_wallet_accounts.where(name: award_wallet_owner.select(:name))
-  end
-
   # Callbacks
 
   # Scopes
