@@ -27,7 +27,7 @@ class Balance < Balance.superclass
       def balances
         collection = options.fetch(:balances)
         if collection.any?
-          cell(balance_cell, collection: collection)
+          cell(balance_cell, collection: collection).join('<hr>') { |c| c }
         else
           'No balances'
         end

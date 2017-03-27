@@ -1,35 +1,29 @@
 <%= wrapping_div do %>
-  <%= form_tag do %>
-    <div class="col-xs-12 col-md-4">
-      <%= currency_name %>
-    </div>
+  <div class="col-xs-12 col-md-4">
+    <%= currency_name %>
 
-    <div class="col-xs-6 col-md-5">
-      <span class="balance_value">
-        <%= formatted_value %>
-      </span>
+    <p class="balance_updated_at">Last update: <%= updated_at %></p>
 
-      <%# initially hidden: %>
-      <%= value_field %>
-    </div>
+    <%= edit_btn %>
+    <%= delete_btn %>
+  </div>
+  <div class="col-xs-6 col-md-5">
+    <span class="balance_value">
+      <p class="lead"><%= formatted_value %></p>
+    </span>
 
-    <div class="col-xs-6 col-md-3">
-      <%# initially hidden: %>
-      <%= save_btn_group do %>
-        <%= save_btn %>
-        <%= cancel_btn %>
-      <% end %>
-
-      <%# initially hidden: %>
-      <%= error_message %>
-      <%= loading_spinner %>
-    </div>
-
-    <div style="float:right;">
-      <%= edit_btn %>
-      <%= delete_btn %>
-    </div>
-  <% end # form_for %>
+    <%= form_tag do %>
+      <div class="input-group">
+        <%= value_field %>
+        <span class="input-group-btn">
+          <%= save_btn %>
+          <%= cancel_btn %>
+        </span>
+      </div>
+    <% end %>
+  </div>
+  <div class="col-xs-6 col-md-3">
+    <%= error_message %>
+    <%= loading_spinner %>
+  </div>
 <% end %>
-
-<hr />
