@@ -21,13 +21,8 @@ class Balance < Balance.superclass
              else
                cell(AwardWalletConnectPanel)
              end
+        main = cell(BalanceTable, collection: people)
         "#{aw} #{main}"
-      end
-
-      private
-
-      def main
-        cell(BalanceTable, collection: people, use_name: account.couples?)
       end
 
       # A panel that encourages the user to connect their Abroaders account to

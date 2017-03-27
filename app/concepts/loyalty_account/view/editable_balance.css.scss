@@ -1,7 +1,19 @@
 .editable_balance {
-  .updated_at {
+  .award_wallet_logo {
+    margin-right: 2px;
+    margin-top: 2px;
+  }
+
+  .balance_additional_info {
     color: #35a7ff;
+    font-size: 12px;
     font-style: italic;
+    margin-bottom: 5px;
+    margin-top: 3px;
+
+    > p {
+      margin-bottom: 1px;
+    }
   }
 
   .LoadingSpinner {
