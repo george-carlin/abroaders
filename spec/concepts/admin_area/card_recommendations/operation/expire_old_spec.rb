@@ -35,7 +35,7 @@ module AdminArea
       clicked  = create_rec(recommended_at: keep, seen_at: now, clicked_at: now)
       old_and_clicked  = create_rec(recommended_at: lose, seen_at: now, clicked_at: now)
       old_and_declined = create_rec(recommended_at: lose, seen_at: now, declined_at: now, decline_reason: 'X')
-      old_and_applied = create_rec(recommended_at: lose, seen_at: now, applied_at: now)
+      old_and_applied = create_rec(recommended_at: lose, seen_at: now, applied_on: now)
       old_and_pulled = create_rec(recommended_at: lose, pulled_at: now)
 
       # accounts that were already expired shouldn't have their expired_at date

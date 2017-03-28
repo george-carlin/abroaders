@@ -84,7 +84,7 @@ class Card < ApplicationRecord
   scope :non_recommendation, -> { where(recommended_at: nil) }
 
   scope :pulled,     -> { where.not(pulled_at: nil) }
-  scope :unapplied,  -> { where(applied_at: nil) }
+  scope :unapplied,  -> { where(applied_on: nil) }
   scope :unclicked,  -> { where(clicked_at: nil) }
   scope :undeclined, -> { where(declined_at: nil) }
   scope :undenied,   -> { where(denied_at: nil) }
@@ -114,6 +114,7 @@ class Card < ApplicationRecord
 
   def status_model
     attrs = attributes
+    attrs['applied_on'] = attrs['applied_at']
     attrs['closed_on'] = attrs['closed_at']
     attrs['opened_on'] = attrs['opened_at']
     Status.new(attrs.slice(*Status::TIMESTAMPS))

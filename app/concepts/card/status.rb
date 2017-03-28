@@ -5,7 +5,7 @@ class Card::Status
   TIMESTAMPS = %w[
     recommended_at
     declined_at
-    applied_at
+    applied_on
     denied_at
     opened_on
     nudged_at
@@ -30,7 +30,7 @@ class Card::Status
     return "open"        unless opened_on.nil?
     return "declined"    unless declined_at.nil?
     return "denied"      unless denied_at.nil?
-    return "applied"     unless applied_at.nil?
+    return "applied"     unless applied_on.nil?
     return "recommended" unless recommended_at.nil?
     raise "this should never happen!"
   end
@@ -39,7 +39,7 @@ class Card::Status
 
   def timestamps_make_sense
     if recommended_at.nil?
-      %i[declined_at applied_at denied_at nudged_at
+      %i[declined_at applied_on denied_at nudged_at
          called_at redenied_at expired_at].each do |timestamp|
         errors.add(timestamp, :present) if attributes[timestamp].present?
       end
@@ -49,7 +49,7 @@ class Card::Status
 
     unless declined_at.nil?
       %i[
-        applied_at denied_at nudged_at called_at redenied_at opened_on closed_on
+        applied_on denied_at nudged_at called_at redenied_at opened_on closed_on
         expired_at pulled_at
       ].each do |timestamp|
         errors.add(timestamp, :present) if attributes[timestamp].present?
@@ -59,7 +59,7 @@ class Card::Status
 
     unless expired_at.nil?
       %i[
-        applied_at nudged_at called_at redenied_at opened_on closed_on
+        applied_on nudged_at called_at redenied_at opened_on closed_on
         denied_at pulled_at
       ].each do |timestamp|
         errors.add(timestamp, :present) if attributes[timestamp].present?
@@ -67,7 +67,7 @@ class Card::Status
       return
     end
 
-    if applied_at.nil?
+    if applied_on.nil?
       %i[denied_at nudged_at called_at redenied_at opened_on closed_on pulled_at].each do |timestamp|
         errors.add(timestamp, :present) if attributes[timestamp].present?
       end

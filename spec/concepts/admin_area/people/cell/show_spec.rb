@@ -184,14 +184,14 @@ RSpec.describe AdminArea::People::Cell::Show do
       expect(rendered).to have_selector '.card_recommended_at', text: '01/01/15'
       expect(rendered).to have_selector '.card_seen_at',        text: '-'
       expect(rendered).to have_selector '.card_clicked_at',     text: '-'
-      expect(rendered).to have_selector '.card_applied_at',     text: '-'
+      expect(rendered).to have_selector '.card_applied_on',     text: '-'
     end
 
     within '#card_51' do
       expect(rendered).to have_selector '.card_recommended_at', text: '03/01/15'
       expect(rendered).to have_selector '.card_seen_at',        text: '01/01/15'
       expect(rendered).to have_selector '.card_clicked_at',     text: '10/01/15'
-      expect(rendered).to have_selector '.card_applied_at',     text: '-'
+      expect(rendered).to have_selector '.card_applied_on',     text: '-'
       expect(rendered).to have_selector '.card_status', text: 'Recommended'
     end
 

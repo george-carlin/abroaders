@@ -6,7 +6,7 @@ RSpec.describe "user cards page - callable cards", :js do
   let(:person)  { account.owner }
 
   let(:recommended_at) { 7.days.ago.to_date }
-  let(:applied_at) { 7.days.ago.to_date }
+  let(:applied_on) { 7.days.ago.to_date }
   let(:denied_at)  { 5.days.ago.to_date }
   let(:bp) { :personal }
 
@@ -24,7 +24,7 @@ RSpec.describe "user cards page - callable cards", :js do
     @rec = create(
       :card_recommendation,
       recommended_at: recommended_at,
-      applied_at: applied_at,
+      applied_on: applied_on,
       denied_at: denied_at,
       person: person,
       offer: @offer,
@@ -108,7 +108,7 @@ RSpec.describe "user cards page - callable cards", :js do
           expect(rec.status).to eq "open"
           expect(rec.opened_on).to eq Time.zone.today
           expect(rec.called_at).to eq Time.zone.today
-          expect(rec.applied_at).to eq applied_at # unchanged
+          expect(rec.applied_on).to eq applied_on # unchanged
         end
       end
     end
@@ -131,7 +131,7 @@ RSpec.describe "user cards page - callable cards", :js do
           # is earlier than UTC # TZFIXME
           expect(rec.status).to eq "denied"
           expect(rec.denied_at).to eq denied_at
-          expect(rec.applied_at).to eq applied_at # unchanged
+          expect(rec.applied_on).to eq applied_on # unchanged
           expect(rec.redenied_at).to eq Time.zone.today
           expect(rec.called_at).to eq Time.zone.today
         end
@@ -156,7 +156,7 @@ RSpec.describe "user cards page - callable cards", :js do
           # is earlier than UTC # TZFIXME
           expect(rec.status).to eq "denied"
           expect(rec.denied_at).to eq denied_at
-          expect(rec.applied_at).to eq applied_at # unchanged
+          expect(rec.applied_on).to eq applied_on # unchanged
           expect(rec.called_at).to eq Time.zone.today
           # doesn't set:
           expect(rec.opened_on).to be_nil

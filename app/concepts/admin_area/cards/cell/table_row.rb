@@ -7,7 +7,7 @@ module AdminArea
         include Escaped
 
         property :id
-        property :applied_at
+        property :applied_on
         property :clicked_at
         property :closed_on
         property :decline_reason
@@ -65,7 +65,7 @@ module AdminArea
         end
 
         %i[
-          recommended_at seen_at clicked_at applied_at denied_at declined_at
+          recommended_at seen_at clicked_at applied_on denied_at declined_at
         ].each do |date_attr|
           define_method date_attr do
             super()&.strftime('%D') || '-' # 12/01/2015

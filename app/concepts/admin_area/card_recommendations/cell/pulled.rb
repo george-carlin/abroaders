@@ -47,7 +47,7 @@ module AdminArea
         # @!method self.call(card_rec, opts = {})
         #   @param card_rec [CardRecommendation]
         class TableRow < Abroaders::Cell::Base
-          property :applied_at
+          property :applied_on
           property :clicked_at
           property :declined_at
           property :denied_at
@@ -79,7 +79,7 @@ module AdminArea
           end
 
           %i[
-            recommended_at seen_at clicked_at applied_at denied_at declined_at
+            recommended_at seen_at clicked_at applied_on denied_at declined_at
             pulled_at
           ].each do |date_attr|
             define_method date_attr do

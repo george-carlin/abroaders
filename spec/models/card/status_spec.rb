@@ -57,19 +57,19 @@ RSpec.describe Card::Status do
         end
 
         context "and expired_at is nil" do
-          context "and applied_at is nil" do
+          context "and applied_on is nil" do
             specify "every other timestamp must be nil" do
               expect(valid_attributes?(attrs)).to be true
 
-              (TIMESTAMPS - [:expired_at, :recommended_at, :declined_at, :applied_at]
+              (TIMESTAMPS - [:expired_at, :recommended_at, :declined_at, :applied_on]
               ).each do |timestamp|
                 expect(valid_attributes?(attrs.merge(timestamp => date))).to be false
               end
             end
           end
 
-          context "and applied_at is present" do
-            before { attrs[:applied_at] = date }
+          context "and applied_on is present" do
+            before { attrs[:applied_on] = date }
 
             context "and closed_on is present" do
               before { attrs[:closed_on] = date }
@@ -123,8 +123,8 @@ RSpec.describe Card::Status do
     context "when closed_on is nil" do
       before { attrs[:recommended_at] = date }
 
-      context "and applied_at is present" do
-        before { attrs[:applied_at] = date }
+      context "and applied_on is present" do
+        before { attrs[:applied_on] = date }
 
         context "and opened_on is present" do
           before { attrs[:opened_on] = date }
@@ -143,7 +143,7 @@ RSpec.describe Card::Status do
         end
       end
 
-      context "and applied_at is not present" do
+      context "and applied_on is not present" do
         it { is_expected.to eq "recommended" }
       end
 
