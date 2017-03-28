@@ -95,6 +95,23 @@ RSpec.configure do |config|
     end
   end
 
+  # A replacement for FactoryGirl that exclusively creates and updates data
+  # using our own operations, and therefore creates data in the exact same way
+  # a user would. Ideally all test data should be created in this way and we
+  # would do away with FactoryGirl altogether. This method is long and ugly but
+  # it's a start; ideally we'd have some kind of unified interface similar
+  # to FactoryGirl's "create" method that delegates to methods like the one
+  # below
+  #
+  # This method has an interface like FactoryGirl's, in that you can pass both
+  # traits (an array of symbols; you don't have to pass any traits) and a hash
+  # of attributes. Attributes will be passed to the 'Create' operation,
+  # although defaults will be provided if you miss any out. Valid traits are
+  # ':verified', which means an admin will verify the offer after creating it,
+  # and ':dead', which means an admin will kill the offer after creating it.
+  #
+  # To get an unknown offer, create a card product and call its #unknown_offer
+  # method.
   def create_offer(*traits_and_overrides)
     overrides = if traits_and_overrides.last.is_a?(Hash)
                   traits_and_overrides.pop
