@@ -19,11 +19,11 @@ class CardProduct < CardProduct.superclass
         # Example hash contents: {
         #   product_id: '3'
         #   opened: 'true'
-        #   opened_at_(1i): '2016'
-        #   opened_at_(2i): '1'
+        #   opened_on_(1i): '2016'
+        #   opened_on_(2i): '1'
         #   closed: 'true'
-        #   closed_at_(1i): '2016'
-        #   closed_at_(2i): '1'
+        #   closed_on_(1i): '2016'
+        #   closed_on_(2i): '1'
         # }
         #
         # Note that 'opened' and 'closed' will be nil, not false or 'false', if
@@ -31,18 +31,18 @@ class CardProduct < CardProduct.superclass
         #
         next unless card['opened'].present?
 
-        opened_at_y = card['opened_at_(1i)'].to_i
-        opened_at_m = card['opened_at_(2i)'].to_i
+        opened_on_y = card['opened_on_(1i)'].to_i
+        opened_on_m = card['opened_on_(2i)'].to_i
 
         attributes = {
           product: CardProduct.survey.find(card['product_id']),
-          opened_at: Date.new(opened_at_y, opened_at_m),
+          opened_on: Date.new(opened_on_y, opened_on_m),
         }
 
         if card["closed"].present?
-          closed_at_y = card["closed_at_(1i)"].to_i
-          closed_at_m = card["closed_at_(2i)"].to_i
-          attributes["closed_at"] = Date.new(closed_at_y, closed_at_m)
+          closed_on_y = card["closed_on_(1i)"].to_i
+          closed_on_m = card["closed_on_(2i)"].to_i
+          attributes["closed_on"] = Date.new(closed_on_y, closed_on_m)
         end
 
         person.cards.create!(attributes)

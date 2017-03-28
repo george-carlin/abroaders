@@ -9,11 +9,11 @@ module AdminArea
         property :id
         property :applied_at
         property :clicked_at
-        property :closed_at
+        property :closed_on
         property :decline_reason
         property :declined_at
         property :denied_at
-        property :opened_at
+        property :opened_on
         property :recommended_at
         property :seen_at
         property :status
@@ -54,7 +54,7 @@ module AdminArea
         # and year, and we save the date as the 1st of thet month.  So if the
         # card was added as a recommendation, show the the full date, otherwise
         # show e.g.  "Jan 2016". If the date is blank, show '-'
-        %i[closed_at opened_at].each do |date_attr|
+        %i[closed_on opened_on].each do |date_attr|
           define_method date_attr do
             if model.recommended_at.nil? # if card is not a recommendation
               super()&.strftime('%b %Y') || '-' # Dec 2015

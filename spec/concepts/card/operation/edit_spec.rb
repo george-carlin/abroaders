@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Card::Operation::Edit do
   let(:account) { create(:account) }
   let(:op) { described_class }
-  let(:card) { create(:card, closed_at: nil, person: account.owner) }
+  let(:card) { create(:card, closed_on: nil, person: account.owner) }
 
   describe 'prepopulation' do
     it 'sets "closed" correctly' do
@@ -11,7 +11,7 @@ RSpec.describe Card::Operation::Edit do
       contract.prepopulate!
       expect(contract.closed).to be false
 
-      card.update!(closed_at: Date.today)
+      card.update!(closed_on: Date.today)
       contract = op.({ id: card.id }, 'account' => account)['contract.default']
       contract.prepopulate!
       expect(contract.closed).to be true

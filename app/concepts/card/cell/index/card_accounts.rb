@@ -1,7 +1,7 @@
 class Card < Card.superclass
   module Cell
     class Index < Index.superclass
-      # Displays card accounts (i.e. any card which has an 'opened_at' date)
+      # Displays card accounts (i.e. any card which has an 'opened_on' date)
       #
       # @!method self.call(account)
       #

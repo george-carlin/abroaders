@@ -79,7 +79,7 @@ RSpec.describe "user cards page - called cards", :js do
           # this spec fails when run late in the day when your machine's time
           # is earlier than UTC # TZFIXME
           expect(rec.status).to eq "open"
-          expect(rec.opened_at).to eq Time.zone.today
+          expect(rec.opened_on).to eq Time.zone.today
           expect(rec.applied_at).to eq applied_at # unchanged
           expect(rec.denied_at).to eq denied_at # unchanged
           expect(rec.called_at).to eq called_at # unchanged

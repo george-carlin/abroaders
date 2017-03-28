@@ -132,8 +132,8 @@ RSpec.describe 'cards survey', :onboarding, :js, :manual_clean do
 
       # page initially has no inputs for opened/closed dates:
       %w[
-        opened_at_month opened_at_year closed closed_at_month
-        closed_at_year
+        opened_on_month opened_on_year closed closed_on_month
+        closed_on_year
       ].each do |attr|
         expect(page).to have_no_selector(".cards_survey_card_#{attr}")
       end
@@ -150,43 +150,43 @@ RSpec.describe 'cards survey', :onboarding, :js, :manual_clean do
       before { check_product_opened(selected_product, true) }
 
       it "asks when the card was opened" do
-        expect(page).to have_field "cards_survey_#{id}_card_opened_at_month"
-        expect(page).to have_field "cards_survey_#{id}_card_opened_at_year"
+        expect(page).to have_field "cards_survey_#{id}_card_opened_on_month"
+        expect(page).to have_field "cards_survey_#{id}_card_opened_on_year"
       end
 
       example "unselecting it again" do
         check_product_opened(selected_product, false)
 
         # hides all other inputs
-        expect(page).to have_no_field "cards_survey_#{id}_card_opened_at_month"
-        expect(page).to have_no_field "cards_survey_#{id}_card_opened_at_year"
+        expect(page).to have_no_field "cards_survey_#{id}_card_opened_on_month"
+        expect(page).to have_no_field "cards_survey_#{id}_card_opened_on_year"
         expect(page).to have_no_field "cards_survey_#{id}_card_closed"
-        expect(page).to have_no_field "cards_survey_#{id}_card_closed_at_month"
-        expect(page).to have_no_field "cards_survey_#{id}_card_closed_at_year"
+        expect(page).to have_no_field "cards_survey_#{id}_card_closed_on_month"
+        expect(page).to have_no_field "cards_survey_#{id}_card_closed_on_year"
       end
 
       specify "the 'opened at' input has a date range from 10 years ago - this month"
 
       example "checking/unchecking 'I closed the card'" do
-        # doesn't initially show closed_at inputs:
+        # doesn't initially show closed_on inputs:
         expect(page).to have_field    "cards_survey_#{id}_card_closed"
-        expect(page).to have_no_field "cards_survey_#{id}_card_closed_at_month"
-        expect(page).to have_no_field "cards_survey_#{id}_card_closed_at_year"
+        expect(page).to have_no_field "cards_survey_#{id}_card_closed_on_month"
+        expect(page).to have_no_field "cards_survey_#{id}_card_closed_on_year"
 
         check_product_closed(selected_product, true)
 
-        # shows closed_at inputs:
+        # shows closed_on inputs:
         expect(page).to have_field "cards_survey_#{id}_card_closed"
-        expect(page).to have_field "cards_survey_#{id}_card_closed_at_month"
-        expect(page).to have_field "cards_survey_#{id}_card_closed_at_year"
+        expect(page).to have_field "cards_survey_#{id}_card_closed_on_month"
+        expect(page).to have_field "cards_survey_#{id}_card_closed_on_year"
 
         # unchecking it again:
         check_product_closed(selected_product, false)
 
-        # hides closed_at inputs:
+        # hides closed_on inputs:
         expect(page).to have_field    "cards_survey_#{id}_card_closed"
-        expect(page).to have_no_field "cards_survey_#{id}_card_closed_at_month"
-        expect(page).to have_no_field "cards_survey_#{id}_card_closed_at_year"
+        expect(page).to have_no_field "cards_survey_#{id}_card_closed_on_month"
+        expect(page).to have_no_field "cards_survey_#{id}_card_closed_on_year"
       end
 
       pending "selecting an 'opened at' date hides earlier dates from the 'closed at' input"
@@ -205,15 +205,15 @@ RSpec.describe 'cards survey', :onboarding, :js, :manual_clean do
         visible_products.each do |product|
           check_product_opened(product, true)
         end
-        select "Jan",     from: "cards_survey_#{open_cards[0].id}_card_opened_at_month"
-        select this_year, from: "cards_survey_#{open_cards[0].id}_card_opened_at_year"
-        select "Mar",     from: "cards_survey_#{open_cards[1].id}_card_opened_at_month"
-        select last_year, from: "cards_survey_#{open_cards[1].id}_card_opened_at_year"
-        select "Nov",     from: "cards_survey_#{closed_card.id}_card_opened_at_month"
-        select ten_years_ago, from: "cards_survey_#{closed_card.id}_card_opened_at_year"
+        select "Jan",     from: "cards_survey_#{open_cards[0].id}_card_opened_on_month"
+        select this_year, from: "cards_survey_#{open_cards[0].id}_card_opened_on_year"
+        select "Mar",     from: "cards_survey_#{open_cards[1].id}_card_opened_on_month"
+        select last_year, from: "cards_survey_#{open_cards[1].id}_card_opened_on_year"
+        select "Nov",     from: "cards_survey_#{closed_card.id}_card_opened_on_month"
+        select ten_years_ago, from: "cards_survey_#{closed_card.id}_card_opened_on_year"
         check_product_closed(closed_card, true)
-        select "Apr",     from: "cards_survey_#{closed_card.id}_card_closed_at_month"
-        select last_year, from: "cards_survey_#{closed_card.id}_card_closed_at_year"
+        select "Apr",     from: "cards_survey_#{closed_card.id}_card_closed_on_month"
+        select last_year, from: "cards_survey_#{closed_card.id}_card_closed_on_year"
       end
 
       describe "and submitting the form" do
@@ -234,12 +234,12 @@ RSpec.describe 'cards survey', :onboarding, :js, :manual_clean do
           open_acc_0 = new_accounts.find_by(product_id: open_cards[0].id)
           open_acc_1 = new_accounts.find_by(product_id: open_cards[1].id)
           closed_acc = new_accounts.find_by(product_id: closed_card.id)
-          expect(open_acc_0.opened_at).to eq Date.new(this_year, 1)
-          expect(open_acc_0.closed_at).to be_nil
-          expect(open_acc_1.opened_at).to eq Date.new(last_year, 3)
-          expect(open_acc_1.closed_at).to be_nil
-          expect(closed_acc.opened_at).to eq Date.new(ten_years_ago, 11)
-          expect(closed_acc.closed_at).to eq Date.new(last_year, 4)
+          expect(open_acc_0.opened_on).to eq Date.new(this_year, 1)
+          expect(open_acc_0.closed_on).to be_nil
+          expect(open_acc_1.opened_on).to eq Date.new(last_year, 3)
+          expect(open_acc_1.closed_on).to be_nil
+          expect(closed_acc.opened_on).to eq Date.new(ten_years_ago, 11)
+          expect(closed_acc.closed_on).to eq Date.new(last_year, 4)
 
           # the cards have the right statuses
           open_acc_0 = new_accounts.find_by(product_id: open_cards[0].id)

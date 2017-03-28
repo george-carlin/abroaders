@@ -15,7 +15,7 @@ RSpec.describe Card::Cell::BasicCard do
     instance.()
   end
 
-  let(:card) { Card.new(opened_at: Date.new(2015, 6, 1)) }
+  let(:card) { Card.new(opened_on: Date.new(2015, 6, 1)) }
 
   it 'displays info about the card' do
     rendered = show(card)
@@ -26,7 +26,7 @@ RSpec.describe Card::Cell::BasicCard do
   end
 
   example 'card is closed' do
-    card.closed_at = Date.new(2016, 2, 1)
+    card.closed_on = Date.new(2016, 2, 1)
     expect(show(card)).to have_content 'Closed: Feb 2016'
   end
 

@@ -6,7 +6,7 @@ class Card < ApplicationRecord
   #
   # opened_on:
   #   the date the user was approved for the card and their account was opened.
-  #   the actual name of the DB column is 'opened_at', opened_on is an alias.
+  #   the actual name of the DB column is 'opened_on', opened_on is an alias.
   #
   # earned_at:
   #   the date the user earned their signup bonus. (It might be the same date
@@ -14,7 +14,7 @@ class Card < ApplicationRecord
   #
   # closed_on:
   #   the date the user's card expired or they closed the card's account.
-  #   the actual name of the DB column is 'closed_at', closed_on is an alias.
+  #   the actual name of the DB column is 'closed_on', closed_on is an alias.
   #
   # created_at/updated_at
   #   The normal Rails/PSQL timestamp columns. But you already knew that ;)
@@ -89,7 +89,7 @@ class Card < ApplicationRecord
   scope :undeclined, -> { where(declined_at: nil) }
   scope :undenied,   -> { where(denied_at: nil) }
   scope :unexpired,  -> { where(expired_at: nil) }
-  scope :unopen,     -> { where(opened_at: nil) }
+  scope :unopen,     -> { where(opened_on: nil) }
   scope :unpulled,   -> { where(pulled_at: nil) }
   scope :unredenied, -> { where(redenied_at: nil) }
   scope :unseen,     -> { where(seen_at: nil) }
@@ -113,6 +113,9 @@ class Card < ApplicationRecord
   end
 
   def status_model
-    Status.new(attributes.slice(*Status::TIMESTAMPS))
+    attrs = attributes
+    attrs['closed_on'] = attrs['closed_at']
+    attrs['opened_on'] = attrs['opened_at']
+    Status.new(attrs.slice(*Status::TIMESTAMPS))
   end
 end

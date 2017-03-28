@@ -81,9 +81,9 @@ const ApproveCardAccountFormFields = React.createClass({
       return (
         <div>
           <input
-            className="card_opened_at form-control input-sm"
+            className="card_opened_on form-control input-sm"
             defaultValue={this.props.openedAt}
-            id="card_opened_at"
+            id="card_opened_on"
             modelName="card"
             ref={setTextField}
             small

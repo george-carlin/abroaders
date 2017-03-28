@@ -125,7 +125,7 @@ RSpec.describe "user cards page - nudgeable cards", :js do
           # this spec fails when run late in the day when your machine's time
           # is earlier than UTC # TZFIXME
           expect(rec.status).to eq "open"
-          expect(rec.opened_at).to eq Time.zone.today
+          expect(rec.opened_on).to eq Time.zone.today
           expect(rec.nudged_at).to eq Time.zone.today
           expect(rec.applied_at).to eq applied_at # unchanged
         end
@@ -234,7 +234,7 @@ RSpec.describe "user cards page - nudgeable cards", :js do
           # this spec fails when run late in the day when your machine's time
           # is earlier than UTC # TZFIXME
           expect(rec.status).to eq "open"
-          expect(rec.opened_at).to eq Time.zone.today
+          expect(rec.opened_on).to eq Time.zone.today
         end
 
         include_examples "doesn't change applied or nudged"

@@ -45,8 +45,8 @@ class CardRecommendationsController < CardsController
 
   def update_params
     result = params.require(:card).permit(:action)
-    if params[:card][:opened_at]
-      result[:opened_at] = Date.strptime(params[:card][:opened_at], "%m/%d/%Y")
+    if params[:card][:opened_on]
+      result[:opened_on] = Date.strptime(params[:card][:opened_on], "%m/%d/%Y")
     end
     result
   end

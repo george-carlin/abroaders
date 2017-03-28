@@ -153,7 +153,7 @@ RSpec.describe "cards index page - new recommendation", :js do
 
           it "doesn't update anything", :backend do
             expect(rec).to be_declined
-            expect(rec.opened_at).to be_nil
+            expect(rec.opened_on).to be_nil
             expect(rec.applied_at).to be_nil
           end
         end
@@ -176,7 +176,7 @@ RSpec.describe "cards index page - new recommendation", :js do
             # is earlier than UTC # TZFIXME
             wait_for_ajax
             expect(rec).to be_open
-            expect(rec.opened_at).to eq Time.zone.today
+            expect(rec.opened_on).to eq Time.zone.today
             expect(rec.applied_at).to eq Time.zone.today
           end
 
@@ -202,7 +202,7 @@ RSpec.describe "cards index page - new recommendation", :js do
 
           it "sets the card's attributes", :backend do
             expect(rec).to be_open
-            expect(rec.opened_at.to_date).to eq date.to_date
+            expect(rec.opened_on.to_date).to eq date.to_date
             expect(rec.applied_at.to_date).to eq date.to_date
           end
 

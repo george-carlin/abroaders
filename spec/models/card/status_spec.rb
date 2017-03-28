@@ -15,14 +15,14 @@ RSpec.describe Card::Status do
     end
 
     context "when recommended_at is nil" do
-      specify "opened_at must be present; closed_at may or may not be present" do
-        expect(valid_attributes?(opened_at: date)).to be true
-        expect(valid_attributes?(opened_at: date, closed_at: date)).to be true
+      specify "opened_on must be present; closed_on may or may not be present" do
+        expect(valid_attributes?(opened_on: date)).to be true
+        expect(valid_attributes?(opened_on: date, closed_on: date)).to be true
       end
 
-      describe "all other timestamps except 'opened_at' and 'closed_at'" do
+      describe "all other timestamps except 'opened_on' and 'closed_on'" do
         specify "must be blank" do
-          (TIMESTAMPS - [:recommended_at, :opened_at, :closed_at]).each do |timestamp|
+          (TIMESTAMPS - [:recommended_at, :opened_on, :closed_on]).each do |timestamp|
             expect(valid_attributes?(timestamp => date)).to be false
           end
         end
@@ -71,11 +71,11 @@ RSpec.describe Card::Status do
           context "and applied_at is present" do
             before { attrs[:applied_at] = date }
 
-            context "and closed_at is present" do
-              before { attrs[:closed_at] = date }
-              specify "opened_at must be present" do
+            context "and closed_on is present" do
+              before { attrs[:closed_on] = date }
+              specify "opened_on must be present" do
                 expect(valid_attributes?(attrs)).to be false
-                expect(valid_attributes?(attrs.merge(opened_at: date))).to be true
+                expect(valid_attributes?(attrs.merge(opened_on: date))).to be true
               end
             end
 
@@ -105,8 +105,8 @@ RSpec.describe Card::Status do
 
     subject { status.name }
 
-    context "when closed_at is present" do
-      before { attrs.merge!(closed_at: date, opened_at: date) }
+    context "when closed_on is present" do
+      before { attrs.merge!(closed_on: date, opened_on: date) }
       it { is_expected.to eq "closed" }
     end
 
@@ -116,22 +116,22 @@ RSpec.describe Card::Status do
     end
 
     context "when expired_at is present" do
-      before { attrs.merge!(expired_at: date, opened_at: date) }
+      before { attrs.merge!(expired_at: date, opened_on: date) }
       it { is_expected.to eq "expired" }
     end
 
-    context "when closed_at is nil" do
+    context "when closed_on is nil" do
       before { attrs[:recommended_at] = date }
 
       context "and applied_at is present" do
         before { attrs[:applied_at] = date }
 
-        context "and opened_at is present" do
-          before { attrs[:opened_at] = date }
+        context "and opened_on is present" do
+          before { attrs[:opened_on] = date }
           it { is_expected.to eq "open" }
         end
 
-        context "and opened_at is nil" do
+        context "and opened_on is nil" do
           context "and denied_at is present" do
             before { attrs[:denied_at] = date }
             it { is_expected.to eq "denied" }

@@ -4,12 +4,12 @@ FactoryGirl.define do
     association(:product, factory: :card_product)
 
     trait :open do
-      opened_at { 2.years.ago }
+      opened_on { 2.years.ago }
     end
 
     trait :closed do
       open
-      closed_at { 1.year.ago }
+      closed_on { 1.year.ago }
     end
   end
 end

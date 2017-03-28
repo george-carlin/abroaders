@@ -4,7 +4,7 @@ end
 class Card::ApplicationSurvey < ApplicationForm
   attribute :card,      Card
   attribute :action,    String
-  attribute :opened_at, Date
+  attribute :opened_on, Date
 
   def persist!
     case action
@@ -13,7 +13,7 @@ class Card::ApplicationSurvey < ApplicationForm
     when "call"
       card.called_at = Time.now
     when "call_and_open"
-      card.called_at = card.opened_at = Time.now
+      card.called_at = card.opened_on = Time.now
     when "call_and_deny"
       card.called_at = card.redenied_at = Time.now
     when "deny"
@@ -23,14 +23,14 @@ class Card::ApplicationSurvey < ApplicationForm
       # nudged);
       card.applied_at ||= Time.now
     when "open"
-      card.opened_at = opened_at || Time.now
+      card.opened_on = opened_on || Time.now
       # Don't update applied_at if it's already present: they may have
       # previously applied, and are only now hearing back from the bank:
-      card.applied_at ||= card.opened_at
+      card.applied_at ||= card.opened_on
     when "nudge"
       card.nudged_at = Time.now
     when "nudge_and_open"
-      card.nudged_at = card.opened_at = Time.now
+      card.nudged_at = card.opened_on = Time.now
     when "nudge_and_deny"
       card.nudged_at = card.denied_at = Time.now
     when "redeny"

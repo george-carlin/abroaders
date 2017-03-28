@@ -54,7 +54,7 @@ const CardApplicationSurvey = React.createClass({
     };
 
     if (action === "open" && extraData && extraData.openedAt) {
-      data["card[opened_at]"] = extraData.openedAt;
+      data["card[opened_on]"] = extraData.openedAt;
     }
 
     $.post(
