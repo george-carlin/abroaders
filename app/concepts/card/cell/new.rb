@@ -21,11 +21,11 @@ class Card < ApplicationRecord
         current_account.couples?
       end
 
-      def closed_at_select(f)
+      def closed_on_select(f)
         f.date_select(
-          :closed_at,
+          :closed_on,
           class: 'cards_survey_select',
-          disabled: disable_closed_at?,
+          disabled: disable_closed_on?,
           discard_day: true,
           end_year:   Date.today.year,
           order:      [:month, :year],
@@ -38,7 +38,7 @@ class Card < ApplicationRecord
         result['account']
       end
 
-      def disable_closed_at?
+      def disable_closed_on?
         !form.closed
       end
 

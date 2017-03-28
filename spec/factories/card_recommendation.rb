@@ -6,7 +6,7 @@ FactoryGirl.define do
     offer { create_offer }
 
     trait :applied do
-      applied_at { 4.days.ago }
+      applied_on { 4.days.ago }
     end
 
     trait :approved do

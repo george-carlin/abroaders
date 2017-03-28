@@ -38,7 +38,7 @@ RSpec.describe Card do
 
       context "and status is not 'recommended' or" do
         it "returns false" do
-          card.applied_at = Time.current
+          card.applied_on = Time.current
           raise if card.status == "recommended" # sanity check
           expect(card.send(method)).to be false
         end
@@ -115,7 +115,7 @@ RSpec.describe Card do
 
   example "#denied?" do
     card.recommended_at = Time.current
-    card.applied_at = Time.current
+    card.applied_on = Time.current
     expect(card.denied?).to be false
     card.denied_at = Time.current
     expect(card.denied?).to be true

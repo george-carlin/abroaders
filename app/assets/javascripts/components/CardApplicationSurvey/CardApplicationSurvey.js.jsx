@@ -31,11 +31,11 @@ const CardApplicationSurvey = React.createClass({
   getActionsComponent() {
     const cardAccount = this.state.cardAccount;
 
-    if (!cardAccount.recommendedAt || cardAccount.openedAt || cardAccount.redeniedAt) {
+    if (!cardAccount.recommendedAt || cardAccount.openedOn || cardAccount.redeniedAt) {
       return "noscript";
     }
 
-    if (!cardAccount.appliedAt) {
+    if (!cardAccount.appliedOn) {
       return ApplyActions;
     }
 
@@ -53,8 +53,8 @@ const CardApplicationSurvey = React.createClass({
       authenticity_token: this.authenticityToken,
     };
 
-    if (action === "open" && extraData && extraData.openedAt) {
-      data["card[opened_at]"] = extraData.openedAt;
+    if (action === "open" && extraData && extraData.openedOn) {
+      data["card[opened_on]"] = extraData.openedOn;
     }
 
     $.post(

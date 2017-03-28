@@ -18,7 +18,7 @@ const ApplyActions = React.createClass({
       // States:
       // "initial", "applied", "confirmApproved", "confirmPending", "confirmDenied"
       currentState: "initial",
-      openedAt: this.formatDate(new Date()),
+      openedOn: this.formatDate(new Date()),
     };
   },
 
@@ -38,8 +38,8 @@ const ApplyActions = React.createClass({
     this.setState({currentState: "confirmPending"});
   },
 
-  setOpenedAt(openedAt) {
-    this.setState({ openedAt });
+  setOpenedAt(openedOn) {
+    this.setState({ openedOn });
   },
 
   getAction() {
@@ -79,7 +79,7 @@ const ApplyActions = React.createClass({
   submitAction() {
     this.props.submitAction(
       this.getAction(),
-      { openedAt: this.state.openedAt }
+      { openedOn: this.state.openedOn }
     );
   },
 
@@ -154,7 +154,7 @@ const ApplyActions = React.createClass({
                 <ApproveCardAccountFormFields
                   askForDate={this.isRecommendedBeforeToday()}
                   onClickCancel={this.setStateToApplied}
-                  openedAt={this.state.openedAt}
+                  openedOn={this.state.openedOn}
                   setOpenedAt={this.setOpenedAt}
                   submitAction={this.submitAction}
                 />

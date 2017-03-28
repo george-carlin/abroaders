@@ -18,7 +18,7 @@ RSpec.describe 'cards index page - "card accounts" section' do
     result = Card::Operation::Create.(
       {
         product_id: product.id,
-        card: { opened_at: Date.parse('2017-01-01'), person_id: person.id },
+        card: { opened_on: Date.parse('2017-01-01'), person_id: person.id },
       },
       'account' => account,
     )

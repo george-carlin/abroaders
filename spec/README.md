@@ -130,19 +130,19 @@ Some general guidelines for how we test:
           end
 
           it "says when it was applied for" do
-            expect(page).to have_selector ".card_applied_at", "05/07/2016"
+            expect(page).to have_selector ".card_applied_on", "05/07/2016"
           end
 
           it "says when it was opened" do
-            expect(page).to have_selector ".card_opened_at", "05/09/2016"
+            expect(page).to have_selector ".card_opened_on", "05/09/2016"
           end
         end
 
         # Good:
         specify "card recommendation displays the correct dates" do
           expect(page).to have_selector ".card_recommended_at", "05/05/2016"
-          expect(page).to have_selector ".card_applied_at", "05/07/2016"
-          expect(page).to have_selector ".card_opened_at", "05/09/2016"
+          expect(page).to have_selector ".card_applied_on", "05/07/2016"
+          expect(page).to have_selector ".card_opened_on", "05/09/2016"
         end
 
   See also [BetterSpecs on this topic](http://betterspecs.org/#single) (the

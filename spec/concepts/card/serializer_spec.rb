@@ -22,10 +22,10 @@ RSpec.describe Card::Serializer do
       # Note that these dates, of course, make no sense, and a real card
       # account would never have all of them present:
       recommended_at: "2015-09-10",
-      applied_at:     "2015-09-11",
-      opened_at:      "2015-09-12",
+      applied_on:     "2015-09-11",
+      opened_on:      "2015-09-12",
       earned_at:      "2015-09-13",
-      closed_at:      "2015-09-14",
+      closed_on:      "2015-09-14",
       clicked_at:     "2015-09-15",
       declined_at:    "2015-09-16",
       denied_at:      "2015-09-17",
@@ -43,16 +43,16 @@ RSpec.describe Card::Serializer do
 
     expect(parsed_json.keys).to match_array(
       %w[
-        id recommended_at applied_at opened_at earned_at closed_at clicked_at
+        id recommended_at applied_on opened_on earned_at closed_on clicked_at
         declined_at denied_at nudged_at called_at redenied_at product decline_reason
       ],
     )
 
     expect(parsed_json["recommended_at"]).to eq "2015-09-10"
-    expect(parsed_json["applied_at"]).to eq     "2015-09-11"
-    expect(parsed_json["opened_at"]).to eq      "2015-09-12"
+    expect(parsed_json["applied_on"]).to eq     "2015-09-11"
+    expect(parsed_json["opened_on"]).to eq      "2015-09-12"
     expect(parsed_json["earned_at"]).to eq      "2015-09-13"
-    expect(parsed_json["closed_at"]).to eq      "2015-09-14"
+    expect(parsed_json["closed_on"]).to eq      "2015-09-14"
     expect(parsed_json["clicked_at"]).to eq     "2015-09-15"
     expect(parsed_json["declined_at"]).to eq    "2015-09-16"
     expect(parsed_json["denied_at"]).to eq      "2015-09-17"

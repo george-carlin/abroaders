@@ -10,8 +10,8 @@ class Card < Card.superclass
     #               and a link to delete the card
     class BasicCard < Abroaders::Cell::Base
       property :id
-      property :closed_at
-      property :opened_at
+      property :closed_on
+      property :opened_on
       property :product
 
       # Defining this as a method so we can stub it in tests. I need to think
@@ -29,10 +29,10 @@ class Card < Card.superclass
       end
 
       def closed?
-        !model.closed_at.nil?
+        !model.closed_on.nil?
       end
 
-      def closed_at
+      def closed_on
         super.strftime(MONTH_YEAR_FORMAT)
       end
 
@@ -73,7 +73,7 @@ class Card < Card.superclass
         )
       end
 
-      def opened_at
+      def opened_on
         super.strftime(MONTH_YEAR_FORMAT)
       end
     end

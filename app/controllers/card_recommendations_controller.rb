@@ -1,11 +1,14 @@
 class CardRecommendationsController < CardsController
+  include SerializeHelper
+
   def update
     survey = Card::ApplicationSurvey.new(card: load_card)
     respond_to do |f|
       f.json do
         begin
           survey.update!(update_params)
-          render json: survey.card
+          # for some reason this doesn't use AM::Serializer automatically:
+          render json: serialize(survey.card)
         rescue Card::InvalidStatusError
           render json: {
             error: true,
@@ -45,8 +48,8 @@ class CardRecommendationsController < CardsController
 
   def update_params
     result = params.require(:card).permit(:action)
-    if params[:card][:opened_at]
-      result[:opened_at] = Date.strptime(params[:card][:opened_at], "%m/%d/%Y")
+    if params[:card][:opened_on]
+      result[:opened_on] = Date.strptime(params[:card][:opened_on], "%m/%d/%Y")
     end
     result
   end

@@ -2,12 +2,12 @@ class Card < ApplicationRecord
   class Form < Reform::Form
     feature Reform::Form::MultiParameterAttributes
 
-    property :closed, virtual: true, prepopulator: ->(_) { self.closed = !closed_at.nil? }
-    property :closed_at
-    property :opened_at
+    property :closed, virtual: true, prepopulator: ->(_) { self.closed = !closed_on.nil? }
+    property :closed_on
+    property :opened_on
 
     validation do
-      validates :opened_at, presence: true
+      validates :opened_on, presence: true
 
       validate :closed_when_closed
       validate :not_opened_in_the_future
@@ -26,24 +26,24 @@ class Card < ApplicationRecord
     private
 
     def closed_when_closed
-      errors.add(:closed_at, :blank) if !closed.nil? && closed && closed_at.nil?
+      errors.add(:closed_on, :blank) if !closed.nil? && closed && closed_on.nil?
     end
 
     def not_opened_in_the_future
-      if !opened_at.nil? && opened_at > Date.today
-        errors.add(:opened_at, I18n.t('errors.not_in_the_future?'))
+      if !opened_on.nil? && opened_on > Date.today
+        errors.add(:opened_on, I18n.t('errors.not_in_the_future?'))
       end
     end
 
     def not_closed_in_the_future
-      if !closed_at.nil? && closed_at > Date.today
-        errors.add(:closed_at, I18n.t('errors.not_in_the_future?'))
+      if !closed_on.nil? && closed_on > Date.today
+        errors.add(:closed_on, I18n.t('errors.not_in_the_future?'))
       end
     end
 
     def opened_before_closed
-      if closed && !closed_at.nil? && !opened_at.nil? && closed_at < opened_at
-        errors.add(:closed_at, 'must be later than opened date')
+      if closed && !closed_on.nil? && !opened_on.nil? && closed_on < opened_on
+        errors.add(:closed_on, 'must be later than opened date')
       end
     end
   end
