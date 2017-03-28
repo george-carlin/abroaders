@@ -1,11 +1,14 @@
 class CardRecommendationsController < CardsController
+  include SerializeHelper
+
   def update
     survey = Card::ApplicationSurvey.new(card: load_card)
     respond_to do |f|
       f.json do
         begin
           survey.update!(update_params)
-          render json: survey.card
+          # for some reason this doesn't use AM::Serializer automatically:
+          render json: serialize(survey.card)
         rescue Card::InvalidStatusError
           render json: {
             error: true,

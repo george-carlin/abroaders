@@ -16,7 +16,7 @@ const ApproveCardAccountFormFields = React.createClass({
   propTypes: {
     askForDate:    React.PropTypes.bool,
     onClickCancel: React.PropTypes.func.isRequired,
-    openedAt:      React.PropTypes.string.isRequired,
+    openedOn:      React.PropTypes.string.isRequired,
     setOpenedAt:   React.PropTypes.func.isRequired,
     submitAction:  React.PropTypes.func.isRequired,
   },
@@ -26,7 +26,7 @@ const ApproveCardAccountFormFields = React.createClass({
           m = today.getMonth(),
           d = today.getDate(),
           y = today.getFullYear();
-    return { openedAt: m + "/" + d + "/" + y };
+    return { openedOn: m + "/" + d + "/" + y };
   },
 
   componentDidMount() {
@@ -57,7 +57,7 @@ const ApproveCardAccountFormFields = React.createClass({
 
   submitAction() {
     if (this.props.askForDate) {
-      this.props.submitAction("open", this.state.openedAt);
+      this.props.submitAction("open", this.state.openedOn);
     } else {
       this.props.submitAction("open");
     }
@@ -82,7 +82,7 @@ const ApproveCardAccountFormFields = React.createClass({
         <div>
           <input
             className="card_opened_on form-control input-sm"
-            defaultValue={this.props.openedAt}
+            defaultValue={this.props.openedOn}
             id="card_opened_on"
             modelName="card"
             ref={setTextField}
