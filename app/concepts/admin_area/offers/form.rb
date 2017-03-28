@@ -10,9 +10,9 @@ module AdminArea
       property :condition, type: Offer::Conditions, default: 'on_minimum_spend'
       property :partner, type: Offer::Partners
       property :points_awarded, type: Types::Form::Int
-      property :spend, type: Types::Form::Int
-      property :cost, type: Types::Form::Int
-      property :days, type: Types::Form::Int
+      property :spend, type: Types::Form::Int, default: 0
+      property :cost, type: Types::Form::Int, default: 0
+      property :days, type: Types::Form::Int, default: 90
       property :link, type: Types::StrippedString
       property :notes, type: Types::StrippedString
 
