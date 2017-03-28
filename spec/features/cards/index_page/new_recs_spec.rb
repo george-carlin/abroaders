@@ -9,11 +9,9 @@ RSpec.describe "cards index page - new recommendation", :js do
   let(:person) { account.owner }
 
   let!(:rec) do
-    create(
-      :card_recommendation,
-      person: person,
-      recommended_at: recommended_at,
-    )
+    r = create_card_recommendation(person_id: person.id)
+    r.update!(recommended_at: recommended_at)
+    r
   end
 
   let(:recommended_at) { Time.zone.today }

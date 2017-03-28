@@ -15,15 +15,9 @@ module AdminArea
       # use the 'real' operation to create the rec, then update the
       # rest of the attrs manually:
       def create_rec(attrs = {})
-        result = CardRecommendations::Operation::Create.(
-          # use the same person/offer every time to reduce DB queries
-          person_id: person.id,
-          card_recommendation: {
-            offer_id: offer.id,
-          },
-        )
-        raise '?' unless result.success?
-        result['model'].tap { |rec| rec.update!(attrs) }
+        create_card_recommendation(offer_id: offer.id, person_id: person.id).tap do |rec|
+          rec.update!(attrs)
+        end
       end
 
       # in these variable names, 'new' means they were recommended more

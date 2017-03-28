@@ -7,11 +7,7 @@ RSpec.describe CardRecommendation::Operation::Decline do
   let(:person)  { account.owner }
   let(:offer)   { create_offer }
 
-  let(:rec) do
-    AdminArea::CardRecommendations::Operation::Create.(
-      card_recommendation: { offer_id: offer.id }, person_id: person.id,
-    )['model']
-  end
+  let(:rec) { create_card_recommendation(offer_id: offer.id, person_id: person.id) }
 
   example 'success' do
     result = op.(
