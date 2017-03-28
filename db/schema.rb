@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170221191006) do
+ActiveRecord::Schema.define(version: 20170328135219) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -145,8 +145,8 @@ ActiveRecord::Schema.define(version: 20170221191006) do
     t.string   "award_wallet_id",                null: false
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
-    t.integer  "alliance_id",                    null: false
     t.boolean  "shown_on_survey", default: true, null: false
+    t.integer  "alliance_id",                    null: false
     t.string   "type",                           null: false
     t.index ["award_wallet_id"], name: "index_currencies_on_award_wallet_id", unique: true, using: :btree
     t.index ["name"], name: "index_currencies_on_name", unique: true, using: :btree
@@ -156,11 +156,11 @@ ActiveRecord::Schema.define(version: 20170221191006) do
   create_table "destinations", force: :cascade do |t|
     t.string   "name",                       null: false
     t.string   "code",                       null: false
-    t.string   "type",                       null: false
     t.integer  "parent_id"
     t.integer  "children_count", default: 0, null: false
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+    t.string   "type",                       null: false
     t.index ["code", "type"], name: "index_destinations_on_code_and_type", unique: true, using: :btree
     t.index ["name"], name: "index_destinations_on_name", using: :btree
     t.index ["parent_id"], name: "index_destinations_on_parent_id", using: :btree
@@ -204,21 +204,20 @@ ActiveRecord::Schema.define(version: 20170221191006) do
   end
 
   create_table "offers", force: :cascade do |t|
-    t.integer  "product_id",                    null: false
-    t.integer  "points_awarded",                null: false
+    t.integer  "product_id",                        null: false
+    t.integer  "points_awarded",                    null: false
     t.integer  "spend",            default: 0
-    t.integer  "cost",             default: 0,  null: false
+    t.integer  "cost",             default: 0,      null: false
     t.integer  "days",             default: 90
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
-    t.string   "link",                          null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.string   "link",                              null: false
     t.text     "notes"
-    t.integer  "condition",        default: 0,  null: false
     t.datetime "last_reviewed_at"
     t.datetime "killed_at"
-    t.integer  "partner"
+    t.string   "partner",          default: "none", null: false
+    t.string   "condition",                         null: false
     t.index ["killed_at"], name: "index_offers_on_killed_at", using: :btree
-    t.index ["partner"], name: "index_offers_on_partner", using: :btree
     t.index ["product_id"], name: "index_offers_on_product_id", using: :btree
   end
 
@@ -252,6 +251,13 @@ ActiveRecord::Schema.define(version: 20170221191006) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_recommendation_notes_on_account_id", using: :btree
+  end
+
+  create_table "recommendation_requests", force: :cascade do |t|
+    t.integer  "person_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["person_id"], name: "index_recommendation_requests_on_person_id", using: :btree
   end
 
   create_table "spending_infos", force: :cascade do |t|
@@ -303,6 +309,7 @@ ActiveRecord::Schema.define(version: 20170221191006) do
   add_foreign_key "people", "accounts", on_delete: :cascade
   add_foreign_key "phone_numbers", "accounts", on_delete: :cascade
   add_foreign_key "recommendation_notes", "accounts", on_delete: :cascade
+  add_foreign_key "recommendation_requests", "people", on_delete: :cascade
   add_foreign_key "spending_infos", "people", on_delete: :cascade
   add_foreign_key "travel_plans", "accounts", on_delete: :cascade
 end

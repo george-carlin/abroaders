@@ -23,11 +23,6 @@ en:
         bp: "Business / Personal"
 
       offer:
-        conditions:
-          on_approval:       "Approval"
-          on_first_purchase: "First purchase"
-          on_minimum_spend:  "Minimum spend"
-
         cost:  "Cost ($)"
         spend: "Minimum spend ($)"
 
