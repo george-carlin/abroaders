@@ -23,7 +23,9 @@ require 'types'
 # 'days'  = how long the user has after opening the card account to spend enough
 #           money to earn the bonus. (Only relevant for 'on_minimum_spend' cards)
 #
-# 'cost' is the card's annual fee.
+# 'cost' is the card's annual fee for the first year. The 'normal' annual fee
+# is reflected in the 'annual_fee' attribute of the CardProduct, but typically
+# the annual fee will be waived in the first year, so the offer reflects this.
 #
 # 'link' is the link to the page where people can sign up for the cards.  NOTE:
 # any links from our app to the card application page MUST be nofollowed, for
