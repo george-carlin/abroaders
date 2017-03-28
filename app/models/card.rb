@@ -113,10 +113,6 @@ class Card < ApplicationRecord
   end
 
   def status_model
-    attrs = attributes
-    attrs['applied_on'] = attrs['applied_at']
-    attrs['closed_on'] = attrs['closed_at']
-    attrs['opened_on'] = attrs['opened_at']
-    Status.new(attrs.slice(*Status::TIMESTAMPS))
+    Card::Status.build(self)
   end
 end

@@ -41,8 +41,7 @@ class Card::ApplicationSurvey < ApplicationForm
 
     # This could happen if e.g. the user has already made changes in a
     # different tab
-    status = Card::Status.new(card.attributes.slice(*Card::Status::TIMESTAMPS))
-    raise Card::InvalidStatusError unless status.valid?
+    raise Card::InvalidStatusError unless Card::Status.build(card).valid?
 
     card.save!
   end
