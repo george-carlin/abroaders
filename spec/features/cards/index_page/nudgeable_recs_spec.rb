@@ -15,13 +15,8 @@ RSpec.describe "user cards page - nudgeable cards", :js do
     @bank = create(:bank, name: 'Chase')
     @product = create(:card_product, bank_id: @bank.id, bp: bp)
     @offer = create_offer(product: @product)
-    @rec = create(
-      :card_recommendation,
-      recommended_at: recommended_at,
-      applied_on: applied_on,
-      person: person,
-      offer: @offer,
-    )
+    @rec = create_card_recommendation(person_id: person.id, offer_id: @offer.id)
+    @rec.update!(recommended_at: recommended_at, applied_on: applied_on)
     visit cards_path
   end
 

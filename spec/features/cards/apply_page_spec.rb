@@ -7,7 +7,7 @@ RSpec.describe "card recommendation apply page" do
 
   let(:me) { account.owner }
 
-  let(:rec) { create(:card_recommendation, person: me) }
+  let(:rec) { create_card_recommendation(person_id: me.id) }
 
   let(:visit_path) { visit apply_card_recommendation_path(rec) }
 

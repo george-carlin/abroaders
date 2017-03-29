@@ -138,12 +138,11 @@ RSpec.configure do |config|
 
     product_id = overrides.fetch(:product, create(:product)).id
 
-    result = AdminArea::Offers::Operation::Create.(
+    offer = run!(
+      AdminArea::Offers::Operation::Create,
       offer: attrs,
       card_product_id: product_id,
-    )
-    raise unless result.success?
-    offer = result['model']
+    )['model']
 
     traits = traits_and_overrides
     if traits.include?(:verified)
@@ -158,5 +157,64 @@ RSpec.configure do |config|
     end
 
     offer
+  end
+
+  def create_card_recommendation(*traits_and_overrides)
+    overrides = if traits_and_overrides.last.is_a?(Hash)
+                  traits_and_overrides.pop
+                else
+                  {}
+                end
+
+    raise "don't use :offer as a key, pass :offer_id" if overrides.key?(:offer)
+    raise "don't use :person as a key, pass :person" if overrides.key?(:person)
+
+    offer_id  = overrides.fetch(:offer_id, create_offer.id)
+    person_id = overrides.fetch(:person_id, create(:person).id)
+
+    rec = run!(
+      AdminArea::CardRecommendations::Operation::Create,
+      card_recommendation: { offer_id: offer_id }, person_id: person_id,
+    )['model']
+
+    traits = traits_and_overrides
+
+    # TODO extract ops for these actions
+    rec.applied_on = 4.days.ago if traits.include?(:applied)
+
+    if traits.include?(:approved)
+      rec.applied_on = 4.days.ago
+      rec.opened_on  = Date.today
+    end
+
+    if traits.include?(:called)
+      rec.applied_on = 4.days.ago
+      rec.denied_at  = 3.days.ago
+      rec.called_at  = Time.zone.now
+    end
+
+    rec.expired_at = Time.zone.now if traits.include?(:expired)
+
+    if traits.include?(:nudged)
+      rec.applied_on = 4.days.ago
+      rec.nudged_at = Time.zone.now
+    end
+
+    rec.pulled_at = Time.zone.now if traits.include?(:pulled)
+
+    if traits.include?(:denied)
+      rec.applied_on = 4.days.ago
+      rec.denied_at  = 3.days.ago
+    end
+
+    if traits.include?(:redenied)
+      rec.applied_on = 4.days.ago
+      rec.denied_at  = 3.days.ago
+      rec.called_at  = Time.zone.now
+      rec.redenied_at = Time.zone.now
+    end
+
+    rec.save!
+    rec
   end
 end

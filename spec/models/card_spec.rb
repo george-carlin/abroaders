@@ -138,13 +138,13 @@ RSpec.describe Card do
 
   example ".non_recommendation" do
     returned = create(:card)
-    create(:card_recommendation)
+    create_card_recommendation
     expect(described_class.non_recommendation).to eq [returned]
   end
 
   example ".recommendations" do
     create(:card)
-    returned = create(:card_recommendation)
+    returned = create_card_recommendation
     expect(described_class.recommendations).to eq [returned]
   end
 
@@ -154,28 +154,28 @@ RSpec.describe Card do
     person  = create(:person)
 
     # resolved:
-    create(:card_rec, :approved,        offer: offer, person: person)
-    create(:card_rec, :pulled,          offer: offer, person: person)
-    create(:card_rec, :nudged, :denied, offer: offer, person: person)
-    create(:card_rec, :redenied,        offer: offer, person: person)
-    create(:card_rec, :expired,         offer: offer, person: person)
+    create_card_recommendation(:approved,        offer_id: offer.id, person_id: person.id)
+    create_card_recommendation(:pulled,          offer_id: offer.id, person_id: person.id)
+    create_card_recommendation(:nudged, :denied, offer_id: offer.id, person_id: person.id)
+    create_card_recommendation(:redenied,        offer_id: offer.id, person_id: person.id)
+    create_card_recommendation(:expired,         offer_id: offer.id, person_id: person.id)
     create(:card, :open, product: product, person: person)
     # open after reconsideration:
-    create(:card_rec, :denied, :called, :approved, offer: offer, person: person)
+    create_card_recommendation(:denied, :called, :approved, offer_id: offer.id, person_id: person)
     # open after nudging:
-    create(:card_rec, :applied, :nudged, :approved, offer: offer, person: person)
+    create_card_recommendation(:applied, :nudged, :approved, offer_id: offer.id, person_id: person)
 
     unresolved = [
       # brand new:
-      create(:card_rec,            offer: offer, person: person),
+      create_card_recommendation(offer_id: offer.id, person_id: person.id),
       # applied but pending:
-      create(:card_rec, :applied,  offer: offer, person: person),
+      create_card_recommendation(:applied, offer_id: offer.id, person_id: person.id),
       # applied and nudged:
-      create(:card_rec, :applied, :nudged, offer: offer, person: person),
+      create_card_recommendation(:applied, :nudged, offer_id: offer.id, person_id: person.id),
       # denied but reconsiderable:
-      create(:card_rec, :denied, offer: offer, person: person),
+      create_card_recommendation(:denied, offer_id: offer.id, person_id: person.id),
       # denied, called, pending:
-      create(:card_rec, :denied, :called, person: person),
+      create_card_recommendation(:denied, :called, offer_id: offer.id, person_id: person.id),
     ]
 
     expect(Card.unresolved).to match_array(unresolved)

@@ -19,14 +19,8 @@ RSpec.describe "user cards page - called cards", :js do
 
   before do
     person.update!(eligible: true)
-    @rec = create(
-      :card_recommendation,
-      recommended_at: recommended_at,
-      applied_on: applied_on,
-      denied_at:  denied_at,
-      called_at:  called_at,
-      person:     person,
-    )
+    @rec = create_card_recommendation(person_id: person.id)
+    @rec.update!(recommended_at: recommended_at, applied_on: applied_on, denied_at: denied_at, called_at: called_at)
     visit cards_path
   end
   let(:rec) { @rec }
