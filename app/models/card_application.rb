@@ -53,10 +53,32 @@ class CardApplication < ApplicationRecord
   has_one :product, through: :offer
   belongs_to :person
 
+  def card_recommendation=(new_rec)
+    unless new_rec.offer.nil?
+      if !offer.nil? && new_rec.offer != offer
+        raise "offers don't match"
+      else
+        self.offer = new_rec.offer
+      end
+    end
+
+    unless new_rec.person.nil?
+      if !person.nil? && new_rec.person != person
+        raise "people don't match"
+      else
+        self.person = new_rec.person
+      end
+    end
+
+    super
+  end
+
   # TODO still used?
   scope :undenied,   -> { where(denied_at: nil) }
   scope :unredenied, -> { where(redenied_at: nil) }
-  def openable?; raise 'TODO';end
+  def openable?
+    raise 'TODO'
+  end
   alias deniable? openable?
   # /TODO
 end

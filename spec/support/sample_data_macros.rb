@@ -9,7 +9,7 @@
 # traits (an array of symbols; you don't have to pass any traits) and a hash
 # of attributes.
 module SampleDataMacros
-  # Create an offer in the way an Admin would. 
+  # Create an offer in the way an Admin would.
   #
   # Valid traits are ':verified', which means an admin will verify the offer
   # after creating it, and ':dead', which means an admin will kill the offer
@@ -60,7 +60,6 @@ module SampleDataMacros
 
     offer
   end
-
 
   # Create a card recommendation in the same way a user would.
   #
