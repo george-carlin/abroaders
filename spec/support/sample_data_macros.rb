@@ -65,7 +65,7 @@ module SampleDataMacros
   #
   # Actually, it's not quite the same way a user would, because not all the
   # state changes are performed by operations. But you're probably better off
-  # not using the traits here anyway.
+  # not using the traits here anyway. They're too magical
   def create_card_recommendation(*traits_and_overrides)
     overrides = if traits_and_overrides.last.is_a?(Hash)
                   traits_and_overrides.pop
@@ -85,9 +85,6 @@ module SampleDataMacros
     )['model']
 
     traits = traits_and_overrides
-
-    # TODO extract ops for these actions
-    rec.applied_on = 4.days.ago if traits.include?(:applied)
 
     if traits.include?(:approved)
       rec.applied_on = 4.days.ago
