@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170328144740) do
+ActiveRecord::Schema.define(version: 20170328164915) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,6 +92,20 @@ ActiveRecord::Schema.define(version: 20170328144740) do
     t.datetime "updated_at",     null: false
   end
 
+  create_table "card_applications", force: :cascade do |t|
+    t.integer  "card_id"
+    t.date     "applied_on",  null: false
+    t.datetime "denied_at"
+    t.datetime "nudged_at"
+    t.datetime "called_at"
+    t.datetime "redenied_at"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "person_id"
+    t.integer  "offer_id",    null: false
+    t.index ["card_id"], name: "index_card_applications_on_card_id", using: :btree
+  end
+
   create_table "card_products", force: :cascade do |t|
     t.string   "code",                              null: false
     t.string   "name",                              null: false
@@ -114,30 +128,30 @@ ActiveRecord::Schema.define(version: 20170328144740) do
     t.index ["wallaby_id"], name: "index_card_products_on_wallaby_id", using: :btree
   end
 
-  create_table "cards", force: :cascade do |t|
-    t.integer  "product_id"
-    t.integer  "person_id",      null: false
-    t.integer  "offer_id"
-    t.date     "recommended_at"
-    t.date     "applied_at"
-    t.date     "opened_at"
-    t.date     "earned_at"
-    t.date     "closed_at"
-    t.string   "decline_reason"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-    t.date     "clicked_at"
-    t.date     "declined_at"
-    t.date     "denied_at"
-    t.date     "nudged_at"
-    t.date     "called_at"
-    t.date     "redenied_at"
+  create_table "card_recommendations", force: :cascade do |t|
+    t.integer  "person_id",           null: false
+    t.integer  "card_application_id"
+    t.integer  "offer_id",            null: false
+    t.datetime "declined_at"
     t.datetime "seen_at"
+    t.datetime "clicked_at"
     t.datetime "expired_at"
     t.datetime "pulled_at"
-    t.index ["pulled_at"], name: "index_cards_on_pulled_at", using: :btree
-    t.index ["recommended_at"], name: "index_cards_on_recommended_at", using: :btree
-    t.index ["seen_at"], name: "index_cards_on_seen_at", using: :btree
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+    t.string   "decline_reason"
+    t.index ["card_application_id"], name: "index_card_recommendations_on_card_application_id", using: :btree
+    t.index ["offer_id"], name: "index_card_recommendations_on_offer_id", using: :btree
+  end
+
+  create_table "cards", force: :cascade do |t|
+    t.integer  "product_id"
+    t.integer  "person_id",  null: false
+    t.date     "opened_on"
+    t.date     "earned_at"
+    t.date     "closed_on"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "currencies", force: :cascade do |t|
@@ -288,28 +302,26 @@ ActiveRecord::Schema.define(version: 20170328144740) do
     t.index ["type"], name: "index_travel_plans_on_type", using: :btree
   end
 
-  add_foreign_key "accounts_home_airports", "accounts", on_delete: :cascade
   add_foreign_key "accounts_home_airports", "destinations", column: "airport_id", on_delete: :restrict
   add_foreign_key "balances", "currencies", on_delete: :cascade
   add_foreign_key "balances", "people", on_delete: :cascade
+  add_foreign_key "card_applications", "cards", on_delete: :restrict
+  add_foreign_key "card_applications", "people", on_delete: :restrict
   add_foreign_key "card_products", "banks"
   add_foreign_key "card_products", "currencies", on_delete: :restrict
+  add_foreign_key "card_recommendations", "card_applications", on_delete: :restrict
+  add_foreign_key "card_recommendations", "offers", on_delete: :restrict
   add_foreign_key "cards", "card_products", column: "product_id", on_delete: :restrict
-  add_foreign_key "cards", "offers", on_delete: :cascade
   add_foreign_key "cards", "people", on_delete: :cascade
   add_foreign_key "currencies", "alliances"
   add_foreign_key "destinations", "destinations", column: "parent_id", on_delete: :restrict
   add_foreign_key "flights", "destinations", column: "from_id", on_delete: :restrict
   add_foreign_key "flights", "destinations", column: "to_id", on_delete: :restrict
   add_foreign_key "flights", "travel_plans", on_delete: :cascade
-  add_foreign_key "interest_regions", "accounts", on_delete: :cascade
   add_foreign_key "interest_regions", "destinations", column: "region_id", on_delete: :restrict
   add_foreign_key "notifications", "accounts"
   add_foreign_key "offers", "card_products", column: "product_id", on_delete: :cascade
   add_foreign_key "people", "accounts", on_delete: :cascade
-  add_foreign_key "phone_numbers", "accounts", on_delete: :cascade
   add_foreign_key "recommendation_notes", "accounts", on_delete: :cascade
   add_foreign_key "recommendation_requests", "people", on_delete: :cascade
-  add_foreign_key "spending_infos", "people", on_delete: :cascade
-  add_foreign_key "travel_plans", "accounts", on_delete: :cascade
 end
