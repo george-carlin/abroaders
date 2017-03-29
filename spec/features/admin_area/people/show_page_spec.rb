@@ -253,7 +253,7 @@ module AdminArea
         expect(page).to have_content 'Recommended!'
 
         # the rec is added to the table:
-        rec = Card.recommendations.last
+        rec = CardRecommendation.last
         within '#admin_person_cards_table' do
           expect(page).to have_selector "#card_#{rec.id}"
         end

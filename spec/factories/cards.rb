@@ -1,11 +1,10 @@
 FactoryGirl.define do
+  # TODO this should be replaced with Card::Operations::Create
   factory :card do
     person
     association(:product, factory: :card_product)
 
-    trait :open do
-      opened_on { 2.years.ago }
-    end
+    opened_on { 2.years.ago }
 
     trait :closed do
       open
