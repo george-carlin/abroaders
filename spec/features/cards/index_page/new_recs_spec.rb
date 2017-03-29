@@ -158,12 +158,12 @@ RSpec.describe "cards index page - new recommendation", :js do
       end
 
       context "when I received this rec today" do
-        it "shows Confirm/Cancel buttons with no datepicker", :frontend do
-          # this spec fails when run late in the day when your machine's time
-          # is earlier than UTC # TZFIXME
-          expect(page).to have_no_field approved_at
-          expect(page).to have_button 'Confirm'
-          expect(page).to have_button 'Cancel'
+        across_time_zones do
+          it "shows Confirm/Cancel buttons with no datepicker", :frontend do
+            expect(page).to have_no_field approved_at
+            expect(page).to have_button 'Confirm'
+            expect(page).to have_button 'Cancel'
+          end
         end
 
         describe "clicking 'Confirm'" do
