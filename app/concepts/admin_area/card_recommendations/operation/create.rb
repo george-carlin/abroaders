@@ -30,7 +30,7 @@ module AdminArea
         end
 
         def setup_model!(opts, person:, **)
-          opts['model'] = person.cards.new(recommended_at: Time.zone.now)
+          opts['model'] = person.card_recommendations.new
         end
 
         def setup_person!(opts, params:, **)

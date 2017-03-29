@@ -19,9 +19,7 @@ RSpec.describe AdminArea::CardRecommendations::Operation::Create do
     expect(rec.offer).to eq offer
     expect(rec.product).to eq offer.product
     expect(rec.person).to eq person
-    # TODO this should be a datetime, not a date! DATETIMEFIXME
-    expect(rec.recommended_at).to eq Time.zone.now.to_date
-    expect(rec.recommendation?).to be true
+    expect(rec.recommended_at).to be_within(5.seconds).of Time.now
   end
 
   specify 'offer must be live' do
@@ -35,6 +33,6 @@ RSpec.describe AdminArea::CardRecommendations::Operation::Create do
       )
       expect(result.success?).to be false
       expect(result['errors']).to eq ["Couldn't find live offer with ID #{offer.id}"]
-    end.not_to change { Card.recommendations.count }
+    end.not_to change { CardRecommendation.count }
   end
 end
