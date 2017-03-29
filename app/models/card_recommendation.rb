@@ -19,7 +19,15 @@ class CardRecommendation < ApplicationRecord
     return 'pulled'   unless pulled_at.nil?
     return 'expired'  unless expired_at.nil?
     return 'declined' unless declined_at.nil?
-    return 'applied'  unless card_application_id.nil?
+    return 'applied'  if applied?
     'recommended'
+  end
+
+  def applied?
+    !card_application.nil?
+  end
+
+  def declinable?
+    status == 'recommended'
   end
 end

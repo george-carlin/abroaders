@@ -29,12 +29,32 @@ RSpec.describe CardRecommendation do
     end
 
     context 'when application ID is present' do
-      before { attrs[:card_application_id] = 1 }
+      before { attrs[:card_application] = CardApplication.new }
       it { is_expected.to eq 'applied' }
     end
 
     context 'when rec is not declined, applied, pulled, or expired' do
       it { is_expected.to eq 'recommended' }
     end
+  end
+
+  example "#declinable?" do
+    rec = described_class.new
+    expect(rec.declinable?).to be true
+
+    rec.pulled_at = Time.now
+    expect(rec.declinable?).to be false
+    rec.pulled_at = nil
+
+    rec.expired_at = Time.now
+    expect(rec.declinable?).to be false
+    rec.expired_at = nil
+
+    rec.declined_at = Time.now
+    expect(rec.declinable?).to be false
+    rec.declined_at = nil
+
+    rec.card_application = CardApplication.new
+    expect(rec.declinable?).to be false
   end
 end
