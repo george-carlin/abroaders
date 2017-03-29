@@ -1,9 +1,11 @@
 # A replacement for FactoryGirl that exclusively creates and updates data using
 # our own operations, and therefore creates data in the exact same way that a
 # user would. Ideally all test data should be created in this way and we would
-# do away with FactoryGirl altogether. This method is long and ugly but it's a
-# start; ideally we'd have some kind of unified interface similar to
-# FactoryGirl's "create" method that delegates to methods like the one below
+# do away with FactoryGirl altogether.
+#
+# The macros in here are long and VERY ugly but they're a start; ideally we'd
+# have some kind of unified interface similar to FactoryGirl's "create" method
+# that delegates to methods like the one below
 #
 # This method has an interface like FactoryGirl's, in that you can pass both
 # traits (an array of symbols; you don't have to pass any traits) and a hash
@@ -120,5 +122,42 @@ module SampleDataMacros
 
     rec.save!
     rec
+  end
+
+  def create_card(*traits_and_overrides)
+    overrides = if traits_and_overrides.last.is_a?(Hash)
+                  traits_and_overrides.pop
+                else
+                  {}
+                end
+    traits = traits_and_overrides
+
+    if overrides.key?(:product) && overrides.key?(:product_id)
+      raise "can't specify both :product and :product_id, use one or the other"
+    end
+    product_id = if overrides.key?(:product)
+                   overrides[:product].id
+                 elsif overrides.key(:product_id)
+                   overrides[:product_id]
+                 else
+                   create(:card_product).id
+                 end
+
+    raise "can't use :person_id, pass :person instead" if overrides.key?(:person_id)
+    person = overrides.fetch(:person, create(:person))
+
+    params = {
+      card: {
+        opened_on: overrides.fetch(:opened_on, Date.today),
+      },
+      product_id: product_id,
+    }
+
+    if traits.include?(:closed) || overrides.key(:closed_on)
+      params[:card][:closed] = true
+      params[:card][:closed_on] = overrides.fetch(:closed_on, Date.today)
+    end
+
+    run!(Card::Operation::Create, params, 'account' => person.account)['model']
   end
 end

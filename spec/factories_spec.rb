@@ -89,20 +89,4 @@ RSpec.describe "factories" do
       end
     end
   end
-
-  describe 'card factory' do
-    let(:create_card) { create(:card, *traits) }
-    let(:traits) { [] }
-
-    let(:card) { Card.last }
-
-    it 'creates a card with a product' do
-      create_card
-      expect(Card.count).to eq 1
-      expect(CardProduct.count).to eq 1
-      expect(Offer.count).to eq 0
-      product = CardProduct.last
-      expect(card.product).to eq product
-    end
-  end
 end
