@@ -20,11 +20,7 @@ class Card < ApplicationRecord
     status_model.name
   end
 
-  def recommendation?
-    !recommended_at.nil?
-  end
-
-  %w[recommended declined denied open closed].each do |status|
+  %w[open closed].each do |status|
     define_method "#{status}?" do
       self.status == status
     end
@@ -32,6 +28,7 @@ class Card < ApplicationRecord
 
   # Validations
 
+  # TODO why is this validation here and not in a form object?
   validates :person, presence: true
 
   # Associations
