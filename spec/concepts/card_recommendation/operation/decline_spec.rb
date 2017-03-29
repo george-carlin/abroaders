@@ -15,10 +15,8 @@ RSpec.describe CardRecommendation::Operation::Decline do
       'account' => account,
     )
     expect(result.success?).to be true
-    # FIXME declined_at should be a datetime, not a date
-    # expect(rec.reload.declined_at).to be_within(5.seconds).of Time.now
     rec.reload
-    expect(rec.declined_at).to eq Date.today
+    expect(rec.declined_at).to be_within(5.seconds).of Time.zone.now
     expect(rec.decline_reason).to eq 'X' # it strips whitespace
 
     expect(rec).to eq result['model']
@@ -45,7 +43,7 @@ RSpec.describe CardRecommendation::Operation::Decline do
 
   example 'failure - rec already applied for' do
     # TODO replace with an op once we have one:
-    rec.update!(applied_on: Time.now)
+    CardApplication.create!(card_recommendation: rec, applied_on: Date.today)
     result = op.(
       { id: rec.id, card: { decline_reason: 'X' } },
       'account' => account,
