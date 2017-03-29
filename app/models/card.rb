@@ -1,29 +1,21 @@
 # A Card is a specific copy of a CardProduct. If 10 people have a Chase
 # Sapphire credit card, then there are 10 Cards (one in each person's wallet),
 # but only one card *product* (the general concept of a Chase Sapphire card).
+#
+# A card has the following timestamps, all of which are nullable:
+#
+# @!attribute opened_on
+#   the date the user was approved for the card and their account was opened.
+#
+# @!attribute earned_at
+#   the date the user earned their signup bonus. (It might be the same date
+#   they opened the card, if the offer is 'on approval') We don't actually have
+#   anything in place yet to update this, so this column is currently null for
+#   all cards :/
+#
+# @!attribute closed_on
+#   the date the user's card expired or they closed the card's account.
 class Card < ApplicationRecord
-  # A card has the following timestamps, all of which are nullable:
-  #
-  # opened_on:
-  #   the date the user was approved for the card and their account was opened.
-  #   the actual name of the DB column is 'opened_on', opened_on is an alias.
-  #
-  # earned_at:
-  #   the date the user earned their signup bonus. (It might be the same date
-  #   they opened the card, if the offer is 'on approval')
-  #
-  # closed_on:
-  #   the date the user's card expired or they closed the card's account.
-  #   the actual name of the DB column is 'closed_on', closed_on is an alias.
-  #
-  # created_at/updated_at
-  #   The normal Rails/PSQL timestamp columns. But you already knew that ;)
-  #
-
-  alias_attribute :applied_on, :applied_at
-  alias_attribute :closed_on, :closed_at
-  alias_attribute :opened_on, :opened_at
-
   def status
     status_model.name
   end
