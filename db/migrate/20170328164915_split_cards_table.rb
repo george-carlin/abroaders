@@ -60,6 +60,7 @@ class SplitCardsTable < ActiveRecord::Migration[5.0]
     remove_column :cards, :redenied_at, :date
 
     rename_column :cards, :opened_at, :opened_on
+    change_column_null :cards, :opened_on, false
     rename_column :cards, :closed_at, :closed_on
   end
 end

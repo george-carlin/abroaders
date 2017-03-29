@@ -93,6 +93,8 @@ ActiveRecord::Schema.define(version: 20170328164915) do
   end
 
   create_table "card_applications", force: :cascade do |t|
+    t.integer  "person_id",   null: false
+    t.integer  "offer_id",    null: false
     t.integer  "card_id"
     t.date     "applied_on",  null: false
     t.datetime "denied_at"
@@ -101,9 +103,9 @@ ActiveRecord::Schema.define(version: 20170328164915) do
     t.datetime "redenied_at"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
-    t.integer  "person_id"
-    t.integer  "offer_id",    null: false
     t.index ["card_id"], name: "index_card_applications_on_card_id", using: :btree
+    t.index ["offer_id"], name: "index_card_applications_on_offer_id", using: :btree
+    t.index ["person_id"], name: "index_card_applications_on_person_id", using: :btree
   end
 
   create_table "card_products", force: :cascade do |t|
@@ -142,12 +144,13 @@ ActiveRecord::Schema.define(version: 20170328164915) do
     t.string   "decline_reason"
     t.index ["card_application_id"], name: "index_card_recommendations_on_card_application_id", using: :btree
     t.index ["offer_id"], name: "index_card_recommendations_on_offer_id", using: :btree
+    t.index ["person_id"], name: "index_card_recommendations_on_person_id", using: :btree
   end
 
   create_table "cards", force: :cascade do |t|
     t.integer  "product_id"
     t.integer  "person_id",  null: false
-    t.date     "opened_on"
+    t.date     "opened_on",  null: false
     t.date     "earned_at"
     t.date     "closed_on"
     t.datetime "created_at", null: false
@@ -306,11 +309,13 @@ ActiveRecord::Schema.define(version: 20170328164915) do
   add_foreign_key "balances", "currencies", on_delete: :cascade
   add_foreign_key "balances", "people", on_delete: :cascade
   add_foreign_key "card_applications", "cards", on_delete: :restrict
+  add_foreign_key "card_applications", "offers", on_delete: :restrict
   add_foreign_key "card_applications", "people", on_delete: :restrict
   add_foreign_key "card_products", "banks"
   add_foreign_key "card_products", "currencies", on_delete: :restrict
   add_foreign_key "card_recommendations", "card_applications", on_delete: :restrict
   add_foreign_key "card_recommendations", "offers", on_delete: :restrict
+  add_foreign_key "card_recommendations", "people", on_delete: :restrict
   add_foreign_key "cards", "card_products", column: "product_id", on_delete: :restrict
   add_foreign_key "cards", "people", on_delete: :cascade
   add_foreign_key "currencies", "alliances"
