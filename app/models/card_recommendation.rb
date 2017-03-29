@@ -14,4 +14,12 @@ class CardRecommendation < ApplicationRecord
     self.pulled_at = Time.zone.now
     save
   end
+
+  def status
+    return 'pulled'   unless pulled_at.nil?
+    return 'expired'  unless expired_at.nil?
+    return 'declined' unless declined_at.nil?
+    return 'applied'  unless card_application_id.nil?
+    'recommended'
+  end
 end
