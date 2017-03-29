@@ -54,8 +54,6 @@ RSpec.describe CardApplication do
       described_class.new(applied_on: Date.today)
     end
 
-    # possible values 'applied', 'denied', 'nudged', 'called', 'approved', 'refused'
-    #
     app = new_app
     expect(app.status).to eq 'applied'
     app.card = Card.new
