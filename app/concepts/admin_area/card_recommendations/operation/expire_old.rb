@@ -19,8 +19,9 @@ module AdminArea
         private
 
         def expire_old_recs!(opts)
-          Card.recommendations.unclicked.unapplied.unexpired.undeclined.unpulled.where(
-            "recommended_at < '#{opts['expire_after_no_of_days'].days.ago.utc.to_s(:db)}'",
+          cutoff_point = opts['expire_after_no_of_days'].days.ago.utc.to_s(:db)
+          CardRecommendation.unclicked.unapplied.unexpired.undeclined.unpulled.where(
+            "created_at < '#{cutoff_point}'",
           ).update_all(expired_at: Time.zone.now)
         end
       end
