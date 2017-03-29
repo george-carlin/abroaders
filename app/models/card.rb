@@ -17,13 +17,11 @@
 #   the date the user's card expired or they closed the card's account.
 class Card < ApplicationRecord
   def status
-    status_model.name
+    closed? ? 'closed' : 'open'
   end
 
-  %w[open closed].each do |status|
-    define_method "#{status}?" do
-      self.status == status
-    end
+  def closed?
+    !closed_on.nil?
   end
 
   # Validations
@@ -41,10 +39,4 @@ class Card < ApplicationRecord
   # Callbacks
 
   # Scopes
-
-  private
-
-  def status_model
-    Card::Status.build(self)
-  end
 end

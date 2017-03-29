@@ -48,4 +48,47 @@ RSpec.describe CardApplication do
       expect(app.card_recommendation).to be nil
     end
   end
+
+  example '#status' do
+    def new_app
+      described_class.new(applied_on: Date.today)
+    end
+
+    # possible values 'applied', 'denied', 'nudged', 'called', 'approved', 'refused'
+    #
+    app = new_app
+    expect(app.status).to eq 'applied'
+    app.card = Card.new
+    expect(app.status).to eq 'approved'
+
+    app = new_app
+    app.nudged_at = Time.now
+    expect(app.status).to eq 'called'
+    app.card = Card.new
+    expect(app.status).to eq 'approved'
+
+    app = new_app
+    app.nudged_at = Time.now
+    app.denied_at = Time.now
+    expect(app.status).to eq 'refused'
+
+    app = new_app
+    app.nudged_at = Time.now
+    app.denied_at = Time.now
+    expect(app.status).to eq 'refused'
+
+    app = new_app
+    app.denied_at = Time.now
+    expect(app.status).to eq 'denied'
+    app.called_at = Time.now
+    expect(app.status).to eq 'called'
+    app.redenied_at = Time.now
+    expect(app.status).to eq 'refused'
+
+    app = new_app
+    app.denied_at = Time.now
+    app.called_at = Time.now
+    app.card = Card.new
+    expect(app.status).to eq 'approved'
+  end
 end

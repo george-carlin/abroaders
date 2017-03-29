@@ -72,4 +72,42 @@ class CardApplication < ApplicationRecord
 
     super
   end
+
+  # Possible return values: 'applied', 'denied', 'called', 'approved',
+  # 'refused'.  'refused' means that the application has been denied with no
+  # possbility of reconsideration (i.e. they were denied after nudging, or they
+  # were redenied after being denied and calling.)
+  #
+  # This method doesn't care about the distinction between 'nudging' and
+  # 'calling'; both have the status 'calling'.
+  def status
+    return 'approved' if approved?
+    return 'refused' if redenied?
+    return 'called'  if called?
+
+    return nudged? ? 'refused' : 'denied' if denied?
+
+    return 'called' if nudged?
+    'applied'
+  end
+
+  def approved?
+    card.present?
+  end
+
+  def called?
+    !called_at.nil?
+  end
+
+  def denied?
+    !denied_at.nil?
+  end
+
+  def nudged?
+    !nudged_at.nil?
+  end
+
+  def redenied?
+    !redenied_at.nil?
+  end
 end
