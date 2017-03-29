@@ -106,19 +106,19 @@ const ApplyActions = React.createClass({
     // behind UTC. The below is a quick fix, but this is probably indicative
     // of some kind of deeper problem with how we're dealing with timezones.
     // TODO investigate.
-    if (rAt.getFullYear() < today.getUTCFullYear()) {
+    if (rAt.getUTCFullYear() < today.getUTCFullYear()) {
       return true;
-    } else if (rAt.getFullYear() > today.getUTCFullYear()) {
+    } else if (rAt.getUTCFullYear() > today.getUTCFullYear()) {
       return false;
     }
 
-    if (rAt.getMonth() < today.getUTCMonth()) {
+    if (rAt.getUTCMonth() < today.getUTCMonth()) {
       return true;
-    } else if (rAt.getMonth() > today.getUTCMonth()) {
+    } else if (rAt.getUTCMonth() > today.getUTCMonth()) {
       return false;
     }
 
-    return rAt.getDate() < today.getUTCDate();
+    return rAt.getUTCDate() < today.getUTCDate();
   },
 
   render() {

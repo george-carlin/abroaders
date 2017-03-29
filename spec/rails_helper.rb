@@ -57,8 +57,14 @@ RSpec.configure do |config|
   config.include AlertsMacros, type: :feature
   config.include DatepickerMacros, type: :feature
   config.include TitleHelper, type: :feature
+  config.include TimeZoneHelpers
   config.include TypeaheadMacros, type: :feature
   config.include WaitForAjax, type: :feature
+
+  config.before(:suite) do
+    # uncomment this once all the timezone-dependent specs are passing
+    # TimeZoneHelpers.randomise_timezone!
+  end
 
   config.after(:each) do
     Warden.test_reset!
