@@ -51,8 +51,8 @@ class Person < ApplicationRecord
   belongs_to :account
   has_one :spending_info, dependent: :destroy
   has_many :cards
-  has_many :card_accounts, -> { where.not(opened_on: nil) }, class_name: 'Card'
-  has_many :card_recommendations, -> { recommendations }, class_name: 'Card'
+  has_many :card_recommendations
+  has_many :card_applications
   has_many :card_products, through: :cards
 
   has_many :balances
