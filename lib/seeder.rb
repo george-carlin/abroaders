@@ -12,20 +12,6 @@ module Seeder
     Rails.logger.info "created #{Admin.count} admins"
   end
 
-  def self.seed_alliances
-    ApplicationRecord.transaction do
-      [
-        [1, 'OneWorld',     0],
-        [2, 'StarAlliance', 1],
-        [3, 'SkyTeam',      2],
-        [4, 'Independent',  99],
-      ].each do |id, name, order|
-        Alliance.create!(id: id, name: name, order: order)
-      end
-      Rails.logger.info "created #{Alliance.count} alliances"
-    end
-  end
-
   def self.seed_banks
     [
       # comments after each line contain additional data about the bank
@@ -103,16 +89,9 @@ module Seeder
     #  - Turkish Airlines (Miles & Smiles)
     #  - Ukraine International Airlines (Panorama Club)
     #  - Vietnam Airlines (Golden Lotus Plus)
-    raise "can't add currencies with no alliances in DB" unless Alliance.any?
     ApplicationRecord.transaction do
-      alliances = Alliance.all.each_with_object({}) { |a, h| h[a.name] = a }
       load_data_for("currencies").each do |data|
-        alliance_name = data.delete("alliance")
-        data["alliance_id"] = if alliance_name
-                                alliances[alliance_name].id
-                              else
-                                alliances['Independent'].id
-                              end
+        data["alliance_name"] = data.delete("alliance") || 'Independent'
         if data["award_wallet_id"] == "unknown"
           # AW ids must be present and unique:
           data["award_wallet_id"] << "-#{SecureRandom.hex}"

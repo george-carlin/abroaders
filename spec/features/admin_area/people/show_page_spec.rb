@@ -7,15 +7,11 @@ module AdminArea
     before(:all) do
       @chase   = create(:bank, name: "Chase")
       @us_bank = create(:bank, name: "US Bank")
-      # There's no practical difference between the 'Independent' alliance
-      # (i.e. no Alliance) and real Alliances; no need to test Independent
-      @one_world = Alliance.create!(name: 'OneWorld', order: 0)
-      @sky_team  = Alliance.create!(name: 'SkyTeam',  order: 1)
 
       @currencies = []
-      @currencies << create(:currency, alliance: @one_world)
-      @currencies << create(:currency, alliance: @sky_team)
-      @currencies << create(:currency, alliance: @one_world)
+      @currencies << create(:currency, alliance_name: 'OneWorld')
+      @currencies << create(:currency, alliance_name: 'SkyTeam')
+      @currencies << create(:currency, alliance_name: 'OneWorld')
 
       def create_product(bp, bank, currency)
         create(:card_product, bp, bank_id: bank.id, currency: currency)
@@ -100,8 +96,8 @@ module AdminArea
         let(:business_check_box) { :card_bp_filter_business }
         let(:personal_check_box) { :card_bp_filter_personal }
         let(:all_banks) { :card_bank_filter_all }
-        let(:all_ow) { :"card_currency_alliance_filter_all_for_#{@one_world.id}" }
-        let(:all_st) { :"card_currency_alliance_filter_all_for_#{@sky_team.id}" }
+        let(:all_ow) { :card_currency_alliance_filter_all_for_one_world }
+        let(:all_st) { :card_currency_alliance_filter_all_for_sky_team }
         let(:chase_check_box)   { :"card_bank_filter_#{@chase.id}" }
         let(:us_bank_check_box) { :"card_bank_filter_#{@us_bank.id}" }
 
@@ -206,12 +202,12 @@ module AdminArea
         example "toggling all one world alliance currencies" do
           uncheck all_ow
           page_should_not_have_recommendable_products(*@one_world_cards)
-          Currency.where(alliance_id: @one_world.id).each do |currency|
+          Currency.where(alliance_name: 'OneWorld').each do |currency|
             expect(find("#card_currency_filter_#{currency.id}")).not_to be_checked
           end
           check all_ow
           page_should_have_recommendable_products(*@one_world_cards)
-          Currency.where(alliance_id: @one_world.id).each do |currency|
+          Currency.where(alliance_name: 'OneWorld').each do |currency|
             expect(find("#card_currency_filter_#{currency.id}")).to be_checked
           end
 
