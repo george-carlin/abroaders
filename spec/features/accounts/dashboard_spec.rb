@@ -102,10 +102,7 @@ RSpec.describe "account dashboard" do
 
     context "when I have recs that require action" do
       before do
-        run!(
-          AdminArea::CardRecommendations::Operation::Create,
-          card_recommendation: { offer_id: create_offer.id }, person_id: owner.id,
-        )['model']
+        create_card_recommendation(offer_id: create_offer.id, person_id: owner.id)
         run!(AdminArea::CardRecommendations::Operation::Complete, person_id: owner.id)
         visit root_path
       end

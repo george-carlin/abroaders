@@ -36,7 +36,8 @@ class Card < ApplicationRecord
       # CardProduct and set card.product. (This will be used to fill the value
       # of a hidden field in the <form>). Also set opts['product']
       def find_product!(opts, params:, **)
-        opts['model'].product = opts['product'] = CardProduct.find(params[:product_id])
+        product_id = params.fetch(:product_id)
+        opts['model'].product = opts['product'] = CardProduct.find(product_id)
       end
 
       def setup_model!(opts, person:, **)

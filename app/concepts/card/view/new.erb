@@ -37,7 +37,7 @@
 
             <div class="col-md-12 col-lg-8">
               <%= f.date_select(
-                :opened_at,
+                :opened_on,
                 end_year:   Date.today.year,
                 order:      [:month, :year],
                 start_year: Date.today.year - 10,
@@ -62,7 +62,7 @@
               </div>
 
               <div class="col-md-12 col-lg-8">
-                <%= closed_at_select(f) %>
+                <%= closed_on_select(f) %>
               </div>
             </div>
           </div>

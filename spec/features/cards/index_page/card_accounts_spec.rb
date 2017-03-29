@@ -15,15 +15,14 @@ RSpec.describe 'cards index page - "card accounts" section' do
   let(:products) { @products }
 
   def create_card(person, product)
-    result = Card::Operation::Create.(
+    run!(
+      Card::Operation::Create,
       {
         product_id: product.id,
-        card: { opened_at: Date.parse('2017-01-01'), person_id: person.id },
+        card: { opened_on: Date.parse('2017-01-01'), person_id: person.id },
       },
       'account' => account,
-    )
-    raise unless result.success?
-    result['model']
+    )['model']
   end
 
   # basic smoke test that the cards are being rendered; for more detail

@@ -6,11 +6,9 @@ RSpec.describe Card::Operation::Destroy do
   let(:product) { create(:product) }
 
   let(:card) do
-    Card::Operation::Create.(
-      {
-        card: { opened_at: Date.today },
-        product_id: product.id,
-      },
+    run!(
+      Card::Operation::Create,
+      { card: { opened_on: Date.today }, product_id: product.id },
       'account' => account,
     )['model']
   end

@@ -72,8 +72,8 @@ module AdminArea
 
     example "pulled recs", :js do
       o = offers[0]
-      pulled_rec   = create(:card_recommendation, :pulled, offer: o, person: person)
-      unpulled_rec = create(:card_recommendation, offer: o, person: person)
+      pulled_rec   = create_card_recommendation(:pulled, offer_id: o.id, person_id: person.id)
+      unpulled_rec = create_card_recommendation(offer_id: o.id, person_id: person.id)
       visit_path
 
       expect(page).to have_no_selector "##{dom_id(pulled_rec)}"
@@ -82,7 +82,7 @@ module AdminArea
     end
 
     example "pulling a rec", :js do
-      rec = create(:card_recommendation, offer: offers[0], person: person)
+      rec = create_card_recommendation(offer_id: offers[0].id, person_id: person.id)
       visit_path
 
       page.accept_confirm do

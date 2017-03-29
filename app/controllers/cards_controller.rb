@@ -89,7 +89,7 @@ class CardsController < AuthenticatedUserController
 
   def survey_params
     if params.key?(:cards_survey)
-      params.require(:cards_survey).permit(cards: [:product_id, :opened, :closed, :opened_at_, :closed_at_])
+      params.require(:cards_survey).permit(cards: [:product_id, :opened, :closed, :opened_on_, :closed_on_])
     else # if they clicked 'I don't have any cards'
       {}
     end

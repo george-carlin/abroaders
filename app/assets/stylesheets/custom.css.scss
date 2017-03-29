@@ -149,7 +149,7 @@ footer.footer {
 
 }
 
-.cards_survey_card_opened_at_wrapper, .cards_survey_card_closed_wrapper {
+.cards_survey_card_opened_on_wrapper, .cards_survey_card_closed_wrapper {
   display: none;
 
   label {
@@ -162,7 +162,7 @@ footer.footer {
   }
 }
 
-.cards_survey_card_closed_at_wrapper {
+.cards_survey_card_closed_on_wrapper {
   display: none;
 
   label {
@@ -267,68 +267,6 @@ footer.footer {
   width: auto;
 }
 
-tr.admin_recommend_card_product {
-  background-color: $darkBlue;
-  color: #f0f0f0;
-
-  a {
-    color: white;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-}
-
-.admin_recommend_offer:first-child > td {
-  border-top: none !important;
-}
-
-.admin-card-recommendation-table {
-  // TODO make table sortable again (maybe)
-  // th {
-  //   cursor: pointer;
-
-  //   &:not(.headerSortDown) .fa-sort-asc {
-  //     display: none;
-  //   }
-
-  //   &:not(.headerSortUp) .fa-sort-desc {
-  //     display: none;
-  //   }
-  // }
-
-  th, td {
-
-    &.card-identifier {
-      width: 120px;
-    }
-
-    &.card-name {
-      width: 40%;
-    }
-
-    &.card-bank-name {
-      width: 200px;
-    }
-
-    &.card-bp {
-      width: 100px;
-    }
-
-    &.card-currency {
-      min-width: 180px;
-    }
-  }
-}
-
-tr.admin_recommend_card_product_offers {
-  margin-bottom: 0 !important;
-
-  > td {
-    padding: 0 !important;
-  }
-}
 
 td.offer-identifier {
   width: 15%;

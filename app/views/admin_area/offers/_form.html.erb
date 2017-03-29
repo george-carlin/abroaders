@@ -12,7 +12,7 @@
   <div class="form-group">
     <%= f.label :partner, class: "col-sm-2 control-label" %>
     <div class="col-sm-10">
-      <%= f.select :partner, options_for_offer_partner_select(f.object), include_blank: "None" %>
+      <%= f.select :partner, options_for_offer_partner_select(f.object) %>
     </div>
   </div>
 
@@ -26,7 +26,7 @@
   <div
     id="offer_spend_form_group"
     class="form-group"
-    style="<%= "display:none" unless f.object.on_minimum_spend? %>"
+    style="<%= "display:none" unless f.object.condition == 'on_minimum_spend' %>"
   >
     <%= f.label :spend, class: "col-sm-2 control-label" %>
     <div class="col-sm-10">
@@ -44,7 +44,7 @@
   <div
     id="offer_days_form_group"
     class="form-group"
-    style="<%= "display:none" if f.object.on_approval? %>"
+    style="<%= "display:none" if f.object.condition == 'on_approval' %>"
   >
     <%= f.label :days, class: "col-sm-2 control-label" %>
     <div class="col-sm-10">

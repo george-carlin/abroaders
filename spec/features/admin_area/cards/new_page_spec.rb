@@ -12,8 +12,8 @@ module AdminArea
 
     example 'creating a card' do
       expect(page).to have_field :card_product_id
-      expect(page).to have_field :card_opened_at_1i
-      expect(page).to have_field :card_opened_at_2i
+      expect(page).to have_field :card_opened_on_1i
+      expect(page).to have_field :card_opened_on_2i
       expect(page).to have_field :card_closed
 
       expect do
@@ -26,18 +26,18 @@ module AdminArea
     example 'invalid card creation', :js do
       check :card_closed
       # closed before opened:
-      select (Date.today.year - 1).to_s, from: :card_closed_at_1i
+      select (Date.today.year - 1).to_s, from: :card_closed_on_1i
       expect do
         click_button 'Save'
       end.not_to change { person.cards.count }
 
       # still shows form, including with the 'closed' inputs visible:
       expect(page).to have_field :card_product_id
-      expect(page).to have_field :card_opened_at_1i
-      expect(page).to have_field :card_opened_at_2i
+      expect(page).to have_field :card_opened_on_1i
+      expect(page).to have_field :card_opened_on_2i
       expect(page).to have_field :card_closed, checked: true
-      expect(page).to have_field :card_closed_at_1i
-      expect(page).to have_field :card_closed_at_2i
+      expect(page).to have_field :card_closed_on_1i
+      expect(page).to have_field :card_closed_on_2i
     end
   end
 end

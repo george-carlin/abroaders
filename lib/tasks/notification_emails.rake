@@ -2,7 +2,7 @@ namespace :ab do
   desc "A notification email to remind a user about the annual fee"
   task card_fee_notification_email: :environment do
     CardAccount.includes(:card, person: :account).open.unclosed.find_each do |card_account|
-      card_account_date = card_account.opened_at - 15.days
+      card_account_date = card_account.opened_on - 15.days
       current_date = Date.current
 
       # don't send email for current year

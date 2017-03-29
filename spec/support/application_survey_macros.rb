@@ -6,7 +6,7 @@ module ApplicationSurveyMacros
     base.instance_eval do
       # some of these buttons have different text for different survey stages,
       # so you'll have to override these let variables where appropriate:
-      let(:approved_at)      { 'card_opened_at' }
+      let(:approved_at)      { 'card_opened_on' }
       let(:decline_btn)      { 'No Thanks' }
       let(:i_applied_btn)    { 'I applied' }
       let(:i_heard_back_btn) { 'I heard back from the bank' }
@@ -26,7 +26,7 @@ module ApplicationSurveyMacros
   # so we need to pass in the rec:
   def have_apply_btn(card, present = true)
     meth = present ? :have_link : :have_no_link
-    send(meth, 'Apply', href: apply_card_recommendation_path(card))
+    send(meth, 'Find My Card', href: apply_card_recommendation_path(card))
   end
 
   def have_no_apply_btn(card)

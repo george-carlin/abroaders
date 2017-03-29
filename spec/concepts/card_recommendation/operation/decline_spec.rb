@@ -7,11 +7,7 @@ RSpec.describe CardRecommendation::Operation::Decline do
   let(:person)  { account.owner }
   let(:offer)   { create_offer }
 
-  let(:rec) do
-    AdminArea::CardRecommendations::Operation::Create.(
-      card_recommendation: { offer_id: offer.id }, person_id: person.id,
-    )['model']
-  end
+  let(:rec) { create_card_recommendation(offer_id: offer.id, person_id: person.id) }
 
   example 'success' do
     result = op.(
@@ -49,7 +45,7 @@ RSpec.describe CardRecommendation::Operation::Decline do
 
   example 'failure - rec already applied for' do
     # TODO replace with an op once we have one:
-    rec.update!(applied_at: Time.now)
+    rec.update!(applied_on: Time.now)
     result = op.(
       { id: rec.id, card: { decline_reason: 'X' } },
       'account' => account,

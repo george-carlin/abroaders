@@ -2,6 +2,8 @@ class CardRecommendation < CardRecommendation.superclass
   module Operation
     # params:
     #   id: the ID of the CardRecommendation
+    #   card:
+    #     decline_reason
     # options:
     #   account: the currently-logged in user account
     class Decline < Trailblazer::Operation

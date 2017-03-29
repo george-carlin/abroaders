@@ -134,8 +134,8 @@ RSpec.describe AdminArea::People::Cell::Show do
   let(:product) { build(:product, bank: bank, currency: Currency.new) }
 
   example 'with card accounts' do
-    open   = Card.new(id: 100, opened_at: jan, person: person, product: product)
-    closed = Card.new(id: 101, opened_at: mar, closed_at: oct, person: person, product: product)
+    open   = Card.new(id: 100, opened_on: jan, person: person, product: product)
+    closed = Card.new(id: 101, opened_on: mar, closed_on: oct, person: person, product: product)
 
     result = get_result(cards: [open, closed])
     rendered = show(result)
@@ -144,16 +144,16 @@ RSpec.describe AdminArea::People::Cell::Show do
     expect(rendered).to have_selector "#admin_person_cards #card_101"
 
     within "#card_100" do
-      expect(rendered).to have_selector '.card_opened_at', text: 'Jan 2015'
-      expect(rendered).to have_selector '.card_closed_at', text: '-'
+      expect(rendered).to have_selector '.card_opened_on', text: 'Jan 2015'
+      expect(rendered).to have_selector '.card_closed_on', text: '-'
       expect(rendered).to have_selector '.card_status', text: 'Open'
     end
 
     within "#card_101" do
       expect(rendered).to have_selector '.card_status', text: 'Closed'
       # says when they were opened/closed:
-      expect(rendered).to have_selector '.card_opened_at', text: 'Mar 2015'
-      expect(rendered).to have_selector '.card_closed_at', text: 'Oct 2015'
+      expect(rendered).to have_selector '.card_opened_on', text: 'Mar 2015'
+      expect(rendered).to have_selector '.card_closed_on', text: 'Oct 2015'
     end
   end
 
@@ -184,14 +184,14 @@ RSpec.describe AdminArea::People::Cell::Show do
       expect(rendered).to have_selector '.card_recommended_at', text: '01/01/15'
       expect(rendered).to have_selector '.card_seen_at',        text: '-'
       expect(rendered).to have_selector '.card_clicked_at',     text: '-'
-      expect(rendered).to have_selector '.card_applied_at',     text: '-'
+      expect(rendered).to have_selector '.card_applied_on',     text: '-'
     end
 
     within '#card_51' do
       expect(rendered).to have_selector '.card_recommended_at', text: '03/01/15'
       expect(rendered).to have_selector '.card_seen_at',        text: '01/01/15'
       expect(rendered).to have_selector '.card_clicked_at',     text: '10/01/15'
-      expect(rendered).to have_selector '.card_applied_at',     text: '-'
+      expect(rendered).to have_selector '.card_applied_on',     text: '-'
       expect(rendered).to have_selector '.card_status', text: 'Recommended'
     end
 

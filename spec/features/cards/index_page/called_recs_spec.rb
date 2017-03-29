@@ -9,7 +9,7 @@ RSpec.describe "user cards page - called cards", :js do
   let(:person) { account.owner }
 
   let(:recommended_at) { 6.days.ago.to_date }
-  let(:applied_at)     { 5.days.ago.to_date }
+  let(:applied_on)     { 5.days.ago.to_date }
   let(:denied_at)      { 4.days.ago.to_date }
   let(:called_at)      { 3.days.ago.to_date }
 
@@ -19,14 +19,8 @@ RSpec.describe "user cards page - called cards", :js do
 
   before do
     person.update!(eligible: true)
-    @rec = create(
-      :card_recommendation,
-      recommended_at: recommended_at,
-      applied_at: applied_at,
-      denied_at:  denied_at,
-      called_at:  called_at,
-      person:     person,
-    )
+    @rec = create_card_recommendation(person_id: person.id)
+    @rec.update!(recommended_at: recommended_at, applied_on: applied_on, denied_at: denied_at, called_at: called_at)
     visit cards_path
   end
   let(:rec) { @rec }
@@ -79,8 +73,8 @@ RSpec.describe "user cards page - called cards", :js do
           # this spec fails when run late in the day when your machine's time
           # is earlier than UTC # TZFIXME
           expect(rec.status).to eq "open"
-          expect(rec.opened_at).to eq Time.zone.today
-          expect(rec.applied_at).to eq applied_at # unchanged
+          expect(rec.opened_on).to eq Time.zone.today
+          expect(rec.applied_on).to eq applied_on # unchanged
           expect(rec.denied_at).to eq denied_at # unchanged
           expect(rec.called_at).to eq called_at # unchanged
           expect(rec.redenied_at).to be_nil # not set
@@ -106,7 +100,7 @@ RSpec.describe "user cards page - called cards", :js do
           # is earlier than UTC # TZFIXME
           expect(rec.status).to eq "denied"
           expect(rec.redenied_at).to eq Time.zone.today
-          expect(rec.applied_at).to eq applied_at # unchanged
+          expect(rec.applied_on).to eq applied_on # unchanged
           expect(rec.denied_at).to eq denied_at # unchanged
           expect(rec.called_at).to eq called_at # unchanged
         end

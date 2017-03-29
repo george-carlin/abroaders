@@ -13,7 +13,7 @@ class CardRecommendation < CardRecommendation.superclass
 
       def apply_btn
         link_to(
-          'Apply',
+          'Find My Card',
           apply_card_recommendation_path(model),
           id:     "card_recommendation_#{id}_apply_btn",
           class:  'card_recommendation_apply_btn btn btn-primary btn-sm',

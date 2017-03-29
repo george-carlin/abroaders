@@ -57,8 +57,15 @@ RSpec.configure do |config|
   config.include AlertsMacros, type: :feature
   config.include DatepickerMacros, type: :feature
   config.include TitleHelper, type: :feature
+  config.include SampleDataMacros
+  config.include TimeZoneHelpers
   config.include TypeaheadMacros, type: :feature
   config.include WaitForAjax, type: :feature
+
+  config.before(:suite) do
+    # uncomment this once all the timezone-dependent specs are passing
+    # TimeZoneHelpers.randomise_timezone!
+  end
 
   config.after(:each) do
     Warden.test_reset!
@@ -93,53 +100,5 @@ RSpec.configure do |config|
     enqueued_jobs.select { |job| job[:job] == ActionMailer::DeliveryJob }.each do |job|
       ActionMailer::DeliveryJob.perform_now(*job[:args])
     end
-  end
-
-  def create_offer(*traits_and_overrides)
-    overrides = if traits_and_overrides.last.is_a?(Hash)
-                  traits_and_overrides.pop
-                else
-                  {}
-                end
-
-    if overrides.keys.include?(:last_reviewed_at)
-      raise 'invalid key :last_reviewed_at, pass :verified as a trait'
-    end
-    if overrides.keys.include?(:killed_at)
-      raise 'invalid key :killed_at, pass :dead as a trait'
-    end
-
-    attrs = { # defaults
-      condition: 'on_minimum_spend',
-      cost: rand(20) * 5,
-      days: [30, 60, 90, 90, 90, 90, 90, 90, 120].sample,
-      link: Faker::Internet.url('example.com'),
-      partner: 'card_benefit',
-      points_awarded: rand(20) * 5_000,
-      spend: rand(10) * 500,
-    }
-
-    product_id = overrides.fetch(:product, create(:product)).id
-
-    result = AdminArea::Offers::Operation::Create.(
-      offer: attrs,
-      card_product_id: product_id,
-    )
-    raise unless result.success?
-    offer = result['model']
-
-    traits = traits_and_overrides
-    if traits.include?(:verified)
-      result = AdminArea::Offers::Operation::Verify.(id: offer.id)
-      raise unless result.success?
-      offer = result['model']
-    end
-    if traits.include?(:dead)
-      result = AdminArea::Offers::Operation::Kill.(id: offer.id)
-      raise unless result.success?
-      offer = result['model']
-    end
-
-    offer
   end
 end

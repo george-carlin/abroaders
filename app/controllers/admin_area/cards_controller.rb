@@ -24,8 +24,7 @@ module AdminArea
         flash[:success] = 'Updated card!'
         return redirect_to admin_person_path(@model.person)
       end
-      @products = Cards::Operation::Edit.product_options
-      render :new
+      render :edit
     end
   end
 end
