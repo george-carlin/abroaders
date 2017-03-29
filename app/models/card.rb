@@ -9,9 +9,9 @@
 #
 # @!attribute earned_at
 #   the date the user earned their signup bonus. (It might be the same date
-#   they opened the card, if the offer is 'on approval') We don't actually have
-#   anything in place yet to update this, so this column is currently null for
-#   all cards :/
+#   they opened the card, if they signed up through an 'on approval' offer) We
+#   don't actually have anything in place yet to update this, so this column is
+#   currently null for all cards :/
 #
 # @!attribute closed_on
 #   the date the user's card expired or they closed the card's account.
@@ -71,10 +71,6 @@ class Card < ApplicationRecord
   alias pendingable? applyable?
 
   # Scopes
-
-
-  # Recommendations which still require user action:
-  scope :unresolved, -> { recommendations.unpulled.unopen.where(%["denied_at" IS NULL OR "nudged_at" IS NULL]).unredenied.unexpired }
 
   private
 

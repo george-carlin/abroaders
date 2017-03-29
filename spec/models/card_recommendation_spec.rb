@@ -77,4 +77,33 @@ RSpec.describe CardRecommendation do
     rec.card_application = CardApplication.new
     expect(rec.declinable?).to be false
   end
+
+  example ".unresolved" do
+    product = create(:card_product)
+    offer   = create_offer(product: product)
+    person  = create(:account, :onboarded).owner
+
+    # resolved:
+    create_card_recommendation(:pulled,   offer_id: offer.id, person_id: person.id)
+    create_card_recommendation(:expired,  offer_id: offer.id, person_id: person.id)
+
+    declined = create_card_recommendation(:declined, offer_id: offer.id, person_id: person.id)
+    run!(
+      CardRecommendation::Operation::Decline,
+      { id: declined.id, card: { decline_reason: 'x' } },
+      'account' => person.account,
+    )
+    applied = create_card_recommendation(offer_id: offer.id, person_id: person.id)
+    run!(
+      CardRecommendation::Operation::UpdateStatus::Applied,
+      { id: applied.id },
+      'account' => person.account,
+    )
+
+    unresolved = [
+      create_card_recommendation(offer_id: offer.id, person_id: person.id),
+    ]
+
+    expect(described_class.unresolved).to match_array(unresolved)
+  end
 end

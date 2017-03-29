@@ -44,4 +44,7 @@ class CardRecommendation < ApplicationRecord
   scope :unexpired,  -> { where(expired_at: nil) }
   scope :unpulled,   -> { where(pulled_at: nil) }
   scope :unseen,     -> { where(seen_at: nil) }
+
+  # Recommendations which still require user action:
+  scope :unresolved, -> { unpulled.unexpired.unapplied.undeclined }
 end
