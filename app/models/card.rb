@@ -80,21 +80,6 @@ class Card < ApplicationRecord
 
   # Scopes
 
-  scope :recommendations,    -> { where.not(recommended_at: nil) }
-  scope :non_recommendation, -> { where(recommended_at: nil) }
-
-  scope :pulled,     -> { where.not(pulled_at: nil) }
-  scope :unapplied,  -> { where(applied_on: nil) }
-  scope :unclicked,  -> { where(clicked_at: nil) }
-  scope :undeclined, -> { where(declined_at: nil) }
-  scope :undenied,   -> { where(denied_at: nil) }
-  scope :unexpired,  -> { where(expired_at: nil) }
-  scope :unopen,     -> { where(opened_on: nil) }
-  scope :unpulled,   -> { where(pulled_at: nil) }
-  scope :unredenied, -> { where(redenied_at: nil) }
-  scope :unseen,     -> { where(seen_at: nil) }
-
-  # compound scopes:
 
   # Recommendations which still require user action:
   scope :unresolved, -> { recommendations.unpulled.unopen.where(%["denied_at" IS NULL OR "nudged_at" IS NULL]).unredenied.unexpired }

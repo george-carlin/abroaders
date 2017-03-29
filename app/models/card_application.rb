@@ -76,6 +76,7 @@ class CardApplication < ApplicationRecord
   # TODO still used?
   scope :undenied,   -> { where(denied_at: nil) }
   scope :unredenied, -> { where(redenied_at: nil) }
+  scope :unopen,     -> { where(card_id: nil) }
   def openable?
     raise 'TODO'
   end
