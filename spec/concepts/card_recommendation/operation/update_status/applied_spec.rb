@@ -12,8 +12,14 @@ RSpec.describe CardRecommendation::Operation::UpdateStatus::Applied do
     result = op.({ id: rec.id }, 'account' => account)
     expect(result.success?).to be true
     expect(result['model']).to eq rec
+
     rec.reload
-    expect(rec.applied_on).to eq Date.today
+    expect(rec.applied?).to be true
+
+    app = rec.card_application
+    expect(app.offer).to eq rec.offer
+    expect(app.person).to eq rec.person
+    expect(app.applied_on).to eq Date.today
   end
 
   example 'failure - not my rec' do # fail noisily
@@ -21,7 +27,7 @@ RSpec.describe CardRecommendation::Operation::UpdateStatus::Applied do
     expect do
       op.({ id: rec.id }, 'account' => other_account)
     end.to raise_error(ActiveRecord::RecordNotFound)
-    expect(rec.reload.applied_on).to be nil
+    expect(rec.reload.applied?).to be false
   end
 
   # the below failures may happen if e.g. they have the page open in two tabs;

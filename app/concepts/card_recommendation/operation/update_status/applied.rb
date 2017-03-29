@@ -22,7 +22,7 @@ class CardRecommendation < CardRecommendation.superclass
         end
 
         def mark_rec_as_applied(model:, **)
-          model.update!(applied_on: Date.today)
+          CardApplication.create!(applied_on: Date.today, card_recommendation: model)
         end
       end
     end
