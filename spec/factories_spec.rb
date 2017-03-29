@@ -96,14 +96,13 @@ RSpec.describe "factories" do
 
     let(:card) { Card.last }
 
-    it 'creates a card with a product and no offer' do
+    it 'creates a card with a product' do
       create_card
       expect(Card.count).to eq 1
       expect(CardProduct.count).to eq 1
       expect(Offer.count).to eq 0
       product = CardProduct.last
       expect(card.product).to eq product
-      expect(card.offer).to be nil
     end
   end
 end
