@@ -27,6 +27,10 @@ class CardRecommendation < ApplicationRecord
     !card_application.nil?
   end
 
+  def applyable?
+    status == 'recommended'
+  end
+
   def declinable?
     status == 'recommended'
   end

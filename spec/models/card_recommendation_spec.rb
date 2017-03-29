@@ -38,6 +38,26 @@ RSpec.describe CardRecommendation do
     end
   end
 
+  example "#applyable?" do
+    rec = described_class.new
+    expect(rec.applyable?).to be true
+
+    rec.pulled_at = Time.now
+    expect(rec.applyable?).to be false
+    rec.pulled_at = nil
+
+    rec.expired_at = Time.now
+    expect(rec.applyable?).to be false
+    rec.expired_at = nil
+
+    rec.declined_at = Time.now
+    expect(rec.applyable?).to be false
+    rec.declined_at = nil
+
+    rec.card_application = CardApplication.new
+    expect(rec.applyable?).to be false
+  end
+
   example "#declinable?" do
     rec = described_class.new
     expect(rec.declinable?).to be true
