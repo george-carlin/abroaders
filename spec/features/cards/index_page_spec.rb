@@ -59,7 +59,7 @@ RSpec.describe 'as a user viewing my cards' do
   example "marking recs as 'seen'" do
     unseen_rec = create_card_recommendation(person_id: owner.id)
     seen_rec   = create_card_recommendation(:seen, person_id: owner.id)
-    card       = create(:card, :open, person: owner)
+    card       = create_card(person: owner)
 
     seen_rec   =
       other_persons_rec = create_card_recommendation(:seen, person_id: create(:person).id)

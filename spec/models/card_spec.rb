@@ -128,7 +128,7 @@ RSpec.describe Card do
     it "sets #product to #offer.product" do
       offer   = create_offer
       product = offer.product
-      card = build(:card, product: nil, offer: offer)
+      card = Card.new(product: nil, offer: offer)
       card.valid?
       expect(card.product_id).to eq product.id
     end
@@ -137,13 +137,13 @@ RSpec.describe Card do
   # Scopes
 
   example ".non_recommendation" do
-    returned = create(:card)
+    returned = create_card
     create_card_recommendation
     expect(described_class.non_recommendation).to eq [returned]
   end
 
   example ".recommendations" do
-    create(:card)
+    create_card
     returned = create_card_recommendation
     expect(described_class.recommendations).to eq [returned]
   end
@@ -159,11 +159,11 @@ RSpec.describe Card do
     create_card_recommendation(:nudged, :denied, offer_id: offer.id, person_id: person.id)
     create_card_recommendation(:redenied,        offer_id: offer.id, person_id: person.id)
     create_card_recommendation(:expired,         offer_id: offer.id, person_id: person.id)
-    create(:card, :open, product: product, person: person)
+    create_card(product: product, person: person)
     # open after reconsideration:
-    create_card_recommendation(:denied, :called, :approved, offer_id: offer.id, person_id: person)
+    create_card_recommendation(:denied, :called, :approved, offer_id: offer.id, person_id: person.id)
     # open after nudging:
-    create_card_recommendation(:applied, :nudged, :approved, offer_id: offer.id, person_id: person)
+    create_card_recommendation(:applied, :nudged, :approved, offer_id: offer.id, person_id: person.id)
 
     unresolved = [
       # brand new:
