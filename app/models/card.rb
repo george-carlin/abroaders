@@ -34,56 +34,18 @@ class Card < ApplicationRecord
 
   validates :person, presence: true
 
-  validates :decline_reason, presence: true, unless: 'declined_at.nil?'
-
-  validate :product_matches_offer_product
-
   # Associations
-
-  # All Cards have a CardProduct and, if the user has the card because we
-  # recommended it to them, the Card will also be associated with a particular
-  # offer.
-  #
-  # An Offer also belongs_to a Card:roduct, so a Card with an offer is only
-  # valid if the offer belongs to the right product. This results in a slightly
-  # denormalized DB schema (because product_id will always equal
-  # offer.product_id if offer is not nil, so product_id can sometimes contain
-  # redundant data), but as far as I can tell this is necessary evil, because
-  # all cards have a product, and all offers have a product, but not all cards
-  # have an offer.
 
   belongs_to :product, class_name: 'CardProduct'
   belongs_to :person
-  belongs_to :offer
+  belongs_to :card_application
+  has_one :card_recommendation, through: :card_application
 
   # Callbacks
-
-  before_validation :set_product_to_offer_product
-
-  # returns true iff the product can be applied for
-  def applyable?
-    recommendation? && status == "recommended"
-  end
-
-  alias declinable?  applyable?
-  alias openable?    applyable?
-  alias deniable?    applyable?
-  alias pendingable? applyable?
 
   # Scopes
 
   private
-
-  # TODO move these validations to the operation/contract layer:
-  def product_matches_offer_product
-    return unless !offer.nil? && !product.nil? && product != offer.product
-    errors.add(:product, :doesnt_match_offer)
-  end
-
-  def set_product_to_offer_product
-    return unless !offer.nil? && !offer.product.nil? && product.nil?
-    self.product = offer.product
-  end
 
   def status_model
     Card::Status.build(self)
