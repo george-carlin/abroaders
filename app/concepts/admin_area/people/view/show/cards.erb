@@ -1,7 +1,4 @@
-<h3>
-  Cards
-  <small><%= link_to raw('&plus; Add'), new_admin_person_card_path(person) %></small>
-</h3>
+<h3>Cards <small><%= link_to_add_new %></small></h3>
 
 <%= table do %>
   <thead>
@@ -23,8 +20,6 @@
   </tbody>
 <% end %>
 
-<% if no_cards? %>
-  <p id="admin_person_cards_none">User has no existing card accounts</p>
-<% end %>
+<%= no_cards_notice %>
 
 <%= link_to_pulled_recs %>

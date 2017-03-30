@@ -50,10 +50,13 @@ class Person < ApplicationRecord
 
   belongs_to :account
   has_one :spending_info, dependent: :destroy
-  has_many :cards
-  has_many :card_recommendations
+
+  has_many :cards # TODO remove this association
+  has_many :card_accounts, class_name: 'Card'
   has_many :card_applications
-  has_many :card_products, through: :cards
+  has_many :card_products, through: :card_accounts
+  has_many :card_recommendations
+  has_many :pulled_card_recommendations, -> { pulled }, class_name: 'CardRecommendation'
 
   has_many :balances
   has_many :currencies, through: :balances

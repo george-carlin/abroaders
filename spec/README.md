@@ -166,3 +166,5 @@ Some general guidelines for how we test:
     [this article](https://blog.codeship.com/faster-rails-tests/) to understand
     why.
 
+- Don't use "within" in cell specs, it doesn't work :/
+

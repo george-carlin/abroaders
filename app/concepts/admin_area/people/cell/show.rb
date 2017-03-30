@@ -12,7 +12,6 @@ module AdminArea
       #   @option result [Collection<Offer>] offers the recommendable offers
       #   @option result [Person] person
       #   @option result [Collection<Region>] regions_of_interest
-      #   @option result [Collection<Card>] cards
       #   @option result [Collection<Airport>] home_airports
       #   @option result [Collection<Offer>] offers the recommendable offers
       #   @option result [Person] person
@@ -25,7 +24,6 @@ module AdminArea
         skill :account
         skill :offers
         skill :person
-        skill :pulled_recs
 
         # the cell that renders an individual travel plan. Sticking it in a
         # class method like this so I can easily stub it when testing.  Still
@@ -68,12 +66,7 @@ module AdminArea
         end
 
         def cards
-          cell(
-            People::Cell::Show::Cards,
-            result['cards'],
-            person: person,
-            pulled_recs: pulled_recs,
-          )
+          cell(People::Cell::Show::Cards, person)
         end
 
         def currency_filter_panels
