@@ -91,6 +91,12 @@ class CardApplication < ApplicationRecord
     'applied'
   end
 
+  def applied_on
+    result = super
+    raise 'applied_on missing' if result.nil?
+    result
+  end
+
   def approved?
     card.present?
   end

@@ -74,6 +74,18 @@ RSpec.describe CardRecommendation do
     expect(rec.declinable?).to be false
   end
 
+  example '#applied_on' do
+    rec = CardRecommendation.new
+    expect(rec.applied_on).to be_nil
+    app = CardApplication.new(applied_on: Time.now)
+    rec.card_application = app
+    expect(rec.applied_on).to eq app.applied_on
+
+    # CardApplications shouldn't exist with no applied_on date, so this is an error condition:
+    rec.card_application = CardApplication.new
+    expect { rec.applied_on }.to raise_error RuntimeError
+  end
+
   example ".unresolved" do
     product = create(:card_product)
     offer   = create_offer(product: product)
