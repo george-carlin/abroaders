@@ -75,11 +75,21 @@ module SampleDataMacros
                   {}
                 end
 
-    raise "don't use :offer as a key, pass :offer_id" if overrides.key?(:offer)
-    raise "don't use :person as a key, pass :person_id" if overrides.key?(:person)
+    offer_id = if overrides.key?(:offer)
+                 overrides[:offer].id
+               elsif overrides.key(:offer_id)
+                 overrides[:offer_id]
+               else
+                 create(:offer).id
+               end
 
-    offer_id  = overrides.fetch(:offer_id, create_offer.id)
-    person_id = overrides.fetch(:person_id, create(:person).id)
+    person_id = if overrides.key?(:person)
+                  overrides[:person].id
+                elsif overrides.key(:person_id)
+                  overrides[:person_id]
+                else
+                  create(:person).id
+                end
 
     rec = run!(
       AdminArea::CardRecommendations::Operation::Create,

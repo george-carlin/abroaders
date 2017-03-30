@@ -32,7 +32,6 @@ RSpec.describe 'admin/people#show card/offer filters', :js, :manual_clean do
     @one_world_cards = [@chase_b, @usb_b]
   end
 
-
   before { visit admin_person_path(person) }
 
   let(:business_check_box) { :card_bp_filter_business }
