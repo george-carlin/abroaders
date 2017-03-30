@@ -63,29 +63,6 @@ module AdminArea
       expect(page).to have_title full_title(person.first_name)
     end
 
-    example "pulled recs", :js do
-      o = offers[0]
-      pulled_rec   = create_card_recommendation(:pulled, offer_id: o.id, person_id: person.id)
-      unpulled_rec = create_card_recommendation(offer_id: o.id, person_id: person.id)
-      visit_path
-
-      expect(page).to have_no_selector "##{dom_id(pulled_rec)}"
-      expect(page).to have_selector "##{dom_id(unpulled_rec)}"
-      expect(page).to have_link 'View 1 pulled recommendation'
-    end
-
-    example "pulling a rec", :js do
-      rec = create_card_recommendation(offer_id: offers[0].id, person_id: person.id)
-      visit_path
-
-      page.accept_confirm do
-        find("#card_#{rec.id}_pull_btn").click
-      end
-
-      expect(page).to have_no_selector "##{dom_id(rec)}"
-      expect(rec.reload.pulled_at).to be_within(5.seconds).of(Time.zone.now)
-    end
-
     describe 'the card recommendation form' do
       before { visit_path }
 
