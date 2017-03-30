@@ -7,29 +7,12 @@
 # have some kind of unified interface similar to FactoryGirl's "create" method
 # that delegates to methods like the one below
 #
-# This method has an interface like FactoryGirl's, in that you can pass both
-# traits (an array of symbols; you don't have to pass any traits) and a hash
-# of attributes.
+# Some of these methods have a FactoryGirl-like interface where you can pass
+# both 'traits' and 'overrides', but I want to move away from 'traits', they're
+# too magical.
 module SampleDataMacros
   # Create an offer in the way an Admin would.
-  #
-  # Valid traits are ':verified', which means an admin will verify the offer
-  # after creating it, and ':dead', which means an admin will kill the offer
-  # after creating it.
-  def create_offer(*traits_and_overrides)
-    overrides = if traits_and_overrides.last.is_a?(Hash)
-                  traits_and_overrides.pop
-                else
-                  {}
-                end
-
-    if overrides.keys.include?(:last_reviewed_at)
-      raise 'invalid key :last_reviewed_at, pass :verified as a trait'
-    end
-    if overrides.keys.include?(:killed_at)
-      raise 'invalid key :killed_at, pass :dead as a trait'
-    end
-
+  def create_offer(overrides = {})
     attrs = { # defaults
       condition: 'on_minimum_spend',
       cost: rand(20) * 5,
@@ -42,25 +25,11 @@ module SampleDataMacros
 
     product_id = overrides.fetch(:product, create(:product)).id
 
-    offer = run!(
+    run!(
       AdminArea::Offers::Operation::Create,
       offer: attrs,
       card_product_id: product_id,
     )['model']
-
-    traits = traits_and_overrides
-    if traits.include?(:verified)
-      result = AdminArea::Offers::Operation::Verify.(id: offer.id)
-      raise unless result.success?
-      offer = result['model']
-    end
-    if traits.include?(:dead)
-      result = AdminArea::Offers::Operation::Kill.(id: offer.id)
-      raise unless result.success?
-      offer = result['model']
-    end
-
-    offer
   end
 
   # Create a card recommendation in the same way a user would.
@@ -77,15 +46,15 @@ module SampleDataMacros
 
     offer_id = if overrides.key?(:offer)
                  overrides[:offer].id
-               elsif overrides.key(:offer_id)
+               elsif overrides.key?(:offer_id)
                  overrides[:offer_id]
                else
-                 create(:offer).id
+                 create_offer.id
                end
 
     person_id = if overrides.key?(:person)
                   overrides[:person].id
-                elsif overrides.key(:person_id)
+                elsif overrides.key?(:person_id)
                   overrides[:person_id]
                 else
                   create(:person).id
@@ -150,7 +119,7 @@ module SampleDataMacros
     end
     product_id = if overrides.key?(:product)
                    overrides[:product].id
-                 elsif overrides.key(:product_id)
+                 elsif overrides.key?(:product_id)
                    overrides[:product_id]
                  else
                    create(:card_product).id
@@ -166,7 +135,7 @@ module SampleDataMacros
       product_id: product_id,
     }
 
-    if traits.include?(:closed) || overrides.key(:closed_on)
+    if traits.include?(:closed) || overrides.key?(:closed_on)
       params[:card][:closed] = true
       params[:card][:closed_on] = overrides.fetch(:closed_on, Date.today)
     end

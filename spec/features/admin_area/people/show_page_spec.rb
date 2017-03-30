@@ -29,7 +29,6 @@ module AdminArea
         create_offer(product: @chase_p),
         create_offer(product: @usb_b),
       ]
-      @dead_offer = create_offer(:dead, product: @chase_b)
     end
 
     before do
