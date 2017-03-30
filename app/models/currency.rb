@@ -38,7 +38,9 @@ class Currency < ApplicationRecord
 
   # Associations
 
-  belongs_to :alliance
+  def alliance
+    Alliance.new(name: alliance_name)
+  end
 
   # Scopes
 

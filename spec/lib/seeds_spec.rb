@@ -18,15 +18,6 @@ RSpec.describe Seeder do
                                                ],)
   end
 
-  example '.seed_alliances' do
-    expect do
-      described_class.seed_alliances
-    end.to change { Alliance.count }.by(4)
-    expect(Alliance.pluck(:name)).to match_array(
-      %w[OneWorld StarAlliance SkyTeam Independent],
-    )
-  end
-
   example '.seed_banks' do
     expect do
       described_class.seed_banks
@@ -49,20 +40,17 @@ RSpec.describe Seeder do
   end
 
   example '.seed_currencies' do
-    described_class.seed_alliances
-
     expect do
       described_class.seed_currencies
     end.to change { Currency.count }.by(53)
 
-    expect(Currency.joins(:alliance).where(alliances: { name: 'OneWorld' }).count).to eq 10
-    expect(Currency.joins(:alliance).where(alliances: { name: 'StarAlliance' }).count).to eq 12
-    expect(Currency.joins(:alliance).where(alliances: { name: 'SkyTeam' }).count).to eq 6
-    expect(Currency.joins(:alliance).where(alliances: { name: 'Independent' }).count).to eq 25
+    expect(Currency.where(alliance_name: 'OneWorld').count).to eq 10
+    expect(Currency.where(alliance_name: 'StarAlliance').count).to eq 12
+    expect(Currency.where(alliance_name: 'SkyTeam').count).to eq 6
+    expect(Currency.where(alliance_name: 'Independent').count).to eq 25
   end
 
   example '.seed_card_products' do
-    described_class.seed_alliances
     described_class.seed_banks
     described_class.seed_currencies
     expect do
