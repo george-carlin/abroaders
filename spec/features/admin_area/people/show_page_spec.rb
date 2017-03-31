@@ -7,15 +7,11 @@ module AdminArea
     before(:all) do
       @chase   = create(:bank, name: "Chase")
       @us_bank = create(:bank, name: "US Bank")
-      # There's no practical difference between the 'Independent' alliance
-      # (i.e. no Alliance) and real Alliances; no need to test Independent
-      @one_world = Alliance.create!(name: 'OneWorld', order: 0)
-      @sky_team  = Alliance.create!(name: 'SkyTeam',  order: 1)
 
       @currencies = []
-      @currencies << create(:currency, alliance: @one_world)
-      @currencies << create(:currency, alliance: @sky_team)
-      @currencies << create(:currency, alliance: @one_world)
+      @currencies << create(:currency, alliance_name: 'OneWorld')
+      @currencies << create(:currency, alliance_name: 'SkyTeam')
+      @currencies << create(:currency, alliance_name: 'OneWorld')
 
       def create_product(bp, bank, currency)
         create(:card_product, bp, bank_id: bank.id, currency: currency)
@@ -27,16 +23,12 @@ module AdminArea
         @usb_b   = create_product(:business, @us_bank, @currencies[2]),
       ]
 
-      @one_world_cards = [@chase_b, @usb_b]
-      @sky_team_cards = [@chase_p]
-
       @offers = [
         create_offer(product: @chase_b),
         create_offer(product: @chase_b),
         create_offer(product: @chase_p),
         create_offer(product: @usb_b),
       ]
-      @dead_offer = create_offer(:dead, product: @chase_b)
     end
 
     before do
@@ -70,158 +62,8 @@ module AdminArea
       expect(page).to have_title full_title(person.first_name)
     end
 
-    example "pulled recs", :js do
-      o = offers[0]
-      pulled_rec   = create_card_recommendation(:pulled, offer_id: o.id, person_id: person.id)
-      unpulled_rec = create_card_recommendation(offer_id: o.id, person_id: person.id)
-      visit_path
-
-      expect(page).to have_no_selector "##{dom_id(pulled_rec)}"
-      expect(page).to have_selector "##{dom_id(unpulled_rec)}"
-      expect(page).to have_link 'View 1 pulled recommendation'
-    end
-
-    example "pulling a rec", :js do
-      rec = create_card_recommendation(offer_id: offers[0].id, person_id: person.id)
-      visit_path
-
-      page.accept_confirm do
-        find("#card_#{rec.id}_pull_btn").click
-      end
-
-      expect(page).to have_no_selector "##{dom_id(rec)}"
-      expect(rec.reload.pulled_at).to be_within(5.seconds).of(Time.zone.now)
-    end
-
-    describe "the card recommendation form" do
+    describe 'the card recommendation form' do
       before { visit_path }
-
-      describe "filters", :js do
-        let(:business_check_box) { :card_bp_filter_business }
-        let(:personal_check_box) { :card_bp_filter_personal }
-        let(:all_banks) { :card_bank_filter_all }
-        let(:all_ow) { :"card_currency_alliance_filter_all_for_#{@one_world.id}" }
-        let(:all_st) { :"card_currency_alliance_filter_all_for_#{@sky_team.id}" }
-        let(:chase_check_box)   { :"card_bank_filter_#{@chase.id}" }
-        let(:us_bank_check_box) { :"card_bank_filter_#{@us_bank.id}" }
-
-        def recommendable_card_product_selector(product)
-          '#' << dom_id(product, :admin_recommend)
-        end
-
-        def page_should_have_recommendable_products(*products)
-          products.each do |product|
-            expect(page).to have_selector recommendable_card_product_selector(product)
-          end
-        end
-
-        def page_should_not_have_recommendable_products(*products)
-          products.each do |product|
-            expect(page).to have_no_selector recommendable_card_product_selector(product)
-          end
-        end
-
-        example "filtering by b/p" do
-          uncheck business_check_box
-          page_should_have_recommendable_products(@chase_p)
-          page_should_not_have_recommendable_products(@chase_b, @usb_b)
-          uncheck personal_check_box
-          page_should_not_have_recommendable_products(*@products)
-          check business_check_box
-          page_should_have_recommendable_products(@chase_b, @usb_b)
-          page_should_not_have_recommendable_products(@chase_p)
-          check personal_check_box
-          page_should_have_recommendable_products(*@products)
-        end
-
-        example "filtering by bank" do
-          Bank.all.each do |bank|
-            expect(page).to have_field :"card_bank_filter_#{bank.id}"
-          end
-
-          uncheck chase_check_box
-          page_should_have_recommendable_products(@usb_b)
-          page_should_not_have_recommendable_products(@chase_b, @chase_p)
-          uncheck us_bank_check_box
-          page_should_not_have_recommendable_products(*@products)
-          check chase_check_box
-          page_should_have_recommendable_products(@chase_b, @chase_p)
-          page_should_not_have_recommendable_products(@usb_b)
-          check us_bank_check_box
-          page_should_have_recommendable_products(*@products)
-        end
-
-        example "filtering by currency" do
-          Currency.pluck(:id).each do |currency_id|
-            expect(page).to have_field :"card_currency_filter_#{currency_id}"
-          end
-
-          # TODO eh?
-          uncheck "card_currency_filter_#{@chase_b.id}"
-          uncheck "card_currency_filter_#{@chase_p.id}"
-          page_should_not_have_recommendable_products(@chase_b, @chase_p)
-          uncheck "card_currency_filter_#{@usb_b.id}"
-          page_should_not_have_recommendable_products(*@products)
-          check "card_currency_filter_#{@chase_p.id}"
-          page_should_have_recommendable_products(@chase_p)
-        end
-
-        example "toggling all banks" do
-          uncheck all_banks
-          page_should_not_have_recommendable_products(*@products)
-          Bank.all.each do |bank|
-            expect(find("#card_bank_filter_#{bank.id}")).not_to be_checked
-          end
-          check all_banks
-          page_should_have_recommendable_products(*@products)
-          Bank.all.each do |bank|
-            expect(find("#card_bank_filter_#{bank.id}")).to be_checked
-          end
-
-          # it gets checked/unchecked automatically as I click other CBs:
-          uncheck chase_check_box
-          expect(find("##{all_banks}")).not_to be_checked
-          check chase_check_box
-          expect(find("##{all_banks}")).to be_checked
-        end
-
-        example "toggling all currencies" do
-          uncheck all_ow
-          uncheck all_st
-
-          page_should_not_have_recommendable_products(*@products)
-          Currency.all.each do |currency|
-            expect(find("#card_currency_filter_#{currency.id}")).not_to be_checked
-          end
-
-          check all_ow
-          check all_st
-
-          page_should_have_recommendable_products(*@products)
-          Currency.all.each do |currency|
-            expect(find("#card_currency_filter_#{currency.id}")).to be_checked
-          end
-        end
-
-        example "toggling all one world alliance currencies" do
-          uncheck all_ow
-          page_should_not_have_recommendable_products(*@one_world_cards)
-          Currency.where(alliance_id: @one_world.id).each do |currency|
-            expect(find("#card_currency_filter_#{currency.id}")).not_to be_checked
-          end
-          check all_ow
-          page_should_have_recommendable_products(*@one_world_cards)
-          Currency.where(alliance_id: @one_world.id).each do |currency|
-            expect(find("#card_currency_filter_#{currency.id}")).to be_checked
-          end
-
-          # it gets checked/unchecked automatically as I click other CBs:
-          uncheck "card_currency_filter_#{@one_world_cards[0].id}"
-          expect(find("##{all_ow}")).not_to be_checked
-          check "card_currency_filter_#{@one_world_cards[0].id}"
-          expect(find("##{all_ow}")).to be_checked
-        end
-      end
 
       let(:offer) { @offers[3] }
       let(:offer_selector) { "#admin_recommend_offer_#{offer.id}" }

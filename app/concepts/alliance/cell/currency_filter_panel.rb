@@ -4,20 +4,23 @@ class Alliance < Alliance.superclass
   module Cell
     # @!method self.call(alliance, options = {})
     #   @param alliance [Alliance]
-    #   @option opts [Collection<Currency>] currencies
     class CurrencyFilterPanel < Abroaders::Cell::Base
       include CardRecommendation::FilterPanel
-
-      alias alliance model
 
       property :id
       property :name
 
-      option :currencies
-
       private
 
       alias title name
+
+      def currencies
+        @currencies ||= model.filterable_currencies.order(name: :asc)
+      end
+
+      def currency_check_boxes
+        cell(CheckBox, collection: currencies)
+      end
 
       def filter_all_check_box_tag
         check_box_tag(
@@ -26,12 +29,6 @@ class Alliance < Alliance.superclass
           true,
           class: "toggle-all-currency-checkbox",
         )
-      end
-
-      def currency_check_boxes
-        currencies.map do |currency|
-          cell(CheckBox, currency)
-        end.join
       end
 
       class CheckBox < Abroaders::Cell::Base

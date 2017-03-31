@@ -4,9 +4,9 @@ RSpec.describe 'admin - review offers page' do
   include_context 'logged in as admin'
 
   before do
-    @live_1 = create_offer
-    @live_2 = create_offer(:verified)
-    @dead   = create_offer(:dead)
+    @live = create_offer
+    @verified = run!(AdminArea::Offers::Operation::Verify, id: create_offer.id)['model']
+    @dead = run!(AdminArea::Offers::Operation::Kill, id: create_offer.id)['model']
     visit review_admin_offers_path
   end
 
@@ -16,16 +16,16 @@ RSpec.describe 'admin - review offers page' do
 
   it 'lists live offers' do
     # (this should be extracted to cells and tested in cell specs)
-    [@live_1, @live_2].each do |offer|
+    [@live, @verified].each do |offer|
       expect(page).to have_selector offer_selector(offer)
     end
 
     # shows last review date if there is one:
-    within offer_selector(@live_1) do
+    within offer_selector(@live) do
       expect(page).to have_content 'never'
     end
-    within offer_selector(@live_2) do
-      expect(page).to have_content @live_2.last_reviewed_at.to_date.strftime("%m/%d/%Y")
+    within offer_selector(@verified) do
+      expect(page).to have_content @verified.last_reviewed_at.to_date.strftime("%m/%d/%Y")
       expect(page).to have_no_content 'never'
     end
 
@@ -35,14 +35,14 @@ RSpec.describe 'admin - review offers page' do
   example 'verifying', :js do
     # it "updates selected last_reviewed_at datetime", js: true do
     now = Time.zone.now
-    within offer_selector(@live_1) do
+    within offer_selector(@live) do
       click_link 'Verify'
       expect(page).to have_content now.strftime("%m/%d/%Y")
     end
   end
 
   example 'killing an offer', :js do
-    selector = offer_selector(@live_1)
+    selector = offer_selector(@live)
     within selector do
       click_link 'Kill'
     end

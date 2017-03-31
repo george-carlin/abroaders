@@ -2,9 +2,19 @@ require 'rails_helper'
 
 RSpec.describe SampleDataMacros do
   example '#create_card' do
-    expect { create_card }.to change { Card.count }.by(1)
+    expect do
+      card = create_card
+      expect(card).to be_a(Card)
+    end.to change { Card.count }.by(1)
 
     expect { create_card(:closed) }.to change { Card.count }.by(1)
     expect(Card.last.closed_on).not_to be_nil
+  end
+
+  example '#create_offer' do
+    expect do
+      offer = create_offer
+      expect(offer).to be_an(Offer)
+    end.to change { Offer.count }.by(1)
   end
 end

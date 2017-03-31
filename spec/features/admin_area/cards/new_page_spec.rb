@@ -23,6 +23,18 @@ module AdminArea
       expect(current_path).to eq admin_person_path(person)
     end
 
+    example 'creating a closed card' do
+      check :card_closed
+
+      expect do
+        click_button 'Save'
+      end.to change { person.cards.count }.by(1)
+
+      expect(person.cards.last).to be_closed
+
+      expect(current_path).to eq admin_person_path(person)
+    end
+
     example 'invalid card creation', :js do
       check :card_closed
       # closed before opened:

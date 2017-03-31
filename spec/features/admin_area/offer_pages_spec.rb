@@ -15,7 +15,9 @@ module AdminArea
     let(:card_benefit) { "CardBenefit" }
 
     describe 'index page' do
-      let!(:offer) { create_offer(:verified) }
+      let!(:offer) do
+        run!(AdminArea::Offers::Operation::Verify, id: create_offer.id)['model']
+      end
 
       example 'for all offers' do
         visit admin_offers_path

@@ -65,13 +65,6 @@ ActiveRecord::Schema.define(version: 20170328144740) do
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
   end
 
-  create_table "alliances", force: :cascade do |t|
-    t.string   "name",       null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer  "order",      null: false
-  end
-
   create_table "award_wallet_accounts", force: :cascade do |t|
     t.integer  "award_wallet_owner_id", null: false
     t.integer  "aw_id",                 null: false
@@ -194,8 +187,8 @@ ActiveRecord::Schema.define(version: 20170328144740) do
     t.string   "award_wallet_id",                null: false
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
+    t.string   "alliance_name",                  null: false
     t.boolean  "shown_on_survey", default: true, null: false
-    t.integer  "alliance_id",                    null: false
     t.string   "type",                           null: false
     t.index ["award_wallet_id"], name: "index_currencies_on_award_wallet_id", unique: true, using: :btree
     t.index ["name"], name: "index_currencies_on_name", unique: true, using: :btree
@@ -205,11 +198,11 @@ ActiveRecord::Schema.define(version: 20170328144740) do
   create_table "destinations", force: :cascade do |t|
     t.string   "name",                       null: false
     t.string   "code",                       null: false
+    t.string   "type",                       null: false
     t.integer  "parent_id"
     t.integer  "children_count", default: 0, null: false
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
-    t.string   "type",                       null: false
     t.index ["code", "type"], name: "index_destinations_on_code_and_type", unique: true, using: :btree
     t.index ["name"], name: "index_destinations_on_name", using: :btree
     t.index ["parent_id"], name: "index_destinations_on_parent_id", using: :btree
@@ -302,13 +295,6 @@ ActiveRecord::Schema.define(version: 20170328144740) do
     t.index ["account_id"], name: "index_recommendation_notes_on_account_id", using: :btree
   end
 
-  create_table "recommendation_requests", force: :cascade do |t|
-    t.integer  "person_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["person_id"], name: "index_recommendation_requests_on_person_id", using: :btree
-  end
-
   create_table "spending_infos", force: :cascade do |t|
     t.integer  "person_id",                             null: false
     t.integer  "credit_score",                          null: false
@@ -349,7 +335,6 @@ ActiveRecord::Schema.define(version: 20170328144740) do
   add_foreign_key "card_products", "currencies", on_delete: :restrict
   add_foreign_key "cards", "offers", on_delete: :cascade
   add_foreign_key "cards", "people", on_delete: :cascade
-  add_foreign_key "currencies", "alliances"
   add_foreign_key "destinations", "destinations", column: "parent_id", on_delete: :restrict
   add_foreign_key "flights", "destinations", column: "from_id", on_delete: :restrict
   add_foreign_key "flights", "destinations", column: "to_id", on_delete: :restrict
@@ -361,7 +346,6 @@ ActiveRecord::Schema.define(version: 20170328144740) do
   add_foreign_key "people", "accounts", on_delete: :cascade
   add_foreign_key "phone_numbers", "accounts", on_delete: :cascade
   add_foreign_key "recommendation_notes", "accounts", on_delete: :cascade
-  add_foreign_key "recommendation_requests", "people", on_delete: :cascade
   add_foreign_key "spending_infos", "people", on_delete: :cascade
   add_foreign_key "travel_plans", "accounts", on_delete: :cascade
 end
