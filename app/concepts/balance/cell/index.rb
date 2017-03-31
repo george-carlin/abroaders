@@ -51,7 +51,11 @@ class Balance < Balance.superclass
         property :user_name
 
         def link_to_settings
-          link_to 'Manage settings', integrations_award_wallet_settings_path
+          link_to(
+            'Manage settings',
+            integrations_award_wallet_settings_path,
+            class: 'btn btn-xs btn-primary',
+          )
         end
       end
     end

@@ -151,7 +151,7 @@ class LoyaltyAccount < LoyaltyAccount.superclass
             class: 'edit_award_wallet_account_btn btn btn-xs btn-primary',
             target: '_blank',
           ) do
-            '<i class="fa fa-pencil"> </i> Edit on AwardWallet.com'
+            '<i class="fa fa-pencil"> </i> Edit'
           end
         end
       end

@@ -6,8 +6,10 @@ class Balance < Balance.superclass
     # AJAX.
     #
     # If the person belongs to a couples account, the header will say "(Person
-    # name)'s points" and the link will say "Add new balance for (name)". If
-    # it's a solo account, they will simply say "My points" and "Add new".
+    # name)'s points". If it's a solo account, it will simply say "My points".
+    #
+    # This cell is rendered on balances#index, once for each person on the
+    # account
     #
     # @!method self.call(person, opts = {})
     #   @param person [Person]
@@ -29,36 +31,31 @@ class Balance < Balance.superclass
 
       private
 
-      def rows
-        items = (award_wallet_accounts + balances).map { |i| LoyaltyAccount.build(i) }
-        # items = balances.map { |i| LoyaltyAccount.build(i) }
-        cell(LoyaltyAccount::Cell::Editable, collection: items).join('<hr>') { |c| c }
-      end
-
       def link_to_add_new_balance
         link_to(
           new_person_balance_path(model),
           class: 'btn btn-success btn-xs',
         ) do
-          "<i class='fa fa-plus'> </i> #{add_new}"
+          '<i class="fa fa-plus"> </i> Add new'
+        end
+      end
+
+      def rows
+        items = (award_wallet_accounts + balances).map { |i| LoyaltyAccount.build(i) }
+        if items.any?
+          cell(LoyaltyAccount::Cell::Editable, collection: items).join('<hr>') { |c| c }
+        else
+          'No points balances'
         end
       end
 
       class Couples < self
-        def add_new
-          "Add new balance for #{first_name}"
-        end
-
         def header_text
           "#{first_name}'s points"
         end
       end
 
       class Solo < self
-        def add_new
-          'Add new'
-        end
-
         def header_text
           'My points'
         end

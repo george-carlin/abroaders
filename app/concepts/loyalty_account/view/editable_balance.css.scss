@@ -5,11 +5,14 @@
   }
 
   .balance_additional_info {
-    color: #35a7ff;
     font-size: 12px;
     font-style: italic;
     margin-bottom: 5px;
     margin-top: 3px;
+
+    > .balance_updated_at {
+      color: #35a7ff;
+    }
 
     > p {
       margin-bottom: 1px;
