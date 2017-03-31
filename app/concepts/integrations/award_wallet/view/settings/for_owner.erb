@@ -1,0 +1,31 @@
+<div class="row award_wallet_owner">
+  <div class="col-xs-12">
+    <p class="lead">
+      We've <%= 'also' if !first? %> found loyalty accounts under the name
+      <strong><%= name %></strong>.
+    </p>
+  </div>
+
+  <div class="col-xs-12 col-md-6">
+    <p class="lead">Who is this in your Abroaders account?</p> 
+    <%= form_to_update_person do %>
+      <div class="form-group">
+        <%= person_id_select %>
+        <%# this must be shown by changing the 'display' to 'inline-block', not 'block; %>
+        <div class='LoadingSpinner'>
+        </div>
+      </div>
+
+      <div class="award_wallet_settings_person_saved" style="visibility: hidden;">
+        <%= fa_icon 'check' %> Great job! <%= name %> is now confirmed.
+      </div>
+    <% end %>
+  </div><!-- .col-xs-12.col-md-6 -->
+
+  <div class="col-xs-12 col-md-6">
+  </div>
+
+  <div class="col-xs-12">
+    <%= accounts_table %>
+  </div>
+</div><!-- .row -->

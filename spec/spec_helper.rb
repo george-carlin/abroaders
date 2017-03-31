@@ -40,6 +40,8 @@ $LOAD_PATH << APP_ROOT.join('lib')
 $LOAD_PATH << APP_ROOT.join('app', 'concepts')
 $LOAD_PATH << APP_ROOT.join('app', 'models')
 
+require 'byebug'
+
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest

@@ -90,6 +90,9 @@ Style/RedundantSelf:
 Style/RegexpLiteral:
   Enabled: false
 
+Style/SafeNavigation:
+  Enabled: false
+
 # Configuration parameters: EnforcedStyleForMultiline, SupportedStyles.
 # SupportedStyles: comma, consistent_comma, no_comma
 Style/TrailingCommaInArguments:

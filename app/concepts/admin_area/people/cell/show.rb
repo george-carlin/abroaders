@@ -23,6 +23,7 @@ module AdminArea
       #   @option result [Collection<TravelPlan>] travel_plans
       class Show < Abroaders::Cell::Base
         extend Abroaders::Cell::Result
+        include Integrations::AwardWallet::Links
 
         skill :account
         skill :offers
@@ -41,6 +42,14 @@ module AdminArea
         end
 
         private
+
+        def award_wallet_connection
+          return '' unless account.connected_to_award_wallet?
+          awu  = account.award_wallet_user
+          name = escape(awu.user_name)
+          link = link_to('View accounts on AwardWallet', admin_award_wallet_account_list_url(awu))
+          "User has connected their AwardWallet account <b>#{name}</b>. #{link}"
+        end
 
         def award_wallet_email
           cell(AwardWalletEmail, person)

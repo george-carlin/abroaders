@@ -58,6 +58,9 @@ class Person < ApplicationRecord
   has_many :balances
   has_many :currencies, through: :balances
 
+  has_many :award_wallet_owners
+  has_many :award_wallet_accounts, through: :award_wallet_owners
+
   # Callbacks
 
   # Scopes

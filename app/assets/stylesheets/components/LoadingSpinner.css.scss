@@ -18,54 +18,54 @@ $color: $blue;
 @-webkit-keyframes load4 {
   0%,
   100% {
-    box-shadow: 0 -3em 0 0.2em $color, 2em -2em 0 0em $color, 3em 0 0 -1em $color, 2em 2em 0 -1em $color, 0 3em 0 -1em $color, -2em 2em 0 -1em $color, -3em 0 0 -1em $color, -2em -2em 0 0 $color;
+    box-shadow: 0 -3em 0 0.2em $blue, 2em -2em 0 0em $blue, 3em 0 0 -1em $blue, 2em 2em 0 -1em $blue, 0 3em 0 -1em $blue, -2em 2em 0 -1em $blue, -3em 0 0 -1em $blue, -2em -2em 0 0 $blue;
   }
   12.5% {
-    box-shadow: 0 -3em 0 0 $color, 2em -2em 0 0.2em $color, 3em 0 0 0 $color, 2em 2em 0 -1em $color, 0 3em 0 -1em $color, -2em 2em 0 -1em $color, -3em 0 0 -1em $color, -2em -2em 0 -1em $color;
+    box-shadow: 0 -3em 0 0 $blue, 2em -2em 0 0.2em $blue, 3em 0 0 0 $blue, 2em 2em 0 -1em $blue, 0 3em 0 -1em $blue, -2em 2em 0 -1em $blue, -3em 0 0 -1em $blue, -2em -2em 0 -1em $blue;
   }
   25% {
-    box-shadow: 0 -3em 0 -0.5em $color, 2em -2em 0 0 $color, 3em 0 0 0.2em $color, 2em 2em 0 0 $color, 0 3em 0 -1em $color, -2em 2em 0 -1em $color, -3em 0 0 -1em $color, -2em -2em 0 -1em $color;
+    box-shadow: 0 -3em 0 -0.5em $blue, 2em -2em 0 0 $blue, 3em 0 0 0.2em $blue, 2em 2em 0 0 $blue, 0 3em 0 -1em $blue, -2em 2em 0 -1em $blue, -3em 0 0 -1em $blue, -2em -2em 0 -1em $blue;
   }
   37.5% {
-    box-shadow: 0 -3em 0 -1em $color, 2em -2em 0 -1em $color, 3em 0em 0 0 $color, 2em 2em 0 0.2em $color, 0 3em 0 0em $color, -2em 2em 0 -1em $color, -3em 0em 0 -1em $color, -2em -2em 0 -1em $color;
+    box-shadow: 0 -3em 0 -1em $blue, 2em -2em 0 -1em $blue, 3em 0em 0 0 $blue, 2em 2em 0 0.2em $blue, 0 3em 0 0em $blue, -2em 2em 0 -1em $blue, -3em 0em 0 -1em $blue, -2em -2em 0 -1em $blue;
   }
   50% {
-    box-shadow: 0 -3em 0 -1em $color, 2em -2em 0 -1em $color, 3em 0 0 -1em $color, 2em 2em 0 0em $color, 0 3em 0 0.2em $color, -2em 2em 0 0 $color, -3em 0em 0 -1em $color, -2em -2em 0 -1em $color;
+    box-shadow: 0 -3em 0 -1em $blue, 2em -2em 0 -1em $blue, 3em 0 0 -1em $blue, 2em 2em 0 0em $blue, 0 3em 0 0.2em $blue, -2em 2em 0 0 $blue, -3em 0em 0 -1em $blue, -2em -2em 0 -1em $blue;
   }
   62.5% {
-    box-shadow: 0 -3em 0 -1em $color, 2em -2em 0 -1em $color, 3em 0 0 -1em $color, 2em 2em 0 -1em $color, 0 3em 0 0 $color, -2em 2em 0 0.2em $color, -3em 0 0 0 $color, -2em -2em 0 -1em $color;
+    box-shadow: 0 -3em 0 -1em $blue, 2em -2em 0 -1em $blue, 3em 0 0 -1em $blue, 2em 2em 0 -1em $blue, 0 3em 0 0 $blue, -2em 2em 0 0.2em $blue, -3em 0 0 0 $blue, -2em -2em 0 -1em $blue;
   }
   75% {
-    box-shadow: 0em -3em 0 -1em $color, 2em -2em 0 -1em $color, 3em 0em 0 -1em $color, 2em 2em 0 -1em $color, 0 3em 0 -1em $color, -2em 2em 0 0 $color, -3em 0em 0 0.2em $color, -2em -2em 0 0 $color;
+    box-shadow: 0em -3em 0 -1em $blue, 2em -2em 0 -1em $blue, 3em 0em 0 -1em $blue, 2em 2em 0 -1em $blue, 0 3em 0 -1em $blue, -2em 2em 0 0 $blue, -3em 0em 0 0.2em $blue, -2em -2em 0 0 $blue;
   }
   87.5% {
-    box-shadow: 0em -3em 0 0 $color, 2em -2em 0 -1em $color, 3em 0 0 -1em $color, 2em 2em 0 -1em $color, 0 3em 0 -1em $color, -2em 2em 0 0 $color, -3em 0em 0 0 $color, -2em -2em 0 0.2em $color;
+    box-shadow: 0em -3em 0 0 $blue, 2em -2em 0 -1em $blue, 3em 0 0 -1em $blue, 2em 2em 0 -1em $blue, 0 3em 0 -1em $blue, -2em 2em 0 0 $blue, -3em 0em 0 0 $blue, -2em -2em 0 0.2em $blue;
   }
 }
 @keyframes load4 {
   0%,
   100% {
-    box-shadow: 0 -3em 0 0.2em $color, 2em -2em 0 0em $color, 3em 0 0 -1em $color, 2em 2em 0 -1em $color, 0 3em 0 -1em $color, -2em 2em 0 -1em $color, -3em 0 0 -1em $color, -2em -2em 0 0 $color;
+    box-shadow: 0 -3em 0 0.2em $blue, 2em -2em 0 0em $blue, 3em 0 0 -1em $blue, 2em 2em 0 -1em $blue, 0 3em 0 -1em $blue, -2em 2em 0 -1em $blue, -3em 0 0 -1em $blue, -2em -2em 0 0 $blue;
   }
   12.5% {
-    box-shadow: 0 -3em 0 0 $color, 2em -2em 0 0.2em $color, 3em 0 0 0 $color, 2em 2em 0 -1em $color, 0 3em 0 -1em $color, -2em 2em 0 -1em $color, -3em 0 0 -1em $color, -2em -2em 0 -1em $color;
+    box-shadow: 0 -3em 0 0 $blue, 2em -2em 0 0.2em $blue, 3em 0 0 0 $blue, 2em 2em 0 -1em $blue, 0 3em 0 -1em $blue, -2em 2em 0 -1em $blue, -3em 0 0 -1em $blue, -2em -2em 0 -1em $blue;
   }
   25% {
-    box-shadow: 0 -3em 0 -0.5em $color, 2em -2em 0 0 $color, 3em 0 0 0.2em $color, 2em 2em 0 0 $color, 0 3em 0 -1em $color, -2em 2em 0 -1em $color, -3em 0 0 -1em $color, -2em -2em 0 -1em $color;
+    box-shadow: 0 -3em 0 -0.5em $blue, 2em -2em 0 0 $blue, 3em 0 0 0.2em $blue, 2em 2em 0 0 $blue, 0 3em 0 -1em $blue, -2em 2em 0 -1em $blue, -3em 0 0 -1em $blue, -2em -2em 0 -1em $blue;
   }
   37.5% {
-    box-shadow: 0 -3em 0 -1em $color, 2em -2em 0 -1em $color, 3em 0em 0 0 $color, 2em 2em 0 0.2em $color, 0 3em 0 0em $color, -2em 2em 0 -1em $color, -3em 0em 0 -1em $color, -2em -2em 0 -1em $color;
+    box-shadow: 0 -3em 0 -1em $blue, 2em -2em 0 -1em $blue, 3em 0em 0 0 $blue, 2em 2em 0 0.2em $blue, 0 3em 0 0em $blue, -2em 2em 0 -1em $blue, -3em 0em 0 -1em $blue, -2em -2em 0 -1em $blue;
   }
   50% {
-    box-shadow: 0 -3em 0 -1em $color, 2em -2em 0 -1em $color, 3em 0 0 -1em $color, 2em 2em 0 0em $color, 0 3em 0 0.2em $color, -2em 2em 0 0 $color, -3em 0em 0 -1em $color, -2em -2em 0 -1em $color;
+    box-shadow: 0 -3em 0 -1em $blue, 2em -2em 0 -1em $blue, 3em 0 0 -1em $blue, 2em 2em 0 0em $blue, 0 3em 0 0.2em $blue, -2em 2em 0 0 $blue, -3em 0em 0 -1em $blue, -2em -2em 0 -1em $blue;
   }
   62.5% {
-    box-shadow: 0 -3em 0 -1em $color, 2em -2em 0 -1em $color, 3em 0 0 -1em $color, 2em 2em 0 -1em $color, 0 3em 0 0 $color, -2em 2em 0 0.2em $color, -3em 0 0 0 $color, -2em -2em 0 -1em $color;
+    box-shadow: 0 -3em 0 -1em $blue, 2em -2em 0 -1em $blue, 3em 0 0 -1em $blue, 2em 2em 0 -1em $blue, 0 3em 0 0 $blue, -2em 2em 0 0.2em $blue, -3em 0 0 0 $blue, -2em -2em 0 -1em $blue;
   }
   75% {
-    box-shadow: 0em -3em 0 -1em $color, 2em -2em 0 -1em $color, 3em 0em 0 -1em $color, 2em 2em 0 -1em $color, 0 3em 0 -1em $color, -2em 2em 0 0 $color, -3em 0em 0 0.2em $color, -2em -2em 0 0 $color;
+    box-shadow: 0em -3em 0 -1em $blue, 2em -2em 0 -1em $blue, 3em 0em 0 -1em $blue, 2em 2em 0 -1em $blue, 0 3em 0 -1em $blue, -2em 2em 0 0 $blue, -3em 0em 0 0.2em $blue, -2em -2em 0 0 $blue;
   }
   87.5% {
-    box-shadow: 0em -3em 0 0 $color, 2em -2em 0 -1em $color, 3em 0 0 -1em $color, 2em 2em 0 -1em $color, 0 3em 0 -1em $color, -2em 2em 0 0 $color, -3em 0em 0 0 $color, -2em -2em 0 0.2em $color;
+    box-shadow: 0em -3em 0 0 $blue, 2em -2em 0 -1em $blue, 3em 0 0 -1em $blue, 2em 2em 0 -1em $blue, 0 3em 0 -1em $blue, -2em 2em 0 0 $blue, -3em 0em 0 0 $blue, -2em -2em 0 0.2em $blue;
   }
 }

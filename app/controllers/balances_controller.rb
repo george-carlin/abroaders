@@ -4,7 +4,7 @@ class BalancesController < AuthenticatedUserController
   # GET /balances
   def index
     run Balance::Operation::Index
-    render cell(Balance::Cell::Index, result)
+    render cell(Balance::Cell::Index, result, flash: flash)
   end
 
   # GET /people/:person_id/balances/new
