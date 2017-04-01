@@ -97,7 +97,7 @@ class Card < ApplicationRecord
   # compound scopes:
 
   # Recommendations which still require user action:
-  scope :unresolved, -> { recommendations.unpulled.unopen.where(%["denied_at" IS NULL OR "nudged_at" IS NULL]).unredenied.unexpired }
+  scope :unresolved, -> { recommendations.unpulled.unopen.where(%["denied_at" IS NULL OR "nudged_at" IS NULL]).unredenied.unexpired.undeclined }
 
   private
 

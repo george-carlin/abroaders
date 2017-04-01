@@ -160,6 +160,13 @@ RSpec.describe Card do
     create_card_recommendation(:redenied,        offer_id: offer.id, person_id: person.id)
     create_card_recommendation(:expired,         offer_id: offer.id, person_id: person.id)
     create_card(product: product, person: person)
+    declined = create_card_recommendation(product: product, person: person)
+    run!(
+      CardRecommendation::Operation::Decline,
+      { id: declined.id, card: { decline_reason: 'X' } },
+      'account' => person.account,
+    )
+
     # open after reconsideration:
     create_card_recommendation(:denied, :called, :approved, offer_id: offer.id, person_id: person.id)
     # open after nudging:

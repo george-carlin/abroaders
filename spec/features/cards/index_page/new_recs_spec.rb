@@ -30,13 +30,14 @@ RSpec.describe "cards index page - new recommendation", :js do
   end
   let(:before_click_confirm_btn) { nil }
 
+  let(:offer_description) { Offer::Cell::Description.(rec.offer) }
+
   example "new recommendation on page", :frontend do
     expect(page).to have_apply_btn(rec)
     expect(page).to have_button decline_btn
     expect(page).to have_button i_applied_btn
 
-    offer = rec.offer
-    expect(page).to have_content(Offer::Cell::Description.(offer))
+    expect(page).to have_content offer_description
 
     # 'apply' btn opens the link in a new tab
     btn = find 'a', text: 'Find My Card'
@@ -84,6 +85,9 @@ RSpec.describe "cards index page - new recommendation", :js do
     rec.reload
     expect(rec.decline_reason).to eq message
     expect(rec.declined_at).to eq Time.zone.today # TODO change to datetime
+
+    # the rec should disappear from the page:
+    expect(page).to have_no_content offer_description
   end
 
   example "trying to decline a rec that's already declined" do
