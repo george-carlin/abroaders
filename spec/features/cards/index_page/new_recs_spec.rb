@@ -84,7 +84,7 @@ RSpec.describe "cards index page - new recommendation", :js do
     # updates the attributes:
     rec.reload
     expect(rec.decline_reason).to eq message
-    expect(rec.declined_at).to eq Time.zone.today # TODO change to datetime
+    expect(rec.declined_at).to be_within(5.seconds).of(Time.zone.now)
 
     # the rec should disappear from the page:
     expect(page).to have_no_content offer_description
@@ -98,7 +98,7 @@ RSpec.describe "cards index page - new recommendation", :js do
     # This could happen if e.g. they have the same window open in two
     # tabs, and decline the rec in one tab before clicking 'decline'
     # again in the other tab. It should fail gracefully:
-    rec.update_attributes!(applied_on: Time.zone.today)
+    rec.update_attributes!(applied_on: Time.zone.now)
     raise if rec.declinable? # sanity check
     click_confirm_btn
 
@@ -143,7 +143,7 @@ RSpec.describe "cards index page - new recommendation", :js do
         context "when the account is no longer 'applyable'" do
           # This could happen if e.g. they've made changes in another tab
           let(:before_click_confirm_btn) do
-            rec.update_attributes!(declined_at: Time.zone.today, decline_reason: "x")
+            rec.update_attributes!(declined_at: Time.zone.now, decline_reason: "x")
             raise if rec.openable? # sanity check
           end
 
@@ -227,7 +227,7 @@ RSpec.describe "cards index page - new recommendation", :js do
         context "when the account is no longer 'deniable'" do
           # This could happen if e.g. they've made changes in another tab
           let(:before_click_confirm_btn) do
-            rec.update_attributes!(declined_at: Time.zone.today, decline_reason: "x")
+            rec.update_attributes!(declined_at: Time.zone.now, decline_reason: "x")
             raise if rec.deniable? # sanity check
           end
 
@@ -258,7 +258,7 @@ RSpec.describe "cards index page - new recommendation", :js do
         context "when the account is no longer 'pendingable'" do
           # This could happen if e.g. they've made changes in another tab
           let(:before_click_confirm_btn) do
-            rec.update_attributes!(declined_at: Time.zone.today, decline_reason: "x")
+            rec.update_attributes!(declined_at: Time.zone.now, decline_reason: "x")
             raise if rec.pendingable? # sanity check
           end
 
