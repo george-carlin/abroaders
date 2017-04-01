@@ -36,13 +36,7 @@ RSpec.describe "cards index page - new recommendation", :js do
     expect(page).to have_button i_applied_btn
 
     offer = rec.offer
-    # TODO this is testing the description. Don't we already have a lower-level test for this?
-    expect(page).to have_content(
-      "Spend #{number_to_currency(offer.spend)} within #{offer.days} "\
-      "days to receive a bonus of "\
-      "#{number_with_delimiter(offer.points_awarded)} "\
-      "#{rec.product.currency.name} points",
-    )
+    expect(page).to have_content(Offer::Cell::Description.(offer))
 
     # 'apply' btn opens the link in a new tab
     btn = find 'a', text: 'Find My Card'
