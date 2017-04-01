@@ -2,25 +2,22 @@ class Card < ApplicationRecord
   module Operation
     # Setup the form for a new card.
     #
-    # This op is also nested within from Card::Operation::Create
+    # This op is also nested within Card::Operation::Create
     #
-    # options:
-    #   'account': the currently logged-in account
-    #
-    # params:
-    #   'product_id': the id of CardProduct that the Card will belong_to.
-    #       The user will select the product on /cards/new (which
-    #       uses the SelectProduct op, not the New op), then they'll see the
-    #       'real' form on /products/:product_id/cards/new. The form
-    #       will then post to /products/:product_id/cards, meaning that
-    #       :product_id should *always* be present in the params for New
-    #   'card': the attributes of the new card. optional (only used by Create).
-    #       params[:card][:person_id] will only be present if the current
-    #       user is a couples account. If it's not present, the person will
-    #       default to the account's owner. Note that a 'person' option WON'T
-    #       be passed in from the controller in either case, since we're
-    #       talking about params[:card][:person_id], not params[:person_id]
-    #
+    # @!method self.call(params, options)
+    #   @option params [Integer] product_id the id of CardProduct that the Card
+    #     will belong_to.  The user will select the product on /cards/new
+    #     (which uses the SelectProduct op, not the New op), then they'll see
+    #     the 'real' form on /products/:product_id/cards/new. The form will
+    #     then post to /products/:product_id/cards, meaning that :product_id
+    #     should *always* be present in the params for both New and Create.
+    #   @option params [Hash] card the attributes of the new card. optional
+    #     (only used by Create). params[:card][:person_id] should only be present
+    #     if the current user is a couples account. If it's not present, the
+    #     person will default to the account's owner. Note that a 'person'
+    #     option WON'T be passed in from the controller in either case, since
+    #     we're talking about params[:card][:person_id], not params[:person_id]
+    #   @option options [Account ] account the currently logged-in account
     class New < Trailblazer::Operation
       extend Contract::DSL
       contract ::Card::NewForm
