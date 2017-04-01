@@ -33,9 +33,10 @@ module Abroaders
       'admin_area/accounts/cell/index',
       'admin_area/card_recommendations/cell/new',
       'admin_area/people/cell/show',
-      'balance/cell/editable_balance',
       'card/cell/new/select_product',
       'card_recommendation/cell/unresolved_rec',
+      'integrations/award_wallet/cell/settings',
+      'loyalty_account/cell/editable',
     ]
 
     config.autoload_paths << Rails.root.join('app', 'models', 'destinations')

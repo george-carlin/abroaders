@@ -8,27 +8,55 @@ class Balance < Balance.superclass
     #   @param result [Result] the result of Balance::Operation::Index
     #   @option result [Account] account the currently-logged in Account
     #   @option result [Collection<Person>] people
-    #   @option result [Collection<Balance>] balances
-    class Index < Abroaders::Cell::Base
+    class Index < Trailblazer::Cell
       extend Abroaders::Cell::Result
+      include ::Cell::Builder
 
       skill :account
       skill :people
-      skill :balances
 
       def show
-        people.map do |person|
-          bals = balances.select { |b| b.person_id == person.id }
-          cell(BalanceTable, person, use_name: use_name?, balances: bals)
-        end.join
+        aw = if account.connected_to_award_wallet?
+               cell(AwardWalletInfo, account.award_wallet_user)
+             else
+               cell(AwardWalletConnectPanel)
+             end
+        main = cell(BalanceTable, collection: people)
+        "#{aw} #{main}"
       end
 
-      private
+      # A panel that encourages the user to connect their Abroaders account to
+      # their AwardWallet account. It's just static HTML so needs no arguments.
+      #
+      # This is a separate .hpanel that sits above the 'main' .hpanel.
+      class AwardWalletConnectPanel < Abroaders::Cell::Base
+        include FontAwesome::Rails::IconHelper
 
-      # If true, refer to people by name ("Erik's points" etc.). Else, use
-      # pronouns ("My points").
-      def use_name?
-        account.couples?
+        AWARD_WALLET_URL = \
+          'https://awardwallet.com/m/#/connections/approve/vnawwgqjyt/2'.freeze
+
+        def link_to_connect_with_award_wallet
+          link_to(
+            AWARD_WALLET_URL,
+            class: 'btn btn-danger3',
+            style: 'background-color: #1fb6ff; color: #ffffff;',
+          ) do
+            "#{fa_icon(:plug)} Connect to AwardWallet"
+          end
+        end
+      end
+
+      # model: AwardWalletUser
+      class AwardWalletInfo < Trailblazer::Cell
+        property :user_name
+
+        def link_to_settings
+          link_to(
+            'Manage settings',
+            integrations_award_wallet_settings_path,
+            class: 'btn btn-xs btn-primary',
+          )
+        end
       end
     end
   end

@@ -1,3 +1,5 @@
+require 'abroaders/util'
+
 # A replacement for FactoryGirl that exclusively creates and updates data using
 # our own operations, and therefore creates data in the exact same way that a
 # user would. Ideally all test data should be created in this way and we would
@@ -11,6 +13,19 @@
 # both 'traits' and 'overrides', but I want to move away from 'traits', they're
 # too magical.
 module SampleDataMacros
+  def sample_json(file_name)
+    File.read(SPEC_ROOT.join('support', 'sample_data', "#{file_name}.json"))
+  end
+
+  def parsed_sample_json(file_name, underscore_keys: true)
+    hash = JSON.parse(sample_json(file_name))
+    if underscore_keys
+      Abroaders::Util.underscore_keys(hash, true)
+    else
+      hash
+    end
+  end
+
   # Create an offer in the way an Admin would.
   def create_offer(overrides = {})
     attrs = { # defaults

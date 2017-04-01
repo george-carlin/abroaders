@@ -1,0 +1,16 @@
+<% if flash[:award_wallet_just_connected] %>
+  <div class="alert alert-success">
+    <i class="fa fa-check"> </i> Great job! We've connected to your AwardWallet
+    account.
+  </div>
+<% end %>
+
+<div class="integrations_award_wallet_settings">
+  <p class="lead">
+    You're connected to your AwardWallet account with username
+    <strong><%= user_name %></strong>.
+  </p>
+  <%= owner_settings %>
+
+  <%= link_to 'Done', balances_path, class: 'btn btn-primary btn-lg' %>
+</div>

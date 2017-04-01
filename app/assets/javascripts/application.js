@@ -23,6 +23,7 @@
 //= require admin_recommendations
 //= require card.new.select_product
 //= require unresolved_rec
+//= require award_wallet_settings
 //= require_tree ./other
 
 // Load all browserify modules below.

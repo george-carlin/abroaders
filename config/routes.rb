@@ -73,7 +73,19 @@ Rails.application.routes.draw do
 
   get "estimates/:from_code/:to_code/:type/:no_of_passengers", to: "estimates#get"
 
-  resource :spending_info, path: :financials, only: [:show]
+  namespace :integrations do
+    get 'award_wallet/settings'
+    namespace :award_wallet do
+      get :callback
+      get :poll
+
+      resources :owners, only: [] do
+        member do
+          patch :update_person
+        end
+      end
+    end
+  end
 
   resources :interest_regions, only: [], path: "regions_of_interest" do
     collection do
@@ -127,7 +139,7 @@ Rails.application.routes.draw do
   get :slack, to: "slack_invites#new"
   post "slack/invite", to: "slack_invites#create"
 
-  resource :spending_info, path: :spending, only: [] do
+  resource :spending_info, path: :financials, only: [:show] do
     get :survey
     post :survey, action: :save_survey
   end

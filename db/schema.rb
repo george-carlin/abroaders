@@ -65,6 +65,55 @@ ActiveRecord::Schema.define(version: 20170328164915) do
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
   end
 
+  create_table "award_wallet_accounts", force: :cascade do |t|
+    t.integer  "award_wallet_owner_id", null: false
+    t.integer  "aw_id",                 null: false
+    t.string   "display_name",          null: false
+    t.string   "kind",                  null: false
+    t.string   "login",                 null: false
+    t.integer  "balance_raw",           null: false
+    t.integer  "error_code",            null: false
+    t.string   "error_message"
+    t.string   "last_detected_change"
+    t.datetime "expiration_date"
+    t.datetime "last_retrieve_date"
+    t.datetime "last_change_date"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+    t.index ["aw_id"], name: "index_award_wallet_accounts_on_aw_id", using: :btree
+    t.index ["award_wallet_owner_id"], name: "index_award_wallet_accounts_on_award_wallet_owner_id", using: :btree
+  end
+
+  create_table "award_wallet_owners", force: :cascade do |t|
+    t.integer  "award_wallet_user_id", null: false
+    t.string   "name",                 null: false
+    t.integer  "person_id"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+    t.index ["award_wallet_user_id", "name"], name: "index_award_wallet_owners_on_award_wallet_user_id_and_name", unique: true, using: :btree
+    t.index ["award_wallet_user_id"], name: "index_award_wallet_owners_on_award_wallet_user_id", using: :btree
+    t.index ["name"], name: "index_award_wallet_owners_on_name", using: :btree
+    t.index ["person_id"], name: "index_award_wallet_owners_on_person_id", using: :btree
+  end
+
+  create_table "award_wallet_users", force: :cascade do |t|
+    t.integer  "account_id",                            null: false
+    t.integer  "aw_id",                                 null: false
+    t.boolean  "loaded",                default: false, null: false
+    t.integer  "agent_id"
+    t.string   "full_name"
+    t.string   "user_name"
+    t.string   "status"
+    t.string   "email"
+    t.string   "forwarding_email"
+    t.string   "access_level"
+    t.string   "accounts_access_level"
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+    t.index ["account_id"], name: "index_award_wallet_users_on_account_id", using: :btree
+    t.index ["aw_id"], name: "index_award_wallet_users_on_aw_id", using: :btree
+  end
+
   create_table "balances", force: :cascade do |t|
     t.integer  "person_id",   null: false
     t.integer  "currency_id", null: false
@@ -293,6 +342,10 @@ ActiveRecord::Schema.define(version: 20170328164915) do
 
   add_foreign_key "accounts_home_airports", "accounts", on_delete: :cascade
   add_foreign_key "accounts_home_airports", "destinations", column: "airport_id", on_delete: :restrict
+  add_foreign_key "award_wallet_accounts", "award_wallet_owners", on_delete: :cascade
+  add_foreign_key "award_wallet_owners", "award_wallet_users", on_delete: :cascade
+  add_foreign_key "award_wallet_owners", "people", on_delete: :nullify
+  add_foreign_key "award_wallet_users", "accounts", on_delete: :cascade
   add_foreign_key "balances", "currencies", on_delete: :cascade
   add_foreign_key "balances", "people", on_delete: :cascade
   add_foreign_key "card_applications", "cards", on_delete: :restrict
