@@ -26,8 +26,8 @@ RSpec.describe Card::Serializer do
       opened_on:      "2015-09-12",
       earned_at:      "2015-09-13",
       closed_on:      "2015-09-14",
-      clicked_at:     "2015-09-15",
-      declined_at:    "2015-09-16",
+      clicked_at:     '2015-09-15 02:34 PM',
+      declined_at:    '2015-09-16 01:23 AM',
       denied_at:      "2015-09-17",
       nudged_at:      "2015-09-18",
       called_at:      "2015-09-19",
@@ -53,8 +53,8 @@ RSpec.describe Card::Serializer do
     expect(parsed_json["opened_on"]).to eq      "2015-09-12"
     expect(parsed_json["earned_at"]).to eq      "2015-09-13"
     expect(parsed_json["closed_on"]).to eq      "2015-09-14"
-    expect(parsed_json["clicked_at"]).to eq     "2015-09-15"
-    expect(parsed_json["declined_at"]).to eq    "2015-09-16"
+    expect(parsed_json['clicked_at']).to eq     '2015-09-15T14:34:00.000Z'
+    expect(parsed_json['declined_at']).to eq    "2015-09-16T01:23:00.000Z"
     expect(parsed_json["denied_at"]).to eq      "2015-09-17"
     expect(parsed_json["nudged_at"]).to eq      "2015-09-18"
     expect(parsed_json["called_at"]).to eq      "2015-09-19"

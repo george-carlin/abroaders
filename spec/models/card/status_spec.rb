@@ -2,6 +2,7 @@ require "rails_helper"
 
 RSpec.describe Card::Status do
   let(:date) { Time.zone.today }
+  let(:time) { Time.zone.now }
   let(:error_class) { Card::InvalidStatus }
   let(:status) { described_class.new }
 
@@ -33,7 +34,7 @@ RSpec.describe Card::Status do
       let(:attrs) { { recommended_at: date } }
 
       context "and declined_at is present" do
-        before { attrs[:declined_at] = date }
+        before { attrs[:declined_at] = time }
 
         specify "every other timestamp must be nil" do
           expect(valid_attributes?(attrs)).to be true
@@ -63,7 +64,7 @@ RSpec.describe Card::Status do
 
               (TIMESTAMPS - [:expired_at, :recommended_at, :declined_at, :applied_on]
               ).each do |timestamp|
-                expect(valid_attributes?(attrs.merge(timestamp => date))).to be false
+                expect(valid_attributes?(attrs.merge(timestamp => time))).to be false
               end
             end
           end

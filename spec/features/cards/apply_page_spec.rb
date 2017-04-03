@@ -19,7 +19,7 @@ RSpec.describe "card recommendation apply page" do
 
     it "saves the 'clicked at' timestamp" do
       visit_path
-      expect(rec.reload.clicked_at).to eq Time.zone.today
+      expect(rec.reload.clicked_at).to be_within(5.seconds).of(Time.zone.now)
     end
   end
 
@@ -28,7 +28,7 @@ RSpec.describe "card recommendation apply page" do
 
     it "updates the 'clicked at' timestamp" do
       visit_path
-      expect(rec.reload.clicked_at).to eq Time.zone.today
+      expect(rec.reload.clicked_at).to be_within(5.seconds).of(Time.zone.now)
     end
   end
 
