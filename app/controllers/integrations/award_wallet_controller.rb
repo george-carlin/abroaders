@@ -1,7 +1,7 @@
 module Integrations
   class AwardWalletController < AuthenticatedUserController
     def callback
-      result = run Integrations::AwardWallet::Operation::Callback
+      result = run Integrations::AwardWallet::Callback
       if result.success?
         render cell(Integrations::AwardWallet::Cell::Callback)
       else
@@ -26,7 +26,7 @@ module Integrations
     end
 
     def settings
-      run AwardWallet::Operation::Settings do |result|
+      run AwardWallet::Settings do |result|
         render cell(AwardWallet::Cell::Settings, result)
         return
       end

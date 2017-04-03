@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Integrations::AwardWallet::Operation::Callback do
+RSpec.describe Integrations::AwardWallet::Callback do
   include AwardWalletMacros
 
   let(:op) { described_class }
@@ -62,7 +62,7 @@ RSpec.describe Integrations::AwardWallet::Operation::Callback do
     expect(awu.aw_id).to eq 1
     expect(awu.loaded).to be false
     job = enqueued_jobs.last
-    expect(job[:job]).to eq Integrations::AwardWallet::User::Operation::Refresh::Job
+    expect(job[:job]).to eq Integrations::AwardWallet::User::Refresh::Job
     expect(job[:args][0]['id']).to eq awu.id
   end
 

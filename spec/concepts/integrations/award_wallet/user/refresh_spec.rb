@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Integrations::AwardWallet::User::Operation::Refresh do
+RSpec.describe Integrations::AwardWallet::User::Refresh do
   include AwardWalletMacros
   include SampleDataMacros
 
@@ -72,8 +72,10 @@ RSpec.describe Integrations::AwardWallet::User::Operation::Refresh do
     john = owners.detect { |o| o.name == 'John Smith' }
     fred = owners.detect { |o| o.name == 'Fred Bloggs' }
 
-    Integrations::AwardWallet::Owner::Operation::UpdatePerson.(
-      { id: john.id, person_id: nil }, 'account' => account,
+    run!(
+      Integrations::AwardWallet::Owner::UpdatePerson,
+      { id: john.id, person_id: nil },
+      'account' => account,
     )
 
     # refresh again:
