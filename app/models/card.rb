@@ -7,12 +7,6 @@
 # @!attribute opened_on
 #   the date the user was approved for the card and their account was opened.
 #
-# @!attribute earned_at
-#   the date the user earned their signup bonus. (It might be the same date
-#   they opened the card, if they signed up through an 'on approval' offer) We
-#   don't actually have anything in place yet to update this, so this column is
-#   currently null for all cards :/
-#
 # @!attribute closed_on
 #   the date the user's card expired or they closed the card's account.
 #
@@ -68,10 +62,6 @@
 # This design isn't ideal because it means there's duplicate data in the DB,
 # but I couldn't think of a better alternative.
 class Card < ApplicationRecord
-  alias_attribute :applied_on, :applied_at
-  alias_attribute :closed_on, :closed_at
-  alias_attribute :opened_on, :opened_at
-
   def status
     status_model.name
   end

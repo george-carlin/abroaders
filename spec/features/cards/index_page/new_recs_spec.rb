@@ -75,8 +75,6 @@ RSpec.describe "cards index page - new recommendation", :js do
 
     # and actually declining successfully
 
-    # this spec fails when run late in the day when your machine's time
-    # is earlier than UTC # TZFIXME
     message = 'Just because'
     fill_in :card_decline_reason, with: message
     click_button 'Confirm'
@@ -220,7 +218,7 @@ RSpec.describe "cards index page - new recommendation", :js do
           # is earlier than UTC # TZFIXME
           expect(page).to have_content "We strongly recommend"
           expect(rec.status).to eq "denied"
-          expect(rec.denied_at).to eq Time.zone.today
+          expect(rec.denied_at).to be_within(5.seconds).of(Time.zone.now)
           expect(rec.applied_on).to eq Time.zone.today
         end
 

@@ -1,5 +1,5 @@
 class Card::Serializer < ApplicationSerializer
-  attributes :id, :recommended_at, :applied_on, :opened_on, :earned_at, :closed_on,
+  attributes :id, :recommended_at, :applied_on, :opened_on, :closed_on,
              :decline_reason, :clicked_at, :declined_at, :denied_at, :nudged_at,
              :called_at, :redenied_at
 

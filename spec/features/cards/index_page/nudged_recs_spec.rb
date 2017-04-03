@@ -90,10 +90,8 @@ RSpec.describe "user cards page - nudged cards", :js do
         end
 
         it "updates the card account's attributes", :backend do
-          # this spec fails when run late in the day when your machine's time
-          # is earlier than UTC # TZFIXME
           expect(rec.status).to eq "denied"
-          expect(rec.denied_at).to eq Time.zone.today
+          expect(rec.denied_at).to be_within(5.seconds).of(Time.zone.now)
           expect(rec.applied_on).to eq applied_on # unchanged
           expect(rec.nudged_at).to eq nudged_at # unchanged
           expect(rec.called_at).to be_nil # unchanged

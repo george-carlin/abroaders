@@ -3,11 +3,7 @@ class Card::Status
   include ActiveModel::Validations
 
   def self.build(card)
-    attrs = card.attributes
-    attrs['applied_on'] = attrs['applied_at']
-    attrs['closed_on'] = attrs['closed_at']
-    attrs['opened_on'] = attrs['opened_at']
-    new(attrs.slice(*TIMESTAMPS))
+    new(card.attributes.slice(*TIMESTAMPS))
   end
 
   TIMESTAMPS = %w[

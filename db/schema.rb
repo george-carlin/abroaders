@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170401010408) do
+ActiveRecord::Schema.define(version: 20170403213234) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -157,25 +157,24 @@ ActiveRecord::Schema.define(version: 20170401010408) do
   end
 
   create_table "cards", force: :cascade do |t|
-    t.integer  "product_id"
     t.integer  "person_id",      null: false
-    t.date     "opened_at"
-    t.date     "earned_at"
-    t.date     "closed_at"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
-    t.date     "redenied_at"
-    t.date     "called_at"
-    t.date     "nudged_at"
-    t.date     "denied_at"
-    t.date     "applied_at"
+    t.integer  "product_id",     null: false
+    t.date     "closed_on"
+    t.date     "opened_on"
+    t.datetime "redenied_at"
+    t.datetime "called_at"
+    t.datetime "nudged_at"
+    t.datetime "denied_at"
+    t.date     "applied_on"
     t.string   "decline_reason"
     t.datetime "pulled_at"
     t.datetime "expired_at"
     t.datetime "clicked_at"
     t.datetime "seen_at"
     t.datetime "declined_at"
-    t.date     "recommended_at"
+    t.datetime "recommended_at"
     t.integer  "offer_id"
   end
 
@@ -330,7 +329,7 @@ ActiveRecord::Schema.define(version: 20170401010408) do
   add_foreign_key "balances", "people", on_delete: :cascade
   add_foreign_key "card_products", "banks"
   add_foreign_key "card_products", "currencies", on_delete: :restrict
-  add_foreign_key "cards", "card_products", column: "product_id", on_delete: :restrict
+  add_foreign_key "cards", "card_products", column: "product_id"
   add_foreign_key "cards", "offers"
   add_foreign_key "cards", "people", on_delete: :cascade
   add_foreign_key "destinations", "destinations", column: "parent_id", on_delete: :restrict

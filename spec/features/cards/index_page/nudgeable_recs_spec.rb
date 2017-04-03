@@ -121,7 +121,7 @@ RSpec.describe "user cards page - nudgeable cards", :js do
           # is earlier than UTC # TZFIXME
           expect(rec.status).to eq "open"
           expect(rec.opened_on).to eq Time.zone.today
-          expect(rec.nudged_at).to eq Time.zone.today
+          expect(rec.nudged_at).to be_within(5.seconds).of(Time.zone.now)
           expect(rec.applied_on).to eq applied_on # unchanged
         end
       end
@@ -141,12 +141,10 @@ RSpec.describe "user cards page - nudgeable cards", :js do
         end
 
         it "updates the rec's attributes", :backend do
-          # this spec fails when run late in the day when your machine's time
-          # is earlier than UTC # TZFIXME
           expect(rec.status).to eq "denied"
           expect(rec.applied_on).to eq applied_on # unchanged
-          expect(rec.denied_at).to eq Time.zone.today
-          expect(rec.nudged_at).to eq Time.zone.today
+          expect(rec.denied_at).to be_within(5.seconds).of(Time.zone.now)
+          expect(rec.nudged_at).to be_within(5.seconds).of(Time.zone.now)
         end
       end
     end
@@ -165,11 +163,9 @@ RSpec.describe "user cards page - nudgeable cards", :js do
         end
 
         it "updates the rec's attributes", :backend do
-          # this spec fails when run late in the day when your machine's time
-          # is earlier than UTC # TZFIXME
           expect(rec.status).to eq "applied"
           expect(rec.applied_on).to eq applied_on # unchanged
-          expect(rec.nudged_at).to eq Time.zone.today
+          expect(rec.nudged_at).to be_within(5.seconds).of(Time.zone.now)
         end
       end
     end
@@ -250,10 +246,8 @@ RSpec.describe "user cards page - nudgeable cards", :js do
         end
 
         it "updates the rec's attributes", :backend do
-          # this spec fails when run late in the day when your machine's time
-          # is earlier than UTC # TZFIXME
           expect(rec.status).to eq "denied"
-          expect(rec.denied_at).to eq Time.zone.today
+          expect(rec.denied_at).to be_within(5.seconds).of(Time.zone.now)
         end
 
         include_examples "doesn't change applied or nudged"
