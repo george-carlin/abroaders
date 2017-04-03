@@ -8,6 +8,8 @@ module Integrations
         case result['error']
         when 'not found' then raise ActiveRecord::RecordNotFound # 404
         when 'already loaded' then redirect_to integrations_award_wallet_settings_path
+        # the user clicked 'deny' on AwardWallet.com:
+        when 'permission denied' then redirect_to balances_path
         end
       end
     end

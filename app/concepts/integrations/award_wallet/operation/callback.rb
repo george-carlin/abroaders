@@ -52,6 +52,8 @@ module Integrations
       class Callback < Trailblazer::Operation
         self['load_user.job'] = User::Operation::Refresh::Job
 
+        step :access_granted?
+        failure :log_access_denied, fail_fast: true
         step :user_is_not_already_loaded?
         failure :log_user_already_loaded, fail_fast: true
         step :user_id_is_present?
@@ -59,6 +61,14 @@ module Integrations
         success :create_user_and_enqueue_job
 
         private
+
+        def access_granted?(params:, **)
+          !params.key?(:denyAccess)
+        end
+
+        def log_access_denied(opts)
+          opts['error'] = 'permission denied'
+        end
 
         def user_is_not_already_loaded?(account:, **)
           account.award_wallet_user.nil? || !account.award_wallet_user.loaded?

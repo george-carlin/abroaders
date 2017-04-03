@@ -29,6 +29,12 @@ RSpec.describe Integrations::AwardWalletController do
         end.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
+
+    example 'when the user denied the permissions' do
+      expect(
+        get(:callback, params: { denyAccess: '1' })
+      ).to redirect_to balances_path
+    end
   end
 
   describe 'GET #settings' do
