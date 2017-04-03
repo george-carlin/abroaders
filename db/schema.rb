@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170401010408) do
+ActiveRecord::Schema.define(version: 20170403000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -190,13 +190,13 @@ ActiveRecord::Schema.define(version: 20170401010408) do
   end
 
   create_table "cards", force: :cascade do |t|
-    t.integer  "product_id"
     t.integer  "person_id",  null: false
-    t.date     "opened_on",  null: false
-    t.date     "earned_at"
-    t.date     "closed_on"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "product_id", null: false
+    t.date     "earned_at"
+    t.date     "closed_on"
+    t.date     "opened_on",  null: false
   end
 
   create_table "currencies", force: :cascade do |t|
@@ -356,7 +356,7 @@ ActiveRecord::Schema.define(version: 20170401010408) do
   add_foreign_key "card_recommendations", "card_applications", on_delete: :restrict
   add_foreign_key "card_recommendations", "offers", on_delete: :restrict
   add_foreign_key "card_recommendations", "people", on_delete: :restrict
-  add_foreign_key "cards", "card_products", column: "product_id", on_delete: :restrict
+  add_foreign_key "cards", "card_products", column: "product_id"
   add_foreign_key "cards", "people", on_delete: :cascade
   add_foreign_key "destinations", "destinations", column: "parent_id", on_delete: :restrict
   add_foreign_key "flights", "destinations", column: "from_id", on_delete: :restrict
