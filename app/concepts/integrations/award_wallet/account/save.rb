@@ -50,7 +50,7 @@ module Integrations
         def find_or_initialize_account(opts, account_data:, user:, **)
           id = account_data.fetch('account_id')
           opts['model'] = user.award_wallet_accounts
-          .find_or_initialize_by(aw_id: id)
+                              .find_or_initialize_by(aw_id: id)
         end
 
         # remember: the owner of the AwardWalletAccount and the owner of the

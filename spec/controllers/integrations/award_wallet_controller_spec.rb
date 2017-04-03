@@ -32,7 +32,7 @@ RSpec.describe Integrations::AwardWalletController do
 
     example 'when the user denied the permissions' do
       expect(
-        get(:callback, params: { denyAccess: '1' })
+        get(:callback, params: { denyAccess: '1' }),
       ).to redirect_to balances_path
     end
   end
