@@ -14,7 +14,7 @@ module AwardWalletMacros
   end
 
   def get_award_wallet_user_from_callback(account)
-    result = Integrations::AwardWallet::Operation::Callback.(
+    result = Integrations::AwardWallet::Callback.(
       { userId: 12345 },
       'account' => account,
       # don't enqueue a real BG job:
@@ -25,7 +25,7 @@ module AwardWalletMacros
   end
 
   def refresh_award_wallet_user_from_sample_data(user)
-    op = Integrations::AwardWallet::User::Operation::Refresh
+    op = Integrations::AwardWallet::User::Refresh
     result = op.(
       { user: user },
       'api' => double(connected_user: parsed_sample_json('award_wallet_user')),

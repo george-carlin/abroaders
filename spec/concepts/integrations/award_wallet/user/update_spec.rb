@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 # 100% mutation coverage as of 8/3/17
-RSpec.describe Integrations::AwardWallet::User::Operation::Update do
+RSpec.describe Integrations::AwardWallet::User::Update do
   include AwardWalletMacros
   include SampleDataMacros
   let(:op) { described_class }

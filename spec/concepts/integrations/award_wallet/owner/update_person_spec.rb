@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Integrations::AwardWallet::Owner::Operation::UpdatePerson do
+RSpec.describe Integrations::AwardWallet::Owner::UpdatePerson do
   include AwardWalletMacros
 
   let(:op) { described_class }

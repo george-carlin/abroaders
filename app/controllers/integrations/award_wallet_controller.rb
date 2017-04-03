@@ -1,13 +1,15 @@
 module Integrations
   class AwardWalletController < AuthenticatedUserController
     def callback
-      result = run Integrations::AwardWallet::Operation::Callback
+      result = run Integrations::AwardWallet::Callback
       if result.success?
         render cell(Integrations::AwardWallet::Cell::Callback)
       else
         case result['error']
         when 'not found' then raise ActiveRecord::RecordNotFound # 404
         when 'already loaded' then redirect_to integrations_award_wallet_settings_path
+        # the user clicked 'deny' on AwardWallet.com:
+        when 'permission denied' then redirect_to balances_path
         end
       end
     end
@@ -24,7 +26,7 @@ module Integrations
     end
 
     def settings
-      run AwardWallet::Operation::Settings do |result|
+      run AwardWallet::Settings do |result|
         render cell(AwardWallet::Cell::Settings, result)
         return
       end

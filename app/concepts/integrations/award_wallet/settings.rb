@@ -1,5 +1,5 @@
-module Integrations::AwardWallet
-  module Operation
+module Integrations
+  module AwardWallet
     class Settings < Trailblazer::Operation
       step :set_user
       step :user_loaded?
