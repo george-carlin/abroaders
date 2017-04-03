@@ -59,6 +59,14 @@
 # 'nudge'. We're using this internal distinction because it makes it much
 # easier to track a user's actions and figure out where they are in the
 # application survey.
+#
+# All Cards belong to a CardProduct. They also optionally belong to an Offer.
+# If the card has an offer, then card.offer.product must equal card.product
+# This is enforced in the setters #offer= and #product=; they'll raise an
+# error if the product's don't match.
+#
+# This design isn't ideal because it means there's duplicate data in the DB,
+# but I couldn't think of a better alternative.
 class Card < ApplicationRecord
   alias_attribute :applied_on, :applied_at
   alias_attribute :closed_on, :closed_at
@@ -87,18 +95,6 @@ class Card < ApplicationRecord
   validate :product_matches_offer_product
 
   # Associations
-
-  # All Cards have a CardProduct and, if the user has the card because we
-  # recommended it to them, the Card will also be associated with a particular
-  # offer.
-  #
-  # An Offer also belongs_to a Card:roduct, so a Card with an offer is only
-  # valid if the offer belongs to the right product. This results in a slightly
-  # denormalized DB schema (because product_id will always equal
-  # offer.product_id if offer is not nil, so product_id can sometimes contain
-  # redundant data), but as far as I can tell this is necessary evil, because
-  # all cards have a product, and all offers have a product, but not all cards
-  # have an offer.
 
   belongs_to :product, class_name: 'CardProduct'
   belongs_to :person
