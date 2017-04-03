@@ -75,30 +75,6 @@ RSpec.describe Card do
     include_examples "applyable?"
   end
 
-  specify "product_id must match offer.product_id" do
-    def errors
-      card.tap(&:valid?).errors
-    end
-
-    msg = t("activerecord.errors.models.card.attributes.product.doesnt_match_offer")
-
-    # no card_product or offer:
-    expect(errors[:product]).not_to include(msg)
-    # no offer:
-    card.product = product
-    expect(errors[:product]).not_to include(msg)
-    # offer with no card
-    card.product = nil
-    card.offer = Offer.new
-    expect(errors[:product]).not_to include(msg)
-    # mismatching product:
-    card.product = CardProduct.new
-    expect(errors[:product]).to include(msg)
-    # correct product
-    card.offer.product = card.product
-    expect(errors[:product]).not_to include(msg)
-  end
-
   example "#recommended?" do
     card.recommended_at = Time.current
     expect(card.recommended?).to be true
@@ -123,15 +99,12 @@ RSpec.describe Card do
 
   # Callbacks
 
-  describe "before validation" do
-    # TODO this shouldn't be handled by the model, do it in the Operation
-    it "sets #product to #offer.product" do
-      offer   = create_offer
-      product = offer.product
-      card = Card.new(product: nil, offer: offer)
-      card.valid?
-      expect(card.product_id).to eq product.id
-    end
+  example "set  #product to #offer.product before save" do
+    offer   = create_offer
+    product = offer.product
+    card = Card.new(product: nil, offer: offer, person: create(:person))
+    card.save!
+    expect(card.product_id).to eq product.id
   end
 
   # Scopes

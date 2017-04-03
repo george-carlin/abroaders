@@ -92,8 +92,6 @@ class Card < ApplicationRecord
 
   validates :decline_reason, presence: true, unless: 'declined_at.nil?'
 
-  validate :product_matches_offer_product
-
   # Associations
 
   belongs_to :product, class_name: 'CardProduct'
@@ -102,7 +100,7 @@ class Card < ApplicationRecord
 
   # Callbacks
 
-  before_validation :set_product_to_offer_product
+  before_save :set_product_to_offer_product
 
   # returns true iff the product can be applied for
   def applyable?
@@ -135,12 +133,6 @@ class Card < ApplicationRecord
   scope :unresolved, -> { recommendations.unpulled.unopen.where(%["denied_at" IS NULL OR "nudged_at" IS NULL]).unredenied.unexpired.undeclined }
 
   private
-
-  # TODO move these validations to the operation/contract layer:
-  def product_matches_offer_product
-    return unless !offer.nil? && !product.nil? && product != offer.product
-    errors.add(:product, :doesnt_match_offer)
-  end
 
   def set_product_to_offer_product
     return unless !offer.nil? && !offer.product.nil? && product.nil?
