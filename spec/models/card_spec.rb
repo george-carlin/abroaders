@@ -5,7 +5,7 @@ RSpec.describe Card do
   let(:person)  { account.people.first }
   let(:product) { build(:card_product) }
   let(:offer)   { Offer.new(product: product) }
-  let(:card) { described_class.non_recommendation.new(person: person) }
+  let(:card) { described_class.new(person: person) }
 
   before { card.offer = offer }
 
@@ -135,12 +135,6 @@ RSpec.describe Card do
   end
 
   # Scopes
-
-  example ".non_recommendation" do
-    returned = create_card
-    create_card_recommendation
-    expect(described_class.non_recommendation).to eq [returned]
-  end
 
   example ".recommendations" do
     create_card

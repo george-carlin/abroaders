@@ -120,8 +120,7 @@ class Card < ApplicationRecord
 
   # Scopes
 
-  scope :recommendations,    -> { where.not(recommended_at: nil) }
-  scope :non_recommendation, -> { where(recommended_at: nil) }
+  scope :recommendations, -> { where.not(recommended_at: nil) }
 
   scope :pulled,     -> { where.not(pulled_at: nil) }
   scope :unapplied,  -> { where(applied_on: nil) }
