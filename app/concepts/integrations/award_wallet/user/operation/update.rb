@@ -47,15 +47,21 @@ module Integrations
           def update!(model:, params:)
             attrs = params.fetch(:data).slice(
               'access_level',
+              'account_list_url',
               'accounts_access_level',
-              'edit_connection_url',
               'email',
               'forwarding_email',
               'full_name',
               'status',
               'user_name',
             )
-            attrs['agent_id'] = attrs.delete('edit_connection_url').split('/').last
+            # The JSON doesn't tell us the 'agentId' directly (there's no key
+            # with that name), but it includes the 'account_list_url', which
+            # has the agentId as a GET param. The 'edit_connection_url' doesn't
+            # contain the string 'agentId', but it ends with a number that's
+            # equal to (1 + the agentId from the other URL).
+            url = attrs.delete('account_list_url')
+            attrs['agent_id'] = Rack::Utils.parse_query(url.split('#')[-1][2..-1])['agentId']
             attrs['loaded']   = true
             model.update!(attrs)
           end

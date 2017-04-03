@@ -32,7 +32,7 @@ RSpec.describe Integrations::AwardWallet::User::Operation::Update do
     expect(user.forwarding_email).to eq 'JSmith@AwardWallet.com'
     expect(user.access_level).to eq 'Regular'
     expect(user.accounts_access_level).to eq 'Full control'
-    expect(user.agent_id).to eq 112233
+    expect(user.agent_id).to eq 112232
     expect(user.loaded).to be true
   end
 end
