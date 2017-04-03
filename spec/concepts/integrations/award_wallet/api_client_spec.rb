@@ -33,7 +33,7 @@ RSpec.describe Integrations::AwardWallet::APIClient do
       expect(result['edit_connection_url']).to eq \
         'https://business.awardwallet.com/members/connection/112233'
       expect(result['account_list_url']).to eq \
-        'https://business.awardwallet.com/account/list#/?agentId=112233'
+        'https://business.awardwallet.com/account/list#/?agentId=112232'
       expect(result['timeline_url']).to eq \
         'https://business.awardwallet.com/timeline/?agentId=166765#/112233'
       expect(result['booking_requests_url']).to eq \

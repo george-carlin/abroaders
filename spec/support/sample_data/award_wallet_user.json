@@ -10,7 +10,7 @@
   "accountsAccessLevel": "Full control",
   "accountsSharedByDefault": true,
   "editConnectionUrl": "https://business.awardwallet.com/members/connection/112233",
-  "accountListUrl": "https://business.awardwallet.com/account/list#/?agentId=112233",
+  "accountListUrl": "https://business.awardwallet.com/account/list#/?agentId=112232",
   "timelineUrl": "https://business.awardwallet.com/timeline/?agentId=166765#/112233",
   "bookingRequestsUrl": "https://business.awardwallet.com/awardBooking/queue?user_filter=332211",
   "accounts": [

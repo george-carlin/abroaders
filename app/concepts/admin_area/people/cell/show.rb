@@ -86,7 +86,7 @@ module AdminArea
         end
 
         def heading
-          cell(Heading, person, account: account)
+          cell(Heading, person)
         end
 
         # If the account has any home airports, list them.
@@ -148,37 +148,36 @@ module AdminArea
 
         # @!method self.call(person, opts = {})
         #   @param person [Person]
-        #   @option opts [Account] account
         class Heading < Abroaders::Cell::Base
           include Escaped
 
           property :first_name
-
-          option :account
+          property :email
+          property :signed_up_at
+          property :phone_number
 
           def show
             <<-HTML
               <div class="panel-heading hbuilt">
-                <h1>#{first_name}</h1>
-                <p>#{text}</p>
+                <div class="row">
+                  <div class="col-xs-12 col-md-9">
+                    <h1>#{first_name} <small>#{email}</small></h1>
+                  </div>
+
+                  <div class="col-xs-12 col-md-3">
+                    <p>Account created on #{signed_up_at.strftime('%D')}</p>
+                    #{phone_number}
+                  </div>
+                </div>
               </div>
             HTML
           end
 
           private
 
-          def created_on
-            cell(Account::Cell::SignedUp, account)
-          end
-
-          def escape(*args)
-            ERB::Util.html_escape(*args)
-          end
-
-          def text
-            t = "#{escape(account.email)} - Account created on #{created_on}"
-            t << account.phone_number.number unless account.phone_number.nil?
-            t
+          def phone_number
+            number = super
+            number ? "<p>#{number}</p>" : ''
           end
         end
 

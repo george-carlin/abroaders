@@ -1,5 +1,7 @@
 class Card < ApplicationRecord
   module Operation
+    # @!method self.call(params, options) see Card::Operation::New.call;
+    #   this op has the exact same method signature
     class Create < Trailblazer::Operation
       step Nested(New)
       step Contract::Validate(key: :card)

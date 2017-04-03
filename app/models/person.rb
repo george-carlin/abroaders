@@ -1,4 +1,10 @@
 class Person < ApplicationRecord
+  delegate :email, to: :account
+
+  def can_receive_recommendations?
+    onboarded? && eligible? && ready?
+  end
+
   def companion?
     !owner
   end
@@ -8,12 +14,12 @@ class Person < ApplicationRecord
     last_recommendations_at >= Time.current - 30.days
   end
 
-  def type
-    owner ? "owner" : "companion"
+  def phone_number
+    account.phone_number&.number
   end
 
-  def can_receive_recommendations?
-    onboarded? && eligible? && ready?
+  def signed_up_at
+    account.created_at
   end
 
   def status
@@ -24,6 +30,10 @@ class Person < ApplicationRecord
     else
       "Eligible(NotReady)"
     end
+  end
+
+  def type
+    owner ? 'owner' : 'companion'
   end
 
   concerning :Eligibility do
