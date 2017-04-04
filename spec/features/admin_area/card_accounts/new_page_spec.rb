@@ -9,7 +9,7 @@ RSpec.describe 'new card account page' do
 
   before { visit new_admin_person_card_account_path(person) }
 
-  example 'creating a card' do
+  example 'creating an open card account' do
     expect(page).to have_field :card_product_id
     expect(page).to have_field :card_opened_on_1i
     expect(page).to have_field :card_opened_on_2i
@@ -19,10 +19,12 @@ RSpec.describe 'new card account page' do
       click_button 'Save'
     end.to change { person.cards.count }.by(1)
 
+    card_account = person.cards.last
+    expect(card_account).to be_open
     expect(current_path).to eq admin_person_path(person)
   end
 
-  example 'creating a closed card' do
+  example 'creating a closed card account' do
     check :card_closed
 
     expect do

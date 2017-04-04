@@ -89,4 +89,23 @@ RSpec.describe CardAccount::Create do
     )
     expect(result.success?).to be false
   end
+
+  example 'failure - person belongs to a different account' do
+    other_account = create(:account)
+    expect do
+      op.(
+        params.merge(
+          card: {
+            opened_on: Date.today,
+            closed: false,
+            person_id: other_account.owner.id,
+            product_id: product.id,
+          },
+        ),
+        'account' => account,
+      )
+    end.to raise_error(ActiveRecord::RecordNotFound)
+
+    expect(Card.count).to eq 0
+  end
 end

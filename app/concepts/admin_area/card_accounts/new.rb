@@ -2,7 +2,7 @@ module AdminArea
   module CardAccounts
     class New < Trailblazer::Operation
       extend Contract::DSL
-      contract CardAccount::NewForm
+      contract NewForm
 
       step :setup_person!
       step :setup_model!

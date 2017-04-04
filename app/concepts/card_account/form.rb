@@ -1,6 +1,9 @@
 class CardAccount < CardAccount.superclass
+  # Note that the card account's product_id will be set by a param in the URL,
+  # rather than in the posted form data.
   class Form < Reform::Form
     feature Reform::Form::MultiParameterAttributes
+    feature Reform::Form::Coercion
 
     property :closed, virtual: true, prepopulator: ->(_) { self.closed = !closed_on.nil? }
     property :closed_on
@@ -17,6 +20,13 @@ class CardAccount < CardAccount.superclass
 
     def closed=(value)
       super(::Types::Form::Bool[value])
+    end
+
+    # Make sure that the card's "closed_on" timestamp is set to nil if
+    # the 'closed' checkbox wasn't checked
+    def sync
+      self.closed_on = nil unless closed
+      super
     end
 
     def self.model_name
