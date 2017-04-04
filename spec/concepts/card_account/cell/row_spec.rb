@@ -1,6 +1,6 @@
 require 'cells_helper'
 
-RSpec.describe Card::Cell::BasicCard do
+RSpec.describe CardAccount::Cell::Row do
   controller CardsController
 
   def show(model, opts = {})

@@ -17,7 +17,7 @@ RSpec.describe Card::Cell::Index::CardAccounts do
   let(:today) { Date.today }
 
   before do
-    allow(Card::Cell::BasicCard).to \
+    allow(CardAccount::Cell::Row).to \
       receive(:product_name_cell).and_return(ProductNameCellStub)
   end
 

@@ -1,14 +1,15 @@
-class Card < Card.superclass
+class CardAccount < CardAccount.superclass
   module Cell
-    # takes a Card. returns a .row div containing the basic overview of the card:
-    #   - card picture
+    # takes a card account. returns a .row div containing the basic overview of the card:
+    #   - card product picture
     #   - card name and bank
     #   - card opened/closed dates
     #
-    # options:
-    #   - editable: default false. If true, display a link to the card's edit page,
-    #               and a link to delete the card
-    class BasicCard < Abroaders::Cell::Base
+    # @!method self.call(card_account, options = {})
+    #   @param card_account
+    #   @option options [Boolean] :editable default false. If true, display a
+    #     link to the card account's edit page, and a link to delete it
+    class Row < Abroaders::Cell::Base
       property :id
       property :closed_on
       property :opened_on
