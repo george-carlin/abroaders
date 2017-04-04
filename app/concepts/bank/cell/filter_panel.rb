@@ -1,4 +1,4 @@
-class Bank < ApplicationRecord
+class Bank < Bank.superclass
   module Cell
     class FilterPanel < Abroaders::Cell::Base
       include CardRecommendation::FilterPanel

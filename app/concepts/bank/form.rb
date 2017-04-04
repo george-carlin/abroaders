@@ -1,7 +1,7 @@
 require 'reform/form/coercion'
 require 'reform/form/dry'
 
-class Bank < ApplicationRecord
+class Bank < Bank.superclass
   class Form < Reform::Form
     feature Reform::Form::Coercion
     feature Reform::Form::Dry

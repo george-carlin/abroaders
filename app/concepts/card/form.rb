@@ -1,4 +1,4 @@
-class Card < ApplicationRecord
+class Card < Card.superclass
   class Form < Reform::Form
     feature Reform::Form::MultiParameterAttributes
 

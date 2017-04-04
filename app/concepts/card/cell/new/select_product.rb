@@ -1,4 +1,4 @@
-class Card < ApplicationRecord
+class Card < Card.superclass
   module Cell
     class New < Abroaders::Cell::Base
       # The new card page is actually split into two 'pages'. When they first

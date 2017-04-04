@@ -1,4 +1,4 @@
-class Card < ApplicationRecord
+class Card < Card.superclass
   module Operation
     # Setup the form for a new card.
     #

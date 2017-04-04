@@ -1,4 +1,4 @@
-class Card < ApplicationRecord
+class Card < Card.superclass
   # Like the 'edit' form, except they can also specify the product ID
   class NewForm < ::Card::Form
     property :product_id, type: ::Types::Form::Int

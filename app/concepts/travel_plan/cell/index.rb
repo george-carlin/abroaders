@@ -1,4 +1,4 @@
-class TravelPlan < ApplicationRecord
+class TravelPlan < TravelPlan.superclass
   module Cell
     class Index < Abroaders::Cell::Base
       alias collection model

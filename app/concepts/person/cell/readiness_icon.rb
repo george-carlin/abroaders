@@ -1,4 +1,4 @@
-class Person < ApplicationRecord
+class Person < Person.superclass
   module Cell
     class ReadinessIcon < Abroaders::Cell::Base
       property :ready?

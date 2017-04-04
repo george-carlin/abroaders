@@ -1,4 +1,4 @@
-class Card < ApplicationRecord
+class Card < Card.superclass
   module Operation
     # @!method self.call(params, options) see Card::Operation::New.call;
     #   this op has the exact same method signature

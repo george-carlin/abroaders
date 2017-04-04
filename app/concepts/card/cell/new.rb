@@ -1,4 +1,4 @@
-class Card < ApplicationRecord
+class Card < Card.superclass
   module Cell
     # Shows a form to add a new card. The card *product* will already have been
     # selected on a previous page and is passed into this page by the params.

@@ -1,4 +1,4 @@
-class TravelPlan < ApplicationRecord
+class TravelPlan < TravelPlan.superclass
   module Operation
     class Onboard < Trailblazer::Operation
       step :assert_account_has_correct_onboarding_state!

@@ -1,4 +1,4 @@
-class Offer < ApplicationRecord
+class Offer < Offer.superclass
   module Cell
     # takes an offer, returns its cost in the format '$X.XX'
     class Cost < Abroaders::Cell::Base

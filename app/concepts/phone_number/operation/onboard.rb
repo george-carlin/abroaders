@@ -1,6 +1,6 @@
 require_dependency 'reform/form/dry'
 
-class PhoneNumber < ApplicationRecord
+class PhoneNumber < PhoneNumber.superclass
   module Operation
     # Add a phone number to the account as part of the onboarding
     # survey

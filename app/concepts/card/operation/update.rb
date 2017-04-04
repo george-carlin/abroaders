@@ -1,4 +1,4 @@
-class Card < ApplicationRecord
+class Card < Card.superclass
   module Operation
     class Update < Trailblazer::Operation
       step Nested(Edit)

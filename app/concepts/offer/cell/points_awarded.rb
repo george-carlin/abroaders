@@ -1,4 +1,4 @@
-class Offer < ApplicationRecord
+class Offer < Offer.superclass
   module Cell
     # takes an offer, returns how many points that offer awards
     # as a comma-delimited number string

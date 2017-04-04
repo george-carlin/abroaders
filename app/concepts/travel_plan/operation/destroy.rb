@@ -1,4 +1,4 @@
-class TravelPlan < ApplicationRecord
+class TravelPlan < TravelPlan.superclass
   module Operation
     class Destroy < Trailblazer::Operation
       step :setup_model!

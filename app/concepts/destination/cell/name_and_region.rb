@@ -1,4 +1,4 @@
-class Destination < ApplicationRecord
+class Destination < Destination.superclass
   module Cell
     # A small span that shows (you guessed it) the name of the destination,
     # plus the name of the region in brackets. If the destination is an airport
