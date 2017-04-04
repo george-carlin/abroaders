@@ -32,10 +32,4 @@ RSpec.describe CardAccount::New do
     model = result['model']
     expect(model.person).to eq person
   end
-
-  it 'sets result["product"]' do
-    result = op.(params, 'account' => account)
-    expect(result.success?).to be true
-    expect(result['product']).to eq product
-  end
 end

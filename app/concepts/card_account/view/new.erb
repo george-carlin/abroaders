@@ -12,8 +12,7 @@
   <div class="panel-body">
     <%= form_for form, url: product_card_accounts_path(params[:product_id]) do |f| %>
       <div class="row">
-        <%# two divs with cols XS 12/12, SM 6/6, MD 2/4: %>
-        <%= cell(CardProduct::Cell::Summary, product) %>
+        <%= product_summary %>
 
         <div class="col-xs-12 col-md-6">
           <div class="row">

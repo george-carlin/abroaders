@@ -6,9 +6,12 @@ class CardAccount < CardAccount.superclass
     # if current account has a companion, has an extra input to select whether
     # the card is for the owner or for the companiothe companion
     #
-    # model: the Result of the CardAccount::New operation
+    # @!method self.call(result)
+    #   @param result [TRB Result] result of CardAccount::New
     class New < Abroaders::Cell::Base
-      alias result model
+      extend Abroaders::Cell::Result
+
+      skill :model
 
       def initialize(result, opts = {}, *)
         raise 'card must have product initialized' if result['model'].product.nil?
@@ -62,8 +65,9 @@ class CardAccount < CardAccount.superclass
         )
       end
 
-      def product
-        result['product']
+      # two divs with cols XS 12/12, SM 6/6, MD 2/4:
+      def product_summary
+        cell(CardProduct::Cell::Summary, model.product)
       end
     end
   end
