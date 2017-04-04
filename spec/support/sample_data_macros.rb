@@ -140,15 +140,20 @@ module SampleDataMacros
                    create(:card_product).id
                  end
 
-    raise "can't use :person_id, pass :person instead" if overrides.key?(:person_id)
-    person = overrides.fetch(:person, create(:person))
-
     params = {
       card: {
         opened_on: overrides.fetch(:opened_on, Date.today),
       },
       product_id: product_id,
     }
+
+    raise "can't use :person_id, pass :person instead" if overrides.key?(:person_id)
+    if overrides.key?(:person)
+      person = overrides.fetch(:person)
+      params[:card][:person_id] = person.id
+    else
+      person = create(:person)
+    end
 
     if traits.include?(:closed) || overrides.key?(:closed_on)
       params[:card][:closed] = true
