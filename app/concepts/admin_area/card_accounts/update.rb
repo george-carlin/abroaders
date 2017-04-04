@@ -1,17 +1,12 @@
-class Card < Card.superclass
-  module Operation
+module AdminArea
+  module CardAccounts
     class Update < Trailblazer::Operation
       step Nested(Edit)
       step Contract::Validate(key: :card)
       success :sanitize_closed_on!
       step Contract::Persist()
-      success :enqueue_zapier_webhook!
 
       private
-
-      def enqueue_zapier_webhook!(_opts, model:, **)
-        ZapierWebhooks::Card::Updated.enqueue(model)
-      end
 
       # Make sure that the card's "closed_on" timestamp is set to nil if
       # the 'closed' checkbox wasn't checked

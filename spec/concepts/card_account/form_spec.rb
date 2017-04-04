@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Card::Form do
+RSpec.describe CardAccount::Form do
   let(:card) { Card.new }
 
   def validate(attrs)

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Card::Operation::Update do
+RSpec.describe CardAccount::Update do
   let(:bank)    { create(:bank, name: "Chase") }
   let(:account) { create(:account, :onboarded) }
   let(:person)  { account.owner }

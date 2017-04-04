@@ -6,7 +6,7 @@ class Card < Card.superclass
     # if current account has a companion, has an extra input to select whether
     # the card is for the owner or for the companiothe companion
     #
-    # model: the Result of the Card::Operation::New operation
+    # model: the Result of the CardAccount::New operation
     class New < Abroaders::Cell::Base
       alias result model
 

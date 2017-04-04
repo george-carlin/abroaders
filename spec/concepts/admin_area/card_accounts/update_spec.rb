@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe AdminArea::Cards::Operation::Update do
+RSpec.describe AdminArea::CardAccounts::Update do
   let(:bank)    { create(:bank, name: "Chase") }
   let(:person)  { create(:account, :onboarded).owner }
   let(:product) { create(:card_product) }

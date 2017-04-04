@@ -160,6 +160,6 @@ module SampleDataMacros
       params[:card][:closed_on] = overrides.fetch(:closed_on, Date.today)
     end
 
-    run!(Card::Operation::Create, params, 'account' => person.account)['model']
+    run!(CardAccount::Create, params, 'account' => person.account)['model']
   end
 end

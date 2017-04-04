@@ -1,5 +1,5 @@
 module ZapierWebhooks
-  module Card
+  module CardAccount
     # Job to notify Zapier that a new card has been created
     #
     # Posts to the webhook with the card's attributes nested under the key 'data'

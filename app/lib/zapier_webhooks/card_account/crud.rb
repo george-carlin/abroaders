@@ -1,5 +1,5 @@
 module ZapierWebhooks
-  module Card
+  module CardAccount
     # Abstract class; don't instantiate directly
     class CRUD < Job
       def self.enqueue(model)

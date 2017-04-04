@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Card::Operation::New do
+RSpec.describe CardAccount::New do
   let(:op) { described_class }
 
   let(:account) { create(:account) }

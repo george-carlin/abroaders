@@ -16,7 +16,7 @@ RSpec.describe 'cards index page - "card accounts" section' do
 
   def create_card(person, product)
     run!(
-      Card::Operation::Create,
+      CardAccount::Create,
       {
         product_id: product.id,
         card: { opened_on: Date.parse('2017-01-01'), person_id: person.id },

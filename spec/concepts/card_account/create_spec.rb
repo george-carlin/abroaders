@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Card::Operation::Create do
+RSpec.describe CardAccount::Create do
   let(:account) { create(:account) }
   let(:person)  { account.owner }
   let(:product) { create(:card_product) }
@@ -61,7 +61,7 @@ RSpec.describe Card::Operation::Create do
   end
 
   it 'posts to a Zapier webhook' do
-    expect(ZapierWebhooks::Card::Created).to receive(:enqueue).with(kind_of(Card))
+    expect(ZapierWebhooks::CardAccount::Created).to receive(:enqueue).with(kind_of(Card))
     op.(
       params.merge(card: { product_id: product.id, opened_on: Date.today }),
       'account' => account,

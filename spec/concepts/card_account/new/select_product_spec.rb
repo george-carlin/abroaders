@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Card::Operation::New::SelectProduct do
+RSpec.describe CardAccount::New::SelectProduct do
   let(:person)  { create(:account).owner }
   let(:product) { create(:card_product) }
   let(:op) { described_class }

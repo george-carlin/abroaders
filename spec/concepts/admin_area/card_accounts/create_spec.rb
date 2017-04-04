@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe AdminArea::Cards::Operation::Create do
+RSpec.describe AdminArea::CardAccounts::Create do
   let(:person)  { create(:account).owner }
   let(:product) { create(:card_product) }
   let(:op)      { described_class }

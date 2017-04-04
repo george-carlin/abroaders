@@ -9,7 +9,7 @@ RSpec.describe 'admin area - edit card page' do
 
   let(:card) do
     run!(
-      Card::Operation::Create,
+      CardAccount::Create,
       { card: { opened_on: Date.today }, product_id: product.id },
       'account' => account,
     )['model']

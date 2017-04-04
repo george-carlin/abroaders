@@ -1,4 +1,4 @@
-class Card < Card.superclass
+class CardAccount < CardAccount.superclass
   class Form < Reform::Form
     feature Reform::Form::MultiParameterAttributes
 

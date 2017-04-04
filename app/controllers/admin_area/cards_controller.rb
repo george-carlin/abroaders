@@ -1,26 +1,26 @@
 module AdminArea
   class CardsController < AdminController
     def new
-      run Cards::Operation::New
-      @products = Cards::Operation::New.product_options
+      run CardAccounts::New
+      @products = CardAccounts::New.product_options
     end
 
     def create
-      run Cards::Operation::Create do
+      run CardAccounts::Create do
         flash[:success] = 'Added card!'
         return redirect_to admin_person_path(@model.person)
       end
-      @products = Cards::Operation::New.product_options
+      @products = CardAccounts::New.product_options
       render :new
     end
 
     def edit
-      run Cards::Operation::Edit
+      run CardAccounts::Edit
       @form.prepopulate!
     end
 
     def update
-      run Cards::Operation::Update do
+      run CardAccounts::Update do
         flash[:success] = 'Updated card!'
         return redirect_to admin_person_path(@model.person)
       end

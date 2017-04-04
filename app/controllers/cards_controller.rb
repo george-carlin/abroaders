@@ -24,10 +24,10 @@ class CardsController < AuthenticatedUserController
   # GET /products/:product_id/cards/new
   def new
     if params[:product_id]
-      run Card::Operation::New
+      run CardAccount::New
       render cell(Card::Cell::New, result)
     else
-      run Card::Operation::New::SelectProduct
+      run CardAccount::New::SelectProduct
       # TODO use new style, pass result to the cell directly
       collection = result['collection']
       render cell(Card::Cell::New::SelectProduct, collection, banks: result['banks'])
@@ -35,7 +35,7 @@ class CardsController < AuthenticatedUserController
   end
 
   def create
-    run Card::Operation::Create do
+    run CardAccount::Create do
       flash[:success] = 'Added card!'
       redirect_to cards_path
       return
@@ -44,12 +44,12 @@ class CardsController < AuthenticatedUserController
   end
 
   def edit
-    run Card::Operation::Edit
+    run CardAccount::Edit
     @form.prepopulate!
   end
 
   def update
-    run Card::Operation::Update do
+    run CardAccount::Update do
       flash[:success] = 'Updated card'
       return redirect_to cards_path
     end
@@ -57,7 +57,7 @@ class CardsController < AuthenticatedUserController
   end
 
   def destroy
-    run Card::Operation::Destroy do
+    run CardAccount::Destroy do
       flash[:success] = 'Removed card'
       return redirect_to cards_path
     end
