@@ -1,4 +1,4 @@
-class Card < Card.superclass
+class CardAccount < CardAccount.superclass
   module Cell
     class New < Abroaders::Cell::Base
       # The new card page is actually split into two 'pages'. When they first
@@ -54,7 +54,7 @@ class Card < Card.superclass
 
           def show
             content_tag :div, id: html_id, class: HTML_CLASS, style: 'display:none;' do
-              cell(Card::Cell::New::SelectProduct::Product, collection: options[:products])
+              cell(Product, collection: options[:products])
             end
           end
 

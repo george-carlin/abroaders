@@ -2,12 +2,12 @@ class CardAccountsController < AuthenticatedUserController
   def new
     if params[:product_id]
       run CardAccount::New
-      render cell(Card::Cell::New, result)
+      render cell(CardAccount::Cell::New, result)
     else
       run CardAccount::New::SelectProduct
       # TODO use new style, pass result to the cell directly
       collection = result['collection']
-      render cell(Card::Cell::New::SelectProduct, collection, banks: result['banks'])
+      render cell(CardAccount::Cell::New::SelectProduct, collection, banks: result['banks'])
     end
   end
 
@@ -17,7 +17,7 @@ class CardAccountsController < AuthenticatedUserController
       redirect_to cards_path
       return
     end
-    render cell(Card::Cell::New, result)
+    render cell(CardAccount::Cell::New, result)
   end
 
   def edit
