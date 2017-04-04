@@ -16,7 +16,7 @@ RSpec.describe CardRecommendation::Operation::Decline do
     )
     expect(result.success?).to be true
     rec.reload
-    expect(rec.declined_at).to be_within(5.seconds).of Time.now
+    expect(rec.declined_at).to be_within(5.seconds).of(Time.zone.now)
     expect(rec.decline_reason).to eq 'X' # it strips whitespace
 
     expect(rec).to eq result['model']

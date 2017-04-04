@@ -7,12 +7,6 @@
 # @!attribute opened_on
 #   the date the user was approved for the card and their account was opened.
 #
-# @!attribute earned_at
-#   the date the user earned their signup bonus. (It might be the same date
-#   they opened the card, if they signed up through an 'on approval' offer) We
-#   don't actually have anything in place yet to update this, so this column is
-#   currently null for all cards :/
-#
 # @!attribute closed_on
 #   the date the user's card expired or they closed the card's account.
 #
@@ -59,11 +53,15 @@
 # 'nudge'. We're using this internal distinction because it makes it much
 # easier to track a user's actions and figure out where they are in the
 # application survey.
+#
+# All Cards belong to a CardProduct. They also optionally belong to an Offer.
+# If the card has an offer, then card.offer.product must equal card.product
+# This is enforced in the setters #offer= and #product=; they'll raise an
+# error if the product's don't match.
+#
+# This design isn't ideal because it means there's duplicate data in the DB,
+# but I couldn't think of a better alternative.
 class Card < ApplicationRecord
-  alias_attribute :applied_on, :applied_at
-  alias_attribute :closed_on, :closed_at
-  alias_attribute :opened_on, :opened_at
-
   def status
     status_model.name
   end
@@ -84,21 +82,7 @@ class Card < ApplicationRecord
 
   validates :decline_reason, presence: true, unless: 'declined_at.nil?'
 
-  validate :product_matches_offer_product
-
   # Associations
-
-  # All Cards have a CardProduct and, if the user has the card because we
-  # recommended it to them, the Card will also be associated with a particular
-  # offer.
-  #
-  # An Offer also belongs_to a Card:roduct, so a Card with an offer is only
-  # valid if the offer belongs to the right product. This results in a slightly
-  # denormalized DB schema (because product_id will always equal
-  # offer.product_id if offer is not nil, so product_id can sometimes contain
-  # redundant data), but as far as I can tell this is necessary evil, because
-  # all cards have a product, and all offers have a product, but not all cards
-  # have an offer.
 
   belongs_to :product, class_name: 'CardProduct'
   belongs_to :person
@@ -106,7 +90,7 @@ class Card < ApplicationRecord
 
   # Callbacks
 
-  before_validation :set_product_to_offer_product
+  before_save :set_product_to_offer_product
 
   # returns true iff the product can be applied for
   def applyable?
@@ -120,8 +104,7 @@ class Card < ApplicationRecord
 
   # Scopes
 
-  scope :recommendations,    -> { where.not(recommended_at: nil) }
-  scope :non_recommendation, -> { where(recommended_at: nil) }
+  scope :recommendations, -> { where.not(recommended_at: nil) }
 
   scope :pulled,     -> { where.not(pulled_at: nil) }
   scope :unapplied,  -> { where(applied_on: nil) }
@@ -140,12 +123,6 @@ class Card < ApplicationRecord
   scope :unresolved, -> { recommendations.unpulled.unopen.where(%["denied_at" IS NULL OR "nudged_at" IS NULL]).unredenied.unexpired.undeclined }
 
   private
-
-  # TODO move these validations to the operation/contract layer:
-  def product_matches_offer_product
-    return unless !offer.nil? && !product.nil? && product != offer.product
-    errors.add(:product, :doesnt_match_offer)
-  end
 
   def set_product_to_offer_product
     return unless !offer.nil? && !offer.product.nil? && product.nil?
