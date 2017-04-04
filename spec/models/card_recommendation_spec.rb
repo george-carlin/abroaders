@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe CardRecommendation do
   example '#pull!' do
-    card = create_card
+    card = create_card_account
     card.update!(recommended_at: Time.now)
     rec = described_class.new(card)
     rec.pull!

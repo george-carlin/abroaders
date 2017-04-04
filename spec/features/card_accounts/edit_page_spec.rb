@@ -9,8 +9,8 @@ RSpec.describe 'card accounts edit page', :js do
 
   before { login_as(account) }
 
-  let(:opened_card) { create_card(product: product, person: person) }
-  let(:closed_card) { create_card(:closed, product: product, person: person) }
+  let(:opened_card) { create_card_account(product: product, person: person) }
+  let(:closed_card) { create_card_account(:closed, product: product, person: person) }
 
   example 'opened card has "closed at" hidden by default' do
     visit edit_card_account_path(opened_card)

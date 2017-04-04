@@ -33,7 +33,7 @@ RSpec.describe "card recommendation apply page" do
   end
 
   context "when the card account was added in onboarding" do
-    let(:rec) { create_card(person: me) }
+    let(:rec) { create_card_account(person: me) }
 
     skip "doesn't set 'clicked at'" do # move to controller test
       expect { visit_path }.to change { rec.reload.clicked_at }

@@ -121,7 +121,7 @@ module SampleDataMacros
     rec
   end
 
-  def create_card(*traits_and_overrides)
+  def create_card_account(*traits_and_overrides)
     overrides = if traits_and_overrides.last.is_a?(Hash)
                   traits_and_overrides.pop
                 else
