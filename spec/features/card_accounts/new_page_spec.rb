@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'new card page', :js do
+RSpec.describe 'new card account page', :js do
   include_context 'logged in'
 
   let(:person) { account.owner }

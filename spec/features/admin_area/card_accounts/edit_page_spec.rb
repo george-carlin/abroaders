@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'admin area - edit card page' do
+RSpec.describe 'admin area - edit card account page' do
   include_context 'logged in as admin'
 
   let(:account) { create(:account, :onboarded) }

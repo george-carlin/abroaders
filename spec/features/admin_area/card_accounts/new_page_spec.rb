@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'new card page' do
+RSpec.describe 'new card account page' do
   include_context 'logged in as admin'
 
   let(:account) { create(:account, :onboarded) }
