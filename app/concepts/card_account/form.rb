@@ -5,6 +5,8 @@ class CardAccount < CardAccount.superclass
     feature Reform::Form::MultiParameterAttributes
     feature Reform::Form::Coercion
 
+    model :card
+
     property :closed, virtual: true, prepopulator: ->(_) { self.closed = !closed_on.nil? }
     property :closed_on
     property :opened_on
@@ -27,10 +29,6 @@ class CardAccount < CardAccount.superclass
     def sync
       self.closed_on = nil unless closed
       super
-    end
-
-    def self.model_name
-      Card.model_name # TODO this shouldn't be necessary, should it?
     end
 
     private

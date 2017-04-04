@@ -5,9 +5,7 @@ class Balance < Balance.superclass
     feature Reform::Form::Coercion
     feature Reform::Form::Dry
 
-    def self.model_name
-      Balance.model_name
-    end
+    model :balance
 
     property :value, type: ::Types::Form::Int
 

@@ -1,9 +1,7 @@
 class SpendingInfo::Form < Reform::Form
   feature Coercion
 
-  def self.model_name
-    SpendingInfo.model_name
-  end
+  model :spending_info
 
   property :person do
     property :account do
