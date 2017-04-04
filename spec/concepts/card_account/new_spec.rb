@@ -12,7 +12,7 @@ RSpec.describe CardAccount::New do
 
   example 'with card => person_id param' do
     # sets card.person
-    result = op.(params.merge(card: { person_id: person.id }), 'account' => account)
+    result = op.(params.merge(person_id: person.id), 'account' => account)
     expect(result.success?).to be true
     model = result['model']
     expect(model.person).to eq person
@@ -21,7 +21,7 @@ RSpec.describe CardAccount::New do
   example 'with a person ID for the wrong account' do
     other_person = create(:person)
     expect do
-      op.(params.merge(card: { person_id: other_person.id }), 'account' => account)
+      op.(params.merge(person_id: other_person.id), 'account' => account)
     end.to raise_error(ActiveRecord::RecordNotFound)
   end
 

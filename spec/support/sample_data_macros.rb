@@ -150,7 +150,7 @@ module SampleDataMacros
     raise "can't use :person_id, pass :person instead" if overrides.key?(:person_id)
     if overrides.key?(:person)
       person = overrides.fetch(:person)
-      params[:card][:person_id] = person.id
+      params[:person_id] = person.id
     else
       person = create(:person)
     end

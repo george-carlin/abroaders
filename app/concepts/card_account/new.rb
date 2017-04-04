@@ -9,17 +9,16 @@ class CardAccount < CardAccount.superclass
   #     see the 'real' form on /products/:product_id/cards/new. The form will
   #     then post to /products/:product_id/cards, meaning that :product_id
   #     should *always* be present in the params for both New and Create.
+  #   @option params [Hash] person_id (optional) the person who the new card
+  #     account belongs to. For solo accounts, the input won't be shown on the
+  #     form, meaning this param won't be included. When person_id isn't
+  #     specified, the person defaults to the account's owner.
   #   @option params [Hash] card the attributes of the new card account. See
-  #     the form object for the required keys. The :person_id key is optional;
-  #     it's only shown on the form to couples accounts. If person_id is not
-  #     present, the person will default to the account's owner.
-  #
-  #     Note that there'll never be a params[:person_id], only
-  #     params[:card][:person_id].
+  #     the form object for the required keys.
   #   @option options [Account] account the currently logged-in account
   class New < Trailblazer::Operation
     extend Contract::DSL
-    contract NewForm
+    contract Form
 
     step :setup_person!
     step :setup_model!
@@ -29,8 +28,8 @@ class CardAccount < CardAccount.superclass
     private
 
     def setup_person!(opts, params:, account:, **)
-      if params[:card] && params[:card][:person_id]
-        opts['person'] = account.people.find(params[:card][:person_id])
+      if params[:person_id]
+        opts['person'] = account.people.find(params[:person_id])
       else
         opts['person'] = account.owner
       end

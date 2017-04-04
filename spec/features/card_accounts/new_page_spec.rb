@@ -119,7 +119,7 @@ RSpec.describe 'new card account page', :js do
 
     context 'for a solo account' do
       it "doesn't ask which person to add the card to" do
-        expect(page).not_to have_field :card_person_id
+        expect(page).not_to have_field :person_id
       end
     end
   end
@@ -138,7 +138,7 @@ RSpec.describe 'new card account page', :js do
     example 'adding a card to companion' do
       select 'Dec', from: OPENED_MONTH
       select (Date.today.year - 5).to_s, from: OPENED_YEAR
-      select person.first_name, from: :card_person_id
+      select person.first_name, from: :person_id
       expect do
         click_button 'Save'
       end.to change { person.cards.count }.by(1)

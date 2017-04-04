@@ -26,10 +26,10 @@ RSpec.describe CardAccount::Create do
     companion = create(:companion, account: account)
     result = op.(
       params.merge(
+        person_id: companion.id,
         card: {
           opened_on: Date.today,
           closed: false,
-          person_id: companion.id,
           product_id: product.id,
         },
       ),
@@ -95,10 +95,10 @@ RSpec.describe CardAccount::Create do
     expect do
       op.(
         params.merge(
+          person_id: other_account.owner.id,
           card: {
             opened_on: Date.today,
             closed: false,
-            person_id: other_account.owner.id,
             product_id: product.id,
           },
         ),
