@@ -1,7 +1,7 @@
 class CardAccount < CardAccount.superclass
   # Setup the form for a new card.
   #
-  # This op is also nested within CardAccount::Operation::Create
+  # This op is also nested within CardAccount::Create
   #
   # @!method self.call(params, options)
   #   @option params [Integer] product_id the id of CardProduct that the CardAccount
