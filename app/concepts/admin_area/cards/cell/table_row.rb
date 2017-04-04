@@ -31,7 +31,7 @@ module AdminArea
         end
 
         def link_to_edit
-          link_to 'Edit', edit_admin_card_path(model)
+          link_to 'Edit', edit_admin_card_account_path(model)
         end
 
         def link_to_pull

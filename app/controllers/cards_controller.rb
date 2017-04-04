@@ -20,50 +20,6 @@ class CardsController < AuthenticatedUserController
     end
   end
 
-  # GET /cards/new
-  # GET /products/:product_id/cards/new
-  def new
-    if params[:product_id]
-      run Card::Operation::New
-      render cell(Card::Cell::New, result)
-    else
-      run Card::Operation::New::SelectProduct
-      # TODO use new style, pass result to the cell directly
-      collection = result['collection']
-      render cell(Card::Cell::New::SelectProduct, collection, banks: result['banks'])
-    end
-  end
-
-  def create
-    run Card::Operation::Create do
-      flash[:success] = 'Added card!'
-      redirect_to cards_path
-      return
-    end
-    render cell(Card::Cell::New, result)
-  end
-
-  def edit
-    run Card::Operation::Edit
-    @form.prepopulate!
-  end
-
-  def update
-    run Card::Operation::Update do
-      flash[:success] = 'Updated card'
-      return redirect_to cards_path
-    end
-    render :edit
-  end
-
-  def destroy
-    run Card::Operation::Destroy do
-      flash[:success] = 'Removed card'
-      return redirect_to cards_path
-    end
-    raise 'this should never happen'
-  end
-
   def survey
     @person = load_person
     redirect_if_onboarding_wrong_person_type!

@@ -1,0 +1,78 @@
+<% provide :title, 'Add Card' %>
+
+<div class="hpanel">
+  <div class="panel-heading hbuilt">
+    <div class="row">
+      <div class="col-xs-12">
+        <h1>Add Card to <%= @model.person.first_name %>'s account</h1>
+      </div>
+    </div><!-- .row -->
+  </div>
+
+  <%= cell(Abroaders::Cell::ValidationErrorsAlert::ActiveModel, @form) %>
+
+  <div class="panel-body">
+    <%= form_for @form, url: admin_person_card_accounts_path(@model.person) do |f| %>
+      <div class="row">
+        <div class="col-md-12 col-lg-3">
+          <label class="card-info-label">Product:</label>
+        </div>
+
+        <div class="col-md-12 col-lg-9">
+          <%= f.select :product_id, options_for_select(@products) %>
+        </div>
+
+        <div class="col-md-12 col-lg-3">
+          <label class="card-info-label">Opened:</label>
+        </div>
+
+        <div class="col-md-12 col-lg-9">
+          <%= f.date_select(
+            :opened_on,
+            end_year:   Date.today.year,
+            order:      [:month, :year],
+            start_year: Date.today.year - 10,
+            use_short_month: true,
+            discard_day: true,
+          ) %>
+        </div>
+
+        <div class="col-md-12 col-lg-3">
+          <%= f.label :closed, class: 'card-info-label' do %>
+            Closed?
+          <% end %>
+        </div>
+
+        <div class="col-md-12 col-lg-9">
+          <%= f.check_box :closed, class: "cards_survey_card_closed input-lg" %>
+        </div>
+
+        <div class="card-survey-closed <%= 'hide' if !@form.closed %>">
+          <div class="col-md-12 col-lg-3">
+            <label class="card-info-label card-survey-closed">Closed:</label>
+          </div>
+
+          <div class="col-md-12 col-lg-9">
+            <%= f.date_select(
+                :closed_on,
+                end_year:   Date.today.year,
+                order:      [:month, :year],
+                start_year: Date.today.year - 10,
+                use_short_month: true,
+                discard_day: true,
+                class: "cards_survey_select"
+            ) %>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <%= f.submit 'Save', class: 'btn btn-primary btn-lg' %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -110,7 +110,7 @@ RSpec.describe Card do
   # Scopes
 
   example ".recommendations" do
-    create_card
+    create_card_account
     returned = create_card_recommendation
     expect(described_class.recommendations).to eq [returned]
   end
@@ -126,7 +126,7 @@ RSpec.describe Card do
     create_card_recommendation(:nudged, :denied, offer_id: offer.id, person_id: person.id)
     create_card_recommendation(:redenied,        offer_id: offer.id, person_id: person.id)
     create_card_recommendation(:expired,         offer_id: offer.id, person_id: person.id)
-    create_card(product: product, person: person)
+    create_card_account(product: product, person: person)
     declined = create_card_recommendation(product: product, person: person)
     run!(
       CardRecommendation::Operation::Decline,

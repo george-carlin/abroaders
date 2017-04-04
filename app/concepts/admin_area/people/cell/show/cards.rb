@@ -18,7 +18,7 @@ module AdminArea
           private
 
           def link_to_add_new
-            link_to raw('&plus; Add'), new_admin_person_card_path(person)
+            link_to raw('&plus; Add'), new_admin_person_card_account_path(person)
           end
 
           def link_to_pulled_recs

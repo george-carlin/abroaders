@@ -66,7 +66,8 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :cards
+  resources :card_accounts, except: :index
+  resources :cards, only: :index
 
   get  "eligibility/survey", to: "eligibilities#survey", as: :survey_eligibility
   post "eligibility/survey", to: "eligibilities#save_survey"
@@ -126,7 +127,7 @@ Rails.application.routes.draw do
   end
 
   resources :products, only: [] do
-    resources :cards, only: [:new, :create]
+    resources :card_accounts, only: [:new, :create]
   end
 
   resource :readiness, only: [:edit, :update] do
@@ -180,7 +181,7 @@ Rails.application.routes.draw do
       resources :offers, except: :destroy
     end
 
-    resources :cards, only: [:edit, :update, :destroy]
+    resources :card_accounts, only: [:edit, :update, :destroy]
 
     # show and edit redirect to the nested action:
     resources :offers, only: [:show, :edit, :index] do
@@ -197,9 +198,8 @@ Rails.application.routes.draw do
       get type.pluralize, to: "destinations##{type}"
     end
     resources :people, only: :show do
-      resources :cards, only: [:new, :create]
       resource :spending_info
-      resources :cards
+      resources :card_accounts
       resources :card_recommendations, only: [:create] do
         collection do
           post :complete
