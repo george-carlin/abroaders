@@ -55,7 +55,7 @@ class Card < Card.superclass
       def link_to_delete
         link_to(
           'Delete',
-          card_path(model),
+          card_account_path(model),
           class: 'btn btn-primary btn-xs',
           method: :delete,
           data: {
@@ -68,7 +68,7 @@ class Card < Card.superclass
       def link_to_edit
         link_to(
           'Edit',
-          edit_card_path(model),
+          edit_card_account_path(model),
           class: 'btn btn-primary btn-xs',
         )
       end

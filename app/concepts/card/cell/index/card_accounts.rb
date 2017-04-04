@@ -25,7 +25,7 @@ class Card < Card.superclass
         def btn_to_add_new
           link_to(
             'Add New',
-            new_card_path,
+            new_card_account_path,
             class: 'btn btn-primary btn-sm',
             style: 'float:right; margin-top: 6px',
           )

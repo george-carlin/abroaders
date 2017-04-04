@@ -7,7 +7,7 @@ RSpec.describe 'new card account page' do
   let(:person)  { account.owner }
   let!(:product) { create(:card_product) }
 
-  before { visit new_admin_person_card_path(person) }
+  before { visit new_admin_person_card_account_path(person) }
 
   example 'creating a card' do
     expect(page).to have_field :card_product_id

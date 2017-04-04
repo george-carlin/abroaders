@@ -12,7 +12,7 @@
   <%= cell(Abroaders::Cell::ValidationErrorsAlert::ActiveModel, @form) %>
 
   <div class="panel-body">
-    <%= form_for @form, url: card_path(@model), html: { class: "edit_card" } do |f| %>
+    <%= form_for @form, url: card_account_path(@model), html: { class: "edit_card" } do |f| %>
 
       <div class="row">
         <%# two divs with cols XS 12/12, SM 6/6, MD 2/4: %>

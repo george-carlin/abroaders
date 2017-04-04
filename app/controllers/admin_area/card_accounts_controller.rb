@@ -1,5 +1,5 @@
 module AdminArea
-  class CardsController < AdminController
+  class CardAccountsController < AdminController
     def new
       run CardAccounts::New
       @products = CardAccounts::New.product_options

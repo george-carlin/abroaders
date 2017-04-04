@@ -13,7 +13,7 @@ RSpec.describe 'card accounts edit page', :js do
   let(:closed_card) { create_card(:closed, product: product, person: person) }
 
   example 'opened card has "closed at" hidden by default' do
-    visit edit_card_path(opened_card)
+    visit edit_card_account_path(opened_card)
 
     expect(page).to have_no_selector('#card_closed_on_1i')
     expect(page).to have_no_selector('#card_closed_on_2i')
@@ -26,7 +26,7 @@ RSpec.describe 'card accounts edit page', :js do
   end
 
   example 'closed card has "closed at" visible by default' do
-    visit edit_card_path(closed_card)
+    visit edit_card_account_path(closed_card)
 
     expect(page).to have_selector('#card_closed_on_1i')
     expect(page).to have_selector('#card_closed_on_2i')
@@ -39,7 +39,7 @@ RSpec.describe 'card accounts edit page', :js do
   end
 
   example 'valid update' do
-    visit edit_card_path(opened_card)
+    visit edit_card_account_path(opened_card)
     check :card_closed
     submit_form
     expect(opened_card.reload.closed_on).to be_present
@@ -47,7 +47,7 @@ RSpec.describe 'card accounts edit page', :js do
   end
 
   example 'unclosing a closed card' do
-    visit edit_card_path(closed_card)
+    visit edit_card_account_path(closed_card)
     uncheck :card_closed
     submit_form
     expect(closed_card.reload.closed_on).to be nil
@@ -55,7 +55,7 @@ RSpec.describe 'card accounts edit page', :js do
   end
 
   example 'invalid update' do
-    visit edit_card_path(opened_card)
+    visit edit_card_account_path(opened_card)
     check :card_closed
     closed = 5.years.ago
     raise unless closed < opened_card.opened_on # make sure it will actually fail
@@ -64,6 +64,6 @@ RSpec.describe 'card accounts edit page', :js do
     submit_form
     expect(opened_card.reload.closed_on).not_to be_present
     expect(page).to have_error_message
-    expect(current_path).to eq card_path(opened_card) # POST /cards/:id
+    expect(current_path).to eq card_account_path(opened_card) # POST /cards/:id
   end
 end

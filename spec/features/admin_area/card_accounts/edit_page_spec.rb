@@ -15,7 +15,7 @@ RSpec.describe 'admin area - edit card account page' do
     )['model']
   end
 
-  before { visit edit_admin_card_path(person, card) }
+  before { visit edit_admin_card_account_path(person, card) }
 
   example 'updating a card', :js do
     expect(page).to have_field :card_opened_on_1i

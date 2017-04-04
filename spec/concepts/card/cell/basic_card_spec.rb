@@ -7,8 +7,8 @@ RSpec.describe Card::Cell::BasicCard do
     instance = cell(described_class, model, opts)
     # this would be much better handled by some kind of dependency-injection
     # system :/
-    allow(instance).to receive(:edit_card_path).and_return '/stubbed/path'
-    allow(instance).to receive(:card_path).and_return '/stubbed/path'
+    allow(instance).to receive(:edit_card_account_path).and_return '/stubbed/path'
+    allow(instance).to receive(:card_account_path).and_return '/stubbed/path'
     allow(instance).to receive(:product_full_name).and_return 'My awesome card'
     allow(instance).to receive(:bank_name).and_return 'My awesome bank'
     allow(instance).to receive(:image).and_return '<img src="stub" />'

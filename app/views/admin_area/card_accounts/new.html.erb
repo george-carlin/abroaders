@@ -12,7 +12,7 @@
   <%= cell(Abroaders::Cell::ValidationErrorsAlert::ActiveModel, @form) %>
 
   <div class="panel-body">
-    <%= form_for @form, url: admin_person_cards_path(@model.person) do |f| %>
+    <%= form_for @form, url: admin_person_card_accounts_path(@model.person) do |f| %>
       <div class="row">
         <div class="col-md-12 col-lg-3">
           <label class="card-info-label">Product:</label>
