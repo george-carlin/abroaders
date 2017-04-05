@@ -7,7 +7,7 @@
 
   <div class="panel-body">
     <% if current_account.people.any?(&:eligible?) %>
-      <% if @recommendations.any? %>
+      <% if @any_recommendations %>
         <%= cell(CardRecommendation::Cell::Note, @newest_rec_note) if @newest_rec_note %>
 
         <p>
@@ -18,7 +18,7 @@
 
         <hr />
 
-        <%= cell(Card::Cell::Index::CardRecommendations, current_account) %>
+        <%= cell(Card::Cell::Index::CardRecommendations, @people) %>
       <% else %>
         <div class="alert alert-info">
           The Abroaders team is hand selecting the ideal rewards cards

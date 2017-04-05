@@ -2,10 +2,12 @@ class CardsController < AuthenticatedUserController
   onboard :owner_cards, :companion_cards, with: [:survey, :save_survey]
 
   def index
-    @people = current_account.people
-    @recommendations = current_account.unresolved_card_recommendations\
-                                      .includes(:product, offer: { product: :currency })
-    if @recommendations.any?
+    @people = current_account.people.includes(
+      :account,
+      unresolved_card_recommendations: { product: :bank, offer: { product: :currency } },
+    )
+    @any_recommendations = current_account.unresolved_card_recommendations.any?
+    if @any_recommendations
       cookies[:recommendation_timeout] = { value: "timeout", expires: 24.hours.from_now }
     end
 

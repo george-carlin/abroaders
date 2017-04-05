@@ -20,13 +20,26 @@ class Card < Card.superclass
         end
       end
 
-      # @!method self.call(account, options = {})
+      # @!method self.call(people, options = {})
+      #   I tried to build this so that it took 'account' as the model and not
+      #   the people, but I couldn't figure out how to prevent a shit-ton of
+      #   N+1 query issues. Right now the @people ivar loaded in the controller
+      #   avoids these issues, but when I convert that controller action to the
+      #   proper TRB style I'm not sure how to solve the issue. Sticking
+      #   something like in the controller doesn't work:
+      #
+      #      current_account.people.includes(
+      #        :account,
+      #        unresolved_card_recommendations: { product: :bank, offer: { product: :currency } },
+      #      ).reload
+      #
+      #   (That's if `current_account` was passed to this cell.) It doesn't
+      #   work because when the cell calls current_account.people it ignores
+      #   the previous `includes` that were called on current_account.people.
       class CardRecommendations < Abroaders::Cell::Base
-        property :people
-
         def show
           content_tag :div, id: 'card_recommendations' do
-            cell(ForPerson, collection: people)
+            cell(ForPerson, collection: model)
           end
         end
 
