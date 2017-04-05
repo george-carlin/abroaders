@@ -15,29 +15,12 @@ RSpec.describe AdminArea::People::Cell::Show do
     )
   end
 
-  # result keys:
-  #   account
-  #   balances
-  #   cards
-  #   home_airports
-  #   offers
-  #   person
-  #   recommendation_notes
-  #   regions_of_interest
-  #   travel_plans
-  #   pulled_recs
+  # keys: person, offers
   def get_result(data = {})
     Trailblazer::Operation::Result.new(
       true,
-      'account'  => account,
-      'balances' => data.fetch(:balances, []),
-      'home_airports' => data.fetch(:home_airports, []),
       'offers' => data.fetch(:offers, []),
       'person' => person,
-      'recommendation_notes' => data.fetch(:recommendation_notes, []),
-      'regions_of_interest' => data.fetch(:regions_of_interest, []),
-      'travel_plans' => data.fetch(:travel_plans, []),
-      'pulled_recs' => data.fetch(:pulled_recs, []),
     )
   end
 
@@ -77,6 +60,7 @@ RSpec.describe AdminArea::People::Cell::Show do
 
     tp_class = Struct.new(:id)
     tps = [tp_class.new(1), tp_class.new(2)]
+    allow(person).to receive(:travel_plans).and_return(tps)
 
     class TPCellStub < Trailblazer::Cell
       def show
@@ -85,7 +69,7 @@ RSpec.describe AdminArea::People::Cell::Show do
     end
     allow(described_class).to receive(:travel_plan_cell) { TPCellStub }
 
-    rendered = show(get_result(travel_plans: tps))
+    rendered = show(get_result)
 
     expect(rendered).to have_no_content 'User has no upcoming travel plans'
     expect(rendered).to have_content 'Travel plan 1'
@@ -95,6 +79,7 @@ RSpec.describe AdminArea::People::Cell::Show do
   example 'with home airports' do
     airport_class = Struct.new(:id)
     airports = [airport_class.new(1), airport_class.new(2)]
+    allow(person).to receive(:home_airports).and_return(airports)
 
     class HAListItemCellStub < Trailblazer::Cell
       def show
@@ -104,7 +89,7 @@ RSpec.describe AdminArea::People::Cell::Show do
     # holy mess of dependencies, Batman
     allow(AdminArea::HomeAirports::Cell::List).to receive(:item_cell) { HAListItemCellStub }
 
-    rendered = show(get_result(home_airports: airports))
+    rendered = show(get_result)
 
     expect(rendered).to have_selector 'li', text: 'Airport 1'
     expect(rendered).to have_selector 'li', text: 'Airport 2'
@@ -114,10 +99,10 @@ RSpec.describe AdminArea::People::Cell::Show do
     rn_0 = RecommendationNote.new(account: account, content: 'Hola', created_at: Time.now)
     rn_1 = RecommendationNote.new(account: account, content: 'Hello', created_at: Time.now)
 
-    result = get_result(
-      recommendation_notes: [rn_0, rn_1],
-    )
-    rendered = show(result)
+    allow(person).to receive(:recommendation_notes).and_return([rn_0, rn_1])
+
+    rendered = show(get_result)
+
     expect(rendered).to have_content 'Recommendation Notes'
     expect(rendered).to have_content 'Hola'
     expect(rendered).to have_content 'Hello'

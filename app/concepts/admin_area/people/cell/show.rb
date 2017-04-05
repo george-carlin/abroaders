@@ -1,6 +1,3 @@
-require 'abroaders/cell/options'
-require 'abroaders/cell/result'
-
 module AdminArea
   module People
     module Cell
@@ -8,24 +5,13 @@ module AdminArea
       #
       # @!method self.call(result, opts = {})
       #   @param result [Result] result of AdminArea::People::Operation::Show
-      #   @option result [Account] account
-      #   @option result [Collection<Balance>] balances
-      #   @option result [Collection<Airport>] home_airports
       #   @option result [Collection<Offer>] offers the recommendable offers
       #   @option result [Person] person
-      #   @option result [Collection<Region>] regions_of_interest
-      #   @option result [Collection<Card>] cards
-      #   @option result [Collection<Airport>] home_airports
-      #   @option result [Collection<Offer>] offers the recommendable offers
-      #   @option result [Person] person
-      #   @option result [Collection<RecommendationNote>] recommendation_notes
-      #   @option result [Collection<Region>] regions_of_interest
-      #   @option result [Collection<TravelPlan>] travel_plans
       class Show < Abroaders::Cell::Base
         extend Abroaders::Cell::Result
         include Integrations::AwardWallet::Links
 
-        skill :account
+        skill :cards
         skill :offers
         skill :person
 
@@ -42,6 +28,8 @@ module AdminArea
 
         private
 
+        delegate :account, :balances, :home_airports, :recommendation_notes, :regions_of_interest, :travel_plans, to: :person
+
         def award_wallet_connection
           return '' unless account.connected_to_award_wallet?
           awu  = account.award_wallet_user
@@ -54,9 +42,8 @@ module AdminArea
           cell(AwardWalletEmail, person)
         end
 
-        def balances
-          collection = result['balances']
-          cell(People::Cell::Balances, person, balances: collection)
+        def balances_list
+          cell(People::Cell::Balances, person, balances: balances)
         end
 
         def bank_filter_panels
@@ -77,15 +64,12 @@ module AdminArea
           end
         end
 
-        def cards
+        def cards_list
           cell(People::Cell::Show::Cards, person)
         end
 
         def currency_filter_panels
-          cell(
-            Alliance::Cell::CurrencyFilterPanel,
-            collection: Alliance.all,
-          )
+          cell(Alliance::Cell::CurrencyFilterPanel, collection: Alliance.all)
         end
 
         def heading
@@ -94,10 +78,10 @@ module AdminArea
 
         # If the account has any home airports, list them.
         # Else display text saying there are no home airports.
-        def home_airports
-          if result['home_airports'].any?
+        def home_airports_list
+          if home_airports.any?
             '<h3>Home Airports</h3>' +
-              cell(HomeAirports::Cell::List, result['home_airports']).()
+              cell(HomeAirports::Cell::List, home_airports).()
           else
             'User has not added any home airports'
           end
@@ -109,16 +93,16 @@ module AdminArea
           cell(RecommendationTable, person, offers: offers)
         end
 
-        def recommendation_notes
-          cell(RecommendationNotes, result['recommendation_notes'])
+        def recommendation_notes_list
+          cell(RecommendationNotes, recommendation_notes.sort_by(&:created_at).reverse)
         end
 
         # If the account has any ROIs,  list them.
         # Else display text saying there are no ROIs.
-        def regions_of_interest
-          if result['regions_of_interest'].any?
+        def regions_of_interest_list
+          if regions_of_interest.any?
             '<h3>Regions of Interest</h3>' +
-              cell(RegionsOfInterest::Cell::List, result['regions_of_interest']).()
+              cell(RegionsOfInterest::Cell::List, regions_of_interest).()
           else
             'User has not added any regions of interest'
           end
@@ -128,13 +112,11 @@ module AdminArea
           cell(People::Cell::SpendingInfo, person, account: account)
         end
 
-        def travel_plans
-          collection = result['travel_plans']
-          return 'User has no upcoming travel plans' if collection.none?
-          plans = content_tag :div, class: 'account_travel_plans' do
-            cell(self.class.travel_plan_cell, collection: collection, editable: false)
+        def travel_plans_list
+          return 'User has no upcoming travel plans' if travel_plans.none?
+          '<h3>Travel Plans</h3>' << content_tag(:div, class: 'account_travel_plans') do
+            cell(self.class.travel_plan_cell, collection: travel_plans, editable: false)
           end
-          '<h3>Travel Plans</h3>' << plans
         end
 
         # @param model [Person]
