@@ -109,10 +109,10 @@ RSpec.describe Card do
 
   # Scopes
 
-  example ".recommendations" do
+  example ".recommended" do
     create_card_account
     returned = create_card_recommendation
-    expect(described_class.recommendations).to eq [returned]
+    expect(described_class.recommended).to eq [returned]
   end
 
   example ".unresolved" do

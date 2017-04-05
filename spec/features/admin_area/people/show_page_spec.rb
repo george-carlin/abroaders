@@ -94,7 +94,7 @@ RSpec.describe 'admin - show person page', :manual_clean do
       expect(page).to have_content 'Recommended!'
 
       # the rec is added to the table:
-      rec = Card.recommendations.last
+      rec = Card.recommended.last
       within '#admin_person_cards_table' do
         expect(page).to have_selector "#card_#{rec.id}"
       end

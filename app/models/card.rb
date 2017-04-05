@@ -104,7 +104,7 @@ class Card < ApplicationRecord
 
   # Scopes
 
-  scope :recommendations, -> { where.not(recommended_at: nil) }
+  scope :recommended, -> { where.not(recommended_at: nil) }
 
   scope :pulled,     -> { where.not(pulled_at: nil) }
   scope :unapplied,  -> { where(applied_on: nil) }
@@ -120,7 +120,7 @@ class Card < ApplicationRecord
   # compound scopes:
 
   # Recommendations which still require user action:
-  scope :unresolved, -> { recommendations.unpulled.unopen.where(%["denied_at" IS NULL OR "nudged_at" IS NULL]).unredenied.unexpired.undeclined }
+  scope :unresolved, -> { recommended.unpulled.unopen.where(%["denied_at" IS NULL OR "nudged_at" IS NULL]).unredenied.unexpired.undeclined }
 
   private
 

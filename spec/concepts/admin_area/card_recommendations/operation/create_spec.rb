@@ -34,6 +34,6 @@ RSpec.describe AdminArea::CardRecommendations::Operation::Create do
       )
       expect(result.success?).to be false
       expect(result['errors']).to eq ["Couldn't find live offer with ID #{offer.id}"]
-    end.not_to change { Card.recommendations.count }
+    end.not_to change { Card.recommended.count }
   end
 end

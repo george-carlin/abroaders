@@ -62,10 +62,10 @@ class Person < ApplicationRecord
   has_one :spending_info, dependent: :destroy
   has_many :cards
   has_many :card_accounts, -> { where.not(opened_on: nil) }, class_name: 'Card'
-  has_many :card_recommendations, -> { recommendations }, class_name: 'Card'
+  has_many :card_recommendations, -> { recommended }, class_name: 'Card'
   has_many :card_products, through: :cards
 
-  has_many :pulled_card_recommendations, -> { recommendations.pulled }, class_name: 'Card'
+  has_many :pulled_card_recommendations, -> { recommended.pulled }, class_name: 'Card'
   has_many :unpulled_cards, -> { unpulled }, class_name: 'Card'
 
   has_many :balances
