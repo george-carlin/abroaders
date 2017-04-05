@@ -8,7 +8,7 @@ RSpec.describe RecommendationRequest::Create do
   example 'success - solo account owner' do
     result = op.({ person_type: 'owner' }, 'account' => account)
     expect(result.success?).to be true
-    expect(owner.unconfirmed_recommendation_requests.count).to eq 1
+    expect(owner.unconfirmed_recommendation_request).to be_present
   end
 
   context 'couples account' do
@@ -20,22 +20,22 @@ RSpec.describe RecommendationRequest::Create do
     example 'success - owner only' do
       result = op.({ person_type: 'owner' }, 'account' => account)
       expect(result.success?).to be true
-      expect(owner.unconfirmed_recommendation_requests.count).to eq 1
-      expect(companion.unconfirmed_recommendation_requests.count).to eq 0
+      expect(owner.unconfirmed_recommendation_request).to be_present
+      expect(companion.unconfirmed_recommendation_request).to be_nil
     end
 
     example 'success - companion only' do
       result = op.({ person_type: 'companion' }, 'account' => account)
       expect(result.success?).to be true
-      expect(owner.unconfirmed_recommendation_requests.count).to eq 0
-      expect(companion.unconfirmed_recommendation_requests.count).to eq 1
+      expect(owner.unconfirmed_recommendation_request).to be_nil
+      expect(companion.unconfirmed_recommendation_request).to be_present
     end
 
     example 'success - both people' do
       result = op.({ person_type: 'both' }, 'account' => account)
       expect(result.success?).to be true
-      expect(owner.unconfirmed_recommendation_requests.count).to eq 1
-      expect(companion.unconfirmed_recommendation_requests.count).to eq 1
+      expect(owner.unconfirmed_recommendation_request).to be_present
+      expect(companion.unconfirmed_recommendation_request).to be_present
     end
   end
 
@@ -43,7 +43,7 @@ RSpec.describe RecommendationRequest::Create do
     owner.update!(eligible: false)
     result = op.({ person_type: 'owner' }, 'account' => account)
     expect(result.success?).to be false
-    expect(owner.unconfirmed_recommendation_requests.count).to eq 0
+    expect(owner.unconfirmed_recommendation_request).to be_nil
   end
 
   example 'failure - person has unresolved request' do
@@ -53,7 +53,7 @@ RSpec.describe RecommendationRequest::Create do
     expect do
       result = op.({ person_type: 'owner' }, 'account' => account)
       expect(result.success?).to be false
-    end.not_to change { owner.unconfirmed_recommendation_requests.count }
+    end.not_to change { RecommendationRequest.count }
   end
 
   example 'failure - person has unresolved recs' do
@@ -62,7 +62,7 @@ RSpec.describe RecommendationRequest::Create do
     # and try again:
     result = op.({ person_type: 'owner' }, 'account' => account)
     expect(result.success?).to be false
-    expect(owner.unconfirmed_recommendation_requests.count).to eq 0
+    expect(owner.unconfirmed_recommendation_request).to be_nil
   end
 
   example 'noisy failure - solo account, requesting for companion' do

@@ -92,7 +92,9 @@ class Person < ApplicationRecord
   has_many :unresolved_recommendation_requests,
            -> { unresolved },
            class_name: 'RecommendationRequest'
-  has_many :unconfirmed_recommendation_requests,
+  # They should only ever have ONE unconfirmed request. If they have more than
+  # one, something's gone wrong somewhere
+  has_one :unconfirmed_recommendation_request,
            -> { unconfirmed },
            class_name: 'RecommendationRequest'
 
