@@ -6,8 +6,8 @@ class CardRecommendation < CardRecommendation.superclass
       include SerializeHelper
 
       property :id
-
-      alias rec model
+      property :offer
+      property :product
 
       private
 
@@ -34,23 +34,15 @@ class CardRecommendation < CardRecommendation.superclass
       end
 
       def decline_form
-        cell(DeclineForm, rec)
+        cell(DeclineForm, model)
       end
 
       def image
         cell(CardProduct::Cell::Image, product, size: '130x81')
       end
 
-      def offer
-        rec.offer
-      end
-
       def offer_description
         cell(Offer::Cell::Description, offer)
-      end
-
-      def product
-        rec.product
       end
 
       def product_name
@@ -63,7 +55,7 @@ class CardRecommendation < CardRecommendation.superclass
       end
 
       def rec_as_json
-        ERB::Util.html_escape(serialize(rec))
+        ERB::Util.html_escape(serialize(model))
       end
     end
   end
