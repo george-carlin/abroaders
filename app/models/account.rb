@@ -30,6 +30,7 @@ class Account < ApplicationRecord
   has_many :travel_plans
 
   has_many :people
+  has_many :eligible_people, -> { eligible }, class_name: 'Person'
   has_one :owner, -> { owner }, class_name: 'Person'
   has_one :companion, -> { companion }, class_name: 'Person'
 

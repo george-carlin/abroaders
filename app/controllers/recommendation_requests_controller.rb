@@ -1,8 +1,7 @@
 class RecommendationRequestsController < AuthenticatedUserController
   def confirm
-    render cell(
-      RecommendationRequest::Cell::Confirm,
-      'people' => current_account.people.includes(:cards).where(eligible: true),
-    )
+    people = current_account.people.includes(:cards).select(&:unconfirmed_recommendation_request)
+    # TODO check for N+1 issues
+    render cell(RecommendationRequest::Cell::Confirm, 'people' => people)
   end
 end

@@ -14,6 +14,10 @@ class Person < ApplicationRecord
     last_recommendations_at >= Time.current - 30.days
   end
 
+  def has_partner?
+    account.couples?
+  end
+
   def phone_number
     account.phone_number&.number
   end
@@ -95,8 +99,8 @@ class Person < ApplicationRecord
   # They should only ever have ONE unconfirmed request. If they have more than
   # one, something's gone wrong somewhere
   has_one :unconfirmed_recommendation_request,
-           -> { unconfirmed },
-           class_name: 'RecommendationRequest'
+          -> { unconfirmed },
+          class_name: 'RecommendationRequest'
 
   # Callbacks
 
@@ -104,4 +108,5 @@ class Person < ApplicationRecord
 
   scope :owner,     -> { where(owner: true) }
   scope :companion, -> { where(owner: false) }
+  scope :eligible,  -> { where(eligible: false) }
 end

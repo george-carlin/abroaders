@@ -14,14 +14,16 @@
       <td><%= will_apply_for_loan %></td>
     </tr>
 
-    <tr>
-      <td>Eligible to apply:</td>
-      <td><%= eligibility %></td>
-    </tr>
+    <% if show_eligibility %>
+      <tr>
+        <td>Eligible to apply:</td>
+        <td><%= eligibility %></td>
+      </tr>
 
-    <tr>
-      <td>Ready to apply:</td>
-      <td><%= readiness %></td>
-    </tr>
+      <tr>
+        <td>Ready to apply:</td>
+        <td><%= readiness %></td>
+      </tr>
+    <% end %>
   </tbody>
 </table>
