@@ -294,6 +294,14 @@ ActiveRecord::Schema.define(version: 20170328144740) do
     t.index ["account_id"], name: "index_recommendation_notes_on_account_id", using: :btree
   end
 
+  create_table "recommendation_requests", force: :cascade do |t|
+    t.integer  "person_id",  null: false
+    t.string   "status",     null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["person_id"], name: "index_recommendation_requests_on_person_id", using: :btree
+  end
+
   create_table "spending_infos", force: :cascade do |t|
     t.integer  "person_id",                             null: false
     t.integer  "credit_score",                          null: false
@@ -346,6 +354,7 @@ ActiveRecord::Schema.define(version: 20170328144740) do
   add_foreign_key "people", "accounts", on_delete: :cascade
   add_foreign_key "phone_numbers", "accounts", on_delete: :cascade
   add_foreign_key "recommendation_notes", "accounts", on_delete: :cascade
+  add_foreign_key "recommendation_requests", "people", on_delete: :cascade
   add_foreign_key "spending_infos", "people", on_delete: :cascade
   add_foreign_key "travel_plans", "accounts", on_delete: :cascade
 end
