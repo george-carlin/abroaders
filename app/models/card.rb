@@ -13,6 +13,15 @@
 # @!attribute applied_on
 #   The date the user *applied* for the card (according to them).
 #
+# @!attribute declined_at
+#   for whatever reason, a user might not want to apply for the card we
+#   recommend to them. If that's the case, they have option to 'decline' the
+#   card and tell us why. This timestamp tells us when they did so.
+#
+# @!attribute decline_reason
+#   The reason why the user declined the rec. Users can't decline a rec without
+#   giving us a reason why.
+#
 # @!attribute denied_at
 #   If the user applied for the card but their application was denied, this
 #   timestamp tells us when. Note that we use the word 'denied' to mean that a
@@ -45,6 +54,32 @@
 #   application. (If they nudge and then are denied, we don't encourage them to
 #   call again. They should only call if the application was denied without
 #   nudging. So nudged_at and called_at will never both be present)
+#
+# @!attribute recommended_at
+#   the time the admin recommended the product to the user.
+#
+# @!attribute seen_at
+#   the time the user *first* saw this recommendation (by visiting /cards)
+#
+# @!attribute clicked_at
+#   the time the user *first* clicked the 'Find My Card' button. Note that we
+#   don't know for sure that they actually applied, just that they clicked
+#   the link. (We have to rely on them coming back and saying they applied).
+#
+# @!attribute expired_at
+#   recs which are not clicked within 15 days are assumed to be declined.  For
+#   the sake of record-keeping, we note this in a separate time column, rather
+#   than reusing 'declined_at' (which would make it unclear whether the user
+#   declined the card manually or it was declined automatically).
+#
+# @!attribute pulled_at
+#   pulled means that the admin withdrew the rec after making it.
+#
+# @!attribute applied_on
+#   the date the user *applied* for the card (according to them).
+#
+# Note that 'expiry' in this sense has nothing to do with the expiry date
+# that's printed on a bank card.
 #
 # NOTE: the distinctions between 'nudging' and 'calling' is an implementation
 # detail that should only matter to developers. From the point of view of the
