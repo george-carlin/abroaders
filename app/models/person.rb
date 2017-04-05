@@ -64,6 +64,10 @@ class Person < ApplicationRecord
   has_many :card_accounts, -> { where.not(opened_on: nil) }, class_name: 'Card'
   has_many :card_recommendations, -> { recommendations }, class_name: 'Card'
   has_many :card_products, through: :cards
+  has_many :home_airports, through: :account
+  has_many :recommendation_notes, through: :account
+  has_many :regions_of_interest, through: :account
+  has_many :travel_plans, through: :account
 
   has_many :pulled_card_recommendations, -> { recommendations.pulled }, class_name: 'Card'
   has_many :unpulled_cards, -> { unpulled }, class_name: 'Card'
