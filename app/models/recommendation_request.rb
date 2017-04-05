@@ -14,4 +14,5 @@ class RecommendationRequest < ApplicationRecord
   end
 
   scope :unresolved, -> { where.not(status: 'resolved') }
+  scope :unconfirmed, -> { where(status: 'unconfirmed') }
 end

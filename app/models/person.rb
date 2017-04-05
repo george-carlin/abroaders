@@ -92,6 +92,9 @@ class Person < ApplicationRecord
   has_many :unresolved_recommendation_requests,
            -> { unresolved },
            class_name: 'RecommendationRequest'
+  has_many :unconfirmed_recommendation_requests,
+           -> { unconfirmed },
+           class_name: 'RecommendationRequest'
 
   # Callbacks
 
