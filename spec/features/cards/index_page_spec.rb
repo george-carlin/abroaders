@@ -38,7 +38,7 @@ RSpec.describe 'as a user viewing my cards' do
     end
 
     # doesn't have a header with my name:
-    expect(page).to have_no_selector H, text: "#{owner.first_name}'s Cards"
+    expect(page).to have_no_selector H, text: "#{owner.first_name}'s Recommendations"
   end
 
   example 'recommendation notes' do
@@ -77,8 +77,8 @@ RSpec.describe 'as a user viewing my cards' do
     companion = account.create_companion!(first_name: "Dave")
     visit_page
 
-    expect(page).to have_no_selector H, text: "#{owner.first_name}'s Cards"
-    expect(page).to have_no_selector H, text: "#{companion.first_name}'s Cards"
+    expect(page).to have_no_selector H, text: "#{owner.first_name}'s Recommendations"
+    expect(page).to have_no_selector H, text: "#{companion.first_name}'s Recommendations"
   end
 
   example "display owner and companion card recommendations" do
@@ -99,8 +99,8 @@ RSpec.describe 'as a user viewing my cards' do
     end
 
     # has headers with owner's or companion's names:
-    expect(page).to have_selector H, text: "#{owner.first_name}'s Cards"
-    expect(page).to have_selector H, text: "#{companion.first_name}'s Cards"
+    expect(page).to have_selector H, text: "#{owner.first_name}'s Recommendations"
+    expect(page).to have_selector H, text: "#{companion.first_name}'s Recommendations"
   end
 
   example "pulled recs" do
