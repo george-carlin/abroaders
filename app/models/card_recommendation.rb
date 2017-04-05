@@ -38,10 +38,6 @@ class CardRecommendation < Disposable::Twin
 
   property :product
 
-  def self.all(*args)
-    Card.recommended.where(args).map { |c| new(c) }
-  end
-
   def self.find(*args)
     new(Card.recommended.find(*args))
   end
