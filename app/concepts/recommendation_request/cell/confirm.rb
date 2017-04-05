@@ -66,22 +66,22 @@ class RecommendationRequest # < RecommendationRequest.superclass
           property :product
 
           def initialize(card_account, options = {})
-            raise 'not a card account' if card_account.opened_at.nil?
+            raise 'not a card account' if card_account.opened_on.nil?
             super
           end
 
           private
 
-          def closed_at
-            model.closed_at.nil? ? '-' : model.closed_at.strftime('%b %Y')
+          def closed_on
+            model.closed_on.nil? ? '-' : model.closed_on.strftime('%b %Y')
           end
 
           def link_to_edit
             link_to 'Update', edit_card_path(model), class: 'btn btn-xs btn-primary'
           end
 
-          def opened_at
-            model.opened_at.strftime('%b %Y') # Dec 2015
+          def opened_on
+            model.opened_on.strftime('%b %Y') # Dec 2015
           end
 
           def product_name
