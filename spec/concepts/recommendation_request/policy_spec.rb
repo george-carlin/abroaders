@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe RecommendationRequest::Policy do
-  let(:person) { create(:person) }
+  let(:person) { create(:person, :eligible) }
 
   describe '#create?' do
     let(:result) { described_class.new(person).create? }
@@ -56,6 +56,11 @@ RSpec.describe RecommendationRequest::Policy do
       create_card_recommendation
 
       expect(result).to be true
+    end
+
+    example 'person is ineligible' do
+      person.update!(eligible: false)
+      expect(result).to be false
     end
   end
 end

@@ -14,7 +14,8 @@ class RecommendationRequest < RecommendationRequest.superclass
     #
     # @return [Boolean]
     def create?
-      @person.unresolved_unapplied_card_recommendations.none? &&
+      @person.eligible? &&
+        @person.unresolved_unapplied_card_recommendations.none? &&
         @person.unresolved_recommendation_requests.none?
     end
   end
