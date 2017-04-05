@@ -3,10 +3,9 @@ class CardsController < AuthenticatedUserController
 
   def index
     @people = current_account.people
-    @recommendations = current_account.card_recommendations\
-                                      .includes(:product, offer: { product: :currency })\
-                                      .unresolved
-    if current_account.card_recommendations.unresolved.count > 0
+    @recommendations = current_account.unresolved_card_recommendations\
+                                      .includes(:product, offer: { product: :currency })
+    if @recommendations.any?
       cookies[:recommendation_timeout] = { value: "timeout", expires: 24.hours.from_now }
     end
 

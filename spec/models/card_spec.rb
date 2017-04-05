@@ -115,7 +115,7 @@ RSpec.describe Card do
     expect(described_class.recommended).to eq [returned]
   end
 
-  example ".unresolved" do
+  example ".recommended.unresolved" do
     product = create(:card_product)
     offer   = create_offer(product: product)
     person  = create(:person)
@@ -152,6 +152,6 @@ RSpec.describe Card do
       create_card_recommendation(:denied, :called, offer_id: offer.id, person_id: person.id),
     ]
 
-    expect(Card.unresolved).to match_array(unresolved)
+    expect(Card.recommended.unresolved).to match_array(unresolved)
   end
 end
