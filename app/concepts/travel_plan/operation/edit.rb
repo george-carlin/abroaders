@@ -1,4 +1,4 @@
-class TravelPlan < ApplicationRecord
+class TravelPlan < TravelPlan.superclass
   module Operation
     # Find a Card by its ID, and prepare to edit it
     class Edit < Trailblazer::Operation

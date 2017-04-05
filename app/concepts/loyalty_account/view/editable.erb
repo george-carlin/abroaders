@@ -1,0 +1,31 @@
+<%= wrapping_div do %>
+  <div class="col-xs-12 col-md-4">
+    <%= currency_name %>
+
+    <div class="balance_additional_info">
+      <p class="balance_updated_at">Last update: <%= updated_at %></p>
+    </div>
+
+    <%= edit_btn %>
+    <%= delete_btn %>
+  </div>
+  <div class="col-xs-6 col-md-5">
+    <span class="balance_value lead">
+      <%= formatted_balance %>
+    </span>
+
+    <%= form_tag do %>
+      <div class="input-group">
+        <%= value_field %>
+        <span class="input-group-btn">
+          <%= save_btn %>
+          <%= cancel_btn %>
+        </span>
+      </div>
+    <% end %>
+  </div>
+  <div class="col-xs-6 col-md-3">
+    <%= error_message %>
+    <%= loading_spinner %>
+  </div>
+<% end %>

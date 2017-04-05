@@ -1,4 +1,4 @@
-class TravelPlan < ApplicationRecord
+class TravelPlan < TravelPlan.superclass
   module Operation
     class New < Trailblazer::Operation
       extend Contract::DSL

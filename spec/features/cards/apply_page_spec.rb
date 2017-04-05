@@ -7,7 +7,7 @@ RSpec.describe "card recommendation apply page" do
 
   let(:me) { account.owner }
 
-  let(:rec) { create(:card_recommendation, person: me) }
+  let(:rec) { create_card_recommendation(person_id: me.id) }
 
   let(:visit_path) { visit apply_card_recommendation_path(rec) }
 
@@ -19,7 +19,7 @@ RSpec.describe "card recommendation apply page" do
 
     it "saves the 'clicked at' timestamp" do
       visit_path
-      expect(rec.reload.clicked_at).to eq Time.zone.today
+      expect(rec.reload.clicked_at).to be_within(5.seconds).of(Time.zone.now)
     end
   end
 
@@ -28,12 +28,12 @@ RSpec.describe "card recommendation apply page" do
 
     it "updates the 'clicked at' timestamp" do
       visit_path
-      expect(rec.reload.clicked_at).to eq Time.zone.today
+      expect(rec.reload.clicked_at).to be_within(5.seconds).of(Time.zone.now)
     end
   end
 
   context "when the card account was added in onboarding" do
-    let(:rec) { create(:card, :survey, person: me) }
+    let(:rec) { create_card_account(person: me) }
 
     skip "doesn't set 'clicked at'" do # move to controller test
       expect { visit_path }.to change { rec.reload.clicked_at }

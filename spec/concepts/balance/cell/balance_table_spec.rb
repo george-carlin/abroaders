@@ -3,53 +3,64 @@ require 'cells_helper'
 RSpec.describe Balance::Cell::BalanceTable do
   controller BalancesController
 
-  class BalanceCellStub < Trailblazer::Cell
-    def show
-      "Balance #{model.id}"
-    end
+  let(:person) { Person.new(owner: true, id: 1, first_name: 'Erik') }
+
+  let(:couples!) { person.account.build_companion }
+
+  before { person.build_account }
+
+  def new_balance(value)
+    Balance.new(
+      id: rand(100),
+      currency: Currency.new(name: 'X'),
+      updated_at: Time.now,
+      value: value,
+      person_id: 123,
+    )
   end
 
-  def show(model, opts = {})
-    super(model, opts.merge(balance_cell: BalanceCellStub))
+  def stub_person_balances(balances)
+    allow(person).to receive(:balances).and_return(balances)
   end
-
-  let(:balance_class) { Struct.new(:id) }
-  let(:person) { Person.new(id: 1, first_name: 'Erik') }
 
   example '' do
-    balances = [balance_class.new(123), balance_class.new(321)]
-    rendered = show(person, balances: balances)
-    # text for link text EXACT match
-    expect(rendered).to have_xpath("//a[text()='Add new']")
-    expect(rendered).to have_content 'Balance 123'
-    expect(rendered).to have_content 'Balance 321'
+    stub_person_balances([new_balance(123), new_balance(321)])
+    rendered = show(person)
+    # test for link text EXACT match
+    expect(rendered).to have_link 'Add new', href: new_person_balance_path(person)
     expect(rendered).to have_selector 'h1', text: 'My points'
   end
 
   example 'with no balances' do
-    rendered = show(person, balances: [])
-    expect(rendered).to have_content 'No balances'
+    stub_person_balances([])
+    rendered = show(person)
+    expect(rendered).to have_content 'No points balances'
   end
 
-  example 'with use_name: true' do
-    rendered = show(person, balances: [], use_name: true)
-
-    expect(rendered).to have_link 'Add new balance for Erik'
-    expect(rendered).to have_selector 'h1', text: "Erik's points"
-  end
-
-  example 'with use_name: false' do
-    rendered = show(person, balances: [], use_name: false)
-    # text for link text EXACT match:
-    expect(rendered).to have_xpath("//a[text()='Add new']")
+  example 'for a solo account' do
+    stub_person_balances([])
+    rendered = show(person)
+    expect(rendered).to have_link 'Add new'
     expect(rendered).to have_selector 'h1', text: 'My points'
   end
 
-  example 'example XSS' do
-    person.first_name = '<script>'
-    rendered = show(person, balances: [], use_name: true)
+  example 'for a couples account' do
+    couples!
 
-    expect(rendered.to_s).to include 'Add new balance for &lt;script&gt;'
+    stub_person_balances([])
+    rendered = show(person)
+
+    expect(rendered).to have_selector 'h1', text: "Erik's points"
+    expect(rendered).to have_link 'Add new', href: new_person_balance_path(person)
+  end
+
+  example 'XSS' do
+    couples!
+
+    person.first_name = '<script>'
+    stub_person_balances([])
+    rendered = show(person)
+
     expect(rendered.to_s).to include "&lt;script&gt;'s points"
   end
 end

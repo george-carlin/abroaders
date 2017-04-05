@@ -3,6 +3,7 @@ module AdminArea
     module Cell
       module ProductsTable
         class Row < Abroaders::Cell::Base
+          property :id
           property :bank
           property :bank_id
           property :bp
@@ -30,8 +31,8 @@ module AdminArea
           def tr_tag(&block)
             content_tag(
               :tr,
-              id: dom_id(model, :admin_recommend),
-              class: dom_class(model, :admin_recommend),
+              id: "admin_recommend_card_product_#{id}",
+              class: 'admin_recommend_card_product',
               data: {
                 bp:       bp,
                 bank:     bank_id,

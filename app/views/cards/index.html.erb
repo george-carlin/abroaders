@@ -7,7 +7,7 @@
 
   <div class="panel-body">
     <% if current_account.people.any?(&:eligible?) %>
-      <% if @recommendations.any? %>
+      <% if @any_recommendations %>
         <%= cell(CardRecommendation::Cell::Note, @newest_rec_note) if @newest_rec_note %>
 
         <p>
@@ -18,25 +18,7 @@
 
         <hr />
 
-        <div id="card_recommendations">
-          <% @people.each do |person| %>
-            <div id="<%= person.type %>_card_recommendations">
-              <%= cell(
-                Card::Cell::Index::Subheader,
-                nil,
-                account: current_account,
-                person: person
-              ) %>
-
-              <% card_recs = @recommendations.where(person: person) %>
-              <% if card_recs.any? %>
-                <%= cell(CardRecommendation::Cell::UnresolvedRec, collection: card_recs) %>
-              <% else %>
-                No recommendations for <%= person.first_name %>
-              <% end %>
-            </div><!-- #<%= person.type %>_card_recommendations -->
-          <% end %>
-        </div><!-- #card_recommendations -->
+        <%= cell(Card::Cell::Index::CardRecommendations, @people) %>
       <% else %>
         <div class="alert alert-info">
           The Abroaders team is hand selecting the ideal rewards cards

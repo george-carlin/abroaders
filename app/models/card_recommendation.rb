@@ -95,10 +95,10 @@ class CardRecommendation < Disposable::Twin
   property :redenied_at
 
   def self.all(*args)
-    Card.recommendations.where(args).map { |c| new(c) }
+    Card.recommended.where(args).map { |c| new(c) }
   end
 
   def self.find(*args)
-    new(Card.recommendations.find(*args))
+    new(Card.recommended.find(*args))
   end
 end

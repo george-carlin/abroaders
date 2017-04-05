@@ -1,4 +1,4 @@
-class PhoneNumber < ApplicationRecord
+class PhoneNumber < PhoneNumber.superclass
   module Operation
     class Create < Trailblazer::Operation
       step Nested(PhoneNumber::Operation::New)

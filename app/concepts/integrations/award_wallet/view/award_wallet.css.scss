@@ -1,0 +1,30 @@
+$gray: #8492a5;
+$blue: #35a7ff;
+
+.award_wallet_settings_person_saved {
+  color: $blue;
+}
+
+.integrations_award_wallet_settings {
+  .lead {
+    color: $gray;
+
+    strong {
+      color: $blue;
+    }
+  }
+
+  .owner_update_person_form {
+    .form-group {
+      margin-bottom: 9px;
+      position: relative;
+    }
+
+    .LoadingSpinner {
+       bottom: 14px;
+       display: none;
+       position: absolute;
+       right: -24px;
+    }
+  }
+}

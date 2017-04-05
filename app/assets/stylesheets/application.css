@@ -20,6 +20,8 @@
  *= require font-awesome
  *= require account
  *= require account_dashboard
+ *= require award_wallet
+ *= require admin_area_people_show
  *= require unresolved_rec
  *= require editable_balance
  *= require_tree .

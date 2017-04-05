@@ -1,0 +1,78 @@
+<% provide :title, "Edit Card" %>
+
+<div class="hpanel">
+  <div class="panel-heading hbuilt">
+    <div class="row">
+      <div class="col-xs-12">
+        <h1>Edit Card</h1>
+      </div>
+    </div><!-- .row -->
+  </div>
+
+  <%= cell(Abroaders::Cell::ValidationErrorsAlert::ActiveModel, @form) %>
+
+  <div class="panel-body">
+    <%= form_for @form, url: card_account_path(@model), html: { class: "edit_card" } do |f| %>
+
+      <div class="row">
+        <%# two divs with cols XS 12/12, SM 6/6, MD 2/4: %>
+        <%= cell(CardProduct::Cell::Summary, @model.product) %>
+
+        <div class="col-xs-12 col-md-6">
+          <div class="row">
+            <div class="col-md-12 col-lg-4">
+              <label class="card-info-label">When did you open this card?</label>
+            </div>
+
+            <div class="col-md-12 col-lg-8">
+              <%= f.date_select(
+                :opened_on,
+                end_year:   Date.today.year,
+                order:      [:month, :year],
+                start_year: Date.today.year - 10,
+                use_short_month: true,
+                discard_day: true,
+              ) %>
+            </div>
+
+            <div class="col-md-12 col-lg-4">
+              <%= f.label :closed, class: 'card-info-label' do %>
+                Is this account now closed?
+              <% end %>
+            </div>
+
+            <div class="col-md-12 col-lg-8">
+              <%= f.check_box :closed, class: "cards_survey_card_closed input-lg" %>
+            </div>
+
+            <div class="card-survey-closed <%= 'hide' unless @form.closed %>">
+              <div class="col-md-12 col-lg-4">
+                <label class="card-info-label card-survey-closed">When did you close this card?</label>
+              </div>
+
+              <div class="col-md-12 col-lg-8">
+                <%= f.date_select(
+                    :closed_on,
+                    end_year:   Date.today.year,
+                    order:      [:month, :year],
+                    start_year: Date.today.year - 10,
+                    use_short_month: true,
+                    discard_day: true,
+                    class: "cards_survey_select"
+                ) %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <%= f.submit 'Save', class: 'btn btn-primary btn-lg' %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

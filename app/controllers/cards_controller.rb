@@ -2,12 +2,12 @@ class CardsController < AuthenticatedUserController
   onboard :owner_cards, :companion_cards, with: [:survey, :save_survey]
 
   def index
-    @people = current_account.people
-    @recommendations = current_account.card_recommendations\
-                                      .includes(:product, offer: { product: :currency })\
-                                      .unresolved
-    @cards = current_account.cards.non_recommendation.includes(:product, :offer)
-    if current_account.card_recommendations.unresolved.count > 0
+    @people = current_account.people.includes(
+      :account,
+      unresolved_card_recommendations: { product: :bank, offer: { product: :currency } },
+    )
+    @any_recommendations = current_account.unresolved_card_recommendations.any?
+    if @any_recommendations
       cookies[:recommendation_timeout] = { value: "timeout", expires: 24.hours.from_now }
     end
 
@@ -19,50 +19,6 @@ class CardsController < AuthenticatedUserController
     current_account.card_recommendations.unseen.each do |c|
       c.update!(seen_at: Time.zone.now)
     end
-  end
-
-  # GET /cards/new
-  # GET /products/:product_id/cards/new
-  def new
-    if params[:product_id]
-      run Card::Operation::New
-      render cell(Card::Cell::New, result)
-    else
-      run Card::Operation::New::SelectProduct
-      # TODO use new style, pass result to the cell directly
-      collection = result['collection']
-      render cell(Card::Cell::New::SelectProduct, collection, banks: result['banks'])
-    end
-  end
-
-  def create
-    run Card::Operation::Create do
-      flash[:success] = 'Added card!'
-      redirect_to cards_path
-      return
-    end
-    render cell(Card::Cell::New, result)
-  end
-
-  def edit
-    run Card::Operation::Edit
-    @form.prepopulate!
-  end
-
-  def update
-    run Card::Operation::Update do
-      flash[:success] = 'Updated card'
-      return redirect_to cards_path
-    end
-    render :edit
-  end
-
-  def destroy
-    run Card::Operation::Destroy do
-      flash[:success] = 'Removed card'
-      return redirect_to cards_path
-    end
-    raise 'this should never happen'
   end
 
   def survey
@@ -89,7 +45,7 @@ class CardsController < AuthenticatedUserController
 
   def survey_params
     if params.key?(:cards_survey)
-      params.require(:cards_survey).permit(cards: [:product_id, :opened, :closed, :opened_at_, :closed_at_])
+      params.require(:cards_survey).permit(cards: [:product_id, :opened, :closed, :opened_on_, :closed_on_])
     else # if they clicked 'I don't have any cards'
       {}
     end

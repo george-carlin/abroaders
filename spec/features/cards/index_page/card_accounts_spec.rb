@@ -14,23 +14,11 @@ RSpec.describe 'cards index page - "card accounts" section' do
   before(:all)   { @products = create_list(:card_product, 2) }
   let(:products) { @products }
 
-  def create_card(person, product)
-    result = Card::Operation::Create.(
-      {
-        product_id: product.id,
-        card: { opened_at: Date.parse('2017-01-01'), person_id: person.id },
-      },
-      'account' => account,
-    )
-    raise unless result.success?
-    result['model']
-  end
-
   # basic smoke test that the cards are being rendered; for more detail
   # see the tests for Card::Cell::Index::CardAccounts
   it '' do
-    o_card = create_card(owner, products[0])
-    c_card = create_card(companion, products[1])
+    o_card = create_card_account(person: owner, product: products[0])
+    c_card = create_card_account(person: companion, product: products[1])
 
     visit cards_path
 
@@ -39,7 +27,7 @@ RSpec.describe 'cards index page - "card accounts" section' do
   end
 
   example 'deleting a card', :js do
-    card = create_card(owner, products[0])
+    card = create_card_account(person: owner, product: products[0])
     visit cards_path
     click_link 'Delete'
     expect(page).to have_success_message 'Removed card'

@@ -66,14 +66,27 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :cards
+  resources :card_accounts, except: :index
+  resources :cards, only: :index
 
   get  "eligibility/survey", to: "eligibilities#survey", as: :survey_eligibility
   post "eligibility/survey", to: "eligibilities#save_survey"
 
   get "estimates/:from_code/:to_code/:type/:no_of_passengers", to: "estimates#get"
 
-  resource :spending_info, path: :financials, only: [:show]
+  namespace :integrations do
+    get 'award_wallet/settings'
+    namespace :award_wallet do
+      get :callback
+      get :poll
+
+      resources :owners, only: [] do
+        member do
+          patch :update_person
+        end
+      end
+    end
+  end
 
   resources :interest_regions, only: [], path: "regions_of_interest" do
     collection do
@@ -114,7 +127,7 @@ Rails.application.routes.draw do
   end
 
   resources :products, only: [] do
-    resources :cards, only: [:new, :create]
+    resources :card_accounts, only: [:new, :create]
   end
 
   resource :readiness, only: [:edit, :update] do
@@ -133,7 +146,7 @@ Rails.application.routes.draw do
   get :slack, to: "slack_invites#new"
   post "slack/invite", to: "slack_invites#create"
 
-  resource :spending_info, path: :spending, only: [] do
+  resource :spending_info, path: :financials, only: [:show] do
     get :survey
     post :survey, action: :save_survey
   end
@@ -174,7 +187,7 @@ Rails.application.routes.draw do
       resources :offers, except: :destroy
     end
 
-    resources :cards, only: [:edit, :update, :destroy]
+    resources :card_accounts, only: [:edit, :update, :destroy]
 
     # show and edit redirect to the nested action:
     resources :offers, only: [:show, :edit, :index] do
@@ -191,9 +204,8 @@ Rails.application.routes.draw do
       get type.pluralize, to: "destinations##{type}"
     end
     resources :people, only: :show do
-      resources :cards, only: [:new, :create]
       resource :spending_info
-      resources :cards
+      resources :card_accounts
       resources :card_recommendations, only: [:create] do
         collection do
           post :complete

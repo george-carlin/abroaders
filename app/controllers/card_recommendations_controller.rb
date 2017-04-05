@@ -1,16 +1,31 @@
 class CardRecommendationsController < CardsController
+  include SerializeHelper
+
   def update
-    survey = Card::ApplicationSurvey.new(card: load_card)
     respond_to do |f|
       f.json do
-        begin
-          survey.update!(update_params)
-          render json: survey.card
-        rescue Card::InvalidStatusError
-          render json: {
-            error: true,
-            message: t("cards.invalid_status_error"),
-          }, code: 422
+        case params[:card][:action]
+        when 'apply'
+          run CardRecommendation::Operation::UpdateStatus::Applied do |result|
+            render json: serialize(result['model'])
+            return
+          end
+          render json: { error: true, message: result['error'] }, code: 422
+        else
+          # we're moving away from ApplicationSurvey; I want to replace
+          # everything with ops. Everything above the 'else' is the new style,
+          # the code below 'else' is old stuff that should be phased out.
+          begin
+            survey = Card::ApplicationSurvey.new(card: load_card)
+            survey.update!(update_params)
+            # for some reason this doesn't use AM::Serializer automatically:
+            render json: serialize(survey.card)
+          rescue Card::InvalidStatusError
+            render json: {
+              error: true,
+              message: t("cards.invalid_status_error"),
+            }, code: 422
+          end
         end
       end
     end
@@ -45,8 +60,8 @@ class CardRecommendationsController < CardsController
 
   def update_params
     result = params.require(:card).permit(:action)
-    if params[:card][:opened_at]
-      result[:opened_at] = Date.strptime(params[:card][:opened_at], "%m/%d/%Y")
+    if params[:card][:opened_on]
+      result[:opened_on] = Date.strptime(params[:card][:opened_on], "%m/%d/%Y")
     end
     result
   end

@@ -25,7 +25,7 @@ RSpec.describe 'as a user viewing my cards' do
   end
 
   example "solo account with recommendations" do
-    recs = create_list(:card_recommendation, 2, person: owner)
+    recs = Array.new(2) { create_card_recommendation(person_id: owner.id) }
     visit_page
 
     # Lists my recs:
@@ -38,14 +38,14 @@ RSpec.describe 'as a user viewing my cards' do
     end
 
     # doesn't have a header with my name:
-    expect(page).to have_no_selector H, text: "#{owner.first_name}'s Cards"
+    expect(page).to have_no_selector H, text: "#{owner.first_name}'s Recommendations"
   end
 
   example 'recommendation notes' do
     account.recommendation_notes.create!(content: 'whatever')
     account.recommendation_notes.create!(content: "new note\n\nhttp://example.com")
 
-    create(:card_recommendation, person: owner)
+    create_card_recommendation(person_id: owner.id)
     owner.update(last_recommendations_at: Time.zone.now)
     visit_page
     # shows most recent recommendation note only:
@@ -57,11 +57,12 @@ RSpec.describe 'as a user viewing my cards' do
   end
 
   example "marking recs as 'seen'" do
-    unseen_rec  = create(:card_recommendation, person: owner)
-    seen_rec    = create(:card_recommendation, seen_at: Time.zone.yesterday, person: owner)
-    card        = create(:card, :open, person: owner)
+    unseen_rec = create_card_recommendation(person_id: owner.id)
+    seen_rec   = create_card_recommendation(:seen, person_id: owner.id)
+    card       = create_card_account(person: owner)
 
-    other_persons_rec = create(:card_recommendation, person: create(:person))
+    seen_rec   =
+      other_persons_rec = create_card_recommendation(:seen, person_id: create(:person).id)
 
     expect do
       visit_page
@@ -76,14 +77,14 @@ RSpec.describe 'as a user viewing my cards' do
     companion = account.create_companion!(first_name: "Dave")
     visit_page
 
-    expect(page).to have_no_selector H, text: "#{owner.first_name}'s Cards"
-    expect(page).to have_no_selector H, text: "#{companion.first_name}'s Cards"
+    expect(page).to have_no_selector H, text: "#{owner.first_name}'s Recommendations"
+    expect(page).to have_no_selector H, text: "#{companion.first_name}'s Recommendations"
   end
 
   example "display owner and companion card recommendations" do
     companion = account.create_companion!(first_name: "Dave")
-    own_recs = create_list(:card_recommendation, 2, person: owner)
-    com_recs = create_list(:card_recommendation, 2, person: companion)
+    own_recs = Array.new(2) { create_card_recommendation(person_id: owner.id) }
+    com_recs = Array.new(2) { create_card_recommendation(person_id: companion.id) }
     account.reload
     visit_page
 
@@ -98,15 +99,15 @@ RSpec.describe 'as a user viewing my cards' do
     end
 
     # has headers with owner's or companion's names:
-    expect(page).to have_selector H, text: "#{owner.first_name}'s Cards"
-    expect(page).to have_selector H, text: "#{companion.first_name}'s Cards"
+    expect(page).to have_selector H, text: "#{owner.first_name}'s Recommendations"
+    expect(page).to have_selector H, text: "#{companion.first_name}'s Recommendations"
   end
 
   example "pulled recs" do
     companion = account.create_companion!(first_name: "Dave")
     pulled_recs = [
-      create(:card_recommendation, :pulled, person: owner),
-      create(:card_recommendation, :pulled, person: companion),
+      create_card_recommendation(:pulled, person_id: owner.id),
+      create_card_recommendation(:pulled, person_id: companion.id),
     ]
 
     visit_page

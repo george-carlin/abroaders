@@ -1,0 +1,31 @@
+<div id="<%= html_id %>" class="<%= html_classes %>">
+  <div class="col-xs-12 col-sm-6 col-md-2">
+    <%= image %>
+  </div>
+
+  <div class="col-xs-12 col-sm-6 col-md-6">
+    <p>
+      <b>Card Name:</b>
+      <span class="card-account-card-name"><%= product_full_name %></span>
+    </p>
+
+    <p>
+      <b>Bank:</b>
+      <span class="card-account-bank"><%= bank_name %></span>
+    </p>
+  </div>
+
+  <div class="col-xs-12 col-md-2">
+    <p><b>Opened:</b> <%= opened_on %></p>
+    <% if closed? %>
+      <p><b>Closed:</b> <%= closed_on %></p>
+    <% end %>
+  </div>
+
+  <% if options[:editable] %>
+    <div class="col-xs-12 col-md-2">
+      <%= link_to_edit %>
+      <%= link_to_delete %>
+    </div>
+  <% end %>
+</div>

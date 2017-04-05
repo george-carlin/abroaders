@@ -1,6 +1,6 @@
 require 'reform/form/dry'
 
-class PhoneNumber < ApplicationRecord
+class PhoneNumber < PhoneNumber.superclass
   module Operation
     class New < Trailblazer::Operation
       extend Contract::DSL

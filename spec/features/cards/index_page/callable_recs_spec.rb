@@ -6,7 +6,7 @@ RSpec.describe "user cards page - callable cards", :js do
   let(:person)  { account.owner }
 
   let(:recommended_at) { 7.days.ago.to_date }
-  let(:applied_at) { 7.days.ago.to_date }
+  let(:applied_on) { 7.days.ago.to_date }
   let(:denied_at)  { 5.days.ago.to_date }
   let(:bp) { :personal }
 
@@ -21,14 +21,8 @@ RSpec.describe "user cards page - callable cards", :js do
     @bank    = create(:bank, name: "Chase")
     @product = create(:card_product, bank_id: @bank.id, bp: bp)
     @offer = create_offer(product: @product)
-    @rec = create(
-      :card_recommendation,
-      recommended_at: recommended_at,
-      applied_at: applied_at,
-      denied_at: denied_at,
-      person: person,
-      offer: @offer,
-    )
+    @rec = create_card_recommendation(person_id: person.id, offer_id: @offer.id)
+    @rec.update!(recommended_at: recommended_at, applied_on: applied_on, denied_at: denied_at)
     visit cards_path
   end
   let(:rec) { @rec }
@@ -105,10 +99,12 @@ RSpec.describe "user cards page - callable cards", :js do
         end
 
         it "updates the card account's attributes", :backend do
+          # this spec fails when run late in the day when your machine's time
+          # is earlier than UTC # TZFIXME
           expect(rec.status).to eq "open"
-          expect(rec.opened_at).to eq Time.zone.today
-          expect(rec.called_at).to eq Time.zone.today
-          expect(rec.applied_at).to eq applied_at # unchanged
+          expect(rec.opened_on).to eq Time.zone.today
+          expect(rec.called_at).to be_within(5.seconds).of(Time.zone.now)
+          expect(rec.applied_on).to eq applied_on # unchanged
         end
       end
     end
@@ -127,13 +123,11 @@ RSpec.describe "user cards page - callable cards", :js do
         end
 
         it "updates the card account's attributes", :backend do
-          # this spec fails when run late in the day when your machine's time
-          # is earlier than UTC # TZFIXME
           expect(rec.status).to eq "denied"
           expect(rec.denied_at).to eq denied_at
-          expect(rec.applied_at).to eq applied_at # unchanged
-          expect(rec.redenied_at).to eq Time.zone.today
-          expect(rec.called_at).to eq Time.zone.today
+          expect(rec.applied_on).to eq applied_on # unchanged
+          expect(rec.redenied_at).to be_within(5.seconds).of(Time.zone.now)
+          expect(rec.called_at).to be_within(5.seconds).of(Time.zone.now)
         end
       end
     end
@@ -152,14 +146,12 @@ RSpec.describe "user cards page - callable cards", :js do
         end
 
         it "updates the card account's attributes", :backend do
-          # this spec fails when run late in the day when your machine's time
-          # is earlier than UTC # TZFIXME
           expect(rec.status).to eq "denied"
           expect(rec.denied_at).to eq denied_at
-          expect(rec.applied_at).to eq applied_at # unchanged
-          expect(rec.called_at).to eq Time.zone.today
+          expect(rec.applied_on).to eq applied_on # unchanged
+          expect(rec.called_at).to be_within(5.seconds).of(Time.zone.now)
           # doesn't set:
-          expect(rec.opened_at).to be_nil
+          expect(rec.opened_on).to be_nil
           expect(rec.redenied_at).to be_nil
         end
       end

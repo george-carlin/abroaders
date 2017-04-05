@@ -19,7 +19,7 @@
 #       us their balance in this currency if they have one) on the 'balances'
 #       page of the onboarding survey
 #
-# - alliance_id:
+# - alliance_name
 #       which Alliance the currency belongs to, if any. See
 #       app/models/alliance.rb
 #
@@ -38,7 +38,9 @@ class Currency < ApplicationRecord
 
   # Associations
 
-  belongs_to :alliance
+  def alliance
+    Alliance.new(name: alliance_name)
+  end
 
   # Scopes
 

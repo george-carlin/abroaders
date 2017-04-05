@@ -1,4 +1,4 @@
-class Currency < ApplicationRecord
+class Currency < Currency.superclass
   module Cell
     class ShortName < Abroaders::Cell::Base
       property :name

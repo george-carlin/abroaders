@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170221191006) do
+ActiveRecord::Schema.define(version: 20170328144740) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,11 +65,53 @@ ActiveRecord::Schema.define(version: 20170221191006) do
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
   end
 
-  create_table "alliances", force: :cascade do |t|
-    t.string   "name",       null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer  "order",      null: false
+  create_table "award_wallet_accounts", force: :cascade do |t|
+    t.integer  "award_wallet_owner_id", null: false
+    t.integer  "aw_id",                 null: false
+    t.string   "display_name",          null: false
+    t.string   "kind",                  null: false
+    t.string   "login",                 null: false
+    t.integer  "balance_raw",           null: false
+    t.integer  "error_code",            null: false
+    t.string   "error_message"
+    t.string   "last_detected_change"
+    t.datetime "expiration_date"
+    t.datetime "last_retrieve_date"
+    t.datetime "last_change_date"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+    t.index ["aw_id"], name: "index_award_wallet_accounts_on_aw_id", using: :btree
+    t.index ["award_wallet_owner_id"], name: "index_award_wallet_accounts_on_award_wallet_owner_id", using: :btree
+  end
+
+  create_table "award_wallet_owners", force: :cascade do |t|
+    t.integer  "award_wallet_user_id", null: false
+    t.string   "name",                 null: false
+    t.integer  "person_id"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+    t.index ["award_wallet_user_id", "name"], name: "index_award_wallet_owners_on_award_wallet_user_id_and_name", unique: true, using: :btree
+    t.index ["award_wallet_user_id"], name: "index_award_wallet_owners_on_award_wallet_user_id", using: :btree
+    t.index ["name"], name: "index_award_wallet_owners_on_name", using: :btree
+    t.index ["person_id"], name: "index_award_wallet_owners_on_person_id", using: :btree
+  end
+
+  create_table "award_wallet_users", force: :cascade do |t|
+    t.integer  "account_id",                            null: false
+    t.integer  "aw_id",                                 null: false
+    t.boolean  "loaded",                default: false, null: false
+    t.integer  "agent_id"
+    t.string   "full_name"
+    t.string   "user_name"
+    t.string   "status"
+    t.string   "email"
+    t.string   "forwarding_email"
+    t.string   "access_level"
+    t.string   "accounts_access_level"
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+    t.index ["account_id"], name: "index_award_wallet_users_on_account_id", using: :btree
+    t.index ["aw_id"], name: "index_award_wallet_users_on_aw_id", using: :btree
   end
 
   create_table "balances", force: :cascade do |t|
@@ -118,23 +160,22 @@ ActiveRecord::Schema.define(version: 20170221191006) do
     t.integer  "product_id"
     t.integer  "person_id",      null: false
     t.integer  "offer_id"
-    t.date     "recommended_at"
-    t.date     "applied_at"
-    t.date     "opened_at"
-    t.date     "earned_at"
-    t.date     "closed_at"
+    t.datetime "recommended_at"
+    t.date     "applied_on"
+    t.date     "opened_on"
+    t.date     "closed_on"
     t.string   "decline_reason"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-    t.date     "clicked_at"
-    t.date     "declined_at"
-    t.date     "denied_at"
-    t.date     "nudged_at"
-    t.date     "called_at"
-    t.date     "redenied_at"
+    t.datetime "clicked_at"
+    t.datetime "declined_at"
+    t.datetime "denied_at"
+    t.datetime "nudged_at"
+    t.datetime "called_at"
+    t.datetime "redenied_at"
     t.datetime "seen_at"
     t.datetime "expired_at"
     t.datetime "pulled_at"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
     t.index ["pulled_at"], name: "index_cards_on_pulled_at", using: :btree
     t.index ["recommended_at"], name: "index_cards_on_recommended_at", using: :btree
     t.index ["seen_at"], name: "index_cards_on_seen_at", using: :btree
@@ -145,7 +186,7 @@ ActiveRecord::Schema.define(version: 20170221191006) do
     t.string   "award_wallet_id",                null: false
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
-    t.integer  "alliance_id",                    null: false
+    t.string   "alliance_name",                  null: false
     t.boolean  "shown_on_survey", default: true, null: false
     t.string   "type",                           null: false
     t.index ["award_wallet_id"], name: "index_currencies_on_award_wallet_id", unique: true, using: :btree
@@ -204,21 +245,20 @@ ActiveRecord::Schema.define(version: 20170221191006) do
   end
 
   create_table "offers", force: :cascade do |t|
-    t.integer  "product_id",                    null: false
-    t.integer  "points_awarded",                null: false
-    t.integer  "spend",            default: 0
-    t.integer  "cost",             default: 0,  null: false
-    t.integer  "days",             default: 90
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
-    t.string   "link",                          null: false
+    t.integer  "product_id",                        null: false
+    t.integer  "points_awarded",                    null: false
+    t.integer  "spend"
+    t.integer  "cost",                              null: false
+    t.integer  "days"
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.string   "link",                              null: false
     t.text     "notes"
-    t.integer  "condition",        default: 0,  null: false
     t.datetime "last_reviewed_at"
     t.datetime "killed_at"
-    t.integer  "partner"
+    t.string   "partner",          default: "none", null: false
+    t.string   "condition",                         null: false
     t.index ["killed_at"], name: "index_offers_on_killed_at", using: :btree
-    t.index ["partner"], name: "index_offers_on_partner", using: :btree
     t.index ["product_id"], name: "index_offers_on_product_id", using: :btree
   end
 
@@ -284,6 +324,10 @@ ActiveRecord::Schema.define(version: 20170221191006) do
 
   add_foreign_key "accounts_home_airports", "accounts", on_delete: :cascade
   add_foreign_key "accounts_home_airports", "destinations", column: "airport_id", on_delete: :restrict
+  add_foreign_key "award_wallet_accounts", "award_wallet_owners", on_delete: :cascade
+  add_foreign_key "award_wallet_owners", "award_wallet_users", on_delete: :cascade
+  add_foreign_key "award_wallet_owners", "people", on_delete: :nullify
+  add_foreign_key "award_wallet_users", "accounts", on_delete: :cascade
   add_foreign_key "balances", "currencies", on_delete: :cascade
   add_foreign_key "balances", "people", on_delete: :cascade
   add_foreign_key "card_products", "banks"
@@ -291,7 +335,6 @@ ActiveRecord::Schema.define(version: 20170221191006) do
   add_foreign_key "cards", "card_products", column: "product_id", on_delete: :restrict
   add_foreign_key "cards", "offers", on_delete: :cascade
   add_foreign_key "cards", "people", on_delete: :cascade
-  add_foreign_key "currencies", "alliances"
   add_foreign_key "destinations", "destinations", column: "parent_id", on_delete: :restrict
   add_foreign_key "flights", "destinations", column: "from_id", on_delete: :restrict
   add_foreign_key "flights", "destinations", column: "to_id", on_delete: :restrict

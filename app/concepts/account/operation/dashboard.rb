@@ -6,7 +6,7 @@ class Account < Account.superclass
       private
 
       def setup_unresolved_recommendations!(opts, account:, **)
-        opts['unresolved_recommendations'] = account.card_recommendations.unresolved
+        opts['unresolved_recommendations'] = account.unresolved_card_recommendations
       end
     end
   end

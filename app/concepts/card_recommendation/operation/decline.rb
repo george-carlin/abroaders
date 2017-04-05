@@ -2,6 +2,8 @@ class CardRecommendation < CardRecommendation.superclass
   module Operation
     # params:
     #   id: the ID of the CardRecommendation
+    #   card:
+    #     decline_reason
     # options:
     #   account: the currently-logged in user account
     class Decline < Trailblazer::Operation
@@ -29,8 +31,7 @@ class CardRecommendation < CardRecommendation.superclass
         # empty strings should have been caught by the frontend, so we don't
         # need to handle them gracefully:
         raise if reason.empty?
-        # TODO declined_at should be a datetime col in DB, not a date
-        model.update!(decline_reason: reason, declined_at: Date.today)
+        model.update!(decline_reason: reason, declined_at: Time.zone.now)
       end
 
       COULDNT_DECLINE = "Couldn't decline card recommendation. This may "\

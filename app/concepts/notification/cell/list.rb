@@ -1,4 +1,4 @@
-class Notification < ApplicationRecord
+class Notification < Notification.superclass
   module Cell
     class List < Abroaders::Cell::Base
       private

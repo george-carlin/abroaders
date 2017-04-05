@@ -16,7 +16,10 @@ class TestDataStore
   end
 
   def self.clean
-    TestDataStore.records.reject(&:destroyed?).each(&:destroy)
+    # Destroy records in the reverse order to which they were created. In the
+    # original direction, you may find some records can't be deleted because
+    # later records have foreign keys which point to them.
+    TestDataStore.records.reject(&:destroyed?).reverse.each(&:destroy)
   end
 end
 

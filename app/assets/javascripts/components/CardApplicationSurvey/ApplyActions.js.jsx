@@ -18,7 +18,7 @@ const ApplyActions = React.createClass({
       // States:
       // "initial", "applied", "confirmApproved", "confirmPending", "confirmDenied"
       currentState: "initial",
-      openedAt: this.formatDate(new Date()),
+      openedOn: this.formatDate(new Date()),
     };
   },
 
@@ -38,8 +38,8 @@ const ApplyActions = React.createClass({
     this.setState({currentState: "confirmPending"});
   },
 
-  setOpenedAt(openedAt) {
-    this.setState({ openedAt });
+  setOpenedAt(openedOn) {
+    this.setState({ openedOn });
   },
 
   getAction() {
@@ -79,7 +79,7 @@ const ApplyActions = React.createClass({
   submitAction() {
     this.props.submitAction(
       this.getAction(),
-      { openedAt: this.state.openedAt }
+      { openedOn: this.state.openedOn }
     );
   },
 
@@ -106,19 +106,19 @@ const ApplyActions = React.createClass({
     // behind UTC. The below is a quick fix, but this is probably indicative
     // of some kind of deeper problem with how we're dealing with timezones.
     // TODO investigate.
-    if (rAt.getFullYear() < today.getUTCFullYear()) {
+    if (rAt.getUTCFullYear() < today.getUTCFullYear()) {
       return true;
-    } else if (rAt.getFullYear() > today.getUTCFullYear()) {
+    } else if (rAt.getUTCFullYear() > today.getUTCFullYear()) {
       return false;
     }
 
-    if (rAt.getMonth() < today.getUTCMonth()) {
+    if (rAt.getUTCMonth() < today.getUTCMonth()) {
       return true;
-    } else if (rAt.getMonth() > today.getUTCMonth()) {
+    } else if (rAt.getUTCMonth() > today.getUTCMonth()) {
       return false;
     }
 
-    return rAt.getDate() < today.getUTCDate();
+    return rAt.getUTCDate() < today.getUTCDate();
   },
 
   render() {
@@ -154,7 +154,7 @@ const ApplyActions = React.createClass({
                 <ApproveCardAccountFormFields
                   askForDate={this.isRecommendedBeforeToday()}
                   onClickCancel={this.setStateToApplied}
-                  openedAt={this.state.openedAt}
+                  openedOn={this.state.openedOn}
                   setOpenedAt={this.setOpenedAt}
                   submitAction={this.submitAction}
                 />

@@ -1,4 +1,4 @@
-class TravelPlan < ApplicationRecord
+class TravelPlan < TravelPlan.superclass
   class Form < Reform::Form
     feature Reform::Form::Coercion
 

@@ -1,6 +1,6 @@
 require 'dry-validation'
 
-class Account < ApplicationRecord
+class Account < Account.superclass
   module Operation
     class Type < Trailblazer::Operation
       success :setup_destination!
