@@ -65,6 +65,9 @@ class Person < ApplicationRecord
   has_many :card_recommendations, -> { recommendations }, class_name: 'Card'
   has_many :card_products, through: :cards
 
+  has_many :pulled_card_recommendations, -> { recommendations.pulled }, class_name: 'Card'
+  has_many :unpulled_cards, -> { unpulled }, class_name: 'Card'
+
   has_many :balances
   has_many :currencies, through: :balances
 

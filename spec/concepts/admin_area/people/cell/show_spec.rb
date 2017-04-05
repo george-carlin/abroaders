@@ -31,7 +31,6 @@ RSpec.describe AdminArea::People::Cell::Show do
       true,
       'account'  => account,
       'balances' => data.fetch(:balances, []),
-      'cards' => data.fetch(:cards, []),
       'home_airports' => data.fetch(:home_airports, []),
       'offers' => data.fetch(:offers, []),
       'person' => person,
@@ -136,25 +135,23 @@ RSpec.describe AdminArea::People::Cell::Show do
   example 'with card accounts' do
     open   = Card.new(id: 100, opened_on: jan, person: person, product: product)
     closed = Card.new(id: 101, opened_on: mar, closed_on: oct, person: person, product: product)
+    allow(person).to receive(:unpulled_cards) { [open, closed] }
 
-    result = get_result(cards: [open, closed])
-    rendered = show(result)
+    rendered = show(get_result)
 
-    expect(rendered).to have_selector "#admin_person_cards #card_100"
-    expect(rendered).to have_selector "#admin_person_cards #card_101"
+    expect(rendered).to have_selector '#admin_person_cards #card_100'
+    expect(rendered).to have_selector '#admin_person_cards #card_101'
 
-    within "#card_100" do
-      expect(rendered).to have_selector '.card_opened_on', text: 'Jan 2015'
-      expect(rendered).to have_selector '.card_closed_on', text: '-'
-      expect(rendered).to have_selector '.card_status', text: 'Open'
-    end
+    expect(rendered).to have_no_content 'User has no existing card accounts'
 
-    within "#card_101" do
-      expect(rendered).to have_selector '.card_status', text: 'Closed'
-      # says when they were opened/closed:
-      expect(rendered).to have_selector '.card_opened_on', text: 'Mar 2015'
-      expect(rendered).to have_selector '.card_closed_on', text: 'Oct 2015'
-    end
+    expect(rendered).to have_selector '#card_100 .card_opened_on', text: 'Jan 2015'
+    expect(rendered).to have_selector '#card_100 .card_closed_on', text: '-'
+    expect(rendered).to have_selector '#card_100 .card_status', text: 'Open'
+
+    expect(rendered).to have_selector '#card_101 .card_status', text: 'Closed'
+    # says when they were opened/closed:
+    expect(rendered).to have_selector '#card_101 .card_opened_on', text: 'Mar 2015'
+    expect(rendered).to have_selector '#card_101 .card_closed_on', text: 'Oct 2015'
   end
 
   example 'person has received recommendations' do
