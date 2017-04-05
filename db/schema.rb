@@ -157,25 +157,28 @@ ActiveRecord::Schema.define(version: 20170403213234) do
   end
 
   create_table "cards", force: :cascade do |t|
+    t.integer  "product_id"
     t.integer  "person_id",      null: false
+    t.integer  "offer_id"
+    t.datetime "recommended_at"
+    t.date     "applied_on"
+    t.date     "opened_on"
+    t.date     "closed_on"
+    t.string   "decline_reason"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
-    t.integer  "product_id",     null: false
-    t.date     "closed_on"
-    t.date     "opened_on"
-    t.datetime "redenied_at"
-    t.datetime "called_at"
-    t.datetime "nudged_at"
-    t.datetime "denied_at"
-    t.date     "applied_on"
-    t.string   "decline_reason"
-    t.datetime "pulled_at"
-    t.datetime "expired_at"
     t.datetime "clicked_at"
-    t.datetime "seen_at"
     t.datetime "declined_at"
-    t.datetime "recommended_at"
-    t.integer  "offer_id"
+    t.datetime "denied_at"
+    t.datetime "nudged_at"
+    t.datetime "called_at"
+    t.datetime "redenied_at"
+    t.datetime "seen_at"
+    t.datetime "expired_at"
+    t.datetime "pulled_at"
+    t.index ["pulled_at"], name: "index_cards_on_pulled_at", using: :btree
+    t.index ["recommended_at"], name: "index_cards_on_recommended_at", using: :btree
+    t.index ["seen_at"], name: "index_cards_on_seen_at", using: :btree
   end
 
   create_table "currencies", force: :cascade do |t|
@@ -183,9 +186,9 @@ ActiveRecord::Schema.define(version: 20170403213234) do
     t.string   "award_wallet_id",                null: false
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
+    t.string   "alliance_name",                  null: false
     t.boolean  "shown_on_survey", default: true, null: false
     t.string   "type",                           null: false
-    t.string   "alliance_name",                  null: false
     t.index ["award_wallet_id"], name: "index_currencies_on_award_wallet_id", unique: true, using: :btree
     t.index ["name"], name: "index_currencies_on_name", unique: true, using: :btree
     t.index ["type"], name: "index_currencies_on_type", using: :btree
@@ -194,11 +197,11 @@ ActiveRecord::Schema.define(version: 20170403213234) do
   create_table "destinations", force: :cascade do |t|
     t.string   "name",                       null: false
     t.string   "code",                       null: false
+    t.string   "type",                       null: false
     t.integer  "parent_id"
     t.integer  "children_count", default: 0, null: false
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
-    t.string   "type",                       null: false
     t.index ["code", "type"], name: "index_destinations_on_code_and_type", unique: true, using: :btree
     t.index ["name"], name: "index_destinations_on_name", using: :btree
     t.index ["parent_id"], name: "index_destinations_on_parent_id", using: :btree
@@ -329,8 +332,8 @@ ActiveRecord::Schema.define(version: 20170403213234) do
   add_foreign_key "balances", "people", on_delete: :cascade
   add_foreign_key "card_products", "banks"
   add_foreign_key "card_products", "currencies", on_delete: :restrict
-  add_foreign_key "cards", "card_products", column: "product_id"
-  add_foreign_key "cards", "offers"
+  add_foreign_key "cards", "card_products", column: "product_id", on_delete: :restrict
+  add_foreign_key "cards", "offers", on_delete: :cascade
   add_foreign_key "cards", "people", on_delete: :cascade
   add_foreign_key "destinations", "destinations", column: "parent_id", on_delete: :restrict
   add_foreign_key "flights", "destinations", column: "from_id", on_delete: :restrict
