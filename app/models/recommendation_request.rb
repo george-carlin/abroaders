@@ -8,4 +8,10 @@ class RecommendationRequest < ApplicationRecord
   def status=(new_status)
     super(Status.(new_status))
   end
+
+  def unresolved?
+    status != 'resolved'
+  end
+
+  scope :unresolved, -> { where.not(status: 'resolved') }
 end

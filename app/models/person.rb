@@ -73,11 +73,25 @@ class Person < ApplicationRecord
   has_many :unpulled_cards, -> { unpulled }, class_name: 'Card'
   has_many :unresolved_card_recommendations, -> { recommended.unresolved }, class_name: 'Card'
 
+  # really, an 'unresolved rec' should exclude recommendations which have been
+  # applied for. This should be fixed by the upcoming changes in the data
+  # model, but for now I don't want to break the existing
+  # 'unresolved_card_recommendations' method as it's being used all over the
+  # place.
+  has_many :unresolved_unapplied_card_recommendations,
+           -> { recommended.unresolved.unapplied },
+           class_name: 'Card'
+
   has_many :balances
   has_many :currencies, through: :balances
 
   has_many :award_wallet_owners
   has_many :award_wallet_accounts, through: :award_wallet_owners
+
+  has_many :recommendation_requests
+  has_many :unresolved_recommendation_requests,
+           -> { unresolved },
+           class_name: 'RecommendationRequest'
 
   # Callbacks
 

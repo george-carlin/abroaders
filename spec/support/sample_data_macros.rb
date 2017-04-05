@@ -52,6 +52,15 @@ module SampleDataMacros
   # Actually, it's not quite the same way a user would, because not all the
   # state changes are performed by operations. But you're probably better off
   # not using the traits here anyway.
+  #
+  # available traits:
+  # :applied
+  # :approved
+  # :called
+  # :expired
+  # :nudged
+  # :denied
+  # :redenied
   def create_card_recommendation(*traits_and_overrides)
     overrides = if traits_and_overrides.last.is_a?(Hash)
                   traits_and_overrides.pop
@@ -120,6 +129,8 @@ module SampleDataMacros
     rec.save!
     rec
   end
+
+  alias create_rec create_card_recommendation
 
   def create_card_account(*traits_and_overrides)
     overrides = if traits_and_overrides.last.is_a?(Hash)
