@@ -8,7 +8,7 @@ RSpec.describe SpendingInfo::Cell::Table do
 
   let(:info) do
     person.build_spending_info(
-      credit_score:          345,
+      credit_score:          350,
       will_apply_for_loan:   wafl,
       business_spending_usd: business_spending,
       has_business:          has_business,
@@ -25,7 +25,7 @@ RSpec.describe SpendingInfo::Cell::Table do
   let(:rendered) { show(info) }
 
   it '' do
-    expect(rendered).to have_content 'Credit score: 345'
+    expect(rendered).to have_content 'Credit score: 350'
     expect(rendered).to have_content 'Will apply for loan in next 6 months: No'
     expect(rendered).to have_content 'Business spending: $1,500.00'
     expect(rendered).to have_content '(Has EIN)'

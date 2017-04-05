@@ -1,4 +1,12 @@
 class SpendingInfo < ApplicationRecord
+  MINIMUM_CREDIT_SCORE = 350
+  MAXIMUM_CREDIT_SCORE = 850
+
+  CreditScore = Types::Strict::Int.constrained(
+    gteq: MINIMUM_CREDIT_SCORE,
+    lteq: MAXIMUM_CREDIT_SCORE,
+  )
+
   # Attributes
 
   delegate :couples?, to: :account, prefix: true
@@ -19,15 +27,16 @@ class SpendingInfo < ApplicationRecord
     has_business_with_ein? || has_business_without_ein?
   end
 
+  # Since validations don't live in the model class, there's no reason to let
+  # a SpendingInfo ever be initialized with an invalid CreditScore:
+  def credit_score=(new_credit_score)
+    super(CreditScore.(new_credit_score))
+  end
+
   delegate :owner, :owner?, to: :person
 
   # Associations
 
   belongs_to :person
   has_one :account, through: :person
-
-  # Validations
-
-  MINIMUM_CREDIT_SCORE = 350
-  MAXIMUM_CREDIT_SCORE = 850
 end
