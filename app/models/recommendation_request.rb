@@ -1,31 +1,33 @@
 class RecommendationRequest < ApplicationRecord
   belongs_to :person
 
-  Status = Types::Strict::String.enum('unconfirmed', 'confirmed', 'resolved')
-
-  # Forget validations; don't allow an invalid attribute to be set in the first
-  # place:
-  def status=(new_status)
-    super(Status.(new_status))
+  def status
+    return 'resolved' if resolved?
+    return 'confirmed' if confirmed?
+    return 'unconfirmed'
   end
 
   def confirm!
-    update!(status: 'confirmed')
+    update!(confirmed_at: Time.zone.now)
   end
 
   def confirmed?
-    status == 'confirmed'
+    !confirmed_at.nil?
   end
 
   def unconfirmed?
-    status == 'unconfirmed'
+    confirmed_at.nil?
   end
 
   def unresolved?
-    status != 'resolved'
+    resolved_at.nil?
   end
 
-  scope :unresolved, -> { where.not(status: 'resolved') }
-  scope :unconfirmed, -> { where(status: 'unconfirmed') }
-  scope :confirmed, -> { where(status: 'confirmed') }
+  def resolved?
+    !resolved_at.nil?
+  end
+
+  scope :unresolved, -> { where(resolved_at: nil) }
+  scope :unconfirmed, -> { where(confirmed_at: nil) }
+  scope :confirmed, -> { where.not(confirmed_at: nil) }
 end

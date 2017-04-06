@@ -295,11 +295,14 @@ ActiveRecord::Schema.define(version: 20170328144740) do
   end
 
   create_table "recommendation_requests", force: :cascade do |t|
-    t.integer  "person_id",  null: false
-    t.string   "status",     null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "person_id",    null: false
+    t.datetime "confirmed_at"
+    t.datetime "resolved_at"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["confirmed_at"], name: "index_recommendation_requests_on_confirmed_at", using: :btree
     t.index ["person_id"], name: "index_recommendation_requests_on_person_id", using: :btree
+    t.index ["resolved_at"], name: "index_recommendation_requests_on_resolved_at", using: :btree
   end
 
   create_table "spending_infos", force: :cascade do |t|

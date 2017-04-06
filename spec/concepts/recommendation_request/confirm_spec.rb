@@ -14,6 +14,8 @@ RSpec.describe RecommendationRequest::Confirm do
     owner.reload
     expect(owner.unconfirmed_recommendation_request).to be nil
     expect(owner.confirmed_recommendation_requests.count).to eq 1
+    req = owner.confirmed_recommendation_requests.last
+    expect(req.confirmed_at).to be_within(2.seconds).of(Time.zone.now)
   end
 
   example 'failure - solo account without unconfirmed request' do
