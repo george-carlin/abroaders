@@ -1,11 +1,14 @@
-require 'rails_helper'
+require 'cells_helper'
 
+# TODO the specs are written, but this cell is less urgent than some
+# other ones I need to get done. Postpone creating the cell for now.
+#
+# Note that this specs are actually wrong, because they test additional
+# behaviour that shouldn't be part of the tested cell (like the 'Request a Rec'
+# button, which is implemented elsewhere.)
 RSpec.describe RecommendationRequest::Cell::Banner::Status do
+  before { skip }
   let(:cell_class) { described_class }
-
-  BTN_TEXT = 'Request new card recommendations'.freeze
-
-  let(:offer) { create(:offer) }
 
   describe 'for solo account' do
     let(:account) { create(:account, :onboarded, :eligible) }
@@ -13,7 +16,7 @@ RSpec.describe RecommendationRequest::Cell::Banner::Status do
 
     example 'ineligible' do
       person.update!(eligible: false)
-      account.reload
+      account.reload # TODO is this actually necessary?
 
       expect(cell_class.(account).to_s).to eq ''
       # TODO test uses 'You', not name
@@ -22,7 +25,6 @@ RSpec.describe RecommendationRequest::Cell::Banner::Status do
     example 'unresolved request' do
       run!(RecommendationRequest::Create, { person_type: 'owner' }, 'account' => account)
       rendered = show(account)
-      expect(rendered).not_to have_button BTN_TEXT
       expect(rendered).to have_link nil, href: confirmation_recommendation_requests_path
       # TODO test uses 'You', not name
     end
@@ -30,14 +32,12 @@ RSpec.describe RecommendationRequest::Cell::Banner::Status do
     example 'unresolved recommendations' do
       create_rec(person: person)
       rendered = show(account)
-      expect(rendered).not_to have_button BTN_TEXT
       expect(rendered).to have_link nil, href: cards_path
       # TODO test uses 'You', not name
     end
 
     example 'no unresolved recs/reqs' do
       rendered = show(account)
-      expect(rendered).to have_button BTN_TEXT
       expect(rendered).not_to have_link nil, href: confirmation_recommendation_requests_path
       expect(rendered).not_to have_link nil, href: cards_path
       # TODO test has no person_select
@@ -53,7 +53,7 @@ RSpec.describe RecommendationRequest::Cell::Banner::Status do
 
     example 'neither eligible' do
       people.each { |p| p.update!(eligible: false) }
-      account.reload
+      account.reload # TODO necessary?
 
       expect(cell_class.(account).to_s).to eq ''
     end
@@ -61,7 +61,6 @@ RSpec.describe RecommendationRequest::Cell::Banner::Status do
     context 'both eligible' do
       example 'both can request' do
         rendered = show(account)
-        expect(rendered).to have_button BTN_TEXT
         expect(rendered).not_to have_link nil, href: confirmation_recommendation_requests_path
         expect(rendered).not_to have_link nil, href: cards_path
         # TODO test has person_select
@@ -69,7 +68,6 @@ RSpec.describe RecommendationRequest::Cell::Banner::Status do
 
       example 'one has unresolved recs' do
         create_rec(person: companion)
-        expect(rendered).not_to have_button BTN_TEXT
         expect(rendered).to have_link nil, href: cards_path
         # TODO let them request recs for the other person
       end
@@ -77,7 +75,6 @@ RSpec.describe RecommendationRequest::Cell::Banner::Status do
       example 'one has unresolved request' do
         run!(RecommendationRequest::Create, { person_type: 'owner' }, 'account' => account)
         rendered = show(account)
-        expect(rendered).not_to have_button BTN_TEXT
         expect(rendered).to have_link nil, href: confirmation_recommendation_requests_path
       end
 
@@ -85,7 +82,6 @@ RSpec.describe RecommendationRequest::Cell::Banner::Status do
         create_rec(person: owner)
         run!(RecommendationRequest::Create, { person_type: 'companion' }, 'account' => account)
         rendered = show(account)
-        expect(rendered).not_to have_button BTN_TEXT
         expect(rendered).to have_link nil, href: confirmation_recommendation_requests_path
         expect(rendered).to have_link nil, href: cards_path
       end
@@ -95,24 +91,21 @@ RSpec.describe RecommendationRequest::Cell::Banner::Status do
       before { owner.update!(eligible: false) }
 
       example 'has unresolved request' do
-        run!(RecommendationRequest::Create, { person_type: 'owner' }, 'account' => account)
+        run!(RecommendationRequest::Create, { person_type: 'companion' }, 'account' => account)
         rendered = show(account)
-        expect(rendered).not_to have_button BTN_TEXT
         expect(rendered).to have_link nil, href: confirmation_recommendation_requests_path
         # TODO test uses name, not 'You'
       end
 
       example 'has unresolved recs' do
-        create_rec(person: owner)
+        create_rec(person: companion)
         rendered = show(account)
-        expect(rendered).not_to have_button BTN_TEXT
         expect(rendered).to have_link nil, href: cards_path
         # TODO test uses name, not 'You'
       end
 
       example 'can request' do
         rendered = show(account)
-        expect(rendered).to have_button BTN_TEXT
         expect(rendered).not_to have_link nil, href: confirmation_recommendation_requests_path
         expect(rendered).not_to have_link nil, href: cards_path
         # TODO test has no person_select
