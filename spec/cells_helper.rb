@@ -25,7 +25,7 @@ ApplicationRecord.class_eval do
   cattr_accessor :__is_cell_spec
   # before_save :__disable_db_for_cell_specs
 
-  private
+  # private
 
   # def __disable_db_for_cell_specs
   #   raise 'Cells must not touch the DB' if self.class.__is_cell_spec
