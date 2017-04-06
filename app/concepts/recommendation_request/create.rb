@@ -30,8 +30,15 @@ class RecommendationRequest < RecommendationRequest.superclass
                        end
     end
 
-    def people_can_create?(people:, **)
-      people.all? { |person| Policy.new(person).create? }
+    def people_can_create?(opts, people:, **)
+      cant_create = people.reject { |person| Policy.new(person).create? }
+      if cant_create.none?
+        true
+      else
+        names = cant_create.map(&:first_name).join(' and ')
+        opts['error'] = "#{names} can't request a recommendation"
+        false
+      end
     end
 
     def create_requests!(people:, **)
