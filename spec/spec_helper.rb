@@ -124,7 +124,9 @@ RSpec.configure do |config|
   def run!(op, *args)
     result = op.(*args)
     if result.failure?
-      raise "op #{op} was expected to succeed, but it failed. Args: #{args.join(', ')}"
+      raise "op #{op} was expected to succeed, but it failed.\n\n  Args: "\
+            "#{args.join(', ')}\n\n error message (if there is one): "\
+            "#{result['error']}"
     end
     result
   end
