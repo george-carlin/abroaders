@@ -1,4 +1,13 @@
 class RecommendationRequestsController < AuthenticatedUserController
+  def create
+    run RecommendationRequest::Create do
+      redirect_to confirmation_recommendation_requests_path
+      return
+    end
+    flash[:error] = "Couldn't create a recommendation request"
+    redirect_to :back
+  end
+
   # Show the user a summary of their data and ask them to update anything
   # that's innaccurate.
   def confirmation

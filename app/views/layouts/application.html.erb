@@ -10,6 +10,9 @@
         <%= render "layouts/noscript" unless Rails.env.test? %>
 
         <%= flash_alerts %>
+
+        <%= cell(RecommendationRequest::Cell::Banner, current_account) %>
+
         <%= yield %>
       </div><!-- content -->
       <%= cell Abroaders::Cell::Footer %>

@@ -1,0 +1,23 @@
+<div id="new_rec_request_btn_wrapper" class="col-xs-12">
+  <button id="new_rec_request_btn" class="btn btn-primary">
+    <%= request_new_recs_btn_text %>
+  </button>
+</div>
+
+<div id="new_rec_request_form" class="col-xs-12" style="display:none;">
+  <%= form_tag recommendation_requests_path, class: 'form-inline' do %>
+    <div class="form-group">
+      Who wants new cards?
+      <%= person_select_field %>
+    </div>
+
+    <div class="btn-group">
+      <button class="submit_btn btn btn-primary">
+        Go
+      </button>
+      <button class="cancel_btn btn btn-default">
+        Cancel
+      </button>
+    </div>
+  <% end %>
+</div>
