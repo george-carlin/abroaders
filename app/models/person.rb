@@ -111,5 +111,5 @@ class Person < ApplicationRecord
 
   scope :owner,     -> { where(owner: true) }
   scope :companion, -> { where(owner: false) }
-  scope :eligible,  -> { where(eligible: false) }
+  scope :eligible,  -> { where(eligible: true) }
 end
