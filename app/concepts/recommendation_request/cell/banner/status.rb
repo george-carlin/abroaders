@@ -14,7 +14,7 @@ class RecommendationRequest < RecommendationRequest.superclass
       # to do it.
       #
       # @!method self.call(account, options = {})
-      class Status < Abroaders::Base::Cell
+      class Status < Abroaders::Cell::Base
       end
     end
   end
