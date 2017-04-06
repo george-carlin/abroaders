@@ -9,10 +9,23 @@ class RecommendationRequest < ApplicationRecord
     super(Status.(new_status))
   end
 
+  def confirm!
+    update!(status: 'confirmed')
+  end
+
+  def confirmed?
+    status == 'confirmed'
+  end
+
+  def unconfirmed?
+    status == 'unconfirmed'
+  end
+
   def unresolved?
     status != 'resolved'
   end
 
   scope :unresolved, -> { where.not(status: 'resolved') }
   scope :unconfirmed, -> { where(status: 'unconfirmed') }
+  scope :confirmed, -> { where(status: 'confirmed') }
 end

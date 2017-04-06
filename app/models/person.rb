@@ -93,6 +93,9 @@ class Person < ApplicationRecord
   has_many :award_wallet_accounts, through: :award_wallet_owners
 
   has_many :recommendation_requests
+  has_many :confirmed_recommendation_requests,
+           -> { confirmed },
+           class_name: 'RecommendationRequest'
   has_many :unresolved_recommendation_requests,
            -> { unresolved },
            class_name: 'RecommendationRequest'

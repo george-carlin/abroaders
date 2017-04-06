@@ -74,6 +74,10 @@ class Account < ApplicationRecord
   has_many :interest_regions, dependent: :destroy
   has_many :regions_of_interest, through: :interest_regions, source: :region
 
+  has_many :recommendation_requests, through: :people
+  has_many :confirmed_recommendation_requests, through: :people
+  has_many :unconfirmed_recommendation_requests, through: :people, source: :unconfirmed_recommendation_request
+
   # TODO these methods don't belong in here; updating the counter cache is a
   # responsibility of the Notification class, not the Account class
   def increment_unseen_notifications_count
