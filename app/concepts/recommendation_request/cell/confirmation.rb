@@ -3,7 +3,7 @@ class RecommendationRequest # < RecommendationRequest.superclass
     # @!method self.call(result, options = {})
     #   @option result [Collection<Person>] people with an unconfirmed
     #     rec request. Will raise an error if they don't have one.
-    class Confirm < Abroaders::Cell::Base
+    class Confirmation < Abroaders::Cell::Base
       extend Abroaders::Cell::Result
 
       skill :people
@@ -16,7 +16,8 @@ class RecommendationRequest # < RecommendationRequest.superclass
       def show
         "#{main_header}
         #{cell(ConfirmPersonalSpending, account)}
-        #{cell(ConfirmPerson, collection: people)}"
+        #{cell(ConfirmPerson, collection: people)}
+        #{cell(SubmitBtn, people)}"
       end
 
       private
@@ -146,6 +147,28 @@ class RecommendationRequest # < RecommendationRequest.superclass
         def what_you_should_exclude
           'You should exclude rent, mortage, and car payments unless you are '\
           'certain you can use a credit card as the payment method.'
+        end
+      end
+
+      # @!method self.call(people, options = {})
+      #   @param people [Collection<People>] the people who have unconfirmed
+      #     recreqs.
+      class SubmitBtn < Abroaders::Cell::Base
+        def show
+          if model.many?
+            me = 'us'
+            my = 'Our'
+          else
+            me = 'me'
+            my = 'My'
+          end
+          content_tag :div, class: 'col-xs-12' do
+            button_to(
+              "#{my} data is all up-to-date - Send #{me} some card recommendations!",
+              confirm_recommendation_requests_path,
+              class: 'btn btn-primary btn-lg',
+            )
+          end
         end
       end
     end

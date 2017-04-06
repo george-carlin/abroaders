@@ -143,7 +143,8 @@ Rails.application.routes.draw do
 
   resource :recommendation_requests do
     collection do
-      get :confirm
+      get :confirmation
+      post :confirm
     end
   end
 
