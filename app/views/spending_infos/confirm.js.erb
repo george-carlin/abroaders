@@ -1,8 +1,8 @@
-var valid    = <%= !!@valid %>;
-var confirm  = "<%= params[:confirm] %>";
-var personId = <%= params[:person_id] %>;
+var valid     = <%= !!@valid %>;
+var sectionId = "<%= params[:section_id] %>";
+var personId  = <%= params[:person_id] %>;
 
-var $section = $('#confirm_person_' + personId + '_' + confirm);
+var $section = $('#' + sectionId);
 
 if (valid) {
   $section.html("Updated!<hr>");

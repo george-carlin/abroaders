@@ -1,0 +1,53 @@
+<div id="confirm_personal_spending" class="confirm_personal_spending col-xs-12">
+  <div class="confirm_personal_spending_current">
+    <p class="lead"><%= is_this_your_current_spending %></p>
+
+    <p><%= spending_explanation %></p>
+
+    <p><%= what_you_should_exclude %></p> 
+
+    <div class="btn-group">
+      <button class="confirm_personal_spending_btn btn btn-success">
+        Yes
+      </button>
+      <button class="confirm_personal_spending_update_btn btn btn-danger">
+        No - it needs updating
+      </button>
+    </div>
+  </div>
+
+  <%= form do  %>
+    <%= hidden_field_tag :section_id, 'confirm_personal_spending' %>
+
+    <div class="row">
+      <div class="col-xs-12">
+        <p><%= spending_input_explanation %></p>
+
+        <p><%= what_you_should_exclude %></p> 
+      </div>
+
+      <div class="col-xs-12 col-md-9">
+        <!-- .field_with_errors will be added to this div: -->
+        <div class="input-group input-wrapper">
+          <div class="input-group-addon">
+            $
+          </div>
+          <%= field %>
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-md-3">
+        <div class="btn-group">
+          <button class="confirm_personal_spending_cancel_btn btn btn-default">
+            Go back
+          </button>
+          <button class="confirm_personal_spending_save_btn btn btn-primary">
+            Save
+          </button>
+        </div><!-- .btn-group -->
+      </div>
+    </div><!-- .row -->
+  <% end %>
+
+  <hr>
+</div>

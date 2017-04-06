@@ -4,6 +4,9 @@ class SpendingInfo < SpendingInfo.superclass
     #   setting this to false hides both eligibility and readiness, but I'm
     #   keeping 'show_eligibility' as the name because we'll be replacing the
     #   whole concept of 'readiness' with rec requests soon.
+    #
+    #   TODO I think I ended up not actually using show_eligibility anywhere.
+    #   Can it be removed?
     class Table < Abroaders::Cell::Base
       property :business_spending_usd
       property :credit_score

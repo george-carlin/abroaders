@@ -14,7 +14,9 @@ class RecommendationRequest # < RecommendationRequest.superclass
       end
 
       def show
-        "#{main_header} #{cell(ConfirmPerson, collection: people)}"
+        "#{main_header}
+        #{cell(ConfirmPersonalSpending, account)}
+        #{cell(ConfirmPerson, collection: people)}"
       end
 
       private
@@ -39,92 +41,6 @@ class RecommendationRequest # < RecommendationRequest.superclass
             below.
           </div>
         HTML
-      end
-
-      class BalanceSummaryTable < Abroaders::Cell::Base
-        def show
-          %[<table class="table table-striped">
-              <thead>
-                <th>Name</th>
-                <th>Balance</th>
-                <th></th>
-              </thead>
-              <tbody>#{rows}<tbody>
-            </table>]
-        end
-
-        private
-
-        def rows
-          cell(Row, collection: model)
-        end
-
-        # @!method self.call(balance, options = {})
-        class Row < Abroaders::Cell::Base
-          include ActionView::Helpers::NumberHelper
-
-          property :currency_name
-          property :value
-
-          private
-
-          def link_to_edit
-            link_to 'Edit', '#', class: 'btn btn-xs btn-primary'
-          end
-        end
-      end
-
-      # @!method self.call(card_accounts, options = {})
-      class CardSummaryTable < Abroaders::Cell::Base
-        def show
-          %[<table class="table table-striped">
-              <thead>
-                <th>Card</th>
-                <th>Opened</th>
-                <th>Closed</th>
-                <th></th>
-              </thead>
-              <tbody>#{rows}<tbody>
-            </table>]
-        end
-
-        private
-
-        def rows
-          cell(Row, collection: model)
-        end
-
-        class Row < Abroaders::Cell::Base
-          property :product
-
-          def initialize(card_account, options = {})
-            raise 'not a card account' if card_account.opened_on.nil?
-            super
-          end
-
-          private
-
-          def closed_on
-            model.closed_on.nil? ? '-' : model.closed_on.strftime('%b %Y')
-          end
-
-          def link_to_edit
-            link_to 'Update', edit_card_path(model), class: 'btn btn-xs btn-primary'
-          end
-
-          def opened_on
-            model.opened_on.strftime('%b %Y') # Dec 2015
-          end
-
-          def product_name
-            cell(
-              CardProduct::Cell::FullName,
-              product,
-              network_in_brackets: true,
-              with_bank: true,
-            )
-          end
-        end
       end
 
       # @!method self.call(person, options = {})
@@ -170,72 +86,66 @@ class RecommendationRequest # < RecommendationRequest.superclass
           )
         end
 
-        # VVVVV TODO
-
-        def balances_summary
-          if balances.any?
-            <<-HTML
-              <p>
-                Do you still have all of these loyalty accounts? Is the
-                information still up-to-date?
-              </p>
-
-              #{cell(BalanceSummaryTable, balances)}
-
-              <p>
-                If you have another loyalty program balance that's not on this list,
-                #{link_to 'click here to add it', new_person_balance_path(model)}
-              </p>
-            HTML
-          else
-            href = new_person_balance_path(model)
-            <<-HTML
-              <p>
-                #{has_partner? ? "#{first_name} doesn't" : "You don't"} have
-                any saved loyalty account balances. If this isn't correct,
-                #{link_to 'click here to add a new points account', href}
-              </p>
-            HTML
-          end
-        end
-
-        def cards_summary
-          if card_accounts.any?
-            <<-HTML
-              <p>
-                Do you still have all these cards? Have you closed any of the
-                accounts? If any of the information has changed, click 'Edit'
-                next to the card, or
-                #{link_to 'click here to add a new card', new_card_account_path}
-              </p>
-
-              #{cell(CardSummaryTable, card_accounts)}
-            HTML
-          else
-            <<-HTML
-              <p>
-                #{has_partner? ? "#{first_name} doesn't" : "You don't"} have
-                any saved credit or debit cards. If this isn't correct,
-                #{link_to 'click here to add a new card', new_card_account_path}
-              </p>
-            HTML
-          end
-        end
-
-        def link_to_edit_spending
-          link_to(
-            'My financial information needs updating',
-            edit_person_spending_info_path(model),
-            class: 'btn btn-primary btn-small btn-default',
-          )
-        end
-
         def your
           has_partner? ? "#{first_name}'s" : 'Your'
         end
+      end
 
-        def spending_info_table
-          cell(SpendingInfo::Cell::Table, spending_info, show_eligibility: false)
+      # @!method self.call(account, options = {})
+      class ConfirmPersonalSpending < Abroaders::Cell::Base
+        property :couples?
+        property :monthly_spending_usd
+        property :people
+
+        private
+
+        def field
+          number_field(
+            :spending_info,
+            :monthly_spending_usd,
+            min: 0,
+            value: monthly_spending_usd,
+          )
+        end
+
+        def form(&block)
+          form_tag(
+            # Either person's ID will work here:
+            confirm_person_spending_info_path(people.first.id),
+            class: 'confirm_personal_spending_form',
+            data: { remote: true },
+            method: :patch,
+            style: 'display:none;',
+            &block
+          )
+        end
+
+        def is_this_your_current_spending
+          usd = number_to_currency(monthly_spending_usd)
+          "Is your personal monthly spending still <b>#{usd}</b>?"
+        end
+
+        def spending_who
+          text = if couples?
+                   names = escape(people.map(&:first_name).join(' and '))
+                   "the combined average monthly spending for both #{names} "
+                 else
+                   'your average monthly spending '
+                 end
+          text << 'that can be charged to a credit card account.'
+        end
+
+        def spending_explanation
+          "This should be #{spending_who}"
+        end
+
+        def spending_input_explanation
+          "Please tell us #{spending_who}"
+        end
+
+        def what_you_should_exclude
+          'You should exclude rent, mortage, and car payments unless you are '\
+          'certain you can use a credit card as the payment method.'
         end
       end
     end
