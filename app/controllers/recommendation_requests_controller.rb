@@ -6,12 +6,12 @@ class RecommendationRequestsController < AuthenticatedUserController
       return
     end
     flash[:error] = "Couldn't create a recommendation request"
-    redirect_to confirmation_recommendation_requests_path(person_type: params[:person_type])
+    redirect_to new_recommendation_requests_path(person_type: params[:person_type])
   end
 
   # Show the user a summary of their data and ask them to update anything
   # that's innaccurate.
-  def confirmation
+  def new
     unless %w[owner companion both].include?(params[:person_type])
       raise "unrecognised param '#{params[:person_type]}'"
     end
@@ -31,6 +31,6 @@ class RecommendationRequestsController < AuthenticatedUserController
     # Should also raise an error if they request 'both' or 'companion' when
     # they're on a solo account.
 
-    render cell(RecommendationRequest::Cell::Confirmation, 'people' => people)
+    render cell(RecommendationRequest::Cell::New, 'people' => people)
   end
 end

@@ -25,7 +25,7 @@ RSpec.describe RecommendationRequest::Cell::Banner::Status do
     example 'unresolved request' do
       run!(RecommendationRequest::Create, { person_type: 'owner' }, 'account' => account)
       rendered = show(account)
-      expect(rendered).to have_link nil, href: confirmation_recommendation_requests_path
+      expect(rendered).to have_link nil, href: new_recommendation_requests_path
       # TODO test uses 'You', not name
     end
 
@@ -38,7 +38,7 @@ RSpec.describe RecommendationRequest::Cell::Banner::Status do
 
     example 'no unresolved recs/reqs' do
       rendered = show(account)
-      expect(rendered).not_to have_link nil, href: confirmation_recommendation_requests_path
+      expect(rendered).not_to have_link nil, href: new_recommendation_requests_path
       expect(rendered).not_to have_link nil, href: cards_path
       # TODO test has no person_select
       # TODO test uses 'You', not name
@@ -61,7 +61,7 @@ RSpec.describe RecommendationRequest::Cell::Banner::Status do
     context 'both eligible' do
       example 'both can request' do
         rendered = show(account)
-        expect(rendered).not_to have_link nil, href: confirmation_recommendation_requests_path
+        expect(rendered).not_to have_link nil, href: new_recommendation_requests_path
         expect(rendered).not_to have_link nil, href: cards_path
         # TODO test has person_select
       end
@@ -75,14 +75,14 @@ RSpec.describe RecommendationRequest::Cell::Banner::Status do
       example 'one has unresolved request' do
         run!(RecommendationRequest::Create, { person_type: 'owner' }, 'account' => account)
         rendered = show(account)
-        expect(rendered).to have_link nil, href: confirmation_recommendation_requests_path
+        expect(rendered).to have_link nil, href: new_recommendation_requests_path
       end
 
       example 'both have unresolved recs/reqs' do
         create_rec(person: owner)
         run!(RecommendationRequest::Create, { person_type: 'companion' }, 'account' => account)
         rendered = show(account)
-        expect(rendered).to have_link nil, href: confirmation_recommendation_requests_path
+        expect(rendered).to have_link nil, href: new_recommendation_requests_path
         expect(rendered).to have_link nil, href: cards_path
       end
     end
@@ -93,7 +93,7 @@ RSpec.describe RecommendationRequest::Cell::Banner::Status do
       example 'has unresolved request' do
         run!(RecommendationRequest::Create, { person_type: 'companion' }, 'account' => account)
         rendered = show(account)
-        expect(rendered).to have_link nil, href: confirmation_recommendation_requests_path
+        expect(rendered).to have_link nil, href: new_recommendation_requests_path
         # TODO test uses name, not 'You'
       end
 
@@ -106,7 +106,7 @@ RSpec.describe RecommendationRequest::Cell::Banner::Status do
 
       example 'can request' do
         rendered = show(account)
-        expect(rendered).not_to have_link nil, href: confirmation_recommendation_requests_path
+        expect(rendered).not_to have_link nil, href: new_recommendation_requests_path
         expect(rendered).not_to have_link nil, href: cards_path
         # TODO test has no person_select
         # TODO test uses name, not 'You'

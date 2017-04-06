@@ -5,7 +5,7 @@
 </div>
 
 <div id="new_rec_request_form" class="col-xs-12" style="display:none;">
-  <%= form_tag confirmation_recommendation_requests_path, method: :get, class: 'form-inline' do %>
+  <%= form_tag new_recommendation_requests_path, method: :get, class: 'form-inline' do %>
     <div class="form-group">
       Who wants new cards?
       <%= person_select_field %>

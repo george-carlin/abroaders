@@ -141,12 +141,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resource :recommendation_requests do
-    collection do
-      get :confirmation
-      post :confirm
-    end
-  end
+  resource :recommendation_requests
 
   get :slack, to: "slack_invites#new"
   post "slack/invite", to: "slack_invites#create"

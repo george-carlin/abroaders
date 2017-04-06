@@ -3,7 +3,7 @@ class RecommendationRequest # < RecommendationRequest.superclass
     # @!method self.call(result, options = {})
     #   @option result [Collection<Person>] people who want to request a rec.
     #     An error will be raised if any of them can't request a rec
-    class Confirmation < Abroaders::Cell::Base
+    class New < Abroaders::Cell::Base
       extend Abroaders::Cell::Result
 
       skill :people

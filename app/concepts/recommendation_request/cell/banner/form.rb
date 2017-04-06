@@ -53,7 +53,7 @@ class RecommendationRequest < RecommendationRequest.superclass
             content_tag :div, class: 'col-xs-12' do
               link_to(
                 request_new_recs_btn_text,
-                confirmation_recommendation_requests_path(person_type: person.type),
+                new_recommendation_requests_path(person_type: person.type),
                 class: 'btn btn-primary',
               )
             end

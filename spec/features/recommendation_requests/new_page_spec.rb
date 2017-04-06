@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'recommendation requests - confirmation page' do
+RSpec.describe 'new recommendation request page' do
   # will raise an error if the account has no monthly spending saved:
   let(:account) { create(:account, :eligible, :onboarded, monthly_spending_usd: 1) }
   let(:owner)   { account.owner }
@@ -11,7 +11,7 @@ RSpec.describe 'recommendation requests - confirmation page' do
   end
 
   example 'solo account' do
-    visit confirmation_recommendation_requests_path(person_type: :owner)
+    visit new_recommendation_requests_path(person_type: :owner)
     btn = "My data is all up-to-date - Send me some card recommendations!"
     click_button btn
     owner.reload
@@ -22,7 +22,7 @@ RSpec.describe 'recommendation requests - confirmation page' do
     companion = create(:companion, :eligible, account: account)
     create(:spending_info, person: companion)
     account.reload
-    visit confirmation_recommendation_requests_path(person_type: :both)
+    visit new_recommendation_requests_path(person_type: :both)
     btn = "Our data is all up-to-date - Send us some card recommendations!"
     click_button btn
     owner.reload
