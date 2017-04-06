@@ -18,15 +18,18 @@ require 'rails_helper'
 # during cell specs, will raise an error if you try to save anything to the DB
 # - which will force you to create Cells that don't read from the DB if you
 # want your tests to pass
+#
+# UPDATE 6/4/17 - I'm relaxing this requirement for now. Let's rethink this
+#
 ApplicationRecord.class_eval do
   cattr_accessor :__is_cell_spec
-  before_save :__disable_db_for_cell_specs
+  # before_save :__disable_db_for_cell_specs
 
-  private
+  # private
 
-  def __disable_db_for_cell_specs
-    raise 'Cells must not touch the DB' if self.class.__is_cell_spec
-  end
+  # def __disable_db_for_cell_specs
+  #   raise 'Cells must not touch the DB' if self.class.__is_cell_spec
+  # end
 end
 
 module Abroaders
