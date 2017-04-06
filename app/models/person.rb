@@ -1,10 +1,6 @@
 class Person < ApplicationRecord
   delegate :email, to: :account
 
-  def can_receive_recommendations?
-    onboarded? && eligible? && ready?
-  end
-
   def companion?
     !owner
   end
