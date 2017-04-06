@@ -51,9 +51,9 @@ class RecommendationRequest < RecommendationRequest.superclass
 
           def show
             content_tag :div, class: 'col-xs-12' do
-              button_to(
+              link_to(
                 request_new_recs_btn_text,
-                recommendation_requests_path(person_type: person.type),
+                confirmation_recommendation_requests_path(person_type: person.type),
                 class: 'btn btn-primary',
               )
             end

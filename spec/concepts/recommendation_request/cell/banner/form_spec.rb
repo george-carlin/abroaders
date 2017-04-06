@@ -5,15 +5,6 @@ RSpec.describe RecommendationRequest::Cell::Banner::Form do
 
   let(:cell_class) { described_class }
 
-  # TODO move to sample_data_macros.rb
-  def create_rec_request(person_type, account)
-    run!(
-      RecommendationRequest::Create,
-      { person_type: person_type },
-      'account' => account,
-    )
-  end
-
   BTN_TEXT = 'Request new card recommendations'.freeze
 
   let(:offer) { create(:offer) }
@@ -40,7 +31,7 @@ RSpec.describe RecommendationRequest::Cell::Banner::Form do
 
     example 'no unresolved recs/reqs' do
       rendered = show(account)
-      expect(rendered).to have_button BTN_TEXT
+      expect(rendered).to have_link BTN_TEXT
       # TODO test has no person_select
     end
   end
@@ -103,7 +94,7 @@ RSpec.describe RecommendationRequest::Cell::Banner::Form do
 
       example 'can request' do
         rendered = show(account)
-        expect(rendered).to have_button BTN_TEXT
+        expect(rendered).to have_link BTN_TEXT
         # TODO test has no person select
       end
     end

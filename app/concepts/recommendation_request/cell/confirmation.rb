@@ -1,15 +1,15 @@
 class RecommendationRequest # < RecommendationRequest.superclass
   module Cell
     # @!method self.call(result, options = {})
-    #   @option result [Collection<Person>] people with an unconfirmed
-    #     rec request. Will raise an error if they don't have one.
+    #   @option result [Collection<Person>] people who want to request a rec.
+    #     An error will be raised if any of them can't request a rec
     class Confirmation < Abroaders::Cell::Base
       extend Abroaders::Cell::Result
 
       skill :people
 
       def initialize(result, options = {})
-        raise unless result['people'].all?(&:unconfirmed_recommendation_request)
+        raise unless result['people'].all? { |p| Policy.new(p).create? }
         super
       end
 
@@ -45,15 +45,15 @@ class RecommendationRequest # < RecommendationRequest.superclass
       end
 
       # @!method self.call(person, options = {})
-      #   @param person [Person] person with an unconfirmed rec request. Will
+      #   @param person [Person] person with an unresolved rec request. Will
       #     raise an error if they don't have one.
       class ConfirmPerson < Abroaders::Cell::Base
         include Abroaders::Cell::Hpanel
         include Escaped
 
         def initialize(person, options = {})
-          if person.unconfirmed_recommendation_request.nil?
-            raise 'person must have an unconfirmed rec request'
+          if person.unresolved_card_recommendations.nil?
+            raise 'person must have an unresolved rec request'
           end
           super(EligiblePerson.build(person), options)
         end
@@ -88,7 +88,7 @@ class RecommendationRequest # < RecommendationRequest.superclass
         end
 
         def your
-          has_partner? ? "#{first_name}'s" : 'Your'
+          has_partner? ? "#{first_name}'s" : 'your'
         end
       end
 
@@ -151,8 +151,7 @@ class RecommendationRequest # < RecommendationRequest.superclass
       end
 
       # @!method self.call(people, options = {})
-      #   @param people [Collection<People>] the people who have unconfirmed
-      #     recreqs.
+      #   @param people [Collection<People>] the people who want to request a rec
       class SubmitBtn < Abroaders::Cell::Base
         def show
           if model.many?
@@ -165,7 +164,7 @@ class RecommendationRequest # < RecommendationRequest.superclass
           content_tag :div, class: 'col-xs-12' do
             button_to(
               "#{my} data is all up-to-date - Send #{me} some card recommendations!",
-              confirm_recommendation_requests_path,
+              recommendation_requests_path(person_type: params[:person_type]),
               class: 'btn btn-primary btn-lg',
             )
           end

@@ -36,6 +36,8 @@ FactoryGirl.define do
       after(:build) { |acc| acc.people.each { |p| p.eligible = true } }
     end
 
+    # If you're using this trait in conjunction with :couples or :eligible,
+    # make sure that it's the LAST trait in the list of args.
     trait :onboarded do
       onboarding_state :complete
     end

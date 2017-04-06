@@ -43,7 +43,7 @@ class RecommendationRequest < RecommendationRequest.superclass
 
     def create_requests!(people:, **)
       ApplicationRecord.transaction do
-        people.each { |person| RecommendationRequest.unconfirmed.create!(person: person) }
+        people.each { |person| RecommendationRequest.unresolved.create!(person: person) }
       end
     end
   end

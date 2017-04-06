@@ -173,4 +173,14 @@ module SampleDataMacros
 
     run!(CardAccount::Create, params, 'account' => person.account)['model']
   end
+
+  def create_recommendation_request(person_type, account)
+    unless %w[owner companion both].include?(person_type)
+      raise "invalid person type '#{person_type}'"
+    end
+
+    run!(RecommendationRequest::Create, { person_type: person_type }, 'account' => account)
+  end
+
+  alias create_rec_request create_recommendation_request
 end

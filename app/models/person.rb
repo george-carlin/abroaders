@@ -72,6 +72,10 @@ class Person < ApplicationRecord
   has_many :unpulled_cards, -> { unpulled }, class_name: 'Card'
   has_many :unresolved_card_recommendations, -> { recommended.unresolved }, class_name: 'Card'
 
+  def unresolved_recommendation_request?
+    !unresolved_recommendation_request.nil?
+  end
+
   # really, an 'unresolved rec' should exclude recommendations which have been
   # applied for. This should be fixed by the upcoming changes in the data
   # model, but for now I don't want to break the existing
@@ -91,13 +95,10 @@ class Person < ApplicationRecord
   has_many :confirmed_recommendation_requests,
            -> { confirmed },
            class_name: 'RecommendationRequest'
-  has_many :unresolved_recommendation_requests,
-           -> { unresolved },
-           class_name: 'RecommendationRequest'
-  # They should only ever have ONE unconfirmed request. If they have more than
+  # They should only ever have ONE unresolved request. If they have more than
   # one, something's gone wrong somewhere
-  has_one :unconfirmed_recommendation_request,
-          -> { unconfirmed },
+  has_one :unresolved_recommendation_request,
+          -> { unresolved },
           class_name: 'RecommendationRequest'
 
   # Callbacks
