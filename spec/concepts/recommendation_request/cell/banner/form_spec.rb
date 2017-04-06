@@ -1,13 +1,15 @@
 require 'cells_helper'
 
 RSpec.describe RecommendationRequest::Cell::Banner::Form do
+  controller RecommendationRequestsController
+
   let(:cell_class) { described_class }
 
   # TODO move to sample_data_macros.rb
-  def create_rec_request(_person_type, account)
+  def create_rec_request(person_type, account)
     run!(
       RecommendationRequest::Create,
-      { person_type: 'owner' },
+      { person_type: person_type },
       'account' => account,
     )
   end

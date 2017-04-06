@@ -53,9 +53,9 @@ RSpec.describe RecommendationRequest::Policy do
         'account' => person.account,
       )
 
-      create_card_recommendation
+      create_card_recommendation(person: person)
 
-      expect(result).to be true
+      expect(result).to be false
     end
 
     example 'person is ineligible' do

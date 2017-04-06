@@ -28,10 +28,6 @@ class RecommendationRequest < RecommendationRequest.superclass
         property :owner
         property :eligible_people
 
-        def show
-          raise NotImplementedError, 'subclasses must implement #show'
-        end
-
         def request_new_recs_btn_text
           'Request new card recommendations'
         end
