@@ -9,7 +9,7 @@ class RecommendationRequest # < RecommendationRequest.superclass
       skill :people
 
       def initialize(result, options = {})
-        raise unless result['people'].any?(&:unconfirmed_recommendation_request)
+        raise unless result['people'].all?(&:unconfirmed_recommendation_request)
         super
       end
 
@@ -138,19 +138,39 @@ class RecommendationRequest # < RecommendationRequest.superclass
           if person.unconfirmed_recommendation_request.nil?
             raise 'person must have an unconfirmed rec request'
           end
-          # They shouldn't have a RecReq if they're not eligible, but let's be
-          # defensive:
-          raise 'person must be eligible' unless person.eligible?
-          super
+          super(EligiblePerson.build(person), options)
         end
 
-        property :balances
-        property :has_partner?
+        property :id
         property :card_accounts
+        property :credit_score
         property :first_name
-        property :spending_info
+        property :has_partner?
 
         private
+
+        def credit_score_form(&block)
+          form_tag(
+            confirm_person_spending_info_path(id),
+            class: 'confirm_person_credit_score_form',
+            data: { remote: true },
+            method: :patch,
+            style: 'display:none;',
+            &block
+          )
+        end
+
+        def credit_score_field
+          number_field(
+            :spending_info,
+            :credit_score,
+            max: SpendingInfo::MAXIMUM_CREDIT_SCORE,
+            min: SpendingInfo::MINIMUM_CREDIT_SCORE,
+            value: credit_score,
+          )
+        end
+
+        # VVVVV TODO
 
         def balances_summary
           if balances.any?
@@ -208,6 +228,10 @@ class RecommendationRequest # < RecommendationRequest.superclass
             edit_person_spending_info_path(model),
             class: 'btn btn-primary btn-small btn-default',
           )
+        end
+
+        def your
+          has_partner? ? "#{first_name}'s" : 'Your'
         end
 
         def spending_info_table

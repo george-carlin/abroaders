@@ -1,18 +1,50 @@
-<h1><%= first_name %></h1>
-<p>Please confirm that all your information is up-to-date</p>
+<div id="confirm_person_<%= id %>_credit_score" class="confirm_person_credit_score col-xs-12">
+  <div class="confirm_credit_score_current">
+    <p class="lead">
+      Is <%= your %> credit score still <b><%= credit_score %></b>?
+    </p>
 
-<p>Is the following financial information for <%= first_name %> still accurate?</p>
-<%= spending_info_table %>
-<%= link_to_edit_spending %>
+    <div class="btn-group">
+      <button class="confirm_credit_score_btn btn btn-success">
+        Yes
+      </button>
+      <button class="confirm_credit_score_update_btn btn btn-danger">
+        No - it needs updating
+      </button>
+    </div>
+  </div>
 
-<hr>
+  <%= credit_score_form do  %>
+    <%= hidden_field_tag :confirm, 'credit_score' %>
 
-<%= cards_summary %>
+    <div class="row">
+      <div class="col-xs-12">
+        <p class="help-block">
+          What's the correct credit score? It should be a number between
+          <%= SpendingInfo::MINIMUM_CREDIT_SCORE %> and
+          <%= SpendingInfo::MAXIMUM_CREDIT_SCORE %>.
+        </p>
+      </div>
 
-<hr>
+      <div class="col-xs-12 col-md-9">
+        <!-- .field_with_errors will be added to this div: -->
+        <div class="input-wrapper">
+          <%= credit_score_field %>
+        </div>
+      </div>
 
-<%= balances_summary %>
+      <div class="col-xs-12 col-md-3">
+        <div class="btn-group">
+          <button class="confirm_credit_score_cancel_btn btn btn-default">
+            Go back
+          </button>
+          <button class="confirm_credit_score_save_btn btn btn-primary">
+            Save
+          </button>
+        </div><!-- .btn-group -->
+      </div>
+    </div><!-- .row -->
+  <% end %>
 
-<button class="btn btn-primary">
-  My data is up to date - send me new card recommendations
-</button>
+  <hr>
+</div>

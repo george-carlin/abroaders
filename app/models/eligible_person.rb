@@ -19,6 +19,8 @@ class EligiblePerson < Dry::Struct
       has_partner: person.has_partner?,
       personal_spending_usd: person.account.monthly_spending_usd,
       will_apply_for_loan: spending_info.will_apply_for_loan,
+      id: person.id,
+      spending_info_id: spending_info.id,
     )
   end
 
@@ -30,6 +32,9 @@ class EligiblePerson < Dry::Struct
   attribute :has_partner, Types::Strict::Bool
   attribute :personal_spending_usd, Types::Strict::Int
   attribute :will_apply_for_loan, Types::Strict::Bool
+
+  attribute :id, Types::Strict::Int
+  attribute :spending_info_id, Types::Strict::Int
 
   alias has_partner? has_partner
 end

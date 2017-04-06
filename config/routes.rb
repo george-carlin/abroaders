@@ -119,7 +119,11 @@ Rails.application.routes.draw do
         post :survey, action: :save_survey
       end
     end
-    resource :spending_info, path: :spending, only: [:edit, :update]
+    resource :spending_info, path: :spending, only: [:edit, :update] do
+      member do
+        patch :confirm
+      end
+    end
   end
 
   resource :phone_number, only: [:new, :create] do

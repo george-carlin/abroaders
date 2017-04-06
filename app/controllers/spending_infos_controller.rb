@@ -58,6 +58,16 @@ class SpendingInfosController < AuthenticatedUserController
     end
   end
 
+  def confirm
+    @model = load_person.spending_info
+    @form  = SpendingInfo::Form.new(@model)
+    if @form.validate(params[:spending_info])
+      @form.save
+      @valid = true
+    end
+    respond_to(&:js)
+  end
+
   private
 
   def load_person
