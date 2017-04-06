@@ -9,11 +9,6 @@ class Person < ApplicationRecord
     !owner
   end
 
-  def has_recent_recommendation?
-    return false if last_recommendations_at.nil?
-    last_recommendations_at >= Time.current - 30.days
-  end
-
   def has_partner?
     account.couples?
   end
