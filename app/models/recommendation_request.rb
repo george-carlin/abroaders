@@ -4,7 +4,7 @@ class RecommendationRequest < ApplicationRecord
   def status
     return 'resolved' if resolved?
     return 'confirmed' if confirmed?
-    return 'unconfirmed'
+    'unconfirmed'
   end
 
   def confirm!
