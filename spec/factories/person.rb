@@ -30,9 +30,6 @@ FactoryGirl.define do
       ready true
     end
 
-    factory :companion,               traits: [:companion]
-    factory :person_with_spending,    traits: [:onboarded_spending]
-    factory :owner_with_spending,     traits: [:onboarded_spending, :owner]
-    factory :companion_with_spending, traits: [:onboarded_spending, :companion]
+    factory :companion, traits: [:companion]
   end
 end
