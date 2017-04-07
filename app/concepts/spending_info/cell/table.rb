@@ -1,20 +1,12 @@
 class SpendingInfo < SpendingInfo.superclass
   module Cell
-    # @option options [Boolean] show_eligibility (default true)
-    #   setting this to false hides both eligibility and readiness, but I'm
-    #   keeping 'show_eligibility' as the name because we'll be replacing the
-    #   whole concept of 'readiness' with rec requests soon.
-    #
-    #   TODO I think I ended up not actually using show_eligibility anywhere.
-    #   Can it be removed?
+    # @!method self.call(spending_info, options = {})
     class Table < Abroaders::Cell::Base
       property :business_spending_usd
       property :credit_score
       property :has_business
       property :person
       property :will_apply_for_loan
-
-      option :show_eligibility, default: true
 
       private
 
