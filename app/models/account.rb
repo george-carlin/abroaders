@@ -78,6 +78,10 @@ class Account < ApplicationRecord
   has_many :resolved_recommendation_requests, through: :people
   has_many :unresolved_recommendation_requests, through: :people, source: :unresolved_recommendation_request
 
+  def unresolved_recommendation_requests?
+    unresolved_recommendation_requests.any?
+  end
+
   # TODO these methods don't belong in here; updating the counter cache is a
   # responsibility of the Notification class, not the Account class
   def increment_unseen_notifications_count

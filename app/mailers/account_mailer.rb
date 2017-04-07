@@ -35,14 +35,28 @@ class AccountMailer < ApplicationMailer
   # `timestamp` is an Unix integer timestamp, not a Date object, because the
   # latter can't be stored in Redis.
   #
-  # This is triggered when a person who is NOT ready updates their status to
-  # ready. It's NOT triggered when a new person says on the onboarding survey
-  # that they are ready.
+  # This is triggered whenever anyone makes a new recommendation request anywhere
+  # after the onboarding survey.
   def notify_admin_of_user_readiness_update(account_id, timestamp)
     @account   = Account.find(account_id)
     @owner     = @account.owner
     @companion = @account.companion
     @timestamp = Time.at(timestamp).in_time_zone("EST")
     mail(to: ENV['MAILPARSER_USER_READY'], subject: "User is Ready - #{@account.email}")
+  end
+
+  private
+
+  # For legacy reasons, we still use the language 'Ready' here even though we
+  # now call it a recommendation request elsewhere in the app. This is so Erik
+  # doesn't have to update the IFTTT endpoints.
+  def person_status(person)
+    if person.ineligible?
+      'Ineligible'
+    elsif person.unresolved_recommendation_request?
+      'Ready'
+    else
+      'Eligible(NotReady)'
+    end
   end
 end

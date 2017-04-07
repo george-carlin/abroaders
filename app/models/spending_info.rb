@@ -12,11 +12,6 @@ class SpendingInfo < ApplicationRecord
   delegate :couples?, to: :account, prefix: true
   delegate :monthly_spending_usd, to: :account
 
-  def unready
-    !ready?
-  end
-  alias unready? unready
-
   # TODO double check this won't fuck up the data
   BusinessType = Types::Strict::String.enum(
     'no_business',

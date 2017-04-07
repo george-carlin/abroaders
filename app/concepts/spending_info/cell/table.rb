@@ -31,10 +31,6 @@ class SpendingInfo < SpendingInfo.superclass
           person.eligible.nil? ? 'Unknown' : 'No'
         end
       end
-
-      def readiness
-        person.ready ? 'Ready' : 'Not ready'
-      end
     end
   end
 end

@@ -1,3 +1,9 @@
+# TODO the last_recommendations_at DB column should probably be removed,
+# and replaced with this instance method
+#
+#   def unresolved_card_recommendations?
+#     unresolved_card_recommendations.any?
+#   end
 class Person < ApplicationRecord
   delegate :email, to: :account
 
@@ -17,16 +23,6 @@ class Person < ApplicationRecord
     account.created_at
   end
 
-  def status
-    if self.ineligible?
-      "Ineligible"
-    elsif self.ready?
-      "Ready"
-    else
-      "Eligible(NotReady)"
-    end
-  end
-
   def type
     owner ? 'owner' : 'companion'
   end
@@ -36,13 +32,6 @@ class Person < ApplicationRecord
       !eligible
     end
     alias_method :ineligible?, :ineligible
-  end
-
-  concerning :Readiness do
-    def unready
-      !ready?
-    end
-    alias_method :unready?, :unready
   end
 
   # Validations

@@ -76,6 +76,7 @@ class Account::Onboarder
       event :add_spending, transition_to: :readiness
     end
 
+    # TOOD add comment explaining why this is called 'readiness'
     state :readiness do
       event :add_readiness, transition_to: :phone_number
     end

@@ -21,9 +21,9 @@ class Account < Account.superclass
         account = result['account']
         if account.people.any? { |p| !p.last_recommendations_at.nil? }
           self
-        elsif account.people.any?(&:ready?)
+        elsif account.unresolved_recommendation_requests?
           ForNewUser::Ready
-        elsif account.people.any?(&:eligible?)
+        elsif account.eligible_people.any?
           ForNewUser::Unready
         else
           ForNewUser::Ineligible
@@ -48,7 +48,7 @@ class Account < Account.superclass
       end
 
       def owner_first_name
-        ERB::Util.html_escape(account.owner_first_name)
+        escape(account.owner_first_name)
       end
 
       def unresolved_recs_modal
@@ -115,14 +115,22 @@ class Account < Account.superclass
           end.join
         end
 
-        # Shown to new users who have at least one ready person on their account
+        # Shown to anyone (not just new users) who have an unresolved
+        # recommendation request
+        #
+        # I suppose this shouldn't really be a subclass of ForNewUser because
+        # it can be shown to non-new users, but originally that wasn't the
+        # case, so let's keep the inheritance structure the same rather than
+        # uproot the legacy code.
+        #
+        # @!self.call(account)
         class Ready < self
           def current_step
             2
           end
 
           def lead_text
-            t('dashboard.account.ready.title')
+            t('dashboard.account.unresolved_rec_req.title')
           end
 
           def step_2
@@ -130,12 +138,17 @@ class Account < Account.superclass
           end
 
           def whats_next
-            %[<p>#{t('dashboard.account.ready.message')}</p>]
+            %[<p>#{t('dashboard.account.unresolved_rec_req.message')}</p>]
           end
         end
 
         # Shown to new users who have at least one eligible person on their
-        # account, but no ready people.
+        # account, but no unresolved requests.
+        #
+        # The class name 'Unready' is a leftover from before we introduced the
+        # concept of a recommendation request.
+        #
+        # @!self.call(account)
         class Unready < self
           def current_step
             2
@@ -143,6 +156,18 @@ class Account < Account.superclass
 
           def lead_text
             t('dashboard.account.eligible.title')
+          end
+
+          def link_to_new_rec_request
+            ppl = account.people.select { |p| RecommendationRequest::Policy.new(p).create? }
+            # FIXME this must be at least the third time I've written a case
+            # statement like this. DRY it somehow.
+            person_type = case ppl.size
+                          when 2 then 'both'
+                          when 1 then ppl[0].type
+                          else raise 'this should never happen'
+                          end
+            link_to 'let us know', new_recommendation_requests_path(person_type: person_type)
           end
 
           def step_2
@@ -153,7 +178,7 @@ class Account < Account.superclass
             %[
           <p>
             When you’re ready to apply for cards, just
-            #{link_to 'let us know', edit_readiness_path} and an expert will pick
+            #{link_to_new_rec_request} and an expert will pick
             the best cards to maximize your travel savings. If we don’t hear back,
             we’ll remind you in about a month.
           </p>
@@ -179,6 +204,8 @@ class Account < Account.superclass
         end
 
         # Shown to new users who have no eligible people on their account
+        #
+        # @!self.call(account)
         class Ineligible < self
           def current_step
             2

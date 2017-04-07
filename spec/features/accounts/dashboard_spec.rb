@@ -1,6 +1,6 @@
-require "rails_helper"
+require 'rails_helper'
 
-RSpec.describe "account dashboard" do
+RSpec.describe 'account dashboard' do
   include ActionView::Helpers::UrlHelper
 
   let(:account) { create(:account, :onboarded) }
@@ -11,96 +11,88 @@ RSpec.describe "account dashboard" do
 
   subject { page }
 
-  shared_examples "showing dashboard for eligible" do
-    example "initial layout" do
-      visit root_path
-      is_expected.to have_content t("dashboard.account.eligible.title")
-      is_expected.to have_content "1. Complete profile"
-      is_expected.to have_content "2. Tell us when you're ready"
-      is_expected.to have_content "3. Apply for card"
-      is_expected.to have_content "4. Earn bonus points"
-      is_expected.to have_content "5. Book travel"
-      is_expected.to have_link "let us know", href: edit_readiness_path
-      is_expected.to have_link "travel plans", href: travel_plans_path
-    end
+  def it_has_steps_for_no_one_eligible
+    visit root_path
+    expect(page).to have_content t('dashboard.account.ineligible.message')
+    expect(page).to have_content '1. Complete profile'
+    expect(page).to have_content '2. Earn points'
+    expect(page).to have_content '3. Travel'
   end
 
-  shared_examples "showing dashboard for ineligible" do
-    example "initial layout" do
-      visit root_path
-      is_expected.to have_content t("dashboard.account.ineligible.message")
-      is_expected.to have_content "1. Complete profile"
-      is_expected.to have_content "2. Earn point"
-      is_expected.to have_content "3. Travel"
-    end
+  def it_has_steps_for_eligible_no_rec_requests(person_type:)
+    visit root_path
+    request_path = new_recommendation_requests_path(person_type: person_type)
+    expect(page).to have_content t('dashboard.account.eligible.title')
+    expect(page).to have_content '1. Complete profile'
+    expect(page).to have_content "2. Tell us when you're ready"
+    expect(page).to have_content '3. Apply for card'
+    expect(page).to have_content '4. Earn bonus points'
+    expect(page).to have_content '5. Book travel'
+    expect(page).to have_link 'let us know', href: request_path
+    expect(page).to have_link 'travel plans', href: travel_plans_path
   end
 
-  shared_examples "showing dashboard for ready" do
-    example "initial layout" do
-      visit root_path
-      is_expected.to have_content t("dashboard.account.ready.message")
-      is_expected.to have_content "1. Complete profile"
-      is_expected.to have_content "2. Wait 24-48 hours"
-      is_expected.to have_content "3. Apply for card"
-      is_expected.to have_content "4. Earn bonus points"
-      is_expected.to have_content "5. Book travel"
-    end
+  def it_has_steps_for_unresolved_rec_request
+    visit root_path
+    expect(page).to have_content t('dashboard.account.unresolved_rec_req.message')
+    expect(page).to have_content '1. Complete profile'
+    expect(page).to have_content '2. Wait 24-48 hours'
+    expect(page).to have_content '3. Apply for card'
+    expect(page).to have_content '4. Earn bonus points'
+    expect(page).to have_content '5. Book travel'
   end
 
   context 'solo account' do
-    context 'eligible' do
-      before { owner.update!(eligible: true) }
-      include_examples 'showing dashboard for eligible'
+    example 'ineligible' do
+      owner.update!(eligible: false)
+      it_has_steps_for_no_one_eligible
     end
 
-    context 'ineligible' do
-      before { owner.update!(eligible: false) }
-      include_examples 'showing dashboard for ineligible'
+    example 'eligible, no rec request' do
+      owner.update!(eligible: true)
+      it_has_steps_for_eligible_no_rec_requests(person_type: 'owner')
     end
 
-    context 'ready' do
-      before { owner.update!(eligible: true, ready: true) }
-      include_examples 'showing dashboard for ready'
+    example 'unresolved rec request' do
+      owner.update!(eligible: true)
+      create_rec_request('owner', account)
+      it_has_steps_for_unresolved_rec_request
     end
   end
 
   context 'couples account' do
-    let(:companion) { account.create_companion!(first_name: 'Gabi') }
+    let!(:companion) { account.create_companion!(first_name: 'Gabi') }
 
-    context 'both people are ineligible' do
-      before do
-        owner.update!(eligible: false)
-        companion.update!(eligible: false)
-      end
-
-      include_examples "showing dashboard for ineligible"
+    example 'both people ineligible' do
+      account.people.update_all(eligible: false)
+      it_has_steps_for_no_one_eligible
     end
 
-    context 'at least one eligible person, neither ready' do
-      before do
-        owner.update!(ready: false)
-        companion.update!(ready: false)
-        owner.update!(eligible: true)
-        visit root_path
-      end
-
-      include_examples "showing dashboard for eligible"
+    example 'at least one eligible person, no rec requests' do
+      owner.update!(eligible: true)
+      it_has_steps_for_eligible_no_rec_requests(person_type: 'owner')
+      companion.update!(eligible: true)
+      it_has_steps_for_eligible_no_rec_requests(person_type: 'both')
+      owner.update!(eligible: false)
+      it_has_steps_for_eligible_no_rec_requests(person_type: 'companion')
     end
 
-    context 'at least one ready person' do
-      before { owner.update!(ready: true) }
-      include_examples "showing dashboard for ready"
+    example 'at least one unresolved rec request' do
+      owner.update!(eligible: true)
+      create_rec_request('owner', account)
+      it_has_steps_for_unresolved_rec_request
     end
   end
 
   describe 'unresolved recs modal' do
     let(:text) { 'You have card recommendations that require immediate action' }
-    example "when I have no recs that require action" do
+
+    example 'when I have no recs that require action' do
       visit root_path
       expect(page).to have_no_content text
     end
 
-    context "when I have recs that require action" do
+    context 'when I have recs that require action' do
       before do
         create_card_recommendation(offer_id: create_offer.id, person_id: owner.id)
         run!(AdminArea::CardRecommendations::Operation::Complete, person_id: owner.id)
