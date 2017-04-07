@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+# TODO rename this file - it's not testing the new page, it's testing the banner on every page
 RSpec.describe 'requesting a recommendation', :js do
   BTN_TEXT = 'Request new card recommendations'.freeze
   CONFIRMATION_SURVEY_TEXT = "You're requesting new card recommendations".freeze

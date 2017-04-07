@@ -10,16 +10,10 @@ class RecommendationRequest < RecommendationRequest.superclass
           # How many people on the account can currently make a new request?
           case account.eligible_people.select { |p| Policy.new(p).create? }.count
           # If it's 0, no need to do anything, so dont show the form at all:
-          when 0 then Nothing
-          when 1
-            # Temporary solution. FIXME
-            if account.eligible_people.many?
-              Nothing
-            else
-              ForOnePerson
-            end
-          else
-            ForTwoPeople
+          when 0 then nil
+          when 1 then ForOnePerson
+          when 2 then ForTwoPeople
+          else raise 'this should never happen'
           end
         end
 
@@ -27,6 +21,13 @@ class RecommendationRequest < RecommendationRequest.superclass
         property :couples?
         property :owner
         property :eligible_people
+
+        # Form (as opposed to a subclass) is rendered when we don't want to
+        # display anything (because no-one can request a rec). Subclasses
+        # must override #show
+        def show
+          ''
+        end
 
         def request_new_recs_btn_text
           'Request new card recommendations'
@@ -58,9 +59,21 @@ class RecommendationRequest < RecommendationRequest.superclass
               )
             end
           end
+
+          def request_new_recs_btn_text
+            if eligible_people.many?
+              "Request new recommendations for #{escape(person.first_name)}"
+            else
+              super
+            end
+          end
         end
 
         class ForTwoPeople < self
+          def show
+            render
+          end
+
           private
 
           def person_select_form
@@ -80,14 +93,6 @@ class RecommendationRequest < RecommendationRequest.superclass
                 "Both of us" => :both,
               ),
             )
-          end
-        end
-
-        # render an empty string (builder uses this cell when we don't want to
-        # show the form at all.)
-        class Nothing < Abroaders::Cell::Base
-          def show
-            ''
           end
         end
       end

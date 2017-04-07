@@ -15,6 +15,9 @@ class RecommendationRequest < RecommendationRequest.superclass
       #
       # @!method self.call(account, options = {})
       class Status < Abroaders::Cell::Base
+        def show # placeholder
+          ''
+        end
       end
     end
   end
