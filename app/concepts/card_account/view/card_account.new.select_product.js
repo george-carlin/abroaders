@@ -1,4 +1,3 @@
-// console.log('fuck off');
 $(document).ready(function () {
   $('#new_card_bank_id').change(function () {
     var bankId = $(this).val();
