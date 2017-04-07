@@ -31,11 +31,12 @@ class RecommendationRequest < RecommendationRequest.superclass
     end
 
     def people_can_create?(opts, people:, **)
+      # make sure the people are ordered owner first, then companion
       cant_create = people.reject { |person| Policy.new(person).create? }
       if cant_create.none?
         true
       else
-        names = cant_create.map(&:first_name).join(' and ')
+        names = cant_create.sort_by(&:type).reverse.map(&:first_name).join(' and ')
         opts['error'] = "#{names} can't request a recommendation"
         false
       end
