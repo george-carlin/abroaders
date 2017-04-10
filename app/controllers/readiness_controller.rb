@@ -2,12 +2,7 @@ class ReadinessController < AuthenticatedUserController
   onboard :readiness, with: [:survey, :save_survey]
 
   def survey
-    # bleargh! extract the view to a cell and put this logic in there. TODO
-    @checked = case current_account.eligible_people.count
-               when 2 then 'both'
-               when 1 then current_account.eligible_people.first.type
-               else raise 'this should never happen'
-               end
+    render cell(Readiness::Cell::Survey, current_account)
   end
 
   def save_survey
