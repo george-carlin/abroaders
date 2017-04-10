@@ -1,9 +1,9 @@
 Owner Name: <%= @account.owner_first_name %><br>
-Owner Status: <%= person_status(@account.owner) %><br>
+Owner Status: <%= @owner.status %><br>
 Owner ID: <%= @account.owner.id %><br>
 <% if @account.couples? %>
-Companion Name: <%= @account.companion.first_name %><br>
-Companion Status: <%= person_status(@account.companion) %><br>
+Companion Name: <%= @companion.first_name if @companion %><br>
+Companion Status: <%= @companion.status if @companion %><br>
 Companion ID: <%= @account.companion.id %><br>
 <% end %>
 Timestamp: <%= @timestamp %>
