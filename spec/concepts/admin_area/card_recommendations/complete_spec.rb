@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe AdminArea::CardRecommendations::Operation::Complete do
+RSpec.describe AdminArea::CardRecommendations::Complete do
   let(:op) { described_class }
 
   let(:person) { create(:person) }

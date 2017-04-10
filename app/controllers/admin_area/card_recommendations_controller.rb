@@ -9,7 +9,7 @@ module AdminArea
     end
 
     def complete
-      run CardRecommendations::Operation::Complete do |result|
+      run CardRecommendations::Complete do |result|
         flash[:success] = 'Sent notification!'
         redirect_to admin_person_path(result['person'])
         return
