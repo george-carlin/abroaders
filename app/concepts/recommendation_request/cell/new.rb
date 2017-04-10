@@ -15,9 +15,11 @@ class RecommendationRequest # < RecommendationRequest.superclass
 
       def show
         "#{main_header}
-        #{cell(ConfirmPersonalSpending, account)}
-        #{cell(ConfirmPerson, collection: people)}
-        #{cell(SubmitBtn, people)}"
+        <div class='row'>
+          #{cell(ConfirmPersonalSpending, account)}
+          #{cell(ConfirmPerson, collection: people)}
+          #{cell(SubmitBtn, people)}
+        </div>"
       end
 
       private
@@ -59,12 +61,41 @@ class RecommendationRequest # < RecommendationRequest.superclass
         end
 
         property :id
+        property :business_spending_usd
+        property :business_has_ein?
+        property :business?
         property :card_accounts
         property :credit_score
         property :first_name
         property :has_partner?
 
         private
+
+        def business_current
+          if business?
+            result = "You told us that #{you_have} a business "
+            result << "<b>with #{business_has_ein? ? 'an' : ' no'} EIN</b> (Employer ID Number) "
+            result << "and that the business spends, on average, "
+            result << "<b>#{number_to_currency(business_spending_usd)}</b> a month."
+          else
+            "You told us that #{you_dont_have} a business."
+          end
+        end
+
+        def business_spending_form(&block)
+          form_tag(
+            confirm_person_spending_info_path(id),
+            class: 'confirm_person_business_spending_form',
+            data: { remote: true },
+            method: :patch,
+            style: 'display:none;',
+            &block
+          )
+        end
+
+        def business_spending_form_fields
+          cell(BusinessSpendingFormFields, model)
+        end
 
         def credit_score_form(&block)
           form_tag(
@@ -87,8 +118,63 @@ class RecommendationRequest # < RecommendationRequest.superclass
           )
         end
 
+        def do_you_have
+          has_partner? ? "Does #{first_name} have" : 'Do you have'
+        end
+
+        def you_dont_have
+          has_partner? ? "#{first_name} doesn't have" : "you don't have"
+        end
+
+        def you_have
+          has_partner? ? "#{first_name} has" : 'you have'
+        end
+
         def your
           has_partner? ? "#{first_name}'s" : 'your'
+        end
+      end
+
+      # @!method self.call(eligible_person, options = {})
+      class BusinessSpendingFormFields < Abroaders::Cell::Base
+        include Escaped
+
+        property :business?
+        property :business_spending_usd
+        property :business_type
+
+        VALUES = {
+          'with_ein' => 'Yes, with an EIN (Employer ID Number)',
+          'without_ein' => 'Yes, without an EIN (Employer ID Number)',
+          'no_business' => 'No',
+        }.freeze
+
+        private
+
+        def radio_buttons
+          VALUES.map do |value, label_text|
+            content_tag :div, class: 'radio' do
+              content_tag :label do
+                radio_button(
+                  :spending_info,
+                  :has_business,
+                  value,
+                  checked: business_type == value,
+                  class: 'confirm_business_spending_radio',
+                ) + label_text
+              end
+            end
+          end
+        end
+
+        def spending_field
+          number_field(
+            :spending_info,
+            :business_spending_usd,
+            min: 0,
+            placeholder: 'Estimated monthly business spending',
+            value: (business? ? business_spending_usd : 0),
+          )
         end
       end
 

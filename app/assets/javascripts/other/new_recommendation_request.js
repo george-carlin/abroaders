@@ -39,4 +39,32 @@ $(document).ready(function () {
     $ps.find(".confirm_personal_spending_current").show();
     $ps.find("form").hide();
   });
+
+  // ---- BUSINESS SPENDING ----
+
+  $('.confirm_business_spending_btn').click(function (e) {
+    e.preventDefault();
+    $(this).closest(".confirm_person_business_spending").html('Confirmed! <hr>');
+  });
+
+  $('.confirm_business_spending_update_btn').click(function (e) {
+    e.preventDefault();
+    var $cs = $(this).closest(".confirm_person_business_spending");
+    $cs.find(".confirm_business_spending_current").hide();
+    $cs.find("form").show();
+  });
+
+  $('.confirm_business_spending_cancel_btn').click(function (e) {
+    e.preventDefault();
+    var $cs = $(this).closest(".confirm_person_business_spending");
+    $cs.find(".confirm_business_spending_current").show();
+    $cs.find("form").hide();
+  });
+
+  $('.confirm_business_spending_radio').click(function () {
+    $(this)
+      .closest('.confirm_person_business_spending')
+        .find('.confirm_business_spending_form_group')
+          .toggle(["with_ein", "without_ein"].indexOf(this.value) > -1);
+  });
 });
