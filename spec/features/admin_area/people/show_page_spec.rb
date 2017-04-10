@@ -40,21 +40,10 @@ RSpec.describe 'admin - show person page', :manual_clean do
     visit admin_person_path(@person)
   end
 
-  let(:recommend_link_text) { "Recommend a card" }
   let(:account) { @account }
   let(:person)  { @person }
-  let(:name)    { @person.first_name }
-  let(:chase)   { @chase }
-  let(:us_bank) { @us_bank }
-  let(:offers)  { @offers }
 
   let(:complete_recs_form_selector) { '#complete_card_recommendations' }
-
-  def click_complete_recs_button
-    within complete_recs_form_selector do
-      click_button 'Done'
-    end
-  end
 
   it 'has the correct title' do
     visit_path
@@ -101,10 +90,10 @@ RSpec.describe 'admin - show person page', :manual_clean do
     end
   end
 
-  example "marking recommendations as complete" do
+  example 'marking recommendations as complete' do
     visit_path
     expect do
-      click_complete_recs_button
+      click_button 'Done'
       account.reload
     end.to \
       change { account.notifications.count }.by(1).and \
