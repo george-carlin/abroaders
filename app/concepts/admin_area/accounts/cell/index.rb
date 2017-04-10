@@ -57,17 +57,7 @@ module AdminArea
           end
 
           def tr(&block)
-            content_tag_for(
-              :tr,
-              model,
-              {
-                'data-companion-name': companion&.first_name,
-                'data-email':          email,
-                'data-onboarded':      onboarded?,
-                'data-owner-name':     owner.first_name,
-              },
-              &block
-            )
+            content_tag_for(:tr, model, &block)
           end
 
           def link_to_owner
