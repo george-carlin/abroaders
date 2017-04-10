@@ -9,13 +9,13 @@ module Readiness
 
     private
 
-    def create_rec_requests(params:, **)
+    def create_rec_requests(account:, params:, **)
       person_type = params.fetch(:person_type)
       case person_type
       when 'neither'
         # noop
       when 'both', 'owner', 'companion'
-        result = run(RecommendationRequest::Create)
+        result = RecommendationRequest::Create.(params, 'account' => account)
         raise 'this should never happen!' if result.failure?
       else
         raise "unrecognised type #{person_type}"
