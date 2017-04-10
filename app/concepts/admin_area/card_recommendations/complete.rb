@@ -8,7 +8,6 @@ module AdminArea
       success :setup_person
       success :setup_account
       step wrap_in_transaction {
-        success :complete_recs
         success :create_rec_note
         success :send_notification
         success :resolve_recommendation_requests
@@ -22,10 +21,6 @@ module AdminArea
 
       def setup_account(opts, person:, **)
         opts['account'] = person.account
-      end
-
-      def complete_recs(person:, **)
-        person.update_attributes!(last_recommendations_at: Time.zone.now)
       end
 
       def create_rec_note(opts, params:, account:, **)

@@ -79,14 +79,6 @@
         </p>
 
         <input class="btn btn-primary btn-lg" style="float:right;" type="submit" value="Done">
-
-        <% if !person.last_recommendations_at.nil? %>
-          <br>
-          Person last received recommendations on:
-          <span class="person_last_recommendations_at">
-            <%= person.last_recommendations_at.strftime("%D") %>
-          </span>
-        <% end %>
       <% end # form_tag %>
     </div><!-- .col-xs-12 -->
 

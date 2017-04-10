@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170328144740) do
+ActiveRecord::Schema.define(version: 20170410201016) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -263,16 +263,15 @@ ActiveRecord::Schema.define(version: 20170328144740) do
   end
 
   create_table "people", force: :cascade do |t|
-    t.integer  "account_id",                              null: false
-    t.string   "first_name",                              null: false
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
-    t.boolean  "owner",                   default: true,  null: false
+    t.integer  "account_id",                         null: false
+    t.string   "first_name",                         null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.boolean  "owner",              default: true,  null: false
     t.string   "award_wallet_email"
-    t.datetime "last_recommendations_at"
     t.boolean  "eligible"
-    t.boolean  "ready",                   default: false, null: false
     t.string   "unreadiness_reason"
+    t.boolean  "ready",              default: false, null: false
     t.index ["account_id", "owner"], name: "index_people_on_account_id_and_owner", unique: true, using: :btree
   end
 

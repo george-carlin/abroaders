@@ -46,7 +46,6 @@ RSpec.describe 'as a user viewing my cards' do
     account.recommendation_notes.create!(content: "new note\n\nhttp://example.com")
 
     create_card_recommendation(person_id: owner.id)
-    owner.update(last_recommendations_at: Time.zone.now)
     visit_page
     # shows most recent recommendation note only:
     expect(page).to have_content    'new note'

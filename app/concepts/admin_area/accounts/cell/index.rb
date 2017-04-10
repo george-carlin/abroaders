@@ -73,11 +73,6 @@ module AdminArea
             super.strftime('%D')
           end
 
-          def last_recommendations_at
-            timestamps = people.map(&:last_recommendations_at).compact
-            timestamps.any? ? timestamps.max.strftime('%D') : '-'
-          end
-
           def link_to_person(person)
             link_to escape(person.first_name), admin_person_path(person)
           end

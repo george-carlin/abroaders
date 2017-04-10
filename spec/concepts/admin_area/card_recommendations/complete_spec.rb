@@ -16,7 +16,6 @@ RSpec.describe AdminArea::CardRecommendations::Complete do
     person.reload
     expect(person).to eq result['person']
     expect(account.recommendation_notes.count).to eq 0
-    expect(person.last_recommendations_at).to be_within(5.seconds).of(Time.now)
   end
 
   example 'success - completing recs with a note' do
@@ -29,7 +28,6 @@ RSpec.describe AdminArea::CardRecommendations::Complete do
     person.reload
     expect(account.recommendation_notes.count).to eq 1
     expect(account.recommendation_notes.last.content).to eq 'I like to leave notes'
-    expect(person.last_recommendations_at).to be_within(5.seconds).of(Time.now)
   end
 
   example 'success - user has unresolved rec request' do

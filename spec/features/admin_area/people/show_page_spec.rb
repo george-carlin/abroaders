@@ -108,9 +108,5 @@ RSpec.describe 'admin - show person page', :manual_clean do
     # it sends a notification to the user:
     expect(new_notification).to be_a(Notifications::NewRecommendations)
     expect(new_notification.record).to eq person
-
-    # it updates the person's 'last recs' timestamp:
-    person.reload
-    expect(person.last_recommendations_at).to be_within(5.seconds).of(Time.zone.now)
   end
 end

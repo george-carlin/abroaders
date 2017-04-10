@@ -19,10 +19,6 @@ class Account < ApplicationRecord
     onboarding_state == "complete"
   end
 
-  def has_any_recommendations?
-    people.any? { |person| person.last_recommendations_at.present? }
-  end
-
   # Validations
 
   # Associations

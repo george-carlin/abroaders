@@ -1,9 +1,3 @@
-# TODO the last_recommendations_at DB column should probably be removed,
-# and replaced with this instance method
-#
-#   def unresolved_card_recommendations?
-#     unresolved_card_recommendations.any?
-#   end
 class Person < ApplicationRecord
   delegate :email, to: :account
 

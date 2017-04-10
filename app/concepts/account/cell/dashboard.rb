@@ -19,10 +19,10 @@ class Account < Account.superclass
       # Ineligible. But it doesn't work. Possibly addition to cells itself?
       builds do |result|
         account = result['account']
-        if account.people.any? { |p| !p.last_recommendations_at.nil? }
-          self
-        elsif account.unresolved_recommendation_requests?
+        if account.unresolved_recommendation_requests?
           ForNewUser::Ready
+        elsif account.card_recommendations.any?
+          self
         elsif account.eligible_people.any?
           ForNewUser::Unready
         else

@@ -33,8 +33,6 @@ RSpec.describe AdminArea::People::Cell::Show do
     expect(rendered).to have_content "AwardWallet email: #{aw_email}"
     expect(rendered).to have_content 'User has not added their spending info'
     expect(rendered).to have_content 'User has no upcoming travel plans'
-    # no recommendations, so no last recs timestamp:
-    expect(rendered).not_to have_selector '.person_last_recommendations_at'
     # no recommendation notes yet:
     expect(rendered).to have_no_content 'Recommendation Notes'
   end
@@ -150,9 +148,6 @@ RSpec.describe AdminArea::People::Cell::Show do
       Card.new(id: 52, offer: offer, recommended_at: oct, seen_at: mar, declined_at: dec, decline_reason: 'because', product: product),
     ]
 
-    last_recs_date = 5.days.ago
-    person.last_recommendations_at = last_recs_date
-
     rendered = show(get_result(cards: cards))
 
     within '#admin_person_cards_table' do
@@ -186,9 +181,5 @@ RSpec.describe AdminArea::People::Cell::Show do
       expect(rendered).to have_selector 'a[data-toggle="tooltip"]'
       expect(find('a[data-toggle="tooltip"]')['title']).to eq 'because'
     end
-
-    # displays the last recs timestamp:
-    last_recs = last_recs_date.strftime("%D")
-    expect(rendered).to have_selector '.person_last_recommendations_at', text: last_recs
   end
 end
