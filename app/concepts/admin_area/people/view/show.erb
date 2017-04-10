@@ -56,8 +56,6 @@
     </div>
 
     <div class="col-xs-12">
-      <hr>
-
       <%= form_tag(
         complete_admin_person_card_recommendations_path(person),
         id: 'complete_card_recommendations'
@@ -65,7 +63,7 @@
         <%= text_area_tag(
           :recommendation_note, "",
           class: "form-control",
-          rows: "3",
+          rows: 15,
           placeholder: 'Recommendation notes (optional)',
         ) %>
 
