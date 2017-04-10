@@ -3,9 +3,16 @@ module AdminArea
     # @!method self.call(params, options = {})
     #   @option params [Integer] person_id
     class Complete < Trailblazer::Operation
+      extend Abroaders::Operation::Transaction
+
       success :setup_person
       success :setup_account
-      success :complete_recs
+      step wrap_in_transaction {
+        success :complete_recs
+        success :create_rec_note
+        success :send_notification
+        success :resolve_recommendation_requests
+      }
 
       private
 
@@ -17,14 +24,22 @@ module AdminArea
         opts['account'] = person.account
       end
 
-      def complete_recs(opts, account:, params:, person:, **)
-        ApplicationRecord.transaction do
-          person.update_attributes!(last_recommendations_at: Time.zone.now)
-          note = params[:recommendation_note]&.strip
-          account.recommendation_notes.create!(content: note) if note.present?
-          Notifications::NewRecommendations.notify!(person)
-        end
+      def complete_recs(person:, **)
+        person.update_attributes!(last_recommendations_at: Time.zone.now)
+      end
+
+      def create_rec_note(opts, params:, account:, **)
+        note = params[:recommendation_note]&.strip
+        account.recommendation_notes.create!(content: note) if note.present?
         opts['model'] = account.recommendation_notes.last
+      end
+
+      def send_notification(person:, **)
+        Notifications::NewRecommendations.notify!(person)
+      end
+
+      def resolve_recommendation_requests(account:, **)
+        account.unresolved_recommendation_requests.each(&:resolve!)
       end
     end
   end
