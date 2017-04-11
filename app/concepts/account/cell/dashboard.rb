@@ -11,6 +11,7 @@ class Account < Account.superclass
       include Escaped
 
       property :actionable_card_recommendations?
+      property :unresolved_recommendation_requests?
       property :owner_first_name
 
       # annoyingly, it seems like you can't nest calls to builds. I'd rather
@@ -19,8 +20,6 @@ class Account < Account.superclass
       # Ineligible. But it doesn't work. Possibly addition to cells itself?
       builds do |account|
         if account.unresolved_recommendation_requests?
-          self
-        elsif account.people.any?(&:ready?)
           ForNewUser::Ready
         elsif account.card_recommendations.any?
           self
@@ -155,7 +154,7 @@ class Account < Account.superclass
           end
 
           def link_to_new_rec_request
-            ppl = account.people.select { |p| RecommendationRequest::Policy.new(p).create? }
+            ppl = people.select { |p| RecommendationRequest::Policy.new(p).create? }
             # FIXME this must be at least the third time I've written a case
             # statement like this. DRY it somehow.
             person_type = case ppl.size
