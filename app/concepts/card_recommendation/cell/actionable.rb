@@ -1,8 +1,8 @@
 class CardRecommendation < CardRecommendation.superclass
   module Cell
     # @!method self.call(rec)
-    #   @param rec (CardRecommendation)
-    class UnresolvedRec < Abroaders::Cell::Base
+    #   @param rec [CardRecommendation]
+    class Actionable < Abroaders::Cell::Base
       include SerializeHelper
 
       property :id

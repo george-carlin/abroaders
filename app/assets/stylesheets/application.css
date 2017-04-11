@@ -22,7 +22,7 @@
  *= require account_dashboard
  *= require award_wallet
  *= require admin_area_people_show
- *= require unresolved_rec
+ *= require actionable_rec
  *= require editable_balance
  *= require_tree .
  *= require_self

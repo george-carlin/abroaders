@@ -3,7 +3,7 @@ class Card < Card.superclass
     class Index < Abroaders::Cell::Base
       property :eligible_people
       property :people
-      property :unresolved_card_recommendations?
+      property :actionable_card_recommendations?
       property :recommendation_note
 
       def title

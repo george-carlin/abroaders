@@ -22,7 +22,7 @@
 //= require jquery.countdown.min.js
 //= require admin_recommendations
 //= require card_account.new.select_product
-//= require unresolved_rec
+//= require actionable_rec
 //= require award_wallet_settings
 //= require_tree ./other
 

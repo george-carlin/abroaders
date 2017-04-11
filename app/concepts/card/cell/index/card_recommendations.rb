@@ -18,7 +18,7 @@ class Card < Card.superclass
           property :account
           property :first_name
           property :type
-          property :unresolved_card_recommendations
+          property :actionable_card_recommendations
 
           def show
             content_tag :div, id: "#{type}_card_recommendations" do
@@ -34,10 +34,10 @@ class Card < Card.superclass
           end
 
           def recommendations
-            if unresolved_card_recommendations.any?
+            if actionable_card_recommendations.any?
               cell(
-                CardRecommendation::Cell::UnresolvedRec,
-                collection: unresolved_card_recommendations,
+                CardRecommendation::Cell::Actionable,
+                collection: actionable_card_recommendations,
               ).join('<hr>') { |c| c }
             else
               "No recommendations for #{first_name}"

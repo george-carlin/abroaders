@@ -93,7 +93,7 @@ RSpec.describe "account dashboard" do
     end
   end
 
-  describe 'unresolved recs modal' do
+  describe 'actionable recs modal' do
     let(:text) { 'You have card recommendations that require immediate action' }
     example "when I have no recs that require action" do
       visit root_path
@@ -107,7 +107,7 @@ RSpec.describe "account dashboard" do
         visit root_path
       end
 
-      it 'shows unresolved recs modal' do
+      it 'shows actionable recs modal' do
         expect(page).to have_content text
         expect(page).to have_link 'Continue', href: cards_path
       end
