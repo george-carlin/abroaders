@@ -9,7 +9,16 @@ RSpec.describe 'edit travel plan page' do
   let(:submit_form) { click_button 'Save my travel plan' }
 
   let(:airports) { create_list(:airport, 2) }
-  let!(:travel_plan) { create_travel_plan(type: :return, account: account) }
+  let!(:travel_plan) do
+    create_travel_plan(
+      account: account,
+      depart_on: Date.today + 1,
+      from: airports[0],
+      return_on: Date.today + 10,
+      to: airports[1],
+      type: :return,
+    )
+  end
 
   before do
     login_as(account)
