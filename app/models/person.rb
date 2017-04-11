@@ -15,11 +15,6 @@ class Person < ApplicationRecord
     !partner.nil?
   end
 
-  def has_partner?
-    warn 'Person#has_partner? is deprecated, use #partner? instead'
-    partner?
-  end
-
   def phone_number
     account.phone_number&.number
   end

@@ -67,7 +67,7 @@ class RecommendationRequest # < RecommendationRequest.superclass
         property :card_accounts
         property :credit_score
         property :first_name
-        property :has_partner?
+        property :partner?
 
         private
 
@@ -119,19 +119,19 @@ class RecommendationRequest # < RecommendationRequest.superclass
         end
 
         def do_you_have
-          has_partner? ? "Does #{first_name} have" : 'Do you have'
+          partner? ? "Does #{first_name} have" : 'Do you have'
         end
 
         def you_dont_have
-          has_partner? ? "#{first_name} doesn't have" : "you don't have"
+          partner? ? "#{first_name} doesn't have" : "you don't have"
         end
 
         def you_have
-          has_partner? ? "#{first_name} has" : 'you have'
+          partner? ? "#{first_name} has" : 'you have'
         end
 
         def your
-          has_partner? ? "#{first_name}'s" : 'your'
+          partner? ? "#{first_name}'s" : 'your'
         end
       end
 

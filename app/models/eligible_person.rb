@@ -22,7 +22,7 @@ class EligiblePerson < Dry::Struct
       credit_score: spending_info.credit_score,
       eligible: person.eligible,
       first_name: person.first_name,
-      has_partner: person.has_partner?,
+      partner: person.partner?,
       personal_spending_usd: person.account.monthly_spending_usd,
       spending_info_id: spending_info.id,
       will_apply_for_loan: spending_info.will_apply_for_loan,
@@ -37,11 +37,11 @@ class EligiblePerson < Dry::Struct
   attribute :credit_score, SpendingInfo::CreditScore
   attribute :eligible, Types::Strict::Bool
   attribute :first_name, Types::Strict::String
-  attribute :has_partner, Types::Strict::Bool
+  attribute :partner, Types::Strict::Bool
   attribute :personal_spending_usd, Types::Strict::Int
   attribute :will_apply_for_loan, Types::Strict::Bool
 
-  alias has_partner? has_partner
+  alias partner? partner
 
   def business?
     !business.nil?
