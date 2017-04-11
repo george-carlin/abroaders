@@ -7,19 +7,20 @@ class Account < Account.superclass
     #
     # @!self.call(account)
     class Dashboard < Abroaders::Cell::Base
-      extend Abroaders::Cell::Result
       include ::Cell::Builder
+      include Escaped
 
-      skill :account
-      skill :unresolved_recommendations
+      property :actionable_card_recommendations?
+      property :owner_first_name
 
       # annoyingly, it seems like you can't nest calls to builds. I'd rather
       # just have this block choose between self/ForNewUser, then a 2nd
       # `builds` block in ForNewUser that chooses between Ready / Unready /
       # Ineligible. But it doesn't work. Possibly addition to cells itself?
-      builds do |result|
-        account = result['account']
+      builds do |account|
         if account.unresolved_recommendation_requests?
+          self
+        elsif account.people.any?(&:ready?)
           ForNewUser::Ready
         elsif account.card_recommendations.any?
           self
@@ -47,13 +48,9 @@ class Account < Account.superclass
         ''
       end
 
-      def owner_first_name
-        escape(account.owner_first_name)
-      end
-
-      def unresolved_recs_modal
-        if result['unresolved_recommendations'].any? && cookies[:recommendation_timeout].nil?
-          cell(UnresolvedRecsModal)
+      def actionable_recs_modal
+        if actionable_card_recommendations? && cookies[:recommendation_timeout].nil?
+          cell(ActionableRecsModal)
         else
           ''
         end
@@ -237,18 +234,18 @@ class Account < Account.superclass
         end
       end
 
-      class UnresolvedRecsModal < Abroaders::Cell::Base
+      class ActionableRecsModal < Abroaders::Cell::Base
         private
 
         def container(&block)
           content_tag(
             :div,
             'tabindex': '-1',
-            'aria-labelledby': 'unresolved_recommendations_notification_modal_label',
+            'aria-labelledby': 'actionable_recommendations_notification_modal_label',
             'data-backdrop': 'static',
             'role': 'dialog',
             class: 'modal fade in',
-            id: 'unresolved_recommendations_notification_modal',
+            id: 'actionable_recommendations_notification_modal',
           ) do
             content_tag :div, class: 'modal-dialog' do
               content_tag :div, class: 'modal-content', &block

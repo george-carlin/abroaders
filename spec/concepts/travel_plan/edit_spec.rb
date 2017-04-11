@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe TravelPlan::Operation::Edit do
+RSpec.describe TravelPlan::Edit do
   let(:op) { described_class }
 
   let(:lhr) { create(:airport, name: 'Heathrow', code: 'LHR') }
@@ -11,7 +11,7 @@ RSpec.describe TravelPlan::Operation::Edit do
   let(:account) { create(:account) }
 
   let(:plan) do
-    TravelPlan::Operation::Create.(
+    TravelPlan::Create.(
       {
         travel_plan: {
           depart_on: "05/18/#{Date.today.year + 1}",

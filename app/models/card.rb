@@ -96,6 +96,24 @@
 #
 # This design isn't ideal because it means there's duplicate data in the DB,
 # but I couldn't think of a better alternative.
+#
+# A subset of cards are *recommendations*. It's a recommendation if it was
+# recommended to the user by an admin, as opposed to e.g. the user adding the
+# card themselves through the onboarding survey.  Eventually we want to split
+# recommendations into their own entirely separate model and DB table. For now,
+# a recommendation is any Card that has a 'recommended_at' timestamp.
+#
+# A recommendation is 'resolved' when either a) the user applies for the
+# recommended card (so it's no longer just a recommendation, it's a card
+# application and maybe later a card account), or b) something happens which
+# means the user no longer can apply for the card. (Right now that means that
+# the recommendation either expired, the user declined it, an admin pulled it,
+# or the recommended offer is no longer available.)
+#
+# A recommendation is 'actionable' when it's either unresolved, or the user
+# applied for it and the results of that application are still not final. So an
+# 'actionable card' is basically the set of cards that are either 1) unresolved
+# recommendations or 2) unresolved applications.
 class Card < ApplicationRecord
   def status
     status_model.name
@@ -141,7 +159,7 @@ class Card < ApplicationRecord
 
   scope :recommended, -> { where.not(recommended_at: nil) } do
     # recs which still require user action:
-    def unresolved
+    def actionable
       unpulled.unopen.where(%["denied_at" IS NULL OR "nudged_at" IS NULL]).unredenied.unexpired.undeclined
     end
   end

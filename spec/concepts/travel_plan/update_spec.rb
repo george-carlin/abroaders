@@ -1,12 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe TravelPlan::Operation::Update do
+RSpec.describe TravelPlan::Update do
   let(:op) { described_class }
   let(:lhr) { create(:airport, name: 'Heathrow', code: 'LHR') }
   let(:jfk) { create(:airport, name: 'JFK', code: 'JFK') }
 
   def create_travel_plan(attrs)
-    result = TravelPlan::Operation::Create.(
+    result = TravelPlan::Create.(
       { travel_plan: attrs },
       'account' => account,
     )

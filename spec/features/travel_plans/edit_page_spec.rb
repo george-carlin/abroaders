@@ -10,7 +10,7 @@ RSpec.describe 'edit travel plan page' do
 
   let(:airports) { create_list(:airport, 2) }
   let!(:travel_plan) do
-    TravelPlan::Operation::Create.(
+    TravelPlan::Create.(
       {
         travel_plan: {
           type: 'return',

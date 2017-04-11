@@ -14,8 +14,7 @@ class ApplicationController < ActionController::Base
     elsif current_account
       redirect_if_not_onboarded! && return
 
-      run Account::Operation::Dashboard
-      render cell(Account::Cell::Dashboard, result)
+      render cell(Account::Cell::Dashboard, current_account)
     else
       redirect_to new_account_session_path
     end

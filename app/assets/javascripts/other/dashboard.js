@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  $("#unresolved_recommendations_notification_modal").modal();
+  $("#actionable_recommendations_notification_modal").modal();
 
   $('[data-countdown]').each(function () {
     var $this = $(this), finalDate = $(this).data('countdown');

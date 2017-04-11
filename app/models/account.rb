@@ -44,10 +44,10 @@ class Account < ApplicationRecord
   has_many :cards, through: :people
   has_many :card_accounts, through: :people
   has_many :card_recommendations, through: :people
-  has_many :unresolved_card_recommendations, through: :people
+  has_many :actionable_card_recommendations, through: :people
 
-  def unresolved_card_recommendations?
-    unresolved_card_recommendations.any?
+  def actionable_card_recommendations?
+    actionable_card_recommendations.any?
   end
 
   has_many :balances, through: :people

@@ -7,18 +7,18 @@ class TravelPlansController < AuthenticatedUserController
   end
 
   def new
-    run TravelPlan::Operation::New
+    run TravelPlan::New
   end
 
   def create
     if current_account.onboarded?
-      run TravelPlan::Operation::Create do
+      run TravelPlan::Create do
         flash[:success] = "Saved travel plan!"
         redirect_to travel_plans_path
         return
       end
     else
-      run TravelPlan::Operation::Onboard do
+      run TravelPlan::Onboard do
         flash[:success] = "Saved your first travel plan!"
         redirect_to onboarding_survey_path
         return
@@ -28,13 +28,13 @@ class TravelPlansController < AuthenticatedUserController
   end
 
   def edit
-    run TravelPlan::Operation::Edit
+    run TravelPlan::Edit
     # initialize 'from' and 'to' correctly:
     @form.prepopulate!
   end
 
   def update
-    run TravelPlan::Operation::Update do
+    run TravelPlan::Update do
       flash[:success] = 'Updated travel plan!'
       redirect_to travel_plans_path
       return
@@ -43,7 +43,7 @@ class TravelPlansController < AuthenticatedUserController
   end
 
   def destroy
-    run TravelPlan::Operation::Destroy do
+    run TravelPlan::Destroy do
       flash[:success] = 'Deleted travel plan!'
       redirect_to travel_plans_path
     end

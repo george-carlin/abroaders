@@ -7,9 +7,9 @@ class CardsController < AuthenticatedUserController
     # after the account has already been loaded.
     account = Account.includes(
       people: [:account, { card_accounts: { product: :bank } },
-               unresolved_card_recommendations: [:product, { product: :bank, offer: { product: :currency } }],],
+               actionable_card_recommendations: [:product, { product: :bank, offer: { product: :currency } }],],
     ).find(current_account.id)
-    if account.unresolved_card_recommendations?
+    if account.actionable_card_recommendations?
       cookies[:recommendation_timeout] = { value: "timeout", expires: 24.hours.from_now }
     end
 

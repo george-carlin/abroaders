@@ -115,12 +115,12 @@ RSpec.describe Card do
     expect(described_class.recommended).to eq [returned]
   end
 
-  example ".recommended.unresolved" do
+  example ".recommended.actionable" do
     product = create(:card_product)
     offer   = create_offer(product: product)
     person  = create(:person)
 
-    # resolved:
+    # not actionable:
     create_card_recommendation(:approved,        offer_id: offer.id, person_id: person.id)
     create_card_recommendation(:pulled,          offer_id: offer.id, person_id: person.id)
     create_card_recommendation(:nudged, :denied, offer_id: offer.id, person_id: person.id)
@@ -139,7 +139,7 @@ RSpec.describe Card do
     # open after nudging:
     create_card_recommendation(:applied, :nudged, :approved, offer_id: offer.id, person_id: person.id)
 
-    unresolved = [
+    actionable = [
       # brand new:
       create_card_recommendation(offer_id: offer.id, person_id: person.id),
       # applied but pending:
@@ -152,6 +152,6 @@ RSpec.describe Card do
       create_card_recommendation(:denied, :called, offer_id: offer.id, person_id: person.id),
     ]
 
-    expect(Card.recommended.unresolved).to match_array(unresolved)
+    expect(Card.recommended.actionable).to match_array(actionable)
   end
 end
