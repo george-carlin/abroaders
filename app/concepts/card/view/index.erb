@@ -1,14 +1,12 @@
-<% provide :title, "Your Cards" %>
-
 <div class="hpanel">
   <div class="panel-heading hbuilt">
     <h1>My Recommendations</h1>
   </div><!-- panel-heading -->
 
   <div class="panel-body">
-    <% if current_account.people.any?(&:eligible?) %>
-      <% if @any_recommendations %>
-        <%= cell(CardRecommendation::Cell::Note, @newest_rec_note) if @newest_rec_note %>
+    <% if eligible_people.any? %>
+      <% if unresolved_card_recommendations? %>
+        <%= note %>
 
         <p>
           Your recommendations will expire after two weeks. Please click “Find My Card”
@@ -18,7 +16,7 @@
 
         <hr />
 
-        <%= cell(Card::Cell::Index::CardRecommendations, @people) %>
+        <%= card_recommendations %>
       <% else %>
         <div class="alert alert-info">
           The Abroaders team is hand selecting the ideal rewards cards
@@ -34,4 +32,4 @@
   </div><!-- .panel-body -->
 </div><!-- .hpanel -->
 
-<%= cell(Card::Cell::Index::CardAccounts, current_account) %>
+<%= card_accounts %>
