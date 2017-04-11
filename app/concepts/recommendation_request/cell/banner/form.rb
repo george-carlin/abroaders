@@ -33,6 +33,8 @@ class RecommendationRequest < RecommendationRequest.superclass
           'Request new card recommendations'
         end
 
+        # The 'request new card recs' button is just a link directly to the
+        # confirmation survey for the appropriate person.
         class ForOnePerson < self
           attr_reader :person
 
@@ -60,15 +62,20 @@ class RecommendationRequest < RecommendationRequest.superclass
             end
           end
 
+          private
+
           def request_new_recs_btn_text
-            if eligible_people.many?
-              "Request new recommendations for #{escape(person.first_name)}"
+            if couples?
+              "Request new card recommendations for #{escape(person.first_name)}"
             else
               super
             end
           end
         end
 
+        # The 'request new card recs' button shows a dropdown where they can
+        # choose which person or people want a rec, THEN when they submit this
+        # form they're taken to the confirmation survey
         class ForTwoPeople < self
           def show
             render

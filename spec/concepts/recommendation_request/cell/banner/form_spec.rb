@@ -53,17 +53,17 @@ RSpec.describe RecommendationRequest::Cell::Banner::Form do
 
     let(:select_options) { [owner.first_name, companion.first_name, 'Both of us'] }
     let(:have_no_generic_btn) do
-      have_no_button(BTN_TEXT).and(have_no_link(BTN_TEXT))
+      have_no_button(BTN_TEXT).and(have_no_link(BTN_TEXT, exact: true))
     end
     let(:companion_survey_link) do
       [
-        "Request new recommendations for #{companion.first_name}",
+        "Request new card recommendations for #{companion.first_name}",
         { href: new_recommendation_requests_path(person_type: :companion) },
       ]
     end
     let(:owner_survey_link) do # e.g. have_link(*owner_survey_link)
       [
-        "Request new recommendations for #{owner.first_name}",
+        "Request new card recommendations for #{owner.first_name}",
         { href: new_recommendation_requests_path(person_type: :owner) },
       ]
     end
@@ -124,7 +124,7 @@ RSpec.describe RecommendationRequest::Cell::Banner::Form do
 
       example 'can request' do
         rendered = show(account)
-        expect(rendered).to have_link BTN_TEXT
+        expect(rendered).to have_link(*owner_survey_link)
         expect(rendered).to have_no_type_select
       end
     end

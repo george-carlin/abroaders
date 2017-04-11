@@ -75,7 +75,8 @@ RSpec.describe 'requesting a recommendation', :js do
         select companion.first_name, from: :person_type
         click_button 'Go'
         expect(page).to have_content CONFIRMATION_SURVEY_TEXT
-        # TODO test asks about owner and not companion
+        expect(page).to have_content "#{companion.first_name}'s credit score"
+        expect(page).to have_no_content "#{owner.first_name}'s credit score"
       end
 
       example 'selecting both' do
@@ -83,24 +84,50 @@ RSpec.describe 'requesting a recommendation', :js do
         select 'Both of us', from: :person_type
         click_button 'Go'
         expect(page).to have_content CONFIRMATION_SURVEY_TEXT
-        # TODO test asks about owner and not companion
+        expect(page).to have_content "#{companion.first_name}'s credit score"
+        expect(page).to have_content "#{owner.first_name}'s credit score"
       end
+    end
 
-      example 'only one person eligible' do
-        skip 'TODO - not yet implemented'
-      end
+    let(:owner_btn) { "#{BTN_TEXT} for #{owner.first_name}" }
+    let(:companion_btn) { "#{BTN_TEXT} for #{companion.first_name}" }
 
-      example 'one person already has an unresolved request' do
-        skip 'TODO - not yet implemented'
-      end
+    example 'only one person eligible' do
+      owner.update!(eligible: false)
+      visit root_path
+      expect(page).to have_link companion_btn
+      click_link companion_btn
+      expect(page).to have_content CONFIRMATION_SURVEY_TEXT
+      expect(page).to have_content "#{companion.first_name}'s credit score"
+      expect(page).to have_no_content "#{owner.first_name}'s credit score"
+    end
 
-      example 'no-one is eligible' do
-        skip 'TODO - not yet implemented'
-      end
+    example 'one person already has an unresolved request' do
+      create_rec_request('owner', account)
+      visit root_path
+      expect(page).to have_link companion_btn
+      click_link companion_btn
+      expect(page).to have_content CONFIRMATION_SURVEY_TEXT
+      expect(page).to have_content "#{companion.first_name}'s credit score"
+      expect(page).to have_no_content "#{owner.first_name}'s credit score"
+    end
 
-      example 'everyone already has an unresolved request' do
-        skip 'TODO - not yet implemented'
-      end
+    example 'no-one is eligible' do
+      owner.update!(eligible: false)
+      companion.update!(eligible: false)
+      visit root_path
+      expect(page).to have_no_button companion_btn
+      expect(page).to have_no_button owner_btn
+      expect(page).to have_no_button BTN_TEXT
+    end
+
+    example 'everyone already has an unresolved request' do
+      create_rec_request('both', account)
+      owner.update!(eligible: false)
+      visit root_path
+      expect(page).to have_no_button companion_btn
+      expect(page).to have_no_button owner_btn
+      expect(page).to have_no_button BTN_TEXT
     end
   end
 end
