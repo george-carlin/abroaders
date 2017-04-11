@@ -9,7 +9,7 @@ module Integrations
     #
     #   https://business.awardwallet.com/api/account
     #
-    # Makes queries to the API, gets JSON responses, logs that JSON (TODO - not
+    # Makes queries to the API, gets JSON responses, logs that JSON (not
     # yet implemented), and returns the response parsed into a Hash. (The JSON
     # from the API uses camelCased key names, but this class will convert them
     # into underscored keys.

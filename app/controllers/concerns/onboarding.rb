@@ -32,7 +32,7 @@ module Onboarding
   end
 
   module ClassMethods
-    # TODO - if you call this more than once in the same controller, things
+    # if you call this more than once in the same controller, things
     # break. So right now there's no way to specify that some actions in the
     # same controller are revisitable but others aren't. (See the commit that
     # added this comment)

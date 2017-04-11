@@ -8,7 +8,7 @@ module AdminArea
       step :setup_model!
       step Contract::Build()
 
-      # This is display logic, it belongs in a cell, not an operation. FIXME
+      # This is display logic, it belongs in a cell, not an operation. REFACTORME
       def self.product_options
         CardProduct.all.map do |product|
           [CardProducts::Cell::Identifier.(product).(), product.id]

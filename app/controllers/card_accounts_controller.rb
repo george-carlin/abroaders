@@ -5,8 +5,6 @@ class CardAccountsController < AuthenticatedUserController
       render cell(CardAccount::Cell::New, result)
     else
       run CardAccount::New::SelectProduct
-      # TODO use new style, pass result to the cell directly
-      collection = result['collection']
       render cell(CardAccount::Cell::New::SelectProduct, collection, banks: result['banks'])
     end
   end

@@ -42,7 +42,7 @@ RSpec.describe CardRecommendation::Operation::Decline do
   end
 
   example 'failure - rec already applied for' do
-    # TODO replace with an op once we have one:
+    # USEOP
     rec.update!(applied_on: Time.now)
     result = op.(
       { id: rec.id, card: { decline_reason: 'X' } },

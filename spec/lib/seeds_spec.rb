@@ -4,8 +4,7 @@ require 'seeder'
 
 # some simple smoke tests for the 'seed' rake tasks. I keep forgetting to
 # update the seed tasks when I e.g. make changes to the DB. Some simple
-# high-levels tests should help me catch this mistake in future.  TODO
-# finishing extracting other seed tasks to the Seeder module, and add tests
+# high-levels tests should help me catch this mistake in future.
 RSpec.describe Seeder do
   example '.seed_admins' do
     expect do

@@ -106,7 +106,6 @@ RSpec.describe AdminArea::People::Cell::Show do
     expect(rendered).to have_content 'Recommendation Notes'
     expect(rendered).to have_content 'Hola'
     expect(rendered).to have_content 'Hello'
-    # TODO test it escapes XSS
   end
 
   let(:jan) { Date.parse("2015-01-01") }

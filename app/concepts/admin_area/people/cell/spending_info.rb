@@ -1,7 +1,7 @@
 module AdminArea
   module People
     module Cell
-      # TODO this cell sucks
+      # this cell sucks
       #
       # @!method self.call(model, opts = {})
       #   @param [Person] model

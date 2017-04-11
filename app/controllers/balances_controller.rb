@@ -10,7 +10,6 @@ class BalancesController < AuthenticatedUserController
   # GET /people/:person_id/balances/new
   def new
     run Balance::Operation::New
-    # TODO TRB convert view to cell
   end
 
   # POST /people/:person_id/balances
@@ -19,7 +18,6 @@ class BalancesController < AuthenticatedUserController
       flash[:success] = 'Created balance!'
       return redirect_to balances_path
     end
-    # TODO TRB convert view to cell
     render 'new'
   end
 
