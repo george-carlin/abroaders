@@ -43,7 +43,6 @@ en:
     index:
       application_pending: "Thanks for taking our recommendation and applying for the card! When you hear back from the bank, please come back and tell us whether or not your application for the card was successful."
       declined: "You have indicated that you do not want to apply for this card"
-      recs_coming_soon: "The Abroaders team is hand selecting the ideal rewards cards based on your current points, travel plans and spending. We’ll let you know as soon as the card recommendations are ready to view."
 
   dashboard:
     account:

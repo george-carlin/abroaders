@@ -7,16 +7,14 @@ class Card < Card.superclass
       # @!method self.call(account)
       #   @param account [Account]
       class CardAccounts < Abroaders::Cell::Base
-        alias account model
-
         property :card_accounts
+        property :couples?
+        property :people
 
         private
 
         def card_accounts_for_each_person
-          cell(
-            ForPerson, collection: account.people, use_name: account.couples?,
-          ).join('<hr>') { |cell| cell }
+          cell(ForPerson, collection: people).join('<hr>') { |c| c }
         end
 
         def btn_to_add_new
@@ -29,16 +27,13 @@ class Card < Card.superclass
         end
 
         # @!method self.call(person, opts = {})
-        #   @option opts [Boolean] use_name whether to use the person's name,
-        #     as opposed to referring to them as 'you'
         class ForPerson < Abroaders::Cell::Base
           include Escaped
 
           property :card_accounts
           property :first_name
+          property :partner?
           property :type
-
-          option :use_name
 
           def show
             content_tag :div, id: "#{type}_card_accounts" do

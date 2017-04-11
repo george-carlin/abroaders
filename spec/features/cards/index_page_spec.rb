@@ -21,7 +21,7 @@ RSpec.describe 'as a user viewing my cards' do
 
   example "not recommended any cards yet" do
     visit_page
-    expect(page).to have_content t("cards.index.recs_coming_soon")
+    expect(page).to have_no_content 'My recommendations'
   end
 
   example "solo account with recommendations" do

@@ -63,6 +63,8 @@ class Person < ApplicationRecord
   has_many :actionable_card_recommendations, -> { recommended.actionable }, class_name: 'Card'
   has_many :unresolved_card_recommendations, -> { recommended.unresolved }, class_name: 'Card'
 
+  delegate :recommendation_note, :recommendation_notes, to: :account
+
   def actionable_card_recommendations?
     actionable_card_recommendations.any?
   end
