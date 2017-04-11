@@ -27,7 +27,7 @@ module AdminArea
 
         private
 
-        delegate :account, :balances, :home_airports, :recommendation_notes, :regions_of_interest, :travel_plans, to: :person
+        delegate :account, :balances, :home_airports, :recommendation_notes, :partner, :regions_of_interest, :travel_plans, :unresolved_recommendation_request?, :unresolved_recommendation_request, to: :person
 
         def award_wallet_connection
           return '' unless account.connected_to_award_wallet?
@@ -116,6 +116,20 @@ module AdminArea
           '<h3>Travel Plans</h3>' << content_tag(:div, class: 'account_travel_plans') do
             cell(self.class.travel_plan_cell, collection: travel_plans, editable: false)
           end
+        end
+
+        # @return true iff *either* person on the account has an unresolved
+        #   request, not just the current person
+        def account_unresolved_recommendation_requests?
+          account.unresolved_recommendation_requests?
+        end
+
+        def partner_unresolved_recommendation_request
+          partner&.unresolved_recommendation_request
+        end
+
+        def partner_unresolved_recommendation_request?
+          !!partner_unresolved_recommendation_request
         end
 
         # @param model [Person]

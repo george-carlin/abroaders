@@ -2,6 +2,26 @@
   <%= heading %>
 
   <div class="panel-body">
+    <% if account_unresolved_recommendation_requests? %>
+      <div class="col-xs-12">
+        <% if unresolved_recommendation_request? %>
+          <p><%= escape(person.first_name) %> requested a recommendation at
+            <%= unresolved_recommendation_request.created_at.strftime('%c') %></p>
+        <% end %>
+
+        <% if partner_unresolved_recommendation_request? %>
+          <p><%= escape(partner.first_name) %> requested a recommendation at
+          <%= partner_unresolved_recommendation_request.created_at.strftime('%c') %></p>
+        <% end %>
+
+        <hr>
+      </div>
+    <% end %>
+
+    <div class="col-xs-12 col-md-6">
+      <%= spending_info %>
+    </div>
+
     <div class="col-xs-12 col-md-6">
       <%= spending_info %>
     </div>
