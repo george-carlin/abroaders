@@ -5,9 +5,6 @@ class Flight < Flight.superclass
     #
     # @!method self.call(model, opts = {})
     #   @param model [Flight]
-    #   @option opts [Trailblazer::Cell] airport_name_cell (Destination::Cell::NameAndRegion)
-    #     The dependency-injected cell which takes the flight's nested Airports
-    #     and renders their names
     class Summary < Abroaders::Cell::Base
       property :id
 
@@ -17,18 +14,18 @@ class Flight < Flight.superclass
         end
       end
 
-      private
-
-      def airport_name_cell
-        options.fetch(:airport_name_cell, Destination::Cell::NameAndRegion)
+      def self.airport_name_cell
+        Destination::Cell::NameAndRegion
       end
+
+      private
 
       def from
         name_and_region(model.from)
       end
 
       def name_and_region(dest)
-        cell(airport_name_cell, dest)
+        cell(self.class.airport_name_cell, dest)
       end
 
       def to

@@ -15,9 +15,7 @@ module AdminArea
         skill :offers
         skill :person
 
-        # the cell that renders an individual travel plan. Sticking it in a
-        # class method like this so I can easily stub it when testing.  Still
-        # haven't figured out the best way to handle DI in cells. FIXME
+        # The cell that renders an individual travel plan.
         def self.travel_plan_cell
           TravelPlan::Cell::Summary
         end
