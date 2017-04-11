@@ -35,8 +35,7 @@ class TravelPlan < TravelPlan.superclass
         cell Dates, travel_plan
       end
 
-      # See comment in TravelPlan::Operation::Edit about old-style TPs being
-      # uneditable.
+      # See comment in TravelPlan::Edit about old-style TPs being uneditable.
       def editable?
         if options[:admin]
           false

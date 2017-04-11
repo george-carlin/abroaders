@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe TravelPlan::Operation::Create do
+RSpec.describe TravelPlan::Create do
   let(:account) { create(:account) }
   let(:op) { described_class }
 
@@ -86,8 +86,8 @@ RSpec.describe TravelPlan::Operation::Create do
     expect(result.success?).to be false
   end
 
-  describe TravelPlan::Operation::Onboard do
-    let(:op) { TravelPlan::Operation::Onboard }
+  describe TravelPlan::Onboard do
+    let(:op) { TravelPlan::Onboard }
     let(:account) { create(:account, onboarding_state: :travel_plan) }
 
     example 'valid save' do
