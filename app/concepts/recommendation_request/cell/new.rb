@@ -54,7 +54,7 @@ class RecommendationRequest # < RecommendationRequest.superclass
         include Escaped
 
         def initialize(person, options = {})
-          if person.unresolved_card_recommendations.nil?
+          if person.unresolved_recommendation_request?
             raise 'person must have an unresolved rec request'
           end
           super(EligiblePerson.build(person), options)
