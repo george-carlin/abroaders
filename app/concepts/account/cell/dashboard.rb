@@ -112,8 +112,7 @@ class Account < Account.superclass
           end.join
         end
 
-        # Shown to anyone (not just new users) who have an unresolved
-        # recommendation request
+        # Shown to anyone (not just new users) who has an unresolved request
         #
         # I suppose this shouldn't really be a subclass of ForNewUser because
         # it can be shown to non-new users, but originally that wasn't the

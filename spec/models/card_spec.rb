@@ -109,49 +109,82 @@ RSpec.describe Card do
 
   # Scopes
 
-  example ".recommended" do
-    create_card_account
-    returned = create_card_recommendation
-    expect(described_class.recommended).to eq [returned]
-  end
+  describe '.recommended' do
+    let(:product) { create(:card_product) }
+    let(:offer) { create_offer(product: product) }
+    let(:person) { create(:person) }
 
-  example ".recommended.actionable" do
-    product = create(:card_product)
-    offer   = create_offer(product: product)
-    person  = create(:person)
+    # extend the macro so that we always use the same offer and person,
+    # just to avoid making a bunch of unnecessary DB writes
+    def create_rec(*args)
+      overrides = args.last.is_a?(Hash) ? args.pop : {}
+      traits    = args
+      overrides[:offer]  = offer
+      overrides[:person] = person
 
-    # not actionable:
-    create_card_recommendation(:approved,        offer_id: offer.id, person_id: person.id)
-    create_card_recommendation(:pulled,          offer_id: offer.id, person_id: person.id)
-    create_card_recommendation(:nudged, :denied, offer_id: offer.id, person_id: person.id)
-    create_card_recommendation(:redenied,        offer_id: offer.id, person_id: person.id)
-    create_card_recommendation(:expired,         offer_id: offer.id, person_id: person.id)
-    create_card_account(product: product, person: person)
-    declined = create_card_recommendation(product: product, person: person)
-    run!(
-      CardRecommendation::Operation::Decline,
-      { id: declined.id, card: { decline_reason: 'X' } },
-      'account' => person.account,
-    )
+      super(*traits, overrides)
+    end
 
-    # open after reconsideration:
-    create_card_recommendation(:denied, :called, :approved, offer_id: offer.id, person_id: person.id)
-    # open after nudging:
-    create_card_recommendation(:applied, :nudged, :approved, offer_id: offer.id, person_id: person.id)
+    example '' do
+      create_card_account
+      returned = create_card_recommendation
+      expect(described_class.recommended).to eq [returned]
+    end
 
-    actionable = [
-      # brand new:
-      create_card_recommendation(offer_id: offer.id, person_id: person.id),
-      # applied but pending:
-      create_card_recommendation(:applied, offer_id: offer.id, person_id: person.id),
-      # applied and nudged:
-      create_card_recommendation(:applied, :nudged, offer_id: offer.id, person_id: person.id),
-      # denied but reconsiderable:
-      create_card_recommendation(:denied, offer_id: offer.id, person_id: person.id),
-      # denied, called, pending:
-      create_card_recommendation(:denied, :called, offer_id: offer.id, person_id: person.id),
-    ]
+    example ".actionable" do
+      # not actionable:
+      create_rec(:approved)
+      create_rec(:pulled)
+      create_rec(:nudged, :denied)
+      create_rec(:redenied)
+      create_rec(:expired)
+      create_card_account(product: product, person: person)
+      declined = create_rec
+      run!(
+        CardRecommendation::Operation::Decline,
+        { id: declined.id, card: { decline_reason: 'X' } },
+        'account' => person.account,
+      )
 
-    expect(Card.recommended.actionable).to match_array(actionable)
+      # open after reconsideration:
+      create_rec(:denied, :called, :approved)
+      # open after nudging:
+      create_rec(:applied, :nudged, :approved)
+
+      actionable = [
+        # brand new:
+        create_rec,
+        # applied but pending:
+        create_rec(:applied),
+        # applied and nudged:
+        create_rec(:applied, :nudged),
+        # denied but reconsiderable:
+        create_rec(:denied),
+        # denied, called, pending:
+        create_rec(:denied, :called),
+      ]
+
+      expect(Card.recommended.actionable).to match_array(actionable)
+    end
+
+    example ".unresolved" do
+      # resolved:
+      create_rec(:pulled)
+      create_rec(:applied)
+      create_rec(:expired)
+      declined = create_rec
+      run!(
+        CardRecommendation::Operation::Decline,
+        { id: declined.id, card: { decline_reason: 'X' } },
+        'account' => person.account,
+      )
+
+      # not a recommendation:
+      create_card_account(product: product, person: person)
+
+      unresolved = create_rec
+
+      expect(Card.recommended.unresolved).to eq [unresolved]
+    end
   end
 end

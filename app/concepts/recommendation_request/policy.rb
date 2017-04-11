@@ -8,14 +8,15 @@ class RecommendationRequest < RecommendationRequest.superclass
     end
 
     # a person can request a new recommendation iff:
-    #   they don't have any unresolved recommendations
+    #   they don't have any unresolved recommendations (recs can be actionable,
+    #   but must be resolved)
     #   AND
     #   they don't have an unresolved recommendation request
     #
     # @return [Boolean]
     def create?
       @person.eligible? &&
-        @person.unresolved_unapplied_card_recommendations.none? &&
+        @person.unresolved_card_recommendations.none? &&
         @person.unresolved_recommendation_request.nil?
     end
   end

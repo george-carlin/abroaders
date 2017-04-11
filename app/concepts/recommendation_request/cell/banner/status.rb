@@ -11,7 +11,7 @@ class RecommendationRequest < RecommendationRequest.superclass
       # If they have recommendations which require action, tell them about that
       # and has a link to /cards.
       #
-      # If no-one on the account has any unresolved recommendations or
+      # If no-one on the account has any actionable recommendations or
       # recommendation requests, renders an empty string (in future we may
       # change this to output something like 'please tell use when you want a
       # rec' or whatever).
@@ -35,19 +35,19 @@ class RecommendationRequest < RecommendationRequest.superclass
 
         def show?
           people.any?(&:eligible?) &&
-            (people_with_unresolved_recs.any? || people_with_unresolved_reqs.any?)
+            (people_with_actionable_recs.any? || people_with_unresolved_reqs.any?)
         end
 
         def people # make sure people are always ordered owner first:
           super.sort_by { |p| p.owner ? 0 : 1 }
         end
 
-        def people_have_unresolved_recs
-          cell(PeopleHaveUnresolvedRecs, people_with_unresolved_recs, use_name: couples?)
+        def people_have_actionable_recs
+          cell(PeopleHaveActionableRecs, people_with_actionable_recs, use_name: couples?)
         end
 
-        def people_with_unresolved_recs
-          @p_w_u_recs ||= people.select(&:unresolved_unapplied_card_recommendations?)
+        def people_with_actionable_recs
+          @p_w_u_recs ||= people.select(&:actionable_card_recommendations?)
         end
 
         def people_with_unresolved_reqs
@@ -65,11 +65,11 @@ class RecommendationRequest < RecommendationRequest.superclass
         #   who have actionable recs and says "NAME(S) (or 'You') has/have
         #   recommendations that require action."
         #
-        #   @param people [Collection<Person>] the people who have unresolved recs
+        #   @param people [Collection<Person>] the people who have actionable recs
         #   @option use_name [Boolean] whether to use the person's name or to
         #     just say "You". Only relevant if there's just one person; if
         #     there are two people we always use their names.
-        class PeopleHaveUnresolvedRecs < Abroaders::Cell::Base
+        class PeopleHaveActionableRecs < Abroaders::Cell::Base
           property :size
           option :use_name
 

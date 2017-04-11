@@ -4,7 +4,7 @@ class RecommendationRequest < RecommendationRequest.superclass
     #   @param account [Account] the currently logged-in account
     class Banner < Abroaders::Cell::Base
       # Banner with a button for the user to make a recommendation request,
-      # and/or information about any unresolved requests or recommendations
+      # and/or information about any unresolved requests or actionable recs
       # they might have. Shown at the top of most pages if there's currently
       # a logged-in (non-admin) user.
       #

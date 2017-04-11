@@ -6,8 +6,8 @@
     </p>
   <% end %>
 
-  <% if people_with_unresolved_recs.any? %>
-    <p><%= people_have_unresolved_recs %>. Please visit the
+  <% if people_with_actionable_recs.any? %>
+    <p><%= people_have_actionable_recs %>. Please visit the
       <%= link_to 'My Cards page', cards_path %> and follow the instructions.</p>
   <% end %>
 </div>

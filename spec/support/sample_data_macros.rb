@@ -91,7 +91,6 @@ module SampleDataMacros
 
     traits = traits_and_overrides
 
-    # TODO extract ops for these actions
     rec.applied_on = 4.days.ago if traits.include?(:applied)
 
     if traits.include?(:approved)

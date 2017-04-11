@@ -45,6 +45,7 @@ class Account < ApplicationRecord
   has_many :card_accounts, through: :people
   has_many :card_recommendations, through: :people
   has_many :actionable_card_recommendations, through: :people
+  has_many :unresolved_card_recommendations, through: :people
 
   def actionable_card_recommendations?
     actionable_card_recommendations.any?
@@ -83,7 +84,7 @@ class Account < ApplicationRecord
 
   has_many :recommendation_requests, through: :people
   has_many :resolved_recommendation_requests, through: :people
-  has_many :unresolved_recommendation_requests, through: :people, source: :unresolved_recommendation_request
+  has_many :unresolved_recommendation_requests, through: :people
 
   def unresolved_recommendation_requests?
     unresolved_recommendation_requests.any?

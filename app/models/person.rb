@@ -50,26 +50,19 @@ class Person < ApplicationRecord
   has_many :pulled_card_recommendations, -> { recommended.pulled }, class_name: 'Card'
   has_many :unpulled_cards, -> { unpulled }, class_name: 'Card'
   has_many :actionable_card_recommendations, -> { recommended.actionable }, class_name: 'Card'
+  has_many :unresolved_card_recommendations, -> { recommended.unresolved }, class_name: 'Card'
+
+  def actionable_card_recommendations?
+    actionable_card_recommendations.any?
+  end
 
   def unresolved_recommendation_request?
     !unresolved_recommendation_request.nil?
   end
 
-  def unresolved_unapplied_card_recommendations?
-    unresolved_unapplied_card_recommendations.any?
+  def unresolved_card_recommendations?
+    unresolved_card_recommendations.any?
   end
-
-  # really, an 'unresolved rec' should exclude recommendations which have been
-  # applied for. This should be fixed by the upcoming changes in the data
-  # model, but for now I don't want to break the existing
-  # 'unresolved_card_recommendations' method as it's being used all over the
-  # place.
-  #
-  # TODO rename this to 'unresolved_card_recommendations' and the existing
-  # 'unresolved_card_recommendations' to 'actionable_card_recommendations'
-  has_many :unresolved_unapplied_card_recommendations,
-           -> { recommended.unresolved.unapplied },
-           class_name: 'Card'
 
   has_many :balances
   has_many :currencies, through: :balances
