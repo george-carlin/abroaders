@@ -7,18 +7,17 @@ class Account < Account.superclass
     #
     # @!self.call(account)
     class Dashboard < Abroaders::Cell::Base
-      extend Abroaders::Cell::Result
       include ::Cell::Builder
+      include Escaped
 
-      skill :account
-      skill :actionable_recommendations
+      property :actionable_card_recommendations?
+      property :owner_first_name
 
       # annoyingly, it seems like you can't nest calls to builds. I'd rather
       # just have this block choose between self/ForNewUser, then a 2nd
       # `builds` block in ForNewUser that chooses between Ready / Unready /
       # Ineligible. But it doesn't work. Possibly addition to cells itself?
-      builds do |result|
-        account = result['account']
+      builds do |account|
         if account.people.any? { |p| !p.last_recommendations_at.nil? }
           self
         elsif account.people.any?(&:ready?)
@@ -47,12 +46,8 @@ class Account < Account.superclass
         ''
       end
 
-      def owner_first_name
-        ERB::Util.html_escape(account.owner_first_name)
-      end
-
       def actionable_recs_modal
-        if result['actionable_recommendations'].any? && cookies[:recommendation_timeout].nil?
+        if actionable_card_recommendations? && cookies[:recommendation_timeout].nil?
           cell(ActionableRecsModal)
         else
           ''
