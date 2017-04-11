@@ -67,7 +67,6 @@ class TravelPlan < TravelPlan.superclass
     end
 
     validation do
-      # TODO convert to use dry-validation
       validates :depart_on, presence: true
       validates :from, presence: true, format: AIRPORT_REGEX
       validates(

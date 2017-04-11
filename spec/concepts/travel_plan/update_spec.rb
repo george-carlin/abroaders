@@ -5,24 +5,16 @@ RSpec.describe TravelPlan::Update do
   let(:lhr) { create(:airport, name: 'Heathrow', code: 'LHR') }
   let(:jfk) { create(:airport, name: 'JFK', code: 'JFK') }
 
-  def create_travel_plan(attrs)
-    result = TravelPlan::Create.(
-      { travel_plan: attrs },
-      'account' => account,
-    )
-    raise unless result.success? # TODO once trailblazer-test has been released this shouldn't be necessary
-    result['model']
-  end
-
   let(:next_year) { Date.today.year + 1 }
   let(:account) { create(:account) }
   let(:plan) do
     create_travel_plan(
       depart_on: "05/18/#{next_year}",
-      from: lhr.full_name,
+      from: lhr,
       no_of_passengers: 1,
-      to: jfk.full_name,
+      to: jfk,
       type: 'single',
+      account: account,
     )
   end
 
@@ -66,10 +58,11 @@ RSpec.describe TravelPlan::Update do
     round_trip_plan = create_travel_plan(
       depart_on: "05/18/#{next_year}",
       return_on: "07/21/#{next_year}",
-      from: lhr.full_name,
+      from: lhr,
       no_of_passengers: 1,
-      to: jfk.full_name,
+      to: jfk,
       type: 'return',
+      account: account,
     )
 
     result = op.(

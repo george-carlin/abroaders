@@ -182,4 +182,64 @@ module SampleDataMacros
   end
 
   alias create_rec_request create_recommendation_request
+
+  # Create a sample travel plan. Tries to use existing airports from the DB if
+  # it can find any; else creates two new airports (one for 'from' and one for
+  # 'to') using FactoryGirl.
+  #
+  # note that this macro takes an airport as the values for 'from' and 'to',
+  # but the underlying 'Create' operation takes the airport's "full_name"
+  # string
+  #
+  # If you provide a return_on date but no type, type will default to 'return'.
+  # If you say that type == 'return' but don't provide a return_on date, the
+  # return_on date will default to a random date at some point shortly after
+  # the depart_on date. (depart_on itself, when not provided, defaults to a
+  # random date in the near future.)
+  #
+  # @option overrides [Account] account the account the travel plan will belong
+  #   to. If you don't provide an account, FactoryGirl will be used to create
+  #   one
+  def create_travel_plan(overrides = {})
+    account = overrides.key?(:account) ? overrides.delete(:account) : create(:account)
+
+    airports = Airport.all.to_a
+    from = if overrides.key?(:from)
+             overrides.delete(:from)
+           elsif airports.any?
+             airports.pop
+           else
+             create(:airport)
+           end
+
+    to = if overrides.key?(:to)
+           overrides.delete(:to)
+         elsif airports.any?
+           airports.pop
+         else
+           create(:airport)
+         end
+
+    # symbols will make the operation crash:
+    overrides[:type] = overrides[:type].to_s if overrides.key?(:type)
+
+    attributes = { # defaults:
+      accepts_economy: true,
+      depart_on: rand(5).days.from_now,
+      no_of_passengers: rand(2) + 1,
+      type: 'single',
+      from: from.full_name,
+      to: to.full_name,
+    }.merge(overrides)
+
+    attributes[:type] = 'return' if attributes.key?(:return_on)
+
+    if attributes[:type] == 'return' && !attributes.key?(:return_on)
+      attributes[:return_on] = attributes[:depart_on] + rand(15)
+    end
+
+    params = { travel_plan: attributes }
+
+    run!(TravelPlan::Create, params, 'account' => account)['model']
+  end
 end

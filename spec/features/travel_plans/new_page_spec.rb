@@ -54,7 +54,7 @@ RSpec.describe "new travel plan page", :js do
   describe "filling in the form" do
     context "with valid information" do
       before do
-        create(:travel_plan, :return, account: account)
+        create_travel_plan(type: :return, account: account)
         fill_in_typeahead(
           "#travel_plan_from",
           with:       @airports[0].code,

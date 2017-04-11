@@ -8,7 +8,7 @@ RSpec.describe "admin edit travel plan" do
   subject { page }
 
   let(:account) { create(:account, :onboarded) }
-  let(:travel_plan) { create(:travel_plan, :return, account: account) }
+  let(:travel_plan) { create_travel_plan(type: :return, account: account) }
   let(:depart_date) { 5.months.from_now.to_date }
   let(:return_date) { 6.months.from_now.to_date }
   let(:submit_form) { click_button "Save" }

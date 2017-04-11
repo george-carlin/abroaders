@@ -5,27 +5,20 @@ RSpec.describe "travel plans index page" do
 
   include_context "logged in"
 
-  before do
-    create_tps!
-    visit travel_plans_path
-  end
-
   let(:create_tps!) { nil }
 
-  it { is_expected.to have_title full_title('Travel Plans') }
-
   example 'when I have no travel plans' do
+    visit travel_plans_path
     expect(page).to have_content "You haven't added any travel plans yet."
   end
 
-  context 'when I have travel plans' do
-    let(:create_tps!) { @tps = create_list(:travel_plan, 2, account: account) }
+  example 'when I have travel plans' do
+    tps = Array.new(2) { create_travel_plan(account: account) }
+    visit travel_plans_path
 
-    it 'lists them' do
-      expect(page).to have_no_content 'No travel plans!'
-      expect(page).to have_selector "##{dom_id(@tps[0])}"
-      expect(page).to have_selector "##{dom_id(@tps[1])}"
-    end
+    expect(page).to have_no_content 'No travel plans!'
+    expect(page).to have_selector "#travel_plan_#{tps[0].id}"
+    expect(page).to have_selector "#travel_plan_#{tps[1].id}"
 
     # the details about what is displayed for each plan is tested
     # in the spec for TravelPlan::Cell::Summary
