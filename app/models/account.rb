@@ -46,6 +46,10 @@ class Account < ApplicationRecord
   has_many :card_recommendations, through: :people
   has_many :unresolved_card_recommendations, through: :people
 
+  def unresolved_card_recommendations?
+    unresolved_card_recommendations.any?
+  end
+
   has_many :balances, through: :people
 
   has_one :phone_number
@@ -61,6 +65,13 @@ class Account < ApplicationRecord
   end
 
   has_many :recommendation_notes, dependent: :destroy
+
+  # admins can't edit notes, so our crude way of allowing it for now
+  # is to let admins submit a new updated note, and we only ever show
+  # the most recent note to the user:
+  def recommendation_note
+    recommendation_notes.order(created_at: :desc).first
+  end
 
   has_and_belongs_to_many :home_airports,
                           class_name: "Airport",
