@@ -1,6 +1,30 @@
 class Card < Card.superclass
   module Cell
     class Index < Abroaders::Cell::Base
+      property :eligible_people
+      property :people
+      property :unresolved_card_recommendations?
+      property :recommendation_note
+
+      def title
+        'My Cards'
+      end
+
+      private
+
+      def card_accounts
+        cell(Card::Cell::Index::CardAccounts, model)
+      end
+
+      def card_recommendations
+        cell(Cell::Index::CardRecommendations, model)
+      end
+
+      def note
+        return '' if recommendation_note.nil?
+        cell(CardRecommendation::Cell::Note, recommendation_note)
+      end
+
       # @!method self.call(account, options = {})
       class CardRecommendations < Abroaders::Cell::Base
         property :people

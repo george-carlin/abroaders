@@ -5,21 +5,17 @@ class CardsController < AuthenticatedUserController
     # Unfortunately I can't figure out a better way of avoiding all the N+1 issues
     # without reloading the current account, since you can't call `includes`
     # after the account has already been loaded.
-    @account = Account.includes(
+    account = Account.includes(
       people: [:account, { card_accounts: { product: :bank } },
                unresolved_card_recommendations: [:product, { product: :bank, offer: { product: :currency } }],],
     ).find(current_account.id)
-    @any_recommendations = @account.unresolved_card_recommendations.any?
-    if @any_recommendations
+    if account.unresolved_card_recommendations?
       cookies[:recommendation_timeout] = { value: "timeout", expires: 24.hours.from_now }
     end
 
-    # admins can't edit notes, so our crude way of allowing it for now
-    # is to let admins submit a new updated note, and we only ever show
-    # the most recent note to the user:
-    @newest_rec_note = @account.recommendation_notes.order(created_at: :desc).first
+    account.card_recommendations.unseen.update_all(seen_at: Time.zone.now)
 
-    @account.card_recommendations.unseen.update_all(seen_at: Time.zone.now)
+    render cell(Card::Cell::Index, account)
   end
 
   def survey
