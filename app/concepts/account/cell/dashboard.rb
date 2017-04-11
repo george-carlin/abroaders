@@ -7,28 +7,11 @@ class Account < Account.superclass
     #
     # @!self.call(account)
     class Dashboard < Abroaders::Cell::Base
-      include ::Cell::Builder
       include Escaped
 
       property :actionable_card_recommendations?
       property :unresolved_recommendation_requests?
       property :owner_first_name
-
-      # annoyingly, it seems like you can't nest calls to builds. I'd rather
-      # just have this block choose between self/ForNewUser, then a 2nd
-      # `builds` block in ForNewUser that chooses between Ready / Unready /
-      # Ineligible. But it doesn't work. Possibly addition to cells itself?
-      builds do |account|
-        if account.unresolved_recommendation_requests?
-          ForNewUser::Ready
-        elsif account.card_recommendations.any?
-          self
-        elsif account.eligible_people.any?
-          ForNewUser::Unready
-        else
-          ForNewUser::Ineligible
-        end
-      end
 
       def show
         render view: 'dashboard' # use the same ERB file for all subclasses:
@@ -36,15 +19,21 @@ class Account < Account.superclass
 
       private
 
-      def lead_text
-        %[
-          We are amped up to help you save on travel. <br/> Don't be shy to
-          reach out if you have any questions.
-        ]
+      def next_steps
+        cell(NextSteps, model)
       end
 
-      def new_user_instructions
-        ''
+      def lead_text
+        if model.unresolved_recommendation_requests?
+          t('dashboard.account.unresolved_rec_req.title')
+        elsif model.card_recommendations.any?
+          "We are amped up to help you save on travel. <br/> Don't be shy to "\
+          'reach out if you have any questions'
+        elsif model.eligible_people.any?
+          t('dashboard.account.eligible.title')
+        else
+          t('dashboard.account.ineligible.title')
+        end
       end
 
       def actionable_recs_modal
@@ -59,29 +48,31 @@ class Account < Account.superclass
         "Welcome to Abroaders, #{owner_first_name}."
       end
 
-      # @!self.call(account)
-      class ForNewUser < self
+      # @!method self.call(account, options = {})
+      class NextSteps < Abroaders::Cell::Base
+        include ::Cell::Builder
+
+        builds do |account|
+          if account.unresolved_recommendation_requests?
+            UnresolvedRequests
+          elsif account.card_recommendations.any?
+            self
+          elsif account.eligible_people.any?
+            NewAndEligible
+          else
+            NewAndIneligible
+          end
+        end
+
         property :people
 
-        def new_user_instructions
-          %[
-            <div class="row new-user-instructions">
-              <div class="col-xs-12 col-md-4 new-user-steps">
-                <p class="completed">
-                  1. Complete profile <i class="fa fa-check" aria-hidden="true"> </i>
-                </p>
-                #{steps}
-              </div><!-- .new-user-steps -->
-
-              <div class="col-xs-12 col-md-8 main-area">
-                <p><b>What's next?</b></p>
-                #{whats_next}
-              </div>
-            </div>
-
-            <hr />
-          ]
+        # return an empty string if this isn't a subclass
+        def show
+          return '' if instance_of?(NextSteps)
+          render view: 'dashboard/next_steps'
         end
+
+        private
 
         %w[main_text step_2 whats_next].each do |meth|
           define_method meth do
@@ -119,13 +110,9 @@ class Account < Account.superclass
         # uproot the legacy code.
         #
         # @!self.call(account)
-        class Ready < self
+        class UnresolvedRequests < self
           def current_step
             2
-          end
-
-          def lead_text
-            t('dashboard.account.unresolved_rec_req.title')
           end
 
           def step_2
@@ -138,19 +125,12 @@ class Account < Account.superclass
         end
 
         # Shown to new users who have at least one eligible person on their
-        # account, but no unresolved requests.
-        #
-        # The class name 'Unready' is a leftover from before we introduced the
-        # concept of a recommendation request.
+        # account, but haven't made a rec request yet.
         #
         # @!self.call(account)
-        class Unready < self
+        class NewAndEligible < self
           def current_step
             2
-          end
-
-          def lead_text
-            t('dashboard.account.eligible.title')
           end
 
           def link_to_new_rec_request
@@ -201,13 +181,9 @@ class Account < Account.superclass
         # Shown to new users who have no eligible people on their account
         #
         # @!self.call(account)
-        class Ineligible < self
+        class NewAndIneligible < self
           def current_step
             2
-          end
-
-          def lead_text
-            t('dashboard.account.ineligible.title')
           end
 
           def step_2
