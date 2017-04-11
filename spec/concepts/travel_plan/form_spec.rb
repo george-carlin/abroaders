@@ -26,7 +26,7 @@ RSpec.describe TravelPlan::Form, type: :model do
     let(:form) { described_class.new(travel_plan) }
 
     context 'when TP is being edited' do
-      let(:travel_plan) { create(:travel_plan, depart_on: '2020-01-02', return_on: '2025-12-05') }
+      let(:travel_plan) { create_travel_plan(depart_on: '2020-01-02', return_on: '2025-12-05') }
       let(:flight) { travel_plan.flights[0] }
 
       before { form.prepopulate! }

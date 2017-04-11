@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe TravelPlan::Destroy do
-  let(:travel_plan) { create(:travel_plan) }
+  let(:travel_plan) { create_travel_plan }
   let(:account) { travel_plan.account }
   let(:op) { described_class }
 

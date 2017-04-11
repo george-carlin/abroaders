@@ -38,4 +38,11 @@ RSpec.describe SampleDataMacros do
       expect(offer).to be_an(Offer)
     end.to change { Offer.count }.by(1)
   end
+
+  example '#create_travel_plan' do
+    expect do
+      travel_plan = create_travel_plan
+      expect(travel_plan).to be_an(TravelPlan)
+    end.to change { TravelPlan.count }.by(1)
+  end
 end
