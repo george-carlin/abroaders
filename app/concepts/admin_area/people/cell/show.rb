@@ -15,9 +15,8 @@ module AdminArea
         skill :offers
         skill :person
 
-        # the cell that renders an individual travel plan. Sticking it in a
-        # class method like this so I can easily stub it when testing.  Still
-        # haven't figured out the best way to handle DI in cells. FIXME
+        # The cell that renders an individual travel plan. Sticking it in a
+        # class method like this so I can easily stub it when testing.
         def self.travel_plan_cell
           TravelPlan::Cell::Summary
         end
@@ -137,8 +136,12 @@ module AdminArea
           include Escaped
 
           property :first_name
+          property :partner
+          property :partner?
+          property :partner_first_name
           property :email
           property :signed_up_at
+          property :owner?
           property :phone_number
 
           def show
@@ -150,8 +153,10 @@ module AdminArea
                   </div>
 
                   <div class="col-xs-12 col-md-3">
-                    <p>Account created on #{signed_up_at.strftime('%D')}</p>
+                    #{signed_up}
                     #{phone_number}
+                    #{owner}
+                    #{companion}
                   </div>
                 </div>
               </div>
@@ -159,6 +164,27 @@ module AdminArea
           end
 
           private
+
+          def signed_up
+            "<p>Account created on #{signed_up_at.strftime('%D')}</p>"
+          end
+
+          def link_to_self
+            link_to first_name, admin_person_path(model)
+          end
+
+          def link_to_partner
+            link_to partner_first_name, admin_person_path(partner)
+          end
+
+          def owner
+            "<p>Owner: #{owner? ? link_to_self : link_to_partner}</p>"
+          end
+
+          def companion
+            return '' unless partner?
+            "<p>Companion: #{owner? ? link_to_partner : link_to_self}</p>"
+          end
 
           def phone_number
             number = super

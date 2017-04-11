@@ -5,8 +5,19 @@ class Person < ApplicationRecord
     !owner
   end
 
+  def partner
+    owner? ? account.companion : account.owner
+  end
+
+  delegate :first_name, to: :partner, prefix: true
+
+  def partner?
+    !partner.nil?
+  end
+
   def has_partner?
-    account.couples?
+    warn 'Person#has_partner? is deprecated, use #partner? instead'
+    partner?
   end
 
   def phone_number

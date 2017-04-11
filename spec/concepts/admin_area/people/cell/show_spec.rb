@@ -7,7 +7,7 @@ RSpec.describe AdminArea::People::Cell::Show do
   let(:aw_email) { "totallyawesomedude@example.com" }
 
   let(:person) do
-    Person.new(
+    Person.owner.new(
       id: 5,
       account: account,
       award_wallet_email: aw_email,
@@ -20,7 +20,7 @@ RSpec.describe AdminArea::People::Cell::Show do
     Trailblazer::Operation::Result.new(
       true,
       'offers' => data.fetch(:offers, []),
-      'person' => person,
+      'person' => data.fetch(:person, person),
     )
   end
 
@@ -35,6 +35,27 @@ RSpec.describe AdminArea::People::Cell::Show do
     expect(rendered).to have_content 'User has no upcoming travel plans'
     # no recommendation notes yet:
     expect(rendered).to have_no_content 'Recommendation Notes'
+  end
+
+  example 'owner/companion links' do
+    account.email = 'x@x.com'
+    account.password = account.password_confirmation = 'qwerqwer'
+    account.save!
+    person.save!
+    rendered = show(get_result)
+    expect(rendered).to have_link 'Erik', href: admin_person_path(person)
+
+    # with companion:
+    companion = create(:companion, first_name: 'Gabi', account: account)
+    person.reload
+    rendered = show(get_result)
+    expect(rendered).to have_link 'Erik', href: admin_person_path(person)
+    expect(rendered).to have_link 'Gabi', href: admin_person_path(companion)
+
+    # on companion's page:
+    rendered = show(get_result(person: companion))
+    expect(rendered).to have_link 'Erik', href: admin_person_path(person)
+    expect(rendered).to have_link 'Gabi', href: admin_person_path(companion)
   end
 
   example 'with spending info' do
