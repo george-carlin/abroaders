@@ -11,8 +11,6 @@ RSpec.describe RecommendationRequest::Cell::Banner::Status do
   describe 'for solo account' do
     example 'ineligible' do
       person.update!(eligible: false)
-      account.reload # TODO is this actually necessary?
-
       expect(cell_class.(account).to_s).to eq ''
     end
 
@@ -52,8 +50,6 @@ RSpec.describe RecommendationRequest::Cell::Banner::Status do
 
     example 'neither eligible' do
       people.each { |p| p.update!(eligible: false) }
-      account.reload # TODO necessary?
-
       expect(cell_class.(account).to_s).to eq ''
     end
 
