@@ -175,9 +175,6 @@ class Card < ApplicationRecord
   scope :unpulled,   -> { where(pulled_at: nil) }
   scope :unredenied, -> { where(redenied_at: nil) }
   scope :unseen,     -> { where(seen_at: nil) }
-  scope :undenied,   -> { where(denied_at: nil) }
-  scope :unopen,     -> { where(opened_on: nil) }
-  scope :unredenied, -> { where(redenied_at: nil) }
 
   # compound scopes:
 
