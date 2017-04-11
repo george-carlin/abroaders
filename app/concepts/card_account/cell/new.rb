@@ -3,16 +3,14 @@ class CardAccount < CardAccount.superclass
     # Shows a form to add a new card. The card *product* will already have been
     # selected on a previous page and is passed into this page by the params.
     #
-    # if current account has a companion, has an extra input to select whether
+    # If current account has a companion, has an extra input to select whether
     # the card is for the owner or for the companiothe companion
-    #
-    # @!method self.call(result)
-    #   @param result [TRB Result] result of CardAccount::New
     class New < Abroaders::Cell::Base
       extend Abroaders::Cell::Result
 
       skill :model
 
+      # @param result [TRB Result] result of CardAccount::New
       def initialize(result, opts = {}, *)
         raise 'card must have product initialized' if result['model'].product.nil?
         super

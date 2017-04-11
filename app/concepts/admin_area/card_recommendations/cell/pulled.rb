@@ -1,18 +1,17 @@
 module AdminArea
   module CardRecommendations
     module Cell
-      # main cell for /admin/people/:person_id/recommendations/pulled
+      # Top-level cell for /admin/people/:person_id/recommendations/pulled
       #
       # Lists the recommendations that were made to the given person, but
       # were then pulled by an admin.
-      #
-      # model: a TRB operation result. must have keys:
-      #   collection: a collection of CardRecommendations
-      #   person: the person
-      #   account: the person's account
       class Pulled < Abroaders::Cell::Base
         alias result model
 
+        # model: a TRB operation result. must have keys:
+        #   collection: a collection of CardRecommendations
+        #   person: the person
+        #   account: the person's account
         def initialize(result, opts = {})
           raise 'op must be a success' unless result.success?
           super
