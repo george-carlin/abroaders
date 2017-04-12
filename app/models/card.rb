@@ -139,6 +139,7 @@ class Card < ApplicationRecord
 
   belongs_to :product, class_name: 'CardProduct'
   belongs_to :person
+  has_one :account, through: :person
   belongs_to :offer
 
   # Callbacks

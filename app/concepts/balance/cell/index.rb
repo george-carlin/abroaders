@@ -1,23 +1,18 @@
-require 'abroaders/cell/result'
-
 class Balance < Balance.superclass
   module Cell
     # The top-level cell for the balances#index action.
     #
-    # @!method self.call(result, opts = {})
-    #   @param result [Result] the result of Balance::Operation::Index
-    #   @option result [Account] account the currently-logged in Account
-    #   @option result [Collection<Person>] people
+    # @!method self.call(account, opts = {})
+    #   @param account [Account] the currently-logged in account. Make sure
+    #     that the right associations are eager-loaded.
     class Index < Trailblazer::Cell
-      extend Abroaders::Cell::Result
-      include ::Cell::Builder
-
-      skill :account
-      skill :people
+      property :people
+      property :connected_to_award_wallet?
+      property :award_wallet_user
 
       def show
-        aw = if account.connected_to_award_wallet?
-               cell(AwardWalletInfo, account.award_wallet_user)
+        aw = if connected_to_award_wallet?
+               cell(AwardWalletInfo, award_wallet_user)
              else
                cell(AwardWalletConnectPanel)
              end
