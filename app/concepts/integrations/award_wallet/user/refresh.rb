@@ -25,6 +25,7 @@ module Integrations
           step :update_user
           step :update_accounts
           step :delete_old_accounts_and_owners
+          failure :rollback
         }
 
         private
@@ -56,6 +57,10 @@ module Integrations
 
           model.award_wallet_owners.where.not(name: owner_names).destroy_all
           model.award_wallet_accounts.where.not(aw_id: account_ids).destroy_all
+        end
+
+        def rollback(*)
+          raise ActiveRecord::Rollback
         end
 
         class Job < ApplicationJob

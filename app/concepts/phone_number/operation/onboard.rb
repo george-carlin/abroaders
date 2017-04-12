@@ -10,6 +10,7 @@ class PhoneNumber < PhoneNumber.superclass
       step Wrap(Abroaders::Transaction) {
         step Nested(PhoneNumber::Operation::Create)
         step :update_onboarding_state!
+        failure :rollback
       }
 
       private
@@ -24,6 +25,10 @@ class PhoneNumber < PhoneNumber.superclass
 
       def log_invalid_onboarding_state!(_options)
         result['errors'] = 'account in invalid onboarding state'
+      end
+
+      def rollback(*)
+        raise ActiveRecord::Rollback
       end
     end
   end
