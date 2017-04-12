@@ -5,7 +5,7 @@ class CardAccountsController < AuthenticatedUserController
       render cell(CardAccount::Cell::New, result)
     else
       run CardAccount::New::SelectProduct
-      render cell(CardAccount::Cell::New::SelectProduct, collection, banks: result['banks'])
+      render cell(CardAccount::Cell::New::SelectProduct, result['collection'], banks: result['banks'])
     end
   end
 
