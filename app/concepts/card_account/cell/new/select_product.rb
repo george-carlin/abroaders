@@ -46,7 +46,7 @@ class CardAccount < CardAccount.superclass
 
             def show
               content_tag :div, id: html_id, class: HTML_CLASS, style: 'display:none;' do
-                cell(Product, collection: card_products).join('<hr>') { |c| c }
+                cell(Product, collection: card_products).join('<hr>')
               end
             end
 

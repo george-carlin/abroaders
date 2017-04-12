@@ -11,7 +11,7 @@ class TravelPlan < TravelPlan.superclass
 
       def travel_plans
         if collection.any?
-          cell(TravelPlan::Cell::Summary, collection: collection, well: false).join('<hr>') { |cell| cell }
+          cell(TravelPlan::Cell::Summary, collection: collection, well: false).join('<hr>')
         else
           "You haven't added any travel plans yet. Click 'Add New' above to get started."
         end

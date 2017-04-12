@@ -16,7 +16,7 @@ class Card < Card.superclass
         def card_accounts_for_each_person
           cell(
             ForPerson, collection: account.people, use_name: account.couples?,
-          ).join('<hr>') { |cell| cell }
+          ).join('<hr>')
         end
 
         def btn_to_add_new
@@ -44,8 +44,7 @@ class Card < Card.superclass
             content_tag :div, id: "#{type}_card_accounts" do
               if card_accounts.any?
                 collection = cell(self.class.row_class, collection: card_accounts, editable: true)
-                "<h3>#{first_name}'s cards</h4>" <<
-                  collection.join('<hr>') { |c| c }
+                "<h3>#{first_name}'s cards</h4>" << collection.join('<hr>')
               else
                 "<p>#{first_name} has no cards</p>"
               end

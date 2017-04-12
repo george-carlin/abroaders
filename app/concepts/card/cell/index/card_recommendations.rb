@@ -7,7 +7,7 @@ class Card < Card.superclass
 
         def show
           content_tag :div, id: 'card_recommendations' do
-            cell(ForPerson, collection: people)
+            cell(ForPerson, collection: people).join('<hr>')
           end
         end
 
@@ -38,7 +38,7 @@ class Card < Card.superclass
               cell(
                 CardRecommendation::Cell::Actionable,
                 collection: actionable_card_recommendations,
-              ).join('<hr>') { |c| c }
+              ).join('<hr>')
             else
               "No recommendations for #{first_name}"
             end
