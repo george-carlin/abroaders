@@ -26,7 +26,7 @@ module ApplicationSurveyMacros
   # so we need to pass in the rec:
   def have_find_card_btn(card, present = true)
     meth = present ? :have_link : :have_no_link
-    send(meth, 'Find My Card', href: apply_card_recommendation_path(card))
+    send(meth, 'Find My Card', href: click_card_recommendation_path(card))
   end
 
   def have_no_find_card_btn(card)
