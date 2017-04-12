@@ -3,7 +3,7 @@ module AdminArea
     module Operation
       # find accounts where the email address, phone number, or name of either
       # person matches the search query (non-case-sensitive). The results are
-      # available on the 'collection' key of the result object.
+      # available on the 'model' key of the result object.
       #
       # Takes one param called `:query`.
       class Search < Trailblazer::Operation
@@ -36,7 +36,7 @@ module AdminArea
               "%#{query}%",
             ],
           ).pluck(:id)
-          opts['collection'] = \
+          opts['model'] = \
             opts['account.class'].includes(:phone_number).order('email ASC').where(id: ids)
         end
       end
