@@ -48,7 +48,7 @@ RSpec.describe "user cards page - nudgeable cards", :js do
     # has buttons:
     expect(page).to have_button i_called_btn(rec)
     expect(page).to have_button i_heard_back_btn
-    expect(page).to have_no_apply_btn(rec)
+    expect(page).to have_no_find_card_btn(rec)
     expect(page).to have_no_button decline_btn
     expect(page).to have_no_button i_applied_btn
     # it encourages the user to call the bank:

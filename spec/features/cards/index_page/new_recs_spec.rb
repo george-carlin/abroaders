@@ -33,7 +33,7 @@ RSpec.describe "cards index page - new recommendation", :js do
   let(:offer_description) { Offer::Cell::Description.(rec.offer) }
 
   example "new recommendation on page", :frontend do
-    expect(page).to have_apply_btn(rec)
+    expect(page).to have_find_card_btn(rec)
     expect(page).to have_button decline_btn
     expect(page).to have_button i_applied_btn
 
