@@ -1,10 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe Abroaders::Operation::Transaction do
+RSpec.describe Abroaders::Transaction do
   class MyOp < Trailblazer::Operation
-    extend Abroaders::Operation::Transaction
-
-    step wrap_in_transaction {
+    step Wrap(Abroaders::Transaction) {
       step :create_account_0
       step :raise_error
       step :create_account_1

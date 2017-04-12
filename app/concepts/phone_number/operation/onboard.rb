@@ -5,11 +5,9 @@ class PhoneNumber < PhoneNumber.superclass
     # Add a phone number to the account as part of the onboarding
     # survey
     class Onboard < Trailblazer::Operation
-      extend Abroaders::Operation::Transaction
-
       step :validate_account_onboarding_state!
       failure :log_invalid_onboarding_state!
-      step wrap_in_transaction {
+      step Wrap(Abroaders::Transaction) {
         step Nested(PhoneNumber::Operation::Create)
         step :update_onboarding_state!
       }

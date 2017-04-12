@@ -1,5 +1,3 @@
-require 'abroaders/operation/transaction'
-
 module Integrations
   module AwardWallet
     module User
@@ -19,12 +17,10 @@ module Integrations
       # @!method self.call(params, options = {})
       #   @options params [AwardWalletUser] user
       class Refresh < Trailblazer::Operation
-        extend Abroaders::Operation::Transaction
-
         self['api'] = APIClient
         self['update_op'] = User::Update
 
-        step wrap_in_transaction {
+        step Wrap(Abroaders::Transaction) {
           step :get_data_from_api
           step :update_user
           step :update_accounts
