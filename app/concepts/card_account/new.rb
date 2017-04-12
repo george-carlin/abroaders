@@ -43,22 +43,5 @@ class CardAccount < CardAccount.superclass
     def setup_model!(opts, person:, **)
       opts['model'] = person.card_accounts.new
     end
-
-    # when no product ID is provided in the params, show this page instead so
-    # they can choose a product.
-    class SelectProduct < Trailblazer::Operation
-      step :load_products!
-      step :load_banks!
-
-      private
-
-      def load_products!(opts)
-        opts['collection'] = CardProduct.includes(:bank).order(name: :asc)
-      end
-
-      def load_banks!(opts)
-        opts['banks'] = Bank.order(name: :asc)
-      end
-    end
   end
 end
