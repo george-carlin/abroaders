@@ -24,13 +24,13 @@ module ApplicationSurveyMacros
   # to another page (styled like a button) rather than a button that changes
   # something on the current page: and we want to check that the link is correct,
   # so we need to pass in the rec:
-  def have_apply_btn(card, present = true)
+  def have_find_card_btn(card, present = true)
     meth = present ? :have_link : :have_no_link
     send(meth, 'Find My Card', href: apply_card_recommendation_path(card))
   end
 
-  def have_no_apply_btn(card)
-    have_apply_btn card, false
+  def have_no_find_card_btn(card)
+    have_find_card_btn card, false
   end
 
   def decline_reason_wrapper

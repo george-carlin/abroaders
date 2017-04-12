@@ -26,7 +26,7 @@ RSpec.describe "user cards page - called cards", :js do
   let(:rec) { @rec }
 
   example "rec on page", :frontend do
-    expect(page).to have_no_apply_btn(rec)
+    expect(page).to have_no_find_card_btn(rec)
     expect(page).to have_no_button decline_btn
     expect(page).to have_no_button i_applied_btn
     expect(page).to have_no_button i_called_btn(rec)
