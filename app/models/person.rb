@@ -5,6 +5,16 @@ class Person < ApplicationRecord
     !owner
   end
 
+  def partner
+    owner? ? account.companion : account.owner
+  end
+
+  delegate :first_name, to: :partner, prefix: true
+
+  def partner?
+    !partner.nil?
+  end
+
   def phone_number
     account.phone_number&.number
   end
