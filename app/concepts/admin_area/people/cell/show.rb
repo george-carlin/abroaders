@@ -24,7 +24,7 @@ module AdminArea
 
         private
 
-        delegate :account, :balances, :home_airports, :recommendation_notes, :regions_of_interest, :travel_plans, to: :person
+        delegate :account, :balances, :home_airports, :regions_of_interest, :travel_plans, to: :person
 
         def award_wallet_connection
           return '' unless account.connected_to_award_wallet?
@@ -89,8 +89,9 @@ module AdminArea
           cell(RecommendationTable, person, offers: offers)
         end
 
-        def recommendation_notes_list
-          cell(RecommendationNotes, recommendation_notes.sort_by(&:created_at).reverse)
+        def recommendation_notes
+          # Avoid clashing with the module AdminArea::RecommendationNotes
+          cell(Cell::Show::RecommendationNotes, person)
         end
 
         # If the account has any ROIs,  list them.
