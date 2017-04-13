@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :person, aliases: [:owner] do
     association(:account, factory: :account, with_person: false)
-    first_name { Faker::Name.first_name }
+    first_name 'Erik'
 
     trait :eligible do
       eligible true
@@ -18,6 +18,7 @@ FactoryGirl.define do
     end
 
     trait :companion do
+      first_name 'Gabi'
       owner false
     end
 
