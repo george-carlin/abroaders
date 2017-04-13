@@ -39,7 +39,7 @@ module AdminArea
         end
 
         def balances_list
-          cell(People::Cell::Balances, person, balances: balances)
+          cell(People::Cell::Balances, person)
         end
 
         def bank_filter_panels

@@ -9,11 +9,10 @@ module AdminArea
       #
       # @!method self.call(person, opts = {})
       #   @param person [Person]
-      #   @option opts [Collection<Balance>] balances the person's balances.
-      #     The cell will call .currency.name on each balance so be wary of
-      #     N+1 issues
+      #     The cell will call balance.currency.name on each person so be wary
+      #     of N+1 issues
       class Balances < Abroaders::Cell::Base
-        option :balances
+        property :balances
 
         def show
           if balances.any?
@@ -30,7 +29,7 @@ module AdminArea
         end
 
         def list
-          cell(::Balance::Cell::List, options.fetch(:balances)).()
+          cell(::Balance::Cell::List, balances).to_s
         end
       end
     end

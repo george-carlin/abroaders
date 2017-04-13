@@ -34,7 +34,11 @@ RSpec.describe Card::Cell::Index::CardAccounts do
   end
 
   describe 'couples account' do
-    let!(:companion) { account.people.companion.new(first_name: 'Gabi') }
+    # need to use saved records or the cell won't load the people correctly :/
+    let(:product) { create(:card_product) }
+    let(:account) { create(:account, :couples, :eligible, :onboarded) }
+    let(:owner) { account.owner }
+    let(:companion) { account.companion }
 
     example 'with no cards' do
       rendered = show(account)
@@ -42,32 +46,29 @@ RSpec.describe Card::Cell::Index::CardAccounts do
     end
 
     example 'only owner has cards' do
-      acc = owner.card_accounts.new(id: 1, opened_on: today, product: product)
-      allow(account).to receive(:card_accounts) { [acc] }
+      create_card_account(person: owner, opened_on: today, product: product)
       rendered = show(account)
       expect(rendered).to have_selector '#card_1'
-      expect(rendered).not_to have_content 'Erik has no cards'
-      expect(rendered).to have_content 'Gabi has no cards'
+      expect(rendered).not_to have_content "#{owner.first_name} has no cards"
+      expect(rendered).to have_content "#{companion.first_name} has no cards"
     end
 
     example 'only companion has cards' do
-      acc = companion.card_accounts.new(id: 2, opened_on: today, product: product)
-      allow(account).to receive(:card_accounts) { [acc] }
+      create_card_account(person: companion, opened_on: today, product: product)
       rendered = show(account)
       expect(rendered).to have_selector '#card_2'
-      expect(rendered).to have_content 'Erik has no cards'
-      expect(rendered).not_to have_content 'Gabi has no cards'
+      expect(rendered).to have_content "#{owner.first_name} has no cards"
+      expect(rendered).not_to have_content "#{companion.first_name} has no cards"
     end
 
     example 'both people have cards' do
-      ca_0 = owner.card_accounts.new(id: 3, opened_on: today, product: product)
-      ca_1 = companion.card_accounts.new(id: 4, opened_on: today, product: product)
-      allow(account).to receive(:card_accounts) { [ca_0, ca_1] }
+      create_card_account(person: owner, opened_on: today, product: product)
+      create_card_account(person: companion, opened_on: today, product: product)
       rendered = show(account)
       expect(rendered).to have_selector '#card_3'
       expect(rendered).to have_selector '#card_4'
-      expect(rendered).not_to have_content 'Erik has no cards'
-      expect(rendered).not_to have_content 'Gabi has no cards'
+      expect(rendered).not_to have_content "#{owner.first_name} has no cards"
+      expect(rendered).not_to have_content "#{companion.first_name} has no cards"
     end
   end
 end
