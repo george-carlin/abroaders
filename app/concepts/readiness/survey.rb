@@ -1,8 +1,6 @@
 module Readiness
   class Survey < Trailblazer::Operation
-    extend Abroaders::Operation::Transaction
-
-    step wrap_in_transaction {
+    step Wrap(Abroaders::Transaction) {
       success :create_rec_requests
       success :update_onboarding_status
     }

@@ -3,11 +3,10 @@ module AdminArea
     # @!method self.call(params, options = {})
     #   @option params [Integer] person_id
     class Complete < Trailblazer::Operation
-      extend Abroaders::Operation::Transaction
-
       success :setup_person
       success :setup_account
-      step wrap_in_transaction {
+
+      step Wrap(Abroaders::Transaction) {
         success :create_rec_note
         success :send_notification
         success :resolve_recommendation_requests
