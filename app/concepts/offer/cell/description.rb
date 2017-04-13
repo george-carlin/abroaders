@@ -1,7 +1,9 @@
 class Offer < Offer.superclass
   module Cell
-    # Takes an Offer, returns a nice English sentence that describes how one
+    # returns a nice English sentence that describes how one
     # can earn the offer's bonus.
+    #
+    # @!method self.call(offer, options = {})
     class Description < Abroaders::Cell::Base
       property :days
 

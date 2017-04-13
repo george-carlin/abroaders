@@ -1,5 +1,6 @@
 class CardProduct < CardProduct.superclass
   module Cell
+    # @!method self.call(card_product, options = {})
     class Summary < Abroaders::Cell::Base
       private
 
