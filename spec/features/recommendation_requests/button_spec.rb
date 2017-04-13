@@ -48,6 +48,10 @@ RSpec.describe 'requesting a recommendation', :js do
         visit root_path
       end
 
+      # Note that for these specs I'm testing for the presence/absence of the
+      # "Name's credit score" text as a proxy for testing whether the conf.
+      # survey asks about the owner/companion or both of them.
+
       it 'has form to request for one or both people' do
         expect(page).to have_button BTN_TEXT
         expect(page).to have_no_select :person_type
@@ -67,7 +71,8 @@ RSpec.describe 'requesting a recommendation', :js do
         select owner.first_name, from: :person_type
         click_button 'Go'
         expect(page).to have_content CONFIRMATION_SURVEY_TEXT
-        # TODO test asks about owner and not companion
+        expect(page).to have_content "#{owner.first_name}'s credit score"
+        expect(page).to have_no_content "#{companion.first_name}'s credit score"
       end
 
       example 'selecting companion' do
