@@ -1,8 +1,6 @@
 module AdminArea
   module People
     module Cell
-      # placeholder class; eventually the whole template should be moved in here
-      #
       # @!method self.call(result, opts = {})
       #   @param result [Result] result of AdminArea::People::Operation::Show
       #   @option result [Collection<Offer>] offers the recommendable offers
