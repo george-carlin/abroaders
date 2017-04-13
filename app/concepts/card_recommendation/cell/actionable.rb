@@ -18,7 +18,7 @@ class CardRecommendation < CardRecommendation.superclass
       def find_card_btn
         link_to(
           'Find My Card',
-          apply_card_recommendation_path(model),
+          click_card_recommendation_path(model),
           id:     "card_recommendation_#{id}_find_card_btn",
           class:  'card_recommendation_find_card_btn btn btn-primary btn-sm',
           target: '_blank',

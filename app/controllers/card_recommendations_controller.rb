@@ -31,7 +31,7 @@ class CardRecommendationsController < CardsController
     end
   end
 
-  def apply
+  def click
     @model = load_card
 
     raise 'unapplyable card' unless @model.applyable?
@@ -40,6 +40,7 @@ class CardRecommendationsController < CardsController
     # can do is note that they've visited this page and (hopefully) been
     # redirected to the bank's page
     @model.update_attributes!(clicked_at: Time.zone.now)
+    redirect_to @model.offer.link
   end
 
   def decline
