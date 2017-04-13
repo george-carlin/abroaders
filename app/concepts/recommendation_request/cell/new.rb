@@ -205,8 +205,7 @@ class RecommendationRequest # < RecommendationRequest.superclass
 
         def form(&block)
           form_tag(
-            # Either person's ID will work here:
-            confirm_person_spending_info_path(people.first.id),
+            submit_path,
             class: 'confirm_personal_spending_form',
             data: { remote: true },
             method: :patch,
@@ -236,6 +235,16 @@ class RecommendationRequest # < RecommendationRequest.superclass
 
         def spending_input_explanation
           "Please tell us #{spending_who}"
+        end
+
+        def submit_path
+          # We can use confirm_person_spending_info_path for either person, just as
+          # long as the person we use has a spending info. On a couples account
+          # that might only be one person.
+          person_with_spending = people.detect { |p| p.spending_info.present? }
+          # this should never happen, but be defensive anyway:
+          raise if person_with_spending.nil?
+          confirm_person_spending_info_path(person_with_spending)
         end
 
         def what_you_should_exclude
