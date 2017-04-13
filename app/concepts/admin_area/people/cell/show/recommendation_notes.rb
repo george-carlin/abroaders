@@ -6,19 +6,20 @@ module AdminArea
         # there are some, returns them in a list, wrapped in a .hpanel
         # with an h3 header.
         #
-        # model: a collection of rec notes. may be empty.
+        # @!method self.call(notes, options = {})
+        #   @param notes [Collection<RecommendationNote>] may be empty
         class RecommendationNotes < Abroaders::Cell::Base
-          alias collection model
+          property :empty?
 
           def show
-            return '' if collection.empty?
+            return '' if empty?
             super
           end
 
           private
 
           def notes
-            cell(ListItem, collection: collection)
+            cell(ListItem, collection: model)
           end
 
           class ListItem < Abroaders::Cell::Base

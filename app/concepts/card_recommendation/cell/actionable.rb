@@ -59,7 +59,7 @@ class CardRecommendation < CardRecommendation.superclass
       end
 
       def rec_as_json
-        ERB::Util.html_escape(serialize(model))
+        escape(serialize(model))
       end
     end
   end

@@ -1,16 +1,19 @@
 module StaticPages
   module Cell
+    # @!method self.call(account, options = {})
+    #   @param account [Account] the currently logged-in account, if there is one.
     class ContactUs < Abroaders::Cell::Base
-      option :account, optional: true
+      include Escaped
+
+      property :owner_first_name
 
       private
 
       def hey
-        if account.nil?
+        if model.nil?
           'Hey there'
         else
-          name = ERB::Util.html_escape(account.owner_first_name)
-          "Hey, #{name}"
+          "Hey, #{owner_first_name}"
         end
       end
     end

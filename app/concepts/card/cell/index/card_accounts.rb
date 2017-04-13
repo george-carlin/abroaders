@@ -10,13 +10,13 @@ class Card < Card.superclass
         alias account model
 
         property :card_accounts
+        property :couples?
+        property :people
 
         private
 
         def card_accounts_for_each_person
-          cell(
-            ForPerson, collection: account.people, use_name: account.couples?,
-          ).join('<hr>')
+          cell(ForPerson, collection: people, use_name: couples?).join('<hr>')
         end
 
         def btn_to_add_new

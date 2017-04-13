@@ -223,9 +223,7 @@ class SpendingInfo < SpendingInfo.superclass
         def help_text
           paragraphs = []
           if people.size > 1
-            names = people.map do |p|
-              ERB::Util.html_escape(p.first_name)
-            end.join(' and ')
+            names = escape(people.map(&:first_name).join(' and '))
 
             paragraphs.push(
               "Please estimate the <b>combined</b> monthly spending "\

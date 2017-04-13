@@ -13,7 +13,7 @@ module AdminArea
         private
 
         def query
-          ERB::Util.html_escape(result['query'])
+          escape(result['query'])
         end
 
         def table_rows
