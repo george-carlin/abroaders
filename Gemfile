@@ -8,7 +8,10 @@ gem 'trailblazer', '~> 2.0.1'
 gem 'trailblazer-rails', '>= 1.0.0'
 gem 'disposable'
 gem 'reform'
-gem 'cells', '~> 4.1.5'
+# Using my own fork of cells which has a change to how Collection#join works.
+# My PR has been merged but not released, see https://github.com/trailblazer/cells/pull/448
+# Once it's released we can switch back to getting cells from Rubygems
+gem 'cells', github: 'georgemillo/cells', branch: 'collection-join'
 gem 'cells-erb', '0.0.9'
 gem 'dry-struct'
 

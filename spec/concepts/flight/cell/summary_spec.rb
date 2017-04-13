@@ -9,6 +9,10 @@ RSpec.describe Flight::Cell::Summary do
     end
   end
 
+  before do
+    allow(described_class).to receive(:airport_name_cell) { AirportNameStub }
+  end
+
   example '#show' do
     airport_class = Struct.new(:name)
     lhr = airport_class.new('Heathrow')
@@ -16,7 +20,7 @@ RSpec.describe Flight::Cell::Summary do
     # lhr = Struct.new(:from, :to)
 
     flight = Struct.new(:id, :from, :to).new(1, lhr, jfk)
-    rendered = show(flight, airport_name_cell: AirportNameStub)
+    rendered = show(flight)
     expect(rendered.to_s).to include 'Heathrow - John F. Kennedy'
   end
 end

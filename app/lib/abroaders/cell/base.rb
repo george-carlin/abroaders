@@ -11,7 +11,7 @@ module Abroaders
       include FontAwesome::Rails::IconHelper
 
       # this include is necessary otherwise the specs fail; appears to be
-      # a bug in Cells. See https://github.com/trailblazer/cells/issues/298 FIXME
+      # a bug in Cells. See https://github.com/trailblazer/cells/issues/298
       include ::Cell::Erb
 
       private

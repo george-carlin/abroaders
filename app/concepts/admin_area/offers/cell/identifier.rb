@@ -1,7 +1,7 @@
 module AdminArea
   module Offers
     module Cell
-      # model: an offer
+      # @!method self.call(offer, options = {})
       class Identifier < Abroaders::Cell::Base
         # A shorthand code that identifies the offer based on the points awarded,
         # minimum spend, and days. Note that this isn't necessarily unique per offer.

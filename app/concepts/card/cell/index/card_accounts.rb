@@ -13,10 +13,6 @@ class Card < Card.superclass
 
         private
 
-        def card_accounts_for_each_person
-          cell(ForPerson, collection: people).join('<hr>') { |c| c }
-        end
-
         def btn_to_add_new
           link_to(
             'Add New',
@@ -26,9 +22,17 @@ class Card < Card.superclass
           )
         end
 
+        def card_accounts_for_each_person
+          sorted_people = people.sort_by(&:type).reverse # owner first
+          cell(ForPerson, collection: sorted_people).join('<hr>')
+        end
+
         # @!method self.call(person, opts = {})
         class ForPerson < Abroaders::Cell::Base
+          include ::Cell::Builder
           include Escaped
+
+          builds { |person| person.partner? ? Couples : self }
 
           property :card_accounts
           property :first_name
@@ -39,16 +43,35 @@ class Card < Card.superclass
             content_tag :div, id: "#{type}_card_accounts" do
               if card_accounts.any?
                 collection = cell(self.class.row_class, collection: card_accounts, editable: true)
-                "<h3>#{first_name}'s cards</h4>" <<
-                  collection.join('<hr>') { |c| c }
+                header << collection.join('<hr>')
               else
-                "<p>#{first_name} has no cards</p>"
+                "<p>#{you_have} no cards</p>"
               end
             end
           end
 
           def self.row_class
             CardAccount::Cell::Row
+          end
+
+          private
+
+          def header
+            ''
+          end
+
+          def you_have
+            "You have"
+          end
+
+          class Couples < self
+            def header
+              "<h3>#{first_name}'s cards</h4>"
+            end
+
+            def you_have
+              "#{first_name} has"
+            end
           end
         end
       end

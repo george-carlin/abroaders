@@ -1,8 +1,6 @@
 module AdminArea
   module People
     module Cell
-      # placeholder class; eventually the whole template should be moved in here
-      #
       # @!method self.call(result, opts = {})
       #   @param result [Result] result of AdminArea::People::Operation::Show
       #   @option result [Collection<Offer>] offers the recommendable offers
@@ -15,8 +13,7 @@ module AdminArea
         skill :offers
         skill :person
 
-        # The cell that renders an individual travel plan. Sticking it in a
-        # class method like this so I can easily stub it when testing.
+        # The cell that renders an individual travel plan.
         def self.travel_plan_cell
           TravelPlan::Cell::Summary
         end
@@ -42,7 +39,7 @@ module AdminArea
         end
 
         def balances_list
-          cell(People::Cell::Balances, person, balances: balances)
+          cell(People::Cell::Balances, person)
         end
 
         def bank_filter_panels

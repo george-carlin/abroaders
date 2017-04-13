@@ -20,11 +20,14 @@ class Card < Card.superclass
         private
 
         def card_recommendations_for_each_person
-          cell(ForPerson, collection: people)
+          content_tag :div, id: 'card_recommendations' do
+            cell(ForPerson, collection: people).join('<hr>')
+          end
         end
 
         def note
           return '' if recommendation_note.nil?
+          # really this cell should live in the RecommendationNote namespace :/
           cell(CardRecommendation::Cell::Note, recommendation_note)
         end
 
@@ -55,7 +58,7 @@ class Card < Card.superclass
               cell(
                 CardRecommendation::Cell::Actionable,
                 collection: actionable_card_recommendations,
-              ).join('<hr>') { |c| c }
+              ).join('<hr>')
             else
               "No recommendations for #{first_name}"
             end

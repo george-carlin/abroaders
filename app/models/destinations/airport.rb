@@ -23,7 +23,6 @@ class Airport < Destination
   delegate :name, to: :city, prefix: true
   delegate :country, to: :city
 
-  # TODO I'm display logic and I don't belong here
   def full_name
     if name.downcase.include?(city_name.downcase)
       "#{name} (#{code})"

@@ -13,9 +13,6 @@ class TravelPlan < TravelPlan.superclass
     #   @param model [TravelPlan]
     #   @option opts [String] well (true) when true, the outermost `<div`> in
     #     the rendered HTML will have the CSS class `well`.
-    #   @option opts [Trailblazer::Cell] flight_summary_cell
-    #     (Flight::Summary::Cell) the dependency-injected cell that renders the
-    #     summary about the *flight*.
     class Summary < Abroaders::Cell::Base
       include Escaped
 
@@ -24,6 +21,10 @@ class TravelPlan < TravelPlan.superclass
       property :id
       property :further_information
       property :type
+
+      def self.flight_summary_cell
+        Flight::Cell::Summary
+      end
 
       private
 
@@ -49,8 +50,7 @@ class TravelPlan < TravelPlan.superclass
       end
 
       def flight_summary
-        cell_class = options.fetch(:flight_summary_cell, Flight::Cell::Summary)
-        cell(cell_class, flight)
+        cell(self.class.flight_summary_cell, flight)
       end
 
       def html_classes

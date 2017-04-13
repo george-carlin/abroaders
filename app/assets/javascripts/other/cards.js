@@ -3,7 +3,7 @@ $(document).ready(function () {
     var css = show ? "" : "none";
 
     document.getElementById(
-      "card_" + accountId + "_apply_btn"
+      "card_" + accountId + "_find_card_btn"
     ).style.display = css;
     document.getElementById(
       "card_" + accountId + "_applied_btn"

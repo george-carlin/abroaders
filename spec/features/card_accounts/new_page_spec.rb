@@ -6,7 +6,7 @@ RSpec.describe 'new card account page', :js do
   let(:person) { account.owner }
 
   before do
-    @banks = create_list(:bank, 2)
+    @banks = create_list(:bank, 3)
     @bank_0_products = [
       create(:card_product, :business, bank: @banks[0]),
       create(:card_product, :personal, bank: @banks[0]),
@@ -29,20 +29,28 @@ RSpec.describe 'new card account page', :js do
     CardProduct::Cell::FullName.(product, network_in_brackets: true).()
   end
 
+  it 'has a dropdown for banks which have at least one tag' do
+    expect(page).to have_select :new_card_bank_id, options: [
+      'What bank is the card from?',
+      @banks[0].name,
+      @banks[1].name,
+    ]
+  end
+
   example 'selecting a bank' do
     # no products visible initially:
     @products.each do |product|
       expect(page).to have_no_content full_name_for(product)
     end
     # selecting a bank:
-    select @banks[0].name, from: CardAccount::Cell::New::SelectProduct::BankSelect::HTML_ID
+    select @banks[0].name, from: :new_card_bank_id
     @bank_0_products.each do |product|
       expect(page).to have_content full_name_for(product)
     end
     @bank_1_products.each do |product|
       expect(page).to have_no_content full_name_for(product)
     end
-    select @banks[1].name, from: CardAccount::Cell::New::SelectProduct::BankSelect::HTML_ID
+    select @banks[1].name, from: :new_card_bank_id
     @bank_0_products.each do |product|
       expect(page).to have_no_content full_name_for(product)
     end
@@ -57,7 +65,7 @@ RSpec.describe 'new card account page', :js do
     let(:year) { (Date.today.year - 1).to_s }
 
     before do
-      select @banks[0].name, from: CardAccount::Cell::New::SelectProduct::BankSelect::HTML_ID
+      select @banks[0].name, from: :new_card_bank_id
       within "#card_product_#{product.id}" do
         click_link 'Add this Card'
       end
@@ -129,7 +137,7 @@ RSpec.describe 'new card account page', :js do
     let(:product) { @bank_1_products.first }
 
     before do
-      select @banks[1].name, from: CardAccount::Cell::New::SelectProduct::BankSelect::HTML_ID
+      select @banks[1].name, from: :new_card_bank_id
       within "#card_product_#{product.id}" do
         click_link 'Add this Card'
       end

@@ -9,8 +9,8 @@ RSpec.describe TravelPlan::Cell::Summary do
     end
   end
 
-  def show(model, opts = {})
-    super model, opts.merge(flight_summary_cell: FlightSummaryStub)
+  before do
+    allow(described_class).to receive(:flight_summary_cell) { FlightSummaryStub }
   end
 
   let(:plan) do

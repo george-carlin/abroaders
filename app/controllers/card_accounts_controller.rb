@@ -4,10 +4,9 @@ class CardAccountsController < AuthenticatedUserController
       run CardAccount::New
       render cell(CardAccount::Cell::New, result)
     else
-      run CardAccount::New::SelectProduct
-      # TODO use new style, pass result to the cell directly
-      collection = result['collection']
-      render cell(CardAccount::Cell::New::SelectProduct, collection, banks: result['banks'])
+      # Use .joins so that we only get banks which have at least one product
+      banks = Bank.all.joins(:card_products).group('banks.id').order(name: :asc)
+      render cell(CardAccount::Cell::New::SelectProduct, banks)
     end
   end
 

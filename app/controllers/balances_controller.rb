@@ -3,14 +3,26 @@ class BalancesController < AuthenticatedUserController
 
   # GET /balances
   def index
-    run Balance::Operation::Index
-    render cell(Balance::Cell::Index, result, flash: flash)
+    account = Account.includes(
+      people: [
+        :award_wallet_accounts,
+        :account,
+        {
+          award_wallet_owners: [
+            :person, {
+              award_wallet_accounts: :award_wallet_owner,
+            },
+          ],
+          balances: :currency,
+        },
+      ],
+    ).find(current_account.id)
+    render cell(Balance::Cell::Index, account, flash: flash)
   end
 
   # GET /people/:person_id/balances/new
   def new
     run Balance::Operation::New
-    # TODO TRB convert view to cell
   end
 
   # POST /people/:person_id/balances
@@ -19,7 +31,6 @@ class BalancesController < AuthenticatedUserController
       flash[:success] = 'Created balance!'
       return redirect_to balances_path
     end
-    # TODO TRB convert view to cell
     render 'new'
   end
 

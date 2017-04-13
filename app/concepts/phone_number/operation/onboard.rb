@@ -7,11 +7,11 @@ class PhoneNumber < PhoneNumber.superclass
     class Onboard < Trailblazer::Operation
       step :validate_account_onboarding_state!
       failure :log_invalid_onboarding_state!
-      # Wrapping the steps in a transaction seems to always return true? FIXME
-      # step Wrap ->(*, &block) { ApplicationRecord.transaction { block.call } } {
-      step Nested(PhoneNumber::Operation::Create)
-      step :update_onboarding_state!
-      # }
+      step Wrap(Abroaders::Transaction) {
+        step Nested(PhoneNumber::Operation::Create)
+        step :update_onboarding_state!
+        failure :rollback
+      }
 
       private
 
@@ -25,6 +25,10 @@ class PhoneNumber < PhoneNumber.superclass
 
       def log_invalid_onboarding_state!(_options)
         result['errors'] = 'account in invalid onboarding state'
+      end
+
+      def rollback(*)
+        raise ActiveRecord::Rollback
       end
     end
   end

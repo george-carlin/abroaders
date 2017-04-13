@@ -11,6 +11,7 @@ module AdminArea
         private
 
         def annual_fee
+          CardProduct::Cell::AnnualFee.(model)
         end
 
         def bank_name
@@ -26,7 +27,7 @@ module AdminArea
         end
 
         def network
-          cell(CardProduct::Cell::AnnualFee, model)
+          cell(CardProduct::Cell::Network, model)
         end
 
         def type

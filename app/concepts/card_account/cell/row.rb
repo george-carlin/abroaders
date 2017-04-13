@@ -15,8 +15,7 @@ class CardAccount < CardAccount.superclass
       property :opened_on
       property :product
 
-      # Defining this as a method so we can stub it in tests. I need to think
-      # of a better solution for DI. FIXME
+      # Defining this as a method so we can stub it in tests.
       def self.product_name_cell
         CardProduct::Cell::FullName
       end

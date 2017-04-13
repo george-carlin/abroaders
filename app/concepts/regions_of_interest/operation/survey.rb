@@ -10,14 +10,12 @@ module RegionsOfInterest
       end
 
       class Save < Trailblazer::Operation
-        extend Abroaders::Operation::Transaction
-
         REGION_IDS_TYPE = Types::Strict::Array.member(Types::Form::Int)
 
         step :get_ids_from_params!
         success :validate_region_ids!
         success :validate_account_in_correct_onboarding_state!
-        step wrap_in_transaction {
+        step Wrap(Abroaders::Transaction) {
           success :create_regions!
           success :update_onboarding_state!
         }

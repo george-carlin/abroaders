@@ -41,4 +41,37 @@ class CardRecommendation < Disposable::Twin
   def self.find(*args)
     new(Card.recommended.find(*args))
   end
+
+  def unpulled?
+    pulled_at.nil?
+  end
+
+  def unopen?
+    model.opened_on.nil?
+  end
+
+  def unredenied?
+    redenied_at.nil?
+  end
+
+  def undenied?
+    denied_at.nil?
+  end
+
+  def undeclined?
+    declined_at.nil?
+  end
+
+  def unexpired?
+    expired_at.nil?
+  end
+
+  def unnudged?
+    nudged_at.nil?
+  end
+
+  def actionable?
+    unpulled? && unopen? && unredenied? && unredenied? && unexpired? && undeclined? &&
+      (undenied? || unnudged?)
+  end
 end

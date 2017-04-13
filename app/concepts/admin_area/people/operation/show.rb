@@ -12,6 +12,7 @@ module AdminArea
         def load_person!(opts, params:, **)
           opts['person'] = Person.includes(
             unpulled_cards: { product: :bank },
+            balances: :currency,
           ).find(params[:id])
         end
 

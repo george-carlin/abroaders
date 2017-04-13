@@ -1,7 +1,5 @@
 class CardRecommendation < CardRecommendation.superclass
   module Cell
-    # @!method self.call(rec)
-    #   @param rec [CardRecommendation]
     class Actionable < Abroaders::Cell::Base
       include SerializeHelper
 
@@ -9,14 +7,20 @@ class CardRecommendation < CardRecommendation.superclass
       property :offer
       property :product
 
+      # @param rec [CardRecommendation]
+      def initialize(rec, options = {})
+        raise 'must be an actionable rec' unless CardRecommendation.new(rec).actionable?
+        super
+      end
+
       private
 
-      def apply_btn
+      def find_card_btn
         link_to(
           'Find My Card',
-          apply_card_recommendation_path(model),
-          id:     "card_recommendation_#{id}_apply_btn",
-          class:  'card_recommendation_apply_btn btn btn-primary btn-sm',
+          click_card_recommendation_path(model),
+          id:     "card_recommendation_#{id}_find_card_btn",
+          class:  'card_recommendation_find_card_btn btn btn-primary btn-sm',
           target: '_blank',
         )
       end
@@ -55,7 +59,7 @@ class CardRecommendation < CardRecommendation.superclass
       end
 
       def rec_as_json
-        ERB::Util.html_escape(serialize(model))
+        escape(serialize(model))
       end
     end
   end

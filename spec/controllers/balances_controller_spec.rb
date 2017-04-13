@@ -2,13 +2,10 @@ require "rails_helper"
 
 RSpec.describe BalancesController do
   describe "GET #survey" do
-    let(:account) { create(:account) }
+    let(:account) { create(:account, :eligible) }
     let(:owner)   { account.owner }
     let(:person)  { owner }
-    before do
-      person.update_attributes!(eligible: true)
-      sign_in account
-    end
+    before { sign_in account }
 
     subject { get :survey, params: { person_id: person.id } }
 

@@ -3,7 +3,7 @@ class Balance < ApplicationRecord
 
   delegate :name, to: :currency, prefix: true
 
-  # TODO these should be removed from the model and handled by Reform, but we
+  # these should be removed from the model and handled by Reform, but we
   # still need them for now because of the epic pile of shit that is the
   # `BalancesSurvey class:
   validates :currency, presence: true

@@ -43,7 +43,7 @@ class Balance < Balance.superclass
       def rows
         items = (award_wallet_accounts + balances).map { |i| LoyaltyAccount.build(i) }
         if items.any?
-          cell(LoyaltyAccount::Cell::Editable, collection: items).join('<hr>') { |c| c }
+          cell(LoyaltyAccount::Cell::Editable, collection: items).join('<hr>')
         else
           'No points balances'
         end

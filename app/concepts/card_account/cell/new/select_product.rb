@@ -1,75 +1,33 @@
 class CardAccount < CardAccount.superclass
   module Cell
     class New < Abroaders::Cell::Base
-      # The new card page is actually split into two 'pages'. When they first
-      # go to add a new card, they'll see a page which lists the different card
-      # products. Once they've selected a product they see a more
-      # normal-looking form where they add the details (opened/closed dates)
-      # etc regarding that product.
+      # Top-level cell for card_accounts#new when no :product_id param is
+      # given.
       #
-      # This cell is the page which lists the products
+      # See the docs for CardAccountsController#new for an explanation of how
+      # the flow works and how this op is used.
       #
-      # model = a collection of CardProducts.
-      #
-      # option: :banks = a collection of Banks
+      # @!method self.call(products, options = {})
+      #   @param result [Collection<Bank>]
       class SelectProduct < Abroaders::Cell::Base
-        alias collection model
-
         private
 
         def bank_select
-          cell(BankSelect, options[:banks])
+          select_tag(
+            :new_card_bank_id,
+            options_for_select(model.pluck(:name, :id)),
+            prompt: 'What bank is the card from?',
+          )
         end
 
-        def banks
-          collection.keys
-        end
-
-        # group products by bank, then by B/P
         def products_grouped_by_bank
-          collection.group_by(&:bank).map do |bank, products|
-            cell(ProductsGroupedByBank, bank, products: products)
-          end.join
+          cell(Product::ForBank, collection: model)
         end
 
-        # model: a collection of Banks
-        class BankSelect < Abroaders::Cell::Base
-          HTML_ID = :new_card_bank_id
-
-          def show
-            select_tag :new_card_bank_id, options, prompt: 'What bank is the card from?'
-          end
-
-          private
-
-          def options
-            options_for_select(model.pluck(:name, :id))
-          end
-        end
-
-        # model: a Bank
-        # option: :products = the products for this bank
-        class ProductsGroupedByBank < Abroaders::Cell::Base
-          property :id
-
-          def show
-            content_tag :div, id: html_id, class: HTML_CLASS, style: 'display:none;' do
-              cell(Product, collection: options[:products])
-            end
-          end
-
-          private
-
-          HTML_CLASS = 'bank_card_products'.freeze
-
-          def html_id
-            "bank_#{id}_card_products"
-          end
-        end
-
-        # model: a CardProduct
+        # @!method self.call(product, options = {})
+        #   @param product [CardProduct]
         class Product < Abroaders::Cell::Base
-          include ActionView::Helpers::RecordTagHelper
+          property :id
 
           private
 
@@ -81,8 +39,22 @@ class CardAccount < CardAccount.superclass
             )
           end
 
-          def html_id
-            dom_id(model)
+          # @!method self.call(bank, options = {})
+          class ForBank < Abroaders::Cell::Base
+            property :id
+            property :card_products
+
+            def show
+              content_tag :div, id: html_id, class: HTML_CLASS, style: 'display:none;' do
+                cell(Product, collection: card_products).join('<hr>')
+              end
+            end
+
+            HTML_CLASS = 'bank_card_products'.freeze
+
+            def html_id
+              "bank_#{id}_card_products"
+            end
           end
         end
       end

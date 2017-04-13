@@ -61,7 +61,7 @@ Rails.application.routes.draw do
 
   resources :card_recommendations do
     member do
-      get   :apply
+      get   :click
       patch :decline
     end
   end
