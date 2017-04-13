@@ -2,33 +2,38 @@ module AdminArea
   module People
     module Cell
       class Show < Show.superclass
-        # The person's rec notes. If there are no rec notes, returns "". If
-        # there are some, returns them in a list, wrapped in a .hpanel
-        # with an h3 header.
+        # The rec notes for a person. (Actually rec notes are associated with
+        # the account, not the specific person, but we're showing the notes
+        # on a page that's specific to the person.)
         #
-        # @!method self.call(notes, options = {})
-        #   @param notes [Collection<RecommendationNote>] may be empty
+        # If the person has no notes, the cell renders "". If there are some,
+        # returns them in a list with an h3 header.
+        #
+        # @!method self.call(account, options = {})
+        #   @param account [Account]
         class RecommendationNotes < Abroaders::Cell::Base
-          property :empty?
+          property :recommendation_notes
 
           def show
-            return '' if empty?
-            super
-          end
-
-          private
-
-          def notes
-            cell(ListItem, collection: model)
+            return '' if recommendation_notes.none?
+            notes = recommendation_notes.sort_by(&:created_at).reverse
+            list  = cell(ListItem, collection: notes, person: model)
+            "<hr><h3>Recommendation Notes</h3>#{list}"
           end
 
           class ListItem < Abroaders::Cell::Base
             property :created_at
 
+            option :person
+
             private
 
             def content
               cell(RecommendationNote::Cell::FormattedContent, model)
+            end
+
+            def link_to_edit
+              link_to 'Edit', edit_admin_recommendation_note_path(model, person_id: person.id)
             end
           end
         end

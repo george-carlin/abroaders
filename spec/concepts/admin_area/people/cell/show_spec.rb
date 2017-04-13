@@ -96,8 +96,8 @@ RSpec.describe AdminArea::People::Cell::Show do
   end
 
   example 'recommendation notes' do
-    rn_0 = RecommendationNote.new(account: account, content: 'Hola', created_at: Time.now)
-    rn_1 = RecommendationNote.new(account: account, content: 'Hello', created_at: Time.now)
+    rn_0 = RecommendationNote.new(id: 8, account: account, content: 'Hola', created_at: Time.now)
+    rn_1 = RecommendationNote.new(id: 9, account: account, content: 'Hello', created_at: Time.now)
 
     allow(person).to receive(:recommendation_notes).and_return([rn_0, rn_1])
 

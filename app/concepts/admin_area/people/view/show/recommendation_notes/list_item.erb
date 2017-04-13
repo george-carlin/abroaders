@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-xs-2 recommendation-notes-date">
-    <b><%= created_at %>:</b>
+    <%= created_at.strftime('%D %R %Z') %> - <%= link_to_edit %>
   </div>
 
   <div class="col-xs-10">
