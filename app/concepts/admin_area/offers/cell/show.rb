@@ -60,7 +60,7 @@ module AdminArea
         end
 
         def product_summary
-          cell(CardProduct::Cell::Summary, product)
+          cell(CardProducts::Cell::Summary, product)
         end
 
         def spend
