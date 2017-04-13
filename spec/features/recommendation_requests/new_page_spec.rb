@@ -12,8 +12,7 @@ RSpec.describe 'new recommendation request page' do
 
   example 'solo account' do
     visit new_recommendation_requests_path(person_type: :owner)
-    btn = "My data is all up-to-date - Send me some card recommendations!"
-    click_button btn
+    click_button 'Submit Request'
     owner.reload
     expect(owner.unresolved_recommendation_request?).to be true
   end
@@ -23,8 +22,7 @@ RSpec.describe 'new recommendation request page' do
     create(:spending_info, person: companion)
     account.reload
     visit new_recommendation_requests_path(person_type: :both)
-    btn = "Our data is all up-to-date - Send us some card recommendations!"
-    click_button btn
+    click_button 'Submit Request'
     owner.reload
     expect(owner.unresolved_recommendation_request?).to be true
     expect(companion.unresolved_recommendation_request?).to be true

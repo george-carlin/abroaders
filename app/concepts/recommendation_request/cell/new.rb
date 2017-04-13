@@ -18,7 +18,7 @@ class RecommendationRequest # < RecommendationRequest.superclass
         <div class='row'>
           #{cell(ConfirmPersonalSpending, account)}
           #{cell(ConfirmPerson, collection: people)}
-          #{cell(SubmitBtn, people)}
+          #{submit_btn}
         </div>"
       end
 
@@ -44,6 +44,14 @@ class RecommendationRequest # < RecommendationRequest.superclass
             below.
           </div>
         HTML
+      end
+
+      def submit_btn
+        button_to(
+          'Submit Request',
+          recommendation_requests_path(person_type: params[:person_type]),
+          class: 'btn btn-primary btn-lg',
+        )
       end
 
       # @!method self.call(person, options = {})
@@ -233,27 +241,6 @@ class RecommendationRequest # < RecommendationRequest.superclass
         def what_you_should_exclude
           'You should exclude rent, mortage, and car payments unless you are '\
           'certain you can use a credit card as the payment method.'
-        end
-      end
-
-      # @!method self.call(people, options = {})
-      #   @param people [Collection<People>] the people who want to request a rec
-      class SubmitBtn < Abroaders::Cell::Base
-        def show
-          if model.many?
-            me = 'us'
-            my = 'Our'
-          else
-            me = 'me'
-            my = 'My'
-          end
-          content_tag :div, class: 'col-xs-12' do
-            button_to(
-              "#{my} data is all up-to-date - Send #{me} some card recommendations!",
-              recommendation_requests_path(person_type: params[:person_type]),
-              class: 'btn btn-primary btn-lg',
-            )
-          end
         end
       end
     end
