@@ -82,7 +82,7 @@ module AdminArea
           end
 
           def link_to_person(person)
-            text = "#{person.first_name} #{person_readiness_icon(person)}"
+            text = "#{escape(person.first_name)} #{person_readiness_icon(person)}"
             link_to text, admin_person_path(person)
           end
         end
