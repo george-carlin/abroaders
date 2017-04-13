@@ -15,7 +15,7 @@ module AdminArea
         offer   = product.offers.find(params[:id])
         render cell(Offers::Cell::Show, offer)
       else
-        offer = Offer.find(params[:id])
+        offer = Offer.includes(:product).find(params[:id])
         redirect_to admin_card_product_offer_path(offer.product, offer)
       end
     end

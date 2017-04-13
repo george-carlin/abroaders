@@ -19,7 +19,7 @@ module AdminArea
           else
             # the controller will use this offer to redirect to the correct
             # path:
-            opts['model'] = Offer.find(id)
+            opts['model'] = Offer.includes(:product).find(id)
             false
           end
         end

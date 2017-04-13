@@ -58,6 +58,7 @@ gem 'rails_autolink'
 gem 'workflow'
 
 group :development, :test do
+  gem 'bullet', '5.3.0'
   gem 'byebug'
   gem 'database_cleaner'
   gem 'factory_girl_rails', '~> 4.5.0'
@@ -70,7 +71,6 @@ end
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 3.0'
-  gem 'bullet', '5.3.0'
   gem 'binding_of_caller'
   # Restrict the version of rubocop so that our build doesn't break because our
   # code no longer passes on a newer version of rubocop

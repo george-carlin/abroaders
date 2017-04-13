@@ -5,7 +5,7 @@ class CardAccountsController < AuthenticatedUserController
       render cell(CardAccount::Cell::New, result)
     else
       # Use .joins so that we only get banks which have at least one product
-      banks = Bank.all.joins(:card_products).group('banks.id').order(name: :asc)
+      banks = Bank.joins(:card_products).group('banks.id').order(name: :asc)
       render cell(CardAccount::Cell::New::SelectProduct, banks)
     end
   end

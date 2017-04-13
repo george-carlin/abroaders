@@ -10,7 +10,7 @@ class CardAccount < CardAccount.superclass
     private
 
     def setup_model!(options, params:, **)
-      options['model'] = card_scope.find(params[:id])
+      options['model'] = card_scope.includes(:person).find(params[:id])
     end
 
     # Where to search for the card account. Must return an object which responds to

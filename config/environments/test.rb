@@ -47,4 +47,32 @@ Rails.application.configure do
   config.log_level = :error
 
   config.active_job.queue_adapter = :test
+
+  config.after_initialize do
+    Bullet.enable = !!ENV['BULLET']
+    Bullet.bullet_logger = true
+    Bullet.raise = true # raise an error if n+1 query occurs
+
+    # Detect eager-loaded associations which are not used
+    #
+    # Note that if you enable this setting, you'll get some test failures where
+    # the eager-loaded association *is* used, it's just not used during one
+    # particular test. Bullet has no way of knowing this, so it raises the
+    # error/warning anyway. (One example of this is the cards#index action - if
+    # you view the page when the account has no card accounts and/or
+    # recommendations, you'll get the 'unused eager-load' warning. But if you
+    # view the page when they DO have accounts/recs, there's no warning.)
+    #
+    # There's no way we can avoid this really, unless we refactor actions like
+    # card_accounts#index so they use the associations no matter what - but
+    # even that would be rather pointless since it's not a big issue that
+    # assocations are being eager-'loaded' when the assoc is actually empty.
+    #
+    # So if you see a warning from Bullet about an unused eager-load, make sure
+    # that it's *truly* unused before you remove it.
+    Bullet.unused_eager_loading_enable = false
+    # Detect unnecessary COUNT queries which could be avoided
+    # with a counter_cache
+    Bullet.counter_cache_enable        = false
+  end
 end
