@@ -124,10 +124,17 @@ class Card < ApplicationRecord
   # Associations
 
   belongs_to :card_product
-  belongs_to :person
-  has_one :account, through: :person
   belongs_to :offer
+  belongs_to :person
   belongs_to :recommended_by, class_name: 'Admin'
+  has_one :account, through: :person
+  has_one :bank, through: :card_product
+  has_one :currency, through: :card_product
+
+  # currency and bank should always be present when a valid card is loaded
+  # from the DB, but without allow_nil it makes testing a pain in the ass
+  delegate :name, to: :bank, prefix: true, allow_nil: true
+  delegate :name, to: :currency, prefix: true, allow_nil: true
 
   # Callbacks
 

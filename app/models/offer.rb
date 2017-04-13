@@ -65,6 +65,11 @@ class Offer < ApplicationRecord
 
   belongs_to :product, class_name: 'CardProduct'
   has_many :cards
+  has_one :currency, through: :product
+  has_one :bank, through: :product
+
+  delegate :name, to: :bank, prefix: true
+  delegate :name, to: :currency, prefix: true
 
   # Callbacks
 

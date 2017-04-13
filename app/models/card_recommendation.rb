@@ -43,6 +43,8 @@ class CardRecommendation < Disposable::Twin
 
   delegate :opened?, :unopened?, to: :model
 
+  property :bank_name, writeable: false
+
   def self.find(*args)
     new(Card.recommended.find(*args))
   end
