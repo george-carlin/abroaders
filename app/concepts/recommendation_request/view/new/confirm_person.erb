@@ -1,97 +1,99 @@
-<div id="confirm_person_<%= id %>_credit_score" class="confirm_person_credit_score col-xs-12">
-  <div class="confirm_credit_score_current">
-    <p class="lead">
-      Is <%= your %> credit score still <b><%= credit_score %></b>?
-    </p>
+<div class="confirm_person_credit_score row">
+  <div id="confirm_person_<%= id %>_credit_score" class="col-xs-12">
+    <div class="confirm_credit_score_current">
+      <p class="lead">
+        Is <%= your %> credit score still <b><%= credit_score %></b>?
+      </p>
 
-    <div class="btn-group">
-      <button class="confirm_credit_score_btn btn btn-success">
-        Yes
-      </button>
-      <button class="confirm_credit_score_update_btn btn btn-danger">
-        No
-      </button>
-    </div>
-  </div>
-
-  <%= credit_score_form do  %>
-    <%= hidden_field_tag :section_id, "confirm_person_#{id}_credit_score" %>
-
-    <div class="row">
-      <div class="col-xs-12">
-        <p class="help-block">
-          What's the correct credit score? It should be a number between
-          <%= SpendingInfo::MINIMUM_CREDIT_SCORE %> and
-          <%= SpendingInfo::MAXIMUM_CREDIT_SCORE %>.
-        </p>
+      <div class="btn-group">
+        <button class="confirm_credit_score_btn btn btn-success">
+          Yes
+        </button>
+        <button class="confirm_credit_score_update_btn btn btn-danger">
+          No
+        </button>
       </div>
+    </div>
 
-      <div class="col-xs-12 col-md-9">
-        <!-- .field_with_errors will be added to this div: -->
-        <div class="input-wrapper">
-          <%= credit_score_field %>
+    <%= credit_score_form do  %>
+      <%= hidden_field_tag :section_id, "confirm_person_#{id}_credit_score" %>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <p class="help-block">
+            What's the correct credit score? It should be a number between
+            <%= SpendingInfo::MINIMUM_CREDIT_SCORE %> and
+            <%= SpendingInfo::MAXIMUM_CREDIT_SCORE %>.
+          </p>
         </div>
-      </div>
 
-      <div class="col-xs-12 col-md-3">
-        <div class="btn-group">
-          <button class="confirm_credit_score_cancel_btn btn btn-default">
-            Go back
-          </button>
-          <button class="confirm_credit_score_save_btn btn btn-primary">
-            Save
-          </button>
-        </div><!-- .btn-group -->
-      </div>
-    </div><!-- .row -->
-  <% end %>
+        <div class="col-xs-12 col-md-9">
+          <!-- .field_with_errors will be added to this div: -->
+          <div class="input-wrapper">
+            <%= credit_score_field %>
+          </div>
+        </div>
 
-  <hr>
-</div>
+        <div class="col-xs-12 col-md-3">
+          <div class="btn-group">
+            <button class="confirm_credit_score_cancel_btn btn btn-default">
+              Go back
+            </button>
+            <button class="confirm_credit_score_save_btn btn btn-primary">
+              Save
+            </button>
+          </div><!-- .btn-group -->
+        </div>
+      </div><!-- .row -->
+    <% end %>
 
-<div id="confirm_person_<%= id %>_business_spending" class="confirm_person_business_spending col-xs-12">
-  <div class="confirm_business_spending_current">
-    <p class="lead">
-      <%= do_you_have %> a business?
-    </p>
-
-    <p><%= business_current %></p>
-
-    <p><b>Is this information still correct?</b></p>
-
-    <div class="btn-group">
-      <button class="confirm_business_spending_btn btn btn-success">
-        Yes
-      </button>
-      <button class="confirm_business_spending_update_btn btn btn-danger">
-        No
-      </button>
-    </div>
+    <hr>
   </div>
 
-  <%= business_spending_form do  %>
-    <%= hidden_field_tag :section_id, "confirm_person_#{id}_business_spending" %>
-
-    <div class="row">
-      <div class="col-xs-12">
+  <div id="confirm_person_<%= id %>_business_spending" class="confirm_person_business_spending col-xs-12">
+    <div class="confirm_business_spending_current">
+      <p class="lead">
         <%= do_you_have %> a business?
-      </div>
+      </p>
 
-      <div class="col-xs-12">
-        <%= business_spending_form_fields %>
-      </div>
+      <p><%= business_current %></p>
 
-      <div class="col-xs-12">
-        <div class="btn-group">
-          <button class="confirm_business_spending_cancel_btn btn btn-default">
-            Go back
-          </button>
-          <button class="confirm_business_spending_save_btn btn btn-primary">
-            Save
-          </button>
-        </div><!-- .btn-group -->
+      <p><b>Is this information still correct?</b></p>
+
+      <div class="btn-group">
+        <button class="confirm_business_spending_btn btn btn-success">
+          Yes
+        </button>
+        <button class="confirm_business_spending_update_btn btn btn-danger">
+          No
+        </button>
       </div>
-    </div><!-- .row -->
-  <% end %>
-  <hr>
+    </div>
+
+    <%= business_spending_form do  %>
+      <%= hidden_field_tag :section_id, "confirm_person_#{id}_business_spending" %>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <%= do_you_have %> a business?
+        </div>
+
+        <div class="col-xs-12">
+          <%= business_spending_form_fields %>
+        </div>
+
+        <div class="col-xs-12">
+          <div class="btn-group">
+            <button class="confirm_business_spending_cancel_btn btn btn-default">
+              Go back
+            </button>
+            <button class="confirm_business_spending_save_btn btn btn-primary">
+              Save
+            </button>
+          </div><!-- .btn-group -->
+        </div>
+      </div><!-- .row -->
+    <% end %>
+    <hr>
+  </div>
 </div>

@@ -13,19 +13,14 @@ class RecommendationRequest # < RecommendationRequest.superclass
         super
       end
 
-      def show
-        "#{main_header}
-        <div class='row'>
-          #{cell(ConfirmPersonalSpending, account)}
-          #{cell(ConfirmPerson, collection: people)}
-          #{submit_btn}
-        </div>"
-      end
-
       private
 
       def account
         people.first.account
+      end
+
+      def cancel_btn
+        link_to 'Cancel', root_path, class: 'btn btn-default btn-lg'
       end
 
       def main_header
@@ -51,6 +46,7 @@ class RecommendationRequest # < RecommendationRequest.superclass
           'Submit Request',
           recommendation_requests_path(person_type: params[:person_type]),
           class: 'btn btn-primary btn-lg',
+          form: { style: 'display: inline-block;' },
         )
       end
 

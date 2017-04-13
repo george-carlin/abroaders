@@ -19,7 +19,7 @@ RSpec.describe 'new recommendation request page' do
       expect(owner.unresolved_recommendation_request?).to be true
     end
 
-    example 'solo account - viewing my data' do
+    example 'viewing my data' do
       visit new_recommendation_requests_path(person_type: :owner)
       expect(page).to have_content 'Is your personal monthly spending still $1,234.00?'
       expect(page).to have_content 'Is your credit score still 567?'
