@@ -13,7 +13,7 @@ module AdminArea
 
         def setup_card_product(opts, params:, **)
           id = params.fetch(:card_product_id)
-          opts['card_product'] = CardProduct.find(id)
+          opts['card_product'] = CardProduct.includes(:currency).find(id)
         end
 
         def setup_model(opts, card_product:, **)

@@ -22,10 +22,12 @@ module AdminArea
 
     def new
       run Offers::Operation::New
+      render cell(Offers::Cell::New, @model, form: @form)
     end
 
     def edit
       run Offers::Operation::Edit do
+        render cell(Offers::Cell::Edit, @model, form: @form)
         return
       end
       redirect_to edit_admin_card_product_offer_path(@model.product, @model)
@@ -37,7 +39,7 @@ module AdminArea
         redirect_to admin_offer_path(@model)
         return
       end
-      render :new
+      render cell(Offers::Cell::New, @model, form: @form)
     end
 
     def update
@@ -46,7 +48,7 @@ module AdminArea
         redirect_to admin_offer_path(@model)
         return
       end
-      render :edit
+      render cell(Offers::Cell::Edit, @model, form: @form)
     end
 
     def kill
