@@ -33,21 +33,12 @@ RSpec.describe 'admin - offers pages' do
     end
   end # offers page
 
-  describe "show page" do
+  describe 'show page' do
     let(:offer)   { create_offer(notes: 'aisjhdoifajsdf') }
     let(:product) { offer.product }
-    before { visit route }
+    before { visit admin_offer_path(offer) }
 
-    let(:route) { admin_card_product_offer_path(product, offer) }
-
-    describe "when accessing the shallow path" do
-      let(:route) { admin_offer_path(offer) }
-      it "redirects to the nested path" do
-        expect(current_path).to eq admin_card_product_offer_path(product, offer)
-      end
-    end
-
-    it "displays information about the offer and product" do
+    it 'displays information about the offer and product' do
       expect(page).to have_content product.name
       expect(page).to have_content card_benefit
       expect(page).to have_content offer.notes
@@ -57,22 +48,11 @@ RSpec.describe 'admin - offers pages' do
   describe "edit page" do
     let(:offer)   { create_offer }
     let(:product) { offer.product }
-    before { visit route }
+    before { visit edit_admin_offer_path(product, offer) }
 
-    let(:route) { edit_admin_card_product_offer_path(product, offer) }
-
-    describe "when accessing the shallow path" do
-      let(:route) { edit_admin_offer_path(offer) }
-      it "redirects to the nested path" do
-        expect(current_path).to eq edit_admin_card_product_offer_path(product, offer)
-      end
-    end
-
-    it "displays information about the product" do
+    it 'display information about the offer and product' do
       expect(page).to have_content product.name
-    end
 
-    it "display information about the offer" do
       condition = find("#offer_condition option[selected]")
       expect(condition.value).to eq offer.condition
 

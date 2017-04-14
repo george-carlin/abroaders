@@ -53,6 +53,16 @@ module AdminArea
           cell(Abroaders::Cell::ValidationErrorsAlert, form)
         end
 
+        def form_tag(&block)
+          url_models = [:admin, form]
+          url_models.insert(1, product) unless form.persisted?
+          form_for(
+            url_models,
+            html: { style: 'clear:both;', class: "form-horizontal", role: "form" },
+            &block
+          )
+        end
+
         def options_for_offer_condition_select(offer)
           options_for_select(
             [

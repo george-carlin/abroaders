@@ -178,13 +178,13 @@ Rails.application.routes.draw do
       collection do
         get :images
       end
-      resources :offers, except: :destroy
+      resources :offers, only: [:index, :create, :new]
     end
 
-    resources :card_accounts, only: [:edit, :update, :destroy]
+    resources :card_accounts, only: [:edit, :update]
 
     # show and edit redirect to the nested action:
-    resources :offers, only: [:show, :edit, :index] do
+    resources :offers, only: [:show, :edit, :index, :update] do
       collection do
         get :review
       end
