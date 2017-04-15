@@ -56,7 +56,7 @@
 
     <div class="col-xs-12">
       <%= form_tag(
-        complete_admin_person_card_recommendations_path(person),
+        complete_admin_person_card_recommendations_path(model),
         id: 'complete_card_recommendations'
       ) do %>
         <%= text_area_tag(
@@ -79,11 +79,11 @@
 
         <input class="btn btn-primary btn-lg" style="float:right;" type="submit" value="Done">
 
-        <% if !person.last_recommendations_at.nil? %>
+        <% if !model.last_recommendations_at.nil? %>
           <br>
           Person last received recommendations on:
           <span class="person_last_recommendations_at">
-            <%= person.last_recommendations_at.strftime("%D") %>
+            <%= model.last_recommendations_at.strftime("%D") %>
           </span>
         <% end %>
       <% end # form_tag %>

@@ -1,31 +1,32 @@
 module AdminArea
   module People
     module Cell
-      # @!method self.call(result, opts = {})
-      #   @param result [Result] result of AdminArea::People::Operation::Show
-      #   @option result [Collection<CardProduct>] card_products all card
+      # @!method self.call(person, opts = {})
+      #   @param person [PErson]
+      #   @option option [Collection<CardProduct>] card_products all card
       #     products which have at least one recommendable offer.
-      #   @option result [Person] person
       class Show < Abroaders::Cell::Base
-        extend Abroaders::Cell::Result
+        include Escaped
         include Integrations::AwardWallet::Links
 
-        skill :cards
-        skill :card_products
-        skill :person
+        property :account
+        property :balances
+        property :first_name
+        property :home_airports
+        property :recommendation_notes
+        property :regions_of_interest
+        property :travel_plans
+
+        option :card_products
 
         # The cell that renders an individual travel plan.
         def self.travel_plan_cell
           TravelPlan::Cell::Summary
         end
 
-        def title
-          person.first_name
-        end
+        alias title first_name
 
         private
-
-        delegate :account, :balances, :home_airports, :regions_of_interest, :travel_plans, to: :person
 
         def award_wallet_connection
           return '' unless account.connected_to_award_wallet?
@@ -36,11 +37,11 @@ module AdminArea
         end
 
         def award_wallet_email
-          cell(AwardWalletEmail, person)
+          cell(AwardWalletEmail, model)
         end
 
         def balances_list
-          cell(People::Cell::Balances, person)
+          cell(People::Cell::Balances, model)
         end
 
         def bank_filter_panels
@@ -62,7 +63,7 @@ module AdminArea
         end
 
         def cards_list
-          cell(People::Cell::Show::Cards, person)
+          cell(People::Cell::Show::Cards, model)
         end
 
         def currency_filter_panels
@@ -70,7 +71,7 @@ module AdminArea
         end
 
         def heading
-          cell(Heading, person)
+          cell(Heading, model)
         end
 
         # If the account has any home airports, list them.
@@ -87,12 +88,12 @@ module AdminArea
         # list the offers that can be recommended to the current user, grouped
         # by their product
         def recommendable_offers
-          cell(RecommendationTable, card_products, person: person)
+          cell(RecommendationTable, card_products, person: model)
         end
 
         def recommendation_notes
           # Avoid clashing with the module AdminArea::RecommendationNotes
-          cell(Cell::Show::RecommendationNotes, person)
+          cell(Cell::Show::RecommendationNotes, model)
         end
 
         # If the account has any ROIs,  list them.
@@ -107,7 +108,7 @@ module AdminArea
         end
 
         def spending_info
-          cell(People::Cell::SpendingInfo, person, account: account)
+          cell(People::Cell::SpendingInfo, model, account: account)
         end
 
         def travel_plans_list
