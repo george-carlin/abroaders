@@ -1,5 +1,10 @@
 module AdminArea::People::Cell
   class Show < Show.superclass
+    # Takes the person, shows their card accounts. Has a header that says
+    # 'Accounts' and a link to add a new CA for the person. If there aren't any
+    # CAs, there'll be a <p> that tells you so. If there are CAs, they'll be
+    # listed in a <table>.
+    #
     # @!method self.call(person, options = {})
     #   @param person [Person] make sure that card_accounts => product => bank
     #     is eager-loaded.

@@ -1,5 +1,12 @@
 module AdminArea::People::Cell
   class Show < Show.superclass
+    # Takes the person, shows their card recommendations. Has a header that
+    # says 'Recommendation' and a link to add a new rec for the person. If the
+    # person has any recs, they'll be shown in a <table>. If they don't have
+    # any, the table will still be rendered, but hidden with CSS (to be shown
+    # by JS if the admin makes a recommendation), and there'll be a <p> that
+    # tells you there's no recs.
+    #
     # @!method self.call(person, options = {})
     #   @param person [Person] make sure that card_accounts => card_product => bank
     #     is eager-loaded.
