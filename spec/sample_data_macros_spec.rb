@@ -32,6 +32,24 @@ RSpec.describe SampleDataMacros do
     end
   end
 
+  describe '#create_card_recommendation' do
+    it '' do
+      expect do
+        create_card_recommendation
+      end.to change { Card.recommended.count }.by(1)
+    end
+
+    example 'with :approved trait' do
+      expect do
+        create_card_recommendation(:approved)
+      end.to change { Card.recommended.count }.by(1)
+      rec = Card.recommended.last
+
+      expect(rec).to be_applied
+      expect(rec).to be_opened
+    end
+  end
+
   example '#create_offer' do
     expect do
       offer = create_offer
