@@ -4,11 +4,11 @@ $("#admin_recommend_offer_" + offerId + " .offer-recommend").html(
   "<button class='btn btn-xs btn-success pull-right' disabled>Recommended!</button>"
 );
 
-var tr = "<%= j cell(AdminArea::Cards::Cell::TableRow, @model).() %>";
+var tr = "<%= j cell(AdminArea::CardRecommendations::Cell::Table::Row, @model).() %>";
 
-// If the user had no card accounts when the page was initially loaded, the table will
+$("#admin_person_card_recommendations_table tbody").append(tr);
+// If the user had no recommendations when the page was initially loaded, the
 // be hidden, so show it:
-$("#admin_person_cards").show();
+$("#admin_person_card_recommendations").show();
 // And hide the text that says there are no card accounts:
-$("#admin_person_cards_none").hide();
-$("#admin_person_cards_table tbody").append(tr);
+$("#admin_person_card_recommendations_none").hide();

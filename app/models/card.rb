@@ -166,6 +166,8 @@ class Card < ApplicationRecord
   has_one :account, through: :person
   belongs_to :offer
 
+  alias_attribute :card_product, :product
+
   # Callbacks
 
   before_save :set_product_to_offer_product

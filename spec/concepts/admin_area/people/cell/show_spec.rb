@@ -110,23 +110,20 @@ RSpec.describe AdminArea::People::Cell::Show do
   example 'with card accounts' do
     open   = Card.new(id: 100, opened_on: jan, person: person, product: product)
     closed = Card.new(id: 101, opened_on: mar, closed_on: oct, person: person, product: product)
-    allow(person).to receive(:unpulled_cards) { [open, closed] }
+    allow(person).to receive(:card_accounts) { [open, closed] }
 
     rendered = show(person, card_products: [])
 
-    expect(rendered).to have_selector '#admin_person_cards #card_100'
-    expect(rendered).to have_selector '#admin_person_cards #card_101'
+    expect(rendered).to have_selector '#admin_person_card_accounts #card_account_100'
+    expect(rendered).to have_selector '#admin_person_card_accounts #card_account_101'
 
     expect(rendered).to have_no_content 'User has no existing card accounts'
 
-    expect(rendered).to have_selector '#card_100 .card_opened_on', text: 'Jan 2015'
-    expect(rendered).to have_selector '#card_100 .card_closed_on', text: '-'
-    expect(rendered).to have_selector '#card_100 .card_status', text: 'Open'
-
-    expect(rendered).to have_selector '#card_101 .card_status', text: 'Closed'
     # says when they were opened/closed:
-    expect(rendered).to have_selector '#card_101 .card_opened_on', text: 'Mar 2015'
-    expect(rendered).to have_selector '#card_101 .card_closed_on', text: 'Oct 2015'
+    expect(rendered).to have_selector '#card_account_100 .card_opened_on', text: 'Jan 2015'
+    expect(rendered).to have_selector '#card_account_100 .card_closed_on', text: '-'
+    expect(rendered).to have_selector '#card_account_101 .card_opened_on', text: 'Mar 2015'
+    expect(rendered).to have_selector '#card_account_101 .card_closed_on', text: 'Oct 2015'
   end
 
   example 'person has received recommendations' do

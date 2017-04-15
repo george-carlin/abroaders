@@ -13,12 +13,6 @@ class CardRecommendation < Disposable::Twin
     super
   end
 
-  def pull!
-    self.pulled_at = Time.now
-    sync
-    model.save!
-  end
-
   def status
     # Note: the order of these return statements matters!
     return 'pulled'      unless pulled_at.nil?

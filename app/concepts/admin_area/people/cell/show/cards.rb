@@ -2,43 +2,48 @@ module AdminArea
   module People
     module Cell
       class Show < Show.superclass
-        # A list of the person's card accounts, including recommendations.
-        # (Eventually we'll want to split this, and show recommendations in a
-        # different table)
-        #
         # @!method self.call(person, options = {})
-        #   @param person [Person] make sure that unpulled_cards => product => bank
+        #   @param person [Person] make sure that card_accounts => product => bank
         #     is eager-loaded.
         class Cards < Abroaders::Cell::Base
-          property :unpulled_cards
+          property :card_accounts
+          property :card_recommendations
 
           private
 
-          def link_to_add_new
+          def link_to_add_new_card_account
             link_to raw('&plus; Add'), new_admin_person_card_account_path(model)
           end
 
-          def no_cards_notice
-            return '' if unpulled_cards.any?
-            '<p id="admin_person_cards_none">User has no existing card accounts</p>'
-          end
-
-          def table(&block)
-            # When there are no cards, output the table's HTML but hide it
-            # with CSS. It will be shown by JS if a card is recommended
-            style = unpulled_cards.none? ? 'display:none;' : ''
-            content_tag :div, id: 'admin_person_cards', style: style do
-              content_tag(
-                :table,
-                class: 'table table-striped tablesorter',
-                id: 'admin_person_cards_table',
-                &block
-              )
+          def card_accounts_table
+            if card_accounts.any?
+              content_tag :div, id: 'admin_person_card_accounts' do
+                cell(CardAccounts::Cell::Table, card_accounts)
+              end
+            else
+              '<p id="admin_person_card_accounts_none">User has no existing card accounts</p>'
             end
           end
 
-          def table_rows
-            cell(AdminArea::Cards::Cell::TableRow, collection: unpulled_cards)
+          def card_recommendations_table
+            # Always output the table onto the page, but hide it with CSS if
+            # there are no recs. It will be shown later by JS if the admin
+            # makes a rec.
+            visible_recs = card_recommendations.reject { |r| r.pulled? || r.opened? }
+            table = content_tag(
+              :div,
+              id: 'admin_person_card_recommendations',
+              class: 'admin_person_card_recommendations',
+              style: visible_recs.any? ? '' : 'display:none;',
+            ) do
+              cell(CardRecommendations::Cell::Table, visible_recs)
+            end
+
+            if visible_recs.any?
+              table
+            else
+              "#{table} <p id='admin_person_card_recommendations_none'>User has no recs</p>"
+            end
           end
         end
       end

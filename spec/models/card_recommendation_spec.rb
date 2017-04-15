@@ -1,14 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe CardRecommendation do
-  example '#pull!' do
-    card = create_card_account
-    card.update!(recommended_at: Time.now)
-    rec = described_class.new(card)
-    rec.pull!
-    expect(card.reload.pulled_at).to be_within(5.seconds).of(Time.now)
-  end
-
   example '#actionable?' do
     time = Time.now
     rec  = described_class.new(Card.new(recommended_at: time))

@@ -11,9 +11,9 @@ RSpec.describe 'admin/people#show - pulled recs', :js do
 
     visit admin_person_path(person)
 
-    find("#card_#{rec.id}_pull_btn").click
+    find("#card_recommendation_#{rec.id}_pull_btn").click
 
-    expect(page).to have_no_selector "#card_#{rec.id}"
+    expect(page).to have_no_selector "#card_recommendation_#{rec.id}"
     expect(rec.reload.pulled_at).to be_within(5.seconds).of(Time.zone.now)
   end
 end

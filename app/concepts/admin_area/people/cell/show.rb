@@ -62,7 +62,7 @@ module AdminArea
           end
         end
 
-        def cards_list
+        def cards_and_recommendations
           cell(People::Cell::Show::Cards, model)
         end
 
