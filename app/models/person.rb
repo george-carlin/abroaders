@@ -70,7 +70,6 @@ class Person < ApplicationRecord
   has_many :regions_of_interest, through: :account
   has_many :travel_plans, through: :account
 
-  has_many :pulled_card_recommendations, -> { recommended.pulled }, class_name: 'Card'
   has_many :unpulled_cards, -> { unpulled }, class_name: 'Card'
   has_many :actionable_card_recommendations, -> { recommended.actionable }, class_name: 'Card'
 

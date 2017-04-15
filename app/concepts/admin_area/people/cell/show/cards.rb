@@ -10,22 +10,12 @@ module AdminArea
         #   @param person [Person] make sure that unpulled_cards => product => bank
         #     is eager-loaded.
         class Cards < Abroaders::Cell::Base
-          property :pulled_card_recommendations
           property :unpulled_cards
 
           private
 
           def link_to_add_new
             link_to raw('&plus; Add'), new_admin_person_card_account_path(model)
-          end
-
-          def link_to_pulled_recs
-            count = pulled_card_recommendations.size
-            return '' if count == 0
-            link_to(
-              "View #{count} pulled recommendation#{'s' if count > 1}",
-              pulled_admin_person_card_recommendations_path(model),
-            )
           end
 
           def no_cards_notice

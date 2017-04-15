@@ -25,10 +25,5 @@ module AdminArea
         f.js
       end
     end
-
-    def pulled
-      run CardRecommendations::Operation::Pulled
-      render cell(CardRecommendations::Cell::Pulled, result)
-    end
   end
 end

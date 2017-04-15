@@ -6,17 +6,6 @@ RSpec.describe 'admin/people#show - pulled recs', :js do
   let!(:person) { create(:account, :onboarded, :eligible).owner }
   let!(:offer)  { create_offer }
 
-  example 'displaying link to pulled recs' do
-    pulled   = create_card_recommendation(:pulled, offer: offer, person: person)
-    unpulled = create_card_recommendation(offer: offer, person: person)
-
-    visit admin_person_path(person)
-
-    expect(page).to have_no_selector "#card_#{pulled.id}"
-    expect(page).to have_selector "#card_#{unpulled.id}"
-    expect(page).to have_link 'View 1 pulled recommendation'
-  end
-
   example 'pulling a rec' do
     rec = create_card_recommendation(offer: offer, person: person)
 
