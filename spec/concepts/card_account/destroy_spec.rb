@@ -3,15 +3,8 @@ require 'rails_helper'
 RSpec.describe CardAccount::Destroy do
   let(:op) { described_class }
   let(:account) { create(:account) }
-  let(:product) { create(:product) }
 
-  let(:card) do
-    run!(
-      CardAccount::Create,
-      { card: { opened_on: Date.today }, product_id: product.id },
-      'account' => account,
-    )['model']
-  end
+  let(:card) { create_card_account(person: account.owner) }
 
   example 'destroying a card' do
     result = op.({ id: card.id }, 'account' => account)
