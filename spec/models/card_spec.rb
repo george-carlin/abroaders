@@ -9,13 +9,10 @@ RSpec.describe Card do
 
   before { card.offer = offer }
 
-  describe "#recommendation?" do
-    it "is true iff recommended_at is not nil" do
-      card.recommended_at = nil
-      expect(card.recommendation?).to be false
-      card.recommended_at = Time.current
-      expect(card.recommendation?).to be true
-    end
+  example "#recommended?" do
+    expect(card.recommended?).to be false
+    card.recommended_at = Time.current
+    expect(card.recommended?).to be true
   end
 
   shared_examples "applyable?" do
@@ -73,13 +70,6 @@ RSpec.describe Card do
   describe "#pendingable?" do
     let(:method) { :pendingable? }
     include_examples "applyable?"
-  end
-
-  example "#recommended?" do
-    card.recommended_at = Time.current
-    expect(card.recommended?).to be true
-    card.declined_at = Time.current
-    expect(card.recommended?).to be false
   end
 
   example "#declined?" do
