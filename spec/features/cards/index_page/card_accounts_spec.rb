@@ -22,8 +22,8 @@ RSpec.describe 'cards index page - "card accounts" section' do
 
     visit cards_path
 
-    expect(page).to have_selector("#owner_card_accounts ##{dom_id(o_card)}")
-    expect(page).to have_selector("#companion_card_accounts ##{dom_id(c_card)}")
+    expect(page).to have_selector("#owner_card_accounts #card_account_#{o_card.id}")
+    expect(page).to have_selector("#companion_card_accounts #card_account_#{c_card.id}")
   end
 
   example 'deleting a card', :js do
