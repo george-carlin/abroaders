@@ -48,7 +48,7 @@ RSpec.describe Card::Cell::Index::CardAccounts do
     example 'only owner has cards' do
       create_card_account(person: owner, opened_on: today, product: product)
       rendered = show(account)
-      expect(rendered).to have_selector '#card_1'
+      expect(rendered).to have_selector '#card_account_1'
       expect(rendered).not_to have_content "#{owner.first_name} has no cards"
       expect(rendered).to have_content "#{companion.first_name} has no cards"
     end
@@ -56,7 +56,7 @@ RSpec.describe Card::Cell::Index::CardAccounts do
     example 'only companion has cards' do
       create_card_account(person: companion, opened_on: today, product: product)
       rendered = show(account)
-      expect(rendered).to have_selector '#card_2'
+      expect(rendered).to have_selector '#card_account_2'
       expect(rendered).to have_content "#{owner.first_name} has no cards"
       expect(rendered).not_to have_content "#{companion.first_name} has no cards"
     end
@@ -65,8 +65,8 @@ RSpec.describe Card::Cell::Index::CardAccounts do
       create_card_account(person: owner, opened_on: today, product: product)
       create_card_account(person: companion, opened_on: today, product: product)
       rendered = show(account)
-      expect(rendered).to have_selector '#card_3'
-      expect(rendered).to have_selector '#card_4'
+      expect(rendered).to have_selector '#card_account_3'
+      expect(rendered).to have_selector '#card_account_4'
       expect(rendered).not_to have_content "#{owner.first_name} has no cards"
       expect(rendered).not_to have_content "#{companion.first_name} has no cards"
     end

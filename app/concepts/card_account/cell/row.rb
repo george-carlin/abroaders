@@ -40,14 +40,6 @@ class CardAccount < CardAccount.superclass
         cell(self.class.product_name_cell, product, network_in_brackets: true)
       end
 
-      def html_classes
-        'card row'
-      end
-
-      def html_id
-        "card_#{id}"
-      end
-
       def image
         cell(CardProduct::Cell::Image, product, size: '130x81')
       end
