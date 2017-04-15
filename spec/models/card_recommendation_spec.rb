@@ -44,6 +44,11 @@ RSpec.describe CardRecommendation do
 
     it { is_expected.to eq 'recommended' }
 
+    context 'when opened_on is present' do
+      before { attrs[:opened_on] = date }
+      it { is_expected.to eq 'opened' }
+    end
+
     context 'when pulled_at is present' do
       before { attrs[:pulled_at] = date }
       it { is_expected.to eq 'pulled' }

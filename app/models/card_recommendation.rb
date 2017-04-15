@@ -15,6 +15,7 @@ class CardRecommendation < Disposable::Twin
 
   def status
     # Note: the order of these return statements matters!
+    return 'opened'      if opened?
     return 'pulled'      unless pulled_at.nil?
     return 'expired'     unless expired_at.nil?
     return 'declined'    unless declined_at.nil?
@@ -42,6 +43,8 @@ class CardRecommendation < Disposable::Twin
   property :redenied_at
 
   property :product
+
+  delegate :opened?, to: :model
 
   def self.find(*args)
     new(Card.recommended.find(*args))
