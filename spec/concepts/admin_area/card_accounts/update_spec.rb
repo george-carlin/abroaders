@@ -12,7 +12,7 @@ RSpec.describe AdminArea::CardAccounts::Update do
   let(:params) { { card_account: {} } }
 
   example 'updating opened_on date' do
-    card_account = create_card_account(person: person, product: product, opened_on: dec_2015)
+    card_account = create_card_account(person: person, card_product: product, opened_on: dec_2015)
     params[:card_account] = { opened_on: jan_2016 }
     params[:id] = card_account.id
     result = described_class.(params)
@@ -24,7 +24,7 @@ RSpec.describe AdminArea::CardAccounts::Update do
   end
 
   example 'closing an open card account' do
-    card_account = create_card_account(person: person, product: product, opened_on: dec_2015)
+    card_account = create_card_account(person: person, card_product: product, opened_on: dec_2015)
     params[:card_account] = { closed: true, closed_on: jan_2016, opened_on: dec_2015 }
     params[:id] = card_account.id
     result = described_class.(params)
@@ -37,7 +37,7 @@ RSpec.describe AdminArea::CardAccounts::Update do
 
   example 'unclosing a closed card account' do
     card_account = create_card_account(
-      person: person, product: product, opened_on: dec_2015, closed_on: jan_2016,
+      person: person, card_product: product, opened_on: dec_2015, closed_on: jan_2016,
     )
     params[:card_account] = { opened_on: dec_2015 }
     params[:id] = card_account.id
@@ -50,7 +50,7 @@ RSpec.describe AdminArea::CardAccounts::Update do
   end
 
   example 'invalid save' do
-    card_account = create_card_account(person: person, product: product, opened_on: dec_2015)
+    card_account = create_card_account(person: person, card_product: product, opened_on: dec_2015)
     # closed before opened:
     params[:card_account] = { opened_on: dec_2015, closed_on: nov_2015, closed: true }
     params[:id] = card_account.id

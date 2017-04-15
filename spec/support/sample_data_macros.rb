@@ -129,16 +129,6 @@ module SampleDataMacros
                 end
     traits = traits_and_overrides
 
-    if overrides.key?(:product_id)
-      warn 'passing :product_id to #create_card_account is deprecated; use :card_product_id instead'
-      overrides[:card_product_id] = overrides.delete(:product_id)
-    end
-
-    if overrides.key?(:product)
-      warn 'passing :product to #create_card_account is deprecated; use :card_product instead'
-      overrides[:card_product] = overrides.delete(:product)
-    end
-
     if overrides.key?(:card_product) && overrides.key?(:card_product_id)
       raise "can't specify both :card_product and :card_product_id, use one or the other"
     end
