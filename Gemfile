@@ -63,6 +63,7 @@ group :development, :test do
   gem 'faker', '1.7.2'
   gem 'rspec-rails', '~> 3.5.0'
   gem 'rspec-cells'
+  gem 'guard-rspec', require: false
 end
 
 group :development do
