@@ -14,6 +14,7 @@ gem 'reform'
 gem 'cells', github: 'georgemillo/cells', branch: 'collection-join'
 gem 'cells-erb', '0.0.9'
 gem 'dry-struct'
+gem 'dry-types', '~> 0.9.4'
 
 gem 'active_model_serializers', '0.10.0'
 gem 'acts_as_tree', '~> 2.4.0'
