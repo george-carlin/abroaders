@@ -123,35 +123,23 @@ class Card < ApplicationRecord
     !recommended_at.nil?
   end
 
-  %w[declined denied open closed].each do |status|
-    define_method "#{status}?" do
-      self.status == status
-    end
-  end
-
-  def applied?
-    !applied_on.nil?
-  end
-
-  def expired?
-    !expired_at.nil?
+  def closed?
+    !closed_at.nil?
   end
 
   def opened?
     !opened_on.nil?
   end
 
-  def nudged?
-    !nudged_at.nil?
+  def unclosed?
+    !closed?
   end
 
-  def pulled?
-    !pulled_at.nil?
+  def unopened?
+    !opened?
   end
 
-  def redenied?
-    !redenied_at.nil?
-  end
+  include CardRecommendation::Predicates
 
   # Validations
 

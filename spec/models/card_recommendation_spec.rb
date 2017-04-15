@@ -30,7 +30,7 @@ RSpec.describe CardRecommendation do
     rec.denied_at = time
     expect(rec.actionable?).to be false
     rec.denied_at = nil
-    allow(rec).to receive(:unopen?).and_return(false)
+    allow(rec).to receive(:unopened?).and_return(false)
     expect(rec.actionable?).to be false
   end
 
