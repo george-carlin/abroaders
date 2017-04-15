@@ -119,7 +119,7 @@ RSpec.describe "user cards page - nudgeable cards", :js do
         it "updates the rec's attributes", :backend do
           # this spec fails when run late in the day when your machine's time
           # is earlier than UTC # TZFIXME
-          expect(rec.status).to eq "open"
+          expect(rec).to be_opened
           expect(rec.opened_on).to eq Time.zone.today
           expect(rec.nudged_at).to be_within(5.seconds).of(Time.zone.now)
           expect(rec.applied_on).to eq applied_on # unchanged
@@ -141,7 +141,7 @@ RSpec.describe "user cards page - nudgeable cards", :js do
         end
 
         it "updates the rec's attributes", :backend do
-          expect(rec.status).to eq "denied"
+          expect(CardRecommendation.new(rec).status).to eq "denied"
           expect(rec.applied_on).to eq applied_on # unchanged
           expect(rec.denied_at).to be_within(5.seconds).of(Time.zone.now)
           expect(rec.nudged_at).to be_within(5.seconds).of(Time.zone.now)
@@ -163,7 +163,7 @@ RSpec.describe "user cards page - nudgeable cards", :js do
         end
 
         it "updates the rec's attributes", :backend do
-          expect(rec.status).to eq "applied"
+          expect(CardRecommendation.new(rec).status).to eq "applied"
           expect(rec.applied_on).to eq applied_on # unchanged
           expect(rec.nudged_at).to be_within(5.seconds).of(Time.zone.now)
         end
@@ -224,7 +224,7 @@ RSpec.describe "user cards page - nudgeable cards", :js do
         it "updates the rec's attributes", :backend do
           # this spec fails when run late in the day when your machine's time
           # is earlier than UTC # TZFIXME
-          expect(rec.status).to eq "open"
+          expect(rec).to be_opened
           expect(rec.opened_on).to eq Time.zone.today
         end
 
@@ -246,7 +246,7 @@ RSpec.describe "user cards page - nudgeable cards", :js do
         end
 
         it "updates the rec's attributes", :backend do
-          expect(rec.status).to eq "denied"
+          expect(CardRecommendation.new(rec).status).to eq 'denied'
           expect(rec.denied_at).to be_within(5.seconds).of(Time.zone.now)
         end
 

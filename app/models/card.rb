@@ -97,10 +97,6 @@
 # This design isn't ideal because it means there's duplicate data in the DB,
 # but I couldn't think of a better alternative.
 class Card < ApplicationRecord
-  def status
-    status_model.name
-  end
-
   def recommended?
     !recommended_at.nil?
   end
@@ -149,7 +145,7 @@ class Card < ApplicationRecord
 
   # returns true iff the product can be applied for
   def applyable?
-    recommended? && status == 'recommended'
+    recommended? && !(applied? || pulled? || expired? || declined?)
   end
 
   alias declinable?  applyable?
@@ -208,9 +204,5 @@ class Card < ApplicationRecord
   def set_product_to_offer_product
     return unless !offer.nil? && !offer.product.nil? && product.nil?
     self.product = offer.product
-  end
-
-  def status_model
-    Card::Status.build(self)
   end
 end

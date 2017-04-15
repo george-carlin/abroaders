@@ -101,7 +101,7 @@ RSpec.describe "user cards page - callable cards", :js do
         it "updates the card account's attributes", :backend do
           # this spec fails when run late in the day when your machine's time
           # is earlier than UTC # TZFIXME
-          expect(rec.status).to eq "open"
+          expect(rec).to be_opened
           expect(rec.opened_on).to eq Time.zone.today
           expect(rec.called_at).to be_within(5.seconds).of(Time.zone.now)
           expect(rec.applied_on).to eq applied_on # unchanged
@@ -123,7 +123,7 @@ RSpec.describe "user cards page - callable cards", :js do
         end
 
         it "updates the card account's attributes", :backend do
-          expect(rec.status).to eq "denied"
+          expect(CardRecommendation.new(rec).status).to eq "denied"
           expect(rec.denied_at).to eq denied_at
           expect(rec.applied_on).to eq applied_on # unchanged
           expect(rec.redenied_at).to be_within(5.seconds).of(Time.zone.now)
@@ -146,7 +146,7 @@ RSpec.describe "user cards page - callable cards", :js do
         end
 
         it "updates the card account's attributes", :backend do
-          expect(rec.status).to eq "denied"
+          expect(CardRecommendation.new(rec).status).to eq "denied"
           expect(rec.denied_at).to eq denied_at
           expect(rec.applied_on).to eq applied_on # unchanged
           expect(rec.called_at).to be_within(5.seconds).of(Time.zone.now)

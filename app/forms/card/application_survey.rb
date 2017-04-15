@@ -39,9 +39,11 @@ class Card::ApplicationSurvey < ApplicationForm
       raise "unrecognized action '#{action}'"
     end
 
-    # This could happen if e.g. the user has already made changes in a
-    # different tab
-    raise Card::InvalidStatusError unless Card::Status.build(card).valid?
+    # Catch inconsistencies that may occur if e.g. the user has two tabs open
+    # and takes different actions in each one. This error will be caught by the
+    # controller, and a generic 'could not update' message will be shown to the
+    # user
+    raise Card::InvalidStatusError unless CardRecommendation::Validate.(card)
 
     card.save!
   end

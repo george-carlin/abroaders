@@ -49,8 +49,7 @@ module AdminArea::People::Cell
 
         # @param recommendation [Card] must be a recommendation
         def initialize(rec, options = {})
-          raise "Card #{rec.id} is not a recommendation" unless rec.recommended?
-          super
+          super(CardRecommendation.new(rec), options)
         end
 
         property :id

@@ -245,9 +245,9 @@ RSpec.describe 'cards survey', :onboarding, :js, :manual_clean do
           open_acc_0 = new_accounts.find_by(product_id: open_cards[0].id)
           open_acc_1 = new_accounts.find_by(product_id: open_cards[1].id)
           closed_acc = new_accounts.find_by(product_id: closed_card.id)
-          expect(open_acc_0.status).to eq 'open'
-          expect(open_acc_1.status).to eq 'open'
-          expect(closed_acc.status).to eq 'closed'
+          expect(open_acc_0).not_to be_closed
+          expect(open_acc_1).not_to be_closed
+          expect(closed_acc).to be_closed
         end
 
         include_examples 'submitting the form'
