@@ -4,7 +4,7 @@ $("#admin_recommend_offer_" + offerId + " .offer-recommend").html(
   "<button class='btn btn-xs btn-success pull-right' disabled>Recommended!</button>"
 );
 
-var tr = "<%= j cell(AdminArea::CardRecommendations::Cell::Table::Row, @model).() %>";
+var tr = "<%= j cell(AdminArea::People::Cell::Show::CardRecommendations::Row, @model).() %>";
 
 $("#admin_person_card_recommendations_table tbody").append(tr);
 // If the user had no recommendations when the page was initially loaded, the

@@ -48,6 +48,10 @@ module AdminArea
           cell(Bank::Cell::FilterPanel, Bank.order(name: :asc))
         end
 
+        def card_accounts
+          cell(self.class::CardAccounts, model)
+        end
+
         def card_bp_filter_check_box_tag(bp)
           klass =  :card_bp_filter
           id    =  :"#{klass}_#{bp}"
@@ -62,8 +66,8 @@ module AdminArea
           end
         end
 
-        def cards_and_recommendations
-          cell(People::Cell::Show::Cards, model)
+        def card_recommendations
+          cell(self.class::CardRecommendations, model)
         end
 
         def currency_filter_panels
@@ -199,7 +203,7 @@ module AdminArea
             private
 
             def product_row
-              cell(CardRecommendations::Cell::ProductsTable::Row, model)
+              cell(AdminArea::CardRecommendations::Cell::ProductsTable::Row, model)
             end
 
             def offers_row
