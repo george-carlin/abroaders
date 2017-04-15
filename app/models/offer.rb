@@ -80,15 +80,22 @@ class Offer < ApplicationRecord
     !killed_at.nil?
   end
 
+  # Scopes
+
+  scope :live, -> { where(killed_at: nil) }
+  scope :dead, -> { where.not(killed_at: nil) }
+
+  # Right now the the only condition that an Offer must satisfy to be
+  # recommendable is that it's live, but you never know if that  may change in
+  # future, so use a more precise scope name to be more future-proof.
+  def self.recommendable
+    live
+  end
+
   private
 
   def nullify_irrelevant_columns
     self.days  = nil if condition == 'on_approval'
     self.spend = nil unless condition == 'on_minimum_spend'
   end
-
-  # Scopes
-
-  scope :live, -> { where(killed_at: nil) }
-  scope :dead, -> { where.not(killed_at: nil) }
 end
