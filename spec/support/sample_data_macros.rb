@@ -141,7 +141,7 @@ module SampleDataMacros
                  end
 
     params = {
-      card: {
+      card_account: {
         opened_on: overrides.fetch(:opened_on, Date.today),
       },
       product_id: product_id,
@@ -156,8 +156,8 @@ module SampleDataMacros
     end
 
     if traits.include?(:closed) || overrides.key?(:closed_on)
-      params[:card][:closed] = true
-      params[:card][:closed_on] = overrides.fetch(:closed_on, Date.today)
+      params[:card_account][:closed] = true
+      params[:card_account][:closed_on] = overrides.fetch(:closed_on, Date.today)
     end
 
     run!(CardAccount::Create, params, 'account' => person.account)['model']
