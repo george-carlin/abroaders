@@ -15,11 +15,11 @@ RSpec.describe AdminArea::People::Cell::Show do
     )
   end
 
-  # keys: person, offers
+  # keys: person, card_products
   def get_result(data = {})
     Trailblazer::Operation::Result.new(
       true,
-      'offers' => data.fetch(:offers, []),
+      'card_products' => data.fetch(:card_products, []),
       'person' => person,
     )
   end

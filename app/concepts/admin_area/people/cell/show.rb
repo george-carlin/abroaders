@@ -3,14 +3,15 @@ module AdminArea
     module Cell
       # @!method self.call(result, opts = {})
       #   @param result [Result] result of AdminArea::People::Operation::Show
-      #   @option result [Collection<Offer>] offers the recommendable offers
+      #   @option result [Collection<CardProduct>] card_products all card
+      #     products which have at least one recommendable offer.
       #   @option result [Person] person
       class Show < Abroaders::Cell::Base
         extend Abroaders::Cell::Result
         include Integrations::AwardWallet::Links
 
         skill :cards
-        skill :offers
+        skill :card_products
         skill :person
 
         # The cell that renders an individual travel plan.
@@ -86,7 +87,7 @@ module AdminArea
         # list the offers that can be recommended to the current user, grouped
         # by their product
         def recommendable_offers
-          cell(RecommendationTable, person, offers: offers)
+          cell(RecommendationTable, card_products, person: person)
         end
 
         def recommendation_notes
@@ -170,33 +171,47 @@ module AdminArea
         # recommendable offers for that product.
         #
         # @!method self.call(person, opts = {})
-        #   @param person [Person]
-        #   @option opts [Collection<Offer>] the recommendable offers. Be wary
-        #     of n+1 issues, as this cell will read the offers' products, and
-        #     the banks and currencies of those products.
+        #   @person [Collection<CardProduct>] card_products the CardProducts with
+        #     offers that can be recommended
+        #   @option options [Person] person
         class RecommendationTable < Abroaders::Cell::Base
-          option :offers
+          option :person
 
           private
 
-          def offers_grouped_by_product
-            @_ogbp ||= offers.group_by(&:product)
+          def rows
+            cell(ProductRows, collection: model, person: person)
           end
 
-          def offers_table(product)
-            content_tag(
-              :tr,
-              id: "admin_recommend_product_#{product.id}_offers",
-              class: "admin_recommend_product_offers",
-            ) do
-              content_tag :td, colspan: 5 do
-                cell(CardProducts::Cell::OffersTable, product, person: model)
+          # Two <tr>s, one with the product information and one with its offers
+          #
+          # @!method self.call(card_product, options = {})
+          class ProductRows < Abroaders::Cell::Base
+            property :id
+
+            option :person
+
+            def show
+              product_row.to_s << offers_row
+            end
+
+            private
+
+            def product_row
+              cell(CardRecommendations::Cell::ProductsTable::Row, model)
+            end
+
+            def offers_row
+              content_tag(
+                :tr,
+                id: "admin_recommend_product_#{id}_offers",
+                class: "admin_recommend_product_offers",
+              ) do
+                content_tag :td, colspan: 5 do
+                  cell(CardProducts::Cell::OffersTable, model, person: person)
+                end
               end
             end
-          end
-
-          def product_row(product)
-            cell(CardRecommendations::Cell::ProductsTable::Row, product)
           end
         end
       end

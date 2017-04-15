@@ -77,7 +77,7 @@ class CardProduct < ApplicationRecord
   # Scopes
 
   scope :survey, -> { where(shown_on_survey: true) }
-  scope :recommendable, -> { joins(:recommendable_offers).group('card_products.id') }
+  scope :recommendable, -> { joins(:recommendable_offers).distinct }
 
   # Callbacks
 

@@ -20,7 +20,7 @@ module AdminArea
         # @option options [Person] person the person whom the offers will be
         #   recommended to
         def initialize(product, options = {})
-          # TODO raise 'no offers' unless product.recommendable_offers.size > 0
+          raise 'no offers' if product.recommendable_offers.empty?
           super
         end
 
