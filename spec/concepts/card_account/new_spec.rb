@@ -10,7 +10,7 @@ RSpec.describe CardAccount::New do
 
   let(:params) { { product_id: product.id } }
 
-  example 'with card => person_id param' do
+  example 'with person_id param' do
     # sets card.person
     result = op.(params.merge(person_id: person.id), 'account' => account)
     expect(result.success?).to be true
@@ -25,7 +25,7 @@ RSpec.describe CardAccount::New do
     end.to raise_error(ActiveRecord::RecordNotFound)
   end
 
-  example 'with no card => person_id param' do
+  example 'with no person_id param' do
     # sets card.person to account owner
     result = op.(params, 'account' => account)
     expect(result.success?).to be true
