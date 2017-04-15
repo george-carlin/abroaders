@@ -129,6 +129,30 @@ class Card < ApplicationRecord
     end
   end
 
+  def applied?
+    !applied_on.nil?
+  end
+
+  def expired?
+    !expired_at.nil?
+  end
+
+  def opened?
+    !opened_on.nil?
+  end
+
+  def nudged?
+    !nudged_at.nil?
+  end
+
+  def pulled?
+    !pulled_at.nil?
+  end
+
+  def redenied?
+    !redenied_at.nil?
+  end
+
   # Validations
 
   validates :person, presence: true
