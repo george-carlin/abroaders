@@ -189,6 +189,8 @@ class Card < ApplicationRecord
     end
   end
 
+  scope :accounts, -> { where.not(opened_on: nil) }
+
   scope :pulled,     -> { where.not(pulled_at: nil) }
   scope :unapplied,  -> { where(applied_on: nil) }
   scope :unclicked,  -> { where(clicked_at: nil) }
