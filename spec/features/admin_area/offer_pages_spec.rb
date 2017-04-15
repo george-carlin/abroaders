@@ -14,9 +14,7 @@ RSpec.describe 'admin - offers pages' do
   let(:card_benefit) { "CardBenefit" }
 
   describe 'index page' do
-    let!(:offer) do
-      run!(AdminArea::Offers::Operation::Verify, id: create_offer.id)['model']
-    end
+    let!(:offer) { verify_offer(create_offer) }
 
     example 'for all offers' do
       visit admin_offers_path

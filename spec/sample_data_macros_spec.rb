@@ -45,4 +45,18 @@ RSpec.describe SampleDataMacros do
       expect(travel_plan).to be_an(TravelPlan)
     end.to change { TravelPlan.count }.by(1)
   end
+
+  example '#kill_offer' do
+    offer = create_offer
+    result = kill_offer(offer)
+    expect(result).to eq offer
+    expect(result).to be_dead
+  end
+
+  example '#verify_offer' do
+    offer = create_offer
+    result = verify_offer(offer)
+    expect(result).to eq offer
+    expect(result.last_reviewed_at).to be_within(2.seconds).of(Time.now)
+  end
 end

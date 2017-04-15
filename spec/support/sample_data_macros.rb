@@ -222,4 +222,18 @@ module SampleDataMacros
 
     run!(TravelPlan::Create, params, 'account' => account)['model']
   end
+
+  # Run the Kill operation on an offer
+  #
+  # @return [Offer] the now-dead Offer that you passed in
+  def kill_offer(offer)
+    run!(AdminArea::Offers::Operation::Kill, id: offer.id)['model']
+  end
+
+  # Run the Verify operation on an offer
+  #
+  # @return [Offer] the now-verified Offer that you passed in
+  def verify_offer(offer)
+    run!(AdminArea::Offers::Operation::Verify, id: offer.id)['model']
+  end
 end

@@ -24,7 +24,7 @@ RSpec.describe AdminArea::CardRecommendations::Operation::Create do
   end
 
   specify 'offer must be live' do
-    AdminArea::Offers::Operation::Kill.(id: offer.id)
+    kill_offer(offer)
     expect do
       result = op.(
         person_id: person.id,
