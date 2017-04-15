@@ -19,6 +19,17 @@ class CardRecommendation < Disposable::Twin
     model.save!
   end
 
+  def status
+    # Note: the order of these return statements matters!
+    return 'pulled'      unless pulled_at.nil?
+    return 'expired'     unless expired_at.nil?
+    return 'declined'    unless declined_at.nil?
+    return 'denied'      unless denied_at.nil?
+    return 'applied'     unless applied_on.nil?
+    return 'recommended' unless recommended_at.nil?
+    raise "couldn't determine recommendation status"
+  end
+
   property :id
 
   # For explanations of what all these properties are, see the comments in
