@@ -165,14 +165,16 @@ module AdminArea
 
         # the <table> of available products and offers that can be recommended.
         #
+        # Every odd-numbered <tr> shows information about the product. Every
+        # even-numbered <tr> contains a nested <table> that lists all the
+        # recommendable offers for that product.
+        #
         # @!method self.call(person, opts = {})
         #   @param person [Person]
         #   @option opts [Collection<Offer>] the recommendable offers. Be wary
         #     of n+1 issues, as this cell will read the offers' products, and
         #     the banks and currencies of those products.
         class RecommendationTable < Abroaders::Cell::Base
-          alias person model
-
           option :offers
 
           private
@@ -181,19 +183,14 @@ module AdminArea
             @_ogbp ||= offers.group_by(&:product)
           end
 
-          def offers_table(offers, product)
+          def offers_table(product)
             content_tag(
               :tr,
               id: "admin_recommend_product_#{product.id}_offers",
               class: "admin_recommend_product_offers",
             ) do
               content_tag :td, colspan: 5 do
-                cell(
-                  CardProducts::Cell::OffersTable,
-                  offers,
-                  product: product,
-                  person:  person,
-                )
+                cell(CardProducts::Cell::OffersTable, product, person: model)
               end
             end
           end

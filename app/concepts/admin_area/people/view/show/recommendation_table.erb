@@ -26,7 +26,7 @@
   <tbody>
     <% offers_grouped_by_product.each do |product, offers| %>
       <%= product_row(product) %>
-      <%= offers_table(offers, product) %>
+      <%= offers_table(product) %>
     <% end %>
   </tbody>
 </table><!-- .admin-card-recommendation-table -->
