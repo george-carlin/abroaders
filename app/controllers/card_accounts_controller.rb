@@ -1,6 +1,6 @@
 class CardAccountsController < AuthenticatedUserController
   def new
-    if params[:product_id]
+    if params[:card_product_id]
       run CardAccount::New
       render cell(CardAccount::Cell::New, result)
     else

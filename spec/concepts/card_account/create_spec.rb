@@ -2,14 +2,14 @@ require 'rails_helper'
 
 RSpec.describe CardAccount::Create do
   let(:account) { create(:account) }
-  let(:person)  { account.owner }
-  let(:product) { create(:card_product) }
+  let(:person) { account.owner }
+  let(:card_product) { create(:card_product) }
   let(:op) { described_class }
 
   example 'creating a card account - no person specified' do
     result = op.(
       {
-        product_id: product.id,
+        card_product_id: card_product.id,
         card_account: { opened_on: Date.today },
       },
       'account' => account,
@@ -18,7 +18,7 @@ RSpec.describe CardAccount::Create do
 
     card_account = result['model']
     expect(card_account.person).to eq person # default
-    expect(card_account.product).to eq product
+    expect(card_account.product).to eq card_product
     expect(card_account.closed_on).to be nil
     expect(card_account.opened_on).to eq Date.today
   end
@@ -28,7 +28,7 @@ RSpec.describe CardAccount::Create do
     result = op.(
       {
         person_id: companion.id,
-        product_id: product.id,
+        card_product_id: card_product.id,
         card_account: { opened_on: Date.today, closed: false },
       },
       'account' => account,
@@ -41,7 +41,7 @@ RSpec.describe CardAccount::Create do
   example 'creating a closed card account' do
     result = op.(
       {
-        product_id: product.id,
+        card_product_id: card_product.id,
         card_account: {
           closed: true,
           closed_on: Date.today,
@@ -54,7 +54,7 @@ RSpec.describe CardAccount::Create do
 
     card_account = result['model']
     expect(card_account.person).to eq person
-    expect(card_account.product).to eq product
+    expect(card_account.product).to eq card_product
     expect(card_account.opened_on).to eq Date.yesterday
     expect(card_account.closed_on).to eq Date.today
   end
@@ -63,7 +63,7 @@ RSpec.describe CardAccount::Create do
     expect(ZapierWebhooks::CardAccount::Created).to receive(:enqueue).with(kind_of(Card))
     op.(
       {
-        product_id: product.id,
+        card_product_id: card_product.id,
         card_account: { opened_on: Date.today },
       },
       'account' => account,
@@ -73,7 +73,7 @@ RSpec.describe CardAccount::Create do
   example 'invalid save - opened in future' do
     result = op.(
       {
-        product_id: product.id,
+        card_product_id: card_product.id,
         card_account: { opened_on: Date.tomorrow },
       },
       'account' => account,
@@ -84,7 +84,7 @@ RSpec.describe CardAccount::Create do
   example 'invalid save - closed before opened' do
     result = op.(
       {
-        product_id: product.id,
+        card_product_id: card_product.id,
         card_account: {
           closed: true,
           closed_on: Date.today - 10,
@@ -102,7 +102,7 @@ RSpec.describe CardAccount::Create do
       op.(
         {
           person_id: other_account.owner.id,
-          product_id: product.id,
+          card_product_id: card_product.id,
           card_account: { opened_on: Date.today, closed: false },
         },
         'account' => account,

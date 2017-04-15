@@ -126,7 +126,7 @@ Rails.application.routes.draw do
     post :skip
   end
 
-  resources :products, only: [] do
+  resources :card_products, only: [] do
     resources :card_accounts, only: [:new, :create]
   end
 
