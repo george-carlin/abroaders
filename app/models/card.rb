@@ -124,7 +124,12 @@ class Card < ApplicationRecord
   end
 
   def closed?
-    !closed_at.nil?
+    !closed_on.nil?
+  end
+
+  def open?
+    warn 'Card#open? is deprecated; use #opened? instead'
+    opened?
   end
 
   def opened?

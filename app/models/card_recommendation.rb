@@ -44,7 +44,7 @@ class CardRecommendation < Disposable::Twin
   property :redenied_at
 
   property :product
-  alias_method :card_product, :product
+  alias card_product product
 
   delegate :opened?, :unopened?, to: :model
 
