@@ -210,7 +210,7 @@ module AdminArea
 
           def phone_number
             number = super
-            number ? "<p>#{number}</p>" : ''
+            number.present? ? "<p>#{number}</p>" : ''
           end
         end
 

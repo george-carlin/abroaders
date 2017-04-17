@@ -25,19 +25,16 @@ module AdminArea
             [
               %[
               SELECT DISTINCT accounts.id
-              FROM (
-                accounts LEFT OUTER JOIN phone_numbers
-                ON phone_numbers.account_id = accounts.id
-              ), people
+              FROM accounts, people
               WHERE accounts.id = people.account_id
-              AND concat_ws(' ', accounts.email, people.first_name, phone_numbers.normalized_number)
+              AND concat_ws(' ', accounts.email, people.first_name, accounts.phone_number_normalized)
               ILIKE ?
               ],
               "%#{query}%",
             ],
           ).pluck(:id)
           opts['collection'] = \
-            opts['account.class'].includes(:phone_number).order('email ASC').where(id: ids)
+            opts['account.class'].order('email ASC').where(id: ids)
         end
       end
     end

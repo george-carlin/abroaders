@@ -18,14 +18,14 @@ RSpec.describe AdminArea::Accounts::Operation::Search do
     accounts[3].owner.update!(first_name: 'Erik')
 
     accounts[2].update!(onboarding_state: :phone_number)
-    PhoneNumber::Operation::Create.(
-      { phone_number: { number: '(555) 123-4567' } },
+    PhoneNumber::Create.(
+      { account: { phone_number: '(555) 123-4567' } },
       'account' => accounts[2],
     )
 
     accounts[1].update!(onboarding_state: :phone_number)
-    PhoneNumber::Operation::Create.(
-      { phone_number: { number: '(555) 0001111' } },
+    PhoneNumber::Create.(
+      { account: { phone_number: '(555) 0001111' } },
       'account' => accounts[1],
     )
   end

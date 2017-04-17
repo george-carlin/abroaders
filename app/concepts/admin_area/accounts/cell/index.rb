@@ -5,7 +5,6 @@ module AdminArea
         extend Dry::Configurable
 
         include Kaminari::Cells
-        alias accounts model
 
         # Expose this as a configurable setting so that we can override it
         # in tests, then the tests won't have to create 50+ accounts per example.
@@ -26,7 +25,7 @@ module AdminArea
         end
 
         def paginated_accounts
-          @paginated_accounts ||= accounts.page(page).per_page(accounts_per_page)
+          @paginated_accounts ||= model.page(page).per_page(accounts_per_page)
         end
 
         def paginator
@@ -39,6 +38,8 @@ module AdminArea
 
         # @!method self.call(account, options = {})
         class TableRow < Abroaders::Cell::Base
+          include Escaped
+
           property :companion
           property :couples?
           property :created_at
@@ -46,15 +47,12 @@ module AdminArea
           property :onboarded?
           property :owner
           property :people
+          property :phone_number
 
           private
 
           def onboarded_icon
             onboarded? ? raw('<i class="fa fa-check"> </i>') : ''
-          end
-
-          def phone_number
-            model.phone_number&.number || ''
           end
 
           def tr(&block)

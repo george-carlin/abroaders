@@ -11,17 +11,15 @@ RSpec.describe 'phone number pages' do
 
     example 'submitting a phone number' do
       # saves phone number and completes onboarding survey
-      fill_in :phone_number_number, with: '555 000-1234'
+      fill_in :account_phone_number, with: '555 000-1234'
       submit_form
       expect(current_path).to eq root_path
     end
 
     example 'submitting with no phone number' do
       # doesn't continue; shows page again with error message
-      expect do
-        submit_form
-        account.reload
-      end.not_to change { PhoneNumber.count }
+      submit_form
+      expect(account.reload.phone_number).to be nil
       expect(page).to have_error_message(
         "Error: Phone number must be filled and size cannot be greater than 15. "\
         "Please click the 'Skip' button if you do not wish to add a phone number",
@@ -33,7 +31,7 @@ RSpec.describe 'phone number pages' do
       expect { click_link "Skip" }.to \
         send_email.to(ENV['MAILPARSER_SURVEY_COMPLETE'])
         .with_subject("App Profile Complete - #{account.email}")
-      expect(PhoneNumber.count).to eq 0
+      expect(account.reload.phone_number).to be nil
     end
   end
 end

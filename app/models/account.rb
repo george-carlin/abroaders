@@ -53,8 +53,6 @@ class Account < ApplicationRecord
 
   has_many :balances, through: :people
 
-  has_one :phone_number
-
   has_one :owner_spending_info, through: :owner, source: :spending_info
   has_one :companion_spending_info, through: :owner, source: :spending_info
 
@@ -125,5 +123,13 @@ class Account < ApplicationRecord
   # so make sure that they actually are lowercase, or bad things will happen
   before_save { self.email = email.downcase if email.present? }
 
+  before_save :normalize_phone_number!
+
   # Scopes
+
+  private
+
+  def normalize_phone_number!
+    self.phone_number_normalized = PhoneNumber::Normalize.(phone_number) if phone_number.present?
+  end
 end

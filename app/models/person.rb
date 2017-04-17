@@ -1,5 +1,5 @@
 class Person < ApplicationRecord
-  delegate :email, to: :account
+  delegate :email, :phone_number, to: :account
 
   def companion?
     !owner
@@ -13,10 +13,6 @@ class Person < ApplicationRecord
 
   def partner?
     !partner.nil?
-  end
-
-  def phone_number
-    account.phone_number&.number
   end
 
   def signed_up_at

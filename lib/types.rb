@@ -9,6 +9,17 @@ Dry::Types.register(
   Dry::Types['string'].constructor { |*args| String(*args).strip },
 )
 
+# Types::Form::StrippedString
+#
+# Like StrippedString expect blank strings get coerced to nil
+Dry::Types.register(
+  'form.stripped_string',
+  Dry::Types['string'].constructor do |*args|
+    str = String(*args).strip
+    str == '' ? nil : str
+  end,
+)
+
 # Types::BlankString
 #
 # Coerces the input to a string if possible, then returns '' if the string is

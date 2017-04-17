@@ -1,3 +1,2 @@
-class PhoneNumber < ApplicationRecord
-  belongs_to :account
+module PhoneNumber
 end

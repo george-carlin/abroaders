@@ -8,7 +8,6 @@ module AdminArea
 
         def setup_accounts(opts)
           opts['accounts'] = Account.includes(
-            :phone_number,
             people: :spending_info,
             owner: :spending_info,
             companion: :spending_info,
