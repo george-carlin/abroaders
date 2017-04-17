@@ -130,7 +130,7 @@ Rails.application.routes.draw do
     post :skip
   end
 
-  resources :products, only: [] do
+  resources :card_products, only: [] do
     resources :card_accounts, only: [:new, :create]
   end
 
@@ -209,7 +209,6 @@ Rails.application.routes.draw do
       resources :card_recommendations, only: [:create] do
         collection do
           post :complete
-          get  :pulled
         end
       end
     end
@@ -218,6 +217,7 @@ Rails.application.routes.draw do
         patch :pull
       end
     end
+    resources :recommendation_notes, only: [:edit, :update]
     resources :travel_plans, only: [:edit, :update]
   end
 

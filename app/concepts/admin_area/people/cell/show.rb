@@ -1,30 +1,35 @@
 module AdminArea
   module People
     module Cell
-      # @!method self.call(result, opts = {})
-      #   @param result [Result] result of AdminArea::People::Operation::Show
-      #   @option result [Collection<Offer>] offers the recommendable offers
-      #   @option result [Person] person
+      # @!method self.call(person, opts = {})
+      #   @param person [Person]
+      #   @option option [Collection<CardProduct>] card_products all card
+      #     products which have at least one recommendable offer.
       class Show < Abroaders::Cell::Base
-        extend Abroaders::Cell::Result
+        include Escaped
         include Integrations::AwardWallet::Links
 
-        skill :cards
-        skill :offers
-        skill :person
+        property :account
+        property :balances
+        property :first_name
+        property :home_airports
+        property :partner
+        property :recommendation_notes
+        property :regions_of_interest
+        property :travel_plans
+        property :unresolved_recommendation_request
+        property :unresolved_recommendation_request?
+
+        option :card_products
 
         # The cell that renders an individual travel plan.
         def self.travel_plan_cell
           TravelPlan::Cell::Summary
         end
 
-        def title
-          person.first_name
-        end
+        alias title first_name
 
         private
-
-        delegate :account, :balances, :home_airports, :recommendation_notes, :partner, :regions_of_interest, :travel_plans, :unresolved_recommendation_request?, :unresolved_recommendation_request, to: :person
 
         def award_wallet_connection
           return '' unless account.connected_to_award_wallet?
@@ -35,15 +40,19 @@ module AdminArea
         end
 
         def award_wallet_email
-          cell(AwardWalletEmail, person)
+          cell(AwardWalletEmail, model)
         end
 
         def balances_list
-          cell(People::Cell::Balances, person)
+          cell(People::Cell::Balances, model)
         end
 
         def bank_filter_panels
           cell(Bank::Cell::FilterPanel, Bank.order(name: :asc))
+        end
+
+        def card_accounts
+          cell(self.class::CardAccounts, model)
         end
 
         def card_bp_filter_check_box_tag(bp)
@@ -60,8 +69,8 @@ module AdminArea
           end
         end
 
-        def cards_list
-          cell(People::Cell::Show::Cards, person)
+        def card_recommendations
+          cell(self.class::CardRecommendations, model)
         end
 
         def currency_filter_panels
@@ -69,7 +78,7 @@ module AdminArea
         end
 
         def heading
-          cell(Heading, person)
+          cell(Heading, model)
         end
 
         # If the account has any home airports, list them.
@@ -86,11 +95,12 @@ module AdminArea
         # list the offers that can be recommended to the current user, grouped
         # by their product
         def recommendable_offers
-          cell(RecommendationTable, person, offers: offers)
+          cell(RecommendationTable, card_products, person: model)
         end
 
-        def recommendation_notes_list
-          cell(RecommendationNotes, recommendation_notes.sort_by(&:created_at).reverse)
+        def recommendation_notes
+          # Avoid clashing with the module AdminArea::RecommendationNotes
+          cell(Cell::Show::RecommendationNotes, model)
         end
 
         # If the account has any ROIs,  list them.
@@ -105,7 +115,7 @@ module AdminArea
         end
 
         def spending_info
-          cell(People::Cell::SpendingInfo, person, account: account)
+          cell(People::Cell::SpendingInfo, model, account: account)
         end
 
         def travel_plans_list
@@ -205,41 +215,52 @@ module AdminArea
 
         # the <table> of available products and offers that can be recommended.
         #
+        # Every odd-numbered <tr> shows information about the product. Every
+        # even-numbered <tr> contains a nested <table> that lists all the
+        # recommendable offers for that product.
+        #
         # @!method self.call(person, opts = {})
-        #   @param person [Person]
-        #   @option opts [Collection<Offer>] the recommendable offers. Be wary
-        #     of n+1 issues, as this cell will read the offers' products, and
-        #     the banks and currencies of those products.
+        #   @person [Collection<CardProduct>] card_products the CardProducts with
+        #     offers that can be recommended
+        #   @option options [Person] person
         class RecommendationTable < Abroaders::Cell::Base
-          alias person model
-
-          option :offers
+          option :person
 
           private
 
-          def offers_grouped_by_product
-            @_ogbp ||= offers.group_by(&:product)
+          def rows
+            cell(ProductRows, collection: model, person: person)
           end
 
-          def offers_table(offers, product)
-            content_tag(
-              :tr,
-              id: "admin_recommend_product_#{product.id}_offers",
-              class: "admin_recommend_product_offers",
-            ) do
-              content_tag :td, colspan: 5 do
-                cell(
-                  CardProducts::Cell::OffersTable,
-                  offers,
-                  product: product,
-                  person:  person,
-                )
+          # Two <tr>s, one with the product information and one with its offers
+          #
+          # @!method self.call(card_product, options = {})
+          class ProductRows < Abroaders::Cell::Base
+            property :id
+
+            option :person
+
+            def show
+              product_row.to_s << offers_row
+            end
+
+            private
+
+            def product_row
+              cell(AdminArea::CardRecommendations::Cell::ProductsTable::Row, model)
+            end
+
+            def offers_row
+              content_tag(
+                :tr,
+                id: "admin_recommend_product_#{id}_offers",
+                class: "admin_recommend_product_offers",
+              ) do
+                content_tag :td, colspan: 5 do
+                  cell(CardProducts::Cell::OffersTable, model, person: person)
+                end
               end
             end
-          end
-
-          def product_row(product)
-            cell(CardRecommendations::Cell::ProductsTable::Row, product)
           end
         end
       end

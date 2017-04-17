@@ -101,15 +101,32 @@ class Card < ApplicationRecord
     status_model.name
   end
 
-  def recommendation?
+  def recommended?
     !recommended_at.nil?
   end
 
-  %w[recommended declined denied open closed].each do |status|
-    define_method "#{status}?" do
-      self.status == status
-    end
+  def closed?
+    !closed_on.nil?
   end
+
+  def open?
+    warn 'Card#open? is deprecated; use #opened? instead'
+    opened?
+  end
+
+  def opened?
+    !opened_on.nil?
+  end
+
+  def unclosed?
+    !closed?
+  end
+
+  def unopened?
+    !opened?
+  end
+
+  include CardRecommendation::Predicates
 
   # Validations
 
@@ -124,13 +141,15 @@ class Card < ApplicationRecord
   has_one :account, through: :person
   belongs_to :offer
 
+  alias_attribute :card_product, :product
+
   # Callbacks
 
   before_save :set_product_to_offer_product
 
   # returns true iff the product can be applied for
   def applyable?
-    recommendation? && status == "recommended"
+    recommended? && status == 'recommended'
   end
 
   alias declinable?  applyable?
@@ -168,6 +187,8 @@ class Card < ApplicationRecord
       unpulled.unapplied.unexpired.undeclined
     end
   end
+
+  scope :accounts, -> { where.not(opened_on: nil) }
 
   scope :pulled,     -> { where.not(pulled_at: nil) }
   scope :unapplied,  -> { where(applied_on: nil) }

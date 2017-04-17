@@ -1,14 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe CardRecommendation do
-  example '#pull!' do
-    card = create_card_account
-    card.update!(recommended_at: Time.now)
-    rec = described_class.new(card)
-    rec.pull!
-    expect(card.reload.pulled_at).to be_within(5.seconds).of(Time.now)
-  end
-
   example '#actionable?' do
     time = Time.now
     rec  = described_class.new(Card.new(recommended_at: time))
@@ -38,7 +30,51 @@ RSpec.describe CardRecommendation do
     rec.denied_at = time
     expect(rec.actionable?).to be false
     rec.denied_at = nil
-    allow(rec).to receive(:unopen?).and_return(false)
+    allow(rec).to receive(:unopened?).and_return(false)
     expect(rec.actionable?).to be false
+  end
+
+  describe '#status' do
+    let(:date) { Time.zone.today }
+
+    # possible values: [recommended, declined, applied, denied, expired, pulled]
+    let(:attrs) { { recommended_at: date } }
+
+    subject { described_class.new(Card.new(attrs)).status }
+
+    it { is_expected.to eq 'recommended' }
+
+    context 'when opened_on is present' do
+      before { attrs[:opened_on] = date }
+      it { is_expected.to eq 'opened' }
+    end
+
+    context 'when pulled_at is present' do
+      before { attrs[:pulled_at] = date }
+      it { is_expected.to eq 'pulled' }
+    end
+
+    context 'when expired_at is present' do
+      before { attrs[:expired_at] = date }
+      it { is_expected.to eq 'expired' }
+    end
+
+    context 'when applied_on is present' do
+      before { attrs[:applied_on] = date }
+
+      context 'and denied_at is present' do
+        before { attrs[:denied_at] = date }
+        it { is_expected.to eq 'denied' }
+      end
+
+      context 'and denied_at is nil' do
+        it { is_expected.to eq 'applied' }
+      end
+    end
+
+    context 'when declined_at is present' do
+      before { attrs[:declined_at] = date }
+      it { is_expected.to eq 'declined' }
+    end
   end
 end

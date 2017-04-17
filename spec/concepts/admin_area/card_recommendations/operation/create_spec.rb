@@ -20,11 +20,10 @@ RSpec.describe AdminArea::CardRecommendations::Operation::Create do
     expect(rec.product).to eq offer.product
     expect(rec.person).to eq person
     expect(rec.recommended_at).to be_within(5.seconds).of(Time.now)
-    expect(rec.recommendation?).to be true
   end
 
   specify 'offer must be live' do
-    AdminArea::Offers::Operation::Kill.(id: offer.id)
+    kill_offer(offer)
     expect do
       result = op.(
         person_id: person.id,

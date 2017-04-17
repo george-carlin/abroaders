@@ -2,6 +2,8 @@ module AdminArea
   module CardRecommendations
     module Cell
       module ProductsTable
+        # REFACTOR this cell belongs in the AdminArea::People::Cell::Show
+        # namespace, not here
         class Row < Abroaders::Cell::Base
           property :id
           property :bank

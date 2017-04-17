@@ -45,7 +45,7 @@ class Person < ApplicationRecord
   belongs_to :account
   has_one :spending_info, dependent: :destroy
   has_many :cards
-  has_many :card_accounts, -> { where.not(opened_on: nil) }, class_name: 'Card'
+  has_many :card_accounts, -> { accounts }, class_name: 'Card'
   has_many :card_recommendations, -> { recommended }, class_name: 'Card'
   has_many :card_products, through: :cards
   has_many :home_airports, through: :account
@@ -53,8 +53,6 @@ class Person < ApplicationRecord
   has_many :regions_of_interest, through: :account
   has_many :travel_plans, through: :account
 
-  has_many :pulled_card_recommendations, -> { recommended.pulled }, class_name: 'Card'
-  has_many :unpulled_cards, -> { unpulled }, class_name: 'Card'
   has_many :actionable_card_recommendations, -> { recommended.actionable }, class_name: 'Card'
   has_many :unresolved_card_recommendations, -> { recommended.unresolved }, class_name: 'Card'
 

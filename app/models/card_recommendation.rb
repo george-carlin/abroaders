@@ -13,10 +13,16 @@ class CardRecommendation < Disposable::Twin
     super
   end
 
-  def pull!
-    self.pulled_at = Time.now
-    sync
-    model.save!
+  def status
+    # Note: the order of these return statements matters!
+    return 'opened'      if opened?
+    return 'pulled'      unless pulled_at.nil?
+    return 'expired'     if expired?
+    return 'declined'    if declined?
+    return 'denied'      unless denied_at.nil?
+    return 'applied'     unless applied_on.nil?
+    return 'recommended' unless recommended_at.nil?
+    raise "couldn't determine recommendation status"
   end
 
   property :id
@@ -24,6 +30,7 @@ class CardRecommendation < Disposable::Twin
   # For explanations of what all these properties are, see the comments in
   # Card and CardAccount
   property :recommended_at
+  property :applied_on
   property :seen_at
   property :clicked_at
   property :declined_at
@@ -37,41 +44,40 @@ class CardRecommendation < Disposable::Twin
   property :redenied_at
 
   property :product
+  alias card_product product
+
+  delegate :opened?, :unopened?, to: :model
 
   def self.find(*args)
     new(Card.recommended.find(*args))
   end
 
-  def unpulled?
-    pulled_at.nil?
+  # Put these in a module so we can include them in Card too. Temp solution
+  # until I've made all the refactorings I want to make to CardRecommendation
+  module Predicates
+    %w[
+      seen_at clicked_at applied_on declined_at denied_at expired_at nudged_at
+      called_at pulled_at redenied_at
+    ].each do |attr|
+      state = attr.sub(/_at\z/, '').sub(/_on\z/, '') << '?'
+      define_method state do
+        !send(attr).nil?
+      end
+
+      define_method "un#{state}" do
+        send(attr).nil?
+      end
+    end
   end
+  include Predicates
 
   def unopen?
-    model.opened_on.nil?
-  end
-
-  def unredenied?
-    redenied_at.nil?
-  end
-
-  def undenied?
-    denied_at.nil?
-  end
-
-  def undeclined?
-    declined_at.nil?
-  end
-
-  def unexpired?
-    expired_at.nil?
-  end
-
-  def unnudged?
-    nudged_at.nil?
+    warn 'CardRecommendation#unopen? is deprecated. Use #unopened?'
+    unopened?
   end
 
   def actionable?
-    unpulled? && unopen? && unredenied? && unredenied? && unexpired? && undeclined? &&
+    unpulled? && unopened? && unredenied? && unredenied? && unexpired? && undeclined? &&
       (undenied? || unnudged?)
   end
 end

@@ -5,8 +5,8 @@ RSpec.describe 'admin - review offers page' do
 
   before do
     @live = create_offer
-    @verified = run!(AdminArea::Offers::Operation::Verify, id: create_offer.id)['model']
-    @dead = run!(AdminArea::Offers::Operation::Kill, id: create_offer.id)['model']
+    @verified = verify_offer(create_offer)
+    @dead = kill_offer(create_offer)
     visit review_admin_offers_path
   end
 

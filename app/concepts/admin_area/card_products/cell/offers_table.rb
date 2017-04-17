@@ -4,26 +4,34 @@ module AdminArea
       # The table of offers for a particular product. Each offer has a
       # 'recommend' button for the admin to recommend the offer to a person.
       #
-      # @!method self.call(model, opts = {})
-      #   @param model [Collection<Offer>] a collection of offers that
-      #     can be recommended
-      #   @option opts [CardProduct] product the product being offered
-      #   @option opts [Person] person the person whom the offers will be
-      #     recommended to
+      # There'll be one of these tables for each product that has at least one
+      # recommendable offer. Each OffersTable <table> is nested within a <tr>
+      # in the parent table. Between each of those <tr>s (i.e.  outside the
+      # scope of the OffersTable cell) is *another* <tr> that contains the
+      # information about the CardProduct itself.
       class OffersTable < Abroaders::Cell::Base
-        alias offers model
+        property :id
+        property :recommendable_offers
 
         option :person
-        option :product
+
+        # @param model [CardProduct] a card product.  Must have at least one
+        #   live offer; cell will raise an error if it doesn't. TODO N+1
+        # @option options [Person] person the person whom the offers will be
+        #   recommended to
+        def initialize(product, options = {})
+          raise 'no offers' if product.recommendable_offers.empty?
+          super
+        end
 
         private
 
         def rows
-          cell(Row, collection: offers, person: person)
+          cell(Row, collection: recommendable_offers, person: person)
         end
 
         def html_id
-          "admin_recommend_card_product_#{product.id}_offers_table"
+          "admin_recommend_card_product_#{id}_offers_table"
         end
 
         def html_classes

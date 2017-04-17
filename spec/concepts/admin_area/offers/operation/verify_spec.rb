@@ -15,7 +15,7 @@ RSpec.describe AdminArea::Offers::Operation::Verify do
   end
 
   example 'failure - offer dead' do
-    AdminArea::Offers::Operation::Kill.(id: offer.id) # kill it
+    kill_offer(offer)
     result = op.(id: offer.id) # try to verify
     expect(result.success?).to be false
     expect(result['error']).to eq "Can't verify a dead offer"

@@ -5,7 +5,7 @@ class CardAccount < CardAccount.superclass
     feature Reform::Form::MultiParameterAttributes
     feature Reform::Form::Coercion
 
-    model :card
+    model :card_account
 
     property :closed, virtual: true, prepopulator: ->(_) { self.closed = !closed_on.nil? }
     property :closed_on
@@ -24,7 +24,7 @@ class CardAccount < CardAccount.superclass
       super(::Types::Form::Bool[value])
     end
 
-    # Make sure that the card's "closed_on" timestamp is set to nil if
+    # Make sure that the card account's "closed_on" timestamp is set to nil if
     # the 'closed' checkbox wasn't checked
     def sync
       self.closed_on = nil unless closed

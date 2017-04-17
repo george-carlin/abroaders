@@ -1,11 +1,11 @@
 class CardAccount < CardAccount.superclass
   class Destroy < Trailblazer::Operation
     success :setup_model!
-    success :destroy_card!
+    success :destroy_card_account!
 
     private
 
-    def destroy_card!(opts, **)
+    def destroy_card_account!(opts, **)
       opts['model'].destroy!
     end
 

@@ -139,22 +139,22 @@ module SampleDataMacros
                 end
     traits = traits_and_overrides
 
-    if overrides.key?(:product) && overrides.key?(:product_id)
-      raise "can't specify both :product and :product_id, use one or the other"
+    if overrides.key?(:card_product) && overrides.key?(:card_product_id)
+      raise "can't specify both :card_product and :card_product_id, use one or the other"
     end
-    product_id = if overrides.key?(:product)
-                   overrides[:product].id
-                 elsif overrides.key?(:product_id)
-                   overrides[:product_id]
-                 else
-                   create(:card_product).id
-                 end
+    card_product_id = if overrides.key?(:card_product)
+                        overrides[:card_product].id
+                      elsif overrides.key?(:card_product_id)
+                        overrides[:card_product_id]
+                      else
+                        create(:card_product).id
+                      end
 
     params = {
-      card: {
+      card_account: {
         opened_on: overrides.fetch(:opened_on, Date.today),
       },
-      product_id: product_id,
+      card_product_id: card_product_id,
     }
 
     raise "can't use :person_id, pass :person instead" if overrides.key?(:person_id)
@@ -166,8 +166,8 @@ module SampleDataMacros
     end
 
     if traits.include?(:closed) || overrides.key?(:closed_on)
-      params[:card][:closed] = true
-      params[:card][:closed_on] = overrides.fetch(:closed_on, Date.today)
+      params[:card_account][:closed] = true
+      params[:card_account][:closed_on] = overrides.fetch(:closed_on, Date.today)
     end
 
     run!(CardAccount::Create, params, 'account' => person.account)['model']
@@ -241,5 +241,19 @@ module SampleDataMacros
     params = { travel_plan: attributes }
 
     run!(TravelPlan::Create, params, 'account' => account)['model']
+  end
+
+  # Run the Kill operation on an offer
+  #
+  # @return [Offer] the now-dead Offer that you passed in
+  def kill_offer(offer)
+    run!(AdminArea::Offers::Operation::Kill, id: offer.id)['model']
+  end
+
+  # Run the Verify operation on an offer
+  #
+  # @return [Offer] the now-verified Offer that you passed in
+  def verify_offer(offer)
+    run!(AdminArea::Offers::Operation::Verify, id: offer.id)['model']
   end
 end

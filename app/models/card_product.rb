@@ -69,6 +69,7 @@ class CardProduct < ApplicationRecord
   # Associations
 
   has_many :offers, foreign_key: :product_id
+  has_many :recommendable_offers, -> { recommendable }, class_name: 'Offer', foreign_key: :product_id
   has_many :cards
   belongs_to :currency
   belongs_to :bank
@@ -76,6 +77,7 @@ class CardProduct < ApplicationRecord
   # Scopes
 
   scope :survey, -> { where(shown_on_survey: true) }
+  scope :recommendable, -> { joins(:recommendable_offers).distinct }
 
   # Callbacks
 

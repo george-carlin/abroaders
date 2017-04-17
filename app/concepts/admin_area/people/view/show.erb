@@ -65,17 +65,21 @@
 
     <div class='col-xs-12'>
       <hr>
-      <%= cards_list %>
+
+      <h3>Cards</h3>
+
+      <%= card_accounts %>
+
+      <%= card_recommendations %>
     </div>
 
     <div class='col-xs-12'>
-      <hr>
-      <%= recommendation_notes_list %>
+      <%= recommendation_notes %>
     </div>
 
     <div class="col-xs-12">
       <%= form_tag(
-        complete_admin_person_card_recommendations_path(person),
+        complete_admin_person_card_recommendations_path(model),
         id: 'complete_card_recommendations'
       ) do %>
         <%= text_area_tag(

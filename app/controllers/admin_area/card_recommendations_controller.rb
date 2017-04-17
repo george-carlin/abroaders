@@ -18,17 +18,14 @@ module AdminArea
     end
 
     def pull
-      @recommendation = CardRecommendation.find(params[:id])
-      @recommendation.pull!
+      # Not bothering with an Operation here because this entire action will be
+      # removed soon:
+      @recommendation = Card.recommended.find(params[:id])
+      @recommendation.update!(pulled_at: Time.zone.now)
 
       respond_to do |f|
         f.js
       end
-    end
-
-    def pulled
-      run CardRecommendations::Operation::Pulled
-      render cell(CardRecommendations::Cell::Pulled, result)
     end
   end
 end
