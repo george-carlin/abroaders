@@ -206,6 +206,4 @@ RSpec.describe 'new recommendation request page' do
       pending 'updating business spending'
     end
   end
-
-  # TODO what happens if they have the conf. survey open in two tabs and click 'Save' twice?
 end

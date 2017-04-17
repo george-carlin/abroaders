@@ -12,7 +12,6 @@ class SpendingInfo < ApplicationRecord
   delegate :couples?, to: :account, prefix: true
   delegate :monthly_spending_usd, to: :account
 
-  # TODO double check this won't fuck up the data
   BusinessType = Types::Strict::String.enum(
     'no_business',
     'with_ein',
