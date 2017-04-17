@@ -19,15 +19,7 @@ class RecommendationRequest < RecommendationRequest.superclass
     end
 
     def setup_people!(opts, account:, params:, **)
-      type = params.fetch(:person_type)
-      opts['people'] = case type
-                       when 'both'
-                         account.people.to_a
-                       when 'owner'
-                         [account.owner]
-                       when 'companion'
-                         [account.companion]
-                       end
+      opts['people'] = account.people_by_type(params.fetch(:person_type))
     end
 
     def people_can_create?(opts, people:, **)

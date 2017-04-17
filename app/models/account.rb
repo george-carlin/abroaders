@@ -67,6 +67,23 @@ class Account < ApplicationRecord
 
   has_many :recommendation_notes, dependent: :destroy
 
+  def people_by_type(person_type)
+    if !couples? && %w[companion both].include?(person_type)
+      raise ArgumentError, "can't find '#{person_type}' for couples account"
+    end
+
+    case person_type
+    when 'both'
+      people.to_a.sort_by(&:type).reverse # owner first
+    when 'owner'
+      [owner]
+    when 'companion'
+      [companion]
+    else
+      raise ArgumentError, "unrecognised person type '#{person_type}'"
+    end
+  end
+
   # admins can't edit notes, so our crude way of allowing it for now
   # is to let admins submit a new updated note, and we only ever show
   # the most recent note to the user:

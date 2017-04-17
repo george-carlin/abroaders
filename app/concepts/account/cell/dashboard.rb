@@ -135,8 +135,6 @@ class Account < Account.superclass
 
           def link_to_new_rec_request
             ppl = people.select { |p| RecommendationRequest::Policy.new(p).create? }
-            # FIXME this must be at least the third time I've written a case
-            # statement like this. DRY it somehow.
             person_type = case ppl.size
                           when 2 then 'both'
                           when 1 then ppl[0].type
