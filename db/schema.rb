@@ -263,15 +263,13 @@ ActiveRecord::Schema.define(version: 20170410201016) do
   end
 
   create_table "people", force: :cascade do |t|
-    t.integer  "account_id",                         null: false
-    t.string   "first_name",                         null: false
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
-    t.boolean  "owner",              default: true,  null: false
+    t.integer  "account_id",                        null: false
+    t.string   "first_name",                        null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.boolean  "owner",              default: true, null: false
     t.string   "award_wallet_email"
     t.boolean  "eligible"
-    t.boolean  "ready",              default: false, null: false
-    t.string   "unreadiness_reason"
     t.index ["account_id", "owner"], name: "index_people_on_account_id_and_owner", unique: true, using: :btree
   end
 
