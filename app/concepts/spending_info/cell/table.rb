@@ -1,5 +1,6 @@
 class SpendingInfo < SpendingInfo.superclass
   module Cell
+    # @!method self.call(spending_info, options = {})
     class Table < Abroaders::Cell::Base
       property :business_spending_usd
       property :credit_score
@@ -29,10 +30,6 @@ class SpendingInfo < SpendingInfo.superclass
         else
           person.eligible.nil? ? 'Unknown' : 'No'
         end
-      end
-
-      def readiness
-        person.ready ? 'Ready' : 'Not ready'
       end
     end
   end

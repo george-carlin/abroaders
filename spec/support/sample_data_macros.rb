@@ -52,6 +52,15 @@ module SampleDataMacros
   # Actually, it's not quite the same way a user would, because not all the
   # state changes are performed by operations. But you're probably better off
   # not using the traits here anyway.
+  #
+  # available traits:
+  # :applied
+  # :approved
+  # :called
+  # :expired
+  # :nudged
+  # :denied
+  # :redenied
   def create_card_recommendation(*traits_and_overrides)
     overrides = if traits_and_overrides.last.is_a?(Hash)
                   traits_and_overrides.pop
@@ -82,7 +91,6 @@ module SampleDataMacros
 
     traits = traits_and_overrides
 
-    # TODO extract ops for these actions
     rec.applied_on = 4.days.ago if traits.include?(:applied)
 
     if traits.include?(:approved)
@@ -120,6 +128,8 @@ module SampleDataMacros
     rec.save!
     rec
   end
+
+  alias create_rec create_card_recommendation
 
   def create_card_account(*traits_and_overrides)
     overrides = if traits_and_overrides.last.is_a?(Hash)
@@ -162,6 +172,16 @@ module SampleDataMacros
 
     run!(CardAccount::Create, params, 'account' => person.account)['model']
   end
+
+  def create_recommendation_request(person_type, account)
+    unless %w[owner companion both].include?(person_type)
+      raise "invalid person type '#{person_type}'"
+    end
+
+    run!(RecommendationRequest::Create, { person_type: person_type }, 'account' => account)
+  end
+
+  alias create_rec_request create_recommendation_request
 
   # Create a sample travel plan. Tries to use existing airports from the DB if
   # it can find any; else creates two new airports (one for 'from' and one for

@@ -92,7 +92,7 @@ RSpec.describe SpendingSurvey, type: :model do
 
     expect(account.owner.spending_info).to be_present
 
-    expect(account.onboarding_state).to eq "readiness"
+    expect(account.onboarding_state).to eq 'readiness'
   end
 
   specify 'saving ignores business spending when has_business is false' do

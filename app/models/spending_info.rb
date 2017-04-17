@@ -12,13 +12,12 @@ class SpendingInfo < ApplicationRecord
   delegate :couples?, to: :account, prefix: true
   delegate :monthly_spending_usd, to: :account
 
-  def unready
-    !ready?
-  end
-  alias unready? unready
-
-  # Don't use 'no' as a value because it messes up i18n.t
-  enum has_business: [:no_business, :with_ein, :without_ein]
+  BusinessType = Types::Strict::String.enum(
+    'no_business',
+    'with_ein',
+    'without_ein',
+  )
+  enum has_business: BusinessType.options[:values]
 
   alias has_business_with_ein? with_ein?
   alias has_business_without_ein? without_ein?

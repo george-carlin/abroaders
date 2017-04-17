@@ -1,7 +1,7 @@
 Owner Name: <%= @owner.first_name %><br />
-Owner Status: <%= @owner.ready? %><br />
+Owner Status: <%= @owner.status %><br />
 Owner ID: <%= @owner.id %><br />
 Companion Name: <%= @companion.first_name if @companion %><br />
-Companion Status: <%= @companion.ready? if @companion %><br />
+Companion Status: <%= @companion.status if @companion %><br />
 Companion ID: <%= @companion.id if @companion %><br />
 Timestamp: <%= @timestamp %>

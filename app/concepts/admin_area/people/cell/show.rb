@@ -2,7 +2,7 @@ module AdminArea
   module People
     module Cell
       # @!method self.call(person, opts = {})
-      #   @param person [PErson]
+      #   @param person [Person]
       #   @option option [Collection<CardProduct>] card_products all card
       #     products which have at least one recommendable offer.
       class Show < Abroaders::Cell::Base
@@ -13,9 +13,13 @@ module AdminArea
         property :balances
         property :first_name
         property :home_airports
+        property :partner
+        property :partner_first_name
         property :recommendation_notes
         property :regions_of_interest
         property :travel_plans
+        property :unresolved_recommendation_request
+        property :unresolved_recommendation_request?
 
         option :card_products
 
@@ -122,6 +126,20 @@ module AdminArea
           end
         end
 
+        # @return true iff *either* person on the account has an unresolved
+        #   request, not just the current person
+        def account_unresolved_recommendation_requests?
+          account.unresolved_recommendation_requests?
+        end
+
+        def partner_unresolved_recommendation_request
+          partner&.unresolved_recommendation_request
+        end
+
+        def partner_unresolved_recommendation_request?
+          !!partner_unresolved_recommendation_request
+        end
+
         # @param model [Person]
         class AwardWalletEmail < Abroaders::Cell::Base
           include Escaped
@@ -140,8 +158,12 @@ module AdminArea
           include Escaped
 
           property :first_name
+          property :partner
+          property :partner?
+          property :partner_first_name
           property :email
           property :signed_up_at
+          property :owner?
           property :phone_number
 
           def show
@@ -153,8 +175,10 @@ module AdminArea
                   </div>
 
                   <div class="col-xs-12 col-md-3">
-                    <p>Account created on #{signed_up_at.strftime('%D')}</p>
+                    #{signed_up}
                     #{phone_number}
+                    #{owner}
+                    #{companion}
                   </div>
                 </div>
               </div>
@@ -162,6 +186,27 @@ module AdminArea
           end
 
           private
+
+          def signed_up
+            "<p>Account created on #{signed_up_at.strftime('%D')}</p>"
+          end
+
+          def link_to_self
+            link_to first_name, admin_person_path(model)
+          end
+
+          def link_to_partner
+            link_to partner_first_name, admin_person_path(partner)
+          end
+
+          def owner
+            "<p>Owner: #{owner? ? link_to_self : link_to_partner}</p>"
+          end
+
+          def companion
+            return '' unless partner?
+            "<p>Companion: #{owner? ? link_to_partner : link_to_self}</p>"
+          end
 
           def phone_number
             number = super

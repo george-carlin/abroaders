@@ -36,6 +36,7 @@ class Card < Card.superclass
 
           property :card_accounts
           property :first_name
+          property :partner?
           property :type
 
           def show

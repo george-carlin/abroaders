@@ -1,7 +1,7 @@
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe BalancesController do
-  describe "GET #survey" do
+  describe 'GET #survey' do
     let(:account) { create(:account, :eligible) }
     let(:owner)   { account.owner }
     let(:person)  { owner }

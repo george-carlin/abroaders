@@ -12,4 +12,8 @@ class Business < Dry::Struct
     return nil if has_business == 'no_business'
     new(spending_usd: spending_info.business_spending_usd, ein: has_business == 'with_ein')
   end
+
+  def ein?
+    ein
+  end
 end

@@ -37,6 +37,7 @@ module AdminArea
           cell(TableRow, collection: paginated_accounts)
         end
 
+        # @!method self.call(account, options = {})
         class TableRow < Abroaders::Cell::Base
           property :companion
           property :couples?
@@ -72,18 +73,8 @@ module AdminArea
             super.strftime('%D')
           end
 
-          def last_recommendations_at
-            timestamps = people.map(&:last_recommendations_at).compact
-            timestamps.any? ? timestamps.max.strftime('%D') : '-'
-          end
-
-          def person_readiness_icon(person)
-            Person::Cell::ReadinessIcon.(person).()
-          end
-
           def link_to_person(person)
-            text = "#{escape(person.first_name)} #{person_readiness_icon(person)}"
-            link_to text, admin_person_path(person)
+            link_to escape(person.first_name), admin_person_path(person)
           end
         end
       end

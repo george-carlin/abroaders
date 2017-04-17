@@ -16,7 +16,6 @@ RSpec.describe "factories" do
         expect(Person.count).to eq 1
         expect(SpendingInfo.count).to eq 0
         expect(account.owner).to be_present
-        expect(account.owner.ready?).to be false
       end
     end
 
@@ -28,8 +27,6 @@ RSpec.describe "factories" do
         expect(SpendingInfo.count).to eq 0
         expect(account.owner).to be_present
         expect(account.companion).to be_present
-        expect(account.owner.ready?).to be false
-        expect(account.companion.ready?).to be false
       end
 
       context "and :onboarded trait" do

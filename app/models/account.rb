@@ -19,10 +19,6 @@ class Account < ApplicationRecord
     onboarding_state == "complete"
   end
 
-  def has_any_recommendations?
-    people.any? { |person| person.last_recommendations_at.present? }
-  end
-
   # Validations
 
   # Associations
@@ -49,6 +45,7 @@ class Account < ApplicationRecord
   has_many :card_accounts, through: :people
   has_many :card_recommendations, through: :people
   has_many :actionable_card_recommendations, through: :people
+  has_many :unresolved_card_recommendations, through: :people
 
   def actionable_card_recommendations?
     actionable_card_recommendations.any?
@@ -70,6 +67,25 @@ class Account < ApplicationRecord
 
   has_many :recommendation_notes, dependent: :destroy
 
+  # @param person_type [String] either 'both', 'companion', or 'owner'
+  # @return [Array<Person>]
+  def people_by_type(person_type)
+    if !couples? && %w[companion both].include?(person_type)
+      raise ArgumentError, "can't find '#{person_type}' for couples account"
+    end
+
+    case person_type
+    when 'both'
+      people.to_a.sort_by(&:type).reverse # owner first
+    when 'owner'
+      [owner]
+    when 'companion'
+      [companion]
+    else
+      raise ArgumentError, "unrecognised person type '#{person_type}'"
+    end
+  end
+
   # admins can't edit notes, so our crude way of allowing it for now
   # is to let admins submit a new updated note, and we only ever show
   # the most recent note to the user:
@@ -84,6 +100,14 @@ class Account < ApplicationRecord
 
   has_many :interest_regions, dependent: :destroy
   has_many :regions_of_interest, through: :interest_regions, source: :region
+
+  has_many :recommendation_requests, through: :people
+  has_many :resolved_recommendation_requests, through: :people
+  has_many :unresolved_recommendation_requests, through: :people
+
+  def unresolved_recommendation_requests?
+    unresolved_recommendation_requests.any?
+  end
 
   # TODO these methods don't belong in here; updating the counter cache is a
   # responsibility of the Notification class, not the Account class

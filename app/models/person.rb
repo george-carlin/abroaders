@@ -23,16 +23,6 @@ class Person < ApplicationRecord
     account.created_at
   end
 
-  def status
-    if self.ineligible?
-      "Ineligible"
-    elsif self.ready?
-      "Ready"
-    else
-      "Eligible(NotReady)"
-    end
-  end
-
   def type
     owner ? 'owner' : 'companion'
   end
@@ -42,13 +32,6 @@ class Person < ApplicationRecord
       !eligible
     end
     alias_method :ineligible?, :ineligible
-  end
-
-  concerning :Readiness do
-    def unready
-      !ready?
-    end
-    alias_method :unready?, :unready
   end
 
   # Validations
@@ -71,12 +54,37 @@ class Person < ApplicationRecord
   has_many :travel_plans, through: :account
 
   has_many :actionable_card_recommendations, -> { recommended.actionable }, class_name: 'Card'
+  has_many :unresolved_card_recommendations, -> { recommended.unresolved }, class_name: 'Card'
+
+  delegate :recommendation_note, :recommendation_notes, to: :account
+
+  def actionable_card_recommendations?
+    actionable_card_recommendations.any?
+  end
+
+  def unresolved_recommendation_request?
+    !unresolved_recommendation_request.nil?
+  end
+
+  def unresolved_card_recommendations?
+    unresolved_card_recommendations.any?
+  end
 
   has_many :balances
   has_many :currencies, through: :balances
 
   has_many :award_wallet_owners
   has_many :award_wallet_accounts, through: :award_wallet_owners
+
+  has_many :recommendation_requests
+  has_many :confirmed_recommendation_requests,
+           -> { confirmed },
+           class_name: 'RecommendationRequest'
+  # They should only ever have ONE unresolved request. If they have more than
+  # one, something's gone wrong somewhere
+  has_one :unresolved_recommendation_request,
+          -> { unresolved },
+          class_name: 'RecommendationRequest'
 
   # Callbacks
 

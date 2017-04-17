@@ -119,7 +119,11 @@ Rails.application.routes.draw do
         post :survey, action: :save_survey
       end
     end
-    resource :spending_info, path: :spending, only: [:edit, :update]
+    resource :spending_info, path: :spending, only: [:edit, :update] do
+      member do
+        patch :confirm
+      end
+    end
   end
 
   resource :phone_number, only: [:new, :create] do
@@ -136,6 +140,8 @@ Rails.application.routes.draw do
       post :survey, action: :save_survey
     end
   end
+
+  resource :recommendation_requests
 
   get :slack, to: "slack_invites#new"
   post "slack/invite", to: "slack_invites#create"

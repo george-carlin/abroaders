@@ -1,0 +1,25 @@
+<div class="form-group">
+  <%= radio_buttons %>
+</div>
+
+<div
+  class="confirm_business_spending_form_group form-group"
+  style="<%= 'display:none;' unless business? %>"
+>
+  <p class="help-block">
+    What is the average <b>monthly</b> spending of the business?
+  </p>
+
+  <p class="help-block">
+    Do not include business expenses that cannot be charged to a credit
+    card.
+  </p>
+
+  <div class="input-group">
+    <div class="input-group-addon">
+      $
+    </div>
+
+    <%= spending_field %>
+  </div>
+</div>

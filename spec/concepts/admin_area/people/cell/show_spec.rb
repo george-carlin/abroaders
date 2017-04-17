@@ -7,7 +7,7 @@ RSpec.describe AdminArea::People::Cell::Show do
   let(:aw_email) { "totallyawesomedude@example.com" }
 
   let(:person) do
-    Person.new(
+    Person.owner.new(
       id: 5,
       account: account,
       award_wallet_email: aw_email,
@@ -24,10 +24,29 @@ RSpec.describe AdminArea::People::Cell::Show do
     expect(rendered).to have_content "AwardWallet email: #{aw_email}"
     expect(rendered).to have_content 'User has not added their spending info'
     expect(rendered).to have_content 'User has no upcoming travel plans'
-    # no recommendations, so no last recs timestamp:
-    expect(rendered).not_to have_selector '.person_last_recommendations_at'
     # no recommendation notes yet:
     expect(rendered).to have_no_content 'Recommendation Notes'
+  end
+
+  example 'owner/companion links' do
+    account.email = 'x@x.com'
+    account.password = account.password_confirmation = 'qwerqwer'
+    account.save!
+    person.save!
+    rendered = show(person, card_products: [])
+    expect(rendered).to have_link 'Erik', href: admin_person_path(person)
+
+    # with companion:
+    companion = create(:companion, first_name: 'Gabi', account: account)
+    person.reload
+    rendered = show(person, card_products: [])
+    expect(rendered).to have_link 'Erik', href: admin_person_path(person)
+    expect(rendered).to have_link 'Gabi', href: admin_person_path(companion)
+
+    # on companion's page:
+    rendered = show(companion, card_products: [])
+    expect(rendered).to have_link 'Erik', href: admin_person_path(person)
+    expect(rendered).to have_link 'Gabi', href: admin_person_path(companion)
   end
 
   example 'with spending info' do
@@ -138,9 +157,6 @@ RSpec.describe AdminArea::People::Cell::Show do
     #   Card.new(id: 52, offer: offer, recommended_at: oct, seen_at: mar, declined_at: dec, decline_reason: 'because', product: product),
     # ]
 
-    last_recs_date = 5.days.ago
-    person.last_recommendations_at = last_recs_date
-
     rendered = show(person, card_products: [])
 
     within '#admin_person_cards_table' do
@@ -174,9 +190,5 @@ RSpec.describe AdminArea::People::Cell::Show do
       expect(rendered).to have_selector 'a[data-toggle="tooltip"]'
       expect(find('a[data-toggle="tooltip"]')['title']).to eq 'because'
     end
-
-    # displays the last recs timestamp:
-    last_recs = last_recs_date.strftime("%D")
-    expect(rendered).to have_selector '.person_last_recommendations_at', text: last_recs
   end
 end

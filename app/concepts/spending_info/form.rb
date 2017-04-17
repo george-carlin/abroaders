@@ -14,7 +14,7 @@ class SpendingInfo::Form < Reform::Form
 
   property :business_spending_usd, type: Types::Form::Int
   property :credit_score, type: Types::Form::Int
-  property :has_business, type: Types::Strict::String.enum('no_business', 'with_ein', 'without_ein')
+  property :has_business, type: SpendingInfo::BusinessType
   property :will_apply_for_loan, type: Types::Form::Bool.default(false)
 
   def sync
