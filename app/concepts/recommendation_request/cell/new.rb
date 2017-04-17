@@ -1,22 +1,17 @@
 class RecommendationRequest # < RecommendationRequest.superclass
   module Cell
-    # @!method self.call(result, options = {})
-    #   @option result [Collection<Person>] people who want to request a rec.
-    #     An error will be raised if any of them can't request a rec
     class New < Abroaders::Cell::Base
-      extend Abroaders::Cell::Result
-
-      skill :people
-
-      def initialize(result, options = {})
-        raise unless result['people'].all? { |p| Policy.new(p).create? }
+      # @param people [Collection<Person>] people who want to request a rec.
+      #   An error will be raised if any of them can't request a rec
+      def initialize(people, options = {})
+        raise unless people.all? { |p| Policy.new(p).create? }
         super
       end
 
       private
 
       def account
-        people.first.account
+        model.first.account
       end
 
       def cancel_btn
@@ -26,8 +21,8 @@ class RecommendationRequest # < RecommendationRequest.superclass
       def main_header
         who = "You're requesting new card recommendations"
         if account.couples?
-          names = escape(people.map(&:first_name).join(' and '))
-          who << " for #{'both ' if people.size > 2}#{names}"
+          names = escape(model.map(&:first_name).join(' and '))
+          who << " for #{'both ' if model.size > 2}#{names}"
         end
         who << '.'
 

@@ -16,6 +16,6 @@ class RecommendationRequestsController < AuthenticatedUserController
   # non-technical team members) as the 'confirmation survey'.
   def new
     people = current_account.people_by_type(params.fetch(:person_type))
-    render cell(RecommendationRequest::Cell::New, 'people' => people)
+    render cell(RecommendationRequest::Cell::New, people)
   end
 end
