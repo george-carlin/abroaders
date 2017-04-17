@@ -52,6 +52,12 @@ class CardRecommendation < Disposable::Twin
     new(Card.recommended.find(*args))
   end
 
+  # This is necessary to generate correct URLs if you want to pass an instance
+  # of CardRecommendation to a routes helper.
+  def to_param
+    id.to_s
+  end
+
   # Put these in a module so we can include them in Card too. Temp solution
   # until I've made all the refactorings I want to make to CardRecommendation
   module Predicates
