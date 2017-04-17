@@ -14,6 +14,7 @@ module AdminArea
         property :first_name
         property :home_airports
         property :partner
+        property :partner_first_name
         property :recommendation_notes
         property :regions_of_interest
         property :travel_plans

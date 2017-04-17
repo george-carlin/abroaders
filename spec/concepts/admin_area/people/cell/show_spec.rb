@@ -33,18 +33,18 @@ RSpec.describe AdminArea::People::Cell::Show do
     account.password = account.password_confirmation = 'qwerqwer'
     account.save!
     person.save!
-    rendered = show(person)
+    rendered = show(person, card_products: [])
     expect(rendered).to have_link 'Erik', href: admin_person_path(person)
 
     # with companion:
     companion = create(:companion, first_name: 'Gabi', account: account)
     person.reload
-    rendered = show(person)
+    rendered = show(person, card_products: [])
     expect(rendered).to have_link 'Erik', href: admin_person_path(person)
     expect(rendered).to have_link 'Gabi', href: admin_person_path(companion)
 
     # on companion's page:
-    rendered = show(person(person: companion))
+    rendered = show(companion, card_products: [])
     expect(rendered).to have_link 'Erik', href: admin_person_path(person)
     expect(rendered).to have_link 'Gabi', href: admin_person_path(companion)
   end

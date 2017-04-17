@@ -5,12 +5,12 @@
     <% if account_unresolved_recommendation_requests? %>
       <div class="col-xs-12">
         <% if unresolved_recommendation_request? %>
-          <p><%= escape(person.first_name) %> requested a recommendation at
+          <p><%= first_name %> requested a recommendation at
             <%= unresolved_recommendation_request.created_at.strftime('%c') %></p>
         <% end %>
 
         <% if partner_unresolved_recommendation_request? %>
-          <p><%= escape(partner.first_name) %> requested a recommendation at
+          <p><%= partner_first_name %> requested a recommendation at
           <%= partner_unresolved_recommendation_request.created_at.strftime('%c') %></p>
         <% end %>
       </div>
