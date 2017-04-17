@@ -26,24 +26,34 @@ class RecommendationRequest < RecommendationRequest.superclass
         property :eligible_people
         property :people
 
-        def show # placeholder
+        def show
           return '' unless show?
           super
         end
 
         private
 
-        def show?
-          people.any?(&:eligible?) &&
-            (people_with_actionable_recs.any? || people_with_unresolved_reqs.any?)
+        def names_for(people)
+          if couples?
+            escape(people.map(&:first_name).join(' and '))
+          else
+            'You'
+          end
         end
 
-        def people # make sure people are always ordered owner first:
-          super.sort_by { |p| p.owner ? 0 : 1 }
+        def people
+          super.sort_by(&:type).reverse # owner first
         end
 
+        # The string that tells the user about any recommendations they have
+        # that require action. This class doesn't calculate whether or not to
+        # show the string; it just takes the list of people who have actionable
+        # recs and says "NAME(S) (or 'You') has/have recommendations that
+        # require action."
         def people_have_actionable_recs
-          cell(PeopleHaveActionableRecs, people_with_actionable_recs, use_name: couples?)
+          have = couples? && people_with_actionable_recs.size == 1 ? 'has' : 'have'
+          you  = names_for(people_with_actionable_recs)
+          "#{you} #{have} card recommendations that require action"
         end
 
         def people_with_actionable_recs
@@ -54,48 +64,23 @@ class RecommendationRequest < RecommendationRequest.superclass
           @p_w_u_reqs ||= people.select(&:unresolved_recommendation_request?)
         end
 
-        def you_requested_recs
-          cell(PeopleHaveUnresolvedReqs, people_with_unresolved_reqs, use_name: couples?)
+        def show?
+          people.any?(&:eligible?) &&
+            (people_with_actionable_recs.any? || people_with_unresolved_reqs.any?)
         end
 
-        # @!method self.call(people)
-        #   The string that tells the user about any recommendations
-        #   they have that require action. This class doesn't calculate
-        #   whether or not to show the string; it just takes the list of people
-        #   who have actionable recs and says "NAME(S) (or 'You') has/have
-        #   recommendations that require action."
+        # The string that tells the user about any unresolved recommendation
+        # requests they've already sent.
         #
-        #   @param people [Collection<Person>] the people who have actionable recs
-        #   @option use_name [Boolean] whether to use the person's name or to
-        #     just say "You". Only relevant if there's just one person; if
-        #     there are two people we always use their names.
-        class PeopleHaveActionableRecs < Abroaders::Cell::Base
-          property :size
-          option :use_name
-
-          def show
-            if size > 1
-              names = escape(model.map(&:first_name).join(' and '))
-              have = 'have'
-            else
-              names = use_name ? escape(model[0].first_name) : 'You'
-              have  = use_name ? 'has' : 'have'
-            end
-            "#{names} #{have} card recommendations that require action"
+        # This class doesn't calculate whether or not to show the string; it
+        # just takes the list of people who have unresolved rezs and says "You
+        # requested recommendations for (NAMES),
+        def you_requested_recs
+          result = 'You requested recommendations'
+          if people_with_unresolved_reqs.size > 1 || couples?
+            result << " for #{names_for(people_with_unresolved_reqs)}"
           end
-        end
-
-        class PeopleHaveUnresolvedReqs < Abroaders::Cell::Base
-          property :size
-          option :use_name
-
-          def show
-            result = 'You requested recommendations'
-            if size > 1 || use_name
-              result << " for #{escape(model.map(&:first_name).join(' and '))}"
-            end
-            result
-          end
+          result
         end
       end
     end

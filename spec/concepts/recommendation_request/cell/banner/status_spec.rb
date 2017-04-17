@@ -51,6 +51,10 @@ RSpec.describe RecommendationRequest::Cell::Banner::Status do
     example 'neither eligible' do
       people.each { |p| p.update!(eligible: false) }
       expect(cell_class.(account).to_s).to eq ''
+
+      # to make mutant pass, test when an inel. person has an actionable rec
+      # create_card_rec(person: people.first)
+      expect(cell_class.(account).to_s).to eq ''
     end
 
     context 'both eligible' do
