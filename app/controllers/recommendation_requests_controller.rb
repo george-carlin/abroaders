@@ -11,6 +11,9 @@ class RecommendationRequestsController < AuthenticatedUserController
 
   # Show the user a summary of their data and ask them to update anything
   # that's innaccurate.
+  #
+  # This page is also known (not within the codebase, but when discussing with
+  # non-technical team members) as the 'confirmation survey'.
   def new
     people = current_account.people_by_type(params.fetch(:person_type))
     render cell(RecommendationRequest::Cell::New, 'people' => people)

@@ -1,6 +1,14 @@
 class RecommendationRequest < RecommendationRequest.superclass
   module Cell
     class Banner < Banner.superclass
+      # 'Form' that's really just a link to recommendation_requests#new action.
+      #
+      # If they only have one person capable of making a request, the 'form' is
+      # just a link (styled like a button) to RR#new. If they have two people,
+      # then when they click the button they'll see a dropdown asking them to
+      # state *which* person (or both of them) wants an RR, then submitting
+      # this second stage takes them to RR#new.
+      #
       # @!method self.call(account, options = {})
       #   @param account [Account] the currently logged-in account
       class Form < Abroaders::Cell::Base

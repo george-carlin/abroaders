@@ -1,5 +1,14 @@
 module AdminArea
   module CardRecommendations
+    # Mark a user's card recommendations as complete. This action is necessary
+    # because we only want to send one notification etc. per rec 'batch', but
+    # an admin will often recommend more than one card at the same time, so we
+    # can't attach the notification etc. to the card rec creation op.
+    #
+    # The admin should only trigger this action *once* per account, not per
+    # person (remember that the account might have two people who needs recs.)
+    # It's not the perfect setup but it will do for now.
+    #
     # @!method self.call(params, options = {})
     #   @option params [Integer] person_id
     class Complete < Trailblazer::Operation

@@ -1,9 +1,15 @@
 class Account < Account.superclass
   module Cell
-    # The main user dashboard. For most users it's just a static page. For users
-    # who have only just completed the onboarding survey, they'll see some
-    # extra content, contained within the ForNewUser subclass (which itself
-    # has three subclasses; see the class comments on those subclasses)
+    # The main user dashboard, shown on the root page.
+    #
+    # Some users will see extra content in the middle of the page, encapsulated
+    # within the 'NextSteps' cell. It's shown for users who:
+    #
+    # 1. Have no eligible people on their account.
+    # 2. Have at least one eligible pereson, but have never sent a rec request.
+    # 3. Currently have an unresolved rec request.
+    #
+    # There's different 'next steps' in each case.
     #
     # @!self.call(account)
     class Dashboard < Abroaders::Cell::Base
@@ -103,11 +109,6 @@ class Account < Account.superclass
         end
 
         # Shown to anyone (not just new users) who has an unresolved request
-        #
-        # I suppose this shouldn't really be a subclass of ForNewUser because
-        # it can be shown to non-new users, but originally that wasn't the
-        # case, so let's keep the inheritance structure the same rather than
-        # uproot the legacy code.
         #
         # @!self.call(account)
         class UnresolvedRequests < self

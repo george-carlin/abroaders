@@ -67,6 +67,8 @@ class Account < ApplicationRecord
 
   has_many :recommendation_notes, dependent: :destroy
 
+  # @param person_type [String] either 'both', 'companion', or 'owner'
+  # @return [Array<Person>]
   def people_by_type(person_type)
     if !couples? && %w[companion both].include?(person_type)
       raise ArgumentError, "can't find '#{person_type}' for couples account"

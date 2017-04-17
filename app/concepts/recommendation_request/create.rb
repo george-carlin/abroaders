@@ -1,4 +1,8 @@
 class RecommendationRequest < RecommendationRequest.superclass
+  # Create a recommendation request... duh.
+  # @!method self.call(params = {}, options = {})
+  #   @option params [String] person_type 'owner', 'companion', or 'both'.
+  #     Raises an error if it's not one of these.
   class Create < Trailblazer::Operation
     success :validate_person_type!
     success :setup_people!
