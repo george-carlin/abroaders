@@ -121,10 +121,6 @@ class Card < ApplicationRecord
 
   # Validations
 
-  validates :person, presence: true
-
-  validates :decline_reason, presence: true, unless: 'declined_at.nil?'
-
   # Associations
 
   belongs_to :product, class_name: 'CardProduct'
