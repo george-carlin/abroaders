@@ -24,7 +24,7 @@ module AdminArea
       private
 
       def setup_person(opts, params:, **)
-        opts['person'] = ::Person.find(params.fetch(:person_id))
+        opts['person'] = Person.find(params.fetch(:person_id))
       end
 
       def setup_account(opts, person:, **)
@@ -34,7 +34,7 @@ module AdminArea
       def create_rec_note(opts, params:, account:, **)
         note = params[:recommendation_note]&.strip
         account.recommendation_notes.create!(content: note) if note.present?
-        opts['model'] = account.recommendation_notes.last
+        opts['recommendation_note'] = account.recommendation_notes.last
       end
 
       def send_notification(person:, **)
