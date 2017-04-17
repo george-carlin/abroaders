@@ -174,7 +174,7 @@ Rails.application.routes.draw do
   end
 
   namespace :admin, module: :admin_area do
-    resources :accounts, only: [:index, :show] do
+    resources :accounts, only: [:index] do
       collection do
         get :search
       end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe AdminArea::Accounts::Operation::Search do
+RSpec.describe AdminArea::Accounts::Search do
   let(:admin) { create_admin }
 
   let!(:accounts) do
