@@ -20,7 +20,7 @@ RSpec.describe 'new card account page' do
     end.to change { person.cards.count }.by(1)
 
     card_account = person.cards.last
-    expect(card_account).to be_open
+    expect(card_account).to be_opened
     expect(current_path).to eq admin_person_path(person)
   end
 

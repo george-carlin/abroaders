@@ -169,7 +169,7 @@ RSpec.describe "cards index page - new recommendation", :js do
             # this spec fails when run late in the day when your machine's time
             # is earlier than UTC # TZFIXME
             wait_for_ajax
-            expect(rec).to be_open
+            expect(rec).to be_opened
             expect(rec.opened_on).to eq Time.zone.today
             expect(rec.applied_on).to eq Time.zone.today
           end
@@ -195,7 +195,7 @@ RSpec.describe "cards index page - new recommendation", :js do
           end
 
           it "sets the card's attributes", :backend do
-            expect(rec).to be_open
+            expect(rec).to be_opened
             expect(rec.opened_on.to_date).to eq date.to_date
             expect(rec.applied_on.to_date).to eq date.to_date
           end

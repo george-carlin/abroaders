@@ -33,7 +33,7 @@ RSpec.describe 'admin area - edit card account page', :js do
     uncheck :card_account_closed
     click_button 'Save'
     card_account.reload
-    expect(card_account).to be_open
+    expect(card_account).to be_opened
     expect(current_path).to eq admin_person_path(person)
   end
 
