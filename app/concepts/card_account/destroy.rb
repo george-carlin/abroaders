@@ -10,7 +10,7 @@ class CardAccount < CardAccount.superclass
     end
 
     def setup_model!(opts, account:, params:, **)
-      opts['model'] = account.cards.find(params[:id])
+      opts['model'] = account.card_accounts.find(params.fetch(:id))
     end
   end
 end

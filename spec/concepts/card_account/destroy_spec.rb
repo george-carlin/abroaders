@@ -19,4 +19,12 @@ RSpec.describe CardAccount::Destroy do
     end.to raise_error(ActiveRecord::RecordNotFound)
     expect(Card.exists?(id: card_account.id)).to be true
   end
+
+  example "attempting to destroy a card that's not an account" do
+    rec = create_card_recommendation(person: account.owner)
+    expect do
+      op.({ id: rec.id }, 'account' => account)
+    end.to raise_error(ActiveRecord::RecordNotFound)
+    expect(Card.exists?(id: card_account.id)).to be true
+  end
 end
