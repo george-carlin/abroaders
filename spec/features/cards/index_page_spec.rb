@@ -32,8 +32,8 @@ RSpec.describe 'as a user viewing my cards' do
     within "#owner_card_recommendations" do
       recs.each do |rec|
         expect(page).to have_selector "#card_recommendation_#{rec.id}"
-        expect(page).to have_content rec.product.name
-        expect(page).to have_content rec.product.bank_name
+        expect(page).to have_content rec.card_product.name
+        expect(page).to have_content rec.card_product.bank_name
       end
     end
 
@@ -91,8 +91,8 @@ RSpec.describe 'as a user viewing my cards' do
       within "##{person_type}_card_recommendations" do
         recs.each do |rec|
           expect(page).to have_selector "#card_recommendation_#{rec.id}"
-          expect(page).to have_content rec.product.name
-          expect(page).to have_content rec.product.bank_name
+          expect(page).to have_content rec.card_product.name
+          expect(page).to have_content rec.card_product.bank_name
         end
       end
     end

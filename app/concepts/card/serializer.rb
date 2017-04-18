@@ -3,7 +3,7 @@ class Card::Serializer < ApplicationSerializer
              :decline_reason, :clicked_at, :declined_at, :denied_at, :nudged_at,
              :called_at, :redenied_at
 
-  has_one :product
+  has_one :card_product
 
   # Hacky solution to prevent us from having to include card: :bank every time.
   # As the serializer is currently only being used in one place (to pass card
@@ -14,7 +14,7 @@ class Card::Serializer < ApplicationSerializer
       # 'include' must be followed by an array. So this line would be invalid:
       # super(include: { product: :bank })
       # See https://stackoverflow.com/questions/27648904
-      super(include: [{ product: :bank }])
+      super(include: [{ card_product: :bank }])
     end
   end
 end

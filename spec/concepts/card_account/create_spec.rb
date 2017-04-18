@@ -18,7 +18,7 @@ RSpec.describe CardAccount::Create do
 
     card_account = result['model']
     expect(card_account.person).to eq person # default
-    expect(card_account.product).to eq card_product
+    expect(card_account.card_product).to eq card_product
     expect(card_account.closed_on).to be nil
     expect(card_account.opened_on).to eq Date.today
   end
@@ -54,7 +54,7 @@ RSpec.describe CardAccount::Create do
 
     card_account = result['model']
     expect(card_account.person).to eq person
-    expect(card_account.product).to eq card_product
+    expect(card_account.card_product).to eq card_product
     expect(card_account.opened_on).to eq Date.yesterday
     expect(card_account.closed_on).to eq Date.today
   end

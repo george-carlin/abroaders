@@ -10,7 +10,7 @@ RSpec.describe 'new card account page' do
   before { visit new_admin_person_card_account_path(person) }
 
   example 'creating an open card account' do
-    expect(page).to have_field :card_account_product_id
+    expect(page).to have_field :card_account_card_product_id
     expect(page).to have_field :card_account_opened_on_1i
     expect(page).to have_field :card_account_opened_on_2i
     expect(page).to have_field :card_account_closed
@@ -45,7 +45,7 @@ RSpec.describe 'new card account page' do
     end.not_to change { person.cards.count }
 
     # still shows form, including with the 'closed' inputs visible:
-    expect(page).to have_field :card_account_product_id
+    expect(page).to have_field :card_account_card_product_id
     expect(page).to have_field :card_account_opened_on_1i
     expect(page).to have_field :card_account_opened_on_2i
     expect(page).to have_field :card_account_closed, checked: true

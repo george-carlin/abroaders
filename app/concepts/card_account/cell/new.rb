@@ -12,7 +12,7 @@ class CardAccount < CardAccount.superclass
 
       # @param result [TRB Result] result of CardAccount::New
       def initialize(result, opts = {}, *)
-        raise 'card must have product initialized' if result['model'].product.nil?
+        raise 'card must have product initialized' if result['model'].card_product.nil?
         super
       end
 
@@ -65,7 +65,7 @@ class CardAccount < CardAccount.superclass
 
       # two divs with cols XS 12/12, SM 6/6, MD 2/4:
       def product_summary
-        cell(CardProduct::Cell::Summary, model.product)
+        cell(CardProduct::Cell::Summary, model.card_product)
       end
     end
   end

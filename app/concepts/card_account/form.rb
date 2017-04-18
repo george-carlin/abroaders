@@ -1,5 +1,5 @@
 class CardAccount < CardAccount.superclass
-  # Note that the card account's product_id will be set by a param in the URL,
+  # Note that the card account's card_product_id will be set by a param in the URL,
   # rather than in the posted form data.
   class Form < Reform::Form
     feature Reform::Form::MultiParameterAttributes

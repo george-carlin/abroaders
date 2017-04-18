@@ -17,7 +17,7 @@ module ApplicationSurveyMacros
   end
 
   def i_called_btn(rec)
-    "I called #{rec.product.bank.name}"
+    "I called #{rec.card_product.bank.name}"
   end
 
   # apply btn is different from the others because it's actually a link

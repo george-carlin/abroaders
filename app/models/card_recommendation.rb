@@ -1,7 +1,3 @@
-# Eventually we're going to split the `cards` table into separate tables called
-# `cards`, `card_recommendations`, and possibly `card_applications`. In the
-# meantime, 'CardRecommendation' the twin can fill in for CardRecommendation
-# the ActiveRecord model. Try to make this class as future-proof as possible
 class CardRecommendation < Disposable::Twin
   include ActiveModel::Naming
   feature Save
@@ -9,7 +5,7 @@ class CardRecommendation < Disposable::Twin
 
   # @param card [Card]
   def initialize(card, options = {})
-    raise 'card is not a recommendation' if card.recommended_at.nil?
+    raise 'card is not a recommendation' unless card.recommended?
     super
   end
 
@@ -43,8 +39,7 @@ class CardRecommendation < Disposable::Twin
   property :called_at
   property :redenied_at
 
-  property :product
-  alias card_product product
+  property :card_product
 
   delegate :opened?, :unopened?, to: :model
 

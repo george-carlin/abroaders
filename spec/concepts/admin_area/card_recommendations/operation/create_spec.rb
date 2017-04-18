@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe AdminArea::CardRecommendations::Operation::Create do
   let(:op) { described_class }
 
-  let(:product) { create(:product) }
+  let(:product) { create(:card_product) }
   let(:offer)   { create_offer(product: product) }
   let(:person)  { create(:person) }
 
@@ -17,7 +17,7 @@ RSpec.describe AdminArea::CardRecommendations::Operation::Create do
     expect(result.success?).to be true
     rec = result['model']
     expect(rec.offer).to eq offer
-    expect(rec.product).to eq offer.product
+    expect(rec.card_product).to eq offer.product
     expect(rec.person).to eq person
     expect(rec.recommended_at).to be_within(5.seconds).of(Time.now)
   end

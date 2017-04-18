@@ -13,7 +13,7 @@ class CardAccount < CardAccount.superclass
       property :id
       property :closed_on
       property :opened_on
-      property :product
+      property :card_product
 
       # Defining this as a method so we can stub it in tests.
       def self.product_name_cell
@@ -25,7 +25,7 @@ class CardAccount < CardAccount.superclass
       MONTH_YEAR_FORMAT = '%b %Y'.freeze
 
       def bank_name
-        product.bank.name
+        card_product.bank.name
       end
 
       def closed?
@@ -37,11 +37,11 @@ class CardAccount < CardAccount.superclass
       end
 
       def product_full_name
-        cell(self.class.product_name_cell, product, network_in_brackets: true)
+        cell(self.class.product_name_cell, card_product, network_in_brackets: true)
       end
 
       def image
-        cell(CardProduct::Cell::Image, product, size: '130x81')
+        cell(CardProduct::Cell::Image, card_product, size: '130x81')
       end
 
       def link_to_delete

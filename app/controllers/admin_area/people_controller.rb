@@ -3,7 +3,7 @@ module AdminArea
     # GET /admin/people/1
     def show
       person = Person.includes(
-        card_accounts: { product: :bank },
+        card_accounts: { card_product: :bank },
         balances: :currency,
       ).find(params[:id])
 

@@ -97,7 +97,7 @@ RSpec.describe 'new card account page', :js do
       card = person.cards.last
       expect(card.opened_on).to eq Date.new(year.to_i, 12, 1)
       expect(card.closed_on).to be nil
-      expect(page).to have_content full_name_for(person.cards.last.product)
+      expect(page).to have_content full_name_for(person.cards.last.card_product)
     end
 
     example 'adding a closed card' do
@@ -109,7 +109,7 @@ RSpec.describe 'new card account page', :js do
       expect do
         click_button 'Save'
       end.to change { person.cards.count }.by(1)
-      expect(page).to have_content full_name_for(person.cards.last.product)
+      expect(page).to have_content full_name_for(person.cards.last.card_product)
     end
 
     example 'trying to save an invalid card' do
@@ -150,7 +150,7 @@ RSpec.describe 'new card account page', :js do
       expect do
         click_button 'Save'
       end.to change { person.cards.count }.by(1)
-      expect(page).to have_content full_name_for(person.cards.last.product)
+      expect(page).to have_content full_name_for(person.cards.last.card_product)
     end
   end
 end

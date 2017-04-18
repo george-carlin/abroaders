@@ -124,11 +124,11 @@ RSpec.describe AdminArea::People::Cell::Show do
   let(:dec) { Date.parse("2015-12-01") }
 
   let(:bank) { Bank.new(personal_code: 1, name: 'B') }
-  let(:product) { build(:product, bank: bank, currency: Currency.new) }
+  let(:card_product) { build(:card_product, bank: bank, currency: Currency.new) }
 
   example 'with card accounts' do
-    open   = Card.new(id: 100, opened_on: jan, person: person, product: product)
-    closed = Card.new(id: 101, opened_on: mar, closed_on: oct, person: person, product: product)
+    open   = Card.new(id: 100, opened_on: jan, person: person, card_product: card_product)
+    closed = Card.new(id: 101, opened_on: mar, closed_on: oct, person: person, card_product: card_product)
     allow(person).to receive(:card_accounts) { [open, closed] }
 
     rendered = show(person, card_products: [])
@@ -147,14 +147,14 @@ RSpec.describe AdminArea::People::Cell::Show do
 
   example 'person has received recommendations' do
     skip 'FIXME this test gives false positives'
-    # offer = Offer.new(product: product)
+    # offer = Offer.new(card_product: card_product)
     # cards = [
     #   # new rec:
-    #   Card.new(id: 50, offer: offer, recommended_at: jan, person: person, product: product),
+    #   Card.new(id: 50, offer: offer, recommended_at: jan, person: person, card_product: card_product),
     #   # clicked rec:
-    #   Card.new(id: 51, offer: offer, seen_at: jan, recommended_at: mar, clicked_at: oct, product: product),
+    #   Card.new(id: 51, offer: offer, seen_at: jan, recommended_at: mar, clicked_at: oct, card_product: card_product),
     #   # declined rec:
-    #   Card.new(id: 52, offer: offer, recommended_at: oct, seen_at: mar, declined_at: dec, decline_reason: 'because', product: product),
+    #   Card.new(id: 52, offer: offer, recommended_at: oct, seen_at: mar, declined_at: dec, decline_reason: 'because', card_product: card_product),
     # ]
 
     rendered = show(person, card_products: [])

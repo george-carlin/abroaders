@@ -90,12 +90,12 @@ RSpec.describe Card do
 
   # Callbacks
 
-  example "set  #product to #offer.product before save" do
+  example "set #product to #offer.product before save" do
     offer   = create_offer
     product = offer.product
-    card = Card.new(product: nil, offer: offer, person: create(:person))
+    card = Card.new(card_product: nil, offer: offer, person: create(:person))
     card.save!
-    expect(card.product_id).to eq product.id
+    expect(card.card_product_id).to eq product.id
   end
 
   # Scopes
@@ -129,7 +129,7 @@ RSpec.describe Card do
       create_rec(:nudged, :denied)
       create_rec(:redenied)
       create_rec(:expired)
-      create_card_account(product: product, person: person)
+      create_card_account(card_product: product, person: person)
       declined = create_rec
       run!(
         CardRecommendation::Operation::Decline,
@@ -171,7 +171,7 @@ RSpec.describe Card do
       )
 
       # not a recommendation:
-      create_card_account(product: product, person: person)
+      create_card_account(card_product: product, person: person)
 
       unresolved = create_rec
 

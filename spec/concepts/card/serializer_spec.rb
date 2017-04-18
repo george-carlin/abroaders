@@ -8,7 +8,7 @@ RSpec.describe Card::Serializer do
       name: 'Chase',
       personal_phone: "(888) 609-7805",
     )
-    product = create(
+    card_product = create(
       :card_product,
       bank:    bank,
       bp:      :personal,
@@ -17,7 +17,7 @@ RSpec.describe Card::Serializer do
     )
 
     card = Card.new(
-      product: product,
+      card_product: card_product,
       person: create(:person),
       # Note that these dates, of course, make no sense, and a real card
       # account would never have all of them present:
@@ -43,7 +43,8 @@ RSpec.describe Card::Serializer do
     expect(parsed_json.keys).to match_array(
       %w[
         id recommended_at applied_on opened_on closed_on clicked_at
-        declined_at denied_at nudged_at called_at redenied_at product decline_reason
+        declined_at denied_at nudged_at called_at redenied_at card_product
+        decline_reason
       ],
     )
 
@@ -59,7 +60,7 @@ RSpec.describe Card::Serializer do
     expect(parsed_json['redenied_at']).to eq    '2015-09-20T00:00:00.000Z'
     expect(parsed_json['decline_reason']).to eq 'something'
 
-    product = parsed_json['product']
+    product = parsed_json['card_product']
 
     expect(product.keys).to match_array(%w[name network bp type bank])
 

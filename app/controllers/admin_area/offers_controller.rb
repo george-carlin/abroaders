@@ -2,7 +2,7 @@ module AdminArea
   class OffersController < AdminController
     def index
       if params[:card_product_id]
-        @product = load_product
+        @product = CardProduct.find(params[:card_product_id])
         @offers  = @product.offers
       else
         @offers = Offer.includes(product: :bank)
@@ -11,7 +11,7 @@ module AdminArea
 
     def show
       if params[:card_product_id]
-        product = load_product
+        product = CardProduct.find(params[:card_product_id])
         offer   = product.offers.find(params[:id])
         render cell(Offers::Cell::Show, offer)
       else
@@ -61,12 +61,6 @@ module AdminArea
     def verify
       run Offers::Operation::Verify
       respond_to { |f| f.js }
-    end
-
-    private
-
-    def load_product
-      CardProduct.find(params[:card_product_id])
     end
   end
 end

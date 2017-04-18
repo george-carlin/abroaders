@@ -1,11 +1,9 @@
 class CardRecommendation < CardRecommendation.superclass
   module Operation
-    # params:
-    #   id: the ID of the CardRecommendation
-    #   card:
-    #     decline_reason
-    # options:
-    #   account: the currently-logged in user account
+    # @!method self.call(params, options = {})
+    #   @option params [Integer] id the ID of the CardRecommendation
+    #   @option params [Hash] card hash with key :decline_reason
+    #   @option options [Account] account the currently-logged in user account
     class Decline < Trailblazer::Operation
       step :setup_model!
       step :rec_is_declinable?

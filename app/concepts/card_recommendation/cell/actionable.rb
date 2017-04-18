@@ -4,8 +4,9 @@ class CardRecommendation < CardRecommendation.superclass
       include SerializeHelper
 
       property :id
+      property :applied?
+      property :card_product
       property :offer
-      property :product
 
       # @param rec [CardRecommendation]
       def initialize(rec, options = {})
@@ -26,7 +27,7 @@ class CardRecommendation < CardRecommendation.superclass
       end
 
       def bank_name
-        product.bank.name
+        card_product.bank.name
       end
 
       def decline_btn
@@ -42,7 +43,7 @@ class CardRecommendation < CardRecommendation.superclass
       end
 
       def image
-        cell(CardProduct::Cell::Image, product, size: '130x81')
+        cell(CardProduct::Cell::Image, card_product, size: '130x81')
       end
 
       def offer_description
@@ -52,7 +53,7 @@ class CardRecommendation < CardRecommendation.superclass
       def product_name
         cell(
           CardProduct::Cell::FullName,
-          product,
+          card_product,
           with_bank: true,
           network_in_brackets: true,
         )

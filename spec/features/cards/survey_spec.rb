@@ -225,29 +225,21 @@ RSpec.describe 'cards survey', :onboarding, :js, :manual_clean do
           new_accounts = owner.cards
 
           # the cards have the right products
-          expect(new_accounts.map(&:product)).to match_array visible_products
+          expect(new_accounts.map(&:card_product)).to match_array visible_products
 
           # the cards have no offers
           expect(new_accounts.map(&:offer).compact).to be_empty
 
           # the cards have the given opened and closed dates
-          open_acc_0 = new_accounts.find_by(product_id: open_cards[0].id)
-          open_acc_1 = new_accounts.find_by(product_id: open_cards[1].id)
-          closed_acc = new_accounts.find_by(product_id: closed_card.id)
+          open_acc_0 = new_accounts.find_by(card_product_id: open_cards[0].id)
+          open_acc_1 = new_accounts.find_by(card_product_id: open_cards[1].id)
+          closed_acc = new_accounts.find_by(card_product_id: closed_card.id)
           expect(open_acc_0.opened_on).to eq Date.new(this_year, 1)
           expect(open_acc_0.closed_on).to be_nil
           expect(open_acc_1.opened_on).to eq Date.new(last_year, 3)
           expect(open_acc_1.closed_on).to be_nil
           expect(closed_acc.opened_on).to eq Date.new(ten_years_ago, 11)
           expect(closed_acc.closed_on).to eq Date.new(last_year, 4)
-
-          # the cards have the right statuses
-          open_acc_0 = new_accounts.find_by(product_id: open_cards[0].id)
-          open_acc_1 = new_accounts.find_by(product_id: open_cards[1].id)
-          closed_acc = new_accounts.find_by(product_id: closed_card.id)
-          expect(open_acc_0).not_to be_closed
-          expect(open_acc_1).not_to be_closed
-          expect(closed_acc).to be_closed
         end
 
         include_examples 'submitting the form'

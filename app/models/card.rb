@@ -123,12 +123,10 @@ class Card < ApplicationRecord
 
   # Associations
 
-  belongs_to :product, class_name: 'CardProduct'
+  belongs_to :card_product
   belongs_to :person
   has_one :account, through: :person
   belongs_to :offer
-
-  alias_attribute :card_product, :product
 
   # Callbacks
 
@@ -193,7 +191,7 @@ class Card < ApplicationRecord
   private
 
   def set_product_to_offer_product
-    return unless !offer.nil? && !offer.product.nil? && product.nil?
-    self.product = offer.product
+    return unless !offer.nil? && !offer.product.nil? && card_product.nil?
+    self.card_product = offer.product
   end
 end

@@ -35,13 +35,13 @@ class CardAccount < CardAccount.superclass
       end
     end
 
-    def find_card_product!(opts, params:, **)
-      card_product_id = params.fetch(:card_product_id)
-      opts['model'].product = CardProduct.find(card_product_id)
-    end
-
     def setup_model!(opts, person:, **)
       opts['model'] = person.card_accounts.new
+    end
+
+    def find_card_product!(opts, params:, **)
+      card_product_id = params.fetch(:card_product_id)
+      opts['model'].card_product = CardProduct.find(card_product_id)
     end
   end
 end

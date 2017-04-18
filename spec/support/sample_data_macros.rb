@@ -139,6 +139,9 @@ module SampleDataMacros
                 end
     traits = traits_and_overrides
 
+    raise 'use :card_product, not :product' if overrides.key?(:product)
+    raise 'use :card_product_id, not :product_id' if overrides.key?(:product_id)
+
     if overrides.key?(:card_product) && overrides.key?(:card_product_id)
       raise "can't specify both :card_product and :card_product_id, use one or the other"
     end

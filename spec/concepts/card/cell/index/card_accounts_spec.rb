@@ -27,7 +27,7 @@ RSpec.describe Card::Cell::Index::CardAccounts do
   end
 
   example 'solo account with card accounts' do
-    acc = owner.card_accounts.new(id: 10, product: card_product, opened_on: today)
+    acc = owner.card_accounts.new(id: 10, card_product: card_product, opened_on: today)
     allow(account).to receive(:card_accounts) { [acc] }
     rendered = show(account)
     expect(rendered).to have_content ProductNameCellStub.(card_product).()
