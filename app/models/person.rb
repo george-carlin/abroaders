@@ -23,12 +23,10 @@ class Person < ApplicationRecord
     owner ? 'owner' : 'companion'
   end
 
-  concerning :Eligibility do
-    def ineligible
-      !eligible
-    end
-    alias_method :ineligible?, :ineligible
+  def ineligible
+    !eligible
   end
+  alias ineligible? ineligible
 
   # Validations
 
