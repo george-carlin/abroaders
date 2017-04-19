@@ -65,3 +65,37 @@ tr.admin_recommend_card_product_offers {
     padding: 0 !important;
   }
 }
+
+td.offer-identifier {
+  width: 10%;
+}
+
+td.offer-partner {
+  width: 12%;
+}
+
+td.offer-points-awarded {
+  width: 14%;
+}
+
+td.offer-spend {
+  width: 15%;
+}
+
+td.offer-cost {
+  width: 15%;
+}
+
+td.offer-days {
+  width: 10%;
+}
+
+.cancel_recommend_offer_btn {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.confirm_recommend_offer_btn {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}

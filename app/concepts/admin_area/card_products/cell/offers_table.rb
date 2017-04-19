@@ -62,14 +62,6 @@ module AdminArea
             cell(Offer::Cell::Cost, model)
           end
 
-          def html_classes
-            'admin_recommend_offer'
-          end
-
-          def html_id
-            "admin_recommend_offer_#{id}"
-          end
-
           # Note that any links to the offer MUST be nofollowed for compliance reasons
           def link_to_link
             link_to 'Link', link, rel: 'nofollow', target: '_blank'
@@ -77,6 +69,10 @@ module AdminArea
 
           def identifier
             cell(Offers::Cell::Identifier, model)
+          end
+
+          def partner_name
+            cell(Partner::Cell::ShortName, model.partner)
           end
 
           def points_awarded
