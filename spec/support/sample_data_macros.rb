@@ -26,6 +26,14 @@ module SampleDataMacros
     end
   end
 
+  def create_admin(overrides = {})
+    Admin.create!({
+      email: 'admin@example.com',
+      password: 'abroaders123',
+      password_confirmation: 'abroaders123',
+    }.merge(overrides),)
+  end
+
   # Create an offer in the way an Admin would.
   def create_offer(overrides = {})
     attrs = { # defaults
