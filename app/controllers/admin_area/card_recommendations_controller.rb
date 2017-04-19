@@ -1,7 +1,7 @@
 module AdminArea
   class CardRecommendationsController < AdminController
     def create
-      run CardRecommendations::Operation::Create do
+      run CardRecommendations::Create do
         respond_to(&:js)
         return
       end

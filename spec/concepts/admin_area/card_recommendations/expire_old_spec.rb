@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe AdminArea::CardRecommendations::Operation::ExpireOld do
+RSpec.describe AdminArea::CardRecommendations::ExpireOld do
   let(:admin) { create_admin }
   let(:person) { create(:person) }
   let(:offer)  { create_offer }

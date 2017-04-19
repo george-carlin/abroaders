@@ -115,7 +115,7 @@ module SampleDataMacros
     admin = overrides.fetch(:admin, create_admin)
 
     rec = run!(
-      AdminArea::CardRecommendations::Operation::Create,
+      AdminArea::CardRecommendations::Create,
       { card_recommendation: { offer_id: offer_id }, person_id: person_id },
       'admin' => admin,
     )['model']
