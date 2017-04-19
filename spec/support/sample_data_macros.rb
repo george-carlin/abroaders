@@ -92,9 +92,12 @@ module SampleDataMacros
                   create(:person).id
                 end
 
+    admin = overrides.fetch(:admin, create_admin)
+
     rec = run!(
       AdminArea::CardRecommendations::Operation::Create,
-      card_recommendation: { offer_id: offer_id }, person_id: person_id,
+      { card_recommendation: { offer_id: offer_id }, person_id: person_id },
+      'admin' => admin,
     )['model']
 
     traits = traits_and_overrides

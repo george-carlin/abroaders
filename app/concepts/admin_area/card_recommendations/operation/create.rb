@@ -29,8 +29,11 @@ module AdminArea
           opts['errors'] = ["Couldn't find live offer with ID #{id}"]
         end
 
-        def setup_model!(opts, person:, **)
-          opts['model'] = person.cards.new(recommended_at: Time.zone.now)
+        def setup_model!(opts, admin:, person:, **)
+          opts['model'] = person.cards.new(
+            recommended_at: Time.zone.now,
+            recommended_by: admin,
+          )
         end
 
         def setup_person!(opts, params:, **)

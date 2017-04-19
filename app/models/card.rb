@@ -127,6 +127,7 @@ class Card < ApplicationRecord
   belongs_to :person
   has_one :account, through: :person
   belongs_to :offer
+  belongs_to :recommended_by, class_name: 'Admin'
 
   # Callbacks
 
