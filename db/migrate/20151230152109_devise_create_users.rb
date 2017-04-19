@@ -33,6 +33,9 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.boolean :admin, null: false, default: false
 
       t.timestamps null: false
+
+      t.integer :onboarding_stage, default: 0, null: false
+      t.integer :monthly_spending_usd
     end
 
     add_index :users, :email,                unique: true

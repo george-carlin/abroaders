@@ -3,7 +3,7 @@ class CreateCards < ActiveRecord::Migration[5.0]
     create_table :cards do |t|
       t.string  :identifier, null: false, index: { unique: true }
       t.string  :name, null: false
-      t.integer :brand, null: false
+      t.integer :network, null: false
       t.integer :bp, null: false
       t.integer :bank, null: false
       t.integer :type, null: false
