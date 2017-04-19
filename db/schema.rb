@@ -30,11 +30,11 @@ ActiveRecord::Schema.define(version: 20170418195222) do
     t.datetime "updated_at",                                           null: false
     t.integer  "monthly_spending_usd"
     t.integer  "unseen_notifications_count", default: 0,               null: false
+    t.string   "phone_number"
+    t.string   "phone_number_normalized"
     t.string   "onboarding_state",           default: "home_airports", null: false
     t.string   "promo_code"
     t.boolean  "test",                       default: false,           null: false
-    t.string   "phone_number"
-    t.string   "phone_number_normalized"
     t.index ["email"], name: "index_accounts_on_email", unique: true, using: :btree
     t.index ["onboarding_state"], name: "index_accounts_on_onboarding_state", using: :btree
     t.index ["phone_number_normalized"], name: "index_accounts_on_phone_number_normalized", using: :btree
@@ -165,9 +165,9 @@ ActiveRecord::Schema.define(version: 20170418195222) do
     t.integer  "offer_id"
     t.datetime "recommended_at"
     t.date     "applied_on"
+    t.date     "opened_on"
+    t.date     "closed_on"
     t.string   "decline_reason"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
     t.datetime "clicked_at"
     t.datetime "declined_at"
     t.datetime "denied_at"
@@ -177,8 +177,8 @@ ActiveRecord::Schema.define(version: 20170418195222) do
     t.datetime "seen_at"
     t.datetime "expired_at"
     t.datetime "pulled_at"
-    t.date     "closed_on"
-    t.date     "opened_on"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
     t.index ["pulled_at"], name: "index_cards_on_pulled_at", using: :btree
     t.index ["recommended_at"], name: "index_cards_on_recommended_at", using: :btree
     t.index ["seen_at"], name: "index_cards_on_seen_at", using: :btree

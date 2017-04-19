@@ -21,9 +21,9 @@ class CreateCardAccounts < ActiveRecord::Migration[5.0]
 
       t.timestamps
 
-      t.foreign_key :cards,                          on_delete: :restrict
-      t.foreign_key :users,                          on_delete: :cascade
-      t.foreign_key :card_offers, column: :offer_id, on_delete: :cascade
+      t.foreign_key :cards, on_delete: :restrict
+      t.foreign_key :users, on_delete: :cascade
+      t.foreign_key :offers, on_delete: :cascade
     end
   end
 end
