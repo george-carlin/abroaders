@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe AdminArea::OffersController do
-  before { sign_in create(:admin) }
+  before { sign_in create_admin }
 
   describe 'GET #show' do
     context 'when no product_id is specified' do

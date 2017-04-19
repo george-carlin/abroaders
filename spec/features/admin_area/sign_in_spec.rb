@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe "the admin sign in page" do
   before do
     @pw    = "foobar123"
-    @admin = create(:admin, password: @pw, password_confirmation: @pw)
+    @admin = create_admin(password: @pw, password_confirmation: @pw)
     visit new_admin_session_path
   end
 

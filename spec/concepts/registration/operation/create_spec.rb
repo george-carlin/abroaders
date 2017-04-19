@@ -104,7 +104,7 @@ RSpec.describe Registration::Operation::Create do
   end
 
   example 'email already taken by admin' do
-    create(:admin, email: 'test@example.com')
+    create_admin(email: 'test@example.com')
 
     expect do
       result = op.(

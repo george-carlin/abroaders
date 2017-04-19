@@ -5,7 +5,7 @@ RSpec.shared_context "logged in" do
 end
 
 RSpec.shared_context "logged in as admin" do
-  let(:admin) { create(:admin) }
+  let(:admin) { create_admin }
   before { login_as_admin(admin) }
 end
 
