@@ -52,6 +52,7 @@ class ApplicationController < ActionController::Base
   # 'account' will be set in Account::Operation::Dashboard
   def _run_options(options)
     options['account'] = current_account if current_account
+    options['admin'] = current_admin if current_admin
     options
   end
 

@@ -1,12 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe AdminArea::Offers::Operation::Kill do
+  let(:admin) { create_admin }
+
   let(:op) { described_class }
 
   let(:offer) { create_offer }
 
   example 'killing an offer' do
-    result = op.(id: offer.id)
+    result = op.({ id: offer.id }, 'admin' => admin)
     expect(result.success?).to be true
 
     updated_offer = result['model']
@@ -15,8 +17,8 @@ RSpec.describe AdminArea::Offers::Operation::Kill do
   end
 
   example 'failure - offer already dead' do
-    op.(id: offer.id) # kill it
-    result = op.(id: offer.id) # try to kill it again
+    op.({ id: offer.id }, 'admin' => admin) # kill it
+    result = op.({ id: offer.id }, 'admin' => admin) # try to kill it again
     expect(result.success?).to be false
     expect(result['error']).to eq 'Offer already killed'
   end
