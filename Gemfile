@@ -1,19 +1,16 @@
 source 'https://rubygems.org'
-gem 'mutant-rspec'
 
 ruby '2.3.3'
 
 gem 'rails', '5.0.1'
 gem 'trailblazer', '~> 2.0.1'
 gem 'trailblazer-rails', '>= 1.0.0'
-gem 'disposable'
-gem 'reform'
+
 # Using my own fork of cells which has a change to how Collection#join works.
 # My PR has been merged but not released, see https://github.com/trailblazer/cells/pull/448
 # Once it's released we can switch back to getting cells from Rubygems
 gem 'cells', github: 'georgemillo/cells', branch: 'collection-join'
 gem 'cells-erb', '0.0.9'
-gem 'dry-struct'
 
 gem 'active_model_serializers', '0.10.0'
 gem 'acts_as_tree', '~> 2.4.0'
@@ -22,9 +19,10 @@ gem 'browserify-rails', '3.1.0'
 gem 'cells-rails'
 gem 'devise', '~> 4.1.0'
 gem 'devise-bootstrap-views', '0.0.8'
+gem 'disposable'
 gem 'dry-configurable', '0.3.0'
+gem 'dry-struct'
 gem 'dry-validation', '0.10.5'
-# Load ENV variables from a gitignored YAML file
 gem 'figaro', '~> 1.1.1'
 gem 'font-awesome-rails', '4.6.3.0'
 gem 'httparty', '~> 0.13.7'
@@ -36,11 +34,13 @@ gem 'jquery-rails', '4.1.1'
 # kaminari 1+, so lock the version at 0.17. See kaminari-cells #6 on GitHub.
 gem 'kaminari', '0.17.0'
 gem 'kaminari-cells', '0.0.4'
+gem 'mutant-rspec'
 gem 'newrelic_rpm', '3.17.0.325'
 gem 'paperclip', '4.3.6'
 gem 'pg', '0.18.4'
 gem 'puma', '~> 3.8.2'
 gem 'record_tag_helper'
+gem 'reform'
 gem 'reform-rails'
 gem 'resque'
 gem 'resque-scheduler', '4.2.1'
