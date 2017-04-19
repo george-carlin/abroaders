@@ -1,12 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe AdminArea::Offers::Operation::Verify do
+  let(:admin) { create_admin }
+
   let(:op) { described_class }
 
   let(:offer) { create_offer }
 
   example 'verifying an offer' do
-    result = op.(id: offer.id)
+    result = op.({ id: offer.id }, 'admin' => admin)
     expect(result.success?).to be true
 
     updated_offer = result['model']
@@ -16,7 +18,7 @@ RSpec.describe AdminArea::Offers::Operation::Verify do
 
   example 'failure - offer dead' do
     kill_offer(offer)
-    result = op.(id: offer.id) # try to verify
+    result = op.({ id: offer.id }, 'admin' => admin) # try to verify
     expect(result.success?).to be false
     expect(result['error']).to eq "Can't verify a dead offer"
   end

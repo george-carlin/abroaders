@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe AdminArea::CardRecommendations::Operation::Create do
+  let(:admin) { create_admin }
+
   let(:op) { described_class }
 
   let(:product) { create(:card_product) }
@@ -9,10 +11,13 @@ RSpec.describe AdminArea::CardRecommendations::Operation::Create do
 
   example 'valid recommendation' do
     result = op.(
-      person_id: person.id,
-      card_recommendation: {
-        offer_id:  offer.id,
+      {
+        person_id: person.id,
+        card_recommendation: {
+          offer_id:  offer.id,
+        },
       },
+      'admin' => admin,
     )
     expect(result.success?).to be true
     rec = result['model']
@@ -26,10 +31,13 @@ RSpec.describe AdminArea::CardRecommendations::Operation::Create do
     kill_offer(offer)
     expect do
       result = op.(
-        person_id: person.id,
-        card_recommendation: {
-          offer_id:  offer.id,
+        {
+          person_id: person.id,
+          card_recommendation: {
+            offer_id:  offer.id,
+          },
         },
+        'admin' => admin,
       )
       expect(result.success?).to be false
       expect(result['errors']).to eq ["Couldn't find live offer with ID #{offer.id}"]

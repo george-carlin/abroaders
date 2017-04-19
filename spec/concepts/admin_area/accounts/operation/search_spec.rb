@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe AdminArea::Accounts::Operation::Search do
+  let(:admin) { create_admin }
+
   let!(:accounts) do
     [
       create(:account, email: 'aaaaaa@example.com'),
@@ -31,7 +33,7 @@ RSpec.describe AdminArea::Accounts::Operation::Search do
   end
 
   def search_for(query)
-    described_class.(accounts: { search: query })['collection']
+    described_class.({ accounts: { search: query } }, 'admin' => admin)['collection']
   end
 
   example 'search with no results' do

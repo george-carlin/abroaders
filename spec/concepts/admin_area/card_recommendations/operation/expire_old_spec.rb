@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe AdminArea::CardRecommendations::Operation::ExpireOld do
+  let(:admin) { create_admin }
   let(:person) { create(:person) }
   let(:offer)  { create_offer }
   let(:now) { Time.zone.now }
@@ -49,7 +50,7 @@ RSpec.describe AdminArea::CardRecommendations::Operation::ExpireOld do
     old_and_seen = create_rec(recommended_at: lose, seen_at: now)
 
     expect do
-      op.()
+      op.({}, 'admin' => admin)
       already_expired.reload
     end.not_to change { already_expired.expired_at }
 

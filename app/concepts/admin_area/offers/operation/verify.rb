@@ -9,7 +9,7 @@ module AdminArea
 
         private
 
-        def setup_model(opts, params:)
+        def setup_model(opts, params:, **)
           opts['model'] = Offer.find(params.fetch(:id))
         end
 
