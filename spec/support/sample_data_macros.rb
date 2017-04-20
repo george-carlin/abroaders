@@ -26,12 +26,25 @@ module SampleDataMacros
     end
   end
 
+  class Generator
+    def self.instance
+      @instance ||= new
+    end
+
+    def admin(overrides = {})
+      @_admin_sequence ||= -1
+      @_admin_sequence += 1
+
+      Admin.create!({
+        email: "admin-#{@_admin_sequence}@example.com",
+        password: 'abroaders123',
+        password_confirmation: 'abroaders123',
+      }.merge(overrides),)
+    end
+  end
+
   def create_admin(overrides = {})
-    Admin.create!({
-      email: 'admin@example.com',
-      password: 'abroaders123',
-      password_confirmation: 'abroaders123',
-    }.merge(overrides),)
+    Generator.instance.admin(overrides)
   end
 
   # Create an offer in the way an Admin would.

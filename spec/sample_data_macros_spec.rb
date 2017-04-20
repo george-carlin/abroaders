@@ -1,6 +1,18 @@
 require 'rails_helper'
 
 RSpec.describe SampleDataMacros do
+  example '#create_admin' do
+    admin = create_admin
+    expect(Admin.count).to eq 1
+    expect(admin).to be_an(Admin)
+    expect(admin.email).to eq 'admin-0@example.com'
+
+    admin = create_admin
+    expect(Admin.count).to eq 2
+    expect(admin).to be_an(Admin)
+    expect(admin.email).to eq 'admin-1@example.com'
+  end
+
   describe '#create_card_account' do
     example 'unspecified person' do
       expect do
