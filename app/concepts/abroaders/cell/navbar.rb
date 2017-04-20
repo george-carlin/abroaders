@@ -41,10 +41,6 @@ module Abroaders
         ''
       end
 
-      def notifications
-        ''
-      end
-
       class SignedInNavbar < self
         def username
           content_tag :li, model.email, class: :text
@@ -70,10 +66,6 @@ module Abroaders
 
         def sidebar?
           model.onboarded?
-        end
-
-        def notifications
-          model.onboarded? ? cell(Notification::Cell::List, model) : super
         end
 
         def sign_out_path

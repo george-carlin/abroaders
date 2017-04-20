@@ -29,14 +29,6 @@ RSpec.describe AdminArea::CardRecommendations::Complete do
     expect(result['recommendation_note']).to eq account.recommendation_notes.last
   end
 
-  it 'creates a notification' do
-    expect do
-      result = op.(person_id: person.id, recommendation_note: '')
-      expect(result.success?).to be true
-    end.to change { account.notifications.count }.by(1)
-    expect(account.notifications.last).to be_a(Notifications::NewRecommendations)
-  end
-
   example 'success - user has unresolved rec request' do
     create_rec_request('owner', account.reload)
 

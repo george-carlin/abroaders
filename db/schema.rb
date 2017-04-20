@@ -10,31 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170419224107) do
+ActiveRecord::Schema.define(version: 20170420024140) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "accounts", force: :cascade do |t|
-    t.string   "email",                      default: "",              null: false
-    t.string   "encrypted_password",         default: "",              null: false
+    t.string   "email",                   default: "",              null: false
+    t.string   "encrypted_password",      default: "",              null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",              default: 0,               null: false
+    t.integer  "sign_in_count",           default: 0,               null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                                           null: false
-    t.datetime "updated_at",                                           null: false
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
     t.integer  "monthly_spending_usd"
-    t.integer  "unseen_notifications_count", default: 0,               null: false
     t.string   "phone_number"
     t.string   "phone_number_normalized"
-    t.string   "onboarding_state",           default: "home_airports", null: false
+    t.string   "onboarding_state",        default: "home_airports", null: false
     t.string   "promo_code"
-    t.boolean  "test",                       default: false,           null: false
+    t.boolean  "test",                    default: false,           null: false
     t.index ["email"], name: "index_accounts_on_email", unique: true, using: :btree
     t.index ["onboarding_state"], name: "index_accounts_on_onboarding_state", using: :btree
     t.index ["phone_number_normalized"], name: "index_accounts_on_phone_number_normalized", using: :btree
@@ -168,6 +167,8 @@ ActiveRecord::Schema.define(version: 20170419224107) do
     t.date     "opened_on"
     t.date     "closed_on"
     t.string   "decline_reason"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
     t.datetime "clicked_at"
     t.datetime "declined_at"
     t.datetime "denied_at"
@@ -177,8 +178,6 @@ ActiveRecord::Schema.define(version: 20170419224107) do
     t.datetime "seen_at"
     t.datetime "expired_at"
     t.datetime "pulled_at"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
     t.integer  "recommended_by_id"
     t.index ["pulled_at"], name: "index_cards_on_pulled_at", using: :btree
     t.index ["recommended_at"], name: "index_cards_on_recommended_at", using: :btree
@@ -233,19 +232,6 @@ ActiveRecord::Schema.define(version: 20170419224107) do
     t.index ["account_id", "region_id"], name: "index_interest_regions_on_account_id_and_region_id", unique: true, using: :btree
     t.index ["account_id"], name: "index_interest_regions_on_account_id", using: :btree
     t.index ["region_id"], name: "index_interest_regions_on_region_id", using: :btree
-  end
-
-  create_table "notifications", force: :cascade do |t|
-    t.integer  "account_id"
-    t.integer  "record_id",                  null: false
-    t.boolean  "seen",       default: false, null: false
-    t.string   "type",                       null: false
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.index ["account_id", "seen"], name: "index_notifications_on_account_id_and_seen", using: :btree
-    t.index ["account_id"], name: "index_notifications_on_account_id", using: :btree
-    t.index ["record_id"], name: "index_notifications_on_record_id", using: :btree
-    t.index ["seen"], name: "index_notifications_on_seen", using: :btree
   end
 
   create_table "offers", force: :cascade do |t|
@@ -342,7 +328,6 @@ ActiveRecord::Schema.define(version: 20170419224107) do
   add_foreign_key "flights", "travel_plans", on_delete: :cascade
   add_foreign_key "interest_regions", "accounts", on_delete: :cascade
   add_foreign_key "interest_regions", "destinations", column: "region_id", on_delete: :restrict
-  add_foreign_key "notifications", "accounts"
   add_foreign_key "offers", "card_products", column: "product_id", on_delete: :cascade
   add_foreign_key "people", "accounts", on_delete: :cascade
   add_foreign_key "recommendation_notes", "accounts", on_delete: :cascade
