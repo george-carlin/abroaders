@@ -120,18 +120,8 @@ module AdminArea::People::Cell
           end
         end
 
-        def link_to_pull
-          link_to(
-            raw('&times;'),
-            pull_admin_card_recommendation_path(model),
-            data: {
-              confirm: 'Really pull this recommendation?',
-              method: :patch,
-              remote: true,
-            },
-            id:    "card_recommendation_#{id}_pull_btn",
-            class: 'card_recommendation_pull_btn',
-          )
+        def link_to_edit
+          link_to 'Edit', edit_admin_card_recommendation_path(model)
         end
       end
     end

@@ -206,7 +206,7 @@ Rails.application.routes.draw do
     resources :people, only: :show do
       resource :spending_info
       resources :card_accounts
-      resources :card_recommendations, only: [:create] do
+      resources :card_recommendations, only: [:create, :edit, :update] do
         collection do
           post :complete
         end

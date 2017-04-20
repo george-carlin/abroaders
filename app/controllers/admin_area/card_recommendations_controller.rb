@@ -8,6 +8,24 @@ module AdminArea
       raise 'this should never happen!'
     end
 
+    def edit
+      run CardRecommendations::Edit
+      # See notes on this in CardAccountsController
+      @form = result['contract.default']
+      render cell(CardRecommendations::Cell::Edit, @model, form: @form)
+    end
+
+    def update
+      run CardRecommendations::Update do
+        flash[:success] = 'Updated rec!'
+        return redirect_to admin_person_path(@model.person)
+      end
+      # See notes on this in CardAccountsController
+      @form = result['contract.default']
+      @form.prepopulate!
+      render cell(CardRecommendations::Cell::Edit, @model, form: @form)
+    end
+
     def complete
       run CardRecommendations::Complete do |result|
         flash[:success] = 'Sent notification!'
