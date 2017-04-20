@@ -54,6 +54,7 @@ module Abroaders
   end
 end
 
+require 'constants'
 # eager-load lib/types; don't leave it to the autoloader, because the file will
 # crash if the autoloader loads it twice
 require 'types'

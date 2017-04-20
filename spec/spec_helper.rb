@@ -15,7 +15,8 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
-APP_ROOT   = Pathname.new(File.expand_path('../../', __FILE__))
+require_relative '../lib/constants'
+
 SPEC_ROOT  = APP_ROOT.join('spec')
 spec_files = Dir[SPEC_ROOT.join('**', '*.rb')]
 
