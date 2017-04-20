@@ -1,11 +1,6 @@
 /* eslint no-param-reassign: 0 */
 
 $(document).ready(function () {
-  $(".new_card table").tablesorter({
-    // The table can't be sorted by the first column:
-    headers: { 0: { sorter: false } },
-  });
-
   var $personCardTable = $("#admin_person_cards_table");
   $personCardTable.tablesorter({
     headers: {
