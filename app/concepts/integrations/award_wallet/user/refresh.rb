@@ -63,6 +63,23 @@ module Integrations
           raise ActiveRecord::Rollback
         end
 
+        class All
+          def self.call
+            # This approach isn't perfect as it results in a TON of DB queries;
+            # we can probably improve it with some eager-loading... later.
+            # (Putting 'includes(:award_wallet_owners, :award_wallet_accounts)'
+            # in the AwardWalletUser.find_each doesn't work, I already tried
+            # it. Them problem is in the Account::Save class.)
+            AwardWalletUser.find_each do |awu|
+              begin
+                Refresh.(user: awu)
+              rescue AwardWallet::Error => e
+                "Couldn't refresh user #{awu.id}: #{e.message}"
+              end
+            end
+          end
+        end
+
         class Job < ApplicationJob
           # @param opts [Hash]
           # @option opts [Integer] 'id' the ID of the AwardWalletUser to
