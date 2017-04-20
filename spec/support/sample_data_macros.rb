@@ -26,12 +26,32 @@ module SampleDataMacros
     end
   end
 
+  # Use this class to encapsulate the 'sequence' variables; this allows for
+  # functionality like the 'sequence' method in FactoryGirl and avoids
+  # polluting the main RSpec namespace.
+  #
+  # There's no reason we can't add similar 'sequence' functionality for the
+  # other sample data macros; I just haven't bothered to do it yet because I
+  # haven't needed to.
+  class Generator
+    def self.instance
+      @instance ||= new
+    end
+
+    def admin(overrides = {})
+      @_admin_sequence ||= -1
+      @_admin_sequence += 1
+
+      Admin.create!({
+        email: "admin-#{@_admin_sequence}@example.com",
+        password: 'abroaders123',
+        password_confirmation: 'abroaders123',
+      }.merge(overrides),)
+    end
+  end
+
   def create_admin(overrides = {})
-    Admin.create!({
-      email: 'admin@example.com',
-      password: 'abroaders123',
-      password_confirmation: 'abroaders123',
-    }.merge(overrides),)
+    Generator.instance.admin(overrides)
   end
 
   # Create an offer in the way an Admin would.
@@ -92,9 +112,12 @@ module SampleDataMacros
                   create(:person).id
                 end
 
+    admin = overrides.fetch(:admin, create_admin)
+
     rec = run!(
       AdminArea::CardRecommendations::Operation::Create,
-      card_recommendation: { offer_id: offer_id }, person_id: person_id,
+      { card_recommendation: { offer_id: offer_id }, person_id: person_id },
+      'admin' => admin,
     )['model']
 
     traits = traits_and_overrides

@@ -25,6 +25,7 @@ RSpec.describe AdminArea::CardRecommendations::Operation::Create do
     expect(rec.card_product).to eq offer.product
     expect(rec.person).to eq person
     expect(rec.recommended_at).to be_within(5.seconds).of(Time.now)
+    expect(rec.recommended_by).to eq admin
   end
 
   specify 'offer must be live' do

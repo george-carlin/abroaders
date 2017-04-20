@@ -50,13 +50,13 @@ RSpec.describe 'admin - show person page', :manual_clean do
     expect(page).to have_title full_title(person.first_name)
   end
 
-  describe 'the card recommendation form' do
+  describe 'the card recommendation form', :js do
     before { visit_path }
 
     let(:offer) { @offers[3] }
     let(:offer_selector) { "#admin_recommend_offer_#{offer.id}" }
 
-    example 'confirmation when clicking "recommend"', :js do
+    example 'confirmation when clicking "recommend"' do
       # clicking 'recommend' shows confirm/cancel buttons
       within offer_selector do
         click_button 'Recommend'
@@ -72,18 +72,21 @@ RSpec.describe 'admin - show person page', :manual_clean do
       end
     end
 
-    example "recommending an offer", :js do
-      within offer_selector do
-        click_button 'Recommend'
-        click_button 'Confirm'
-      end
+    example "recommending an offer" do
+      expect do
+        within offer_selector do
+          click_button 'Recommend'
+          click_button 'Confirm'
+        end
 
-      wait_for_ajax
+        expect(page).to have_content 'Recommended!'
+      end.to change { person.card_recommendations.count }.by(1)
 
-      expect(page).to have_content 'Recommended!'
+      rec = person.card_recommendations.last
+
+      expect(rec.recommended_by).to eq admin
 
       # the rec is added to the table:
-      rec = Card.recommended.last
       within '#admin_person_card_recommendations_table' do
         expect(page).to have_selector "#card_recommendation_#{rec.id}"
       end
