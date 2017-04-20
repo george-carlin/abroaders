@@ -6,7 +6,7 @@ $(document).ready(function () {
       2: { sorter: true  }, // Opened
       3: { sorter: true  }, // Closed
     },
-    sortList : [[2, 1], [3, 1]],
+    sortList : [[2, 1]],
   });
 
   $("#admin_person_card_recommendations_table").tablesorter({
@@ -20,6 +20,6 @@ $(document).ready(function () {
       6: { sorter: true }, // Applied
       7: { sorter: true }, // Declined
     },
-    sortList : [[3, 1], [6, 1]],
+    sortList : [[3, 1]],
   });
 });
