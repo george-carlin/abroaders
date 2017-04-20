@@ -61,11 +61,11 @@ RSpec.describe Abroaders::Cell::Options do
 
   example 'with :collection option' do
     expect do
-      cell(CellWithRequiredOption, nil, collection: true)
+      cell(CellWithRequiredOption, collection: [1, 2]).()
     end.to raise_error Abroaders::Cell::MissingOptionsError, /\bfoo\b/
 
     expect do
-      cell(CellWithRequiredOption, nil, foo: 'yo', collection: true)
+      cell(CellWithRequiredOption, foo: 'yo', collection: [1, 2]).()
     end.not_to raise_error
   end
 
