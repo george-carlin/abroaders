@@ -1,18 +1,16 @@
 module Estimates
-  class BaseEstimate
-    include Virtus.model
-
-    attribute :from, Destination
-    attribute :to,   Destination
-    # "single" or "return"
-    attribute :type, String
-    # 'economy', 'business_class', or 'first_class'. We don't make estimates for 'premium_economy' tickets.
-    attribute :class_of_service, String
-    attribute :no_of_passengers, Integer
+  class BaseEstimate < Dry::Struct
+    attribute :from, Dry::Types['object'] # Destination
+    attribute :to, Dry::Types['object'] # Destination
+    attribute :type, Types::Strict::String.enum('single', 'return')
+    attribute :class_of_service, Types::Strict::String.enum(
+      'economy', 'business_class', 'first_class',
+    ) # We don't make estimates for 'premium_economy' tickets.
+    attribute :no_of_passengers, Types::Strict::Int
 
     # as_json methods must accept an opts parameter, but we don't use it here
     def as_json(_ = {})
-      { low: low, high: high }.stringify_keys
+      { 'low' => low, 'high' => high }
     end
 
     private
