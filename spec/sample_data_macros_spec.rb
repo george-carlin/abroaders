@@ -5,12 +5,12 @@ RSpec.describe SampleDataMacros do
     admin = create_admin
     expect(Admin.count).to eq 1
     expect(admin).to be_an(Admin)
-    expect(admin.email).to eq 'admin-0@example.com'
 
+    # test it works more than once in the same example (i.e. the email
+    # uniqueness validation doesn't fail the 2nd time.)
     admin = create_admin
     expect(Admin.count).to eq 2
     expect(admin).to be_an(Admin)
-    expect(admin.email).to eq 'admin-1@example.com'
   end
 
   describe '#create_card_account' do
