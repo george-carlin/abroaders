@@ -12,7 +12,6 @@ class CardRecommendation < Disposable::Twin
   def status
     # Note: the order of these return statements matters!
     return 'opened'      if opened?
-    return 'pulled'      unless pulled_at.nil?
     return 'expired'     if expired?
     return 'declined'    if declined?
     return 'denied'      unless denied_at.nil?
@@ -32,7 +31,6 @@ class CardRecommendation < Disposable::Twin
   property :declined_at
   property :decline_reason
   property :expired_at
-  property :pulled_at
   property :applied_on
   property :denied_at
   property :nudged_at
@@ -60,7 +58,7 @@ class CardRecommendation < Disposable::Twin
   module Predicates
     %w[
       seen_at clicked_at applied_on declined_at denied_at expired_at nudged_at
-      called_at pulled_at redenied_at
+      called_at redenied_at
     ].each do |attr|
       state = attr.sub(/_at\z/, '').sub(/_on\z/, '') << '?'
       define_method state do
@@ -75,7 +73,7 @@ class CardRecommendation < Disposable::Twin
   include Predicates
 
   def actionable?
-    unpulled? && unopened? && unredenied? && unredenied? && unexpired? && undeclined? &&
+    unopened? && unredenied? && unredenied? && unexpired? && undeclined? &&
       (undenied? || unnudged?)
   end
 end

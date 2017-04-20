@@ -5,9 +5,6 @@ RSpec.describe CardRecommendation do
     time = Time.now
     rec  = described_class.new(Card.new(recommended_at: time))
     expect(rec.actionable?).to be true
-    rec.pulled_at = time
-    expect(rec.actionable?).to be false
-    rec.pulled_at = nil
     rec.expired_at = time
     expect(rec.actionable?).to be false
     rec.expired_at = nil
@@ -37,7 +34,7 @@ RSpec.describe CardRecommendation do
   describe '#status' do
     let(:date) { Time.zone.today }
 
-    # possible values: [recommended, declined, applied, denied, expired, pulled]
+    # possible values: [recommended, declined, applied, denied, expired]
     let(:attrs) { { recommended_at: date } }
 
     subject { described_class.new(Card.new(attrs)).status }
@@ -47,11 +44,6 @@ RSpec.describe CardRecommendation do
     context 'when opened_on is present' do
       before { attrs[:opened_on] = date }
       it { is_expected.to eq 'opened' }
-    end
-
-    context 'when pulled_at is present' do
-      before { attrs[:pulled_at] = date }
-      it { is_expected.to eq 'pulled' }
     end
 
     context 'when expired_at is present' do

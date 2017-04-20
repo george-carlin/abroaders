@@ -101,18 +101,4 @@ RSpec.describe 'as a user viewing my cards' do
     expect(page).to have_selector H, text: "#{owner.first_name}'s Recommendations"
     expect(page).to have_selector H, text: "#{companion.first_name}'s Recommendations"
   end
-
-  example "pulled recs" do
-    companion = account.create_companion!(first_name: "Dave")
-    pulled_recs = [
-      create_card_recommendation(:pulled, person_id: owner.id),
-      create_card_recommendation(:pulled, person_id: companion.id),
-    ]
-
-    visit_page
-
-    pulled_recs.each do |rec|
-      expect(page).to have_no_selector "#card_recommendation_#{rec.id}"
-    end
-  end
 end

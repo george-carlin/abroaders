@@ -142,8 +142,6 @@ module SampleDataMacros
       rec.nudged_at = Time.zone.now
     end
 
-    rec.pulled_at = Time.zone.now if traits.include?(:pulled)
-
     if traits.include?(:denied)
       rec.applied_on = 4.days.ago
       rec.denied_at  = 3.days.ago

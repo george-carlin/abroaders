@@ -12,8 +12,8 @@ RSpec.describe CardRecommendation::Validate do
 
   let(:time) { Time.now }
 
-  specify 'only one of declined, applied, pulled, and expired may be present at once' do
-    timestamps = %w[applied_on expired_at pulled_at]
+  specify 'only one of declined, applied and expired may be present at once' do
+    timestamps = %w[applied_on expired_at]
     timestamps.each do |timestamp|
       attrs = { recommended_at: time, timestamp => time }
       expect(test_attributes(attrs)).to be true

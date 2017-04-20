@@ -112,4 +112,16 @@ RSpec.describe 'admin - show person page', :manual_clean do
     expect(new_notification).to be_a(Notifications::NewRecommendations)
     expect(new_notification.record).to eq person
   end
+
+  example 'deleting a recommendation', :js do
+    rec = create_card_recommendation(person: person)
+    visit_path
+
+    within "#card_recommendation_#{rec.id}" do
+      click_link 'Del'
+    end
+
+    expect(page).to have_no_selector "#card_recommendation_#{rec.id}"
+    expect(Card.recommended.exists?(id: rec.id)).to be false
+  end
 end

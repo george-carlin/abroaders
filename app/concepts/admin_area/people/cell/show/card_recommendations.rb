@@ -41,7 +41,7 @@ module AdminArea::People::Cell
       end
 
       def visible_recommendations
-        @_vr ||= card_recommendations.reject { |r| r.pulled? || r.opened? }
+        @_vr ||= card_recommendations.reject(&:opened?)
       end
 
       class Row < Abroaders::Cell::Base
@@ -118,6 +118,17 @@ module AdminArea::People::Cell
           link_to('#', 'data-toggle': 'tooltip', title: decline_reason) do
             fa_icon('question')
           end
+        end
+
+        def link_to_delete
+          link_to(
+            'Del',
+            admin_card_recommendation_path(model),
+            data: {
+              confirm: 'Are you sure you want to delete this recommendation?',
+              method: :delete,
+            },
+          )
         end
 
         def link_to_edit

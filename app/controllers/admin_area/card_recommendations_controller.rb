@@ -26,6 +26,13 @@ module AdminArea
       render cell(CardRecommendations::Cell::Edit, @model, form: @form)
     end
 
+    def destroy
+      rec = Card.recommended.find(params[:id])
+      rec.destroy
+      flash[:success] = 'Deleted recommendation'
+      redirect_to admin_person_path(rec.person)
+    end
+
     def complete
       run CardRecommendations::Complete do |result|
         flash[:success] = 'Sent notification!'
@@ -33,17 +40,6 @@ module AdminArea
         return
       end
       raise 'this should never happen!'
-    end
-
-    def pull
-      # Not bothering with an Operation here because this entire action will be
-      # removed soon:
-      @recommendation = Card.recommended.find(params[:id])
-      @recommendation.update!(pulled_at: Time.zone.now)
-
-      respond_to do |f|
-        f.js
-      end
     end
   end
 end

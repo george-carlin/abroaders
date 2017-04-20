@@ -125,7 +125,6 @@ RSpec.describe Card do
     example ".actionable" do
       # not actionable:
       create_rec(:approved)
-      create_rec(:pulled)
       create_rec(:nudged, :denied)
       create_rec(:redenied)
       create_rec(:expired)
@@ -160,7 +159,6 @@ RSpec.describe Card do
 
     example ".unresolved" do
       # resolved:
-      create_rec(:pulled)
       create_rec(:applied)
       create_rec(:expired)
       declined = create_rec

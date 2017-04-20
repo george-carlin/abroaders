@@ -36,7 +36,7 @@ class CardRecommendation < CardRecommendation.superclass
       return false unless rec.recommended?
 
       # max. one of these methods should return true for the same rec:
-      rec_methods = [:declined?, :applied?, :expired?, :pulled?]
+      rec_methods = [:declined?, :applied?, :expired?]
       return false if rec_methods.count { |m| rec.send(m) } > 1
 
       # decline reason must be present iff rec is declined:

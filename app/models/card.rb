@@ -72,9 +72,6 @@
 #   than reusing 'declined_at' (which would make it unclear whether the user
 #   declined the card manually or it was declined automatically).
 #
-# @!attribute pulled_at
-#   pulled means that the admin withdrew the rec after making it.
-#
 # @!attribute applied_on
 #   the date the user *applied* for the card (according to them).
 #
@@ -142,7 +139,7 @@ class Card < ApplicationRecord
 
   # returns true iff the product can be applied for
   def applyable?
-    recommended? && !(applied? || pulled? || expired? || declined?)
+    recommended? && !(applied? || expired? || declined?)
   end
 
   alias declinable?  applyable?
@@ -163,34 +160,33 @@ class Card < ApplicationRecord
     # not final. So an 'actionable card' is basically the set of cards that are
     # either 1) unresolved recommendations or 2) unresolved applications.
     def actionable
-      unpulled.unopened.where(%["denied_at" IS NULL OR "nudged_at" IS NULL]).unredenied.unexpired.undeclined
+      unopened.where(%["denied_at" IS NULL OR "nudged_at" IS NULL]).unredenied.unexpired.undeclined
     end
 
     # A recommendation is 'resolved' when either a) the user applies for the
     # recommended card (so it's no longer just a recommendation, it's a card
     # application and maybe later a card account), or b) something happens
     # which means the user no longer can apply for the card. (Right now that
-    # means that the recommendation either expired, the user declined it, an
-    # admin pulled it, or the recommended offer is no longer available.
+    # means that the recommendation either expired, the user declined it, or
+    # the recommended offer is no longer available.
+    #
     # However, we don't have anything smart in place to handle the case where
-    # the recommended offer is no logner available; for now admins have to pull
-    # the rec manually when this happens - so this scope doesn't exclude them
-    # in that case.)
+    # the recommended offer is no longer available; for now admins have to
+    # delete the rec entirely when this happens - so this scope doesn't exclude
+    # them in that case.)
     def unresolved
-      unpulled.unapplied.unexpired.undeclined
+      unapplied.unexpired.undeclined
     end
   end
 
   scope :accounts, -> { where.not(opened_on: nil) }
 
-  scope :pulled,     -> { where.not(pulled_at: nil) }
   scope :unapplied,  -> { where(applied_on: nil) }
   scope :unclicked,  -> { where(clicked_at: nil) }
   scope :undeclined, -> { where(declined_at: nil) }
   scope :undenied,   -> { where(denied_at: nil) }
   scope :unexpired,  -> { where(expired_at: nil) }
   scope :unopened,   -> { where(opened_on: nil) }
-  scope :unpulled,   -> { where(pulled_at: nil) }
   scope :unredenied, -> { where(redenied_at: nil) }
   scope :unseen,     -> { where(seen_at: nil) }
 
