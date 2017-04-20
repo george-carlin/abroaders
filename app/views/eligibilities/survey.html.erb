@@ -24,9 +24,9 @@
     <%= form_tag survey_eligibility_path do %>
       <% if current_account.couples? %>
         <% {
-          both: "Both #{current_account.owner.first_name} and #{current_account.companion.first_name} are eligible.",
-          owner: "Only #{current_account.owner.first_name} is eligible.",
-          companion: "Only #{current_account.companion.first_name} is eligible.",
+          both: "Both #{current_account.owner_first_name} and #{current_account.companion_first_name} are eligible.",
+          owner: "Only #{current_account.owner_first_name} is eligible.",
+          companion: "Only #{current_account.companion_first_name} is eligible.",
           neither:  "Neither of us is eligible.",
         }.each do |value, lbl| %>
           <div class='radio'>
