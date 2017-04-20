@@ -28,7 +28,7 @@ module AdminArea
 
     def complete
       run CardRecommendations::Complete do |result|
-        flash[:success] = 'Sent notification!'
+        flash[:success] = 'Recs done! Requests are now marked as resolved'
         redirect_to admin_person_path(result['person'])
         return
       end

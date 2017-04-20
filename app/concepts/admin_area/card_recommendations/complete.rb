@@ -17,7 +17,6 @@ module AdminArea
 
       step Wrap(Abroaders::Transaction) {
         success :create_rec_note
-        success :send_notification
         success :resolve_recommendation_requests
       }
 
@@ -35,10 +34,6 @@ module AdminArea
         note = params[:recommendation_note]&.strip
         account.recommendation_notes.create!(content: note) if note.present?
         opts['recommendation_note'] = account.recommendation_notes.last
-      end
-
-      def send_notification(person:, **)
-        Notifications::NewRecommendations.notify!(person)
       end
 
       def resolve_recommendation_requests(account:, **)

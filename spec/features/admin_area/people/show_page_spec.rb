@@ -100,16 +100,7 @@ RSpec.describe 'admin - show person page', :manual_clean do
     expect do
       click_button 'Done'
       account.reload
-    end.to \
-      change { account.notifications.count }.by(1).and \
-        change { account.unseen_notifications_count }.by(1).and \
-          change { account.unresolved_recommendation_requests.count }.by(-1)
+    end.to change { account.unresolved_recommendation_requests.count }.by(-1)
     # .and send_email.to(account.email).with_subject("Action Needed: Card Recommendations Ready")
-
-    new_notification = account.notifications.order(created_at: :asc).last
-
-    # it sends a notification to the user:
-    expect(new_notification).to be_a(Notifications::NewRecommendations)
-    expect(new_notification.record).to eq person
   end
 end

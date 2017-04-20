@@ -56,13 +56,6 @@ class Account < ApplicationRecord
   has_one :owner_spending_info, through: :owner, source: :spending_info
   has_one :companion_spending_info, through: :owner, source: :spending_info
 
-  has_many :notifications, dependent: :destroy
-  has_many :unseen_notifications, -> { unseen }, class_name: "Notification" do
-    def count
-      proxy_association.owner.unseen_notifications_count
-    end
-  end
-
   has_many :recommendation_notes, dependent: :destroy
 
   # @param person_type [String] either 'both', 'companion', or 'owner'
@@ -105,16 +98,6 @@ class Account < ApplicationRecord
 
   def unresolved_recommendation_requests?
     unresolved_recommendation_requests.any?
-  end
-
-  # TODO these methods don't belong in here; updating the counter cache is a
-  # responsibility of the Notification class, not the Account class
-  def increment_unseen_notifications_count
-    self.class.increment_counter(:unseen_notifications_count, id)
-  end
-
-  def decrement_unseen_notifications_count
-    self.class.decrement_counter(:unseen_notifications_count, id)
   end
 
   # Callbacks
