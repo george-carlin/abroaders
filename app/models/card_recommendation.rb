@@ -72,11 +72,6 @@ class CardRecommendation < Disposable::Twin
   end
   include Predicates
 
-  def unopen?
-    warn 'CardRecommendation#unopen? is deprecated. Use #unopened?'
-    unopened?
-  end
-
   def actionable?
     unpulled? && unopened? && unredenied? && unredenied? && unexpired? && undeclined? &&
       (undenied? || unnudged?)

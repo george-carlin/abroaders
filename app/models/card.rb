@@ -156,7 +156,7 @@ class Card < ApplicationRecord
     # not final. So an 'actionable card' is basically the set of cards that are
     # either 1) unresolved recommendations or 2) unresolved applications.
     def actionable
-      unpulled.unopen.where(%["denied_at" IS NULL OR "nudged_at" IS NULL]).unredenied.unexpired.undeclined
+      unpulled.unopened.where(%["denied_at" IS NULL OR "nudged_at" IS NULL]).unredenied.unexpired.undeclined
     end
 
     # A recommendation is 'resolved' when either a) the user applies for the
@@ -182,7 +182,7 @@ class Card < ApplicationRecord
   scope :undeclined, -> { where(declined_at: nil) }
   scope :undenied,   -> { where(denied_at: nil) }
   scope :unexpired,  -> { where(expired_at: nil) }
-  scope :unopen,     -> { where(opened_on: nil) }
+  scope :unopened,   -> { where(opened_on: nil) }
   scope :unpulled,   -> { where(pulled_at: nil) }
   scope :unredenied, -> { where(redenied_at: nil) }
   scope :unseen,     -> { where(seen_at: nil) }
