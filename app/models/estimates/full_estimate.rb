@@ -6,9 +6,10 @@ module Estimates
     attribute :no_of_passengers, Types::Strict::Int
 
     def self.load(params)
+      destination_scope = Destination.includes(parent: { parent: :parent })
       new(
-        from: Destination.find_by_code!(params[:from_code].upcase),
-        to:   Destination.find_by_code!(params[:to_code].upcase),
+        from: destination_scope.find_by_code!(params[:from_code].upcase),
+        to:   destination_scope.find_by_code!(params[:to_code].upcase),
         type: params[:type],
         no_of_passengers: params[:no_of_passengers].to_i,
       )
