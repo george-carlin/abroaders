@@ -5,6 +5,7 @@ class CardRecommendation < CardRecommendation.superclass
 
       property :id
       property :applied?
+      property :bank_name
       property :card_product
       property :offer
 
@@ -24,10 +25,6 @@ class CardRecommendation < CardRecommendation.superclass
           class:  'card_recommendation_find_card_btn btn btn-primary btn-sm',
           target: '_blank',
         )
-      end
-
-      def bank_name
-        card_product.bank.name
       end
 
       def decline_btn

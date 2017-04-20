@@ -2,11 +2,9 @@ class CardProduct < CardProduct.superclass
   module Cell
     # @!method self.call(card_product, options = {})
     class Summary < Abroaders::Cell::Base
-      private
+      property :bank_name
 
-      def bank_name
-        model.bank.name
-      end
+      private
 
       def image
         Image.(model, size: '130x81')

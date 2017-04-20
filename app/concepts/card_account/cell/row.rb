@@ -11,6 +11,7 @@ class CardAccount < CardAccount.superclass
     #     link to the card account's edit page, and a link to delete it
     class Row < Abroaders::Cell::Base
       property :id
+      property :bank_name
       property :closed_on
       property :opened_on
       property :card_product
@@ -23,10 +24,6 @@ class CardAccount < CardAccount.superclass
       private
 
       MONTH_YEAR_FORMAT = '%b %Y'.freeze
-
-      def bank_name
-        card_product.bank.name
-      end
 
       def closed?
         !model.closed_on.nil?

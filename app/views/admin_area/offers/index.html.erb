@@ -58,7 +58,7 @@
                   admin_card_product_offers_path(offer.product),
                 ) %>
               </td>
-              <td><%= offer.product.bank.name %></td>
+              <td><%= offer.bank_name %></td>
               <td><%= Partner::Cell::ShortName.(offer.partner) %></td>
               <td><%= cell(Offer::Cell::PointsAwarded, offer) %></td>
               <td><%= cell(Offer::Cell::Spend, offer) %></td>

@@ -32,7 +32,7 @@
               <td class="offer_card_name">
                 <%= offer.product.name %>
               </td>
-              <td><%= offer.product.bank.name %></td>
+              <td><%= offer.bank_name %></td>
               <td><%= offer.product.bp[0].upcase %></td>
               <td><%= cell(Offer::Cell::PointsAwarded, offer) %></td>
               <td><%= cell(Offer::Cell::Spend, offer) %></td>

@@ -22,7 +22,7 @@ class LoyaltyAccount < Dry::Struct
 
     attrs = balance.attributes.symbolize_keys.slice(:id, :person_id)
     attrs[:balance_raw]   = balance.value
-    attrs[:currency_name] = balance.currency.name
+    attrs[:currency_name] = balance.currency_name
     attrs[:updated_at] = balance.updated_at.to_datetime
     new(attrs)
   end

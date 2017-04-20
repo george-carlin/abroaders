@@ -5,10 +5,12 @@ class Offer < Offer.superclass
     #
     # @!method self.call(offer, options = {})
     class Description < Abroaders::Cell::Base
+      property :condition
+      property :currency_name
       property :days
 
       def show
-        case model.condition
+        case condition
         when 'on_minimum_spend'
           "Spend #{spend} within #{days} days to receive a bonus of "\
             "#{points_awarded} #{currency_name} points"
@@ -21,10 +23,6 @@ class Offer < Offer.superclass
       end
 
       private
-
-      def currency_name # sorry, Mr. Demeter:
-        model.product.currency.name
-      end
 
       def points_awarded
         PointsAwarded.(model).()

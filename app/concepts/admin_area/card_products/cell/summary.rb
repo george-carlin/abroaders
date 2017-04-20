@@ -4,23 +4,17 @@ module AdminArea
       # @!method self.call(card_product, options = {})
       class Summary < Abroaders::Cell::Base
         property :bank
+        property :bank_name
         property :bp
         property :code
         property :currency
+        property :currency_name
         property :name
 
         private
 
         def annual_fee
-          CardProduct::Cell::AnnualFee.(model)
-        end
-
-        def bank_name
-          bank.name
-        end
-
-        def currency_name
-          currency.name
+          cell(CardProduct::Cell::AnnualFee, model)
         end
 
         def image

@@ -2,7 +2,6 @@ class Bank < Bank.superclass
   module Cell
     class FilterPanel < Abroaders::Cell::Base
       include CardRecommendation::FilterPanel
-      alias banks model
 
       property :name
 
@@ -13,7 +12,7 @@ class Bank < Bank.superclass
       end
 
       def check_box_tags
-        banks.map do |bank|
+        model.map do |bank|
           html_id = "#{CHECK_BOX_HTML_CLASS}_#{bank.id}"
           label_tag html_id do
             check_box_tag(

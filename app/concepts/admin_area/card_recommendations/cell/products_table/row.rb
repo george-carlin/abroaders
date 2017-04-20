@@ -6,22 +6,14 @@ module AdminArea
         # namespace, not here
         class Row < Abroaders::Cell::Base
           property :id
-          property :bank
+          property :bank_name
           property :bank_id
           property :bp
-          property :currency
+          property :currency_name
           property :currency_id
           property :name
 
           private
-
-          def bank_name
-            bank.name
-          end
-
-          def currency_name
-            currency.name
-          end
 
           def product_identifier
             link_to(
