@@ -2,7 +2,7 @@
 
 $(document).ready(function () {
   function filterTable() {
-    var checkedBPs, checkedBanks, checkedCurrencies;
+    var checkedBPs, checkedBanks;
 
     checkedBPs = $(".card_bp_filter:checked").map(function (i, cb) {
       return cb.dataset.value;
@@ -12,33 +12,25 @@ $(document).ready(function () {
       return cb.dataset.value;
     }).toArray();
 
-    var selector = ".card_currency_filter:checked";
-    checkedCurrencies = $(selector).map(function (i, cb) {
-      return cb.dataset.value;
-    }).toArray();
-
     $("tr.admin_recommend_card_product").each(function (i, tr) {
       var bankIsShown = checkedBanks.indexOf(tr.dataset.bank) > -1,
-          bpIsShown   = checkedBPs.indexOf(tr.dataset.bp) > -1,
-          currIsShown = checkedCurrencies.indexOf(tr.dataset.currency) > -1,
-          $cardTr  = $(tr),
-          show = bankIsShown && bpIsShown && currIsShown;
+          bpIsShown = checkedBPs.indexOf(tr.dataset.bp) > -1,
+          $cardTr = $(tr);
 
       // Show/hide both the TR which contains information about the card, and
       // the TR which contains the nested table with the information about the
       // the card's offers.
       $cardTr
-        .toggle(show)
+        .toggle(bankIsShown && bpIsShown)
         .next()
-          .toggle(show);
+          .toggle(bankIsShown && bpIsShown);
     });
 
     $("tr.card").each(function (i, tr) {
       var bankIsShown = checkedBanks.indexOf(tr.dataset.bank) > -1;
       var bpIsShown   = checkedBPs.indexOf(tr.dataset.bp) > -1;
-      var currIsShown = checkedCurrencies.indexOf(tr.dataset.currency) > -1;
 
-      $(tr).toggle(bankIsShown && bpIsShown && currIsShown);
+      $(tr).toggle(bankIsShown && bpIsShown);
     });
   }
 

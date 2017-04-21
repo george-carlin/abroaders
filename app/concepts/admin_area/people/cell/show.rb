@@ -74,10 +74,6 @@ module AdminArea
           cell(self.class::CardRecommendations, model)
         end
 
-        def currency_filter_panels
-          cell(Alliance::Cell::CurrencyFilterPanel, collection: Alliance.all)
-        end
-
         def heading
           cell(Heading, model)
         end
