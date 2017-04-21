@@ -1,4 +1,4 @@
-class Bank < Bank.superclass
+module AdminArea::Banks
   module Cell
     # @!method self.call(banks, options = {})
     #   @param banks [Collection<Bank>]
