@@ -1,32 +1,33 @@
 class Bank < Bank.superclass
   module Cell
+    # @!method self.call(banks, options = {})
+    #   @param banks [Collection<Bank>]
     class FilterPanel < Abroaders::Cell::Base
-      include CardRecommendation::FilterPanel
-
-      property :name
-
       private
 
-      def title
-        'Bank'
+      def check_box_tags
+        cell(CheckBoxFormGroup, collection: model)
       end
 
-      def check_box_tags
-        model.map do |bank|
-          html_id = "#{CHECK_BOX_HTML_CLASS}_#{bank.id}"
+      # @!method self.call(bank, options)
+      #   @param bank [Bank]
+      class CheckBoxFormGroup < Abroaders::Cell::Base
+        property :id
+        property :name
+
+        def show
+          html_id = "card_bank_filter_#{id}"
           label_tag html_id do
             check_box_tag(
               html_id,
               nil,
               true,
-              class: CHECK_BOX_HTML_CLASS,
-              data: { key: :bank, value: bank.id },
-            ) << raw("&nbsp;&nbsp#{bank.name}")
+              class: 'card_bank_filter',
+              data: { key: :bank, value: id },
+            ) << raw("&nbsp;&nbsp#{name}")
           end
-        end.join
+        end
       end
-
-      CHECK_BOX_HTML_CLASS = 'card_bank_filter'.freeze
     end
   end
 end
