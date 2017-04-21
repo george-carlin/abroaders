@@ -37,10 +37,6 @@ $(document).ready(function () {
     });
   }
 
-  $('.card_bp_filter').click(function (e) {
-    filterTable();
-  });
-
   function toggleOne(checkboxes, toggleElem) {
     // Show/hide the toggle all button:
     // If *all* other boxes are also checked:
@@ -58,19 +54,28 @@ $(document).ready(function () {
     filterTable();
   }
 
-  function toggleAll(toggleElem, checkboxes) {
-    checkboxes.each(function (i, cb) {
-      cb.checked = toggleElem.checked;
-    });
-    filterTable();
-  }
-
   var $cardBankFilterCheckboxes = $('.card_bank_filter');
   $cardBankFilterCheckboxes.click(function () {
     toggleOne($cardBankFilterCheckboxes, $("#card_bank_filter_all"));
   });
 
   $("#card_bank_filter_all").click(function () {
-    toggleAll(this, $cardBankFilterCheckboxes);
+    var toggleAllCB = this;
+    $cardBankFilterCheckboxes.each(function (i, cb) {
+      cb.checked = toggleAllCB.checked;
+    });
+    filterTable();
+  });
+
+  $('.card_bp_filter').click(function (e) {
+    filterTable();
+  });
+
+  $('.card_bank_only_filter').click(function (e) {
+    var bankId = this.dataset.value;
+    $("#card_bank_filter_all").prop('checked', false);
+    $(".card_bank_filter").prop('checked', false);
+    $("#card_bank_filter_" + bankId).prop('checked', true);
+    filterTable();
   });
 });

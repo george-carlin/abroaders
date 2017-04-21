@@ -24,8 +24,19 @@ class Bank < Bank.superclass
               true,
               class: 'card_bank_filter',
               data: { key: :bank, value: id },
-            ) << raw("&nbsp;&nbsp#{name}")
+            ) << raw("&nbsp;&nbsp#{name} #{only_btn}")
           end
+        end
+
+        private
+
+        def only_btn
+          button_tag(
+            'Only',
+            id: "card_bank_filter_#{id}_only",
+            class: 'btn-link btn-xs card_bank_only_filter',
+            data: { key: :bank, value: id },
+          )
         end
       end
     end
