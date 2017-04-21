@@ -19,7 +19,6 @@ RSpec.describe RecommendationRequest::Policy do
     example 'person has resolved recommendations' do
       create_card_recommendation(:applied, person: person)
       create_card_recommendation(:expired, person: person)
-      create_card_recommendation(:pulled, person: person)
 
       # and create a declined one:
       run!(
@@ -35,7 +34,6 @@ RSpec.describe RecommendationRequest::Policy do
       # same as the 'resolved' spec, plus one unresolved one
       create_card_recommendation(:applied, person: person)
       create_card_recommendation(:expired, person: person)
-      create_card_recommendation(:pulled, person: person)
 
       # declined rec:
       run!(

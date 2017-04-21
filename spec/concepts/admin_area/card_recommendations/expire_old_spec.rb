@@ -30,7 +30,6 @@ RSpec.describe AdminArea::CardRecommendations::ExpireOld do
     old_and_clicked  = create_rec(recommended_at: lose, seen_at: now, clicked_at: now)
     old_and_declined = create_rec(recommended_at: lose, seen_at: now, declined_at: now, decline_reason: 'X')
     old_and_applied = create_rec(recommended_at: lose, seen_at: now, applied_on: now)
-    old_and_pulled = create_rec(recommended_at: lose, pulled_at: now)
 
     # accounts that were already expired shouldn't have their expired_at date
     # changed:
@@ -60,7 +59,6 @@ RSpec.describe AdminArea::CardRecommendations::ExpireOld do
     expect(old_and_clicked.reload.expired_at).to be nil
     expect(old_and_declined.reload.expired_at).to be nil
     expect(old_and_applied.reload.expired_at).to be nil
-    expect(old_and_pulled.reload.expired_at).to be nil
 
     expect(old.reload.expired_at).to be_within(5.seconds).of(Time.zone.now)
     # cards that have only been *seen* should still expire:

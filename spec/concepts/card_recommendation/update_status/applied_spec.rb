@@ -38,15 +38,6 @@ RSpec.describe CardRecommendation::Operation::UpdateStatus::Applied do
     expect(result['error']).to eq t("cards.invalid_status_error")
   end
 
-  example 'failure - rec pulled' do
-    rec.update!(pulled_at: Time.zone.now) # USEOP
-
-    # try applying again:
-    result = op.({ id: rec.id }, 'account' => account)
-    expect(result.success?).to be false
-    expect(result['error']).to eq t("cards.invalid_status_error")
-  end
-
   example 'failure - rec expired' do
     rec.update!(expired_at: Time.zone.now)
 

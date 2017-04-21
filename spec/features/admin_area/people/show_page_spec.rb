@@ -103,4 +103,16 @@ RSpec.describe 'admin - show person page', :manual_clean do
     end.to change { account.unresolved_recommendation_requests.count }.by(-1)
     # .and send_email.to(account.email).with_subject("Action Needed: Card Recommendations Ready")
   end
+
+  example 'deleting a recommendation', :js do
+    rec = create_card_recommendation(person: person)
+    visit_path
+
+    within "#card_recommendation_#{rec.id}" do
+      click_link 'Del'
+    end
+
+    expect(page).to have_no_selector "#card_recommendation_#{rec.id}"
+    expect(Card.recommended.exists?(id: rec.id)).to be false
+  end
 end
