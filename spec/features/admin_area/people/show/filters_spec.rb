@@ -10,31 +10,26 @@ RSpec.describe 'admin/people#show card & offer filters', :js, :manual_clean do
     @chase = create(:bank, name: "Chase")
     @usb = create(:bank, name: "US Bank")
 
-    @currencies = create_list(:currency, 3, type: :airline)
+    @currencies = Currency::TYPES.map { |t| create(:currency, type: t) }
 
-    @hotel_currency = create(:currency, type: 'hotel')
-    @bank_currency = create(:currency, type: 'bank')
-
-    def create_prod(bp, bank, currency)
-      product = create(:card_product, bp, bank_id: bank.id, currency: currency)
-      # make sure every product has at least one offer or it won't be shown
-      create_offer(product: product)
-      product
+    # ensure we have at least one of each sub-type of card product
+    %w[business personal].each do |bp|
+      @products = [@chase, @usb].flat_map do |bank|
+        @currencies.flat_map do |currency|
+          product = create(:card_product, bp: bp, bank: bank, currency: currency)
+          # make sure every product has at least one offer or it won't be shown
+          create_offer(product: product)
+          product
+        end
+      end
     end
-
-    @products = [
-      # ivar name format: @BankName_BP_CurrencyType
-      @chase_b_a = create_prod(:business, @chase, @currencies[0]),
-      @chase_p_a = create_prod(:personal, @chase, @currencies[1]),
-      @usb_b_a   = create_prod(:business, @usb, @currencies[2]),
-      @usb_p_h = create_prod(:personal, @usb, @hotel_currency),
-      @chase_b_b = create_prod(:business, @chase, @bank_currency),
-    ]
   end
+
+  let(:products) { @products }
 
   before do
     # can't create this in before(:all) because 'person' is a let variable
-    @card_accounts = @products.map { |p| create_card_account(person: person, card_product: p) }
+    @card_accounts = products.map { |p| create_card_account(person: person, card_product: p) }
     visit admin_person_path(person)
   end
 
@@ -44,12 +39,11 @@ RSpec.describe 'admin/people#show card & offer filters', :js, :manual_clean do
 
   let(:chase_prods) { products.select { |p| p.bank == @chase } }
   let(:usb_prods) { products.select { |p| p.bank == @usb } }
-  let(:personal_prods) { [@chase_p_a, @usb_p_h] }
-  let(:business_prods) { [@chase_b_a, @chase_b_b, @usb_b_a] }
-  let(:airline_currency_prods) { [@chase_b_a, @chase_b_b, @chase_p_a] }
-  let(:bank_currency_prods) { [@chase_b_b] }
-  let(:hotel_currency_prods) { [@usb_p_h] }
-  let(:products) { @products }
+  let(:personal_prods) { products.select { |p| p.bp == 'personal' } }
+  let(:business_prods) { products.select { |p| p.bp == 'business' } }
+  let(:airline_currency_prods) { products.select { |p| p.currency.type == 'airline' } }
+  let(:bank_currency_prods) { products.select { |p| p.currency.type == 'bank' } }
+  let(:hotel_currency_prods) { products.select { |p| p.currency.type == 'hotel' } }
 
   # specify which products should be shown. The macro will check that they're
   # shown.  Then it look at the list of products to figure out which ones by
