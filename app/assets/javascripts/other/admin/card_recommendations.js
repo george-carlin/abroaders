@@ -70,18 +70,7 @@ $(document).ready(function () {
     toggleOne($cardBankFilterCheckboxes, $("#card_bank_filter_all"));
   });
 
-  var $cardCurrencyFilterCheckboxes = $('.card_currency_filter');
-  $cardCurrencyFilterCheckboxes.click(function () {
-    var toggleAllCheckbox = $(this).closest(".panel-body").find(".toggle-all-currency-checkbox");
-    toggleOne($cardCurrencyFilterCheckboxes, toggleAllCheckbox);
-  });
-
   $("#card_bank_filter_all").click(function () {
     toggleAll(this, $cardBankFilterCheckboxes);
-  });
-
-  $(".toggle-all-currency-checkbox").click(function () {
-    var checkboxes = $(this).closest(".panel-body").find(".card_currency_filter");
-    toggleAll(this, checkboxes);
   });
 });
