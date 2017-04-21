@@ -32,7 +32,11 @@ RSpec.describe 'admin/people#show card & offer filters', :js, :manual_clean do
     ]
   end
 
-  before { visit admin_person_path(person) }
+  before do
+    # can't create this in before(:all) because 'person' is a let variable
+    @card_accounts = @products.map { |p| create_card_account(person: person, card_product: p) }
+    visit admin_person_path(person)
+  end
 
   let(:all_banks_check_box) { :card_bank_filter_all }
   let(:chase_check_box)   { :"card_bank_filter_#{@chase.id}" }
@@ -47,12 +51,33 @@ RSpec.describe 'admin/people#show card & offer filters', :js, :manual_clean do
   let(:hotel_currency_prods) { [@usb_p_h] }
   let(:products) { @products }
 
+  # specify which products should be shown. The macro will check that they're
+  # shown.  Then it look at the list of products to figure out which ones by
+  # extension *shouldn't* be shown and check that they're not.
+  #
+  # also checks that the person's card accounts have been hidden or shown based
+  # on the same criteria for the product. We only hide/show their accounts, not
+  # their non-opened recommendations.
   def page_should_have_these_visible_products(visible)
-    visible.each do |product|
+    hidden = products - visible
+
+    visible.each do |product| # check that the right card prods are shown
       expect(page).to have_selector "#admin_recommend_card_product_#{product.id}"
     end
-    (products - visible).each do |product|
+
+    hidden.each do |product| # check that the right card prods are hidden
       expect(page).to have_no_selector "#admin_recommend_card_product_#{product.id}"
+    end
+
+    @card_accounts.each do |acc|
+      selector = "#admin_person_card_accounts_table #card_account_#{acc.id}"
+      if visible.include?(acc.card_product)
+        expect(page).to have_selector selector
+      elsif hidden.include?(acc.card_product)
+        expect(page).to have_no_selector selector
+      else
+        raise 'this should never happen!'
+      end
     end
   end
 

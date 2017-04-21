@@ -75,7 +75,6 @@ module AdminArea::People::Cell
             class: 'card_account',
             'data-bp':       card_product.bp,
             'data-bank':     card_product.bank_id,
-            'data-currency': card_product.currency_id,
             &block
           )
         end

@@ -26,7 +26,10 @@ $(document).ready(function () {
           .toggle(bankIsShown && bpIsShown);
     });
 
-    $("tr.card").each(function (i, tr) {
+    // Show/hide the person's existing card accounts too. Note that we only
+    // filter their card accounts, not their card recommendations; this is a
+    // deliberate choice.
+    $("#admin_person_card_accounts_table tbody tr").each(function (i, tr) {
       var bankIsShown = checkedBanks.indexOf(tr.dataset.bank) > -1;
       var bpIsShown   = checkedBPs.indexOf(tr.dataset.bp) > -1;
 

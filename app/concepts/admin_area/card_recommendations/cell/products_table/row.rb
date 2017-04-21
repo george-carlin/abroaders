@@ -27,11 +27,7 @@ module AdminArea
               :tr,
               id: "admin_recommend_card_product_#{id}",
               class: 'admin_recommend_card_product',
-              data: {
-                bp:       bp,
-                bank:     bank_id,
-                currency: currency_id,
-              },
+              data: { bp: bp, bank: bank_id },
               &block
             )
           end
