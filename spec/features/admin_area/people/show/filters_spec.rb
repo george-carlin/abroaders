@@ -13,7 +13,7 @@ RSpec.describe 'admin/people#show card & offer filters', :js, :manual_clean do
     @currencies = create_list(:currency, 3, type: :airline)
 
     @hotel_currency = create(:currency, type: 'hotel')
-    @bank_currency  = create(:currency, type: 'bank')
+    @bank_currency = create(:currency, type: 'bank')
 
     def create_prod(bp, bank, currency)
       product = create(:card_product, bp, bank_id: bank.id, currency: currency)
@@ -41,35 +41,30 @@ RSpec.describe 'admin/people#show card & offer filters', :js, :manual_clean do
   let(:chase_prods) { [@chase_b_a, @chase_b_b, @chase_p_a] }
   let(:usb_prods) { [@usb_p_h, @usb_b_a] }
   let(:personal_prods) { [@chase_p_a, @usb_p_h] }
-  let(:business_prods) { [@chase_b_b, @chase_b_b, @usb_b_a] }
+  let(:business_prods) { [@chase_b_a, @chase_b_b, @usb_b_a] }
   let(:airline_currency_prods) { [@chase_b_a, @chase_b_b, @chase_p_a] }
   let(:bank_currency_prods) { [@chase_b_b] }
   let(:hotel_currency_prods) { [@usb_p_h] }
   let(:products) { @products }
 
-  def page_should_have_recommendable_products(products) # arg = array of products
-    products.each do |product|
+  def page_should_have_these_visible_products(visible)
+    visible.each do |product|
       expect(page).to have_selector "#admin_recommend_card_product_#{product.id}"
     end
-  end
-
-  def page_should_not_have_recommendable_products(products) # arg = array of products
-    products.each do |product|
+    (products - visible).each do |product|
       expect(page).to have_no_selector "#admin_recommend_card_product_#{product.id}"
     end
   end
 
   example 'filtering by b/p' do
     uncheck :card_bp_filter_business
-    page_should_have_recommendable_products(personal_prods)
-    page_should_not_have_recommendable_products(business_prods)
+    page_should_have_these_visible_products(personal_prods)
     uncheck :card_bp_filter_personal
-    page_should_not_have_recommendable_products(products)
+    page_should_have_these_visible_products([])
     check :card_bp_filter_business
-    page_should_have_recommendable_products(business_prods)
-    page_should_not_have_recommendable_products(personal_prods)
+    page_should_have_these_visible_products(business_prods)
     check :card_bp_filter_personal
-    page_should_have_recommendable_products(products)
+    page_should_have_these_visible_products(products)
   end
 
   example 'filtering by bank' do
@@ -78,25 +73,23 @@ RSpec.describe 'admin/people#show card & offer filters', :js, :manual_clean do
     end
 
     uncheck chase_check_box
-    page_should_have_recommendable_products(usb_prods)
-    page_should_not_have_recommendable_products(chase_prods)
+    page_should_have_these_visible_products(usb_prods)
     uncheck us_bank_check_box
-    page_should_not_have_recommendable_products(products)
+    page_should_have_these_visible_products([])
     check chase_check_box
-    page_should_have_recommendable_products(chase_prods)
-    page_should_not_have_recommendable_products(usb_prods)
+    page_should_have_these_visible_products(chase_prods)
     check us_bank_check_box
-    page_should_have_recommendable_products(products)
+    page_should_have_these_visible_products(products)
   end
 
   example 'toggling all banks' do
     uncheck all_banks_check_box
-    page_should_not_have_recommendable_products(products)
+    page_should_have_these_visible_products([])
     Bank.all.each do |bank|
       expect(page).to have_field :"card_bank_filter_#{bank.id}", checked: false
     end
     check all_banks_check_box
-    page_should_have_recommendable_products(products)
+    page_should_have_these_visible_products(products)
     Bank.all.each do |bank|
       expect(page).to have_field :"card_bank_filter_#{bank.id}", checked: true
     end
