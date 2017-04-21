@@ -32,6 +32,7 @@ RSpec.describe SampleDataMacros do
         card = create_card_account(person: owner)
         expect(card).to be_a(Card)
       end.to change { owner.cards.count }.by(1)
+      expect(Person.count).to eq 1 # doesn't create extra people as a side effect
     end
 
     example 'specifying person who is companion' do
@@ -41,6 +42,7 @@ RSpec.describe SampleDataMacros do
         card = create_card_account(person: companion)
         expect(card).to be_a(Card)
       end.to change { companion.cards.count }.by(1)
+      expect(Person.count).to eq 2 # doesn't create extra people as a side effect
     end
   end
 
@@ -49,6 +51,7 @@ RSpec.describe SampleDataMacros do
       expect do
         create_card_recommendation
       end.to change { Card.recommended.count }.by(1)
+      expect(Admin.count).to eq 1
     end
 
     example 'with :approved trait' do
@@ -60,13 +63,35 @@ RSpec.describe SampleDataMacros do
       expect(rec).to be_applied
       expect(rec).to be_opened
     end
+
+    example 'specifying admin' do
+      admin = create_admin
+      expect do
+        rec = create_card_recommendation(admin: admin)
+        expect(rec.recommended_by).to eq admin
+      end.to change { Card.recommended.count }.by(1)
+      expect(Admin.count).to eq 1
+    end
   end
 
-  example '#create_offer' do
-    expect do
-      offer = create_offer
-      expect(offer).to be_an(Offer)
-    end.to change { Offer.count }.by(1)
+  describe '#create_offer' do
+    it '' do
+      expect do
+        offer = create_offer
+        expect(offer).to be_an(Offer)
+      end.to change { Offer.count }.by(1)
+      expect(CardProduct.count).to eq 1
+    end
+
+    example 'specifying product' do
+      card_product = create(:card_product)
+      expect do
+        offer = create_offer(product: card_product)
+        expect(offer).to be_an(Offer)
+        expect(offer.product).to eq card_product
+      end.to change { Offer.count }.by(1)
+      expect(CardProduct.count).to eq 1
+    end
   end
 
   example '#create_travel_plan' do

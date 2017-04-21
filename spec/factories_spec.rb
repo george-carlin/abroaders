@@ -49,6 +49,12 @@ RSpec.describe "factories" do
     end
   end
 
+  describe 'card product factory' do
+    it '' do
+      expect { create(:card_product) }.to change { CardProduct.count }.by(1)
+    end
+  end
+
   describe "person factory" do
     let(:create_person) { create(:person, *traits) }
     let(:traits) { [] }

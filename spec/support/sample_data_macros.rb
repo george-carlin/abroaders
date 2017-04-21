@@ -42,11 +42,13 @@ module SampleDataMacros
       @_admin_sequence ||= -1
       @_admin_sequence += 1
 
-      Admin.create!({
+      attrs = {
         email: "admin-#{@_admin_sequence}@example.com",
         password: 'abroaders123',
         password_confirmation: 'abroaders123',
-      }.merge(overrides),)
+      }.merge(overrides)
+
+      Admin.create!(attrs)
     end
   end
 
@@ -64,14 +66,18 @@ module SampleDataMacros
       partner: 'card_benefit',
       points_awarded: rand(20) * 5_000,
       spend: rand(10) * 500,
-    }
+    }.merge(overrides)
 
-    product_id = overrides.fetch(:product, create(:product)).id
+    card_product = if overrides.key?(:product)
+                     overrides.fetch(:product)
+                   else
+                     create(:card_product)
+                   end
 
     run!(
       AdminArea::Offers::Operation::Create,
       offer: attrs,
-      card_product_id: product_id,
+      card_product_id: card_product.id,
     )['model']
   end
 
@@ -112,7 +118,7 @@ module SampleDataMacros
                   create(:person).id
                 end
 
-    admin = overrides.fetch(:admin, create_admin)
+    admin = overrides.key?(:admin) ? overrides.fetch(:admin) : create_admin
 
     rec = run!(
       AdminArea::CardRecommendations::Create,
