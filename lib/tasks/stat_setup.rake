@@ -4,9 +4,8 @@ task stats: 'ab:stat_setup'
 namespace :ab do
   task :stat_setup do
     [
-      ['Concepts',    'app/concepts'],
-      ['Forms',       'app/forms'],
-      ['Serializers', 'app/serializers'],
+      ['Concepts', 'app/concepts'],
+      ['Forms', 'app/forms'],
     ].each do |name, dir|
       ::STATS_DIRECTORIES << [name, Rails.root.join(dir)]
       ::CodeStatistics::TEST_TYPES << name if dir =~ /\Aspec\//

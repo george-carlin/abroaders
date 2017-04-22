@@ -75,8 +75,4 @@ class CardProduct < ApplicationRecord
   # Callbacks
 
   auto_strip_attributes :name, callback: :before_validation
-
-  def serializer_class
-    CardProduct::Serializer
-  end
 end

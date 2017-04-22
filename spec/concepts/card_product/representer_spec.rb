@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe CardProduct::Serializer do
-  it 'serializes a card product to JSON' do
+RSpec.describe CardProduct::Representer do
+  it 'represents a card product as JSON' do
     bank = build(
       :bank,
       business_phone: '800 453-9719',
