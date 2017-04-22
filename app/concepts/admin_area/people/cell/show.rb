@@ -115,6 +115,10 @@ module AdminArea
           cell(People::Cell::SpendingInfo, model, account: account)
         end
 
+        def spend_filter_input
+          number_field_tag :card_spend_filter, nil, placeholder: 'Max. spend', min: 0
+        end
+
         def travel_plans_list
           return 'User has no upcoming travel plans' if travel_plans.none?
           '<h3>Travel Plans</h3>' << content_tag(:div, class: 'account_travel_plans') do

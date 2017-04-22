@@ -17,7 +17,7 @@ $(document).ready(function () {
   // the cards/offers, with only a minimal coupling between these two concerns.
 
   function updateFilteredElements() {
-    var checkedBPs, checkedBanks;
+    var checkedBPs, checkedBanks, maxSpend;
 
     checkedBPs = $(".card_bp_filter:checked").map(function (i, cb) {
       return cb.dataset.value;
@@ -27,10 +27,56 @@ $(document).ready(function () {
       return cb.dataset.value;
     }).toArray();
 
+    maxSpend = parseInt($('#card_spend_filter').val(), 10);
+
+    $('tr.admin_recommend_offer').each(function (i, offerTr) {
+      var spend = parseInt(offerTr.dataset.offerSpend, 10);
+      // if the max spend input is blank then we don't want to filter out any
+      // offers by their spend. We'll know the input was blank if parseInt
+      // returned an NaN.
+      var visible = isNaN(maxSpend) ? true : spend <= maxSpend;
+      $(this)
+        .toggle(visible)
+        // See below for notes on what this data attr is for:
+        .data('visible', visible);
+    });
+
     $("tr.admin_recommend_card_product").each(function (i, tr) {
-      var bankIsShown = checkedBanks.indexOf(tr.dataset.bank) > -1,
-          bpIsShown = checkedBPs.indexOf(tr.dataset.bp) > -1,
-          $cardTr = $(tr);
+      var $this = $(this);
+
+      // If all the product's offers have been hidden by the max spend filter,
+      // we can hide the product entirely, and we don't need to check its bank
+      // and BP. However, checking whether each offer is ':visible' won't work
+      // because if the *product* was hidden by a previous filter, all offers
+      // will be hidden even if they weren't hidden by the max spend filter.
+      //
+      // To get around this, the max spend filter sets a data attribute on each
+      // offer's TR, and we check for that data attribute here rather than
+      // looking at the TR's 'real' visibility in the DOM.
+      var $offers = $this.next().find('.admin_recommend_offer');
+      var anyOffersAreVisible = _.any($offers, function (offer) {
+        // we have to use jQuery's 'data' method rather than just calling
+        // .dataset on the plain DOM element, because data attributes set
+        // by jQuery can only be read by jQuery
+        return $(offer).data('visible');
+      });
+
+      if (anyOffersAreVisible) {
+        // show the product (in case it was hidden by a previous filter update)
+        $this.show();
+        $this.next().show();
+      } else {
+        $this.hide();
+        // hide the TR that contains the offers. It's adjacent to the product's
+        // TR, not contained within it:
+        $this.next().hide();
+        // No need to check the product's bank or BP; skip to next row:
+        return true;
+      }
+
+      var bankIsShown = checkedBanks.indexOf(tr.dataset.bank) > -1;
+      var bpIsShown = checkedBPs.indexOf(tr.dataset.bp) > -1;
+      var $cardTr = $(tr);
 
       // Show/hide both the TR which contains information about the card, and
       // the TR which contains the nested table with the information about the
@@ -82,4 +128,7 @@ $(document).ready(function () {
     $("#card_bank_filter_" + bankId).prop('checked', true);
     updateFilteredElements();
   });
+
+  var $cardSpendFilter = $('#card_spend_filter');
+  $cardSpendFilter.on('input', updateFilteredElements);
 });
