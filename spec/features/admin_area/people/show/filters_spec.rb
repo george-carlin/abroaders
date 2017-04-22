@@ -13,8 +13,8 @@ RSpec.describe 'admin/people#show card & offer filters', :js, :manual_clean do
     @currencies = Currency::TYPES.map { |t| create(:currency, type: t) }
 
     # ensure we have at least one of each sub-type of card product
-    %w[business personal].each do |bp|
-      @products = [@chase, @usb].flat_map do |bank|
+    @products = %w[business personal].flat_map do |bp|
+      [@chase, @usb].flat_map do |bank|
         @currencies.flat_map do |currency|
           product = create(:card_product, bp: bp, bank: bank, currency: currency)
           # make sure every product has at least one offer or it won't be shown
