@@ -6,7 +6,6 @@ module AdminArea
         property :bank
         property :bank_name
         property :bp
-        property :code
         property :currency
         property :currency_name
         property :name

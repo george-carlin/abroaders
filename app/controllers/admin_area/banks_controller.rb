@@ -1,15 +1,15 @@
 module AdminArea
   class BanksController < AdminController
     def index
-      @banks = Bank.all.order(personal_code: :asc)
+      @banks = Bank.all.order(name: :asc)
     end
 
     def edit
-      @bank = Bank::Form.new(load_bank)
+      @bank = Bank::Form.new(Bank.find(params[:id]))
     end
 
     def update
-      @bank = Bank::Form.new(load_bank)
+      @bank = Bank::Form.new(Bank.find(params[:id]))
       if @bank.validate(params[:bank])
         @bank.save
         flash[:success] = "Updated bank '#{@bank.model.name}!'"
@@ -17,12 +17,6 @@ module AdminArea
       else
         render 'edit'
       end
-    end
-
-    private
-
-    def load_bank
-      Bank.find(params[:id])
     end
   end
 end

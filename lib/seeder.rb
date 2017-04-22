@@ -33,10 +33,9 @@ module Seeder
       [19, 'SunTrust'],
       [21, 'TD Bank'],
       [23, 'Wells Fargo'],
-    ].each do |code, name, personal_phone, business_phone|
+    ].each do |_code, name, personal_phone, business_phone|
       Bank.create!(
         business_phone: business_phone,
-        personal_code:  code,
         name:           name,
         personal_phone: personal_phone,
       )

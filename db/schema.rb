@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170420222800) do
+ActiveRecord::Schema.define(version: 20170422002051) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,11 +29,11 @@ ActiveRecord::Schema.define(version: 20170420222800) do
     t.datetime "created_at",                                        null: false
     t.datetime "updated_at",                                        null: false
     t.integer  "monthly_spending_usd"
-    t.string   "phone_number"
-    t.string   "phone_number_normalized"
     t.string   "onboarding_state",        default: "home_airports", null: false
     t.string   "promo_code"
     t.boolean  "test",                    default: false,           null: false
+    t.string   "phone_number"
+    t.string   "phone_number_normalized"
     t.index ["email"], name: "index_accounts_on_email", unique: true, using: :btree
     t.index ["onboarding_state"], name: "index_accounts_on_onboarding_state", using: :btree
     t.index ["phone_number_normalized"], name: "index_accounts_on_phone_number_normalized", using: :btree
@@ -129,7 +129,6 @@ ActiveRecord::Schema.define(version: 20170420222800) do
 
   create_table "banks", force: :cascade do |t|
     t.string   "name",           null: false
-    t.integer  "personal_code",  null: false
     t.string   "personal_phone"
     t.string   "business_phone"
     t.datetime "created_at",     null: false
@@ -137,7 +136,6 @@ ActiveRecord::Schema.define(version: 20170420222800) do
   end
 
   create_table "card_products", force: :cascade do |t|
-    t.string   "code",                              null: false
     t.string   "name",                              null: false
     t.integer  "network",                           null: false
     t.integer  "bp",                                null: false

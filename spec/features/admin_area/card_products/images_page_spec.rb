@@ -12,7 +12,7 @@ RSpec.describe 'admin - card images page' do
 
   it 'lists the cards' do
     @products.each do |product|
-      expect(page).to have_content AdminArea::CardProducts::Cell::Identifier.(product).()
+      expect(page).to have_selector "#card_product_#{product.id}"
     end
   end
 end

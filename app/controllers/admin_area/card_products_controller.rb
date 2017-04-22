@@ -52,7 +52,7 @@ module AdminArea
 
     def card_product_params
       params.require(:card_product).permit(
-        :code, :name, :network, :bp, :type, :annual_fee, :bank_id, :currency_id,
+        :name, :network, :bp, :type, :annual_fee, :bank_id, :currency_id,
         :shown_on_survey, :image,
       )
     end
