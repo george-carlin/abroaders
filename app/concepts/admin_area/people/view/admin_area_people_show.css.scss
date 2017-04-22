@@ -40,31 +40,6 @@ tr.admin_recommend_product_offers > td {
   border-top: none !important;
 }
 
-.admin-card-recommendation-table {
-  th, td {
-
-    &.card-identifier {
-      width: 120px;
-    }
-
-    &.card-name {
-      width: 40%;
-    }
-
-    &.card-bank-name {
-      width: 200px;
-    }
-
-    &.card-bp {
-      width: 100px;
-    }
-
-    &.card-currency {
-      min-width: 180px;
-    }
-  }
-}
-
 tr.admin_recommend_card_product_offers {
   margin-bottom: 0 !important;
 

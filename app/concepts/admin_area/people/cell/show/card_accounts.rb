@@ -44,6 +44,8 @@ module AdminArea::People::Cell
 
         private
 
+        delegate :bp, to: :card_product, prefix: true
+
         def card_product_name
           cell(CardProduct::Cell::FullName, card_product, with_bank: true)
         end
