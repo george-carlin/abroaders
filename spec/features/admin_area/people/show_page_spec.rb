@@ -43,8 +43,6 @@ RSpec.describe 'admin - show person page', :manual_clean do
   let(:account) { @account }
   let(:person)  { @person }
 
-  let(:complete_recs_form_selector) { '#complete_card_recommendations' }
-
   it 'has the correct title' do
     visit_path
     expect(page).to have_title full_title(person.first_name)

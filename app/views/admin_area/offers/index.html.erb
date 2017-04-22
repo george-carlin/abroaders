@@ -48,10 +48,8 @@
 
         <tbody>
           <% @offers.each do |offer| %>
-            <%= content_tag_for :tr, offer do %>
-              <td>
-                <%= AdminArea::CardProducts::Cell::Identifier.(offer.product) %>-<%= AdminArea::Offers::Cell::Identifier.(offer) %>
-              </td>
+            <tr id="offer_<%= offer.id %>" class="offer">
+              <td><%= offer.id %></td>
               <td>
                 <%= link_to(
                   offer.product.name,
@@ -69,7 +67,7 @@
               <td><%= link_to 'Show', admin_offer_path(offer) %>
               <td><%= link_to 'Edit', edit_admin_offer_path(offer) %>
             <% end %>
-          <% end %>
+          </tr>
         </tbody>
       </table>
     </div>

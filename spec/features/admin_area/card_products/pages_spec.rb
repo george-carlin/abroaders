@@ -15,7 +15,6 @@ RSpec.describe "admin product pages" do
   # trimming whitespace too
 
   def it_has_fields_for_card_product
-    expect(page).to have_field :card_product_code
     expect(page).to have_field :card_product_name
     expect(page).to have_field :card_product_network
     expect(page).to have_field :card_product_bp
@@ -84,7 +83,6 @@ RSpec.describe "admin product pages" do
 
       describe "with valid information" do
         before do
-          fill_in :card_product_code, with: "XXX"
           fill_in :card_product_name, with: "Chase Visa Something"
           select "MasterCard", from: :card_product_network
           select 'Business',   from: :card_product_bp
@@ -102,7 +100,6 @@ RSpec.describe "admin product pages" do
         it "shows me the newly created product" do
           expect { submit_form }.to change { CardProduct.count }.by(1)
           expect(page).to have_selector 'h1', text: "Chase Visa Something"
-          expect(page).to have_content "XXX"
           expect(page).to have_content "MasterCard"
           expect(page).to have_content "business"
           expect(page).to have_content "Credit"
@@ -113,11 +110,9 @@ RSpec.describe "admin product pages" do
         end
 
         it "strips trailing whitespace from text inputs" do
-          fill_in :card_product_code, with: "   ABC   "
           fill_in :card_product_name, with: "    something  "
           submit_form
 
-          expect(product.code).to eq "ABC"
           expect(product.name).to eq "something"
         end
 
@@ -168,7 +163,6 @@ RSpec.describe "admin product pages" do
 
       describe "with valid information" do
         before do
-          fill_in :card_product_code, with: "XXX"
           fill_in :card_product_name, with: "Chase Visa Something"
           select "MasterCard", from: :card_product_network
           select "Business",   from: :card_product_bp
@@ -183,7 +177,6 @@ RSpec.describe "admin product pages" do
 
         it 'updates the product and display it' do
           @product.reload
-          expect(@product.code).to eq "XXX"
           expect(@product.name).to eq "Chase Visa Something"
           expect(@product.network).to eq "mastercard"
           expect(@product.bp).to eq "business"
@@ -198,7 +191,7 @@ RSpec.describe "admin product pages" do
       end
 
       describe "with invalid information" do
-        before { fill_in :card_product_code, with: "" }
+        before { fill_in :card_product_name, with: "" }
 
         it "doesn't update the card" do
           expect { submit_form }.not_to change { @product.reload.attributes }

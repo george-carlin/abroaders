@@ -49,7 +49,7 @@ module AdminArea
         end
 
         def bank_filter_panels
-          cell(Bank::Cell::FilterPanel, Bank.order(name: :asc))
+          cell(Banks::Cell::FilterPanel, Bank.order(name: :asc))
         end
 
         def card_accounts
@@ -72,10 +72,6 @@ module AdminArea
 
         def card_recommendations
           cell(self.class::CardRecommendations, model)
-        end
-
-        def currency_filter_panels
-          cell(Alliance::Cell::CurrencyFilterPanel, collection: Alliance.all)
         end
 
         def heading
@@ -117,6 +113,10 @@ module AdminArea
 
         def spending_info
           cell(People::Cell::SpendingInfo, model, account: account)
+        end
+
+        def spend_filter_input
+          number_field_tag :card_spend_filter, nil, placeholder: 'Max. spend', min: 0
         end
 
         def travel_plans_list

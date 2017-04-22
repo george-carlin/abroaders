@@ -11,7 +11,7 @@ module AdminArea
       # This is display logic, it belongs in a cell, not an operation. REFACTORME
       def self.product_options
         CardProduct.all.map do |product|
-          [CardProducts::Cell::Identifier.(product).(), product.id]
+          [CardProduct::Cell::FullName.(product, with_bank: true).(), product.id]
         end.sort_by { |p| p[0] }
       end
 

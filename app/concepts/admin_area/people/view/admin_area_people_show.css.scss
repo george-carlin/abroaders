@@ -9,7 +9,14 @@ $darkBlue: #0e96ff;
 }
 
 tr.admin_recommend_card_product {
-  background-color: $darkBlue;
+  &[data-bp=business] {
+    background-color: #999;
+  }
+
+  &[data-bp=personal] {
+    background-color: $darkBlue;
+  }
+
   color: #f0f0f0;
 
   a {
@@ -31,31 +38,6 @@ tr.admin_recommend_product_offers > td {
 
 .admin_recommend_offer:first-child > td {
   border-top: none !important;
-}
-
-.admin-card-recommendation-table {
-  th, td {
-
-    &.card-identifier {
-      width: 120px;
-    }
-
-    &.card-name {
-      width: 40%;
-    }
-
-    &.card-bank-name {
-      width: 200px;
-    }
-
-    &.card-bp {
-      width: 100px;
-    }
-
-    &.card-currency {
-      min-width: 180px;
-    }
-  }
 }
 
 tr.admin_recommend_card_product_offers {

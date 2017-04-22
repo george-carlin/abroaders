@@ -15,23 +15,12 @@ module AdminArea
 
           private
 
-          def product_identifier
-            link_to(
-              "Card #{CardProducts::Cell::Identifier.(model)}",
-              admin_card_product_offers_path(model),
-            )
-          end
-
           def tr_tag(&block)
             content_tag(
               :tr,
               id: "admin_recommend_card_product_#{id}",
               class: 'admin_recommend_card_product',
-              data: {
-                bp:       bp,
-                bank:     bank_id,
-                currency: currency_id,
-              },
+              data: { bp: bp, bank: bank_id },
               &block
             )
           end

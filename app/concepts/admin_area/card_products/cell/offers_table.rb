@@ -71,6 +71,14 @@ module AdminArea
             cell(Offers::Cell::Identifier, model)
           end
 
+          # The spend as a raw integer, to be set as a data attribute of the
+          # TR.  Used by the filtering JS. If there's no spend (i.e. if the
+          # offer's condition is on_approval or on_first_purchase), output '0',
+          # so the offer will never be hidden by the max spend filter.
+          def offer_spend_data
+            model.spend || 0
+          end
+
           def partner_name
             cell(Partner::Cell::ShortName, model.partner)
           end

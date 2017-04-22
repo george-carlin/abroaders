@@ -63,9 +63,13 @@ module AdminArea::People::Cell
         property :seen_at
         property :status
 
-        delegate :name, to: :card_product, prefix: true
-
         private
+
+        delegate :bp, to: :card_product, prefix: true
+
+        def card_product_name
+          cell(CardProduct::Cell::FullName, card_product, with_bank: true)
+        end
 
         %i[
           recommended_at seen_at clicked_at denied_at declined_at applied_on
@@ -103,10 +107,6 @@ module AdminArea::People::Cell
             'data-currency': card_product.currency_id,
             &block
           )
-        end
-
-        def card_product_identifier
-          cell(AdminArea::CardProducts::Cell::Identifier, card_product)
         end
 
         def status

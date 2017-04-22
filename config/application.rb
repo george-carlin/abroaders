@@ -32,6 +32,7 @@ module Abroaders
       'account/cell/dashboard',
       'admin_area/accounts/cell/index',
       'admin_area/card_recommendations/cell/new',
+      'admin_area/banks/cell/filter_panel',
       'admin_area/people/cell/show',
       'card_account/cell/new/select_product',
       'card_recommendation/cell/actionable',

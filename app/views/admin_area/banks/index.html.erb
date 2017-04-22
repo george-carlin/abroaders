@@ -9,7 +9,6 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <th>Abroaders ID</th>
           <th>Name</th>
           <th>Phone (personal)</th>
           <th>Phone (business)</th>
@@ -19,10 +18,6 @@
       <tbody>
         <% @banks.each do |bank| %>
           <tr>
-            <td>
-              <%= bank.personal_code %> (P),
-              <%= bank.business_code %> (B)
-            </td>
             <td><%= bank.name %></td>
             <td><%= bank.personal_phone %></td>
             <td><%= bank.business_phone %></td>
