@@ -42,9 +42,11 @@ module AdminArea::People::Cell
 
         property :recommended?
 
-        delegate :name, to: :card_product, prefix: true
-
         private
+
+        def card_product_name
+          cell(CardProduct::Cell::FullName, card_product, with_bank: true)
+        end
 
         def link_to_edit
           link_to 'Edit', edit_admin_card_account_path(model)
@@ -77,10 +79,6 @@ module AdminArea::People::Cell
             'data-bank':     card_product.bank_id,
             &block
           )
-        end
-
-        def card_product_identifier
-          cell(AdminArea::CardProducts::Cell::Identifier, card_product)
         end
       end
     end
