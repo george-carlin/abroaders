@@ -45,7 +45,7 @@ class CardProduct < ApplicationRecord
   end
 
   def annual_fee=(annual_fee_dollars)
-    self.annual_fee_cents = (annual_fee_dollars.to_i * 100).to_i
+    self.annual_fee_cents = (annual_fee_dollars.to_f * 100).round.to_i
   end
 
   # Validations

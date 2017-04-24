@@ -38,7 +38,6 @@ RSpec.describe 'admin edit card product page' do
     select 'MasterCard', from: :card_product_network
     select 'Business', from: :card_product_bp
     select 'Credit', from: :card_product_type
-    # BUG: allow decimal values TODO
     fill_in :card_product_annual_fee, with: 549
     select currencies[1].name, from: :card_product_currency_id
     select banks[1].name, from: :card_product_bank_id
