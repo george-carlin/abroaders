@@ -1,5 +1,7 @@
 # README
 
+NOTE as of 24th April 2017: This document is horribly out-of-date; I've barely updated it in months and a lot has changed since then. Take everything you read in here with a pinch of salt.
+
 ## Dependencies
 
 The Ruby version is specified at the top of the Gemfile (as opposed
