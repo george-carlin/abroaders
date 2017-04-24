@@ -2,12 +2,10 @@ require 'bootstrap_overrides'
 
 module Sessions
   module Cell
-    # @!method self.call(usern)
-    #   @param usern [Admin|Account]
+    # @!method self.call(user)
+    #   @param user [Admin|Account]
     class New < Abroaders::Cell::Base
       include ::Cell::Builder
-
-      alias user model
 
       builds do |user|
         case user
@@ -25,7 +23,7 @@ module Sessions
 
       def form_tag(&block)
         form_for(
-          user,
+          model,
           as: resource_name,
           url: new_session_path,
           html: { role: "form" },

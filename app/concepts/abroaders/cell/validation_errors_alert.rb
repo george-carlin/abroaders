@@ -12,7 +12,7 @@ module Abroaders
     # Reform will drop support for ActiveModel eventually, so we should start
     # thinking about converting all AM forms to use dry-v.
     class ValidationErrorsAlert < Abroaders::Cell::Base
-      alias contract model
+      property :errors
 
       def show
         return '' if error_messages.empty?
@@ -23,7 +23,7 @@ module Abroaders
 
       # will return a Hash in the format { key: ['err1', 'err2'] }.
       def error_messages
-        contract.errors.messages
+        errors.messages
       end
 
       # @!method self.call(model, options = {})

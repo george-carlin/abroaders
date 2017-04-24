@@ -13,8 +13,6 @@ module AdminArea
         end
 
         class Item < Abroaders::Cell::Base
-          alias region model
-
           property :name
 
           def show

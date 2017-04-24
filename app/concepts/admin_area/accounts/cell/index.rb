@@ -1,9 +1,10 @@
 module AdminArea
   module Accounts
     module Cell
+      # @!method self.call(accounts, options = {})
+      #   @param accounts [Collection<Account>]
       class Index < Abroaders::Cell::Base
         extend Dry::Configurable
-
         include Kaminari::Cells
 
         # Expose this as a configurable setting so that we can override it

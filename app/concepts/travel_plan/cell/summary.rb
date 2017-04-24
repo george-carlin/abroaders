@@ -16,8 +16,6 @@ class TravelPlan < TravelPlan.superclass
     class Summary < Abroaders::Cell::Base
       include Escaped
 
-      alias travel_plan model
-
       property :id
       property :further_information
       property :type
@@ -29,11 +27,11 @@ class TravelPlan < TravelPlan.superclass
       private
 
       def acceptable_classes
-        cell AcceptableClasses, travel_plan
+        cell AcceptableClasses, model
       end
 
       def dates
-        cell Dates, travel_plan
+        cell Dates, model
       end
 
       # See comment in TravelPlan::Edit about old-style TPs being uneditable.
@@ -83,7 +81,7 @@ class TravelPlan < TravelPlan.superclass
 
       def no_of_passengers
         content_tag :span, class: 'travel_plan_no_of_passengers' do
-          "#{fa_icon('male')} &times; #{travel_plan.no_of_passengers}"
+          "#{fa_icon('male')} &times; #{model.no_of_passengers}"
         end
       end
 

@@ -9,6 +9,9 @@ module AdminArea
       # in the parent table. Between each of those <tr>s (i.e.  outside the
       # scope of the OffersTable cell) is *another* <tr> that contains the
       # information about the CardProduct itself.
+      #
+      # @!method self.call(card_product, options = {})
+      #   @param card_product [CardProduct]
       class OffersTable < Abroaders::Cell::Base
         property :id
         property :recommendable_offers
@@ -28,14 +31,6 @@ module AdminArea
 
         def rows
           cell(Row, collection: recommendable_offers, person: person)
-        end
-
-        def html_id
-          "admin_recommend_card_product_#{id}_offers_table"
-        end
-
-        def html_classes
-          'admin_recommend_card_product_offers_table table'
         end
 
         # a single `<tr>` containing an signup offer that can be recommended

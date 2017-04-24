@@ -4,7 +4,7 @@
   </div>
 
   <div class='panel-body'>
-    <% case airports.size
+    <% case model.size
        when 0 %>
        <p>
          You have not told us what your home airport(s) are.
@@ -12,13 +12,13 @@
     <% when 1 %>
       <p>
         You have told us that
-        <b><%= airports[0].full_name %></b> is your home airport.
+        <b><%= model[0].full_name %></b> is your home airport.
       </p>
     <% else %>
       <p>You have told us that your home airports are:</p>
 
       <ul>
-        <% airports.each do |airport| %>
+        <% model.each do |airport| %>
           <li><b><%= airport.full_name %></b></li>
         <% end %>
       </ul>

@@ -16,8 +16,6 @@ module RegionsOfInterest
       # @!method self.call(region)
       #   @param region [Region]
       class RegionInput < Abroaders::Cell::Base
-        alias region model
-
         def show
           <<-HTML
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 region-box">
@@ -38,7 +36,7 @@ module RegionsOfInterest
         end
 
         def image
-          cell(Region::Cell::Image, region).()
+          cell(Region::Cell::Image, model).()
         end
 
         def name_tag
