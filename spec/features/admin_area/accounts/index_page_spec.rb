@@ -38,6 +38,6 @@ RSpec.describe 'admin account pages index page', :js, :manual_clean do
   end
 
   def account_selector(account)
-    "##{dom_id(account)}"
+    "#account_#{account.id}"
   end
 end

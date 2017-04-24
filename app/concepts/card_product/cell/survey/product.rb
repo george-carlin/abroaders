@@ -5,6 +5,9 @@ class CardProduct < CardProduct.superclass
     module Survey
       # An individual product on the cards survey. Displays the product's image
       # and has inputs to set the opened and closed dates.
+      #
+      # @!method self.call(card_product, options = {})
+      #   @param card_product [CardProduct]
       class Product < Abroaders::Cell::Base
         property :id
 
@@ -16,10 +19,6 @@ class CardProduct < CardProduct.superclass
 
         def image(size = "180x114")
           cell(Image, model, size: size)
-        end
-
-        def html_id
-          dom_id(model)
         end
 
         def opened_check_box

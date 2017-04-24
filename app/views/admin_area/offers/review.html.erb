@@ -28,7 +28,7 @@
 
         <tbody>
           <% @offers.each do |offer| %>
-            <tr id="<%= dom_id(offer) %>" class="<%= dom_class(offer) %>">
+            <tr id="offer_<%= offer.id %>" class="offer">
               <td class="offer_card_name">
                 <%= offer.product.name %>
               </td>
