@@ -19,7 +19,7 @@ module Abroaders
 
       def bars
         if sidebar?
-          '<div class="header-link hide-menu"><i class="fa fa-bars"></i></div>'
+          '<div class="header-link hide-menu visible-xs"><i class="fa fa-bars"></i></div>'
         else
           ''
         end
