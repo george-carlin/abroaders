@@ -1,7 +1,7 @@
 require "rails_helper"
 
-RSpec.describe Card::Serializer do
-  it "serializes a Card to JSON" do
+RSpec.describe CardRecommendation::Representer do
+  it 'represents a card recommendation as JSON' do
     bank = create(
       :bank,
       business_phone: "800 453-9719",
@@ -35,10 +35,7 @@ RSpec.describe Card::Serializer do
     )
     card.save!(validate: false)
 
-    # Note that this card account is, of course, completely invalid:
-    json = described_class.new(card).to_json
-
-    parsed_json = JSON.parse(json)
+    parsed_json = JSON.parse(described_class.new(card).to_json)
 
     expect(parsed_json.keys).to match_array(
       %w[

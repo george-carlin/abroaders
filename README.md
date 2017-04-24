@@ -406,12 +406,6 @@ we have some extra top level folders in `/app`. They're mostly based on
 
 TODO - this will be removed soon in favour of Trailblazer
 
-#### `serializers`
-
-Serializers as used by the
-[`active_model_serializers`](https://github.com/rails-api/active_model_serializers)
-gem. TODO this should also be removed, in favour of representers with the `representable` gem.
-
 #### `jobs`
 
 See `app/jobs/README.md`

@@ -12,7 +12,6 @@ gem 'trailblazer-rails', '>= 1.0.0'
 gem 'cells', github: 'georgemillo/cells', branch: 'collection-join'
 gem 'cells-erb', '0.0.9'
 
-gem 'active_model_serializers', '0.10.0'
 gem 'acts_as_tree', '~> 2.4.0'
 gem 'aws-sdk-v1', '1.61.0'
 gem 'browserify-rails', '3.1.0'

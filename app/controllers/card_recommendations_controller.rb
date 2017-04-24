@@ -1,13 +1,11 @@
 class CardRecommendationsController < CardsController
-  include SerializeHelper
-
   def update
     respond_to do |f|
       f.json do
         case params[:card][:action]
         when 'apply'
           run CardRecommendation::Operation::UpdateStatus::Applied do |result|
-            render json: serialize(result['model'])
+            render json: CardRecommendation::Representer.new(result['model']).to_json
             return
           end
           render json: { error: true, message: result['error'] }, code: 422
@@ -18,8 +16,7 @@ class CardRecommendationsController < CardsController
           begin
             survey = Card::ApplicationSurvey.new(card: load_card)
             survey.update!(update_params)
-            # for some reason this doesn't use AM::Serializer automatically:
-            render json: serialize(survey.card)
+            render json: CardRecommendation::Representer.new(survey.card).to_json
           rescue Card::InvalidStatusError
             render json: {
               error: true,
