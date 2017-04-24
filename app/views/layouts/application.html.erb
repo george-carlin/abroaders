@@ -7,7 +7,7 @@
 
     <div id="wrapper" class="wrapper <%= 'wrapper-with-sidebar' if sidebar? %>">
       <div class="content">
-        <%= render "layouts/noscript" unless Rails.env.test? %>
+        <%= cell(Abroaders::Cell::Noscript) %>
 
         <%= flash_alerts %>
 
