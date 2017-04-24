@@ -22,8 +22,8 @@ module AdminArea
           button_to(
             'Confirm',
             admin_person_card_recommendations_path(person),
-            class:  "#{dom_class(offer, :confirm_recommend)}_btn #{BTN_CLASSES} btn-primary pull-right",
-            id:     "#{dom_id(offer, :confirm_recommend)}_btn",
+            class: "confirm_recommend_offer_btn #{BTN_CLASSES} btn-primary pull-right",
+            id: "confirm_recommend_offer_#{offer.id}_btn",
             remote: true,
             params: { card_recommendation: { offer_id: offer.id } },
           )
@@ -34,8 +34,8 @@ module AdminArea
         def recommend_btn
           button_tag(
             'Recommend',
-            class: "#{dom_class(offer, :recommend)}_btn #{BTN_CLASSES} btn-primary pull-right",
-            id:    "#{dom_id(offer, :recommend)}_btn",
+            class: "recommend_offer_btn #{BTN_CLASSES} btn-primary pull-right",
+            id: "recommend_offer_#{offer.id}_btn",
           )
         end
       end

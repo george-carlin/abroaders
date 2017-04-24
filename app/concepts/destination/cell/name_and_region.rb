@@ -17,10 +17,10 @@ class Destination < Destination.superclass
       private
 
       def html_class
-        # we're using the `dom_id` method, but outputting it as the html class,
-        # not id, because different travel plans might use the same
-        # destinations so the IDs won't be unique on the page
-        dom_id(model)
+        # the same destination may be rendered more than once on the page (if
+        # there's more than one TravelPlan that goes to or from it), so this
+        # string can't be used as the HTML ID because it might not be unique.
+        "#{model.model_name.param_key}_#{model.id}"
       end
     end
   end

@@ -44,6 +44,7 @@ module AdminArea
           property :couples?
           property :created_at
           property :email
+          property :id
           property :onboarded?
           property :owner
           property :people
@@ -56,7 +57,7 @@ module AdminArea
           end
 
           def tr(&block)
-            content_tag_for(:tr, model, &block)
+            content_tag(:tr, class: 'account', id: "account_#{id}", &block)
           end
 
           def link_to_owner

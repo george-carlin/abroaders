@@ -29,10 +29,6 @@ RSpec.describe 'cards survey', :onboarding, :js, :manual_clean do
   let(:name) { owner.first_name }
   let(:submit_form) { click_button 'Save and continue' }
 
-  def product_selector(product)
-    '#' << dom_id(product)
-  end
-
   def check_product_opened(product, checked)
     field = "cards_survey_#{product.id}_card_opened"
     checked ? check(field) : uncheck(field)
@@ -140,7 +136,7 @@ RSpec.describe 'cards survey', :onboarding, :js, :manual_clean do
     end
 
     it "doesn't show cards which the admin has opted to hide" do
-      expect(page).to have_no_selector product_selector(@hidden_product)
+      expect(page).to have_no_selector "#card_product_#{@hidden_product.id}"
     end
 
     describe "selecting a card" do

@@ -18,12 +18,8 @@ RSpec.describe 'the balance survey page', :onboarding, :js do
 
   let(:companion) { @companion }
 
-  def currency_selector(currency)
-    "##{dom_id(currency)}"
-  end
-
   def within_currency(currency)
-    within(currency_selector(currency)) { yield }
+    within("#currency_#{currency.id}") { yield }
   end
 
   def balance_field(currency)

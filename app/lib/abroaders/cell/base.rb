@@ -6,7 +6,6 @@ module Abroaders
       include ActionView::Helpers::DateHelper
       include ActionView::Helpers::FormOptionsHelper
       include ActionView::Helpers::NumberHelper
-      include ActionView::Helpers::RecordTagHelper
       include BootstrapOverrides
       include FontAwesome::Rails::IconHelper
 
