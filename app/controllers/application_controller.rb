@@ -62,4 +62,13 @@ class ApplicationController < ActionController::Base
       warn "#{self.class}##{params[:action]} needs upgrading to a TRB operation"
     end
   end
+
+  # Show detailed error output to logged-in admins. Note that this only works
+  # for 500 errors, not 404s. Also note that this method is only called when
+  # config.consider_all_requests_local is false; when it's true (e.g.  in the
+  # development environment), all requests show detailed exceptions anyway so
+  # this method is irrelevant.
+  def show_detailed_exceptions?
+    !!current_admin
+  end
 end
