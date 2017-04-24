@@ -16,7 +16,9 @@ RSpec.describe 'admin new card product page' do
 
   let(:submit_form) { click_button 'Save Card' }
 
-  example 'form fields' do
+  # for some reason the have_select matchers here don't work properly unless
+  # JS is activated :/
+  example 'form fields', :js do
     expect(page).to have_field :card_product_name
     expect(page).to have_field :card_product_annual_fee
     expect(page).to have_field :card_product_currency_id
