@@ -1,5 +1,9 @@
 <div id="header">
-  <%= logo %>
+  <div id="logo" class="<%= logo_html_classes %>">
+    <%= link_to root_path do %>
+      <%= logo_image_tag %>
+    <% end %>
+  </div>
 
   <nav role="navigation">
     <%= bars %>

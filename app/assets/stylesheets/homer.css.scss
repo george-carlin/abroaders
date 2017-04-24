@@ -1414,17 +1414,11 @@ body.fullscreen-panel-mode {
 #logo {
   float: left;
   width: 180px;
-  padding: 18px 10px 18px 18px;
+  padding: 11px 10px 8px 9px;
   height: 56px;
   background-color: #f7f9fa;
   border-bottom: 1px solid $lightGray;
   text-align: center;
-
-  span {
-    font-weight: 600;
-    color: #34495e;
-    font-size: 14px;
-  }
 }
 /* Labels */
 .label-menu-corner .label {

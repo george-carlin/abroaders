@@ -33,8 +33,14 @@ module Abroaders
         !sidebar?
       end
 
-      def logo
-        cell(Logo)
+      def logo_image_tag
+        # Actual image size is 220x72, but display it at half the 'real' size
+        # so it looks good on Retina displays.
+        image_tag 'abroaders-logo-grey-md.png', size: '110x36', alt: 'Abroaders'
+      end
+
+      def logo_html_classes
+        ''
       end
 
       def username
@@ -88,8 +94,8 @@ module Abroaders
           destroy_admin_session_path
         end
 
-        def logo
-          cell(Logo, model)
+        def logo_html_classes
+          'admin-navbar'
         end
       end
 
@@ -125,22 +131,6 @@ module Abroaders
             ['Sign in', new_account_session_path],
             ['Sign up', new_account_registration_path],
           ]
-        end
-      end
-
-      class Logo < Abroaders::Cell::Base
-        private
-
-        def html_classes
-          admin? ? 'admin-navbar' : ''
-        end
-
-        def text
-          raw("Abroaders#{' <small>(Admin)</small>' if admin?}")
-        end
-
-        def admin?
-          model.is_a?(Admin)
         end
       end
     end
