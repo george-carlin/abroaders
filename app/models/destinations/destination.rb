@@ -39,6 +39,12 @@ class Destination < ApplicationRecord
     root.region? ? root : nil
   end
 
+  delegate :name, to: :region, prefix: true
+
+  def full_name
+    name
+  end
+
   # Validations
 
   validates :name, presence: true

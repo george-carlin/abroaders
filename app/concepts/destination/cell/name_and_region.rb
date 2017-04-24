@@ -2,10 +2,18 @@ class Destination < Destination.superclass
   module Cell
     # A small span that shows (you guessed it) the name of the destination,
     # plus the name of the region in brackets. If the destination is an airport
-    # it will also show the IATA code after then mae. Used while displaying
-    # travel plans. New travel plans always have airports as destinations;
-    # legacy data countries.
+    # it will also show the IATA code after the name (although the logic for
+    # that lives within the Destination classes themselves, in the #full_name
+    # method.) Used while displaying travel plans.o
+    #
+    # @!self.method(airport_or_country, options = {})
+    #   @param airport_or_country [Destination] new travel plans are always
+    #     to/from a specific airport. Legacy data includes travel plans that are
+    #     to/from a country rather than an airport.
     class NameAndRegion < Abroaders::Cell::Base
+      property :full_name
+      property :region_name
+
       private
 
       def html_class
@@ -13,19 +21,6 @@ class Destination < Destination.superclass
         # not id, because different travel plans might use the same
         # destinations so the IDs won't be unique on the page
         dom_id(model)
-      end
-
-      # TODO this is wrong for airports
-      def name
-        if model.airport?
-          "#{model.city.name} (#{model.code})"
-        else
-          model.name
-        end
-      end
-
-      def region_name
-        model.region.name
       end
     end
   end
