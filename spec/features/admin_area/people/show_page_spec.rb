@@ -4,8 +4,8 @@ RSpec.describe 'admin - show person page', :manual_clean do
   include_context 'logged in as admin'
 
   before(:all) do
-    @chase   = create(:bank, name: "Chase")
-    @us_bank = create(:bank, name: "US Bank")
+    @chase   = Bank.find_by_name!('Chase')
+    @us_bank = Bank.find_by_name!('US Bank')
 
     @currencies = []
     @currencies << create(:currency, alliance_name: 'OneWorld')

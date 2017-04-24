@@ -4,15 +4,15 @@ RSpec.describe 'cards survey', :onboarding, :js, :manual_clean do
   subject { page }
 
   before(:all) do
-    chase = create(:bank, name: 'Chase')
-    citi  = create(:bank, name: 'Citibank')
+    chase = Bank.find_by_name!('Chase')
+    citi  = Bank.find_by_name!('Citibank')
     @banks = [chase, citi]
     @visible_products = [
-      create(:card_product, :business, :visa,       bank_id: chase.id, name: 'Card 0'),
-      create(:card_product, :personal, :mastercard, bank_id: chase.id, name: 'Card 1'),
-      create(:card_product, :business, :mastercard, bank_id: citi.id,  name: 'Card 2'),
-      create(:card_product, :personal, :visa,       bank_id: citi.id,  name: 'Card 3'),
-      create(:card_product, :personal, :visa,       bank_id: citi.id,  name: 'Card 4'),
+      create(:card_product, :business, :visa,       bank: chase, name: 'Card 0'),
+      create(:card_product, :personal, :mastercard, bank: chase, name: 'Card 1'),
+      create(:card_product, :business, :mastercard, bank: citi,  name: 'Card 2'),
+      create(:card_product, :personal, :visa,       bank: citi,  name: 'Card 3'),
+      create(:card_product, :personal, :visa,       bank: citi,  name: 'Card 4'),
     ]
     @hidden_product = create(:card_product, :hidden)
   end

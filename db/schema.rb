@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170422002051) do
+ActiveRecord::Schema.define(version: 20170424042054) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -125,14 +125,6 @@ ActiveRecord::Schema.define(version: 20170422002051) do
     t.index ["currency_id"], name: "index_balances_on_currency_id", using: :btree
     t.index ["person_id", "currency_id"], name: "index_balances_on_person_id_and_currency_id", using: :btree
     t.index ["person_id"], name: "index_balances_on_person_id", using: :btree
-  end
-
-  create_table "banks", force: :cascade do |t|
-    t.string   "name",           null: false
-    t.string   "personal_phone"
-    t.string   "business_phone"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
   end
 
   create_table "card_products", force: :cascade do |t|
@@ -312,7 +304,6 @@ ActiveRecord::Schema.define(version: 20170422002051) do
   add_foreign_key "award_wallet_users", "accounts", on_delete: :cascade
   add_foreign_key "balances", "currencies", on_delete: :cascade
   add_foreign_key "balances", "people", on_delete: :cascade
-  add_foreign_key "card_products", "banks"
   add_foreign_key "card_products", "currencies", on_delete: :restrict
   add_foreign_key "cards", "admins", column: "recommended_by_id", on_delete: :nullify
   add_foreign_key "cards", "card_products", on_delete: :restrict

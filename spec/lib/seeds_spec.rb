@@ -17,27 +17,6 @@ RSpec.describe Seeder do
                                                ],)
   end
 
-  example '.seed_banks' do
-    expect do
-      described_class.seed_banks
-    end.to change { Bank.count }.by(12)
-
-    expect(Bank.pluck(:name)).to match_array([
-                                               'American Express',
-                                               'Bank of America',
-                                               'Barclays',
-                                               'Capital One',
-                                               'Chase',
-                                               'Citibank',
-                                               'Diners Club',
-                                               'Discover',
-                                               'SunTrust',
-                                               'TD Bank',
-                                               'US Bank',
-                                               'Wells Fargo',
-                                             ],)
-  end
-
   example '.seed_currencies' do
     expect do
       described_class.seed_currencies
@@ -50,7 +29,6 @@ RSpec.describe Seeder do
   end
 
   example '.seed_card_products' do
-    described_class.seed_banks
     described_class.seed_currencies
     expect do
       described_class.seed_card_products

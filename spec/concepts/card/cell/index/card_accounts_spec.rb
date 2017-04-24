@@ -3,8 +3,8 @@ require 'cells_helper'
 RSpec.describe Card::Cell::Index::CardAccounts do
   controller CardsController
 
-  let(:bank) { Bank.new(id: 999, name: 'My bank') }
-  let(:card_product) { CardProduct.new(id: 555, bank: bank, network: :visa) }
+  let(:bank) { Bank.all.first }
+  let(:card_product) { CardProduct.new(id: 555, bank_id: bank.id, network: :visa) }
   let!(:account) { Account.new }
   let!(:owner) { account.people.owner.new(first_name: 'Erik') }
 

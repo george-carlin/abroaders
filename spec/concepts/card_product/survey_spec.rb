@@ -6,17 +6,17 @@ RSpec.describe CardProduct::Survey do
   describe '#each_section' do
     it 'yields cards grouped by bank, then by b/p' do
       currency = create(:currency)
-      b_0 = create(:bank)
-      b_1 = create(:bank)
+      b_0 = Bank.all[0]
+      b_1 = Bank.all[1]
 
-      c_0 = create(:card_product, :personal, bank: b_0, currency: currency)
-      c_1 = create(:card_product, :personal, bank: b_0, currency: currency)
-      c_2 = create(:card_product, :business, bank: b_0, currency: currency)
-      c_3 = create(:card_product, :business, bank: b_0, currency: currency)
-      c_4 = create(:card_product, :personal, bank: b_1, currency: currency)
-      c_5 = create(:card_product, :personal, bank: b_1, currency: currency)
-      c_6 = create(:card_product, :business, bank: b_1, currency: currency)
-      c_7 = create(:card_product, :business, bank: b_1, currency: currency)
+      c_0 = create(:card_product, :personal, bank_id: b_0.id, currency: currency)
+      c_1 = create(:card_product, :personal, bank_id: b_0.id, currency: currency)
+      c_2 = create(:card_product, :business, bank_id: b_0.id, currency: currency)
+      c_3 = create(:card_product, :business, bank_id: b_0.id, currency: currency)
+      c_4 = create(:card_product, :personal, bank_id: b_1.id, currency: currency)
+      c_5 = create(:card_product, :personal, bank_id: b_1.id, currency: currency)
+      c_6 = create(:card_product, :business, bank_id: b_1.id, currency: currency)
+      c_7 = create(:card_product, :business, bank_id: b_1.id, currency: currency)
 
       banks = []
       bank_groups = {}

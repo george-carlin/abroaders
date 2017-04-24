@@ -4,7 +4,7 @@ RSpec.describe 'admin area - new offer page' do
   include_context 'logged in as admin'
   subject { page }
 
-  let(:bank) { create(:bank) }
+  let(:bank) { Bank.all.first }
   before do
     @product = create(
       :card_product,

@@ -5,7 +5,7 @@ module AdminArea
         @product = CardProduct.find(params[:card_product_id])
         @offers  = @product.offers
       else
-        @offers = Offer.includes(product: :bank)
+        @offers = Offer.includes(:product)
       end
     end
 
@@ -55,7 +55,7 @@ module AdminArea
     end
 
     def review
-      @offers = Offer.includes(product: :bank).live.order('last_reviewed_at ASC NULLS FIRST')
+      @offers = Offer.includes(:product).live.order('last_reviewed_at ASC NULLS FIRST')
     end
 
     def verify

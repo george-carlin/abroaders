@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'card accounts edit page', :js do
-  let(:bank)    { create(:bank, name: 'Chase') }
+  let(:bank)    { Bank.all.first }
   let(:account) { create(:account, :onboarded) }
   let(:person)  { account.owner }
   let(:product) { create(:card_product, :business, :visa, bank_id: bank.id, name: 'Card 0') }
