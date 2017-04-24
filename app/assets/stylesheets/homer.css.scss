@@ -1192,34 +1192,38 @@ body.fullscreen-panel-mode {
 }
 /* Menu */
 #side-menu {
+  $activeLinkColor: #35a7ff;
   background: #f7f9fa;
 
-  li a {
-    color: #6a6c6f;
-    text-transform: uppercase;
-    font-weight: 700;
-    padding: 15px 20px;
-  }
-
   li {
+    a {
+      color: #6a6c6f;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 15px 20px;
+    }
+
     border-bottom: 1px solid $lightGray;
+
     &:first-child {
       border-top: 1px solid $lightGray;
     }
 
-    &.active a,
-    &:hover a {
-      color: #34495e;
+    &.active a, &:hover a {
+      color: $activeLinkColor;
     }
-    .nav-second-level li a {
-      padding: 10px 10px 10px 30px;
-      color: #6a6c6f;
-      text-transform: none;
-      font-weight: 600;
-    }
-    .nav-second-level li.active a {
-      color: #34495e;
-      background-color: #f7f9fa;
+
+    .nav-second-level li {
+      a {
+        padding: 10px 10px 10px 30px;
+        color: #6a6c6f;
+        text-transform: none;
+        font-weight: 600;
+      }
+      &.active a {
+        color: $activeLinkColor;
+        background-color: #f7f9fa;
+      }
     }
   }
 
