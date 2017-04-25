@@ -47,3 +47,26 @@ RSpec.shared_examples "a travel plan form" do
     expect(page).to have_field :travel_plan_return_on, disabled: false
   end
 end
+
+# context for testing cells which are subclasses of or otherwise related
+# to Abroaders::Cell::RecommendationAlert
+RSpec.shared_context 'recommendation alert cell' do
+  controller ApplicationController
+
+  before(:all) do
+    @admin = create_admin
+    @offer = create_offer
+  end
+  after(:all) { [@admin, @offer].each(&:destroy) }
+
+  # Don't create a new admin/offer every time the parent macro is called:
+  def create_rec(opts = {})
+    super(opts.merge(admin: @admin, offer: @offer))
+  end
+
+  # cells should raise an error if you try to render them for an account where
+  # they shouldn't be shown in the first place; use this macro to test this.
+  def is_invalid
+    expect { described_class.(account).to_s }.to raise_error(ArgumentError)
+  end
+end

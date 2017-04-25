@@ -1,0 +1,94 @@
+require 'cells_helper'
+
+RSpec.describe RecommendationRequest::Cell::UnresolvedAlert do
+  include_context 'recommendation alert cell'
+
+  context 'solo account' do
+    let(:account) { create(:account, :onboarded, :eligible) }
+    let(:person)  { account.owner }
+
+    def have_alert
+      have_content 'Abroaders is working on your card recommendations'
+    end
+
+    example 'with unresolved req' do
+      create_rec_request('owner', account)
+      # mark the first one as resolved
+      run!(AdminArea::CardRecommendations::Complete, person_id: person.id)
+      create_rec_request('owner', account)
+      expect(account(show)).to have_alert
+    end
+
+    example 'with no reqs' do
+      create_rec_request('owner', account)
+      is_invalid
+    end
+
+    example 'with resolved reqs' do
+      create_rec_request('owner', account)
+      run!(AdminArea::CardRecommendations::Complete, person_id: person.id)
+      is_invalid
+    end
+
+    example 'with unresolved recs' do
+      create_rec_request('owner', account)
+      create_rec(person: person)
+      # unresolved recs override unresolved requests, so this alert
+      # should not be shown
+      is_invalid
+    end
+  end
+
+  context 'couples account' do
+    let(:account) { create(:account, :couples, :onboarded, :eligible) }
+    let(:owner) { account.owner }
+    let(:companion) { account.companion }
+    let(:people) { account.people }
+
+    def have_alert_for(*people_with_recs)
+      names = people_with_recs.map(&:first_name).join(' and ')
+      have_content(header).and(
+        have_content("Abroaders is working on card recommendations for #{names}").and(
+          have_content('They should be ready in 1-2 business days'),
+        ),
+      )
+    end
+
+    # Don't bother testing permutations involving ineligible people. Ineligible
+    # people shouldn't have rec requests in the first place so the logic
+    # that checks for an unresolved request is by extension checking that
+    # at least one person is eligible.
+
+    example 'no reqs' do
+      is_invalid
+    end
+
+    example 'all reqs are resolved' do
+      create_rec_request('both', account)
+      run!(AdminArea::CardRecommendations::Complete, person_id: owner.id)
+      is_invalid
+    end
+
+    example 'unresolved reqs, and unresolved recs' do
+      # unresolved recs override unresolved requests, so this alert
+      # should not be shown
+      create_rec_request('both', account)
+      create_rec(person: owner)
+      is_invalid
+    end
+
+    example 'unresolved reqs, resolved recs' do
+      create_rec(person: owner).update!(applied_on: Date.today)
+      create_rec_request('both', account)
+      expect(show(account)).to have_alert_for(owner, companion)
+    end
+
+    example 'one person has unresolved reqs' do
+      create_rec_request('owner', account)
+      expect(show(account)).to have_alert_for(owner)
+      run!(AdminArea::CardRecommendations::Complete, person_id: owner.id)
+      create_rec_request('companion', account)
+      expect(show(account)).to have_alert_for(companion)
+    end
+  end
+end
