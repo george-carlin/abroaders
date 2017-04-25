@@ -101,7 +101,7 @@ RSpec.describe "cards index page - new recommendation", :js do
     click_confirm_btn
 
     expect(current_path).to eq cards_path
-    expect(page).to have_info_message CardRecommendation::Operation::Decline::COULDNT_DECLINE
+    expect(page).to have_info_message CardRecommendation::Decline::COULDNT_DECLINE
   end
 
   example "clicking the 'I Applied' button" do

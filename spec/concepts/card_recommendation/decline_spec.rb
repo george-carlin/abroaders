@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CardRecommendation::Operation::Decline do
+RSpec.describe CardRecommendation::Decline do
   let(:op) { described_class }
 
   let(:account) { create(:account, :onboarded) }

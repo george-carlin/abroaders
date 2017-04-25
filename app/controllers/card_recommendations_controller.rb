@@ -41,7 +41,7 @@ class CardRecommendationsController < CardsController
   end
 
   def decline
-    result = run CardRecommendation::Operation::Decline
+    result = run(CardRecommendation::Decline)
     if result.success?
       flash[:success] = t("cards.index.declined")
     else

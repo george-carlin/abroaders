@@ -131,7 +131,7 @@ RSpec.describe Card do
       create_card_account(card_product: product, person: person)
       declined = create_rec
       run!(
-        CardRecommendation::Operation::Decline,
+        CardRecommendation::Decline,
         { id: declined.id, card: { decline_reason: 'X' } },
         'account' => person.account,
       )
@@ -163,7 +163,7 @@ RSpec.describe Card do
       create_rec(:expired)
       declined = create_rec
       run!(
-        CardRecommendation::Operation::Decline,
+        CardRecommendation::Decline,
         { id: declined.id, card: { decline_reason: 'X' } },
         'account' => person.account,
       )

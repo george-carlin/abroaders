@@ -22,7 +22,7 @@ RSpec.describe RecommendationRequest::Policy do
 
       # and create a declined one:
       run!(
-        CardRecommendation::Operation::Decline,
+        CardRecommendation::Decline,
         { id: create_rec(person: person).id, card: { decline_reason: 'X' } },
         'account' => person.account,
       )
@@ -37,7 +37,7 @@ RSpec.describe RecommendationRequest::Policy do
 
       # declined rec:
       run!(
-        CardRecommendation::Operation::Decline,
+        CardRecommendation::Decline,
         { id: create_rec(person: person).id, card: { decline_reason: 'X' } },
         'account' => person.account,
       )
