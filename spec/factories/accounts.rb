@@ -27,7 +27,7 @@ FactoryGirl.define do
     trait :couples do
       onboarding_state :eligibility # if they have a companion they must be at least here
       after(:build) do |acc|
-        acc.people.build(first_name: Faker::Name.first_name, owner: false)
+        acc.people.build(first_name: 'Gabi', owner: false)
       end
     end
 

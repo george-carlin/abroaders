@@ -37,6 +37,8 @@ class RecommendationRequest < RecommendationRequest.superclass
           ''
         end
 
+        private
+
         def request_new_recs_btn_text
           'Request new card recommendations'
         end

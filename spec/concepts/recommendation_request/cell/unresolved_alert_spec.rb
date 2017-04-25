@@ -7,20 +7,16 @@ RSpec.describe RecommendationRequest::Cell::UnresolvedAlert do
     let(:account) { create(:account, :onboarded, :eligible) }
     let(:person)  { account.owner }
 
-    def have_alert
-      have_content 'Abroaders is working on your card recommendations'
-    end
-
     example 'with unresolved req' do
       create_rec_request('owner', account)
       # mark the first one as resolved
       run!(AdminArea::CardRecommendations::Complete, person_id: person.id)
       create_rec_request('owner', account)
-      expect(account(show)).to have_alert
+      text = 'Abroaders is Working on Your Card Recommendations'
+      expect(show(account)).to have_content text
     end
 
     example 'with no reqs' do
-      create_rec_request('owner', account)
       is_invalid
     end
 
@@ -47,10 +43,8 @@ RSpec.describe RecommendationRequest::Cell::UnresolvedAlert do
 
     def have_alert_for(*people_with_recs)
       names = people_with_recs.map(&:first_name).join(' and ')
-      have_content(header).and(
-        have_content("Abroaders is working on card recommendations for #{names}").and(
-          have_content('They should be ready in 1-2 business days'),
-        ),
+      have_content("Abroaders is Working on Card Recommendations for #{names}").and(
+        have_content('They should be ready in 1-2 business days'),
       )
     end
 
@@ -80,6 +74,7 @@ RSpec.describe RecommendationRequest::Cell::UnresolvedAlert do
     example 'unresolved reqs, resolved recs' do
       create_rec(person: owner).update!(applied_on: Date.today)
       create_rec_request('both', account)
+      account.reload
       expect(show(account)).to have_alert_for(owner, companion)
     end
 
@@ -88,6 +83,7 @@ RSpec.describe RecommendationRequest::Cell::UnresolvedAlert do
       expect(show(account)).to have_alert_for(owner)
       run!(AdminArea::CardRecommendations::Complete, person_id: owner.id)
       create_rec_request('companion', account)
+      account.reload
       expect(show(account)).to have_alert_for(companion)
     end
   end

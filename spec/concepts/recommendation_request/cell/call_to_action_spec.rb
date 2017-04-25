@@ -13,6 +13,7 @@ RSpec.describe RecommendationRequest::Cell::CallToAction do
 
     example 'with unresolved recs' do
       create_rec(person: person)
+      is_invalid
     end
 
     example 'with an unresolved request' do
