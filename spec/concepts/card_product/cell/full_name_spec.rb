@@ -35,7 +35,7 @@ RSpec.describe CardProduct::Cell::FullName do
     expect(show(product, network_in_brackets: true).raw).to eq 'Sapphire (Visa)'
     product.network = :amex
     expect(show(product, network_in_brackets: true).raw).to eq 'Sapphire (American Express)'
-    product.bank = amex # TODO more duplication - if the network is amex what's the point in storing the bank explicitly as well?
+    product.bank = amex
     expect(show(product, network_in_brackets: true).raw).to eq 'Sapphire (American Express)'
     # has no effect when the network isn't shown:
     expect(show(product, network_in_brackets: true, with_bank: true).raw).to eq 'American Express Sapphire'
