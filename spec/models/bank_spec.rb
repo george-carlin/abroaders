@@ -17,4 +17,23 @@ RSpec.describe Bank do
   example '#==' do
     expect(Bank.find(5)).to eq Bank.find(5)
   end
+
+  example '.with_at_least_one_product' do
+    expect(Bank.with_at_least_one_product).to eq []
+
+    chase = Bank.find_by_name!('Chase')
+    citi = Bank.find_by_name!('Citibank')
+    amex = Bank.find_by_name!('American Express')
+
+    create(:card_product, bank: chase)
+    expect(Bank.with_at_least_one_product).to eq [chase]
+
+    create(:card_product, bank: chase)
+    create(:card_product, bank: citi)
+    expect(Bank.with_at_least_one_product).to match_array [chase, citi]
+
+    create(:card_product, bank: citi)
+    create(:card_product, bank: amex)
+    expect(Bank.with_at_least_one_product).to match_array [chase, citi, amex]
+  end
 end

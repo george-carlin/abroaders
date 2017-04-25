@@ -35,9 +35,10 @@ class Bank < Dry::Struct
     all.sort_by(&:name)
   end
 
+  # @return [Array<Bank>]
   def self.with_at_least_one_product
-    # FIXME N+1 :(
-    all.select { |b| b.card_products.any? }
+    bank_ids = CardProduct.pluck(:bank_id).uniq
+    all.select { |b| bank_ids.include?(b.id) }
   end
 
   def self.__data__
