@@ -1,7 +1,7 @@
 require 'cells_helper'
 
 RSpec.describe CardProduct::Cell::Survey::Product do
-  let(:bank) { Bank.new(name: 'My bank') }
+  let(:bank) { Bank.all.first }
   let(:product) do
     CardProduct.new(name: 'Sapphire', network: :visa, bank: bank, annual_fee_cents: 125_00)
   end

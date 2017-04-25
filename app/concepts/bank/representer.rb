@@ -4,6 +4,7 @@ class Bank < Bank.superclass
 
     defaults render_nil: true
 
+    property :id
     property :name
     property :personal_phone
     property :business_phone

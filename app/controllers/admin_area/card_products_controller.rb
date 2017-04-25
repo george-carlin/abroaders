@@ -4,7 +4,7 @@ module AdminArea
 
     # GET /admin/cards
     def index
-      @products = CardProduct.all.includes(:offers, :currency, :bank).sort_by(&:bank_id)
+      @products = CardProduct.all.includes(:offers, :currency).sort_by(&:bank_id)
     end
 
     # GET /admin/cards/1
@@ -45,7 +45,7 @@ module AdminArea
     end
 
     def images
-      @products = CardProduct.includes(:bank)
+      @products = CardProduct.all
     end
 
     private

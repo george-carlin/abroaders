@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'admin edit card product page' do
   include_context 'logged in as admin'
 
-  let!(:banks) { create_list(:bank, 2) }
+  let!(:banks) { Bank.all }
   let(:currencies) { create_list(:currency, 2) }
   before do
     @product = create(

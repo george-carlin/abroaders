@@ -49,7 +49,7 @@ module AdminArea
         end
 
         def bank_filter_panels
-          cell(Banks::Cell::FilterPanel, Bank.order(name: :asc))
+          cell(Banks::Cell::FilterPanel, Bank.alphabetical)
         end
 
         def card_accounts

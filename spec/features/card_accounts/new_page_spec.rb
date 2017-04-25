@@ -5,15 +5,17 @@ RSpec.describe 'new card account page', :js do
 
   let(:person) { account.owner }
 
+  let(:bank_0) { Bank.all.first }
+  let(:bank_1) { Bank.all.last }
+
   before do
-    @banks = create_list(:bank, 3)
     @bank_0_products = [
-      create(:card_product, :business, bank: @banks[0]),
-      create(:card_product, :personal, bank: @banks[0]),
+      create(:card_product, :business, bank: bank_0),
+      create(:card_product, :personal, bank: bank_0),
     ]
     @bank_1_products = [
-      create(:card_product, :business, bank: @banks[1]),
-      create(:card_product, :personal, bank: @banks[1], shown_on_survey: false),
+      create(:card_product, :business, bank: bank_1),
+      create(:card_product, :personal, bank: bank_1, shown_on_survey: false),
     ]
     @products = @bank_0_products + @bank_1_products
     visit new_card_account_path
@@ -29,11 +31,11 @@ RSpec.describe 'new card account page', :js do
     CardProduct::Cell::FullName.(product, network_in_brackets: true).()
   end
 
-  it 'has a dropdown for banks which have at least one tag' do
+  it 'has a dropdown for banks which have at least one card product' do
     expect(page).to have_select :new_card_bank_id, options: [
       'What bank is the card from?',
-      @banks[0].name,
-      @banks[1].name,
+      bank_0.name,
+      bank_1.name,
     ]
   end
 
@@ -43,14 +45,14 @@ RSpec.describe 'new card account page', :js do
       expect(page).to have_no_content full_name_for(product)
     end
     # selecting a bank:
-    select @banks[0].name, from: :new_card_bank_id
+    select bank_0.name, from: :new_card_bank_id
     @bank_0_products.each do |product|
       expect(page).to have_content full_name_for(product)
     end
     @bank_1_products.each do |product|
       expect(page).to have_no_content full_name_for(product)
     end
-    select @banks[1].name, from: :new_card_bank_id
+    select bank_1.name, from: :new_card_bank_id
     @bank_0_products.each do |product|
       expect(page).to have_no_content full_name_for(product)
     end
@@ -65,7 +67,7 @@ RSpec.describe 'new card account page', :js do
     let(:year) { (Date.today.year - 1).to_s }
 
     before do
-      select @banks[0].name, from: :new_card_bank_id
+      select bank_0.name, from: :new_card_bank_id
       within "#card_product_#{product.id}" do
         click_link 'Add this Card'
       end
@@ -137,7 +139,7 @@ RSpec.describe 'new card account page', :js do
     let(:product) { @bank_1_products.first }
 
     before do
-      select @banks[1].name, from: :new_card_bank_id
+      select bank_1.name, from: :new_card_bank_id
       within "#card_product_#{product.id}" do
         click_link 'Add this Card'
       end

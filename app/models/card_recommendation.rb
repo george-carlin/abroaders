@@ -41,7 +41,11 @@ class CardRecommendation < Disposable::Twin
 
   delegate :opened?, :unopened?, to: :model
 
-  property :bank_name, writeable: false
+  # use an instance method instead of `property` otherwise #initialize will
+  # crash if the underlying card has no bank (e.g. in tests)
+  def bank_name
+    bank&.name
+  end
 
   def self.find(*args)
     new(Card.recommended.find(*args))

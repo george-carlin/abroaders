@@ -179,7 +179,7 @@ Rails.application.routes.draw do
         get :search
       end
     end
-    resources :banks, only: [:index, :edit, :update]
+    resources :banks, only: [:index]
     resources :card_products, except: :destroy do
       collection do
         get :images

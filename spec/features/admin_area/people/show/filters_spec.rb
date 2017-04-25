@@ -7,8 +7,8 @@ RSpec.describe 'admin/people#show card & offer filters', :js, :manual_clean do
   let(:person) { account.owner }
 
   before(:all) do
-    @chase = create(:bank, name: "Chase")
-    @usb = create(:bank, name: "US Bank")
+    @chase = Bank.find_by_name!('Chase')
+    @usb = Bank.find_by_name!('US Bank')
 
     @currencies = Currency::TYPES.map { |t| create(:currency, type: t) }
 
@@ -16,7 +16,7 @@ RSpec.describe 'admin/people#show card & offer filters', :js, :manual_clean do
     @products = %w[business personal].flat_map do |bp|
       [@chase, @usb].flat_map do |bank|
         @currencies.flat_map do |currency|
-          create(:card_product, bp: bp, bank: bank, currency: currency)
+          create(:card_product, bp: bp, bank_id: bank.id, currency: currency)
         end
       end
     end

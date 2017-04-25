@@ -2,9 +2,9 @@ FactoryGirl.define do
   factory :card_product, aliases: [:product] do
     sequence(:name) { |n| "Example Card #{n}" }
     network { CardProduct.networks.keys.sample }
-    bp      { CardProduct.bps.keys.sample }
-    type    { CardProduct.types.keys.sample }
-    bank
+    bp { CardProduct.bps.keys.sample }
+    type { CardProduct.types.keys.sample }
+    bank_id { Bank.all.pluck(:id).sample }
     annual_fee_cents { rand(500_00) + 10_00 }
     image_file_name    { 'example_card_image.png' }
     image_content_type { 'image/png' }

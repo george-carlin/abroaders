@@ -29,7 +29,7 @@
 
   <div class="form-group">
     <%= f.label :bank_id %>
-    <%= f.collection_select :bank_id, Bank.order("name ASC"), :id, :name %>
+    <%= f.collection_select :bank_id, Bank.alphabetical, :id, :name %>
   </div>
 
   <div class="form-group">

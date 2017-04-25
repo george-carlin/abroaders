@@ -7,7 +7,7 @@ class CardProduct < CardProduct.superclass
     attribute :cards, Array
 
     def each_section
-      CardProduct.survey.includes(:bank).group_by(&:bank).each do |bank, products|
+      CardProduct.survey.group_by(&:bank).each do |bank, products|
         yield bank, products.group_by(&:bp)
       end
     end

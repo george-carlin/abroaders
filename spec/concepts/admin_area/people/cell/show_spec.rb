@@ -123,7 +123,7 @@ RSpec.describe AdminArea::People::Cell::Show do
   let(:oct) { Date.parse("2015-10-01") }
   let(:dec) { Date.parse("2015-12-01") }
 
-  let(:bank) { Bank.new(name: 'B') }
+  let(:bank) { Bank.all.first }
   let(:card_product) { build(:card_product, bank: bank, currency: Currency.new) }
 
   example 'with card accounts' do

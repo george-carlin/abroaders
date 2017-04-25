@@ -12,7 +12,6 @@
           <th>Name</th>
           <th>Phone (personal)</th>
           <th>Phone (business)</th>
-          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -21,7 +20,6 @@
             <td><%= bank.name %></td>
             <td><%= bank.personal_phone %></td>
             <td><%= bank.business_phone %></td>
-            <td><%= link_to 'Edit', edit_admin_bank_path(bank) %></td>
           </tr>
         <% end %>
       </tbody>

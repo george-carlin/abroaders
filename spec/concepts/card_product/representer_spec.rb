@@ -2,9 +2,9 @@ require 'rails_helper'
 
 RSpec.describe CardProduct::Representer do
   it 'represents a card product as JSON' do
-    bank = build(
-      :bank,
+    bank = Bank.new(
       business_phone: '800 453-9719',
+      id: 1,
       name: 'Chase',
       personal_phone: '(888) 609-7805',
     )
@@ -26,7 +26,7 @@ RSpec.describe CardProduct::Representer do
 
     bank = parsed_json['bank']
 
-    expect(bank.keys).to match_array(%w[name personal_phone business_phone])
+    expect(bank.keys).to match_array(%w[name personal_phone business_phone id])
 
     expect(bank['name']).to eq 'Chase'
     expect(bank['personal_phone']).to eq '(888) 609-7805'

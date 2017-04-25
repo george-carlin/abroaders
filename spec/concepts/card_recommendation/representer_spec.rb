@@ -2,17 +2,17 @@ require "rails_helper"
 
 RSpec.describe CardRecommendation::Representer do
   it 'represents a card recommendation as JSON' do
-    bank = create(
-      :bank,
+    bank = Bank.new(
+      id: 1,
       business_phone: "800 453-9719",
       name: 'Chase',
       personal_phone: "(888) 609-7805",
     )
     card_product = create(
       :card_product,
-      bank:    bank,
-      bp:      :personal,
-      name:    "My awesome card",
+      bank_id: bank.id,
+      bp: :personal,
+      name: "My awesome card",
       network: :visa,
     )
 
@@ -67,7 +67,7 @@ RSpec.describe CardRecommendation::Representer do
 
     bank = product["bank"]
 
-    expect(bank.keys).to match_array(%w[name personal_phone business_phone])
+    expect(bank.keys).to match_array(%w[name personal_phone business_phone id])
 
     expect(bank["name"]).to eq "Chase"
     expect(bank["personal_phone"]).to eq "(888) 609-7805"

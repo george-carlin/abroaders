@@ -45,7 +45,7 @@ class CardProduct < ApplicationRecord
   end
 
   def annual_fee=(annual_fee_dollars)
-    self.annual_fee_cents = (annual_fee_dollars.to_f * 100).round.to_i
+    self.annual_fee_cents = (annual_fee_dollars.to_f * 100).round
   end
 
   # Validations
@@ -65,7 +65,27 @@ class CardProduct < ApplicationRecord
   has_many :recommendable_offers, -> { recommendable }, class_name: 'Offer', foreign_key: :product_id
   has_many :cards
   belongs_to :currency
-  belongs_to :bank
+
+  def bank
+    return nil if bank_id.nil?
+    @bank ||= Bank.find(bank_id)
+  end
+
+  def bank=(new_bank)
+    raise unless new_bank.is_a?(Bank)
+    self.bank_id = new_bank.id
+    @bank = new_bank
+  end
+
+  def bank_id=(new_bank_id)
+    @bank = nil unless @bank && @bank.id == new_bank_id
+    super
+  end
+
+  def reload
+    @bank = nil
+    super
+  end
 
   # Scopes
 

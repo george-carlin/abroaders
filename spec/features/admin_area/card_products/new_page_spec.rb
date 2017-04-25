@@ -10,7 +10,7 @@ RSpec.describe 'admin new card product page' do
   # TODO - annual fee needs upper and lower value limits. make sure we're
   # trimming whitespace too
 
-  let!(:banks) { create_list(:bank, 2) }
+  let!(:banks) { Bank.all }
   let!(:currencies) { create_list(:currency, 2) }
   before { visit new_admin_card_product_path }
 
