@@ -36,7 +36,7 @@ RSpec.describe 'account dashboard' do
     visit root_path
     expect(page).to have_content t('dashboard.account.unresolved_rec_req.message')
     expect(page).to have_content '1. Complete profile'
-    expect(page).to have_content '2. Wait 24-48 hours'
+    expect(page).to have_content '2. Wait 1-2 business days'
     expect(page).to have_content '3. Apply for card'
     expect(page).to have_content '4. Earn bonus points'
     expect(page).to have_content '5. Book travel'

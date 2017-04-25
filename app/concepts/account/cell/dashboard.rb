@@ -117,7 +117,7 @@ class Account < Account.superclass
           end
 
           def step_2
-            'Wait 24-48 hours'
+            'Wait 1-2 business days'
           end
 
           def whats_next
