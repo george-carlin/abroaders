@@ -45,6 +45,12 @@ RSpec.describe CardProduct do
     expect(product.bank).to eq Bank.find(7)
   end
 
+  example '#bank=' do
+    bank = Bank.find(5)
+    product = described_class.new(bank: bank)
+    expect(product.bank_id).to eq 5
+  end
+
   example '#bank_id=' do
     bank = Bank.new(id: 11, name: 'Fake bank', business_phone: nil, personal_phone: nil)
     product = described_class.new
