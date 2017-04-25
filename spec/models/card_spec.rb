@@ -129,12 +129,7 @@ RSpec.describe Card do
       create_rec(:redenied)
       create_rec(:expired)
       create_card_account(card_product: product, person: person)
-      declined = create_rec
-      run!(
-        CardRecommendation::Decline,
-        { id: declined.id, card: { decline_reason: 'X' } },
-        'account' => person.account,
-      )
+      decline_rec(create_rec)
 
       # open after reconsideration:
       create_rec(:denied, :called, :approved)
@@ -161,12 +156,7 @@ RSpec.describe Card do
       # resolved:
       create_rec(:applied)
       create_rec(:expired)
-      declined = create_rec
-      run!(
-        CardRecommendation::Decline,
-        { id: declined.id, card: { decline_reason: 'X' } },
-        'account' => person.account,
-      )
+      decline_rec(create_rec)
 
       # not a recommendation:
       create_card_account(card_product: product, person: person)

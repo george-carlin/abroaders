@@ -47,11 +47,7 @@ RSpec.describe CardRecommendation::Operation::UpdateStatus::Applied do
   end
 
   example 'failure - rec declined' do
-    run!(
-      CardRecommendation::Decline,
-      { id: rec.id, card: { decline_reason: 'x' } },
-      'account' => account,
-    )
+    decline_rec(rec)
 
     result = op.({ id: rec.id }, 'account' => account)
     expect(result.success?).to be false

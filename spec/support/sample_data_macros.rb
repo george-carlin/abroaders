@@ -294,4 +294,12 @@ module SampleDataMacros
   def verify_offer(offer)
     run!(AdminArea::Offers::Operation::Verify, id: offer.id)['model']
   end
+
+  def decline_rec(rec, decline_reason: 'Example decline reason')
+    run!(
+      CardRecommendation::Decline,
+      { id: rec.id, card: { decline_reason: decline_reason } },
+      'account' => rec.account,
+    )
+  end
 end
