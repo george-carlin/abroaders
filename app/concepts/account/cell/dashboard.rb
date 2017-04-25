@@ -217,7 +217,7 @@ class Account < Account.superclass
             'aria-labelledby': 'actionable_recommendations_notification_modal_label',
             'data-backdrop': 'static',
             'role': 'dialog',
-            class: 'modal fade in',
+            class: 'modal fade hmodal-info text-center',
             id: 'actionable_recommendations_notification_modal',
           ) do
             content_tag :div, class: 'modal-dialog' do
@@ -226,8 +226,19 @@ class Account < Account.superclass
           end
         end
 
+        def image
+          image_tag(
+            'party-popper.png',
+            alt: 'Ta-da',
+            class: 'img img-responsive img-circle9 center text-center',
+            size: '90x90',
+            src: '#',
+            style: 'margin: 0 auto;',
+          )
+        end
+
         def link_to_continue
-          link_to 'Continue', cards_path, class: 'btn btn-primary'
+          link_to 'Continue', cards_path, class: 'btn btn-lg btn-success'
         end
       end
     end

@@ -1,16 +1,17 @@
 <%= container do %>
-  <div class="modal-header text-center">
-    <h3 id="actionable_recommendations_notification_modal_label">
-      Action Required
-    </h3>
-  </div>
+  <div class="modal-header">
+    <%= image %>
 
-  <div class="modal-body">
-    You have card recommendations that require immediate action. Please
-    apply for the recommended cards as soon as possible.
-  </div>
+    <h3><strong>Your card recommendations are here!</strong></h3>
 
-  <div class="modal-footer">
+    <p>
+      We don't mean to rush you, but card offers do change all the time. The
+      sooner you apply for the card, the more likely you are to get the best
+      available offer.
+    </p>
+
+    </br>
+
     <%= link_to_continue %>
   </div>
 <% end %>
