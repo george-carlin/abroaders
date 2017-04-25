@@ -85,7 +85,7 @@ RSpec.describe 'account dashboard' do
   end
 
   describe 'actionable recs modal' do
-    let(:text) { 'You have card recommendations that require immediate action' }
+    let(:text) { 'Your card recommendations are here!' }
 
     example 'when I have no recs that require action' do
       visit root_path
