@@ -67,6 +67,9 @@ class TravelPlan < TravelPlan.superclass
     end
 
     validation do
+      # return_on must be present for NEW travel plans of type 'return', but we
+      # have some legacy data with type 'return' and `return_on: nil`
+
       validates :depart_on, presence: true
       validates :from, presence: true, format: AIRPORT_REGEX
       validates(

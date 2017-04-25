@@ -34,20 +34,6 @@ class TravelPlan < ApplicationRecord
     ![flight.to.class, flight.from.class].include?(Country)
   end
 
-  # Validations
-
-  # return_on must be present for NEW travel plans of type 'return',
-  # but we have some legacy data with type 'return' and `return_on: nil`
-
-  validates :depart_on, presence: true
-  validates :no_of_passengers,
-            numericality: {
-              greater_than_or_equal_to: 1,
-              less_than_or_equal_to:    MAX_PASSENGERS,
-            }
-  validates :type, presence: true
-  validates :account, presence: true
-
   # Associations
 
   belongs_to :account
