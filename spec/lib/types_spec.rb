@@ -27,27 +27,4 @@ RSpec.describe Types do
     expect(type['a']).to eq 'a'
     expect(type[' a ']).to eq 'a'
   end
-
-  # accepts blank strings, else raises an error
-  it 'BlankString' do
-    type = Types::BlankString
-    expect(type['']).to eq ''
-    expect(type['   ']).to eq ''
-    expect(type.try('a').success?).to be false
-    expect(type[nil]).to eq ''
-
-    optional = type.optional
-    expect(optional['']).to eq ''
-    expect(optional['   ']).to eq ''
-    expect(optional.try('a').success?).to be false
-    expect(optional[nil]).to be nil
-
-    sum = Types::StrippedString.constrained(format: /george/) | type.optional
-    expect(sum['george']).to eq 'george'
-    expect(sum['  george  ']).to eq 'george'
-    expect(sum.try('  invalid  ').success?).to be false
-    expect(sum['']).to eq ''
-    expect(sum['  ']).to eq ''
-    expect(sum[nil]).to be nil
-  end
 end

@@ -20,25 +20,6 @@ Dry::Types.register(
   end,
 )
 
-# Types::BlankString
-#
-# Coerces the input to a string if possible, then returns '' if the string is
-# blank, else returns an error. Useful in conjunction with other types, e.g. if
-# you want to specify that value can be a string following a certain format
-# *or* a blank string. (This is more flexible than using '.optional', because
-# .optional only allows nil, not blank strings.)
-#
-# E.g.:
-#
-# property :foo, type: Types::StrippedString.constrained(
-#                        format: /\A[A-Z]{5}\z/,
-#                      ) | Types::BlankString.optional
-#
-Dry::Types.register(
-  'blank_string',
-  Dry::Types['stripped_string'].constrained(format: /\A\s*\z/),
-)
-
 # Types::Form::AmericanDate
 #
 # When passed a date as a string, parses it in the format m/d/y, not d/m/y.
