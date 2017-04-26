@@ -105,8 +105,12 @@ RSpec.describe 'account dashboard' do
       end
 
       example "and I've already clicked the link" do
+        # Page also has a link within RecommendationAlert with the text
+        # 'Continue', so click_link needs to be scoped:
+        within '.modal' do
+          click_link 'Continue'
+        end
         # it sets a cookie that prevents the modal from appearing for 24hrs
-        click_link 'Continue'
         visit root_path
         expect(page).to have_no_content text
       end
