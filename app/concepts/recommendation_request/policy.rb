@@ -24,11 +24,12 @@ class RecommendationRequest < RecommendationRequest.superclass
         @account = account
       end
 
-      # an account can request recs if EVERYONE on the account can do so.
+      # an account can request recs if at least one person on the account
+      # can do so
       #
       # TODO update the logic on who can access the onboarding survey too.
       def create?
-        @account.people.all? { |p| Policy.new(p).create? }
+        @account.people.any? { |p| Policy.new(p).create? }
       end
     end
 
@@ -39,17 +40,21 @@ class RecommendationRequest < RecommendationRequest.superclass
       end
 
       # a person can request a new recommendation iff:
-      #   they don't have any unresolved recommendations (recs can be actionable,
-      #   but must be resolved)
-      #   AND
-      #   they don't have an unresolved recommendation request
+      # 1. they are eligible AND
+      # 2 neither they or their partner have have any unresolved recs or rec
+      #   requests. (The recs can be actionable, but must be resolved)
       #
       # @return [Boolean]
       def create?
-        @person.eligible? &&
-          @person.unresolved_card_recommendations.none? &&
-          !@person.unresolved_recommendation_request?
+        person.eligible? &&
+          !account.unresolved_card_recommendations? &&
+          !account.unresolved_recommendation_requests?
       end
+
+      private
+
+      attr_reader :person
+      delegate :account, to: :person
     end
   end
 end
