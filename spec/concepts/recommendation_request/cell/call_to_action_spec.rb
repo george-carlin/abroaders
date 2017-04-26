@@ -1,9 +1,11 @@
 require 'cells_helper'
 
 RSpec.describe RecommendationRequest::Cell::CallToAction do
+  controller ApplicationController
+
   include_context 'recommendation alert cell'
 
-  let(:header) { 'Want to earn more rewards points?' }
+  let(:header) { 'Want to Earn More Rewards Points?' }
 
   BTN_TEXT = 'Request new card recommendations'.freeze
 
@@ -23,6 +25,7 @@ RSpec.describe RecommendationRequest::Cell::CallToAction do
 
     example 'with ineligible person' do
       person.update!(eligible: false)
+      account.reload
       is_invalid
     end
 
@@ -30,7 +33,6 @@ RSpec.describe RecommendationRequest::Cell::CallToAction do
       rendered = show(account)
       expect(rendered).to have_content header
       expect(rendered).to have_link BTN_TEXT
-      expect(rendered).not_to have_type_select
     end
   end
 
@@ -38,7 +40,8 @@ RSpec.describe RecommendationRequest::Cell::CallToAction do
     # type select is initially hidden, and will be shown by JS. But this is a
     # cell spec and we don't care about the JS
     def have_type_select
-      have_select(:person_type, options: select_options, visible: false)
+      options = [owner.first_name, companion.first_name, 'Both of us']
+      have_select(:person_type, options: options, visible: false)
     end
 
     let(:account) { create(:account, :couples, :onboarded, :eligible) }
@@ -66,9 +69,9 @@ RSpec.describe RecommendationRequest::Cell::CallToAction do
       end
 
       example 'can request' do
-        rendered = show(account)
+        rendered = show(account.reload)
         expect(rendered).to have_content header
-        expect(rendered).to have_button BTN_TEXT
+        expect(rendered).to have_link BTN_TEXT
         expect(rendered).not_to have_type_select
       end
     end
@@ -77,7 +80,7 @@ RSpec.describe RecommendationRequest::Cell::CallToAction do
       example 'both can request' do
         rendered = show(account)
         expect(rendered).to have_content header
-        expect(rendered).to have_button BTN_TEXT
+        expect(rendered).to have_link BTN_TEXT
         expect(rendered).to have_type_select
       end
 
@@ -109,6 +112,7 @@ RSpec.describe RecommendationRequest::Cell::CallToAction do
 
       example 'both have unresolved requests' do
         create_rec_request('both', account)
+        account.reload
         is_invalid
       end
 
@@ -121,7 +125,7 @@ RSpec.describe RecommendationRequest::Cell::CallToAction do
         decline_rec(c_rec)
         o_rec.update!(applied_on: Date.today)
         rendered = show(account)
-        expect(rendered).to have_button BTN_TEXT
+        expect(rendered).to have_link BTN_TEXT
         expect(rendered).to have_type_select
       end
     end

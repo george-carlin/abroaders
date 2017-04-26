@@ -11,7 +11,7 @@
 
         <%= flash_alerts %>
 
-        <%= cell(RecommendationRequest::Cell::Banner, current_account) if current_account %>
+        <%= cell(Abroaders::Cell::RecommendationAlert, current_account) if current_account %>
 
         <%= yield %>
       </div><!-- content -->

@@ -1,3 +1,4 @@
+// Confirmation survey
 $(document).ready(function () {
   // ---- CREDIT SCORE ---
   $('.confirm_credit_score_btn').click(function (e) {
