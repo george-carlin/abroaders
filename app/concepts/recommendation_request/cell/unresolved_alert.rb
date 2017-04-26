@@ -1,18 +1,15 @@
 class RecommendationRequest < RecommendationRequest.superclass
   module Cell
+    # @param account [Account] the currently logged-in account. Must have at
+    #   least one unresolved rec request - error will be raised if it doesn't TODO fix docs
     class UnresolvedAlert < Abroaders::Cell::RecommendationAlert
-      # @param account [Account] the currently logged-in account. Must have at
-      #   least one unresolved rec request - error will be raised if it doesn't
-      def initialize(account, options = {})
+      property :unresolved_recommendation_requests
+
+      def self.show?(account)
         unresolved_reqs = account.unresolved_recommendation_requests?
         unresolved_recs = account.unresolved_card_recommendations?
-        unless unresolved_reqs && !unresolved_recs
-          raise ArgumentError, "#{self.class} shouldn't be rendered"
-        end
-        super
+        unresolved_reqs && !unresolved_recs
       end
-
-      property :unresolved_recommendation_requests
 
       private
 

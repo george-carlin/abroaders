@@ -1,14 +1,13 @@
 class RecommendationRequest < RecommendationRequest.superclass
   module Cell
+    # @param account [Account] the currently logged-in account. Must be able
+    #   to request a rec, else an error will be raised TODO fix docs
     class CallToAction < Abroaders::Cell::RecommendationAlert
-      # @param account [Account] the currently logged-in account. Must be able
-      #   to request a rec, else an error will be raised
-      def initialize(account, options = {})
-        raise ArgumentError, "can't request reqs" unless Policy.new(account).create?
-        super
-      end
-
       property :people
+
+      def self.show?(account)
+        Policy.new(account).create?
+      end
 
       private
 
