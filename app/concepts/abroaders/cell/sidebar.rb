@@ -10,6 +10,19 @@ module Abroaders
         end
       end
 
+      def show
+        return '' unless show?
+        super
+      end
+
+      def self.show?(user)
+        (user.is_a?(Account) && user.onboarded?) || user.is_a?(Admin)
+      end
+
+      def show?
+        self.class.show?(model)
+      end
+
       private
 
       def container(&block)

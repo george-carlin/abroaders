@@ -25,12 +25,8 @@ module Abroaders
         end
       end
 
-      def search_form
+      def logo_html_classes # override in subclasses
         ''
-      end
-
-      def pad_logo?
-        !sidebar?
       end
 
       def logo_image_tag
@@ -39,11 +35,23 @@ module Abroaders
         image_tag 'abroaders-logo-grey-md.png', size: '110x36', alt: 'Abroaders'
       end
 
-      def logo_html_classes
+      def search_form # override in subclasses
         ''
       end
 
-      def username
+      def sidebar?
+        Sidebar.show?(model)
+      end
+
+      def small_logo
+        <<-HTML
+        <div class="small-logo" #{'style="padding-left: 20px"' if !sidebar?}>
+          <span class="text-primary">Abroaders</span>
+        </div>
+        HTML
+      end
+
+      def username # override in subclasses
         ''
       end
 
@@ -70,10 +78,6 @@ module Abroaders
       class AccountNavbar < SignedInNavbar
         private
 
-        def sidebar?
-          model.onboarded?
-        end
-
         def sign_out_path
           destroy_account_session_path
         end
@@ -84,10 +88,6 @@ module Abroaders
 
         def search_form
           cell(AdminArea::Accounts::Cell::SearchForm)
-        end
-
-        def sidebar?
-          true
         end
 
         def sign_out_path
@@ -104,10 +104,6 @@ module Abroaders
 
         def bars
           ''
-        end
-
-        def sidebar?
-          false
         end
 
         def links
