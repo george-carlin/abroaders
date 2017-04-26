@@ -10,7 +10,7 @@ RSpec.describe RecommendationRequest::Cell::CallToAction do
   BTN_TEXT = 'Request new card recommendations'.freeze
 
   context 'solo account' do
-    let(:account) { create(:account, :onboarded, :eligible) }
+    let(:account) { create(:account, :eligible, :onboarded) }
     let(:person)  { account.owner }
 
     example 'with unresolved recs' do
@@ -44,7 +44,7 @@ RSpec.describe RecommendationRequest::Cell::CallToAction do
       have_select(:person_type, options: options, visible: false)
     end
 
-    let(:account) { create(:account, :couples, :onboarded, :eligible) }
+    let(:account) { create(:account, :couples, :eligible, :onboarded) }
     let(:owner) { account.owner }
     let(:companion) { account.companion }
     let(:people) { account.people }

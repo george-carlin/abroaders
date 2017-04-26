@@ -5,7 +5,7 @@ class RecommendationRequest < RecommendationRequest.superclass
     class UnresolvedAlert < Abroaders::Cell::RecommendationAlert
       property :unresolved_recommendation_requests
 
-      def self.show?(account)
+      def self.can_handle_account?(account)
         unresolved_reqs = account.unresolved_recommendation_requests?
         unresolved_recs = account.unresolved_card_recommendations?
         unresolved_reqs && !unresolved_recs

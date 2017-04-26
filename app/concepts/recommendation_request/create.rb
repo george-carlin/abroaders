@@ -28,6 +28,7 @@ class RecommendationRequest < RecommendationRequest.superclass
 
     def people_can_create?(opts, people:, **)
       # make sure the people are ordered owner first, then companion
+      # TODO can't I replace this with Policy.new(account).create?
       cant_create = people.reject { |person| Policy.new(person).create? }
       if cant_create.none?
         true

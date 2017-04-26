@@ -5,7 +5,7 @@ class RecommendationRequest < RecommendationRequest.superclass
     class CallToAction < Abroaders::Cell::RecommendationAlert
       property :people
 
-      def self.show?(account)
+      def self.can_handle_account?(account)
         Policy.new(account).create?
       end
 

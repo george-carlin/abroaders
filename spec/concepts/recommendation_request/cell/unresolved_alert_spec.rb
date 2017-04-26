@@ -4,7 +4,7 @@ RSpec.describe RecommendationRequest::Cell::UnresolvedAlert do
   include_context 'recommendation alert cell'
 
   context 'solo account' do
-    let(:account) { create(:account, :onboarded, :eligible) }
+    let(:account) { create(:account, :eligible, :onboarded) }
     let(:person)  { account.owner }
 
     example 'with unresolved req' do
@@ -36,7 +36,7 @@ RSpec.describe RecommendationRequest::Cell::UnresolvedAlert do
   end
 
   context 'couples account' do
-    let(:account) { create(:account, :couples, :onboarded, :eligible) }
+    let(:account) { create(:account, :couples, :eligible, :onboarded) }
     let(:owner) { account.owner }
     let(:companion) { account.companion }
     let(:people) { account.people }

@@ -6,7 +6,7 @@ class CardRecommendation < CardRecommendation.superclass
     class UnresolvedAlert < Abroaders::Cell::RecommendationAlert
       property :unresolved_card_recommendations
 
-      def self.show?(account)
+      def self.can_handle_account?(account)
         account.unresolved_card_recommendations?
       end
 
@@ -14,6 +14,10 @@ class CardRecommendation < CardRecommendation.superclass
 
       def actions
         link_to('Continue', cards_path, class: BTN_CLASSES)
+      end
+
+      def excluded_actions
+        super.tap { |h| h['cards'] = %w[index] }
       end
 
       def header
