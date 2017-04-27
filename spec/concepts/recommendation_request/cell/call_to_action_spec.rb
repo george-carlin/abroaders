@@ -121,7 +121,7 @@ RSpec.describe RecommendationRequest::Cell::CallToAction do
         create_rec_request('both', account)
         o_rec = create_rec(person: owner)
         c_rec = create_rec(person: companion)
-        run!(AdminArea::CardRecommendations::Complete, person_id: owner.id)
+        complete_recs(account)
         decline_rec(c_rec)
         o_rec.update!(applied_on: Date.today)
         rendered = show(account)

@@ -3,11 +3,6 @@ require 'rails_helper'
 RSpec.describe RecommendationRequest::Policy do
   include_context 'create_rec avoids extra records'
 
-  # TODO move to sample data macros
-  def complete_recs(account)
-    run!(AdminArea::CardRecommendations::Complete, person_id: account.owner.id)
-  end
-
   let(:account) { create(:account, :eligible, :onboarded) }
   let(:person) { account.owner }
 

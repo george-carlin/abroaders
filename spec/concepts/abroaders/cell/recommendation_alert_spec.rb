@@ -1,6 +1,8 @@
 require 'cells_helper'
 
 RSpec.describe Abroaders::Cell::RecommendationAlert do
+  include_context 'create_rec avoids extra records'
+
   let(:cell_class) { described_class }
 
   # TODO use create_rec that doesn't create extra records
@@ -11,6 +13,21 @@ RSpec.describe Abroaders::Cell::RecommendationAlert do
 
   def render # use this method when you don't want to memoize the result
     cell_class.(account, context: { controller: CellContextController.new }).to_s
+  end
+
+  # test that the cell renders '"" when the current action is included in the
+  # list of excluded actions. This only tests for the actions that are excluded
+  # for ALL instances of the cell. For actions which are only excluded for a
+  # particular subclass (i.e. cards#index), a separate test must be written.
+  def is_excluded
+    params = {}
+    EXCLUDED_ACTIONS.each do |ctrlr, actions|
+      params['controller'] = ctrlr
+      actions.each do |action|
+        params['action'] = action
+        expect(cell_with_params(params).to_s).to eq ''
+      end
+    end
   end
 
   let(:rendered) { render }
@@ -67,7 +84,7 @@ RSpec.describe Abroaders::Cell::RecommendationAlert do
       # create recs/reqs but resolve them
       create_rec_request(person.type, account)
       create_rec(person: person).update!(applied_on: Date.today)
-      run!(AdminArea::CardRecommendations::Complete, person_id: person.id)
+      complete_recs(person)
       expect(rendered).to show_recs_cta
     end
 
@@ -77,17 +94,6 @@ RSpec.describe Abroaders::Cell::RecommendationAlert do
     end
 
     example 'onboarded but on excluded paths' do
-      def is_excluded
-        params = {}
-        EXCLUDED_ACTIONS.each do |ctrlr, actions|
-          params['controller'] = ctrlr
-          actions.each do |action|
-            params['action'] = action
-            expect(cell_with_params(params).to_s).to eq ''
-          end
-        end
-      end
-
       # when Request CTA is to be shown
       is_excluded
 
@@ -178,7 +184,7 @@ RSpec.describe Abroaders::Cell::RecommendationAlert do
         decline_rec(create_rec(person: owner))
         create_rec(person: companion).update!(applied_on: Date.today)
 
-        run!(AdminArea::CardRecommendations::Complete, person_id: owner.id)
+        complete_recs(person)
         expect(rendered).to show_recs_cta
       end
 
@@ -188,17 +194,6 @@ RSpec.describe Abroaders::Cell::RecommendationAlert do
       end
 
       example 'on excluded paths' do
-        def is_excluded # TODO DRY
-          params = {}
-          EXCLUDED_ACTIONS.each do |ctrlr, actions|
-            params['controller'] = ctrlr
-            actions.each do |action|
-              params['action'] = action
-              expect(cell_with_params(params).to_s).to eq ''
-            end
-          end
-        end
-
         # when Request CTA is to be shown
         is_excluded
 

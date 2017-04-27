@@ -10,7 +10,7 @@ RSpec.describe RecommendationRequest::Cell::UnresolvedAlert do
     example 'with unresolved req' do
       create_rec_request('owner', account)
       # mark the first one as resolved
-      run!(AdminArea::CardRecommendations::Complete, person_id: person.id)
+      complete_recs(person)
       create_rec_request('owner', account)
       text = 'Abroaders is Working on Your Card Recommendations'
       expect(show(account)).to have_content text
@@ -22,7 +22,7 @@ RSpec.describe RecommendationRequest::Cell::UnresolvedAlert do
 
     example 'with resolved reqs' do
       create_rec_request('owner', account)
-      run!(AdminArea::CardRecommendations::Complete, person_id: person.id)
+      complete_recs(account)
       is_invalid
     end
 
@@ -59,7 +59,7 @@ RSpec.describe RecommendationRequest::Cell::UnresolvedAlert do
 
     example 'all reqs are resolved' do
       create_rec_request('both', account)
-      run!(AdminArea::CardRecommendations::Complete, person_id: owner.id)
+      complete_recs(account)
       is_invalid
     end
 
@@ -81,7 +81,7 @@ RSpec.describe RecommendationRequest::Cell::UnresolvedAlert do
     example 'one person has unresolved reqs' do
       create_rec_request('owner', account)
       expect(show(account)).to have_alert_for(owner)
-      run!(AdminArea::CardRecommendations::Complete, person_id: owner.id)
+      complete_recs(account)
       create_rec_request('companion', account)
       account.reload
       expect(show(account)).to have_alert_for(companion)

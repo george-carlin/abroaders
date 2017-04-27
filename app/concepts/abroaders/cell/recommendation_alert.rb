@@ -62,7 +62,7 @@ module Abroaders
         HTML
       end
 
-      BTN_CLASSES = 'btn btn-success'.freeze # TODO lg?
+      BTN_CLASSES = 'btn btn-success'.freeze
 
       private
 
