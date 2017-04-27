@@ -15,7 +15,7 @@ RSpec.describe CardAccount::Cell::Row do
     instance.()
   end
 
-  let(:card_account) { CardAccount.new(opened_on: Date.new(2015, 6, 1)) }
+  let(:card_account) { Card.new(opened_on: Date.new(2015, 6, 1)) }
 
   it 'displays info about the card_account' do
     rendered = show(card_account)
