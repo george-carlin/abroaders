@@ -5,8 +5,6 @@ RSpec.describe Abroaders::Cell::RecommendationAlert do
 
   let(:cell_class) { described_class }
 
-  # TODO use create_rec that doesn't create extra records
-
   EXCLUDED_ACTIONS = {
     'recommendation_requests' => %w[new create],
   }.freeze
