@@ -28,8 +28,8 @@ class SpendingInfo::Form < Reform::Form
             numericality: {
               # avoid duplicate error message (from presence validation) when nil:
               allow_blank: true,
-                greater_than_or_equal_to: ::SpendingInfo::MINIMUM_CREDIT_SCORE,
-                less_than_or_equal_to:    ::SpendingInfo::MAXIMUM_CREDIT_SCORE,
+                greater_than_or_equal_to: CreditScore.min,
+                less_than_or_equal_to: CreditScore.max,
             },
             presence: true
   validates :business_spending_usd,

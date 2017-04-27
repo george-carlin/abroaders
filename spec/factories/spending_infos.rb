@@ -3,8 +3,8 @@ FactoryGirl.define do
     person
 
     credit_score do
-      min = SpendingInfo::MINIMUM_CREDIT_SCORE
-      max = SpendingInfo::MAXIMUM_CREDIT_SCORE
+      min = CreditScore.min
+      max = CreditScore.max
       min + rand(max - min)
     end
   end

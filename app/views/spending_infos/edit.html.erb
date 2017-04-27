@@ -39,14 +39,13 @@
             <%= f.label(
               :credit_score,
               "What's your credit score?",
-              min: SpendingInfo::MINIMUM_CREDIT_SCORE,
-              max: SpendingInfo::MAXIMUM_CREDIT_SCORE,
+              min: CreditScore.min,
+              max: CreditScore.max,
             ) %>
 
             <p class="help-block">
               A credit score should be a number between
-              <%= SpendingInfo::MINIMUM_CREDIT_SCORE %> and
-              <%= SpendingInfo::MAXIMUM_CREDIT_SCORE %>
+              <%= CreditScore.min %> and <%= CreditScore.max %>
             </p>
 
             <%= f.number_field :credit_score %>

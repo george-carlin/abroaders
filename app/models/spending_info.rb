@@ -1,12 +1,4 @@
 class SpendingInfo < ApplicationRecord
-  MINIMUM_CREDIT_SCORE = 350
-  MAXIMUM_CREDIT_SCORE = 850
-
-  CreditScore = Types::Strict::Int.constrained(
-    gteq: MINIMUM_CREDIT_SCORE,
-    lteq: MAXIMUM_CREDIT_SCORE,
-  )
-
   # Attributes
 
   delegate :couples?, to: :account, prefix: true

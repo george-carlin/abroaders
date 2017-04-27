@@ -111,8 +111,8 @@ class RecommendationRequest # < RecommendationRequest.superclass
           number_field(
             :spending_info,
             :credit_score,
-            max: SpendingInfo::MAXIMUM_CREDIT_SCORE,
-            min: SpendingInfo::MINIMUM_CREDIT_SCORE,
+            max: CreditScore.max,
+            min: CreditScore.min,
             value: credit_score,
           )
         end

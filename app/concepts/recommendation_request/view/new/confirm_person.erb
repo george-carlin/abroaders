@@ -22,8 +22,7 @@
         <div class="col-xs-12">
           <p class="help-block">
             What's the correct credit score? It should be a number between
-            <%= SpendingInfo::MINIMUM_CREDIT_SCORE %> and
-            <%= SpendingInfo::MAXIMUM_CREDIT_SCORE %>.
+            <%= CreditScore.min %> and <%= CreditScore.max %>.
           </p>
         </div>
 
