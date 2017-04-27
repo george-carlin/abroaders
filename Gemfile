@@ -43,7 +43,6 @@ gem 'reform-rails'
 gem 'resque'
 gem 'resque-scheduler', '4.2.1'
 gem 'sass-rails'
-gem 'simple_form', '3.3.1'
 # We need to use edge Sinatra from Github as it's dependent on Rack 2+ (like
 # Rails 5) and that's the only way to make Resque::Server work.
 gem 'sinatra', github: 'sinatra/sinatra', branch: 'master'

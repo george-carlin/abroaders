@@ -408,9 +408,6 @@ GEM
       tilt (>= 1.1, < 3)
     shellany (0.0.1)
     shoulda-matchers (3.1.1)
-      activesupport (>= 4.0.0)
-    simple_form (3.3.1)
-      actionpack (> 4, < 5.1)
       activemodel (> 4, < 5.1)
     slop (3.6.0)
     sprockets (3.7.1)
@@ -532,7 +529,6 @@ DEPENDENCIES
   rubocop (~> 0.43.0)
   sass-rails
   shoulda-matchers (~> 3.1.1)
-  simple_form (= 3.3.1)
   sinatra!
   trailblazer (~> 2.0.1)
   trailblazer-cells
