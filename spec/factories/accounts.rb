@@ -25,14 +25,12 @@ FactoryGirl.define do
     # Bad:
     #     create(:account, :eligible, :couples)
     trait :couples do
-      onboarding_state :eligibility # if they have a companion they must be at least here
       after(:build) do |acc|
         acc.people.build(first_name: 'Gabi', owner: false)
       end
     end
 
     trait :eligible do
-      onboarding_state :owner_cards # if they're eligible they must be at least here
       after(:build) { |acc| acc.people.each { |p| p.eligible = true } }
     end
 

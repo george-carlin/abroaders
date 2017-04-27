@@ -22,10 +22,6 @@ FactoryGirl.define do
       owner false
     end
 
-    trait :onboarded do
-      onboarding_state "complete"
-    end
-
     factory :companion, traits: [:companion]
   end
 end

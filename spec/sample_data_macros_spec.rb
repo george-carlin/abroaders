@@ -72,6 +72,14 @@ RSpec.describe SampleDataMacros do
       end.to change { Card.recommended.count }.by(1)
       expect(Admin.count).to eq 1
     end
+
+    example 'specifying person' do
+      account = create(:account, :couples, :eligible, :onboarded)
+      rec = create_card_recommendation(person: account.owner)
+      expect(rec.person).to eq account.owner
+      rec = create_card_recommendation(person: account.companion)
+      expect(rec.person).to eq account.companion
+    end
   end
 
   describe '#create_offer' do
