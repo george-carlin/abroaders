@@ -27,7 +27,7 @@ class RecommendationRequest < RecommendationRequest.superclass
       # an account can request recs if at least one person on the account
       # can do so
       #
-      # TODO update the logic on who can access the onboarding survey too.
+      # TODO update the logic on who can access the confirmation survey too.
       def create?
         @account.people.any? { |p| Policy.new(p).create? }
       end

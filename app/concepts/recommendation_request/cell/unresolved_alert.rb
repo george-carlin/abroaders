@@ -1,10 +1,10 @@
 class RecommendationRequest < RecommendationRequest.superclass
   module Cell
-    # @param account [Account] the currently logged-in account. Must have at
-    #   least one unresolved rec request - error will be raised if it doesn't TODO fix docs
     class UnresolvedAlert < Abroaders::Cell::RecommendationAlert
       property :unresolved_recommendation_requests
 
+      # @param account [Account] the currently logged-in account. Must have at
+      #  least one unresolved rec request - error will be raised if it doesn't
       def initialize(account, opts = {})
         unresolved_recs = account.unresolved_card_recommendations?
         unresolved_reqs = account.unresolved_recommendation_requests?

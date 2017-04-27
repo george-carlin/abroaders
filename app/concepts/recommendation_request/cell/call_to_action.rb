@@ -1,10 +1,12 @@
 class RecommendationRequest < RecommendationRequest.superclass
   module Cell
-    # @param account [Account] the currently logged-in account. Must be able
-    #   to request a rec, else an error will be raised TODO fix docs
+    # Cell that encourages the user to request a new recommendation, with a
+    # link to rec_reqs#new.
     class CallToAction < Abroaders::Cell::RecommendationAlert
       property :people
 
+      # @param account [Account] the currently logged-in account. Must be able
+      #   to request a rec, else an error will be raised
       def initialize(account, opts = {})
         raise ArgumentError, "can't render #{self.class}" unless Policy.new(account).create?
         super
@@ -70,7 +72,6 @@ class RecommendationRequest < RecommendationRequest.superclass
         def person_select_field
           options = model.sort_by(&:type).reverse.each_with_object({}) do |person, h|
             # TODO XSS?
-            # TODO this will cause a bug if the people have the same name :(
             h[person.first_name] = person.type
           end
           options['Both of us'] = 'both'

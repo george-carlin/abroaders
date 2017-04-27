@@ -1,5 +1,15 @@
 module Abroaders
   module Cell
+    # An alert-info that will be shown at the top of most pages when an
+    # onboarded account is logged in. It will tell them one of three things
+    # related to recommendations (or it might not render anything):
+    #
+    #   1. You have unresolved recommendations - please visit cards#index
+    #   1. You have an unresolved rec request (and we're working on it)
+    #   1. Please click here to request a recommendation.
+    #
+    # Each case is handled by a different subclass.
+    #
     # @!method self.call(user, options = {})
     #   @param user [User] the currently logged-in user. May be an account,
     #     an admin, or nil.

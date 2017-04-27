@@ -1,11 +1,13 @@
 class CardRecommendation < CardRecommendation.superclass
   module Cell
-    # @param account [Account] the currently logged-in account. Must have at
-    #   least one unresolved card recommendation - will raise an error if
-    #   there isn't one TODO fix docs
+    # Cell that tells the user they have unresolved card recommendations
+    # which require action, with a link to cards#index
     class UnresolvedAlert < Abroaders::Cell::RecommendationAlert
       property :unresolved_card_recommendations
 
+      # @param account [Account] the currently logged-in account. Must have at
+      #   least one unresolved card recommendation - will raise an error if
+      #   there isn't one.
       def initialize(account, opts = {})
         unless account.unresolved_card_recommendations?
           raise ArgumentError, "can't render #{self.class}"
