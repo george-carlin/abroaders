@@ -43,6 +43,16 @@ class ApplicationController < ActionController::Base
     super
   end
 
+  # Since upgrading to Ruby 2.4.0, rails prints warnings EVERYWHERE with
+  # messages along the lines of "forwarding to private method
+  # (Controller)#protect_against_forgery?". It seems that
+  # protect_against_forgery?  is defined in actionpack as a private method of
+  # ActionController::Base, but forwardable expects it to be public. Making the
+  # method public may not be the ideal solution (really this is an issue in
+  # rails that should be fixed, as far as I can tell), but it suppresses the
+  # warnings:
+  public :protect_against_forgery?
+
   private
 
   # Pass these options by default into Trailblazer operations when calling
