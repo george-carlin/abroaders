@@ -7,7 +7,7 @@ RSpec.describe RecommendationRequest::Cell::CallToAction do
 
   let(:header) { 'Want to Earn More Rewards Points?' }
 
-  BTN_TEXT = 'Request new card recommendations'.freeze
+  let(:btn_text) { 'Request new card recommendations' }
 
   context 'solo account' do
     let(:account) { create(:account, :eligible, :onboarded) }
@@ -32,7 +32,7 @@ RSpec.describe RecommendationRequest::Cell::CallToAction do
     example 'who can make a request' do
       rendered = show(account)
       expect(rendered).to have_content header
-      expect(rendered).to have_link BTN_TEXT
+      expect(rendered).to have_link btn_text
     end
   end
 
@@ -71,7 +71,7 @@ RSpec.describe RecommendationRequest::Cell::CallToAction do
       example 'can request' do
         rendered = show(account.reload)
         expect(rendered).to have_content header
-        expect(rendered).to have_link BTN_TEXT
+        expect(rendered).to have_link btn_text
         expect(rendered).not_to have_type_select
       end
     end
@@ -80,7 +80,7 @@ RSpec.describe RecommendationRequest::Cell::CallToAction do
       example 'both can request' do
         rendered = show(account)
         expect(rendered).to have_content header
-        expect(rendered).to have_link BTN_TEXT
+        expect(rendered).to have_link btn_text
         expect(rendered).to have_type_select
       end
 
@@ -125,7 +125,7 @@ RSpec.describe RecommendationRequest::Cell::CallToAction do
         decline_rec(c_rec)
         o_rec.update!(applied_on: Date.today)
         rendered = show(account)
-        expect(rendered).to have_link BTN_TEXT
+        expect(rendered).to have_link btn_text
         expect(rendered).to have_type_select
       end
     end
