@@ -99,15 +99,15 @@ RSpec.describe TravelPlan::Form, type: :model do
       expect(errors_for_date(Time.zone.today)).to be_empty
     end
 
-    specify 'return_on must be blank when type is single' do
-      form.type = 'single'
+    specify 'return_on must be blank when type is one-way' do
+      form.type = 'one_way'
       expect(form).to validate_absence_of(:return_on)
     end
 
-    context "when type is return" do
+    context "when type is round-trip" do
       specify "return date must be present and not in the past" do
         def errors_for_date(date)
-          errors_for(return_on: date, type: 'return')[:return_on]
+          errors_for(return_on: date, type: 'round_trip')[:return_on]
         end
 
         expect(errors_for_date(nil)).to include "can't be blank"
@@ -117,7 +117,7 @@ RSpec.describe TravelPlan::Form, type: :model do
 
       specify "return date must be >= departure" do
         def errors_for_dates(dep, ret)
-          errors_for(depart_on: dep, return_on: ret, type: 'return')[:return_on]
+          errors_for(depart_on: dep, return_on: ret, type: 'round_trip')[:return_on]
         end
 
         tomorrow = Time.zone.tomorrow
@@ -140,7 +140,7 @@ RSpec.describe TravelPlan::Form, type: :model do
         form.validate(
           from: "#{airport_0.name} (#{airport_0.code})",
           to: "#{airport_1.name} (#{airport_1.code})",
-          type: 'return',
+          type: 'round_trip',
           no_of_passengers: 5,
           accepts_economy: true,
           accepts_premium_economy: true,
@@ -155,7 +155,7 @@ RSpec.describe TravelPlan::Form, type: :model do
       tp = form.model
       expect(tp.flights[0].from).to eq airport_0
       expect(tp.flights[0].to).to eq airport_1
-      expect(tp.type).to eq 'return'
+      expect(tp.type).to eq 'round_trip'
       expect(tp.no_of_passengers).to eq 5
       expect(tp.accepts_economy).to be true
       expect(tp.accepts_premium_economy).to be true
@@ -172,7 +172,7 @@ RSpec.describe TravelPlan::Form, type: :model do
           travel_plan: {
             from: "#{airport_0.name} (#{airport_0.code})",
             to: "#{airport_1.name} (#{airport_1.code})",
-            type: 'return',
+            type: 'round_trip',
             no_of_passengers: 5,
             accepts_economy: true,
             accepts_premium_economy: true,
@@ -191,7 +191,7 @@ RSpec.describe TravelPlan::Form, type: :model do
         form.validate(
           from: "#{airport_1.name} (#{airport_1.code})",
           to: "#{airport_0.name} (#{airport_0.code})",
-          type: 'return',
+          type: 'round_trip',
           no_of_passengers: 3,
           accepts_economy: false,
           accepts_premium_economy: false,
@@ -206,7 +206,7 @@ RSpec.describe TravelPlan::Form, type: :model do
       plan.reload
       expect(plan.flights[0].from).to eq airport_1
       expect(plan.flights[0].to).to eq airport_0
-      expect(plan.type).to eq 'return'
+      expect(plan.type).to eq 'round_trip'
       expect(plan.no_of_passengers).to eq 3
       expect(plan.accepts_economy).to be false
       expect(plan.accepts_premium_economy).to be false

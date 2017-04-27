@@ -20,10 +20,10 @@ module Estimates
     end
 
     example "non-US -> non-US estimates" do
-      attrs = { from: @cdg, to: @lhr, type: "single", no_of_passengers: 1 }
+      attrs = { from: @cdg, to: @lhr, type: 'one_way', no_of_passengers: 1 }
 
-      single_fee_low  = FeesEstimate::NON_US_SINGLE_FEES_MIN_USD
-      single_fee_high = FeesEstimate::NON_US_SINGLE_FEES_MAX_USD
+      single_fee_low  = FeesEstimate::NON_US_ONE_WAY_FEES_MIN_USD
+      single_fee_high = FeesEstimate::NON_US_ONE_WAY_FEES_MAX_USD
 
       attrs[:class_of_service] = "economy"
       expect(get_estimate(attrs).low).to eq single_fee_low
@@ -35,9 +35,9 @@ module Estimates
       expect(get_estimate(attrs).low).to eq single_fee_low
       expect(get_estimate(attrs).high).to eq single_fee_high
 
-      attrs[:type] = "return"
-      return_fee_low  = FeesEstimate::NON_US_RETURN_FEES_MIN_USD
-      return_fee_high = FeesEstimate::NON_US_RETURN_FEES_MAX_USD
+      attrs[:type] = 'round_trip'
+      return_fee_low  = FeesEstimate::NON_US_ROUND_TRIP_FEES_MIN_USD
+      return_fee_high = FeesEstimate::NON_US_ROUND_TRIP_FEES_MAX_USD
       attrs[:class_of_service] = "economy"
       expect(get_estimate(attrs).low).to eq return_fee_low
       expect(get_estimate(attrs).high).to eq return_fee_high
@@ -50,9 +50,9 @@ module Estimates
     end
 
     example "US -> US estimates" do
-      attrs = { from: @jfk, to: @jfk, type: "single", no_of_passengers: 1 }
+      attrs = { from: @jfk, to: @jfk, type: 'one_way', no_of_passengers: 1 }
 
-      single_fee = FeesEstimate::US_TO_US_SINGLE_FEES_USD
+      single_fee = FeesEstimate::US_TO_US_ONE_WAY_FEES_USD
       attrs[:class_of_service] = "economy"
       expect(get_estimate(attrs).low).to eq single_fee
       expect(get_estimate(attrs).high).to eq single_fee
@@ -63,8 +63,8 @@ module Estimates
       expect(get_estimate(attrs).low).to eq single_fee
       expect(get_estimate(attrs).high).to eq single_fee
 
-      attrs[:type] = "return"
-      return_fee = FeesEstimate::US_TO_US_RETURN_FEES_USD
+      attrs[:type] = 'round_trip'
+      return_fee = FeesEstimate::US_TO_US_ROUND_TRIP_FEES_USD
       attrs[:class_of_service] = "economy"
       expect(get_estimate(attrs).low).to eq return_fee
       expect(get_estimate(attrs).high).to eq return_fee
@@ -77,7 +77,7 @@ module Estimates
     end
 
     example "US <-> non-US estimates" do
-      attrs = { from: @cdg, to: @jfk, type: "single" }
+      attrs = { from: @cdg, to: @jfk, type: 'one_way' }
       attrs[:no_of_passengers] = 1
 
       # NB: estimates are rounded to the nearest $5
@@ -94,7 +94,7 @@ module Estimates
       expect(get_estimate(attrs).low).to eq 65
       expect(get_estimate(attrs).high).to eq 185
 
-      attrs[:type] = "return"
+      attrs[:type] = 'round_trip'
       #   EU,US,64,157,65,222,65,183
       #   US,EU,28,157,28,198,28,183
       #   total:92,314,93,410,93,366

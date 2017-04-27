@@ -17,7 +17,7 @@ RSpec.describe TravelPlan::Edit do
           depart_on: "05/18/#{Date.today.year + 1}",
           from: lhr_s,
           to:   jfk_s,
-          type: 'single',
+          type: 'one_way',
           no_of_passengers: 1,
         },
       },

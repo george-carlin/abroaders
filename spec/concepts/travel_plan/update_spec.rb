@@ -13,7 +13,7 @@ RSpec.describe TravelPlan::Update do
       from: lhr,
       no_of_passengers: 1,
       to: jfk,
-      type: 'single',
+      type: 'one_way',
       account: account,
     )
   end
@@ -25,7 +25,7 @@ RSpec.describe TravelPlan::Update do
         travel_plan: { # update all the things!
           from: jfk.full_name,
           to: lhr.full_name,
-          type: 'return',
+          type: 'round_trip',
           no_of_passengers: 2,
           accepts_economy: true,
           accepts_premium_economy: true,
@@ -43,7 +43,7 @@ RSpec.describe TravelPlan::Update do
     plan.reload
     expect(plan.flights[0].from).to eq jfk
     expect(plan.flights[0].to).to eq lhr
-    expect(plan.type).to eq 'return'
+    expect(plan.type).to eq 'round_trip'
     expect(plan.no_of_passengers).to eq 2
     expect(plan.accepts_economy).to be true
     expect(plan.accepts_premium_economy).to be true
@@ -61,7 +61,7 @@ RSpec.describe TravelPlan::Update do
       from: lhr,
       no_of_passengers: 1,
       to: jfk,
-      type: 'return',
+      type: 'round_trip',
       account: account,
     )
 
@@ -73,7 +73,7 @@ RSpec.describe TravelPlan::Update do
           from: lhr.full_name,
           no_of_passengers: 1,
           to: jfk.full_name,
-          type: 'single',
+          type: 'one_way',
         },
       },
       'account' => account,
@@ -88,7 +88,7 @@ RSpec.describe TravelPlan::Update do
         travel_plan: { # return before depart:
           from: jfk.full_name,
           to: lhr.full_name,
-          type: 'return',
+          type: 'round_trip',
           depart_on: '05/08/2025',
           return_on: '08/05/2024',
         },

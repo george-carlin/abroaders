@@ -17,7 +17,7 @@ RSpec.describe TravelPlan::Cell::Summary do
     result = TravelPlan.new(
       id: 1,
       depart_on: Date.new(2020, 2, 1),
-      type: 'single',
+      type: 'one_way',
       no_of_passengers: 5,
       accepts_business_class: true,
       accepts_economy: true,
@@ -29,7 +29,7 @@ RSpec.describe TravelPlan::Cell::Summary do
   end
 
   example 'a round-trip plan' do
-    plan.type = 'return'
+    plan.type = 'round_trip'
     plan.return_on = Date.new(2025, 2, 1)
     rendered = show(plan)
     expect(rendered).to have_content 'Round trip'
@@ -60,7 +60,7 @@ RSpec.describe TravelPlan::Cell::Summary do
   end
 
   it 'handles legacy travel plans with no return date' do # bug fix
-    plan.type      = 'return'
+    plan.type      = 'round_trip'
     plan.return_on = nil
     rendered = show(plan)
     expect(rendered).to have_content 'Round trip'

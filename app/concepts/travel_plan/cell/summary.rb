@@ -18,6 +18,7 @@ class TravelPlan < TravelPlan.superclass
 
       property :id
       property :further_information
+      property :one_way?
       property :type
 
       def self.flight_summary_cell
@@ -86,13 +87,14 @@ class TravelPlan < TravelPlan.superclass
       end
 
       def type
-        super == 'single' ? 'One-way' : 'Round trip'
+        one_way? ? 'One-way' : 'Round trip'
       end
 
       # A <span>: 'Departure: MM/DD/YYYY Return: MM/DD/YYYY'
       class Dates < Abroaders::Cell::Base
         property :depart_on
         property :return_on
+        property :round_trip?
         property :type
 
         private
@@ -103,9 +105,9 @@ class TravelPlan < TravelPlan.superclass
           end
         end
 
-        # some legacy TPs have type 'return' but no return_on date:
+        # some legacy TPs have type 'round_trip' but no return_on date:
         def return_date?
-          type == 'return' && !model.return_on.nil?
+          round_trip? && !model.return_on.nil?
         end
       end
     end

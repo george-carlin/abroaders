@@ -2,7 +2,7 @@ module Estimates
   class BaseEstimate < Dry::Struct
     attribute :from, Dry::Types['object'] # Destination
     attribute :to, Dry::Types['object'] # Destination
-    attribute :type, Types::Strict::String.enum('single', 'return')
+    attribute :type, TravelPlan::Type
     attribute :class_of_service, Types::Strict::String.enum(
       'economy', 'business_class', 'first_class',
     ) # We don't make estimates for 'premium_economy' tickets.
@@ -23,12 +23,12 @@ module Estimates
       [from.region.code, to.region.code].include?("US")
     end
 
-    def return?
-      type == "return"
+    def one_way?
+      type == "one_way"
     end
 
-    def single?
-      type == "single"
+    def round_trip?
+      type == "round_trip"
     end
   end
 end

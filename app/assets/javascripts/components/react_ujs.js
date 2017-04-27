@@ -10,9 +10,7 @@
 //   <%=
 //     react_component(
 //       "TravelPlanForm",
-//       defaultType: TravelPlan::DEFAULT_TYPE,
 //       maxFlights:  TravelPlan::MAX_FLIGHTS,
-//       planTypes:   TravelPlan::TYPES,
 //       travelPlan:  @travel_plan.attributes,
 //       url:         travel_plans_path
 //     )
@@ -22,9 +20,7 @@
 //
 //   <div
 //     data-react-component="TravelPlanForm"
-//     data-default-type="<%=TravelPlan::DEFAULT_TYPE %>"
 //     data-max-flights="<%= TravelPlan::MAX_FLIGHTS %>"
-//     data-plan-types="<%=  TravelPlan::TYPES.to_json %>"
 //     data-travel-plan="<%= @travel_plan.attributes.to_json %>"
 //     data-url="<%= travel_plans_path %>"
 //   ></div>
