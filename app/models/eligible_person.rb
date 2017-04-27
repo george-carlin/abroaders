@@ -34,7 +34,7 @@ class EligiblePerson < Dry::Struct
 
   attribute :business, Business.optional
   attribute :business_type, SpendingInfo::BusinessType
-  attribute :credit_score, SpendingInfo::CreditScore
+  attribute :credit_score, CreditScore
   attribute :eligible, Types::Strict::Bool
   attribute :first_name, Types::Strict::String
   attribute :partner, Types::Strict::Bool
