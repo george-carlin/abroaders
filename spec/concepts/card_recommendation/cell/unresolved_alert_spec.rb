@@ -138,5 +138,16 @@ RSpec.describe CardRecommendation::Cell::UnresolvedAlert do
         is_invalid
       end
     end
+
+    it 'avoids XSS' do
+      create_rec(person: owner)
+      create_rec(person: companion)
+      owner.update!(first_name: '<script>')
+      companion.update!(first_name: '</script>')
+
+      rendered = show(account).to_s
+      expect(rendered).to include "&lt;script&gt;"
+      expect(rendered).to include "&lt;/script&gt;"
+    end
   end
 end

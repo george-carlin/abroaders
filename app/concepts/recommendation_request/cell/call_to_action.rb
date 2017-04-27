@@ -71,7 +71,6 @@ class RecommendationRequest < RecommendationRequest.superclass
 
         def person_select_field
           options = model.sort_by(&:type).reverse.each_with_object({}) do |person, h|
-            # TODO XSS?
             h[person.first_name] = person.type
           end
           options['Both of us'] = 'both'

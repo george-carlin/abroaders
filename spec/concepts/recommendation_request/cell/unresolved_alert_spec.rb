@@ -86,5 +86,15 @@ RSpec.describe RecommendationRequest::Cell::UnresolvedAlert do
       account.reload
       expect(show(account)).to have_alert_for(companion)
     end
+
+    it 'avoids XSS' do
+      create_rec_request('both', account)
+      owner.update!(first_name: '<script>')
+      companion.update!(first_name: '</script>')
+
+      rendered = show(account).to_s
+      expect(rendered).to include "&lt;script&gt;"
+      expect(rendered).to include "&lt;/script&gt;"
+    end
   end
 end
