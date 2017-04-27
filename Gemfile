@@ -34,7 +34,6 @@ gem 'jquery-rails', '4.1.1'
 # kaminari 1+, so lock the version at 0.17. See kaminari-cells #6 on GitHub.
 gem 'kaminari', '0.17.0'
 gem 'kaminari-cells', '0.0.4'
-gem 'mutant-rspec'
 gem 'newrelic_rpm', '3.18.1.330'
 gem 'paperclip', '4.3.6'
 gem 'pg', '0.18.4'
