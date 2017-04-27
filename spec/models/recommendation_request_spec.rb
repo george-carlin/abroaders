@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe RecommendationRequest do
-  let(:account) { create(:account, :onboarded, :eligible) }
+  let(:account) { create(:account, :eligible, :onboarded) }
 
   example '#status' do
     req = described_class.new

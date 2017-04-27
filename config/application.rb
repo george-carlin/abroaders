@@ -38,6 +38,7 @@ module Abroaders
       'card_recommendation/cell/actionable',
       'integrations/award_wallet/cell/settings',
       'loyalty_account/cell/editable',
+      'recommendation_request/cell/call_to_action',
     ]
 
     config.autoload_paths << Rails.root.join('app', 'models', 'destinations')

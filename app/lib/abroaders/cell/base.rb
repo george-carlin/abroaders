@@ -32,6 +32,16 @@ module Abroaders
       def t(*args)
         I18n.t(*args)
       end
+
+      # Worth noting here (in case I ever feel compelled to investigate again)
+      # that `request.params` and `params` aren't quite the same in Rails.  The
+      # former is a HashWithIndifferentAccess, while the latter is an
+      # ActionController::Parameters. I imagine they always have the same
+      # keys/values as each other but I haven't looked in the Rails source to
+      # check.
+      #
+      # Trailblazer::Cell#params (provided by the cells-rails gem) delegates to
+      # controller.params, not controller.request.params.
     end
   end
 end
