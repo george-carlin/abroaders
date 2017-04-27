@@ -28,8 +28,8 @@ en:
 
       travel_plan:
         types:
-          single: "One way"
-          return: "Round trip"
+          one_way: "One way"
+          round_trip: "Round trip"
 
     errors:
       models:

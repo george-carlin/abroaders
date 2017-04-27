@@ -1,14 +1,14 @@
 # An upcoming flight or series of flights that the user wants to take.  Can be
-# 'single', 'return', or 'multi' (multi-leg) - these names are
+# 'one_way', 'round_trip', or 'multi' (multi-leg) - these names are
 # self-explanatory.  However, note that there's no way to actually create a
 # 'multi' travel plan at present through the normal web-based flow of the app.
 # We've postponed this feature as it's low-priority and MUCH more complicated
-# than single/return in terms of interface design.
+# than one-way/round-trip in terms of interface design.
 #
 # A TravelPlan has_many Flights, and each Flight has a 'from' destination and a
 # 'to' destination. This is where the information about the user's desired
 # destinations is stored (i.e. it's not stored directly on the travel plan.)
-# Note that both 'single' and 'return' travel plans only have one associated
+# Note that both one-way and round-trip travel plans only have one associated
 # flight (i.e. return flights don't have 2 flights; this would just be
 # redundant data since the second flight would always just be the first flight
 # with 'from' and 'to' swapped). Since there aren't any 'multi' TravelPlans in
@@ -22,10 +22,22 @@ class TravelPlan < ApplicationRecord
 
   # Attributes
 
-  TYPES = %i[single return multi].freeze
-  enum type: TYPES
+  # See https://github.com/dry-rb/dry-types/issues/189
+  Type = Types::Strict::String.default('round_trip').enum('one_way', 'round_trip')
+  enum type: Type.values
 
-  DEFAULT_TYPE   = :return
+  def type=(new_type)
+    super(Type.(new_type))
+  end
+
+  def one_way?
+    type == 'one_way'
+  end
+
+  def round_trip?
+    type == 'round_trip'
+  end
+
   MAX_FLIGHTS    = 20
   MAX_PASSENGERS = 20
 
@@ -36,8 +48,8 @@ class TravelPlan < ApplicationRecord
 
   # Validations
 
-  # return_on must be present for NEW travel plans of type 'return',
-  # but we have some legacy data with type 'return' and `return_on: nil`
+  # return_on must be present for NEW travel plans of type 'round_trip',
+  # but we have some legacy data with type 'round_trip' and `return_on: nil`
 
   validates :depart_on, presence: true
   validates :no_of_passengers,

@@ -2,7 +2,7 @@ module Estimates
   class FullEstimate < Dry::Struct
     attribute :from, Dry::Types['object'] # Destination
     attribute :to, Dry::Types['object'] # Destination
-    attribute :type, Types::Strict::String.enum('single', 'return')
+    attribute :type, TravelPlan::Type
     attribute :no_of_passengers, Types::Strict::Int
 
     def self.load(params)

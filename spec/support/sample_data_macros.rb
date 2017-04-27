@@ -229,8 +229,8 @@ module SampleDataMacros
   # but the underlying 'Create' operation takes the airport's "full_name"
   # string
   #
-  # If you provide a return_on date but no type, type will default to 'return'.
-  # If you say that type == 'return' but don't provide a return_on date, the
+  # If you provide a return_on date but no type, type will default to 'round_trip'.
+  # If you say that type == 'round_trip' but don't provide a return_on date, the
   # return_on date will default to a random date at some point shortly after
   # the depart_on date. (depart_on itself, when not provided, defaults to a
   # random date in the near future.)
@@ -265,14 +265,14 @@ module SampleDataMacros
       accepts_economy: true,
       depart_on: rand(5).days.from_now,
       no_of_passengers: rand(2) + 1,
-      type: 'single',
+      type: 'one_way',
       from: from.full_name,
       to: to.full_name,
     }.merge(overrides)
 
-    attributes[:type] = 'return' if attributes.key?(:return_on)
+    attributes[:type] = 'round_trip' if attributes.key?(:return_on)
 
-    if attributes[:type] == 'return' && !attributes.key?(:return_on)
+    if attributes[:type] == 'round_trip' && !attributes.key?(:return_on)
       attributes[:return_on] = attributes[:depart_on] + rand(15)
     end
 

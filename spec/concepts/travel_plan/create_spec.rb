@@ -13,7 +13,7 @@ RSpec.describe TravelPlan::Create do
         travel_plan: {
           from: lhr.full_name,
           to: jfk.full_name,
-          type: 'single',
+          type: 'one_way',
           no_of_passengers: 2,
           accepts_economy: true,
           accepts_premium_economy: true,
@@ -30,7 +30,7 @@ RSpec.describe TravelPlan::Create do
     tp = account.travel_plans.last
     expect(tp.flights[0].from).to eq lhr
     expect(tp.flights[0].to).to eq jfk
-    expect(tp.type).to eq 'single'
+    expect(tp.type).to eq 'one_way'
     expect(tp.no_of_passengers).to eq 2
     expect(tp.accepts_economy).to be true
     expect(tp.accepts_premium_economy).to be true
@@ -41,13 +41,13 @@ RSpec.describe TravelPlan::Create do
     expect(tp.further_information).to eq 'blah blah blah'
   end
 
-  example 'creating a return travel plan' do
+  example 'creating a round-trip travel plan' do
     result = op.(
       {
         travel_plan: {
           from: jfk.full_name,
           to: lhr.full_name,
-          type: 'return',
+          type: 'round_trip',
           no_of_passengers: 4,
           depart_on: '05/08/2020',
           return_on: '12/03/2023',
@@ -60,7 +60,7 @@ RSpec.describe TravelPlan::Create do
     tp = account.travel_plans.last
     expect(tp.flights[0].from).to eq jfk
     expect(tp.flights[0].to).to eq lhr
-    expect(tp.type).to eq 'return'
+    expect(tp.type).to eq 'round_trip'
     expect(tp.no_of_passengers).to eq 4
     expect(tp.accepts_economy).to be false
     expect(tp.accepts_premium_economy).to be false
@@ -77,7 +77,7 @@ RSpec.describe TravelPlan::Create do
         travel_plan: {
           from: jfk.full_name,
           to: lhr.full_name,
-          type: 'single',
+          type: 'one_way',
           depart_on: '05/03/2015', # in the past
         },
       },
@@ -96,7 +96,7 @@ RSpec.describe TravelPlan::Create do
           travel_plan: {
             from: jfk.full_name,
             to: lhr.full_name,
-            type: 'return',
+            type: 'round_trip',
             no_of_passengers: 1,
             depart_on: '05/08/2020',
             return_on: '12/03/2023',

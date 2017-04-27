@@ -31,7 +31,7 @@ class TravelPlan < TravelPlan.superclass
     property :return_on, type: Types::Form::AmericanDate
 
     # It's not possible to submit an invalid type through the normal form, so let it blow up:
-    property :type, type: Types::Strict::String.enum('single', 'return')
+    property :type, type: TravelPlan::Type
     property :no_of_passengers,        type: Types::Form::Int, default: 1
     property :accepts_economy,         type: Types::Form::Bool, default: false
     property :accepts_premium_economy, type: Types::Form::Bool, default: false
@@ -81,7 +81,7 @@ class TravelPlan < TravelPlan.superclass
       )
       validates :to, presence: true, format: AIRPORT_REGEX
 
-      validates :return_on, presence: { if: :return? }, absence: { if: :single? }
+      validates :return_on, presence: { if: :round_trip? }, absence: { if: :one_way? }
       validates :further_information, length: { maximum: 500 }
       validate :depart_on_is_in_the_future
       validate :return_on_is_in_the_future
@@ -113,12 +113,12 @@ class TravelPlan < TravelPlan.superclass
       end
     end
 
-    def return?
-      type == 'return'
+    def round_trip?
+      type == 'round_trip'
     end
 
-    def single?
-      type == 'single'
+    def one_way?
+      type == 'one_way'
     end
   end
 end

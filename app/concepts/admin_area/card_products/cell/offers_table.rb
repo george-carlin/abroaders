@@ -33,8 +33,7 @@ module AdminArea
           cell(Row, collection: recommendable_offers, person: person)
         end
 
-        # a single `<tr>` containing an signup offer that can be recommended
-        #   for the product
+        # a `<tr>` containing a recommendable signup offer for the product
         #
         # @!method self.call(model, opts = {})
         #   @param model [Offer]

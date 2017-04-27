@@ -15,13 +15,13 @@ module Estimates
       end
     end
 
-    NON_US_SINGLE_FEES_MIN_USD = 50
-    NON_US_SINGLE_FEES_MAX_USD = 125
-    NON_US_RETURN_FEES_MIN_USD  = 125
-    NON_US_RETURN_FEES_MAX_USD  = 200
+    NON_US_ONE_WAY_FEES_MIN_USD = 50
+    NON_US_ONE_WAY_FEES_MAX_USD = 125
+    NON_US_ROUND_TRIP_FEES_MIN_USD  = 125
+    NON_US_ROUND_TRIP_FEES_MAX_USD  = 200
 
-    US_TO_US_SINGLE_FEES_USD = 5.60
-    US_TO_US_RETURN_FEES_USD = 11.20
+    US_TO_US_ONE_WAY_FEES_USD = 5.60
+    US_TO_US_ROUND_TRIP_FEES_USD = 11.20
 
     def low
       if us_domestic?
@@ -54,20 +54,20 @@ module Estimates
     def non_us_fee(limit:)
       raise unless [:low, :high].include?(limit)
       if limit == :low
-        single? ? NON_US_SINGLE_FEES_MIN_USD : NON_US_RETURN_FEES_MIN_USD
+        one_way? ? NON_US_ONE_WAY_FEES_MIN_USD : NON_US_ROUND_TRIP_FEES_MIN_USD
       else
-        single? ? NON_US_SINGLE_FEES_MAX_USD : NON_US_RETURN_FEES_MAX_USD
+        one_way? ? NON_US_ONE_WAY_FEES_MAX_USD : NON_US_ROUND_TRIP_FEES_MAX_USD
       end
     end
 
     def us_domestic_fee
-      single? ? US_TO_US_SINGLE_FEES_USD : US_TO_US_RETURN_FEES_USD
+      one_way? ? US_TO_US_ONE_WAY_FEES_USD : US_TO_US_ROUND_TRIP_FEES_USD
     end
 
     def us_international_fee(limit:)
       result = international_fees_data(from, to)[class_of_service][limit.to_s]
 
-      if return?
+      if round_trip?
         result += international_fees_data(to, from)[class_of_service][limit.to_s]
       end
       # round to the nearest 5

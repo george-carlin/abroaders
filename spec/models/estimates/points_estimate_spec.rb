@@ -20,7 +20,7 @@ module Estimates
     # hardcoded in lib/data/points_estimates.csv. If we update the data, this
     # test will start failing.
     example "estimate methods" do
-      attrs = { from: @cdg, to: @lhr, type: "single" }
+      attrs = { from: @cdg, to: @lhr, type: 'one_way' }
       attrs[:no_of_passengers] = 1
 
       attrs[:class_of_service] = "economy"
@@ -33,7 +33,7 @@ module Estimates
       expect(get_estimate(attrs).low).to eq 30_000
       expect(get_estimate(attrs).high).to eq 45_000
 
-      attrs[:type] = "return"
+      attrs[:type] = 'round_trip'
       attrs[:class_of_service] = "economy"
       expect(get_estimate(attrs).low).to eq 10_000 * 2
       expect(get_estimate(attrs).high).to eq 15_000 * 2
