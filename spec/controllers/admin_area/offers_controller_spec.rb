@@ -26,7 +26,7 @@ RSpec.describe AdminArea::OffersController do
 
     context 'when a card_product_id is specified' do
       it 'renders the form' do
-        get :edit, params: { id: offer.id, card_product_id: card_product.id, }
+        get :edit, params: { id: offer.id, card_product_id: card_product.id }
         expect(response).to have_http_status 200
       end
     end
