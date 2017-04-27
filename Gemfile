@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-ruby '2.3.3'
+ruby '2.4.1'
 
-gem 'rails', '5.0.1'
+gem 'rails', '5.0.2'
 gem 'trailblazer', '~> 2.0.1'
 gem 'trailblazer-rails', '>= 1.0.0'
 
@@ -35,10 +35,11 @@ gem 'jquery-rails', '4.1.1'
 gem 'kaminari', '0.17.0'
 gem 'kaminari-cells', '0.0.4'
 gem 'mutant-rspec'
-gem 'newrelic_rpm', '3.17.0.325'
+gem 'newrelic_rpm', '3.18.1.330'
 gem 'paperclip', '4.3.6'
 gem 'pg', '0.18.4'
 gem 'puma', '~> 3.8.2'
+gem 'redis', '~> 3.3.3'
 gem 'reform'
 gem 'reform-rails'
 gem 'resque'
@@ -55,12 +56,22 @@ gem 'will_paginate-bootstrap', '~> 1.0.1'
 gem 'rails_autolink'
 gem 'workflow'
 
+# we don't depend on dry-logic directly, but other dry-* dependencies need it,
+# and versions <= 0.4.0 raise warnings on Ruby 2.4 (because of Fixnum)
+gem 'dry-logic', '~> 0.4.1'
+
 group :development, :test do
   gem 'bullet', '5.3.0'
   gem 'byebug'
   gem 'database_cleaner'
   gem 'factory_girl_rails', '~> 4.5.0'
   gem 'faker', '1.7.2'
+  # mutant depends on unparser, which in turn depends on diff-lcs. diff-lcs
+  # v1.2.5 raises warnings on Ruby 2.4.0, while v1.3 should remove these
+  # warnings, but unfortunately the latest version of unparser depends on
+  # diff-lcs ~>1.2.5, so we can't upgrade to 1.3 for now and we'll just have to
+  # live with the warnings
+  gem 'mutant-rspec'
   gem 'rspec-rails', '~> 3.5.0'
   gem 'rspec-cells'
   gem 'guard-rspec', require: false
@@ -77,9 +88,7 @@ end
 
 group :test do
   gem 'capybara', '2.7.1'
-  # Upgrading nokogiri (specifically, to version 1.7.0.1) made all our JS tests
-  # start failing. No idea why, but just keep the version locked for now:
-  gem 'nokogiri', '1.6.8.1'
+  gem 'nokogiri', '1.7.0.1'
   # Similarly, lock addressable (another dependency of capybara)
   gem 'addressable', '2.4.0'
   gem 'poltergeist', '1.9.0'
