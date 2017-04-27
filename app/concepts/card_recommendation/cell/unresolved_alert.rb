@@ -6,8 +6,11 @@ class CardRecommendation < CardRecommendation.superclass
     class UnresolvedAlert < Abroaders::Cell::RecommendationAlert
       property :unresolved_card_recommendations
 
-      def self.can_handle_account?(account)
-        account.unresolved_card_recommendations?
+      def initialize(account, opts = {})
+        unless account.unresolved_card_recommendations?
+          raise ArgumentError, "can't render #{self.class}"
+        end
+        super
       end
 
       private
@@ -16,6 +19,7 @@ class CardRecommendation < CardRecommendation.superclass
         link_to('Continue', cards_path, class: BTN_CLASSES)
       end
 
+      # Special case: this cell also shouldn't be shown on cards#index.
       def excluded_actions
         super.tap { |h| h['cards'] = %w[index] }
       end

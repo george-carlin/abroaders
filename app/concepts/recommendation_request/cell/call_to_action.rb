@@ -5,8 +5,9 @@ class RecommendationRequest < RecommendationRequest.superclass
     class CallToAction < Abroaders::Cell::RecommendationAlert
       property :people
 
-      def self.can_handle_account?(account)
-        Policy.new(account).create?
+      def initialize(account, opts = {})
+        raise ArgumentError, "can't render #{self.class}" unless Policy.new(account).create?
+        super
       end
 
       private

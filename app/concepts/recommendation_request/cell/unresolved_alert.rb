@@ -5,10 +5,13 @@ class RecommendationRequest < RecommendationRequest.superclass
     class UnresolvedAlert < Abroaders::Cell::RecommendationAlert
       property :unresolved_recommendation_requests
 
-      def self.can_handle_account?(account)
-        unresolved_reqs = account.unresolved_recommendation_requests?
+      def initialize(account, opts = {})
         unresolved_recs = account.unresolved_card_recommendations?
-        unresolved_reqs && !unresolved_recs
+        unresolved_reqs = account.unresolved_recommendation_requests?
+        if unresolved_recs || !unresolved_reqs
+          raise ArgumentError, "can't render #{self.class}"
+        end
+        super
       end
 
       private

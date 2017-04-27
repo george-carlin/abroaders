@@ -71,17 +71,13 @@ RSpec.describe CardRecommendation::Cell::UnresolvedAlert do
       people.each { |p| p.update!(eligible: false) }
       owner_rec = create_rec(person: owner)
       expect(show(account)).to have_alert_for(owner)
-      comp_rec = create_rec(person: companion)
+      create_rec(person: companion)
       account.reload
       expect(show(account)).to have_alert_for(owner, companion)
       # resolve owner_rec:
       owner_rec.update!(applied_on: Date.today)
       account.reload
       expect(show(account)).to have_alert_for(companion)
-      # resolve comp_rec:
-      comp_rec.update!(applied_on: Date.today)
-      account.reload
-      is_invalid # because no unresolved recs anymore
     end
 
     # owner eligible, companion not. Not bothering to test the other way around

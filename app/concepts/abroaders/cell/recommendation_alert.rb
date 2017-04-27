@@ -1,40 +1,42 @@
 module Abroaders
   module Cell
+    # @!method self.call(user, options = {})
+    #   @param user [User] the currently logged-in user. May be an account,
+    #     an admin, or nil.
+    #
+    #   Cell will render an empty string if:
+    #
+    #     1. the user is an admin or nil
+    #     1. the user is a non-onboarded account
+    #     1. no subclasses of the cell can be found that have anything to
+    #        display for the account
+    #     1. the current action is blacklisted. e.g. none of the subclasses
+    #       should *ever* be shown on rec_reqs#new and #create. The
+    #       CR::UnresolvedRecs subclass should not be shown on cards#index.
+    #
+    #   Subclasses will raise an error if you try to initialize them
+    #   with an account that can't be shown.
     class RecommendationAlert < Abroaders::Cell::Base
-      # @param user [User] the currently logged-in user. May be an account,
-      #   an admin, or nil.
-      #
-      # Cell will render an empty string if:
-      #
-      #   1. the user is an admin or nil
-      #   1. the user is a non-onboarded account
-      #   1. no subclasses of the cell can be found that have anything to
-      #      display for the account
-      #   1. the current action is blacklisted. e.g. none of the subclasses
-      #     should *ever* be shown on rec_reqs#new and #create. The
-      #     CR::UnresolvedRecs subclass should not be shown on cards#index.
-      #
-      # Subclasses will raise an error if you try to initialize them
-      # with an account that can't be shown.
-      def initialize(user, options = {})
-        super
-        can_handle_account!
-      end
-
       include ::Cell::Builder
 
-      builds do |account|
-        [ # the order of these cells matters!
-          CardRecommendation::Cell::UnresolvedAlert,
-          RecommendationRequest::Cell::UnresolvedAlert,
-          RecommendationRequest::Cell::CallToAction,
-        ].detect { |cell| cell.can_handle_account?(account) }
+      builds do |user|
+        if !(user.is_a?(Account) && user.onboarded?)
+          Empty
+        elsif user.unresolved_card_recommendations?
+          CardRecommendation::Cell::UnresolvedAlert
+        elsif user.unresolved_recommendation_requests?
+          RecommendationRequest::Cell::UnresolvedAlert
+        elsif RecommendationRequest::Policy.new(user).create?
+          RecommendationRequest::Cell::CallToAction
+        else
+          Empty
+        end
       end
 
       property :couples?
 
       def show
-        return '' unless show?
+        return '' if request_excluded?
         <<-HTML.strip
           <div class="alert alert-info">
             #{header}
@@ -48,26 +50,9 @@ module Abroaders
         HTML
       end
 
-      def show?
-        # Don't render anything unless one of the subclasses got picked
-        # up by Builder. A bit hacky :/
-        self.class != RecommendationAlert &&
-          model.is_a?(Account) && model.onboarded? && !request_excluded?
-      end
-
-      def self.can_handle_account?(_account)
-        true
-      end
-
       BTN_CLASSES = 'btn btn-success'.freeze # TODO lg?
 
       private
-
-      def can_handle_account!
-        unless self.class.can_handle_account?(model)
-          raise ArgumentError, "can't render #{self.class}"
-        end
-      end
 
       def actions
         ''
@@ -76,11 +61,12 @@ module Abroaders
       # subclasses can override this, but they should probably call `super` and
       # append to the result rather than overwriting it completely.
       #
-      # format: {
+      # format:
+      # {
       #   'controller_name' => %w['array', 'of', 'action', 'names'],
       # }
       #
-      # all values must be strings, not symbols.
+      # all names must be strings, not symbols.
       def excluded_actions
         { 'recommendation_requests' => %w[new create] }
       end
