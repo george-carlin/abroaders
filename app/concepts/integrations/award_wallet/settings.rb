@@ -13,8 +13,21 @@ module Integrations
         opts['user'] = account.award_wallet_user
       end
 
-      def user_loaded?(opts)
-        opts['user'].loaded?
+      def user_loaded?(user:, **)
+        # Without the timeout, you sometimes get a weird bug where the BG job
+        # loads the user, the polling script redirects to the settings page,
+        # and this operation loads the user again... but the user is unloaded,
+        # so the operation fails and the user gets redirects to /balances
+        # without ever seeing the AW page. I suspect this is something to
+        # do with threading, but I don't know enough to investigate further.
+        #
+        # This crude approach using `sleep` works for now.
+        Timeout.timeout(5) do
+          sleep 1 until user.reload.loaded?
+          true
+        end
+      rescue Timeout::Error
+        false
       end
 
       def log_not_connected(opts)
