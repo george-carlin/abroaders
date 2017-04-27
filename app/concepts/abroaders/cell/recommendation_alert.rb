@@ -48,14 +48,16 @@ module Abroaders
       def show
         return '' if request_excluded?
         <<-HTML.strip
-          <div class="alert alert-info">
-            #{header}
+          <div class="recommendation-alert alert alert-info">
+            <div class="recommendation-alert-header">#{header}</div>
 
-            <p style="font-size: 14px;">
+            <div class="recommendation-alert-body">
               #{main_text}
-            </p>
+            </div>
 
-            #{actions}
+            <div class="recommendation-alert-actions">
+              #{actions}
+            </div>
           </div>
         HTML
       end
