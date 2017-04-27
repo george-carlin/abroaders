@@ -182,7 +182,7 @@ RSpec.describe Abroaders::Cell::RecommendationAlert do
         decline_rec(create_rec(person: owner))
         create_rec(person: companion).update!(applied_on: Date.today)
 
-        complete_recs(person)
+        complete_recs(account)
         expect(rendered).to show_recs_cta
       end
 
