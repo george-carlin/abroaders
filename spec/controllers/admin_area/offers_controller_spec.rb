@@ -14,11 +14,20 @@ RSpec.describe AdminArea::OffersController do
   end
 
   describe 'GET #edit' do
-    context 'when no card_id is specified' do
+    let(:offer) { create_offer }
+    let(:card_product) { offer.product }
+
+    context 'when no card_product_id is specified' do
       it 'redirects to the nested path' do
-        offer = create_offer
         get :edit, params: { id: offer.id }
         expect(response).to redirect_to edit_admin_card_product_offer_path(offer.product, offer)
+      end
+    end
+
+    context 'when a card_product_id is specified' do
+      it 'renders the form' do
+        get :edit, params: { id: offer.id, card_product_id: card_product.id, }
+        expect(response).to have_http_status 200
       end
     end
   end
