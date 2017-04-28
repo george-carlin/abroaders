@@ -28,7 +28,6 @@ gem 'font-awesome-rails', '4.6.3.0'
 gem 'httparty', '~> 0.13.7'
 gem 'intercom', '3.5.10'
 gem 'inflecto'
-gem 'jbuilder', '2.5.0'
 gem 'jquery-rails', '4.1.1'
 # kaminari-cells 0.0.4 (which is the highest version atm) isn't compatible with
 # kaminari 1+, so lock the version at 0.17. See kaminari-cells #6 on GitHub.

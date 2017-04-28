@@ -210,9 +210,6 @@ GEM
     inflecto (0.0.2)
     intercom (3.5.10)
       json (>= 1.8)
-    jbuilder (2.5.0)
-      activesupport (>= 3.0.0, < 5.1)
-      multi_json (~> 1.2)
     jquery-rails (4.1.1)
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
@@ -512,7 +509,6 @@ DEPENDENCIES
   httparty (~> 0.13.7)
   inflecto
   intercom (= 3.5.10)
-  jbuilder (= 2.5.0)
   jquery-rails (= 4.1.1)
   kaminari (= 0.17.0)
   kaminari-cells (= 0.0.4)
