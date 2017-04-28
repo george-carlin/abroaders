@@ -2,7 +2,7 @@ class CardAccountsController < AuthenticatedUserController
   def new
     if params[:card_product_id]
       run CardAccount::New
-      render cell(CardAccount::Cell::New, result)
+      render cell(CardAccount::Cell::New, @model, form: result['contract.default'])
     else
       banks = Bank.with_at_least_one_product.sort_by(&:name)
       render cell(CardAccount::Cell::New::SelectProduct, banks)
@@ -15,7 +15,7 @@ class CardAccountsController < AuthenticatedUserController
       redirect_to cards_path
       return
     end
-    render cell(CardAccount::Cell::New, result)
+    render cell(CardAccount::Cell::New, @model, form: result['contract.default'])
   end
 
   def edit
