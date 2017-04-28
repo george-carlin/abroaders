@@ -4,13 +4,6 @@ class Account < ApplicationRecord
   devise :database_authenticatable, :registerable, :recoverable, :rememberable,
          :trackable, :validatable
 
-  # Attributes
-  APP_SUMO_PROMO_CODE = 'appsumoAY83ZG'.freeze
-
-  def app_sumo?
-    promo_code == APP_SUMO_PROMO_CODE
-  end
-
   def couples?
     !companion.nil?
   end

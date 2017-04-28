@@ -19,6 +19,9 @@ class AccountMailer < ApplicationMailer
     end
   end
 
+  # The email body contains a field 'Promo Code', but the value will always be
+  # blank. This is a legacy thing; we're leaving it in so Erik doesn't have to
+  # change the Mailparser endpoint
   def notify_admin_of_sign_up(account_id)
     @account = Account.find(account_id)
     mail(to: ENV['MAILPARSER_NEW_SIGNUP'], subject: "New sign up at Abroaders app - #{@account.email}")
