@@ -24,8 +24,7 @@ RSpec.describe "cards index page - new recommendation", :js do
   let(:click_confirm_btn) do
     before_click_confirm_btn
     click_button 'Confirm'
-    # FIXME can't figure out a more elegant solution than this:
-    sleep 1.5
+    sleep 1.5 # can't figure out a more elegant solution than this
     rec.reload
   end
   let(:before_click_confirm_btn) { nil }

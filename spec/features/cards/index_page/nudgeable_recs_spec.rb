@@ -111,8 +111,7 @@ RSpec.describe "user cards page - nudgeable cards", :js do
       describe "and clicking 'confirm'" do
         before do
           click_button 'Confirm'
-          # FIXME can't figure out a more elegant solution than this:
-          sleep 1.5
+          sleep 1.5 # can't figure out a more elegant solution than this
           rec.reload
         end
 
@@ -135,8 +134,7 @@ RSpec.describe "user cards page - nudgeable cards", :js do
       describe "and clicking 'confirm'" do
         before do
           click_button 'Confirm'
-          # FIXME can't figure out a more elegant solution than this:
-          sleep 1.5
+          sleep 1.5 # can't figure out a more elegant solution than this
           rec.reload
         end
 
@@ -157,8 +155,7 @@ RSpec.describe "user cards page - nudgeable cards", :js do
       describe "and clicking 'confirm'" do
         before do
           click_button 'Confirm'
-          # FIXME can't figure out a more elegant solution than this:
-          sleep 1.5
+          sleep 1.5 # can't figure out a more elegant solution than this
           rec.reload
         end
 
@@ -216,8 +213,7 @@ RSpec.describe "user cards page - nudgeable cards", :js do
       describe "and clicking 'confirm'" do
         before do
           click_button 'Confirm'
-          # FIXME can't figure out a more elegant solution than this:
-          sleep 1.5
+          sleep 1.5 # can't figure out a more elegant solution than this
           rec.reload
         end
 
@@ -240,8 +236,7 @@ RSpec.describe "user cards page - nudgeable cards", :js do
       describe "and clicking 'confirm'" do
         before do
           click_button 'Confirm'
-          # FIXME can't figure out a more elegant solution than this:
-          sleep 1.5
+          sleep 1.5 # can't figure out a more elegant solution than this
           rec.reload
         end
 
