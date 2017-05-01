@@ -3,9 +3,11 @@
     <h3>
       <%= first_name %>'s Financials
 
-      <small><%= link_to_edit %></small>
+      <% if editable? %>
+        <small><%= link_to_edit %></small>
+      <% end %>
     </h3>
 
-    <%= financials %>
+    <%= body %>
   </div>
 </div>

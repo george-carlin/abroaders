@@ -24,6 +24,8 @@ class SpendingInfo < SpendingInfo.superclass
         super ? 'Yes' : 'No'
       end
 
+      # TODO why is this here? won't the person always be eligible if they
+      # have a spending info?
       def eligibility
         if person.eligible?
           'Yes'

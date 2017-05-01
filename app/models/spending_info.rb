@@ -9,7 +9,7 @@ class SpendingInfo < ApplicationRecord
     'with_ein',
     'without_ein',
   )
-  enum has_business: BusinessType.options[:values]
+  enum has_business: BusinessType.values
 
   alias has_business_with_ein? with_ein?
   alias has_business_without_ein? without_ein?
