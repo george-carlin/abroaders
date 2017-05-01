@@ -80,7 +80,10 @@ module Abroaders
       #
       # all names must be strings, not symbols.
       def excluded_actions
-        { 'recommendation_requests' => %w[new create] }
+        {
+          'integrations/award_wallet' => %w[settings callback],
+          'recommendation_requests' => %w[new create],
+        }
       end
 
       def names_for(people)
