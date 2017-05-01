@@ -32,19 +32,18 @@ module Integrations
         # userId must belong to a user who has granted us permission to view
         # their AwardWallet data.
         #
-        # @raise `Integrations::AwardWallet::Error] if the AW API returns an error
+        # @raise [Integrations::AwardWallet::Error] if the AW API returns an error
         def connected_user(award_wallet_id)
           query("/connectedUser/#{award_wallet_id}")
         end
 
-        # Takes the userID of an award wallet user (which we get when they grant
-        # us permission to view their account data), queries the AW API, and
-        # returns the data about that user.
+        # Takes the userID of an award wallet account, queries the AW API, and
+        # returns the data about that account.
         #
-        # userId must belong to a user who has granted us permission to view
-        # their AwardWallet data.
+        # the account must belong to an AwardWallet user who has granted us
+        # permission to view their data.
         #
-        # @raise `Integrations::AwardWallet::Error] if the AW API returns an error
+        # @raise [Integrations::AwardWallet::Error] if the AW API returns an error
         def account(award_wallet_id)
           query("/account/#{award_wallet_id}")
         end
