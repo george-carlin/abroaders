@@ -24,6 +24,8 @@ module Integrations
 
       base_uri 'https://business.awardwallet.com/api/export/v1'
 
+      logger Rails.logger, :debug, :curl
+
       class << self
         # Takes the userID of an award wallet user (which we get when they grant
         # us permission to view their account data), queries the AW API, and
