@@ -18,11 +18,7 @@ class SpendingInfo < ApplicationRecord
     has_business_with_ein? || has_business_without_ein?
   end
 
-  # Since validations don't live in the model class, there's no reason to let
-  # a SpendingInfo ever be initialized with an invalid CreditScore:
-  def credit_score=(new_credit_score)
-    super(CreditScore.(new_credit_score))
-  end
+  attribute_type :credit_score, CreditScore
 
   delegate :owner, :owner?, to: :person
 

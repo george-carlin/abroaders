@@ -42,11 +42,6 @@ class Offer < ApplicationRecord
     'unknown', # we don't know what offer the person signed up with
   ).freeze
 
-  # fail noisily when trying to set an invalid condition
-  def condition=(new_condition)
-    super(Conditions.(new_condition))
-  end
-
   # Which of our affilite partners is this offer for?
   Partners = Types::Strict::String.enum(
     'award_wallet',
@@ -56,10 +51,8 @@ class Offer < ApplicationRecord
     'none',
   )
 
-  # fail noisily when trying to set an invalid partner
-  def partner=(new_partner)
-    super(Partners.(new_partner))
-  end
+  attribute_type :condition, Conditions
+  attribute_type :partner, Partners
 
   # Associations
 

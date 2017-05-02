@@ -22,13 +22,10 @@ class TravelPlan < ApplicationRecord
 
   # Attributes
 
-  # See https://github.com/dry-rb/dry-types/issues/189
   Type = Types::Strict::String.default('round_trip').enum('one_way', 'round_trip')
   enum type: Type.values
 
-  def type=(new_type)
-    super(Type.(new_type))
-  end
+  attribute_type :type, Type
 
   def one_way?
     type == 'one_way'
