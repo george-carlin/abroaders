@@ -60,3 +60,20 @@ require 'constants'
 # eager-load lib/types; don't leave it to the autoloader, because the file will
 # crash if the autoloader loads it twice
 require 'types'
+
+# Load ENV variables from a .gitignored YAML file.
+unless Rails.env.production? || ENV['CI'] # Heroku and Codeship handle ENV vars differently.
+  path = APP_ROOT.join('config', 'application.yml')
+  unless File.exist?(path)
+    raise 'No config/application.yml detected. Please add a file called '\
+          'config/application.yml that contains your ENV setup'
+  end
+
+  YAML.load_file(path).each do |key, value|
+    if value.is_a?(Hash)
+      value.each { |k, v| ENV[k] = v } if key == Rails.env
+    else
+      ENV[key] = value
+    end
+  end
+end
