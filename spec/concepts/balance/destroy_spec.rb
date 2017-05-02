@@ -1,11 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe Balance::Operation::Destroy do
+RSpec.describe Balance::Destroy do
   let(:account) { create(:account) }
   let(:person) { account.owner }
   let(:currency) { create(:currency) }
   let(:balance) do
-    Balance::Operation::Create.(
+    run!(
+      Balance::Create,
       {
         balance: { currency_id: currency.id, value: 1_234_567 },
         person_id: person.id,

@@ -22,12 +22,12 @@ class BalancesController < AuthenticatedUserController
 
   # GET /people/:person_id/balances/new
   def new
-    run Balance::Operation::New
+    run Balance::New
   end
 
   # POST /people/:person_id/balances
   def create
-    run Balance::Operation::Create do
+    run Balance::Create do
       flash[:success] = 'Created balance!'
       return redirect_to balances_path
     end
@@ -36,7 +36,7 @@ class BalancesController < AuthenticatedUserController
 
   # PUT/PATCH /balances/:id
   def update
-    run Balance::Operation::Update do
+    run Balance::Update do
       @valid = true
     end
     respond_to do |f|
@@ -46,7 +46,7 @@ class BalancesController < AuthenticatedUserController
 
   # DELETE /balances/:id
   def destroy
-    run Balance::Operation::Destroy do
+    run Balance::Destroy do
       flash[:success] = 'Destroyed balance!'
       redirect_to balances_path
     end

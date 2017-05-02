@@ -1,12 +1,13 @@
 require 'rails_helper'
 
 # 100% mutation coverage as of 14/2/17
-RSpec.describe Balance::Operation::Update do
+RSpec.describe Balance::Update do
   let(:currency) { create(:currency) }
   let(:account) { create(:account, :onboarded) }
   let(:person)  { account.owner }
   let(:balance) do
-    Balance::Operation::Create.(
+    run!(
+      Balance::Create,
       {
         balance: { value: 1234, currency_id: currency.id },
         person_id: person.id,

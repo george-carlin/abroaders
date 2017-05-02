@@ -10,18 +10,14 @@ RSpec.describe 'balance index page' do
   let(:currencies) { @currencies }
 
   def create_balance(currency, value)
-    result = Balance::Operation::Create.(
+    run!(
+      Balance::Create,
       {
-        balance: {
-          currency_id: currency.id,
-          value: value,
-        },
+        balance: { currency_id: currency.id, value: value },
         person_id: owner.id,
       },
       'account' => account,
-    )
-    raise unless result.success?
-    result['model']
+    )['model']
   end
 
   example "viewing my balances" do

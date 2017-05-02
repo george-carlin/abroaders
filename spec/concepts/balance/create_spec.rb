@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Balance::Operation::Create do
+RSpec.describe Balance::Create do
   let(:op) { described_class }
   let(:currency) { create(:currency) }
   let(:account)  { create(:account, :onboarded) }
