@@ -1,3 +1,5 @@
+require 'reform/form/dry'
+
 class Balance < Balance.superclass
   # @!method self.call(params, options = {})
   #   @option params [Integer] person_id the ID of the person whom the balance
