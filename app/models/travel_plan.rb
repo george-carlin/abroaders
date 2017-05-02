@@ -20,10 +20,7 @@ class TravelPlan < ApplicationRecord
   # tell Rails that this isn't the case:
   self.inheritance_column = :_no_sti
 
-  # Attributes
-
-  Type = Types::Strict::String.default('round_trip').enum('one_way', 'round_trip')
-  enum type: Type.values
+  Type = Types::Strict::String.default('round_trip'.freeze).enum('one_way', 'round_trip')
 
   attribute_type :type, Type
 

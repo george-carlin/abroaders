@@ -9,9 +9,9 @@ RSpec.describe 'admin area - new offer page' do
     @product = create(
       :card_product,
       name:    "Sapphire Preferred",
-      network: :visa,
+      network: 'visa',
       annual_fee_cents: 150_000,
-      bp: :business,
+      bp: 'business',
       bank: bank,
     )
 

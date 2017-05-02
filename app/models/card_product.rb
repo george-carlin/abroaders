@@ -8,22 +8,13 @@ class CardProduct < ApplicationRecord
 
   # Attributes
 
-  enum bp: [:business, :personal]
+  Bp = Types::Strict::String.enum('business', 'personal')
+  Network = Types::Strict::String.enum('unknown', 'visa', 'mastercard', 'amex')
+  Type = Types::Strict::String.enum('unknown', 'credit', 'charge', 'debit')
 
-  enum network: {
-    # can't call this 'unknown' as that would conflict with types
-    unknown_network: 0,
-    visa:            1,
-    mastercard:      2,
-    amex:            3,
-  }
-  enum type: {
-    # can't call this 'unknown' as that would conflict with networks
-    unknown_type: 0,
-    credit:  1,
-    charge:  2,
-    debit:   3,
-  }
+  attribute_type :network, Network
+  attribute_type :bp, Bp
+  attribute_type :type, Type
 
   # Standard credit card dimensions are 85.60*53.98mm, which gives the
   # following aspect ratio:

@@ -9,9 +9,9 @@ RSpec.describe 'admin edit card product page' do
     @product = create(
       :card_product,
       currency: currencies[0],
-      bp:      :personal,
-      network: :visa,
-      type:    :credit,
+      bp:      'personal',
+      network: 'visa',
+      type:    'credit',
       shown_on_survey: false,
       bank:    banks[0],
     )

@@ -11,9 +11,9 @@ RSpec.describe CardRecommendation::Representer do
     card_product = create(
       :card_product,
       bank_id: bank.id,
-      bp: :personal,
+      bp: 'personal',
       name: "My awesome card",
-      network: :visa,
+      network: 'visa',
     )
 
     card = Card.new(

@@ -42,7 +42,7 @@ class CardProduct < CardProduct.superclass
       end
 
       def exclude_network?
-        model.network == 'unknown_network' || (bank_name == 'American Express' && with_bank)
+        model.network == 'unknown' || (bank_name == 'American Express' && with_bank)
       end
     end
   end

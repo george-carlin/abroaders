@@ -14,7 +14,7 @@
 
   <div class="form-group">
     <%= f.label  :bp %>
-    <%= f.select :bp, options_for_enum_select(CardProduct.bps, f.object.bp) %>
+    <%= f.select :bp, options_for_enum_select(CardProduct::Bp.values, f.object.bp) %>
   </div>
 
   <div class="form-group">

@@ -12,9 +12,9 @@ RSpec.describe CardProduct::Representer do
     product = build(
       :card_product,
       bank:    bank,
-      bp:      :personal,
+      bp:      'personal',
       name:    'My awesome card',
-      network: :visa,
+      network: 'visa',
     )
     parsed_json = JSON.parse(described_class.new(product).to_json)
 

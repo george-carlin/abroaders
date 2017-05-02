@@ -8,7 +8,7 @@ RSpec.describe "user cards page - nudgeable cards", :js do
 
   let(:recommended_at) { 7.days.ago.to_date }
   let(:applied_on) { 7.days.ago.to_date }
-  let(:bp) { :personal }
+  let(:bp) { 'personal' }
 
   before do
     person.update!(eligible: true)
@@ -60,7 +60,7 @@ RSpec.describe "user cards page - nudgeable cards", :js do
   end
 
   context "for a personal card product" do
-    let(:bp) { :personal }
+    let(:bp) { 'personal' }
     it "gives me the bank's personal number" do
       expect(page).to have_content "call #{bank.name} at #{personal_no}"
       expect(page).to have_no_content business_no
@@ -68,7 +68,7 @@ RSpec.describe "user cards page - nudgeable cards", :js do
   end
 
   context "for a business card product" do
-    let(:bp) { :business }
+    let(:bp) { 'business' }
     it "gives me the bank's business number" do
       expect(page).to have_content "call #{bank.name} at #{business_no}"
       expect(page).to have_no_content personal_no

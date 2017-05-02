@@ -81,7 +81,7 @@
           <div class="form-group">
             <%= f.label :has_business, "Do you own a business?" %>
 
-            <% SpendingInfo.has_businesses.each do |value, _| %>
+            <% SpendingInfo::BusinessType.values.each do |value, _| %>
               <div class="radio">
                 <label>
                   <%= f.radio_button(

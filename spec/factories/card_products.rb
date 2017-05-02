@@ -1,9 +1,9 @@
 FactoryGirl.define do
   factory :card_product, aliases: [:product] do
     sequence(:name) { |n| "Example Card #{n}" }
-    network { CardProduct.networks.keys.sample }
-    bp { CardProduct.bps.keys.sample }
-    type { CardProduct.types.keys.sample }
+    network { CardProduct::Network.values.sample }
+    bp { CardProduct::Bp.values.sample }
+    type { CardProduct::Type.values.sample }
     bank_id { Bank.all.pluck(:id).sample }
     annual_fee_cents { rand(500_00) + 10_00 }
     image_file_name    { 'example_card_image.png' }
@@ -26,19 +26,19 @@ FactoryGirl.define do
     currency { Currency.all.sample || create(:currency) }
 
     trait :visa do
-      network "visa"
+      network 'visa'
     end
 
     trait :mastercard do
-      network "mastercard"
+      network 'mastercard'
     end
 
     trait :business do
-      bp :business
+      bp 'business'
     end
 
     trait :personal do
-      bp :personal
+      bp 'personal'
     end
 
     trait :hidden do
