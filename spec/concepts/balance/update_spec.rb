@@ -2,19 +2,8 @@ require 'rails_helper'
 
 # 100% mutation coverage as of 14/2/17
 RSpec.describe Balance::Update do
-  let(:currency) { create(:currency) }
   let(:account) { create(:account, :onboarded) }
-  let(:person)  { account.owner }
-  let(:balance) do
-    run!(
-      Balance::Create,
-      {
-        balance: { value: 1234, currency_id: currency.id },
-        person_id: person.id,
-      },
-      'account' => account,
-    )['model']
-  end
+  let(:balance) { create_balance(value: 1234, person: account.owner) }
 
   let(:op) { described_class }
 

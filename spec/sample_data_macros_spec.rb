@@ -102,6 +102,25 @@ RSpec.describe SampleDataMacros do
     end
   end
 
+  describe '#create_balance' do
+    example '' do
+      expect do
+        balance = create_balance
+        expect(balance).to be_a(Balance)
+      end.to change { Balance.count }.by(1)
+    end
+
+    example 'specifying person' do
+      person = create(:person)
+      expect do
+        balance = create_balance(person: person)
+        expect(balance).to be_an(Balance)
+        expect(balance.person).to eq person
+      end.to change { Balance.count }.by(1)
+      expect(Balance.count).to eq 1
+    end
+  end
+
   example '#create_travel_plan' do
     expect do
       travel_plan = create_travel_plan

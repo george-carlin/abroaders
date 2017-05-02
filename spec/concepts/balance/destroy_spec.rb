@@ -2,18 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Balance::Destroy do
   let(:account) { create(:account) }
-  let(:person) { account.owner }
-  let(:currency) { create(:currency) }
-  let(:balance) do
-    run!(
-      Balance::Create,
-      {
-        balance: { currency_id: currency.id, value: 1_234_567 },
-        person_id: person.id,
-      },
-      'account' => account,
-    )['model']
-  end
+  let(:balance) { create_balance(person: account.owner) }
   let(:op) { described_class }
 
   it 'destroys the balance' do

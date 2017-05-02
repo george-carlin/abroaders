@@ -10,14 +10,7 @@ RSpec.describe 'balance index page' do
   let(:currencies) { @currencies }
 
   def create_balance(currency, value)
-    run!(
-      Balance::Create,
-      {
-        balance: { currency_id: currency.id, value: value },
-        person_id: owner.id,
-      },
-      'account' => account,
-    )['model']
+    super(value: value, person: owner, currency: currency)
   end
 
   example "viewing my balances" do

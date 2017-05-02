@@ -281,6 +281,35 @@ module SampleDataMacros
     run!(TravelPlan::Create, params, 'account' => account)['model']
   end
 
+  # @return [Balance]
+  def create_balance(overrides = {})
+    raise 'pass currency, not currency_id' if overrides.key?(:currency_id)
+    currency = if overrides.key?(:currency)
+                 overrides.delete(:currency)
+               else
+                 create(:currency)
+               end
+
+    raise 'pass person, not person_id' if overrides.key?(:person_id)
+    person = if overrides.key?(:person)
+               overrides.delete(:person)
+             else
+               create(:person)
+             end
+
+    run!(
+      Balance::Create,
+      {
+        balance: { # defaults:
+          currency_id: currency.id,
+          value: 1,
+        }.merge(overrides),
+        person_id: person.id,
+      },
+      'account' => person.account,
+    )['model']
+  end
+
   # Run the Kill operation on an offer
   #
   # @return [Offer] the now-dead Offer that you passed in
