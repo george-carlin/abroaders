@@ -29,4 +29,8 @@ class ApplicationRecord < ActiveRecord::Base
       super(type.(new_value))
     end
   end
+
+  def self.enum(*)
+    raise NotImplementedError, "don't use ActiveRecord::Enum"
+  end
 end
