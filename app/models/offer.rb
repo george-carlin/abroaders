@@ -43,11 +43,11 @@ class Offer < ApplicationRecord
 
   # Associations
 
-  belongs_to :product, class_name: 'CardProduct'
+  belongs_to :card_product
   has_many :cards
-  has_one :currency, through: :product
+  has_one :currency, through: :card_product
 
-  delegate :bank, to: :product
+  delegate :bank, to: :card_product
   delegate :name, to: :bank, prefix: true
   delegate :name, to: :currency, prefix: true
 

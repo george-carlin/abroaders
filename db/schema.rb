@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170502213141) do
+ActiveRecord::Schema.define(version: 20170503012221) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -223,7 +223,7 @@ ActiveRecord::Schema.define(version: 20170502213141) do
   end
 
   create_table "offers", force: :cascade do |t|
-    t.integer  "product_id",                        null: false
+    t.integer  "card_product_id",                   null: false
     t.integer  "points_awarded",                    null: false
     t.integer  "spend"
     t.integer  "cost",                              null: false
@@ -236,8 +236,8 @@ ActiveRecord::Schema.define(version: 20170502213141) do
     t.datetime "killed_at"
     t.string   "partner",          default: "none", null: false
     t.string   "condition",                         null: false
+    t.index ["card_product_id"], name: "index_offers_on_card_product_id", using: :btree
     t.index ["killed_at"], name: "index_offers_on_killed_at", using: :btree
-    t.index ["product_id"], name: "index_offers_on_product_id", using: :btree
   end
 
   create_table "people", force: :cascade do |t|
@@ -314,7 +314,7 @@ ActiveRecord::Schema.define(version: 20170502213141) do
   add_foreign_key "flights", "travel_plans", on_delete: :cascade
   add_foreign_key "interest_regions", "accounts", on_delete: :cascade
   add_foreign_key "interest_regions", "destinations", column: "region_id", on_delete: :restrict
-  add_foreign_key "offers", "card_products", column: "product_id", on_delete: :cascade
+  add_foreign_key "offers", "card_products", on_delete: :cascade
   add_foreign_key "people", "accounts", on_delete: :cascade
   add_foreign_key "recommendation_notes", "accounts", on_delete: :cascade
   add_foreign_key "recommendation_requests", "people", on_delete: :cascade

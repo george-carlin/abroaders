@@ -4,7 +4,7 @@ RSpec.describe Card do
   let(:account) { build(:account) }
   let(:person)  { account.people.first }
   let(:product) { build(:card_product) }
-  let(:offer)   { Offer.new(product: product) }
+  let(:offer)   { Offer.new(card_product: product) }
   let(:card) { described_class.new(person: person) }
 
   before { card.offer = offer }
@@ -90,9 +90,9 @@ RSpec.describe Card do
 
   # Callbacks
 
-  example "set #product to #offer.product before save" do
+  example "set #card_product to #offer.card_product before save" do
     offer   = create_offer
-    product = offer.product
+    product = offer.card_product
     card = Card.new(card_product: nil, offer: offer, person: create(:person))
     card.save!
     expect(card.card_product_id).to eq product.id
@@ -102,7 +102,7 @@ RSpec.describe Card do
 
   describe '.recommended' do
     let(:product) { create(:card_product) }
-    let(:offer) { create_offer(product: product) }
+    let(:offer) { create_offer(card_product: product) }
     let(:person) { create(:person) }
 
     # extend the macro so that we always use the same offer and person,

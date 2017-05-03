@@ -5,9 +5,8 @@ RSpec.describe AdminArea::CardRecommendations::Create do
 
   let(:op) { described_class }
 
-  let(:product) { create(:card_product) }
-  let(:offer)   { create_offer(product: product) }
-  let(:person)  { create(:person) }
+  let(:offer) { create_offer }
+  let(:person) { create(:person) }
 
   example 'valid recommendation' do
     result = op.(
@@ -22,7 +21,7 @@ RSpec.describe AdminArea::CardRecommendations::Create do
     expect(result.success?).to be true
     rec = result['model']
     expect(rec.offer).to eq offer
-    expect(rec.card_product).to eq offer.product
+    expect(rec.card_product).to eq offer.card_product
     expect(rec.person).to eq person
     expect(rec.recommended_at).to be_within(5.seconds).of(Time.now)
     expect(rec.recommended_by).to eq admin

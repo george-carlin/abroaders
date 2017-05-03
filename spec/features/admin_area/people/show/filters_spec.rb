@@ -25,7 +25,7 @@ RSpec.describe 'admin/people#show card & offer filters', :js, :manual_clean do
 
   before do
     # make sure every product has at least one offer or it won't be shown
-    products.each { |p| create_offer(product: p) }
+    products.each { |p| create_offer(card_product: p) }
 
     # can't create these in before(:all) because 'person' is a let variable
     @card_accounts = products.map { |p| create_card_account(person: person, card_product: p) }
@@ -149,7 +149,7 @@ RSpec.describe 'admin/people#show card & offer filters', :js, :manual_clean do
     spend_2000 = products[1].tap { |p| p.offers.first.update!(spend: 2000) }
     spend_3000 = products[3].tap { |p| p.offers.first.update!(spend: 3000) }
     two_offers = products[4]
-    create_offer(product: two_offers)
+    create_offer(card_product: two_offers)
     to_0  = two_offers.offers[0].tap { |o| o.update!(spend: 5000) }
     _to_1 = two_offers.offers[1].tap { |o| o.update!(spend: 2500) }
 
@@ -163,7 +163,7 @@ RSpec.describe 'admin/people#show card & offer filters', :js, :manual_clean do
     # ignore them for the purposes of this test.
     products = [spend_1000, spend_2000, spend_3000, two_offers]
 
-    offers = Offer.where(product_id: products.map(&:id))
+    offers = Offer.where(card_product_id: products.map(&:id))
 
     # Hides the spend_3000 product. Hides one offer for two_offers, but doesn't
     # hide the whole product (because its other offer is still visible)

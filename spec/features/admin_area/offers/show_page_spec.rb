@@ -4,7 +4,7 @@ RSpec.describe 'admin - offers pages' do
   include_context 'logged in as admin'
 
   let(:offer)   { create_offer(notes: 'aisjhdoifajsdf') }
-  let(:product) { offer.product }
+  let(:product) { offer.card_product }
   before { visit route }
 
   let(:route) { admin_card_product_offer_path(product, offer) }
