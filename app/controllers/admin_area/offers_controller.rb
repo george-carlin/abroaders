@@ -21,18 +21,18 @@ module AdminArea
     end
 
     def new
-      run Offers::Operation::New
+      run Offers::New
     end
 
     def edit
-      run Offers::Operation::Edit do
+      run Offers::Edit do
         return
       end
       redirect_to edit_admin_card_product_offer_path(@model.card_product, @model)
     end
 
     def create
-      run Offers::Operation::Create do
+      run Offers::Create do
         flash[:success] = 'Offer was successfully created.'
         redirect_to admin_offer_path(@model)
         return
@@ -41,7 +41,7 @@ module AdminArea
     end
 
     def update
-      run Offers::Operation::Update do
+      run Offers::Update do
         flash[:success] = 'Offer was successfully updated.'
         redirect_to admin_offer_path(@model)
         return
@@ -50,7 +50,7 @@ module AdminArea
     end
 
     def kill
-      run Offers::Operation::Kill
+      run Offers::Kill
       respond_to { |f| f.js }
     end
 
@@ -59,7 +59,7 @@ module AdminArea
     end
 
     def verify
-      run Offers::Operation::Verify
+      run Offers::Verify
       respond_to { |f| f.js }
     end
   end

@@ -3,12 +3,12 @@ class RegistrationsController < Devise::RegistrationsController
   include Onboarding
 
   def new
-    run Registration::Operation::New
+    run Registration::New
     set_minimum_password_length
   end
 
   def create
-    run Registration::Operation::Create do
+    run Registration::Create do
       AccountMailer.notify_admin_of_sign_up(@model.id).deliver_later
       create_intercom_user!(@model)
       set_flash_message! :notice, :signed_up

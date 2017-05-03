@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CardRecommendation::Operation::UpdateStatus::Applied do
+RSpec.describe CardRecommendation::UpdateStatus::Applied do
   let(:op) { described_class }
 
   let(:account) { create(:account, :onboarded) }
