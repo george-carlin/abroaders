@@ -87,9 +87,9 @@
 # application survey.
 #
 # All Cards belong to a CardProduct. They also optionally belong to an Offer.
-# If the card has an offer, then card.offer.product must equal card.product
-# This is enforced in the setters #offer= and #product=; they'll raise an
-# error if the product's don't match.
+# If the card has an offer, then card.offer.card_product must equal
+# card.card_product This is enforced in the setters #offer= and #card_product=;
+# they'll raise an error if the product's don't match.
 #
 # This design isn't ideal because it means there's duplicate data in the DB,
 # but I couldn't think of a better alternative.
@@ -196,7 +196,7 @@ class Card < ApplicationRecord
   private
 
   def set_product_to_offer_product
-    return unless !offer.nil? && !offer.product.nil? && card_product.nil?
-    self.card_product = offer.product
+    return unless !offer.nil? && !offer.card_product.nil? && card_product.nil?
+    self.card_product = offer.card_product
   end
 end

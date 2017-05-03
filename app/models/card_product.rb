@@ -62,8 +62,8 @@ class CardProduct < ApplicationRecord
 
   # Associations
 
-  has_many :offers, foreign_key: :product_id
-  has_many :recommendable_offers, -> { recommendable }, class_name: 'Offer', foreign_key: :product_id
+  has_many :offers
+  has_many :recommendable_offers, -> { recommendable }, class_name: 'Offer'
   has_many :cards
   belongs_to :currency
 

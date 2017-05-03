@@ -5,18 +5,18 @@ module AdminArea
         @product = CardProduct.find(params[:card_product_id])
         @offers  = @product.offers
       else
-        @offers = Offer.includes(:product)
+        @offers = Offer.includes(:card_product)
       end
     end
 
     def show
       if params[:card_product_id]
-        product = CardProduct.find(params[:card_product_id])
-        offer   = product.offers.find(params[:id])
+        card_product = CardProduct.find(params[:card_product_id])
+        offer = card_product.offers.find(params[:id])
         render cell(Offers::Cell::Show, offer)
       else
-        offer = Offer.includes(:product).find(params[:id])
-        redirect_to admin_card_product_offer_path(offer.product, offer)
+        offer = Offer.includes(:card_product).find(params[:id])
+        redirect_to admin_card_product_offer_path(offer.card_product, offer)
       end
     end
 
@@ -28,7 +28,7 @@ module AdminArea
       run Offers::Operation::Edit do
         return
       end
-      redirect_to edit_admin_card_product_offer_path(@model.product, @model)
+      redirect_to edit_admin_card_product_offer_path(@model.card_product, @model)
     end
 
     def create
@@ -55,7 +55,7 @@ module AdminArea
     end
 
     def review
-      @offers = Offer.includes(:product).live.order('last_reviewed_at ASC NULLS FIRST')
+      @offers = Offer.includes(:card_product).live.order('last_reviewed_at ASC NULLS FIRST')
     end
 
     def verify

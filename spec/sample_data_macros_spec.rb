@@ -94,9 +94,9 @@ RSpec.describe SampleDataMacros do
     example 'specifying product' do
       card_product = create(:card_product)
       expect do
-        offer = create_offer(product: card_product)
+        offer = create_offer(card_product: card_product)
         expect(offer).to be_an(Offer)
-        expect(offer.product).to eq card_product
+        expect(offer.card_product).to eq card_product
       end.to change { Offer.count }.by(1)
       expect(CardProduct.count).to eq 1
     end

@@ -68,8 +68,8 @@ module SampleDataMacros
       spend: rand(10) * 500,
     }.merge(overrides)
 
-    card_product = if overrides.key?(:product)
-                     overrides.fetch(:product)
+    card_product = if overrides.key?(:card_product)
+                     overrides.fetch(:card_product)
                    else
                      create(:card_product)
                    end

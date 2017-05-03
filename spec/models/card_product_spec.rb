@@ -2,15 +2,15 @@ require 'rails_helper'
 
 RSpec.describe CardProduct do
   example '.recommendable' do
-    # product with no offers:
-    create(:product)
+    # card product with no offers:
+    create(:card_product)
 
-    product_with_no_live_offers = create(:product)
-    kill_offer(create_offer(product: product_with_no_live_offers))
+    product_with_no_live_offers = create(:card_product)
+    kill_offer(create_offer(card_product: product_with_no_live_offers))
 
-    product_with_live_offers = create(:product)
-    create_offer(product: product_with_live_offers)
-    create_offer(product: product_with_live_offers)
+    product_with_live_offers = create(:card_product)
+    create_offer(card_product: product_with_live_offers)
+    create_offer(card_product: product_with_live_offers)
 
     expect(described_class.recommendable).to eq [product_with_live_offers]
   end
@@ -37,32 +37,32 @@ RSpec.describe CardProduct do
   end
 
   example '#bank' do
-    product = described_class.new(bank_id: 5)
-    expect(product.bank).to eq Bank.find(5)
+    card_product = described_class.new(bank_id: 5)
+    expect(card_product.bank).to eq Bank.find(5)
 
     # make sure that setting bank_id overrides any memoized value of #bank:
-    product.bank_id = 7
-    expect(product.bank).to eq Bank.find(7)
+    card_product.bank_id = 7
+    expect(card_product.bank).to eq Bank.find(7)
   end
 
   example '#bank=' do
     bank = Bank.find(5)
-    product = described_class.new(bank: bank)
-    expect(product.bank_id).to eq 5
+    card_product = described_class.new(bank: bank)
+    expect(card_product.bank_id).to eq 5
   end
 
   example '#bank_id=' do
     bank = Bank.new(id: 11, name: 'Fake bank', business_phone: nil, personal_phone: nil)
-    product = described_class.new
-    product.bank = bank
-    expect(product.bank_id).to eq 11
-    expect(product.bank.name).to eq 'Fake bank'
+    card_product = described_class.new
+    card_product.bank = bank
+    expect(card_product.bank_id).to eq 11
+    expect(card_product.bank.name).to eq 'Fake bank'
   end
 
   example '#reload' do
     # unset memoized @bank:
     card_product = create(
-      :product,
+      :card_product,
       name: 'Saved name',
       annual_fee_cents: 123,
       bank: Bank.all[0],
@@ -71,7 +71,7 @@ RSpec.describe CardProduct do
     card_product.name = 'Unsaved name'
 
     # create another instance of the same saved record and update it so
-    # that the DB gets updated but the ivar in the first product instance
+    # that the DB gets updated but the ivar in the first card product instance
     # doesn't change:
     copy = CardProduct.find(card_product.id)
     # update annual_fee_cents too to check that the regular behaviour of

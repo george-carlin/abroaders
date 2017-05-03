@@ -5,7 +5,7 @@ RSpec.describe Offer::Cell::Description do
     let(:currency) { Currency.new(name: 'Dinero') }
     let(:product)  { CardProduct.new(currency: currency) }
 
-    let(:offer) { Offer.new(product: product, points_awarded: 7_500) }
+    let(:offer) { Offer.new(card_product: product, points_awarded: 7_500) }
 
     before do
       # this is necessary because ActiveRecord isn't smart enough for

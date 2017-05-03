@@ -12,7 +12,7 @@ module AdminArea
         property :link
         property :notes
         property :partner
-        property :product
+        property :card_product
 
         def title
           "Offer ##{id}"
@@ -56,8 +56,8 @@ module AdminArea
           cell(Offer::Cell::PointsAwarded, model)
         end
 
-        def product_summary
-          cell(CardProducts::Cell::Summary, product)
+        def card_product_summary
+          cell(CardProducts::Cell::Summary, card_product)
         end
 
         def spend

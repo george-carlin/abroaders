@@ -23,10 +23,10 @@ RSpec.describe 'admin - show person page', :manual_clean do
     ]
 
     @offers = [
-      create_offer(product: @chase_b),
-      create_offer(product: @chase_b),
-      create_offer(product: @chase_p),
-      create_offer(product: @usb_b),
+      create_offer(card_product: @chase_b),
+      create_offer(card_product: @chase_b),
+      create_offer(card_product: @chase_p),
+      create_offer(card_product: @usb_b),
     ]
   end
 
