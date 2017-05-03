@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Registration::Operation::Create do
+RSpec.describe Registration::Create do
   let(:op) { described_class }
 
   example 'signing up' do

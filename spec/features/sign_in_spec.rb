@@ -6,7 +6,7 @@ RSpec.describe 'the sign in page' do
 
   before do
     run!(
-      Registration::Operation::Create,
+      Registration::Create,
       account: {
         email: email,
         first_name: 'George',

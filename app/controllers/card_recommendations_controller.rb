@@ -4,7 +4,7 @@ class CardRecommendationsController < CardsController
       f.json do
         case params[:card][:action]
         when 'apply'
-          run CardRecommendation::Operation::UpdateStatus::Applied do |result|
+          run CardRecommendation::UpdateStatus::Applied do |result|
             render json: CardRecommendation::Representer.new(result['model']).to_json
             return
           end

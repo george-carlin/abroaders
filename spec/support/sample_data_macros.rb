@@ -75,7 +75,7 @@ module SampleDataMacros
                    end
 
     run!(
-      AdminArea::Offers::Operation::Create,
+      AdminArea::Offers::Create,
       offer: attrs,
       card_product_id: card_product.id,
     )['model']
@@ -314,14 +314,14 @@ module SampleDataMacros
   #
   # @return [Offer] the now-dead Offer that you passed in
   def kill_offer(offer)
-    run!(AdminArea::Offers::Operation::Kill, id: offer.id)['model']
+    run!(AdminArea::Offers::Kill, id: offer.id)['model']
   end
 
   # Run the Verify operation on an offer
   #
   # @return [Offer] the now-verified Offer that you passed in
   def verify_offer(offer)
-    run!(AdminArea::Offers::Operation::Verify, id: offer.id)['model']
+    run!(AdminArea::Offers::Verify, id: offer.id)['model']
   end
 
   def decline_rec(rec, decline_reason: 'Example decline reason')

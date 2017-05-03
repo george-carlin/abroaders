@@ -59,7 +59,7 @@ class ApplicationController < ActionController::Base
   # them with 'run'.
   #
   # This needs to live here rather than AuthenticatedUserController so that
-  # 'account' will be set in Account::Operation::Dashboard
+  # 'account' will be set in Account::Dashboard
   def _run_options(options)
     options['account'] = current_account if current_account
     options['admin'] = current_admin if current_admin

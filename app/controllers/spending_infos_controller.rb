@@ -2,7 +2,7 @@ class SpendingInfosController < AuthenticatedUserController
   onboard :spending, with: [:survey, :save_survey]
 
   def show
-    run SpendingInfo::Operation::Show do
+    run SpendingInfo::Show do
       account = Account.includes(
         eligible_people: { spending_info: { person: :account } },
       ).find(current_account.id)

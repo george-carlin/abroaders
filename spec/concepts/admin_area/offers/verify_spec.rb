@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe AdminArea::Offers::Operation::Verify do
+RSpec.describe AdminArea::Offers::Verify do
   let(:admin) { create_admin }
 
   let(:op) { described_class }

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe RegionsOfInterest::Operation::Survey::Save do
+RSpec.describe RegionsOfInterest::Survey::Save do
   let(:op) { described_class }
   let(:account) { create(:account, onboarding_state: 'regions_of_interest') }
 
