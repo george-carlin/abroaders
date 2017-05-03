@@ -9,8 +9,6 @@ RSpec.describe Integrations::AwardWallet::APIClient do
   include AwardWalletMacros
   include SampleDataMacros
 
-  pending 'logs all JSON to S3'
-
   stub_award_wallet_api_key!
 
   describe '.connected_user' do
