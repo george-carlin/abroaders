@@ -8,7 +8,18 @@ class CardProduct < ApplicationRecord
 
   # Attributes
 
-  enum bp: [:business, :personal]
+  def business
+    !personal
+  end
+  alias business? business
+
+  def business=(bool)
+    self.personal = !bool
+  end
+
+  def bp
+    personal ? 'personal' : 'business'
+  end
 
   enum network: {
     # can't call this 'unknown' as that would conflict with types
@@ -92,7 +103,12 @@ class CardProduct < ApplicationRecord
   scope :survey, -> { where(shown_on_survey: true) }
   scope :recommendable, -> { joins(:recommendable_offers).distinct }
 
+  scope :business, -> { where(personal: false) }
+  scope :personal, -> { where(personal: true) }
+
   # Callbacks
 
   auto_strip_attributes :name, callback: :before_validation
+
+  after_initialize { self.personal = true if personal.nil? } # set default
 end

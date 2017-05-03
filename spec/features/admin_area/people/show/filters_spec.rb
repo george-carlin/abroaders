@@ -13,10 +13,10 @@ RSpec.describe 'admin/people#show card & offer filters', :js, :manual_clean do
     @currencies = Currency::TYPES.map { |t| create(:currency, type: t) }
 
     # ensure we have at least one of each sub-type of card product
-    @products = %w[business personal].flat_map do |bp|
+    @products = [true, false].flat_map do |business|
       [@chase, @usb].flat_map do |bank|
         @currencies.flat_map do |currency|
-          create(:card_product, bp: bp, bank_id: bank.id, currency: currency)
+          create(:card_product, business: business, bank_id: bank.id, currency: currency)
         end
       end
     end
@@ -37,8 +37,8 @@ RSpec.describe 'admin/people#show card & offer filters', :js, :manual_clean do
 
   let(:chase_prods) { products.select { |p| p.bank == @chase } }
   let(:usb_prods) { products.select { |p| p.bank == @usb } }
-  let(:personal_prods) { products.select { |p| p.bp == 'personal' } }
-  let(:business_prods) { products.select { |p| p.bp == 'business' } }
+  let(:personal_prods) { products.select(&:personal?) }
+  let(:business_prods) { products.select(&:business?) }
   let(:airline_currency_prods) { products.select { |p| p.currency.type == 'airline' } }
   let(:bank_currency_prods) { products.select { |p| p.currency.type == 'bank' } }
   let(:hotel_currency_prods) { products.select { |p| p.currency.type == 'hotel' } }

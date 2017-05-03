@@ -84,4 +84,13 @@ RSpec.describe CardProduct do
     expect(card_product.annual_fee_cents).to eq 456
     expect(card_product.bank).to eq Bank.all[1]
   end
+
+  describe '#personal' do
+    it 'is true by default' do
+      prod = CardProduct.new
+      expect(prod.personal?).to be true
+      expect(prod.business?).to be false
+      expect(prod.bp).to eq 'personal'
+    end
+  end
 end

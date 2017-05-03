@@ -8,7 +8,7 @@ RSpec.describe "user cards page - callable cards", :js do
   let(:recommended_at) { 7.days.ago.to_date }
   let(:applied_on) { 7.days.ago.to_date }
   let(:denied_at)  { 5.days.ago.to_date }
-  let(:bp) { :personal }
+  let(:business) { false }
 
   # override variables set by ApplicationSurveyMacros:
   let(:approved_btn) { 'I was approved after reconsideration' }
@@ -19,7 +19,7 @@ RSpec.describe "user cards page - callable cards", :js do
     person.update!(eligible: true)
     login_as_account(account)
     @bank    = Bank.all.first
-    @product = create(:card_product, bank_id: @bank.id, bp: bp)
+    @product = create(:card_product, bank_id: @bank.id, business: business)
     @offer = create_offer(product: @product)
     @rec = create_card_recommendation(person_id: person.id, offer_id: @offer.id)
     @rec.update!(recommended_at: recommended_at, applied_on: applied_on, denied_at: denied_at)
@@ -43,7 +43,7 @@ RSpec.describe "user cards page - callable cards", :js do
   end
 
   context "for a personal card product" do
-    let(:bp) { :personal }
+    let(:business) { false }
     it "gives me the bank's personal number" do
       expect(page).to have_content "call #{@bank.name} at #{personal_phone}"
       expect(page).to have_no_content business_phone
@@ -51,7 +51,7 @@ RSpec.describe "user cards page - callable cards", :js do
   end
 
   context "for a business card product" do
-    let(:bp) { :business }
+    let(:business) { true }
     it "gives me the bank's business number" do
       expect(page).to have_content "call #{@bank.name} at #{business_phone}"
       expect(page).to have_no_content personal_phone

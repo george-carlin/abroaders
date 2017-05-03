@@ -25,7 +25,7 @@ RSpec.describe 'admin new card product page' do
     expect(page).to have_field :card_product_bank_id
     expect(page).to have_field :card_product_shown_on_survey
     expect(page).to have_field :card_product_image
-    expect(page).to have_select :card_product_bp, selected: 'Business'
+    expect(page).to have_field :card_product_personal, checked: true
     expect(page).to have_select :card_product_network, selected: 'Unknown'
     expect(page).to have_select :card_product_type, selected: 'Unknown'
     expect(page).to have_select :card_product_currency_id, selected: 'No currency'
@@ -36,8 +36,8 @@ RSpec.describe 'admin new card product page' do
 
     fill_in :card_product_name, with: 'Chase Visa Something'
     select 'MasterCard', from: :card_product_network
-    select 'Business',   from: :card_product_bp
-    select 'Credit',     from: :card_product_type
+    uncheck :card_product_personal
+    select 'Credit', from: :card_product_type
     fill_in :card_product_annual_fee, with: 549 # .99
     select currency.name, from: :card_product_currency_id
     select banks[1].name, from: :card_product_bank_id

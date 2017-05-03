@@ -13,7 +13,7 @@ class CardProduct < CardProduct.superclass
     #     option is false it'll be 'Chase Sapphire Visa'
     class FullName < Abroaders::Cell::Base
       property :bank
-      property :bp
+      property :business?
       property :name
 
       option :with_bank, default: false
@@ -24,7 +24,7 @@ class CardProduct < CardProduct.superclass
       def show
         parts = [name]
         parts.unshift(bank_name) if with_bank
-        parts.push('business') if bp == 'business'
+        parts.push('business') if business?
         # Amex will already be displayed as the bank name, so don't be redundant
         parts.push(network) unless exclude_network?
         parts.join(' ')

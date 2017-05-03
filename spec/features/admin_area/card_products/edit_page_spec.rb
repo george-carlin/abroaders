@@ -9,11 +9,11 @@ RSpec.describe 'admin edit card product page' do
     @product = create(
       :card_product,
       currency: currencies[0],
-      bp:      :personal,
-      network: :visa,
-      type:    :credit,
+      business: false,
+      network: 'visa',
+      type: 'credit',
       shown_on_survey: false,
-      bank:    banks[0],
+      bank: banks[0],
     )
     visit edit_admin_card_product_path(@product)
   end
@@ -27,8 +27,8 @@ RSpec.describe 'admin edit card product page' do
     expect(page).to have_field :card_product_bank_id
     expect(page).to have_field :card_product_shown_on_survey
     expect(page).to have_field :card_product_image
+    expect(page).to have_field :card_product_personal
     expect(page).to have_select :card_product_network, selected: 'Visa'
-    expect(page).to have_select :card_product_bp, selected: 'Personal'
     expect(page).to have_select :card_product_type, selected: 'Credit'
     expect(page).to have_select :card_product_currency_id, selected: currencies[0].name
   end
@@ -36,7 +36,7 @@ RSpec.describe 'admin edit card product page' do
   example 'valid update' do
     fill_in :card_product_name, with: 'Chase Visa Something'
     select 'MasterCard', from: :card_product_network
-    select 'Business', from: :card_product_bp
+    uncheck :card_product_personal
     select 'Credit', from: :card_product_type
     fill_in :card_product_annual_fee, with: 549
     select currencies[1].name, from: :card_product_currency_id
@@ -47,7 +47,7 @@ RSpec.describe 'admin edit card product page' do
     @product.reload
     expect(@product.name).to eq "Chase Visa Something"
     expect(@product.network).to eq "mastercard"
-    expect(@product.bp).to eq "business"
+    expect(@product.business).to be true
     expect(@product.type).to eq "credit"
     expect(@product.annual_fee).to eq 549
     expect(@product.currency).to eq currencies[1]

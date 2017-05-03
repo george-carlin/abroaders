@@ -3,7 +3,7 @@ require 'cells_helper'
 RSpec.describe CardProduct::Cell::FullName do
   let(:chase) { Bank.find_by_name!('Chase') }
   let(:amex) { Bank.find_by_name!('American Express') }
-  let(:product) { CardProduct.new(name: 'Sapphire', bank: chase, network: :visa, bp: :personal) }
+  let(:product) { CardProduct.new(name: 'Sapphire', bank: chase, network: :visa, personal: true) }
 
   example 'regular' do
     expect(show(product).raw).to eq 'Sapphire Visa'
@@ -27,7 +27,7 @@ RSpec.describe CardProduct::Cell::FullName do
   end
 
   example 'business card' do
-    product.bp = :business
+    product.personal = false
     expect(show(product).raw).to eq 'Sapphire business Visa'
   end
 
