@@ -27,6 +27,7 @@ module Seeder
       data['image'] = File.open(
         Rails.root.join('lib', 'seeds', 'card_products', data.delete('image_name')),
       )
+      data['personal'] = data.delete('bp') == 'personal'
       data['currency_id'] = currency_ids.sample
       data['bank_id']     = bank_ids.sample
       CardProduct.create!(data)

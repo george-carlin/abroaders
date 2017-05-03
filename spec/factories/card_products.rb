@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :card_product, aliases: [:product] do
     sequence(:name) { |n| "Example Card #{n}" }
     network { CardProduct.networks.keys.sample }
-    bp { CardProduct.bps.keys.sample }
+    personal { rand > 0.5 }
     type { CardProduct.types.keys.sample }
     bank_id { Bank.all.pluck(:id).sample }
     annual_fee_cents { rand(500_00) + 10_00 }
@@ -34,11 +34,11 @@ FactoryGirl.define do
     end
 
     trait :business do
-      bp :business
+      business true
     end
 
     trait :personal do
-      bp :personal
+      business false
     end
 
     trait :hidden do
