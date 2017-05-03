@@ -4,7 +4,7 @@ RSpec.describe Card::Cell::Index::CardAccounts do
   controller CardsController
 
   let(:bank) { Bank.all.first }
-  let(:card_product) { CardProduct.new(id: 555, bank_id: bank.id, network: :visa) }
+  let(:card_product) { CardProduct.new(id: 555, bank_id: bank.id, network: 'visa') }
   let!(:account) { Account.new }
   let!(:owner) { account.people.owner.new(first_name: 'Erik') }
 

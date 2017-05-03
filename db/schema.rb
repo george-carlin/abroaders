@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170502204213) do
+ActiveRecord::Schema.define(version: 20170502213141) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -129,8 +129,6 @@ ActiveRecord::Schema.define(version: 20170502204213) do
 
   create_table "card_products", force: :cascade do |t|
     t.string   "name",                              null: false
-    t.integer  "network",                           null: false
-    t.integer  "type",                              null: false
     t.integer  "annual_fee_cents",                  null: false
     t.boolean  "shown_on_survey",    default: true, null: false
     t.integer  "currency_id"
@@ -143,6 +141,8 @@ ActiveRecord::Schema.define(version: 20170502204213) do
     t.integer  "image_file_size",                   null: false
     t.datetime "image_updated_at",                  null: false
     t.boolean  "personal",                          null: false
+    t.string   "network",                           null: false
+    t.string   "type",                              null: false
     t.index ["bank_id"], name: "index_card_products_on_bank_id", using: :btree
     t.index ["currency_id"], name: "index_card_products_on_currency_id", using: :btree
     t.index ["wallaby_id"], name: "index_card_products_on_wallaby_id", using: :btree
@@ -273,15 +273,14 @@ ActiveRecord::Schema.define(version: 20170502204213) do
     t.integer  "credit_score",                          null: false
     t.boolean  "will_apply_for_loan",   default: false, null: false
     t.integer  "business_spending_usd"
-    t.integer  "has_business",          default: 0,     null: false
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
+    t.string   "has_business",                          null: false
     t.index ["person_id"], name: "index_spending_infos_on_person_id", unique: true, using: :btree
   end
 
   create_table "travel_plans", force: :cascade do |t|
     t.integer  "account_id",                              null: false
-    t.integer  "type",                    default: 0,     null: false
     t.integer  "no_of_passengers",        default: 1,     null: false
     t.datetime "created_at",                              null: false
     t.datetime "updated_at",                              null: false
@@ -292,8 +291,8 @@ ActiveRecord::Schema.define(version: 20170502204213) do
     t.boolean  "accepts_premium_economy", default: false, null: false
     t.boolean  "accepts_business_class",  default: false, null: false
     t.boolean  "accepts_first_class",     default: false, null: false
+    t.string   "type",                                    null: false
     t.index ["account_id"], name: "index_travel_plans_on_account_id", using: :btree
-    t.index ["type"], name: "index_travel_plans_on_type", using: :btree
   end
 
   add_foreign_key "accounts_home_airports", "accounts", on_delete: :cascade

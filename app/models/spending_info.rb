@@ -9,10 +9,14 @@ class SpendingInfo < ApplicationRecord
     'with_ein',
     'without_ein',
   )
-  enum has_business: BusinessType.values
 
-  alias has_business_with_ein? with_ein?
-  alias has_business_without_ein? without_ein?
+  def has_business_with_ein?
+    has_business == 'with_ein'
+  end
+
+  def has_business_without_ein?
+    has_business == 'without_ein'
+  end
 
   def has_business?
     has_business_with_ein? || has_business_without_ein?
