@@ -9,7 +9,6 @@ RSpec.describe Offer do
       on_approval
       on_first_purchase
       on_minimum_spend
-      unknown
     ).each do |condition|
       expect { offer.condition = condition }.not_to raise_error
       expect(offer.condition).to eq condition
