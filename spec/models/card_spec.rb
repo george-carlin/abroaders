@@ -10,6 +10,7 @@ RSpec.describe Card do
   before { card.offer = offer }
 
   example "#recommended?" do
+    card.recommended_at = nil
     expect(card.recommended?).to be false
     card.recommended_at = Time.current
     expect(card.recommended?).to be true
@@ -25,7 +26,6 @@ RSpec.describe Card do
   example "#denied?" do
     card.recommended_at = Time.current
     card.applied_on = Time.current
-    expect(card.denied?).to be false
     card.denied_at = Time.current
     expect(card.denied?).to be true
   end
@@ -35,16 +35,6 @@ RSpec.describe Card do
     expect(card.offer?).to be true
     card.offer = nil
     expect(card.offer?).to be false
-  end
-
-  # Callbacks
-
-  example "set #card_product to #offer.card_product before save" do
-    offer   = create_offer
-    product = offer.card_product
-    card = Card.new(card_product: nil, offer: offer, person: create_person)
-    card.save!
-    expect(card.card_product_id).to eq product.id
   end
 
   # Scopes

@@ -5,6 +5,7 @@ class Offer < ApplicationRecord
     'on_first_purchase', # once you make 1st purchase with card
     'on_minimum_spend', # if you spend $X within Y days
     'no_bonus', # no bonus awarded, the application just gets the card
+    'unknown', # we don't know what signup bonus they got, or if they got one
   )
 
   def Condition.days?(condition)

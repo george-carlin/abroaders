@@ -22,4 +22,12 @@ RSpec.describe AdminArea::Offers::Verify do
     expect(result.success?).to be false
     expect(result['error']).to eq "Can't verify a dead offer"
   end
+
+  # unknown offers are an implementation detail; admins shouldn't be able to
+  # see them in the first place to verify them
+  example 'failure - offer has unknown condition' do
+    offer = create(:card_product).unknown_offer
+    result = op.(id: offer.id)
+    expect(result['error']).to eq 'Unknown offer'
+  end
 end

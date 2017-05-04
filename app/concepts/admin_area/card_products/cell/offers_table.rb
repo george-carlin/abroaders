@@ -36,7 +36,8 @@ module AdminArea
         # a `<tr>` containing a recommendable signup offer for the product
         #
         # @!method self.call(model, opts = {})
-        #   @param model [Offer]
+        #   @param model [Offer] a recommendable offer. An error will be
+        #     raised if the offer is not recommendable.
         #   @option opts [Person] the Person whom the offer will be recommended
         #     to
         class Row < Abroaders::Cell::Base
@@ -48,6 +49,11 @@ module AdminArea
           property :spend
 
           option :person
+
+          def initialize(offer, *)
+            raise "offer ##{offer.id} can't be recommended" unless offer.recommendable?
+            super
+          end
 
           private
 

@@ -4,7 +4,7 @@ RSpec.describe Card::Cell::Index::CardAccounts do
   controller CardsController
 
   let(:bank) { Bank.all.first }
-  let(:card_product) { CardProduct.new(id: 555, bank_id: bank.id, network: 'visa') }
+  let(:card_product) { create(:card_product, bank: bank) }
   let!(:account) { Account.new }
   let!(:owner) { account.people.owner.new(first_name: 'Erik') }
 
@@ -27,7 +27,8 @@ RSpec.describe Card::Cell::Index::CardAccounts do
   end
 
   example 'solo account with card accounts' do
-    acc = owner.card_accounts.new(id: 10, card_product: card_product, opened_on: today)
+    offer = card_product.unknown_offer
+    acc = owner.card_accounts.new(id: 10, offer: offer, opened_on: today)
     allow(account).to receive(:card_accounts) { [acc] }
     rendered = cell(account).()
     expect(rendered).to have_content ProductNameCellStub.(card_product).()

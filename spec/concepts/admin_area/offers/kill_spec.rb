@@ -35,4 +35,12 @@ RSpec.describe AdminArea::Offers::Kill do
     expect(result.success?).to be false
     expect(result['error']).to eq 'Offer already killed'
   end
+
+  # unknown offers are an implementation detail; admins shouldn't be able
+  # to see them in the first place to kill them
+  example 'failure - offer has unknown condition' do
+    offer = create(:card_product).unknown_offer
+    result = op.(id: offer.id)
+    expect(result['error']).to eq 'Unknown offer'
+  end
 end

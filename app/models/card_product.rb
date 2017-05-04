@@ -88,6 +88,10 @@ class CardProduct < ApplicationRecord
     super
   end
 
+  def unknown_offer
+    @unknown_offer ||= offers.unknown.find_or_create_by!({})
+  end
+
   # Scopes
 
   scope :survey, -> { where(shown_on_survey: true) }

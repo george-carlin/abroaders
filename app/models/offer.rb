@@ -7,6 +7,11 @@ require 'types'
 # There are different ways you can get the bonus, as noted in the 'Condition'
 # type (see inline comments).
 #
+# It's also possible that a user will tell us that they have a particular card
+# but doesn't tell us which offer they used to sign up with, in which case
+# the condition will be 'unknown'. If it's a card that we recommended to them,
+# however, we will always know the condition.
+#
 # Whether or not the other attributes will be present depends on the condition:
 #
 # 'spend' = the minimum that the person has to spend using the card
@@ -29,7 +34,7 @@ class Offer < ApplicationRecord
     'card_ratings',
     'credit_cards',
     'none',
-  )
+  ).freeze
 
   attribute_type :condition, Condition
   attribute_type :partner, Partner
@@ -61,17 +66,25 @@ class Offer < ApplicationRecord
     !killed_at.nil?
   end
 
+  def known?
+    condition != 'unknown'
+  end
+
+  def unknown?
+    condition == 'unknown'
+  end
+
+  def recommendable?
+    known? && live?
+  end
+
   # Scopes
 
-  scope :live, -> { where(killed_at: nil) }
   scope :dead, -> { where.not(killed_at: nil) }
-
-  # Right now the the only condition that an Offer must satisfy to be
-  # recommendable is that it's live, but you never know if that  may change in
-  # future, so use a more precise scope name to be more future-proof.
-  def self.recommendable
-    live
-  end
+  scope :known, -> { where.not(condition: 'unknown') }
+  scope :live, -> { where(killed_at: nil) }
+  scope :recommendable, -> { known.live }
+  scope :unknown, -> { where(condition: 'unknown') }
 
   private
 

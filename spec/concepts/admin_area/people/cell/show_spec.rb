@@ -124,11 +124,12 @@ RSpec.describe AdminArea::People::Cell::Show do
   let(:dec) { Date.parse("2015-12-01") }
 
   let(:bank) { Bank.all.first }
-  let(:card_product) { build(:card_product, bank: bank, currency: Currency.new) }
+  let(:card_product) { create(:card_product, bank: bank) }
 
   example 'with card accounts' do
-    open   = Card.new(id: 100, opened_on: jan, person: person, card_product: card_product)
-    closed = Card.new(id: 101, opened_on: mar, closed_on: oct, person: person, card_product: card_product)
+    offer = card_product.unknown_offer
+    open   = Card.new(id: 100, opened_on: jan, person: person, offer: offer)
+    closed = Card.new(id: 101, opened_on: mar, closed_on: oct, person: person, offer: offer)
     allow(person).to receive(:card_accounts) { [open, closed] }
 
     rendered = cell(person, card_products: []).()

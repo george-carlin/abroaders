@@ -120,16 +120,14 @@ class Card < ApplicationRecord
 
   include CardRecommendation::Predicates
 
-  # Validations
-
-  # Associations
-
-  belongs_to :card_product
   belongs_to :offer
   belongs_to :person
   belongs_to :recommended_by, class_name: 'Admin'
   has_one :account, through: :person
+  has_one :card_product, through: :offer
   has_one :currency, through: :card_product
+
+  delegate :id, to: :card_product, allow_nil: true, prefix: true
 
   delegate :bank, to: :card_product, allow_nil: true
   delegate :name, to: :bank, prefix: true
@@ -138,9 +136,38 @@ class Card < ApplicationRecord
   # don't set allow_nil to true it's too much of a PITA to test.
   delegate :name, to: :currency, prefix: true, allow_nil: true
 
-  # Callbacks
+  def card_product=(new_product)
+    if card_product.nil?
+      if offer.nil?
+        self.offer = new_product.unknown_offer
+      elsif offer.card_product == new_product.unknown_offer
+        product.unknown_offer
+      else
+        raise 'TODO write err msg'
+      end
+    elsif card_product == new_product
+      card_product
+    else
+      raise 'TODO write err msg'
+    end
+  end
 
-  before_save :set_product_to_offer_product
+  def card_product_id=(new_product_id)
+    new_product = CardProduct.find(new_product_id)
+    if card_product.nil?
+      if offer.nil?
+        self.offer = new_product.unknown_offer
+      elsif offer.card_product == new_product.unknown_offer
+        product.unknown_offer
+      else
+        raise 'TODO write err msg'
+      end
+    elsif card_product == new_product
+      card_product
+    else
+      raise 'TODO write err msg'
+    end
+  end
 
   # Scopes
 
@@ -185,13 +212,4 @@ class Card < ApplicationRecord
   scope :unopened,   -> { where(opened_on: nil) }
   scope :unredenied, -> { where(redenied_at: nil) }
   scope :unseen,     -> { where(seen_at: nil) }
-
-  # compound scopes:
-
-  private
-
-  def set_product_to_offer_product
-    return unless !offer.nil? && !offer.card_product.nil? && card_product.nil?
-    self.card_product = offer.card_product
-  end
 end

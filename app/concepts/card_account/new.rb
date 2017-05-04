@@ -41,7 +41,7 @@ class CardAccount < CardAccount.superclass
 
     def find_card_product!(opts, params:, **)
       card_product_id = params.fetch(:card_product_id)
-      opts['model'].card_product = CardProduct.find(card_product_id)
+      opts['model'].offer = CardProduct.find(card_product_id).unknown_offer
     end
   end
 end

@@ -40,7 +40,26 @@ RSpec.describe AdminArea::CardRecommendations::Create do
         'current_admin' => admin,
       )
       expect(result.success?).to be false
-      expect(result['errors']).to eq ["Couldn't find live offer with ID #{offer.id}"]
+      expect(result['error']).to eq "Couldn't find recommendable offer with ID #{offer.id}"
+    end.not_to change { Card.recommended.count }
+  end
+
+  # unknown offers are an implementation detail; admins shouldn't be able to
+  # see them in the first place to recommend them
+  specify "offer can't be unknown" do
+    offer = create(:card_product).unknown_offer
+    expect do
+      result = op.(
+        {
+          person_id: person.id,
+          card_recommendation: {
+            offer_id:  offer.id,
+          },
+        },
+        'admin' => admin,
+      )
+      expect(result.success?).to be false
+      expect(result['error']).to eq "Couldn't find recommendable offer with ID #{offer.id}"
     end.not_to change { Card.recommended.count }
   end
 end

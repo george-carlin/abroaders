@@ -33,4 +33,20 @@ RSpec.describe Offer do
 
     expect { offer.partner = 'invalid' }.to raise_error(Dry::Types::ConstraintError)
   end
+
+  example '.recommendable & #recommendable?' do
+    unknown = create(:card_product).unknown_offer
+    live = create_offer
+    dead = kill_offer(create_offer)
+
+    scope = described_class.recommendable
+    expect(scope.length).to eq 1
+    expect(scope).not_to include dead
+    expect(scope).not_to include unknown
+    expect(scope).to include live
+
+    expect(dead).not_to be_recommendable
+    expect(live).to be_recommendable
+    expect(unknown).not_to be_recommendable
+  end
 end

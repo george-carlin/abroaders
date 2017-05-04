@@ -13,8 +13,8 @@ module AdminArea
         end
       end
 
-      step :validate_offer_is_live!
-      failure :log_offer_is_not_live!
+      step :offer_recommendable?
+      failure :log_offer_not_recommendable, fail_fast: true
       step :setup_person!
       step :setup_model!
       step Contract::Build()
@@ -23,13 +23,13 @@ module AdminArea
 
       private
 
-      def validate_offer_is_live!(params:, **)
-        Offer.live.exists?(id: params[:card][:offer_id])
+      def offer_recommendable?(params:, **)
+        Offer.recommendable.exists?(id: params[:card_recommendation][:offer_id])
       end
 
-      def log_offer_is_not_live!(opts, params:, **)
-        id = params[:card][:offer_id]
-        opts['errors'] = ["Couldn't find live offer with ID #{id}"]
+      def log_offer_not_recommendable(opts, params:, **)
+        id = params[:card_recommendation][:offer_id]
+        opts['error'] = "Couldn't find recommendable offer with ID #{id}"
       end
 
       def setup_person!(opts, params:, **)

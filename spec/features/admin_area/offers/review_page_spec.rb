@@ -7,6 +7,7 @@ RSpec.describe 'admin - review offers page' do
     @live = create_offer
     @verified = verify_offer(create_offer)
     @dead = kill_offer(create_offer)
+    @unknown = @live.product.unknown_offer
     visit review_admin_offers_path
   end
 
@@ -14,7 +15,7 @@ RSpec.describe 'admin - review offers page' do
     "#offer_#{offer.id}"
   end
 
-  it 'lists live offers' do
+  it 'lists reviewable offers' do
     # (this should be extracted to cells and tested in cell specs)
     [@live, @verified].each do |offer|
       expect(page).to have_selector offer_selector(offer)
@@ -30,6 +31,7 @@ RSpec.describe 'admin - review offers page' do
     end
 
     expect(page).to have_no_selector offer_selector(@dead)
+    expect(page).to have_no_selector offer_selector(@unknown)
   end
 
   example 'verifying', :js do

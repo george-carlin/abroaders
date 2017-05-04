@@ -152,9 +152,8 @@ ActiveRecord::Schema.define(version: 20170704164113) do
   end
 
   create_table "cards", force: :cascade do |t|
-    t.integer  "card_product_id"
     t.integer  "person_id",         null: false
-    t.integer  "offer_id"
+    t.integer  "offer_id",          null: false
     t.datetime "recommended_at"
     t.date     "applied_on"
     t.date     "opened_on"
@@ -229,11 +228,11 @@ ActiveRecord::Schema.define(version: 20170704164113) do
     t.integer  "card_product_id",                   null: false
     t.integer  "points_awarded"
     t.integer  "spend"
-    t.integer  "cost",                              null: false
+    t.integer  "cost"
     t.integer  "days"
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
-    t.string   "link",                              null: false
+    t.string   "link"
     t.text     "notes"
     t.datetime "last_reviewed_at"
     t.datetime "killed_at"
@@ -309,7 +308,6 @@ ActiveRecord::Schema.define(version: 20170704164113) do
   add_foreign_key "balances", "people", on_delete: :cascade
   add_foreign_key "card_products", "currencies", on_delete: :restrict
   add_foreign_key "cards", "admins", column: "recommended_by_id", on_delete: :nullify
-  add_foreign_key "cards", "card_products", on_delete: :restrict
   add_foreign_key "cards", "offers", on_delete: :cascade
   add_foreign_key "cards", "people", on_delete: :cascade
   add_foreign_key "destinations", "destinations", column: "parent_id", on_delete: :restrict
