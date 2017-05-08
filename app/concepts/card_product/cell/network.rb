@@ -9,6 +9,7 @@ class CardProduct < CardProduct.superclass
 
       NAMES = {
         amex: 'American Express',
+        discover: 'Discover',
         mastercard: 'MasterCard',
         unknown: 'Unknown',
         visa: 'Visa',

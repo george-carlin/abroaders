@@ -21,7 +21,7 @@ class CardProduct < ApplicationRecord
     personal ? 'personal' : 'business'
   end
 
-  Network = Types::Strict::String.enum('unknown', 'visa', 'mastercard', 'amex')
+  Network = Types::Strict::String.enum('unknown', 'visa', 'mastercard', 'amex', 'discover')
   Type = Types::Strict::String.enum('unknown', 'credit', 'charge', 'debit')
 
   attribute_type :network, Network
