@@ -3,7 +3,6 @@ module AdminArea
     def new
       run CardAccounts::New
       @form = result['contract.default']
-      @products = CardAccounts::New.product_options
     end
 
     def create
@@ -12,7 +11,6 @@ module AdminArea
         return redirect_to admin_person_path(@model.person)
       end
       @form = result['contract.default']
-      @products = CardAccounts::New.product_options
       render :new
     end
 

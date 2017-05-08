@@ -19,7 +19,7 @@
         </div>
 
         <div class="col-md-12 col-lg-9">
-          <%= f.select :card_product_id, options_for_select(@products) %>
+          <%= f.select :card_product_id, AdminArea::CardProducts::OptionTags.().() %>
         </div>
 
         <div class="col-md-12 col-lg-3">

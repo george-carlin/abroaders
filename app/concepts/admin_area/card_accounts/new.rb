@@ -8,13 +8,6 @@ module AdminArea
       step :setup_model!
       step Contract::Build()
 
-      # This is display logic, it belongs in a cell, not an operation. REFACTORME
-      def self.product_options
-        CardProduct.all.map do |product|
-          [CardProduct::Cell::FullName.(product, with_bank: true).(), product.id]
-        end.sort_by { |p| p[0] }
-      end
-
       private
 
       def setup_person!(opts, params:, **)
