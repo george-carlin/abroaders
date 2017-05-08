@@ -1,4 +1,8 @@
 class Balance::Cell::Index < Balance::Cell::Index.superclass
+  # Panel at the top of the balances page. If the user has connected their AW
+  # account, shows a brief overview of the connection with a link to manage the
+  # settings. If they haven't connected, encourage them to connect.
+  #
   # @!method self.call(account, opts = {})
   #   @param account [Account] the currently-logged in account.
   class AwardWalletPanel < Abroaders::Cell::Base
