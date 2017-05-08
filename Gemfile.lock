@@ -1,15 +1,4 @@
 GIT
-  remote: git://github.com/georgemillo/cells.git
-  revision: e24cfc89a7f7260a7cb5a12ad2f9f5d95dbf2245
-  branch: collection-join
-  specs:
-    cells (4.1.6)
-      declarative-builder (< 0.2.0)
-      declarative-option (< 0.2.0)
-      tilt (>= 1.4, < 3)
-      uber (< 0.2.0)
-
-GIT
   remote: git://github.com/sinatra/sinatra.git
   revision: 27d36fdad2104780b609aec8ac55f5fb8fa4ed18
   branch: master
@@ -100,6 +89,11 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    cells (4.1.7)
+      declarative-builder (< 0.2.0)
+      declarative-option (< 0.2.0)
+      tilt (>= 1.4, < 3)
+      uber (< 0.2.0)
     cells-erb (0.0.9)
       cells (~> 4.0)
       erbse (>= 0.0.2, < 0.1.0)
@@ -484,7 +478,7 @@ DEPENDENCIES
   bullet (= 5.3.0)
   byebug
   capybara (= 2.7.1)
-  cells!
+  cells (~> 4.1.7)
   cells-erb (= 0.0.9)
   cells-rails
   database_cleaner
