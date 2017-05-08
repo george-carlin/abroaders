@@ -44,6 +44,7 @@ class LoyaltyAccount < Dry::Struct
   end
 
   class AwardWallet < self
+    attribute :person_id, Types::Strict::Int.optional
     attribute :award_wallet_id, Types::Strict::Int
     attribute :login, Types::Strict::String
 
@@ -51,7 +52,7 @@ class LoyaltyAccount < Dry::Struct
       attrs = awa.attributes.symbolize_keys.slice(:id, :balance_raw, :updated_at, :login)
       attrs[:award_wallet_id] = awa.aw_id
       attrs[:currency_name]   = awa.display_name
-      attrs[:person_id]       = awa.award_wallet_owner.person.id
+      attrs[:person_id]       = awa.person_id
       attrs[:updated_at]      = awa.updated_at.to_datetime
       new(attrs)
     end

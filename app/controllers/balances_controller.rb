@@ -10,7 +10,7 @@ class BalancesController < AuthenticatedUserController
         {
           award_wallet_owners: [
             :person, {
-              award_wallet_accounts: :award_wallet_owner,
+              award_wallet_accounts: [:award_wallet_owner, :person],
             },
           ],
           balances: :currency,
