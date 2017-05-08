@@ -1,9 +1,7 @@
 module Balance::Cell
   class Index < Index.superclass
     # An .hpanel with a table of balances for a specific person. Has a link to
-    # add a new balance for the person. By default the balances are rendered
-    # with the EditableBalance cell, which means their values can be updated by
-    # AJAX.
+    # add a new balance for the person.
     #
     # If the person belongs to a couples account, the header will say "(Person
     # name)'s points". If it's a solo account, it will simply say "My points".
@@ -34,7 +32,7 @@ module Balance::Cell
 
       def rows
         if loyalty_accounts.any?
-          cell(LoyaltyAccount::Cell::Editable, collection: loyalty_accounts).join('<hr>')
+          cell(LoyaltyAccount::Cell::Table::Row, collection: loyalty_accounts).join('<hr>')
         else
           'No points balances'
         end

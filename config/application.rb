@@ -37,7 +37,7 @@ module Abroaders
       'card_account/cell/new/select_product',
       'card_recommendation/cell/actionable',
       'integrations/award_wallet/cell/settings',
-      'loyalty_account/cell/editable',
+      'loyalty_account/cell/table',
       'recommendation_request/cell/call_to_action',
     ]
 

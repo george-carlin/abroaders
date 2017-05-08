@@ -1,6 +1,6 @@
 require 'cells_helper'
 
-RSpec.describe LoyaltyAccount::Cell::Editable do
+RSpec.describe LoyaltyAccount::Cell::Table::Row do
   controller BalancesController
 
   let(:currency) { Currency.new(id: 1, name: 'Sterling') }
