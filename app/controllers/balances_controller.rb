@@ -35,14 +35,19 @@ class BalancesController < AuthenticatedUserController
     render cell(Balance::Cell::New, @form, currencies: Currency.all, current_account: current_account)
   end
 
+  # GET /balances/:id
+  def edit
+    run Balance::Edit
+    render cell(Balance::Cell::Edit, @form, currencies: Currency.all)
+  end
+
   # PUT/PATCH /balances/:id
   def update
     run Balance::Update do
-      @valid = true
+      flash[:success] = 'Updated balance!'
+      return redirect_to balances_path
     end
-    respond_to do |f|
-      f.js
-    end
+    render cell(Balance::Cell::Edit, @form, currencies: Currency.all)
   end
 
   # DELETE /balances/:id

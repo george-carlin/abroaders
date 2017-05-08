@@ -1,9 +1,0 @@
-var id      = <%= @model.id %>;
-var value   = numbro(<%= @model.value %>).format("0,0");
-var isValid = <%= !!@valid %>;
-
-if (isValid) {
-  window.BalancesIndex.saveNewBalance(id, value);
-} else {
-  window.BalancesIndex.showErrorMessage(id);
-}

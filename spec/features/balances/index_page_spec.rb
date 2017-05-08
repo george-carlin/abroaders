@@ -29,26 +29,6 @@ RSpec.describe 'balance index page' do
     end
   end
 
-  example "updating a balance", :js, :manual_clean do
-    balance = create_balance(currencies[0], 1234)
-    visit balances_path
-    update_balance_value(balance, 2345)
-    balance.reload
-    expect(balance.value).to eq 2345
-  end
-
-  example "trying to update a balance invalidly", :js, :manual_clean do
-    balance = create_balance(currencies[0], 1234)
-    visit balances_path
-
-    expect do
-      update_balance_value(balance, -2345)
-      balance.reload
-    end.not_to change { balance.value }
-
-    expect(page).to have_content "Invalid value"
-  end
-
   example 'deleting a balance', :js do
     balance = create_balance(currencies[0], 1234)
     visit balances_path

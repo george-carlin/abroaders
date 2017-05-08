@@ -24,20 +24,16 @@ class LoyaltyAccount < LoyaltyAccount.superclass
       property :updated_at
       property :balance_raw
 
-      private
-
-      def cancel_btn
-        button_tag(
-          'Cancel',
-          class: 'cancel_edit_balance_btn btn btn-xs btn-default',
-          data: { 'balance-id': id },
-        )
+      def show
+        render 'editable'
       end
+
+      private
 
       def delete_btn
         link_to(
           balance_path(id),
-          class: 'destroy_balance_btn btn btn-xs btn-danger',
+          class: 'btn btn-xs btn-danger',
           data: {
             confirm: 'Are you sure? You can not undo this action',
           },
@@ -48,77 +44,28 @@ class LoyaltyAccount < LoyaltyAccount.superclass
       end
 
       def edit_btn
-        button_tag(
-          class: 'edit_balance_btn btn btn-xs btn-primary',
-          'data-balance-id': id,
+        link_to(
+          edit_balance_path(model.id),
+          class: 'btn btn-xs btn-primary',
         ) do
           '<i class="fa fa-pencil"> </i> Edit'
         end
+      end
+
+      def icon
+        ''
       end
 
       def updated_at
         super.strftime('%D')
       end
 
-      def error_message
-        content_tag(
-          :span,
-          'Invalid value',
-          class: 'editing_balance_error_msg',
-          style: 'display:none;',
-        )
-      end
-
-      def form_tag(&block)
-        super(
-          balance_path(id),
-          class: 'edit_balance',
-          data: { remote: true },
-          method: :patch,
-          style: 'display:none;',
-          &block
-        )
-      end
-
-      def loading_spinner
-        content_tag(
-          :div,
-          '',
-          class: 'LoadingSpinner',
-          style: 'display: none;',
-        )
-      end
-
-      def save_btn
-        button_tag(
-          'Save',
-          class: 'save_balance_btn btn btn-xs btn-primary',
-          data:  { 'balance-id': id },
-        )
-      end
-
-      def save_btn_group
-        content_tag(
-          :div,
-          class: 'editing_balance_btn_group btn-group',
-          style: 'display:none;',
-        ) do
-          yield
-        end
-      end
-
       def formatted_balance
         number_with_delimiter(balance_raw)
       end
 
-      def value_field
-        number_field(
-          :balance,
-          :value,
-          class: 'balance_value_editing input-sm',
-          style: 'display: none;',
-          value: balance_raw,
-        )
+      def login?
+        false
       end
 
       def wrapping_div(&block)
@@ -135,7 +82,7 @@ class LoyaltyAccount < LoyaltyAccount.superclass
 
         property :login
 
-        def aw_logo
+        def icon
           image_tag(
             'aw_tiny.png',
             class: 'award_wallet_logo',
@@ -143,6 +90,10 @@ class LoyaltyAccount < LoyaltyAccount.superclass
             style: 'float: left',
             alt: "We're pulling this account's information from your AwardWallet account",
           )
+        end
+
+        def delete_btn
+          ''
         end
 
         def edit_btn
@@ -153,6 +104,10 @@ class LoyaltyAccount < LoyaltyAccount.superclass
           ) do
             '<i class="fa fa-pencil"> </i> Edit'
           end
+        end
+
+        def login?
+          true
         end
       end
     end

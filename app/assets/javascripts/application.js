@@ -43,7 +43,6 @@ window.components = {
   PointsEstimateTable:   require("./components/PointsEstimateTable"),
 };
 
-window.numbro = require("numbro");
 window.diacritics = require("diacritics");
 
 // Note that something more DRY like this won't work:

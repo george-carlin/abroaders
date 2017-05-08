@@ -3,17 +3,17 @@ class Balance < Balance.superclass
     # @!method self.call(form, options = {})
     #   @param form [Reform::Form]
     #   @option currencies [Collection<Currency>]
-    #   @option current_account [Account]
-    class New < Abroaders::Cell::Base
+    class Edit < Abroaders::Cell::Base
       include Escaped
 
       option :currencies
-      option :current_account
+
+      def show
+        render 'new'
+      end
 
       def title
-        text = "Add new balance"
-        text << " for #{escape!(person.first_name)}" if current_account.couples?
-        text
+        'Edit balance'
       end
 
       private
@@ -29,7 +29,7 @@ class Balance < Balance.superclass
       end
 
       def form_tag(&block)
-        form_for [person, model], &block
+        form_for [model], &block
       end
     end
   end
