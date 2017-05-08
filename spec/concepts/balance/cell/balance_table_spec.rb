@@ -15,7 +15,7 @@ RSpec.describe Balance::Cell::BalanceTable do
       currency: Currency.new(name: 'X'),
       updated_at: Time.now,
       value: value,
-      person_id: 123,
+      person: person,
     )
   end
 

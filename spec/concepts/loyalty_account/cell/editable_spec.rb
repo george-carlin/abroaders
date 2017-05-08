@@ -4,7 +4,8 @@ RSpec.describe LoyaltyAccount::Cell::Editable do
   controller BalancesController
 
   let(:currency) { Currency.new(id: 1, name: 'Sterling') }
-  let(:balance)  { Balance.new(id: 1, person: Person.new(id: 1), value: 1234, currency: currency, updated_at: 5.minutes.ago) }
+  let(:person) { Person.new(id: 1, first_name: 'George') }
+  let(:balance) { Balance.new(id: 1, person: person, value: 1234, currency: currency, updated_at: 5.minutes.ago) }
   let(:la) { LoyaltyAccount.build(balance) }
 
   it '' do
