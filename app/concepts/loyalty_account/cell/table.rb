@@ -1,7 +1,33 @@
 class LoyaltyAccount < LoyaltyAccount.superclass
   module Cell
     class Table < ::Abroaders::Cell::Base
-      # A <div> for a loyalty_account on the page. Displays the balance's value
+      private
+
+      def headers
+        cols = [
+          'Award Program',
+          'Owner',
+          'Account',
+          'Balance',
+          'Expires',
+          'Last Updated',
+          '',
+        ]
+        # if simple
+        #   cols.delete('Owner')
+        #   cols.delete('Account')
+        #   cols.delete('Expires')
+        # end
+        cols.map { |text| "<th>#{text}</th>" }
+      end
+
+      # TODO how should the rows be sorted?
+
+      def rows
+        cell(Row, collection: model)
+      end
+
+      # A <tr> for a loyalty_account on the page. Displays the balance's value
       # and currency, and has buttons to edit or delete/hide it. If it's an
       # Abroaders balance, then 'edit' will show a form to update the balance's
       # value via AJAX.
@@ -12,6 +38,11 @@ class LoyaltyAccount < LoyaltyAccount.superclass
         include ::Cell::Builder
         include Escaped
 
+        # TODO removed this HTML. Check for CSS/JS etc
+        # <div class="balance_additional_info">
+        #   <p class="balance_updated_at"><%= updated_at %></p>
+        # </div>
+
         builds do |loyalty_account|
           case loyalty_account.source
           when 'abroaders' then self
@@ -20,10 +51,17 @@ class LoyaltyAccount < LoyaltyAccount.superclass
           end
         end
 
+        def show
+          render 'table/row'
+        end
+
         property :id
-        property :currency_name
-        property :updated_at
         property :balance_raw
+        property :currency_name
+        property :expiration_date
+        property :login
+        property :owner_name
+        property :updated_at
 
         private
 
@@ -108,6 +146,19 @@ class LoyaltyAccount < LoyaltyAccount.superclass
           end
         end
 
+        def expiration_date
+          if super.nil?
+            'Unknown' # TODO add FA icon
+          else
+            # distance_of_time_in_words gives slightly weird-sounding results
+            # for some values, given the context, but it'll do for now. E.g.
+            # if the expiration date is today, it should just say 'Today',
+            # not the hours/minutes etc
+            "in #{distance_of_time_in_words(Time.now, super)}"
+          end
+          # TODO handle the case when it's expired
+        end
+
         def formatted_balance
           number_with_delimiter(balance_raw)
         end
@@ -119,15 +170,6 @@ class LoyaltyAccount < LoyaltyAccount.superclass
             class: 'balance_value_editing input-sm',
             style: 'display: none;',
             value: balance_raw,
-          )
-        end
-
-        def wrapping_div(&block)
-          content_tag(
-            :div,
-            class: 'balance row editable_balance',
-            id: "balance_#{id}",
-            &block
           )
         end
 
@@ -144,6 +186,10 @@ class LoyaltyAccount < LoyaltyAccount.superclass
               style: 'float: left',
               alt: "We're pulling this account's information from your AwardWallet account",
             )
+          end
+
+          def delete_btn
+            ''
           end
 
           def edit_btn

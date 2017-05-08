@@ -32,7 +32,7 @@ module Balance::Cell
 
       def rows
         if loyalty_accounts.any?
-          cell(LoyaltyAccount::Cell::Table::Row, collection: loyalty_accounts).join('<hr>')
+          cell(LoyaltyAccount::Cell::Table, loyalty_accounts)
         else
           'No points balances'
         end
