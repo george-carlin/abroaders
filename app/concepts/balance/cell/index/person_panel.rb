@@ -14,27 +14,20 @@ module Balance::Cell
     # @!method self.call(person, opts = {})
     #   @param person [Person]
     class PersonPanel < Abroaders::Cell::Base
-      include ::Cell::Builder
       include Escaped
-
-      builds do |person|
-        person.account.couples? ? Couples : Solo
-      end
 
       property :first_name
       property :loyalty_accounts
-
-      def show
-        render 'balance_table'
-      end
+      property :partner?
 
       private
 
+      def header_text
+        "#{partner? ? "#{first_name}'s" : 'My'} points"
+      end
+
       def link_to_add_new_balance
-        link_to(
-          new_person_balance_path(model),
-          class: 'btn btn-success btn-xs',
-        ) do
+        link_to new_person_balance_path(model), class: 'btn btn-success btn-xs' do
           '<i class="fa fa-plus"> </i> Add new'
         end
       end
@@ -44,18 +37,6 @@ module Balance::Cell
           cell(LoyaltyAccount::Cell::Editable, collection: loyalty_accounts).join('<hr>')
         else
           'No points balances'
-        end
-      end
-
-      class Couples < self
-        def header_text
-          "#{first_name}'s points"
-        end
-      end
-
-      class Solo < self
-        def header_text
-          'My points'
         end
       end
     end
