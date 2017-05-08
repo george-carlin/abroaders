@@ -37,7 +37,16 @@ RSpec.describe 'new balance pages' do
       expect(page).to have_error_message
     end
 
+    example 'submitting a balance with a negative value' do
+      fill_in :balance_value, with: -1
+
+      expect do
+        click_button 'Save'
+      end.not_to change { owner.balances.count }
+
+      expect(page).to have_field :balance_value, with: -1 # bug fix
+    end
+
     # TODO what happens if I submit letters?
-    # TODO can users add more than one balance for the same type of currency?
   end
 end

@@ -9,7 +9,7 @@
 
     <%= cell(Abroaders::Cell::ValidationErrorsAlert, @form) %>
 
-    <%= form_for [@form.model.person, @form.model] do |f| %>
+    <%= form_for [@form.model.person, @form] do |f| %>
 
       <div class="form-group">
         <%= f.label :currency_id %>
