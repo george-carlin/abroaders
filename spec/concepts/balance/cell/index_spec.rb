@@ -3,10 +3,8 @@ require 'cells_helper'
 RSpec.describe Balance::Cell::Index do
   controller BalancesController
 
-  let(:currencies) { Array.new(2) { |i| Currency.new(name: "Curr #{i}") } }
-
-  let(:account) { Account.new }
-  let(:owner) { account.build_owner(id: 1, first_name: 'Erik') }
+  let(:account) { create(:account) }
+  let(:owner) { account.owner }
 
   it 'asks me to connect to AwardWallet' do
     rendered = show(account)
@@ -31,55 +29,51 @@ RSpec.describe Balance::Cell::Index do
     end
   end
 
-  # FIXME everything below here needs updating for the refactored cell
-
   example 'solo account with no balances' do
-    pending
     rendered = show(account)
     expect(rendered).to have_selector 'h1', text: 'My points'
-    expect(rendered).to have_content 'No balances'
+    expect(rendered).to have_content 'No points balances'
   end
 
   example 'solo account with balances' do
-    pending
-    2.times do |i|
-      owner.balances.build(id: i, value: 1234, currency: currencies[i], updated_at: 5.minutes.ago)
-    end
+    balances = Array.new(2) { create_balance(person: owner) }
 
     rendered = show(account)
-    pending
     expect(rendered).to have_selector 'h1', text: 'My points'
-    expect(rendered).not_to have_content 'No balances'
-    expect(rendered).to have_content 'Curr 0'
-    expect(rendered).to have_content 'Curr 1'
+    expect(rendered).not_to have_content 'No points balances'
+    expect(rendered).to have_content balances[0].currency_name
+    expect(rendered).to have_content balances[1].currency_name
   end
 
   describe 'couples account' do
-    let!(:companion) { account.build_companion(id: 2, first_name: 'Gabi') }
+    let!(:companion) { account.create_companion!(first_name: 'Gabi') }
 
-    before do
-      pending
-      2.times do |i|
-        owner.balances.build(id: i, value: 1234, currency: currencies[i])
-      end
+    example 'neither person has balances' do
+      rendered = show(account)
+      expect(rendered).to have_selector 'h1', text: "Erik's points"
+      expect(rendered).to have_selector 'h1', text: "Gabi's points"
+      expect(rendered).to have_content 'No points balances', count: 2
+    end
+
+    example 'one person has no balances' do
+      create_balance(person: owner)
+      rendered = show(account)
+      expect(rendered).to have_selector 'h1', text: "Erik's points"
+      expect(rendered).to have_selector 'h1', text: "Gabi's points"
+      expect(rendered).to have_content owner.balances[0].currency_name
+      expect(rendered).to have_content 'No points balances', count: 1
     end
 
     example 'both people have balances' do
-      2.times do |i|
-        companion.balances.build(id: i, value: 1234, currency: currencies[i])
-      end
+      ob = create_balance(person: owner)
+      cb = create_balance(person: companion)
 
-      rendered = show(account)
-      expect(rendered).not_to have_content 'My points'
-      expect(rendered).not_to have_content 'No balances'
-      expect(rendered).to have_selector 'h1', text: "Erik's points"
-      expect(rendered).to have_selector 'h1', text: "Gabi's points"
-    end
-
-    example 'where one person has no balances' do
       rendered = show(account)
       expect(rendered).to have_selector 'h1', text: "Erik's points"
       expect(rendered).to have_selector 'h1', text: "Gabi's points"
+      expect(rendered).to have_content ob.currency_name
+      expect(rendered).to have_content cb.currency_name
+      expect(rendered).to have_no_content 'No points balances'
     end
   end
 end
