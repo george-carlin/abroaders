@@ -1,5 +1,6 @@
 require 'dry-struct'
 require 'active_support/core_ext/hash/keys'
+require 'declarative/builder'
 
 require 'types'
 
@@ -11,24 +12,35 @@ require 'types'
 # Use LoyaltyAccount.build to create a LoyaltyAccount from a Balances or an
 # AwardWalletAccount, using the correct subclass of LoyaltyAccount
 class LoyaltyAccount < Dry::Struct
+  include Declarative::Builder
+
+  builds do |balance_or_awa|
+    next AwardWallet if balance_or_awa.is_a?(AwardWalletAccount)
+    Abroaders
+  end
+
+  def self.build(*args)
+    build!(self, *args).build(*args)
+  end
+
   attribute :id, Types::Strict::Int
   attribute :person_id, Types::Strict::Int
   attribute :currency_name, Types::Strict::String
   attribute :balance_raw, Types::Strict::Int
   attribute :updated_at, Types::Strict::DateTime
 
-  def self.build(balance)
-    return AwardWallet.build(balance) if balance.is_a?(AwardWalletAccount)
+  class Abroaders < self
+    def self.build(balance)
+      attrs = balance.attributes.symbolize_keys.slice(:id, :person_id)
+      attrs[:balance_raw]   = balance.value
+      attrs[:currency_name] = balance.currency_name
+      attrs[:updated_at] = balance.updated_at.to_datetime
+      new(attrs)
+    end
 
-    attrs = balance.attributes.symbolize_keys.slice(:id, :person_id)
-    attrs[:balance_raw]   = balance.value
-    attrs[:currency_name] = balance.currency_name
-    attrs[:updated_at] = balance.updated_at.to_datetime
-    new(attrs)
-  end
-
-  def source
-    'abroaders'
+    def source
+      'abroaders'
+    end
   end
 
   class AwardWallet < self

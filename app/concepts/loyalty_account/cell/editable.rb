@@ -7,7 +7,7 @@ class LoyaltyAccount < LoyaltyAccount.superclass
     #
     # @!method self.call(loyalty_account, opts = {})
     #   @param loyalty_account [LoyaltyAccount]
-    class Editable < Abroaders::Cell::Base
+    class Editable < ::Abroaders::Cell::Base
       include ::Cell::Builder
       include Escaped
 
