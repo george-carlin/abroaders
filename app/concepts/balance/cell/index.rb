@@ -5,7 +5,7 @@ class Balance < Balance.superclass
     # @!method self.call(account, opts = {})
     #   @param account [Account] the currently-logged in account. Make sure
     #     that the right associations are eager-loaded.
-    class Index < Trailblazer::Cell
+    class Index < Abroaders::Cell::Base
       property :people
       property :connected_to_award_wallet?
       property :award_wallet_user
