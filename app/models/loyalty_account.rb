@@ -47,11 +47,13 @@ class LoyaltyAccount < Dry::Struct
     attribute :person_id, Types::Strict::Int.optional
     attribute :award_wallet_id, Types::Strict::Int
     attribute :login, Types::Strict::String
+    attribute :expiration_date, Types::Strict::DateTime.optional
 
     def self.build(awa)
       attrs = awa.attributes.symbolize_keys.slice(:id, :balance_raw, :updated_at, :login)
       attrs[:award_wallet_id] = awa.aw_id
       attrs[:currency_name]   = awa.display_name
+      attrs[:expiration_date] = awa.expiration_date&.to_datetime
       attrs[:person_id]       = awa.person_id
       attrs[:updated_at]      = awa.updated_at.to_datetime
       new(attrs)

@@ -27,12 +27,15 @@ RSpec.describe LoyaltyAccount do
     end
 
     context 'for an AwardWalletAccount' do
+      let(:now) { Time.now }
+
       let(:awa) do
         ::AwardWalletAccount.new(
           id: 1,
           aw_id: 555,
           balance_raw: 12345,
           display_name: 'American Airlines',
+          expiration_date: now,
           login: 'GeorgeMillo',
           award_wallet_owner: AwardWalletOwner.new(person: Person.new(id: 2)),
           updated_at: updated_at,
@@ -48,6 +51,7 @@ RSpec.describe LoyaltyAccount do
         expect(acc.currency_name).to eq 'American Airlines'
         expect(acc.source).to eq 'award_wallet'
         expect(acc.login).to eq 'GeorgeMillo'
+        expect(acc.expiration_date).to eq now
       end
     end
   end
