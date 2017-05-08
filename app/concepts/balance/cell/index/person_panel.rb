@@ -1,5 +1,5 @@
-class Balance < Balance.superclass
-  module Cell
+module Balance::Cell
+  class Index < Index.superclass
     # An .hpanel with a table of balances for a specific person. Has a link to
     # add a new balance for the person. By default the balances are rendered
     # with the EditableBalance cell, which means their values can be updated by
@@ -13,7 +13,7 @@ class Balance < Balance.superclass
     #
     # @!method self.call(person, opts = {})
     #   @param person [Person]
-    class BalanceTable < Abroaders::Cell::Base
+    class PersonPanel < Abroaders::Cell::Base
       include ::Cell::Builder
       include Escaped
 
@@ -21,9 +21,8 @@ class Balance < Balance.superclass
         person.account.couples? ? Couples : Solo
       end
 
-      property :award_wallet_accounts
-      property :balances
       property :first_name
+      property :loyalty_accounts
 
       def show
         render 'balance_table'
@@ -41,9 +40,8 @@ class Balance < Balance.superclass
       end
 
       def rows
-        items = (award_wallet_accounts + balances).map { |i| LoyaltyAccount.build(i) }
-        if items.any?
-          cell(LoyaltyAccount::Cell::Editable, collection: items).join('<hr>')
+        if loyalty_accounts.any?
+          cell(LoyaltyAccount::Cell::Editable, collection: loyalty_accounts).join('<hr>')
         else
           'No points balances'
         end

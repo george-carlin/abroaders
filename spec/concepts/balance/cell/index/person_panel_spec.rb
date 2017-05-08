@@ -1,6 +1,6 @@
 require 'cells_helper'
 
-RSpec.describe Balance::Cell::BalanceTable do
+RSpec.describe Balance::Cell::Index::PersonPanel do
   controller BalancesController
 
   let(:person) { Person.new(owner: true, id: 1, first_name: 'Erik') }
