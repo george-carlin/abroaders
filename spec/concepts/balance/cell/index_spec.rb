@@ -76,4 +76,12 @@ RSpec.describe Balance::Cell::Index do
       expect(rendered).to have_no_content 'No points balances'
     end
   end
+
+  it 'avoids XSS' do
+    owner.update!(first_name: '<script>')
+    account.create_companion!(first_name: '</script>')
+    rendered = show(account).raw
+    expect(rendered).to include "&lt;script&gt;"
+    expect(rendered).to include "&lt;/script&gt;"
+  end
 end
