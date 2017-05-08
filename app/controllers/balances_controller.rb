@@ -17,7 +17,7 @@ class BalancesController < AuthenticatedUserController
         },
       ],
     ).find(current_account.id)
-    render cell(Balance::Cell::Index, account, flash: flash)
+    render cell(Balance::Cell::Index, account)
   end
 
   # GET /people/:person_id/balances/new

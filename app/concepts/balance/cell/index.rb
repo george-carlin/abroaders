@@ -12,7 +12,7 @@ class Balance < Balance.superclass
 
       def show
         aw = cell(AwardWalletPanel, model)
-        main = cell(BalanceTable, collection: people)
+        main = cell(BalanceTable, collection: people.sort_by(&:type).reverse)
         "#{aw} #{main}"
       end
     end
