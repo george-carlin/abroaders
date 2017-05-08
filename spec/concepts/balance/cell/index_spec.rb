@@ -1,6 +1,5 @@
 require 'cells_helper'
 
-# FIXME most of these specs need updating for the refactored cell
 RSpec.describe Balance::Cell::Index do
   controller BalancesController
 
@@ -8,6 +7,31 @@ RSpec.describe Balance::Cell::Index do
 
   let(:account) { Account.new }
   let(:owner) { account.build_owner(id: 1, first_name: 'Erik') }
+
+  it 'asks me to connect to AwardWallet' do
+    rendered = show(account)
+    expect(rendered).to have_content 'Connect your AwardWallet account to Abroaders'
+    expect(rendered).to have_link 'Connect to AwardWallet'
+    expect(rendered).to have_no_content "You're connected to your AwardWallet account"
+    expect(rendered).to have_no_link 'Manage settings'
+  end
+
+  context 'when account is connected to AwardWallet' do
+    before do
+      account.build_award_wallet_user(loaded: true, user_name: 'AWUser')
+    end
+
+    it 'has link to AW settings page' do
+      rendered = show(account)
+      expect(rendered).to have_content "You're connected to your AwardWallet account"
+      expect(rendered).to have_content 'AWUser'
+      expect(rendered).to have_link 'Manage settings', href: integrations_award_wallet_settings_path
+      expect(rendered).to have_no_content 'Connect your AwardWallet account to Abroaders'
+      expect(rendered).to have_no_link 'Connect to AwardWallet'
+    end
+  end
+
+  # FIXME everything below here needs updating for the refactored cell
 
   example 'solo account with no balances' do
     pending
@@ -28,25 +52,6 @@ RSpec.describe Balance::Cell::Index do
     expect(rendered).not_to have_content 'No balances'
     expect(rendered).to have_content 'Curr 0'
     expect(rendered).to have_content 'Curr 1'
-  end
-
-  example 'account not connected to AwardWallet' do
-    rendered = show(account)
-    expect(rendered).to have_content 'Connect your AwardWallet account'
-    expect(rendered).not_to have_link(
-      'Manage settings', href: integrations_award_wallet_settings_path,
-    )
-  end
-
-  example 'account connected to AwardWallet' do
-    account.build_award_wallet_user(loaded: true, user_name: 'AWUser')
-
-    rendered = show(account)
-    expect(rendered).not_to have_content 'Connect your AwardWallet account'
-    expect(rendered).to have_content 'AWUser'
-    expect(rendered).to have_link(
-      'Manage settings', href: integrations_award_wallet_settings_path,
-    )
   end
 
   describe 'couples account' do

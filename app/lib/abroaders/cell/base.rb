@@ -22,6 +22,9 @@ module Abroaders
       end
 
       def escape(*args)
+        warn "Abroaders::Cell::Base#escape is deprecated. Include the Escaped "\
+             "module and use #escape! instead"
+        warn "Called from #{self.class}"
         ERB::Util.html_escape(*args)
       end
 
