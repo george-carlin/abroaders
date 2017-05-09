@@ -8,12 +8,23 @@ class Balance < Balance.superclass
     class Index < Abroaders::Cell::Base
       property :people
       property :connected_to_award_wallet?
-      property :award_wallet_user
 
       def show
-        aw = cell(AwardWalletPanel, model)
-        main = cell(BalanceTable, collection: people.sort_by(&:type).reverse)
-        "#{aw} #{main}"
+        award_wallet.to_s << main.to_s
+      end
+
+      private
+
+      def award_wallet
+        cell(AwardWalletPanel, model)
+      end
+
+      def main
+        cell(PersonPanel, collection: people, simple: !connected_to_award_wallet?)
+      end
+
+      def people
+        super.sort_by(&:type).reverse
       end
     end
   end

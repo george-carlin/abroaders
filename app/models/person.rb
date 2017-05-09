@@ -80,6 +80,10 @@ class Person < ApplicationRecord
           -> { unresolved },
           class_name: 'RecommendationRequest'
 
+  def loyalty_accounts
+    (award_wallet_accounts + balances).map(&LoyaltyAccount.method(:build))
+  end
+
   # Callbacks
 
   # Scopes

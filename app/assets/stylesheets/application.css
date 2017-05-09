@@ -23,7 +23,7 @@
  *= require award_wallet
  *= require admin_area_people_show
  *= require actionable_rec
- *= require editable_balance
+ *= require loyalty_accounts
  *= require admin.banks.filter_panel
  *= require_tree .
  *= require_self
