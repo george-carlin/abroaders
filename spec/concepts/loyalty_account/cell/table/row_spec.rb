@@ -14,6 +14,12 @@ RSpec.describe LoyaltyAccount::Cell::Table::Row do
     expect(rendered).to have_content '1,234'
     expect(rendered).to have_link 'Edit'
     expect(rendered).to have_link 'Delete'
+    # when :simple is false (which is the default):
+    expect(rendered).to have_selector 'td', count: 7
+    # show person name in the 'owner' column
+    expect(rendered).to have_content 'George'
+    # expiration date:
+    expect(rendered).to have_content 'Unknown'
   end
 
   it 'avoids XSS attacks' do
@@ -41,5 +47,18 @@ RSpec.describe LoyaltyAccount::Cell::Table::Row do
     expect(rendered).to have_content 'Puta Madre'
     expect(rendered).to have_content 'Unknown' # expiration date
     expect(rendered).to have_link 'Edit'
+  end
+
+  example 'with :simple option' do
+    rendered = show(la, simple: true)
+    expect(rendered).to have_selector 'td', count: 4
+    # these columns are shown regardless of the :simple option:
+    expect(rendered).to have_content 'Sterling'
+    expect(rendered).to have_content '1,234'
+    expect(rendered).to have_link 'Edit'
+    expect(rendered).to have_link 'Delete'
+    # no 'owner', 'account', or 'expiration' columns
+    expect(rendered).not_to have_content 'George'
+    expect(rendered).not_to have_content 'Unknown'
   end
 end

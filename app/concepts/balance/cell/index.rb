@@ -7,14 +7,21 @@ class Balance < Balance.superclass
     #     that the right associations are eager-loaded.
     class Index < Abroaders::Cell::Base
       property :people
+      property :connected_to_award_wallet?
 
       def show
-        aw = cell(AwardWalletPanel, model)
-        main = cell(PersonPanel, collection: people)
-        "#{aw} #{main}"
+        award_wallet.to_s << main.to_s
       end
 
       private
+
+      def award_wallet
+        cell(AwardWalletPanel, model)
+      end
+
+      def main
+        cell(PersonPanel, collection: people, simple: !connected_to_award_wallet?)
+      end
 
       def people
         super.sort_by(&:type).reverse

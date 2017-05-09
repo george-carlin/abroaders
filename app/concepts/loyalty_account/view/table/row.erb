@@ -1,10 +1,13 @@
 <tr id="<%= html_id %>">
   <td><%= currency_name %></td>
-  <td><%= owner_name %></td>
-  <td><%= login %></td>
+  <% unless simple %>
+    <td><%= owner_name %></td>
+    <td><%= login %></td>
+  <% end %>
   <td><%= formatted_balance %></td>
-
-  <td><%= expiration_date %></td>
+  <% unless simple %>
+    <td><%= expiration_date %></td>
+  <% end %>
   <td><%= updated_at %></td>
 
   <td>

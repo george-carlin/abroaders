@@ -1,23 +1,29 @@
 class LoyaltyAccount < LoyaltyAccount.superclass
   module Cell
+    # A <table> that lists all the given LoyaltyAccounts.
+    #
+    # @!method self.call(loyalty_accounts, options = {})
+    #   @param loyalty_accounts [Collection<LoyaltyAccount>]
+    #   @option options [Boolean] simple (false) when true, a few of the columns
+    #    in the table won't be displayed. Set this to true when the current
+    #    account has no award wallet connection. Since non-AW accounts don't
+    #    have an expiration date, a 'login' name or an owner, there's no point
+    #    displaying the columns because they'll be blank for all rows.
     class Table < ::Abroaders::Cell::Base
+      option :simple, default: false
+
       private
 
       def headers
         cols = [
           'Award Program',
-          'Owner',
-          'Account',
+          ('Owner' unless simple),
+          ('Account' unless simple),
           'Balance',
-          'Expires',
+          ('Expires' unless simple),
           'Last Updated',
           '',
-        ]
-        # if simple
-        #   cols.delete('Owner')
-        #   cols.delete('Account')
-        #   cols.delete('Expires')
-        # end
+        ].compact
         cols.map { |text| "<th>#{text}</th>" }
       end
 
@@ -55,6 +61,8 @@ class LoyaltyAccount < LoyaltyAccount.superclass
         property :login
         property :owner_name
         property :updated_at
+
+        option :simple, default: false
 
         private
 
