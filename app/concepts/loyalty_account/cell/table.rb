@@ -78,16 +78,20 @@ class LoyaltyAccount < LoyaltyAccount.superclass
           end
         end
 
-        def updated_at
-          super.strftime('%D')
-        end
-
         def expiration_date
           cell(ExpirationDate, model)
         end
 
         def formatted_balance
           number_with_delimiter(balance_raw)
+        end
+
+        def html_id
+          "balance_#{id}"
+        end
+
+        def updated_at
+          super.strftime('%D')
         end
 
         class AwardWallet < self
@@ -117,6 +121,10 @@ class LoyaltyAccount < LoyaltyAccount.superclass
             ) do
               '<i class="fa fa-pencil"> </i> Edit'
             end
+          end
+
+          def html_id
+            "award_wallet_account_#{id}"
           end
         end
       end

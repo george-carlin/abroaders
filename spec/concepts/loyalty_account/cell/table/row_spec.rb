@@ -12,7 +12,7 @@ RSpec.describe LoyaltyAccount::Cell::Table::Row do
     rendered = show(la)
     expect(rendered).to have_content 'Sterling'
     expect(rendered).to have_content '1,234'
-    expect(rendered).to have_button 'Edit'
+    expect(rendered).to have_link 'Edit'
     expect(rendered).to have_link 'Delete'
   end
 
@@ -22,7 +22,7 @@ RSpec.describe LoyaltyAccount::Cell::Table::Row do
   end
 
   it 'for an AwardWallet account' do
-    owner = AwardWalletOwner.new(person: person)
+    owner = AwardWalletOwner.new(person: person, name: 'Puta Madre')
     awa = AwardWalletAccount.new(
       id: 1,
       aw_id: 234,
@@ -37,6 +37,9 @@ RSpec.describe LoyaltyAccount::Cell::Table::Row do
     rendered = show(account)
     expect(rendered).to have_content 'My currency'
     expect(rendered).to have_content '4,321'
+    expect(rendered).to have_content 'GeorgeMillo'
+    expect(rendered).to have_content 'Puta Madre'
+    expect(rendered).to have_content 'Unknown' # expiration date
     expect(rendered).to have_link 'Edit'
   end
 end
