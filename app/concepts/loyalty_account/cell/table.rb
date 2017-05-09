@@ -21,10 +21,8 @@ class LoyaltyAccount < LoyaltyAccount.superclass
         cols.map { |text| "<th>#{text}</th>" }
       end
 
-      # TODO how should the rows be sorted?
-
       def rows
-        cell(Row, collection: model)
+        cell(Row, collection: model.sort_by(&:currency_name))
       end
 
       # A <tr> for a loyalty_account on the page. Displays the balance's value
@@ -37,11 +35,6 @@ class LoyaltyAccount < LoyaltyAccount.superclass
       class Row < ::Abroaders::Cell::Base
         include ::Cell::Builder
         include Escaped
-
-        # TODO removed this HTML. Check for CSS/JS etc
-        # <div class="balance_additional_info">
-        #   <p class="balance_updated_at"><%= updated_at %></p>
-        # </div>
 
         builds do |loyalty_account|
           case loyalty_account.source
@@ -65,21 +58,11 @@ class LoyaltyAccount < LoyaltyAccount.superclass
 
         private
 
-        def cancel_btn
-          button_tag(
-            'Cancel',
-            class: 'cancel_edit_balance_btn btn btn-xs btn-default',
-            data: { 'balance-id': id },
-          )
-        end
-
         def delete_btn
           link_to(
             balance_path(id),
             class: 'destroy_balance_btn btn btn-xs btn-danger',
-            data: {
-              confirm: 'Are you sure? You can not undo this action',
-            },
+            data: { confirm: 'Are you sure? You can not undo this action' },
             method: :delete,
           ) do
             '<i class="fa fa-trash"> </i> Delete'
@@ -87,9 +70,9 @@ class LoyaltyAccount < LoyaltyAccount.superclass
         end
 
         def edit_btn
-          button_tag(
+          link_to(
+            edit_balance_path(id),
             class: 'edit_balance_btn btn btn-xs btn-primary',
-            'data-balance-id': id,
           ) do
             '<i class="fa fa-pencil"> </i> Edit'
           end
@@ -97,53 +80,6 @@ class LoyaltyAccount < LoyaltyAccount.superclass
 
         def updated_at
           super.strftime('%D')
-        end
-
-        def error_message
-          content_tag(
-            :span,
-            'Invalid value',
-            class: 'editing_balance_error_msg',
-            style: 'display:none;',
-          )
-        end
-
-        def form_tag(&block)
-          super(
-            balance_path(id),
-            class: 'edit_balance',
-            data: { remote: true },
-            method: :patch,
-            style: 'display:none;',
-            &block
-          )
-        end
-
-        def loading_spinner
-          content_tag(
-            :div,
-            '',
-            class: 'LoadingSpinner',
-            style: 'display: none;',
-          )
-        end
-
-        def save_btn
-          button_tag(
-            'Save',
-            class: 'save_balance_btn btn btn-xs btn-primary',
-            data:  { 'balance-id': id },
-          )
-        end
-
-        def save_btn_group
-          content_tag(
-            :div,
-            class: 'editing_balance_btn_group btn-group',
-            style: 'display:none;',
-          ) do
-            yield
-          end
         end
 
         def expiration_date
@@ -163,22 +99,12 @@ class LoyaltyAccount < LoyaltyAccount.superclass
           number_with_delimiter(balance_raw)
         end
 
-        def value_field
-          number_field(
-            :balance,
-            :value,
-            class: 'balance_value_editing input-sm',
-            style: 'display: none;',
-            value: balance_raw,
-          )
-        end
-
         class AwardWallet < self
           include Integrations::AwardWallet::Links
 
           property :login
 
-          def aw_logo
+          def icon
             image_tag(
               'aw_tiny.png',
               class: 'award_wallet_logo',

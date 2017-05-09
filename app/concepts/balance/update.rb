@@ -3,18 +3,8 @@ class Balance < Balance.superclass
   #   @option params [Integer] id the ID of the balance to update
   #   @option params [Hash] balance the attributes of the updated balance
   class Update < Trailblazer::Operation
-    extend Contract::DSL
-    contract EditForm
-
-    step :setup_model!
-    step Contract::Build()
+    step Nested(Edit)
     step Contract::Validate(key: :balance)
     step Contract::Persist()
-
-    private
-
-    def setup_model!(opts, account:, params:, **)
-      opts['model'] = account.balances.find(params[:id])
-    end
   end
 end

@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 ruby '2.4.1'
 
 gem 'rails', '5.0.2'
-gem 'trailblazer', '~> 2.0.1'
+gem 'trailblazer', '~> 2.0.6'
 gem 'trailblazer-rails', '>= 1.0.0'
 
 gem 'cells', '~> 4.1.7'

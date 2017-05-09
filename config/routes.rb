@@ -57,7 +57,7 @@ Rails.application.routes.draw do
   resources :airports, only: [:index]
 
   # balances#new and balances#create are nested under 'people'
-  resources :balances, only: [:index, :update, :destroy]
+  resources :balances, only: [:index, :edit, :update, :destroy]
 
   resources :card_recommendations do
     member do

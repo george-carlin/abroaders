@@ -1,6 +1,3 @@
-puts 'V' * 500
-puts 'LOADING Abroaders::Cell::Base'
-puts '^' * 500
 module Abroaders
   module Cell
     class Base < Trailblazer::Cell
