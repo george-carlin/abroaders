@@ -71,6 +71,10 @@ Style/MethodMissing:
 Style/MultilineBlockChain:
   Enabled: false
 
+# I'm fine with using `if !condition?` if the alternative is a >80C line
+Style/NegatedIf:
+  Enabled: false
+
 Style/NumericLiterals:
   Enabled: false
 

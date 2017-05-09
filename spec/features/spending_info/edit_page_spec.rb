@@ -30,7 +30,6 @@ RSpec.describe 'the spending info edit page' do
     expect(page).to have_no_field :spending_info_ready_false
     # Not initially visible:
     expect(page).to have_no_field :spending_info_business_spending_usd
-    expect(page).to have_no_field :spending_info_unreadiness_reason
   end
 
   example 'hiding and showing the business spending input', :js do
@@ -143,7 +142,6 @@ RSpec.describe 'the spending info edit page' do
     expect(page).to have_no_field :spending_info_ready_false
     # Not initially visible:
     expect(page).to have_no_field :spending_info_business_spending_usd
-    expect(page).to have_no_field :spending_info_unreadiness_reason
   end
 
   context 'for a couples account' do

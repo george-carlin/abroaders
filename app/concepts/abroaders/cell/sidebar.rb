@@ -10,6 +10,19 @@ module Abroaders
         end
       end
 
+      def show
+        return '' unless show?
+        super
+      end
+
+      def self.show?(user)
+        (user.is_a?(Account) && user.onboarded?) || user.is_a?(Admin)
+      end
+
+      def show?
+        self.class.show?(model)
+      end
+
       private
 
       def container(&block)
@@ -20,17 +33,24 @@ module Abroaders
         end
       end
 
-      def link(text, href, icon_name = nil, controller_class = nil)
-        active = if controller_class
-                   controller.is_a?(controller_class)
-                 else
-                   request.path == href
-                 end
-        content_tag :li, class: ('active' if active) do
-          link_to href do
-            text = icon_name.nil? ? text : "#{fa_icon(icon_name)} #{text}"
+      def link(*args)
+        cell(Link).show(*args)
+      end
 
-            content_tag :span, text, class: 'nav-label'
+      # An <a> tag wrapped in an <li>
+      class Link < Abroaders::Cell::Base
+        def show(text, href, icon_name = nil, controller_class = nil)
+          active = if controller_class
+                     controller.is_a?(controller_class)
+                   else
+                     request.path == href
+                   end
+          content_tag :li, class: ('active' if active) do
+            link_to href do
+              text = icon_name.nil? ? text : "#{fa_icon(icon_name)} #{text}"
+
+              content_tag :span, text, class: 'nav-label'
+            end
           end
         end
       end
@@ -53,18 +73,26 @@ module Abroaders
       end
 
       class NestedLinks < self
+        option :controller_class, optional: true
+        option :links
+        option :title
+
+        def show
+          render
+        end
+
         private
 
         def active
-          if options[:controller_class]
-            controller.is_a?(options[:controller_class])
+          if controller_class
+            controller.is_a?(controller_class)
           else
-            options[:links].any? { |_, href| href == request.path }
+            links.any? { |_, href| href == request.path }
           end
         end
 
-        def links
-          options[:links].map { |text, href| link(text, href) }.join
+        def link_tags
+          links.map { |text, href| cell(Link).show(text, href) }.join
         end
       end
     end

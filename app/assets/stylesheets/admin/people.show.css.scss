@@ -1,0 +1,14 @@
+.tablesorter {
+  th {
+    font-weight: 400;
+    outline: none;
+
+    &.tablesorter-header:not(.sorter-false) {
+      cursor: pointer;
+    }
+
+    &.tablesorter-headerDesc, &.tablesorter-headerAsc {
+      font-weight: 700;
+    }
+  }
+}

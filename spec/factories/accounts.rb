@@ -1,6 +1,8 @@
 FactoryGirl.define do
   factory :account do
     transient do
+      # Don't use this attribute directly. It's used by the person factory so
+      # that when you call create(:person) only 1 person is created.
       with_person true
     end
 
@@ -11,9 +13,7 @@ FactoryGirl.define do
     password_confirmation  "abroaders123"
 
     after(:build) do |account, evaluator|
-      if evaluator.with_person
-        account.people.build(first_name: Faker::Name.first_name)
-      end
+      account.people.build(first_name: 'Erik') if evaluator.with_person
     end
 
     # Make sure you put this trait *before* the other traits
@@ -25,17 +25,17 @@ FactoryGirl.define do
     # Bad:
     #     create(:account, :eligible, :couples)
     trait :couples do
-      onboarding_state :eligibility # if they have a companion they must be at least here
       after(:build) do |acc|
-        acc.people.build(first_name: Faker::Name.first_name, owner: false)
+        acc.people.build(first_name: 'Gabi', owner: false)
       end
     end
 
     trait :eligible do
-      onboarding_state :owner_cards # if they're eligible they must be at least here
       after(:build) { |acc| acc.people.each { |p| p.eligible = true } }
     end
 
+    # If you're using this trait in conjunction with :couples or :eligible,
+    # make sure that it's the LAST trait in the list of args.
     trait :onboarded do
       onboarding_state :complete
     end

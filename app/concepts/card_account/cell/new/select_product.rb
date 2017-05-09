@@ -34,7 +34,7 @@ class CardAccount < CardAccount.superclass
           def link_to_select
             link_to(
               'Add this Card',
-              new_product_card_account_path(model),
+              new_card_product_card_account_path(model),
               class: 'btn btn-primary',
             )
           end

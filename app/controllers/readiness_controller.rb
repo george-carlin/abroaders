@@ -1,63 +1,24 @@
+# 'Readiness' is a concept that only really exists on the onboarding survey.
+# When a user says they're "ready", it just creates a recommendation request.
+# These rec requests aren't any different from the requests they can create
+# post-onboarding. It's just a different interface for creating them (that the
+# user will only ever see once.)
+#
+# The word 'readiness' is mostly a legacy thing. Before we introduced the
+# concept of a 'rec request', people had a boolean attribute called 'ready'
+# that in theory would have continually toggled between true and false,
+# although we never finished fully implementing it. So if you see the word
+# 'ready' lingering around the codebase, it's probably a leftover from those
+# days.
 class ReadinessController < AuthenticatedUserController
   onboard :readiness, with: [:survey, :save_survey]
 
-  def edit
-    @account = current_account
-    @readiness = ReadinessForm.new(account: @account)
-    redirect_if_ready_or_ineligible
-  end
-
-  def update
-    @account = current_account
-    redirect_if_ready_or_ineligible && return
-    @readiness = ReadinessForm.new(account: @account)
-    @readiness.update_attributes!(readiness_params)
-
-    AccountMailer.notify_admin_of_user_readiness_update(@account.id, Time.now.to_i).deliver_later
-
-    set_flash_and_redirect
-  end
-
   def survey
-    @account = current_account
-    @readiness_survey = ReadinessSurvey.new(account: @account)
+    render cell(Readiness::Cell::Survey, current_account)
   end
 
   def save_survey
-    @account = current_account
-    @readiness_survey = ReadinessSurvey.new(account: @account)
-
-    if @readiness_survey.update_attributes(readiness_survey_params)
-      redirect_to onboarding_survey_path
-    else
-      render :survey
-    end
-  end
-
-  private
-
-  def readiness_params
-    params.require(:readiness).permit(:who)
-  end
-
-  def readiness_survey_params
-    params.require(:readiness_survey).permit(:who, :owner_unreadiness_reason, :companion_unreadiness_reason)
-  end
-
-  def redirect_if_ready_or_ineligible
-    # TODO this is crying out to be extracted into some kind of 'policy object'
-    access =
-      if @account.couples?
-        (@account.owner.unready? && @account.owner.eligible?) || (@account.companion.unready? && @account.companion.eligible?)
-      else
-        @account.owner.unready? && @account.owner.eligible?
-      end
-
-    redirect_to root_path unless access
-  end
-
-  def set_flash_and_redirect
-    flash[:success] = "Thanks! You will shortly receive your first card recommendation."
-    redirect_to root_path
+    run(Readiness::Survey)
+    redirect_to onboarding_survey_path
   end
 end

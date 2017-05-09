@@ -80,20 +80,20 @@ $(document).ready(function () {
     });
   }
 
-  var $singleRadio = $('#travel_plan_type_single');
-  var $returnRadio = $('#travel_plan_type_return');
-  var travelTypeRadioClick = function (e) {
-    var $returnOnField = $('#travel_plan_return_on');
+  var $oneWayRadio = $('#travel_plan_type_one_way');
+  var $roundTripRadio = $('#travel_plan_type_round_trip');
+  var $returnOnField = $('#travel_plan_return_on');
 
-    if ($singleRadio.prop('checked')) {
+  var travelTypeRadioClick = function (e) {
+    if ($oneWayRadio.prop('checked')) {
       $returnOnField.prop('disabled', true);
       $returnOnField.val('');
-    } else if ($returnRadio.prop('checked')) {
+    } else if ($roundTripRadio.prop('checked')) {
       $returnOnField.prop('disabled', false);
     }
   };
-  $singleRadio.on('click', travelTypeRadioClick);
-  $returnRadio.on('click', travelTypeRadioClick);
+  $oneWayRadio.click(travelTypeRadioClick);
+  $roundTripRadio.click(travelTypeRadioClick);
 
   airportTypeahead($('.typeahead')).on('typeahead:select', function (e, suggestion) {
     $(this).change();

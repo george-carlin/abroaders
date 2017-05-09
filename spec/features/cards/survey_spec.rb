@@ -4,15 +4,15 @@ RSpec.describe 'cards survey', :onboarding, :js, :manual_clean do
   subject { page }
 
   before(:all) do
-    chase = create(:bank, name: 'Chase')
-    citi  = create(:bank, name: 'Citibank')
+    chase = Bank.find_by_name!('Chase')
+    citi  = Bank.find_by_name!('Citibank')
     @banks = [chase, citi]
     @visible_products = [
-      create(:card_product, :business, :visa,       bank_id: chase.id, name: 'Card 0'),
-      create(:card_product, :personal, :mastercard, bank_id: chase.id, name: 'Card 1'),
-      create(:card_product, :business, :mastercard, bank_id: citi.id,  name: 'Card 2'),
-      create(:card_product, :personal, :visa,       bank_id: citi.id,  name: 'Card 3'),
-      create(:card_product, :personal, :visa,       bank_id: citi.id,  name: 'Card 4'),
+      create(:card_product, :business, :visa,       bank: chase, name: 'Card 0'),
+      create(:card_product, :personal, :mastercard, bank: chase, name: 'Card 1'),
+      create(:card_product, :business, :mastercard, bank: citi,  name: 'Card 2'),
+      create(:card_product, :personal, :visa,       bank: citi,  name: 'Card 3'),
+      create(:card_product, :personal, :visa,       bank: citi,  name: 'Card 4'),
     ]
     @hidden_product = create(:card_product, :hidden)
   end
@@ -28,10 +28,6 @@ RSpec.describe 'cards survey', :onboarding, :js, :manual_clean do
 
   let(:name) { owner.first_name }
   let(:submit_form) { click_button 'Save and continue' }
-
-  def product_selector(product)
-    '#' << dom_id(product)
-  end
 
   def check_product_opened(product, checked)
     field = "cards_survey_#{product.id}_card_opened"
@@ -140,7 +136,7 @@ RSpec.describe 'cards survey', :onboarding, :js, :manual_clean do
     end
 
     it "doesn't show cards which the admin has opted to hide" do
-      expect(page).to have_no_selector product_selector(@hidden_product)
+      expect(page).to have_no_selector "#card_product_#{@hidden_product.id}"
     end
 
     describe "selecting a card" do
@@ -225,29 +221,21 @@ RSpec.describe 'cards survey', :onboarding, :js, :manual_clean do
           new_accounts = owner.cards
 
           # the cards have the right products
-          expect(new_accounts.map(&:product)).to match_array visible_products
+          expect(new_accounts.map(&:card_product)).to match_array visible_products
 
           # the cards have no offers
           expect(new_accounts.map(&:offer).compact).to be_empty
 
           # the cards have the given opened and closed dates
-          open_acc_0 = new_accounts.find_by(product_id: open_cards[0].id)
-          open_acc_1 = new_accounts.find_by(product_id: open_cards[1].id)
-          closed_acc = new_accounts.find_by(product_id: closed_card.id)
+          open_acc_0 = new_accounts.find_by(card_product_id: open_cards[0].id)
+          open_acc_1 = new_accounts.find_by(card_product_id: open_cards[1].id)
+          closed_acc = new_accounts.find_by(card_product_id: closed_card.id)
           expect(open_acc_0.opened_on).to eq Date.new(this_year, 1)
           expect(open_acc_0.closed_on).to be_nil
           expect(open_acc_1.opened_on).to eq Date.new(last_year, 3)
           expect(open_acc_1.closed_on).to be_nil
           expect(closed_acc.opened_on).to eq Date.new(ten_years_ago, 11)
           expect(closed_acc.closed_on).to eq Date.new(last_year, 4)
-
-          # the cards have the right statuses
-          open_acc_0 = new_accounts.find_by(product_id: open_cards[0].id)
-          open_acc_1 = new_accounts.find_by(product_id: open_cards[1].id)
-          closed_acc = new_accounts.find_by(product_id: closed_card.id)
-          expect(open_acc_0.status).to eq 'open'
-          expect(open_acc_1.status).to eq 'open'
-          expect(closed_acc.status).to eq 'closed'
         end
 
         include_examples 'submitting the form'

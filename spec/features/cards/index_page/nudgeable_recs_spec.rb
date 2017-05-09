@@ -8,13 +8,13 @@ RSpec.describe "user cards page - nudgeable cards", :js do
 
   let(:recommended_at) { 7.days.ago.to_date }
   let(:applied_on) { 7.days.ago.to_date }
-  let(:bp) { :personal }
+  let(:personal) { true }
 
   before do
     person.update!(eligible: true)
-    @bank = create(:bank, name: 'Chase')
-    @product = create(:card_product, bank_id: @bank.id, bp: bp)
-    @offer = create_offer(product: @product)
+    @bank = Bank.all.first
+    @product = create(:card_product, bank_id: @bank.id, personal: personal)
+    @offer = create_offer(card_product: @product)
     @rec = create_card_recommendation(person_id: person.id, offer_id: @offer.id)
     @rec.update!(recommended_at: recommended_at, applied_on: applied_on)
     visit cards_path
@@ -60,7 +60,7 @@ RSpec.describe "user cards page - nudgeable cards", :js do
   end
 
   context "for a personal card product" do
-    let(:bp) { :personal }
+    let(:personal) { true }
     it "gives me the bank's personal number" do
       expect(page).to have_content "call #{bank.name} at #{personal_no}"
       expect(page).to have_no_content business_no
@@ -68,7 +68,7 @@ RSpec.describe "user cards page - nudgeable cards", :js do
   end
 
   context "for a business card product" do
-    let(:bp) { :business }
+    let(:personal) { false }
     it "gives me the bank's business number" do
       expect(page).to have_content "call #{bank.name} at #{business_no}"
       expect(page).to have_no_content personal_no
@@ -111,15 +111,14 @@ RSpec.describe "user cards page - nudgeable cards", :js do
       describe "and clicking 'confirm'" do
         before do
           click_button 'Confirm'
-          # FIXME can't figure out a more elegant solution than this:
-          sleep 1.5
+          sleep 1.5 # can't figure out a more elegant solution than this
           rec.reload
         end
 
         it "updates the rec's attributes", :backend do
           # this spec fails when run late in the day when your machine's time
           # is earlier than UTC # TZFIXME
-          expect(rec.status).to eq "open"
+          expect(rec).to be_opened
           expect(rec.opened_on).to eq Time.zone.today
           expect(rec.nudged_at).to be_within(5.seconds).of(Time.zone.now)
           expect(rec.applied_on).to eq applied_on # unchanged
@@ -135,13 +134,12 @@ RSpec.describe "user cards page - nudgeable cards", :js do
       describe "and clicking 'confirm'" do
         before do
           click_button 'Confirm'
-          # FIXME can't figure out a more elegant solution than this:
-          sleep 1.5
+          sleep 1.5 # can't figure out a more elegant solution than this
           rec.reload
         end
 
         it "updates the rec's attributes", :backend do
-          expect(rec.status).to eq "denied"
+          expect(CardRecommendation.new(rec).status).to eq "denied"
           expect(rec.applied_on).to eq applied_on # unchanged
           expect(rec.denied_at).to be_within(5.seconds).of(Time.zone.now)
           expect(rec.nudged_at).to be_within(5.seconds).of(Time.zone.now)
@@ -157,13 +155,12 @@ RSpec.describe "user cards page - nudgeable cards", :js do
       describe "and clicking 'confirm'" do
         before do
           click_button 'Confirm'
-          # FIXME can't figure out a more elegant solution than this:
-          sleep 1.5
+          sleep 1.5 # can't figure out a more elegant solution than this
           rec.reload
         end
 
         it "updates the rec's attributes", :backend do
-          expect(rec.status).to eq "applied"
+          expect(CardRecommendation.new(rec).status).to eq "applied"
           expect(rec.applied_on).to eq applied_on # unchanged
           expect(rec.nudged_at).to be_within(5.seconds).of(Time.zone.now)
         end
@@ -216,15 +213,14 @@ RSpec.describe "user cards page - nudgeable cards", :js do
       describe "and clicking 'confirm'" do
         before do
           click_button 'Confirm'
-          # FIXME can't figure out a more elegant solution than this:
-          sleep 1.5
+          sleep 1.5 # can't figure out a more elegant solution than this
           rec.reload
         end
 
         it "updates the rec's attributes", :backend do
           # this spec fails when run late in the day when your machine's time
           # is earlier than UTC # TZFIXME
-          expect(rec.status).to eq "open"
+          expect(rec).to be_opened
           expect(rec.opened_on).to eq Time.zone.today
         end
 
@@ -240,13 +236,12 @@ RSpec.describe "user cards page - nudgeable cards", :js do
       describe "and clicking 'confirm'" do
         before do
           click_button 'Confirm'
-          # FIXME can't figure out a more elegant solution than this:
-          sleep 1.5
+          sleep 1.5 # can't figure out a more elegant solution than this
           rec.reload
         end
 
         it "updates the rec's attributes", :backend do
-          expect(rec.status).to eq "denied"
+          expect(CardRecommendation.new(rec).status).to eq 'denied'
           expect(rec.denied_at).to be_within(5.seconds).of(Time.zone.now)
         end
 

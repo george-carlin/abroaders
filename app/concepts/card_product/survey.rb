@@ -7,7 +7,7 @@ class CardProduct < CardProduct.superclass
     attribute :cards, Array
 
     def each_section
-      CardProduct.survey.includes(:bank).group_by(&:bank).each do |bank, products|
+      CardProduct.survey.group_by(&:bank).each do |bank, products|
         yield bank, products.group_by(&:bp)
       end
     end
@@ -35,7 +35,7 @@ class CardProduct < CardProduct.superclass
         opened_on_m = card['opened_on_(2i)'].to_i
 
         attributes = {
-          product: CardProduct.survey.find(card['product_id']),
+          card_product: CardProduct.survey.find(card['product_id']),
           opened_on: Date.new(opened_on_y, opened_on_m),
         }
 

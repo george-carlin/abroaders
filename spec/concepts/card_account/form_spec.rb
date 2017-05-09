@@ -1,15 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe CardAccount::Form do
-  let(:card) { Card.new }
+  let(:card_account) { Card.new }
 
   def validate(attrs)
-    form = described_class.new(card)
+    form = described_class.new(card_account)
     form.validate(attrs)
   end
 
   def errors_for(attrs)
-    form = described_class.new(card)
+    form = described_class.new(card_account)
     form.validate(attrs)
     form.errors
   end

@@ -1,0 +1,20 @@
+require 'rails_helper'
+
+RSpec.describe Balance::Destroy do
+  let(:account) { create(:account) }
+  let(:balance) { create_balance(person: account.owner) }
+  let(:op) { described_class }
+
+  it 'destroys the balance' do
+    result = op.({ id: balance.id }, 'account' => account)
+    expect(result.success?).to be true
+    expect(Balance.find_by(id: balance.id)).to be nil
+  end
+
+  it "can't destroy someone else's balance" do
+    other_account = create(:account)
+    expect do
+      op.({ id: balance.id }, 'account' => other_account)
+    end.to raise_error ActiveRecord::RecordNotFound
+  end
+end

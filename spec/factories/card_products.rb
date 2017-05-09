@@ -1,20 +1,15 @@
 FactoryGirl.define do
   factory :card_product, aliases: [:product] do
-    sequence(:code) do |n|
-      str = "AAA"
-      n.times { str.next! }
-      str
-    end
     sequence(:name) { |n| "Example Card #{n}" }
-    network { CardProduct.networks.keys.sample }
-    bp      { CardProduct.bps.keys.sample }
-    type    { CardProduct.types.keys.sample }
-    bank
     annual_fee_cents { rand(500_00) + 10_00 }
-    image_file_name    { 'example_card_image.png' }
+    bank_id { Bank.all.pluck(:id).sample }
     image_content_type { 'image/png' }
+    image_file_name    { 'example_card_image.png' }
     image_file_size    { 256 }
     image_updated_at   { Time.zone.now }
+    network { CardProduct::Network.values.sample }
+    personal { rand > 0.5 }
+    type { CardProduct::Type.values.sample }
 
     # See https://github.com/thoughtbot/paperclip/issues/1333
     after(:create) do |product|
@@ -31,19 +26,19 @@ FactoryGirl.define do
     currency { Currency.all.sample || create(:currency) }
 
     trait :visa do
-      network "visa"
+      network 'visa'
     end
 
     trait :mastercard do
-      network "mastercard"
+      network 'mastercard'
     end
 
     trait :business do
-      bp :business
+      business true
     end
 
     trait :personal do
-      bp :personal
+      business false
     end
 
     trait :hidden do

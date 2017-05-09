@@ -28,8 +28,8 @@ en:
 
       travel_plan:
         types:
-          single: "One way"
-          return: "Round trip"
+          one_way: "One way"
+          round_trip: "Round trip"
 
     errors:
       models:
@@ -43,10 +43,6 @@ en:
     index:
       application_pending: "Thanks for taking our recommendation and applying for the card! When you hear back from the bank, please come back and tell us whether or not your application for the card was successful."
       declined: "You have indicated that you do not want to apply for this card"
-      recs_coming_soon: "The Abroaders team is hand selecting the ideal rewards cards based on your current points, travel plans and spending. We’ll let you know as soon as the card recommendations are ready to view."
-
-  readiness:
-    explanation: "Banks and credit card companies are constantly changing their offers, and sometimes great deals will disappear without prior notice. When we recommend a credit card to you, it's important that you're willing and able to apply for the card as soon as possible."
 
   dashboard:
     account:
@@ -55,7 +51,7 @@ en:
       ineligible:
         title: "Since you aren’t eligible to apply for rewards cards in the U.S., we’ll focus on other opportunities."
         message: "We’ll keep track of your points and travel plans and alert you to any big opportunities. If we find a great airfare that could help with your travel plans or a chance to earn points without credit cards, we’ll let you know right away."
-      ready:
+      unresolved_rec_req:
         title: "An expert is reviewing your information and creating a travel plan just for you."
         message: "In 48 hours or less, you’ll receive an email with recommendations for the rewards cards that will maximize your travel savings."
 

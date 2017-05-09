@@ -14,7 +14,7 @@ class SpendingInfo::Form < Reform::Form
 
   property :business_spending_usd, type: Types::Form::Int
   property :credit_score, type: Types::Form::Int
-  property :has_business, type: Types::Strict::String.enum('no_business', 'with_ein', 'without_ein')
+  property :has_business, type: SpendingInfo::BusinessType
   property :will_apply_for_loan, type: Types::Form::Bool.default(false)
 
   def sync
@@ -28,8 +28,8 @@ class SpendingInfo::Form < Reform::Form
             numericality: {
               # avoid duplicate error message (from presence validation) when nil:
               allow_blank: true,
-                greater_than_or_equal_to: ::SpendingInfo::MINIMUM_CREDIT_SCORE,
-                less_than_or_equal_to:    ::SpendingInfo::MAXIMUM_CREDIT_SCORE,
+                greater_than_or_equal_to: CreditScore.min,
+                less_than_or_equal_to: CreditScore.max,
             },
             presence: true
   validates :business_spending_usd,

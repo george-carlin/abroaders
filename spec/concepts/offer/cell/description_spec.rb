@@ -5,7 +5,13 @@ RSpec.describe Offer::Cell::Description do
     let(:currency) { Currency.new(name: 'Dinero') }
     let(:product)  { CardProduct.new(currency: currency) }
 
-    let(:offer) { Offer.new(product: product, points_awarded: 7_500) }
+    let(:offer) { Offer.new(card_product: product, points_awarded: 7_500) }
+
+    before do
+      # this is necessary because ActiveRecord isn't smart enough for
+      # offer.currency to work like you'd expect unless the records are saved.
+      allow(offer).to receive(:currency).and_return(currency)
+    end
 
     let(:rendered) { show(offer).raw }
 

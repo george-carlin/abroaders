@@ -3,7 +3,8 @@ module AdminArea
     module Cell
       # Generic stuff for New and Edit
       class PageWithForm < Abroaders::Cell::Base
-        property :product
+        property :card_product
+
         option :form
 
         def show
@@ -21,7 +22,7 @@ module AdminArea
         end
 
         def product_summary
-          cell(AdminArea::CardProducts::Cell::Summary, product)
+          cell(AdminArea::CardProducts::Cell::Summary, card_product)
         end
       end
 
@@ -44,7 +45,7 @@ module AdminArea
       # @!method self.call(offer, options = {})
       #   @option options [Reform::Form] form
       class Form < Abroaders::Cell::Base
-        property :product
+        property :card_product
         option :form
 
         private
@@ -55,7 +56,7 @@ module AdminArea
 
         def form_tag(&block)
           url_models = [:admin, form]
-          url_models.insert(1, product) unless form.persisted?
+          url_models.insert(1, card_product) unless form.persisted?
           form_for(
             url_models,
             html: { style: 'clear:both;', class: "form-horizontal", role: "form" },
@@ -88,7 +89,7 @@ module AdminArea
       #   @option options [Reform::Form] form
       class New < PageWithForm
         def title
-          product_name = cell(CardProduct::Cell::FullName, product, with_bank: true)
+          product_name = cell(CardProduct::Cell::FullName, card_product, with_bank: true)
           "#{product_name} - New Offer"
         end
       end

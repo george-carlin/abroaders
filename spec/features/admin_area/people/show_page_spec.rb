@@ -4,8 +4,8 @@ RSpec.describe 'admin - show person page', :manual_clean do
   include_context 'logged in as admin'
 
   before(:all) do
-    @chase   = create(:bank, name: "Chase")
-    @us_bank = create(:bank, name: "US Bank")
+    @chase   = Bank.find_by_name!('Chase')
+    @us_bank = Bank.find_by_name!('US Bank')
 
     @currencies = []
     @currencies << create(:currency, alliance_name: 'OneWorld')
@@ -23,10 +23,10 @@ RSpec.describe 'admin - show person page', :manual_clean do
     ]
 
     @offers = [
-      create_offer(product: @chase_b),
-      create_offer(product: @chase_b),
-      create_offer(product: @chase_p),
-      create_offer(product: @usb_b),
+      create_offer(card_product: @chase_b),
+      create_offer(card_product: @chase_b),
+      create_offer(card_product: @chase_p),
+      create_offer(card_product: @usb_b),
     ]
   end
 
@@ -40,34 +40,21 @@ RSpec.describe 'admin - show person page', :manual_clean do
     visit admin_person_path(@person)
   end
 
-  let(:recommend_link_text) { "Recommend a card" }
   let(:account) { @account }
   let(:person)  { @person }
-  let(:name)    { @person.first_name }
-  let(:chase)   { @chase }
-  let(:us_bank) { @us_bank }
-  let(:offers)  { @offers }
-
-  let(:complete_recs_form_selector) { '#complete_card_recommendations' }
-
-  def click_complete_recs_button
-    within complete_recs_form_selector do
-      click_button 'Done'
-    end
-  end
 
   it 'has the correct title' do
     visit_path
     expect(page).to have_title full_title(person.first_name)
   end
 
-  describe 'the card recommendation form' do
+  describe 'the card recommendation form', :js do
     before { visit_path }
 
     let(:offer) { @offers[3] }
     let(:offer_selector) { "#admin_recommend_offer_#{offer.id}" }
 
-    example 'confirmation when clicking "recommend"', :js do
+    example 'confirmation when clicking "recommend"' do
       # clicking 'recommend' shows confirm/cancel buttons
       within offer_selector do
         click_button 'Recommend'
@@ -83,42 +70,47 @@ RSpec.describe 'admin - show person page', :manual_clean do
       end
     end
 
-    example "recommending an offer", :js do
-      within offer_selector do
-        click_button 'Recommend'
-        click_button 'Confirm'
-      end
+    example "recommending an offer" do
+      expect do
+        within offer_selector do
+          click_button 'Recommend'
+          click_button 'Confirm'
+        end
 
-      wait_for_ajax
+        expect(page).to have_content 'Recommended!'
+      end.to change { person.card_recommendations.count }.by(1)
 
-      expect(page).to have_content 'Recommended!'
+      rec = person.card_recommendations.last
+
+      expect(rec.recommended_by).to eq admin
 
       # the rec is added to the table:
-      rec = Card.recommended.last
-      within '#admin_person_cards_table' do
-        expect(page).to have_selector "#card_#{rec.id}"
+      within '#admin_person_card_recommendations_table' do
+        expect(page).to have_selector "#card_recommendation_#{rec.id}"
       end
     end
   end
 
-  example "marking recommendations as complete" do
+  example 'marking recommendations as complete' do
+    create_rec_request('owner', account)
+    raise unless account.unresolved_recommendation_requests.count == 1 # sanity check
     visit_path
     expect do
-      click_complete_recs_button
+      click_button 'Done'
       account.reload
-    end.to \
-      change { account.notifications.count }.by(1).and \
-        change { account.unseen_notifications_count }.by(1)
+    end.to change { account.unresolved_recommendation_requests.count }.by(-1)
     # .and send_email.to(account.email).with_subject("Action Needed: Card Recommendations Ready")
+  end
 
-    new_notification = account.notifications.order(created_at: :asc).last
+  example 'deleting a recommendation', :js do
+    rec = create_card_recommendation(person: person)
+    visit_path
 
-    # it sends a notification to the user:
-    expect(new_notification).to be_a(Notifications::NewRecommendations)
-    expect(new_notification.record).to eq person
+    within "#card_recommendation_#{rec.id}" do
+      click_link 'Del'
+    end
 
-    # it updates the person's 'last recs' timestamp:
-    person.reload
-    expect(person.last_recommendations_at).to be_within(5.seconds).of(Time.zone.now)
+    expect(page).to have_no_selector "#card_recommendation_#{rec.id}"
+    expect(Card.recommended.exists?(id: rec.id)).to be false
   end
 end

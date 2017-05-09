@@ -19,29 +19,39 @@ module Abroaders
 
       def bars
         if sidebar?
-          '<div class="header-link hide-menu"><i class="fa fa-bars"></i></div>'
+          '<div class="header-link hide-menu visible-xs"><i class="fa fa-bars"></i></div>'
         else
           ''
         end
       end
 
-      def search_form
+      def logo_html_classes # override in subclasses
         ''
       end
 
-      def pad_logo?
-        !sidebar?
+      def logo_image_tag
+        # Actual image size is 220x72, but display it at half the 'real' size
+        # so it looks good on Retina displays.
+        image_tag 'abroaders-logo-grey-md.png', size: '110x36', alt: 'Abroaders'
       end
 
-      def logo
-        cell(Logo)
-      end
-
-      def username
+      def search_form # override in subclasses
         ''
       end
 
-      def notifications
+      def sidebar?
+        Sidebar.show?(model)
+      end
+
+      def small_logo
+        <<-HTML
+        <div class="small-logo" #{'style="padding-left: 20px"' if !sidebar?}>
+          <span class="text-primary">Abroaders</span>
+        </div>
+        HTML
+      end
+
+      def username # override in subclasses
         ''
       end
 
@@ -68,14 +78,6 @@ module Abroaders
       class AccountNavbar < SignedInNavbar
         private
 
-        def sidebar?
-          model.onboarded?
-        end
-
-        def notifications
-          model.onboarded? ? cell(Notification::Cell::List, model) : super
-        end
-
         def sign_out_path
           destroy_account_session_path
         end
@@ -88,16 +90,12 @@ module Abroaders
           cell(AdminArea::Accounts::Cell::SearchForm)
         end
 
-        def sidebar?
-          true
-        end
-
         def sign_out_path
           destroy_admin_session_path
         end
 
-        def logo
-          cell(Logo, model)
+        def logo_html_classes
+          'admin-navbar'
         end
       end
 
@@ -106,10 +104,6 @@ module Abroaders
 
         def bars
           ''
-        end
-
-        def sidebar?
-          false
         end
 
         def links
@@ -133,22 +127,6 @@ module Abroaders
             ['Sign in', new_account_session_path],
             ['Sign up', new_account_registration_path],
           ]
-        end
-      end
-
-      class Logo < Abroaders::Cell::Base
-        private
-
-        def html_classes
-          admin? ? 'admin-navbar' : ''
-        end
-
-        def text
-          raw("Abroaders#{' <small>(Admin)</small>' if admin?}")
-        end
-
-        def admin?
-          model.is_a?(Admin)
         end
       end
     end

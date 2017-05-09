@@ -2,17 +2,16 @@ module AdminArea
   class AccountsController < AdminController
     # GET /admin/accounts
     def index
-      run Accounts::Operation::Index
-      render cell(Accounts::Cell::Index, result['accounts'], page: params[:page])
-    end
-
-    # GET /admin/accounts/1
-    def show
-      run Accounts::Operation::Show
+      accounts = Account.includes(
+        people: :spending_info,
+        owner: :spending_info,
+        companion: :spending_info,
+      ).order("email ASC")
+      render cell(Accounts::Cell::Index, accounts, page: params[:page])
     end
 
     def search
-      run Accounts::Operation::Search
+      run Accounts::Search
       render cell(Accounts::Cell::Search, result)
     end
   end

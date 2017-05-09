@@ -1,33 +1,23 @@
 class Account < Account.superclass
   module Cell
-    # The main user dashboard. For most users it's just a static page. For users
-    # who have only just completed the onboarding survey, they'll see some
-    # extra content, contained within the ForNewUser subclass (which itself
-    # has three subclasses; see the class comments on those subclasses)
+    # The main user dashboard, shown on the root page.
+    #
+    # Some users will see extra content in the middle of the page, encapsulated
+    # within the 'NextSteps' cell. It's shown for users who:
+    #
+    # 1. Have no eligible people on their account.
+    # 2. Have at least one eligible pereson, but have never sent a rec request.
+    # 3. Currently have an unresolved rec request.
+    #
+    # There's different 'next steps' in each case.
     #
     # @!self.call(account)
     class Dashboard < Abroaders::Cell::Base
-      include ::Cell::Builder
       include Escaped
 
       property :actionable_card_recommendations?
+      property :unresolved_recommendation_requests?
       property :owner_first_name
-
-      # annoyingly, it seems like you can't nest calls to builds. I'd rather
-      # just have this block choose between self/ForNewUser, then a 2nd
-      # `builds` block in ForNewUser that chooses between Ready / Unready /
-      # Ineligible. But it doesn't work. Possibly addition to cells itself?
-      builds do |account|
-        if account.people.any? { |p| !p.last_recommendations_at.nil? }
-          self
-        elsif account.people.any?(&:ready?)
-          ForNewUser::Ready
-        elsif account.people.any?(&:eligible?)
-          ForNewUser::Unready
-        else
-          ForNewUser::Ineligible
-        end
-      end
 
       def show
         render view: 'dashboard' # use the same ERB file for all subclasses:
@@ -35,15 +25,21 @@ class Account < Account.superclass
 
       private
 
-      def lead_text
-        %[
-          We are amped up to help you save on travel. <br/> Don't be shy to
-          reach out if you have any questions.
-        ]
+      def next_steps
+        cell(NextSteps, model)
       end
 
-      def new_user_instructions
-        ''
+      def lead_text
+        if model.unresolved_recommendation_requests?
+          t('dashboard.account.unresolved_rec_req.title')
+        elsif model.card_recommendations.any?
+          "We are amped up to help you save on travel. <br/> Don't be shy to "\
+          'reach out if you have any questions'
+        elsif model.eligible_people.any?
+          t('dashboard.account.eligible.title')
+        else
+          t('dashboard.account.ineligible.title')
+        end
       end
 
       def actionable_recs_modal
@@ -58,29 +54,31 @@ class Account < Account.superclass
         "Welcome to Abroaders, #{owner_first_name}."
       end
 
-      # @!self.call(account)
-      class ForNewUser < self
+      # @!method self.call(account, options = {})
+      class NextSteps < Abroaders::Cell::Base
+        include ::Cell::Builder
+
+        builds do |account|
+          if account.unresolved_recommendation_requests?
+            UnresolvedRequests
+          elsif account.card_recommendations.any?
+            self
+          elsif account.eligible_people.any?
+            NewAndEligible
+          else
+            NewAndIneligible
+          end
+        end
+
         property :people
 
-        def new_user_instructions
-          %[
-            <div class="row new-user-instructions">
-              <div class="col-xs-12 col-md-4 new-user-steps">
-                <p class="completed">
-                  1. Complete profile <i class="fa fa-check" aria-hidden="true"> </i>
-                </p>
-                #{steps}
-              </div><!-- .new-user-steps -->
-
-              <div class="col-xs-12 col-md-8 main-area">
-                <p><b>What's next?</b></p>
-                #{whats_next}
-              </div>
-            </div>
-
-            <hr />
-          ]
+        # return an empty string if this isn't a subclass
+        def show
+          return '' if instance_of?(NextSteps)
+          render view: 'dashboard/next_steps'
         end
+
+        private
 
         %w[main_text step_2 whats_next].each do |meth|
           define_method meth do
@@ -110,34 +108,40 @@ class Account < Account.superclass
           end.join
         end
 
-        # Shown to new users who have at least one ready person on their account
-        class Ready < self
+        # Shown to anyone (not just new users) who has an unresolved request
+        #
+        # @!self.call(account)
+        class UnresolvedRequests < self
           def current_step
             2
           end
 
-          def lead_text
-            t('dashboard.account.ready.title')
-          end
-
           def step_2
-            'Wait 24-48 hours'
+            'Wait 1-2 business days'
           end
 
           def whats_next
-            %[<p>#{t('dashboard.account.ready.message')}</p>]
+            %[<p>#{t('dashboard.account.unresolved_rec_req.message')}</p>]
           end
         end
 
         # Shown to new users who have at least one eligible person on their
-        # account, but no ready people.
-        class Unready < self
+        # account, but haven't made a rec request yet.
+        #
+        # @!self.call(account)
+        class NewAndEligible < self
           def current_step
             2
           end
 
-          def lead_text
-            t('dashboard.account.eligible.title')
+          def link_to_new_rec_request
+            ppl = people.select { |p| RecommendationRequest::Policy.new(p).create? }
+            person_type = case ppl.size
+                          when 2 then 'both'
+                          when 1 then ppl[0].type
+                          else raise 'this should never happen'
+                          end
+            link_to 'let us know', new_recommendation_requests_path(person_type: person_type)
           end
 
           def step_2
@@ -148,7 +152,7 @@ class Account < Account.superclass
             %[
           <p>
             When you’re ready to apply for cards, just
-            #{link_to 'let us know', edit_readiness_path} and an expert will pick
+            #{link_to_new_rec_request} and an expert will pick
             the best cards to maximize your travel savings. If we don’t hear back,
             we’ll remind you in about a month.
           </p>
@@ -174,13 +178,11 @@ class Account < Account.superclass
         end
 
         # Shown to new users who have no eligible people on their account
-        class Ineligible < self
+        #
+        # @!self.call(account)
+        class NewAndIneligible < self
           def current_step
             2
-          end
-
-          def lead_text
-            t('dashboard.account.ineligible.title')
           end
 
           def step_2
@@ -215,7 +217,7 @@ class Account < Account.superclass
             'aria-labelledby': 'actionable_recommendations_notification_modal_label',
             'data-backdrop': 'static',
             'role': 'dialog',
-            class: 'modal fade in',
+            class: 'modal fade hmodal-info text-center',
             id: 'actionable_recommendations_notification_modal',
           ) do
             content_tag :div, class: 'modal-dialog' do
@@ -224,8 +226,19 @@ class Account < Account.superclass
           end
         end
 
+        def image
+          image_tag(
+            'party-popper.png',
+            alt: 'Ta-da',
+            class: 'img img-responsive img-circle9 center text-center',
+            size: '90x90',
+            src: '#',
+            style: 'margin: 0 auto;',
+          )
+        end
+
         def link_to_continue
-          link_to 'Continue', cards_path, class: 'btn btn-primary'
+          link_to 'Continue', cards_path, class: 'btn btn-lg btn-success'
         end
       end
     end

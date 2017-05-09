@@ -1,5 +1,6 @@
 class SpendingInfo < SpendingInfo.superclass
   module Cell
+    # @!method self.call(spending_info, options = {})
     class Table < Abroaders::Cell::Base
       property :business_spending_usd
       property :credit_score
@@ -23,16 +24,14 @@ class SpendingInfo < SpendingInfo.superclass
         super ? 'Yes' : 'No'
       end
 
+      # TODO why is this here? won't the person always be eligible if they
+      # have a spending info?
       def eligibility
         if person.eligible?
           'Yes'
         else
           person.eligible.nil? ? 'Unknown' : 'No'
         end
-      end
-
-      def readiness
-        person.ready ? 'Ready' : 'Not ready'
       end
     end
   end

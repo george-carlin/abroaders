@@ -10,43 +10,49 @@ class BalancesController < AuthenticatedUserController
         {
           award_wallet_owners: [
             :person, {
-              award_wallet_accounts: :award_wallet_owner,
+              award_wallet_accounts: [:award_wallet_owner, :person],
             },
           ],
           balances: :currency,
         },
       ],
     ).find(current_account.id)
-    render cell(Balance::Cell::Index, account, flash: flash)
+    render cell(Balance::Cell::Index, account)
   end
 
   # GET /people/:person_id/balances/new
   def new
-    run Balance::Operation::New
+    run Balance::New
+    render cell(Balance::Cell::New, @form, currencies: Currency.alphabetical, current_account: current_account)
   end
 
   # POST /people/:person_id/balances
   def create
-    run Balance::Operation::Create do
+    run Balance::Create do
       flash[:success] = 'Created balance!'
       return redirect_to balances_path
     end
-    render 'new'
+    render cell(Balance::Cell::New, @form, currencies: Currency.alphabetical, current_account: current_account)
+  end
+
+  # GET /balances/:id
+  def edit
+    run Balance::Edit
+    render cell(Balance::Cell::Edit, @form, currencies: Currency.alphabetical)
   end
 
   # PUT/PATCH /balances/:id
   def update
-    run Balance::Operation::Update do
-      @valid = true
+    run Balance::Update do
+      flash[:success] = 'Updated balance!'
+      return redirect_to balances_path
     end
-    respond_to do |f|
-      f.js
-    end
+    render cell(Balance::Cell::Edit, @form, currencies: Currency.alphabetical)
   end
 
   # DELETE /balances/:id
   def destroy
-    run Balance::Operation::Destroy do
+    run Balance::Destroy do
       flash[:success] = 'Destroyed balance!'
       redirect_to balances_path
     end

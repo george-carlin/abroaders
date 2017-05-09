@@ -16,10 +16,9 @@ class TravelPlan < TravelPlan.superclass
     class Summary < Abroaders::Cell::Base
       include Escaped
 
-      alias travel_plan model
-
       property :id
       property :further_information
+      property :one_way?
       property :type
 
       def self.flight_summary_cell
@@ -29,11 +28,11 @@ class TravelPlan < TravelPlan.superclass
       private
 
       def acceptable_classes
-        cell AcceptableClasses, travel_plan
+        cell AcceptableClasses, model
       end
 
       def dates
-        cell Dates, travel_plan
+        cell Dates, model
       end
 
       # See comment in TravelPlan::Edit about old-style TPs being uneditable.
@@ -83,18 +82,19 @@ class TravelPlan < TravelPlan.superclass
 
       def no_of_passengers
         content_tag :span, class: 'travel_plan_no_of_passengers' do
-          "#{fa_icon('male')} &times; #{travel_plan.no_of_passengers}"
+          "#{fa_icon('male')} &times; #{model.no_of_passengers}"
         end
       end
 
       def type
-        super == 'single' ? 'One-way' : 'Round trip'
+        one_way? ? 'One-way' : 'Round trip'
       end
 
       # A <span>: 'Departure: MM/DD/YYYY Return: MM/DD/YYYY'
       class Dates < Abroaders::Cell::Base
         property :depart_on
         property :return_on
+        property :round_trip?
         property :type
 
         private
@@ -105,9 +105,9 @@ class TravelPlan < TravelPlan.superclass
           end
         end
 
-        # some legacy TPs have type 'return' but no return_on date:
+        # some legacy TPs have type 'round_trip' but no return_on date:
         def return_date?
-          type == 'return' && !model.return_on.nil?
+          round_trip? && !model.return_on.nil?
         end
       end
     end

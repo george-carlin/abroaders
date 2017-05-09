@@ -48,17 +48,15 @@
 
         <tbody>
           <% @offers.each do |offer| %>
-            <%= content_tag_for :tr, offer do %>
-              <td>
-                <%= AdminArea::CardProducts::Cell::Identifier.(offer.product) %>-<%= AdminArea::Offers::Cell::Identifier.(offer) %>
-              </td>
+            <tr id="offer_<%= offer.id %>" class="offer">
+              <td><%= offer.id %></td>
               <td>
                 <%= link_to(
-                  offer.product.name,
-                  admin_card_product_offers_path(offer.product),
+                  offer.card_product.name,
+                  admin_card_product_offers_path(offer.card_product),
                 ) %>
               </td>
-              <td><%= offer.product.bank.name %></td>
+              <td><%= offer.bank_name %></td>
               <td><%= Partner::Cell::ShortName.(offer.partner) %></td>
               <td><%= cell(Offer::Cell::PointsAwarded, offer) %></td>
               <td><%= cell(Offer::Cell::Spend, offer) %></td>
@@ -69,7 +67,7 @@
               <td><%= link_to 'Show', admin_offer_path(offer) %>
               <td><%= link_to 'Edit', edit_admin_offer_path(offer) %>
             <% end %>
-          <% end %>
+          </tr>
         </tbody>
       </table>
     </div>

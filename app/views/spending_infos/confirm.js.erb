@@ -1,0 +1,11 @@
+var valid     = <%= !!@valid %>;
+var sectionId = "<%= params[:section_id] %>";
+var personId  = <%= params[:person_id] %>;
+
+var $section = $('#' + sectionId);
+
+if (valid) {
+  $section.html("Updated!<hr>");
+} else {
+  $section.find('.input-wrapper').addClass('field_with_errors');
+}

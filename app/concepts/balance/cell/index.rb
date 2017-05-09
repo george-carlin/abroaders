@@ -5,52 +5,45 @@ class Balance < Balance.superclass
     # @!method self.call(account, opts = {})
     #   @param account [Account] the currently-logged in account. Make sure
     #     that the right associations are eager-loaded.
-    class Index < Trailblazer::Cell
+    class Index < Abroaders::Cell::Base
       property :people
       property :connected_to_award_wallet?
-      property :award_wallet_user
 
       def show
-        aw = if connected_to_award_wallet?
-               cell(AwardWalletInfo, award_wallet_user)
-             else
-               cell(AwardWalletConnectPanel)
-             end
-        main = cell(BalanceTable, collection: people)
-        "#{aw} #{main}"
+        award_wallet.to_s << main.to_s << unassigned_accounts_panel.to_s
       end
 
-      # A panel that encourages the user to connect their Abroaders account to
-      # their AwardWallet account. It's just static HTML so needs no arguments.
-      #
-      # This is a separate .hpanel that sits above the 'main' .hpanel.
-      class AwardWalletConnectPanel < Abroaders::Cell::Base
-        include FontAwesome::Rails::IconHelper
+      private
 
-        AWARD_WALLET_URL = \
-          'https://awardwallet.com/m/#/connections/approve/vnawwgqjyt/2'.freeze
+      def award_wallet
+        cell(AwardWalletPanel, model)
+      end
 
-        def link_to_connect_with_award_wallet
-          link_to(
-            AWARD_WALLET_URL,
-            class: 'btn btn-danger3',
-            style: 'background-color: #1fb6ff; color: #ffffff;',
-          ) do
-            "#{fa_icon(:plug)} Connect to AwardWallet"
-          end
+      def main
+        cell(PersonPanel, collection: people, simple: !connected_to_award_wallet?)
+      end
+
+      def people
+        super.sort_by(&:type).reverse
+      end
+
+      def unassigned_accounts_panel
+        cell(UnassignedAccounts, model)
+      end
+
+      # @!method self.call(account, options = {})
+      class UnassignedAccounts < Abroaders::Cell::Base
+        property :unassigned_loyalty_accounts
+
+        def show
+          return '' if unassigned_loyalty_accounts.none?
+          super
         end
-      end
 
-      # model: AwardWalletUser
-      class AwardWalletInfo < Trailblazer::Cell
-        property :user_name
+        private
 
-        def link_to_settings
-          link_to(
-            'Manage settings',
-            integrations_award_wallet_settings_path,
-            class: 'btn btn-xs btn-primary',
-          )
+        def table
+          cell(LoyaltyAccount::Cell::Table, unassigned_loyalty_accounts)
         end
       end
     end

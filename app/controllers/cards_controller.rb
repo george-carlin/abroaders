@@ -6,8 +6,8 @@ class CardsController < AuthenticatedUserController
     # without reloading the current account, since you can't call `includes`
     # after the account has already been loaded.
     account = Account.includes(
-      people: [:account, { card_accounts: { product: :bank } },
-               actionable_card_recommendations: [:product, { product: :bank, offer: { product: :currency } }],],
+      people: [:account, { card_accounts: :card_product },
+               actionable_card_recommendations: [:card_product, { offer: { card_product: :currency } }],],
     ).find(current_account.id)
     if account.actionable_card_recommendations?
       cookies[:recommendation_timeout] = { value: "timeout", expires: 24.hours.from_now }

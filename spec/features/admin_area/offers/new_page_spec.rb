@@ -4,14 +4,14 @@ RSpec.describe 'admin area - new offer page' do
   include_context 'logged in as admin'
   subject { page }
 
-  let(:bank) { create(:bank) }
+  let(:bank) { Bank.all.first }
   before do
     @product = create(
       :card_product,
-      name:    "Sapphire Preferred",
-      network: :visa,
+      name: 'Sapphire Preferred',
+      network: 'visa',
       annual_fee_cents: 150_000,
-      bp: :business,
+      business: true,
       bank: bank,
     )
 
@@ -63,7 +63,7 @@ RSpec.describe 'admin area - new offer page' do
       fill_in :offer_link, with: "http://something.com"
       expect { submit }.to change { Offer.count }.by 1
       expect(new_offer.condition).to eq "on_approval"
-      expect(new_offer.product).to eq @product
+      expect(new_offer.card_product).to eq @product
       expect(new_offer.points_awarded).to eq 40_000
       expect(new_offer.link).to eq "http://something.com"
       expect(new_offer.spend).to be_nil
@@ -99,7 +99,7 @@ RSpec.describe 'admin area - new offer page' do
       expect { submit }.to change { Offer.count }.by 1
 
       expect(new_offer.condition).to eq 'on_first_purchase'
-      expect(new_offer.product).to eq @product
+      expect(new_offer.card_product).to eq @product
       expect(new_offer.days).to eq 120
       expect(new_offer.points_awarded).to eq 40_000
       expect(new_offer.link).to eq 'http://something.com'
@@ -138,7 +138,7 @@ RSpec.describe 'admin area - new offer page' do
     expect { submit }.to change { Offer.count }.by(1)
     expect(new_offer.condition).to eq 'on_minimum_spend'
     expect(new_offer.partner).to eq 'award_wallet'
-    expect(new_offer.product).to eq @product
+    expect(new_offer.card_product).to eq @product
     expect(new_offer.points_awarded).to eq 40_000
     expect(new_offer.spend).to eq 5_000
     expect(new_offer.link).to eq 'http://something.com'

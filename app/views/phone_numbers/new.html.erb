@@ -6,7 +6,7 @@
       <%= cell(
         Abroaders::Cell::ErrorAlert,
         nil,
-        content: "Error: Phone number #{@form.errors.messages[:number].to_sentence}. "\
+        content: "Error: Phone number #{@form.errors.messages[:phone_number].to_sentence}. "\
                  "Please click the 'Skip' button if you do not wish to add a phone "\
                  "number."
       ) %>
@@ -16,7 +16,7 @@
 
       <hr />
 
-      <%= form_for @form.model, url: phone_number_path do |f| %>
+      <%= form_for @form, url: phone_number_path, method: :post do |f| %>
         <p class="help-block">
           <b>Why do we ask for your phone number?</b>
         </p>
@@ -29,7 +29,7 @@
         </p>
 
         <div class="form-group">
-          <%= f.text_field :number, placeholder: "(xxx) xxx-xxxx" %>
+          <%= f.text_field :phone_number, placeholder: "(xxx) xxx-xxxx" %>
         </div>
 
         <button class="btn btn-primary">

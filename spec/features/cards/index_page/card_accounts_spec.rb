@@ -17,17 +17,17 @@ RSpec.describe 'cards index page - "card accounts" section' do
   # basic smoke test that the cards are being rendered; for more detail
   # see the tests for Card::Cell::Index::CardAccounts
   it '' do
-    o_card = create_card_account(person: owner, product: products[0])
-    c_card = create_card_account(person: companion, product: products[1])
+    o_card = create_card_account(person: owner, card_product: products[0])
+    c_card = create_card_account(person: companion, card_product: products[1])
 
     visit cards_path
 
-    expect(page).to have_selector("#owner_card_accounts ##{dom_id(o_card)}")
-    expect(page).to have_selector("#companion_card_accounts ##{dom_id(c_card)}")
+    expect(page).to have_selector("#owner_card_accounts #card_account_#{o_card.id}")
+    expect(page).to have_selector("#companion_card_accounts #card_account_#{c_card.id}")
   end
 
   example 'deleting a card', :js do
-    card = create_card_account(person: owner, product: products[0])
+    card = create_card_account(person: owner, card_product: products[0])
     visit cards_path
     click_link 'Delete'
     expect(page).to have_success_message 'Removed card'

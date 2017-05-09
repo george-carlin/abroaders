@@ -2,8 +2,11 @@ class SpendingInfosController < AuthenticatedUserController
   onboard :spending, with: [:survey, :save_survey]
 
   def show
-    run SpendingInfo::Operation::Show do |result|
-      render cell(SpendingInfo::Cell::Show, result)
+    run SpendingInfo::Show do
+      account = Account.includes(
+        eligible_people: { spending_info: { person: :account } },
+      ).find(current_account.id)
+      render cell(SpendingInfo::Cell::Show, account)
       return
     end
     redirect_to root_path
@@ -56,6 +59,16 @@ class SpendingInfosController < AuthenticatedUserController
     else
       render :edit
     end
+  end
+
+  def confirm
+    @model = load_person.spending_info
+    @form  = SpendingInfo::Form.new(@model)
+    if @form.validate(params[:spending_info])
+      @form.save
+      @valid = true
+    end
+    respond_to(&:js)
   end
 
   private

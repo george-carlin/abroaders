@@ -11,6 +11,7 @@
  * It is generally better to create a new file per style scope.
  *
  *= require bootstrap
+ *= require bootstrap-xlgrid
  *= require homer
  *= require pe-icon-7-stroke
  *= require helper
@@ -23,7 +24,8 @@
  *= require award_wallet
  *= require admin_area_people_show
  *= require actionable_rec
- *= require editable_balance
+ *= require loyalty_accounts
+ *= require admin.banks.filter_panel
  *= require_tree .
  *= require_self
  */

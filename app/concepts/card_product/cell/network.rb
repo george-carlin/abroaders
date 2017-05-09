@@ -8,10 +8,11 @@ class CardProduct < CardProduct.superclass
       property :network
 
       NAMES = {
-        amex:            'American Express',
-        mastercard:      'MasterCard',
-        unknown_network: 'Unknown',
-        visa:            'Visa',
+        amex: 'American Express',
+        discover: 'Discover',
+        mastercard: 'MasterCard',
+        unknown: 'Unknown',
+        visa: 'Visa',
       }.freeze
 
       def show

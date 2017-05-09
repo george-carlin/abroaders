@@ -1,0 +1,13 @@
+<%= tr_tag do %>
+  <td>
+    <%= card_product_name %>
+    (<%= card_product_bp[0].upcase %>)
+  </td>
+  <td class="card_opened_on" data-text="<%= model.opened_on %>">
+    <%= opened_on %>
+  </td>
+  <td class="card_closed_on" data-text="<%= model.closed_on %>">
+    <%= closed_on %>
+  </td>
+  <td><%= link_to_edit %></td>
+<% end # tr_tag %>

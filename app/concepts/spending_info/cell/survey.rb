@@ -6,7 +6,11 @@ class SpendingInfo < SpendingInfo.superclass
     #   @option result [Account] account
     #   @option result [Reform::Form] contract.default
     class Survey < Abroaders::Cell::Base
+      extend Abroaders::Cell::Result
       include ::Cell::Builder
+
+      skill :eligible_people
+      skill :account
 
       builds do |result|
         case result['eligible_people'].size
@@ -15,8 +19,6 @@ class SpendingInfo < SpendingInfo.superclass
         else raise 'account must have 1 or 2 eligible people'
         end
       end
-
-      alias result model
 
       # Always render survey.erb, even from within subclasses
       def show
@@ -28,10 +30,6 @@ class SpendingInfo < SpendingInfo.superclass
       end
 
       private
-
-      def account
-        result['account']
-      end
 
       def business_spending_form_groups(form_builder)
         cols = "col-xs-12 #{'col-md-6' if eligible_people.size > 1}"
@@ -63,10 +61,6 @@ class SpendingInfo < SpendingInfo.superclass
 
       def form
         result['contract.default']
-      end
-
-      def eligible_people
-        result['eligible_people']
       end
 
       def monthly_spending_form_group(form_builder)
@@ -207,9 +201,9 @@ class SpendingInfo < SpendingInfo.superclass
         end
       end
 
+      # @!method self.call(people, options = {})
+      #   @param people [Collection<Person>]
       class MonthlySpendingFormGroup < Abroaders::Cell::Base
-        alias people model
-
         private
 
         def field
@@ -222,8 +216,8 @@ class SpendingInfo < SpendingInfo.superclass
 
         def help_text
           paragraphs = []
-          if people.size > 1
-            names = escape(people.map(&:first_name).join(' and '))
+          if model.size > 1
+            names = escape(model.map(&:first_name).join(' and '))
 
             paragraphs.push(
               "Please estimate the <b>combined</b> monthly spending "\

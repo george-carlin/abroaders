@@ -34,4 +34,10 @@ RSpec.describe 'award wallet settings page' do
     wait_for_ajax
     expect(aw_owner.reload.person).to eq account.owner
   end
+
+  it 'has no recommendation alert' do
+    expect(page).to have_no_content 'Your Card Recommendations'
+    expect(page).to have_no_content 'Abroaders is Working'
+    expect(page).to have_no_content 'Request new card recommendations'
+  end
 end

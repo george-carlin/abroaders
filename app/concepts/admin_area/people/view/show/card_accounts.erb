@@ -1,0 +1,19 @@
+<h4>Accounts <small><%= link_to_add_new %></small></h4>
+
+<% if card_accounts.any? %>
+  <div id='admin_person_card_accounts'>
+    <%= table_tag do %>
+      <thead>
+        <th>Product</th>
+        <th>Opened</th>
+        <th>Closed</th>
+        <th></th>
+      </thead>
+      <tbody>
+        <%= table_rows %>
+      </tbody>
+    <% end %>
+  </div>
+<% else %>
+  <p id="admin_person_card_accounts_none">No card accounts</p>
+<% end %>

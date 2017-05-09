@@ -8,39 +8,38 @@ class CardProduct < ApplicationRecord
 
   # Attributes
 
-  enum bp: [:business, :personal]
+  def business
+    !personal
+  end
+  alias business? business
 
-  enum network: {
-    # can't call this 'unknown' as that would conflict with types
-    unknown_network: 0,
-    visa:            1,
-    mastercard:      2,
-    amex:            3,
-  }
-  enum type: {
-    # can't call this 'unknown' as that would conflict with networks
-    unknown_type: 0,
-    credit:  1,
-    charge:  2,
-    debit:   3,
-  }
-
-  concerning :Image do
-    included do
-      # Standard credit card dimensions are 85.60*53.98mm, which gives the
-      # following aspect ratio:
-      ASPECT_RATIO = 1.586
-
-      has_attached_file :image, styles: {
-        large:  "350x#{350 / ASPECT_RATIO}>",
-        medium: "210x#{210 / ASPECT_RATIO}>",
-        small:  "140x#{140 / ASPECT_RATIO}>",
-      }, default_url: "/images/:style/missing.png"
-      validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
-      validates_attachment_presence :image
-    end
+  def business=(bool)
+    self.personal = !bool
   end
 
+  def bp
+    personal ? 'personal' : 'business'
+  end
+
+  Network = Types::Strict::String.enum('unknown', 'visa', 'mastercard', 'amex', 'discover')
+  Type = Types::Strict::String.enum('unknown', 'credit', 'charge', 'debit')
+
+  attribute_type :network, Network
+  attribute_type :type, Type
+
+  # Standard credit card dimensions are 85.60*53.98mm, which gives the
+  # following aspect ratio:
+  IMAGE_ASPECT_RATIO = 1.586
+
+  has_attached_file :image, styles: {
+    large:  "350x#{350 / IMAGE_ASPECT_RATIO}>",
+    medium: "210x#{210 / IMAGE_ASPECT_RATIO}>",
+    small:  "140x#{140 / IMAGE_ASPECT_RATIO}>",
+  }, default_url: "/images/:style/missing.png"
+  validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
+  validates_attachment_presence :image
+
+  delegate :name, to: :currency, prefix: true
   delegate :name, to: :bank, prefix: true
 
   def annual_fee
@@ -48,19 +47,14 @@ class CardProduct < ApplicationRecord
   end
 
   def annual_fee=(annual_fee_dollars)
-    self.annual_fee_cents = (annual_fee_dollars.to_i * 100).to_i
+    self.annual_fee_cents = (annual_fee_dollars.to_f * 100).round
   end
 
   # Validations
 
-  validates :code, format: {
-    message: "must consist only of capital letters and be 2-4 letters long",
-    with: /\A[A-Z]{2,4}\z/,
-  }
   with_options presence: true do
     validates :annual_fee_cents
     validates :bank_id
-    validates :bp
     validates :name
     validates :network
     validates :type
@@ -68,20 +62,43 @@ class CardProduct < ApplicationRecord
 
   # Associations
 
-  has_many :offers, foreign_key: :product_id
+  has_many :offers
+  has_many :recommendable_offers, -> { recommendable }, class_name: 'Offer'
   has_many :cards
   belongs_to :currency
-  belongs_to :bank
+
+  def bank
+    return nil if bank_id.nil?
+    @bank ||= Bank.find(bank_id)
+  end
+
+  def bank=(new_bank)
+    raise unless new_bank.is_a?(Bank)
+    self.bank_id = new_bank.id
+    @bank = new_bank
+  end
+
+  def bank_id=(new_bank_id)
+    @bank = nil unless @bank && @bank.id == new_bank_id
+    super
+  end
+
+  def reload
+    @bank = nil
+    super
+  end
 
   # Scopes
 
   scope :survey, -> { where(shown_on_survey: true) }
+  scope :recommendable, -> { joins(:recommendable_offers).distinct }
+
+  scope :business, -> { where(personal: false) }
+  scope :personal, -> { where(personal: true) }
 
   # Callbacks
 
-  auto_strip_attributes :code, :name, callback: :before_validation
+  auto_strip_attributes :name, callback: :before_validation
 
-  def serializer_class
-    CardProduct::Serializer
-  end
+  after_initialize { self.personal = true if personal.nil? } # set default
 end

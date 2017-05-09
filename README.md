@@ -1,5 +1,7 @@
 # README
 
+NOTE as of 24th April 2017: This document is horribly out-of-date; I've barely updated it in months and a lot has changed since then. Take everything you read in here with a pinch of salt.
+
 ## Dependencies
 
 The Ruby version is specified at the top of the Gemfile (as opposed
@@ -405,12 +407,6 @@ we have some extra top level folders in `/app`. They're mostly based on
 #### `forms`
 
 TODO - this will be removed soon in favour of Trailblazer
-
-#### `serializers`
-
-Serializers as used by the
-[`active_model_serializers`](https://github.com/rails-api/active_model_serializers)
-gem. TODO this should also be removed, in favour of representers with the `representable` gem.
 
 #### `jobs`
 

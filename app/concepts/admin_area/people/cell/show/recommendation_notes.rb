@@ -18,7 +18,7 @@ module AdminArea
             return '' if recommendation_notes.none?
             notes = recommendation_notes.sort_by(&:created_at).reverse
             list  = cell(ListItem, collection: notes, person: model)
-            "<hr><h3>Recommendation Notes</h3>#{list}"
+            "<h3>Recommendation Notes</h3>#{list}"
           end
 
           class ListItem < Abroaders::Cell::Base

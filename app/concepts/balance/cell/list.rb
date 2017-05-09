@@ -17,10 +17,10 @@ class Balance < Balance.superclass
       private
 
       def html_id
-        dom_id(currency)
+        "currency_#{currency_id}"
       end
 
-      delegate :name, to: :currency, prefix: true
+      delegate :id, :name, to: :currency, prefix: true
 
       def value
         number_with_delimiter(super)

@@ -28,12 +28,12 @@
 
         <tbody>
           <% @offers.each do |offer| %>
-            <tr id="<%= dom_id(offer) %>" class="<%= dom_class(offer) %>">
+            <tr id="offer_<%= offer.id %>" class="offer">
               <td class="offer_card_name">
-                <%= offer.product.name %>
+                <%= offer.card_product.name %>
               </td>
-              <td><%= offer.product.bank.name %></td>
-              <td><%= offer.product.bp[0].upcase %></td>
+              <td><%= offer.bank_name %></td>
+              <td><%= offer.card_product.bp[0].upcase %></td>
               <td><%= cell(Offer::Cell::PointsAwarded, offer) %></td>
               <td><%= cell(Offer::Cell::Spend, offer) %></td>
               <td><%= cell(Offer::Cell::Cost, offer) %></td>

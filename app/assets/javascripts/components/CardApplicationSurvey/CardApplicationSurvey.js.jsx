@@ -83,7 +83,8 @@ const CardApplicationSurvey = React.createClass({
 
   render() {
     const cardAccount = _.clone(this.props.cardAccount);
-    cardAccount.card = cardAccount.product; // For legacy reasons
+    // The prop is called 'card' for legacy reasons:
+    cardAccount.card = cardAccount.cardProduct;
     const actions = React.createElement(
       this.getActionsComponent(),
       {

@@ -267,45 +267,6 @@ footer.footer {
 }
 
 
-td.offer-identifier {
-  width: 15%;
-}
-
-td.offer-points-awarded {
-  width: 15%;
-}
-
-td.offer-spend {
-  width: 15%;
-}
-
-td.offer-cost {
-  width: 15%;
-}
-
-td.offer-days {
-  width: 15%;
-}
-
-.cancel_recommend_offer_btn {
-  border-bottom-right-radius: 0;
-  border-top-right-radius: 0;
-}
-
-.confirm_recommend_offer_btn {
-  border-bottom-left-radius: 0;
-  border-top-left-radius: 0;
-}
-
-
-// BALANCES
-
-.editing_balance_error_msg {
-  color: #a94442;
-  display: inline-block;
-  margin-left: 6px;
-}
-
 // OFFERS
 
 .admin_review_offers {
@@ -318,30 +279,7 @@ td.offer-days {
   }
 }
 
-// PEOPLE
-
-@media (min-width: 1200px) {
-  #card-recommendation-filters {
-    .filters-large-column {
-      float: left;
-      width: 20%;
-      position: relative;
-      min-height: 1px;
-      padding-right: 15px;
-      padding-left: 15px;
-
-      label {
-        display: block;
-      }
-    }
-  }
-}
-
 // READINESS
-
-.update-readiness-btn {
-  width: 100%;
-}
 
 .datepicker {
   z-index: 1001 !important; // must be higher than navbar

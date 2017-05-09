@@ -3,26 +3,17 @@ require 'cells_helper'
 RSpec.describe SpendingInfo::Cell::Show do
   controller SpendingInfosController
 
-  let(:account) { Account.new(monthly_spending_usd: 1234) }
-  let!(:owner)  { account.people.owner.build(id: 1, first_name: 'Erik') }
-
-  def render_result(people)
-    result = Trailblazer::Operation::Result.new(
-      true,
-      'account' => account,
-      'people'  => people,
-    )
-    show(result)
-  end
+  let(:account) { create(:account, monthly_spending_usd: 1234) }
+  let!(:owner)  { account.owner }
 
   example 'no eligible people' do
-    expect { render_result([owner]) }.to raise_error RuntimeError
+    expect { show(account) }.to raise_error RuntimeError
   end
 
   example 'solo account' do
-    owner.eligible = true
-    owner.build_spending_info(credit_score: 456)
-    rendered = render_result([owner])
+    owner.update!(eligible: true)
+    owner.create_spending_info!(credit_score: 456, has_business: 'no_business')
+    rendered = show(account.reload)
 
     expect(rendered).to have_content "Erik's Financials"
     expect(rendered).to have_content 'Personal spending:$1,234'
@@ -31,21 +22,18 @@ RSpec.describe SpendingInfo::Cell::Show do
   end
 
   context 'couples account' do
-    let!(:companion) { account.people.companion.build(id: 2, first_name: 'Gabi') }
-    # we need to stub this so that both account.people and account.companion
-    # work as expected (without touching the DB)
-    before { allow(account).to receive(:companion).and_return(companion) }
+    let!(:companion) { account.create_companion!(first_name: 'Gabi', eligible: false) }
 
     example 'both people ineligible' do
-      expect { render_result([owner, companion]) }.to raise_error RuntimeError
+      expect { show(account) }.to raise_error RuntimeError
     end
 
     example 'both people eligible' do
-      owner.eligible = true
-      owner.build_spending_info(credit_score: 678)
-      companion.eligible = true
-      companion.build_spending_info(credit_score: 765)
-      rendered = render_result([owner, companion])
+      owner.update!(eligible: true)
+      owner.create_spending_info!(credit_score: 678, has_business: 'no_business')
+      companion.update!(eligible: true)
+      companion.create_spending_info!(credit_score: 765, has_business: 'no_business')
+      rendered = show(account.reload)
 
       expect(rendered).to have_content "Erik's Financials"
       expect(rendered).to have_content "Gabi's Financials"
@@ -56,10 +44,10 @@ RSpec.describe SpendingInfo::Cell::Show do
     end
 
     example 'one person ineligible' do
-      owner.eligible = true
-      owner.build_spending_info(credit_score: 678)
+      owner.update!(eligible: true)
+      owner.create_spending_info!(credit_score: 678, has_business: 'no_business')
 
-      rendered = render_result([owner, companion])
+      rendered = show(account.reload)
 
       expect(rendered).to have_content "Erik's Financials"
       expect(rendered).to have_content "Gabi's Financials"

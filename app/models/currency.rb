@@ -32,10 +32,6 @@ class Currency < ApplicationRecord
 
   # Validations
 
-  validates :name, presence: true, uniqueness: true
-  validates :award_wallet_id, presence: true, uniqueness: true
-  validates :type, inclusion: { in: TYPES }
-
   # Associations
 
   def alliance
@@ -44,6 +40,7 @@ class Currency < ApplicationRecord
 
   # Scopes
 
+  scope :alphabetical, -> { order(name: :asc) }
   scope :survey, -> { where(shown_on_survey: true) }
   # currencies that the admin can filter by on people/show
   scope :filterable, -> { where(type: "airline") }

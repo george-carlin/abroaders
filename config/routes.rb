@@ -57,7 +57,7 @@ Rails.application.routes.draw do
   resources :airports, only: [:index]
 
   # balances#new and balances#create are nested under 'people'
-  resources :balances, only: [:index, :update, :destroy]
+  resources :balances, only: [:index, :edit, :update, :destroy]
 
   resources :card_recommendations do
     member do
@@ -119,14 +119,18 @@ Rails.application.routes.draw do
         post :survey, action: :save_survey
       end
     end
-    resource :spending_info, path: :spending, only: [:edit, :update]
+    resource :spending_info, path: :spending, only: [:edit, :update] do
+      member do
+        patch :confirm
+      end
+    end
   end
 
   resource :phone_number, only: [:new, :create] do
     post :skip
   end
 
-  resources :products, only: [] do
+  resources :card_products, only: [] do
     resources :card_accounts, only: [:new, :create]
   end
 
@@ -136,6 +140,8 @@ Rails.application.routes.draw do
       post :survey, action: :save_survey
     end
   end
+
+  resource :recommendation_requests
 
   get :slack, to: "slack_invites#new"
   post "slack/invite", to: "slack_invites#create"
@@ -168,12 +174,12 @@ Rails.application.routes.draw do
   end
 
   namespace :admin, module: :admin_area do
-    resources :accounts, only: [:index, :show] do
+    resources :accounts, only: [:index] do
       collection do
         get :search
       end
     end
-    resources :banks, only: [:index, :edit, :update]
+    resources :banks, only: [:index]
     resources :card_products, except: :destroy do
       collection do
         get :images
@@ -200,18 +206,13 @@ Rails.application.routes.draw do
     resources :people, only: :show do
       resource :spending_info
       resources :card_accounts
-      resources :card_recommendations, only: [:create] do
+      resources :card_recommendations, only: [:create, :edit, :update] do
         collection do
           post :complete
-          get  :pulled
         end
       end
     end
-    resources :card_recommendations do
-      member do
-        patch :pull
-      end
-    end
+    resources :card_recommendations
     resources :recommendation_notes, only: [:edit, :update]
     resources :travel_plans, only: [:edit, :update]
   end

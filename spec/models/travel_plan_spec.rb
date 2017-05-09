@@ -1,11 +1,18 @@
 require 'rails_helper'
 
 RSpec.describe TravelPlan do
-  let(:travel_plan) { described_class.new }
+  example '#type=' do
+    # it raises an error when you try to set an invalid type
+    plan = described_class.new
 
-  it do
-    is_expected.to validate_numericality_of(:no_of_passengers)\
-      .is_greater_than_or_equal_to(1)\
-      .is_less_than_or_equal_to(20)
+    [
+      'one_way',
+      'round_trip',
+    ].each do |type|
+      expect { plan.type = type }.not_to raise_error
+      expect(plan.type).to eq type
+    end
+
+    expect { plan.type = 'invalid' }.to raise_error(Dry::Types::ConstraintError)
   end
 end

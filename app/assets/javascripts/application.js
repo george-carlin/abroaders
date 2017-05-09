@@ -23,6 +23,7 @@
 //= require admin_recommendations
 //= require card_account.new.select_product
 //= require actionable_rec
+//= require rec_req.call_to_action
 //= require award_wallet_settings
 //= require_tree ./other
 
@@ -42,7 +43,6 @@ window.components = {
   PointsEstimateTable:   require("./components/PointsEstimateTable"),
 };
 
-window.numbro = require("numbro");
 window.diacritics = require("diacritics");
 
 // Note that something more DRY like this won't work:

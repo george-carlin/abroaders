@@ -10,7 +10,7 @@ module AdminArea
       # this with Nested(inner: ...). See
       # https://github.com/trailblazer/trailblazer/issues/166.
       def nest_edit(options, params:, **)
-        result = CardAccount::Edit.(params, 'card_scope' => Card)
+        result = CardAccount::Edit.(params, 'card_scope' => Card.accounts)
         options['model'] = result['model']
         options['contract.default'] = result['contract.default']
       end

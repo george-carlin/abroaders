@@ -15,28 +15,28 @@ RSpec.describe CardAccount::Cell::Row do
     instance.()
   end
 
-  let(:card) { Card.new(opened_on: Date.new(2015, 6, 1)) }
+  let(:card_account) { Card.new(opened_on: Date.new(2015, 6, 1)) }
 
-  it 'displays info about the card' do
-    rendered = show(card)
+  it 'displays info about the card_account' do
+    rendered = show(card_account)
     expect(rendered).to have_content "Card Name: My awesome card"
     expect(rendered).to have_content 'Bank: My awesome bank'
     expect(rendered).to have_content 'Bank: My awesome bank'
     expect(rendered).not_to have_content 'Closed:'
   end
 
-  example 'card is closed' do
-    card.closed_on = Date.new(2016, 2, 1)
-    expect(show(card)).to have_content 'Closed: Feb 2016'
+  example 'card account is closed' do
+    card_account.closed_on = Date.new(2016, 2, 1)
+    expect(show(card_account)).to have_content 'Closed: Feb 2016'
   end
 
   example ':editable option' do
     # with:
-    rendered = show(card)
+    rendered = show(card_account)
     expect(rendered).not_to have_link 'Edit'
     expect(rendered).not_to have_link 'Delete'
     # without:
-    rendered = show(card, editable: true)
+    rendered = show(card_account, editable: true)
     expect(rendered).to have_link 'Edit'
     expect(rendered).to have_link 'Delete'
   end

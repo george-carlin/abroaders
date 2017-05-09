@@ -21,7 +21,7 @@ RSpec.describe 'as a user viewing my cards' do
 
   example "not recommended any cards yet" do
     visit_page
-    expect(page).to have_content t("cards.index.recs_coming_soon")
+    expect(page).to have_no_content 'My recommendations'
   end
 
   example "solo account with recommendations" do
@@ -32,8 +32,8 @@ RSpec.describe 'as a user viewing my cards' do
     within "#owner_card_recommendations" do
       recs.each do |rec|
         expect(page).to have_selector "#card_recommendation_#{rec.id}"
-        expect(page).to have_content rec.product.name
-        expect(page).to have_content rec.product.bank_name
+        expect(page).to have_content rec.card_product.name
+        expect(page).to have_content rec.card_product.bank_name
       end
     end
 
@@ -46,7 +46,6 @@ RSpec.describe 'as a user viewing my cards' do
     account.recommendation_notes.create!(content: "new note\n\nhttp://example.com")
 
     create_card_recommendation(person_id: owner.id)
-    owner.update(last_recommendations_at: Time.zone.now)
     visit_page
     # shows most recent recommendation note only:
     expect(page).to have_content    'new note'
@@ -92,8 +91,8 @@ RSpec.describe 'as a user viewing my cards' do
       within "##{person_type}_card_recommendations" do
         recs.each do |rec|
           expect(page).to have_selector "#card_recommendation_#{rec.id}"
-          expect(page).to have_content rec.product.name
-          expect(page).to have_content rec.product.bank_name
+          expect(page).to have_content rec.card_product.name
+          expect(page).to have_content rec.card_product.bank_name
         end
       end
     end
@@ -101,19 +100,5 @@ RSpec.describe 'as a user viewing my cards' do
     # has headers with owner's or companion's names:
     expect(page).to have_selector H, text: "#{owner.first_name}'s Recommendations"
     expect(page).to have_selector H, text: "#{companion.first_name}'s Recommendations"
-  end
-
-  example "pulled recs" do
-    companion = account.create_companion!(first_name: "Dave")
-    pulled_recs = [
-      create_card_recommendation(:pulled, person_id: owner.id),
-      create_card_recommendation(:pulled, person_id: companion.id),
-    ]
-
-    visit_page
-
-    pulled_recs.each do |rec|
-      expect(page).to have_no_selector "#card_recommendation_#{rec.id}"
-    end
   end
 end

@@ -15,105 +15,109 @@ module Estimates
       @lhr = Airport.new(parent: City.new(parent: @uk))
     end
 
+    def get_estimate(attrs)
+      described_class.new(attrs)
+    end
+
     example "non-US -> non-US estimates" do
-      estimate = FeesEstimate.new(from: @cdg, to: @lhr, type: "single")
+      attrs = { from: @cdg, to: @lhr, type: 'one_way', no_of_passengers: 1 }
 
-      single_fee_low  = FeesEstimate::NON_US_SINGLE_FEES_MIN_USD
-      single_fee_high = FeesEstimate::NON_US_SINGLE_FEES_MAX_USD
+      single_fee_low  = FeesEstimate::NON_US_ONE_WAY_FEES_MIN_USD
+      single_fee_high = FeesEstimate::NON_US_ONE_WAY_FEES_MAX_USD
 
-      estimate.class_of_service = "economy"
-      expect(estimate.low).to eq single_fee_low
-      expect(estimate.high).to eq single_fee_high
-      estimate.class_of_service = "business_class"
-      expect(estimate.low).to eq single_fee_low
-      expect(estimate.high).to eq single_fee_high
-      estimate.class_of_service = "first_class"
-      expect(estimate.low).to eq single_fee_low
-      expect(estimate.high).to eq single_fee_high
+      attrs[:class_of_service] = "economy"
+      expect(get_estimate(attrs).low).to eq single_fee_low
+      expect(get_estimate(attrs).high).to eq single_fee_high
+      attrs[:class_of_service] = "business_class"
+      expect(get_estimate(attrs).low).to eq single_fee_low
+      expect(get_estimate(attrs).high).to eq single_fee_high
+      attrs[:class_of_service] = "first_class"
+      expect(get_estimate(attrs).low).to eq single_fee_low
+      expect(get_estimate(attrs).high).to eq single_fee_high
 
-      estimate.type = "return"
-      return_fee_low  = FeesEstimate::NON_US_RETURN_FEES_MIN_USD
-      return_fee_high = FeesEstimate::NON_US_RETURN_FEES_MAX_USD
-      estimate.class_of_service = "economy"
-      expect(estimate.low).to eq return_fee_low
-      expect(estimate.high).to eq return_fee_high
-      estimate.class_of_service = "business_class"
-      expect(estimate.low).to eq return_fee_low
-      expect(estimate.high).to eq return_fee_high
-      estimate.class_of_service = "first_class"
-      expect(estimate.low).to eq return_fee_low
-      expect(estimate.high).to eq return_fee_high
+      attrs[:type] = 'round_trip'
+      return_fee_low  = FeesEstimate::NON_US_ROUND_TRIP_FEES_MIN_USD
+      return_fee_high = FeesEstimate::NON_US_ROUND_TRIP_FEES_MAX_USD
+      attrs[:class_of_service] = "economy"
+      expect(get_estimate(attrs).low).to eq return_fee_low
+      expect(get_estimate(attrs).high).to eq return_fee_high
+      attrs[:class_of_service] = "business_class"
+      expect(get_estimate(attrs).low).to eq return_fee_low
+      expect(get_estimate(attrs).high).to eq return_fee_high
+      attrs[:class_of_service] = "first_class"
+      expect(get_estimate(attrs).low).to eq return_fee_low
+      expect(get_estimate(attrs).high).to eq return_fee_high
     end
 
     example "US -> US estimates" do
-      estimate = FeesEstimate.new(from: @jfk, to: @jfk, type: "single")
+      attrs = { from: @jfk, to: @jfk, type: 'one_way', no_of_passengers: 1 }
 
-      single_fee = FeesEstimate::US_TO_US_SINGLE_FEES_USD
-      estimate.class_of_service = "economy"
-      expect(estimate.low).to eq single_fee
-      expect(estimate.high).to eq single_fee
-      estimate.class_of_service = "business_class"
-      expect(estimate.low).to eq single_fee
-      expect(estimate.high).to eq single_fee
-      estimate.class_of_service = "first_class"
-      expect(estimate.low).to eq single_fee
-      expect(estimate.high).to eq single_fee
+      single_fee = FeesEstimate::US_TO_US_ONE_WAY_FEES_USD
+      attrs[:class_of_service] = "economy"
+      expect(get_estimate(attrs).low).to eq single_fee
+      expect(get_estimate(attrs).high).to eq single_fee
+      attrs[:class_of_service] = "business_class"
+      expect(get_estimate(attrs).low).to eq single_fee
+      expect(get_estimate(attrs).high).to eq single_fee
+      attrs[:class_of_service] = "first_class"
+      expect(get_estimate(attrs).low).to eq single_fee
+      expect(get_estimate(attrs).high).to eq single_fee
 
-      estimate.type = "return"
-      return_fee = FeesEstimate::US_TO_US_RETURN_FEES_USD
-      estimate.class_of_service = "economy"
-      expect(estimate.low).to eq return_fee
-      expect(estimate.high).to eq return_fee
-      estimate.class_of_service = "business_class"
-      expect(estimate.low).to eq return_fee
-      expect(estimate.high).to eq return_fee
-      estimate.class_of_service = "first_class"
-      expect(estimate.low).to eq return_fee
-      expect(estimate.high).to eq return_fee
+      attrs[:type] = 'round_trip'
+      return_fee = FeesEstimate::US_TO_US_ROUND_TRIP_FEES_USD
+      attrs[:class_of_service] = "economy"
+      expect(get_estimate(attrs).low).to eq return_fee
+      expect(get_estimate(attrs).high).to eq return_fee
+      attrs[:class_of_service] = "business_class"
+      expect(get_estimate(attrs).low).to eq return_fee
+      expect(get_estimate(attrs).high).to eq return_fee
+      attrs[:class_of_service] = "first_class"
+      expect(get_estimate(attrs).low).to eq return_fee
+      expect(get_estimate(attrs).high).to eq return_fee
     end
 
     example "US <-> non-US estimates" do
-      estimate = FeesEstimate.new(from: @cdg, to: @jfk, type: "single")
-      estimate.no_of_passengers = 1
+      attrs = { from: @cdg, to: @jfk, type: 'one_way' }
+      attrs[:no_of_passengers] = 1
 
       # NB: estimates are rounded to the nearest $5
       #
       # current values in the CSV:
       #   EU,US,64,157,65,222,65,183
-      estimate.class_of_service = "economy"
-      expect(estimate.low).to eq 65
-      expect(estimate.high).to eq 155
-      estimate.class_of_service = "business_class"
-      expect(estimate.low).to eq 65
-      expect(estimate.high).to eq 220
-      estimate.class_of_service = "first_class"
-      expect(estimate.low).to eq 65
-      expect(estimate.high).to eq 185
+      attrs[:class_of_service] = "economy"
+      expect(get_estimate(attrs).low).to eq 65
+      expect(get_estimate(attrs).high).to eq 155
+      attrs[:class_of_service] = "business_class"
+      expect(get_estimate(attrs).low).to eq 65
+      expect(get_estimate(attrs).high).to eq 220
+      attrs[:class_of_service] = "first_class"
+      expect(get_estimate(attrs).low).to eq 65
+      expect(get_estimate(attrs).high).to eq 185
 
-      estimate.type = "return"
+      attrs[:type] = 'round_trip'
       #   EU,US,64,157,65,222,65,183
       #   US,EU,28,157,28,198,28,183
       #   total:92,314,93,410,93,366
-      estimate.class_of_service = "economy"
-      expect(estimate.low).to eq 90
-      expect(estimate.high).to eq 315
-      estimate.class_of_service = "business_class"
-      expect(estimate.low).to eq 95
-      expect(estimate.high).to eq 420
-      estimate.class_of_service = "first_class"
-      expect(estimate.low).to eq 95
-      expect(estimate.high).to eq 365
+      attrs[:class_of_service] = "economy"
+      expect(get_estimate(attrs).low).to eq 90
+      expect(get_estimate(attrs).high).to eq 315
+      attrs[:class_of_service] = "business_class"
+      expect(get_estimate(attrs).low).to eq 95
+      expect(get_estimate(attrs).high).to eq 420
+      attrs[:class_of_service] = "first_class"
+      expect(get_estimate(attrs).low).to eq 95
+      expect(get_estimate(attrs).high).to eq 365
 
-      estimate.no_of_passengers = 3
-      estimate.class_of_service = "economy"
-      expect(estimate.low).to eq 90 * 3
-      expect(estimate.high).to eq 315 * 3
-      estimate.class_of_service = "business_class"
-      expect(estimate.low).to eq 95 * 3
-      expect(estimate.high).to eq 420 * 3
-      estimate.class_of_service = "first_class"
-      expect(estimate.low).to eq 95 * 3
-      expect(estimate.high).to eq 365 * 3
+      attrs[:no_of_passengers] = 3
+      attrs[:class_of_service] = "economy"
+      expect(get_estimate(attrs).low).to eq 90 * 3
+      expect(get_estimate(attrs).high).to eq 315 * 3
+      attrs[:class_of_service] = "business_class"
+      expect(get_estimate(attrs).low).to eq 95 * 3
+      expect(get_estimate(attrs).high).to eq 420 * 3
+      attrs[:class_of_service] = "first_class"
+      expect(get_estimate(attrs).low).to eq 95 * 3
+      expect(get_estimate(attrs).high).to eq 365 * 3
     end
   end
 end

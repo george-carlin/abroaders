@@ -17,10 +17,6 @@ namespace :ab do
       Seeder.seed_admins
     end
 
-    task banks: :environment do
-      Seeder.seed_banks
-    end
-
     task card_products: :environment do
       Seeder.seed_card_products
     end
@@ -103,6 +99,6 @@ namespace :ab do
     end
 
     task destinations: [:regions, :countries, :cities, :airports]
-    task all: [:admins, :banks, :currencies, :card_products, :destinations, :offers]
+    task all: [:admins, :currencies, :card_products, :destinations, :offers]
   end
 end

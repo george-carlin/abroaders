@@ -1,13 +1,5 @@
 <% provide :title, "Add Home Aiports" %>
 
-<% if current_account.app_sumo? %>
-  <div class="alert alert-info">
-    Thanks for signing up through App Sumo! Your upgrade to a premium account has
-    been successfully processed and will expire on
-    <%= (current_account.created_at + 1.year).strftime('%D') %>.
-  </div>
-<% end %>
-
 <div class="hpanel home-airports-survey">
   <div class="panel-heading hbuilt">
     <div class="row">

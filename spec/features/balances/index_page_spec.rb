@@ -10,18 +10,7 @@ RSpec.describe 'balance index page' do
   let(:currencies) { @currencies }
 
   def create_balance(currency, value)
-    result = Balance::Operation::Create.(
-      {
-        balance: {
-          currency_id: currency.id,
-          value: value,
-        },
-        person_id: owner.id,
-      },
-      'account' => account,
-    )
-    raise unless result.success?
-    result['model']
+    super(value: value, person: owner, currency: currency)
   end
 
   example "viewing my balances" do
@@ -40,26 +29,6 @@ RSpec.describe 'balance index page' do
     end
   end
 
-  example "updating a balance", :js, :manual_clean do
-    balance = create_balance(currencies[0], 1234)
-    visit balances_path
-    update_balance_value(balance, 2345)
-    balance.reload
-    expect(balance.value).to eq 2345
-  end
-
-  example "trying to update a balance invalidly", :js, :manual_clean do
-    balance = create_balance(currencies[0], 1234)
-    visit balances_path
-
-    expect do
-      update_balance_value(balance, -2345)
-      balance.reload
-    end.not_to change { balance.value }
-
-    expect(page).to have_content "Invalid value"
-  end
-
   example 'deleting a balance', :js do
     balance = create_balance(currencies[0], 1234)
     visit balances_path
@@ -71,26 +40,18 @@ RSpec.describe 'balance index page' do
     expect(Balance.exists?(id: balance.id)).to be false
   end
 
-  skip "when I've linked my account to AwardWallet" do
+  example "when I've linked my account to AwardWallet" do
     setup_award_wallet_user_from_sample_data(account)
     visit balances_path
-    # it shows my award wallet balances
-  end
-
-  def balance_selector(balance)
-    "#balance_#{balance.id}"
+    account.award_wallet_accounts.each do |awa|
+      section = awa.person.nil? ? '#unassigned_balances' : '#owner_balances'
+      within section do
+        expect(page).to have_selector "#award_wallet_account_#{awa.id}"
+      end
+    end
   end
 
   def within_balance(balance, &block)
-    within(balance_selector(balance), &block)
-  end
-
-  def update_balance_value(balance, new_value)
-    within_balance(balance) do
-      click_button 'Edit'
-      fill_in :balance_value, with: new_value
-      click_button 'Save'
-      wait_for_ajax
-    end
+    within("#balance_#{balance.id}", &block)
   end
 end

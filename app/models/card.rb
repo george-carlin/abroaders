@@ -72,9 +72,6 @@
 #   than reusing 'declined_at' (which would make it unclear whether the user
 #   declined the card manually or it was declined automatically).
 #
-# @!attribute pulled_at
-#   pulled means that the admin withdrew the rec after making it.
-#
 # @!attribute applied_on
 #   the date the user *applied* for the card (according to them).
 #
@@ -90,57 +87,52 @@
 # application survey.
 #
 # All Cards belong to a CardProduct. They also optionally belong to an Offer.
-# If the card has an offer, then card.offer.product must equal card.product
-# This is enforced in the setters #offer= and #product=; they'll raise an
-# error if the product's don't match.
+# If the card has an offer, then card.offer.card_product must equal
+# card.card_product This is enforced in the setters #offer= and #card_product=;
+# they'll raise an error if the product's don't match.
 #
 # This design isn't ideal because it means there's duplicate data in the DB,
 # but I couldn't think of a better alternative.
-#
-# A subset of cards are *recommendations*. It's a recommendation if it was
-# recommended to the user by an admin, as opposed to e.g. the user adding the
-# card themselves through the onboarding survey.  Eventually we want to split
-# recommendations into their own entirely separate model and DB table. For now,
-# a recommendation is any Card that has a 'recommended_at' timestamp.
-#
-# A recommendation is 'resolved' when either a) the user applies for the
-# recommended card (so it's no longer just a recommendation, it's a card
-# application and maybe later a card account), or b) something happens which
-# means the user no longer can apply for the card. (Right now that means that
-# the recommendation either expired, the user declined it, an admin pulled it,
-# or the recommended offer is no longer available.)
-#
-# A recommendation is 'actionable' when it's either unresolved, or the user
-# applied for it and the results of that application are still not final. So an
-# 'actionable card' is basically the set of cards that are either 1) unresolved
-# recommendations or 2) unresolved applications.
 class Card < ApplicationRecord
-  def status
-    status_model.name
-  end
-
-  def recommendation?
+  def recommended?
     !recommended_at.nil?
   end
 
-  %w[recommended declined denied open closed].each do |status|
-    define_method "#{status}?" do
-      self.status == status
-    end
+  def closed?
+    !closed_on.nil?
   end
+
+  def opened?
+    !opened_on.nil?
+  end
+
+  def unclosed?
+    !closed?
+  end
+
+  def unopened?
+    !opened?
+  end
+
+  include CardRecommendation::Predicates
 
   # Validations
 
-  validates :person, presence: true
-
-  validates :decline_reason, presence: true, unless: 'declined_at.nil?'
-
   # Associations
 
-  belongs_to :product, class_name: 'CardProduct'
-  belongs_to :person
-  has_one :account, through: :person
+  belongs_to :card_product
   belongs_to :offer
+  belongs_to :person
+  belongs_to :recommended_by, class_name: 'Admin'
+  has_one :account, through: :person
+  has_one :currency, through: :card_product
+
+  delegate :bank, to: :card_product, allow_nil: true
+  delegate :name, to: :bank, prefix: true
+
+  # In reality there should always be a currency present, but if we
+  # don't set allow_nil to true it's too much of a PITA to test.
+  delegate :name, to: :currency, prefix: true, allow_nil: true
 
   # Callbacks
 
@@ -148,7 +140,7 @@ class Card < ApplicationRecord
 
   # returns true iff the product can be applied for
   def applyable?
-    recommendation? && status == "recommended"
+    recommended? && !(applied? || expired? || declined?)
   end
 
   alias declinable?  applyable?
@@ -158,21 +150,44 @@ class Card < ApplicationRecord
 
   # Scopes
 
+  # A subset of Cards are *recommendations*. These are cards that were
+  # recommended to the user by an admin, as opposed to e.g. the user adding it
+  # themselves through the onboarding survey.  Eventually we want to split
+  # recommendations into their own entirely separate model and DB table. For now,
+  # a recommendation is any Card that has a 'recommended_at' timestamp.
   scope :recommended, -> { where.not(recommended_at: nil) } do
-    # recs which still require user action:
+    # A recommendation is 'actionable' when it's either unresolved (see below),
+    # or the user applied for it and the results of that application are still
+    # not final. So an 'actionable card' is basically the set of cards that are
+    # either 1) unresolved recommendations or 2) unresolved applications.
     def actionable
-      unpulled.unopen.where(%["denied_at" IS NULL OR "nudged_at" IS NULL]).unredenied.unexpired.undeclined
+      unopened.where(%["denied_at" IS NULL OR "nudged_at" IS NULL]).unredenied.unexpired.undeclined
+    end
+
+    # A recommendation is 'resolved' when either a) the user applies for the
+    # recommended card (so it's no longer just a recommendation, it's a card
+    # application and maybe later a card account), or b) something happens
+    # which means the user no longer can apply for the card. (Right now that
+    # means that the recommendation either expired, the user declined it, or
+    # the recommended offer is no longer available.
+    #
+    # However, we don't have anything smart in place to handle the case where
+    # the recommended offer is no longer available; for now admins have to
+    # delete the rec entirely when this happens - so this scope doesn't exclude
+    # them in that case.)
+    def unresolved
+      unapplied.unexpired.undeclined
     end
   end
 
-  scope :pulled,     -> { where.not(pulled_at: nil) }
+  scope :accounts, -> { where.not(opened_on: nil) }
+
   scope :unapplied,  -> { where(applied_on: nil) }
   scope :unclicked,  -> { where(clicked_at: nil) }
   scope :undeclined, -> { where(declined_at: nil) }
   scope :undenied,   -> { where(denied_at: nil) }
   scope :unexpired,  -> { where(expired_at: nil) }
-  scope :unopen,     -> { where(opened_on: nil) }
-  scope :unpulled,   -> { where(pulled_at: nil) }
+  scope :unopened,   -> { where(opened_on: nil) }
   scope :unredenied, -> { where(redenied_at: nil) }
   scope :unseen,     -> { where(seen_at: nil) }
 
@@ -181,11 +196,7 @@ class Card < ApplicationRecord
   private
 
   def set_product_to_offer_product
-    return unless !offer.nil? && !offer.product.nil? && product.nil?
-    self.product = offer.product
-  end
-
-  def status_model
-    Card::Status.build(self)
+    return unless !offer.nil? && !offer.card_product.nil? && card_product.nil?
+    self.card_product = offer.card_product
   end
 end

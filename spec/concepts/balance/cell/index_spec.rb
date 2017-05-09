@@ -1,103 +1,87 @@
 require 'cells_helper'
 
-# FIXME these specs need updating for the refactored BalanceTable
 RSpec.describe Balance::Cell::Index do
-  before { pending }
   controller BalancesController
 
-  let(:currencies) { Array.new(2) { |i| Currency.new(name: "Curr #{i}") } }
+  let(:account) { create(:account) }
+  let(:owner) { account.owner }
 
-  let(:account) { Account.new }
-  let(:owner) { account.build_owner(id: 1, first_name: 'Erik') }
+  it 'asks me to connect to AwardWallet' do
+    rendered = show(account)
+    expect(rendered).to have_content 'Connect your AwardWallet account to Abroaders'
+    expect(rendered).to have_link 'Connect to AwardWallet'
+    expect(rendered).to have_no_content "You're connected to your AwardWallet account"
+    expect(rendered).to have_no_link 'Manage settings'
+  end
 
-  def get_result(data)
-    Trailblazer::Operation::Result.new(true, data)
+  context 'when account is connected to AwardWallet' do
+    before do
+      account.build_award_wallet_user(loaded: true, user_name: 'AWUser')
+    end
+
+    it 'has link to AW settings page' do
+      rendered = show(account)
+      expect(rendered).to have_content "You're connected to your AwardWallet account"
+      expect(rendered).to have_content 'AWUser'
+      expect(rendered).to have_link 'Manage settings', href: integrations_award_wallet_settings_path
+      expect(rendered).to have_no_content 'Connect your AwardWallet account to Abroaders'
+      expect(rendered).to have_no_link 'Connect to AwardWallet'
+    end
   end
 
   example 'solo account with no balances' do
-    result = get_result(
-      'account' => account,
-      'people'  => [owner],
-    )
-    rendered = show(result)
+    rendered = show(account)
     expect(rendered).to have_selector 'h1', text: 'My points'
-    expect(rendered).to have_content 'No balances'
+    expect(rendered).to have_content 'No points balances'
   end
 
   example 'solo account with balances' do
-    2.times do |i|
-      owner.balances.build(id: i, value: 1234, currency: currencies[i], updated_at: 5.minutes.ago)
-    end
+    balances = Array.new(2) { create_balance(person: owner) }
 
-    result = get_result(
-      'account'  => account,
-      'people'   => [owner],
-    )
-
-    rendered = show(result)
+    rendered = show(account)
     expect(rendered).to have_selector 'h1', text: 'My points'
-    expect(rendered).not_to have_content 'No balances'
-    expect(rendered).to have_content 'Curr 0'
-    expect(rendered).to have_content 'Curr 1'
-  end
-
-  example 'account not connected to AwardWallet' do
-    result = get_result('account' => account, 'people' => [owner])
-
-    rendered = show(result)
-    expect(rendered).to have_content 'Connect your AwardWallet account'
-    expect(rendered).not_to have_link(
-      'Manage settings', href: integrations_award_wallet_settings_path,
-    )
-  end
-
-  example 'account connected to AwardWallet' do
-    account.build_award_wallet_user(loaded: true, user_name: 'AWUser')
-    result = get_result('account' => account, 'people' => [owner])
-
-    rendered = show(result)
-    expect(rendered).not_to have_content 'Connect your AwardWallet account'
-    expect(rendered).to have_content 'AWUser'
-    expect(rendered).to have_link(
-      'Manage settings', href: integrations_award_wallet_settings_path,
-    )
+    expect(rendered).not_to have_content 'No points balances'
+    expect(rendered).to have_content balances[0].currency_name
+    expect(rendered).to have_content balances[1].currency_name
   end
 
   describe 'couples account' do
-    let!(:companion) { account.build_companion(id: 2, first_name: 'Gabi') }
+    let!(:companion) { account.create_companion!(first_name: 'Gabi') }
 
-    before do
-      2.times do |i|
-        owner.balances.build(id: i, value: 1234, currency: currencies[i])
-      end
+    example 'neither person has balances' do
+      rendered = show(account)
+      expect(rendered).to have_selector 'h1', text: "Erik's points"
+      expect(rendered).to have_selector 'h1', text: "Gabi's points"
+      expect(rendered).to have_content 'No points balances', count: 2
+    end
+
+    example 'one person has no balances' do
+      create_balance(person: owner)
+      rendered = show(account)
+      expect(rendered).to have_selector 'h1', text: "Erik's points"
+      expect(rendered).to have_selector 'h1', text: "Gabi's points"
+      expect(rendered).to have_content owner.balances[0].currency_name
+      expect(rendered).to have_content 'No points balances', count: 1
     end
 
     example 'both people have balances' do
-      2.times do |i|
-        companion.balances.build(id: i, value: 1234, currency: currencies[i])
-      end
+      ob = create_balance(person: owner)
+      cb = create_balance(person: companion)
 
-      result = get_result(
-        'account' => account,
-        'people' => [owner, companion],
-      )
-
-      rendered = show(result)
-      expect(rendered).not_to have_content 'My points'
-      expect(rendered).not_to have_content 'No balances'
+      rendered = show(account)
       expect(rendered).to have_selector 'h1', text: "Erik's points"
       expect(rendered).to have_selector 'h1', text: "Gabi's points"
+      expect(rendered).to have_content ob.currency_name
+      expect(rendered).to have_content cb.currency_name
+      expect(rendered).to have_no_content 'No points balances'
     end
+  end
 
-    example 'where one person has no balances' do
-      result = get_result(
-        'account' => account,
-        'people' => [owner, companion],
-      )
-
-      rendered = show(result)
-      expect(rendered).to have_selector 'h1', text: "Erik's points"
-      expect(rendered).to have_selector 'h1', text: "Gabi's points"
-    end
+  it 'avoids XSS' do
+    owner.update!(first_name: '<script>')
+    account.create_companion!(first_name: '</script>')
+    rendered = show(account).raw
+    expect(rendered).to include "&lt;script&gt;"
+    expect(rendered).to include "&lt;/script&gt;"
   end
 end

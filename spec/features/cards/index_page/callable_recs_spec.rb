@@ -8,7 +8,7 @@ RSpec.describe "user cards page - callable cards", :js do
   let(:recommended_at) { 7.days.ago.to_date }
   let(:applied_on) { 7.days.ago.to_date }
   let(:denied_at)  { 5.days.ago.to_date }
-  let(:bp) { :personal }
+  let(:business) { false }
 
   # override variables set by ApplicationSurveyMacros:
   let(:approved_btn) { 'I was approved after reconsideration' }
@@ -18,9 +18,9 @@ RSpec.describe "user cards page - callable cards", :js do
   before do
     person.update!(eligible: true)
     login_as_account(account)
-    @bank    = create(:bank, name: "Chase")
-    @product = create(:card_product, bank_id: @bank.id, bp: bp)
-    @offer = create_offer(product: @product)
+    @bank    = Bank.all.first
+    @product = create(:card_product, bank_id: @bank.id, business: business)
+    @offer = create_offer(card_product: @product)
     @rec = create_card_recommendation(person_id: person.id, offer_id: @offer.id)
     @rec.update!(recommended_at: recommended_at, applied_on: applied_on, denied_at: denied_at)
     visit cards_path
@@ -43,7 +43,7 @@ RSpec.describe "user cards page - callable cards", :js do
   end
 
   context "for a personal card product" do
-    let(:bp) { :personal }
+    let(:business) { false }
     it "gives me the bank's personal number" do
       expect(page).to have_content "call #{@bank.name} at #{personal_phone}"
       expect(page).to have_no_content business_phone
@@ -51,7 +51,7 @@ RSpec.describe "user cards page - callable cards", :js do
   end
 
   context "for a business card product" do
-    let(:bp) { :business }
+    let(:business) { true }
     it "gives me the bank's business number" do
       expect(page).to have_content "call #{@bank.name} at #{business_phone}"
       expect(page).to have_no_content personal_phone
@@ -93,15 +93,14 @@ RSpec.describe "user cards page - callable cards", :js do
       describe "and clicking 'confirm'" do
         before do
           click_button 'Confirm'
-          # FIXME can't figure out a more elegant solution than this:
-          sleep 1.5
+          sleep 1.5 # can't figure out a more elegant solution than this
           rec.reload
         end
 
         it "updates the card account's attributes", :backend do
           # this spec fails when run late in the day when your machine's time
           # is earlier than UTC # TZFIXME
-          expect(rec.status).to eq "open"
+          expect(rec).to be_opened
           expect(rec.opened_on).to eq Time.zone.today
           expect(rec.called_at).to be_within(5.seconds).of(Time.zone.now)
           expect(rec.applied_on).to eq applied_on # unchanged
@@ -117,13 +116,12 @@ RSpec.describe "user cards page - callable cards", :js do
       describe "and clicking 'confirm'" do
         before do
           click_button 'Confirm'
-          # FIXME can't figure out a more elegant solution than this:
-          sleep 1.5
+          sleep 1.5 # can't figure out a more elegant solution than this
           rec.reload
         end
 
         it "updates the card account's attributes", :backend do
-          expect(rec.status).to eq "denied"
+          expect(CardRecommendation.new(rec).status).to eq "denied"
           expect(rec.denied_at).to eq denied_at
           expect(rec.applied_on).to eq applied_on # unchanged
           expect(rec.redenied_at).to be_within(5.seconds).of(Time.zone.now)
@@ -140,13 +138,12 @@ RSpec.describe "user cards page - callable cards", :js do
       describe "and clicking 'confirm'" do
         before do
           click_button 'Confirm'
-          # FIXME can't figure out a more elegant solution than this:
-          sleep 1.5
+          sleep 1.5 # can't figure out a more elegant solution than this
           rec.reload
         end
 
         it "updates the card account's attributes", :backend do
-          expect(rec.status).to eq "denied"
+          expect(CardRecommendation.new(rec).status).to eq "denied"
           expect(rec.denied_at).to eq denied_at
           expect(rec.applied_on).to eq applied_on # unchanged
           expect(rec.called_at).to be_within(5.seconds).of(Time.zone.now)

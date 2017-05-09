@@ -2,10 +2,10 @@ module AdminArea
   class OffersController < AdminController
     def index
       if params[:card_product_id]
-        @product = load_product
+        @product = CardProduct.find(params[:card_product_id])
         @offers  = @product.offers
       else
-        @offers = Offer.includes(product: :bank)
+        @offers = Offer.includes(:card_product)
       end
     end
 
@@ -15,20 +15,12 @@ module AdminArea
     end
 
     def new
-      run Offers::Operation::New
+      run Offers::New
       render cell(Offers::Cell::New, @model, form: @form)
     end
 
-    def edit
-      run Offers::Operation::Edit do
-        render cell(Offers::Cell::Edit, @model, form: @form)
-        return
-      end
-      raise 'this should never happen!'
-    end
-
     def create
-      run Offers::Operation::Create do
+      run Offers::Create do
         flash[:success] = 'Offer was successfully created.'
         redirect_to admin_offer_path(@model)
         return
@@ -36,8 +28,16 @@ module AdminArea
       render cell(Offers::Cell::New, @model, form: @form)
     end
 
+    def edit
+      run Offers::Edit do
+        render cell(Offers::Cell::Edit, @model, form: @form)
+        return
+      end
+      raise 'this should never happen!'
+    end
+
     def update
-      run Offers::Operation::Update do
+      run Offers::Update do
         flash[:success] = 'Offer was successfully updated.'
         redirect_to admin_offer_path(@model)
         return
@@ -46,23 +46,17 @@ module AdminArea
     end
 
     def kill
-      run Offers::Operation::Kill
+      run Offers::Kill
       respond_to { |f| f.js }
     end
 
     def review
-      @offers = Offer.includes(product: :bank).live.order('last_reviewed_at ASC NULLS FIRST')
+      @offers = Offer.includes(:card_product).live.order('last_reviewed_at ASC NULLS FIRST')
     end
 
     def verify
-      run Offers::Operation::Verify
+      run Offers::Verify
       respond_to { |f| f.js }
-    end
-
-    private
-
-    def load_product
-      CardProduct.find(params[:card_product_id])
     end
   end
 end

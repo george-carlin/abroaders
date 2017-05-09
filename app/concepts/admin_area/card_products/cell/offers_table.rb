@@ -4,34 +4,36 @@ module AdminArea
       # The table of offers for a particular product. Each offer has a
       # 'recommend' button for the admin to recommend the offer to a person.
       #
-      # @!method self.call(model, opts = {})
-      #   @param model [Collection<Offer>] a collection of offers that
-      #     can be recommended
-      #   @option opts [CardProduct] product the product being offered
-      #   @option opts [Person] person the person whom the offers will be
-      #     recommended to
+      # There'll be one of these tables for each product that has at least one
+      # recommendable offer. Each OffersTable <table> is nested within a <tr>
+      # in the parent table. Between each of those <tr>s (i.e.  outside the
+      # scope of the OffersTable cell) is *another* <tr> that contains the
+      # information about the CardProduct itself.
+      #
+      # @!method self.call(card_product, options = {})
+      #   @param card_product [CardProduct]
       class OffersTable < Abroaders::Cell::Base
-        alias offers model
+        property :id
+        property :recommendable_offers
 
         option :person
-        option :product
+
+        # @param model [CardProduct] a card product.  Must have at least one
+        #   live offer; cell will raise an error if it doesn't. TODO N+1
+        # @option options [Person] person the person whom the offers will be
+        #   recommended to
+        def initialize(product, options = {})
+          raise 'no offers' if product.recommendable_offers.empty?
+          super
+        end
 
         private
 
         def rows
-          cell(Row, collection: offers, person: person)
+          cell(Row, collection: recommendable_offers, person: person)
         end
 
-        def html_id
-          "admin_recommend_card_product_#{product.id}_offers_table"
-        end
-
-        def html_classes
-          'admin_recommend_card_product_offers_table table'
-        end
-
-        # a single `<tr>` containing an signup offer that can be recommended
-        #   for the product
+        # a `<tr>` containing a recommendable signup offer for the product
         #
         # @!method self.call(model, opts = {})
         #   @param model [Offer]
@@ -54,14 +56,6 @@ module AdminArea
             cell(Offer::Cell::Cost, model)
           end
 
-          def html_classes
-            'admin_recommend_offer'
-          end
-
-          def html_id
-            "admin_recommend_offer_#{id}"
-          end
-
           # Note that any links to the offer MUST be nofollowed for compliance reasons
           def link_to_link
             link_to 'Link', link, rel: 'nofollow', target: '_blank'
@@ -69,6 +63,18 @@ module AdminArea
 
           def identifier
             cell(Offers::Cell::Identifier, model)
+          end
+
+          # The spend as a raw integer, to be set as a data attribute of the
+          # TR.  Used by the filtering JS. If there's no spend (i.e. if the
+          # offer's condition is on_approval or on_first_purchase), output '0',
+          # so the offer will never be hidden by the max spend filter.
+          def offer_spend_data
+            model.spend || 0
+          end
+
+          def partner_name
+            cell(Partner::Cell::ShortName, model.partner)
           end
 
           def points_awarded

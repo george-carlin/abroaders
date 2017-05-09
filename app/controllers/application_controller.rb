@@ -43,15 +43,26 @@ class ApplicationController < ActionController::Base
     super
   end
 
+  # Since upgrading to Ruby 2.4.0, rails prints warnings EVERYWHERE with
+  # messages along the lines of "forwarding to private method
+  # (Controller)#protect_against_forgery?". It seems that
+  # protect_against_forgery?  is defined in actionpack as a private method of
+  # ActionController::Base, but forwardable expects it to be public. Making the
+  # method public may not be the ideal solution (really this is an issue in
+  # rails that should be fixed, as far as I can tell), but it suppresses the
+  # warnings:
+  public :protect_against_forgery?
+
   private
 
   # Pass these options by default into Trailblazer operations when calling
   # them with 'run'.
   #
   # This needs to live here rather than AuthenticatedUserController so that
-  # 'account' will be set in Account::Operation::Dashboard
+  # 'account' will be set in Account::Dashboard
   def _run_options(options)
     options['account'] = current_account if current_account
+    options['admin'] = current_admin if current_admin
     options
   end
 
@@ -60,5 +71,14 @@ class ApplicationController < ActionController::Base
     if ENV['WARN_IF_NOT_TRB_OP'] && !@_run_called
       warn "#{self.class}##{params[:action]} needs upgrading to a TRB operation"
     end
+  end
+
+  # Show detailed error output to logged-in admins. Note that this only works
+  # for 500 errors, not 404s. Also note that this method is only called when
+  # config.consider_all_requests_local is false; when it's true (e.g.  in the
+  # development environment), all requests show detailed exceptions anyway so
+  # this method is irrelevant.
+  def show_detailed_exceptions?
+    !!current_admin
   end
 end

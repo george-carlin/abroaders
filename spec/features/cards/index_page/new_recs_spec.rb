@@ -24,8 +24,7 @@ RSpec.describe "cards index page - new recommendation", :js do
   let(:click_confirm_btn) do
     before_click_confirm_btn
     click_button 'Confirm'
-    # FIXME can't figure out a more elegant solution than this:
-    sleep 1.5
+    sleep 1.5 # can't figure out a more elegant solution than this
     rec.reload
   end
   let(:before_click_confirm_btn) { nil }
@@ -101,7 +100,7 @@ RSpec.describe "cards index page - new recommendation", :js do
     click_confirm_btn
 
     expect(current_path).to eq cards_path
-    expect(page).to have_info_message CardRecommendation::Operation::Decline::COULDNT_DECLINE
+    expect(page).to have_info_message CardRecommendation::Decline::COULDNT_DECLINE
   end
 
   example "clicking the 'I Applied' button" do
@@ -169,7 +168,7 @@ RSpec.describe "cards index page - new recommendation", :js do
             # this spec fails when run late in the day when your machine's time
             # is earlier than UTC # TZFIXME
             wait_for_ajax
-            expect(rec).to be_open
+            expect(rec).to be_opened
             expect(rec.opened_on).to eq Time.zone.today
             expect(rec.applied_on).to eq Time.zone.today
           end
@@ -195,7 +194,7 @@ RSpec.describe "cards index page - new recommendation", :js do
           end
 
           it "sets the card's attributes", :backend do
-            expect(rec).to be_open
+            expect(rec).to be_opened
             expect(rec.opened_on.to_date).to eq date.to_date
             expect(rec.applied_on.to_date).to eq date.to_date
           end
@@ -217,7 +216,7 @@ RSpec.describe "cards index page - new recommendation", :js do
           # this spec fails when run late in the day when your machine's time
           # is earlier than UTC # TZFIXME
           expect(page).to have_content "We strongly recommend"
-          expect(rec.status).to eq "denied"
+          expect(CardRecommendation.new(rec).status).to eq "denied"
           expect(rec.denied_at).to be_within(5.seconds).of(Time.zone.now)
           expect(rec.applied_on).to eq Time.zone.today
         end
@@ -249,7 +248,7 @@ RSpec.describe "cards index page - new recommendation", :js do
         it "updates the card's attributes", :backend do
           # this spec fails when run late in the day when your machine's time
           # is earlier than UTC # TZFIXME
-          expect(rec.status).to eq "applied"
+          expect(CardRecommendation.new(rec).status).to eq "applied"
           expect(rec.applied_on).to eq Time.zone.today
         end
 

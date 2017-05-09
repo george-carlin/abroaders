@@ -1,12 +1,14 @@
 <div id="header">
-  <%= logo %>
+  <div id="logo" class="<%= logo_html_classes %>">
+    <%= link_to root_path do %>
+      <%= logo_image_tag %>
+    <% end %>
+  </div>
 
   <nav role="navigation">
     <%= bars %>
 
-    <div class="small-logo" <%= raw('style="padding-left: 20px"') if pad_logo? %>>
-      <span class="text-primary">Abroaders</span>
-    </div>
+    <%= small_logo %>
 
     <%= search_form %>
 
@@ -28,7 +30,6 @@
 
     <div class="navbar-right">
       <ul class="nav navbar-nav no-borders">
-        <%= notifications %>
         <%= username %>
         <%= links %>
       </ul>

@@ -1,0 +1,60 @@
+<div class="hpanel">
+  <div class="panel-heading hbuilt">
+    <div class="row">
+      <div class="col-xs-12">
+        <h1>Edit Card Recommendation</h1>
+      </div>
+    </div><!-- .row -->
+  </div>
+
+  <%= errors %>
+
+  <div class="panel-body">
+    <div class="alert alert-info">
+      <h4>Be careful!</h4>
+
+      <p>
+        I threw this page up quickly so that admins can edit card rec details.
+        Be very careful how you edit it - if you save dates that don't make
+        sense (e.g. marking a recommendation as both applied and declined) - it
+        will cause crashes elsewhere in the app.
+      </p>
+
+      <p>
+        I've put some safety checks in place that <i>should</i> make the save
+        fail if the dates dont look right - but there are so many possible
+        combinations of dates that it's impossible to know if I've covered
+        all the bases. Proceed with caution.
+      </p>
+    </div>
+
+    <br>
+    <br>
+
+    <%= form_for form, url: admin_card_recommendation_path(model) do |f| %>
+      <div class="row">
+        <%= date_inputs(f) %>
+
+        <div class="col-md-12 col-lg-3">
+          <%= f.label :decline_reason, 'Decline reason:' %>
+        </div>
+
+        <div class="col-md-12 col-lg-9">
+          <%= f.text_field :decline_reason %>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <%= f.submit 'Save', class: 'btn btn-primary btn-lg' %>
+
+          &nbsp;&nbsp;
+
+          <%= link_back_to_person %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

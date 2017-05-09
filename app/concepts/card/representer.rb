@@ -10,7 +10,7 @@ class Card < Card.superclass
     property :offer_id
     property :opened_on
     property :person_id
-    property :product_id
+    property :card_product_id
 
     property :created_at
     property :updated_at

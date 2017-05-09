@@ -16,11 +16,11 @@ module Estimates
     end
 
     def low
-      POINTS[key][class_of_service]["low"] * no_of_passengers * (return? ? 2 : 1)
+      POINTS[key][class_of_service]["low"] * no_of_passengers * (round_trip? ? 2 : 1)
     end
 
     def high
-      POINTS[key][class_of_service]["high"] * no_of_passengers * (return? ? 2 : 1)
+      POINTS[key][class_of_service]["high"] * no_of_passengers * (round_trip? ? 2 : 1)
     end
 
     private

@@ -7,21 +7,18 @@ module AdminArea
       #   @param offer [Offer]
       class Show < Abroaders::Cell::Base
         property :id
+        property :bank_name
         property :condition
         property :link
-        property :partner
-        property :product
         property :notes
+        property :partner
+        property :card_product
 
         def title
           "Offer ##{id}"
         end
 
         private
-
-        def bank_name
-          product.bank.name
-        end
 
         def cost
           cell(Offer::Cell::Cost, model)
@@ -59,8 +56,8 @@ module AdminArea
           cell(Offer::Cell::PointsAwarded, model)
         end
 
-        def product_summary
-          cell(CardProducts::Cell::Summary, product)
+        def card_product_summary
+          cell(CardProducts::Cell::Summary, card_product)
         end
 
         def spend

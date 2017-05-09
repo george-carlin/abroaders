@@ -5,7 +5,6 @@ module Registration
     property :email, type: Types::StrippedString
     property :password
     property :password_confirmation, virtual: true
-    property :promo_code, type: Types::StrippedString
 
     property :test, type: Types::Bool
 
@@ -33,9 +32,6 @@ module Registration
       validates :password,
                 presence: true,
                 length: { within: PASSWORD_LENGTH, allow_blank: true }
-
-      validates :promo_code,
-                length: { maximum: 20, allow_blank: true }
 
       validate do
         errors.add(:password_confirmation, "doesn't match password") if password != password_confirmation

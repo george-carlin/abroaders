@@ -4,12 +4,12 @@ module AdminArea
 
     # GET /admin/cards
     def index
-      @products = CardProduct.all.includes(:offers, :currency, :bank).sort_by(&:bank_id)
+      @products = CardProduct.all.includes(:offers, :currency).sort_by(&:bank_id)
     end
 
     # GET /admin/cards/1
     def show
-      @product = load_card_product
+      @product = CardProduct.includes(:currency).find(params[:id])
     end
 
     # GET /admin/cards/new
@@ -31,12 +31,12 @@ module AdminArea
 
     # GET /admin/cards/1/edit
     def edit
-      @product = load_card_product
+      @product = CardProduct.find(params[:id])
     end
 
     # PATCH/PUT /admin/cards/1
     def update
-      @product = load_card_product
+      @product = CardProduct.find(params[:id])
       if @product.update(card_product_params)
         redirect_to admin_card_product_path(@product), notice: 'Card product was successfully updated.'
       else
@@ -45,18 +45,14 @@ module AdminArea
     end
 
     def images
-      @products = CardProduct.includes(:bank)
+      @products = CardProduct.all
     end
 
     private
 
-    def load_card_product
-      CardProduct.find(params[:id])
-    end
-
     def card_product_params
       params.require(:card_product).permit(
-        :code, :name, :network, :bp, :type, :annual_fee, :bank_id, :currency_id,
+        :name, :network, :personal, :type, :annual_fee, :bank_id, :currency_id,
         :shown_on_survey, :image,
       )
     end

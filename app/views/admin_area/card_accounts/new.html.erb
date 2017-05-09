@@ -4,7 +4,7 @@
   <div class="panel-heading hbuilt">
     <div class="row">
       <div class="col-xs-12">
-        <h1>Add Card to <%= @model.person.first_name %>'s account</h1>
+        <h1>Add Card Account for <%= @model.person.first_name %></h1>
       </div>
     </div><!-- .row -->
   </div>
@@ -19,7 +19,7 @@
         </div>
 
         <div class="col-md-12 col-lg-9">
-          <%= f.select :product_id, options_for_select(@products) %>
+          <%= f.select :card_product_id, AdminArea::CardProducts::OptionTags.().() %>
         </div>
 
         <div class="col-md-12 col-lg-3">

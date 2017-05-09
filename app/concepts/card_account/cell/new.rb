@@ -6,20 +6,22 @@ class CardAccount < CardAccount.superclass
     # If current account has a companion, has an extra input to select whether
     # the card is for the owner or for the companiothe companion
     class New < Abroaders::Cell::Base
-      extend Abroaders::Cell::Result
-
-      skill :model
-
-      # @param result [TRB Result] result of CardAccount::New
-      def initialize(result, opts = {}, *)
-        raise 'card must have product initialized' if result['model'].product.nil?
+      # @param model [Card]
+      # @option options [Reform::Form] form
+      def initialize(model, options = {}, *)
         super
+        raise 'card must have product initialized' if card_product.nil?
       end
+
+      property :card_product
+      property :account
+
+      option :form
 
       private
 
       def ask_for_person_id?
-        current_account.couples?
+        account.couples?
       end
 
       def closed_on_select(f)
@@ -35,16 +37,8 @@ class CardAccount < CardAccount.superclass
         )
       end
 
-      def current_account
-        result['account']
-      end
-
       def disable_closed_on?
         !form.closed
-      end
-
-      def form
-        result['contract.default']
       end
 
       def link_to_select_different_product
@@ -53,8 +47,8 @@ class CardAccount < CardAccount.superclass
 
       # don't call this 'options' as that conflicts with the Cells method!
       def options_for_person_id_select
-        owner     = current_account.owner
-        companion = current_account.companion
+        owner     = account.owner
+        companion = account.companion
         options_for_select(
           [
             [owner.first_name, owner.id],
@@ -65,7 +59,7 @@ class CardAccount < CardAccount.superclass
 
       # two divs with cols XS 12/12, SM 6/6, MD 2/4:
       def product_summary
-        cell(CardProduct::Cell::Summary, model.product)
+        cell(CardProduct::Cell::Summary, card_product)
       end
     end
   end

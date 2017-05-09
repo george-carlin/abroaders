@@ -1,10 +1,14 @@
 class Card < Card.superclass
   module Cell
+    # @!method self.call(account)
     class Index < Abroaders::Cell::Base
       property :eligible_people
       property :people
       property :actionable_card_recommendations?
-      property :recommendation_note
+
+      def show
+        card_recommendations.show + card_accounts.show
+      end
 
       def title
         'My Cards'
@@ -18,11 +22,6 @@ class Card < Card.superclass
 
       def card_recommendations
         cell(Cell::Index::CardRecommendations, model)
-      end
-
-      def note
-        return '' if recommendation_note.nil?
-        cell(CardRecommendation::Cell::Note, recommendation_note)
       end
     end
   end

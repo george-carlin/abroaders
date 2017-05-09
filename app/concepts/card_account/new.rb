@@ -4,10 +4,10 @@ class CardAccount < CardAccount.superclass
   # This op is also nested within CardAccount::Create
   #
   # @!method self.call(params, options)
-  #   @option params [Integer] product_id The user will select the product on
+  #   @option params [Integer] card_product_id The user will select the product on
   #     /cards/new (which uses the SelectProduct op, not this op). Next they'll
-  #     see the 'real' form on /products/:product_id/cards/new. The form will
-  #     then post to /products/:product_id/cards, meaning that :product_id
+  #     see the 'real' form on /card_products/:card_product_id/cards/new. The form will
+  #     then post to /card_products/:card_product_id/cards, meaning that :card_product_id
   #     should *always* be present in the params for both New and Create.
   #   @option params [Hash] person_id (optional) the person who the new card
   #     account belongs to. For solo accounts, the input won't be shown on the
@@ -22,7 +22,7 @@ class CardAccount < CardAccount.superclass
 
     step :setup_person!
     step :setup_model!
-    success :find_product!
+    success :find_card_product!
     step Contract::Build()
 
     private
@@ -35,13 +35,13 @@ class CardAccount < CardAccount.superclass
       end
     end
 
-    def find_product!(opts, params:, **)
-      product_id = params.fetch(:product_id)
-      opts['model'].product = CardProduct.find(product_id)
-    end
-
     def setup_model!(opts, person:, **)
       opts['model'] = person.card_accounts.new
+    end
+
+    def find_card_product!(opts, params:, **)
+      card_product_id = params.fetch(:card_product_id)
+      opts['model'].card_product = CardProduct.find(card_product_id)
     end
   end
 end

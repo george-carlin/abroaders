@@ -7,7 +7,7 @@ RSpec.describe HomeAirports::Survey do
 
   let(:account) do
     run!(
-      Registration::Operation::Create,
+      Registration::Create,
       account: {
         email: 'a@b.com',
         first_name: 'George',

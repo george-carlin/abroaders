@@ -4,23 +4,12 @@ class Account < ApplicationRecord
   devise :database_authenticatable, :registerable, :recoverable, :rememberable,
          :trackable, :validatable
 
-  # Attributes
-  APP_SUMO_PROMO_CODE = 'appsumoAY83ZG'.freeze
-
-  def app_sumo?
-    promo_code == APP_SUMO_PROMO_CODE
-  end
-
   def couples?
     !companion.nil?
   end
 
   def onboarded?
     onboarding_state == "complete"
-  end
-
-  def has_any_recommendations?
-    people.any? { |person| person.last_recommendations_at.present? }
   end
 
   # Validations
@@ -38,6 +27,11 @@ class Account < ApplicationRecord
   has_many :award_wallet_owners,   through: :award_wallet_user
   has_many :award_wallet_accounts, through: :award_wallet_owners
 
+  has_many :unassigned_award_wallet_owners, -> { where(person_id: nil) },
+           through: :award_wallet_user, source: :award_wallet_owners
+  has_many :unassigned_award_wallet_accounts,
+           through: :unassigned_award_wallet_owners, source: :award_wallet_accounts
+
   def connected_to_award_wallet?
     award_wallet_user && award_wallet_user.loaded?
   end
@@ -49,6 +43,11 @@ class Account < ApplicationRecord
   has_many :card_accounts, through: :people
   has_many :card_recommendations, through: :people
   has_many :actionable_card_recommendations, through: :people
+  has_many :unresolved_card_recommendations, through: :people
+
+  def unresolved_card_recommendations?
+    unresolved_card_recommendations.any?
+  end
 
   def actionable_card_recommendations?
     actionable_card_recommendations.any?
@@ -56,19 +55,29 @@ class Account < ApplicationRecord
 
   has_many :balances, through: :people
 
-  has_one :phone_number
-
   has_one :owner_spending_info, through: :owner, source: :spending_info
   has_one :companion_spending_info, through: :owner, source: :spending_info
 
-  has_many :notifications, dependent: :destroy
-  has_many :unseen_notifications, -> { unseen }, class_name: "Notification" do
-    def count
-      proxy_association.owner.unseen_notifications_count
+  has_many :recommendation_notes, dependent: :destroy
+
+  # @param person_type [String] either 'both', 'companion', or 'owner'
+  # @return [Array<Person>]
+  def people_by_type(person_type)
+    if !couples? && %w[companion both].include?(person_type)
+      raise ArgumentError, "can't find '#{person_type}' for couples account"
+    end
+
+    case person_type
+    when 'both'
+      people.to_a.sort_by(&:type).reverse # owner first
+    when 'owner'
+      [owner]
+    when 'companion'
+      [companion]
+    else
+      raise ArgumentError, "unrecognised person type '#{person_type}'"
     end
   end
-
-  has_many :recommendation_notes, dependent: :destroy
 
   # admins can't edit notes, so our crude way of allowing it for now
   # is to let admins submit a new updated note, and we only ever show
@@ -85,14 +94,21 @@ class Account < ApplicationRecord
   has_many :interest_regions, dependent: :destroy
   has_many :regions_of_interest, through: :interest_regions, source: :region
 
-  # TODO these methods don't belong in here; updating the counter cache is a
-  # responsibility of the Notification class, not the Account class
-  def increment_unseen_notifications_count
-    self.class.increment_counter(:unseen_notifications_count, id)
+  has_many :recommendation_requests, through: :people
+  has_many :resolved_recommendation_requests, through: :people
+  has_many :unresolved_recommendation_requests, through: :people
+
+  def unresolved_recommendation_requests?
+    unresolved_recommendation_requests.any?
   end
 
-  def decrement_unseen_notifications_count
-    self.class.decrement_counter(:unseen_notifications_count, id)
+  def loyalty_accounts
+    (award_wallet_accounts + balances).map(&LoyaltyAccount.method(:build))
+  end
+
+  def unassigned_loyalty_accounts
+    # only award_wallet_accounts can be unassigned:
+    unassigned_award_wallet_accounts.map(&LoyaltyAccount.method(:build))
   end
 
   # Callbacks
@@ -101,5 +117,13 @@ class Account < ApplicationRecord
   # so make sure that they actually are lowercase, or bad things will happen
   before_save { self.email = email.downcase if email.present? }
 
+  before_save :normalize_phone_number!
+
   # Scopes
+
+  private
+
+  def normalize_phone_number!
+    self.phone_number_normalized = PhoneNumber::Normalize.(phone_number) if phone_number.present?
+  end
 end

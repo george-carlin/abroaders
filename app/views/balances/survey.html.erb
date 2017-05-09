@@ -108,17 +108,16 @@
         </h4>
 
         <% @survey.balances.each do |balance| %>
-          <% currency = balance.currency %>
           <div
-            id="<%= dom_id(currency) %>"
-            class="<%= dom_class(currency) %> survey_currency"
+            id="currency_<%= balance.currency_id %>"
+            class="currency survey_currency"
           >
             <div class="row">
               <div class="col-xs-12 col-sm-6">
                 <div class="checkbox">
                   <label>
                     <%= currency_balance_checkbox(balance) %>
-                    <%= currency.name %>
+                    <%= balance.currency_name %>
                   </label>
                 </div>
               </div>

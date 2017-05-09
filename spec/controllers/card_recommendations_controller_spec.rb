@@ -7,7 +7,7 @@ RSpec.describe CardRecommendationsController do
   before { sign_in account }
 
   describe 'GET #click' do
-    let(:offer) { create_offer(link: Capybara.app_host) }
+    let(:offer) { create_offer }
     let!(:rec) { create_card_recommendation(person: person, offer: offer) }
 
     let(:call) { get :click, params: { id: rec.id } }

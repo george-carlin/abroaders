@@ -1,0 +1,24 @@
+<h4>Recommendations</h4>
+
+<%= wrapper do %>
+  <%= table_tag do %>
+    <thead>
+      <th>Product</th>
+      <th>Status</th>
+      <th>Rec'ed</th>
+      <th>Seen</th>
+      <th>Clicked</th>
+      <th>Applied</th>
+      <th>Declined</th>
+      <th></th>
+    </thead>
+    <tbody>
+      <%= table_rows %>
+    </tbody>
+  <% end %>
+
+
+  <% if visible_recommendations.none? %>
+    <p id='admin_person_card_recommendations_none'>User has no recs</p>
+  <% end %>
+<% end %>

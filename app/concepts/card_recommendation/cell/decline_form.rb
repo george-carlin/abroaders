@@ -3,13 +3,11 @@ class CardRecommendation < CardRecommendation.superclass
     # @!method self.call(rec)
     #   @param rec (CardRecommendation)
     class DeclineForm < Abroaders::Cell::Base
-      alias rec model
-
       private
 
       def form_tag(&block)
         super(
-          decline_card_recommendation_path(rec),
+          decline_card_recommendation_path(model),
           class: 'card_recommendation_decline_form',
           method: 'patch',
           style: 'display:none;',

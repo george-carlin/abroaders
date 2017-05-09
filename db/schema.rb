@@ -10,31 +10,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170328144740) do
+ActiveRecord::Schema.define(version: 20170503012221) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "accounts", force: :cascade do |t|
-    t.string   "email",                      default: "",              null: false
-    t.string   "encrypted_password",         default: "",              null: false
+    t.string   "email",                   default: "",              null: false
+    t.string   "encrypted_password",      default: "",              null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",              default: 0,               null: false
+    t.integer  "sign_in_count",           default: 0,               null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                                           null: false
-    t.datetime "updated_at",                                           null: false
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
     t.integer  "monthly_spending_usd"
-    t.integer  "unseen_notifications_count", default: 0,               null: false
-    t.string   "onboarding_state",           default: "home_airports", null: false
+    t.string   "onboarding_state",        default: "home_airports", null: false
     t.string   "promo_code"
-    t.boolean  "test",                       default: false,           null: false
+    t.boolean  "test",                    default: false,           null: false
+    t.string   "phone_number"
+    t.string   "phone_number_normalized"
     t.index ["email"], name: "index_accounts_on_email", unique: true, using: :btree
     t.index ["onboarding_state"], name: "index_accounts_on_onboarding_state", using: :btree
+    t.index ["phone_number_normalized"], name: "index_accounts_on_phone_number_normalized", using: :btree
     t.index ["reset_password_token"], name: "index_accounts_on_reset_password_token", unique: true, using: :btree
   end
 
@@ -125,21 +127,8 @@ ActiveRecord::Schema.define(version: 20170328144740) do
     t.index ["person_id"], name: "index_balances_on_person_id", using: :btree
   end
 
-  create_table "banks", force: :cascade do |t|
-    t.string   "name",           null: false
-    t.integer  "personal_code",  null: false
-    t.string   "personal_phone"
-    t.string   "business_phone"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-  end
-
   create_table "card_products", force: :cascade do |t|
-    t.string   "code",                              null: false
     t.string   "name",                              null: false
-    t.integer  "network",                           null: false
-    t.integer  "bp",                                null: false
-    t.integer  "type",                              null: false
     t.integer  "annual_fee_cents",                  null: false
     t.boolean  "shown_on_survey",    default: true, null: false
     t.integer  "currency_id"
@@ -151,20 +140,25 @@ ActiveRecord::Schema.define(version: 20170328144740) do
     t.string   "image_content_type",                null: false
     t.integer  "image_file_size",                   null: false
     t.datetime "image_updated_at",                  null: false
+    t.boolean  "personal",                          null: false
+    t.string   "network",                           null: false
+    t.string   "type",                              null: false
     t.index ["bank_id"], name: "index_card_products_on_bank_id", using: :btree
     t.index ["currency_id"], name: "index_card_products_on_currency_id", using: :btree
     t.index ["wallaby_id"], name: "index_card_products_on_wallaby_id", using: :btree
   end
 
   create_table "cards", force: :cascade do |t|
-    t.integer  "product_id"
-    t.integer  "person_id",      null: false
+    t.integer  "card_product_id"
+    t.integer  "person_id",         null: false
     t.integer  "offer_id"
     t.datetime "recommended_at"
     t.date     "applied_on"
     t.date     "opened_on"
     t.date     "closed_on"
     t.string   "decline_reason"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
     t.datetime "clicked_at"
     t.datetime "declined_at"
     t.datetime "denied_at"
@@ -173,10 +167,7 @@ ActiveRecord::Schema.define(version: 20170328144740) do
     t.datetime "redenied_at"
     t.datetime "seen_at"
     t.datetime "expired_at"
-    t.datetime "pulled_at"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-    t.index ["pulled_at"], name: "index_cards_on_pulled_at", using: :btree
+    t.integer  "recommended_by_id"
     t.index ["recommended_at"], name: "index_cards_on_recommended_at", using: :btree
     t.index ["seen_at"], name: "index_cards_on_seen_at", using: :btree
   end
@@ -186,9 +177,9 @@ ActiveRecord::Schema.define(version: 20170328144740) do
     t.string   "award_wallet_id",                null: false
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
-    t.string   "alliance_name",                  null: false
     t.boolean  "shown_on_survey", default: true, null: false
     t.string   "type",                           null: false
+    t.string   "alliance_name",                  null: false
     t.index ["award_wallet_id"], name: "index_currencies_on_award_wallet_id", unique: true, using: :btree
     t.index ["name"], name: "index_currencies_on_name", unique: true, using: :btree
     t.index ["type"], name: "index_currencies_on_type", using: :btree
@@ -197,11 +188,11 @@ ActiveRecord::Schema.define(version: 20170328144740) do
   create_table "destinations", force: :cascade do |t|
     t.string   "name",                       null: false
     t.string   "code",                       null: false
-    t.string   "type",                       null: false
     t.integer  "parent_id"
     t.integer  "children_count", default: 0, null: false
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+    t.string   "type",                       null: false
     t.index ["code", "type"], name: "index_destinations_on_code_and_type", unique: true, using: :btree
     t.index ["name"], name: "index_destinations_on_name", using: :btree
     t.index ["parent_id"], name: "index_destinations_on_parent_id", using: :btree
@@ -231,21 +222,8 @@ ActiveRecord::Schema.define(version: 20170328144740) do
     t.index ["region_id"], name: "index_interest_regions_on_region_id", using: :btree
   end
 
-  create_table "notifications", force: :cascade do |t|
-    t.integer  "account_id"
-    t.integer  "record_id",                  null: false
-    t.boolean  "seen",       default: false, null: false
-    t.string   "type",                       null: false
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.index ["account_id", "seen"], name: "index_notifications_on_account_id_and_seen", using: :btree
-    t.index ["account_id"], name: "index_notifications_on_account_id", using: :btree
-    t.index ["record_id"], name: "index_notifications_on_record_id", using: :btree
-    t.index ["seen"], name: "index_notifications_on_seen", using: :btree
-  end
-
   create_table "offers", force: :cascade do |t|
-    t.integer  "product_id",                        null: false
+    t.integer  "card_product_id",                   null: false
     t.integer  "points_awarded",                    null: false
     t.integer  "spend"
     t.integer  "cost",                              null: false
@@ -258,32 +236,19 @@ ActiveRecord::Schema.define(version: 20170328144740) do
     t.datetime "killed_at"
     t.string   "partner",          default: "none", null: false
     t.string   "condition",                         null: false
+    t.index ["card_product_id"], name: "index_offers_on_card_product_id", using: :btree
     t.index ["killed_at"], name: "index_offers_on_killed_at", using: :btree
-    t.index ["product_id"], name: "index_offers_on_product_id", using: :btree
   end
 
   create_table "people", force: :cascade do |t|
-    t.integer  "account_id",                              null: false
-    t.string   "first_name",                              null: false
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
-    t.boolean  "owner",                   default: true,  null: false
+    t.integer  "account_id",                        null: false
+    t.string   "first_name",                        null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.boolean  "owner",              default: true, null: false
     t.string   "award_wallet_email"
-    t.datetime "last_recommendations_at"
     t.boolean  "eligible"
-    t.boolean  "ready",                   default: false, null: false
-    t.string   "unreadiness_reason"
     t.index ["account_id", "owner"], name: "index_people_on_account_id_and_owner", unique: true, using: :btree
-  end
-
-  create_table "phone_numbers", force: :cascade do |t|
-    t.integer  "account_id",        null: false
-    t.string   "number",            null: false
-    t.string   "normalized_number", null: false
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
-    t.index ["account_id"], name: "index_phone_numbers_on_account_id", using: :btree
-    t.index ["normalized_number"], name: "index_phone_numbers_on_normalized_number", using: :btree
   end
 
   create_table "recommendation_notes", force: :cascade do |t|
@@ -294,20 +259,28 @@ ActiveRecord::Schema.define(version: 20170328144740) do
     t.index ["account_id"], name: "index_recommendation_notes_on_account_id", using: :btree
   end
 
+  create_table "recommendation_requests", force: :cascade do |t|
+    t.integer  "person_id",   null: false
+    t.datetime "resolved_at"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["person_id"], name: "index_recommendation_requests_on_person_id", using: :btree
+    t.index ["resolved_at"], name: "index_recommendation_requests_on_resolved_at", using: :btree
+  end
+
   create_table "spending_infos", force: :cascade do |t|
     t.integer  "person_id",                             null: false
     t.integer  "credit_score",                          null: false
     t.boolean  "will_apply_for_loan",   default: false, null: false
     t.integer  "business_spending_usd"
-    t.integer  "has_business",          default: 0,     null: false
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
+    t.string   "has_business",                          null: false
     t.index ["person_id"], name: "index_spending_infos_on_person_id", unique: true, using: :btree
   end
 
   create_table "travel_plans", force: :cascade do |t|
     t.integer  "account_id",                              null: false
-    t.integer  "type",                    default: 0,     null: false
     t.integer  "no_of_passengers",        default: 1,     null: false
     t.datetime "created_at",                              null: false
     t.datetime "updated_at",                              null: false
@@ -318,8 +291,8 @@ ActiveRecord::Schema.define(version: 20170328144740) do
     t.boolean  "accepts_premium_economy", default: false, null: false
     t.boolean  "accepts_business_class",  default: false, null: false
     t.boolean  "accepts_first_class",     default: false, null: false
+    t.string   "type",                                    null: false
     t.index ["account_id"], name: "index_travel_plans_on_account_id", using: :btree
-    t.index ["type"], name: "index_travel_plans_on_type", using: :btree
   end
 
   add_foreign_key "accounts_home_airports", "accounts", on_delete: :cascade
@@ -330,9 +303,9 @@ ActiveRecord::Schema.define(version: 20170328144740) do
   add_foreign_key "award_wallet_users", "accounts", on_delete: :cascade
   add_foreign_key "balances", "currencies", on_delete: :cascade
   add_foreign_key "balances", "people", on_delete: :cascade
-  add_foreign_key "card_products", "banks"
   add_foreign_key "card_products", "currencies", on_delete: :restrict
-  add_foreign_key "cards", "card_products", column: "product_id", on_delete: :restrict
+  add_foreign_key "cards", "admins", column: "recommended_by_id", on_delete: :nullify
+  add_foreign_key "cards", "card_products", on_delete: :restrict
   add_foreign_key "cards", "offers", on_delete: :cascade
   add_foreign_key "cards", "people", on_delete: :cascade
   add_foreign_key "destinations", "destinations", column: "parent_id", on_delete: :restrict
@@ -341,11 +314,10 @@ ActiveRecord::Schema.define(version: 20170328144740) do
   add_foreign_key "flights", "travel_plans", on_delete: :cascade
   add_foreign_key "interest_regions", "accounts", on_delete: :cascade
   add_foreign_key "interest_regions", "destinations", column: "region_id", on_delete: :restrict
-  add_foreign_key "notifications", "accounts"
-  add_foreign_key "offers", "card_products", column: "product_id", on_delete: :cascade
+  add_foreign_key "offers", "card_products", on_delete: :cascade
   add_foreign_key "people", "accounts", on_delete: :cascade
-  add_foreign_key "phone_numbers", "accounts", on_delete: :cascade
   add_foreign_key "recommendation_notes", "accounts", on_delete: :cascade
+  add_foreign_key "recommendation_requests", "people", on_delete: :cascade
   add_foreign_key "spending_infos", "people", on_delete: :cascade
   add_foreign_key "travel_plans", "accounts", on_delete: :cascade
 end
