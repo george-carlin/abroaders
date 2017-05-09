@@ -83,16 +83,7 @@ class LoyaltyAccount < LoyaltyAccount.superclass
         end
 
         def expiration_date
-          if super.nil?
-            'Unknown' # TODO add FA icon
-          else
-            # distance_of_time_in_words gives slightly weird-sounding results
-            # for some values, given the context, but it'll do for now. E.g.
-            # if the expiration date is today, it should just say 'Today',
-            # not the hours/minutes etc
-            "in #{distance_of_time_in_words(Time.now, super)}"
-          end
-          # TODO handle the case when it's expired
+          cell(ExpirationDate, model)
         end
 
         def formatted_balance
