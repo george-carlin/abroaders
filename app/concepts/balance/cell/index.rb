@@ -10,7 +10,7 @@ class Balance < Balance.superclass
       property :connected_to_award_wallet?
 
       def show
-        award_wallet.to_s << main.to_s
+        award_wallet.to_s << main.to_s << unassigned_accounts_panel.to_s
       end
 
       private
@@ -25,6 +25,26 @@ class Balance < Balance.superclass
 
       def people
         super.sort_by(&:type).reverse
+      end
+
+      def unassigned_accounts_panel
+        cell(UnassignedAccounts, model)
+      end
+
+      # @!method self.call(account, options = {})
+      class UnassignedAccounts < Abroaders::Cell::Base
+        property :unassigned_loyalty_accounts
+
+        def show
+          return '' if unassigned_loyalty_accounts.none?
+          super
+        end
+
+        private
+
+        def table
+          cell(LoyaltyAccount::Cell::Table, unassigned_loyalty_accounts)
+        end
       end
     end
   end
