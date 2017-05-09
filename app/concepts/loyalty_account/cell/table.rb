@@ -69,7 +69,7 @@ class LoyaltyAccount < LoyaltyAccount.superclass
         def delete_btn
           link_to(
             balance_path(id),
-            class: 'destroy_balance_btn btn btn-xs btn-danger',
+            class: 'btn btn-xs btn-danger',
             data: { confirm: 'Are you sure? You can not undo this action' },
             method: :delete,
           ) do
@@ -80,7 +80,7 @@ class LoyaltyAccount < LoyaltyAccount.superclass
         def edit_btn
           link_to(
             edit_balance_path(id),
-            class: 'edit_balance_btn btn btn-xs btn-primary',
+            class: 'btn btn-xs btn-primary',
           ) do
             '<i class="fa fa-pencil"> </i> Edit'
           end
