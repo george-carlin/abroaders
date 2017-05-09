@@ -3,6 +3,8 @@ module AdminArea
     module Cell
       # @!method self.call(rec, options = {})
       class Edit < Abroaders::Cell::Base
+        include Escaped
+
         property :person
         option :form
 
@@ -20,7 +22,7 @@ module AdminArea
         end
 
         def link_back_to_person
-          link_to "Back to #{escape(person.first_name)}", admin_person_path(person)
+          link_to "Back to #{escape!(person.first_name)}", admin_person_path(person)
         end
 
         class DateFormGroup < Abroaders::Cell::Base

@@ -204,6 +204,8 @@ class SpendingInfo < SpendingInfo.superclass
       # @!method self.call(people, options = {})
       #   @param people [Collection<Person>]
       class MonthlySpendingFormGroup < Abroaders::Cell::Base
+        include Escaped
+
         private
 
         def field
@@ -217,7 +219,7 @@ class SpendingInfo < SpendingInfo.superclass
         def help_text
           paragraphs = []
           if model.size > 1
-            names = escape(model.map(&:first_name).join(' and '))
+            names = escape!(model.map(&:first_name).join(' and '))
 
             paragraphs.push(
               "Please estimate the <b>combined</b> monthly spending "\

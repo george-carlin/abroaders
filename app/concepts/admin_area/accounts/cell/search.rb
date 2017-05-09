@@ -3,6 +3,7 @@ module AdminArea
     module Cell
       class Search < Abroaders::Cell::Base
         extend Abroaders::Cell::Result
+        include Escaped
 
         skill :collection
 
@@ -13,7 +14,7 @@ module AdminArea
         private
 
         def query
-          escape(result['query'])
+          escape!(result['query'])
         end
 
         def table_rows

@@ -4,6 +4,7 @@ module Integrations::AwardWallet
       extend Abroaders::Cell::Result
       include ActionView::Helpers::FormOptionsHelper
       include BootstrapOverrides
+      include Escaped
 
       skill :account
       skill :owners
@@ -16,7 +17,7 @@ module Integrations::AwardWallet
       private
 
       def user_name
-        escape(user.user_name)
+        escape!(user.user_name)
       end
 
       def user_info

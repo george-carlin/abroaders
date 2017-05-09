@@ -28,6 +28,7 @@ module Abroaders
     #   with an account that can't be shown.
     class RecommendationAlert < Abroaders::Cell::Base
       include ::Cell::Builder
+      include Escaped
 
       builds do |user|
         if !(user.is_a?(Account) && user.onboarded?)
@@ -88,7 +89,7 @@ module Abroaders
 
       def names_for(people)
         owner_first = people.sort_by(&:type).reverse
-        escape(owner_first.map(&:first_name).join(' and '))
+        escape!(owner_first.map(&:first_name).join(' and '))
       end
 
       def request_excluded?
