@@ -17,6 +17,7 @@ module Balance::Cell
       property :first_name
       property :loyalty_accounts
       property :partner?
+      property :type
 
       private
 

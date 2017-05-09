@@ -44,7 +44,8 @@ RSpec.describe 'balance index page' do
     setup_award_wallet_user_from_sample_data(account)
     visit balances_path
     account.award_wallet_accounts.each do |awa|
-      if awa.person # if the person is assigned
+      section = awa.person.nil? ? '#unassigned_balances' : '#owner_balances'
+      within section do
         expect(page).to have_selector "#award_wallet_account_#{awa.id}"
       end
     end

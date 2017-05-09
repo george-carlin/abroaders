@@ -27,6 +27,11 @@ class Account < ApplicationRecord
   has_many :award_wallet_owners,   through: :award_wallet_user
   has_many :award_wallet_accounts, through: :award_wallet_owners
 
+  has_many :unassigned_award_wallet_owners, -> { where(person_id: nil) },
+           through: :award_wallet_user, source: :award_wallet_owners
+  has_many :unassigned_award_wallet_accounts,
+           through: :unassigned_award_wallet_owners, source: :award_wallet_accounts
+
   def connected_to_award_wallet?
     award_wallet_user && award_wallet_user.loaded?
   end
@@ -95,6 +100,15 @@ class Account < ApplicationRecord
 
   def unresolved_recommendation_requests?
     unresolved_recommendation_requests.any?
+  end
+
+  def loyalty_accounts
+    (award_wallet_accounts + balances).map(&LoyaltyAccount.method(:build))
+  end
+
+  def unassigned_loyalty_accounts
+    # only award_wallet_accounts can be unassigned:
+    unassigned_award_wallet_accounts.map(&LoyaltyAccount.method(:build))
   end
 
   # Callbacks
