@@ -57,6 +57,7 @@ RSpec.configure do |config|
   config.include DatepickerMacros, type: :feature
   config.include TitleHelper, type: :feature
   config.include SampleDataMacros
+  config.include OperationMacros
   config.include TimeZoneHelpers
   config.include TypeaheadMacros, type: :feature
   config.include WaitForAjax, type: :feature

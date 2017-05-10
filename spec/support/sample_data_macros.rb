@@ -1,5 +1,7 @@
 require 'abroaders/util'
 
+require_relative 'operation_macros'
+
 # A replacement for FactoryGirl that exclusively creates and updates data using
 # our own operations, and therefore creates data in the exact same way that a
 # user would. Ideally all test data should be created in this way and we would
@@ -13,6 +15,9 @@ require 'abroaders/util'
 # both 'traits' and 'overrides', but I want to move away from 'traits', they're
 # too magical.
 module SampleDataMacros
+  include FactoryGirl::Syntax::Methods
+  include OperationMacros
+
   def sample_json(file_name)
     File.read(SPEC_ROOT.join('support', 'sample_data', "#{file_name}.json"))
   end
