@@ -55,10 +55,30 @@ module SampleDataMacros
 
       Admin.create!(attrs)
     end
+
+    def currency(overrides = {})
+      @_currency_sequence ||= -1
+      @_currency_sequence += 1
+
+      n = @_currency_sequence
+      attrs = {
+        name: "Currency #{n}",
+        award_wallet_id: "currency #{n}",
+        alliance_name: %w[OneWorld StarAlliance SkyTeam Independent][n % 4],
+        shown_on_survey: true,
+        type: 'airline',
+      }.merge(overrides)
+
+      Currency.create!(attrs)
+    end
   end
 
   def create_admin(overrides = {})
     Generator.instance.admin(overrides)
+  end
+
+  def create_currency(overrides = {})
+    Generator.instance.currency(overrides)
   end
 
   # Create an offer in the way an Admin would.
@@ -292,7 +312,7 @@ module SampleDataMacros
     currency = if overrides.key?(:currency)
                  overrides.delete(:currency)
                else
-                 create(:currency)
+                 create_currency
                end
 
     raise 'pass person, not person_id' if overrides.key?(:person_id)

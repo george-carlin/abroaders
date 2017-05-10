@@ -8,9 +8,9 @@ RSpec.describe 'admin - show person page', :manual_clean do
     @us_bank = Bank.find_by_name!('US Bank')
 
     @currencies = []
-    @currencies << create(:currency, alliance_name: 'OneWorld')
-    @currencies << create(:currency, alliance_name: 'SkyTeam')
-    @currencies << create(:currency, alliance_name: 'OneWorld')
+    @currencies << create_currency(alliance_name: 'OneWorld')
+    @currencies << create_currency(alliance_name: 'SkyTeam')
+    @currencies << create_currency(alliance_name: 'OneWorld')
 
     def create_product(bp, bank, currency)
       create(:card_product, bp, bank_id: bank.id, currency: currency)

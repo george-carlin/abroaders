@@ -6,9 +6,9 @@ RSpec.describe 'the balance survey page', :onboarding, :js do
   let(:account) { create(:account, onboarding_state: "owner_balances") }
   let(:owner)   { account.owner }
   let(:name)    { owner.first_name }
-  let!(:currencies) { create_list(:currency, 3) }
+  let!(:currencies) { Array.new(3) { create_currency } }
   before do
-    @hidden_currency = create(:currency, shown_on_survey: false)
+    @hidden_currency = create_currency(shown_on_survey: false)
     login_as_account(account)
 
     visit survey_person_balances_path(owner)

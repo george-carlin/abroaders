@@ -5,7 +5,7 @@ RSpec.describe CardProduct::Survey do
 
   describe '#each_section' do
     it 'yields cards grouped by bank, then by b/p' do
-      currency = create(:currency)
+      currency = create_currency
       b_0 = Bank.all[0]
       b_1 = Bank.all[1]
 

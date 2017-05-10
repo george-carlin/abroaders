@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'new balance pages' do
   include_context 'logged in'
 
-  before(:all) { @currencies = create_list(:currency, 2) }
+  before(:all) { @currencies = Array.new(2) { create_currency } }
   let(:currencies) { @currencies }
 
   describe 'new page' do

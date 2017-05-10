@@ -23,7 +23,7 @@ FactoryGirl.define do
       end
     end
 
-    currency { Currency.all.sample || create(:currency) }
+    currency { Currency.all.sample || create_currency }
 
     trait :visa do
       network 'visa'

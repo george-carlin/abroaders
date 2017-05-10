@@ -4,7 +4,7 @@ RSpec.describe BalancesSurvey do
   let(:person)  { create(:owner) }
   let(:account) { person.account }
   before { account.update!(onboarding_state: "owner_balances") }
-  let(:currency) { create(:currency) }
+  let(:currency) { create_currency }
 
   example "saving" do
     survey = described_class.new(person: person)
