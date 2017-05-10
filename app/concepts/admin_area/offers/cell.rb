@@ -77,7 +77,7 @@ module AdminArea
 
         def options_for_offer_partner_select(offer)
           options_for_select(
-            Offer::Partners.options[:values].map do |key|
+            Offer::Partner.options[:values].map do |key|
               [Partner::Cell::FullName.(key), key]
             end,
             offer.partner,
