@@ -33,7 +33,7 @@ class Account < ApplicationRecord
            through: :unassigned_award_wallet_owners, source: :award_wallet_accounts
 
   def connected_to_award_wallet?
-    award_wallet_user && award_wallet_user.loaded?
+    !!(award_wallet_user && award_wallet_user.loaded?)
   end
 
   delegate :first_name, to: :owner,     prefix: true
