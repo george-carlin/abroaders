@@ -1,20 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe CardProduct do
-  example '.recommendable' do
-    # card product with no offers:
-    create(:card_product)
-
-    product_with_no_live_offers = create(:card_product)
-    kill_offer(create_offer(card_product: product_with_no_live_offers))
-
-    product_with_live_offers = create(:card_product)
-    create_offer(card_product: product_with_live_offers)
-    create_offer(card_product: product_with_live_offers)
-
-    expect(described_class.recommendable).to eq [product_with_live_offers]
-  end
-
   example 'annual_fee=' do
     card_product = described_class.new
     card_product.annual_fee = 123.45
