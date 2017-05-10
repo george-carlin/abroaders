@@ -24,13 +24,16 @@ module Seeder
     # changed the attributes of some of the remaining products for the sake of
     # diversity.
     Seeder.load_data_for('card_products').each do |data|
-      data['image'] = File.open(
-        Rails.root.join('lib', 'seeds', 'card_products', data.delete('image_name')),
-      )
       data['personal'] = data.delete('bp') == 'personal'
       data['currency_id'] = currency_ids.sample
       data['bank_id']     = bank_ids.sample
-      CardProduct.create!(data)
+
+      image_name = data.delete('image_name')
+      image_path = Rails.root.join('lib', 'seeds', 'card_products', image_name)
+      image = File.open(image_path)
+
+      prod = CardProduct.new(data)
+      CardProduct::ProcessImage.(prod, image).save!
     end
     Rails.logger.info "created #{CardProduct.count} cards"
   end

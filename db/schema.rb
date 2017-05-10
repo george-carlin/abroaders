@@ -10,10 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170626171003) do
+ActiveRecord::Schema.define(version: 20170704164113) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "pg_stat_statements"
 
   create_table "accounts", force: :cascade do |t|
     t.string   "email",                   default: "",              null: false
@@ -139,13 +140,14 @@ ActiveRecord::Schema.define(version: 20170626171003) do
     t.datetime "updated_at",                        null: false
     t.integer  "bank_id",                           null: false
     t.string   "wallaby_id"
-    t.string   "image_file_name",                   null: false
-    t.string   "image_content_type",                null: false
-    t.integer  "image_file_size",                   null: false
-    t.datetime "image_updated_at",                  null: false
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
     t.boolean  "personal",                          null: false
     t.string   "network",                           null: false
     t.string   "type",                              null: false
+    t.text     "image_meta_data"
     t.index ["bank_id"], name: "index_card_products_on_bank_id", using: :btree
     t.index ["currency_id"], name: "index_card_products_on_currency_id", using: :btree
     t.index ["wallaby_id"], name: "index_card_products_on_wallaby_id", using: :btree
@@ -251,6 +253,7 @@ ActiveRecord::Schema.define(version: 20170626171003) do
     t.boolean  "owner",              default: true, null: false
     t.string   "award_wallet_email"
     t.boolean  "eligible"
+    t.index ["account_id", "first_name"], name: "index_people_on_account_id_and_first_name", unique: true, using: :btree
     t.index ["account_id", "owner"], name: "index_people_on_account_id_and_owner", unique: true, using: :btree
   end
 

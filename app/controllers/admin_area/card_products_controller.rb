@@ -21,7 +21,10 @@ module AdminArea
     def create
       product = CardProduct.new(card_product_params)
 
-      if product.save
+      if product.valid?
+        file = params[:card_product].delete(:image)
+
+        CardProduct::ProcessImage.(product, file).save!
         flash[:success] = 'Card product was successfully created.'
         redirect_to admin_card_product_path(product)
       else
@@ -54,7 +57,7 @@ module AdminArea
     def card_product_params
       params.require(:card_product).permit(
         :name, :network, :personal, :type, :annual_fee, :bank_id, :currency_id,
-        :shown_on_survey, :image,
+        :shown_on_survey,
       )
     end
 

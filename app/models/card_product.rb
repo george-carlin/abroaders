@@ -4,6 +4,8 @@
 # opposed to the general concept of a Chase Sapphire card), is represented by
 # the Card model (which we plan on eventually renaming to just 'card')
 class CardProduct < ApplicationRecord
+  include Paperdragon::Model
+
   self.inheritance_column = :_no_sti
 
   # Attributes
@@ -31,13 +33,16 @@ class CardProduct < ApplicationRecord
   # following aspect ratio:
   IMAGE_ASPECT_RATIO = 1.586
 
-  has_attached_file :image, styles: {
-    large:  "350x#{350 / IMAGE_ASPECT_RATIO}>",
-    medium: "210x#{210 / IMAGE_ASPECT_RATIO}>",
-    small:  "140x#{140 / IMAGE_ASPECT_RATIO}>",
-  }, default_url: "/images/:style/missing.png"
-  validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
-  validates_attachment_presence :image
+  processable :image
+  serialize :image_meta_data
+
+  # has_attached_file :image, styles: {
+  #   large:  "350x#{350 / IMAGE_ASPECT_RATIO}>",
+  #   medium: "210x#{210 / IMAGE_ASPECT_RATIO}>",
+  #   small:  "140x#{140 / IMAGE_ASPECT_RATIO}>",
+  # }, default_url: "/images/:style/missing.png"
+  # validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
+  # validates_attachment_presence :image
 
   delegate :name, to: :currency, prefix: true
   delegate :name, to: :bank, prefix: true
