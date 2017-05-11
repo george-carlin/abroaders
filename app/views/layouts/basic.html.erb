@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <%= render "layouts/head" %>
+  <%= cell(Abroaders::Cell::Layout::Head, nil, title: title(yield(:title))) %>
   <body class="blank">
     <%= cell Abroaders::Cell::Navbar, current_user %>
     <%= cell(Abroaders::Cell::Noscript) %>

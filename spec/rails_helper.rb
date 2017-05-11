@@ -55,7 +55,6 @@ RSpec.configure do |config|
   config.include I18nWithErrorRaising
   config.include AlertsMacros, type: :feature
   config.include DatepickerMacros, type: :feature
-  config.include TitleHelper, type: :feature
   config.include SampleDataMacros
   config.include OperationMacros
   config.include TimeZoneHelpers
@@ -100,5 +99,9 @@ RSpec.configure do |config|
     enqueued_jobs.select { |job| job[:job] == ActionMailer::DeliveryJob }.each do |job|
       ActionMailer::DeliveryJob.perform_now(*job[:args])
     end
+  end
+
+  def full_title(title)
+    "#{title} | Abroaders"
   end
 end
