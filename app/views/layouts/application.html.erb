@@ -10,6 +10,8 @@
       <div class="content">
         <%= cell(Abroaders::Cell::Noscript) %>
 
+        <%= cell(Onboarding::Cell::ProgressBar, current_account) %>
+
         <%= flash_alerts %>
 
         <%= cell(Abroaders::Cell::RecommendationAlert, current_account) %>
