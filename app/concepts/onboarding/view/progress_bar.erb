@@ -1,0 +1,16 @@
+<div class="row">
+  <div class="col-md-12" style="color: #1fb6ff; margin-bottom: 10px;">
+    <p><%= phase_number %>. <%= phase_name %></p>
+    <div class="progress" style="height: 7px;">
+      <div
+        class="progress-bar"
+        role="progressbar"
+        aria-valuenow="<%= percentage_complete %>"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        style="width: <%= percentage_complete %>%; background: #1fb6ff; height: 7px;"
+        >
+      </div>
+    </div>
+  </div>
+</div>
