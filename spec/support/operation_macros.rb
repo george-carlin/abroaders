@@ -9,6 +9,8 @@ module OperationMacros
 
       message << "\n\n result['error']: #{result['error']}" if result['error']
 
+      # FIXME this only works if the contract uses ActiveModel validations as
+      # opposed to dry-validation
       if (contract = result['contract.default'])
         if contract.errors.any?
           message << "\n\n contract.default errors: #{contract.errors}"

@@ -6,6 +6,8 @@ RSpec.describe Balance::Cell::Index do
   let(:account) { create(:account) }
   let(:owner) { account.owner }
 
+  let(:current_account) { account }
+
   it 'asks me to connect to AwardWallet' do
     rendered = cell(account).()
     expect(rendered).to have_content 'Connect your AwardWallet account to Abroaders'

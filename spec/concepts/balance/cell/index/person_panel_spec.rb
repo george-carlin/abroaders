@@ -7,7 +7,7 @@ RSpec.describe Balance::Cell::Index::PersonPanel do
 
   let(:couples!) { person.account.build_companion }
 
-  before { person.build_account }
+  let!(:current_account) { person.build_account }
 
   def new_balance(value)
     Balance.new(

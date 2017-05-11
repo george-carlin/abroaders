@@ -4,14 +4,7 @@ class LoyaltyAccount < LoyaltyAccount.superclass
     #
     # @!method self.call(loyalty_accounts, options = {})
     #   @param loyalty_accounts [Collection<LoyaltyAccount>]
-    #   @option options [Boolean] simple (false) when true, a few of the columns
-    #    in the table won't be displayed. Set this to true when the current
-    #    account has no award wallet connection. Since non-AW accounts don't
-    #    have an expiration date, a 'login' name or an owner, there's no point
-    #    displaying the columns because they'll be blank for all rows.
     class Table < ::Abroaders::Cell::Base
-      option :simple, default: false
-
       private
 
       def headers
@@ -29,6 +22,15 @@ class LoyaltyAccount < LoyaltyAccount.superclass
 
       def rows
         cell(Row, collection: model.sort_by(&:currency_name))
+      end
+
+      #  when this returns true, a few of the columns in the table won't be
+      #  displayed. Will be true when the current account has no award
+      #  wallet connection. Since non-AW accounts don't have an expiration
+      #  date, a 'login' name or an owner, there's no point displaying the
+      #  columns because they'll be blank for all rows.
+      def simple
+        !current_account.connected_to_award_wallet?
       end
 
       # A <tr> for a loyalty_account on the page. Displays the balance's value
@@ -61,8 +63,6 @@ class LoyaltyAccount < LoyaltyAccount.superclass
         property :login
         property :owner_name
         property :updated_at
-
-        option :simple, default: false
 
         private
 
@@ -100,6 +100,10 @@ class LoyaltyAccount < LoyaltyAccount.superclass
 
         def updated_at
           super.strftime('%D')
+        end
+
+        def simple
+          !current_account.connected_to_award_wallet?
         end
 
         class AwardWallet < self
