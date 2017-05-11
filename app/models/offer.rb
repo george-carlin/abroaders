@@ -4,7 +4,7 @@ require 'types'
 # particular card product. For example, "spend $1000 on this card in your first
 # 3 months and receive 50,000 free points with Airline X".
 #
-# There are different ways you can get the bonus, as noted in the 'Conditions'
+# There are different ways you can get the bonus, as noted in the 'Condition'
 # type (see inline comments).
 #
 # Whether or not the other attributes will be present depends on the condition:
@@ -23,14 +23,14 @@ require 'types'
 # compliance reasons.
 class Offer < ApplicationRecord
   # When are the points awarded?
-  Conditions = Types::Strict::String.enum(
+  Condition = Types::Strict::String.enum(
     'on_approval',       # as soon as approved for card
     'on_first_purchase', # once you make 1st purchase with card
     'on_minimum_spend',  # if you spend $X within Y days
   ).freeze
 
   # Which of our affiliate partners provides this offer, if any?
-  Partners = Types::Strict::String.enum(
+  Partner = Types::Strict::String.enum(
     'award_wallet',
     'card_benefit',
     'card_ratings',
@@ -38,8 +38,8 @@ class Offer < ApplicationRecord
     'none',
   )
 
-  attribute_type :condition, Conditions
-  attribute_type :partner, Partners
+  attribute_type :condition, Condition
+  attribute_type :partner, Partner
 
   # Associations
 

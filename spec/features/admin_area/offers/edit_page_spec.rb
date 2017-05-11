@@ -1,20 +1,13 @@
 require 'rails_helper'
 
-RSpec.describe 'admin - offers pages' do
+RSpec.describe 'admin - offer edit pages' do
   include_context 'logged in as admin'
 
   let(:offer)   { create_offer }
   let(:product) { offer.card_product }
   before { visit route }
 
-  let(:route) { edit_admin_card_product_offer_path(product, offer) }
-
-  describe 'when accessing the shallow path' do
-    let(:route) { edit_admin_offer_path(offer) }
-    it 'redirects to the nested path' do
-      expect(current_path).to eq edit_admin_card_product_offer_path(product, offer)
-    end
-  end
+  let(:route) { edit_admin_offer_path(offer) }
 
   it 'displays information about the product' do
     expect(page).to have_content product.name

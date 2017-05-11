@@ -1,6 +1,5 @@
-<%= form_for [:admin, @model.card_product, @form], html: { style: 'clear:both;', class: "form-horizontal", role: "form" } do |f| %>
-
-  <%= cell(Abroaders::Cell::ValidationErrorsAlert, @form) %>
+<%= form_tag do |f| %>
+  <%= errors %>
 
   <div class="form-group">
     <%= f.label :condition, class: "col-sm-2 control-label" %>

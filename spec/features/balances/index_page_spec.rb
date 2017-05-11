@@ -6,7 +6,7 @@ RSpec.describe 'balance index page' do
   include_context 'logged in'
   let(:owner) { account.owner }
 
-  before(:all) { @currencies = create_list(:currency, 2) }
+  before(:all) { @currencies = Array.new(2) { create_currency } }
   let(:currencies) { @currencies }
 
   def create_balance(currency, value)

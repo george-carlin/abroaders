@@ -33,7 +33,7 @@ module AdminArea
           ],
         ).pluck(:id)
         opts['collection'] = \
-          opts['account.class'].order('email ASC').where(id: ids)
+          opts['account.class'].includes(:owner, :companion).order('email ASC').where(id: ids)
       end
     end
   end

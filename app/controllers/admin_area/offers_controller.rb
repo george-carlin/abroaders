@@ -10,25 +10,13 @@ module AdminArea
     end
 
     def show
-      if params[:card_product_id]
-        card_product = CardProduct.find(params[:card_product_id])
-        offer = card_product.offers.find(params[:id])
-        render cell(Offers::Cell::Show, offer)
-      else
-        offer = Offer.includes(:card_product).find(params[:id])
-        redirect_to admin_card_product_offer_path(offer.card_product, offer)
-      end
+      offer = Offer.find(params[:id])
+      render cell(Offers::Cell::Show, offer)
     end
 
     def new
       run Offers::New
-    end
-
-    def edit
-      run Offers::Edit do
-        return
-      end
-      redirect_to edit_admin_card_product_offer_path(@model.card_product, @model)
+      render cell(Offers::Cell::New, @model, form: @form)
     end
 
     def create
@@ -37,7 +25,15 @@ module AdminArea
         redirect_to admin_offer_path(@model)
         return
       end
-      render :new
+      render cell(Offers::Cell::New, @model, form: @form)
+    end
+
+    def edit
+      run Offers::Edit do
+        render cell(Offers::Cell::Edit, @model, form: @form)
+        return
+      end
+      raise 'this should never happen!'
     end
 
     def update
@@ -46,7 +42,7 @@ module AdminArea
         redirect_to admin_offer_path(@model)
         return
       end
-      render :edit
+      render cell(Offers::Cell::Edit, @model, form: @form)
     end
 
     def kill

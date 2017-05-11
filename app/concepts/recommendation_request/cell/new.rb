@@ -1,6 +1,8 @@
 class RecommendationRequest # < RecommendationRequest.superclass
   module Cell
     class New < Abroaders::Cell::Base
+      include Escaped
+
       # @param people [Collection<Person>] people who want to request a rec.
       #   An error will be raised if any of them can't request a rec
       def initialize(people, options = {})
@@ -21,7 +23,7 @@ class RecommendationRequest # < RecommendationRequest.superclass
       def main_header
         who = "You're requesting new card recommendations"
         if account.couples?
-          names = escape(model.map(&:first_name).join(' and '))
+          names = escape!(model.map(&:first_name).join(' and '))
           who << " for #{'both ' if model.size > 2}#{names}"
         end
         who << '.'
@@ -179,6 +181,8 @@ class RecommendationRequest # < RecommendationRequest.superclass
 
       # @!method self.call(account, options = {})
       class ConfirmPersonalSpending < Abroaders::Cell::Base
+        include Escaped
+
         property :couples?
         property :monthly_spending_usd
         property :people
@@ -212,7 +216,7 @@ class RecommendationRequest # < RecommendationRequest.superclass
 
         def spending_who
           text = if couples?
-                   names = escape(people.map(&:first_name).join(' and '))
+                   names = escape!(people.map(&:first_name).join(' and '))
                    "the combined average monthly spending for both #{names} "
                  else
                    'your average monthly spending '

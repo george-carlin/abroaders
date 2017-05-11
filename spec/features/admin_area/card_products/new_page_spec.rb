@@ -11,7 +11,7 @@ RSpec.describe 'admin new card product page' do
   # trimming whitespace too
 
   let!(:banks) { Bank.all }
-  let!(:currencies) { create_list(:currency, 2) }
+  let!(:currencies) { Array.new(2) { create_currency } }
   before { visit new_admin_card_product_path }
 
   let(:submit_form) { click_button 'Save Card' }

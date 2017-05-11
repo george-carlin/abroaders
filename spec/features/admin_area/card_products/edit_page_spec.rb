@@ -4,7 +4,7 @@ RSpec.describe 'admin edit card product page' do
   include_context 'logged in as admin'
 
   let!(:banks) { Bank.all }
-  let(:currencies) { create_list(:currency, 2) }
+  let(:currencies) { Array.new(2) { create_currency } }
   before do
     @product = create(
       :card_product,

@@ -1,9 +1,9 @@
 <h1>Edit Recommendation Note</h1>
 
-Account: <%= escape(account.email) %></br>
-Owner: <%= link_to(escape(account.owner_first_name)) %></br>
+Account: <%= escape!(account.email) %></br>
+Owner: <%= link_to(escape!(account.owner_first_name)) %></br>
 <% if account.couples? %>
-  Companion: <%= link_to(escape(account.companion_first_name)) %></br>
+  Companion: <%= link_to(escape!(account.companion_first_name)) %></br>
 <% else %>
   No companion
 <% end %>

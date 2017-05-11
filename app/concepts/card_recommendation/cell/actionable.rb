@@ -1,6 +1,8 @@
 class CardRecommendation < CardRecommendation.superclass
   module Cell
     class Actionable < Abroaders::Cell::Base
+      include Escaped
+
       property :id
       property :applied?
       property :bank_name
@@ -55,7 +57,7 @@ class CardRecommendation < CardRecommendation.superclass
       end
 
       def rec_as_json
-        escape(CardRecommendation::Representer.new(model).to_json)
+        escape!(CardRecommendation::Representer.new(model).to_json)
       end
     end
   end

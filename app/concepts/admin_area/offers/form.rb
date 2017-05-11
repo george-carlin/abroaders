@@ -3,8 +3,8 @@ module AdminArea
     class Form < Reform::Form
       feature Coercion
 
-      property :condition, type: Offer::Conditions, default: 'on_minimum_spend'
-      property :partner, type: Offer::Partners
+      property :condition, type: Offer::Condition, default: 'on_minimum_spend'
+      property :partner, type: Offer::Partner
       property :points_awarded, type: Types::Form::Int
       property :spend, type: Types::Form::Int, default: 0
       property :cost, type: Types::Form::Int, default: 0

@@ -6,6 +6,7 @@ module AdminArea
       class Index < Abroaders::Cell::Base
         extend Dry::Configurable
         include Kaminari::Cells
+        include Escaped
 
         # Expose this as a configurable setting so that we can override it
         # in tests, then the tests won't have to create 50+ accounts per example.
@@ -74,7 +75,7 @@ module AdminArea
           end
 
           def link_to_person(person)
-            link_to escape(person.first_name), admin_person_path(person)
+            link_to escape!(person.first_name), admin_person_path(person)
           end
         end
       end

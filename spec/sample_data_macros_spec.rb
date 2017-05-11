@@ -82,6 +82,15 @@ RSpec.describe SampleDataMacros do
     end
   end
 
+  describe '#create_currency' do
+    it '' do
+      expect do
+        currency = create_currency
+        expect(currency).to be_a(Currency)
+      end.to change { Currency.count }.by(1)
+    end
+  end
+
   describe '#create_offer' do
     it '' do
       expect do
