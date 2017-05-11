@@ -14,24 +14,6 @@
 #   basically can't load Flight without loading every other model. Bollocks
 require 'rails_helper'
 
-# Cells shouldn't read from or write to the database. This hack, active only
-# during cell specs, will raise an error if you try to save anything to the DB
-# - which will force you to create Cells that don't read from the DB if you
-# want your tests to pass
-#
-# UPDATE 6/4/17 - I'm relaxing this requirement for now. Let's rethink this
-#
-ApplicationRecord.class_eval do
-  cattr_accessor :__is_cell_spec
-  # before_save :__disable_db_for_cell_specs
-
-  # private
-
-  # def __disable_db_for_cell_specs
-  #   raise 'Cells must not touch the DB' if self.class.__is_cell_spec
-  # end
-end
-
 module Abroaders
   module RSpec
     module CapybaraRaw
@@ -81,15 +63,4 @@ RSpec.configure do |config|
   config.include Abroaders::RSpec::CellMacros, type: :cell
 
   Cell::Testing.capybara = true
-
-  config.around do |example|
-    metadata = example.metadata
-    if metadata[:type] == :cell || metadata[:file_path] =~ CELL_FILE_PATH
-      ApplicationRecord.__is_cell_spec = true
-      example.run
-      ApplicationRecord.__is_cell_spec = false
-    else
-      example.run
-    end
-  end
 end
