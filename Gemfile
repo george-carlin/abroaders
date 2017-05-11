@@ -22,7 +22,6 @@ gem 'dry-types', '~> 0.9.4'
 gem 'dry-validation', '0.10.5'
 gem 'font-awesome-rails', '4.6.3.0'
 gem 'httparty', '~> 0.13.7'
-gem 'intercom', '3.5.10'
 gem 'inflecto'
 gem 'jquery-rails', '4.1.1'
 # kaminari-cells 0.0.4 (which is the highest version atm) isn't compatible with

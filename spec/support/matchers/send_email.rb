@@ -7,7 +7,7 @@ RSpec::Matchers.define :send_email do
     @enqueued_after = enqueued_jobs.size
 
     # Don't check that the difference is exactly +1, because the action might
-    # have enqueued other jobs e.g. to track something on Intercom
+    # have enqueued other jobs as well as the mailer job
     result = @enqueued_after > @enqueued_before
 
     if result && (@to || @subj)
