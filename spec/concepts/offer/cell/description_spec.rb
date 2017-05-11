@@ -13,7 +13,7 @@ RSpec.describe Offer::Cell::Description do
       allow(offer).to receive(:currency).and_return(currency)
     end
 
-    let(:rendered) { show(offer).raw }
+    let(:rendered) { raw_cell(offer) }
 
     example 'points awarded on first purchase' do
       offer.condition = 'on_first_purchase'

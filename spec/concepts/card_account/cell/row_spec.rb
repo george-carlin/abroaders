@@ -5,7 +5,7 @@ RSpec.describe CardAccount::Cell::Row do
 
   def cell(model, opts = {})
     allow(model).to receive(:bank_name).and_return 'My awesome bank'
-    instance = super(described_class, model, opts)
+    instance = super
     # this would be much better handled by some kind of dependency-injection
     # system :/
     allow(instance).to receive(:product_full_name).and_return 'My awesome card'

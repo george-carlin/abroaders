@@ -7,7 +7,6 @@ RSpec.describe AdminArea::HomeAirports::Cell::List do
       Airport.new(name: 'Foo', code: 'FOO', city: city),
       Airport.new(name: 'Bar', code: 'BAR', city: city),
     ]
-    rendered = show(airports)
-    expect(rendered.raw).to eq "<ul>\n<li>Townsville Foo (FOO)</li>\n<li>Townsville Bar (BAR)</li>\n</ul>"
+    expect(raw_cell(airports)).to eq "<ul>\n<li>Townsville Foo (FOO)</li>\n<li>Townsville Bar (BAR)</li>\n</ul>"
   end
 end

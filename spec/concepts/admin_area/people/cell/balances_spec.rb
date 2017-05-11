@@ -6,7 +6,7 @@ RSpec.describe AdminArea::People::Cell::Balances do
   let(:person) { Person.new(id: 123, first_name: 'Erik') }
   include ActionView::Helpers::NumberHelper
 
-  let(:rendered) { show(person) }
+  let(:rendered) { cell(person).() }
 
   example 'when the person has no balances' do
     expect(rendered).not_to have_selector 'h3', text: 'Existing Balances'

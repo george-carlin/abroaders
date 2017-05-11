@@ -22,14 +22,14 @@ RSpec.describe Card::Cell::Index::CardAccounts do
   end
 
   example 'solo account with no card accounts' do
-    rendered = show(account)
+    rendered = cell(account).()
     expect(rendered).to have_content 'No cards!'
   end
 
   example 'solo account with card accounts' do
     acc = owner.card_accounts.new(id: 10, card_product: card_product, opened_on: today)
     allow(account).to receive(:card_accounts) { [acc] }
-    rendered = show(account)
+    rendered = cell(account).()
     expect(rendered).to have_content ProductNameCellStub.(card_product).()
   end
 
@@ -41,13 +41,13 @@ RSpec.describe Card::Cell::Index::CardAccounts do
     let(:companion) { account.companion }
 
     example 'with no card accounts' do
-      rendered = show(account)
+      rendered = cell(account).()
       expect(rendered).to have_content 'No cards!'
     end
 
     example 'only owner has card accounts' do
       create_card_account(person: owner, opened_on: today, card_product: card_product)
-      rendered = show(account)
+      rendered = cell(account).()
       expect(rendered).to have_selector '#card_account_1'
       expect(rendered).not_to have_content "#{owner.first_name} has no cards"
       expect(rendered).to have_content "#{companion.first_name} has no cards"
@@ -55,7 +55,7 @@ RSpec.describe Card::Cell::Index::CardAccounts do
 
     example 'only companion has card accounts' do
       create_card_account(person: companion, opened_on: today, card_product: card_product)
-      rendered = show(account)
+      rendered = cell(account).()
       expect(rendered).to have_selector '#card_account_2'
       expect(rendered).to have_content "#{owner.first_name} has no cards"
       expect(rendered).not_to have_content "#{companion.first_name} has no cards"
@@ -64,7 +64,7 @@ RSpec.describe Card::Cell::Index::CardAccounts do
     example 'both people have card accounts' do
       create_card_account(person: owner, opened_on: today, card_product: card_product)
       create_card_account(person: companion, opened_on: today, card_product: card_product)
-      rendered = show(account)
+      rendered = cell(account).()
       expect(rendered).to have_selector '#card_account_3'
       expect(rendered).to have_selector '#card_account_4'
       expect(rendered).not_to have_content "#{owner.first_name} has no cards"

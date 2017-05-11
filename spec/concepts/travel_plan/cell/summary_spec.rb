@@ -31,7 +31,7 @@ RSpec.describe TravelPlan::Cell::Summary do
   example 'a round-trip plan' do
     plan.type = 'round_trip'
     plan.return_on = Date.new(2025, 2, 1)
-    rendered = show(plan)
+    rendered = cell(plan).()
     expect(rendered).to have_content 'Round trip'
     expect(rendered).to have_content '02/01/20'
     expect(rendered).to have_content '02/01/25'
@@ -46,7 +46,7 @@ RSpec.describe TravelPlan::Cell::Summary do
     plan.accepts_economy = false
     plan.accepts_premium_economy = true
     plan.further_information = 'qwerqwerqwer'
-    one_way = show(plan)
+    one_way = cell(plan).()
     expect(one_way).to have_content 'One-way'
     expect(one_way).to have_content '02/01/20'
     expect(one_way).not_to have_content '02/01/25'
@@ -55,36 +55,36 @@ RSpec.describe TravelPlan::Cell::Summary do
   end
 
   it 'has a link to delete the plan' do
-    rendered = show(plan)
+    rendered = cell(plan).()
     expect(rendered).to have_link 'Delete', href: travel_plan_path(plan)
   end
 
   it 'handles legacy travel plans with no return date' do # bug fix
     plan.type      = 'round_trip'
     plan.return_on = nil
-    rendered = show(plan)
+    rendered = cell(plan).()
     expect(rendered).to have_content 'Round trip'
   end
 
   describe 'showing the Edit button' do
     example 'plan is editable' do
       allow(plan).to receive(:editable?).and_return(true)
-      expect(show(plan)).to have_link 'Edit', href: edit_travel_plan_path(plan.id)
+      expect(cell(plan).()).to have_link 'Edit', href: edit_travel_plan_path(plan.id)
     end
 
     example 'plan is not editable' do
       allow(plan).to receive(:editable?).and_return(false)
-      expect(show(plan)).not_to have_link 'Edit'
+      expect(cell(plan).()).not_to have_link 'Edit'
     end
 
     example 'with `admin: true` option' do
       allow(plan).to receive(:editable?).and_return(true)
-      expect(show(plan, admin: true)).not_to have_link 'Edit'
+      expect(cell(plan, admin: true).()).not_to have_link 'Edit'
     end
   end
 
   it 'escapes HTML' do
     plan.further_information = '<script>'
-    expect(show(plan).to_s).to include '&lt;script&gt;'
+    expect(raw_cell(plan)).to include '&lt;script&gt;'
   end
 end

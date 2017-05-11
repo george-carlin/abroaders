@@ -13,7 +13,7 @@ RSpec.describe RecommendationRequest::Cell::UnresolvedAlert do
       complete_recs(person)
       create_rec_request('owner', account)
       text = 'Abroaders is Working on Your Card Recommendations'
-      expect(show(account)).to have_content text
+      expect(cell(account).()).to have_content text
     end
 
     example 'with no reqs' do
@@ -75,16 +75,16 @@ RSpec.describe RecommendationRequest::Cell::UnresolvedAlert do
       create_rec(person: owner).update!(applied_on: Date.today)
       create_rec_request('both', account)
       account.reload
-      expect(show(account)).to have_alert_for(owner, companion)
+      expect(cell(account).()).to have_alert_for(owner, companion)
     end
 
     example 'one person has unresolved reqs' do
       create_rec_request('owner', account)
-      expect(show(account)).to have_alert_for(owner)
+      expect(cell(account).()).to have_alert_for(owner)
       complete_recs(account)
       create_rec_request('companion', account)
       account.reload
-      expect(show(account)).to have_alert_for(companion)
+      expect(cell(account).()).to have_alert_for(companion)
     end
 
     it 'avoids XSS' do
@@ -92,7 +92,7 @@ RSpec.describe RecommendationRequest::Cell::UnresolvedAlert do
       owner.update!(first_name: '<script>')
       companion.update!(first_name: '</script>')
 
-      rendered = show(account).to_s
+      rendered = raw_cell(account)
       expect(rendered).to include "&lt;script&gt;"
       expect(rendered).to include "&lt;/script&gt;"
     end

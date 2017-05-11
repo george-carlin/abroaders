@@ -6,16 +6,16 @@ RSpec.describe Abroaders::Cell::ValidationErrorsAlert do
 
   example 'no errors' do
     form = form_class.new(errors_class.new({}))
-    expect(show(form).raw).to eq ''
+    expect(raw_cell(form)).to eq ''
   end
 
   example 'with errors' do
     messages =  { name: ['must be hip'] }
     form = form_class.new(errors_class.new(messages))
-    expect(show(form)).to have_content 'Name must be hip'
+    expect(cell(form).()).to have_content 'Name must be hip'
     messages[:name] << 'must be funky'
     form = form_class.new(errors_class.new(messages))
-    expect(show(form)).to have_content 'Name must be hip and must be funky'
+    expect(cell(form).()).to have_content 'Name must be hip and must be funky'
   end
 
   describe '::ActiveModel' do

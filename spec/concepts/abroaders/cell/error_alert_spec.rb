@@ -2,7 +2,7 @@ require 'cells_helper'
 
 RSpec.describe Abroaders::Cell::ErrorAlert do
   example '#show' do
-    rendered = show(nil, content: 'My totally awesome content!')
+    rendered = cell(nil, content: 'My totally awesome content!').()
 
     expect(rendered).to have_content 'My totally awesome content!'
 

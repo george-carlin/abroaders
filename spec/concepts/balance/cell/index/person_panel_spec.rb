@@ -25,7 +25,7 @@ RSpec.describe Balance::Cell::Index::PersonPanel do
 
   example '' do
     stub_person_balances([new_balance(123), new_balance(321)])
-    rendered = show(person)
+    rendered = cell(person).()
     # test for link text EXACT match
     expect(rendered).to have_link 'Add new', href: new_person_balance_path(person)
     expect(rendered).to have_selector 'h1', text: 'My points'
@@ -33,13 +33,13 @@ RSpec.describe Balance::Cell::Index::PersonPanel do
 
   example 'with no balances' do
     stub_person_balances([])
-    rendered = show(person)
+    rendered = cell(person).()
     expect(rendered).to have_content 'No points balances'
   end
 
   example 'for a solo account' do
     stub_person_balances([])
-    rendered = show(person)
+    rendered = cell(person).()
     expect(rendered).to have_link 'Add new'
     expect(rendered).to have_selector 'h1', text: 'My points'
   end
@@ -48,7 +48,7 @@ RSpec.describe Balance::Cell::Index::PersonPanel do
     couples!
 
     stub_person_balances([])
-    rendered = show(person)
+    rendered = cell(person).()
 
     expect(rendered).to have_selector 'h1', text: "Erik's points"
     expect(rendered).to have_link 'Add new', href: new_person_balance_path(person)
@@ -59,8 +59,6 @@ RSpec.describe Balance::Cell::Index::PersonPanel do
 
     person.first_name = '<script>'
     stub_person_balances([])
-    rendered = show(person)
-
-    expect(rendered.to_s).to include "&lt;script&gt;'s points"
+    expect(raw_cell(person)).to include "&lt;script&gt;'s points"
   end
 end

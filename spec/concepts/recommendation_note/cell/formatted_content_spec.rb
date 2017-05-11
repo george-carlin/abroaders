@@ -9,7 +9,7 @@ RSpec.describe RecommendationNote::Cell::FormattedContent do
       And a link! http://example.com
     EOL
                              )
-    rendered = show(note)
+    rendered = cell(note).()
     expect(rendered).to have_selector 'p', text: 'Multiple paragraphs'
     expect(rendered).to have_selector 'p', text: 'And a link!'
     expect(rendered).to have_link 'http://example.com', href: 'http://example.com'
@@ -17,6 +17,6 @@ RSpec.describe RecommendationNote::Cell::FormattedContent do
 
   example 'protected against XSS' do
     note = rec_note_class.new('<script>')
-    expect(show(note).to_s).to include('&lt;script&gt;')
+    expect(raw_cell(note)).to include('&lt;script&gt;')
   end
 end

@@ -30,7 +30,7 @@ RSpec.describe RecommendationRequest::Cell::CallToAction do
     end
 
     example 'who can make a request' do
-      rendered = show(account)
+      rendered = cell(account).()
       expect(rendered).to have_content header
       expect(rendered).to have_link btn_text
     end
@@ -69,7 +69,7 @@ RSpec.describe RecommendationRequest::Cell::CallToAction do
       end
 
       example 'can request' do
-        rendered = show(account.reload)
+        rendered = cell(account.reload).()
         expect(rendered).to have_content header
         expect(rendered).to have_link btn_text
         expect(rendered).not_to have_type_select
@@ -78,7 +78,7 @@ RSpec.describe RecommendationRequest::Cell::CallToAction do
 
     context 'both eligible' do
       example 'both can request' do
-        rendered = show(account)
+        rendered = cell(account).()
         expect(rendered).to have_content header
         expect(rendered).to have_link btn_text
         expect(rendered).to have_type_select
@@ -124,7 +124,7 @@ RSpec.describe RecommendationRequest::Cell::CallToAction do
         complete_recs(account)
         decline_rec(c_rec)
         o_rec.update!(applied_on: Date.today)
-        rendered = show(account)
+        rendered = cell(account).()
         expect(rendered).to have_link btn_text
         expect(rendered).to have_type_select
       end

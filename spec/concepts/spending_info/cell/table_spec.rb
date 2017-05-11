@@ -22,7 +22,7 @@ RSpec.describe SpendingInfo::Cell::Table do
   let(:has_business)      { 'with_ein' }
   let(:couples_account)   { false }
 
-  let(:rendered) { show(info) }
+  let(:rendered) { cell(info).() }
 
   it '' do
     expect(rendered).to have_content 'Credit score: 350'

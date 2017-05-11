@@ -7,13 +7,13 @@ RSpec.describe SpendingInfo::Cell::Show do
   let!(:owner)  { account.owner }
 
   example 'no eligible people' do
-    expect { show(account) }.to raise_error RuntimeError
+    expect { cell(account).() }.to raise_error RuntimeError
   end
 
   example 'solo account' do
     owner.update!(eligible: true)
     owner.create_spending_info!(credit_score: 456, has_business: 'no_business')
-    rendered = show(account.reload)
+    rendered = cell(account.reload).()
 
     expect(rendered).to have_content "Erik's Financials"
     expect(rendered).to have_content 'Personal spending:$1,234'
@@ -25,7 +25,7 @@ RSpec.describe SpendingInfo::Cell::Show do
     let!(:companion) { account.create_companion!(first_name: 'Gabi', eligible: false) }
 
     example 'both people ineligible' do
-      expect { show(account) }.to raise_error RuntimeError
+      expect { cell(account).() }.to raise_error RuntimeError
     end
 
     example 'both people eligible' do
@@ -33,7 +33,7 @@ RSpec.describe SpendingInfo::Cell::Show do
       owner.create_spending_info!(credit_score: 678, has_business: 'no_business')
       companion.update!(eligible: true)
       companion.create_spending_info!(credit_score: 765, has_business: 'no_business')
-      rendered = show(account.reload)
+      rendered = cell(account.reload).()
 
       expect(rendered).to have_content "Erik's Financials"
       expect(rendered).to have_content "Gabi's Financials"
@@ -47,7 +47,7 @@ RSpec.describe SpendingInfo::Cell::Show do
       owner.update!(eligible: true)
       owner.create_spending_info!(credit_score: 678, has_business: 'no_business')
 
-      rendered = show(account.reload)
+      rendered = cell(account.reload).()
 
       expect(rendered).to have_content "Erik's Financials"
       expect(rendered).to have_content "Gabi's Financials"

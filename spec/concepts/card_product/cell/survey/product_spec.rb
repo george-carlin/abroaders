@@ -5,7 +5,7 @@ RSpec.describe CardProduct::Cell::Survey::Product do
   let(:product) do
     CardProduct.new(name: 'Sapphire', network: 'visa', bank: bank, annual_fee_cents: 125_00)
   end
-  let(:rendered) { show(product) }
+  let(:rendered) { cell(product).() }
 
   describe 'card name' do
     example 'for a business card' do

@@ -2,7 +2,7 @@ require 'cells_helper'
 
 RSpec.describe LoyaltyAccount::Cell::ExpirationDate do
   let(:account) { Struct.new(:expiration_date).new(expires) }
-  let(:result) { show(account) }
+  let(:result) { cell(account).() }
 
   def have_text(text)
     have_selector '.loyalty_account_expiration_date', text: text

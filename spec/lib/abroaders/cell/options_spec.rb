@@ -13,10 +13,6 @@ RSpec.describe Abroaders::Cell::Options do
     end
   end
 
-  def render_options(opts = {})
-    show(nil, opts.merge(__cell_class: CellWithOptions)).raw
-  end
-
   class CellWithRequiredOption < Cell::ViewModel
     include Abroaders::Cell::Options
     option :foo
@@ -26,23 +22,19 @@ RSpec.describe Abroaders::Cell::Options do
     end
   end
 
-  def render_required(opts = {})
-    show(nil, opts.merge(__cell_class: CellWithRequiredOption)).raw
-  end
-
   example 'required option' do
-    expect(render_required(foo: 'hello')).to eq 'foo: hello'
+    expect(raw_cell(CellWithRequiredOption, nil, foo: 'hello')).to eq 'foo: hello'
 
     expect do
-      render_required(not_foo: 'hello')
+      raw_cell(CellWithRequiredOption, nil, not_foo: 'hello')
     end.to raise_error Abroaders::Cell::MissingOptionsError, /\bfoo\b/
   end
 
   example 'optional option' do
-    expect(render_options(bar: 'algo')).to eq 'algo'
+    expect(raw_cell(CellWithOptions, nil, bar: 'algo')).to eq 'algo'
 
     # bar is optional
-    expect(render_options(not_bar: 'yo')).to eq '"bar" not given'
+    expect(raw_cell(CellWithOptions, nil, not_bar: 'algo')).to eq '"bar" not given'
   end
 
   example 'with :default' do
@@ -55,8 +47,8 @@ RSpec.describe Abroaders::Cell::Options do
       end
     end
 
-    expect(cell(MyCell).().to_s).to include 'hello'
-    expect(cell(MyCell, nil, buzz: 'hola').().to_s).to include 'hola'
+    expect(raw_cell(MyCell)).to include 'hello'
+    expect(raw_cell(MyCell, nil, buzz: 'hola')).to include 'hola'
   end
 
   example 'with :collection option' do

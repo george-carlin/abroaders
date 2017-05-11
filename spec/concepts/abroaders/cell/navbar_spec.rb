@@ -4,7 +4,7 @@ RSpec.describe Abroaders::Cell::Navbar do
   controller ApplicationController
 
   example 'not signed in' do
-    rendered = show(nil)
+    rendered = cell(nil).()
 
     # it 'has links to sign in/up' do
     expect(rendered).to have_link 'Sign up', href: new_account_registration_path
@@ -19,7 +19,7 @@ RSpec.describe Abroaders::Cell::Navbar do
 
   example 'when signed in as account' do
     user = Account.new(email: 'admin@example.com')
-    rendered = show(user)
+    rendered = cell(user).()
 
     # it 'has a link to sign out' do
     expect(rendered).to have_link('', href: destroy_account_session_path)
@@ -31,7 +31,7 @@ RSpec.describe Abroaders::Cell::Navbar do
 
   example 'when signed in as admin' do
     user = Admin.new(email: 'admin@example.com')
-    rendered = show(user)
+    rendered = cell(user).()
 
     # it 'has a link to sign out' do
     expect(rendered).to have_link('', href: destroy_admin_session_path)

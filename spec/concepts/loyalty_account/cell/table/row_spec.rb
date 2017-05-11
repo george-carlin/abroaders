@@ -9,7 +9,7 @@ RSpec.describe LoyaltyAccount::Cell::Table::Row do
   let(:la) { LoyaltyAccount.build(balance) }
 
   it 'for an Abroaders balance' do
-    rendered = show(la)
+    rendered = cell(la).()
     expect(rendered).to have_content 'Sterling'
     expect(rendered).to have_content '1,234'
     expect(rendered).to have_link 'Edit'
@@ -24,7 +24,7 @@ RSpec.describe LoyaltyAccount::Cell::Table::Row do
 
   it 'avoids XSS attacks' do
     balance.currency.name = '<hacker>'
-    expect(show(la).to_s).to include('&lt;hacker&gt;')
+    expect(raw_cell(la)).to include('&lt;hacker&gt;')
   end
 
   it 'for an AwardWallet account' do
@@ -40,7 +40,7 @@ RSpec.describe LoyaltyAccount::Cell::Table::Row do
     )
     account = LoyaltyAccount.build(awa)
 
-    rendered = show(account)
+    rendered = cell(account).()
     expect(rendered).to have_content 'My currency'
     expect(rendered).to have_content '4,321'
     expect(rendered).to have_content 'GeorgeMillo'
@@ -50,7 +50,7 @@ RSpec.describe LoyaltyAccount::Cell::Table::Row do
   end
 
   example 'with :simple option' do
-    rendered = show(la, simple: true)
+    rendered = cell(la, simple: true).()
     expect(rendered).to have_selector 'td', count: 4
     # these columns are shown regardless of the :simple option:
     expect(rendered).to have_content 'Sterling'

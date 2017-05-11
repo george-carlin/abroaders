@@ -24,7 +24,7 @@ RSpec.describe Abroaders::Cell::Sidebar do
 
   example 'for admin' do
     admin = Admin.new
-    sidebar = show(admin)
+    sidebar = cell(admin).()
     expect(sidebar).to have_content 'Banks'
     expect(sidebar).to have_content 'Card Products'
     expect(sidebar).to have_content 'Destinations'

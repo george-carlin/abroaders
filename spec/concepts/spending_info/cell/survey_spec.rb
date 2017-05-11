@@ -17,7 +17,7 @@ RSpec.describe SpendingInfo::Cell::Survey do
         'contract.default' => SpendingSurvey.new(account: account),
         'eligible_people' => [owner],
       }
-      rendered = show(result)
+      rendered = cell(result).()
       expect(rendered).to have_subheader 'What is your credit score?'
       expect(rendered).to have_subheader 'How much do you spend per month?'
       expect(rendered).to have_subheader 'Do you have a business?'
@@ -41,7 +41,7 @@ RSpec.describe SpendingInfo::Cell::Survey do
         'contract.default' => SpendingSurvey.new(account: account),
         'eligible_people'  => [owner, companion],
       }
-      rendered = show(result)
+      rendered = cell(result).()
       expect(rendered).to have_subheader 'What is Erik\'s credit score?'
       expect(rendered).to have_subheader 'What is Gabi\'s credit score?'
       expect(rendered).to have_subheader 'How much do you spend per month?'

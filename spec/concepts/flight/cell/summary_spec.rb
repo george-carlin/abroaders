@@ -20,7 +20,7 @@ RSpec.describe Flight::Cell::Summary do
     # lhr = Struct.new(:from, :to)
 
     flight = Struct.new(:id, :from, :to).new(1, lhr, jfk)
-    rendered = show(flight)
+    rendered = cell(flight).()
     expect(rendered.to_s).to include 'Heathrow - John F. Kennedy'
   end
 end

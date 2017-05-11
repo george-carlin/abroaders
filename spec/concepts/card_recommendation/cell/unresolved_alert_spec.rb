@@ -23,7 +23,7 @@ RSpec.describe CardRecommendation::Cell::UnresolvedAlert do
       create_rec(person: person)
       # and a resolved one:
       create_rec(person: person).update!(applied_on: Date.today)
-      rendered = show(account)
+      rendered = cell(account).()
       expect(rendered).to have_alert
     end
 
@@ -45,7 +45,7 @@ RSpec.describe CardRecommendation::Cell::UnresolvedAlert do
       # the alert may still be shown:
       person.update!(eligible: false)
       create_rec(person: person)
-      rendered = show(account)
+      rendered = cell(account).()
       expect(rendered).to have_alert
     end
   end
@@ -70,14 +70,14 @@ RSpec.describe CardRecommendation::Cell::UnresolvedAlert do
       # may still be shown:
       people.each { |p| p.update!(eligible: false) }
       owner_rec = create_rec(person: owner)
-      expect(show(account)).to have_alert_for(owner)
+      expect(cell(account).()).to have_alert_for(owner)
       create_rec(person: companion)
       account.reload
-      expect(show(account)).to have_alert_for(owner, companion)
+      expect(cell(account).()).to have_alert_for(owner, companion)
       # resolve owner_rec:
       owner_rec.update!(applied_on: Date.today)
       account.reload
-      expect(show(account)).to have_alert_for(companion)
+      expect(cell(account).()).to have_alert_for(companion)
     end
 
     # owner eligible, companion not. Not bothering to test the other way around
@@ -90,7 +90,7 @@ RSpec.describe CardRecommendation::Cell::UnresolvedAlert do
         create_rec(person: owner)
         # and a resolved one:
         create_rec(person: owner).update!(applied_on: Date.today)
-        rendered = show(account)
+        rendered = cell(account).()
         expect(rendered).to have_alert_for(owner)
       end
 
@@ -109,21 +109,21 @@ RSpec.describe CardRecommendation::Cell::UnresolvedAlert do
 
       example 'ineligible person has recs too' do
         create_rec(person: companion)
-        expect(show(account)).to have_alert_for(companion)
+        expect(cell(account).()).to have_alert_for(companion)
       end
     end
 
     context 'both eligible' do
       example 'with unresolved recommendations' do
         owner_rec =  create_rec(person: owner)
-        expect(show(account)).to have_alert_for(owner)
+        expect(cell(account).()).to have_alert_for(owner)
         create_rec(person: companion)
         account.reload
-        expect(show(account)).to have_alert_for(owner, companion)
+        expect(cell(account).()).to have_alert_for(owner, companion)
         # resolve owner rec:
         owner_rec.update!(applied_on: Date.today)
         account.reload
-        expect(show(account)).to have_alert_for(companion)
+        expect(cell(account).()).to have_alert_for(companion)
       end
 
       example 'no recs' do
@@ -145,7 +145,7 @@ RSpec.describe CardRecommendation::Cell::UnresolvedAlert do
       owner.update!(first_name: '<script>')
       companion.update!(first_name: '</script>')
 
-      rendered = show(account).to_s
+      rendered = raw_cell(account).to_s
       expect(rendered).to include "&lt;script&gt;"
       expect(rendered).to include "&lt;/script&gt;"
     end

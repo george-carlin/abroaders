@@ -10,7 +10,7 @@ RSpec.describe Integrations::AwardWallet::User::Cell::Info do
       user_name: 'freddieb',
       email: 'fred.bloggs@example.com',
     )
-    rendered = show(user)
+    rendered = cell(user).()
     expect(rendered).to have_content 'Fred Bloggs'
     expect(rendered).to have_content 'freddieb'
     expect(rendered).to have_content 'fred.bloggs@example.com'
@@ -24,7 +24,7 @@ RSpec.describe Integrations::AwardWallet::User::Cell::Info do
       user_name: '<username>',
       email: '<email>',
     )
-    rendered = show(user).to_s
+    rendered = raw_cell(user).to_s
     expect(rendered).to include '&lt;fullname&gt;'
     expect(rendered).to include '&lt;username&gt;'
     expect(rendered).to include '&lt;email&gt;'

@@ -9,7 +9,7 @@ RSpec.describe LoyaltyAccount::Cell::Table do
     end
 
     example 'with :simple option' do
-      rendered = show([], simple: true)
+      rendered = cell([], simple: true).()
       expect(headers(rendered)).to eq [
         'Award Program',
         'Balance',
@@ -19,7 +19,7 @@ RSpec.describe LoyaltyAccount::Cell::Table do
     end
 
     example 'without :simple option' do
-      rendered = show([])
+      rendered = cell([]).()
       expect(headers(rendered)).to eq [
         'Award Program',
         'Owner',

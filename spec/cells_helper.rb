@@ -16,17 +16,59 @@ require 'rails_helper'
 
 module Abroaders
   module RSpec
-    module CapybaraRaw
+    module CellMacros
+      # Extend the 'cell' macro so that you don't need to explicitly specify
+      # the cell class.
+      #
+      # If the first argument is a cell class then the helper will work like
+      # normal:
+      #
+      #     cell(MyCell, model, options)
+      #     # => <#MyCell>
+      #
+      # Otherwise if just pass the model and options, it will be assumed
+      # that the described_class is the cell class:
+      #
+      #     RSpec.describe MyCell do
+      #       example '' do
+      #         cell(model, options)
+      #         # => <#MyCell>
+      #       end
+      #     end
+      #
+      # assume that `described_class` is the cell class.
+      def cell(cell_or_model, *model_and_options)
+        if cell_or_model.is_a?(Class) && cell_or_model.ancestors.include?(::Cell::ViewModel)
+          cell_class = cell_or_model
+          model = model_and_options[0]
+          options = model_and_options[1] || {}
+        else
+          cell_class = described_class
+          model = cell_or_model
+          options = model_and_options[0] || {}
+        end
+        super(cell_class, model, options)
+      end
+
       # The 'cell' method provided by rspec-cells will wrap the rendered string
       # in a Capybara::Node::Simple so that you can test it with matchers like
       # have_selector etc. This is fine, but sometimes a cell renders a really
       # simple string and you just want to test what that string equals.
       # Capybara::Simple::Node.to_s will include a bunch of extra shit like a
-      # <doctype> and <body> tags. This hack adds the method #raw to the result
-      # of `cell`, which you can use to get the original, unadultered result of
-      # Cell#show, as a String.
-      def raw
-        body = all('body')[0]
+      # <doctype> and <body> tags.
+      #
+      # If you just want the raw string, you *could* render the cell directly
+      # without using a helper:
+      #
+      #
+      #   MyCell.(model).()
+      #
+      # ... but then you won't get the context object, so the cell can't e.g.
+      # access routes. Use #raw_cell when you want to render the raw string
+      # with no extra Capybara stuff but you still need the cell to access
+      # the context object
+      def raw_cell(cell_or_model, *model_and_options)
+        body = cell(cell_or_model, *model_and_options).().all('body')[0]
         return '' if body.nil?
         body = body.native
         if body.children.count == 1 && body.children[0].name == 'p'
@@ -34,18 +76,6 @@ module Abroaders
         else
           body.inner_html
         end
-      end
-    end
-
-    module CellMacros
-      # render a cell, and extend the result with CapybaraRaw. By default will
-      # assume that `described_class` is the cell class. Override this by
-      # passing `:__cell_class` as an option.
-      def show(model = nil, opts = {})
-        cell_class = opts.fetch(:__cell_class, described_class)
-        rendered = cell(cell_class, model, opts).()
-        rendered.extend(CapybaraRaw) if ::Cell::Testing.capybara?
-        rendered
       end
     end
   end
