@@ -79,6 +79,7 @@ footer.footer {
 // if we use our own class called 'required', forms created with simple_form
 // will have TWO required stars. So rename the 'required' class to 'required-abr'
 // and let simple_form use 'required'
+// FIXME we're not using simple_form anymore so this CSS is now redundant
 .form-group.required-abr label:after, .required-explanation:before {
   content: "*";
   color: $darkBlue;
