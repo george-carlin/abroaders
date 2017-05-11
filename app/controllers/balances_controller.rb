@@ -13,7 +13,7 @@ class BalancesController < AuthenticatedUserController
               award_wallet_accounts: [:award_wallet_owner, :person],
             },
           ],
-          balances: :currency,
+          balances: [:currency, :person],
         },
       ],
     ).find(current_account.id)
