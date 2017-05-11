@@ -7,8 +7,8 @@ class Balance < Balance.superclass
     extend Contract::DSL
     contract Form
 
-    step :setup_person
-    step :setup_model
+    success :setup_person
+    success :setup_model
     step Contract::Build()
 
     private

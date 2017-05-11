@@ -37,6 +37,9 @@ module Abroaders
       #     end
       #
       # assume that `described_class` is the cell class.
+      #
+      # This also passes 'current_account' into the cell context if
+      # it's defined
       def cell(cell_or_model, *model_and_options)
         if cell_or_model.is_a?(Class) && cell_or_model.ancestors.include?(::Cell::ViewModel)
           cell_class = cell_or_model
@@ -47,6 +50,12 @@ module Abroaders
           model = cell_or_model
           options = model_and_options[0] || {}
         end
+
+        if defined?(current_account) && !current_account.nil?
+          options[:context] ||= {}
+          options[:context][:current_account] ||= current_account
+        end
+
         super(cell_class, model, options)
       end
 

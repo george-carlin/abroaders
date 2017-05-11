@@ -1,6 +1,8 @@
 require 'cells_helper'
 
 RSpec.describe LoyaltyAccount::Cell::Table do
+  include AwardWalletMacros
+
   let(:balance) { create(:balance) }
 
   context 'headers' do
@@ -8,8 +10,11 @@ RSpec.describe LoyaltyAccount::Cell::Table do
       rendered.native.xpath('//th').map(&:text)
     end
 
-    example 'with :simple option' do
-      rendered = cell([], simple: true).()
+    let(:current_account) { create(:account, :onboarded) }
+
+    example 'when current account is not connected to AW' do
+      rendered = cell([], context: { current_account: current_account }).()
+
       expect(headers(rendered)).to eq [
         'Award Program',
         'Balance',
@@ -18,8 +23,10 @@ RSpec.describe LoyaltyAccount::Cell::Table do
       ]
     end
 
-    example 'without :simple option' do
-      rendered = cell([]).()
+    example 'when current account is connected to AW' do
+      setup_award_wallet_user_from_sample_data(current_account)
+      rendered = cell([], context: { current_account: current_account }).()
+
       expect(headers(rendered)).to eq [
         'Award Program',
         'Owner',
