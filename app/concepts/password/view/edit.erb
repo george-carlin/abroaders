@@ -1,7 +1,3 @@
-<% provide :title, "Update Password" %>
-
-<%= bootstrap_devise_error_messages! %>
-
 <div class="login-container">
   <div class="row">
     <div class="col-md-12">
@@ -10,8 +6,10 @@
       </div>
 
       <div class="hpanel">
+        <%= errors %>
+
         <div class="panel-body">
-          <%= form_for resource, url: accounts_password_path, method: :put, html: { role: "form" } do |f| %>
+          <%= form_for model, url: accounts_password_path, method: :put, html: { role: "form" } do |f| %>
             <%= f.hidden_field :reset_password_token %>
 
             <div class="form-group">
@@ -33,10 +31,4 @@
       </div><!-- .hpanel -->
     </div><!-- .col-md-12 -->
   </div><!-- .row -->
-
-  <div class="row">
-    <div class="col-md-12 text-center">
-      <br/> © <%= Time.zone.today.year %> Abroaders
-    </div>
-  </div>
 </div><!-- login-container -->
