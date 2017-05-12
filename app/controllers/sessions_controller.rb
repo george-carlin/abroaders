@@ -65,9 +65,9 @@ class SessionsController < ApplicationController
   # Example:
   #   before_action :require_no_authentication, only: :new
   def require_no_authentication
-    if warden.authenticated?(:account) && (resource = warden.user(:account))
+    if warden.authenticated?(:account) && warden.user(:account)
       flash[:alert] = I18n.t("devise.failure.already_authenticated")
-      redirect_to after_sign_in_path_for(resource)
+      redirect_to root_path
     end
   end
 end

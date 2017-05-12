@@ -14,11 +14,9 @@ Rails.application.routes.draw do
 
   # --- NON-LOGGED-IN USERS ---
 
-  devise_scope :account do
-    get :sign_up, to: "registrations#new"
-    post :sign_up, to: "registrations#create", as: :account_registration
-    get :sign_up,  to: "registrations#new", as: :new_account_registration
-  end
+  get :sign_up, to: "registrations#new"
+  post :sign_up, to: "registrations#create", as: :account_registration
+  get :sign_up,  to: "registrations#new", as: :new_account_registration
 
   get :sign_in, to: "sessions#new", as: :new_account_session
   post :sign_in, to: "sessions#create", as: :account_session
