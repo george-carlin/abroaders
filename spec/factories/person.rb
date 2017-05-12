@@ -7,15 +7,7 @@ FactoryGirl.define do
       eligible true
     end
 
-    trait :ineligible do
-      eligible false
-    end
-
     owner true
-
-    trait :owner do
-      owner true
-    end
 
     trait :companion do
       first_name 'Gabi'

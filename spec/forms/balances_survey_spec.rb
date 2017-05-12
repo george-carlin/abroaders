@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe BalancesSurvey do
-  let(:person)  { create(:owner) }
+  let(:person)  { create(:person) }
   let(:account) { person.account }
   before { account.update!(onboarding_state: "owner_balances") }
   let(:currency) { create_currency }
@@ -26,7 +26,7 @@ RSpec.describe BalancesSurvey do
     end
 
     example "person is owner and has an ineligible companion" do
-      create(:companion, :ineligible, account: account)
+      create(:companion, account: account)
       survey = described_class.new(person: person)
       survey.save!
       expect(account.reload.onboarding_state).to eq "companion_balances"
@@ -55,7 +55,7 @@ RSpec.describe BalancesSurvey do
     end
 
     example "person is ineligible companion of eligible owner" do
-      companion = create(:companion, :ineligible, account: account)
+      companion = create(:companion, account: account)
       account.update!(onboarding_state: "companion_balances")
       person.update!(eligible: true)
       survey = described_class.new(person: companion)
@@ -64,7 +64,7 @@ RSpec.describe BalancesSurvey do
     end
 
     example "person is ineligible companion of ineligible owner" do
-      companion = create(:companion, :ineligible, account: account)
+      companion = create(:companion, account: account)
       account.update!(onboarding_state: "companion_balances")
       person.update!(eligible: false)
       survey = described_class.new(person: companion)
