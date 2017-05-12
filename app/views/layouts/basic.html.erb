@@ -1,9 +1,10 @@
+<% layout = cell(Abroaders::Cell::Layout, nil, title: title(yield(:title))) %>
 <!DOCTYPE html>
 <html>
-  <%= render "layouts/head" %>
+  <%= layout.head %>
   <body class="blank">
-    <%= cell Abroaders::Cell::Navbar, current_user %>
-    <%= cell(Abroaders::Cell::Noscript) %>
+    <%= layout.navbar %>
+    <%= layout.noscript %>
 
     <%= flash_alerts %>
     <%= yield %>
