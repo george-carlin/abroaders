@@ -3,9 +3,7 @@ class TravelPlan < TravelPlan.superclass
     step Nested(Edit)
     success :add_return_on_key_to_params!
     step Contract::Validate(key: :travel_plan)
-    # failure -> (opts) { debugger; puts }
     step Contract::Persist()
-    # failure -> (opts) { debugger; puts }
 
     private
 
