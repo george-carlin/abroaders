@@ -1,0 +1,30 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="hpanel">
+      <div class="panel-heading hbuilt">
+        <h4>Edit Admin Account</h4>
+      </div>
+      <%= errors %>
+      <div class="panel-body">
+        <%= form_for model, url: admin_registration_path, html: { method: :put } do |f| %>
+          <div class="form-group">
+            <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
+            <%= f.password_field :password, :autocomplete => "off" %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :password_confirmation %><br />
+            <%= f.password_field :password_confirmation  %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i>
+            <%= f.password_field :current_password %>
+          </div>
+
+          <%= f.submit 'Update', class: "btn btn-primary" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
