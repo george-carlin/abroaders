@@ -43,8 +43,6 @@ module Abroaders
 
     config.assets.quiet = true
 
-    config.autoload_paths << Rails.root.join('app', 'models', 'destinations')
-
     config.generators.jbuilder = false
 
     config.browserify_rails.commandline_options = [
