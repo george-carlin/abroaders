@@ -22,13 +22,13 @@ Rails.application.routes.draw do
 
     post :sign_up, to: "registrations#create", as: :account_registration
     get :sign_up,  to: "registrations#new", as: :new_account_registration
-
-    post 'accounts/password',     to: 'passwords#create', as: :account_password
-    get 'accounts/password/new',  to: 'passwords#new',    as: :new_account_password
-    get 'accounts/password/edit', to: 'passwords#edit',   as: :edit_account_password
-    put   'accounts/password',    to: 'passwords#update'
-    patch 'accounts/password',    to: 'passwords#update'
   end
+
+  post 'accounts/password',     to: 'passwords#create', as: :account_password
+  get 'accounts/password/new',  to: 'passwords#new',    as: :new_account_password
+  get 'accounts/password/edit', to: 'passwords#edit',   as: :edit_account_password
+  put   'accounts/password',    to: 'passwords#update'
+  patch 'accounts/password',    to: 'passwords#update'
 
   # --- EVERYBODY ---
 
