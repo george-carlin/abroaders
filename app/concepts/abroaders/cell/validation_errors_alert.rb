@@ -32,7 +32,7 @@ module Abroaders
 
       builds do |model|
         case model.errors
-        when Reform::Form::ActiveModel::Errors
+        when Reform::Form::ActiveModel::Errors, ::ActiveModel::Errors
           ValidationErrorsAlert::ActiveModel
         end
       end
