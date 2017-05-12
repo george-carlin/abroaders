@@ -7,7 +7,7 @@
     </div><!-- .row -->
   </div>
 
-  <%= cell(Abroaders::Cell::ValidationErrorsAlert::ActiveModel, form) %>
+  <%= cell(Abroaders::Cell::ValidationErrorsAlert, form) %>
 
   <div class="panel-body">
     <%= form_for form, url: card_product_card_accounts_path(params[:card_product_id]) do |f| %>

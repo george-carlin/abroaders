@@ -9,7 +9,7 @@
     </div><!-- .row -->
   </div>
 
-  <%= cell(Abroaders::Cell::ValidationErrorsAlert::ActiveModel, @form) %>
+  <%= cell(Abroaders::Cell::ValidationErrorsAlert, @form) %>
 
   <div class="panel-body">
     <%= form_for @form, url: admin_person_card_accounts_path(@model.person) do |f| %>

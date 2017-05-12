@@ -7,7 +7,7 @@
         <h1>Edit Spending</h1>
       </div><!-- .panel-heading.hbuilt -->
 
-      <%= cell(Abroaders::Cell::ValidationErrorsAlert::ActiveModel, @form) %>
+      <%= cell(Abroaders::Cell::ValidationErrorsAlert, @form) %>
 
       <div class="panel-body">
         <%= form_for @form, url: person_spending_info_path(@model.person) do |f| %>

@@ -5,7 +5,7 @@
     <h1>Edit Card</h1>
   </div>
 
-  <%= cell(Abroaders::Cell::ValidationErrorsAlert::ActiveModel, @product) %>
+  <%= cell(Abroaders::Cell::ValidationErrorsAlert, @product) %>
 
   <div class="panel-body">
     <%= render 'form', card: @product %>
