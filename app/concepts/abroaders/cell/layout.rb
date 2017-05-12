@@ -20,6 +20,10 @@ module Abroaders
         cell(Noscript)
       end
 
+      def progress_bar
+        cell(Onboarding::Cell::ProgressBar, current_account)
+      end
+
       def sidebar
         @sidebar ||= cell(Sidebar, current_user)
       end

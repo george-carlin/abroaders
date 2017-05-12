@@ -23,6 +23,8 @@ RSpec.describe "home airports survey", :onboarding, :js do
     expect(page).to have_button("Save and continue", disabled: true)
     expect(page).to have_no_sidebar
     expect(page).to have_no_content "Saved home airports"
+
+    expect(page).to have_content '1. Travel Plans'
   end
 
   example "choosing then removing a home airport" do

@@ -19,9 +19,13 @@ RSpec.describe "new travel plan page", :js do
   SKIP_LINK = "I don't have specific plans".freeze
 
   context "as part of onboarding survey" do
-    let(:ob_state) { :travel_plan }
-    it { is_expected.to have_no_sidebar }
-    it { is_expected.to have_link SKIP_LINK }
+    let(:ob_state) { 'travel_plan' }
+
+    it '' do
+      expect(page).to have_no_sidebar
+      expect(page).to have_link SKIP_LINK
+      expect(page).to have_content '1. Travel Plans'
+    end
 
     example "skipping adding a travel plan" do
       expect { click_link SKIP_LINK }.not_to change { TravelPlan.count }
@@ -32,9 +36,13 @@ RSpec.describe "new travel plan page", :js do
   end
 
   context "after onboarding survey" do
-    let(:ob_state) { :complete }
-    it { is_expected.to have_sidebar }
-    it { is_expected.to have_no_link SKIP_LINK }
+    let(:ob_state) { 'complete' }
+
+    it '' do
+      expect(page).to have_sidebar
+      expect(page).to have_no_link SKIP_LINK
+      expect(page).to have_no_content '1. Travel Plans'
+    end
   end
 
   it_behaves_like 'a travel plan form'
