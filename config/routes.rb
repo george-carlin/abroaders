@@ -15,14 +15,14 @@ Rails.application.routes.draw do
   # --- NON-LOGGED-IN USERS ---
 
   devise_scope :account do
-    get    :sign_in,  to: "sessions#new",     as: :new_account_session
-    post   :sign_in,  to: "sessions#create",  as: :account_session
-    delete :sign_out, to: "sessions#destroy", as: :destroy_account_session
     get :sign_up, to: "registrations#new"
-
     post :sign_up, to: "registrations#create", as: :account_registration
     get :sign_up,  to: "registrations#new", as: :new_account_registration
   end
+
+  get :sign_in, to: "sessions#new", as: :new_account_session
+  post :sign_in, to: "sessions#create", as: :account_session
+  delete :sign_out, to: "sessions#destroy", as: :destroy_account_session
 
   post 'accounts/password',     to: 'passwords#create', as: :account_password
   get 'accounts/password/new',  to: 'passwords#new',    as: :new_account_password
