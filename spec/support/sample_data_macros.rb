@@ -43,12 +43,15 @@ module SampleDataMacros
       @instance ||= new
     end
 
+    def initialize
+      @sequences ||= {}
+    end
+
     def admin(overrides = {})
-      @_admin_sequence ||= -1
-      @_admin_sequence += 1
+      n = increment_sequence(:admin)
 
       attrs = {
-        email: "admin-#{@_admin_sequence}@example.com",
+        email: "admin-#{n}@example.com",
         password: 'abroaders123',
         password_confirmation: 'abroaders123',
       }.merge(overrides)
@@ -57,10 +60,8 @@ module SampleDataMacros
     end
 
     def currency(overrides = {})
-      @_currency_sequence ||= -1
-      @_currency_sequence += 1
+      n = increment_sequence(:currency)
 
-      n = @_currency_sequence
       attrs = {
         name: "Currency #{n}",
         award_wallet_id: "currency #{n}",
@@ -70,6 +71,14 @@ module SampleDataMacros
       }.merge(overrides)
 
       Currency.create!(attrs)
+    end
+
+    private
+
+    # @return the new, incremented sequence number
+    def increment_sequence(model_name)
+      @sequences[model_name] ||= -1
+      @sequences[model_name] += 1
     end
   end
 
