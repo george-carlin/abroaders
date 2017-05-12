@@ -143,7 +143,7 @@ RSpec.describe 'the balance survey page', :onboarding, :js do
   end
 
   describe "when person is owner, and account has a companion" do
-    before { create(:companion, account: account) }
+    before { create_companion(account: account) }
 
     it "doesn't send a 'profile complete' email to the admin" do
       click_link "Yes"

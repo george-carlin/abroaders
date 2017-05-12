@@ -6,7 +6,7 @@ RSpec.describe AdminArea::CardRecommendations::Create do
   let(:op) { described_class }
 
   let(:offer) { create_offer }
-  let(:person) { create(:person) }
+  let(:person) { create_person }
 
   example 'valid recommendation' do
     result = op.(

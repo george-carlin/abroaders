@@ -9,7 +9,7 @@ RSpec.describe "eligibility" do
     let(:click_submit) { click_button "Save and continue" }
 
     context "for a couples account" do
-      let!(:companion) { create(:companion, account: account) }
+      let!(:companion) { create_companion(account: account) }
       before { visit survey_eligibility_path }
 
       it "has four options" do

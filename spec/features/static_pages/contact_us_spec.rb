@@ -8,7 +8,7 @@ RSpec.describe 'contact us page' do
   end
 
   example 'when logged in' do
-    account = create(:person, first_name: 'George').account
+    account = create_person(first_name: 'George').account
     login_as_account(account)
     visit contact_us_path
     expect(page).to have_content 'Hey, George'

@@ -19,7 +19,7 @@ RSpec.describe "the spending info survey", :js, :onboarding do
   before do
     login_as_account(account)
     owner.update!(eligible: owner_eligible)
-    create(:companion, account: account, eligible: companion_eligible) if couples
+    create_companion(account: account, eligible: companion_eligible) if couples
     account.reload
     visit survey_spending_info_path
   end

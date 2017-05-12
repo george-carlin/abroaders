@@ -54,42 +54,4 @@ RSpec.describe "factories" do
       expect { create(:card_product) }.to change { CardProduct.count }.by(1)
     end
   end
-
-  describe "person factory" do
-    let(:create_person) { create(:person, *traits) }
-    let(:traits) { [] }
-
-    let(:person) { Person.last }
-
-    it "creates a person with an account" do
-      create_person
-      expect(Account.count).to eq 1
-      expect(Person.count).to eq 1
-    end
-
-    it "doesn't set the person's eligibilty" do
-      create_person
-      expect(Person.last.eligible).to be_nil
-    end
-
-    it "doesn't create any SpendingInfos" do
-      expect { create_person }.not_to change { SpendingInfo.count }
-    end
-
-    context "with :eligible trait" do
-      let(:traits) { :eligible }
-      it "creates a person who is eligible to apply for cards" do
-        create_person
-        expect(person).to be_eligible
-      end
-    end
-
-    context "with :ineligible trait" do
-      let(:traits) { :ineligible }
-      it "creates a person who is ineligible to apply for cards" do
-        create_person
-        expect(person.eligible).to be false
-      end
-    end
-  end
 end

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe AdminArea::CardRecommendations::ExpireOld do
   let(:admin) { create_admin }
-  let(:person) { create(:person) }
+  let(:person) { create_person }
   let(:offer)  { create_offer }
   let(:now) { Time.zone.now }
 

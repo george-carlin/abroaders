@@ -31,14 +31,9 @@ module SampleDataMacros
     end
   end
 
-  # Use this class to encapsulate the 'sequence' variables; this allows for
-  # functionality like the 'sequence' method in FactoryGirl and avoids
-  # polluting the main RSpec namespace.
-  #
-  # There's no reason we can't add similar 'sequence' functionality for the
-  # other sample data macros; I just haven't bothered to do it yet because I
-  # haven't needed to.
   class Generator
+    include FactoryGirl::Syntax::Methods
+
     def self.instance
       @instance ||= new
     end
@@ -73,7 +68,35 @@ module SampleDataMacros
       Currency.create!(attrs)
     end
 
+    def person(*traits_and_overrides)
+      overrides = if traits_and_overrides.last.is_a?(Hash)
+                    traits_and_overrides.pop
+                  else
+                    {}
+                  end
+      traits = traits_and_overrides
+
+      account = if overrides.key?(:account)
+                  overrides.fetch(:account)
+                else
+                  build(:account, with_person: false)
+                end
+
+      owner = !traits.include?(:companion)
+
+      attrs = {
+        account: account,
+        first_name: owner ? 'Erik' : 'Gabi',
+        owner: owner,
+        eligible: traits.include?(:eligible),
+      }.merge(overrides)
+
+      Person.create!(attrs)
+    end
+
     private
+
+    # Not all macros have 'sequence' functionality, as I haven't needed it yet
 
     # @return the new, incremented sequence number
     def increment_sequence(model_name)
@@ -149,7 +172,7 @@ module SampleDataMacros
                 elsif overrides.key?(:person_id)
                   overrides[:person_id]
                 else
-                  create(:person).id
+                  create_person.id
                 end
 
     admin = overrides.key?(:admin) ? overrides.fetch(:admin) : create_admin
@@ -234,7 +257,7 @@ module SampleDataMacros
       person = overrides.fetch(:person)
       params[:person_id] = person.id
     else
-      person = create(:person)
+      person = create_person
     end
 
     if traits.include?(:closed) || overrides.key?(:closed_on)
@@ -243,6 +266,21 @@ module SampleDataMacros
     end
 
     run!(CardAccount::Create, params, 'account' => person.account)['model']
+  end
+
+  def create_person(*traits_and_overrides)
+    Generator.instance.person(*traits_and_overrides)
+  end
+
+  def create_companion(*traits_and_overrides)
+    overrides = if traits_and_overrides.last.is_a?(Hash)
+                  traits_and_overrides.pop
+                else
+                  {}
+                end
+    traits = traits_and_overrides
+    traits.push(:companion)
+    create_person(*traits, overrides)
   end
 
   def create_recommendation_request(person_type, account)
@@ -328,7 +366,7 @@ module SampleDataMacros
     person = if overrides.key?(:person)
                overrides.delete(:person)
              else
-               create(:person)
+               create_person
              end
 
     run!(
