@@ -5,24 +5,18 @@ RSpec.describe TravelPlan::Edit do
 
   let(:lhr) { create(:airport, name: 'Heathrow', code: 'LHR') }
   let(:jfk) { create(:airport, name: 'JFK', code: 'JFK') }
-  let(:lhr_s) { "#{lhr.name} (#{lhr.code})" }
-  let(:jfk_s) { "#{jfk.name} (#{jfk.code})" }
 
-  let(:account) { create(:account) }
+  let(:account) { create(:account, :onboarded) }
 
   let(:plan) do
-    TravelPlan::Create.(
-      {
-        travel_plan: {
-          depart_on: "05/18/#{Date.today.year + 1}",
-          from: lhr_s,
-          to:   jfk_s,
-          type: 'one_way',
-          no_of_passengers: 1,
-        },
-      },
-      'account' => account,
-    )['model']
+    create_travel_plan(
+      account: account,
+      depart_on: "05/18/#{Date.today.year + 1}",
+      from: lhr,
+      no_of_passengers: 1,
+      to: jfk,
+      type: 'one_way',
+    )
   end
 
   it 'only finds my travel plans' do

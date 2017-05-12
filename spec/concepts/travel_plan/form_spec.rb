@@ -167,24 +167,20 @@ RSpec.describe TravelPlan::Form, type: :model do
     end
 
     example 'updating a travel plan' do
-      plan = TravelPlan::Create.(
-        {
-          travel_plan: {
-            from: "#{airport_0.name} (#{airport_0.code})",
-            to: "#{airport_1.name} (#{airport_1.code})",
-            type: 'round_trip',
-            no_of_passengers: 5,
-            accepts_economy: true,
-            accepts_premium_economy: true,
-            accepts_business_class: true,
-            accepts_first_class: true,
-            depart_on: '05/08/2025',
-            return_on: '02/03/2026',
-            further_information: 'blah blah blah',
-          },
-        },
-        'account' => account,
-      )['model']
+      plan = create_travel_plan(
+        accepts_business_class: true,
+        accepts_economy: true,
+        accepts_first_class: true,
+        accepts_premium_economy: true,
+        account: account,
+        depart_on: '05/08/2025',
+        from: airport_0,
+        further_information: 'blah blah blah',
+        no_of_passengers: 5,
+        return_on: '02/03/2026',
+        to: airport_1,
+        type: 'round_trip',
+      )
 
       form = described_class.new(plan)
       expect(
