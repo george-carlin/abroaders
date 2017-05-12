@@ -18,7 +18,7 @@ module AdminArea
         end
 
         def errors
-          cell(Abroaders::Cell::ValidationErrorsAlert::ActiveModel, form)
+          cell(Abroaders::Cell::ValidationErrorsAlert, form)
         end
 
         def link_back_to_person
