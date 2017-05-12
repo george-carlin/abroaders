@@ -53,7 +53,7 @@ class CardProduct < ApplicationRecord
   # Validations
 
   with_options presence: true do
-    validates :annual_fee_cents
+    validates :annual_fee, numericality: { greater_than_or_equal_to: 0 }
     validates :bank_id
     validates :name
     validates :network
