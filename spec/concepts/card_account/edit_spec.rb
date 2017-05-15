@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe CardAccount::Edit do
-  let(:account) { create(:account) }
+  let(:account) { create_account }
   let(:op) { described_class }
   let(:card_account) { create_card_account(person: account.owner) }
 

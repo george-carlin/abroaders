@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe RecommendationRequest::Policy do
   include_context 'create_rec avoids extra records'
 
-  let(:account) { create(:account, :eligible, :onboarded) }
+  let(:account) { create_account(:eligible, :onboarded) }
   let(:person) { account.owner }
 
   describe '#create?' do
@@ -61,7 +61,7 @@ RSpec.describe RecommendationRequest::Policy do
     end
 
     context 'for a couples account' do
-      let(:account) { create(:account, :couples, :eligible, :onboarded) }
+      let(:account) { create_account(:couples, :eligible, :onboarded) }
       let(:owner) { account.owner }
       let(:companion) { account.companion }
 

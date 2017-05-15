@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'admin/people#show card & offer filters', :js, :manual_clean do
   include_context 'logged in as admin'
 
-  let(:account) { create(:account, :eligible, :onboarded) }
+  let(:account) { create_account(:eligible, :onboarded) }
   let(:person) { account.owner }
 
   before(:all) do

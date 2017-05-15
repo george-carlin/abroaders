@@ -5,7 +5,7 @@ RSpec.describe Integrations::AwardWallet::Account::Save do
   include AwardWalletMacros
   include SampleDataMacros
   let(:op) { described_class }
-  let(:account) { create(:account, :couples, :onboarded) }
+  let(:account) { create_account(:couples, :onboarded) }
 
   stub_award_wallet_api_key!
 

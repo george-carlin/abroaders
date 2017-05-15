@@ -1,5 +1,5 @@
 RSpec.shared_context "logged in" do
-  let(:account) { create(:account, :onboarded) }
+  let(:account) { create_account(:onboarded) }
   let(:owner)   { account.owner }
   before { login_as_account(account) }
 end

@@ -36,7 +36,7 @@ RSpec.describe Card::Cell::Index::CardAccounts do
   describe 'couples account' do
     # need to use saved records or the cell won't load the people correctly :/
     let(:card_product) { create(:card_product) }
-    let(:account) { create(:account, :couples, :eligible, :onboarded) }
+    let(:account) { create_account(:couples, :eligible, :onboarded) }
     let(:owner) { account.owner }
     let(:companion) { account.companion }
 

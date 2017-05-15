@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe RecommendationRequest do
-  let(:account) { create(:account, :eligible, :onboarded) }
+  let(:account) { create_account(:eligible, :onboarded) }
 
   example '#status' do
     req = described_class.new
@@ -18,7 +18,7 @@ RSpec.describe RecommendationRequest do
   end
 
   example '#resolve!' do
-    account = create(:account, :eligible)
+    account = create_account(:eligible)
     create_rec_request('owner', account)
     req = account.unresolved_recommendation_requests.last
     result = req.resolve!
@@ -28,7 +28,7 @@ RSpec.describe RecommendationRequest do
   end
 
   example '#resolve! when req is already resolved' do
-    account = create(:account, :eligible)
+    account = create_account(:eligible)
     create_rec_request('owner', account)
     req = account.unresolved_recommendation_requests.last
     req.resolve! # resolve once

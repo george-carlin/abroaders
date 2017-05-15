@@ -8,7 +8,7 @@ RSpec.describe 'requesting a recommendation', :js do
 
   context 'for a solo account' do
     # monthly spending must be present or the page will crash:
-    let(:account) { create(:account, :eligible, :onboarded, monthly_spending_usd: 1) }
+    let(:account) { create_account(:eligible, :onboarded, monthly_spending_usd: 1) }
     let(:person)  { account.owner }
 
     before do
@@ -33,7 +33,7 @@ RSpec.describe 'requesting a recommendation', :js do
   end
 
   context 'for a couples account' do
-    let(:account) { create(:account, :couples, :eligible, :onboarded, monthly_spending_usd: 1) }
+    let(:account) { create_account(:couples, :eligible, :onboarded, monthly_spending_usd: 1) }
     let(:companion) { account.companion }
     let(:owner) { account.owner }
 

@@ -5,7 +5,7 @@ RSpec.describe Integrations::AwardWallet::Callback do
 
   let(:op) { described_class }
 
-  let(:account) { create(:account, :onboarded) }
+  let(:account) { create_account(:onboarded) }
 
   example 'account already has a loaded AWU' do
     setup_award_wallet_user_from_sample_data(account)

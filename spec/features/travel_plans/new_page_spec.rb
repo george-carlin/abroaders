@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "new travel plan page", :js do
-  let(:account) { create(:account, onboarding_state: ob_state) }
+  let(:account) { create_account(onboarding_state: ob_state) }
   let(:person) { account.owner }
 
   subject { page }

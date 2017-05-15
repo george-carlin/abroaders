@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe CardAccount::Update do
-  let(:account) { create(:account, :onboarded) }
+  let(:account) { create_account(:onboarded) }
   let(:person)  { account.owner }
   let(:product) { create(:card_product) }
 

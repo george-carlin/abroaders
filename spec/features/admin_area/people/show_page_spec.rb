@@ -31,7 +31,7 @@ RSpec.describe 'admin - show person page', :manual_clean do
   end
 
   before do
-    @person = create(:person, :eligible)
+    @person = create_person(:eligible)
     @account = @person.account.reload
     @account.update!(onboarding_state: :complete)
   end

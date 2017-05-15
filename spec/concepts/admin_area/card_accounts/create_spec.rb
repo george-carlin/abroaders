@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe AdminArea::CardAccounts::Create do
   let(:op) { described_class }
 
-  let(:person) { create(:account).owner }
+  let(:person) { create_account.owner }
   let(:card_product) { create(:card_product) }
 
   example 'success - creating an open card account' do

@@ -3,12 +3,12 @@ require "rails_helper"
 RSpec.describe 'as a user viewing my cards' do
   subject { page }
 
-  let(:account)   { create(:account, :eligible, :onboarded) }
+  let(:account)   { create_account(:eligible, :onboarded) }
   let(:owner)     { account.owner }
   let(:companion) { account.companion }
 
   before do
-    create(:companion, account: account, eligible: true) if couples
+    create_companion(account: account, eligible: true) if couples
     login_as(account)
   end
 
@@ -61,7 +61,7 @@ RSpec.describe 'as a user viewing my cards' do
     card       = create_card_account(person: owner)
 
     seen_rec   =
-      other_persons_rec = create_card_recommendation(:seen, person_id: create(:person).id)
+      other_persons_rec = create_card_recommendation(:seen, person_id: create_person.id)
 
     expect do
       visit_page

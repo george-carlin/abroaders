@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'account dashboard' do
   include ActionView::Helpers::UrlHelper
 
-  let(:account) { create(:account, :onboarded) }
+  let(:account) { create_account(:onboarded) }
 
   before { login_as_account(account.reload) }
 

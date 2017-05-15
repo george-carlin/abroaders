@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'new card account page' do
   include_context 'logged in as admin'
 
-  let(:account) { create(:account, :onboarded) }
+  let(:account) { create_account(:onboarded) }
   let(:person)  { account.owner }
   let!(:product) { create(:card_product) }
 

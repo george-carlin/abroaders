@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe AdminArea::CardAccounts::Update do
-  let(:person)  { create(:account, :onboarded).owner }
+  let(:person)  { create_account(:onboarded).owner }
   let(:product) { create(:card_product) }
 
   let(:nov_2015) { Date.new(2015, 11) }

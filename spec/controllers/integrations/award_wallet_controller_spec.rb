@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Integrations::AwardWalletController do
   include AwardWalletMacros
 
-  let(:account) { create(:account, :onboarded) }
+  let(:account) { create_account(:onboarded) }
 
   before { sign_in account }
 

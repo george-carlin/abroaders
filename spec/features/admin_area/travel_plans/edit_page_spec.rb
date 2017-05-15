@@ -7,7 +7,7 @@ RSpec.describe "admin edit travel plan" do
   include_context "logged in as admin"
   subject { page }
 
-  let(:account) { create(:account, :onboarded) }
+  let(:account) { create_account(:onboarded) }
   let(:travel_plan) { create_travel_plan(type: :round_trip, account: account) }
   let(:depart_date) { 5.months.from_now.to_date }
   let(:return_date) { 6.months.from_now.to_date }

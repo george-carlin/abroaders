@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Account::Type::Onboard do
   let(:op) { described_class }
-  let(:account) { create(:account, onboarding_state: :account_type) }
+  let(:account) { create_account(onboarding_state: :account_type) }
 
   example 'solo' do
     result = op.(

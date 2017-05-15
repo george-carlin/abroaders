@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe CardRecommendation::Decline do
   let(:op) { described_class }
 
-  let(:account) { create(:account, :onboarded) }
+  let(:account) { create_account(:onboarded) }
   let(:person)  { account.owner }
   let(:offer)   { create_offer }
 
@@ -54,7 +54,7 @@ RSpec.describe CardRecommendation::Decline do
   end
 
   example 'failure - rec not found' do # fail noisily:
-    other_account = create(:account, :onboarded)
+    other_account = create_account(:onboarded)
     expect do
       op.({ id: rec.id }, 'account' => other_account)
     end.to raise_error ActiveRecord::RecordNotFound

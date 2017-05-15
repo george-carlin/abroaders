@@ -4,7 +4,7 @@ RSpec.describe AccountsController do
   include_context "account devise mapping"
 
   describe "GET #type" do
-    let(:account) { create(:account) }
+    let(:account) { create_account }
     before { sign_in account }
 
     subject { get :type }

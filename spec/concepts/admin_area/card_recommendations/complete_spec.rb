@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe AdminArea::CardRecommendations::Complete do
   let(:op) { described_class }
 
-  let(:person)  { create(:person, :eligible) }
+  let(:person)  { create_person(:eligible) }
   let(:account) { person.account }
 
   example 'success - no note, no rec request' do
@@ -32,7 +32,7 @@ RSpec.describe AdminArea::CardRecommendations::Complete do
   example 'success - user has unresolved rec request' do
     create_rec_request('owner', account.reload)
 
-    other_account = create(:account, :eligible)
+    other_account = create_account(:eligible)
     create_rec_request('owner', other_account)
 
     result = op.(person_id: person.id)
@@ -42,7 +42,7 @@ RSpec.describe AdminArea::CardRecommendations::Complete do
   end
 
   example 'success - account has two users with unresolved rec requests' do
-    create(:companion, :eligible, account: account)
+    create_companion(:eligible, account: account)
     create_rec_request('both', account)
 
     expect(account.unresolved_recommendation_requests.count).to be 2
@@ -54,7 +54,7 @@ RSpec.describe AdminArea::CardRecommendations::Complete do
   end
 
   example 'success - account has two users, one has unresolved rec req' do
-    create(:companion, :eligible, account: account)
+    create_companion(:eligible, account: account)
     create_rec_request('companion', account)
 
     expect(account.unresolved_recommendation_requests.count).to eq 1

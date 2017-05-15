@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "user cards page - callable cards", :js do
   include ApplicationSurveyMacros
-  let(:account) { create(:account, :onboarded) }
+  let(:account) { create_account(:onboarded) }
   let(:person)  { account.owner }
 
   let(:recommended_at) { 7.days.ago.to_date }
