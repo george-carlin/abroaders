@@ -42,5 +42,13 @@ RSpec.describe 'the sign up page', :onboarding do
       email = ApplicationMailer.deliveries.last
       expect(email.to).to match_array [ENV['MAILPARSER_NEW_SIGNUP']]
     end
+
+    example "can't visit sign up page when signed in" do
+      submit_form
+
+      visit new_account_registration_path
+
+      expect(current_path).not_to eq new_account_registration_path
+    end
   end
 end

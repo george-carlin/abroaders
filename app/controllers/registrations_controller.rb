@@ -1,6 +1,9 @@
-class RegistrationsController < Devise::RegistrationsController
+class RegistrationsController < ApplicationController
+  prepend_before_action :require_no_authentication, only: [:new, :create]
+
   layout 'basic'
   include Onboarding
+  include SignInOut
 
   def new
     run Registration::New
@@ -10,10 +13,9 @@ class RegistrationsController < Devise::RegistrationsController
   def create
     run Registration::Create do
       AccountMailer.notify_admin_of_sign_up(@model.id).deliver_later
-      set_flash_message! :notice, :signed_up
+      flash[:notice] = I18n.t('devise.registrations.signed_up')
       sign_in(:account, @model)
-      respond_with resource, location: onboarding_survey_path
-      return
+      return redirect_to onboarding_survey_path
     end
 
     @form.clean_up_passwords
@@ -25,5 +27,16 @@ class RegistrationsController < Devise::RegistrationsController
 
   def set_minimum_password_length
     @minimum_password_length = Registration::SignUpForm::PASSWORD_LENGTH.min
+  end
+
+  # Helper for use in before_actions where no authentication is required.
+  #
+  # Example:
+  #   before_action :require_no_authentication, only: :new
+  def require_no_authentication
+    if warden.authenticated?(:account) && warden.user(:account)
+      flash[:alert] = I18n.t("devise.failure.already_authenticated")
+      redirect_to root_path
+    end
   end
 end

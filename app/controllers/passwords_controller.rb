@@ -1,42 +1,39 @@
-class PasswordsController < Devise::PasswordsController
+class PasswordsController < ApplicationController
   layout 'basic'
 
   # GET /accounts/password/new
   def new
-    self.resource = Account.new
-    render cell(Password::Cell::New, resource)
+    render cell(Password::Cell::New, Account.new)
   end
 
   # POST /accounts/password
   def create
-    self.resource = resource_class.send_reset_password_instructions(resource_params)
+    account = Account.send_reset_password_instructions(params[:account])
 
-    if successfully_sent?(resource)
-      respond_with({}, location: after_sending_reset_password_instructions_path_for(resource_name))
+    if account.errors.empty?
+      flash[:notice] = I18n.t("devise.passwords.send_instructions")
+      redirect_to new_account_session_path
     else
-      render cell(Password::Cell::New, resource)
+      render cell(Password::Cell::New, account)
     end
   end
 
   # GET /accounts/password/edit?reset_password_token=abcdef
   def edit
-    self.resource = resource_class.new
-    set_minimum_password_length
-    resource.reset_password_token = params[:reset_password_token]
-    render cell(Password::Cell::Edit, resource)
+    account = Account.new(reset_password_token: params[:reset_password_token])
+    render cell(Password::Cell::Edit, account)
   end
 
   # PUT /accounts/password
   def update
-    self.resource = resource_class.reset_password_by_token(resource_params)
+    account = Account.reset_password_by_token(params[:account])
 
-    if resource.errors.empty?
-      set_flash_message!(:notice, :updated)
-      sign_in(resource_name, resource)
-      respond_with resource, location: after_sign_in_path_for(resource)
+    if account.errors.empty?
+      flash[:notice] = I18n.t("devise.passwords.updated")
+      sign_in(:account, account)
+      redirect_to root_path
     else
-      set_minimum_password_length
-      render cell(Password::Cell::Edit, resource)
+      render cell(Password::Cell::Edit, account)
     end
   end
 end

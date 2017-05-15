@@ -35,4 +35,14 @@ RSpec.describe 'the sign in page' do
     expect(page).to have_no_selector '#sign_out_link'
     expect(page).to have_no_content email
   end
+
+  example "can't visit page when already signed in" do
+    fill_in :account_email,    with: email
+    fill_in :account_password, with: password
+    submit_form
+
+    visit new_account_session_path
+
+    expect(current_path).not_to eq new_account_session_path
+  end
 end
