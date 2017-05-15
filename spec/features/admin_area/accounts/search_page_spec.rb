@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'admin - searching for accounts', :js do
   include_context 'logged in as admin'
-  let!(:account) { create(:account) }
+  let!(:account) { create_account }
   before { visit root_path }
 
   # there doesn't seem to be a way to simulate an 'enter' hit natively

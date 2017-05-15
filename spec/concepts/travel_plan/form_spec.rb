@@ -129,10 +129,10 @@ RSpec.describe TravelPlan::Form, type: :model do
   end
 
   describe 'saving' do
-    let(:account) { create(:account, :onboarded) }
+    let(:account) { create_account(:onboarded) }
     let(:airport_0) { create(:airport) }
     let(:airport_1) { create(:airport) }
-    let(:account)   { create(:account, :onboarded) }
+    let(:account)   { create_account(:onboarded) }
 
     example 'creating a new travel plan' do
       form = described_class.new(account.travel_plans.new)

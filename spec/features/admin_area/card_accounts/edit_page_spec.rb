@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'admin area - edit card account page', :js do
   include_context 'logged in as admin'
 
-  let(:account) { create(:account, :onboarded) }
+  let(:account) { create_account(:onboarded) }
   let(:person)  { account.owner }
   let(:product) { create(:card_product) }
 

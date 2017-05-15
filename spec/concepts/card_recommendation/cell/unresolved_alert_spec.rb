@@ -6,7 +6,7 @@ RSpec.describe CardRecommendation::Cell::UnresolvedAlert do
   let(:header) { 'Your Card Recommendations are Ready' }
 
   context 'solo account' do
-    let(:account) { create(:account, :eligible, :onboarded) }
+    let(:account) { create_account(:eligible, :onboarded) }
     let(:person)  { account.owner }
 
     def have_alert
@@ -51,7 +51,7 @@ RSpec.describe CardRecommendation::Cell::UnresolvedAlert do
   end
 
   context 'couples account' do
-    let(:account) { create(:account, :couples, :eligible, :onboarded) }
+    let(:account) { create_account(:couples, :eligible, :onboarded) }
     let(:owner) { account.owner }
     let(:companion) { account.companion }
     let(:people) { account.people }

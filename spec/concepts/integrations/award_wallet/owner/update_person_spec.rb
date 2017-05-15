@@ -5,7 +5,7 @@ RSpec.describe Integrations::AwardWallet::Owner::UpdatePerson do
 
   let(:op) { described_class }
 
-  let(:account)   { create(:account, :couples, :onboarded) }
+  let(:account)   { create_account(:couples, :onboarded) }
   let(:owner)     { account.owner }
   let(:companion) { account.companion }
 
@@ -58,7 +58,7 @@ RSpec.describe Integrations::AwardWallet::Owner::UpdatePerson do
   end
 
   example "error - updating someone else's data" do
-    other_account = create(:account)
+    other_account = create_account
     other_person  = other_account.owner
     expect do # wrong person:
       op.({ id: aw_owner.id, person_id: other_person.id }, 'account' => account)

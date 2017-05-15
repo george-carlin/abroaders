@@ -12,14 +12,14 @@ RSpec.describe "the spending info survey", :js, :onboarding do
     will_apply_for_loan_false
   ).freeze
 
-  let!(:account)  { create(:account, onboarding_state: :spending) }
+  let!(:account)  { create_account(onboarding_state: 'spending') }
   let(:owner)     { account.owner }
   let(:companion) { account.companion }
 
   before do
     login_as_account(account)
     owner.update!(eligible: owner_eligible)
-    create(:companion, account: account, eligible: companion_eligible) if couples
+    create_companion(account: account, eligible: companion_eligible) if couples
     account.reload
     visit survey_spending_info_path
   end

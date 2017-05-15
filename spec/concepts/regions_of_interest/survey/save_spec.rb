@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe RegionsOfInterest::Survey::Save do
   let(:op) { described_class }
-  let(:account) { create(:account, onboarding_state: 'regions_of_interest') }
+  let(:account) { create_account(onboarding_state: 'regions_of_interest') }
 
   before(:all) { @regions = Array.new(3) { create(:region) } }
   after(:all)  { @regions.each(&:destroy) }

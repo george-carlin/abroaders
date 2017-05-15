@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe RecommendationRequest::Create do
   let(:op) { described_class }
-  let(:account) { create(:account, :eligible, :onboarded) }
+  let(:account) { create_account(:eligible, :onboarded) }
   let(:owner) { account.owner }
 
   context 'solo account' do
@@ -49,7 +49,7 @@ RSpec.describe RecommendationRequest::Create do
   end
 
   context 'couples account' do
-    let!(:companion) { create(:companion, account: account, eligible: true) }
+    let!(:companion) { create_companion(account: account, eligible: true) }
 
     # account.companion returns nil unless you reload:
     before { account.reload }

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'phone number pages' do
-  let!(:account) { create(:account, onboarding_state: :phone_number) }
+  let!(:account) { create_account(onboarding_state: 'phone_number') }
   before { login_as_account(account) }
 
   let(:submit_form) { click_button 'Save and continue' }

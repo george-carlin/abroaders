@@ -1,6 +1,70 @@
 require 'rails_helper'
 
 RSpec.describe SampleDataMacros do
+  describe '#create_account' do
+    it 'basic' do
+      expect do
+        account = create_account
+        expect(account).to be_a(Account)
+        expect(account.onboarding_state).to eq 'home_airports'
+        expect(account.owner).not_to be_eligible
+      end.to change { Account.count }.by(1).and(change { Person.count }.by(1))
+    end
+
+    it 'unique-emails' do
+      accounts = Array.new(3) { create_account }
+      expect(accounts.map(&:email).uniq.length).to eq 3
+    end
+
+    it 'with overrides' do
+      account = create_account(
+        email: 'george@george.com',
+        onboarding_state: 'spending',
+        monthly_spending_usd: 1234,
+      )
+      expect(account.email).to eq 'george@george.com'
+      expect(account.onboarding_state).to eq 'spending'
+      expect(account.monthly_spending_usd).to eq 1234
+    end
+
+    it 'onboarded' do
+      expect do
+        account = create_account(:onboarded)
+        expect(account).to be_a(Account)
+        expect(account).to be_onboarded
+      end.to change { Account.count }.by(1).and(change { Person.count }.by(1))
+    end
+
+    it 'couples' do
+      expect do
+        account = create_account(:couples)
+        expect(account).to be_a(Account)
+        expect(account.couples?).to be true
+        expect(account.owner).not_to be_eligible
+        expect(account.companion).not_to be_eligible
+      end.to change { Account.count }.by(1).and(change { Person.count }.by(2))
+    end
+
+    it 'eligible' do
+      expect do
+        account = create_account(:eligible)
+        expect(account).to be_a(Account)
+        expect(account.owner).to be_eligible
+      end.to change { Account.count }.by(1).and(change { Person.count }.by(1))
+    end
+
+    it 'couples, eligible, onboarded' do # putting it all together
+      expect do
+        account = create_account(:eligible, :couples, :onboarded)
+        expect(account).to be_a(Account)
+        expect(account.couples?).to be true
+        expect(account).to be_onboarded
+        expect(account.owner).to be_eligible
+        expect(account.companion).to be_eligible
+      end.to change { Account.count }.by(1).and(change { Person.count }.by(2))
+    end
+  end
+
   example '#create_admin' do
     admin = create_admin
     expect(Admin.count).to eq 1
@@ -27,7 +91,7 @@ RSpec.describe SampleDataMacros do
     end
 
     example 'specifying person who is owner' do
-      owner = create(:person, owner: true)
+      owner = create_person
       expect do
         card = create_card_account(person: owner)
         expect(card).to be_a(Card)
@@ -36,7 +100,7 @@ RSpec.describe SampleDataMacros do
     end
 
     example 'specifying person who is companion' do
-      account   = create(:account, :couples)
+      account   = create_account(:couples)
       companion = account.companion
       expect do
         card = create_card_account(person: companion)
@@ -74,7 +138,7 @@ RSpec.describe SampleDataMacros do
     end
 
     example 'specifying person' do
-      account = create(:account, :couples, :eligible, :onboarded)
+      account = create_account(:couples, :eligible, :onboarded)
       rec = create_card_recommendation(person: account.owner)
       expect(rec.person).to eq account.owner
       rec = create_card_recommendation(person: account.companion)
@@ -120,7 +184,7 @@ RSpec.describe SampleDataMacros do
     end
 
     example 'specifying person' do
-      person = create(:person)
+      person = create_person
       expect do
         balance = create_balance(person: person)
         expect(balance).to be_an(Balance)
@@ -135,6 +199,56 @@ RSpec.describe SampleDataMacros do
       travel_plan = create_travel_plan
       expect(travel_plan).to be_an(TravelPlan)
     end.to change { TravelPlan.count }.by(1)
+  end
+
+  describe '#create_person' do
+    let(:run_macro) { create_person(*traits) }
+    let(:traits) { [] }
+
+    let(:person) { Person.last }
+
+    it 'creates a person with an account' do
+      expect do
+        person = create_person
+        expect(person).to be_a(Person)
+        expect(person).not_to be_eligible
+        expect(person.type).to eq 'owner'
+      end.to change { Account.count }.by(1).and(change { Person.count }.by(1))
+      expect(SpendingInfo.count).to eq 0
+    end
+
+    example 'with overrides' do
+      expect do
+        person = create_person(first_name: 'George')
+        expect(person).to be_a(Person)
+        expect(person.first_name).to eq 'George'
+      end.to change { Account.count }.by(1).and(change { Person.count }.by(1))
+    end
+
+    example ':eligible' do
+      expect do
+        person = create_person(:eligible)
+        expect(person).to be_a(Person)
+        expect(person).to be_eligible
+        expect(person.type).to eq 'owner'
+      end.to change { Account.count }.by(1).and(change { Person.count }.by(1))
+    end
+
+    example ':companion' do
+      expect do
+        person = create_person(:companion)
+        expect(person).to be_a(Person)
+        expect(person.type).to eq 'companion'
+      end.to change { Account.count }.by(1).and(change { Person.count }.by(2))
+    end
+
+    example '#create_companion alias' do
+      expect do
+        person = create_companion
+        expect(person).to be_a(Person)
+        expect(person.type).to eq 'companion'
+      end.to change { Account.count }.by(1).and(change { Person.count }.by(2))
+    end
   end
 
   example '#kill_offer' do

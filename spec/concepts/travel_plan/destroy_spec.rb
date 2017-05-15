@@ -12,9 +12,8 @@ RSpec.describe TravelPlan::Destroy do
   end
 
   it "can't destroy someone else's travel plan" do
-    other_account = create(:account)
     expect do
-      op.({ id: travel_plan.id }, 'account' => other_account)
+      op.({ id: travel_plan.id }, 'account' => create_account)
     end.to raise_error ActiveRecord::RecordNotFound
   end
 end

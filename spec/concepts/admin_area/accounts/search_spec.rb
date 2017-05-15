@@ -5,10 +5,10 @@ RSpec.describe AdminArea::Accounts::Search do
 
   let!(:accounts) do
     [
-      create(:account, email: 'aaaaaa@example.com'),
-      create(:account, email: 'bbbbbb@example.com'),
-      create(:account, :couples, email: 'ccccccc@example.com'),
-      create(:account, email: 'ddddddd@example.com'),
+      create_account(email: 'aaaaaa@example.com'),
+      create_account(email: 'bbbbbb@example.com'),
+      create_account(:couples, email: 'ccccccc@example.com'),
+      create_account(email: 'ddddddd@example.com'),
     ]
   end
 

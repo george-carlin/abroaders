@@ -5,7 +5,7 @@ RSpec.describe 'cards index page - "card accounts" section' do
 
   subject { page }
 
-  let(:account)   { create(:account, :couples, :eligible, :onboarded) }
+  let(:account)   { create_account(:couples, :eligible, :onboarded) }
   let(:owner)     { account.owner }
   let(:companion) { account.companion }
 

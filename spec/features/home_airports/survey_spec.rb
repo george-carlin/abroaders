@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "home airports survey", :onboarding, :js do
-  let(:account) { create(:account) }
+  let(:account) { create_account }
   let(:person)  { account.owner }
 
   def visit_path

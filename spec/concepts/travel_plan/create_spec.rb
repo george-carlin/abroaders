@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe TravelPlan::Create do
-  let(:account) { create(:account) }
+  let(:account) { create_account }
   let(:op) { described_class }
 
   let(:lhr) { create(:airport, name: 'Heathrow', code: 'LHR') }
@@ -88,7 +88,7 @@ RSpec.describe TravelPlan::Create do
 
   describe TravelPlan::Onboard do
     let(:op) { TravelPlan::Onboard }
-    let(:account) { create(:account, onboarding_state: :travel_plan) }
+    let(:account) { create_account(onboarding_state: :travel_plan) }
 
     example 'valid save' do
       result = op.(

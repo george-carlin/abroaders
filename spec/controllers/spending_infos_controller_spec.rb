@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe SpendingInfosController do
-  let(:account) { create(:account, onboarding_state: :complete) }
+  let(:account) { create_account(onboarding_state: 'complete') }
   let(:owner) { account.owner }
   let(:companion) { account.companion }
   before { sign_in account }

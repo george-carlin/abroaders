@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe CardRecommendationsController do
-  let(:account) { create(:account, :eligible, :onboarded) }
+  let(:account) { create_account(:eligible, :onboarded) }
   let(:person) { account.owner }
 
   before { sign_in account }

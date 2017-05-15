@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Account do
   example '#people_by_type' do
     # solo account
-    account = create(:account)
+    account = create_account
     owner = account.owner
     expect(account.people_by_type('owner')).to eq [owner]
 

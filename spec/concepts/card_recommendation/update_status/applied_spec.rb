@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe CardRecommendation::UpdateStatus::Applied do
   let(:op) { described_class }
 
-  let(:account) { create(:account, :onboarded) }
+  let(:account) { create_account(:onboarded) }
   let(:person) { account.owner }
 
   let(:rec) { create_card_recommendation(person_id: person.id) }
@@ -17,7 +17,7 @@ RSpec.describe CardRecommendation::UpdateStatus::Applied do
   end
 
   example 'failure - not my rec' do # fail noisily
-    other_account = create(:account, :onboarded)
+    other_account = create_account(:onboarded)
     expect do
       op.({ id: rec.id }, 'account' => other_account)
     end.to raise_error(ActiveRecord::RecordNotFound)

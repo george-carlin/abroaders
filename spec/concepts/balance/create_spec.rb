@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Balance::Create do
   let(:op) { described_class }
   let(:currency) { create_currency }
-  let(:account)  { create(:account, :onboarded) }
+  let(:account)  { create_account(:onboarded) }
   let(:person)   { account.owner }
 
   example 'valid save' do

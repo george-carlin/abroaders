@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe "account type select page", :js, :onboarding do
   subject { page }
 
-  let(:account) { create(:account, onboarding_state: :account_type) }
+  let(:account) { create_account(onboarding_state: 'account_type') }
   let(:owner) { account.owner }
 
   before do

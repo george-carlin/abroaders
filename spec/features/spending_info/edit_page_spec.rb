@@ -5,7 +5,7 @@ RSpec.describe 'the spending info edit page' do
 
   include ActiveJob::TestHelper
 
-  let!(:account) { create(:account, :onboarded) }
+  let!(:account) { create_account(:onboarded) }
   let(:person)   { account.owner }
 
   before do

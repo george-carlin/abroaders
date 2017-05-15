@@ -5,7 +5,7 @@ RSpec.describe 'readiness survey page', :onboarding do
   let(:companion) { account.companion }
 
   context 'for a solo account' do
-    let(:account) { create(:account, :eligible, onboarding_state: :readiness) }
+    let(:account) { create_account(:eligible, onboarding_state: 'readiness') }
 
     before do
       login_as_account(account)
@@ -33,7 +33,7 @@ RSpec.describe 'readiness survey page', :onboarding do
   end
 
   context 'for a couples account' do
-    let(:account) { create(:account, :couples, onboarding_state: :readiness) }
+    let(:account) { create_account(:couples, onboarding_state: 'readiness') }
 
     before do
       owner.update!(eligible: owner_eligible)

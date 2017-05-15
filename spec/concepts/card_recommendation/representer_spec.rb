@@ -18,7 +18,7 @@ RSpec.describe CardRecommendation::Representer do
 
     card = Card.new(
       card_product: card_product,
-      person: create(:person),
+      person: create_person,
       # Note that these dates, of course, make no sense, and a real card
       # account would never have all of them present:
       recommended_at: "2015-09-10",

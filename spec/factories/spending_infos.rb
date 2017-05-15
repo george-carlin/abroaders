@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :spending_info, aliases: [:spending] do
-    person
+    person { SampleDataMacros::Generator.person }
 
     has_business 'no_business'
 

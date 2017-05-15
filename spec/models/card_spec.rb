@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Card do
-  let(:account) { build(:account) }
-  let(:person)  { account.people.first }
+  let(:account) { Account.new }
+  let(:person)  { account.build_owner }
   let(:product) { build(:card_product) }
   let(:offer)   { Offer.new(card_product: product) }
   let(:card) { described_class.new(person: person) }
@@ -93,7 +93,7 @@ RSpec.describe Card do
   example "set #card_product to #offer.card_product before save" do
     offer   = create_offer
     product = offer.card_product
-    card = Card.new(card_product: nil, offer: offer, person: create(:person))
+    card = Card.new(card_product: nil, offer: offer, person: create_person)
     card.save!
     expect(card.card_product_id).to eq product.id
   end
@@ -103,7 +103,7 @@ RSpec.describe Card do
   describe '.recommended' do
     let(:product) { create(:card_product) }
     let(:offer) { create_offer(card_product: product) }
-    let(:person) { create(:person) }
+    let(:person) { create_person }
 
     # extend the macro so that we always use the same offer and person,
     # just to avoid making a bunch of unnecessary DB writes
