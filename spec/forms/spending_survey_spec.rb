@@ -96,7 +96,7 @@ RSpec.describe SpendingSurvey, type: :model do
   end
 
   specify 'saving ignores business spending when has_business is false' do
-    account = create(:couples_account, :eligible, onboarding_state: :spending)
+    account = create(:account, :couples, :eligible, onboarding_state: :spending)
     survey = described_class.new(account: account)
     survey.monthly_spending = 5000
     survey.owner_credit_score = survey.companion_credit_score = 500

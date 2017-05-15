@@ -39,9 +39,5 @@ FactoryGirl.define do
     trait :onboarded do
       onboarding_state :complete
     end
-
-    factory :couples_account,           traits: [:couples]
-    factory :onboarded_account,         traits: [:onboarded]
-    factory :onboarded_couples_account, traits: [:couples, :onboarded]
   end
 end
