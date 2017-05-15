@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe CardAccount::New do
   let(:op) { described_class }
 
-  let(:account) { create(:account) }
+  let(:account) { create_account }
   let(:person)  { account.owner }
   let(:product) { create(:product) } # product ID should always be present in the params
   before { allow(account).to receive(:owner).and_return(person) }

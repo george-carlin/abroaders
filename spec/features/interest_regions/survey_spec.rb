@@ -5,7 +5,7 @@ RSpec.describe "interest regions survey", :js do
     find(:checkbox, name).trigger("click")
   end
 
-  let(:account)  { create(:account, onboarding_state: :regions_of_interest) }
+  let(:account)  { create_account(onboarding_state: 'regions_of_interest') }
   let!(:regions) { create_list(:region, 3) }
 
   before do

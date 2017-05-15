@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'the balance survey page', :onboarding, :js do
   subject { page }
 
-  let(:account) { create(:account, onboarding_state: "owner_balances") }
+  let(:account) { create_account(onboarding_state: 'owner_balances') }
   let(:owner)   { account.owner }
   let(:name)    { owner.first_name }
   let!(:currencies) { Array.new(3) { create_currency } }

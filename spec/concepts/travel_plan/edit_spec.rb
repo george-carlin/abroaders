@@ -6,7 +6,7 @@ RSpec.describe TravelPlan::Edit do
   let(:lhr) { create(:airport, name: 'Heathrow', code: 'LHR') }
   let(:jfk) { create(:airport, name: 'JFK', code: 'JFK') }
 
-  let(:account) { create(:account, :onboarded) }
+  let(:account) { create_account }
 
   let(:plan) do
     create_travel_plan(
@@ -23,7 +23,7 @@ RSpec.describe TravelPlan::Edit do
     expect(op.({ id: plan.id }, 'account' => account)['model']).to eq plan
 
     expect do
-      op.({ id: plan.id }, 'account' => create(:account)).success?
+      op.({ id: plan.id }, 'account' => create_account).success?
     end.to raise_error ActiveRecord::RecordNotFound
   end
 

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe PhoneNumber::Onboard do
-  let(:account) { create(:account, onboarding_state: :phone_number) }
+  let(:account) { create_account(onboarding_state: :phone_number) }
 
   example 'valid save' do
     result = nil

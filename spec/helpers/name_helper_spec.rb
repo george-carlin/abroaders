@@ -2,8 +2,8 @@ require "rails_helper"
 
 RSpec.describe NameHelper, type: :helper do
   describe '#name_conjugation' do
-    let(:couples_account) { create(:account, :couples) }
-    let(:solo_account)    { create(:account) }
+    let(:couples_account) { create_account(:couples) }
+    let(:solo_account)    { create_account }
     let(:person)          { couples_account.owner }
     let(:name)            { person.first_name }
 

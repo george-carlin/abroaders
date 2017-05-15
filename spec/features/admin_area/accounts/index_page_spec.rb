@@ -7,10 +7,10 @@ RSpec.describe 'admin account pages index page', :js, :manual_clean do
 
   before(:all) do
     @accounts = [
-      create(:account, email: 'A@example.com'),
-      create(:account, email: 'B@example.com'),
-      create(:account, email: 'C@example.com'),
-      create(:account, email: 'D@example.com'),
+      create_account(email: 'A@example.com'),
+      create_account(email: 'B@example.com'),
+      create_account(email: 'C@example.com'),
+      create_account(email: 'D@example.com'),
     ]
   end
 

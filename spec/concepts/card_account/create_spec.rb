@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe CardAccount::Create do
-  let(:account) { create(:account) }
+  let(:account) { create_account }
   let(:person) { account.owner }
   let(:card_product) { create(:card_product) }
   let(:op) { described_class }
@@ -97,7 +97,7 @@ RSpec.describe CardAccount::Create do
   end
 
   example 'failure - person belongs to a different account' do
-    other_account = create(:account)
+    other_account = create_account
     expect do
       op.(
         {

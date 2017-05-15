@@ -12,7 +12,7 @@ RSpec.describe "the spending info survey", :js, :onboarding do
     will_apply_for_loan_false
   ).freeze
 
-  let!(:account)  { create(:account, onboarding_state: :spending) }
+  let!(:account)  { create_account(onboarding_state: 'spending') }
   let(:owner)     { account.owner }
   let(:companion) { account.companion }
 

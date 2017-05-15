@@ -17,7 +17,7 @@ RSpec.describe 'cards survey', :onboarding, :js, :manual_clean do
     @hidden_product = create(:card_product, :hidden)
   end
 
-  let(:account) { create(:account, onboarding_state: 'owner_cards') }
+  let(:account) { create_account(onboarding_state: 'owner_cards') }
   let(:owner)   { account.owner }
 
   before do

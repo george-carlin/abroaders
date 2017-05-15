@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe RecommendationRequest::Create do
   let(:op) { described_class }
-  let(:account) { create(:account, :eligible, :onboarded) }
+  let(:account) { create_account(:eligible, :onboarded) }
   let(:owner) { account.owner }
 
   context 'solo account' do

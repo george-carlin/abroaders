@@ -32,7 +32,7 @@ RSpec.describe AdminArea::CardRecommendations::Complete do
   example 'success - user has unresolved rec request' do
     create_rec_request('owner', account.reload)
 
-    other_account = create(:account, :eligible)
+    other_account = create_account(:eligible)
     create_rec_request('owner', other_account)
 
     result = op.(person_id: person.id)

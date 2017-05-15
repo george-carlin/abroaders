@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Card do
-  let(:account) { build(:account) }
-  let(:person)  { account.people.first }
+  let(:account) { Account.new }
+  let(:person)  { account.build_owner }
   let(:product) { build(:card_product) }
   let(:offer)   { Offer.new(card_product: product) }
   let(:card) { described_class.new(person: person) }

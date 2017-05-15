@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe ReadinessController do
-  let(:account) { create(:account, :eligible) }
+  let(:account) { create_account(:eligible) }
   let(:owner)   { account.owner }
   before { sign_in account }
 

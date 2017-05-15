@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'password recovery pages' do
   let(:email) { 'test@example.com' }
-  let!(:account) { create(:account, email: email) }
+  let!(:account) { create_account(email: email) }
 
   describe 'requesting a password reset' do
     before { visit new_account_password_path }

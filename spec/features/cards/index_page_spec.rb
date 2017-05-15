@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe 'as a user viewing my cards' do
   subject { page }
 
-  let(:account)   { create(:account, :eligible, :onboarded) }
+  let(:account)   { create_account(:eligible, :onboarded) }
   let(:owner)     { account.owner }
   let(:companion) { account.companion }
 

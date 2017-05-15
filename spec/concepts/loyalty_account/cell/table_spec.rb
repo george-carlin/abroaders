@@ -10,7 +10,7 @@ RSpec.describe LoyaltyAccount::Cell::Table do
       rendered.native.xpath('//th').map(&:text)
     end
 
-    let(:current_account) { create(:account, :onboarded) }
+    let(:current_account) { create_account(:onboarded) }
 
     example 'when current account is not connected to AW' do
       rendered = cell([], context: { current_account: current_account }).()

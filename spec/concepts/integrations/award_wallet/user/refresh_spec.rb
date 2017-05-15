@@ -6,7 +6,7 @@ RSpec.describe Integrations::AwardWallet::User::Refresh do
 
   let(:op) { described_class }
 
-  let(:account) { create(:account, :onboarded) }
+  let(:account) { create_account(:onboarded) }
   let(:owner)   { account.owner }
 
   let(:json) { sample_json('award_wallet_user') }

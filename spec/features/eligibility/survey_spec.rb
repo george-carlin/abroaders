@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "eligibility" do
-  let(:account) { create(:account, onboarding_state: :eligibility) }
+  let(:account) { create_account(onboarding_state: 'eligibility') }
   let(:owner)   { account.owner }
   before { login_as(account) }
 

@@ -6,7 +6,7 @@ RSpec.describe TravelPlan::Update do
   let(:jfk) { create(:airport, name: 'JFK', code: 'JFK') }
 
   let(:next_year) { Date.today.year + 1 }
-  let(:account) { create(:account) }
+  let(:account) { create_account }
   let(:plan) do
     create_travel_plan(
       depart_on: "05/18/#{next_year}",

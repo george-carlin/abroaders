@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe TravelPlansController do
   describe "GET #new" do
-    let(:account) { create(:account) }
+    let(:account) { create_account }
 
     before { sign_in account }
 

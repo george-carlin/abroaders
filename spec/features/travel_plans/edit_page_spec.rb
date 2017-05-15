@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'edit travel plan page' do
-  let(:account) { create(:account, :onboarded) }
+  let(:account) { create_account(:onboarded) }
   let(:person) { account.owner }
 
   subject { page }

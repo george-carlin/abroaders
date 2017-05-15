@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe PhoneNumber::Create do
-  let(:account) { create(:account) }
+  let(:account) { create_account }
 
   example 'valid save' do
     result = described_class.(

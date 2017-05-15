@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'new recommendation request page' do
   # will raise an error if the account has no monthly spending saved:
-  let(:account) { create(:account, :eligible, :onboarded, monthly_spending_usd: 1234) }
+  let(:account) { create_account(:eligible, :onboarded, monthly_spending_usd: 1234) }
   let(:owner)   { account.owner }
 
   before do

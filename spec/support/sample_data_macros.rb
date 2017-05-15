@@ -33,6 +33,7 @@ module SampleDataMacros
 
   class Generator
     include FactoryGirl::Syntax::Methods
+    include OperationMacros
 
     def self.instance
       @instance ||= new
@@ -40,6 +41,48 @@ module SampleDataMacros
 
     def initialize
       @sequences ||= {}
+    end
+
+    # Create an account. At present only the initial account sign up is
+    # performed with a 'real' operation. You can pass in the traits :couples,
+    # :onboarded, and :eligible, and they'll update the model directly without
+    # going through an op.
+    #
+    # Available overrides: email, onboarding_state
+    # Available traits: eligible, onboarded, couples
+    def account(*traits_and_overrides)
+      n = increment_sequence(:account)
+      overrides = if traits_and_overrides.last.is_a?(Hash)
+                    traits_and_overrides.pop
+                  else
+                    {}
+                  end
+      traits = traits_and_overrides
+
+      attrs = {
+        email: "#account-#{n}@example.com",
+        password: 'abroaders123',
+        password_confirmation: 'abroaders123',
+        first_name: 'Erik',
+      }.merge(overrides)
+
+      ApplicationRecord.transaction do
+        account = run!(Registration::Create, account: attrs)['model']
+        account.create_companion!(first_name: 'Gabi') if traits.include?(:couples)
+        if traits.include?(:eligible)
+          account.people.update_all(eligible: true)
+          account.reload
+        end
+        if traits.include?(:onboarded)
+          account.update!(onboarding_state: 'complete') unless account.onboarded?
+        elsif overrides.key?(:onboarding_state) && overrides[:onboarding_state] != account.onboarding_state
+          account.update!(onboarding_state: overrides[:onboarding_state])
+        end
+        if overrides.key?(:monthly_spending_usd)
+          account.update!(monthly_spending_usd: overrides[:monthly_spending_usd])
+        end
+        account
+      end
     end
 
     def admin(overrides = {})
@@ -68,6 +111,9 @@ module SampleDataMacros
       Currency.create!(attrs)
     end
 
+    # This method is awful. Maybe it's better to just do something like this?
+    #
+    #   create_account.owner
     def person(*traits_and_overrides)
       overrides = if traits_and_overrides.last.is_a?(Hash)
                     traits_and_overrides.pop
@@ -76,22 +122,27 @@ module SampleDataMacros
                   end
       traits = traits_and_overrides
 
-      account = if overrides.key?(:account)
-                  overrides.fetch(:account)
-                else
-                  build(:account, with_person: false)
-                end
-
+      eligible = traits.include?(:eligible)
       owner = !traits.include?(:companion)
 
-      attrs = {
-        account: account,
-        first_name: owner ? 'Erik' : 'Gabi',
-        owner: owner,
-        eligible: traits.include?(:eligible),
-      }.merge(overrides)
+      if overrides.key?(:account)
+        account = overrides.fetch(:account)
 
-      Person.create!(attrs)
+        attrs = {
+          account: account,
+          first_name: owner ? 'Erik' : 'Gabi',
+          owner: owner,
+          eligible: eligible,
+        }.merge(overrides)
+
+        Person.create!(attrs)
+      else
+        person = owner ? self.account.owner : self.account(:couples).companion
+        person.eligible = eligible
+        person.first_name = overrides[:first_name] if overrides.key?(:first_name)
+        person.save! if person.changed?
+        person
+      end
     end
 
     private
@@ -105,12 +156,14 @@ module SampleDataMacros
     end
   end
 
-  def create_admin(overrides = {})
-    Generator.instance.admin(overrides)
+  def create_account(*traits_and_overrides)
+    Generator.instance.account(*traits_and_overrides)
   end
 
-  def create_currency(overrides = {})
-    Generator.instance.currency(overrides)
+  %w[admin currency].each do |model_name|
+    define_method "create_#{model_name}" do |overrides = {}|
+      Generator.instance.send(model_name, overrides)
+    end
   end
 
   # Create an offer in the way an Admin would.
@@ -311,7 +364,7 @@ module SampleDataMacros
   #   to. If you don't provide an account, FactoryGirl will be used to create
   #   one
   def create_travel_plan(overrides = {})
-    account = overrides.key?(:account) ? overrides.delete(:account) : create(:account)
+    account = overrides.key?(:account) ? overrides.delete(:account) : create_account
 
     airports = Airport.all.to_a
     from = if overrides.key?(:from)

@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe EligibilitiesController do
   describe "GET #survey" do
-    let(:account) { create(:account) }
+    let(:account) { create_account }
     before { sign_in account }
 
     subject { get :survey }

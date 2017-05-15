@@ -124,7 +124,7 @@ RSpec.describe Abroaders::Cell::RecommendationAlert do
   end
 
   describe 'for solo account' do
-    let(:account) { create(:account, :eligible, :onboarded) }
+    let(:account) { create_account(:eligible, :onboarded) }
     let(:person)  { account.owner }
 
     example 'ineligible' do
@@ -137,7 +137,7 @@ RSpec.describe Abroaders::Cell::RecommendationAlert do
   end
 
   describe 'for couples account' do
-    let(:account) { create(:account, :couples, :eligible, :onboarded) }
+    let(:account) { create_account(:couples, :eligible, :onboarded) }
     let(:owner) { account.owner }
     let(:companion) { account.companion }
 

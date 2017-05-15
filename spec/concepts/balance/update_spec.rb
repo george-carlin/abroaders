@@ -2,7 +2,7 @@ require 'rails_helper'
 
 # 100% mutation coverage as of 14/2/17
 RSpec.describe Balance::Update do
-  let(:account) { create(:account, :onboarded) }
+  let(:account) { create_account(:onboarded) }
   let(:balance) { create_balance(value: 1234, person: account.owner) }
 
   let(:op) { described_class }
@@ -41,7 +41,7 @@ RSpec.describe Balance::Update do
           balance: { value: -1 },
           id: balance.id,
         },
-        'account' => create(:account),
+        'account' => create_account,
       )
     end.to raise_error(ActiveRecord::RecordNotFound)
   end
