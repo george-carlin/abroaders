@@ -29,6 +29,18 @@ RSpec.describe 'the sign in page' do
     expect(current_path).to eq survey_home_airports_path # first onboarding page
   end
 
+  example 'signing out' do
+    fill_in :account_email,    with: email
+    fill_in :account_password, with: password
+    submit_form
+
+    find('#sign_out_link').click
+
+    expect(page).to have_no_selector '#sign_out_link'
+    expect(page).to have_no_content email
+    expect(page).to have_content 'Sign in'
+  end
+
   example 'invalid sign in' do
     submit_form
     expect(page).to have_content 'Sign in'
@@ -42,7 +54,11 @@ RSpec.describe 'the sign in page' do
     submit_form
 
     visit new_account_session_path
-
+    expect(page).to have_content 'You are already signed in'
     expect(current_path).not_to eq new_account_session_path
+
+    visit new_admin_session_path
+    expect(page).to have_content 'You must sign out'
+    expect(current_path).not_to eq new_admin_session_path
   end
 end
