@@ -1,4 +1,6 @@
 module SignInOut
+  WARDEN_SCOPES = %i[account admin]
+
   def sign_in(resource_or_scope, *args)
     options  = args.extract_options!
     scope    = Devise::Mapping.find_scope!(resource_or_scope)
@@ -17,7 +19,7 @@ module SignInOut
   end
 
   def sign_out_all_scopes(lock = true)
-    users = Devise.mappings.keys.map { |s| warden.user(scope: s, run_callbacks: false) }
+    users = WARDEN_SCOPES.each { |s| warden.user(scope: s, run_callbacks: false) }
 
     warden.logout
     expire_data_after_sign_out!
@@ -28,6 +30,12 @@ module SignInOut
   end
 
   private
+
+  def all_signed_out?
+    users = WARDEN_SCOPES.each { |s| warden.user(scope: s, run_callbacks: false) }
+
+    users.all?(&:blank?)
+  end
 
   def expire_data_after_sign_in!
     # session.keys will return an empty array if the session is not yet loaded.

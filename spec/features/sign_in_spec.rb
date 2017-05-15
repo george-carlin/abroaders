@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'the sign in page' do
+RSpec.describe 'the sign in page', :auth do
   let(:password) { 'foobar123' }
   let(:email)    { 'example@example.com' }
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'the admin sign in page' do
+RSpec.describe 'the admin sign in page', :auth do
   before do
     @pw    = "foobar123"
     @admin = create_admin(password: @pw, password_confirmation: @pw)

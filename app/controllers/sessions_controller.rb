@@ -54,12 +54,6 @@ class SessionsController < ApplicationController
     end
   end
 
-  def all_signed_out?
-    users = Devise.mappings.keys.map { |s| warden.user(scope: s, run_callbacks: false) }
-
-    users.all?(&:blank?)
-  end
-
   # Helper for use in before_actions where no authentication is required.
   #
   # Example:
