@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'the sign up page', :onboarding do
+RSpec.describe 'the sign up page', :onboarding, :auth do
   before { visit new_account_registration_path }
 
   let(:submit_form) { click_button 'Sign up' }

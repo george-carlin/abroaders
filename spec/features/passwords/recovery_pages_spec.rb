@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'password recovery pages' do
+RSpec.describe 'password recovery pages', :auth do
   let(:email) { 'test@example.com' }
   let!(:account) { create_account(email: email) }
 

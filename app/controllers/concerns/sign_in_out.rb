@@ -1,4 +1,6 @@
 module SignInOut
+  WARDEN_SCOPES = %i[account admin].freeze
+
   def sign_in(resource_or_scope, *args)
     options  = args.extract_options!
     scope    = Devise::Mapping.find_scope!(resource_or_scope)
@@ -17,7 +19,7 @@ module SignInOut
   end
 
   def sign_out_all_scopes(lock = true)
-    users = Devise.mappings.keys.map { |s| warden.user(scope: s, run_callbacks: false) }
+    users = WARDEN_SCOPES.each { |s| warden.user(scope: s, run_callbacks: false) }
 
     warden.logout
     expire_data_after_sign_out!
@@ -29,6 +31,12 @@ module SignInOut
 
   private
 
+  def all_signed_out?
+    users = WARDEN_SCOPES.each { |s| warden.user(scope: s, run_callbacks: false) }
+
+    users.all?(&:blank?)
+  end
+
   def expire_data_after_sign_in!
     # session.keys will return an empty array if the session is not yet loaded.
     # This is a bug in both Rack and Rails.
@@ -37,4 +45,26 @@ module SignInOut
     session.keys.grep(/^devise\./).each { |k| session.delete(k) }
   end
   alias expire_data_after_sign_out! expire_data_after_sign_in!
+
+  # Helper for use in before_actions where no authentication is required.
+  #
+  # Example:
+  #   before_action :require_no_authentication, only: :new
+  def require_no_authentication(scope)
+    if warden.authenticated?(scope) && warden.user(scope)
+      flash[:alert] = I18n.t("devise.failure.already_authenticated")
+      redirect_to root_path
+    end
+  end
+
+  # Check if there is no signed in user before doing the sign out.
+  #
+  # If there is no signed in user, it will set the flash message and redirect
+  # to the after_sign_out path.
+  def verify_signed_out_user
+    if all_signed_out?
+      flash[:notice] = I18n.t('devise.sessions.already_signed_out')
+      redirect_to root_path
+    end
+  end
 end
