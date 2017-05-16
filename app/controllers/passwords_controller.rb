@@ -8,14 +8,11 @@ class PasswordsController < ApplicationController
 
   # POST /accounts/password
   def create
-    account = Account.send_reset_password_instructions(params[:account])
-
-    if account.errors.empty?
+    run Password::SendResetInstructions do
       flash[:notice] = I18n.t("devise.passwords.send_instructions")
-      redirect_to new_account_session_path
-    else
-      render cell(Password::Cell::New, account)
+      return redirect_to new_account_session_path
     end
+    render cell(Password::Cell::New, @model)
   end
 
   # GET /accounts/password/edit?reset_password_token=abcdef
