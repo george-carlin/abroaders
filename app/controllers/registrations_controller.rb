@@ -7,7 +7,7 @@ class RegistrationsController < ApplicationController
 
   def new
     run Registration::New
-    set_minimum_password_length
+    render cell(Registration::Cell::New, @form)
   end
 
   def create
@@ -19,15 +19,10 @@ class RegistrationsController < ApplicationController
     end
 
     @form.clean_up_passwords
-    set_minimum_password_length
-    render "new"
+    render cell(Registration::Cell::New, @form)
   end
 
   protected
-
-  def set_minimum_password_length
-    @minimum_password_length = Registration::SignUpForm::PASSWORD_LENGTH.min
-  end
 
   # Helper for use in before_actions where no authentication is required.
   #

@@ -1,24 +1,17 @@
-<% provide :title, "Sign Up" %>
-
 <div class="login-container">
   <div class="row">
-
     <div class="col-md-12">
       <div class="text-center m-b-md">
         <h4>SIGN UP</h4>
       </div>
 
       <div class="hpanel">
-        <%= cell(Abroaders::Cell::ValidationErrorsAlert, @form) %>
+        <%= errors %>
 
         <div class="panel-body">
           <p>Fields with a * are required</p>
 
-          <%= form_for(
-            @form,
-            url: account_registration_path,
-            html: { role: "form" }
-          ) do |f| %>
+          <%= form_tag do |f| %>
             <div class="form-group required-abr">
               <%= f.label :email %>
               <%= f.email_field :email, autofocus: true %>
@@ -32,7 +25,7 @@
             <div class="form-group required-abr">
               <%= f.label :password %>
               <p class="help-block">
-                Minimum length <%= @minimum_password_length %> characters
+                Minimum length <%= minimum_password_length %> characters
               </p>
               <%= f.password_field :password %>
             </div>
