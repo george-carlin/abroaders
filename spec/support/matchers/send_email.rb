@@ -43,7 +43,7 @@ RSpec::Matchers.define :send_email do
       else
         errors = []
         errors << " it was sent to #{@email.to.to_sentence}" if @to
-        errors << " the subject was '#{@subj}'" if @subj
+        errors << " the subject was '#{@email.subject}'" if @subj
         msg << errors.join(" and ")
       end
     else

@@ -27,8 +27,9 @@ class AccountMailer < ApplicationMailer
     mail(to: ENV['MAILPARSER_NEW_SIGNUP'], subject: "New sign up at Abroaders app - #{@account.email}")
   end
 
-  # `timestamp` is an Unix integer timestamp, not a Date object, because the
-  # latter can't be stored in Redis
+  # @param account_id [Integer]
+  # @param timestamp [Integer] Unix integer timestamp. We must use this instead
+  #   of e.g. a Date or Time because those values can't be stored in Redis.
   def notify_admin_of_survey_completion(account_id, timestamp)
     @account   = Account.find(account_id)
     @owner     = PersonWithStatus.new(@account.owner)
@@ -43,6 +44,10 @@ class AccountMailer < ApplicationMailer
   # This is triggered whenever anyone makes a new recommendation request
   # anywhere after the onboarding survey. It's called a 'readiness update' for
   # legacy reasons.
+  #
+  # @param account_id [Integer]
+  # @param timestamp [Integer] Unix integer timestamp. We must use this instead
+  #   of e.g. a Date or Time because those values can't be stored in Redis.
   def notify_admin_of_user_readiness_update(account_id, timestamp)
     @account   = Account.find(account_id)
     @owner     = PersonWithStatus.new(@account.owner)

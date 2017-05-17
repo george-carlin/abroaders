@@ -19,6 +19,14 @@ RSpec.describe 'new recommendation request page' do
       expect(owner.unresolved_recommendation_request?).to be true
     end
 
+    example 'sending a notification email to the admin' do
+      email_subject = "User is Ready - #{account.email}"
+      email_to = ENV['MAILPARSER_USER_READY']
+      expect do
+        click_button 'Submit Request'
+      end.to send_email.to(email_to).with_subject(email_subject)
+    end
+
     example 'viewing my data' do
       visit new_recommendation_requests_path(person_type: :owner)
       expect(page).to have_content 'Is your personal monthly spending still $1,234.00?'

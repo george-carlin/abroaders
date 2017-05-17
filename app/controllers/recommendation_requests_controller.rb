@@ -2,6 +2,10 @@ class RecommendationRequestsController < AuthenticatedUserController
   def create
     run RecommendationRequest::Create do
       flash[:success] = "Request sent! You'll receive some card recommendations shortly"
+      AccountMailer.notify_admin_of_user_readiness_update(
+        current_account.id,
+        Time.zone.now.to_i,
+      ).deliver_later
       redirect_to cards_path
       return
     end
