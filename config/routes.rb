@@ -79,6 +79,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'auth/facebook/callback', to: 'integrations/facebook#callback'
+
   resources :interest_regions, only: [], path: "regions_of_interest" do
     collection do
       get  :survey

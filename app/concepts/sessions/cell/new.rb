@@ -35,6 +35,10 @@ module Sessions
         link_to 'Forgot your password?', new_password_path
       end
 
+      def link_to_sign_in_with_facebook
+        cell(Sessions::Cell::FacebookConnectButton).sign_in
+      end
+
       class SignInAccount < self
         def title
           'Sign In'
@@ -72,6 +76,10 @@ module Sessions
 
         def link_to_register
           '' # admins can't register
+        end
+
+        def link_to_sign_in_with_facebook
+          ''
         end
 
         def new_password_path
