@@ -301,14 +301,14 @@ footer.footer {
   }
 }
 
-.btn-facebook {
+.btn-connect {
   background: #4063b3;
   border-color: #3c599d;
   color: #fff;
   text-shadow: 0 -1px 0 rgba(0,0,0,.2);
   transition: background .1s linear;
 
-  &:hover {
+  &:hover, &:focus {
     background-color: #3959a0;
     border-color: #3c599d;
     color: white !important;
