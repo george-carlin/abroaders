@@ -12,12 +12,21 @@ module Balance::Cell
     # @!method self.call(person, opts = {})
     #   @param person [Person]
     class PersonPanel < Abroaders::Cell::Base
+      include ::Cell::Builder
       include Escaped
+
+      builds do |person|
+        AwardWallet if person.award_wallet?
+      end
 
       property :first_name
       property :loyalty_accounts
       property :partner?
       property :type
+
+      def show # use same template for all subclasses:
+        render 'index/person_panel'
+      end
 
       private
 
@@ -27,8 +36,16 @@ module Balance::Cell
 
       def link_to_add_new_balance
         link_to new_person_balance_path(model), class: 'btn btn-success btn-xs' do
-          '<i class="fa fa-plus"> </i> Add new'
+          link_to_add_new_balance_text
         end
+      end
+
+      def link_to_add_new_balance_text
+        '<i class="fa fa-plus"> </i> Add new'
+      end
+
+      def new_balance_modal
+        ''
       end
 
       def rows
@@ -36,6 +53,45 @@ module Balance::Cell
           cell(LoyaltyAccount::Cell::Table, loyalty_accounts)
         else
           'No points balances'
+        end
+      end
+
+      class AwardWallet < self
+        property :id
+
+        private
+
+        def modal_id
+          "new_balance_modal_person_#{id}"
+        end
+
+        def link_to_add_new_balance
+          button_tag(
+            class: 'btn btn-success btn-xs',
+            'data-toggle': 'modal',
+            'data-target': "##{modal_id}",
+          ) do
+            link_to_add_new_balance_text
+          end
+        end
+
+        def new_balance_modal
+          cell(
+            Abroaders::Cell::ChoiceModal,
+            [
+              {
+                link_text: 'Add a new balance on Abroaders',
+                link_href: new_person_balance_path(model),
+                text: 'This balance will not update automatically',
+              },
+              {
+                link_text: 'Add a new balance on AwardWallet',
+                link_href: new_person_balance_path(model),
+                text: 'This balance will automatically track your points balance',
+              },
+            ],
+            id: modal_id,
+          )
         end
       end
     end

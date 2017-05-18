@@ -3,7 +3,8 @@ require 'cells_helper'
 RSpec.describe Balance::Cell::Index::PersonPanel do
   controller BalancesController
 
-  let(:person) { Person.new(owner: true, id: 1, first_name: 'Erik') }
+  let(:account) { Account.new }
+  let(:person) { Person.new(account: account, owner: true, id: 1, first_name: 'Erik') }
 
   let(:couples!) { person.account.build_companion }
 
@@ -51,5 +52,18 @@ RSpec.describe Balance::Cell::Index::PersonPanel do
 
     person.first_name = '<script>'
     expect(raw_cell(person)).to include "&lt;script&gt;'s points"
+  end
+
+  example 'not connected to award wallet' do
+    rendered = cell(person).()
+    expect(rendered).to have_link 'Add new', href: new_person_balance_path(person)
+    expect(rendered).not_to have_button 'Add new'
+  end
+
+  example 'not connected to award wallet' do
+    person.account.build_award_wallet_user(loaded: true)
+    rendered = cell(person).()
+    expect(rendered).not_to have_link 'Add new', href: new_person_balance_path(person)
+    expect(rendered).to have_button 'Add new'
   end
 end

@@ -48,6 +48,11 @@ RSpec.describe 'balance index page' do
       visit balances_path
     end
 
+    it 'clicking "Add new"' do
+      click_link 'Add new'
+      expect(current_path).to eq new_person_balance_path(owner)
+    end
+
     it 'hides the unnecessary columns in the table' do
       extra_column_headers.each do |text|
         expect(page).to have_no_selector 'th', text: text
@@ -68,6 +73,13 @@ RSpec.describe 'balance index page' do
           expect(page).to have_selector "#award_wallet_account_#{awa.id}"
         end
       end
+    end
+
+    it 'clicking "Add new"', :js do
+      click_button 'Add new'
+      expect(page).to have_link 'Add a new balance on Abroaders', href: new_person_balance_path(owner)
+      expect(page).to have_link 'Add a new balance on AwardWallet', href: 'https://awardwallet.com/account/select-provider'
+      expect(current_path).to eq new_person_balance_path(owner)
     end
 
     it 'has extra columns in the table' do
