@@ -36,7 +36,7 @@ module Integrations
     private
 
     def redirect_if_already_connected!
-      redirect_to(balances_path) if current_account.connected_to_award_wallet?
+      redirect_to(balances_path) if current_account.award_wallet?
     end
   end
 end

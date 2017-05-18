@@ -37,7 +37,7 @@ RSpec.describe LoyaltyAccount::Cell::Table::Row do
 
   context 'when current account is connected to AwardWallet' do
     before do
-      allow(current_account).to receive(:connected_to_award_wallet?) { true }
+      allow(current_account).to receive(:award_wallet?) { true }
     end
 
     it 'shows all columns for Abroaders balances' do

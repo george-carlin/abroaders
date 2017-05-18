@@ -44,7 +44,7 @@ RSpec.describe 'balance index page' do
   context "when I haven't linked my account to AwardWallet" do
     before do # make sure the account actually has balances or there'll be no table
       create_balance(currencies[0], 1234)
-      raise if account.connected_to_award_wallet? # sanity check
+      raise if account.award_wallet? # sanity check
       visit balances_path
     end
 

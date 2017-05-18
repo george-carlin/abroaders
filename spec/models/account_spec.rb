@@ -20,4 +20,13 @@ RSpec.describe Account do
     expect(account.people_by_type('companion')).to eq [companion]
     expect(account.people_by_type('both')).to eq [owner, companion]
   end
+
+  example '#award_wallet?' do
+    account = Account.new
+    expect(account.award_wallet?).to be false
+    account.build_award_wallet_user
+    expect(account.award_wallet?).to be false
+    account.award_wallet_user.loaded = true
+    expect(account.award_wallet?).to be true
+  end
 end

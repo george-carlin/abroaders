@@ -9,7 +9,7 @@ class Balance::Cell::Index < Balance::Cell::Index.superclass
     include ::Cell::Builder
 
     builds do |account|
-      account.connected_to_award_wallet? ? Connected : ConnectPrompt
+      account.award_wallet? ? Connected : ConnectPrompt
     end
 
     private

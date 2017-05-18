@@ -30,7 +30,7 @@ class LoyaltyAccount < LoyaltyAccount.superclass
       #  date, a 'login' name or an owner, there's no point displaying the
       #  columns because they'll be blank for all rows.
       def simple
-        !current_account.connected_to_award_wallet?
+        !current_account.award_wallet?
       end
 
       # A <tr> for a loyalty_account on the page. Displays the balance's value
@@ -103,7 +103,7 @@ class LoyaltyAccount < LoyaltyAccount.superclass
         end
 
         def simple
-          !current_account.connected_to_award_wallet?
+          !current_account.award_wallet?
         end
 
         class AwardWallet < self

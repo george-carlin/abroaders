@@ -33,7 +33,7 @@ module AdminArea
         private
 
         def award_wallet_connection
-          return '' unless account.connected_to_award_wallet?
+          return '' unless account.award_wallet?
           awu  = account.award_wallet_user
           name = escape!(awu.user_name)
           link = link_to('View accounts on AwardWallet', admin_award_wallet_account_list_url(awu))

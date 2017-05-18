@@ -32,7 +32,7 @@ class Account < ApplicationRecord
   has_many :unassigned_award_wallet_accounts,
            through: :unassigned_award_wallet_owners, source: :award_wallet_accounts
 
-  def connected_to_award_wallet?
+  def award_wallet?
     !!(award_wallet_user && award_wallet_user.loaded?)
   end
 
