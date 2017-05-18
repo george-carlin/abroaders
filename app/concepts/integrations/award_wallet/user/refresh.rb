@@ -15,7 +15,8 @@ module Integrations
       # own award wallet user ID)
       #
       # @!method self.call(params, options = {})
-      #   @options params [AwardWalletUser] user
+      #   @option params [AwardWalletUser] user
+      #   @return [Trailblazer::Result]
       class Refresh < Trailblazer::Operation
         self['api'] = APIClient
         self['update_op'] = User::Update

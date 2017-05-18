@@ -21,18 +21,12 @@ module Integrations
       # @!method self.call(params, options = {})
       #   @option params [AwardWalletUser] user
       #   @option params [Hash] data the following attrs are required:
-      #       "access_level"
-      #       "accounts_access_level"
-      #       "edit_connection_url"
-      #       "email"
-      #       "forwarding_email"
-      #       "full_name"
-      #       "status"
-      #       "user_name"
-      #     Anything else will be ignored. This op also sets the 'agent_id'
-      #     attr of the AWU, which it figures out by looking in the
-      #     edit_connection_url attr (it's not included as a key in the data
-      #     from the API)
+      #     `"access_level"`, `"accounts_access_level"`,
+      #     `"edit_connection_url"`, `"email"`, `"forwarding_email"`,
+      #     `"full_name"`, `"status"`, `"user_name"`.  Anything else will be
+      #     ignored. This op also sets the `agent_id' attr of the AWU, which it
+      #     figures out by looking in the `edit_connection_url` attribute (it's
+      #     not included as a key in the data from the API)
       class Update < Trailblazer::Operation
         step :set_model
         step :update!
