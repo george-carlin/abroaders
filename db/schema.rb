@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170503012221) do
+ActiveRecord::Schema.define(version: 20170518103541) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -112,6 +112,7 @@ ActiveRecord::Schema.define(version: 20170503012221) do
     t.string   "accounts_access_level"
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
+    t.boolean  "syncing",               default: false, null: false
     t.index ["account_id"], name: "index_award_wallet_users_on_account_id", using: :btree
     t.index ["aw_id"], name: "index_award_wallet_users_on_aw_id", using: :btree
   end

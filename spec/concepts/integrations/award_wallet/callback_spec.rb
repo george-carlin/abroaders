@@ -56,11 +56,13 @@ RSpec.describe Integrations::AwardWallet::Callback do
     expect do
       result = op.({ userId: 1 }, 'account' => account)
     end.to change { enqueued_jobs.size }.by(1)
+    # creates the AwardWalletUser:
     expect(result.success?).to be true
     awu = result['model']
     expect(awu).to eq account.reload.award_wallet_user
     expect(awu.aw_id).to eq 1
     expect(awu.loaded).to be false
+    expect(awu.syncing).to be false
     job = enqueued_jobs.last
     expect(job[:job]).to eq Integrations::AwardWallet::User::Refresh::Job
     expect(job[:args][0]['id']).to eq awu.id

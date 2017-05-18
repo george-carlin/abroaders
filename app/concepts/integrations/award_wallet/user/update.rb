@@ -55,7 +55,8 @@ module Integrations
           # equal to (1 + the agentId from the other URL).
           url = attrs.delete('account_list_url')
           attrs['agent_id'] = Rack::Utils.parse_query(url.split('#')[-1][2..-1])['agentId']
-          attrs['loaded']   = true
+          attrs['loaded'] = true
+          attrs['syncing'] = false
           model.update!(attrs)
         end
       end
