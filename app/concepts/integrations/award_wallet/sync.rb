@@ -16,7 +16,7 @@ module Integrations
       def enqueue_job(opts, account:, **)
         aw_user = account.award_wallet_user
         unless aw_user.syncing? # There'll already be an enqueued job
-          opts['refresh_job'].perform_later(id: aw_user.id)
+          opts['refresh_job'].perform_later('id' => aw_user.id)
         end
       end
 

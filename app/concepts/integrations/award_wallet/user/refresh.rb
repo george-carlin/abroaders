@@ -82,6 +82,8 @@ module Integrations
         end
 
         class Job < ApplicationJob
+          queue_as :award_wallet
+
           # @param opts [Hash]
           # @option opts [Integer] 'id' the ID of the AwardWalletUser to
           #   refresh
