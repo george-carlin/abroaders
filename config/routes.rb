@@ -70,6 +70,8 @@ Rails.application.routes.draw do
     namespace :award_wallet do
       get :callback
       get :poll
+      get :sync
+      get :syncing
 
       resources :owners, only: [] do
         member do

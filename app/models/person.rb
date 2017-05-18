@@ -1,5 +1,5 @@
 class Person < ApplicationRecord
-  delegate :email, :phone_number, to: :account
+  delegate :award_wallet?, :email, :phone_number, to: :account
 
   def companion?
     !owner

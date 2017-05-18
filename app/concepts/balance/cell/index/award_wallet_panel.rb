@@ -28,7 +28,8 @@ class Balance::Cell::Index < Balance::Cell::Index.superclass
 
       def show
         wrapper do
-          "You're connected to your AwardWallet account <b>#{user_name}</b>.  #{link_to_settings}"
+          "You're connected to your AwardWallet account <b>#{user_name}</b>. "\
+          "#{link_to_settings} #{sync_balances_btn}"
         end
       end
 
@@ -44,6 +45,15 @@ class Balance::Cell::Index < Balance::Cell::Index.superclass
 
       def user_name
         escape!(award_wallet_user.user_name)
+      end
+
+      def sync_balances_btn
+        button_tag(
+          'Sync Balances',
+          class: 'btn btn-xs btn-primary',
+          'data-toggle': 'modal',
+          'data-target': '#sync_balances_modal',
+        )
       end
     end
 

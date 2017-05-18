@@ -3,7 +3,8 @@ require 'cells_helper'
 RSpec.describe Balance::Cell::Index::PersonPanel do
   controller BalancesController
 
-  let(:person) { Person.new(owner: true, id: 1, first_name: 'Erik') }
+  let(:person) { Person.new(account: account, owner: true, id: 1, first_name: 'Erik') }
+  let(:account) { Account.new }
 
   let(:couples!) { person.account.build_companion }
 

@@ -6,10 +6,11 @@ class Balance < Balance.superclass
     #   @param account [Account] the currently-logged in account. Make sure
     #     that the right associations are eager-loaded.
     class Index < Abroaders::Cell::Base
+      property :award_wallet?
       property :people
 
       def show
-        award_wallet.to_s << main.to_s << unassigned_accounts_panel.to_s
+        "#{award_wallet} #{main} #{unassigned_accounts_panel} #{sync_balances_modal}"
       end
 
       private
@@ -24,6 +25,36 @@ class Balance < Balance.superclass
 
       def people
         super.sort_by(&:type).reverse
+      end
+
+      # Modal that will be shown when they click the button 'Sync balances'.
+      # As this button is only shown when they're connected to AW, there's no
+      # need to output the modal if they're not connected to AW.
+      def sync_balances_modal
+        return '' unless award_wallet?
+        cell(
+          Abroaders::Cell::ChoiceModal,
+          [
+            {
+              link_href: 'https://awardwallet.com/account/list',
+              link_text: 'Update Balances',
+              text: "This option will direct you to the AwardWallet website "\
+                    "to update your balances from your loyalty program "\
+                    "accounts. If your points balances are out of date on "\
+                    "AwardWallet, you should do this before importing "\
+                    "balances to Abroaders.",
+            },
+            {
+              link_href: integrations_award_wallet_sync_path,
+              link_text: 'Import Balances',
+              text: "This option will import your points balances from "\
+                    "AwardWallet to Abroaders. AwardWallet will not check "\
+                    "your loyalty accounts for the most recent balance "\
+                    "information if you choose this option.",
+            },
+          ],
+          id: 'sync_balances_modal',
+        )
       end
 
       def unassigned_accounts_panel
