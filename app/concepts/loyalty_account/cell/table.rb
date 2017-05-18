@@ -110,6 +110,7 @@ class LoyaltyAccount < LoyaltyAccount.superclass
           include Integrations::AwardWallet::Links
 
           property :login
+          property :last_retrieve_date
 
           def icon
             image_tag(
@@ -137,6 +138,22 @@ class LoyaltyAccount < LoyaltyAccount.superclass
 
           def html_id
             "award_wallet_account_#{id}"
+          end
+
+          # The 'updated_at' columns just represents the time the the account
+          # was updated in *our* database. (In the case where they've only just
+          # connected their AW account, the updated_at timestamp for ALL AW
+          # accounts will be right now.) Instead we should show the
+          # last_retrieve_date, which is the last date at which AW knew the
+          # balance to be accurate.
+          #
+          # However, bear in mind that the last_retrieve_date may be null.
+          def updated_at
+            if last_retrieve_date.nil?
+              '<i class="fa fa-warning"> </i> Unknown</i>'
+            else
+              last_retrieve_date.strftime('%D')
+            end
           end
         end
       end

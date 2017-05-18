@@ -8,7 +8,9 @@
   <% unless simple %>
     <td><%= expiration_date %></td>
   <% end %>
-  <td><%= updated_at %></td>
+  <td class='loyalty_account_updated_at'>
+    <%= updated_at %>
+  </td>
 
   <td>
     <%= edit_btn %>
