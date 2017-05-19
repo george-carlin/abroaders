@@ -78,6 +78,8 @@ Rails.application.routes.draw do
           patch :update_person
         end
       end
+
+      resources :accounts
     end
   end
 

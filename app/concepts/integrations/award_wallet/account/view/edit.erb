@@ -1,0 +1,19 @@
+<div class='hpanel'>
+  <div class="panel-body">
+    <h1><%= title %></h1>
+
+    <%= errors %>
+
+    <%= form_tag do |f| %>
+      <div class="form-group">
+        <%= f.label        :balance %>
+        <%= f.number_field :balance %>
+      </div>
+
+      <%= f.submit 'Save', class: 'btn btn-primary' %>
+      &nbsp;
+
+      <%= link_to 'Back', balances_path %>
+    <% end %>
+  </div>
+</div>
