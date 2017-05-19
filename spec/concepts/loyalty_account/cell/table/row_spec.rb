@@ -79,7 +79,7 @@ RSpec.describe LoyaltyAccount::Cell::Table::Row do
         expect(rendered).to have_content '4,321'
         expect(rendered).to have_content 'GeorgeMillo'
         expect(rendered).to have_content 'Puta Madre'
-        expect(rendered).not_to have_link 'Edit'
+        expect(rendered).not_to have_link 'Edit', exact: true
         expect(rendered).to have_button 'Edit'
         # displays last_retrieve_date timestamp, not updated_at timestamp
         expect(rendered).not_to have_content awa.updated_at.strftime('%D')

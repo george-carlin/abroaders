@@ -7,7 +7,7 @@ module Abroaders
 
       def choices
         cell(Choice, collection: model).join(
-          '<p class="lead h23"><span>Or</span></p>',
+          '<p class="lead choice-modal-divider"><span>Or</span></p>',
         )
       end
 
