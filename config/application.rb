@@ -53,6 +53,8 @@ module Abroaders
     ]
 
     config.time_zone = "UTC"
+
+    config.exceptions_app = self.routes
   end
 end
 

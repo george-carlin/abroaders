@@ -82,6 +82,7 @@ module Abroaders
       # all names must be strings, not symbols.
       def excluded_actions
         {
+          'errors' => '*',
           'integrations/award_wallet' => %w[settings callback sync],
           'recommendation_requests' => %w[new create],
         }
@@ -95,7 +96,7 @@ module Abroaders
       def request_excluded?
         return false if params.nil? # makes testing easier
         excluded_actions.any? do |ctrlr, actions|
-          params['controller'] == ctrlr && actions.include?(params['action'])
+          params['controller'] == ctrlr && (actions == '*' || actions.include?(params['action']))
         end
       end
     end

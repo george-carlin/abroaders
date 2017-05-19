@@ -6,6 +6,7 @@ RSpec.describe Abroaders::Cell::RecommendationAlert do
   let(:cell_class) { described_class }
 
   EXCLUDED_ACTIONS = {
+    'errors' => %w[not_found internal_server_error],
     'integrations/award_wallet' => %w[settings callback sync],
     'recommendation_requests' => %w[new create],
   }.freeze
