@@ -86,7 +86,7 @@ module Balance::Cell
               },
               {
                 link_text: 'Add a new balance on AwardWallet',
-                link_href: new_person_balance_path(model),
+                link_href: new_person_balance_path(model), # <- FIXME
                 text: 'This balance will automatically track your points balance',
               },
             ],

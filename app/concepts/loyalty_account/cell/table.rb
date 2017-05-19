@@ -86,6 +86,10 @@ class LoyaltyAccount < LoyaltyAccount.superclass
           end
         end
 
+        def edit_modal
+          ''
+        end
+
         def expiration_date
           cell(ExpirationDate, model)
         end
@@ -127,17 +131,49 @@ class LoyaltyAccount < LoyaltyAccount.superclass
           end
 
           def edit_btn
-            link_to(
-              edit_account_on_award_wallet_path(model),
-              class: 'edit_award_wallet_account_btn btn btn-xs btn-primary',
-              target: '_blank',
+            button_tag(
+              class: 'btn btn-primary btn-xs',
+              'data-toggle': 'modal',
+              'data-target': "##{modal_id}",
             ) do
               '<i class="fa fa-pencil"> </i> Edit'
             end
           end
 
+          def edit_modal
+            cell(
+              ::Abroaders::Cell::ChoiceModal,
+              [
+                {
+                  link_href: edit_integrations_award_wallet_account_path(model),
+                  link_text: 'Update balance only',
+                  text: 'This option will allow you to manually update how many '\
+                        'points you have with this program. This option is ideal '\
+                        'if AwardWallet unable to update your points balance by '\
+                        'checking the loyalty program website. We will keep this '\
+                        'balance until you make another manual update or until '\
+                        'we receive a more recent points balance from AwardWallet.',
+                },
+                {
+                  link_href: edit_account_on_award_wallet_path(model),
+                  link_text: 'Edit on AwardWallet',
+                  text: 'This option will take you to the AwardWallet website '\
+                        'to edit your login information associated with this '\
+                        'loyalty account. Use this option to fix a connection '\
+                        'problem if your points balance is not updating '\
+                        'automatically on AwardWallet.',
+                },
+              ],
+              id: modal_id,
+            )
+          end
+
           def html_id
             "award_wallet_account_#{id}"
+          end
+
+          def modal_id
+            "edit_award_wallet_account_#{id}_modal"
           end
 
           # The 'updated_at' columns just represents the time the the account

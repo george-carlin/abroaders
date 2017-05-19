@@ -21,6 +21,7 @@ RSpec.describe LoyaltyAccount::Cell::Table::Row do
     expect(rendered).to have_content 'Sterling'
     expect(rendered).to have_content '1,234'
     expect(rendered).to have_link 'Edit'
+    expect(rendered).not_to have_button 'Edit'
     expect(rendered).to have_link 'Delete'
     expect(rendered).to have_selector 'td', count: 4
     # no 'owner' or 'expiration date' cols:
@@ -48,6 +49,7 @@ RSpec.describe LoyaltyAccount::Cell::Table::Row do
       expect(rendered).to have_content 'Sterling'
       expect(rendered).to have_content '1,234'
       expect(rendered).to have_link 'Edit'
+      expect(rendered).not_to have_button 'Edit'
       expect(rendered).to have_link 'Delete'
       # 'owner' = person name, 'expires' = Unknown
       expect(rendered).to have_content 'George'
@@ -77,7 +79,8 @@ RSpec.describe LoyaltyAccount::Cell::Table::Row do
         expect(rendered).to have_content '4,321'
         expect(rendered).to have_content 'GeorgeMillo'
         expect(rendered).to have_content 'Puta Madre'
-        expect(rendered).to have_link 'Edit'
+        expect(rendered).not_to have_link 'Edit'
+        expect(rendered).to have_button 'Edit'
         # displays last_retrieve_date timestamp, not updated_at timestamp
         expect(rendered).not_to have_content awa.updated_at.strftime('%D')
         expect(rendered).to have_content time_1.strftime('%D')
