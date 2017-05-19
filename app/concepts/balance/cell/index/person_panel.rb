@@ -83,7 +83,7 @@ module Balance::Cell
               {
                 link: {
                   href: new_person_balance_path(model),
-                  text: 'Add a new balance on Abroaders',
+                  text: 'Add on Abroaders',
                 },
                 text: t('balance.new_balance_modal.abroaders.text'),
               },
@@ -91,7 +91,7 @@ module Balance::Cell
                 link: {
                   href: new_account_on_award_wallet_url,
                   target: '_blank',
-                  text: 'Add a new balance on AwardWallet',
+                  text: 'Add on AwardWallet',
                 },
                 text: t('balance.new_balance_modal.award_wallet.text'),
               },

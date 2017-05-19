@@ -48,7 +48,7 @@ en:
       award_wallet:
         text: 'This balance will automatically track your points balance'
       abroaders:
-        text: 'This balance will not updating automatically'
+        text: 'This balance will not update automatically'
 
   cards:
     invalid_status_error: "Couldn't save. This may happen if you already made the update in a different window or tab, or hit the 'back' button after making the update the first time. Try refreshing the page."
