@@ -314,3 +314,17 @@ footer.footer {
     color: white !important;
   }
 }
+
+// Abroaders::Cell::ChoiceModal
+
+.choice-modal-divider {
+  border-bottom: 1px solid #b4b4b5;
+  line-height: 0.1em;
+  margin: 10px 0 20px;
+  text-align: center;
+  width: 100%;
+
+  span {
+    background: #fff; padding: 0 10px;
+  }
+}

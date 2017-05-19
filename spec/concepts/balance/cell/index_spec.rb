@@ -16,6 +16,13 @@ RSpec.describe Balance::Cell::Index do
     expect(rendered).to have_no_link 'Manage settings'
   end
 
+  let(:sync_btn_text) { 'Sync Balances' }
+
+  example 'no "Sync Balances" button' do
+    rendered = cell(account).()
+    expect(rendered).not_to have_button sync_btn_text
+  end
+
   context 'when account is connected to AwardWallet' do
     before do
       account.build_award_wallet_user(loaded: true, user_name: 'AWUser')
@@ -28,6 +35,11 @@ RSpec.describe Balance::Cell::Index do
       expect(rendered).to have_link 'Manage settings', href: integrations_award_wallet_settings_path
       expect(rendered).to have_no_content 'Connect your AwardWallet account to Abroaders'
       expect(rendered).to have_no_link 'Connect to AwardWallet'
+    end
+
+    it 'has a link to sync balances' do
+      rendered = cell(account).()
+      expect(rendered).to have_button sync_btn_text
     end
   end
 

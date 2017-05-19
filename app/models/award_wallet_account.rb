@@ -9,6 +9,8 @@ class AwardWalletAccount < ApplicationRecord
 
   alias owner award_wallet_owner
 
+  alias_attribute :balance, :balance_raw
+
   delegate :id, to: :person, allow_nil: true, prefix: true
   delegate :name, to: :owner, prefix: true
 end

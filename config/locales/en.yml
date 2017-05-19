@@ -38,6 +38,18 @@ en:
             product:
               doesnt_match_offer: "doesnt match the offer"
 
+  balance:
+    sync_balances_modal:
+      award_wallet:
+        text: "This option will direct you to the AwardWallet website to update your balances from your loyalty program accounts. If your points balances are out of date on AwardWallet, you should do this before importing balances to Abroaders."
+      abroaders:
+        text: "This option will import your points balances from AwardWallet to Abroaders. AwardWallet will not check your loyalty accounts for the most recent balance information if you choose this option."
+    new_balance_modal:
+      award_wallet:
+        text: 'This balance will automatically track your points balance'
+      abroaders:
+        text: 'This balance will not update automatically'
+
   cards:
     invalid_status_error: "Couldn't save. This may happen if you already made the update in a different window or tab, or hit the 'back' button after making the update the first time. Try refreshing the page."
     index:
@@ -62,3 +74,7 @@ en:
     people:
       cards:
         none: "User has no cards on file. Use the form below to recommend them their first card."
+
+  loyalty_account:
+    edit_on_award_wallet_explanation: 'This option will allow you to manually update how many points you have with this program. This option is ideal if AwardWallet unable to update your points balance by checking the loyalty program website. We will keep this balance until you make another manual update or until we receive a more recent points balance from AwardWallet.'
+    update_balance_explanation: 'This option will take you to the AwardWallet website to edit your login information associated with this loyalty account. Use this option to fix a connection problem if your points balance is not updating automatically on AwardWallet.'

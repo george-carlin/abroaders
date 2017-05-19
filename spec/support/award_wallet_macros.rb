@@ -37,7 +37,9 @@ module AwardWalletMacros
   # create example AwardWalletUser by mimicking the real flow of operations
   def setup_award_wallet_user_from_sample_data(account)
     user = get_award_wallet_user_from_callback(account)
-    refresh_award_wallet_user_from_sample_data(user)
+    result = refresh_award_wallet_user_from_sample_data(user)
+    account.reload
+    result
   end
 
   module ClassMethods

@@ -6,7 +6,7 @@ RSpec.describe Abroaders::Cell::RecommendationAlert do
   let(:cell_class) { described_class }
 
   EXCLUDED_ACTIONS = {
-    'integrations/award_wallet' => %w[settings callback],
+    'integrations/award_wallet' => %w[settings callback sync],
     'recommendation_requests' => %w[new create],
   }.freeze
 
