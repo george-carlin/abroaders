@@ -148,7 +148,7 @@ class LoyaltyAccount < LoyaltyAccount.superclass
               [
                 {
                   link: {
-                    href: edit_integrations_award_wallet_account_path(model),
+                    href: edit_integrations_award_wallet_account_path(id),
                     text: 'Update balance only',
                   },
                   text: t('loyalty_account.update_balance_explanation'),

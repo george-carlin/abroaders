@@ -5,6 +5,10 @@
     <%= errors %>
 
     <%= form_tag do |f| %>
+      <div>
+        Awards Program: <%= currency_name %>
+      </div>
+
       <div class="form-group">
         <%= f.label        :balance %>
         <%= f.number_field :balance %>

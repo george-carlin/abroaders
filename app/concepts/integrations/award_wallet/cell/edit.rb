@@ -4,11 +4,17 @@ module Integrations::AwardWallet
       # @!method self.call(form, options = {})
       #   @param form [Reform::Form]
       class Edit < Abroaders::Cell::Base
+        include Escaped
+
         def title
           'Edit Award Wallet Account'
         end
 
         private
+
+        def currency_name
+          escape!(model.model.display_name)
+        end
 
         def errors
           cell(Abroaders::Cell::ValidationErrorsAlert, model)
