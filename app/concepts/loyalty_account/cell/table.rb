@@ -86,6 +86,10 @@ class LoyaltyAccount < LoyaltyAccount.superclass
           end
         end
 
+        def edit_modal
+          ''
+        end
+
         def expiration_date
           cell(ExpirationDate, model)
         end
@@ -127,17 +131,47 @@ class LoyaltyAccount < LoyaltyAccount.superclass
           end
 
           def edit_btn
-            link_to(
-              edit_account_on_award_wallet_path(model),
-              class: 'edit_award_wallet_account_btn btn btn-xs btn-primary',
-              target: '_blank',
+            button_tag(
+              class: 'btn btn-primary btn-xs',
+              'data-toggle': 'modal',
+              'data-target': "##{modal_id}",
             ) do
               '<i class="fa fa-pencil"> </i> Edit'
             end
           end
 
+          # Not ideal as we're outputting a ton of very-slightly-different
+          # modals (the only difference is the link URLs), one for each AWA.
+          def edit_modal
+            cell(
+              ::Abroaders::Cell::ChoiceModal,
+              [
+                {
+                  link: {
+                    href: edit_integrations_award_wallet_account_path(id),
+                    text: 'Update balance only',
+                  },
+                  text: t('loyalty_account.update_balance_explanation'),
+                },
+                {
+                  link: {
+                    href: edit_account_on_award_wallet_path(model),
+                    target: '_blank',
+                    text: 'Edit on AwardWallet',
+                  },
+                  text: t('loyalty_account.edit_on_award_wallet_explanation'),
+                },
+              ],
+              id: modal_id,
+            )
+          end
+
           def html_id
             "award_wallet_account_#{id}"
+          end
+
+          def modal_id
+            "edit_award_wallet_account_#{id}_modal"
           end
 
           # The 'updated_at' columns just represents the time the the account

@@ -83,7 +83,7 @@ module Abroaders
       def excluded_actions
         {
           'errors' => '*',
-          'integrations/award_wallet' => %w[settings callback],
+          'integrations/award_wallet' => %w[settings callback sync],
           'recommendation_requests' => %w[new create],
         }
       end

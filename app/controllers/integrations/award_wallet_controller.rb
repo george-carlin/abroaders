@@ -33,6 +33,22 @@ module Integrations
       redirect_to balances_path
     end
 
+    def sync
+      run Integrations::AwardWallet::Sync
+      render cell(Integrations::AwardWallet::Cell::Sync)
+    end
+
+    def syncing
+      user = current_account.award_wallet_user || raise('no award wallet user')
+      # The JS will redirect them back to /balances; use the flash
+      # to trigger the one-time success message on that page
+      flash[:success] = 'Refreshed AwardWallet data!' if user.syncing
+      render json: {
+        aw_id: user.aw_id,
+        syncing: user.syncing,
+      }
+    end
+
     private
 
     def redirect_if_already_connected!

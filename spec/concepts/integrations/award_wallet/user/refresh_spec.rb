@@ -21,6 +21,7 @@ RSpec.describe Integrations::AwardWallet::User::Refresh do
     user = result['model']
     # see the specs for the Update op for the full test of user attrs being set
     expect(user.loaded).to be true
+    expect(user.syncing).to be false
     expect(user.full_name).to eq 'John Smith'
 
     owners = user.award_wallet_owners
@@ -65,6 +66,15 @@ RSpec.describe Integrations::AwardWallet::User::Refresh do
 
     expect(AwardWalletOwner.find_by_id(owner.id)).to be nil
     expect(AwardWalletAccount.find_by_id(acc.id)).to be nil
+  end
+
+  example 'user is syncing' do
+    aw_user = run!(op, user: user)['model'].reload
+    aw_user.update!(syncing: true)
+
+    result = op.(user: user)
+    expect(result.success?).to be true
+    expect(aw_user.reload.syncing).to be false
   end
 
   example 'when an existing owner is not assigned to a person' do

@@ -41,6 +41,8 @@ RSpec.describe 'balance index page' do
 
   let(:extra_column_headers) { %w[Owner Account Expires] }
 
+  let(:sync_btn_text) { 'Sync Balances' }
+
   context "when I haven't linked my account to AwardWallet" do
     before do # make sure the account actually has balances or there'll be no table
       create_balance(currencies[0], 1234)
@@ -48,10 +50,19 @@ RSpec.describe 'balance index page' do
       visit balances_path
     end
 
+    it 'clicking "Add new"' do
+      click_link 'Add new'
+      expect(current_path).to eq new_person_balance_path(owner)
+    end
+
     it 'hides the unnecessary columns in the table' do
       extra_column_headers.each do |text|
         expect(page).to have_no_selector 'th', text: text
       end
+    end
+
+    it 'has no "Sync balances" button' do
+      expect(page).to have_no_button sync_btn_text
     end
   end
 
@@ -70,10 +81,23 @@ RSpec.describe 'balance index page' do
       end
     end
 
+    it 'clicking "Add new"', :js do
+      click_button 'Add new'
+      expect(page).to have_link 'Add on Abroaders', href: new_person_balance_path(owner)
+      expect(page).to have_link 'Add on AwardWallet', href: 'https://awardwallet.com/account/select-provider'
+    end
+
     it 'has extra columns in the table' do
       extra_column_headers.each do |text|
         expect(page).to have_selector 'th', text: text
       end
+    end
+
+    example 'syncing my balances', :js do
+      click_button sync_btn_text
+
+      expect(page).to have_link 'Import Balances', href: integrations_award_wallet_sync_path
+      expect(page).to have_link 'Update Balances', href: 'https://awardwallet.com/account/list'
     end
   end
 
