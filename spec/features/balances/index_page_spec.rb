@@ -85,7 +85,6 @@ RSpec.describe 'balance index page' do
       click_button 'Add new'
       expect(page).to have_link 'Add a new balance on Abroaders', href: new_person_balance_path(owner)
       expect(page).to have_link 'Add a new balance on AwardWallet', href: 'https://awardwallet.com/account/select-provider'
-      expect(current_path).to eq new_person_balance_path(owner)
     end
 
     it 'has extra columns in the table' do

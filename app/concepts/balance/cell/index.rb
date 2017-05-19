@@ -6,6 +6,8 @@ class Balance < Balance.superclass
     #   @param account [Account] the currently-logged in account. Make sure
     #     that the right associations are eager-loaded.
     class Index < Abroaders::Cell::Base
+      include Integrations::AwardWallet::Links
+
       property :award_wallet?
       property :people
 
@@ -36,21 +38,18 @@ class Balance < Balance.superclass
           Abroaders::Cell::ChoiceModal,
           [
             {
-              link_href: 'https://awardwallet.com/account/list',
-              link_text: 'Update Balances',
-              text: "This option will direct you to the AwardWallet website "\
-                    "to update your balances from your loyalty program "\
-                    "accounts. If your points balances are out of date on "\
-                    "AwardWallet, you should do this before importing "\
-                    "balances to Abroaders.",
+              link: {
+                href: award_wallet_account_list_url,
+                text: 'Update Balances',
+              },
+              text: t('balance.sync_balances_modal.award_wallet.text'),
             },
             {
-              link_href: integrations_award_wallet_sync_path,
-              link_text: 'Import Balances',
-              text: "This option will import your points balances from "\
-                    "AwardWallet to Abroaders. AwardWallet will not check "\
-                    "your loyalty accounts for the most recent balance "\
-                    "information if you choose this option.",
+              link: {
+                href: integrations_award_wallet_sync_path,
+                text: 'Import Balances',
+              },
+              text: t('balance.sync_balances_modal.abroaders.text'),
             },
           ],
           id: 'sync_balances_modal',

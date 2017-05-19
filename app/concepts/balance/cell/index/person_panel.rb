@@ -14,6 +14,7 @@ module Balance::Cell
     class PersonPanel < Abroaders::Cell::Base
       include ::Cell::Builder
       include Escaped
+      include Integrations::AwardWallet::Links
 
       builds do |person|
         AwardWallet if person.award_wallet?
@@ -80,14 +81,19 @@ module Balance::Cell
             Abroaders::Cell::ChoiceModal,
             [
               {
-                link_text: 'Add a new balance on Abroaders',
-                link_href: new_person_balance_path(model),
-                text: 'This balance will not update automatically',
+                link: {
+                  href: new_person_balance_path(model),
+                  text: 'Add a new balance on Abroaders',
+                },
+                text: t('balance.new_balance_modal.abroaders.text'),
               },
               {
-                link_text: 'Add a new balance on AwardWallet',
-                link_href: new_person_balance_path(model), # <- FIXME
-                text: 'This balance will automatically track your points balance',
+                link: {
+                  href: new_account_on_award_wallet_url,
+                  target: '_blank',
+                  text: 'Add a new balance on AwardWallet',
+                },
+                text: t('balance.new_balance_modal.award_wallet.text'),
               },
             ],
             id: modal_id,

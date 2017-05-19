@@ -140,28 +140,26 @@ class LoyaltyAccount < LoyaltyAccount.superclass
             end
           end
 
+          # Not ideal as we're outputting a ton of very-slightly-different
+          # modals (the only difference is the link URLs), one for each AWA.
           def edit_modal
             cell(
               ::Abroaders::Cell::ChoiceModal,
               [
                 {
-                  link_href: edit_integrations_award_wallet_account_path(model),
-                  link_text: 'Update balance only',
-                  text: 'This option will allow you to manually update how many '\
-                        'points you have with this program. This option is ideal '\
-                        'if AwardWallet unable to update your points balance by '\
-                        'checking the loyalty program website. We will keep this '\
-                        'balance until you make another manual update or until '\
-                        'we receive a more recent points balance from AwardWallet.',
+                  link: {
+                    href: edit_integrations_award_wallet_account_path(model),
+                    text: 'Update balance only',
+                  },
+                  text: t('loyalty_account.update_balance_explanation'),
                 },
                 {
-                  link_href: edit_account_on_award_wallet_path(model),
-                  link_text: 'Edit on AwardWallet',
-                  text: 'This option will take you to the AwardWallet website '\
-                        'to edit your login information associated with this '\
-                        'loyalty account. Use this option to fix a connection '\
-                        'problem if your points balance is not updating '\
-                        'automatically on AwardWallet.',
+                  link: {
+                    href: edit_account_on_award_wallet_path(model),
+                    target: '_blank',
+                    text: 'Edit on AwardWallet',
+                  },
+                  text: t('loyalty_account.edit_on_award_wallet_explanation'),
                 },
               ],
               id: modal_id,
