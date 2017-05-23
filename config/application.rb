@@ -41,6 +41,8 @@ module Abroaders
       'recommendation_request/cell/call_to_action',
     ]
 
+    config.assets.quiet = true
+
     config.autoload_paths << Rails.root.join('app', 'models', 'destinations')
 
     config.generators.jbuilder = false
