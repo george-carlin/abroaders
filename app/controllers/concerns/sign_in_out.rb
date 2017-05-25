@@ -1,13 +1,12 @@
 module SignInOut
   WARDEN_SCOPES = %i[account admin].freeze
 
-  def sign_in(scope, resource)
+  def sign_in(scope, resource, options = {})
     expire_data_after_sign_in!
 
-    # if options[:bypass]
-    #   warden.session_serializer.store(resource, scope)
-    # elsif warden.user(scope) == resource && !options.delete(:force)
-    if warden.user(scope) == resource # && !options.delete(:force)
+    if options[:bypass]
+      warden.session_serializer.store(resource, scope)
+    elsif warden.user(scope) == resource # && !options.delete(:force)
       # Do nothing. User already signed in and we are not forcing it.
       true
     else

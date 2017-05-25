@@ -161,19 +161,16 @@ Rails.application.routes.draw do
 
   # ---- ADMINS -----
 
-  devise_for :admins, skip: [:registrations, :sessions]
-  devise_scope :admin do
-    get    :"admin/sign_in",  to: "admin_area/sessions#new",
-                                              as: :new_admin_session
-    post   :"admin/sign_in",  to: "admin_area/sessions#create",
-                                              as: :admin_session
-    delete :"admin/sign_out", to: "devise/sessions#destroy",
-                                              as: :destroy_admin_session
-    get :"admin/edit", to: "devise/registrations#edit",
-                                              as: :edit_admin_registration
-    put   :admin, to: "devise/registrations#update", as: :admin_registration
-    patch :admin, to: "devise/registrations#update"
-  end
+  # This method is necessary to get the 'authenticate_admin!' method
+  # in the controllers
+
+  devise_for :admin, only: [:passwords]
+  get 'admin/sign_in', to: 'admin_area/sessions#new',
+    as: :new_admin_session
+  post 'admin/sign_in', to: 'admin_area/sessions#create',
+    as: :admin_session
+  delete 'admin/sign_out', to: 'admin_area/sessions#destroy',
+    as: :destroy_admin_session
 
   namespace :admin, module: :admin_area do
     resources :accounts, only: [:index] do
@@ -216,6 +213,7 @@ Rails.application.routes.draw do
     end
     resources :card_recommendations
     resources :recommendation_notes, only: [:edit, :update]
+    resource :registration
     resources :travel_plans, only: [:edit, :update]
   end
 
