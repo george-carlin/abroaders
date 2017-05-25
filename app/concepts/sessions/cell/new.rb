@@ -74,6 +74,10 @@ module Sessions
 
         private
 
+        def link_to_recover_password
+          ''
+        end
+
         def link_to_register
           '' # admins can't register
         end
