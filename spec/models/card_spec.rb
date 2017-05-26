@@ -165,5 +165,5 @@ RSpec.describe Card do
 
       expect(Card.recommended.unresolved).to eq [unresolved]
     end
-  end
+  end # .recommended
 end
