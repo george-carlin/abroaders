@@ -276,14 +276,7 @@ module SampleDataMacros
 
   alias create_rec create_card_recommendation
 
-  def create_card_account(*traits_and_overrides)
-    overrides = if traits_and_overrides.last.is_a?(Hash)
-                  traits_and_overrides.pop
-                else
-                  {}
-                end
-    traits = traits_and_overrides
-
+  def create_card_account(overrides = {})
     raise 'use :card_product, not :product' if overrides.key?(:product)
     raise 'use :card_product_id, not :product_id' if overrides.key?(:product_id)
 
@@ -313,7 +306,7 @@ module SampleDataMacros
       person = create_person
     end
 
-    if traits.include?(:closed) || overrides.key?(:closed_on)
+    if overrides.key?(:closed_on)
       params[:card_account][:closed] = true
       params[:card_account][:closed_on] = overrides.fetch(:closed_on, Date.today)
     end

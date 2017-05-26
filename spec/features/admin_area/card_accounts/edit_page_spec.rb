@@ -26,7 +26,7 @@ RSpec.describe 'admin area - edit card account page', :js do
   end
 
   example 'updating a card account from closed to opened' do
-    card_account = create_card_account(:closed, person: person)
+    card_account = create_card_account(closed_on: Date.today, person: person)
     visit path
 
     expect(page).to have_field :card_account_closed, checked: true

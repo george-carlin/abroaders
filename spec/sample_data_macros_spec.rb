@@ -86,7 +86,7 @@ RSpec.describe SampleDataMacros do
     end
 
     example 'closed card' do
-      expect { create_card_account(:closed) }.to change { Card.count }.by(1)
+      expect { create_card_account(closed_on: Date.today) }.to change { Card.count }.by(1)
       expect(Card.last.closed_on).not_to be_nil
     end
 
