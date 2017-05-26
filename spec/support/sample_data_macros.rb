@@ -2,6 +2,136 @@ require 'abroaders/util'
 
 require_relative 'operation_macros'
 
+class SampleData
+  include FactoryGirl::Syntax::Methods
+  include OperationMacros
+
+  class << self
+    def instance
+      @instance ||= new
+    end
+
+    delegate :account, :admin, :currency, :person, to: :instance
+  end
+
+  def initialize
+    @sequences ||= {}
+  end
+
+  # Create an account. At present only the initial account sign up is
+  # performed with a 'real' operation. You can pass in the traits :couples,
+  # :onboarded, and :eligible, and they'll update the model directly without
+  # going through an op.
+  #
+  # Available overrides: email, onboarding_state
+  # Available traits: eligible, onboarded, couples
+  def account(*traits_and_overrides)
+    n = increment_sequence(:account)
+    overrides = if traits_and_overrides.last.is_a?(Hash)
+                  traits_and_overrides.pop
+                else
+                  {}
+                end
+    traits = traits_and_overrides
+
+    attrs = {
+      email: "#account-#{n}@example.com",
+      password: 'abroaders123',
+      password_confirmation: 'abroaders123',
+      first_name: 'Erik',
+    }.merge(overrides)
+
+    ApplicationRecord.transaction do
+      account = run!(Registration::Create, account: attrs)['model']
+      account.create_companion!(first_name: 'Gabi') if traits.include?(:couples)
+      if traits.include?(:eligible)
+        account.people.update_all(eligible: true)
+        account.reload
+      end
+      if traits.include?(:onboarded)
+        account.update!(onboarding_state: 'complete') unless account.onboarded?
+      elsif overrides.key?(:onboarding_state) && overrides[:onboarding_state] != account.onboarding_state
+        account.update!(onboarding_state: overrides[:onboarding_state])
+      end
+      if overrides.key?(:monthly_spending_usd)
+        account.update!(monthly_spending_usd: overrides[:monthly_spending_usd])
+      end
+      account
+    end
+  end
+
+  def admin(overrides = {})
+    n = increment_sequence(:admin)
+
+    attrs = {
+      email: "admin-#{n}@example.com",
+      password: 'abroaders123',
+      password_confirmation: 'abroaders123',
+    }.merge(overrides)
+
+    Admin.create!(attrs)
+  end
+
+  def currency(overrides = {})
+    n = increment_sequence(:currency)
+
+    attrs = {
+      name: "Currency #{n}",
+      award_wallet_id: "currency #{n}",
+      alliance_name: %w[OneWorld StarAlliance SkyTeam Independent][n % 4],
+      shown_on_survey: true,
+      type: 'airline',
+    }.merge(overrides)
+
+    Currency.create!(attrs)
+  end
+
+  # This method is awful. Maybe it's better to just do something like this?
+  #
+  #   create_account.owner
+  def person(*traits_and_overrides)
+    overrides = if traits_and_overrides.last.is_a?(Hash)
+                  traits_and_overrides.pop
+                else
+                  {}
+                end
+    traits = traits_and_overrides
+
+    eligible = traits.include?(:eligible)
+    owner = !traits.include?(:companion)
+
+    if overrides.key?(:account)
+      account = overrides.fetch(:account)
+
+      attrs = {
+        account: account,
+        first_name: owner ? 'Erik' : 'Gabi',
+        owner: owner,
+        eligible: eligible,
+      }.merge(overrides)
+
+      Person.create!(attrs)
+    else
+      person = owner ? self.account.owner : self.account(:couples).companion
+      person.eligible = eligible
+      person.first_name = overrides[:first_name] if overrides.key?(:first_name)
+      person.save! if person.changed?
+      person
+    end
+  end
+
+  private
+
+  # Not all macros have 'sequence' functionality, as I haven't needed it yet
+
+  # @return the new, incremented sequence number
+  def increment_sequence(model_name)
+    @sequences[model_name] ||= -1
+    @sequences[model_name] += 1
+  end
+end
+
+
 # A replacement for FactoryGirl that exclusively creates and updates data using
 # our own operations, and therefore creates data in the exact same way that a
 # user would. Ideally all test data should be created in this way and we would
@@ -31,138 +161,13 @@ module SampleDataMacros
     end
   end
 
-  class Generator
-    include FactoryGirl::Syntax::Methods
-    include OperationMacros
-
-    def self.instance
-      @instance ||= new
-    end
-
-    def initialize
-      @sequences ||= {}
-    end
-
-    # Create an account. At present only the initial account sign up is
-    # performed with a 'real' operation. You can pass in the traits :couples,
-    # :onboarded, and :eligible, and they'll update the model directly without
-    # going through an op.
-    #
-    # Available overrides: email, onboarding_state
-    # Available traits: eligible, onboarded, couples
-    def account(*traits_and_overrides)
-      n = increment_sequence(:account)
-      overrides = if traits_and_overrides.last.is_a?(Hash)
-                    traits_and_overrides.pop
-                  else
-                    {}
-                  end
-      traits = traits_and_overrides
-
-      attrs = {
-        email: "#account-#{n}@example.com",
-        password: 'abroaders123',
-        password_confirmation: 'abroaders123',
-        first_name: 'Erik',
-      }.merge(overrides)
-
-      ApplicationRecord.transaction do
-        account = run!(Registration::Create, account: attrs)['model']
-        account.create_companion!(first_name: 'Gabi') if traits.include?(:couples)
-        if traits.include?(:eligible)
-          account.people.update_all(eligible: true)
-          account.reload
-        end
-        if traits.include?(:onboarded)
-          account.update!(onboarding_state: 'complete') unless account.onboarded?
-        elsif overrides.key?(:onboarding_state) && overrides[:onboarding_state] != account.onboarding_state
-          account.update!(onboarding_state: overrides[:onboarding_state])
-        end
-        if overrides.key?(:monthly_spending_usd)
-          account.update!(monthly_spending_usd: overrides[:monthly_spending_usd])
-        end
-        account
-      end
-    end
-
-    def admin(overrides = {})
-      n = increment_sequence(:admin)
-
-      attrs = {
-        email: "admin-#{n}@example.com",
-        password: 'abroaders123',
-        password_confirmation: 'abroaders123',
-      }.merge(overrides)
-
-      Admin.create!(attrs)
-    end
-
-    def currency(overrides = {})
-      n = increment_sequence(:currency)
-
-      attrs = {
-        name: "Currency #{n}",
-        award_wallet_id: "currency #{n}",
-        alliance_name: %w[OneWorld StarAlliance SkyTeam Independent][n % 4],
-        shown_on_survey: true,
-        type: 'airline',
-      }.merge(overrides)
-
-      Currency.create!(attrs)
-    end
-
-    # This method is awful. Maybe it's better to just do something like this?
-    #
-    #   create_account.owner
-    def person(*traits_and_overrides)
-      overrides = if traits_and_overrides.last.is_a?(Hash)
-                    traits_and_overrides.pop
-                  else
-                    {}
-                  end
-      traits = traits_and_overrides
-
-      eligible = traits.include?(:eligible)
-      owner = !traits.include?(:companion)
-
-      if overrides.key?(:account)
-        account = overrides.fetch(:account)
-
-        attrs = {
-          account: account,
-          first_name: owner ? 'Erik' : 'Gabi',
-          owner: owner,
-          eligible: eligible,
-        }.merge(overrides)
-
-        Person.create!(attrs)
-      else
-        person = owner ? self.account.owner : self.account(:couples).companion
-        person.eligible = eligible
-        person.first_name = overrides[:first_name] if overrides.key?(:first_name)
-        person.save! if person.changed?
-        person
-      end
-    end
-
-    private
-
-    # Not all macros have 'sequence' functionality, as I haven't needed it yet
-
-    # @return the new, incremented sequence number
-    def increment_sequence(model_name)
-      @sequences[model_name] ||= -1
-      @sequences[model_name] += 1
-    end
-  end
-
   def create_account(*traits_and_overrides)
-    Generator.instance.account(*traits_and_overrides)
+    SampleData.account(*traits_and_overrides)
   end
 
   %w[admin currency].each do |model_name|
     define_method "create_#{model_name}" do |overrides = {}|
-      Generator.instance.send(model_name, overrides)
+      SampleData.send(model_name, overrides)
     end
   end
 
@@ -322,7 +327,7 @@ module SampleDataMacros
   end
 
   def create_person(*traits_and_overrides)
-    Generator.instance.person(*traits_and_overrides)
+    SampleData.person(*traits_and_overrides)
   end
 
   def create_companion(*traits_and_overrides)
