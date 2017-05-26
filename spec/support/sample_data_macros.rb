@@ -11,7 +11,7 @@ class SampleData
       @instance ||= new
     end
 
-    delegate :account, :admin, :currency, :person, to: :instance
+    delegate :account, :admin, :balance, :currency, :person, to: :instance
   end
 
   def initialize
@@ -65,6 +65,26 @@ class SampleData
     }.merge(overrides)
 
     Admin.create!(attrs)
+  end
+
+  def balance(overrides = {})
+    raise 'pass currency, not currency_id' if overrides.key?(:currency_id)
+    currency = key_or_block(overrides, :currency) { create_currency }
+
+    raise 'pass person, not person_id' if overrides.key?(:person_id)
+    person = key_or_block(overrides, :person) { create_person }
+
+    run!(
+      Balance::Create,
+      {
+        balance: { # defaults:
+          currency_id: currency.id,
+          value: 1,
+        }.merge(overrides),
+        person_id: person.id,
+      },
+      'account' => person.account,
+    )['model']
   end
 
   def currency(overrides = {})
@@ -127,6 +147,10 @@ class SampleData
   def increment_sequence(model_name)
     @sequences[model_name] ||= -1
     @sequences[model_name] += 1
+  end
+
+  def key_or_block(overrides, key, &block)
+    overrides.key?(key) ? overrides.delete(key) : block.call
   end
 end
 
@@ -411,31 +435,7 @@ module SampleDataMacros
 
   # @return [Balance]
   def create_balance(overrides = {})
-    raise 'pass currency, not currency_id' if overrides.key?(:currency_id)
-    currency = if overrides.key?(:currency)
-                 overrides.delete(:currency)
-               else
-                 create_currency
-               end
-
-    raise 'pass person, not person_id' if overrides.key?(:person_id)
-    person = if overrides.key?(:person)
-               overrides.delete(:person)
-             else
-               create_person
-             end
-
-    run!(
-      Balance::Create,
-      {
-        balance: { # defaults:
-          currency_id: currency.id,
-          value: 1,
-        }.merge(overrides),
-        person_id: person.id,
-      },
-      'account' => person.account,
-    )['model']
+    SampleData.balance(overrides)
   end
 
   # Run the Kill operation on an offer
