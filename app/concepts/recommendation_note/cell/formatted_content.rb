@@ -1,3 +1,5 @@
+require 'rinku'
+
 class RecommendationNote < RecommendationNote.superclass
   module Cell
     # takes a RecommendationNote and returns its content, formatted as
@@ -7,7 +9,7 @@ class RecommendationNote < RecommendationNote.superclass
       property :content
 
       def show
-        auto_link(simple_format(content))
+        Rinku.auto_link(simple_format(content))
       end
     end
   end
