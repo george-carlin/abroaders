@@ -27,12 +27,7 @@ class SampleData
   # Available traits: eligible, onboarded, couples
   def account(*traits_and_overrides)
     n = increment_sequence(:account)
-    overrides = if traits_and_overrides.last.is_a?(Hash)
-                  traits_and_overrides.pop
-                else
-                  {}
-                end
-    traits = traits_and_overrides
+    traits, overrides = get_traits_and_overrides(traits_and_overrides)
 
     attrs = {
       email: "#account-#{n}@example.com",
@@ -90,12 +85,7 @@ class SampleData
   #
   #   create_account.owner
   def person(*traits_and_overrides)
-    overrides = if traits_and_overrides.last.is_a?(Hash)
-                  traits_and_overrides.pop
-                else
-                  {}
-                end
-    traits = traits_and_overrides
+    traits, overrides = get_traits_and_overrides(traits_and_overrides)
 
     eligible = traits.include?(:eligible)
     owner = !traits.include?(:companion)
@@ -122,15 +112,23 @@ class SampleData
 
   private
 
-  # Not all macros have 'sequence' functionality, as I haven't needed it yet
+  def get_traits_and_overrides(traits_and_overrides)
+    overrides = if traits_and_overrides.last.is_a?(Hash)
+                  traits_and_overrides.pop
+                else
+                  {}
+                end
+    [traits_and_overrides, overrides]
+  end
 
   # @return the new, incremented sequence number
+  #
+  # Not all macros have 'sequence' functionality, as I haven't needed it yet
   def increment_sequence(model_name)
     @sequences[model_name] ||= -1
     @sequences[model_name] += 1
   end
 end
-
 
 # A replacement for FactoryGirl that exclusively creates and updates data using
 # our own operations, and therefore creates data in the exact same way that a
