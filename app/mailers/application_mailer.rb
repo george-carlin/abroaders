@@ -3,4 +3,7 @@ class ApplicationMailer < ActionMailer::Base
   layout 'mailer'
 
   helper ApplicationHelper
+
+  # get access to the 'cell' method
+  include ::Cell::RailsExtensions::ActionController
 end
