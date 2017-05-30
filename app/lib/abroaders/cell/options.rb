@@ -46,6 +46,27 @@ module Abroaders
       end
 
       module ClassMethods
+        # Note that you can't extend the generated method by overriding it, e.g. this won't work:
+        #
+        #     option :name
+        #
+        #     def name
+        #       super.capitalize
+        #     end
+        #
+        # ... because this is equivalent to writing `def name` twice
+        # in the same class; the first definition gets ignored.
+        #
+        # If you look in the source code for some of the Trailblazer gems,
+        # there's a way around this by defining methods within a module then
+        # including that module into the class. But for now it's not worth
+        # the effort to do something similar here. Just do something like
+        # this instead, skipping the `option` class method:
+        #
+        #     def name
+        #       options.fetch(:name).capitalize
+        #     end
+        #
         def option(name, opts = {})
           optional = opts.key?(:default) || opts.fetch(:optional, false)
           __abroaders_required_options << name unless optional
