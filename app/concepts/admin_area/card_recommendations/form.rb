@@ -8,7 +8,7 @@ module AdminArea
 
       property :applied_on, type: Types::Form::Date
       property :called_at, type: Types::Form::Date
-      property :decline_reason, type: Types::Form::Date, nilify: true
+      property :decline_reason, type: Types::StrippedString, nilify: true
       property :declined_at, type: Types::Form::Date
       property :denied_at, type: Types::Form::Date
       property :nudged_at, type: Types::Form::Date
