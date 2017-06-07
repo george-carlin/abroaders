@@ -1,0 +1,32 @@
+<p>Hey <%= owner_first_name %>,</p>
+
+<p><%= explanation %></p>
+
+<% cards_by_person.each do |person, cards| %>
+  <% if couples? %>
+    <p><%= escape!(person.first_name) %>'s cards:</p>
+  <% end %>
+
+  <% if cards.any? %>
+    <ul>
+      <% cards.each do |card| %>
+        <% product = card.card_product %>
+        <p>
+          <%= number_to_currency(product.annual_fee) %> -
+          <%= CardProduct::Cell::FullName.(product, with_bank: true) %>
+        </p>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>No annual fees due.</p>
+  <% end %>
+<% end %>
+
+<p>Check out this post to learn more about how to get the annual fee waived:</p>
+
+<p><%= link %></p>
+
+<p>
+  Cheers,<br>
+  The Abroaders Team
+</p>

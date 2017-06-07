@@ -421,6 +421,7 @@ GEM
     thor (0.19.4)
     thread_safe (0.3.6)
     tilt (2.0.7)
+    timecop (0.8.1)
     trailblazer (2.0.6)
       declarative
       reform (>= 2.2.0, < 3.0.0)
@@ -530,6 +531,7 @@ DEPENDENCIES
   sass-rails
   shoulda-matchers (~> 3.1.1)
   sinatra (= 2.0.0)
+  timecop
   trailblazer (~> 2.0.6)
   trailblazer-cells
   trailblazer-rails (>= 1.0.0)

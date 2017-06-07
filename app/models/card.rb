@@ -184,6 +184,7 @@ class Card < ApplicationRecord
 
   scope :unapplied,  -> { where(applied_on: nil) }
   scope :unclicked,  -> { where(clicked_at: nil) }
+  scope :unclosed,   -> { where(closed_on: nil) }
   scope :undeclined, -> { where(declined_at: nil) }
   scope :undenied,   -> { where(denied_at: nil) }
   scope :unexpired,  -> { where(expired_at: nil) }

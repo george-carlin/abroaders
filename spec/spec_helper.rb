@@ -20,10 +20,16 @@ require_relative '../lib/constants'
 SPEC_ROOT  = APP_ROOT.join('spec')
 spec_files = Dir[SPEC_ROOT.join('**', '*.rb')]
 
+allowed = %w[
+  spec/support
+  spec/factories
+  spec/mailers/previews
+  _spec.rb
+  _helper.rb
+]
+
 bad_file_names = spec_files.reject do |path|
-  path.include?(File.join('spec', 'support')) ||
-    path.include?(File.join('spec', 'factories')) ||
-    path =~ /_spec.rb\z/ || path =~ /_helper.rb\z/
+  allowed.any? { |ex| path.include?(ex) }
 end
 
 if bad_file_names.any?

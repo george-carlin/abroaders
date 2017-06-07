@@ -82,6 +82,7 @@ group :test do
   gem 'nokogiri', '1.7.0.1'
   # Similarly, lock addressable (another dependency of capybara)
   gem 'addressable', '2.4.0'
+  gem 'timecop'
   gem 'poltergeist', '1.9.0'
   gem 'shoulda-matchers', '~> 3.1.1'
   gem 'launchy'
