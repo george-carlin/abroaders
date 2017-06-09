@@ -175,4 +175,30 @@ RSpec.describe 'dataclips' do
     ]
     expect { ApplicationRecord.connection.execute(sql) }.not_to raise_error
   end
+
+  # https://dataclips.heroku.com/scqzekxrcyspvmfevxpqrfkalrsb-Abroaders-People-With-Spending
+  example 'People With Spending' do
+    sql = %[
+      SELECT
+        "people"."id",
+        "people"."account_id",
+        "people"."first_name",
+        "people"."owner",
+        "people"."eligible",
+        "spending_infos"."credit_score",
+        "spending_infos"."will_apply_for_loan",
+        "spending_infos"."business_spending_usd",
+        CASE "spending_infos"."has_business"
+          WHEN 'no_business' THEN 'no'
+          WHEN 'with_ein' THEN 'yes, with EIN'
+          WHEN 'without_ein' THEN 'yes, without EIN'
+          ELSE ''
+          END AS "has_business",
+        GREATEST("people"."updated_at", "spending_infos"."updated_at") AS "updated_at"
+      FROM "people"
+      LEFT OUTER JOIN "spending_infos" ON "spending_infos"."person_id" = "people"."id"
+      ORDER BY "people"."id" ASC
+    ]
+    expect { ApplicationRecord.connection.execute(sql) }.not_to raise_error
+  end
 end
