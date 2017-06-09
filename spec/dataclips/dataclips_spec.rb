@@ -194,7 +194,9 @@ RSpec.describe 'dataclips' do
           WHEN 'without_ein' THEN 'yes, without EIN'
           ELSE ''
           END AS "has_business",
-        GREATEST("people"."updated_at", "spending_infos"."updated_at") AS "updated_at"
+        "people"."created_at",
+        GREATEST("people"."updated_at", "spending_infos"."updated_at") AS "updated_at",
+        "people"."account_id"
       FROM "people"
       LEFT OUTER JOIN "spending_infos" ON "spending_infos"."person_id" = "people"."id"
       ORDER BY "people"."id" ASC
