@@ -36,10 +36,10 @@ module AdminArea::People::Cell
         include Escaped
 
         property :id
-        property :closed_on
-        property :opened_on
         property :card_product
-
+        property :closed_on
+        property :offer
+        property :opened_on
         property :recommended?
 
         private
@@ -52,6 +52,14 @@ module AdminArea::People::Cell
 
         def link_to_edit
           link_to 'Edit', edit_admin_card_account_path(model)
+        end
+
+        def link_to_offer
+          if offer.nil?
+            '-'
+          else
+            link_to offer_identifier, admin_offer_path(offer)
+          end
         end
 
         # If the card was opened/closed after being recommended by an admin,
@@ -81,6 +89,10 @@ module AdminArea::People::Cell
             'data-bank':     card_product.bank_id,
             &block
           )
+        end
+
+        def offer_identifier
+          cell(AdminArea::Offers::Cell::Identifier, offer, with_partner: true)
         end
       end
     end

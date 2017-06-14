@@ -2,7 +2,12 @@ module AdminArea
   module Offers
     module Cell
       # @!method self.call(offer, options = {})
+      #   @option options [Boolean] with_partner (false) if true, adds the
+      #     two-letter code for the offer's affiliate partner to the end of
+      #     the identifier
       class Identifier < Abroaders::Cell::Base
+        option :with_partner, default: false
+
         # A shorthand code that identifies the offer based on the points awarded,
         # minimum spend, and days. Note that this isn't necessarily unique per offer.
         def show
@@ -17,6 +22,7 @@ module AdminArea
             parts.push('P')
           else raise 'this should never happen'
           end
+          parts << cell(Partner::Cell::ShortName, model.partner) if with_partner
           parts.join('/')
         end
 

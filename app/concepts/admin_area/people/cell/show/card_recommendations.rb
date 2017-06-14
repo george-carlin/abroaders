@@ -54,11 +54,12 @@ module AdminArea::People::Cell
 
         property :id
         property :applied_on
+        property :card_product
         property :clicked_at
         property :decline_reason
         property :declined?
         property :declined_at
-        property :card_product
+        property :offer
         property :recommended_at
         property :seen_at
         property :status
@@ -66,10 +67,6 @@ module AdminArea::People::Cell
         private
 
         delegate :bp, to: :card_product, prefix: true
-
-        def card_product_name
-          cell(CardProduct::Cell::FullName, card_product, with_bank: true)
-        end
 
         %i[
           recommended_at seen_at clicked_at denied_at declined_at applied_on
@@ -97,20 +94,8 @@ module AdminArea::People::Cell
           end
         end
 
-        def tr_tag(&block)
-          content_tag(
-            :tr,
-            id: "card_recommendation_#{id}",
-            class: 'card_recommendation',
-            'data-bp':       card_product.bp,
-            'data-bank':     card_product.bank_id,
-            'data-currency': card_product.currency_id,
-            &block
-          )
-        end
-
-        def status
-          Inflecto.humanize(super)
+        def card_product_name
+          cell(CardProduct::Cell::FullName, card_product, with_bank: true)
         end
 
         def decline_reason_tooltip
@@ -133,6 +118,30 @@ module AdminArea::People::Cell
 
         def link_to_edit
           link_to 'Edit', edit_admin_card_recommendation_path(model)
+        end
+
+        def link_to_offer
+          link_to offer_identifier, admin_offer_path(offer)
+        end
+
+        def offer_identifier
+          cell(AdminArea::Offers::Cell::Identifier, offer, with_partner: true)
+        end
+
+        def status
+          Inflecto.humanize(super)
+        end
+
+        def tr_tag(&block)
+          content_tag(
+            :tr,
+            id: "card_recommendation_#{id}",
+            class: 'card_recommendation',
+            'data-bp':       card_product.bp,
+            'data-bank':     card_product.bank_id,
+            'data-currency': card_product.currency_id,
+            &block
+          )
         end
       end
     end

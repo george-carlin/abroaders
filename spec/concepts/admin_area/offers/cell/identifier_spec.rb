@@ -39,5 +39,17 @@ RSpec.describe AdminArea::Offers::Cell::Identifier do
         expect(identifier).to eq "10/P"
       end
     end
+
+    example 'with :with_partner option' do
+      offer.points_awarded = 10_000
+      offer.spend = 4_000
+      offer.days  = 90
+      offer.partner = nil
+      expect(cell.(offer, with_partner: true).()).to eq '10/4/90/-'
+      offer.partner = 'credit_cards'
+      expect(cell.(offer, with_partner: true).()).to eq '10/4/90/CC'
+      offer.partner = 'award_wallet'
+      expect(cell.(offer, with_partner: true).()).to eq '10/4/90/AW'
+    end
   end
 end

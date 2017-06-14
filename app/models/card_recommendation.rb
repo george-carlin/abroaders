@@ -38,6 +38,7 @@ class CardRecommendation < Disposable::Twin
   property :redenied_at
 
   property :card_product
+  property :offer
 
   delegate :opened?, :unopened?, to: :model
 
