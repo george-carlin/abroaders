@@ -39,10 +39,10 @@ RSpec.describe AdminArea::Offers::Form do
     valid_attrs[key] = nil
     expect(validate_attrs(valid_attrs)[1]).to be false
 
-    valid_attrs[key] = '' 
+    valid_attrs[key] = ''
     expect(validate_attrs(valid_attrs)[1]).to be false
 
-    valid_attrs[key] = ' ' 
+    valid_attrs[key] = ' '
     expect(validate_attrs(valid_attrs)[1]).to be false
   end
 
@@ -52,7 +52,7 @@ RSpec.describe AdminArea::Offers::Form do
   # Don't need to validate that 'partner' value is valid for the enum because
   # it's impossible to submit an invalid option through the form, and the Form
   # obj will raise an error if you do submit one
-  # 
+  #
   # ^ both these points also apply to 'condition'
 
   describe '"on minimum spend" offer' do

@@ -27,6 +27,7 @@ class Offer < ApplicationRecord
     'on_approval',       # as soon as approved for card
     'on_first_purchase', # once you make 1st purchase with card
     'on_minimum_spend',  # if you spend $X within Y days
+    'no_bonus', # no bonus awarded, the application just gets the card
   ).freeze
 
   # Which of our affiliate partners provides this offer, if any?
@@ -80,7 +81,7 @@ class Offer < ApplicationRecord
   private
 
   def nullify_irrelevant_columns
-    self.days  = nil if condition == 'on_approval'
+    self.days  = nil if %w[on_approval no_bonus].include?(condition)
     self.spend = nil unless condition == 'on_minimum_spend'
   end
 end

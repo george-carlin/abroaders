@@ -13,7 +13,7 @@ RSpec.describe 'admin - offer edit pages' do
     expect(page).to have_content product.name
   end
 
-  it 'display information about the offer' do
+  it 'displays information about the offer' do
     condition = find('#offer_condition option[selected]')
     expect(condition.value).to eq offer.condition
 
