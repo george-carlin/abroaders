@@ -50,6 +50,7 @@ class Offer < ApplicationRecord
 
   delegate :bank, to: :card_product
   delegate :name, to: :bank, prefix: true
+  delegate :name, to: :card_product, prefix: true
   delegate :name, to: :currency, prefix: true
 
   # Callbacks
