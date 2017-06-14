@@ -62,7 +62,7 @@ module AdminArea
           end
 
           def identifier
-            cell(Offers::Cell::Identifier, model)
+            link_to(cell(Offers::Cell::Identifier, model).show, admin_offer_path(model))
           end
 
           # The spend as a raw integer, to be set as a data attribute of the
