@@ -40,6 +40,12 @@ RSpec.describe AdminArea::Offers::Cell::Identifier do
       end
     end
 
+    example 'when no bonus is awarded' do
+      offer.condition = 'no_bonus'
+      offer.points_awarded = 10_000
+      expect(identifier).to eq 'NB'
+    end
+
     example 'with :with_partner option' do
       offer.points_awarded = 10_000
       offer.spend = 4_000
@@ -50,6 +56,10 @@ RSpec.describe AdminArea::Offers::Cell::Identifier do
       expect(cell.(offer, with_partner: true).()).to eq '10/4/90/CC'
       offer.partner = 'award_wallet'
       expect(cell.(offer, with_partner: true).()).to eq '10/4/90/AW'
+
+      # no bonus:
+      offer.condition = 'no_bonus'
+      expect(cell.(offer, with_partner: true).()).to eq 'NB/AW'
     end
   end
 end

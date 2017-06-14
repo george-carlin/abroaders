@@ -47,7 +47,7 @@ RSpec.describe 'admin area - new offer page' do
 
   let(:new_offer) { Offer.last }
 
-  describe "selecting 'on approval' condition'", :js do
+  describe "selecting 'on approval' condition", :js do
     before { select 'Approval', from: :offer_condition }
 
     example 'hides/shows inputs' do
@@ -83,7 +83,7 @@ RSpec.describe 'admin area - new offer page' do
     end
   end
 
-  describe "selecting 'on first purchase' condition'", :js do
+  describe "selecting 'on first purchase' condition", :js do
     before { select 'First purchase', from: :offer_condition }
 
     it 'hides/shows inputs' do
@@ -114,6 +114,47 @@ RSpec.describe 'admin area - new offer page' do
       expect(page).to have_no_field :offer_spend
       expect(page).to have_field :offer_cost
       expect(page).to have_field :offer_days
+      expect(page).to have_field :offer_link
+      expect(page).to have_field :offer_notes
+    end
+  end
+
+  describe "selecting 'no bonus'", :js do
+    before { select 'No bonus', from: :offer_condition }
+
+    example 'hides/shows inputs' do
+      expect(page).to have_no_field :offer_spend
+      expect(page).to have_no_field :offer_days
+      expect(page).to have_no_field :offer_points_awarded
+      select 'Minimum spend', from: :offer_condition
+      expect(page).to have_field :offer_spend
+      expect(page).to have_field :offer_days
+      expect(page).to have_field :offer_points_awarded
+    end
+
+    example 'and submitting the form with valid info' do
+      fill_in :offer_link, with: 'http://something.com'
+      fill_in :offer_notes, with: 'these are notes'
+      expect { submit }.to change { Offer.count }.by 1
+      expect(new_offer.condition).to eq 'no_bonus'
+      expect(new_offer.card_product).to eq @product
+      expect(new_offer.points_awarded).to be nil
+      expect(new_offer.link).to eq 'http://something.com'
+      expect(new_offer.spend).to be nil
+      expect(new_offer.days).to be nil
+      expect(new_offer.notes).to eq 'these are notes'
+    end
+
+    example "and submitting the form with invalid info" do
+      expect do
+        submit
+      end.not_to change { Offer.count }
+      # it "shows the form again with the correct fields hidden/shown" do
+      expect(page).to have_field :offer_condition
+      expect(page).to have_no_field :offer_points_awarded
+      expect(page).to have_no_field :offer_spend
+      expect(page).to have_field :offer_cost
+      expect(page).to have_no_field :offer_days
       expect(page).to have_field :offer_link
       expect(page).to have_field :offer_notes
     end

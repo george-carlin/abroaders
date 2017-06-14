@@ -34,5 +34,11 @@ RSpec.describe Offer::Cell::Description do
       expect(rendered).to eq \
         'Spend $4,500.00 within 40 days to receive a bonus of 7,500 Dinero points'
     end
+
+    example 'no points awarded' do
+      offer.condition = 'no_bonus'
+      offer.points_awarded = nil
+      expect(rendered).to eq ''
+    end
   end
 end

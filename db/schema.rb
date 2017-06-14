@@ -225,7 +225,7 @@ ActiveRecord::Schema.define(version: 20170518103541) do
 
   create_table "offers", force: :cascade do |t|
     t.integer  "card_product_id",                   null: false
-    t.integer  "points_awarded",                    null: false
+    t.integer  "points_awarded"
     t.integer  "spend"
     t.integer  "cost",                              null: false
     t.integer  "days"

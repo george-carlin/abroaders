@@ -18,6 +18,8 @@ class Offer < Offer.superclass
           "#{points_awarded} #{currency_name} points awarded upon a successful application for this card."
         when 'on_first_purchase'
           "#{points_awarded} #{currency_name} points awarded upon making your first purchase using this card."
+        when 'no_bonus'
+          ''
         else raise 'this should never happen'
         end
       end

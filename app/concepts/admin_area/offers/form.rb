@@ -21,10 +21,16 @@ module AdminArea
           less_than_or_equal_to: POSTGRESQL_MAX_INT_VALUE,
         } do
           validates :cost
-          validates :days, unless: -> { condition == 'on_approval' }
-          validates :points_awarded
+          validates :days, if: :days_required?
+          validates :points_awarded, if: -> { condition != 'no_bonus' }
           validates :spend, if: -> { condition == 'on_minimum_spend' }
         end
+      end
+
+      private
+
+      def days_required?
+        %w[on_minimum_spend on_first_purchase].include?(condition)
       end
     end
   end

@@ -11,15 +11,20 @@ module AdminArea
         # A shorthand code that identifies the offer based on the points awarded,
         # minimum spend, and days. Note that this isn't necessarily unique per offer.
         def show
-          parts = [points]
+          parts = []
           case model.condition
           when 'on_minimum_spend'
+            parts.push(points)
             parts.push(spend)
             parts.push(model.days)
           when 'on_approval'
+            parts.push(points)
             parts.push('A')
           when 'on_first_purchase'
+            parts.push(points)
             parts.push('P')
+          when 'no_bonus'
+            parts.push('NB')
           else raise 'this should never happen'
           end
           parts << cell(Partner::Cell::ShortName, model.partner) if with_partner

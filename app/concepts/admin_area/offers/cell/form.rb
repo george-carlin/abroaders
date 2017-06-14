@@ -11,6 +11,10 @@ module AdminArea
 
         private
 
+        def hide_days?
+          %w[on_approval no_bonus].include?(form.condition)
+        end
+
         def errors
           cell(Abroaders::Cell::ValidationErrorsAlert, form)
         end
@@ -31,6 +35,7 @@ module AdminArea
               ['Approval', 'on_approval'],
               ['First purchase', 'on_first_purchase'],
               ['Minimum spend', 'on_minimum_spend'],
+              ['No bonus', 'no_bonus'],
             ],
             offer.condition,
           )
