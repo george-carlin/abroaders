@@ -17,13 +17,15 @@ module AdminArea
         #   @param [Offer] offer
         class Row < Abroaders::Cell::Base
           property :id
-          property :bank_name
           property :card_product
-          property :card_product_name
           property :days
           property :link
 
           private
+
+          def card_product_name
+            cell(CardProduct::Cell::FullName, card_product, with_bank: true)
+          end
 
           def cost
             cell(Offer::Cell::Cost, model)
