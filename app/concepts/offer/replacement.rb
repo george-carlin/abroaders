@@ -10,25 +10,20 @@ class Offer < Offer.superclass
     end
 
     def call
-      conditions = {
+      query = {
         card_product_id: @offer.card_product_id,
         condition: @offer.condition,
         cost: @offer.cost,
       }
 
-      unless @offer.condition == 'on_minimum_spend'
-        conditions[:spend] = @offer.spend
+      query[:spend] = @offer.spend if Condition.spend?(@offer.condition)
+      query[:days] = @offer.days if Condition.days?(@offer.condition)
+
+      if Condition.points_awarded?(@offer.condition)
+        query[:points_awarded] = @offer.points_awarded
       end
 
-      if %w[on_first_purchase on_minimum_spend].include?(@offer.condition)
-        conditions[:days] = @offer.days
-      end
-
-      unless @offer.condition == 'no_bonus'
-        conditions[:points_awarded] = @offer.points_awarded
-      end
-
-      Offer.where(conditions).where.not(id: @offer.id).first
+      Offer.where(query).where.not(id: @offer.id).first
     end
   end
 end
