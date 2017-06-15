@@ -55,6 +55,13 @@ module AdminArea
             cell(Offer::Cell::Spend, model)
           end
 
+          def unresolved_recs_count
+            # This causes a massive N+1 queries issue; it needs a counter cache
+            # column. However, this page won't get viewed often so I think we
+            # can get away without one for now.
+            model.unresolved_recommendations.count
+          end
+
           def verify_btn
             cell(AdminArea::Offers::Cell::Review::VerifyButton, model)
           end

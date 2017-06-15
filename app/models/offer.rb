@@ -38,6 +38,8 @@ class Offer < ApplicationRecord
 
   belongs_to :card_product
   has_many :cards
+  has_many :recommendations, -> { recommended }, class_name: 'Card'
+  has_many :unresolved_recommendations, -> { recommended.unresolved }, class_name: 'Card'
   has_one :currency, through: :card_product
 
   delegate :bank, to: :card_product
