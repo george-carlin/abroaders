@@ -173,6 +173,14 @@ RSpec.describe SampleDataMacros do
       end.to change { Offer.count }.by(1)
       expect(CardProduct.count).to eq 1
     end
+
+    example 'no bonus' do
+      expect do
+        offer = create_offer(condition: 'no_bonus')
+        expect(offer).to be_an(Offer)
+      end.to change { Offer.count }.by(1)
+      expect(Offer.last.condition).to eq 'no_bonus'
+    end
   end
 
   describe '#create_balance' do
