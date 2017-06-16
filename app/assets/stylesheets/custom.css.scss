@@ -328,3 +328,11 @@ footer.footer {
     background: #fff; padding: 0 10px;
   }
 }
+
+.unresolved-dead-offer {
+  color: red;
+
+  &:hover {
+    color: #bb0000;
+  }
+}

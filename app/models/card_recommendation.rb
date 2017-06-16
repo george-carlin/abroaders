@@ -81,4 +81,8 @@ class CardRecommendation < Disposable::Twin
     unopened? && unredenied? && unredenied? && unexpired? && undeclined? &&
       (undenied? || unnudged?)
   end
+
+  def unresolved?
+    unapplied? && unexpired? && undeclined?
+  end
 end

@@ -63,6 +63,7 @@ module AdminArea::People::Cell
         property :recommended_at
         property :seen_at
         property :status
+        property :unresolved?
 
         private
 
@@ -121,7 +122,11 @@ module AdminArea::People::Cell
         end
 
         def link_to_offer
-          link_to offer_identifier, admin_offer_path(offer)
+          link_to(
+            offer_identifier,
+            admin_offer_path(offer),
+            class: ('unresolved-dead-offer' if offer.dead? && unresolved?),
+          )
         end
 
         def offer_identifier
