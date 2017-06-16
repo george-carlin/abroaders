@@ -36,7 +36,16 @@ module AdminArea
           end
 
           def kill_btn
-            cell(AdminArea::Offers::Cell::Review::KillButton, model)
+            # use link_to, not button_to, so the styles work with a .btn-group.
+            link_to(
+              'Kill',
+              kill_admin_offer_path(id),
+              class:  "kill_offer_btn btn btn-xs btn-danger",
+              id:     "kill_offer_#{id}_btn",
+              method: :patch,
+              remote: true,
+              data: { confirm: 'Are you sure?' },
+            )
           end
 
           def link_to_edit
@@ -87,45 +96,12 @@ module AdminArea
           end
 
           def verify_btn
-            cell(AdminArea::Offers::Cell::Review::VerifyButton, model)
-          end
-        end
-
-        # Takes an Offer, returns a link (an <a>, but styled liked a button)
-        # that the admin can click to kill the offer
-        class KillButton < Abroaders::Cell::Base
-          property :id
-
-          def show
-            # use link_to, rather than an actual button, so that we can style it
-            # properly with a .btn-group
-            link_to(
-              'Kill',
-              kill_admin_offer_path(id),
-              class:  "kill_offer_btn btn btn-xs btn-danger",
-              id:     "kill_offer_#{id}_btn",
-              params: { offer_id: id },
-              method: :patch,
-              remote: true,
-              data: { confirm: 'Are you sure?' },
-            )
-          end
-        end
-
-        # Takes an Offer, returns a link (an <a>, but styled liked a button)
-        # that the admin can click to verify the offer is still live
-        class VerifyButton < Abroaders::Cell::Base
-          property :id
-
-          def show
-            # use link_to, rather than an actual button, so that we can style it
-            # properly with a .btn-group
+            # use link_to, not button_to, so the styles work with a .btn-group.
             link_to(
               'Verify',
               verify_admin_offer_path(id),
               class:  'verify_offer_btn btn btn-xs btn-primary',
               id:     "verify_offer_#{id}_btn",
-              params: { offer_id: id },
               method: :patch,
               remote: true,
             )
