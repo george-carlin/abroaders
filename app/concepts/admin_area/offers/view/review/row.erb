@@ -8,12 +8,15 @@
   <td><%= spend %></td>
   <td><%= cost %></td>
   <td><%= days %></td>
-  <td><%= unresolved_recs_count %></td>
   <td id="reviewed_<%= id %>">
     <%= last_reviewed_at %>
   </td>
   <td><%= link_to_link %></td>
   <td><%= link_to_edit %></td>
+  <td>
+    <%= replace_with %>
+    <%= replace_check_box %>
+  </td>
   <td class="offer_verification_ctrls">
     <div class="btn-group">
       <%= verify_btn %>

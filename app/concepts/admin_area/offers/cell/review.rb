@@ -51,6 +51,30 @@ module AdminArea
             cell(Offer::Cell::PointsAwarded, model)
           end
 
+          def replacement
+            @replacement ||= Offer::Replacement.(model)
+          end
+
+          def replace_check_box
+            return '' if replacement.nil?
+            check_box_tag(
+              'replace',
+              replacement.id,
+              false,
+              class: 'replace_offer_check_box',
+            )
+          end
+
+          def replace_with
+            return '' if replacement.nil?
+            link = link_to(
+              "Offer ##{replacement.id}",
+              admin_offer_path(replacement),
+            )
+            recs = 'rec'.pluralize(unresolved_recs_count)
+            "#{link} (#{unresolved_recs_count} #{recs})"
+          end
+
           def spend
             cell(Offer::Cell::Spend, model)
           end
@@ -59,7 +83,7 @@ module AdminArea
             # This causes a massive N+1 queries issue; it needs a counter cache
             # column. However, this page won't get viewed often so I think we
             # can get away without one for now.
-            model.unresolved_recommendations.count
+            @unresolved_recs_count ||= model.unresolved_recommendations.count
           end
 
           def verify_btn
