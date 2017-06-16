@@ -2,9 +2,8 @@
   <td><%= id %></td>
   <td class="offer_card_name">
     <%= card_product_name %>
+    (<%= card_product.bp[0].upcase %>)
   </td>
-  <td><%= bank_name %></td>
-  <td><%= card_product.bp[0].upcase %></td>
   <td><%= points_awarded %></td>
   <td><%= spend %></td>
   <td><%= cost %></td>
@@ -14,6 +13,10 @@
   </td>
   <td><%= link_to_link %></td>
   <td><%= link_to_edit %></td>
+  <td>
+    <%= replace_with %>
+    <%= replace_check_box %>
+  </td>
   <td class="offer_verification_ctrls">
     <div class="btn-group">
       <%= verify_btn %>

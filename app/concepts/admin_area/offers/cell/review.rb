@@ -17,13 +17,15 @@ module AdminArea
         #   @param [Offer] offer
         class Row < Abroaders::Cell::Base
           property :id
-          property :bank_name
           property :card_product
-          property :card_product_name
           property :days
           property :link
 
           private
+
+          def card_product_name
+            cell(CardProduct::Cell::FullName, card_product, with_bank: true)
+          end
 
           def cost
             cell(Offer::Cell::Cost, model)
@@ -34,7 +36,16 @@ module AdminArea
           end
 
           def kill_btn
-            cell(AdminArea::Offers::Cell::Review::KillButton, model)
+            # use link_to, not button_to, so the styles work with a .btn-group.
+            link_to(
+              'Kill',
+              kill_admin_offer_path(id),
+              class:  "kill_offer_btn btn btn-xs btn-danger",
+              id:     "kill_offer_#{id}_btn",
+              method: :patch,
+              remote: true,
+              data: { confirm: 'Are you sure?' },
+            )
           end
 
           def link_to_edit
@@ -49,50 +60,48 @@ module AdminArea
             cell(Offer::Cell::PointsAwarded, model)
           end
 
+          def replacement
+            @replacement ||= Offer::Replacement.(model)
+          end
+
+          def replace_check_box
+            return '' if replacement.nil?
+            check_box_tag(
+              'replace',
+              replacement.id,
+              false,
+              class: 'replace_offer_check_box',
+            )
+          end
+
+          def replace_with
+            return '' if replacement.nil?
+            link = link_to(
+              "Offer ##{replacement.id}",
+              admin_offer_path(replacement),
+            )
+            recs = 'rec'.pluralize(unresolved_recs_count)
+            "#{link} (#{unresolved_recs_count} #{recs})"
+          end
+
           def spend
             cell(Offer::Cell::Spend, model)
           end
 
+          def unresolved_recs_count
+            # This causes a massive N+1 queries issue; it needs a counter cache
+            # column. However, this page won't get viewed often so I think we
+            # can get away without one for now.
+            @unresolved_recs_count ||= model.unresolved_recommendations.count
+          end
+
           def verify_btn
-            cell(AdminArea::Offers::Cell::Review::VerifyButton, model)
-          end
-        end
-
-        # Takes an Offer, returns a link (an <a>, but styled liked a button)
-        # that the admin can click to kill the offer
-        class KillButton < Abroaders::Cell::Base
-          property :id
-
-          def show
-            # use link_to, rather than an actual button, so that we can style it
-            # properly with a .btn-group
-            link_to(
-              'Kill',
-              kill_admin_offer_path(id),
-              class:  "kill_offer_btn btn btn-xs btn-danger",
-              id:     "kill_offer_#{id}_btn",
-              params: { offer_id: id },
-              method: :patch,
-              remote: true,
-              data: { confirm: 'Are you sure?' },
-            )
-          end
-        end
-
-        # Takes an Offer, returns a link (an <a>, but styled liked a button)
-        # that the admin can click to verify the offer is still live
-        class VerifyButton < Abroaders::Cell::Base
-          property :id
-
-          def show
-            # use link_to, rather than an actual button, so that we can style it
-            # properly with a .btn-group
+            # use link_to, not button_to, so the styles work with a .btn-group.
             link_to(
               'Verify',
               verify_admin_offer_path(id),
               class:  'verify_offer_btn btn btn-xs btn-primary',
               id:     "verify_offer_#{id}_btn",
-              params: { offer_id: id },
               method: :patch,
               remote: true,
             )
