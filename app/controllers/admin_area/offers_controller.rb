@@ -55,6 +55,13 @@ module AdminArea
       render cell(AdminArea::Offers::Cell::Review, offers)
     end
 
+    def unkill
+      offer = Offer.find(params[:id])
+      offer.update!(killed_at: nil)
+      flash[:success] = 'Offer is no longer dead'
+      redirect_to admin_offer_path(offer)
+    end
+
     def verify
       run Offers::Verify
       respond_to { |f| f.js }

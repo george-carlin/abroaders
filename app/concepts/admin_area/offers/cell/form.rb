@@ -11,8 +11,14 @@ module AdminArea
 
         private
 
-        def hide_days?
-          %w[on_approval no_bonus].include?(form.condition)
+        def button_to_unkill
+          button_to(
+            'Unkill Offer',
+            unkill_admin_offer_path(model),
+            class: 'btn btn-default',
+            data: { confirm: 'Are you sure? ' },
+            method: :patch,
+          )
         end
 
         def errors
