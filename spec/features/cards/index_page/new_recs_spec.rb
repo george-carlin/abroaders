@@ -96,7 +96,6 @@ RSpec.describe "cards index page - new recommendation", :js do
     # tabs, and decline the rec in one tab before clicking 'decline'
     # again in the other tab. It should fail gracefully:
     rec.update_attributes!(applied_on: Time.zone.now)
-    raise if rec.declinable? # sanity check
     click_confirm_btn
 
     expect(current_path).to eq cards_path
@@ -141,7 +140,6 @@ RSpec.describe "cards index page - new recommendation", :js do
           # This could happen if e.g. they've made changes in another tab
           let(:before_click_confirm_btn) do
             rec.update_attributes!(declined_at: Time.zone.now, decline_reason: "x")
-            raise if rec.openable? # sanity check
           end
 
           it "doesn't update anything", :backend do
@@ -225,7 +223,6 @@ RSpec.describe "cards index page - new recommendation", :js do
           # This could happen if e.g. they've made changes in another tab
           let(:before_click_confirm_btn) do
             rec.update_attributes!(declined_at: Time.zone.now, decline_reason: "x")
-            raise if rec.deniable? # sanity check
           end
 
           it "doesn't update anything", :backend do
@@ -256,7 +253,6 @@ RSpec.describe "cards index page - new recommendation", :js do
           # This could happen if e.g. they've made changes in another tab
           let(:before_click_confirm_btn) do
             rec.update_attributes!(declined_at: Time.zone.now, decline_reason: "x")
-            raise if rec.pendingable? # sanity check
           end
 
           it "doesn't update anything", :backend do

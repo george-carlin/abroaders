@@ -15,11 +15,6 @@ class CardRecommendation < CardRecommendation.superclass
   # against bad data slipping through in weird edge cases - e.g. if the usee
   # has the application survey open in two tabs and clicks 'I was approved' in
   # one tab but 'I was denied' in the other.
-  #
-  # This sorta duplicates logic that we have in methods like
-  # CardRecommendation#applyable?; maybe in future once we've sorted out some
-  # of our structural problems with the data model we can rethink this and
-  # combine all the logic into one unified place.
   class Validate
     def self.call(rec)
       new(rec).call

@@ -13,7 +13,7 @@ class CardRecommendation < CardRecommendation.superclass
       end
 
       def rec_can_be_applied_for?(model:, **)
-        model.applyable?
+        CardRecommendation.new(model).unresolved?
       end
 
       def log_rec_unapplyable(opts)

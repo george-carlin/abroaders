@@ -15,64 +15,6 @@ RSpec.describe Card do
     expect(card.recommended?).to be true
   end
 
-  shared_examples "applyable?" do
-    before { skip 'TODO' } # this is all way out of date
-    subject { card.send(method) }
-
-    context "when card is from survey" do
-      before { card.recommended_at = nil }
-      it { is_expected.to be false }
-    end
-
-    context "when card is a recommendation" do
-      before { card.recommended_at = Time.current }
-
-      context "and status is 'recommended'" do
-        it "returns true" do
-          raise unless card.status == "recommended" # sanity check
-          expect(card.send(method)).to be true
-        end
-      end
-
-      context "and status is not 'recommended' or" do
-        it "returns false" do
-          card.applied_on = Time.current
-          raise if card.status == "recommended" # sanity check
-          expect(card.send(method)).to be false
-        end
-      end
-    end
-  end
-
-  describe "#applyable?" do
-    let(:method) { :applyable? }
-    include_examples "applyable?"
-  end
-
-  # For the time being, 'declinable?', 'openable?' and 'denyable?' are all
-  # functionally equivalent to 'applyable?'. This will change when we add the
-  # 'call the bank' mechanism
-
-  describe "#declinable?" do
-    let(:method) { :declinable? }
-    include_examples "applyable?"
-  end
-
-  describe "#openable?" do
-    let(:method) { :openable? }
-    include_examples "applyable?"
-  end
-
-  describe "#deniable?" do
-    let(:method) { :deniable? }
-    include_examples "applyable?"
-  end
-
-  describe "#pendingable?" do
-    let(:method) { :pendingable? }
-    include_examples "applyable?"
-  end
-
   example "#declined?" do
     card.recommended_at = Time.current
     expect(card.declined?).to be false

@@ -138,16 +138,6 @@ class Card < ApplicationRecord
 
   before_save :set_product_to_offer_product
 
-  # returns true iff the product can be applied for
-  def applyable?
-    recommended? && !(applied? || expired? || declined?)
-  end
-
-  alias declinable?  applyable?
-  alias openable?    applyable?
-  alias deniable?    applyable?
-  alias pendingable? applyable?
-
   # Scopes
 
   # A subset of Cards are *recommendations*. These are cards that were
