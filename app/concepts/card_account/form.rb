@@ -38,13 +38,13 @@ class CardAccount < CardAccount.superclass
     end
 
     def not_opened_in_the_future
-      if !opened_on.nil? && opened_on > Date.today
+      if !opened_on.nil? && opened_on > Date.current
         errors.add(:opened_on, I18n.t('errors.not_in_the_future?'))
       end
     end
 
     def not_closed_in_the_future
-      if !closed_on.nil? && closed_on > Date.today
+      if !closed_on.nil? && closed_on > Date.current
         errors.add(:closed_on, I18n.t('errors.not_in_the_future?'))
       end
     end

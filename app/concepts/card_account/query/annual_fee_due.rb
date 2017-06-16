@@ -2,7 +2,7 @@ class CardAccount < CardAccount.superclass
   module Query
     class AnnualFeeDue
       def self.call
-        today = Date.today
+        today = Date.current
         current_year = today.year
         current_month = today.month
 
