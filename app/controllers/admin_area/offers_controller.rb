@@ -51,7 +51,8 @@ module AdminArea
     end
 
     def review
-      @offers = Offer.includes(:card_product).live.order('last_reviewed_at ASC NULLS FIRST')
+      offers = Offer.includes(:card_product).live.order('last_reviewed_at ASC NULLS FIRST')
+      render cell(AdminArea::Offers::Cell::Review, offers)
     end
 
     def verify

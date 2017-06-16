@@ -1,0 +1,22 @@
+<tr id="offer_<%= id %>" class="offer">
+  <td class="offer_card_name">
+    <%= card_product_name %>
+  </td>
+  <td><%= bank_name %></td>
+  <td><%= card_product.bp[0].upcase %></td>
+  <td><%= points_awarded %></td>
+  <td><%= spend %></td>
+  <td><%= cost %></td>
+  <td><%= days %></td>
+  <td id="reviewed_<%= id %>">
+    <%= last_reviewed_at %>
+  </td>
+  <td><%= link_to_link %></td>
+  <td><%= link_to_edit %></td>
+  <td class="offer_verification_ctrls">
+    <div class="btn-group">
+      <%= verify_btn %>
+      <%= kill_btn %>
+    </div>
+  </td>
+</tr>
