@@ -41,8 +41,11 @@ module AdminArea
         #     to
         class Row < Abroaders::Cell::Base
           property :id
+          property :cost
           property :days
           property :link
+          property :points_awarded
+          property :spend
 
           option :person
 
@@ -53,7 +56,7 @@ module AdminArea
           end
 
           def cost
-            cell(Offer::Cell::Cost, model)
+            number_to_currency(super)
           end
 
           # Note that any links to the offer MUST be nofollowed for compliance reasons
@@ -78,11 +81,11 @@ module AdminArea
           end
 
           def points_awarded
-            cell(Offer::Cell::PointsAwarded, model)
+            number_with_delimiter(super)
           end
 
           def spend
-            cell(Offer::Cell::Spend, model)
+            number_to_currency(super)
           end
         end
       end

@@ -8,6 +8,8 @@ class Offer < Offer.superclass
       property :condition
       property :currency_name
       property :days
+      property :points_awarded
+      property :spend
 
       def show
         case condition
@@ -27,11 +29,11 @@ class Offer < Offer.superclass
       private
 
       def points_awarded
-        PointsAwarded.(model).()
+        number_with_delimiter(super)
       end
 
       def spend
-        Spend.(model).()
+        number_to_currency(super)
       end
     end
   end

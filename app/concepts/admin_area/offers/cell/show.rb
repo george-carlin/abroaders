@@ -8,11 +8,13 @@ module AdminArea
       class Show < Abroaders::Cell::Base
         property :id
         property :bank_name
+        property :card_product
         property :condition
+        property :cost
         property :link
         property :notes
         property :partner
-        property :card_product
+        property :points_awarded
 
         def title
           "Offer ##{id}"
@@ -21,7 +23,7 @@ module AdminArea
         private
 
         def cost
-          cell(Offer::Cell::Cost, model)
+          number_to_currency(super)
         end
 
         def condition
@@ -49,11 +51,11 @@ module AdminArea
         end
 
         def partner_name
-          Partner::Cell::FullName.(partner)
+          cell(Partner::Cell::FullName, partner)
         end
 
         def points_awarded
-          cell(Offer::Cell::PointsAwarded, model)
+          number_with_delimiter(super)
         end
 
         def card_product_summary
@@ -64,7 +66,7 @@ module AdminArea
           return '' unless model.condition == 'on_minimum_spend'
           <<-HTML
             <dt>Spend:</dt>
-            <dd>#{cell(Offer::Cell::Spend, model)}</dd>
+            <dd>#{number_to_currency(model.spend)}</dd>
           HTML
         end
       end

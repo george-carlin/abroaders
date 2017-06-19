@@ -18,7 +18,10 @@ module AdminArea
         class Row < Abroaders::Cell::Base
           property :id
           property :card_product
+          property :cost
           property :link
+          property :points_awarded
+          property :spend
 
           private
 
@@ -27,7 +30,7 @@ module AdminArea
           end
 
           def cost
-            cell(Offer::Cell::Cost, model)
+            number_to_currency(super)
           end
 
           def details
