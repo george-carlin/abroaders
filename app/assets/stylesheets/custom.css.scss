@@ -331,4 +331,8 @@ footer.footer {
 
 .unresolved-dead-offer {
   color: red;
+
+  &:hover, &:focus {
+    color: #cc0000;
+  }
 }
