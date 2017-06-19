@@ -30,7 +30,7 @@ module Integrations::AwardWallet
         end
       end
 
-      # @!self.call(award_wallet_account)
+      # @!method self.call(award_wallet_account)
       #   @param award_wallet_account [AwardWalletAccount]
       class Accounts < Abroaders::Cell::Base
         include Escaped
@@ -49,7 +49,7 @@ module Integrations::AwardWallet
           HTML
         end
 
-        # @!self.call(award_wallet_owner)
+        # @!method self.call(award_wallet_owner)
         #   @param owner [AwardWalletOwner]
         class Table < Abroaders::Cell::Base
           property :award_wallet_accounts

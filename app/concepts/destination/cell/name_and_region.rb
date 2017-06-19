@@ -6,7 +6,7 @@ class Destination < Destination.superclass
     # that lives within the Destination classes themselves, in the #full_name
     # method.) Used while displaying travel plans.o
     #
-    # @!self.method(airport_or_country, options = {})
+    # @!method self.call(airport_or_country, options = {})
     #   @param airport_or_country [Destination] new travel plans are always
     #     to/from a specific airport. Legacy data includes travel plans that are
     #     to/from a country rather than an airport.

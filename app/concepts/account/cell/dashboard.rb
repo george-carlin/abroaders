@@ -11,7 +11,7 @@ class Account < Account.superclass
     #
     # There's different 'next steps' in each case.
     #
-    # @!self.call(account)
+    # @!method self.call(account)
     class Dashboard < Abroaders::Cell::Base
       include Escaped
 
@@ -110,7 +110,7 @@ class Account < Account.superclass
 
         # Shown to anyone (not just new users) who has an unresolved request
         #
-        # @!self.call(account)
+        # @!method self.call(account)
         class UnresolvedRequests < self
           def current_step
             2
@@ -128,7 +128,7 @@ class Account < Account.superclass
         # Shown to new users who have at least one eligible person on their
         # account, but haven't made a rec request yet.
         #
-        # @!self.call(account)
+        # @!method self.call(account)
         class NewAndEligible < self
           def current_step
             2
@@ -179,7 +179,7 @@ class Account < Account.superclass
 
         # Shown to new users who have no eligible people on their account
         #
-        # @!self.call(account)
+        # @!method self.call(account)
         class NewAndIneligible < self
           def current_step
             2
