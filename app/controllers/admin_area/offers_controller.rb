@@ -1,12 +1,12 @@
 module AdminArea
   class OffersController < AdminController
     def index
-      if params[:card_product_id]
-        @product = CardProduct.find(params[:card_product_id])
-        @offers  = @product.offers
-      else
-        @offers = Offer.includes(:card_product)
-      end
+      offers = if params[:card_product_id]
+                 CardProduct.find(params[:card_product_id]).offers
+               else
+                 Offer.includes(:card_product)
+               end
+      render cell(Offers::Cell::Index, offers)
     end
 
     def show
