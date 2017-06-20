@@ -12,7 +12,7 @@ module AdminArea
 
         def date_inputs(f)
           %w[recommended_at applied_on denied_at nudged_at called_at
-             redenied_at declined_at].map do |attr|
+             redenied_at declined_at opened_on].map do |attr|
             cell(DateFormGroup, attribute_name: attr, form_builder: f)
           end
         end

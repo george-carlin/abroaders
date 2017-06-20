@@ -14,6 +14,7 @@ module AdminArea
       property :nudged_at, type: Types::Form::Date
       property :recommended_at, type: Types::Form::Date
       property :redenied_at, type: Types::Form::Date
+      property :opened_on, type: Types::Form::Date
 
       validation do
         validates :decline_reason, presence: true, if: 'declined_at.present?'
