@@ -1,18 +1,17 @@
 <tr id="offer_<%= id %>" class="offer">
-  <td><%= id %></td>
+  <td><%= link_to_show %></td>
   <td class="offer_card_name">
     <%= card_product_name %>
     (<%= card_product.bp[0].upcase %>)
   </td>
-  <td><%= points_awarded %></td>
-  <td><%= spend %></td>
+  <td><%= details %></td>
   <td><%= cost %></td>
-  <td><%= days %></td>
   <td id="reviewed_<%= id %>">
     <%= last_reviewed_at %>
   </td>
   <td><%= link_to_link %></td>
   <td><%= link_to_edit %></td>
+  <td><%= unresolved_recs_count %></td>
   <td>
     <%= replace_with %>
     <%= replace_check_box %>

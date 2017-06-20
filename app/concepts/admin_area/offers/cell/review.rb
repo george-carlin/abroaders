@@ -18,7 +18,6 @@ module AdminArea
         class Row < Abroaders::Cell::Base
           property :id
           property :card_product
-          property :days
           property :link
 
           private
@@ -31,8 +30,8 @@ module AdminArea
             cell(Offer::Cell::Cost, model)
           end
 
-          def last_reviewed_at
-            cell(AdminArea::Offers::Cell::LastReviewedAt, model)
+          def details
+            cell(Offers::Cell::Identifier, model, with_partner: true)
           end
 
           def kill_btn
@@ -48,6 +47,10 @@ module AdminArea
             )
           end
 
+          def last_reviewed_at
+            cell(AdminArea::Offers::Cell::LastReviewedAt, model)
+          end
+
           def link_to_edit
             link_to 'Edit', edit_admin_offer_path(model)
           end
@@ -56,8 +59,8 @@ module AdminArea
             link_to 'Link', link, target: '_blank'
           end
 
-          def points_awarded
-            cell(Offer::Cell::PointsAwarded, model)
+          def link_to_show
+            link_to id, admin_offer_path(model)
           end
 
           def replacement
@@ -76,23 +79,17 @@ module AdminArea
 
           def replace_with
             return '' if replacement.nil?
-            link = link_to(
+            link_to(
               "Offer ##{replacement.id}",
               admin_offer_path(replacement),
             )
-            recs = 'rec'.pluralize(unresolved_recs_count)
-            "#{link} (#{unresolved_recs_count} #{recs})"
-          end
-
-          def spend
-            cell(Offer::Cell::Spend, model)
           end
 
           def unresolved_recs_count
             # This causes a massive N+1 queries issue; it needs a counter cache
             # column. However, this page won't get viewed often so I think we
             # can get away without one for now.
-            @unresolved_recs_count ||= model.unresolved_recommendations.count
+            model.unresolved_recommendations.size
           end
 
           def verify_btn
