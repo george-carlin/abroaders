@@ -23,13 +23,8 @@ gem 'font-awesome-rails', '4.6.3.0'
 gem 'httparty', '~> 0.13.7'
 gem 'inflecto'
 gem 'jquery-rails', '4.1.1'
-# kaminari-cells 0.0.4 (which is the highest version atm) isn't compatible with
-# kaminari 1+, so lock the version at 0.17. See kaminari-cells #6 on GitHub.
-#
-# Note: we should be able to bump to kaminari 1+ once the current
-# kaminari-cells master branch has been released as a gem.
-gem 'kaminari', '0.17.0'
-gem 'kaminari-cells', '0.0.4'
+gem 'kaminari', '~> 1.0.0'
+gem 'kaminari-cells', '~> 1.0.0'
 gem 'newrelic_rpm', '3.18.1.330'
 gem 'omniauth'
 gem 'omniauth-facebook'
