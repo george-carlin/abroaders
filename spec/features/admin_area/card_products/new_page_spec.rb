@@ -87,5 +87,7 @@ RSpec.describe 'admin new card product page' do
 
   example 'invalid save' do
     expect { submit_form }.not_to change { CardProduct.count }
+
+    expect(page).to have_error_message
   end
 end

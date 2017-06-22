@@ -1,5 +1,4 @@
-<%= form_for [:admin, card] do |f| %>
-
+<%= form_tag do |f| %>
   <p>All fields are required</p>
 
   <div class="form-group">
@@ -9,7 +8,7 @@
 
   <div class="form-group">
     <%= f.label  :network %>
-    <%= f.select :network, options_for_card_network_select(f.object.network) %>
+    <%= f.select :network, options_for_network_select %>
   </div>
 
   <div class="form-group">
@@ -19,7 +18,7 @@
 
   <div class="form-group">
     <%= f.label  :type %>
-    <%= f.select :type, options_for_card_type_select(f.object.type) %>
+    <%= f.select :type, options_for_type_select %>
   </div>
 
   <div class="form-group">

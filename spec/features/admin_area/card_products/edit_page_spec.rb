@@ -61,5 +61,6 @@ RSpec.describe 'admin edit card product page' do
     fill_in :card_product_name, with: ''
 
     expect { submit_form }.not_to change { @product.reload.attributes }
+    expect(page).to have_error_message
   end
 end
