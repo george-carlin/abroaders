@@ -61,5 +61,5 @@ Rails.application.configure do
     Bullet.rails_logger = true
   end
 
-  config.middleware.insert_after ActionDispatch::Static, ::RackWithQuietAssets
+  config.assets.quiet = true
 end
