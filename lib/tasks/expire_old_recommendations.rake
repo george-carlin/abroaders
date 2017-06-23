@@ -1,5 +1,5 @@
 namespace :abr do
   task expire_old_recommendations: :environment do
-    CardRecommendation::Operation::ExpireOld.()
+    AdminArea::CardRecommendations::ExpireOld.()
   end
 end
