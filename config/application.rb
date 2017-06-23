@@ -57,10 +57,16 @@ module Abroaders
     config.exceptions_app = self.routes
 
     if ENV['ASSET_HOST']
+      # See https://stackoverflow.com/a/36585871/1603071
       config.middleware.insert_before 0, Rack::Cors do
         allow do
-          origins ENV['ASSET_HOST']
-          resource '*', headers: :any, methods: [:get, :post, :options]
+          origins %w[
+            https://*.abroaders.com
+            http://*.abroaders.com
+            https://abroaders-staging.herokuapp.com
+            https://abroaders.herokuapp.com
+          ]
+          resource '/assets/*'
         end
       end
     end
