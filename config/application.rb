@@ -55,6 +55,15 @@ module Abroaders
     config.time_zone = "UTC"
 
     config.exceptions_app = self.routes
+
+    if ENV['ASSET_HOST']
+      config.middleware.insert_before 0, Rack::Cors do
+        allow do
+          origins ENV['ASSET_HOST']
+          resource '*', headers: :any, methods: [:get, :post, :options]
+        end
+      end
+    end
   end
 end
 
