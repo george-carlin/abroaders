@@ -163,8 +163,6 @@ GEM
     faraday (0.11.0)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.18)
-    font-awesome-rails (4.6.3.0)
-      railties (>= 3.2, < 5.1)
     formatador (0.2.5)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
@@ -511,7 +509,6 @@ DEPENDENCIES
   dry-validation (= 0.10.5)
   factory_girl_rails (~> 4.5.0)
   faker (= 1.7.2)
-  font-awesome-rails (= 4.6.3.0)
   guard-rspec
   httparty (~> 0.13.7)
   inflecto

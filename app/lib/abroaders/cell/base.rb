@@ -7,7 +7,7 @@ module Abroaders
       include ActionView::Helpers::FormOptionsHelper
       include ActionView::Helpers::NumberHelper
       include BootstrapOverrides
-      include FontAwesome::Rails::IconHelper
+      include FontAwesomeHelper
 
       # this include is necessary otherwise the specs fail; appears to be
       # a bug in Cells. See https://github.com/trailblazer/cells/issues/298
