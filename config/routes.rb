@@ -15,8 +15,6 @@ Rails.application.routes.draw do
   # Mount this at a hard-to-guess URL
   mount Resque::Server.new, at: "/resque-c08cb17ca6581cbcad1501a7da7e8579"
 
-  get "/accounts/connect/awardwallet", to: "oauth#award_wallet"
-
   # --- NON-LOGGED-IN USERS ---
 
   get :sign_up, to: "registrations#new"
