@@ -25,7 +25,18 @@ class Account < Account.superclass
 
     def find_or_initialize_account(opts, params:, **)
       opts['auth'] = params.fetch(:env).fetch('omniauth.auth')
-      opts['model'] = Account.find_or_initialize_by(email: opts['auth']['info']['email'])
+      ApplicationRecord.transaction do
+        opts['model'] = Account.find_or_initialize_by(email: opts['auth']['info']['email'])
+        # We don't actually use this fb_token for anything yet; I just want to
+        # store it so we have a record of who signed up from FB, as opposed to
+        # signing up through the regular form. Tbh I haven't even looked very
+        # closely into how the FB login is supposed to work; if we want to do
+        # with FB in future then maybe this token isn't the right thing to
+        # store. Proceed with caution:
+        opts['model'].update_without_password(
+          fb_token: opts['auth']['credentials']['token']
+        )
+      end
     end
 
     def save_account_if_not_persisted(auth:, model:, **)

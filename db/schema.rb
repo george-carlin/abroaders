@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170518103541) do
+ActiveRecord::Schema.define(version: 20170626171003) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,7 +34,9 @@ ActiveRecord::Schema.define(version: 20170518103541) do
     t.boolean  "test",                    default: false,           null: false
     t.string   "phone_number"
     t.string   "phone_number_normalized"
+    t.string   "fb_token"
     t.index ["email"], name: "index_accounts_on_email", unique: true, using: :btree
+    t.index ["fb_token"], name: "index_accounts_on_fb_token", using: :btree
     t.index ["onboarding_state"], name: "index_accounts_on_onboarding_state", using: :btree
     t.index ["phone_number_normalized"], name: "index_accounts_on_phone_number_normalized", using: :btree
     t.index ["reset_password_token"], name: "index_accounts_on_reset_password_token", unique: true, using: :btree
