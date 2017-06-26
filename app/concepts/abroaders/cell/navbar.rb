@@ -63,7 +63,7 @@ module Abroaders
         def links
           content_tag :li do
             link_to sign_out_path, method: :delete, id: 'sign_out_link' do
-              raw('<i class="pe-7s-upload pe-rotate-90"></i>')
+              raw(fa_icon('sign-out'))
             end
           end
         end
