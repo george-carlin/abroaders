@@ -13,7 +13,7 @@ class PhoneNumbersController < AuthenticatedUserController
   end
 
   def skip
-    Account::Onboarder.new(current_account).skip_phone_number!
+    PhoneNumber::Skip.(current_account)
     redirect_to onboarding_survey_path
   end
 end

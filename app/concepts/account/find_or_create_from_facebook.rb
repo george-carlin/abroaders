@@ -34,7 +34,7 @@ class Account < Account.superclass
         # with FB in future then maybe this token isn't the right thing to
         # store. Proceed with caution:
         opts['model'].update_without_password(
-          fb_token: opts['auth']['credentials']['token']
+          fb_token: opts['auth']['credentials']['token'],
         )
       end
     end
