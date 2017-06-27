@@ -1,7 +1,11 @@
 module Abroaders::Cell
   class Layout < Layout.superclass
+    # @!method self.call(model, options = {})
+    #   @option options [Boolean] sidebar? is the sidebar rendered?
     class Navbar < Abroaders::Cell::Base
       include ::Cell::Builder
+
+      option :sidebar?
 
       builds do |user|
         case user
@@ -35,10 +39,6 @@ module Abroaders::Cell
 
       def search_form # override in subclasses
         ''
-      end
-
-      def sidebar?
-        Sidebar.show?(model)
       end
 
       def small_logo

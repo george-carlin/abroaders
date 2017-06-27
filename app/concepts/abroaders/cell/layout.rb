@@ -37,7 +37,7 @@ module Abroaders
       end
 
       def navbar
-        cell(Navbar, current_user)
+        cell(Navbar, current_user, sidebar?: sidebar?)
       end
 
       def noscript

@@ -15,12 +15,8 @@ module Abroaders::Cell
         super
       end
 
-      def self.show?(user)
-        (user.is_a?(Account) && user.onboarded?) || user.is_a?(Admin)
-      end
-
       def show?
-        self.class.show?(model)
+        (model.is_a?(Account) && model.onboarded?) || model.is_a?(Admin)
       end
 
       private
