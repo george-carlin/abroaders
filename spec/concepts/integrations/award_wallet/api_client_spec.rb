@@ -37,7 +37,7 @@ RSpec.describe Integrations::AwardWallet::APIClient do
       expect(result['booking_requests_url']).to eq \
         'https://business.awardwallet.com/awardBooking/queue?user_filter=332211'
 
-      expect(result['accounts'].length).to eq 3
+      expect(result['accounts'].length).to eq 4
 
       account_keys = %w[
         account_id display_name kind login autologin_url update_url edit_url

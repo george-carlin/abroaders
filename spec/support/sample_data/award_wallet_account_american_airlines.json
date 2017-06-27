@@ -1,0 +1,18 @@
+{
+  "account_id": 3605103,
+  "code": "aa",
+  "display_name": "American Airlines (AAdvantage)",
+  "kind": "Airlines",
+  "login": "restricted",
+  "autologin_url": "https://business.awardwallet.com/account/redirect.php?ID=3605103",
+  "update_url": "https://business.awardwallet.com/account/edit/3605103?autosubmit=1",
+  "edit_url": "https://business.awardwallet.com/account/edit/3605103",
+  "balance": "restricted",
+  "balance_raw": "restricted",
+  "owner": "Erik Paquet",
+  "error_code": 1,
+  "last_detected_change": "restricted",
+  "expiration_date": "2018-12-21T02:13:38+00:00",
+  "last_retrieve_date": "2017-06-22T00:00:00+00:00",
+  "last_change_date": "2017-06-22T08:11:46+00:00"
+}

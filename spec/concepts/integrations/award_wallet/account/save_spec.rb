@@ -18,6 +18,20 @@ RSpec.describe Integrations::AwardWallet::Account::Save do
   let(:owner_name) { data['owner'] }
 
   context "when User doesn't already have this account" do
+    def it_has_correct_attributes(account)
+      expect(account.aw_id).to eq 7654321
+      expect(account.display_name).to eq 'British Airways (Executive Club)'
+      expect(account.kind).to eq 'Airlines'
+      expect(account.login).to eq 'johnsmith'
+      expect(account.balance_raw).to eq 146780
+      expect(account.error_code).to eq 2
+      expect(account.error_message).to eq 'invalid credentials'
+      expect(account.last_detected_change).to eq '+750'
+      expect(account.expiration_date).to eq Time.utc(2018, 12, 10)
+      expect(account.last_retrieve_date).to eq Time.utc(2016,  1, 15)
+      expect(account.last_change_date).to eq Time.utc(2016, 1, 15, 0, 49, 33)
+    end
+
     example 'and recognises the owner' do
       owner = user.award_wallet_owners.create!(
         name: owner_name,
@@ -64,18 +78,31 @@ RSpec.describe Integrations::AwardWallet::Account::Save do
       it_has_correct_attributes(aw_account)
     end
 
-    def it_has_correct_attributes(account)
-      expect(account.aw_id).to eq 7654321
-      expect(account.display_name).to eq 'British Airways (Executive Club)'
+    example 'and account currency is AA' do
+      # American Airlines is a special case because AwardWallet can't tell us
+      # the balance via the API (even though we can still see the balance in
+      # the business interface in a browser) as part of their contract with AA.
+      # So the balance will be the string "restricted".
+      path = Rails.root.join('spec/support/sample_data/award_wallet_account_american_airlines.json')
+      data = Abroaders::Util.underscore_keys(JSON.parse(File.read(path)), true)
+      result = nil
+      expect do
+        result = op.(user: user, account_data: data)
+        expect(result.success?).to be true
+      end.to change { user.award_wallet_accounts.count }.by(1)
+
+      account = result['model']
+      expect(account.aw_id).to eq 3605103
+      expect(account.display_name).to eq 'American Airlines (AAdvantage)'
       expect(account.kind).to eq 'Airlines'
-      expect(account.login).to eq 'johnsmith'
-      expect(account.balance_raw).to eq 146780
-      expect(account.error_code).to eq 2
-      expect(account.error_message).to eq 'invalid credentials'
-      expect(account.last_detected_change).to eq '+750'
-      expect(account.expiration_date).to eq Time.utc(2018, 12, 10)
-      expect(account.last_retrieve_date).to eq Time.utc(2016,  1, 15)
-      expect(account.last_change_date).to eq Time.utc(2016, 1, 15, 0, 49, 33)
+      expect(account.login).to eq 'restricted'
+      expect(account.balance_raw).to eq 0 # we'll need extra logic for displaying this correctly.
+      expect(account.error_code).to eq 1
+      expect(account.error_message).to be_nil
+      expect(account.last_detected_change).to eq 'restricted'
+      expect(account.expiration_date).to eq Time.utc(2018, 12, 21, 2, 13, 38)
+      expect(account.last_retrieve_date).to eq Time.utc(2017,  6, 22)
+      expect(account.last_change_date).to eq Time.utc(2017, 6, 22, 8, 11, 46)
     end
   end
 

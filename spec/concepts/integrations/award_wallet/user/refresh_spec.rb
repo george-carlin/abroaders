@@ -36,11 +36,15 @@ RSpec.describe Integrations::AwardWallet::User::Refresh do
     expect(john.person).to eq owner
     expect(fred.person).to eq owner
 
-    expect(john.award_wallet_accounts.length).to eq 2
+    expect(john.award_wallet_accounts.length).to eq 3
     expect(fred.award_wallet_accounts.length).to eq 1
 
     expect(john.award_wallet_accounts.map(&:display_name)).to eq(
-      ['British Airways (Executive Club)', 'Amex (Membership Rewards)'],
+      [
+        'British Airways (Executive Club)',
+        'Amex (Membership Rewards)',
+        'American Airlines (AAdvantage)',
+      ],
     )
 
     expect(fred.award_wallet_accounts[0].display_name).to eq(
@@ -62,7 +66,7 @@ RSpec.describe Integrations::AwardWallet::User::Refresh do
     expect(result.success?).to be true
     user = result['model']
     expect(user.award_wallet_owners.count).to eq 2
-    expect(user.award_wallet_accounts.count).to eq 3
+    expect(user.award_wallet_accounts.count).to eq 4
 
     expect(AwardWalletOwner.find_by_id(owner.id)).to be nil
     expect(AwardWalletAccount.find_by_id(acc.id)).to be nil

@@ -192,6 +192,24 @@
       "lastChangeDate": "2012-01-15T00:49:33+00:00",
       "properties": [ ],
       "history": [ ]
+    },
+    {
+      "accountId": 3605103,
+      "code": "aa",
+      "displayName": "American Airlines (AAdvantage)",
+      "kind": "Airlines",
+      "login": "restricted",
+      "autologinUrl": "https://business.awardwallet.com/account/redirect.php?ID=3605103",
+      "updateUrl": "https://business.awardwallet.com/account/edit/3605103?autosubmit=1",
+      "editUrl": "https://business.awardwallet.com/account/edit/3605103",
+      "balance": "restricted",
+      "balanceRaw": "restricted",
+      "owner": "John Smith",
+      "errorCode": 1,
+      "lastDetectedChange": "restricted",
+      "expirationDate": "2018-12-21T08:11:46+00:00",
+      "lastRetrieveDate": "2017-06-22T00:00:00+00:00",
+      "lastChangeDate": "2017-06-22T08:11:46+00:00"
     }
   ]
 }
