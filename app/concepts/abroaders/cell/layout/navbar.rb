@@ -1,5 +1,5 @@
-module Abroaders
-  module Cell
+module Abroaders::Cell
+  class Layout < Layout.superclass
     class Navbar < Abroaders::Cell::Base
       include ::Cell::Builder
 
@@ -12,7 +12,7 @@ module Abroaders
       end
 
       def show
-        render view: 'navbar' # use the same ERB file even in subclasses
+        render view: 'layout/navbar' # use the same ERB file even in subclasses
       end
 
       private

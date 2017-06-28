@@ -1,6 +1,6 @@
 require 'cells_helper'
 
-RSpec.describe Abroaders::Cell::Sidebar do
+RSpec.describe Abroaders::Cell::Layout::Sidebar do
   controller ApplicationController
 
   example '.show?' do

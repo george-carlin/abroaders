@@ -1,5 +1,5 @@
-module Abroaders
-  module Cell
+module Abroaders::Cell
+  class Layout < Layout.superclass
     class Sidebar < Abroaders::Cell::Base
       include ::Cell::Builder
 

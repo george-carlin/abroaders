@@ -1,6 +1,6 @@
 require 'cells_helper'
 
-RSpec.describe Abroaders::Cell::Navbar do
+RSpec.describe Abroaders::Cell::Layout::Navbar do
   controller ApplicationController
 
   example 'not signed in' do
