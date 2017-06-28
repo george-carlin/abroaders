@@ -13,6 +13,39 @@ module Abroaders
       # a bug in Cells. See https://github.com/trailblazer/cells/issues/298
       include ::Cell::Erb
 
+      # If you have multiple cells in an inheritance hierarchy, by default each
+      # cell uses its own view:
+      #
+      #     # renders foo.erb:
+      #     class Foo < Abroaders::Cell::Base
+      #     end
+      #
+      #     # renders bar.erb:
+      #     class Bar < Foo
+      #     end
+      #
+      # But sometimes you don't want the subclass to use an entirely separate
+      # view file, it might just override specific methods that are called
+      # within the parent view file. Call this method in the parent class to
+      # make all subclasses use the parent's view file.
+      #
+      #     class Foo < Abroaders::Cell::Base
+      #       # makes both cells render foo.erb:
+      #       subclasses_use_parent_view!
+      #     end
+      #
+      #     class Bar < Foo
+      #     end
+      #
+      def self.subclasses_use_parent_view!
+        define_method :show do
+          ancestors = self.class.ancestors.select { |c| c.is_a?(Class) }
+          superclass = ancestors[ancestors.index(::Abroaders::Cell::Base) - 1]
+          parts = superclass.to_s.split('::')
+          render view: parts[(parts.index('Cell') + 1)..-1].join('::').underscore
+        end
+      end
+
       private
 
       # Shorthand for cells to use the cookies from parent_controller. Use

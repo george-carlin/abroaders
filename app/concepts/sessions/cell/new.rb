@@ -15,9 +15,7 @@ module Sessions
         end
       end
 
-      def show
-        render view: 'new' # use the same ERB file even in subclasses
-      end
+      subclasses_use_parent_view!
 
       private
 

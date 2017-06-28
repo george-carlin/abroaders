@@ -37,9 +37,7 @@ class SpendingInfo < SpendingInfo.superclass
           person.eligible ? self : Ineligible
         end
 
-        def show # same view for all subclasses:
-          render 'show/person_financials'
-        end
+        subclasses_use_parent_view!
 
         private
 

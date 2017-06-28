@@ -52,9 +52,7 @@ class LoyaltyAccount < LoyaltyAccount.superclass
           end
         end
 
-        def show
-          render 'table/row'
-        end
+        subclasses_use_parent_view!
 
         property :id
         property :balance_raw

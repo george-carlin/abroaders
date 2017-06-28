@@ -25,9 +25,7 @@ module Balance::Cell
       property :partner?
       property :type
 
-      def show # use same template for all subclasses:
-        render 'index/person_panel'
-      end
+      subclasses_use_parent_view!
 
       private
 

@@ -20,10 +20,7 @@ class SpendingInfo < SpendingInfo.superclass
         end
       end
 
-      # Always render survey.erb, even from within subclasses
-      def show
-        render view: 'survey'
-      end
+      subclasses_use_parent_view!
 
       def title
         'Spending Information'

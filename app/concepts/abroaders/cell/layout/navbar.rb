@@ -11,9 +11,7 @@ module Abroaders::Cell
         end
       end
 
-      def show
-        render view: 'layout/navbar' # use the same ERB file even in subclasses
-      end
+      subclasses_use_parent_view!
 
       private
 

@@ -19,9 +19,7 @@ class Account < Account.superclass
       property :unresolved_recommendation_requests?
       property :owner_first_name
 
-      def show
-        render view: 'dashboard' # use the same ERB file for all subclasses:
-      end
+      subclasses_use_parent_view!
 
       private
 
