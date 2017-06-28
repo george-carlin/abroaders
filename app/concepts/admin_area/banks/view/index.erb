@@ -1,5 +1,3 @@
-<% provide :title, 'Banks' %>
-
 <div class="hpanel">
   <div class="panel-heading hbuilt">
     <h1>Banks</h1>
@@ -15,13 +13,7 @@
         </tr>
       </thead>
       <tbody>
-        <% @banks.each do |bank| %>
-          <tr>
-            <td><%= bank.name %></td>
-            <td><%= bank.personal_phone %></td>
-            <td><%= bank.business_phone %></td>
-          </tr>
-        <% end %>
+        <%= table_rows %>
       </tbody>
     </table>
   </div>

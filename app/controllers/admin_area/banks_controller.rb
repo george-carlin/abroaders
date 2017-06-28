@@ -1,7 +1,7 @@
 module AdminArea
   class BanksController < AdminController
     def index
-      @banks = Bank.alphabetical
+      render cell(Banks::Cell::Index, Bank.alphabetical)
     end
   end
 end
