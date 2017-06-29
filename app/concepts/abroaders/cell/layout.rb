@@ -37,7 +37,13 @@ module Abroaders
       end
 
       def navbar
-        cell(Navbar, current_user, sidebar?: sidebar?)
+        cell(
+          Navbar,
+          nil,
+          current_account: current_account,
+          current_admin: current_admin,
+          sidebar?: sidebar?,
+        )
       end
 
       def noscript
@@ -55,7 +61,12 @@ module Abroaders
       end
 
       def sidebar
-        @sidebar ||= cell(Sidebar, current_user)
+        @sidebar ||= cell(
+          Sidebar,
+          nil,
+          current_account: current_account,
+          current_admin: current_admin,
+        )
       end
 
       def sidebar?

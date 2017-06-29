@@ -3,12 +3,16 @@ module Abroaders::Cell
     class Sidebar < Abroaders::Cell::Base
       include ::Cell::Builder
 
-      builds do |model|
-        case model
-        when Account then AccountSidebar
-        when Admin   then AdminSidebar
+      builds do |_, options|
+        if options[:current_account]
+          AccountSidebar
+        elsif options[:current_admin]
+          AdminSidebar
         end
       end
+
+      option :current_account, optional: true
+      option :current_admin, optional: true
 
       def show
         return '' unless show?
@@ -16,7 +20,7 @@ module Abroaders::Cell
       end
 
       def show?
-        (model.is_a?(Account) && model.onboarded?) || model.is_a?(Admin)
+        !!(current_admin || (current_account && current_account.onboarded?))
       end
 
       private
@@ -57,7 +61,7 @@ module Abroaders::Cell
 
       class AccountSidebar < self
         def link_to_financials
-          return '' unless model.people.any?(&:eligible)
+          return '' unless current_account.people.any?(&:eligible)
           link 'My Financials', spending_info_path, 'dollar', SpendingInfosController
         end
       end

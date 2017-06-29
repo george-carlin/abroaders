@@ -4,23 +4,23 @@ RSpec.describe Abroaders::Cell::Layout::Sidebar do
   controller ApplicationController
 
   example '.show?' do
-    expect(described_class.(nil).show?).to be false
+    expect(described_class.(nil, {}).show?).to be false
 
     acc = Account.new
-    expect(described_class.(acc).show?).to be false
+    expect(described_class.(nil, current_account: acc).show?).to be false
 
     # shown when account is onboarded:
     acc.onboarding_state = 'complete'
-    expect(described_class.(acc).show?).to be true
+    expect(described_class.(nil, current_account: acc).show?).to be true
 
     # admins can always see sidebar:
     admin = Admin.new
-    expect(described_class.(admin).show?).to be true
+    expect(described_class.(nil, current_admin: admin).show?).to be true
   end
 
   example 'for admin' do
     admin = Admin.new
-    sidebar = cell(admin).()
+    sidebar = cell(nil, current_admin: admin).()
     expect(sidebar).to have_content 'Banks'
     expect(sidebar).to have_content 'Card Products'
     expect(sidebar).to have_content 'Destinations'

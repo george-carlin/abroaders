@@ -1,21 +1,28 @@
 module Abroaders::Cell
   class Layout < Layout.superclass
-    # @!method self.call(model, options = {})
+    # @!method self.call(_, options = {})
     #   @option options [Boolean] sidebar? is the sidebar rendered?
+    #   @option options [Account] current_account
+    #   @option options [Admin] current_admin
     class Navbar < Abroaders::Cell::Base
       include ::Cell::Builder
 
       option :sidebar?
 
-      builds do |user|
-        case user
-        when Account then AccountNavbar
-        when Admin   then AdminNavbar
-        when nil then SignedOutNavbar
+      builds do |_, options = {}|
+        if options[:current_account]
+          AccountNavbar
+        elsif options[:current_admin]
+          AdminNavbar
+        else
+          SignedOutNavbar
         end
       end
 
       subclasses_use_parent_view!
+
+      option :current_account, optional: true
+      option :current_admin, optional: true
 
       private
 
@@ -54,8 +61,11 @@ module Abroaders::Cell
       end
 
       class SignedInNavbar < self
+        private
+
         def username
-          content_tag :li, model.email, class: :text
+          # TODO XSS?
+          content_tag :li, user.email, class: :text
         end
 
         def links
@@ -76,6 +86,10 @@ module Abroaders::Cell
       class AccountNavbar < SignedInNavbar
         private
 
+        def user
+          current_account
+        end
+
         def sign_out_path
           destroy_account_session_path
         end
@@ -83,6 +97,10 @@ module Abroaders::Cell
 
       class AdminNavbar < SignedInNavbar
         private
+
+        def user
+          current_admin
+        end
 
         def search_form
           cell(AdminArea::Accounts::Cell::SearchForm)
