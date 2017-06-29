@@ -1,14 +1,19 @@
 module Abroaders
   module Cell
-    # Placeholder class until application.html.erb and basic.html.erb are
-    # fully extracted to cells
+    # The layout. Pass the return value of 'yield' as the model.
+    #
+    # @!method self.call(html, options = {})
+    #   @param html [String] a string of HTML
+    #   @option option [Boolean] basic (false) when true, the sidebar and
+    #     the '#wrapper' div won't be included in the rendered layout.
+    #   @option options [ActionDispatch::Flash] flash
+    #   @option options [String] title the page title
     class Layout < Abroaders::Cell::Base
       option :basic, default: false
       option :flash
       option :title
 
-      # once the view is fully converted to a cell, everything below this
-      # line should be made private:
+      private
 
       alias basic? basic
 
