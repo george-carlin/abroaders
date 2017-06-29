@@ -67,7 +67,7 @@ module Abroaders
       end
 
       def wrapper(&block)
-        return block.call if basic?
+        return yield if basic?
         content_tag(
           :div,
           id: 'wrapper',
