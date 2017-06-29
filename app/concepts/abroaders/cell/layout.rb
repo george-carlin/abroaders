@@ -3,11 +3,21 @@ module Abroaders
     # Placeholder class until application.html.erb and basic.html.erb are
     # fully extracted to cells
     class Layout < Abroaders::Cell::Base
+      option :basic, default: false
       option :flash
       option :title
 
       # once the view is fully converted to a cell, everything below this
       # line should be made private:
+
+      alias basic? basic
+
+      def body_classes
+        result = []
+        result << 'blank' if basic? || !sidebar?
+        result.push('fixed-navbar', 'fixed-sidebar') unless !basic?
+        result.join(' ')
+      end
 
       def flash_alerts
         cell(FlashAlerts, flash)

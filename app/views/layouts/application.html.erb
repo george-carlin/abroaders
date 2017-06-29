@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
   <%= layout.head %>
-  <body class="<%= "blank" unless layout.sidebar? %> fixed-navbar fixed-sidebar">
+  <body class="<%= layout.body_classes %>">
     <%= layout.navbar %>
     <%= layout.sidebar %>
 
