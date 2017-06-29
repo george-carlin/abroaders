@@ -1,0 +1,50 @@
+<div class="hpanel">
+  <div class="panel-heading hbuilt">
+    <h1><%= title %></h1>
+
+    <div class="admin-destinations-type-select">
+      <% (['destinations'] + Destination::TYPES).each_with_index do |type, i| %>
+        <% unless i == 0 %>
+          |
+        <% end %>
+
+        <% if page_type == type.singularize %>
+          <span><%= type.pluralize.capitalize %></span>
+        <% else %>
+          <%= link_to type.pluralize.capitalize, :"admin_#{type.pluralize}" %>
+        <% end %>
+      <% end %>
+    </div>
+  </div><!-- .panel-heading -->
+
+  <div class="panel-body">
+    <%= paginator %>
+    <div class="row">
+      <div class="col-xs-12 col-md-8">
+        <% if model.any? %>
+          <table class="admin-destinations table table-striped">
+            <thead>
+              <tr>
+                <% if page_type == 'destination' %>
+                  <th class="admin-destination-type">Type</th>
+                <% end %>
+                <th class="admin-destination-name">Name</th>
+                <% unless page_type == 'region' %>
+                  <th class="admin-destination-parent">Parent</th>
+                <% end %>
+                <th class="admin-destination-code">Code</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <%= table_rows %>
+            </tbody>
+          </table>
+        <% else %>
+          Nothing to display!
+        <% end %>
+      </div>
+    </div>
+    <%= paginator %>
+  </div>
+</div>

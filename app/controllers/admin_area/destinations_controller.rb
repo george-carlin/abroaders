@@ -1,15 +1,14 @@
 module AdminArea
   class DestinationsController < AdminController
     def index
-      @type = "destination"
-      @destinations = load_destinations.all
+      destinations = load_destinations.all
+      render cell(Destinations::Cell::Index, destinations, page: params[:page], page_type: 'destination')
     end
 
     Destination::TYPES.each do |type|
       define_method type do
-        @type = type
-        @destinations = load_destinations.send(type)
-        render :index
+        destinations = load_destinations.send(type)
+        render cell(Destinations::Cell::Index, destinations, page_type: type)
       end
     end
 

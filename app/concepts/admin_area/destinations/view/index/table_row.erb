@@ -1,0 +1,14 @@
+<tr>
+  <% if page_type == 'destination' %>
+    <td class="admin-destination-type">
+      <%= type %>
+    </td>
+  <% end %>
+  <td class="admin-destination-name"><%= name %></td>
+  <% unless page_type == 'region' %>
+    <td class="admin-destination-parent">
+      <%= parent_name %>
+    </td>
+  <% end %>
+  <td class="admin-destination-code"><%= code %></td>
+</tr>
