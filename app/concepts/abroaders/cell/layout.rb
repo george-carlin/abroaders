@@ -13,6 +13,10 @@ module Abroaders
         cell(FlashAlerts, flash)
       end
 
+      def footer
+        cell(Footer)
+      end
+
       def head
         cell(Head, nil, title: title)
       end
@@ -29,12 +33,20 @@ module Abroaders
         cell(Onboarding::Cell::ProgressBar, current_account)
       end
 
+      def rec_alert
+        cell(Abroaders::Cell::RecommendationAlert, current_account)
+      end
+
       def sidebar
         @sidebar ||= cell(Sidebar, current_user)
       end
 
       def sidebar?
         sidebar.show?
+      end
+
+      def third_party_scripts
+        cell(ThirdPartyScripts)
       end
 
       private

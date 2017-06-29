@@ -14,12 +14,12 @@
 
         <%= layout.flash_alerts %>
 
-        <%= cell(Abroaders::Cell::RecommendationAlert, current_account) %>
+        <%= layout.rec_alert %>
 
         <%= yield %>
       </div><!-- content -->
-      <%= cell Abroaders::Cell::Footer %>
     </div>
-    <%= cell(Abroaders::Cell::ThirdPartyScripts) %>
+    <%= layout.footer %>
+    <%= layout.third_party_scripts %>
   </body>
 </html>
