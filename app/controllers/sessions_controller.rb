@@ -29,15 +29,20 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    signed_out = sign_out_all_scopes
-    flash[:notice] = I18n.t('devise.sessions.signed_out') if signed_out
-    redirect_to root_path
+    account = current_account
+    sign_out(:account)
+    flash[:notice] = I18n.t('devise.sessions.signed_out')
+    if current_admin
+      redirect_to admin_person_path(account.owner)
+    else
+      redirect_to root_path
+    end
   end
 
   private
 
   def redirect_admins!
-    return unless current_admin
+    return unless current_admin && !current_account
     flash[:notice] = "You must sign out of your admin account before "\
       "you can sign in as a regular user"
     redirect_to root_path

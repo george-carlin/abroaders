@@ -175,6 +175,9 @@ Rails.application.routes.draw do
       collection do
         get :search
       end
+      member do
+        get :inspect
+      end
     end
     resources :banks, only: [:index]
     resources :card_products, except: :destroy do

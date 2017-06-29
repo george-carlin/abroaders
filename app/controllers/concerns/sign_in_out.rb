@@ -14,6 +14,10 @@ module SignInOut
     end
   end
 
+  def sign_out(scope)
+    warden.logout(scope)
+  end
+
   def sign_out_all_scopes(lock = true)
     users = WARDEN_SCOPES.each { |s| warden.user(scope: s, run_callbacks: false) }
 
