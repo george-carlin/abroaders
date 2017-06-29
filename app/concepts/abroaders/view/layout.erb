@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <%= head %>
+  <body class="<%= "blank" unless sidebar? %> fixed-navbar fixed-sidebar">
+    <%= navbar %>
+    <%= sidebar %>
+
+    <div id="wrapper" class="wrapper <%= 'wrapper-with-sidebar' if sidebar? %>">
+      <div class="content">
+        <%= noscript %>
+
+        <%= progress_bar %>
+
+        <%= flash_alerts %>
+
+        <%= rec_alert %>
+
+        <%= model %>
+      </div>
+    </div>
+
+    <%= footer %>
+    <%= third_party_scripts %>
+  </body>
+</html>
