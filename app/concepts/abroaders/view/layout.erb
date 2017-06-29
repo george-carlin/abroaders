@@ -5,19 +5,17 @@
     <%= navbar %>
     <%= sidebar %>
 
-    <div id="wrapper" class="wrapper <%= 'wrapper-with-sidebar' if sidebar? %>">
-      <div class="content">
-        <%= noscript %>
+    <%= wrapper do %>
+      <%= noscript %>
 
-        <%= progress_bar %>
+      <%= progress_bar %>
 
-        <%= flash_alerts %>
+      <%= flash_alerts %>
 
-        <%= rec_alert %>
+      <%= rec_alert %>
 
-        <%= model %>
-      </div>
-    </div>
+      <%= model %>
+    <% end %>
 
     <%= footer %>
     <%= third_party_scripts %>

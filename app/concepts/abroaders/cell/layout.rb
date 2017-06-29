@@ -61,6 +61,17 @@ module Abroaders
         cell(ThirdPartyScripts)
       end
 
+      def wrapper(&block)
+        return block.call if basic?
+        content_tag(
+          :div,
+          id: 'wrapper',
+          class: "wrapper #{'wrapper-with-sidebar' if sidebar?}",
+        ) do
+          content_tag :div, class: 'content', &block
+        end
+      end
+
       private
 
       def current_user
