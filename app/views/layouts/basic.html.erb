@@ -1,15 +1,1 @@
-<% layout = cell(Abroaders::Cell::Layout, nil, flash: flash, title: title(yield(:title))) %>
-<!DOCTYPE html>
-<html>
-  <%= layout.head %>
-  <body class="blank">
-    <%= layout.navbar %>
-    <%= layout.noscript %>
-    <%= layout.flash_alerts %>
-
-    <%= yield %>
-
-    <%= layout.footer %>
-    <%= layout.third_party_scripts %>
-  </body>
-</html>
+<%= cell(Abroaders::Cell::Layout, yield, basic: true, flash: flash, title: title(yield(:title))) %>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <%= head %>
+  <body class="<%= body_classes %>">
+    <%= navbar %>
+    <%= sidebar %>
+
+    <%= wrapper do %>
+      <%= noscript %>
+
+      <%= progress_bar %>
+
+      <%= flash_alerts %>
+
+      <%= rec_alert %>
+
+      <%= model %>
+    <% end %>
+
+    <%= footer %>
+    <%= third_party_scripts %>
+  </body>
+</html>
