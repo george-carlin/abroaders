@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   include I18nWithErrorRaising
 
   def dashboard
-    if current_admin
+    if current_admin && !current_account
       render "admin_area/dashboard"
     elsif current_account
       redirect_if_not_onboarded! && return
