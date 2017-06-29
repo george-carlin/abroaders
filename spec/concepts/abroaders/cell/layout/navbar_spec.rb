@@ -52,7 +52,7 @@ RSpec.describe Abroaders::Cell::Layout::Navbar do
     account = Account.new(email: 'account@example.com')
     rendered = cell(nil, current_admin: admin, current_account: account).()
 
-    expect(rendered).to have_content "#{admin.email} as #{account.email}"
+    expect(rendered.to_s).to include "#{admin.email} as #{account.email}"
 
     # has a link to sign out account but not admin
     expect(rendered).to have_link('', href: destroy_account_session_path)
@@ -62,5 +62,14 @@ RSpec.describe Abroaders::Cell::Layout::Navbar do
     expect(rendered).to have_selector '#logo.admin-navbar'
     # doesn't have admin search bar:
     expect(rendered).not_to have_selector '#admin_accounts_search_bar'
+  end
+
+  example 'avoids XSS' do
+    admin = Admin.new(email: '<script1>@example.com')
+    account = Account.new(email: '<script2>@example.com')
+    rendered = cell(nil, current_admin: admin, current_account: account).().to_s
+
+    expect(rendered).to include '&lt;script1&gt;'
+    expect(rendered).to include '&lt;script2&gt;'
   end
 end

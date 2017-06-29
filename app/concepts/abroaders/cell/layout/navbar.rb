@@ -62,11 +62,12 @@ module Abroaders::Cell
       end
 
       class SignedInNavbar < self
+        include Escaped
+
         private
 
-        # TODO XSS?
         def username_tag
-          content_tag :li, username, class: :text
+          content_tag :li, escape!(username), class: :text
         end
 
         def links
@@ -118,7 +119,7 @@ module Abroaders::Cell
 
       class AdminAsAccountNavbar < AdminNavbar
         def username
-          "<b>#{current_admin.email}</b> as #{current_account.email}"
+          "#{current_admin.email} as #{current_account.email}"
         end
 
         def search_form
