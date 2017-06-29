@@ -88,10 +88,6 @@ module Abroaders
         end
       end
 
-      def current_user
-        current_account || current_admin
-      end
-
       class Head < Abroaders::Cell::Base
         include ActionView::Helpers::CsrfHelper
         include ::Cell::Helper::AssetHelper

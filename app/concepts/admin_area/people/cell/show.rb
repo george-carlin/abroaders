@@ -179,6 +179,7 @@ module AdminArea
                     #{phone_number}
                     #{owner}
                     #{companion}
+                    #{link_to_login_as_account}
                   </div>
                 </div>
               </div>
@@ -187,30 +188,34 @@ module AdminArea
 
           private
 
-          def signed_up
-            "<p>Account created on #{signed_up_at.strftime('%D')}</p>"
+          def companion
+            return '' unless partner?
+            "<p>Companion: #{owner? ? link_to_partner : link_to_self}</p>"
           end
 
-          def link_to_self
-            link_to first_name, admin_person_path(model)
+          def link_to_login_as_account
+            link_to "Log in as #{first_name}", inspect_admin_account_path(model.account)
           end
 
           def link_to_partner
             link_to partner_first_name, admin_person_path(partner)
           end
 
-          def owner
-            "<p>Owner: #{owner? ? link_to_self : link_to_partner}</p>"
+          def link_to_self
+            link_to first_name, admin_person_path(model)
           end
 
-          def companion
-            return '' unless partner?
-            "<p>Companion: #{owner? ? link_to_partner : link_to_self}</p>"
+          def owner
+            "<p>Owner: #{owner? ? link_to_self : link_to_partner}</p>"
           end
 
           def phone_number
             number = super
             number.present? ? "<p>#{number}</p>" : ''
+          end
+
+          def signed_up
+            "<p>Account created on #{signed_up_at.strftime('%D')}</p>"
           end
         end
 

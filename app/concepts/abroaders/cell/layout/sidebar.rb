@@ -20,7 +20,7 @@ module Abroaders::Cell
       end
 
       def show?
-        !!(current_admin || (current_account && current_account.onboarded?))
+        !!(current_account ? current_account.onboarded? : current_admin)
       end
 
       private
