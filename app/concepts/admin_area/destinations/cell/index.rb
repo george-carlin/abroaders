@@ -21,7 +21,7 @@ module AdminArea
         end
 
         def paginated_accounts
-          @paginated_accounts ||= model.page(page).per_page(50)
+          @paginated_accounts ||= model.page(page).per(50)
         end
 
         def paginator
