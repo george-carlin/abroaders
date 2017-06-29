@@ -7,10 +7,10 @@ module Abroaders::Cell
     class Navbar < Abroaders::Cell::Base
       include ::Cell::Builder
 
-      option :sidebar?
-
       builds do |_, options = {}|
-        if options[:current_account]
+        if options[:current_account] && options[:current_admin]
+          AdminAsAccountNavbar
+        elsif options[:current_account]
           AccountNavbar
         elsif options[:current_admin]
           AdminNavbar
@@ -23,6 +23,7 @@ module Abroaders::Cell
 
       option :current_account, optional: true
       option :current_admin, optional: true
+      option :sidebar?
 
       private
 
@@ -56,16 +57,16 @@ module Abroaders::Cell
         HTML
       end
 
-      def username # override in subclasses
+      def username_tag # override in subclasses
         ''
       end
 
       class SignedInNavbar < self
         private
 
-        def username
-          # TODO XSS?
-          content_tag :li, user.email, class: :text
+        # TODO XSS?
+        def username_tag
+          content_tag :li, username, class: :text
         end
 
         def links
@@ -86,8 +87,8 @@ module Abroaders::Cell
       class AccountNavbar < SignedInNavbar
         private
 
-        def user
-          current_account
+        def username
+          current_account.email
         end
 
         def sign_out_path
@@ -98,8 +99,8 @@ module Abroaders::Cell
       class AdminNavbar < SignedInNavbar
         private
 
-        def user
-          current_admin
+        def username
+          current_admin.email
         end
 
         def search_form
@@ -112,6 +113,20 @@ module Abroaders::Cell
 
         def logo_html_classes
           'admin-navbar'
+        end
+      end
+
+      class AdminAsAccountNavbar < AdminNavbar
+        def username
+          "<b>#{current_admin.email}</b> as #{current_account.email}"
+        end
+
+        def search_form
+          ''
+        end
+
+        def sign_out_path
+          destroy_account_session_path
         end
       end
 
