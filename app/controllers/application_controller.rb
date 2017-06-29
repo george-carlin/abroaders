@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
 
   def dashboard
     if current_admin && !current_account
-      render "admin_area/dashboard"
+      render cell(Admin::Cell::Dashboard)
     elsif current_account
       redirect_if_not_onboarded! && return
 
