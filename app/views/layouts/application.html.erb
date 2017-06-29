@@ -1,4 +1,4 @@
-<% layout = cell(Abroaders::Cell::Layout, nil, title: title(yield(:title))) %>
+<% layout = cell(Abroaders::Cell::Layout, nil, flash: flash, title: title(yield(:title))) %>
 <!DOCTYPE html>
 <html>
   <%= layout.head %>
@@ -12,7 +12,7 @@
 
         <%= layout.progress_bar %>
 
-        <%= flash_alerts %>
+        <%= layout.flash_alerts %>
 
         <%= cell(Abroaders::Cell::RecommendationAlert, current_account) %>
 

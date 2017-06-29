@@ -3,10 +3,15 @@ module Abroaders
     # Placeholder class until application.html.erb and basic.html.erb are
     # fully extracted to cells
     class Layout < Abroaders::Cell::Base
+      option :flash
       option :title
 
       # once the view is fully converted to a cell, everything below this
       # line should be made private:
+
+      def flash_alerts
+        cell(FlashAlerts, flash)
+      end
 
       def head
         cell(Head, nil, title: title)
