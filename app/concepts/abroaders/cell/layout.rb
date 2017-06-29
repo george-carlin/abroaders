@@ -40,10 +40,12 @@ module Abroaders
       end
 
       def progress_bar
+        return '' if basic?
         cell(Onboarding::Cell::ProgressBar, current_account)
       end
 
       def rec_alert
+        return '' if basic?
         cell(Abroaders::Cell::RecommendationAlert, current_account)
       end
 
@@ -52,7 +54,7 @@ module Abroaders
       end
 
       def sidebar?
-        !blank? && sidebar.show?
+        !basic? && sidebar.show?
       end
 
       def third_party_scripts
