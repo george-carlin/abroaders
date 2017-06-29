@@ -14,8 +14,8 @@ module Abroaders
 
       def body_classes
         result = []
-        result << 'blank' if basic? || !sidebar?
-        result.push('fixed-navbar', 'fixed-sidebar') unless !basic?
+        result << 'blank' unless sidebar?
+        result.push('fixed-navbar', 'fixed-sidebar') unless basic?
         result.join(' ')
       end
 
@@ -52,7 +52,7 @@ module Abroaders
       end
 
       def sidebar?
-        sidebar.show?
+        !blank? && sidebar.show?
       end
 
       def third_party_scripts
