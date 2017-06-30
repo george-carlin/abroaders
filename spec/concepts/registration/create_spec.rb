@@ -125,6 +125,7 @@ RSpec.describe Registration::Create do
       anything@example.com
       georgejulianmillo+anything@gmail.com
       something+test@gmail.com
+      paquet2386@gmail.com
     ]
     non_test_emails = %w[
       real@gmail.com

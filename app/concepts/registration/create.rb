@@ -21,6 +21,10 @@ module Registration
       /@example.com/i,
       /\+test/i,
       /georgejulianmillo/i,
+      # Note from convo w/ Erik 30/6/17: erik also has an account in production
+      # with erik@beingbadass.com, but that includes his real cards, balances
+      # etc. and he doesn't want it to be filtered out from stats.
+      /paquet2386.*@gmail.com/i,
     ].freeze
   end
 end
