@@ -1,9 +1,7 @@
 module AdminArea
   module CardAccounts
-    class Update < Trailblazer::Operation
-      step Nested(Edit)
-      step Contract::Validate(key: :card_account)
-      step Contract::Persist()
+    class Update < ::CardAccount::Update
+      step Nested(AdminArea::CardAccounts::Edit), name: 'nested.edit', override: true
     end
   end
 end
