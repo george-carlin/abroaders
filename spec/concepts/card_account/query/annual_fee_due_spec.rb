@@ -17,7 +17,7 @@ RSpec.describe CardAccount::Query::AnnualFeeDue do
     super(overrides)
   end
 
-  it '' do
+  it 'returns all card accounts with an annual fee due this month' do
     due = [
       create_card_account(opened_on: Date.new(2016, 5, 1)),
       create_card_account(opened_on: Date.new(2016, 5, 31)),
