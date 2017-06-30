@@ -1,7 +1,7 @@
 class CardAccount < CardAccount.superclass
   class SendAnnualFeeReminder
     def self.call
-      unless Date.today.day == 1
+      unless Date.today.day == 1 || !!ENV['ANNUAL_FEE_REMINDER_TEST_MODE']
         raise "can't run unless today is the 1st of the month"
       end
 
