@@ -59,17 +59,6 @@ RSpec.describe CardAccount::Create do
     expect(card_account.closed_on).to eq Date.today
   end
 
-  it 'posts to a Zapier webhook' do
-    expect(ZapierWebhooks::CardAccount::Created).to receive(:enqueue).with(kind_of(Card))
-    op.(
-      {
-        card_product_id: card_product.id,
-        card_account: { opened_on: Date.today },
-      },
-      'account' => account,
-    )
-  end
-
   example 'invalid save - opened in future' do
     result = op.(
       {
