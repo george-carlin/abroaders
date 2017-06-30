@@ -232,7 +232,7 @@ module SampleDataMacros
 
     rec = run!(
       AdminArea::CardRecommendations::Create,
-      { card_recommendation: { offer_id: offer_id }, person_id: person_id },
+      { card: { offer_id: offer_id }, person_id: person_id },
       'admin' => admin,
     )['model']
 
@@ -292,7 +292,7 @@ module SampleDataMacros
                       end
 
     params = {
-      card_account: {
+      card: {
         opened_on: overrides.fetch(:opened_on, Date.today),
       },
       card_product_id: card_product_id,
@@ -307,8 +307,8 @@ module SampleDataMacros
     end
 
     if overrides.key?(:closed_on)
-      params[:card_account][:closed] = true
-      params[:card_account][:closed_on] = overrides.fetch(:closed_on, Date.today)
+      params[:card][:closed] = true
+      params[:card][:closed_on] = overrides.fetch(:closed_on, Date.today)
     end
 
     run!(CardAccount::Create, params, 'account' => person.account)['model']

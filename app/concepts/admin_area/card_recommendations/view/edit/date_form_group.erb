@@ -9,9 +9,9 @@
 
   <div class="col-md-12 col-lg-7">
     <%# hacky solution to make sure that dates will be set to nil if the <select> tag is disabled %>
-    <%= hidden_field :card_recommendation, :"#{attribute_name}(3i)", value: '' %>
-    <%= hidden_field :card_recommendation, :"#{attribute_name}(2i)", value: '' %>
-    <%= hidden_field :card_recommendation, :"#{attribute_name}(1i)", value: '' %>
+    <%= hidden_field :card, :"#{attribute_name}(3i)", value: '' %>
+    <%= hidden_field :card, :"#{attribute_name}(2i)", value: '' %>
+    <%= hidden_field :card, :"#{attribute_name}(1i)", value: '' %>
     <%= date_select %>
   </div>
 </div>

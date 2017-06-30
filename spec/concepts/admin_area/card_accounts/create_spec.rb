@@ -9,7 +9,7 @@ RSpec.describe AdminArea::CardAccounts::Create do
   example 'success - creating an open card account' do
     result = op.(
       person_id: person.id,
-      card_account: { card_product_id: card_product.id, opened_on: Date.today },
+      card: { card_product_id: card_product.id, opened_on: Date.today },
     )
     expect(result.success?).to be true
 
@@ -22,7 +22,7 @@ RSpec.describe AdminArea::CardAccounts::Create do
   example 'success - creating a closed card account' do
     result = op.(
       person_id: person.id,
-      card_account: {
+      card: {
         card_product_id: card_product.id,
         closed: true,
         closed_on: Date.today,
@@ -40,7 +40,7 @@ RSpec.describe AdminArea::CardAccounts::Create do
   example 'failure - invalid save - opened in future' do
     result = op.(
       person_id: person.id,
-      card_account: { card_product_id: card_product.id, opened_on: (Date.today + 1) },
+      card: { card_product_id: card_product.id, opened_on: (Date.today + 1) },
     )
     expect(result.success?).to be false
   end
@@ -48,7 +48,7 @@ RSpec.describe AdminArea::CardAccounts::Create do
   example 'failure - invalid save - closed before opened' do
     result = op.(
       person_id: person.id,
-      card_account: {
+      card: {
         card_product_id: card_product.id,
         closed: true,
         closed_on: (Date.today - 2),

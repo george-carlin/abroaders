@@ -10,7 +10,7 @@ RSpec.describe CardAccount::Create do
     result = op.(
       {
         card_product_id: card_product.id,
-        card_account: { opened_on: Date.today },
+        card: { opened_on: Date.today },
       },
       'account' => account,
     )
@@ -29,7 +29,7 @@ RSpec.describe CardAccount::Create do
       {
         person_id: companion.id,
         card_product_id: card_product.id,
-        card_account: { opened_on: Date.today, closed: false },
+        card: { opened_on: Date.today, closed: false },
       },
       'account' => account,
     )
@@ -42,7 +42,7 @@ RSpec.describe CardAccount::Create do
     result = op.(
       {
         card_product_id: card_product.id,
-        card_account: {
+        card: {
           closed: true,
           closed_on: Date.today,
           opened_on: Date.yesterday,
@@ -63,7 +63,7 @@ RSpec.describe CardAccount::Create do
     result = op.(
       {
         card_product_id: card_product.id,
-        card_account: { opened_on: Date.tomorrow },
+        card: { opened_on: Date.tomorrow },
       },
       'account' => account,
     )
@@ -74,7 +74,7 @@ RSpec.describe CardAccount::Create do
     result = op.(
       {
         card_product_id: card_product.id,
-        card_account: {
+        card: {
           closed: true,
           closed_on: Date.today - 10,
           opened_on: Date.today,
@@ -92,7 +92,7 @@ RSpec.describe CardAccount::Create do
         {
           person_id: other_account.owner.id,
           card_product_id: card_product.id,
-          card_account: { opened_on: Date.today, closed: false },
+          card: { opened_on: Date.today, closed: false },
         },
         'account' => account,
       )

@@ -3,7 +3,7 @@ class CardAccount < CardAccount.superclass
   #   this op has the exact same method signature
   class Create < Trailblazer::Operation
     step Nested(New)
-    step Contract::Validate(key: :card_account)
+    step Contract::Validate(key: :card)
     success :sanity_check!
     step Contract::Persist()
 

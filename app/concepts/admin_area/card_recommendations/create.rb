@@ -18,13 +18,13 @@ module AdminArea
       step :setup_person!
       step :setup_model!
       step Contract::Build()
-      step Contract::Validate(key: :card_recommendation)
+      step Contract::Validate(key: :card)
       step Contract::Persist()
 
       private
 
       def log_offer_is_not_live!(opts, params:, **)
-        id = params[:card_recommendation][:offer_id]
+        id = params[:card][:offer_id]
         opts['errors'] = ["Couldn't find live offer with ID #{id}"]
       end
 
@@ -40,7 +40,7 @@ module AdminArea
       end
 
       def validate_offer_is_live!(_opts, params:, **)
-        Offer.live.exists?(id: params[:card_recommendation][:offer_id])
+        Offer.live.exists?(id: params[:card][:offer_id])
       end
     end
   end

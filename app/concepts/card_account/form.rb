@@ -5,8 +5,6 @@ class CardAccount < CardAccount.superclass
     feature Reform::Form::MultiParameterAttributes
     feature Reform::Form::Coercion
 
-    model :card_account
-
     property :closed, virtual: true, prepopulator: ->(_) { self.closed = !closed_on.nil? }
     property :closed_on
     property :opened_on

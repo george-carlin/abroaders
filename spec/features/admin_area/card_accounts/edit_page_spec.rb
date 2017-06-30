@@ -14,11 +14,11 @@ RSpec.describe 'admin area - edit card account page', :js do
   example 'updating card account', :js do
     visit path
 
-    expect(page).to have_field :card_account_opened_on_1i
-    expect(page).to have_field :card_account_opened_on_2i
-    expect(page).to have_field :card_account_closed, checked: false
+    expect(page).to have_field :card_opened_on_1i
+    expect(page).to have_field :card_opened_on_2i
+    expect(page).to have_field :card_closed, checked: false
 
-    check :card_account_closed
+    check :card_closed
     click_button 'Save'
     card_account.reload
     expect(card_account).to be_closed
@@ -29,8 +29,8 @@ RSpec.describe 'admin area - edit card account page', :js do
     card_account = create_card_account(closed_on: Date.today, person: person)
     visit path
 
-    expect(page).to have_field :card_account_closed, checked: true
-    uncheck :card_account_closed
+    expect(page).to have_field :card_closed, checked: true
+    uncheck :card_closed
     click_button 'Save'
     card_account.reload
     expect(card_account).to be_opened
@@ -40,18 +40,18 @@ RSpec.describe 'admin area - edit card account page', :js do
   example 'invalid card account update' do
     visit path
 
-    check :card_account_closed
+    check :card_closed
     # closed before opened:
-    select (Date.today.year - 1).to_s, from: :card_account_closed_on_1i
+    select (Date.today.year - 1).to_s, from: :card_closed_on_1i
     click_button 'Save'
 
     expect(card_account.reload.closed_on).to be_nil
 
     # still shows form, including with the 'closed' inputs visible:
-    expect(page).to have_field :card_account_opened_on_1i
-    expect(page).to have_field :card_account_opened_on_2i
-    expect(page).to have_field :card_account_closed, checked: true
-    expect(page).to have_field :card_account_closed_on_1i
-    expect(page).to have_field :card_account_closed_on_2i
+    expect(page).to have_field :card_opened_on_1i
+    expect(page).to have_field :card_opened_on_2i
+    expect(page).to have_field :card_closed, checked: true
+    expect(page).to have_field :card_closed_on_1i
+    expect(page).to have_field :card_closed_on_2i
   end
 end

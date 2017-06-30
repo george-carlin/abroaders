@@ -12,7 +12,7 @@ RSpec.describe AdminArea::CardRecommendations::Create do
     result = op.(
       {
         person_id: person.id,
-        card_recommendation: {
+        card: {
           offer_id:  offer.id,
         },
       },
@@ -33,7 +33,7 @@ RSpec.describe AdminArea::CardRecommendations::Create do
       result = op.(
         {
           person_id: person.id,
-          card_recommendation: {
+          card: {
             offer_id:  offer.id,
           },
         },

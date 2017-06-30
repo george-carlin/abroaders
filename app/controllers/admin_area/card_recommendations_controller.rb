@@ -10,8 +10,6 @@ module AdminArea
 
     def edit
       run CardRecommendations::Edit
-      # See notes on this in CardAccountsController
-      @form = result['contract.default']
       render cell(CardRecommendations::Cell::Edit, @model, form: @form)
     end
 
@@ -20,8 +18,6 @@ module AdminArea
         flash[:success] = 'Updated rec!'
         return redirect_to admin_person_path(@model.person)
       end
-      # See notes on this in CardAccountsController
-      @form = result['contract.default']
       @form.prepopulate!
       render cell(CardRecommendations::Cell::Edit, @model, form: @form)
     end

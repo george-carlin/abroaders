@@ -25,7 +25,7 @@ module AdminArea
             class: "confirm_recommend_offer_btn #{BTN_CLASSES} btn-primary pull-right",
             id: "confirm_recommend_offer_#{offer.id}_btn",
             remote: true,
-            params: { card_recommendation: { offer_id: offer.id } },
+            params: { card: { offer_id: offer.id } },
           )
         end
 

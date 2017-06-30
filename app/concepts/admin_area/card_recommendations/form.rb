@@ -4,8 +4,6 @@ module AdminArea
       feature Coercion
       feature MultiParameterAttributes
 
-      model :card_recommendation
-
       property :applied_on, type: Types::Form::Date
       property :called_at, type: Types::Form::Date
       property :decline_reason, type: Types::StrippedString, nilify: true

@@ -2,7 +2,6 @@ module AdminArea
   class CardAccountsController < AdminController
     def new
       run CardAccounts::New
-      @form = result['contract.default']
     end
 
     def create
@@ -10,15 +9,13 @@ module AdminArea
         flash[:success] = 'Added card!'
         return redirect_to admin_person_path(@model.person)
       end
-      @form = result['contract.default']
       render :new
     end
 
     def edit
       run CardAccounts::Edit
-      form = result['contract.default']
-      form.prepopulate!
-      render cell(CardAccounts::Cell::Edit, form)
+      @form.prepopulate!
+      render cell(CardAccounts::Cell::Edit, @form) # TODO pass form as option, not model
     end
 
     def update
@@ -26,8 +23,7 @@ module AdminArea
         flash[:success] = 'Updated card!'
         return redirect_to admin_person_path(@model.person)
       end
-      form = result['contract.default']
-      render cell(CardAccounts::Cell::Edit, form)
+      render cell(CardAccounts::Cell::Edit, @form) # TODO pass form as option, not model
     end
   end
 end

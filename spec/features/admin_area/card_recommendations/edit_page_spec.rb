@@ -10,19 +10,19 @@ RSpec.describe 'admin - edit card rec page', :js do
   example 'updating decline reason' do
     visit edit_admin_card_recommendation_path(rec)
 
-    expect(page).to have_field :card_recommendation_decline_reason
-    expect(page).to have_select :card_recommendation_declined_at_1i, disabled: true
-    expect(page).to have_select :card_recommendation_declined_at_2i, disabled: true
-    expect(page).to have_select :card_recommendation_declined_at_3i, disabled: true
+    expect(page).to have_field :card_decline_reason
+    expect(page).to have_select :card_declined_at_1i, disabled: true
+    expect(page).to have_select :card_declined_at_2i, disabled: true
+    expect(page).to have_select :card_declined_at_3i, disabled: true
 
     check :toggle_declined_at
-    expect(page).to have_select :card_recommendation_declined_at_1i, disabled: false
-    expect(page).to have_select :card_recommendation_declined_at_2i, disabled: false
-    expect(page).to have_select :card_recommendation_declined_at_3i, disabled: false
+    expect(page).to have_select :card_declined_at_1i, disabled: false
+    expect(page).to have_select :card_declined_at_2i, disabled: false
+    expect(page).to have_select :card_declined_at_3i, disabled: false
 
     raise unless rec.declined_at.nil? && rec.decline_reason.nil? # sanity check
 
-    fill_in :card_recommendation_decline_reason, with: 'because'
+    fill_in :card_decline_reason, with: 'because'
 
     submit_form
     rec.reload
