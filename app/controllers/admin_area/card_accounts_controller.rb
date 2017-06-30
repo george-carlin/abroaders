@@ -16,8 +16,9 @@ module AdminArea
 
     def edit
       run CardAccounts::Edit
-      @form = result['contract.default']
-      @form.prepopulate!
+      form = result['contract.default']
+      form.prepopulate!
+      render cell(CardAccounts::Cell::Edit, form)
     end
 
     def update
@@ -25,8 +26,8 @@ module AdminArea
         flash[:success] = 'Updated card!'
         return redirect_to admin_person_path(@model.person)
       end
-      @form = result['contract.default']
-      render :edit
+      form = result['contract.default']
+      render cell(CardAccounts::Cell::Edit, form)
     end
   end
 end
