@@ -42,7 +42,6 @@ gem 'sinatra', '2.0.0'
 gem 'trailblazer-cells'
 gem 'uglifier', '3.0.0'
 gem 'virtus'
-gem 'will_paginate-bootstrap', '~> 1.0.1'
 gem 'workflow'
 
 # we don't depend on dry-logic directly, but other dry-* dependencies need it,

@@ -20,12 +20,12 @@ module AdminArea
           options[:page] || 1
         end
 
-        def paginated_accounts
-          @paginated_accounts ||= model.page(page).per_page(50)
+        def paginated_destinations
+          @paginated_destinations ||= model.page(page).per(50)
         end
 
         def paginator
-          paginate(model)
+          paginate(paginated_destinations)
         end
 
         def table_rows

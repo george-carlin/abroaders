@@ -15,9 +15,7 @@ module AdminArea
     private
 
     def load_destinations
-      Destination.includes(:parent).order("name ASC").paginate(
-        page: params[:page], per_page: 50,
-      )
+      Destination.includes(:parent).order('name ASC')
     end
   end
 end

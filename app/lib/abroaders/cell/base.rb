@@ -1,3 +1,7 @@
+# Make sure ActionView::Base is loaded otherwise we can get a weird error where
+# kaminari-cells tries a use a module before it defines it.
+require 'action_view/base'
+
 module Abroaders
   module Cell
     class Base < Trailblazer::Cell
