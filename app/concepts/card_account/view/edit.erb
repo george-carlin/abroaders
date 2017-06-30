@@ -1,5 +1,3 @@
-<% provide :title, "Edit Card" %>
-
 <div class="hpanel">
   <div class="panel-heading hbuilt">
     <div class="row">
@@ -9,14 +7,14 @@
     </div><!-- .row -->
   </div>
 
-  <%= cell(Abroaders::Cell::ValidationErrorsAlert, @form) %>
+  <%= errors %>
 
   <div class="panel-body">
-    <%= form_for @form, url: card_account_path(@model), html: { class: "edit_card" } do |f| %>
+    <%= form_tag do |f| %>
 
       <div class="row">
         <%# two divs with cols XS 12/12, SM 6/6, MD 2/4: %>
-        <%= cell(CardProduct::Cell::Summary, @model.card_product) %>
+        <%= card_product_summary %>
 
         <div class="col-xs-12 col-md-6">
           <div class="row">
@@ -45,7 +43,7 @@
               <%= f.check_box :closed, class: "cards_survey_card_closed input-lg" %>
             </div>
 
-            <div class="card-survey-closed <%= 'hide' unless @form.closed %>">
+            <div class="card-survey-closed <%= 'hide' unless form.closed %>">
               <div class="col-md-12 col-lg-4">
                 <label class="card-info-label card-survey-closed">When did you close this card?</label>
               </div>
@@ -76,3 +74,4 @@
     <% end %>
   </div>
 </div>
+
