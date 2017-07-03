@@ -75,6 +75,22 @@ RSpec.describe "user cards page - nudgeable cards", :js do
     end
   end
 
+  def self.it_asks_to_confirm(has_pending_btn:)
+    example 'it can be confirmed/canceled' do
+      expect(page).to have_no_button approved_btn
+      expect(page).to have_no_button denied_btn
+      expect(page).to have_no_button pending_btn
+      expect(page).to have_button 'Cancel'
+      expect(page).to have_button 'Confirm'
+      # going back
+      click_button 'Cancel'
+      expect(page).to have_button approved_btn
+      expect(page).to have_button denied_btn
+      expect(page).to has_pending_btn ? have_button(pending_btn) : have_no_button(pending_btn)
+      expect(page).to have_no_button 'Confirm'
+    end
+  end
+
   describe "clicking 'I called'" do
     before { click_button i_called_btn(rec) }
 
