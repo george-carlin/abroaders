@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe AdminArea::CardRecommendations::Update do
+  include ZapierWebhooksMacros
+
   let(:op) { described_class }
 
   let(:person)  { create_account(:onboarded).owner }
@@ -25,7 +27,7 @@ RSpec.describe AdminArea::CardRecommendations::Update do
     }
     params[:id] = rec.id
 
-    expect(ZapierWebhooks::Cards::Opened).not_to receive(:perform_later)
+    expect_not_to_queue_card_opened_webhook
     result = op.(params)
     expect(result.success?).to be true
 
@@ -40,7 +42,7 @@ RSpec.describe AdminArea::CardRecommendations::Update do
     params[:card] = { opened_on: dec_2015 }
     params[:id] = rec.id
 
-    expect(ZapierWebhooks::Cards::Opened).to receive(:perform_later).with(id: rec.id)
+    expect_to_queue_card_opened_webhook_with_id(rec.id)
 
     result = op.(params)
     expect(result.success?).to be true
@@ -53,7 +55,7 @@ RSpec.describe AdminArea::CardRecommendations::Update do
     params[:card] = { applied_on: dec_2015, denied_at: jan_2016 }
     params[:id] = rec.id
 
-    expect(ZapierWebhooks::Cards::Opened).not_to receive(:perform_later)
+    expect_not_to_queue_card_opened_webhook
 
     result = op.(params)
     expect(result.success?).to be true
@@ -69,7 +71,7 @@ RSpec.describe AdminArea::CardRecommendations::Update do
     params[:card] = { applied_on: dec_2015, declined_at: jan_2016 }
     params[:id] = rec.id
 
-    expect(ZapierWebhooks::Cards::Opened).not_to receive(:perform_later)
+    expect_not_to_queue_card_opened_webhook
 
     rec.reload
     expect do

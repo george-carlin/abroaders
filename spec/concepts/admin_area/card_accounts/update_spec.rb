@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe AdminArea::CardAccounts::Update do
+  include ZapierWebhooksMacros
+
   let(:op) { described_class }
 
   let(:person)  { create_account(:onboarded).owner }
@@ -18,7 +20,7 @@ RSpec.describe AdminArea::CardAccounts::Update do
     params[:id] = card_account.id
 
     # Card is already opened, no need to trigger again
-    expect(ZapierWebhooks::Cards::Opened).not_to receive(:perform_later)
+    expect_not_to_queue_card_opened_webhook
 
     result = op.(params)
     expect(result.success?).to be true
@@ -34,7 +36,7 @@ RSpec.describe AdminArea::CardAccounts::Update do
     params[:id] = card_account.id
 
     # Card is already opened, no need to trigger again
-    expect(ZapierWebhooks::Cards::Opened).not_to receive(:perform_later)
+    expect_not_to_queue_card_opened_webhook
 
     result = op.(params)
     expect(result.success?).to be true
@@ -52,7 +54,7 @@ RSpec.describe AdminArea::CardAccounts::Update do
     params[:id] = card_account.id
 
     # Card is already opened, no need to trigger again
-    expect(ZapierWebhooks::Cards::Opened).not_to receive(:perform_later)
+    expect_not_to_queue_card_opened_webhook
 
     result = op.(params)
     expect(result.success?).to be true
@@ -69,7 +71,7 @@ RSpec.describe AdminArea::CardAccounts::Update do
     params[:id] = card_account.id
 
     # Card is already opened, no need to trigger again
-    expect(ZapierWebhooks::Cards::Opened).not_to receive(:perform_later)
+    expect_not_to_queue_card_opened_webhook
 
     result = op.(params)
     expect(result.success?).to be false
