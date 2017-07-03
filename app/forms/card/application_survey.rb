@@ -9,7 +9,7 @@ class Card::ApplicationSurvey < ApplicationForm
   def persist!
     case action
     when "apply"
-      raise 'use CardRecommendation::UpdateStatus::Applied to mark card recs as applied'
+      card.applied_on = Time.now
     when "call"
       card.called_at = Time.now
     when "call_and_open"

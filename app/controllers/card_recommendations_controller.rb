@@ -1,28 +1,16 @@
 class CardRecommendationsController < CardsController
   def update
+    survey = Card::ApplicationSurvey.new(card: load_card)
     respond_to do |f|
       f.json do
-        case params[:card][:action]
-        when 'apply'
-          run CardRecommendation::UpdateStatus::Applied do |result|
-            render json: CardRecommendation::Representer.new(result['model']).to_json
-            return
-          end
-          render json: { error: true, message: result['error'] }, code: 422
-        else
-          # we're moving away from ApplicationSurvey; I want to replace
-          # everything with ops. Everything above the 'else' is the new style,
-          # the code below 'else' is old stuff that should be phased out.
-          begin
-            survey = Card::ApplicationSurvey.new(card: load_card)
-            survey.update!(update_params)
-            render json: CardRecommendation::Representer.new(survey.card).to_json
-          rescue Card::InvalidStatusError
-            render json: {
-              error: true,
-              message: t("cards.invalid_status_error"),
-            }, code: 422
-          end
+        begin
+          survey.update!(update_params)
+          render json: CardRecommendation::Representer.new(survey.card).to_json
+        rescue Card::InvalidStatusError
+          render json: {
+            error: true,
+            message: t("cards.invalid_status_error"),
+          }, code: 422
         end
       end
     end
