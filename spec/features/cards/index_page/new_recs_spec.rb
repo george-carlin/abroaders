@@ -113,27 +113,10 @@ RSpec.describe "cards index page - new recommendation", :js do
   describe "clicking the 'I Applied' button" do
     before { click_button i_applied_btn }
 
-    shared_examples "asks to confirm" do
-      it "hides the current set of buttons and asks to confirm", :frontend do
-        expect(page).to have_no_button approved_btn
-        expect(page).to have_no_button denied_btn
-        expect(page).to have_no_button pending_btn
-        expect(page).to have_button 'Cancel'
-        expect(page).to have_button 'Confirm'
-        # going back
-        click_button 'Cancel'
-        expect(page).to have_button approved_btn
-        expect(page).to have_button denied_btn
-        expect(page).to have_button pending_btn
-        expect(page).to have_no_button 'Cancel'
-        expect(page).to have_no_button 'Confirm'
-      end
-    end
-
     describe "clicking 'I was approved'" do
       before { click_button approved_btn }
 
-      include_examples "asks to confirm"
+      it_asks_to_confirm(has_pending_btn: true)
 
       shared_examples "unapplyable" do
         context "when the account is no longer 'applyable'" do
@@ -205,7 +188,7 @@ RSpec.describe "cards index page - new recommendation", :js do
     describe "clicking 'I was denied'" do
       before { click_button denied_btn }
 
-      include_examples "asks to confirm"
+      it_asks_to_confirm(has_pending_btn: true)
 
       context "and clicking 'Confirm'" do
         before { click_confirm_btn }
@@ -237,7 +220,7 @@ RSpec.describe "cards index page - new recommendation", :js do
     describe "clicking 'I'm still waiting to hear back'" do
       before { click_button pending_btn }
 
-      include_examples "asks to confirm"
+      it_asks_to_confirm(has_pending_btn: true)
 
       context "and clicking 'Confirm'" do
         before { click_confirm_btn }

@@ -3,6 +3,7 @@ module ApplicationSurveyMacros
 
   def self.included(base)
     base.include DatepickerMacros
+    base.extend ClassMethods
     base.instance_eval do
       # some of these buttons have different text for different survey stages,
       # so you'll have to override these let variables where appropriate:
@@ -41,5 +42,23 @@ module ApplicationSurveyMacros
     raise "error: approved at must be today or in the past" if date > Time.zone.today
 
     set_datepicker_field('#' << approved_at, to: date)
+  end
+
+  module ClassMethods
+    def it_asks_to_confirm(has_pending_btn:)
+      example 'it can be confirmed/canceled' do
+        expect(page).to have_no_button approved_btn
+        expect(page).to have_no_button denied_btn
+        expect(page).to have_no_button pending_btn
+        expect(page).to have_button 'Cancel'
+        expect(page).to have_button 'Confirm'
+        # going back
+        click_button 'Cancel'
+        expect(page).to have_button approved_btn
+        expect(page).to have_button denied_btn
+        expect(page).to has_pending_btn ? have_button(pending_btn) : have_no_button(pending_btn)
+        expect(page).to have_no_button 'Confirm'
+      end
+    end
   end
 end

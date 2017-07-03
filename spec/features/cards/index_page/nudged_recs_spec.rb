@@ -32,19 +32,6 @@ RSpec.describe "user cards page - nudged cards", :js do
   describe "clicking 'I heard back'" do
     before { click_button i_heard_back_btn }
 
-    shared_examples "asks to confirm" do
-      it "asks to confirm", :frontend do
-        expect(page).to have_no_button approved_btn
-        expect(page).to have_no_button denied_btn
-        expect(page).to have_button 'Cancel'
-        expect(page).to have_button 'Confirm'
-        click_button 'Cancel'
-        expect(page).to have_button approved_btn
-        expect(page).to have_button denied_btn
-        expect(page).to have_no_button 'Confirm'
-      end
-    end
-
     it "asks for the result", :frontend do
       expect(page).to have_no_button i_called_btn(rec)
       expect(page).to have_button approved_btn
@@ -54,49 +41,41 @@ RSpec.describe "user cards page - nudged cards", :js do
     describe "clicking 'I was approved'" do
       before { click_button approved_btn }
 
-      include_examples "asks to confirm"
+      it_asks_to_confirm(has_pending_btn: false)
 
-      describe "and clicking 'confirm'" do
-        before do
-          click_button 'Confirm'
-          sleep 1.5
-          rec.reload
-        end
+      example 'and clicking "confirm"' do
+        click_button 'Confirm'
+        sleep 1.5
+        rec.reload
 
-        it "updates the card account's attributes", :backend do
-          # this spec fails when run late in the day when your machine's time
-          # is earlier than UTC # TZFIXME
-          expect(rec).to be_opened
-          expect(rec.opened_on).to eq Time.zone.today
-          expect(rec.applied_on).to eq applied_on # unchanged
-          expect(rec.nudged_at).to eq nudged_at # unchanged
-          expect(rec.called_at).to be_nil # unchanged
-          expect(rec.redenied_at).to be_nil # unchanged
-          expect(rec.denied_at).to be_nil # unchanged
-        end
+        # this spec fails when run late in the day when your machine's time
+        # is earlier than UTC # TZFIXME
+        expect(rec).to be_opened
+        expect(rec.opened_on).to eq Time.zone.today
+        expect(rec.applied_on).to eq applied_on # unchanged
+        expect(rec.nudged_at).to eq nudged_at # unchanged
+        expect(rec.called_at).to be_nil # unchanged
+        expect(rec.redenied_at).to be_nil # unchanged
+        expect(rec.denied_at).to be_nil # unchanged
       end
     end
 
     describe "clicking 'I was denied'" do
       before { click_button denied_btn }
 
-      include_examples "asks to confirm"
+      it_asks_to_confirm(has_pending_btn: false)
 
-      describe "and clicking 'confirm'" do
-        before do
-          click_button 'Confirm'
-          sleep 1.5
-          rec.reload
-        end
+      example 'and clicking "confirm"' do
+        click_button 'Confirm'
+        sleep 1.5
+        rec.reload
 
-        it "updates the card account's attributes", :backend do
-          expect(CardRecommendation.new(rec).status).to eq "denied"
-          expect(rec.denied_at).to be_within(5.seconds).of(Time.zone.now)
-          expect(rec.applied_on).to eq applied_on # unchanged
-          expect(rec.nudged_at).to eq nudged_at # unchanged
-          expect(rec.called_at).to be_nil # unchanged
-          expect(rec.redenied_at).to be_nil # unchanged
-        end
+        expect(CardRecommendation.new(rec).status).to eq "denied"
+        expect(rec.denied_at).to be_within(5.seconds).of(Time.zone.now)
+        expect(rec.applied_on).to eq applied_on # unchanged
+        expect(rec.nudged_at).to eq nudged_at # unchanged
+        expect(rec.called_at).to be_nil # unchanged
+        expect(rec.redenied_at).to be_nil # unchanged
       end
     end
   end

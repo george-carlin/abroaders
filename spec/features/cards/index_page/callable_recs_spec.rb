@@ -61,23 +61,6 @@ RSpec.describe "user cards page - callable cards", :js do
   describe "clicking 'I called'" do
     before { click_button i_called_btn(rec) }
 
-    shared_examples "asks to confirm" do
-      it "asks to confirm", :frontend do
-        expect(page).to have_no_button approved_btn
-        expect(page).to have_no_button denied_btn
-        expect(page).to have_no_button pending_btn
-        expect(page).to have_button 'Cancel'
-        expect(page).to have_button 'Confirm'
-        # going back
-        click_button 'Cancel'
-        expect(page).to have_button approved_btn
-        expect(page).to have_button denied_btn
-        expect(page).to have_button pending_btn
-        expect(page).to have_no_button 'Cancel'
-        expect(page).to have_no_button 'Confirm'
-      end
-    end
-
     it "asks for the result", :frontend do
       expect(page).to have_no_button i_called_btn(rec)
       expect(page).to have_button approved_btn
@@ -88,69 +71,57 @@ RSpec.describe "user cards page - callable cards", :js do
     describe "clicking 'I was approved'" do
       before { click_button approved_btn }
 
-      include_examples "asks to confirm"
+      it_asks_to_confirm(has_pending_btn: true)
 
-      describe "and clicking 'confirm'" do
-        before do
-          click_button 'Confirm'
-          sleep 1.5 # can't figure out a more elegant solution than this
-          rec.reload
-        end
+      example 'and clicking "confirm"' do
+        click_button 'Confirm'
+        sleep 1.5 # can't figure out a more elegant solution than this
+        rec.reload
 
-        it "updates the card account's attributes", :backend do
-          # this spec fails when run late in the day when your machine's time
-          # is earlier than UTC # TZFIXME
-          expect(rec).to be_opened
-          expect(rec.opened_on).to eq Time.zone.today
-          expect(rec.called_at).to be_within(5.seconds).of(Time.zone.now)
-          expect(rec.applied_on).to eq applied_on # unchanged
-        end
+        # this spec fails when run late in the day when your machine's time
+        # is earlier than UTC # TZFIXME
+        expect(rec).to be_opened
+        expect(rec.opened_on).to eq Time.zone.today
+        expect(rec.called_at).to be_within(5.seconds).of(Time.zone.now)
+        expect(rec.applied_on).to eq applied_on # unchanged
       end
     end
 
     describe "clicking 'I was denied again'" do
       before { click_button denied_btn }
 
-      include_examples "asks to confirm"
+      it_asks_to_confirm(has_pending_btn: true)
 
-      describe "and clicking 'confirm'" do
-        before do
-          click_button 'Confirm'
-          sleep 1.5 # can't figure out a more elegant solution than this
-          rec.reload
-        end
+      example 'and clicking "confirm"' do
+        click_button 'Confirm'
+        sleep 1.5 # can't figure out a more elegant solution than this
+        rec.reload
 
-        it "updates the card account's attributes", :backend do
-          expect(CardRecommendation.new(rec).status).to eq "denied"
-          expect(rec.denied_at).to eq denied_at
-          expect(rec.applied_on).to eq applied_on # unchanged
-          expect(rec.redenied_at).to be_within(5.seconds).of(Time.zone.now)
-          expect(rec.called_at).to be_within(5.seconds).of(Time.zone.now)
-        end
+        expect(CardRecommendation.new(rec).status).to eq "denied"
+        expect(rec.denied_at).to eq denied_at
+        expect(rec.applied_on).to eq applied_on # unchanged
+        expect(rec.redenied_at).to be_within(5.seconds).of(Time.zone.now)
+        expect(rec.called_at).to be_within(5.seconds).of(Time.zone.now)
       end
     end
 
     describe "clicking 'I'm now pending'" do
       before { click_button pending_btn }
 
-      include_examples "asks to confirm"
+      it_asks_to_confirm(has_pending_btn: true)
 
-      describe "and clicking 'confirm'" do
-        before do
-          click_button 'Confirm'
-          sleep 1.5 # can't figure out a more elegant solution than this
-          rec.reload
-        end
+      example 'and clicking "confirm"' do
+        click_button 'Confirm'
+        sleep 1.5 # can't figure out a more elegant solution than this
+        rec.reload
 
-        it "updates the card account's attributes", :backend do
-          expect(CardRecommendation.new(rec).status).to eq "denied"
-          expect(rec.denied_at).to eq denied_at
-          expect(rec.applied_on).to eq applied_on # unchanged
-          expect(rec.called_at).to be_within(5.seconds).of(Time.zone.now)
-          # doesn't set:
-          expect(rec.opened_on).to be_nil
-          expect(rec.redenied_at).to be_nil
-        end
+        expect(CardRecommendation.new(rec).status).to eq "denied"
+        expect(rec.denied_at).to eq denied_at
+        expect(rec.applied_on).to eq applied_on # unchanged
+        expect(rec.called_at).to be_within(5.seconds).of(Time.zone.now)
+        # doesn't set:
+        expect(rec.opened_on).to be_nil
+        expect(rec.redenied_at).to be_nil
       end
     end
   end
