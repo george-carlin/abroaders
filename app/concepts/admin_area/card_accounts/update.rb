@@ -1,7 +1,7 @@
 module AdminArea
   module CardAccounts
-    class Update < ::CardAccount::Update
-      step Nested(AdminArea::CardAccounts::Edit), name: 'nested.edit', override: true
+    class Update < Card::Update
+      self['edit_op'] = AdminArea::CardAccounts::Edit
     end
   end
 end

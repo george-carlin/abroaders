@@ -1,7 +1,5 @@
 class CardAccount < CardAccount.superclass
-  class Update < Trailblazer::Operation
-    step Nested(Edit), name: 'nested.edit'
-    step Contract::Validate(key: :card)
-    step Contract::Persist()
+  class Update < Card::Update
+    self['edit_op'] = CardAccount::Edit
   end
 end
