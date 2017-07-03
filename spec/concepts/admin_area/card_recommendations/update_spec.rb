@@ -25,6 +25,7 @@ RSpec.describe AdminArea::CardRecommendations::Update do
     }
     params[:id] = rec.id
 
+    expect(ZapierWebhooks::Cards::Opened).not_to receive(:perform_later)
     result = op.(params)
     expect(result.success?).to be true
 
@@ -39,6 +40,8 @@ RSpec.describe AdminArea::CardRecommendations::Update do
     params[:card] = { opened_on: dec_2015 }
     params[:id] = rec.id
 
+    expect(ZapierWebhooks::Cards::Opened).to receive(:perform_later).with(id: rec.id)
+
     result = op.(params)
     expect(result.success?).to be true
 
@@ -49,6 +52,8 @@ RSpec.describe AdminArea::CardRecommendations::Update do
     rec = create_rec(opened_on: Date.today)
     params[:card] = { applied_on: dec_2015, denied_at: jan_2016 }
     params[:id] = rec.id
+
+    expect(ZapierWebhooks::Cards::Opened).not_to receive(:perform_later)
 
     result = op.(params)
     expect(result.success?).to be true
@@ -63,6 +68,8 @@ RSpec.describe AdminArea::CardRecommendations::Update do
     # missing decline reason:
     params[:card] = { applied_on: dec_2015, declined_at: jan_2016 }
     params[:id] = rec.id
+
+    expect(ZapierWebhooks::Cards::Opened).not_to receive(:perform_later)
 
     rec.reload
     expect do

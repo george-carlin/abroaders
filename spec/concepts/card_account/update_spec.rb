@@ -17,6 +17,10 @@ RSpec.describe CardAccount::Update do
     card_account = create_card_account(person: person, card_product: product, opened_on: dec_2015)
     params[:card] = { opened_on: jan_2016 }
     params[:id] = card_account.id
+
+    # Card is already opened, so no need to trigger again
+    expect(ZapierWebhooks::Cards::Opened).not_to receive(:perform_later)
+
     result = op.(params, 'account' => account)
     expect(result.success?).to be true
 
@@ -29,6 +33,9 @@ RSpec.describe CardAccount::Update do
     card_account = create_card_account(person: person, card_product: product, opened_on: dec_2015)
     params[:card] = { closed: true, closed_on: jan_2016, opened_on: dec_2015 }
     params[:id] = card_account.id
+
+    expect(ZapierWebhooks::Cards::Opened).not_to receive(:perform_later)
+
     result = op.(params, 'account' => account)
     expect(result.success?).to be true
 
@@ -43,6 +50,9 @@ RSpec.describe CardAccount::Update do
     )
     params[:card] = { opened_on: dec_2015 }
     params[:id] = card_account.id
+
+    expect(ZapierWebhooks::Cards::Opened).not_to receive(:perform_later)
+
     result = op.(params, 'account' => account)
     expect(result.success?).to be true
 
@@ -56,6 +66,9 @@ RSpec.describe CardAccount::Update do
     # closed before opened:
     params[:card] = { opened_on: dec_2015, closed_on: nov_2015, closed: true }
     params[:id] = card_account.id
+
+    expect(ZapierWebhooks::Cards::Opened).not_to receive(:perform_later)
+
     result = op.(params, 'account' => account)
     expect(result.success?).to be false
   end
@@ -64,6 +77,8 @@ RSpec.describe CardAccount::Update do
     card_account = create_card_account(person: person, card_product: product, opened_on: dec_2015)
     params[:card] = { opened_on: jan_2016 }
     params[:id] = card_account.id
+
+    expect(ZapierWebhooks::Cards::Opened).not_to receive(:perform_later)
 
     other_account = create_account(:onboarded)
     expect do
