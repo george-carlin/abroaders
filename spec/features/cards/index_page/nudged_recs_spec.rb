@@ -2,6 +2,8 @@ require "rails_helper"
 
 RSpec.describe "user cards page - nudged cards", :js do
   include ApplicationSurveyMacros
+  include ZapierWebhooksMacros
+
   include_context "logged in"
 
   let(:person) { account.owner }

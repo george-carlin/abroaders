@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe "cards index page - new recommendation", :js do
   include ActionView::Helpers::NumberHelper
   include ApplicationSurveyMacros
+  include ZapierWebhooksMacros
 
   let(:account) { create_account(:onboarded, :eligible) }
   let(:person) { account.owner }
@@ -64,6 +65,8 @@ RSpec.describe "cards index page - new recommendation", :js do
     expect(page).to have_content 'Please include a message'
     expect(decline_reason_wrapper[:class]).to match(/\bfield_with_errors\b/)
 
+    expect_not_to_queue_card_opened_webhook
+
     # and actually declining successfully:
     message = 'Just because'
     fill_in :card_decline_reason, with: message
@@ -79,6 +82,7 @@ RSpec.describe "cards index page - new recommendation", :js do
   end
 
   example "trying to decline a rec that's already declined" do
+    expect_not_to_queue_card_opened_webhook
     # This could happen if e.g. they have the page open in two tabs:
     click_button decline_btn
     fill_in :card_decline_reason, with: 'Because I say so!'
@@ -113,6 +117,7 @@ RSpec.describe "cards index page - new recommendation", :js do
         end
 
         example 'clicking "Confirm"' do
+          expect_to_queue_card_opened_webhook_with_id(rec.id)
           click_confirm_btn
           # fails when run late in the day in pre-UTC TZs TZFIXME:
           wait_for_ajax
@@ -132,6 +137,7 @@ RSpec.describe "cards index page - new recommendation", :js do
         end
 
         example 'picking a date and clicking "Confirm"' do
+          expect_to_queue_card_opened_webhook_with_id(rec.id)
           date = 5.days.ago
           set_approved_at_to(date)
           click_confirm_btn
@@ -149,6 +155,7 @@ RSpec.describe "cards index page - new recommendation", :js do
       it_asks_to_confirm(has_pending_btn: true)
 
       example 'and clicking "Confirm"' do
+        expect_not_to_queue_card_opened_webhook
         click_confirm_btn
         # fails when run late in the day in pre-UTC TZs TZFIXME:
         expect(page).to have_content 'We strongly recommend'
@@ -164,6 +171,7 @@ RSpec.describe "cards index page - new recommendation", :js do
       it_asks_to_confirm(has_pending_btn: true)
 
       example 'and clicking "Confirm"' do
+        expect_not_to_queue_card_opened_webhook
         click_confirm_btn
         # fails when run late in the day in pre-UTC TZs TZFIXME:
         expect(CardRecommendation.new(rec).status).to eq "applied"
@@ -178,6 +186,7 @@ RSpec.describe "cards index page - new recommendation", :js do
     # same buttons on each one.
 
     example 'opening when not possible' do
+      expect_not_to_queue_card_opened_webhook
       click_button i_applied_btn
       click_button approved_btn
       rec.update_attributes!(declined_at: Time.zone.now, decline_reason: "x")
@@ -190,6 +199,7 @@ RSpec.describe "cards index page - new recommendation", :js do
     end
 
     example 'denied when not possible' do
+      expect_not_to_queue_card_opened_webhook
       click_button i_applied_btn
       click_button denied_btn
       rec.update_attributes!(declined_at: Time.zone.now, decline_reason: "x")
@@ -202,6 +212,7 @@ RSpec.describe "cards index page - new recommendation", :js do
     end
 
     example 'denied when not possible' do
+      expect_not_to_queue_card_opened_webhook
       click_button i_applied_btn
       click_button pending_btn
       rec.update_attributes!(declined_at: Time.zone.now, decline_reason: "x")

@@ -4,9 +4,9 @@ module ZapierWebhooks
 
     class << self
       %w[later now].each do |whenever|
-        define_method "perform_#{whenever}" do |*|
+        define_method "perform_#{whenever}" do |*args|
           return unless enabled?
-          super
+          super(*args)
         end
       end
     end

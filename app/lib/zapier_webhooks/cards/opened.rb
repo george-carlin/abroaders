@@ -19,7 +19,7 @@ module ZapierWebhooks
 
       # @option opts [Integer] card_id ID of the Card
       def perform(opts = {})
-        card = Card.find(opts.fetch('id'))
+        card = Card.find(opts.fetch(:id))
         raise 'card must have offer' unless card.offer?
         raise 'card must be opened' unless card.opened?
 
