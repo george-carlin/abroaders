@@ -113,9 +113,11 @@ RSpec.describe SampleDataMacros do
   describe '#create_card_recommendation' do
     it '' do
       expect do
-        create_card_recommendation
+        rec = create_card_recommendation
+        expect(rec.offer?).to be true
       end.to change { Card.recommended.count }.by(1)
       expect(Admin.count).to eq 1
+      expect(Offer.count).to eq 1
     end
 
     example 'with :approved trait' do
