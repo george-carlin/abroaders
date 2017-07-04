@@ -109,6 +109,6 @@ Rails.application.configure do
     },
     # tells paperclip whether to use 'http' or 'https':
     s3_protocol: ENV['FORCE_SSL'] ? 'https' : '',
-    s3_region: 'us-east-1',
+    s3_region: ENV['AWS_REGION'],
   }
 end
