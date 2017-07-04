@@ -30,6 +30,13 @@ RSpec.describe Card do
     expect(card.denied?).to be true
   end
 
+  example '#offer?' do
+    card.offer = offer
+    expect(card.offer?).to be true
+    card.offer = nil
+    expect(card.offer?).to be false
+  end
+
   # Callbacks
 
   example "set #card_product to #offer.card_product before save" do

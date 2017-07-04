@@ -46,5 +46,7 @@ class Card::ApplicationSurvey < ApplicationForm
     raise Card::InvalidStatusError unless CardRecommendation::Validate.(card)
 
     card.save!
+
+    ZapierWebhooks::Cards::Opened.perform_later(id: card.id) if card.opened?
   end
 end

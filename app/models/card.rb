@@ -114,6 +114,10 @@ class Card < ApplicationRecord
     !opened?
   end
 
+  def offer?
+    !offer.nil?
+  end
+
   include CardRecommendation::Predicates
 
   # Validations

@@ -23,9 +23,17 @@ module AdminArea
 
       private
 
+      def validate_offer_is_live!(params:, **)
+        Offer.live.exists?(id: params[:card][:offer_id])
+      end
+
       def log_offer_is_not_live!(opts, params:, **)
         id = params[:card][:offer_id]
         opts['errors'] = ["Couldn't find live offer with ID #{id}"]
+      end
+
+      def setup_person!(opts, params:, **)
+        opts['person'] = Person.find(params[:person_id])
       end
 
       def setup_model!(opts, admin:, person:, **)
@@ -33,14 +41,6 @@ module AdminArea
           recommended_at: Time.zone.now,
           recommended_by: admin,
         )
-      end
-
-      def setup_person!(opts, params:, **)
-        opts['person'] = Person.find(params[:person_id])
-      end
-
-      def validate_offer_is_live!(_opts, params:, **)
-        Offer.live.exists?(id: params[:card][:offer_id])
       end
     end
   end
