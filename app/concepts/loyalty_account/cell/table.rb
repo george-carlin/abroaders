@@ -114,14 +114,12 @@ class LoyaltyAccount < LoyaltyAccount.superclass
           property :login
           property :last_retrieve_date
 
-          def icon
-            image_tag(
-              'aw_tiny.png',
-              class: 'award_wallet_logo',
-              size: '15x15',
-              style: 'float: left',
-              alt: "We're pulling this account's information from your AwardWallet account",
-            )
+          private
+
+          def american_airlines?
+            # TODO this line will need updating once the AWAccount model is
+            # connected to the 'real' currency model.
+            currency_name == 'American Airlines (AAdvantage)'
           end
 
           def delete_btn
@@ -164,8 +162,36 @@ class LoyaltyAccount < LoyaltyAccount.superclass
             )
           end
 
+          def formatted_balance
+            return '-' if american_airlines?
+            super
+          end
+
           def html_id
             "award_wallet_account_#{id}"
+          end
+
+          def icon
+            image_tag(
+              'aw_tiny.png',
+              class: 'award_wallet_logo',
+              size: '15x15',
+              style: 'float: left',
+              alt: "We're pulling this account's information from your AwardWallet account",
+            )
+          end
+
+          def login
+            return super unless american_airlines?
+            tooltip = cell(
+              ::Abroaders::Cell::SpanWithTooltip,
+              text: '?',
+              tooltip_text: 'American Airlines will not allow Abroaders to '\
+                            'show you your balance on our website. Our team '\
+                            'can still view your balance and use it to help '\
+                            'you plan your next trip',
+            )
+            "Restricted #{tooltip}"
           end
 
           def modal_id

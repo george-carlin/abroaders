@@ -87,7 +87,21 @@ RSpec.describe LoyaltyAccount::Cell::Table::Row do
 
         expiration_date = cell(LoyaltyAccount::Cell::ExpirationDate, la).to_s.text
 
+        expect(rendered).not_to have_selector '.SpanWithTooltip'
+
         expect(rendered).to have_content expiration_date
+        expect(rendered).to have_content expiration_date
+      end
+
+      example 'for an American Airlines balance' do
+        awa.display_name = 'American Airlines (AAdvantage)'
+        rendered = cell(la).()
+        expect(rendered).to have_selector '.SpanWithTooltip'
+        expect(rendered).to have_selector(
+          '.loyalty_account_balance',
+          text: '-',
+        )
+        expect(rendered).to have_content 'Restricted'
       end
 
       example 'with unknown last_retrieve_date' do
