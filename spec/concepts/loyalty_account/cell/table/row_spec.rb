@@ -5,9 +5,9 @@ RSpec.describe LoyaltyAccount::Cell::Table::Row do
 
   let(:current_account) { Account.new }
 
-  let(:time_0) { Time.new(2016, 2, 3, 13, 3, 32) }
-  let(:time_1) { Time.new(2017, 1, 5, 23, 12, 19) }
-  let(:time_2) { Time.new(2022, 1, 5, 23, 12, 19) }
+  let(:time_0) { Time.utc(2016, 2, 3, 13, 3, 32) }
+  let(:time_1) { Time.utc(2017, 1, 5, 23, 12, 19) }
+  let(:time_2) { Time.utc(2022, 1, 5, 23, 12, 19) }
 
   let(:currency) { Currency.new(id: 1, name: 'Sterling') }
   let(:person) { current_account.build_owner(id: 1, first_name: 'George') }
