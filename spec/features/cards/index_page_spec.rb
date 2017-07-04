@@ -57,6 +57,10 @@ RSpec.describe 'as a user viewing my cards' do
     card = create_card_account(person: owner)
     other_persons_rec = create_card_recommendation(:seen, person_id: create_person.id)
 
+    # reload them first to avoid millisecond precision errors on CI:
+    seen_rec.reload
+    other_persons_rec.reload
+
     expect do
       visit_page
       seen_rec.reload

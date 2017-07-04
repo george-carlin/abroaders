@@ -1,6 +1,6 @@
-require "rails_helper"
+require 'rails_helper'
 
-RSpec.describe "account type select page", :js, :onboarding do
+RSpec.describe 'account type select page', :js, :onboarding do
   subject { page }
 
   let(:account) { create_account(onboarding_state: 'account_type') }
@@ -31,30 +31,30 @@ RSpec.describe "account type select page", :js, :onboarding do
     expect(page).to have_field :account_companion_first_name
   end
 
-  it "has no sidebar" do
+  it 'has no sidebar' do
     expect(page).to have_no_sidebar
   end
 
-  example "choosing 'solo'" do
+  example 'choosing "solo"' do
     expect do
       click_button solo_btn
     end.to change { Person.count }.by(0)
     account.reload
-    expect(account.onboarding_state).to eq "eligibility"
+    expect(account.onboarding_state).to eq 'eligibility'
 
     expect(current_path).to eq survey_eligibility_path
   end
 
-  describe "choosing 'couples'" do
+  describe 'choosing "couples"' do
     let(:companion_name) { "Steve" }
 
-    example "without providing a companion name" do
+    example 'without providing a companion name' do
       expect { click_button couples_btn }.not_to change { Person.count }
       # shows an error message and doesn't continue:
       expect(page).to have_error_message
     end
 
-    example "submitting whitespace as companion name" do
+    example 'submitting whitespace as companion name' do
       # strips the whitespace:
       expect do
         submit_companion_first_name('     ')
@@ -62,24 +62,31 @@ RSpec.describe "account type select page", :js, :onboarding do
       expect(page).to have_error_message
     end
 
-    example "providing a companion name" do
+    example 'providing a companion name' do
       expect do
         submit_companion_first_name(companion_name)
       end.to change { Person.count }.by(1)
       account.reload
       expect(account.companion.first_name).to eq companion_name
 
-      expect(account.onboarding_state).to eq "eligibility"
+      expect(account.onboarding_state).to eq 'eligibility'
       expect(current_path).to eq survey_eligibility_path
     end
 
-    example "providing a name with trailing whitespace" do
+    example 'providing a name with trailing whitespace' do
       # strips the whitespace:
       expect do
-        submit_companion_first_name("     Steve   ")
+        submit_companion_first_name('     Steve   ')
       end.to change { Person.count }.by(1)
       account.reload
-      expect(account.companion.first_name).to eq "Steve"
+      expect(account.companion.first_name).to eq 'Steve'
+    end
+
+    specify 'companion name can\'t be same as owner name' do
+      expect do # case-insensitive, strips whitespace
+        submit_companion_first_name("  #{owner.first_name.upcase}  ")
+      end.not_to change { Person.count }
+      expect(page).to have_error_message
     end
   end
 end
