@@ -1,33 +1,28 @@
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe "cards index page - new recommendation", :js do
   include ActionView::Helpers::NumberHelper
   include ApplicationSurveyMacros
 
-  include_context "logged in"
-
+  let(:account) { create_account(:onboarded, :eligible) }
   let(:person) { account.owner }
-
-  let!(:rec) do
-    r = create_card_recommendation(person_id: person.id)
-    r.update!(recommended_at: recommended_at)
-    r
-  end
 
   let(:recommended_at) { Time.zone.today }
 
+  let!(:rec) do
+    create_rec(person_id: person.id).tap { |r| r.update!(recommended_at: recommended_at) }
+  end
+
   before do
-    person.update!(eligible: true)
+    login_as_account(account)
     visit cards_path
   end
 
   let(:click_confirm_btn) do
-    before_click_confirm_btn
     click_button 'Confirm'
     sleep 1.5 # can't figure out a more elegant solution than this
     rec.reload
   end
-  let(:before_click_confirm_btn) { nil }
 
   let(:offer_description) { Offer::Cell::Description.(rec.offer) }
 
@@ -35,12 +30,9 @@ RSpec.describe "cards index page - new recommendation", :js do
     expect(page).to have_find_card_btn(rec)
     expect(page).to have_button decline_btn
     expect(page).to have_button i_applied_btn
-
     expect(page).to have_content offer_description
-
-    # 'apply' btn opens the link in a new tab
-    btn = find 'a', text: 'Find My Card'
-    expect(btn[:target]).to eq '_blank'
+    # 'apply' btn opens the link in a new tab:
+    expect(find('a', text: 'Find My Card')[:target]).to eq '_blank'
   end
 
   # combining this all into one example because it's so damn slow:
@@ -72,8 +64,7 @@ RSpec.describe "cards index page - new recommendation", :js do
     expect(page).to have_content 'Please include a message'
     expect(decline_reason_wrapper[:class]).to match(/\bfield_with_errors\b/)
 
-    # and actually declining successfully
-
+    # and actually declining successfully:
     message = 'Just because'
     fill_in :card_decline_reason, with: message
     click_button 'Confirm'
@@ -83,167 +74,142 @@ RSpec.describe "cards index page - new recommendation", :js do
     expect(rec.decline_reason).to eq message
     expect(rec.declined_at).to be_within(5.seconds).of(Time.zone.now)
 
-    # the rec should disappear from the page:
+    # the rec disappears from the page:
     expect(page).to have_no_content offer_description
   end
 
   example "trying to decline a rec that's already declined" do
+    # This could happen if e.g. they have the page open in two tabs:
     click_button decline_btn
-    message = "Because I say so, bitch!"
-    fill_in :card_decline_reason, with: message
-
-    # This could happen if e.g. they have the same window open in two
-    # tabs, and decline the rec in one tab before clicking 'decline'
-    # again in the other tab. It should fail gracefully:
+    fill_in :card_decline_reason, with: 'Because I say so!'
     rec.update_attributes!(applied_on: Time.zone.now)
     click_confirm_btn
-
     expect(current_path).to eq cards_path
     expect(page).to have_info_message CardRecommendation::Decline::COULDNT_DECLINE
   end
 
-  example "clicking the 'I Applied' button" do
-    click_button i_applied_btn
-    expect(page).to have_no_button i_applied_btn
-    expect(page).to have_button approved_btn
-    expect(page).to have_button denied_btn
-    expect(page).to have_button pending_btn
-  end
-
-  describe "clicking the 'I Applied' button" do
+  describe 'clicking "I Applied"' do
     before { click_button i_applied_btn }
 
-    describe "clicking 'I was approved'" do
+    example '' do
+      expect(page).to have_no_button i_applied_btn
+      expect(page).to have_button approved_btn
+      expect(page).to have_button denied_btn
+      expect(page).to have_button pending_btn
+    end
+
+    describe 'clicking "I was approved"' do
       before { click_button approved_btn }
 
       it_asks_to_confirm(has_pending_btn: true)
 
-      shared_examples "unapplyable" do
-        context "when the account is no longer 'applyable'" do
-          # This could happen if e.g. they've made changes in another tab
-          let(:before_click_confirm_btn) do
-            rec.update_attributes!(declined_at: Time.zone.now, decline_reason: "x")
-          end
-
-          it "doesn't update anything", :backend do
-            expect(rec).to be_declined
-            expect(rec.opened_on).to be_nil
-            expect(rec.applied_on).to be_nil
-          end
-        end
-      end
-
-      context "when I received this rec today" do
+      context 'if I received this rec today' do
         across_time_zones do
-          it "shows Confirm/Cancel buttons with no datepicker", :frontend do
+          it 'shows Confirm/Cancel buttons with no datepicker' do
             expect(page).to have_no_field approved_at
             expect(page).to have_button 'Confirm'
             expect(page).to have_button 'Cancel'
           end
         end
 
-        describe "clicking 'Confirm'" do
-          before { click_confirm_btn }
-
-          it "updates the rec's attributes", :backend do
-            # this spec fails when run late in the day when your machine's time
-            # is earlier than UTC # TZFIXME
-            wait_for_ajax
-            expect(rec).to be_opened
-            expect(rec.opened_on).to eq Time.zone.today
-            expect(rec.applied_on).to eq Time.zone.today
-          end
-
-          include_examples "unapplyable"
+        example 'clicking "Confirm"' do
+          click_confirm_btn
+          # fails when run late in the day in pre-UTC TZs TZFIXME:
+          wait_for_ajax
+          expect(rec).to be_opened
+          expect(rec.opened_on).to eq Time.zone.today
+          expect(rec.applied_on).to eq Time.zone.today
         end
       end
 
-      context "when I was recommended this card before today" do
+      context 'if I was recommended this card before today' do
         let(:recommended_at) { Time.zone.yesterday }
 
-        it "shows a date picker and Confirm/Cancel buttons", :frontend do
+        it 'shows a date picker and Confirm/Cancel buttons' do
           expect(page).to have_field approved_at
           expect(page).to have_button 'Cancel'
           expect(page).to have_button 'Confirm'
         end
 
-        describe "picking a date and clicking 'Confirm'" do
-          let(:date) { 5.days.ago }
-          before do
-            set_approved_at_to(date)
-            click_confirm_btn
-          end
+        example 'picking a date and clicking "Confirm"' do
+          date = 5.days.ago
+          set_approved_at_to(date)
+          click_confirm_btn
 
-          it "sets the card's attributes", :backend do
-            expect(rec).to be_opened
-            expect(rec.opened_on.to_date).to eq date.to_date
-            expect(rec.applied_on.to_date).to eq date.to_date
-          end
-
-          include_examples "unapplyable"
+          expect(rec).to be_opened
+          expect(rec.opened_on.to_date).to eq date.to_date
+          expect(rec.applied_on.to_date).to eq date.to_date
         end
       end
     end
 
-    describe "clicking 'I was denied'" do
+    describe 'clicking "I was denied"' do
       before { click_button denied_btn }
 
       it_asks_to_confirm(has_pending_btn: true)
 
-      context "and clicking 'Confirm'" do
-        before { click_confirm_btn }
-
-        specify "card attributes are updated correctly" do
-          # this spec fails when run late in the day when your machine's time
-          # is earlier than UTC # TZFIXME
-          expect(page).to have_content "We strongly recommend"
-          expect(CardRecommendation.new(rec).status).to eq "denied"
-          expect(rec.denied_at).to be_within(5.seconds).of(Time.zone.now)
-          expect(rec.applied_on).to eq Time.zone.today
-        end
-
-        context "when the account is no longer 'deniable'" do
-          # This could happen if e.g. they've made changes in another tab
-          let(:before_click_confirm_btn) do
-            rec.update_attributes!(declined_at: Time.zone.now, decline_reason: "x")
-          end
-
-          it "doesn't update anything", :backend do
-            expect(rec).to be_declined
-            expect(rec.applied_on).to be_nil
-            expect(rec.denied_at).to be_nil
-          end
-        end
+      example 'and clicking "Confirm"' do
+        click_confirm_btn
+        # fails when run late in the day in pre-UTC TZs TZFIXME:
+        expect(page).to have_content 'We strongly recommend'
+        expect(CardRecommendation.new(rec).status).to eq 'denied'
+        expect(rec.denied_at).to be_within(5.seconds).of(Time.zone.now)
+        expect(rec.applied_on).to eq Time.zone.today
       end
     end
 
-    describe "clicking 'I'm still waiting to hear back'" do
+    describe 'clicking "I\'m still waiting to hear back"' do
       before { click_button pending_btn }
 
       it_asks_to_confirm(has_pending_btn: true)
 
-      context "and clicking 'Confirm'" do
-        before { click_confirm_btn }
-
-        it "updates the card's attributes", :backend do
-          # this spec fails when run late in the day when your machine's time
-          # is earlier than UTC # TZFIXME
-          expect(CardRecommendation.new(rec).status).to eq "applied"
-          expect(rec.applied_on).to eq Time.zone.today
-        end
-
-        context "when the account is no longer 'pendingable'" do
-          # This could happen if e.g. they've made changes in another tab
-          let(:before_click_confirm_btn) do
-            rec.update_attributes!(declined_at: Time.zone.now, decline_reason: "x")
-          end
-
-          it "doesn't update anything", :backend do
-            expect(rec).to be_declined
-            expect(rec.applied_on).to be_nil
-          end
-        end
+      example 'and clicking "Confirm"' do
+        click_confirm_btn
+        # fails when run late in the day in pre-UTC TZs TZFIXME:
+        expect(CardRecommendation.new(rec).status).to eq "applied"
+        expect(rec.applied_on).to eq Time.zone.today
       end
+    end
+  end
+
+  describe 'when the user does something weird' do
+    # Handle the case(s) where the user submits the same action twice, e.g.
+    # if they have the cards page open in multiple tabs and click the
+    # same buttons on each one.
+
+    example 'opening when not possible' do
+      click_button i_applied_btn
+      click_button approved_btn
+      rec.update_attributes!(declined_at: Time.zone.now, decline_reason: "x")
+      click_confirm_btn
+      rec.reload
+
+      expect(rec).to be_declined
+      expect(rec.opened_on).to be_nil
+      expect(rec.applied_on).to be_nil
+    end
+
+    example 'denied when not possible' do
+      click_button i_applied_btn
+      click_button denied_btn
+      rec.update_attributes!(declined_at: Time.zone.now, decline_reason: "x")
+      click_confirm_btn
+      rec.reload
+
+      expect(rec).to be_declined
+      expect(rec.denied_at).to be_nil
+      expect(rec.applied_on).to be_nil
+    end
+
+    example 'denied when not possible' do
+      click_button i_applied_btn
+      click_button pending_btn
+      rec.update_attributes!(declined_at: Time.zone.now, decline_reason: "x")
+      click_confirm_btn
+      rec.reload
+
+      expect(rec).to be_declined
+      expect(rec.applied_on).to be_nil
     end
   end
 end
