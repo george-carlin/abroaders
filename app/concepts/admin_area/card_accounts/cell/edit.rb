@@ -3,10 +3,16 @@ module AdminArea::CardAccounts
     # @!method self.call(model, options = {})
     #   @option options [Reform::Form] form
     class Edit < Abroaders::Cell::Base
+      include Escaped
+
+      subclasses_use_parent_view!
+
+      property :person
+
       option :form
 
       def title
-        'Edit Card'
+        "Edit #{person_first_name}'s Card"
       end
 
       private
@@ -16,7 +22,15 @@ module AdminArea::CardAccounts
       end
 
       def form_tag(&block)
-        form_for form, url: admin_card_account_path(form.model), &block
+        form_for form, url: form_url, &block
+      end
+
+      def form_url
+        admin_card_account_path(form.model)
+      end
+
+      def person_first_name
+        escape!(person.first_name)
       end
     end
   end

@@ -2,6 +2,7 @@ module AdminArea
   class CardAccountsController < AdminController
     def new
       run CardAccounts::New
+      render cell(CardAccounts::Cell::New, @model, form: @form)
     end
 
     def create
@@ -9,7 +10,7 @@ module AdminArea
         flash[:success] = 'Added card!'
         return redirect_to admin_person_path(@model.person)
       end
-      render :new
+      render cell(CardAccounts::Cell::New, @model, form: @form)
     end
 
     def edit

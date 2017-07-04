@@ -2,7 +2,7 @@
   <div class="panel-heading hbuilt">
     <div class="row">
       <div class="col-xs-12">
-        <h1>Edit Card</h1>
+        <h1><%= title %></h1>
       </div>
     </div><!-- .row -->
   </div>
@@ -12,6 +12,16 @@
   <div class="panel-body">
     <%= form_tag do |f| %>
       <div class="row">
+        <% if model.new_record? %>
+          <div class="col-md-12 col-lg-3">
+            <label class="card-info-label">Product:</label>
+          </div>
+
+          <div class="col-md-12 col-lg-9">
+            <%= f.select :card_product_id, AdminArea::CardProducts::OptionTags.().() %>
+          </div>
+        <% end %>
+
         <div class="col-md-12 col-lg-3">
           <label class="card-info-label">Opened:</label>
         </div>
