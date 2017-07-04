@@ -15,7 +15,7 @@ module AdminArea
     def edit
       run CardAccounts::Edit
       @form.prepopulate!
-      render cell(CardAccounts::Cell::Edit, @form) # TODO pass form as option, not model
+      render cell(CardAccounts::Cell::Edit, @model, form: @form)
     end
 
     def update
@@ -23,7 +23,7 @@ module AdminArea
         flash[:success] = 'Updated card!'
         return redirect_to admin_person_path(@model.person)
       end
-      render cell(CardAccounts::Cell::Edit, @form) # TODO pass form as option, not model
+      render cell(CardAccounts::Cell::Edit, @model, form: @form)
     end
   end
 end
