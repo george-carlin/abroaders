@@ -13,7 +13,9 @@ class CardsController < AuthenticatedUserController
       cookies[:recommendation_timeout] = { value: "timeout", expires: 24.hours.from_now }
     end
 
-    account.card_recommendations.unseen.update_all(seen_at: Time.zone.now)
+    unless current_admin
+      account.card_recommendations.unseen.update_all(seen_at: Time.zone.now)
+    end
 
     render cell(Card::Cell::Index, account)
   end

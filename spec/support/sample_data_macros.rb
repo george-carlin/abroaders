@@ -240,6 +240,9 @@ module SampleDataMacros
 
     rec.applied_on = 4.days.ago if traits.include?(:applied)
 
+    rec.seen_at = 6.days.ago if traits.include?(:seen)
+    rec.clicked_at = 5.days.ago if traits.include?(:clicked)
+
     if traits.include?(:approved)
       rec.applied_on = 4.days.ago
       rec.opened_on  = Date.today

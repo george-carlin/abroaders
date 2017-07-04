@@ -7,13 +7,9 @@ RSpec.describe 'as a user viewing my cards' do
   let(:owner)     { account.owner }
   let(:companion) { account.companion }
 
-  before do
-    create_companion(account: account, eligible: true) if couples
-    login_as(account)
-  end
+  before { login_as(account) unless skip_login }
 
-  let(:extra_setup) { nil }
-  let(:couples) { false }
+  let(:skip_login) { false }
 
   let(:visit_page) { visit cards_path }
 
@@ -57,19 +53,17 @@ RSpec.describe 'as a user viewing my cards' do
 
   example "marking recs as 'seen'" do
     unseen_rec = create_card_recommendation(person_id: owner.id)
-    seen_rec   = create_card_recommendation(:seen, person_id: owner.id)
-    card       = create_card_account(person: owner)
-
-    seen_rec   =
-      other_persons_rec = create_card_recommendation(:seen, person_id: create_person.id)
+    seen_rec = create_card_recommendation(:seen, person_id: owner.id)
+    card = create_card_account(person: owner)
+    other_persons_rec = create_card_recommendation(:seen, person_id: create_person.id)
 
     expect do
       visit_page
       seen_rec.reload
-    end.not_to change { seen_rec.seen_at }
+      other_persons_rec.reload
+    end.not_to change { [seen_rec.seen_at, other_persons_rec.seen_at] }
     expect(unseen_rec.reload.seen_at).to be_within(5.seconds).of(Time.zone.now)
     expect(card.reload.seen_at).to be_nil
-    expect(other_persons_rec.reload.seen_at).to be_nil
   end
 
   specify "no subheadings when neither companion or owner has cards" do
@@ -100,5 +94,21 @@ RSpec.describe 'as a user viewing my cards' do
     # has headers with owner's or companion's names:
     expect(page).to have_selector H, text: "#{owner.first_name}'s Recommendations"
     expect(page).to have_selector H, text: "#{companion.first_name}'s Recommendations"
+  end
+
+  context 'as admin logged in as user' do
+    let(:skip_login) { true }
+
+    include_context 'logged in as admin'
+
+    it "doesn't mark recs as seen", :js do
+      unseen_rec = create_rec(person_id: owner.id)
+
+      visit admin_person_path(owner)
+      click_link "Log in as #{owner.first_name}"
+      visit cards_path
+
+      expect(unseen_rec.reload.seen_at).to be_nil
+    end
   end
 end

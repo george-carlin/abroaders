@@ -128,6 +128,22 @@ RSpec.describe SampleDataMacros do
       expect(rec).to be_opened
     end
 
+    example 'with :seen trait' do
+      expect do
+        create_card_recommendation(:seen)
+      end.to change { Card.recommended.count }.by(1)
+      rec = Card.recommended.last
+      expect(rec).to be_seen
+    end
+
+    example 'with :clicked trait' do
+      expect do
+        create_card_recommendation(:clicked)
+      end.to change { Card.recommended.count }.by(1)
+      rec = Card.recommended.last
+      expect(rec).to be_clicked
+    end
+
     example 'specifying admin' do
       admin = create_admin
       expect do
