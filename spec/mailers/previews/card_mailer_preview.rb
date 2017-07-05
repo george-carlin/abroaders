@@ -11,35 +11,36 @@ class CardMailerPreview < ActionMailer::Preview
   def annual_fee_reminder_solo
     account = solo_account
     CardMailer.annual_fee_reminder(
-      account_id: account.id, card_ids: account.cards.accounts.sample,
+      'account_id' => account.id, 'card_ids' => account.cards.accounts.sample,
     )
   end
 
   def annual_fee_reminder_solo_multi
     account = solo_account
     CardMailer.annual_fee_reminder(
-      account_id: account.id, card_ids: account.cards.accounts,
+      'account_id' => account.id, 'card_ids' => account.cards.accounts,
     )
   end
 
   def annual_fee_reminder_couples
     account = couples_account
     CardMailer.annual_fee_reminder(
-      account_id: account.id, card_ids: account.cards.accounts.sample,
+      'account_id' => account.id, 'card_ids' => account.cards.accounts.sample,
     )
   end
 
   def annual_fee_reminder_couples_multi
     account = couples_account
     CardMailer.annual_fee_reminder(
-      account_id: account.id, card_ids: account.cards.accounts,
+      'account_id' => account.id, 'card_ids' => account.cards.accounts,
     )
   end
 
   def annual_fee_reminder_couples_one_person
     account = couples_account
     CardMailer.annual_fee_reminder(
-      account_id: account.id, card_ids: account.people.sample.cards.accounts.sample(2),
+      'account_id' => account.id,
+      'card_ids' => account.people.sample.cards.accounts.sample(2),
     )
   end
 
