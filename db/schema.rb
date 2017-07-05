@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170626171003) do
+ActiveRecord::Schema.define(version: 20170704164113) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -251,6 +251,7 @@ ActiveRecord::Schema.define(version: 20170626171003) do
     t.boolean  "owner",              default: true, null: false
     t.string   "award_wallet_email"
     t.boolean  "eligible"
+    t.index ["account_id", "first_name"], name: "index_people_on_account_id_and_first_name", unique: true, using: :btree
     t.index ["account_id", "owner"], name: "index_people_on_account_id_and_owner", unique: true, using: :btree
   end
 

@@ -8,7 +8,7 @@ class AccountsController < AuthenticatedUserController
 
   def type
     run Account::Type
-    render cell(Onboarding::Cell::Account::Type, result)
+    render cell(Onboarding::Cell::Account::Type, nil, destination: result['model'])
   end
 
   def submit_type

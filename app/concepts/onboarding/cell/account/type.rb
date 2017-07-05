@@ -1,15 +1,16 @@
 module Onboarding
   module Cell
     module Account
-      # model: TRB result object
-      #
-      # key:
-      #   destinations: the user's next destination
       class Type < Abroaders::Cell::Base
+        extend Abroaders::Cell::Result
+
+        # the user's next destination
+        option :destination
+
         def show
           content_tag :div, id: 'account_type_forms' do
             content_tag :div, class: 'row' do
-              cell(Header, nil, destination: model['destination']).to_s +
+              cell(Header, nil, destination: destination).to_s +
                 cell(Onboarding::Cell::Account::Type::SoloForm).to_s +
                 cell(Onboarding::Cell::Account::Type::CouplesForm).to_s
             end
@@ -25,11 +26,9 @@ module Onboarding
         # options:
         #   destination: (optional) the destination of the user's next trip
         class Header < Abroaders::Cell::Base
-          private
+          option :destination, optional: true
 
-          def destination
-            options[:destination]
-          end
+          private
 
           def html_classes
             'col-xs-12 col-md-8 col-md-offset-2 account_type_select_header'
@@ -50,7 +49,13 @@ module Onboarding
           private
 
           def form_tag(&block)
-            super(type_account_path, id: html_id, class: html_classes, &block)
+            super(
+              type_account_path,
+              class: html_classes,
+              data: { owner_first_name: current_account.owner_first_name },
+              id: html_id,
+              &block
+            )
           end
 
           def html_classes
