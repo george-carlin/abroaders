@@ -27,12 +27,12 @@ RSpec.describe "cards index page - new recommendation", :js do
 
   let(:offer_description) { Offer::Cell::Description.(rec.offer) }
 
-  example "new recommendation on page", :frontend do
+  example 'new recommendation on page' do
     expect(page).to have_find_card_btn(rec)
     expect(page).to have_button decline_btn
     expect(page).to have_button i_applied_btn
     expect(page).to have_content offer_description
-    # 'apply' btn opens the link in a new tab:
+    # 'apply' btn (which is actually a link) opens the url in a new tab:
     expect(find('a', text: 'Find My Card')[:target]).to eq '_blank'
   end
 
@@ -124,6 +124,9 @@ RSpec.describe "cards index page - new recommendation", :js do
           expect(rec).to be_opened
           expect(rec.opened_on).to eq Time.zone.today
           expect(rec.applied_on).to eq Time.zone.today
+
+          expect(page).to have_no_link 'Find My Card'
+          expect(page).to have_no_button decline_btn
         end
       end
 
@@ -145,6 +148,9 @@ RSpec.describe "cards index page - new recommendation", :js do
           expect(rec).to be_opened
           expect(rec.opened_on.to_date).to eq date.to_date
           expect(rec.applied_on.to_date).to eq date.to_date
+
+          expect(page).to have_no_link 'Find My Card'
+          expect(page).to have_no_button decline_btn
         end
       end
     end
@@ -162,6 +168,10 @@ RSpec.describe "cards index page - new recommendation", :js do
         expect(CardRecommendation.new(rec).status).to eq 'denied'
         expect(rec.denied_at).to be_within(5.seconds).of(Time.zone.now)
         expect(rec.applied_on).to eq Time.zone.today
+
+        expect(page).to have_no_link 'Find My Card'
+        expect(page).to have_no_button decline_btn
+        expect(page).to have_button i_called_btn(rec)
       end
     end
 
@@ -176,6 +186,10 @@ RSpec.describe "cards index page - new recommendation", :js do
         # fails when run late in the day in pre-UTC TZs TZFIXME:
         expect(CardRecommendation.new(rec).status).to eq "applied"
         expect(rec.applied_on).to eq Time.zone.today
+
+        expect(page).to have_no_link 'Find My Card'
+        expect(page).to have_no_button decline_btn
+        expect(page).to have_button i_called_btn(rec)
       end
     end
   end

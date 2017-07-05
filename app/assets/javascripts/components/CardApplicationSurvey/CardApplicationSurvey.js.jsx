@@ -47,6 +47,9 @@ const CardApplicationSurvey = React.createClass({
   },
 
   submitAction(action, extraData) {
+    const wrapperId = `#card_recommendation_${this.props.cardAccount.id}`;
+    $(`${wrapperId} .card_recommendation_apply_decline_btn_group`).remove();
+
     const data = {
       _method: "patch",
       "card[action]" : action,
