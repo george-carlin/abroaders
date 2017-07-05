@@ -11,7 +11,7 @@ class CardRecommendation < CardRecommendation.superclass
 
     private
 
-    def setup_model!(opts, account:, params:)
+    def setup_model!(opts, account:, params:, **)
       opts['model'] = account.card_recommendations.find(params.fetch(:id))
     end
 

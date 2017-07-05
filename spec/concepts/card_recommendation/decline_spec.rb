@@ -22,6 +22,20 @@ RSpec.describe CardRecommendation::Decline do
     expect(rec).to eq result['model']
   end
 
+  example 'as admin' do
+    result = op.(
+      { id: rec.id, card: { decline_reason: ' X ' } },
+      'account' => account,
+      'current_admin' => create_admin,
+    )
+    expect(result.success?).to be true
+    rec.reload
+    expect(rec.declined_at).to be_within(5.seconds).of(Time.zone.now)
+    expect(rec.decline_reason).to eq 'X' # it strips whitespace
+
+    expect(rec).to eq result['model']
+  end
+
   # the below failures may happen if e.g. they have the page open in two tabs;
   # they need to be handled gracefully:
 
