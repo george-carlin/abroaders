@@ -10,7 +10,6 @@ module ApplicationSurveyMacros
       let(:approved_at)      { 'card_opened_on' }
       let(:decline_btn)      { 'No Thanks' }
       let(:i_applied_btn)    { 'I applied' }
-      let(:i_heard_back_btn) { 'I heard back from the bank' }
       let(:pending_btn)      { "I'm waiting to hear back" }
       let(:approved_btn) { 'I was approved' }
       let(:denied_btn)   { 'My application was denied' }
@@ -19,6 +18,14 @@ module ApplicationSurveyMacros
 
   def i_called_btn(rec)
     "I called #{rec.card_product.bank.name}"
+  end
+
+  def i_heard_back_btn(rec = nil)
+    if rec
+      "I heard back from #{rec.bank_name} by mail or email"
+    else
+      'I heard back from the bank'
+    end
   end
 
   # apply btn is different from the others because it's actually a link

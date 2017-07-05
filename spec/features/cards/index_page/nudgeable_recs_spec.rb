@@ -30,7 +30,10 @@ RSpec.describe "user cards page - nudgeable cards", :js do
   let(:approved_btn) { "My application was approved" }
   let(:denied_btn)   { "My application was denied" }
   let(:pending_btn)  { "I'm still waiting to hear back" }
-  let(:i_heard_back_btn) { "I heard back from #{@bank.name} by mail or email" }
+
+  def i_heard_back_btn
+    super(rec)
+  end
 
   shared_examples "clicking 'cancel'" do
     describe "and clicking 'cancel'" do
