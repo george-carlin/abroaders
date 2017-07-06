@@ -8,29 +8,33 @@ class TravelPlansController < AuthenticatedUserController
 
   def new
     run TravelPlan::New
+    render cell(TravelPlan::Cell::New, @model, form: @form)
   end
 
   def create
     if current_account.onboarded?
-      run TravelPlan::Create do
-        flash[:success] = "Saved travel plan!"
-        redirect_to travel_plans_path
-        return
-      end
+      op = TravelPlan::Create
+      success_msg = 'Saved travel plan!'
+      success_redirect = travel_plans_path
     else
-      run TravelPlan::Onboard do
-        flash[:success] = "Saved your first travel plan!"
-        redirect_to onboarding_survey_path
-        return
-      end
+      op = TravelPlan::Onboard
+      success_msg = 'Saved your first travel plan!'
+      success_redirect = onboarding_survey_path
     end
-    render 'new'
+
+    run op do
+      flash[:success] = success_msg
+      redirect_to success_redirect
+      return
+    end
+    render cell(TravelPlan::Cell::New, @model, form: @form)
   end
 
   def edit
     run TravelPlan::Edit
     # initialize 'from' and 'to' correctly:
     @form.prepopulate!
+    render cell(TravelPlan::Cell::Edit, @model, form: @form)
   end
 
   def update
@@ -39,7 +43,7 @@ class TravelPlansController < AuthenticatedUserController
       redirect_to travel_plans_path
       return
     end
-    render 'edit'
+    render cell(TravelPlan::Cell::Edit, @model, form: @form)
   end
 
   def destroy

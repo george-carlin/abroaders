@@ -107,7 +107,7 @@ RSpec.describe "new travel plan page", :js do
       # doesn't create a travel plan
       expect { submit_form }.not_to change { TravelPlan.count }
       # shows me the form again
-      expect(page).to have_selector 'h2', text: 'Add a Travel Plan'
+      expect(page).to have_selector 'h1', text: 'Add a Travel Plan'
     end
 
     example "with an invalid (non-autocompleted) airport" do # bug fix
