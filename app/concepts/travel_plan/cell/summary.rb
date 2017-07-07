@@ -21,6 +21,9 @@ class TravelPlan < TravelPlan.superclass
       property :one_way?
       property :type
 
+      option :current_admin, optional: true
+      alias current_admin? current_admin
+
       def self.flight_summary_cell
         Flight::Cell::Summary
       end
@@ -37,11 +40,7 @@ class TravelPlan < TravelPlan.superclass
 
       # See comment in TravelPlan::Edit about old-style TPs being uneditable.
       def editable?
-        if options[:admin]
-          false
-        else
-          model.editable?
-        end
+        !current_admin? && model.editable?
       end
 
       def flight

@@ -8,7 +8,7 @@ RSpec.describe AdminArea::Offers::Verify do
   let(:offer) { create_offer }
 
   example 'verifying an offer' do
-    result = op.({ id: offer.id }, 'admin' => admin)
+    result = op.({ id: offer.id }, 'current_admin' => admin)
     expect(result.success?).to be true
 
     updated_offer = result['model']
@@ -18,7 +18,7 @@ RSpec.describe AdminArea::Offers::Verify do
 
   example 'failure - offer dead' do
     kill_offer(offer)
-    result = op.({ id: offer.id }, 'admin' => admin) # try to verify
+    result = op.({ id: offer.id }, 'current_admin' => admin) # try to verify
     expect(result.success?).to be false
     expect(result['error']).to eq "Can't verify a dead offer"
   end

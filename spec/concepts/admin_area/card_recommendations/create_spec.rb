@@ -16,7 +16,7 @@ RSpec.describe AdminArea::CardRecommendations::Create do
           offer_id:  offer.id,
         },
       },
-      'admin' => admin,
+      'current_admin' => admin,
     )
     expect(result.success?).to be true
     rec = result['model']
@@ -37,7 +37,7 @@ RSpec.describe AdminArea::CardRecommendations::Create do
             offer_id:  offer.id,
           },
         },
-        'admin' => admin,
+        'current_admin' => admin,
       )
       expect(result.success?).to be false
       expect(result['errors']).to eq ["Couldn't find live offer with ID #{offer.id}"]

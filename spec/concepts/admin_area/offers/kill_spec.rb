@@ -8,7 +8,7 @@ RSpec.describe AdminArea::Offers::Kill do
   let(:offer) { create_offer }
 
   example 'killing an offer' do
-    result = op.({ id: offer.id }, 'admin' => admin)
+    result = op.({ id: offer.id }, 'current_admin' => admin)
     expect(result.success?).to be true
 
     updated_offer = result['model']
@@ -19,7 +19,7 @@ RSpec.describe AdminArea::Offers::Kill do
   example 'killing an offer and replacing it in recs' do
     rec = create_rec(offer: offer)
     replacement = create_offer
-    result = op.({ id: offer.id, replacement_id: replacement.id }, 'admin' => admin)
+    result = op.({ id: offer.id, replacement_id: replacement.id }, 'current_admin' => admin)
     expect(result.success?).to be true
 
     updated_offer = result['model']
@@ -30,8 +30,8 @@ RSpec.describe AdminArea::Offers::Kill do
   end
 
   example 'failure - offer already dead' do
-    op.({ id: offer.id }, 'admin' => admin) # kill it
-    result = op.({ id: offer.id }, 'admin' => admin) # try to kill it again
+    op.({ id: offer.id }, 'current_admin' => admin) # kill it
+    result = op.({ id: offer.id }, 'current_admin' => admin) # try to kill it again
     expect(result.success?).to be false
     expect(result['error']).to eq 'Offer already killed'
   end

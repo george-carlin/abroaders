@@ -149,7 +149,7 @@ RSpec.describe SampleDataMacros do
     example 'specifying admin' do
       admin = create_admin
       expect do
-        rec = create_card_recommendation(admin: admin)
+        rec = create_card_recommendation(current_admin: admin)
         expect(rec.recommended_by).to eq admin
       end.to change { Card.recommended.count }.by(1)
       expect(Admin.count).to eq 1
