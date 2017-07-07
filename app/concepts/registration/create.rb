@@ -3,7 +3,7 @@ module Registration
     step Nested(New)
     step Contract::Validate(key: :account)
     step :persist_model!
-    step :notify_admin!
+    success :notify_admin!
 
     private
 
@@ -15,7 +15,9 @@ module Registration
     end
 
     def notify_admin!(model:, **)
-      AccountMailer.notify_admin_of_sign_up(model.id).deliver_later
+      if ENV['SEND_ADMIN_SIGN_UP_NOTIFICATION_EMAIL']
+        AccountMailer.notify_admin_of_sign_up(model.id).deliver_later
+      end
     end
 
     # if the email address matches any of these regexes, set the 'test'
