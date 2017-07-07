@@ -12,7 +12,7 @@ RSpec.describe CardRecommendation::Decline do
   example 'success' do
     result = op.(
       { id: rec.id, card: { decline_reason: ' X ' } },
-      'account' => account,
+      'current_account' => account,
     )
     expect(result.success?).to be true
     rec.reload
@@ -25,7 +25,7 @@ RSpec.describe CardRecommendation::Decline do
   example 'as admin' do
     result = op.(
       { id: rec.id, card: { decline_reason: ' X ' } },
-      'account' => account,
+      'current_account' => account,
       'current_admin' => create_admin,
     )
     expect(result.success?).to be true
@@ -43,13 +43,13 @@ RSpec.describe CardRecommendation::Decline do
     # decline it validly:
     result = op.(
       { id: rec.id, card: { decline_reason: 'X' } },
-      'account' => account,
+      'current_account' => account,
     )
     expect(result.success?).to be true
     # and try again:
     result = op.(
       { id: rec.id, card: { decline_reason: 'X' } },
-      'account' => account,
+      'current_account' => account,
     )
     expect(result.success?).to be false
     expect(result['error']).to eq described_class::COULDNT_DECLINE
@@ -60,7 +60,7 @@ RSpec.describe CardRecommendation::Decline do
     rec.update!(applied_on: Time.now)
     result = op.(
       { id: rec.id, card: { decline_reason: 'X' } },
-      'account' => account,
+      'current_account' => account,
     )
     expect(result.success?).to be false
     expect(rec.reload.declined_at).to be nil
@@ -70,13 +70,13 @@ RSpec.describe CardRecommendation::Decline do
   example 'failure - rec not found' do # fail noisily:
     other_account = create_account(:onboarded)
     expect do
-      op.({ id: rec.id }, 'account' => other_account)
+      op.({ id: rec.id }, 'current_account' => other_account)
     end.to raise_error ActiveRecord::RecordNotFound
   end
 
   example 'failure - decline reason blank' do # fail noisily:
     expect do
-      op.({ id: rec.id, card: { decline_reason: ' ' } }, 'account' => account)
+      op.({ id: rec.id, card: { decline_reason: ' ' } }, 'current_account' => account)
     end.to raise_error RuntimeError
   end
 end

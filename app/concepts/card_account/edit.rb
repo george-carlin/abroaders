@@ -18,7 +18,7 @@ class CardAccount < CardAccount.superclass
     # this with the 'card_scope' skill (e.g. you could set it to `CardAccount` if
     # you want to search *all* cards for an admin action.)
     def card_scope(*)
-      self['card_scope'] || self['account'].card_accounts
+      self['card_scope'] || self['current_account'].card_accounts
     end
   end
 end

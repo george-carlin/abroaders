@@ -27,17 +27,17 @@ module AdminArea
       end
 
       def setup_account(opts, person:, **)
-        opts['account'] = person.account
+        opts['current_account'] = person.account
       end
 
-      def create_rec_note(opts, params:, account:, **)
+      def create_rec_note(opts, params:, current_account:, **)
         note = params[:recommendation_note]&.strip
-        account.recommendation_notes.create!(content: note) if note.present?
-        opts['recommendation_note'] = account.recommendation_notes.last
+        current_account.recommendation_notes.create!(content: note) if note.present?
+        opts['recommendation_note'] = current_account.recommendation_notes.last
       end
 
-      def resolve_recommendation_requests(account:, **)
-        account.unresolved_recommendation_requests.each(&:resolve!)
+      def resolve_recommendation_requests(current_account:, **)
+        current_account.unresolved_recommendation_requests.each(&:resolve!)
       end
     end
   end

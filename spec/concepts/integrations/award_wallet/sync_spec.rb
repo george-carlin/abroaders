@@ -8,7 +8,7 @@ RSpec.describe Integrations::AwardWallet::Sync do
 
   example 'no AW user' do
     expect do
-      op.({}, 'account' => account)
+      op.({}, 'current_account' => account)
     end.to raise_error RuntimeError
   end
 
@@ -17,7 +17,7 @@ RSpec.describe Integrations::AwardWallet::Sync do
 
     example 'not already syncing' do
       expect do
-        result = op.({}, 'account' => account)
+        result = op.({}, 'current_account' => account)
         expect(result.success?).to be true
       end.to change { enqueued_jobs.size }.by(1)
 
@@ -32,7 +32,7 @@ RSpec.describe Integrations::AwardWallet::Sync do
       user.update!(syncing: true)
 
       expect do
-        result = op.({}, 'account' => account)
+        result = op.({}, 'current_account' => account)
         expect(result.success?).to be true
       end.not_to change { enqueued_jobs.size }
 

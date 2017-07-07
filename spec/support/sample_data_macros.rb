@@ -318,7 +318,7 @@ module SampleDataMacros
       params[:card][:closed_on] = overrides.fetch(:closed_on, Date.today)
     end
 
-    run!(CardAccount::Create, params, 'account' => person.account)['model']
+    run!(CardAccount::Create, params, 'current_account' => person.account)['model']
   end
 
   def create_person(*traits_and_overrides)
@@ -341,7 +341,7 @@ module SampleDataMacros
       raise "invalid person type '#{person_type}'"
     end
 
-    run!(RecommendationRequest::Create, { person_type: person_type }, 'account' => account)
+    run!(RecommendationRequest::Create, { person_type: person_type }, 'current_account' => account)
   end
 
   alias create_rec_request create_recommendation_request
@@ -403,7 +403,7 @@ module SampleDataMacros
 
     params = { travel_plan: attributes }
 
-    run!(TravelPlan::Create, params, 'account' => account)['model']
+    run!(TravelPlan::Create, params, 'current_account' => account)['model']
   end
 
   # @return [Balance]
@@ -431,7 +431,7 @@ module SampleDataMacros
         }.merge(overrides),
         person_id: person.id,
       },
-      'account' => person.account,
+      'current_account' => person.account,
     )['model']
   end
 
@@ -453,7 +453,7 @@ module SampleDataMacros
     run!(
       CardRecommendation::Decline,
       { id: rec.id, card: { decline_reason: decline_reason } },
-      'account' => rec.account,
+      'current_account' => rec.account,
     )
   end
 

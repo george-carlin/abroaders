@@ -7,13 +7,13 @@ class Account < Account.superclass
     private
 
     def setup_destination!(opts)
-      unless opts['account'].travel_plans.empty?
-        opts['model'] = opts['account'].travel_plans[-1].flights[0].to
+      unless opts['current_account'].travel_plans.empty?
+        opts['model'] = opts['current_account'].travel_plans[-1].flights[0].to
       end
     end
 
     class Onboard < Trailblazer::Operation
-      # contract: params must have key 'account'. account must have nested
+      # contract: params must have key 'current_account'. account must have nested
       # key 'type' whose valid values are 'couples' or 'solo'. If
       # type='couples' account must also have key 'companion_first_name',
       # which must be a non-blank string.
@@ -39,13 +39,13 @@ class Account < Account.superclass
       def create_companion_if_couples!(opts, params:, **)
         if params[:account][:type] == 'couples'
           name = params[:account][:companion_first_name].strip
-          opts['account'].create_companion!(first_name: name)
+          opts['current_account'].create_companion!(first_name: name)
         end
         true
       end
 
-      def update_account_onboarding_state!(_opts, account:, **)
-        Account::Onboarder.new(account).choose_account_type!
+      def update_account_onboarding_state!(current_account:, **)
+        Account::Onboarder.new(current_account).choose_account_type!
         true
       end
     end

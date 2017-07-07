@@ -16,7 +16,7 @@ module AwardWalletMacros
   def get_award_wallet_user_from_callback(account)
     result = Integrations::AwardWallet::Callback.(
       { userId: 12345 },
-      'account' => account,
+      'current_account' => account,
       # don't enqueue a real BG job:
       'load_user.job' => double(perform_later: nil),
     )

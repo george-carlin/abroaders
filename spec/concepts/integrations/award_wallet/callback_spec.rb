@@ -12,7 +12,7 @@ RSpec.describe Integrations::AwardWallet::Callback do
 
     # userId param is irrelevant:
     [12345, nil, 2].each do |aw_id|
-      result = op.({ userId: aw_id }, 'account' => account)
+      result = op.({ userId: aw_id }, 'current_account' => account)
       expect(result.success?).to be false
       expect(result['error']).to eq 'already loaded'
       expect(enqueued_jobs).to be_empty
@@ -25,7 +25,7 @@ RSpec.describe Integrations::AwardWallet::Callback do
 
     # userId param is irrelevant:
     [12345, 2, nil].each do |aw_id|
-      result = op.({ userId: aw_id }, 'account' => account)
+      result = op.({ userId: aw_id }, 'current_account' => account)
       expect(result.success?).to be true
       expect(result['error']).to be nil
       expect(result['model']).to eq user
@@ -36,14 +36,14 @@ RSpec.describe Integrations::AwardWallet::Callback do
   end
 
   example 'no existing AWU, no userId in params' do
-    result = op.({}, 'account' => account)
+    result = op.({}, 'current_account' => account)
     expect(result.success?).to be false
     expect(result['error']).to eq 'not found'
     expect(enqueued_jobs).to be_empty
   end
 
   example 'no existing AWU, userId key in params with no value' do
-    result = op.({ userId: '' }, 'account' => account)
+    result = op.({ userId: '' }, 'current_account' => account)
     expect(result.success?).to be false
     expect(result['error']).to eq 'not found'
     expect(enqueued_jobs).to be_empty
@@ -54,7 +54,7 @@ RSpec.describe Integrations::AwardWallet::Callback do
     raise unless account.award_wallet_user.nil? # sanity check
     result = nil
     expect do
-      result = op.({ userId: 1 }, 'account' => account)
+      result = op.({ userId: 1 }, 'current_account' => account)
     end.to change { enqueued_jobs.size }.by(1)
     # creates the AwardWalletUser:
     expect(result.success?).to be true
@@ -70,7 +70,7 @@ RSpec.describe Integrations::AwardWallet::Callback do
 
   example 'denyAccess=1 in params' do
     expect do
-      result = op.({ denyAccess: '1' }, 'account' => account)
+      result = op.({ denyAccess: '1' }, 'current_account' => account)
       expect(result.failure?).to be true
       expect(result['error']).to eq 'permission denied'
       expect(AwardWalletUser.count).to eq 0

@@ -11,19 +11,19 @@ class RecommendationRequest < RecommendationRequest.superclass
 
     private
 
-    def validate_person_type!(account:, params:, **)
+    def validate_person_type!(current_account:, params:, **)
       type = params.fetch(:person_type)
       unless %w[owner companion both].include?(type)
         raise "invalid type '#{params[:person_type]}'"
       end
 
-      if type == 'companion' && !account.couples?
+      if type == 'companion' && !current_account.couples?
         raise "person type can't be \"companion\" for a solo account"
       end
     end
 
-    def setup_people!(opts, account:, params:, **)
-      opts['people'] = account.people_by_type(params.fetch(:person_type))
+    def setup_people!(opts, current_account:, params:, **)
+      opts['people'] = current_account.people_by_type(params.fetch(:person_type))
     end
 
     def people_can_create?(opts, people:, **)

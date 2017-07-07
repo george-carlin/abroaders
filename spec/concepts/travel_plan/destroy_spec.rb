@@ -6,14 +6,14 @@ RSpec.describe TravelPlan::Destroy do
   let(:op) { described_class }
 
   it 'destroys the travel plan' do
-    result = op.({ id: travel_plan.id }, 'account' => account)
+    result = op.({ id: travel_plan.id }, 'current_account' => account)
     expect(result.success?).to be true
     expect(TravelPlan.find_by(id: travel_plan.id)).to be nil
   end
 
   it "can't destroy someone else's travel plan" do
     expect do
-      op.({ id: travel_plan.id }, 'account' => create_account)
+      op.({ id: travel_plan.id }, 'current_account' => create_account)
     end.to raise_error ActiveRecord::RecordNotFound
   end
 end

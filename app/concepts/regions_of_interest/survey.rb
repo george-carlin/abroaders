@@ -37,18 +37,18 @@ module RegionsOfInterest
         raise 'invalid ids' if (region_ids - Region.pluck(:id)).any?
       end
 
-      def validate_account_in_correct_onboarding_state!(_opts, account:, **)
-        raise 'invalid onboarding state' unless account.onboarding_state == 'regions_of_interest'
+      def validate_account_in_correct_onboarding_state!(current_account:, **)
+        raise 'invalid onboarding state' unless current_account.onboarding_state == 'regions_of_interest'
       end
 
-      def create_regions!(account:, region_ids:, **)
+      def create_regions!(current_account:, region_ids:, **)
         region_ids.uniq.each do |id|
-          account.interest_regions.create(region_id: id)
+          current_account.interest_regions.create(region_id: id)
         end
       end
 
-      def update_onboarding_state!(_opts, account:, **)
-        Account::Onboarder.new(account).add_regions_of_interest!
+      def update_onboarding_state!(current_account:, **)
+        Account::Onboarder.new(current_account).add_regions_of_interest!
         true
       end
     end

@@ -20,7 +20,7 @@ class TravelPlan < TravelPlan.superclass
     # (e.g. you could set it to `TravelPlan` if you want to search *all*
     # travel plans for an admin action.)
     def scope(*)
-      self['scope'] || self['account'].travel_plans
+      self['scope'] || self['current_account'].travel_plans
     end
 
     # In the early days of the app, users created travel plans that were to

@@ -15,7 +15,7 @@ RSpec.describe Balance::Create do
         },
         person_id: person.id,
       },
-      'account' => account,
+      'current_account' => account,
     )
     expect(result.success?).to be true
 
@@ -34,7 +34,7 @@ RSpec.describe Balance::Create do
         },
         person_id: person.id,
       },
-      'account' => account,
+      'current_account' => account,
     )
     expect(result.success?).to be false
   end

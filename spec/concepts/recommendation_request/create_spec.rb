@@ -7,14 +7,14 @@ RSpec.describe RecommendationRequest::Create do
 
   context 'solo account' do
     example 'success' do
-      result = op.({ person_type: 'owner' }, 'account' => account)
+      result = op.({ person_type: 'owner' }, 'current_account' => account)
       expect(result.success?).to be true
       expect(owner.reload.unresolved_recommendation_request?).to be true
     end
 
     example 'failure - person ineligible' do
       owner.update!(eligible: false)
-      result = op.({ person_type: 'owner' }, 'account' => account)
+      result = op.({ person_type: 'owner' }, 'current_account' => account)
       expect(result.success?).to be false
       expect(owner.unresolved_recommendation_request?).to be false
       expect(result['error']).to eq "#{owner.first_name} can't request a recommendation"
@@ -22,11 +22,11 @@ RSpec.describe RecommendationRequest::Create do
 
     example 'failure - person has unresolved request' do
       # create an existing request:
-      run!(op, { person_type: 'owner' }, 'account' => account)
+      run!(op, { person_type: 'owner' }, 'current_account' => account)
       # and try again:
       owner.reload
       expect do
-        result = op.({ person_type: 'owner' }, 'account' => account)
+        result = op.({ person_type: 'owner' }, 'current_account' => account)
         expect(result.success?).to be false
         expect(result['error']).to eq "#{owner.first_name} can't request a recommendation"
       end.not_to change { RecommendationRequest.count }
@@ -35,7 +35,7 @@ RSpec.describe RecommendationRequest::Create do
     example 'failure - person has unresolved recs' do
       create_rec(person: owner)
       owner.reload
-      result = op.({ person_type: 'owner' }, 'account' => account)
+      result = op.({ person_type: 'owner' }, 'current_account' => account)
       expect(result.success?).to be false
       expect(owner.unresolved_recommendation_request?).to be false
       expect(result['error']).to eq "#{owner.first_name} can't request a recommendation"
@@ -43,7 +43,7 @@ RSpec.describe RecommendationRequest::Create do
 
     example 'noisy failure - requesting for companion' do
       expect do
-        op.({ person_type: 'companion' }, 'account' => account)
+        op.({ person_type: 'companion' }, 'current_account' => account)
       end.to raise_error(RuntimeError)
     end
   end
@@ -56,17 +56,17 @@ RSpec.describe RecommendationRequest::Create do
 
     context 'creating request for owner' do
       example 'success' do
-        result = op.({ person_type: 'owner' }, 'account' => account)
+        result = op.({ person_type: 'owner' }, 'current_account' => account)
         expect(result.success?).to be true
         expect(owner.reload.unresolved_recommendation_request?).to be true
         expect(companion.reload.unresolved_recommendation_request?).to be false
       end
 
       example 'failure - owner already has unresolved request' do
-        run!(op, { person_type: 'owner' }, 'account' => account)
+        run!(op, { person_type: 'owner' }, 'current_account' => account)
         raise unless owner.reload.unresolved_recommendation_request? # sanity check
         expect do
-          result = op.({ person_type: 'owner' }, 'account' => account)
+          result = op.({ person_type: 'owner' }, 'current_account' => account)
           expect(result.success?).to be false
         end.not_to change { RecommendationRequest.count }
       end
@@ -74,7 +74,7 @@ RSpec.describe RecommendationRequest::Create do
       example 'failure - owner has unresolved recs' do
         create_rec(person: owner)
         expect do
-          result = op.({ person_type: 'owner' }, 'account' => account)
+          result = op.({ person_type: 'owner' }, 'current_account' => account)
           expect(result.success?).to be false
         end.not_to change { RecommendationRequest.count }
       end
@@ -82,18 +82,18 @@ RSpec.describe RecommendationRequest::Create do
 
     context 'creating request for companion' do
       example 'success' do
-        result = op.({ person_type: 'companion' }, 'account' => account)
+        result = op.({ person_type: 'companion' }, 'current_account' => account)
         expect(result.success?).to be true
         expect(companion.unresolved_recommendation_request?).to be true
         expect(owner.unresolved_recommendation_request?).to be false
       end
 
       example 'failure - companion already has unresolved request' do
-        run!(op, { person_type: 'companion' }, 'account' => account)
+        run!(op, { person_type: 'companion' }, 'current_account' => account)
         raise unless companion.unresolved_recommendation_request? # sanity check
         account.reload
         expect do
-          result = op.({ person_type: 'companion' }, 'account' => account)
+          result = op.({ person_type: 'companion' }, 'current_account' => account)
           expect(result.success?).to be false
         end.not_to change { RecommendationRequest.count }
       end
@@ -101,7 +101,7 @@ RSpec.describe RecommendationRequest::Create do
       example 'failure - companion has unresolved recs' do
         create_rec(person: companion)
         expect do
-          result = op.({ person_type: 'companion' }, 'account' => account)
+          result = op.({ person_type: 'companion' }, 'current_account' => account)
           expect(result.success?).to be false
         end.not_to change { RecommendationRequest.count }
       end
@@ -109,7 +109,7 @@ RSpec.describe RecommendationRequest::Create do
 
     context 'for both people' do
       example 'success' do
-        result = op.({ person_type: 'both' }, 'account' => account)
+        result = op.({ person_type: 'both' }, 'current_account' => account)
         expect(result.success?).to be true
         expect(owner.unresolved_recommendation_request?).to be true
         expect(companion.unresolved_recommendation_request?).to be true
@@ -118,20 +118,20 @@ RSpec.describe RecommendationRequest::Create do
       example 'failure - one or both people ineligible' do
         expect do
           owner.update!(eligible: false)
-          result = op.({ person_type: 'both' }, 'account' => account)
+          result = op.({ person_type: 'both' }, 'current_account' => account)
           expect(result.success?).to be false
           expect(result['error']).to eq "#{owner.first_name} can't request a recommendation"
 
           companion.update!(eligible: false)
           account.reload # test fails if you don't reload
-          result = op.({ person_type: 'both' }, 'account' => account)
+          result = op.({ person_type: 'both' }, 'current_account' => account)
           expect(result.success?).to be false
           msg = "#{owner.first_name} and #{companion.first_name} can't request a recommendation"
           expect(result['error']).to eq msg
 
           owner.update!(eligible: true)
           account.reload # test fails if you don't reload
-          result = op.({ person_type: 'both' }, 'account' => account)
+          result = op.({ person_type: 'both' }, 'current_account' => account)
           expect(result.success?).to be false
           expect(result['error']).to eq "#{companion.first_name} can't request a recommendation"
         end.not_to change { RecommendationRequest.count }

@@ -14,7 +14,7 @@ RSpec.describe RegionsOfInterest::Survey::Save do
   example 'creating ROIs' do
     result = op.(
       { interest_regions_survey: { region_ids: selected_region_ids } },
-      'account' => account,
+      'current_account' => account,
     )
     expect(result.success?).to be true
 
@@ -27,7 +27,7 @@ RSpec.describe RegionsOfInterest::Survey::Save do
     string_ids = selected_region_ids.map(&:to_s)
     result = op.(
       { interest_regions_survey: { region_ids: string_ids } },
-      'account' => account,
+      'current_account' => account,
     )
     expect(result.success?).to be true
 
@@ -40,7 +40,7 @@ RSpec.describe RegionsOfInterest::Survey::Save do
   # 'interest_regions_survey' key at all, which I don't think is Rails's fault
   # (it's how HTML handles unchecked checkboxes)
   example 'submitting with no ROIs' do
-    result = op.({}, 'account' => account)
+    result = op.({}, 'current_account' => account)
     expect(result.success?).to be true
     expect(account.regions_of_interest).to be_empty
     expect(account.onboarding_state).to eq 'account_type'
@@ -53,7 +53,7 @@ RSpec.describe RegionsOfInterest::Survey::Save do
     expect do
       result = op.(
         { interest_regions_survey: { region_ids: [id, id] } },
-        'account' => account,
+        'current_account' => account,
       )
       expect(result.success?).to be true
     end.to change { account.interest_regions.count }.by(1)
@@ -67,7 +67,7 @@ RSpec.describe RegionsOfInterest::Survey::Save do
     expect do
       op.(
         { interest_regions_survey: { region_ids: [1234] } },
-        'account' => account,
+        'current_account' => account,
       )
     end.to raise_error(RuntimeError, 'invalid ids')
     expect(account.interest_regions.count).to eq 0

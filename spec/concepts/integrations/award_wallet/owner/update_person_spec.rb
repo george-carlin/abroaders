@@ -15,12 +15,12 @@ RSpec.describe Integrations::AwardWallet::Owner::UpdatePerson do
   example 'account not connected to award wallet' do
     raise unless account.award_wallet_user.nil? # sanity check
     expect do
-      op.({ id: 1, person_id: owner.id }, 'account' => account)
+      op.({ id: 1, person_id: owner.id }, 'current_account' => account)
     end.to raise_error ActiveRecord::RecordNotFound
   end
 
   example 'updating from one person to another person' do
-    result = op.({ id: aw_owner.id, person_id: companion.id }, 'account' => account)
+    result = op.({ id: aw_owner.id, person_id: companion.id }, 'current_account' => account)
     expect(result.success?).to be true
     updated_owner = result['model']
     expect(updated_owner).to eq aw_owner
@@ -30,7 +30,7 @@ RSpec.describe Integrations::AwardWallet::Owner::UpdatePerson do
   example 'updating from non-nil to nil' do
     raise unless aw_owner.person == owner # sanity check
 
-    result = op.({ id: aw_owner.id, person_id: nil }, 'account' => account)
+    result = op.({ id: aw_owner.id, person_id: nil }, 'current_account' => account)
     expect(result.success?).to be true
     updated_owner = result['model']
     expect(updated_owner).to eq aw_owner
@@ -41,16 +41,16 @@ RSpec.describe Integrations::AwardWallet::Owner::UpdatePerson do
     # this is what the HTML form will do, so we must be able to handle it
     raise unless aw_owner.person == owner # sanity check
 
-    result = op.({ id: aw_owner.id, person_id: '' }, 'account' => account)
+    result = op.({ id: aw_owner.id, person_id: '' }, 'current_account' => account)
     expect(result.success?).to be true
     expect(result['model'].person).to be nil
   end
 
   example 'updating from nil to non-nil' do
     # setup to nil:
-    op.({ id: aw_owner.id, person_id: nil }, 'account' => account)
+    op.({ id: aw_owner.id, person_id: nil }, 'current_account' => account)
     # and back to non-nil
-    result = op.({ id: aw_owner.id, person_id: owner.id }, 'account' => account)
+    result = op.({ id: aw_owner.id, person_id: owner.id }, 'current_account' => account)
     expect(result.success?).to be true
     updated_owner = result['model']
     expect(updated_owner).to eq aw_owner
@@ -61,11 +61,11 @@ RSpec.describe Integrations::AwardWallet::Owner::UpdatePerson do
     other_account = create_account
     other_person  = other_account.owner
     expect do # wrong person:
-      op.({ id: aw_owner.id, person_id: other_person.id }, 'account' => account)
+      op.({ id: aw_owner.id, person_id: other_person.id }, 'current_account' => account)
     end.to raise_error ActiveRecord::RecordNotFound
 
     expect do # wrong AwardWalletOwner:
-      op.({ id: aw_owner.id, person_id: other_person.id }, 'account' => other_account)
+      op.({ id: aw_owner.id, person_id: other_person.id }, 'current_account' => other_account)
     end.to raise_error ActiveRecord::RecordNotFound
   end
 end

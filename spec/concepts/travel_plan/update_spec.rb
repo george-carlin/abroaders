@@ -36,7 +36,7 @@ RSpec.describe TravelPlan::Update do
           further_information: 'blah blah blah',
         },
       },
-      'account' => account,
+      'current_account' => account,
     )
     expect(result.success?).to be true
 
@@ -76,7 +76,7 @@ RSpec.describe TravelPlan::Update do
           type: 'one_way',
         },
       },
-      'account' => account,
+      'current_account' => account,
     )
     expect(result.success?).to be true
   end
@@ -93,7 +93,7 @@ RSpec.describe TravelPlan::Update do
           return_on: '08/05/2024',
         },
       },
-      'account' => account,
+      'current_account' => account,
     )
     expect(result.success?).to be false
   end

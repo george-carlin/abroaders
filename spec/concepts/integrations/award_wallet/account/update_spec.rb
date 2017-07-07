@@ -16,7 +16,7 @@ RSpec.describe Integrations::AwardWallet::Account::Update do
         award_wallet_account: { balance: 4321 },
         id: awa.id,
       },
-      'account' => account,
+      'current_account' => account,
     )
     expect(result.success?).to be true
 
@@ -31,7 +31,7 @@ RSpec.describe Integrations::AwardWallet::Account::Update do
         award_wallet_account: { balance: -1 },
         id: awa.id,
       },
-      'account' => account,
+      'current_account' => account,
     )
     expect(result.success?).to be false
     expect(awa.reload.balance).to eq original_balance
@@ -44,7 +44,7 @@ RSpec.describe Integrations::AwardWallet::Account::Update do
           award_wallet_account: { balance: -1 },
           id: awa.id,
         },
-        'account' => create_account,
+        'current_account' => create_account,
       )
     end.to raise_error(ActiveRecord::RecordNotFound)
   end

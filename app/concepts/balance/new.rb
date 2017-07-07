@@ -13,8 +13,8 @@ class Balance < Balance.superclass
 
     private
 
-    def setup_person(opts, account:, params:, **)
-      opts['person'] = account.people.find(params.fetch(:person_id))
+    def setup_person(opts, current_account:, params:, **)
+      opts['person'] = current_account.people.find(params.fetch(:person_id))
     end
 
     def setup_model(opts, person:, **)

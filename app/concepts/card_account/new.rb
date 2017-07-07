@@ -27,11 +27,11 @@ class CardAccount < CardAccount.superclass
 
     private
 
-    def setup_person!(opts, params:, account:, **)
+    def setup_person!(opts, params:, current_account:, **)
       if params[:person_id]
-        opts['person'] = account.people.find(params[:person_id])
+        opts['person'] = current_account.people.find(params[:person_id])
       else
-        opts['person'] = account.owner
+        opts['person'] = current_account.owner
       end
     end
 
