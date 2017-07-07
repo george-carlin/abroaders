@@ -34,6 +34,8 @@ RSpec.describe 'the sign up page', :onboarding, :auth do
     end
 
     it "sends an email to the admin with the new user's email address" do
+      old = ENV['SEND_ADMIN_SIGN_UP_NOTIFICATION_EMAIL']
+      ENV['SEND_ADMIN_SIGN_UP_NOTIFICATION_EMAIL'] = 'true'
       expect { submit_form }.to change { enqueued_jobs.size }
       expect do
         perform_enqueued_jobs { ActionMailer::DeliveryJob.perform_now(*enqueued_jobs.first[:args]) }
@@ -41,6 +43,8 @@ RSpec.describe 'the sign up page', :onboarding, :auth do
 
       email = ApplicationMailer.deliveries.last
       expect(email.to).to match_array [ENV['MAILPARSER_NEW_SIGNUP']]
+
+      ENV['SEND_ADMIN_SIGN_UP_NOTIFICATION_EMAIL'] = old
     end
 
     example "can't visit sign up page when signed in" do
