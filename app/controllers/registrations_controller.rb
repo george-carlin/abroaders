@@ -12,7 +12,6 @@ class RegistrationsController < ApplicationController
 
   def create
     run Registration::Create do
-      AccountMailer.notify_admin_of_sign_up(@model.id).deliver_later
       flash[:notice] = I18n.t('devise.registrations.signed_up')
       sign_in(:account, @model)
       return redirect_to onboarding_survey_path

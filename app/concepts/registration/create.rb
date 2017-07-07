@@ -3,6 +3,7 @@ module Registration
     step Nested(New)
     step Contract::Validate(key: :account)
     step :persist_model!
+    step :notify_admin!
 
     private
 
@@ -11,6 +12,10 @@ module Registration
       contract.sync
       contract.model.test = TEST_EMAILS.any? { |r| r =~ contract.email.downcase }
       contract.model.save
+    end
+
+    def notify_admin!(model:, **)
+      AccountMailer.notify_admin_of_sign_up(model.id).deliver_later
     end
 
     # if the email address matches any of these regexes, set the 'test'
