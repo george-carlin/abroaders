@@ -36,10 +36,10 @@ module AdminArea
         opts['person'] = Person.find(params[:person_id])
       end
 
-      def setup_model!(opts, admin:, person:, **)
+      def setup_model!(opts, current_admin:, person:, **)
         opts['model'] = person.cards.new(
           recommended_at: Time.zone.now,
-          recommended_by: admin,
+          recommended_by: current_admin,
         )
       end
     end

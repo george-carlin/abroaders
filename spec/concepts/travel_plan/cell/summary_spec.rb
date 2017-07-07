@@ -77,9 +77,9 @@ RSpec.describe TravelPlan::Cell::Summary do
       expect(cell(plan).()).not_to have_link 'Edit'
     end
 
-    example 'with `admin: true` option' do
+    example 'when admin' do
       allow(plan).to receive(:editable?).and_return(true)
-      expect(cell(plan, admin: true).()).not_to have_link 'Edit'
+      expect(cell(plan, current_admin: true).()).not_to have_link 'Edit'
     end
   end
 

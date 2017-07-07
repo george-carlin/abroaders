@@ -49,7 +49,7 @@ RSpec.describe AdminArea::CardRecommendations::ExpireOld do
     old_and_seen = create_rec(recommended_at: lose, seen_at: now)
 
     expect do
-      op.({}, 'admin' => admin)
+      op.({}, 'current_admin' => admin)
       already_expired.reload
     end.not_to change { already_expired.expired_at }
 

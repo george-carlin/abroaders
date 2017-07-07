@@ -100,6 +100,6 @@ RSpec.describe AdminArea::CardRecommendations::Complete do
     # Kinda pedantic to bother covering this with tests, but it's nice to make
     # mutant pass, and it's more future-proof because you never know what might
     # get passed in as a 2nd object to the op in future changes.
-    op.({ person_id: person.id, recommendation_note: '' }, 'admin' => Object.new)
+    op.({ person_id: person.id, recommendation_note: '' }, 'current_admin' => Object.new)
   end
 end

@@ -33,7 +33,7 @@ RSpec.describe AdminArea::Accounts::Search do
   end
 
   def search_for(query)
-    described_class.({ accounts: { search: query } }, 'admin' => admin)['collection']
+    described_class.({ accounts: { search: query } }, 'current_admin' => admin)['collection']
   end
 
   example 'search with no results' do
