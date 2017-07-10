@@ -9,19 +9,19 @@ module Integrations
 
       private
 
-      def raise_if_not_connected_to_award_wallet!(account:, **)
-        raise 'Not connected to AwardWallet' unless account.award_wallet?
+      def raise_if_not_connected_to_award_wallet!(current_account:, **)
+        raise 'Not connected to AwardWallet' unless current_account.award_wallet?
       end
 
-      def enqueue_job(opts, account:, **)
-        aw_user = account.award_wallet_user
+      def enqueue_job(opts, current_account:, **)
+        aw_user = current_account.award_wallet_user
         unless aw_user.syncing? # There'll already be an enqueued job
           opts['refresh_job'].perform_later('id' => aw_user.id)
         end
       end
 
-      def update_syncing_status(account:, **)
-        aw_user = account.award_wallet_user
+      def update_syncing_status(current_account:, **)
+        aw_user = current_account.award_wallet_user
         aw_user.update!(syncing: true) unless aw_user.syncing?
       end
     end

@@ -9,8 +9,8 @@ module Integrations
 
       private
 
-      def set_user(opts, account:, **)
-        opts['user'] = account.award_wallet_user
+      def set_user(opts, current_account:, **)
+        opts['user'] = current_account.award_wallet_user
       end
 
       def user_loaded?(user:, **)
@@ -38,11 +38,11 @@ module Integrations
         opts['owners'] = user.award_wallet_owners.includes(:person, award_wallet_accounts: :award_wallet_owner).order(name: :asc)
       end
 
-      def eager_load_people(account:, **)
+      def eager_load_people(current_account:, **)
         # Make sure people are loaded here so that the cell doesn't touch the
         # DB.  Note that in previous versions of Rails this would have been
-        # written as `account.people(true)`, but that's now deprecated.
-        account.people.reload
+        # written as `current_account.people(true)`, but that's now deprecated.
+        current_account.people.reload
       end
     end
   end

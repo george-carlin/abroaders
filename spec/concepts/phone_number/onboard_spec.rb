@@ -8,7 +8,7 @@ RSpec.describe PhoneNumber::Onboard do
     expect do
       result = described_class.(
         { account: { phone_number: '(123) 5678-555' } },
-        'account' => account,
+        'current_account' => account,
       )
     end.to send_email.to(ENV['MAILPARSER_SURVEY_COMPLETE'])
       .with_subject("App Profile Complete - #{account.email}")
@@ -25,7 +25,7 @@ RSpec.describe PhoneNumber::Onboard do
   example 'valid save with trailing whitespace' do
     result = described_class.(
       { account: { phone_number: ' (123) 5678-555 ' } },
-      'account' => account,
+      'current_account' => account,
     )
     expect(result.success?).to be true
 
@@ -39,7 +39,7 @@ RSpec.describe PhoneNumber::Onboard do
   example 'invalid save' do
     result = described_class.(
       { account: { phone_number: '   ' } },
-      'account' => account,
+      'current_account' => account,
     )
     expect(result.success?).to be false
 

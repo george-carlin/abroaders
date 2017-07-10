@@ -6,7 +6,7 @@ module Integrations::AwardWallet
       include BootstrapOverrides
       include Escaped
 
-      skill :account
+      skill :current_account
       skill :owners
       skill :user
 
@@ -25,7 +25,7 @@ module Integrations::AwardWallet
       end
 
       def owner_settings
-        cell(ForOwner, collection: owners, account: account).join('<hr>') do |cell, i|
+        cell(ForOwner, collection: owners, account: current_account).join('<hr>') do |cell, i|
           cell.show(index: i)
         end
       end

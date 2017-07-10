@@ -20,8 +20,8 @@ module PhoneNumber
 
     private
 
-    def find_model!(opts, account:, **)
-      opts['model'] = account
+    def find_model!(opts, current_account:, **)
+      opts['model'] = current_account
     end
   end
 end

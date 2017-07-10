@@ -7,7 +7,7 @@ RSpec.describe Account::Type::Onboard do
   example 'solo' do
     result = op.(
       { account: { type: 'solo' } },
-      'account' => account,
+      'current_account' => account,
     )
     expect(result.success?).to be true
     account.reload
@@ -20,7 +20,7 @@ RSpec.describe Account::Type::Onboard do
   example 'couples' do
     result = op.(
       { account: { companion_first_name: ' George ', type: 'couples' } },
-      'account' => account,
+      'current_account' => account,
     )
     expect(result.success?).to be true
     account.reload

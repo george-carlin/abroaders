@@ -17,7 +17,7 @@ class SpendingInfosController < AuthenticatedUserController
     # fake a real TRB result until we've extracted things to an op
     warn "#{self.class}##{__method__} needs updating to use a TRB operation"
     @_result = {
-      'account' => current_account,
+      'current_account' => current_account,
       'values_remove_me' => @values,
       'contract.default' => @form,
       'eligible_people' => current_account.people.select(&:eligible?),
@@ -34,7 +34,7 @@ class SpendingInfosController < AuthenticatedUserController
     else
       # fake a real TRB result until we've extracted things to an op
       @_result = {
-        'account' => current_account,
+        'current_account' => current_account,
         'values_remove_me' => @values,
         'contract.default' => @form,
         'eligible_people' => current_account.people.select(&:eligible?),

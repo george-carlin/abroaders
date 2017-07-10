@@ -69,8 +69,8 @@ module Integrations
         opts['error'] = 'permission denied'
       end
 
-      def user_is_not_already_loaded?(account:, **)
-        account.award_wallet_user.nil? || !account.award_wallet_user.loaded?
+      def user_is_not_already_loaded?(current_account:, **)
+        current_account.award_wallet_user.nil? || !current_account.award_wallet_user.loaded?
       end
 
       def log_user_already_loaded(opts)
@@ -79,24 +79,24 @@ module Integrations
 
       # Let them get away with not having a userID in the URL if there's
       # already an unloaded AWU
-      def user_id_is_present?(params:, account:, **)
-        params[:userId].present? || !account.award_wallet_user.nil?
+      def user_id_is_present?(params:, current_account:, **)
+        params[:userId].present? || !current_account.award_wallet_user.nil?
       end
 
       def log_user_id_is_missing(opts)
         opts['error'] = 'not found'
       end
 
-      # Create an unloaded AWU and enqueue a job to load it. If the account
+      # Create an unloaded AWU and enqueue a job to load it. If the current_account
       # already has an unloaded AWU, they probably just refreshed the page;
       # no need to create a second AWU or re-enqueue the job.
-      def create_user_and_enqueue_job(opts, account:, params:, **)
-        if account.award_wallet_user.nil?
+      def create_user_and_enqueue_job(opts, current_account:, params:, **)
+        if current_account.award_wallet_user.nil?
           id = params.fetch(:userId)
-          model = account.create_award_wallet_user!(aw_id: id, loaded: false)
+          model = current_account.create_award_wallet_user!(aw_id: id, loaded: false)
           self['load_user.job'].perform_later('id' => model.id)
         else
-          model = account.award_wallet_user
+          model = current_account.award_wallet_user
         end
         opts['model'] = model
       end

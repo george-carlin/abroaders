@@ -6,7 +6,7 @@ RSpec.describe PhoneNumber::Create do
   example 'valid save' do
     result = described_class.(
       { account: { phone_number: '(123) 5678-555' } },
-      account: account,
+      current_account: account,
     )
 
     expect(result.success?).to be true
@@ -19,7 +19,7 @@ RSpec.describe PhoneNumber::Create do
   example 'valid save with trailing whitespace' do
     result = described_class.(
       { account: { phone_number: ' (123) 5678-555 ' } },
-      account: account,
+      current_account: account,
     )
     expect(result.success?).to be true
 
@@ -31,7 +31,7 @@ RSpec.describe PhoneNumber::Create do
   example 'invalid save' do
     result = described_class.(
       { account: { phone_number: '   ' } },
-      account: account,
+      current_account: account,
     )
     expect(result.success?).to be false
   end

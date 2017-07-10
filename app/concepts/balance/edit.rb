@@ -11,8 +11,8 @@ class Balance < Balance.superclass
 
     private
 
-    def setup_model!(opts, account:, params:, **)
-      opts['model'] = account.balances.find(params[:id])
+    def setup_model!(opts, current_account:, params:, **)
+      opts['model'] = current_account.balances.find(params[:id])
     end
   end
 end

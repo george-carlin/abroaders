@@ -20,21 +20,21 @@ module Readiness
 
     private
 
-    def create_rec_requests(account:, params:, **)
+    def create_rec_requests(current_account:, params:, **)
       person_type = params.fetch(:person_type)
       case person_type
       when 'neither'
         # noop
       when 'both', 'owner', 'companion'
-        result = RecommendationRequest::Create.(params, 'account' => account)
+        result = RecommendationRequest::Create.(params, 'current_account' => current_account)
         raise 'this should never happen!' if result.failure?
       else
         raise "unrecognised type #{person_type}"
       end
     end
 
-    def update_onboarding_status(account:, **)
-      Account::Onboarder.new(account).add_readiness!
+    def update_onboarding_status(current_account:, **)
+      Account::Onboarder.new(current_account).add_readiness!
     end
   end
 end

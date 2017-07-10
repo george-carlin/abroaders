@@ -2,7 +2,7 @@ class CardRecommendation < CardRecommendation.superclass
   # @!method self.call(params, options = {})
   #   @option params [Integer] id the ID of the CardRecommendation
   #   @option params [Hash] card hash with key :decline_reason
-  #   @option options [Account] account the currently-logged in user account
+  #   @option options [Account] current_account the currently-logged in user
   class Decline < Trailblazer::Operation
     step :setup_model!
     step :rec_is_declinable?
@@ -11,8 +11,8 @@ class CardRecommendation < CardRecommendation.superclass
 
     private
 
-    def setup_model!(opts, account:, params:, **)
-      opts['model'] = account.card_recommendations.find(params.fetch(:id))
+    def setup_model!(opts, current_account:, params:, **)
+      opts['model'] = current_account.card_recommendations.find(params.fetch(:id))
     end
 
     def rec_is_declinable?(model:, **)

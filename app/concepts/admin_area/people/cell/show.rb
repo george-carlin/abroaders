@@ -112,7 +112,7 @@ module AdminArea
         end
 
         def spending_info
-          cell(People::Cell::SpendingInfo, model, account: account)
+          cell(People::Cell::SpendingInfo, model, current_account: account)
         end
 
         def spend_filter_input

@@ -12,7 +12,7 @@ RSpec.describe CardAccount::Create do
         card_product_id: card_product.id,
         card: { opened_on: Date.today },
       },
-      'account' => account,
+      'current_account' => account,
     )
     expect(result.success?).to be true
 
@@ -31,7 +31,7 @@ RSpec.describe CardAccount::Create do
         card_product_id: card_product.id,
         card: { opened_on: Date.today, closed: false },
       },
-      'account' => account,
+      'current_account' => account,
     )
     expect(result.success?).to be true
 
@@ -48,7 +48,7 @@ RSpec.describe CardAccount::Create do
           opened_on: Date.yesterday,
         },
       },
-      'account' => account,
+      'current_account' => account,
     )
     expect(result.success?).to be true
 
@@ -65,7 +65,7 @@ RSpec.describe CardAccount::Create do
         card_product_id: card_product.id,
         card: { opened_on: Date.tomorrow },
       },
-      'account' => account,
+      'current_account' => account,
     )
     expect(result.success?).to be false
   end
@@ -80,7 +80,7 @@ RSpec.describe CardAccount::Create do
           opened_on: Date.today,
         },
       },
-      'account' => account,
+      'current_account' => account,
     )
     expect(result.success?).to be false
   end
@@ -94,7 +94,7 @@ RSpec.describe CardAccount::Create do
           card_product_id: card_product.id,
           card: { opened_on: Date.today, closed: false },
         },
-        'account' => account,
+        'current_account' => account,
       )
     end.to raise_error(ActiveRecord::RecordNotFound)
 

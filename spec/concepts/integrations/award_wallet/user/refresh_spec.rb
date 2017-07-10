@@ -89,7 +89,7 @@ RSpec.describe Integrations::AwardWallet::User::Refresh do
     run!(
       Integrations::AwardWallet::Owner::UpdatePerson,
       { id: john.id, person_id: nil },
-      'account' => account,
+      'current_account' => account,
     )
 
     # refresh again:

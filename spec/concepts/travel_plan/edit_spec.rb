@@ -20,17 +20,17 @@ RSpec.describe TravelPlan::Edit do
   end
 
   it 'only finds my travel plans' do
-    expect(op.({ id: plan.id }, 'account' => account)['model']).to eq plan
+    expect(op.({ id: plan.id }, 'current_account' => account)['model']).to eq plan
 
     expect do
-      op.({ id: plan.id }, 'account' => create_account).success?
+      op.({ id: plan.id }, 'current_account' => create_account).success?
     end.to raise_error ActiveRecord::RecordNotFound
   end
 
   it 'raises an error for old-style travel plans' do
     plan.flights[0].update!(from: lhr.country, to: jfk.country)
     expect do
-      op.({ id: plan.id }, 'account' => account).success?
+      op.({ id: plan.id }, 'current_account' => account).success?
     end.to raise_error RuntimeError
   end
 end

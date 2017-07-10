@@ -17,8 +17,8 @@ module Integrations::AwardWallet
         end
       end
 
-      def setup_model!(opts, account:, params:, **)
-        opts['model'] = account.award_wallet_accounts.find(params.fetch(:id))
+      def setup_model!(opts, current_account:, params:, **)
+        opts['model'] = current_account.award_wallet_accounts.find(params.fetch(:id))
       end
     end
   end

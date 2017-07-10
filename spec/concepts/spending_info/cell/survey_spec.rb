@@ -13,7 +13,7 @@ RSpec.describe SpendingInfo::Cell::Survey do
   describe '::SoloSurvey' do
     it 'addresses me as "You"' do
       result = {
-        'account' => account,
+        'current_account' => account,
         'contract.default' => SpendingSurvey.new(account: account),
         'eligible_people' => [owner],
       }
@@ -37,7 +37,7 @@ RSpec.describe SpendingInfo::Cell::Survey do
 
     it 'addresses us by name' do
       result = {
-        'account' => account,
+        'current_account' => account,
         'contract.default' => SpendingSurvey.new(account: account),
         'eligible_people'  => [owner, companion],
       }

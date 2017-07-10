@@ -23,7 +23,7 @@ RSpec.describe CardAccount::Update do
     # Card is already opened, so no need to trigger again
     expect_not_to_queue_card_opened_webhook
 
-    result = op.(params, 'account' => account)
+    result = op.(params, 'current_account' => account)
     expect(result.success?).to be true
 
     card_account = result['model']
@@ -38,7 +38,7 @@ RSpec.describe CardAccount::Update do
 
     expect_not_to_queue_card_opened_webhook
 
-    result = op.(params, 'account' => account)
+    result = op.(params, 'current_account' => account)
     expect(result.success?).to be true
 
     card_account = result['model']
@@ -55,7 +55,7 @@ RSpec.describe CardAccount::Update do
 
     expect_not_to_queue_card_opened_webhook
 
-    result = op.(params, 'account' => account)
+    result = op.(params, 'current_account' => account)
     expect(result.success?).to be true
 
     card_account = result['model']
@@ -71,7 +71,7 @@ RSpec.describe CardAccount::Update do
 
     expect_not_to_queue_card_opened_webhook
 
-    result = op.(params, 'account' => account)
+    result = op.(params, 'current_account' => account)
     expect(result.success?).to be false
   end
 
@@ -84,7 +84,7 @@ RSpec.describe CardAccount::Update do
 
     other_account = create_account(:onboarded)
     expect do
-      op.(params, 'account' => other_account)
+      op.(params, 'current_account' => other_account)
     end.to raise_error(ActiveRecord::RecordNotFound)
   end
 end

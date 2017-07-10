@@ -9,9 +9,9 @@ class TravelPlan < TravelPlan.superclass
 
     private
 
-    def setup_model!(opts, account:, **)
+    def setup_model!(opts, current_account:, **)
       # DB default for type is 'one_way' but we should change this TODO
-      opts['model'] = account.travel_plans.new(type: 'round_trip')
+      opts['model'] = current_account.travel_plans.new(type: 'round_trip')
     end
   end
 end

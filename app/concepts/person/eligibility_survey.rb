@@ -10,21 +10,21 @@ class Person < Person.superclass
 
     private
 
-    def update_eligibility(account:, params:, **)
+    def update_eligibility(current_account:, params:, **)
       case params.fetch(:eligibility_survey).fetch(:eligible)
       when "both"
-        account.owner.update_attributes!(eligible: true)
-        account.companion.update_attributes!(eligible: true)
+        current_account.owner.update_attributes!(eligible: true)
+        current_account.companion.update_attributes!(eligible: true)
       when "owner"
-        account.owner.update_attributes!(eligible: true)
+        current_account.owner.update_attributes!(eligible: true)
       when "companion"
-        account.companion.update_attributes!(eligible: true)
+        current_account.companion.update_attributes!(eligible: true)
       when "neither" # noop
       end
     end
 
-    def update_onboarding_state(account:, **)
-      Account::Onboarder.new(account).add_eligibility!
+    def update_onboarding_state(current_account:, **)
+      Account::Onboarder.new(current_account).add_eligibility!
     end
   end
 end

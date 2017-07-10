@@ -8,8 +8,8 @@ class CardRecommendation < CardRecommendation.superclass
 
       private
 
-      def setup_model(opts, account:, params:, **)
-        opts['model'] = account.card_recommendations.find(params.fetch(:id))
+      def setup_model(opts, current_account:, params:, **)
+        opts['model'] = current_account.card_recommendations.find(params.fetch(:id))
       end
 
       def rec_can_be_applied_for?(model:, **)

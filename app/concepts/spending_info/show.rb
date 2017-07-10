@@ -7,8 +7,8 @@ class SpendingInfo < SpendingInfo.superclass
 
     private
 
-    def account_has_any_eligible_people?(account:, **)
-      account.eligible_people.any?
+    def account_has_any_eligible_people?(current_account:, **)
+      current_account.eligible_people.any?
     end
 
     def log_error(opts)
