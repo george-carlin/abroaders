@@ -37,14 +37,7 @@ module Registration
         errors.add(:password_confirmation, "doesn't match password") if password != password_confirmation
       end
 
-      validate do
-        if email.present?
-          addr = email.downcase
-          if Account.exists?(email: addr) || Admin.exists?(email: addr)
-            errors.add(:email, :taken)
-          end
-        end
-      end
+      validate(&Account::ValidateEmailUniqueness)
     end
   end
 end
