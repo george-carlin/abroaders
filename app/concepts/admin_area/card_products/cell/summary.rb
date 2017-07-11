@@ -3,6 +3,7 @@ module AdminArea
     module Cell
       # @!method self.call(card_product, options = {})
       class Summary < Abroaders::Cell::Base
+        property :id
         property :bank
         property :bank_name
         property :bp
