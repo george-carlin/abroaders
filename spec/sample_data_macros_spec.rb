@@ -182,7 +182,7 @@ RSpec.describe SampleDataMacros do
       expect(CardProduct.count).to eq 1
     end
 
-    example 'specifying product' do
+    example 'override product' do
       card_product = create(:card_product)
       expect do
         offer = create_offer(card_product: card_product)
@@ -190,6 +190,20 @@ RSpec.describe SampleDataMacros do
         expect(offer.card_product).to eq card_product
       end.to change { Offer.count }.by(1)
       expect(CardProduct.count).to eq 1
+    end
+
+    example 'other overrides' do
+      expect do
+        offer = create_offer(
+          cost: 19,
+          days: 45,
+          link: 'http://whatever.abroaders.com',
+          partner: 'credit_cards',
+          points_awarded: 99_999,
+          spend: 75,
+        )
+        expect(offer).to be_an(Offer)
+      end.to change { Offer.count }.by(1)
     end
 
     example 'no bonus' do

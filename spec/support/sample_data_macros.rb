@@ -85,6 +85,7 @@ module SampleDataMacros
       end
     end
 
+    # @return [Admin]
     def admin(overrides = {})
       n = increment_sequence(:admin)
 
@@ -97,6 +98,33 @@ module SampleDataMacros
       Admin.create!(attrs)
     end
 
+    # @return [Balance]
+    def balance(overrides = {})
+      raise 'pass currency, not currency_id' if overrides.key?(:currency_id)
+      kurrency = if overrides.key?(:currency)
+                   overrides.delete(:currency)
+                 else
+                   currency
+                 end
+
+      raise 'pass person, not person_id' if overrides.key?(:person_id)
+      persun = if overrides.key?(:person)
+                 overrides.delete(:person)
+               else
+                 person
+               end
+
+      run!(
+        Balance::Create,
+        { # defaults:
+          balance: { currency_id: kurrency.id, value: 1 }.merge(overrides),
+          person_id: persun.id,
+        },
+        'current_account' => persun.account,
+      )['model']
+    end
+
+    # @return [Currency]
     def currency(overrides = {})
       n = increment_sequence(:currency)
 
@@ -109,6 +137,32 @@ module SampleDataMacros
       }.merge(overrides)
 
       Currency.create!(attrs)
+    end
+
+    # @option overrides [CardProduct] card_product_id if not provided,
+    #   a new card product will be created
+    def offer(overrides = {})
+      attrs = { # defaults
+        condition: 'on_minimum_spend',
+        cost: rand(20) * 5,
+        days: [30, 60, 90, 90, 90, 90, 90, 90, 120].sample,
+        link: Faker::Internet.url('example.com'),
+        partner: 'card_benefit',
+        points_awarded: rand(20) * 5_000,
+        spend: rand(10) * 500,
+      }.merge(overrides)
+
+      card_product = if overrides.key?(:card_product)
+                       overrides.fetch(:card_product)
+                     else
+                       create(:card_product)
+                     end
+
+      run!(
+        AdminArea::Offers::Create,
+        offer: attrs,
+        card_product_id: card_product.id,
+      )['model']
     end
 
     # This method is awful. Maybe it's better to just do something like this?
@@ -145,6 +199,68 @@ module SampleDataMacros
       end
     end
 
+    # Create a sample travel plan. Tries to use existing airports from the DB if
+    # it can find any; else creates two new airports (one for 'from' and one for
+    # 'to') using FactoryGirl.
+    #
+    # note that this macro takes an airport as the values for 'from' and 'to',
+    # but the underlying 'Create' operation takes the airport's "full_name"
+    # string
+    #
+    # If you provide a return_on date but no type, type will default to 'round_trip'.
+    # If you say that type == 'round_trip' but don't provide a return_on date, the
+    # return_on date will default to a random date at some point shortly after
+    # the depart_on date. (depart_on itself, when not provided, defaults to a
+    # random date in the near future.)
+    #
+    # @option overrides [Account] account the account the travel plan will belong
+    #   to. If you don't provide an account, FactoryGirl will be used to create
+    #   one
+    def travel_plan(overrides = {})
+      # It's annoying how I can't use ivars with names like 'account' that
+      # will conflict with a method name. Maybe my design needs rethinking.
+      airports = Airport.all.to_a
+      from = if overrides.key?(:from)
+               overrides.delete(:from)
+             elsif airports.any?
+               airports.pop
+             else
+               create(:airport)
+             end
+
+      to = if overrides.key?(:to)
+             overrides.delete(:to)
+           elsif airports.any?
+             airports.pop
+           else
+             create(:airport)
+           end
+
+      # symbols will make the operation crash:
+      overrides[:type] = overrides[:type].to_s if overrides.key?(:type)
+
+      attributes = { # defaults:
+        accepts_economy: true,
+        depart_on: rand(5).days.from_now,
+        no_of_passengers: rand(2) + 1,
+        type: 'one_way',
+        from: from.full_name,
+        to: to.full_name,
+      }.merge(overrides)
+
+      attributes[:type] = 'round_trip' if attributes.key?(:return_on)
+
+      if attributes[:type] == 'round_trip' && !attributes.key?(:return_on)
+        attributes[:return_on] = attributes[:depart_on] + rand(15)
+      end
+
+      params = { travel_plan: attributes }
+
+      akkount = overrides.key?(:account) ? overrides.delete(:account) : account
+
+      run!(TravelPlan::Create, params, 'current_account' => akkount)['model']
+    end
+
     private
 
     # Not all macros have 'sequence' functionality, as I haven't needed it yet
@@ -156,39 +272,13 @@ module SampleDataMacros
     end
   end
 
-  def create_account(*traits_and_overrides)
-    Generator.instance.account(*traits_and_overrides)
+  def create_account(*traits_and_overrides) Generator.instance.account(*traits_and_overrides)
   end
 
-  %w[admin currency].each do |model_name|
+  %w[admin balance currency travel_plan offer].each do |model_name|
     define_method "create_#{model_name}" do |overrides = {}|
       Generator.instance.send(model_name, overrides)
     end
-  end
-
-  # Create an offer in the way an Admin would.
-  def create_offer(overrides = {})
-    attrs = { # defaults
-      condition: 'on_minimum_spend',
-      cost: rand(20) * 5,
-      days: [30, 60, 90, 90, 90, 90, 90, 90, 120].sample,
-      link: Faker::Internet.url('example.com'),
-      partner: 'card_benefit',
-      points_awarded: rand(20) * 5_000,
-      spend: rand(10) * 500,
-    }.merge(overrides)
-
-    card_product = if overrides.key?(:card_product)
-                     overrides.fetch(:card_product)
-                   else
-                     create(:card_product)
-                   end
-
-    run!(
-      AdminArea::Offers::Create,
-      offer: attrs,
-      card_product_id: card_product.id,
-    )['model']
   end
 
   # Create a card recommendation in the same way a user would.
@@ -345,95 +435,6 @@ module SampleDataMacros
   end
 
   alias create_rec_request create_recommendation_request
-
-  # Create a sample travel plan. Tries to use existing airports from the DB if
-  # it can find any; else creates two new airports (one for 'from' and one for
-  # 'to') using FactoryGirl.
-  #
-  # note that this macro takes an airport as the values for 'from' and 'to',
-  # but the underlying 'Create' operation takes the airport's "full_name"
-  # string
-  #
-  # If you provide a return_on date but no type, type will default to 'round_trip'.
-  # If you say that type == 'round_trip' but don't provide a return_on date, the
-  # return_on date will default to a random date at some point shortly after
-  # the depart_on date. (depart_on itself, when not provided, defaults to a
-  # random date in the near future.)
-  #
-  # @option overrides [Account] account the account the travel plan will belong
-  #   to. If you don't provide an account, FactoryGirl will be used to create
-  #   one
-  def create_travel_plan(overrides = {})
-    account = overrides.key?(:account) ? overrides.delete(:account) : create_account
-
-    airports = Airport.all.to_a
-    from = if overrides.key?(:from)
-             overrides.delete(:from)
-           elsif airports.any?
-             airports.pop
-           else
-             create(:airport)
-           end
-
-    to = if overrides.key?(:to)
-           overrides.delete(:to)
-         elsif airports.any?
-           airports.pop
-         else
-           create(:airport)
-         end
-
-    # symbols will make the operation crash:
-    overrides[:type] = overrides[:type].to_s if overrides.key?(:type)
-
-    attributes = { # defaults:
-      accepts_economy: true,
-      depart_on: rand(5).days.from_now,
-      no_of_passengers: rand(2) + 1,
-      type: 'one_way',
-      from: from.full_name,
-      to: to.full_name,
-    }.merge(overrides)
-
-    attributes[:type] = 'round_trip' if attributes.key?(:return_on)
-
-    if attributes[:type] == 'round_trip' && !attributes.key?(:return_on)
-      attributes[:return_on] = attributes[:depart_on] + rand(15)
-    end
-
-    params = { travel_plan: attributes }
-
-    run!(TravelPlan::Create, params, 'current_account' => account)['model']
-  end
-
-  # @return [Balance]
-  def create_balance(overrides = {})
-    raise 'pass currency, not currency_id' if overrides.key?(:currency_id)
-    currency = if overrides.key?(:currency)
-                 overrides.delete(:currency)
-               else
-                 create_currency
-               end
-
-    raise 'pass person, not person_id' if overrides.key?(:person_id)
-    person = if overrides.key?(:person)
-               overrides.delete(:person)
-             else
-               create_person
-             end
-
-    run!(
-      Balance::Create,
-      {
-        balance: { # defaults:
-          currency_id: currency.id,
-          value: 1,
-        }.merge(overrides),
-        person_id: person.id,
-      },
-      'current_account' => person.account,
-    )['model']
-  end
 
   # Run the Kill operation on an offer
   #
