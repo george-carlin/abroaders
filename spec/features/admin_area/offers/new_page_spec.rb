@@ -39,6 +39,7 @@ RSpec.describe 'admin area - new offer page' do
     expect(page).to have_field :offer_partner
     expect(page).to have_field :offer_link
     expect(page).to have_field :offer_notes
+    expect(page).to have_field :offer_value
 
     # the 'condition' dropdown has 'on minimum spend' selected by default
     selected_opt = find("#offer_condition option[selected]")
@@ -61,13 +62,15 @@ RSpec.describe 'admin area - new offer page' do
     example 'and submitting the form with valid info' do
       fill_in :offer_points_awarded, with: 40_000
       fill_in :offer_link, with: "http://something.com"
+      fill_in :offer_value, with: 4321
       expect { submit }.to change { Offer.count }.by 1
-      expect(new_offer.condition).to eq "on_approval"
       expect(new_offer.card_product).to eq @product
-      expect(new_offer.points_awarded).to eq 40_000
-      expect(new_offer.link).to eq "http://something.com"
-      expect(new_offer.spend).to be_nil
+      expect(new_offer.condition).to eq "on_approval"
       expect(new_offer.days).to be_nil
+      expect(new_offer.link).to eq "http://something.com"
+      expect(new_offer.points_awarded).to eq 40_000
+      expect(new_offer.spend).to be_nil
+      expect(new_offer.value).to eq 4321
     end
 
     example "and submitting the form with invalid info" do

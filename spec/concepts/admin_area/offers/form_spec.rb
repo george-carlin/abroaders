@@ -3,11 +3,6 @@ require 'rails_helper'
 RSpec.describe AdminArea::Offers::Form do
   let(:card_product) { create(:card_product) }
 
-  # TODO we have some offers in the DB where points_awarded is 0, some are
-  # live, and they're a mixture of all three original condition types.
-  # Shouldn't points_awarded be >0, not >=0, for *all* on_minimum_spend
-  # offers? Talk to Erik about this.
-
   # You must create a new form object every time; Reform doesn't support
   # calling 'validate' multiple times on the same form instance.
   def validate_attrs(attrs)
@@ -187,6 +182,18 @@ RSpec.describe AdminArea::Offers::Form do
 
     specify 'days must be present, >= 0, and <= MAX_INT' do
       validates_int(:days)
+    end
+
+    specify 'value must be >= 0 or nil' do
+      def errors_for(value)
+        validate_attrs(value: value)[0].errors[:value]
+      end
+
+      expect(errors_for(nil)).to be_empty
+      err_msg = 'must be greater than or equal to 0'
+      expect(errors_for(-1)).to include err_msg
+      expect(errors_for(0)).to be_empty
+      expect(errors_for(1)).to be_empty
     end
 
     example 'saving offer' do

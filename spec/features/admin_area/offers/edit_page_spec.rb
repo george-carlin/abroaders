@@ -52,4 +52,11 @@ RSpec.describe 'admin - offer edit pages' do
     visit route
     expect(page).to have_no_button 'Unkill Offer'
   end
+
+  example 'updating value' do
+    visit route
+    fill_in :offer_value, with: 123
+    click_button 'Submit'
+    expect(offer.reload.value_cents).to eq 123_00
+  end
 end

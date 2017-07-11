@@ -10,6 +10,7 @@ module AdminArea
       property :cost, type: Types::Form::Int, default: 0
       property :days, type: Types::Form::Int, default: 90
       property :link, type: Types::StrippedString
+      property :value, type: Types::Form::Int
       property :notes, type: Types::StrippedString
 
       with_options presence: true do
@@ -29,6 +30,12 @@ module AdminArea
           validates :spend, if: -> { Offer::Condition.spend?(condition) }
         end
       end
+
+      validates :value, numericality: {
+        allow_blank: true,
+        greater_than_or_equal_to: 0,
+        less_than_or_equal_to: POSTGRESQL_MAX_INT_VALUE,
+      }
     end
   end
 end

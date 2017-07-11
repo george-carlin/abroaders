@@ -15,12 +15,17 @@ module AdminArea
         property :notes
         property :partner
         property :points_awarded
+        property :value
 
         def title
           "Offer ##{id}"
         end
 
         private
+
+        def card_product_summary
+          cell(CardProducts::Cell::Summary, card_product)
+        end
 
         def cost
           number_to_currency(super)
@@ -58,16 +63,16 @@ module AdminArea
           number_with_delimiter(super)
         end
 
-        def card_product_summary
-          cell(CardProducts::Cell::Summary, card_product)
-        end
-
         def spend
           return '' unless model.condition == 'on_minimum_spend'
           <<-HTML
             <dt>Spend:</dt>
             <dd>#{number_to_currency(model.spend)}</dd>
           HTML
+        end
+
+        def value
+          number_to_currency(super)
         end
       end
     end
