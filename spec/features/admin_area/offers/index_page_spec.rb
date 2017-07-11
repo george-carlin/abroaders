@@ -18,4 +18,10 @@ RSpec.describe 'admin - offers pages' do
     expect(find("tr#offer_#{offer.id}").text).to include(offer.last_reviewed_at.strftime('%m/%d/%Y'))
     expect(find("tr#offer_#{offer.id}").text).to include('CB')
   end
+
+  example 'for card product which has no offers' do
+    product = create(:card_product)
+    visit admin_card_product_offers_path(product)
+    expect(page).to have_content 'No offers for this product!'
+  end
 end

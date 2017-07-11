@@ -5,32 +5,36 @@
 
   <div class="panel-body">
     <div class="table-responsive">
-      <table
-        class="table table-striped"
-        cellpadding="1"
-        cellspacing="1"
-      >
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Product</th>
-            <th>Bank</th>
-            <th>Partner</th>
-            <th>Points awarded</th>
-            <th>Spend</th>
-            <th>Cost</th>
-            <th>Days</th>
-            <th>Live</th>
-            <th>Reviewed</th>
-            <th></th>
-            <th></th>
-          </tr>
-        </thead>
+      <% if any? %>
+        <table
+          class="table table-striped"
+          cellpadding="1"
+          cellspacing="1"
+        >
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Product</th>
+              <th>Bank</th>
+              <th>Partner</th>
+              <th>Points awarded</th>
+              <th>Spend</th>
+              <th>Cost</th>
+              <th>Days</th>
+              <th>Live</th>
+              <th>Reviewed</th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
 
-        <tbody>
-          <%= table_rows %>
-        </tbody>
-      </table>
+          <tbody>
+            <%= table_rows %>
+          </tbody>
+        </table>
+      <% else %>
+        No offers for this product!
+      <% end %>
     </div>
   </div>
 </div>

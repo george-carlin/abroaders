@@ -2,14 +2,19 @@ module AdminArea::Offers
   module Cell
     # @!method self.call(offers, options = {})
     #   @param offers [Collection<Offer>]
+    #   @option options [CardProduct] card_product optional
     class Index < Abroaders::Cell::Base
+      property :any?
+
+      # If a card product is provided then the cell will assume that all the
+      # offers in `model` belong to that product.
+      option :card_product, optional: true
+
       def title
-        if params[:card_product_id]
-          product = model.first.card_product
-          name = cell(CardProduct::Cell::FullName, product, with_bank: true)
-          "#{name} - Offers"
-        else
+        if card_product.nil?
           'All Offers'
+        else
+          "#{card_product_name} - Offers"
         end
       end
 
@@ -17,6 +22,10 @@ module AdminArea::Offers
 
       def table_rows
         cell(Row, collection: model)
+      end
+
+      def card_product_name
+        cell(CardProduct::Cell::FullName, card_product, with_bank: true)
       end
 
       # @!method self.call(offer, options = {})
