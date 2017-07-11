@@ -1,1 +1,7 @@
-<%= cell(Abroaders::Cell::Layout, yield, flash: flash, title: title(yield(:title))) %>
+<%= cell(
+  Abroaders::Cell::Layout,
+  yield,
+  flash: flash,
+  title: title(yield(:title)),
+  output_fb_signup_code: @output_fb_signup_code,
+) %>
