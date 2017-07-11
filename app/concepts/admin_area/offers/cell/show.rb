@@ -23,6 +23,10 @@ module AdminArea
 
         private
 
+        def alternatives_table
+          cell(Offers::Cell::AlternativesTable::Section, model)
+        end
+
         def card_product_summary
           cell(CardProducts::Cell::Summary, card_product)
         end
@@ -43,12 +47,8 @@ module AdminArea
           HTML
         end
 
-        def link_to_back
-          link_to 'Back', admin_offers_path
-        end
-
         def link_to_edit
-          link_to 'Edit', edit_admin_offer_path(id)
+          link_to 'Edit offer', edit_admin_offer_path(id)
         end
 
         def link_to_link
@@ -72,7 +72,7 @@ module AdminArea
         end
 
         def value
-          number_to_currency(super)
+          super ? number_to_currency(super) : 'Unknown'
         end
       end
     end
