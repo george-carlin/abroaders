@@ -21,6 +21,14 @@ require 'types'
 # 'link' is the link to the page where people can sign up for the cards.  NOTE:
 # any links from our app to the card application page MUST be nofollowed, for
 # compliance reasons.
+#
+# See the `Condition` constant for more info about '#condition'.
+#
+# Generally I use 'condition' to refer to that specific attribute, and
+# 'conditions' to refer collectively to `condition`, `spend`, `days`,
+# `points_awarded`, `cost` and `card_product_id`, which are the relevant
+# attributes to know the bonus conditions and reward that the user gets for
+# the sign-up.
 class Offer < ApplicationRecord
   # Which of our affiliate partners provides this offer, if any?
   Partner = Types::Strict::String.enum(
