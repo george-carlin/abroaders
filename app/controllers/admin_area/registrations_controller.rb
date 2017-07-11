@@ -1,6 +1,6 @@
 module AdminArea
   class RegistrationsController < AdminController
-    include SignInOut
+    include Auth::Controllers::SignInOut
 
     def edit
       render cell(Admin::Cell::Edit, current_admin)

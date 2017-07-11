@@ -1,4 +1,4 @@
-module SignInOut
+module Auth::Controllers::SignInOut
   WARDEN_SCOPES = %i[account admin].freeze
 
   def sign_in(scope, resource, options = {})

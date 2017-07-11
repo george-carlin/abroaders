@@ -3,7 +3,7 @@ class SessionsController < ApplicationController
   prepend_before_action(only: :create) { request.env["devise.allow_params_authentication"] = true }
   prepend_before_action :verify_signed_out_user, only: :destroy
 
-  include SignInOut
+  include Auth::Controllers::SignInOut
 
   before_action :redirect_admins!
 

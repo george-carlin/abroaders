@@ -1,6 +1,6 @@
 module AdminArea
   class AccountsController < AdminController
-    include SignInOut
+    include Auth::Controllers::SignInOut
 
     # GET /admin/accounts
     def index

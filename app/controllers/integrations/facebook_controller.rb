@@ -1,6 +1,6 @@
 module Integrations
   class FacebookController < ApplicationController
-    include SignInOut
+    include Auth::Controllers::SignInOut
 
     def callback
       run Account::FindOrCreateFromFacebook, env: request.env
