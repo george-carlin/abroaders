@@ -2,7 +2,7 @@ module AdminArea
   module CardRecommendations
     # Mark as 'expired' all recommendations which:
     #
-    # a) were recommended to the user more than 15 days ago
+    # a) were recommended to the user more than [setting] days ago
     # b) have not been interacted with by the user (clicked, declined, or
     #    applied for)
     # c) are not already expired
@@ -11,7 +11,7 @@ module AdminArea
     #
     # This operation will be run from a script that runs daily in production.
     class ExpireOld < Trailblazer::Operation
-      self['expire_after_no_of_days'] = 15
+      self['expire_after_no_of_days'] = 180
 
       step :expire_old_recs!
 

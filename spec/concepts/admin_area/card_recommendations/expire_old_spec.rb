@@ -8,9 +8,11 @@ RSpec.describe AdminArea::CardRecommendations::ExpireOld do
 
   let(:op) { described_class }
 
+  let(:max) { op['expire_after_no_of_days'] }
+
   example '.call' do
-    lose = 16.days.ago
-    keep = 15.days.ago + 1.minute
+    lose = (max + 1).days.ago
+    keep = max.days.ago + 1.minute
 
     # use the 'real' operation to create the rec, then update the
     # rest of the attrs manually:
@@ -43,7 +45,7 @@ RSpec.describe AdminArea::CardRecommendations::ExpireOld do
     already_expired.reload
 
     # to expire:
-    # recommended > 15 days ago:
+    # recommended > max days ago:
     old = create_rec(recommended_at: lose)
     # cards that have only been *seen* should still expire:
     old_and_seen = create_rec(recommended_at: lose, seen_at: now)
