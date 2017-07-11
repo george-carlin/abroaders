@@ -43,7 +43,7 @@ Rails.application.routes.draw do
 
   # --- LOGGED IN ACCOUNTS ---
 
-  resource :account, only: [] do
+  resource :account, only: [:edit, :update] do
     get  :type
     post :type, action: :submit_type
   end
