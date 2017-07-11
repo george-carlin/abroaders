@@ -202,7 +202,14 @@ RSpec.describe SampleDataMacros do
           points_awarded: 99_999,
           spend: 75,
         )
+
         expect(offer).to be_an(Offer)
+        expect(offer.cost).to eq 19
+        expect(offer.days).to eq 45
+        expect(offer.link).to eq 'http://whatever.abroaders.com'
+        expect(offer.partner).to eq 'credit_cards'
+        expect(offer.points_awarded).to eq 99_999
+        expect(offer.spend).to eq 75
       end.to change { Offer.count }.by(1)
     end
 
