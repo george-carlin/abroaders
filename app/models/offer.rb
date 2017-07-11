@@ -61,6 +61,14 @@ class Offer < ApplicationRecord
     !killed_at.nil?
   end
 
+  def value
+    value_cents / 100.0 unless value_cents.nil?
+  end
+
+  def value=(value_dollars)
+    self.value_cents = (value_dollars.to_f * 100).round
+  end
+
   # Scopes
 
   scope :live, -> { where(killed_at: nil) }
