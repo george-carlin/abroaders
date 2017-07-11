@@ -50,7 +50,7 @@ RSpec.configure do |config|
 
   config.include ActiveJob::TestHelper
   config.include ControllerMacros, type: :controller
-  config.include Devise::TestHelpers, type: :controller
+  config.include Auth::TestHelpers, type: :controller
   config.include FactoryGirl::Syntax::Methods
   config.include I18nWithErrorRaising
   config.include AlertsMacros, type: :feature
