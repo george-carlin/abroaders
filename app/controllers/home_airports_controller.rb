@@ -9,7 +9,6 @@ class HomeAirportsController < AuthenticatedUserController
     # (see also concepts/abroaders/view/third_party_scripts/fb_tracking_pixel)
     # Use a randomly-generated cookie name to obfuscate what it's for if the
     # user looks at their cookies.
-    @output_fb_signup_code = !cookies[:cbd50008665cc7269327074d2778d9a6]
     @survey = HomeAirports::Survey.new(@account)
   end
 

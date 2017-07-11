@@ -14,10 +14,10 @@
     /></noscript>
   <!-- End Facebook Pixel Code -->
 
-  <% if @output_fb_signup_code %>
+  <% if fb_tracking_pixel_post_sign_up? %>
     <script>
       fbq('track', 'CompleteRegistration');
-      <% cookies[:cbd50008665cc7269327074d2778d9a6] = true %>
+      <% fb_tracked! %>
     </script>"
   <% end %>
 <% end %>
