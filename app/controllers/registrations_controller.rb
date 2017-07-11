@@ -3,7 +3,7 @@ class RegistrationsController < ApplicationController
 
   layout 'basic'
   include Onboarding
-  include SignInOut
+  include Auth::Controllers::SignInOut
 
   def new
     run Registration::New

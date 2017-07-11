@@ -5,7 +5,7 @@ module AdminArea
     prepend_before_action :verify_signed_out_user, only: :destroy
     before_action :redirect_non_admins!
 
-    include SignInOut
+    include Auth::Controllers::SignInOut
 
     layout 'basic'
 
