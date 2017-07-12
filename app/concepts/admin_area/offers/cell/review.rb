@@ -59,11 +59,11 @@ module AdminArea
           end
 
           def link_to_link
-            link_to 'Link', link, target: '_blank'
+            link_to 'URL', link, target: '_blank'
           end
 
-          def link_to_show
-            link_to id, admin_offer_path(model)
+          def link_to_show(text: text)
+            link_to text, admin_offer_path(model)
           end
 
           def unresolved_recs_count
