@@ -47,7 +47,11 @@ module Abroaders
         # If a) we're on the first page after signing up and b) the cookie
         # isn't present that indicates that this user has been tracked.  then
         # output the 'CompleteRegistration' FB tracking <script>
-        !fb_tracked? && request.path == survey_home_airports_path
+        !fb_tracked? && just_signed_up?
+      end
+
+      def just_signed_up?
+        request.path == survey_home_airports_path
       end
     end
   end
