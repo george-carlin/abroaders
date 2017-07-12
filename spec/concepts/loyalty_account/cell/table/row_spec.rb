@@ -1,8 +1,6 @@
 require 'cells_helper'
 
 RSpec.describe LoyaltyAccount::Cell::Table::Row do
-  controller BalancesController
-
   let(:current_account) { Account.new }
 
   let(:time_0) { Time.utc(2016, 2, 3, 13, 3, 32) }

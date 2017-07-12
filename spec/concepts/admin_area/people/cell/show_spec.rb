@@ -1,8 +1,6 @@
 require 'cells_helper'
 
 RSpec.describe AdminArea::People::Cell::Show do
-  controller AdminArea::PeopleController
-
   let(:account) { Account.new(id: 1, created_at: Time.now) }
   let(:aw_email) { "totallyawesomedude@example.com" }
 

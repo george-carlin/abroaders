@@ -1,8 +1,6 @@
 require 'cells_helper'
 
 RSpec.describe CardAccount::Cell::Row do
-  controller CardsController
-
   def cell(model, opts = {})
     allow(model).to receive(:bank_name).and_return 'My awesome bank'
     instance = super

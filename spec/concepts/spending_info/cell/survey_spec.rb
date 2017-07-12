@@ -1,8 +1,6 @@
 require 'cells_helper'
 
 RSpec.describe SpendingInfo::Cell::Survey do
-  controller SpendingInfosController
-
   let(:account) { Account.new }
   let(:owner)   { account.build_owner(first_name: 'Erik', eligible: true) }
 

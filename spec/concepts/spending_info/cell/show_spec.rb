@@ -1,8 +1,6 @@
 require 'cells_helper'
 
 RSpec.describe SpendingInfo::Cell::Show do
-  controller SpendingInfosController
-
   let(:account) { create_account(monthly_spending_usd: 1234) }
   let!(:owner)  { account.owner }
 
