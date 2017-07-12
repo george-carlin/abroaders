@@ -1,6 +1,10 @@
 <div class="hpanel">
   <div class="panel-heading hbuilt">
-    <h1><%= title %></h1>
+    <div class="row">
+      <div class="col-xs-12">
+        <h1><%= title %></h1>
+      </div>
+    </div>
   </div>
 
   <div class="panel-body">
@@ -10,37 +14,45 @@
 
     <hr />
 
-    <dl class="dl-horizontal">
-      <dt>Condition:</dt>
-      <dd><%= condition %></dd>
+    <div class="row">
+      <div class="col-xs-12">
+        <%= link_to_edit %>
 
-      <dt>Bank:</dt>
-      <dd><%= bank_name %></dd>
+        <dl class="dl-horizontal">
+          <dt>Condition:</dt>
+          <dd><%= condition %></dd>
 
-      <dt>Partner:</dt>
-      <dd><%= partner_name %></dd>
+          <dt>Partner:</dt>
+          <dd><%= partner_name %></dd>
 
-      <dt>Points awarded:</dt>
-      <dd><%= points_awarded %></dd>
+          <dt>Points awarded:</dt>
+          <dd><%= points_awarded %></dd>
 
-      <%= spend %>
+          <%= spend %>
 
-      <dt>Cost:</dt>
-      <dd><%= cost %></dd>
+          <dt>Cost:</dt>
+          <dd><%= cost %></dd>
 
-      <%= days %>
+          <%= days %>
 
-      <dt>Link:</dt>
-      <dd><%= link_to_link %></dd>
+          <dt>Link:</dt>
+          <dd><%= link_to_link %></dd>
 
-      <dt>Notes:</dt>
-      <dd><%= notes %></dd>
+          <dt>Notes:</dt>
+          <dd><%= notes %></dd>
 
-      <dt>Value:</dt>
-      <dd><%= value %></dd>
-    </dl>
+          <dt>Value:</dt>
+          <dd><%= value %></dd>
+        </dl>
+      </div>
+    </div>
 
-    <%= link_to_back %> |
-    <%= link_to_edit %>
+    <hr />
+
+    <div class="row">
+      <div class="col-xs-12">
+        <%= alternatives_table %>
+      </div>
+    </div>
   </div>
 </div>

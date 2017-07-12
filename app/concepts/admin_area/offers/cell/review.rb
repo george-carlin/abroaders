@@ -66,28 +66,6 @@ module AdminArea
             link_to id, admin_offer_path(model)
           end
 
-          def replacement
-            @replacement ||= Offer::Replacement.(model)
-          end
-
-          def replace_check_box
-            return '' if replacement.nil?
-            check_box_tag(
-              'replace',
-              replacement.id,
-              false,
-              class: 'replace_offer_check_box',
-            )
-          end
-
-          def replace_with
-            return '' if replacement.nil?
-            link_to(
-              "Offer ##{replacement.id}",
-              admin_offer_path(replacement),
-            )
-          end
-
           def unresolved_recs_count
             # This causes a massive N+1 queries issue; it needs a counter cache
             # column. However, this page won't get viewed often so I think we
