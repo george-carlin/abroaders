@@ -62,7 +62,7 @@ module AdminArea
             link_to 'URL', link, target: '_blank'
           end
 
-          def link_to_show(text: text)
+          def link_to_show(text:)
             link_to text, admin_offer_path(model)
           end
 
