@@ -1,8 +1,6 @@
 require 'cells_helper'
 
 RSpec.describe SpendingInfo::Cell::Table do
-  # Hmmmm.... this is kind of a code smell, that a basic view for displaying a
-  # SpendingInfo should be so tightly coupled to the Info's Person and Account
   let(:account) { Account.new(monthly_spending_usd: 1000) }
   let(:person)  { Person.new(account: account) }
 
