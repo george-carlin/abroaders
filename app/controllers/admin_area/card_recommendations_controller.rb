@@ -26,7 +26,7 @@ module AdminArea
       rec = Card.recommended.find(params[:id])
       rec.destroy
       flash[:success] = 'Deleted recommendation'
-      redirect_to admin_person_path(rec.person)
+      redirect_back(fallback_location: admin_person_path(rec.person))
     end
 
     def complete

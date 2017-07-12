@@ -455,7 +455,7 @@ module SampleDataMacros
       CardRecommendation::Decline,
       { id: rec.id, card: { decline_reason: decline_reason } },
       'current_account' => rec.account,
-    )
+    )['model']
   end
 
   def complete_recs(account_or_person)

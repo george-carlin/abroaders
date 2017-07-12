@@ -1,8 +1,14 @@
 module AdminArea::CardRecommendations::Cell
+  # Takes an array of card recommendations and displays them in a <table>.  Can
+  # take an empty array, in which case the table will have no rows.
+  #
   # @!method self.call(recs, options = {})
   #   @param recs [Collection<Card>] array of card recommendations
   class Table < Abroaders::Cell::Base
     option :html_id, optional: true
+    # When this is true each row include an extra column with a link to the
+    # page for the offer's person
+    option :with_person_column, default: false
 
     def show
       <<-HTML
@@ -11,6 +17,7 @@ module AdminArea::CardRecommendations::Cell
           id=#{html_id}
         >
           <thead>
+            #{'<th>Person</th>' if with_person_column}
             <th>Product</th>
             <th>Offer</th>
             <th>Status</th>
@@ -31,10 +38,12 @@ module AdminArea::CardRecommendations::Cell
     private
 
     def rows
-      cell(Row, collection: model)
+      cell(Row, options.merge(collection: model))
     end
 
     class Row < Abroaders::Cell::Base
+      option :with_person_column, default: false
+
       include Escaped
 
       # @param recommendation [Card] must be a recommendation
@@ -50,6 +59,7 @@ module AdminArea::CardRecommendations::Cell
       property :declined?
       property :declined_at
       property :offer
+      property :person
       property :recommended_at
       property :seen_at
       property :status
@@ -117,6 +127,10 @@ module AdminArea::CardRecommendations::Cell
           admin_offer_path(offer),
           class: ('unresolved-dead-offer' if offer.dead? && unresolved?),
         )
+      end
+
+      def link_to_person
+        link_to escape!(person.first_name), admin_person_path(person)
       end
 
       def offer_identifier

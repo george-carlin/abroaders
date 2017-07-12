@@ -39,6 +39,7 @@ class CardRecommendation < Disposable::Twin
 
   property :card_product
   property :offer
+  property :person
 
   delegate :opened?, :unopened?, to: :model
 

@@ -1,4 +1,7 @@
 <%= tr_tag do %>
+  <% if with_person_column %>
+    <td><%= link_to_person %></td>
+  <% end %>
   <td>
     <%= card_product_name %>
     (<%= card_product_bp[0].upcase %>)
