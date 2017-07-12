@@ -10,28 +10,30 @@
     } catch (err) { }
   </script>
 
-  <% if just_signed_up? %>
-    <div id='papSaleTrackingPlaceholder'></div>
+  <% if current_account %>
+    <% if just_signed_up? %>
+      <div id='papSaleTrackingPlaceholder'></div>
+    <% end %>
+
+    <script type="text/javascript">
+      (function(d,t) {
+        var script = d.createElement(t); script.id= 'pap_x2s6df8d'; script.async = true;
+        script.src = '//abroaders.postaffiliatepro.com/scripts/fvoj8fzu';
+        script.onload = script.onreadystatechange = function() {
+          var rs = this.readyState; if (rs && (rs != 'complete') && (rs != 'loaded')) return;
+
+          PostAffTracker.setAccountId('default1');
+          var sale = PostAffTracker.createAction('app_signup');
+          sale.setData1('<%= current_account.id %>');
+          sale.setData2('<%= current_account.email %>');
+          sale.setData3('<%= current_account.owner_first_name %>');
+
+          try { PostAffTracker.track(); } catch (e) {}
+        }
+        var placeholder = document.getElementById('papSaleTrackingPlaceholder');
+        placeholder.parentNode.insertBefore(script, placeholder);
+        placeholder.parentNode.removeChild(placeholder);
+      })(document, 'script');
+    </script>
   <% end %>
-
-  <script type="text/javascript">
-    (function(d,t) {
-      var script = d.createElement(t); script.id= 'pap_x2s6df8d'; script.async = true;
-      script.src = '//abroaders.postaffiliatepro.com/scripts/fvoj8fzu';
-      script.onload = script.onreadystatechange = function() {
-        var rs = this.readyState; if (rs && (rs != 'complete') && (rs != 'loaded')) return;
-
-        PostAffTracker.setAccountId('default1');
-        var sale = PostAffTracker.createAction('app_signup');
-        sale.setData1('<%= current_account.id %>');
-        sale.setData2('<%= current_account.email %>');
-        sale.setData3('<%= current_account.owner_first_name %>');
-
-        try { PostAffTracker.track(); } catch (e) {}
-      }
-      var placeholder = document.getElementById('papSaleTrackingPlaceholder');
-      placeholder.parentNode.insertBefore(script, placeholder);
-      placeholder.parentNode.removeChild(placeholder);
-    })(document, 'script');
-  </script>
 <% end %>

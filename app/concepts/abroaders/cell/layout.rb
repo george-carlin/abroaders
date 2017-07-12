@@ -4,7 +4,7 @@ module Abroaders
     #
     # @!method self.call(html, options = {})
     #   @param html [String] a string of HTML
-    #   @option option [Boolean] basic (false) when true, the sidebar and
+    #   @option options [Boolean] basic (false) when true, the sidebar and
     #     the '#wrapper' div won't be included in the rendered layout.
     #   @option options [ActionDispatch::Flash] flash
     #   @option options [String] title the page title
