@@ -87,7 +87,7 @@
   </div>
 <% end %>
 
-<% if model.dead? %>
+<% if model.persisted? && model.dead? %>
   <div class="row">
     <div class="col-sm-offset-2 col-sm-10">
       <%= button_to_unkill %>

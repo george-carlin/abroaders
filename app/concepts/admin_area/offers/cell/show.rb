@@ -13,6 +13,7 @@ module AdminArea
         property :condition
         property :cost
         property :link
+        property :dead?
         property :notes
         property :partner
         property :points_awarded
@@ -23,6 +24,10 @@ module AdminArea
         end
 
         private
+
+        def active_recommendations?
+          active_recommendations.any?
+        end
 
         def active_recs_table
           cell(ActiveRecsTable, active_recommendations)
@@ -52,8 +57,33 @@ module AdminArea
           HTML
         end
 
+        def icons
+          icons = []
+          if dead?
+            icons << fa_icon('times 2x', style: 'color: darkred;')
+            if active_recommendations?
+              icons << fa_icon('exclamation-triangle 2x', style: 'color: darkorange')
+            end
+          end
+          icons.join('&nbsp;')
+        end
+
+        def link_to_dup_offer
+          link_to(
+            'Duplicate this offer',
+            new_admin_card_product_offer_path(card_product, duplicate_id: id),
+          )
+        end
+
         def link_to_edit
           link_to 'Edit offer', edit_admin_offer_path(id)
+        end
+
+        def link_to_new_offer
+          link_to(
+            'New offer for product',
+            new_admin_card_product_offer_path(card_product),
+          )
         end
 
         def link_to_link
