@@ -13,6 +13,7 @@ module AdminArea
         property :condition
         property :cost
         property :link
+        property :dead?
         property :notes
         property :partner
         property :points_awarded
@@ -23,6 +24,10 @@ module AdminArea
         end
 
         private
+
+        def active_recommendations?
+          active_recommendations.any?
+        end
 
         def active_recs_table
           cell(ActiveRecsTable, active_recommendations)
@@ -50,6 +55,17 @@ module AdminArea
             <dt>Days:</dt>
             <dd>#{model.days}</dd>
           HTML
+        end
+
+        def icons
+          icons = []
+          if dead?
+            icons << fa_icon('times 2x', style: 'color: darkred;')
+            if active_recommendations?
+              icons << fa_icon('exclamation-triangle 2x', style: 'color: darkorange')
+            end
+          end
+          icons.join('&nbsp;')
         end
 
         def link_to_edit
