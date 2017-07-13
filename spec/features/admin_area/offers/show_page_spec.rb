@@ -96,5 +96,19 @@ RSpec.describe 'admin - show offer page' do
       expect(current_path).to eq admin_offer_path(offer)
       expect(page).to have_no_selector selector
     end
+
+    example 'editing a rec' do
+      # Make sure that after saving it redirects back to the offer's page, not
+      # the person's page.
+      rec = create_rec(offer: offer)
+      visit route
+
+      within "#card_recommendation_#{rec.id}" do
+        click_link 'Edit'
+      end
+
+      expect { click_button 'Save' }.to change { rec.reload.updated_at }
+      expect(current_path).to eq admin_offer_path(offer)
+    end
   end
 end

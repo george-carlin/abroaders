@@ -48,11 +48,14 @@
 
       <div class="row">
         <div class="col-xs-12">
+          <%= hidden_field_tag :redirect_to, params[:redirect_to] %>
           <%= f.submit 'Save', class: 'btn btn-primary btn-lg' %>
 
           &nbsp;&nbsp;
 
           <%= link_back_to_person %>
+          |
+          <%= link_back_to_offer %>
         </div>
       </div>
     <% end %>

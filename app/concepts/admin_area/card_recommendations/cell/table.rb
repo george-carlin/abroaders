@@ -118,7 +118,7 @@ module AdminArea::CardRecommendations::Cell
       end
 
       def link_to_edit
-        link_to 'Edit', edit_admin_card_recommendation_path(model)
+        link_to 'Edit', edit_admin_card_recommendation_path(model, redirect_to: :offer)
       end
 
       def link_to_offer

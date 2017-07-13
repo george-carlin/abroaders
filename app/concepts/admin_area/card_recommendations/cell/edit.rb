@@ -5,6 +5,7 @@ module AdminArea
       class Edit < Abroaders::Cell::Base
         include Escaped
 
+        property :offer
         property :person
         option :form
 
@@ -19,6 +20,10 @@ module AdminArea
 
         def errors
           cell(Abroaders::Cell::ValidationErrorsAlert, form)
+        end
+
+        def link_back_to_offer
+          link_to 'Back to offer', admin_offer_path(offer)
         end
 
         def link_back_to_person
