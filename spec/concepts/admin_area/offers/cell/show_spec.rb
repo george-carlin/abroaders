@@ -18,7 +18,10 @@ RSpec.describe AdminArea::Offers::Cell::Show do
       'New offer for product',
       href: new_admin_card_product_offer_path(offer.card_product),
     )
-    # TODO add link to duplicate offer
+    expect(rendered).to have_link(
+      'Duplicate this offer',
+      href: new_admin_card_product_offer_path(offer.card_product, duplicate_id: offer.id),
+    )
   end
 
   example 'offer is live' do

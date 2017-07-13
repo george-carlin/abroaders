@@ -68,6 +68,13 @@ module AdminArea
           icons.join('&nbsp;')
         end
 
+        def link_to_dup_offer
+          link_to(
+            'Duplicate this offer',
+            new_admin_card_product_offer_path(card_product, duplicate_id: id),
+          )
+        end
+
         def link_to_edit
           link_to 'Edit offer', edit_admin_offer_path(id)
         end
