@@ -34,6 +34,7 @@ RSpec.describe 'admin - show offer page' do
       other_offer = create_offer(card_product: card_product)
       visit route
       expect(page).to have_no_selector "#offer_#{other_offer.id}"
+      expect(page).to have_selector 'h4', text: /\AAlternatives\z/
       expect(page).to have_no_selector '.offer_alternatives_table'
       expect(page).to have_content 'No alternatives found'
     end
@@ -44,6 +45,7 @@ RSpec.describe 'admin - show offer page' do
       dead_alt = kill_offer(create_offer(attrs))
       other_offer = create_offer(card_product: card_product)
       visit route
+      expect(page).to have_selector 'h4', text: 'Alternatives (2)'
       expect(page).to have_selector '.offer_alternatives_table'
       expect(page).to have_selector "#offer_#{alt_1.id}"
       expect(page).to have_selector "#offer_#{alt_2.id}"
@@ -53,5 +55,64 @@ RSpec.describe 'admin - show offer page' do
     end
   end
 
-  example 'active recs table'
+  describe 'active recs table' do
+    example 'no active recs' do
+      for_wrong_offer = create_rec(offer: create_offer)
+      visit route
+      expect(page).to have_no_selector "#card_recommendation_#{for_wrong_offer.id}"
+      expect(page).to have_no_selector '#offer_active_recs_table'
+      expect(page).to have_content 'No active card recommendations'
+      expect(page).to have_selector 'h4', text: /\AActive recs\z/
+    end
+
+    example 'present' do
+      rec_1 = create_rec(offer: offer)
+      rec_2 = create_rec(offer: offer)
+      other_recs = [ # recs that shouldn't appear in the table:
+        create_rec(offer: create_offer), # wrong offer
+        decline_rec(create_rec(:declined)),
+        create_rec(:applied, offer: offer),
+        create_rec(:applied, :opened, offer: offer),
+      ]
+      visit route
+      expect(page).to have_selector 'h4', text: 'Active recs (2)'
+      expect(page).to have_selector '#offer_active_recs_table'
+      expect(page).to have_selector "#card_recommendation_#{rec_1.id}"
+      expect(page).to have_selector "#card_recommendation_#{rec_2.id}"
+      other_recs.each do |rec|
+        expect(page).to have_no_selector "#card_recommendation_#{rec.id}"
+      end
+    end
+
+    example 'deleting a rec' do
+      rec = create_rec(offer: offer)
+      id = rec.id
+      visit route
+
+      selector = "#card_recommendation_#{id}"
+      within selector do
+        click_link 'Del'
+      end
+
+      expect(Card.exists?(id: id)).to be false
+
+      # Make sure we're still on the same page:
+      expect(current_path).to eq admin_offer_path(offer)
+      expect(page).to have_no_selector selector
+    end
+
+    example 'editing a rec' do
+      # Make sure that after saving it redirects back to the offer's page, not
+      # the person's page.
+      rec = create_rec(offer: offer)
+      visit route
+
+      within "#card_recommendation_#{rec.id}" do
+        click_link 'Edit'
+      end
+
+      expect { click_button 'Save' }.to change { rec.reload.updated_at }
+      expect(current_path).to eq admin_offer_path(offer)
+    end
+  end
 end

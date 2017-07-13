@@ -16,7 +16,13 @@ module AdminArea
     def update
       run CardRecommendations::Update do
         flash[:success] = 'Updated rec!'
-        return redirect_to admin_person_path(@model.person)
+        return redirect_to(
+          if params[:redirect_to] == 'offer'
+            admin_offer_path(@model.offer)
+          else
+            admin_person_path(@model.person)
+          end,
+        )
       end
       @form.prepopulate!
       render cell(CardRecommendations::Cell::Edit, @model, form: @form)
@@ -26,7 +32,7 @@ module AdminArea
       rec = Card.recommended.find(params[:id])
       rec.destroy
       flash[:success] = 'Deleted recommendation'
-      redirect_to admin_person_path(rec.person)
+      redirect_back(fallback_location: admin_person_path(rec.person))
     end
 
     def complete
