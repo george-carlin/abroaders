@@ -1,8 +1,6 @@
 require 'cells_helper'
 
 RSpec.describe AdminArea::People::Cell::Balances do
-  controller AdminArea::PeopleController
-
   let(:person) { Person.new(id: 123, first_name: 'Erik') }
   include ActionView::Helpers::NumberHelper
 

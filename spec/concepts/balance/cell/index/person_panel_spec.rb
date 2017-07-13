@@ -1,8 +1,6 @@
 require 'cells_helper'
 
 RSpec.describe Balance::Cell::Index::PersonPanel do
-  controller BalancesController
-
   let(:account) { Account.new }
   let(:person) { Person.new(account: account, owner: true, id: 1, first_name: 'Erik') }
 

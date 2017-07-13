@@ -1,8 +1,6 @@
 require 'cells_helper'
 
 RSpec.describe Balance::Cell::Index do
-  controller BalancesController
-
   let(:account) { create_account }
   let(:owner) { account.owner }
 

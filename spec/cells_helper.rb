@@ -17,6 +17,20 @@ require 'rails_helper'
 module Abroaders
   module RSpec
     module CellMacros
+      def self.included(example_group)
+        # the 'controller' method provided by cells-rails sets the controller
+        # that will be set in a cell's context by the `cell` method, thus
+        # letting the cell access things like routes. (Internally all the
+        # `controller` method does is set a `let` variable called
+        # `controller_class`) But I haven't been able to find any reason why it
+        # matters *which* controller class you use - they all give access to
+        # the same routes etc.
+        #
+        # Automatically set the controller class in every cell spec, so that
+        # we don't have to remember to call `controller` every time.
+        example_group.controller ApplicationController
+      end
+
       # Extend the 'cell' macro so that you don't need to explicitly specify
       # the cell class.
       #

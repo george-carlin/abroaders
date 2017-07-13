@@ -1,8 +1,6 @@
 require 'cells_helper'
 
 RSpec.describe Abroaders::Cell::Layout::Sidebar do
-  controller ApplicationController
-
   let(:sidebar) { described_class }
 
   example '.show?' do

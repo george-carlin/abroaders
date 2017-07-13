@@ -1,8 +1,6 @@
 require 'cells_helper'
 
 RSpec.describe AdminArea::Offers::Cell::AlternativesTable do
-  controller AdminArea::OffersController
-
   let(:offer) { create_offer(attrs) }
   let(:card_product) { create(:card_product) }
 

@@ -1,8 +1,6 @@
 require 'cells_helper'
 
 RSpec.describe RecommendationRequest::Cell::CallToAction do
-  controller ApplicationController
-
   include_context 'recommendation alert cell'
 
   let(:header) { 'Want to Earn More Rewards Points?' }

@@ -1,8 +1,6 @@
 require 'cells_helper'
 
 RSpec.describe AdminArea::Accounts::Cell::Index do
-  controller AdminArea::AccountsController
-
   describe described_class::TableRow do
     let(:account) { Account.new(id: 1, email: 'test@example.com', created_at: Time.zone.now) }
     let!(:owner)  { account.build_owner(id: 123, first_name: 'Erik') }

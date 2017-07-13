@@ -1,8 +1,6 @@
 require 'cells_helper'
 
 RSpec.describe Abroaders::Cell::Layout::Navbar do
-  controller ApplicationController
-
   example 'not signed in' do
     rendered = cell(nil, current_account: nil, current_admin: nil).()
 

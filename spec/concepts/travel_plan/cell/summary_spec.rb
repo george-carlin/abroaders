@@ -1,8 +1,6 @@
 require 'cells_helper'
 
 RSpec.describe TravelPlan::Cell::Summary do
-  controller TravelPlansController
-
   class FlightSummaryStub
     def self.call(flight, *)
       "Flight #{flight.id}"

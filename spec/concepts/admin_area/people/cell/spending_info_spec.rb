@@ -1,8 +1,6 @@
 require 'cells_helper'
 
 RSpec.describe AdminArea::People::Cell::SpendingInfo do
-  controller AdminArea::PeopleController
-
   let(:account) { Account.new(monthly_spending_usd: 1234) }
   let(:person) { Person.new(id: 1, account: account) }
 

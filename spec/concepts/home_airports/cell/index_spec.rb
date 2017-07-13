@@ -1,8 +1,6 @@
 require 'cells_helper'
 
 RSpec.describe HomeAirports::Cell::Index do
-  controller HomeAirportsController
-
   let(:airport_class) { Struct.new(:full_name) }
 
   # a user shouldn't be able to get through the onboarding survey without
