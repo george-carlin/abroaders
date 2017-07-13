@@ -72,6 +72,13 @@ module AdminArea
           link_to 'Edit offer', edit_admin_offer_path(id)
         end
 
+        def link_to_new_offer
+          link_to(
+            'New offer for product',
+            new_admin_card_product_offer_path(card_product),
+          )
+        end
+
         def link_to_link
           link_to link, link, rel: 'nofollow'
         end

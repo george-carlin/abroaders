@@ -11,6 +11,16 @@ RSpec.describe AdminArea::Offers::Cell::Show do
     have_selector '.fa.fa-exclamation-triangle'
   end
 
+  example 'links' do
+    rendered = cell(offer.reload).()
+    expect(rendered).to have_link 'Edit offer', href: edit_admin_offer_path(offer)
+    expect(rendered).to have_link(
+      'New offer for product',
+      href: new_admin_card_product_offer_path(offer.card_product),
+    )
+    # TODO add link to duplicate offer
+  end
+
   example 'offer is live' do
     rendered = cell(offer.reload).()
     expect(rendered).not_to have_dead_icon
