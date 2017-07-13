@@ -23,19 +23,4 @@ $(document).ready(function () {
         break;
     }
   });
-
-  // Review page:
-  $('.replace_offer_check_box').click(function () {
-    var $cb = $(this);
-    var replacementId = $cb.val();
-    var $killBtn = $cb.closest('tr').find('.kill_offer_btn');
-
-    if ($cb.prop('checked')) {
-      $killBtn.text('Kill & Replace');
-      $killBtn.data('params', { replacement_id: replacementId });
-    } else {
-      $killBtn.text('Kill');
-      $killBtn.data('params', '');
-    }
-  });
 });
