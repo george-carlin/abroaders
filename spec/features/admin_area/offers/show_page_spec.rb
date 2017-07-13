@@ -34,6 +34,7 @@ RSpec.describe 'admin - show offer page' do
       other_offer = create_offer(card_product: card_product)
       visit route
       expect(page).to have_no_selector "#offer_#{other_offer.id}"
+      expect(page).to have_selector 'h4', text: /\AAlternatives\z/
       expect(page).to have_no_selector '.offer_alternatives_table'
       expect(page).to have_content 'No alternatives found'
     end
@@ -44,6 +45,7 @@ RSpec.describe 'admin - show offer page' do
       dead_alt = kill_offer(create_offer(attrs))
       other_offer = create_offer(card_product: card_product)
       visit route
+      expect(page).to have_selector 'h4', text: 'Alternatives (2)'
       expect(page).to have_selector '.offer_alternatives_table'
       expect(page).to have_selector "#offer_#{alt_1.id}"
       expect(page).to have_selector "#offer_#{alt_2.id}"
@@ -60,6 +62,7 @@ RSpec.describe 'admin - show offer page' do
       expect(page).to have_no_selector "#card_recommendation_#{for_wrong_offer.id}"
       expect(page).to have_no_selector '#offer_active_recs_table'
       expect(page).to have_content 'No active card recommendations'
+      expect(page).to have_selector 'h4', text: /\AActive recs\z/
     end
 
     example 'present' do
@@ -72,6 +75,7 @@ RSpec.describe 'admin - show offer page' do
         create_rec(:applied, :opened, offer: offer),
       ]
       visit route
+      expect(page).to have_selector 'h4', text: 'Active recs (2)'
       expect(page).to have_selector '#offer_active_recs_table'
       expect(page).to have_selector "#card_recommendation_#{rec_1.id}"
       expect(page).to have_selector "#card_recommendation_#{rec_2.id}"

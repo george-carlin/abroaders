@@ -82,17 +82,25 @@ module AdminArea
 
         # model = array of recs
         class ActiveRecsTable < Abroaders::Cell::Base
+          property :any?
+
           def show
-            content = if model.any?
+            content = if any?
                         id = 'offer_active_recs_table'
                         cell(table_cell, model, html_id: id, with_person_column: true)
                       else
                         'No active card recommendations'
                       end
-            "<h4>Active recs</h4>#{content}"
+            "#{header}#{content}"
           end
 
           private
+
+          def header
+            text = 'Active recs'
+            text << " (#{model.size})" if any?
+            "<h4>#{text}</h4>"
+          end
 
           def table_cell
             AdminArea::CardRecommendations::Cell::Table

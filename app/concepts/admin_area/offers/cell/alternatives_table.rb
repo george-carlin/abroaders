@@ -1,35 +1,16 @@
 module AdminArea::Offers
   module Cell
-    # Takes an offer and returns a <table> listing that offer's 'alternatives'
-    # (see docs for `AlternativesFor`). Returns an empty string if offer has no
-    # alternatives.
+    # Takes a list of offers, assumed to be the 'alternatives' for another
+    # offer (see docs for `AlternativesFor` for the definition of what an
+    # alternative is), and returns a <table> that lists those offers.
     #
-    # @!method self.call(offer)
-    #   @param alternative_offers [Collection<Offer>]
+    # @!method self.call(offers)
+    #   @param offers [Collection<Offer>]
     class AlternativesTable < Abroaders::Cell::Base
-      property :id
-
-      def show
-        return '' unless show?
-        super
-      end
-
-      def show?
-        alternatives.any?
-      end
-
       private
 
-      def alternatives
-        @alternatives ||= AlternativesFor.(model)
-      end
-
-      def html_id
-        "offer_#{id}_alternatives_table"
-      end
-
       def table_rows
-        cell(Row, collection: alternatives)
+        cell(Row, collection: model)
       end
 
       class Row < Abroaders::Cell::Base
@@ -78,25 +59,32 @@ module AdminArea::Offers
         end
       end
 
-      # Like AlternativesTable, but with a header tag, and if approporiate
-      # tells the user that no alternatives were found/
+      # Takes an offer, and returns a section displaying a <table> of the
+      # offer's alternatives, if there are any, or some text saying that there
+      # are no alternatives, and in either case with a header.
       #
       # @!method self.call(offer)
-      #   @param alternative_offers [Collection<Offer>]
+      #   @param offer [Offer]
       class Section < Abroaders::Cell::Base
         def show
-          result = "<h4>Alternatives</h4>"
-          result << if (table = cell(AlternativesTable, model)).show?
-                      table.to_s
-                    else
-                      "No alternatives found"
-                    end
+          body = if alternatives.any?
+                   cell(AlternativesTable, alternatives)
+                 else
+                   "No alternatives found"
+                 end
+          "#{header}#{body}"
         end
 
         private
 
+        def alternatives
+          @alternatives ||= AlternativesFor.(model)
+        end
+
         def header
-          "<h4>Alternatives</h4>"
+          text = 'Alternatives'
+          text << " (#{alternatives.count})" if alternatives.any?
+          "<h4>#{text}</h4>"
         end
       end
     end
