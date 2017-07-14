@@ -106,6 +106,24 @@ module AdminArea
           link_to link, link, rel: 'nofollow'
         end
 
+        def link_to_verify
+          link_to(
+            'Verify offer',
+            verify_admin_offer_path(id),
+            method: :patch,
+            data: { confirm: 'Are you sure?' },
+          )
+        end
+
+        def link_to_kill
+          link_to(
+            'Kill offer',
+            kill_admin_offer_path(id),
+            method: :patch,
+            data: { confirm: 'Are you sure?' },
+          )
+        end
+
         def partner_name
           cell(Partner::Cell::FullName, partner)
         end

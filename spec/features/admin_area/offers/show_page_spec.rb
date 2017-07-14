@@ -18,6 +18,7 @@ RSpec.describe 'admin - show offer page' do
   let(:offer) { create_offer(attrs) }
   let(:product) { create(:card_product) }
   let(:card_product) { product }
+  let(:now) { Time.zone.now }
 
   let(:route) { admin_offer_path(offer) }
 
@@ -26,6 +27,22 @@ RSpec.describe 'admin - show offer page' do
     expect(page).to have_content product.name
     expect(page).to have_content 'CardBenefit'
     expect(page).to have_content offer.notes
+  end
+
+  example 'verifying', :js do
+    visit route
+    expect(page).to have_content 'Last reviewed: never'
+    click_link 'Verify offer'
+    expect(page).to have_content "Last reviewed: #{now.strftime('%D')}"
+    expect(offer.reload.last_reviewed_at).to be_within(5.seconds).of(now)
+  end
+
+  example 'killing', :js do
+    visit route
+    expect(page).to have_no_content 'Killed at'
+    click_link 'Kill offer'
+    expect(page).to have_content "Killed: #{now.strftime('%D')}"
+    expect(offer.reload.killed_at).to be_within(5.seconds).of(now)
   end
 
   describe 'alternative offers table' do

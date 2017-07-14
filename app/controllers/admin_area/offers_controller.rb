@@ -47,7 +47,13 @@ module AdminArea
 
     def kill
       run Offers::Kill
-      respond_to { |f| f.js }
+      respond_to do |f|
+        f.js
+        f.html do
+          flash[:success] = 'Killed offer'
+          redirect_to admin_offer_path(@model)
+        end
+      end
     end
 
     def review
@@ -64,7 +70,13 @@ module AdminArea
 
     def verify
       run Offers::Verify
-      respond_to { |f| f.js }
+      respond_to do |f|
+        f.js
+        f.html do
+          flash[:success] = 'Verified offer'
+          redirect_to admin_offer_path(@model)
+        end
+      end
     end
   end
 end
