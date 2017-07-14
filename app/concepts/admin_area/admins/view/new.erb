@@ -1,0 +1,21 @@
+<div class="hpanel">
+  <div class="panel-heading">
+    <h1>New Admin</h1>
+  </div>
+  <%= errors %>
+  <div class="panel-body">
+    <%= form_for form, url: admin_admins_path do |f| %>
+      <div class="form-group">
+        <%= f.label :email %>
+        <%= f.email_field :email %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :password %>
+        <%= f.text_field :password %>
+      </div>
+
+      <%= f.submit 'Save', class: 'btn btn-success' %>
+    <% end %>
+  </div>
+</div>

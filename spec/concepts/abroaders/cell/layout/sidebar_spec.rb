@@ -39,5 +39,6 @@ RSpec.describe Abroaders::Cell::Layout::Sidebar do
     expect(sidebar).to have_content 'View all offers'
     expect(sidebar).to have_content 'Review live offers'
     expect(sidebar).to have_content 'Users'
+    expect(sidebar).to have_content 'Manage Admins'
   end
 end
