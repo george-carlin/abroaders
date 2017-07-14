@@ -117,7 +117,13 @@ module AdminArea
           def show
             content = if any?
                         id = 'offer_active_recs_table'
-                        cell(table_cell, model, html_id: id, with_person_column: true)
+                        cell(
+                          table_cell,
+                          model,
+                          edit_redirection: :offer,
+                          html_id: id,
+                          with_person_column: true,
+                        )
                       else
                         'No active card recommendations'
                       end

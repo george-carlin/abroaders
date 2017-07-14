@@ -113,4 +113,19 @@ RSpec.describe 'admin - show person page', :manual_clean do
     expect(page).to have_no_selector "#card_recommendation_#{rec.id}"
     expect(Card.recommended.exists?(id: rec.id)).to be false
   end
+
+  example 'editing a recommendation' do
+    # redirects back to the correct page after save
+
+    rec = create_card_recommendation(person: person)
+    visit_path
+
+    within "#card_recommendation_#{rec.id}" do
+      click_link 'Edit'
+    end
+
+    click_button 'Save'
+
+    expect(current_path).to eq admin_person_path(person)
+  end
 end

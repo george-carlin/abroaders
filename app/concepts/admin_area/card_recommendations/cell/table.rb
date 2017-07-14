@@ -6,6 +6,7 @@ module AdminArea::CardRecommendations::Cell
   #   @param recs [Collection<Card>] array of card recommendations
   class Table < Abroaders::Cell::Base
     option :html_id, optional: true
+    option :edit_redirection, optional: true
     # When this is true each row include an extra column with a link to the
     # page for the offer's person
     option :with_person_column, default: false
@@ -42,6 +43,7 @@ module AdminArea::CardRecommendations::Cell
     end
 
     class Row < Abroaders::Cell::Base
+      option :edit_redirection, optional: true
       option :with_person_column, default: false
 
       include Escaped
@@ -118,7 +120,11 @@ module AdminArea::CardRecommendations::Cell
       end
 
       def link_to_edit
-        link_to 'Edit', edit_admin_card_recommendation_path(model, redirect_to: :offer)
+        url = edit_admin_card_recommendation_path(
+          model,
+          redirect_to: edit_redirection,
+        )
+        link_to('Edit', url)
       end
 
       def link_to_offer
