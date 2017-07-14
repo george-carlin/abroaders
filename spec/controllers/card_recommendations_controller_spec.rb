@@ -28,5 +28,13 @@ RSpec.describe CardRecommendationsController do
 
       expect(response).to redirect_to offer.link
     end
+
+    example 'when admin is viewing user\'s account' do
+      sign_in(create_admin)
+      call
+      expect(rec.reload.clicked_at).to be_nil
+
+      expect(response).to redirect_to offer.link
+    end
   end
 end
