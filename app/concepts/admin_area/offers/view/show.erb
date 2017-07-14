@@ -17,10 +17,6 @@
 
     <div class="row">
       <div class="col-xs-12">
-        <%= link_to_edit %> |
-        <%= link_to_new_offer %> |
-        <%= link_to_dup_offer %>
-
         <dl class="dl-horizontal">
           <dt>Condition:</dt>
           <dd><%= condition %></dd>
@@ -46,7 +42,26 @@
 
           <dt>Value:</dt>
           <dd><%= value %></dd>
+
+          <dt>Created at:</dt>
+          <dd><%= created_at %></dd>
+
+          <dt>Last updated at:</dt>
+          <dd><%= updated_at %></dd>
+
+          <% if dead? %>
+            <dt>Killed at:</dt>
+            <dd><%= killed_at %></dd>
+          <% else %>
+            <dt>Last reviewed at:</dt>
+            <dd><%= last_reviewed_at %></dd>
+          <% end %>
         </dl>
+      </div>
+      <div class="col-xs-12">
+        <%= link_to_edit %> |
+        <%= link_to_new_offer %> |
+        <%= link_to_dup_offer %>
       </div>
     </div>
 

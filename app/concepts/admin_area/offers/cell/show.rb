@@ -12,11 +12,15 @@ module AdminArea
         property :card_product
         property :condition
         property :cost
-        property :link
+        property :created_at
         property :dead?
+        property :killed_at
+        property :last_reviewed_at
+        property :link
         property :notes
         property :partner
         property :points_awarded
+        property :updated_at
         property :value
 
         def title
@@ -49,6 +53,10 @@ module AdminArea
           Inflecto.humanize(super)
         end
 
+        def created_at
+          super.strftime('%D')
+        end
+
         def days
           return '' if model.condition == 'on_approval'
           <<-HTML
@@ -66,6 +74,14 @@ module AdminArea
             end
           end
           icons.join('&nbsp;')
+        end
+
+        def killed_at
+          super.strftime('%D')
+        end
+
+        def last_reviewed_at
+          cell(AdminArea::Offers::Cell::LastReviewedAt, model)
         end
 
         def link_to_dup_offer
@@ -104,6 +120,10 @@ module AdminArea
             <dt>Spend:</dt>
             <dd>#{number_to_currency(model.spend)}</dd>
           HTML
+        end
+
+        def updated_at
+          super.strftime('%D')
         end
 
         def value
