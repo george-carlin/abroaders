@@ -81,7 +81,7 @@ module AdminArea
         end
 
         def last_reviewed_at
-          cell(AdminArea::Offers::Cell::LastReviewedAt, model)
+          super ? super.strftime('%D') : 'never'
         end
 
         def link_to_dup_offer

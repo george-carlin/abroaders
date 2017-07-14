@@ -36,6 +36,7 @@ module AdminArea::Offers
         property :cost
         property :bank_name
         property :days
+        property :last_reviewed_at
         property :partner
         property :points_awarded
         property :spend
@@ -47,7 +48,7 @@ module AdminArea::Offers
         end
 
         def last_reviewed_at
-          cell(AdminArea::Offers::Cell::LastReviewedAt, model)
+          super ? super.strftime('%m/%d/%Y') : 'never'
         end
 
         def link_to_card_product_offers

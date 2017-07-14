@@ -19,6 +19,7 @@ module AdminArea
           property :id
           property :card_product
           property :cost
+          property :last_reviewed_at
           property :link
           property :points_awarded
           property :spend
@@ -51,7 +52,7 @@ module AdminArea
           end
 
           def last_reviewed_at
-            cell(AdminArea::Offers::Cell::LastReviewedAt, model)
+            super ? super.strftime('%m/%d/%Y') : 'never'
           end
 
           def link_to_edit

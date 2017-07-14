@@ -17,7 +17,6 @@ module AdminArea::Offers
         property :id
         property :cost
         property :last_reviewed_at
-        property :last_reviewed_at
         property :link
         property :partner
         property :value
@@ -37,7 +36,7 @@ module AdminArea::Offers
         end
 
         def last_reviewed_at
-          cell(LastReviewedAt, model)
+          super ? super.strftime('%m/%d/%Y') : 'never'
         end
 
         def link_to_url
