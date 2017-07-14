@@ -179,6 +179,7 @@ Rails.application.routes.draw do
         get :inspect
       end
     end
+    resources :admins
     resources :banks, only: [:index]
     resources :card_products, except: :destroy do
       collection do
