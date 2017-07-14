@@ -46,6 +46,7 @@ module AdminArea
           property :link
           property :points_awarded
           property :spend
+          property :value
 
           option :person
 
@@ -59,13 +60,13 @@ module AdminArea
             number_to_currency(super)
           end
 
-          # Note that any links to the offer MUST be nofollowed for compliance reasons
-          def link_to_link
-            link_to 'Link', link, rel: 'nofollow', target: '_blank'
-          end
-
           def identifier
             link_to(cell(Offers::Cell::Identifier, model).show, admin_offer_path(model))
+          end
+
+          # Note that any links to the offer MUST be nofollowed for compliance reasons
+          def link_to_link
+            link_to 'URL', link, rel: 'nofollow', target: '_blank'
           end
 
           # The spend as a raw integer, to be set as a data attribute of the
@@ -80,12 +81,23 @@ module AdminArea
             cell(Partner::Cell::ShortName, model.partner)
           end
 
+          # 30000 => "30k"
+          # 30500 => "30.5k"
+          # 999 => "999"
+          # 0 => "0"
           def points_awarded
-            number_with_delimiter(super)
+            points = super
+            return '-' if points.nil?
+            return points.to_s if points < 1000
+            (points / 1000.0).to_s.sub(/\.0+\z/, '') << 'k'
           end
 
           def spend
             number_to_currency(super)
+          end
+
+          def value
+            super ? number_to_currency(super) : '?'
           end
         end
       end
