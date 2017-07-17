@@ -19,7 +19,6 @@ module Auth
     delegate :flash, to: :request
 
     def self.call(env)
-      # debugger
       @respond ||= action(:respond)
       @respond.call(env)
     end

@@ -82,27 +82,6 @@ module Auth
         request.env["devise.allow_params_authentication"] = true
       end
 
-      # The scope root url to be used when they're signed in. By default, it first
-      # tries to find a resource_root_path, otherwise it uses the root_path.
-      def signed_in_root_path(resource_or_scope)
-        scope = Auth::Mapping.find_scope!(resource_or_scope)
-        router_name = Auth.mappings[scope].router_name
-
-        home_path = "#{scope}_root_path"
-
-        context = router_name ? send(router_name) : self
-
-        if context.respond_to?(home_path, true)
-          context.send(home_path)
-        elsif context.respond_to?(:root_path)
-          context.root_path
-        elsif respond_to?(:root_path)
-          root_path
-        else
-          "/"
-        end
-      end
-
       # The default url to be used after signing in. This is used by all Devise
       # controllers and you can overwrite it in your ApplicationController to
       # provide a custom hook for a custom resource.
@@ -131,40 +110,11 @@ module Auth
       #   end
       #
       def after_sign_in_path_for(resource_or_scope)
-        stored_location_for(resource_or_scope) || signed_in_root_path(resource_or_scope)
+        stored_location_for(resource_or_scope) || root_path
       end
 
-      # Method used by sessions controller to sign out a user. You can overwrite
-      # it in your ApplicationController to provide a custom hook for a custom
-      # scope. Notice that differently from +after_sign_in_path_for+ this method
-      # receives a symbol with the scope, and not the resource.
-      #
-      # By default it is the root_path.
-      def after_sign_out_path_for(resource_or_scope)
-        scope = Auth::Mapping.find_scope!(resource_or_scope)
-        router_name = Auth.mappings[scope].router_name
-        context = router_name ? send(router_name) : self
-        context.respond_to?(:root_path) ? context.root_path : "/"
-      end
-
-      # Sign in a user and tries to redirect first to the stored location and
-      # then to the url specified by after_sign_in_path_for. It accepts the same
-      # parameters as the sign_in method.
-      def sign_in_and_redirect(resource_or_scope, *args)
-        options  = args.extract_options!
-        scope    = Auth::Mapping.find_scope!(resource_or_scope)
-        resource = args.last || resource_or_scope
-        sign_in(scope, resource, options)
-        redirect_to after_sign_in_path_for(resource)
-      end
-
-      # Sign out a user and tries to redirect to the url specified by
-      # after_sign_out_path_for.
-      def sign_out_and_redirect(resource_or_scope)
-        scope = Auth::Mapping.find_scope!(resource_or_scope)
-        redirect_path = after_sign_out_path_for(scope)
-        Auth.sign_out_all_scopes ? sign_out : sign_out(scope)
-        redirect_to redirect_path
+      def after_sign_out_path
+        root_path
       end
 
       # Overwrite Rails' handle unverified request to sign out all scopes,
