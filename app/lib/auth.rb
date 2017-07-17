@@ -1,39 +1,4 @@
 module Auth
-  # DEVISETODO do I need these autolaod statements?
-  # autoload :Delegator,          'devise/delegator'
-  # autoload :Encryptor,          'devise/encryptor'
-  # autoload :FailureApp,         'devise/failure_app'
-  # autoload :OmniAuth,           'devise/omniauth'
-  # autoload :ParameterFilter,    'devise/parameter_filter'
-  # autoload :ParameterSanitizer, 'devise/parameter_sanitizer'
-  # autoload :TestHelpers,        'devise/test_helpers'
-  # autoload :TimeInflector,      'devise/time_inflector'
-  # autoload :TokenGenerator,     'devise/token_generator'
-
-  # module Controllers
-  #   autoload :Helpers,        'devise/controllers/helpers'
-  #   autoload :Rememberable,   'devise/controllers/rememberable'
-  #   autoload :ScopedViews,    'devise/controllers/scoped_views'
-  #   autoload :SignInOut,      'devise/controllers/sign_in_out'
-  #   autoload :StoreLocation,  'devise/controllers/store_location'
-  #   autoload :UrlHelpers,     'devise/controllers/url_helpers'
-  # end
-
-  # module Hooks
-  #   autoload :Proxy, 'devise/hooks/proxy'
-  # end
-
-  # module Mailers
-  #   autoload :Helpers, 'devise/mailers/helpers'
-  # end
-
-  # module Strategies
-  #   autoload :Base,            'devise/strategies/base'
-  #   autoload :Authenticatable, 'devise/strategies/authenticatable'
-  # end
-
-  # Constants which holds devise configuration for extensions. Those should
-  # not be modified by the "end user" (this is why they are constants).
   ALL         = [].freeze
   CONTROLLERS = ActiveSupport::OrderedHash.new
   ROUTES      = ActiveSupport::OrderedHash.new
@@ -189,10 +154,6 @@ module Auth
   # The default scope which is used by warden.
   mattr_accessor :default_scope
   @@default_scope = nil
-
-  # Address which sends Devise e-mails.
-  mattr_accessor :mailer_sender
-  @@mailer_sender = nil
 
   # Skip session storage for the following strategies
   mattr_accessor :skip_session_storage
@@ -483,7 +444,3 @@ end
 
 require 'warden'
 require 'auth/mapping'
-# require 'auth/models' DEVISETODO I haven't included this two files from devise
-# require 'auth/modules'
-
-# require 'devise/rails'
