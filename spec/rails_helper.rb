@@ -70,6 +70,15 @@ RSpec.configure do |config|
     Warden.test_reset!
   end
 
+  # extend the method provided by Warden::Test::Helpers so it figures out the
+  # scope automatically when none is provided.
+  #
+  # parent method signature = login_as(user, opts = {})
+  def login_as(user, opts = {})
+    opts[:scope] ||= Devise::Mapping.find_scope!(user)
+    super(user, opts)
+  end
+
   def login_as_account(account)
     login_as account, scope: :account
   end

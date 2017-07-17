@@ -7,10 +7,6 @@ Rails.application.routes.draw do
   match "/500", to: "errors#internal_server_error", via: :all
 
   root to: "application#dashboard"
-  # Even though we're overriding all the generated routes, we still need to
-  # include the devise_for call to get access to methods like
-  # `authenticate_account!`
-  devise_for :account, only: []
 
   # Mount this at a hard-to-guess URL
   mount Resque::Server.new, at: "/resque-c08cb17ca6581cbcad1501a7da7e8579"
@@ -162,11 +158,8 @@ Rails.application.routes.draw do
   # This method is necessary to get the 'authenticate_admin!' method
   # in the controllers
 
-  devise_for :admin, only: [:passwords]
-  get 'admin/sign_in', to: 'admin_area/sessions#new',
-    as: :new_admin_session
-  post 'admin/sign_in', to: 'admin_area/sessions#create',
-    as: :admin_session
+  get 'admin/sign_in', to: 'admin_area/sessions#new', as: :new_admin_session
+  post 'admin/sign_in', to: 'admin_area/sessions#create', as: :admin_session
   delete 'admin/sign_out', to: 'admin_area/sessions#destroy',
     as: :destroy_admin_session
 
