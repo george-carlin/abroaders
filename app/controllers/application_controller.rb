@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   include Abroaders::Controller::Onboarding
+  include Auth::Controllers::UrlHelpers
 
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
