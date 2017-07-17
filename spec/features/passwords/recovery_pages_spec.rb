@@ -47,11 +47,11 @@ RSpec.describe 'password recovery pages', :auth do
 
   describe 'resetting with token' do
     before do
-      # This is how Devise does it internally. I can't just call
+      # This is how Auth does it internally. I can't just call
       # Account.send_reset_password_instructions(...) because I won't know the
       # token that goes in the URL (it's not the same as the
       # reset_password_token attribute of the account.)
-      raw, enc = Devise.token_generator.generate(Account, :reset_password_token)
+      raw, enc = Auth.token_generator.generate(Account, :reset_password_token)
       account.update!(reset_password_token: enc)
 
       visit edit_account_password_path(reset_password_token: raw)

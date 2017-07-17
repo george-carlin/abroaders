@@ -11,9 +11,9 @@ gem 'cells-erb', '0.0.9'
 
 gem 'acts_as_tree', '~> 2.4.0'
 gem 'aws-sdk-v1', '1.61.0'
+gem 'bcrypt', '~> 3.0'
 gem 'browserify-rails', '3.1.0'
 gem 'cells-rails'
-gem 'devise', '~> 4.1.0'
 gem 'disposable'
 gem 'dry-configurable', '0.3.0'
 gem 'dry-struct', '~> 0.2.0'
@@ -43,6 +43,7 @@ gem 'trailblazer-cells'
 gem 'uglifier', '3.0.0'
 gem 'virtus'
 gem 'workflow'
+gem 'warden', '~> 1.2.3'
 
 # we don't depend on dry-logic directly, but other dry-* dependencies need it,
 # and versions <= 0.4.0 raise warnings on Ruby 2.4 (because of Fixnum)

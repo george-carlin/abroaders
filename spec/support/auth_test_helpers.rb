@@ -24,7 +24,7 @@ module Auth
     def warden #:nodoc:
       @request.env['warden'] ||= begin
         manager = Warden::Manager.new(nil) do |config|
-          config.merge! Devise.warden_config
+          # config.merge! Auth.warden_config DEVISETODO see config/application.rb
         end
         Warden::Proxy.new(@request.env, manager)
       end
@@ -39,7 +39,7 @@ module Auth
     #   sign_in @user          # sign_in(resource)
     #
     def sign_in(resource_or_scope, resource = nil)
-      scope ||= Devise::Mapping.find_scope!(resource_or_scope)
+      scope ||= Auth::Mapping.find_scope!(resource_or_scope)
       resource ||= resource_or_scope
 
       warden.instance_variable_get(:@users).delete(scope)
@@ -55,7 +55,7 @@ module Auth
     #   sign_out @user     # sign_out(resource)
     #
     def sign_out(resource_or_scope)
-      scope = Devise::Mapping.find_scope!(resource_or_scope)
+      scope = Auth::Mapping.find_scope!(resource_or_scope)
       @controller.instance_variable_set(:"@current_#{scope}", nil)
       user = warden.instance_variable_get(:@users).delete(scope)
       warden.session_serializer.delete(scope, user)
@@ -105,7 +105,7 @@ module Auth
               Warden::Manager._run_callbacks(:before_failure, env, options)
 
               # DEVISETODO how do I access the regular warden config?
-              status, headers, response = Devise.warden_config[:failure_app].call(env).to_a
+              status, headers, response = Auth.warden_config[:failure_app].call(env).to_a
               @controller.response.headers.merge!(headers)
               r_opts = { status: status, content_type: headers["Content-Type"], location: headers["Location"] }
               r_opts[Rails.version.start_with?('5') ? :body : :text] = response.body

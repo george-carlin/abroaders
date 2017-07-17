@@ -41,6 +41,10 @@ class SessionsController < ApplicationController
 
   private
 
+  def auth_controller?
+    true
+  end
+
   def redirect_admins!
     return unless current_admin && !current_account
     flash[:notice] = "You must sign out of your admin account before "\

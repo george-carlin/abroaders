@@ -19,6 +19,10 @@ module AdminArea
 
     private
 
+    def auth_controller?
+      true
+    end
+
     def update_params
       params.require(:admin).permit(:password, :password_confirmation, :current_password)
     end

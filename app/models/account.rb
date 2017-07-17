@@ -1,8 +1,11 @@
 class Account < ApplicationRecord
-  # Include devise modules. Others available are:
-  # :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable,
-         :trackable, :validatable
+  include Auth::Models::Authenticatable
+  include Auth::Models::DatabaseAuthenticatable
+  include Auth::Models::Rememberable
+  include Auth::Models::Recoverable
+  include Auth::Models::Registerable
+  include Auth::Models::Validatable
+  include Auth::Models::Trackable
 
   def couples?
     !companion.nil?

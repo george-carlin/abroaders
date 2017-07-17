@@ -1,9 +1,9 @@
 RSpec.shared_context "account devise mapping" do
-  before { @request.env["devise.mapping"] = Devise.mappings[:account] }
+  before { @request.env["devise.mapping"] = Auth.mappings[:account] }
 end
 
 RSpec.shared_context "admin devise mapping" do
-  before { @request.env["devise.mapping"] = Devise.mappings[:admin] }
+  before { @request.env["devise.mapping"] = Auth.mappings[:admin] }
 end
 
 module ControllerMacros

@@ -75,7 +75,7 @@ RSpec.configure do |config|
   #
   # parent method signature = login_as(user, opts = {})
   def login_as(user, opts = {})
-    opts[:scope] ||= Devise::Mapping.find_scope!(user)
+    opts[:scope] ||= Auth::Mapping.find_scope!(user)
     super(user, opts)
   end
 

@@ -33,4 +33,8 @@ class RegistrationsController < ApplicationController
       redirect_to root_path
     end
   end
+
+  def auth_controller?
+    true
+  end
 end

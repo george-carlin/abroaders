@@ -17,7 +17,7 @@ module Auth::Controllers::SignInOut
   end
 
   def sign_out_all_scopes(lock = true)
-    users = Devise.mappings.each_value do |m|
+    users = Auth.mappings.each_value do |m|
       warden.user(scope: m.name, run_callbacks: false)
     end
 
@@ -32,7 +32,7 @@ module Auth::Controllers::SignInOut
   private
 
   def all_signed_out?
-    users = Devise.mappings.each_value do |m|
+    users = Auth.mappings.each_value do |m|
       warden.user(scope: m.name, run_callbacks: false)
     end
     users.all?(&:blank?)

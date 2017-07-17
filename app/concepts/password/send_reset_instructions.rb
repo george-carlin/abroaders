@@ -8,9 +8,7 @@ module Password
   # Resets reset password token and send reset password instructions by email.
   # Returns the token sent in the e-mail.
   class SendResetInstructions < Trailblazer::Operation
-    # Devise.token_generator is set in an initializer Probably a bad idea to
-    # 'extract' it while other parts of devise are still using it:
-    self['token_generator'] = Devise.token_generator
+    self['token_generator'] = Auth.token_generator
 
     success :setup_account
     step :account_persisted?
@@ -40,7 +38,7 @@ module Password
     end
 
     def send_reset_notification!(model:, token:, **)
-      message = Devise::Mailer.reset_password_instructions(model, token, {})
+      message = Auth::Mailer.reset_password_instructions(model, token, {})
       message.deliver_now
     end
 

@@ -35,6 +35,10 @@ module AdminArea
 
     private
 
+    def auth_controller?
+      true
+    end
+
     def redirect_non_admins!
       return unless current_account
       flash[:notice] = "You must sign out of your regular account before "\

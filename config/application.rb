@@ -54,6 +54,31 @@ module Abroaders
 
     config.time_zone = "UTC"
 
+    config.app_middleware.use Warden::Manager do |config|
+      # DEVISETODO when devise is installed, Auth.warden_config just
+      # gets set to the `config` var that's passed to this block.
+      #
+      # Seems like with devise, the warden_config is left unaltered from
+      # the default `config` I'm getting here, except the key :failure_app
+      # is added, pointing to an instance of Auth::Delegator
+      #
+      # With devise installed, Warden::Manager is present in the middleware
+      # (in between Rack::ETag and OmniAuth::Builder, so it seems I do need to
+      # add it here)
+      config.failure_app = Auth::FailureApp # DEVISETODO
+      config.default_strategies :database_authenticatable, :rememberable
+
+      [Account, Admin].each do |model| # DEVISE TODO
+        config.serialize_into_session(model.warden_scope) do |record|
+          model.serialize_into_session(record)
+        end
+
+        config.serialize_from_session(model.warden_scope) do |args|
+          model.serialize_from_session(*args)
+        end
+      end
+    end
+
     config.exceptions_app = self.routes
 
     if ENV['ASSET_HOST']

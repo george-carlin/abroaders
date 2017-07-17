@@ -22,7 +22,7 @@ module Auth
             method = :"#{action}#{module_name}_#{path_or_url}"
 
             define_method method do |resource_or_scope, *args|
-              scope = Devise::Mapping.find_scope!(resource_or_scope)
+              scope = Auth::Mapping.find_scope!(resource_or_scope)
               main_app.send("#{action}#{scope}_#{module_name}_#{path_or_url}", *args)
             end
           end
