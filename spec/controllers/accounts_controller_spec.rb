@@ -1,8 +1,6 @@
 require "rails_helper"
 
 RSpec.describe AccountsController do
-  include_context "account devise mapping"
-
   describe "GET #type" do
     let(:account) { create_account }
     before { sign_in account }
