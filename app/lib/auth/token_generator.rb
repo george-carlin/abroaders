@@ -2,13 +2,14 @@ require 'openssl'
 
 module Auth
   class TokenGenerator
-    def initialize(key_generator, digest = 'SHA256')
+    DIGEST = 'SHA256'.freeze
+
+    def initialize(key_generator)
       @key_generator = key_generator
-      @digest = digest
     end
 
     def digest(_klass, column, value)
-      value.present? && OpenSSL::HMAC.hexdigest(@digest, key_for(column), value.to_s)
+      value.present? && OpenSSL::HMAC.hexdigest(DIGEST, key_for(column), value.to_s)
     end
 
     def generate(klass, column)
@@ -16,7 +17,7 @@ module Auth
 
       loop do
         raw = Auth.friendly_token
-        enc = OpenSSL::HMAC.hexdigest(@digest, key, raw)
+        enc = OpenSSL::HMAC.hexdigest(DIGEST, key, raw)
         break [raw, enc] unless klass.find_by(column => enc)
       end
     end
