@@ -14,7 +14,6 @@ module Auth
 
         if valid
           remember_me(resource)
-          resource.after_database_authentication
           success!(resource)
         end
 

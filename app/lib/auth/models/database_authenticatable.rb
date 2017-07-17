@@ -1,11 +1,6 @@
 require 'auth/strategies/database_authenticatable'
 
 module Auth
-  def self.bcrypt(_klass, _password)
-    # DEVISETODO can this be removed?
-    raise "Auth.bcrypt is deprecated; use Auth::Encryptor.digest instead"
-  end
-
   module Models
     # Authenticatable Module, responsible for hashing the password and
     # validating the authenticity of a user while signing in.
@@ -119,24 +114,12 @@ module Auth
         result
       end
 
-      # A callback initiated after successfully authenticating. This can be
-      # used to insert your own logic that is only run after the user successfully
-      # authenticates.
-      #
-      # Example:
-      #
-      #   def after_database_authentication
-      #     self.update_attribute(:invite_code, nil)
-      #   end
-      #
-      def after_database_authentication
-      end
-
       # A reliable way to expose the salt regardless of the implementation.
       def authenticatable_salt
         encrypted_password[0, 29] if encrypted_password
       end
 
+      # DEVISETODO this shouldn't be a method on the model
       def send_password_change_notification
         send_devise_notification(:password_change)
       end
