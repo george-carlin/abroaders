@@ -1,6 +1,4 @@
 module Auth::Controllers::SignInOut
-  WARDEN_SCOPES = %i[account admin].freeze
-
   def sign_in(scope, resource, options = {})
     expire_data_after_sign_in!
 
@@ -19,7 +17,9 @@ module Auth::Controllers::SignInOut
   end
 
   def sign_out_all_scopes(lock = true)
-    users = WARDEN_SCOPES.each { |s| warden.user(scope: s, run_callbacks: false) }
+    users = Devise.mappings.each_value do |m|
+      warden.user(scope: m.name, run_callbacks: false)
+    end
 
     warden.logout
     expire_data_after_sign_out!
@@ -32,8 +32,9 @@ module Auth::Controllers::SignInOut
   private
 
   def all_signed_out?
-    users = WARDEN_SCOPES.each { |s| warden.user(scope: s, run_callbacks: false) }
-
+    users = Devise.mappings.each_value do |m|
+      warden.user(scope: m.name, run_callbacks: false)
+    end
     users.all?(&:blank?)
   end
 
