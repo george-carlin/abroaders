@@ -52,7 +52,7 @@ module Abroaders
 
       private
 
-      # Shorthand for cells to use the cookies from parent_controller. Use
+      # Shorthand for cells to use the cookies from parent controller. Use
       # sparingly
       def cookies
         request.cookie_jar

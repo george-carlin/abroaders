@@ -154,11 +154,6 @@ module Auth
         def reset_password_within
           6.hours
         end
-
-        # TODO this setting can be removed, just do it in the controller
-        def sign_in_after_reset_password
-          true
-        end
       end
     end
   end

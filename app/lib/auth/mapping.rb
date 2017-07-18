@@ -23,7 +23,7 @@ module Auth
   #
   class Mapping #:nodoc:
     attr_reader :singular, :scoped_path, :path, :controllers, :path_names,
-                :class_name, :sign_out_via, :format, :used_routes, :used_helpers,
+                :class_name, :format, :used_routes, :used_helpers,
                 :failure_app, :router_name
 
     alias name singular
@@ -65,7 +65,6 @@ module Auth
       @path = name.to_s # 'account'
       @path_prefix = nil # no getter, used by '#full_path'
 
-      @sign_out_via = Auth.sign_out_via # :delete
       @format = nil
 
       @router_name = nil
@@ -90,10 +89,6 @@ module Auth
 
     def strategies
       @strategies ||= STRATEGIES.values_at(*self.modules).compact.uniq.reverse
-    end
-
-    def no_input_strategies
-      self.strategies & Auth::NO_INPUT
     end
 
     def routes

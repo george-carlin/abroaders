@@ -6,12 +6,6 @@ module Auth
   STRATEGIES  = ActiveSupport::OrderedHash.new
   URL_HELPERS = ActiveSupport::OrderedHash.new
 
-  # Strategies that do not require user input.
-  NO_INPUT = [].freeze
-
-  # True values used to check params DEVISETODO replace with dry-types
-  TRUE_VALUES = [true, 1, '1', 't', 'T', 'true', 'TRUE'].freeze
-
   # Secret key used by the key generator
   mattr_accessor :secret_key
   @@secret_key = nil
@@ -19,10 +13,6 @@ module Auth
   # Custom domain or key for cookies. Not set by default
   mattr_accessor :rememberable_options
   @@rememberable_options = {}
-
-  # The number of times to hash the password.
-  mattr_accessor :stretches
-  @@stretches = 11
 
   # Keys used when authenticating a user.
   mattr_accessor :authentication_keys
@@ -68,61 +58,13 @@ module Auth
   mattr_accessor :expire_all_remember_me_on_sign_out
   @@expire_all_remember_me_on_sign_out = true
 
-  # Time interval you can access your account before confirming your account.
-  # nil - allows unconfirmed access for unlimited time
-  mattr_accessor :allow_unconfirmed_access_for
-  @@allow_unconfirmed_access_for = 0.days
-
-  # Time interval the confirmation token is valid. nil = unlimited
-  mattr_accessor :confirm_within
-  @@confirm_within = nil
-
-  # Defines which key will be used when confirming an account.
-  mattr_accessor :confirmation_keys
-  @@confirmation_keys = [:email]
-
-  # Defines if email should be reconfirmable.
-  mattr_accessor :reconfirmable
-  @@reconfirmable = true
-
-  # Time interval to timeout the user session without activity.
-  mattr_accessor :timeout_in
-  @@timeout_in = 30.minutes
-
   # Used to hash the password. Please generate one with rake secret.
   mattr_accessor :pepper
-  @@pepper = nil
+  @@pepper = true
 
   # Used to enable sending notification to user when their password is changed
   mattr_accessor :send_password_change_notification
   @@send_password_change_notification = false
-
-  # Scoped views. Since it relies on fallbacks to render default views, it's
-  # turned off by default.
-  mattr_accessor :scoped_views
-  @@scoped_views = false
-
-  # Defines which strategy can be used to lock an account.
-  # Values: :failed_attempts, :none
-  mattr_accessor :lock_strategy
-  @@lock_strategy = :failed_attempts
-
-  # Defines which key will be used when locking and unlocking an account
-  mattr_accessor :unlock_keys
-  @@unlock_keys = [:email]
-
-  # Defines which strategy can be used to unlock an account.
-  # Values: :email, :time, :both
-  mattr_accessor :unlock_strategy
-  @@unlock_strategy = :both
-
-  # Number of authentication tries before locking an account
-  mattr_accessor :maximum_attempts
-  @@maximum_attempts = 20
-
-  # Time interval to unlock the account if :time is defined as unlock_strategy.
-  mattr_accessor :unlock_in
-  @@unlock_in = 1.hour
 
   # Defines which key will be used when recovering the password for an account
   mattr_accessor :reset_password_keys
@@ -132,10 +74,6 @@ module Auth
   mattr_accessor :reset_password_within
   @@reset_password_within = 6.hours
 
-  # When set to false, resetting a password does not automatically sign in a user
-  mattr_accessor :sign_in_after_reset_password
-  @@sign_in_after_reset_password = true
-
   # The default scope which is used by warden.
   mattr_accessor :default_scope
   @@default_scope = nil
@@ -144,36 +82,11 @@ module Auth
   mattr_accessor :navigational_formats
   @@navigational_formats = ["*/*", :html]
 
-  # When set to true, signing out a user signs out all other scopes.
-  mattr_accessor :sign_out_all_scopes
-  @@sign_out_all_scopes = true
-
-  # The default method used while signing out
-  mattr_accessor :sign_out_via
-  @@sign_out_via = :delete
-
-  # The parent controller all Devise controllers inherits from.
-  # Defaults to ApplicationController. This should be set early
-  # in the initialization process and should be set to a string.
-  mattr_accessor :parent_controller
-  @@parent_controller = "ApplicationController"
-
-  # The parent mailer all Devise mailers inherit from.
-  # Defaults to ActionMailer::Base. This should be set early
-  # in the initialization process and should be set to a string.
-  mattr_accessor :parent_mailer
-  @@parent_mailer = "ActionMailer::Base"
-
   # The router Devise should use to generate routes. Defaults
   # to :main_app. Should be overridden by engines in order
   # to provide custom routes.
   mattr_accessor :router_name
   @@router_name = nil
-
-  # Set the OmniAuth path prefix so it can be overridden when
-  # Devise is used in a mountable engine
-  mattr_accessor :omniauth_path_prefix
-  @@omniauth_path_prefix = nil
 
   # Set if we should clean up the CSRF Token on authentication
   mattr_accessor :clean_up_csrf_token_on_authentication
@@ -203,10 +116,6 @@ module Auth
   mattr_accessor :paranoid
   @@paranoid = false
 
-  # When true, warn user if they just used next-to-last attempt of authentication
-  mattr_accessor :last_attempt_warning
-  @@last_attempt_warning = true
-
   # Stores the token generator
   mattr_accessor :token_generator
   @@token_generator = nil
@@ -228,25 +137,12 @@ module Auth
   end
 
   def self.ref(arg)
-    if defined?(ActiveSupport::Dependencies::ClassCache)
-      ActiveSupport::Dependencies.reference(arg)
-      Getter.new(arg)
-    else
-      ActiveSupport::Dependencies.ref(arg)
-    end
-  end
-
-  def self.available_router_name
-    router_name || :main_app
+    ActiveSupport::Dependencies.reference(arg)
+    Getter.new(arg)
   end
 
   def self.omniauth_providers
     omniauth_configs.keys
-  end
-
-  # Get the mailer class from the mailer reference object.
-  def self.mailer
-    Auth::Mailer
   end
 
   # Small method that adds a mapping to Auth.
@@ -284,7 +180,7 @@ module Auth
   #   Auth.add_module(:party_module, insert_at: 0)
   #
   def self.add_module(module_name, options = {})
-    options.assert_valid_keys(:strategy, :model, :controller, :route, :no_input, :insert_at)
+    options.assert_valid_keys(:strategy, :model, :controller, :route, :insert_at)
 
     ALL.insert (options[:insert_at] || -1), module_name
 
@@ -297,8 +193,6 @@ module Auth
       controller = (controller == true ? module_name : controller)
       CONTROLLERS[module_name] = controller
     end
-
-    NO_INPUT << strategy if options[:no_input]
 
     if (route = options[:route])
       case route
@@ -357,6 +251,7 @@ module Auth
   end
 
   # Include helpers in the given scope to AC and AV.
+  # DEVISETODO aren't any including these anyway?
   def self.include_helpers(scope)
     ActiveSupport.on_load(:action_controller) do
       include scope::Helpers if defined?(scope::Helpers)
@@ -406,10 +301,6 @@ module Auth
     # See SecureRandom.urlsafe_base64
     rlength = (length * 3) / 4
     SecureRandom.urlsafe_base64(rlength).tr('lIO0', 'sxyz')
-  end
-
-  def self.mailer_sender
-    ENV['OUTBOUND_EMAIL_ADDRESS']
   end
 
   # constant-time comparison algorithm to prevent timing attacks

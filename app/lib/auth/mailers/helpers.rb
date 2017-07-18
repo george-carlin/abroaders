@@ -1,5 +1,7 @@
 module Auth
   module Mailers
+    # DEVISETODO why is this a separate file? Why not just put the code
+    # directly in Auth::Mailer?
     module Helpers
       extend ActiveSupport::Concern
 
@@ -25,8 +27,8 @@ module Auth
         headers = {
           subject: subject_for(action),
           to: resource.email,
-          from: mailer_sender,
-          reply_to: mailer_reply_to,
+          from: mailer_sender(:from),
+          reply_to: mailer_sender(:reply_to),
           template_path: template_paths,
           template_name: action,
         }.merge(opts)
@@ -35,22 +37,12 @@ module Auth
         headers
       end
 
-      def mailer_reply_to
-        mailer_sender(:reply_to)
-      end
-
-      def mailer_from
-        mailer_sender(:from)
-      end
-
-      def mailer_sender(sender = :from)
+      def mailer_sender(sender)
         default_sender = default_params[sender]
         if default_sender.present?
           default_sender.respond_to?(:to_proc) ? instance_eval(&default_sender) : default_sender
-        elsif Auth.mailer_sender.is_a?(Proc)
-          Auth.mailer_sender.call(@resource.name.singular)
         else
-          Auth.mailer_sender
+          ENV['OUTBOUND_EMAIL_ADDRESS']
         end
       end
 
