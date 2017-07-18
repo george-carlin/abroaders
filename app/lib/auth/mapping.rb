@@ -45,13 +45,6 @@ module Auth
       end
     end
 
-    # find_by_path is only used by lib/devise/omniauth.rb
-    #
-    def self.find_by_path!(path, path_type = :fullpath)
-      Auth.mappings.each_value { |m| return m if path.include?(m.send(path_type)) }
-      raise "Could not find a valid mapping for path #{path.inspect}"
-    end
-
     # devise_for in routes will call this with ':account' or ':admin'
     # as the first option.
     #
