@@ -61,4 +61,15 @@ RSpec.describe 'the sign in page', :auth do
     expect(page).to have_content 'You must sign out'
     expect(current_path).not_to eq new_admin_session_path
   end
+
+  example 'remember my location' do
+    path = balances_path
+
+    visit path # will redirect to sign in page
+    fill_in :account_email,    with: email
+    fill_in :account_password, with: password
+    submit_form
+
+    expect(path).to eq path # it remembers where I was trying to go
+  end
 end
