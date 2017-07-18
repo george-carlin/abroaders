@@ -9,10 +9,10 @@ Auth.add_mapping :admins
 Auth.secret_key ||= Rails.application.secrets.secret_key_base
 
 Auth.token_generator ||=
-  if secret_key = Auth.secret_key
+  if (secret_key = Auth.secret_key)
     Auth::TokenGenerator.new(
       ActiveSupport::CachingKeyGenerator.new(
-        ActiveSupport::KeyGenerator.new(secret_key)
+        ActiveSupport::KeyGenerator.new(secret_key),
       ),
     )
   end
