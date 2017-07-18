@@ -1,5 +1,4 @@
 require 'active_model/version'
-require 'auth/hooks/activatable'
 require 'auth/hooks/csrf_cleaner'
 
 module Auth
