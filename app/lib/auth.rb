@@ -24,10 +24,6 @@ module Auth
   mattr_accessor :stretches
   @@stretches = 11
 
-  # The default key used when authenticating over http auth.
-  mattr_accessor :http_authentication_key
-  @@http_authentication_key = nil
-
   # Keys used when authenticating a user.
   mattr_accessor :authentication_keys
   @@authentication_keys = [:email]
@@ -44,21 +40,9 @@ module Auth
   mattr_accessor :strip_whitespace_keys
   @@strip_whitespace_keys = [:email]
 
-  # If http authentication is enabled by default.
-  mattr_accessor :http_authenticatable
-  @@http_authenticatable = false
-
-  # If http headers should be returned for ajax requests. True by default.
-  mattr_accessor :http_authenticatable_on_xhr
-  @@http_authenticatable_on_xhr = true
-
   # If params authenticatable is enabled by default.
   mattr_accessor :params_authenticatable
   @@params_authenticatable = true
-
-  # The realm used in Http Basic Authentication.
-  mattr_accessor :http_authentication_realm
-  @@http_authentication_realm = "Application"
 
   # Email regex used to validate email formats. It asserts that there are no
   # @ symbols or whitespaces in either the localpart or the domain, and that
@@ -155,10 +139,6 @@ module Auth
   # The default scope which is used by warden.
   mattr_accessor :default_scope
   @@default_scope = nil
-
-  # Skip session storage for the following strategies
-  mattr_accessor :skip_session_storage
-  @@skip_session_storage = [:http_auth]
 
   # Which formats should be treated as navigational.
   mattr_accessor :navigational_formats

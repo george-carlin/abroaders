@@ -28,23 +28,7 @@ module Auth
     end
 
     def respond
-      if http_auth?
-        http_auth
-      elsif warden_options[:recall]
-        recall
-      else
-        redirect
-      end
-    end
-
-    # Jesus... more?
-    #
-    # Auth.http_authentication_realm returns "Application" btw
-    def http_auth
-      self.status = 401
-      self.headers["WWW-Authenticate"] = %(Basic realm=#{Auth.http_authentication_realm.inspect}) if http_auth_header?
-      self.content_type = request.format.to_s
-      self.response_body = http_auth_body
+      warden_options[:recall] ? recall : redirect
     end
 
     def recall
@@ -161,40 +145,6 @@ module Auth
       %w(html */*).include? request_format.to_s
     end
 
-    # Choose whether we should respond in a http authentication fashion,
-    # including 401 and optional headers.
-    #
-    # This method allows the user to explicitly disable http authentication
-    # on ajax requests in case they want to redirect on failures instead of
-    # handling the errors on their own. This is useful in case your ajax API
-    # is the same as your public API and uses a format like JSON (so you
-    # cannot mark JSON as a navigational format).
-    def http_auth?
-      if request.xhr?
-        Auth.http_authenticatable_on_xhr
-      else
-        !(request_format && is_navigational_format?)
-      end
-    end
-
-    # It does not make sense to send authenticate headers in ajax requests
-    # or if the user disabled them.
-    def http_auth_header?
-      scope_class.http_authenticatable && !request.xhr?
-    end
-
-    def http_auth_body
-      return i18n_message unless request_format
-      method = "to_#{request_format}"
-      if method == "to_xml"
-        { error: i18n_message }.to_xml(root: "errors")
-      elsif {}.respond_to?(method)
-        { error: i18n_message }.send(method)
-      else
-        i18n_message
-      end
-    end
-
     def recall_app(app)
       controller, action = app.split("#")
       controller_name  = ActiveSupport::Inflector.camelize(controller)
@@ -231,7 +181,7 @@ module Auth
     # yet, but we still need to store the uri based on scope, so different scopes
     # would never use the same uri to redirect.
     def store_location!
-      store_location_for(scope, attempted_path) if request.get? && !http_auth?
+      store_location_for(scope, attempted_path) if request.get?
     end
 
     def is_navigational_format?

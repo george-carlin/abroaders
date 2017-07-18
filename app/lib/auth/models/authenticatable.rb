@@ -185,18 +185,6 @@ module Auth
           true
         end
 
-        def http_authenticatable
-          false
-        end
-
-        def skip_session_storage
-          [:http_auth]
-        end
-
-        def http_authentication_key
-          nil
-        end
-
         def serialize_into_session(record)
           [record.to_key, record.authenticatable_salt]
         end
@@ -209,11 +197,6 @@ module Auth
         # TODO this just returns `true`, can we remove it?
         def params_authenticatable?(_strategy)
           params_authenticatable
-        end
-
-        # TODO this just returns `false`, can we remove it?
-        def http_authenticatable?(_strategy)
-          http_authenticatable
         end
 
         def find_for_authentication(tainted_conditions)

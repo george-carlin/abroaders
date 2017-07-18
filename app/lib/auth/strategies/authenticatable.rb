@@ -4,14 +4,11 @@ module Auth
     # parameters both from params or from http authorization headers. See database_authenticatable
     # for an example.
     class Authenticatable < Base
+      # authentication_type will always be :params_auth
       attr_accessor :authentication_hash, :authentication_type, :password
 
-      def store?
-        super && !model.skip_session_storage.include?(authentication_type)
-      end
-
       def valid?
-        valid_for_params_auth? || valid_for_http_auth?
+        valid_for_params_auth?
       end
 
       def clean_up_csrf?
@@ -48,16 +45,6 @@ module Auth
         valid_params? && Dry::Types::Coercions::Form::TRUE_VALUES.include?(params_auth_hash[:remember_me])
       end
 
-      # Check if this is a valid strategy for http authentication by:
-      #
-      #   * Validating if the model allows http authentication;
-      #   * If any of the authorization headers were sent;
-      #   * If all authentication keys are present;
-      #
-      def valid_for_http_auth?
-        http_authenticatable? && request.authorization && with_authentication_hash(:http_auth, http_auth_hash)
-      end
-
       # Check if this is a valid strategy for params authentication by:
       #
       #   * Validating if the model allows params authentication;
@@ -70,11 +57,6 @@ module Auth
           valid_params? && with_authentication_hash(:params_auth, params_auth_hash)
       end
 
-      # Check if the model accepts this strategy as http authenticatable.
-      def http_authenticatable?
-        model.http_authenticatable?(authenticatable_name)
-      end
-
       # Check if the model accepts this strategy as params authenticatable.
       def params_authenticatable?
         model.params_authenticatable?(authenticatable_name)
@@ -83,12 +65,6 @@ module Auth
       # Extract the appropriate subhash for authentication from params.
       def params_auth_hash
         params[scope]
-      end
-
-      # Extract a hash with attributes:values from the http params.
-      def http_auth_hash
-        keys = [http_authentication_key, :password]
-        Hash[*keys.zip(decode_credentials).flatten]
       end
 
       # By default, a request is valid if the controller set the proper env variable.
@@ -115,7 +91,11 @@ module Auth
         Base64.decode64(Regexp.last_match(1)).split(/:/, 2)
       end
 
-      # Sets the authentication hash and the password from params_auth_hash or http_auth_hash.
+      # Sets the authentication hash and the password from params_auth_hash.
+      # (original method could also handle http_auth_hash, maybe this method
+      # exists as a generic interface for something which no longer needs to be
+      # generic?)  DEVISETODO
+      # :params_auth, params_auth_hash
       def with_authentication_hash(auth_type, auth_values)
         self.authentication_hash = {}
         self.authentication_type = auth_type
@@ -127,13 +107,6 @@ module Auth
 
       def authentication_keys
         @authentication_keys ||= model.authentication_keys
-      end
-
-      def http_authentication_key
-        @http_authentication_key ||= model.http_authentication_key || case authentication_keys
-                                                                      when Array then authentication_keys.first
-                                                                      when Hash then authentication_keys.keys.first
-                                                                      end
       end
 
       def request_keys
