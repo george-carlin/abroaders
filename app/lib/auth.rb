@@ -58,10 +58,6 @@ module Auth
   mattr_accessor :expire_all_remember_me_on_sign_out
   @@expire_all_remember_me_on_sign_out = true
 
-  # Used to hash the password. Please generate one with rake secret.
-  mattr_accessor :pepper
-  @@pepper = true
-
   # Used to enable sending notification to user when their password is changed
   mattr_accessor :send_password_change_notification
   @@send_password_change_notification = false

@@ -137,10 +137,6 @@ module Auth
       end
 
       module ClassMethods
-        def pepper
-          nil
-        end
-
         def send_password_change_notification
           false
         end
