@@ -4,6 +4,7 @@ task stats: 'ab:stat_setup'
 namespace :ab do
   task :stat_setup do
     [
+      ['App Library', 'app/lib'],
       ['Concepts', 'app/concepts'],
       ['Forms', 'app/forms'],
     ].each do |name, dir|
