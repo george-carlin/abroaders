@@ -30,7 +30,7 @@ module Auth
         if result
           true
         else
-          fail!(resource.unauthenticated_message) if resource
+          fail!(:invalid) if resource
           false
         end
       end

@@ -10,10 +10,6 @@ module Auth
   mattr_accessor :secret_key
   @@secret_key = nil
 
-  # Custom domain or key for cookies. Not set by default
-  mattr_accessor :rememberable_options
-  @@rememberable_options = {}
-
   # Keys used when authenticating a user.
   mattr_accessor :authentication_keys
   @@authentication_keys = [:email]
@@ -50,17 +46,9 @@ module Auth
   mattr_accessor :remember_for
   @@remember_for = 2.weeks
 
-  # If true, extends the user's remember period when remembered via cookie.
-  mattr_accessor :extend_remember_period
-  @@extend_remember_period = false
-
   # If true, all the remember me tokens are going to be invalidated when the user signs out.
   mattr_accessor :expire_all_remember_me_on_sign_out
   @@expire_all_remember_me_on_sign_out = true
-
-  # Used to enable sending notification to user when their password is changed
-  mattr_accessor :send_password_change_notification
-  @@send_password_change_notification = false
 
   # Defines which key will be used when recovering the password for an account
   mattr_accessor :reset_password_keys
@@ -107,10 +95,6 @@ module Auth
   mattr_accessor :warden_config
   @@warden_config = nil
   @@warden_config_blocks = []
-
-  # When true, enter in paranoid mode to avoid user enumeration.
-  mattr_accessor :paranoid
-  @@paranoid = false
 
   # Stores the token generator
   mattr_accessor :token_generator

@@ -22,11 +22,7 @@ module Auth
           return pass
         end
 
-        if validate(resource)
-          remember_me(resource) if extend_remember_me?(resource)
-          resource.after_remembered
-          success!(resource)
-        end
+        success!(resource) if validate(resource)
       end
 
       # No need to clean up the CSRF when using rememberable.
@@ -40,16 +36,12 @@ module Auth
 
       private
 
-      def extend_remember_me?(resource)
-        resource.respond_to?(:extend_remember_period) && resource.extend_remember_period
-      end
-
       def remember_me?
         true
       end
 
       def remember_key
-        model.rememberable_options.fetch(:key, "remember_#{scope}_token")
+        "remember_#{scope}_token"
       end
 
       def remember_cookie

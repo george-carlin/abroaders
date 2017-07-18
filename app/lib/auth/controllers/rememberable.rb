@@ -12,7 +12,7 @@ module Auth
       def remember_me_is_active?(resource)
         return false unless resource.respond_to?(:remember_me)
         scope = resource.warden_scope
-        _, token, generated_at = cookies.signed[remember_key(resource, scope)]
+        _, token, generated_at = cookies.signed[remember_key(scope)]
         resource.remember_me?(token, generated_at)
       end
 
@@ -21,33 +21,33 @@ module Auth
         return if env["devise.skip_storage"]
         scope = resource.warden_scope
         resource.remember_me!
-        cookies.signed[remember_key(resource, scope)] = remember_cookie_values(resource)
+        cookies.signed[remember_key(scope)] = remember_cookie_values(resource)
       end
 
       # Forgets the given resource by deleting a cookie
       def forget_me(resource)
         scope = resource.warden_scope
         resource.forget_me!
-        cookies.delete(remember_key(resource, scope), forget_cookie_values(resource))
+        cookies.delete(remember_key(scope), forget_cookie_values)
       end
 
       protected
 
-      def forget_cookie_values(resource)
-        Auth::Controllers::Rememberable.cookie_values.merge!(resource.rememberable_options)
+      def forget_cookie_values
+        Auth::Controllers::Rememberable.cookie_values.merge!({})
       end
 
       def remember_cookie_values(resource)
         options = { httponly: true }
-        options.merge!(forget_cookie_values(resource))
+        options.merge!(forget_cookie_values)
         options.merge!(
           value: resource.class.serialize_into_cookie(resource),
           expires: resource.remember_expires_at,
         )
       end
 
-      def remember_key(resource, scope)
-        resource.rememberable_options.fetch(:key, "remember_#{scope}_token")
+      def remember_key(scope)
+        "remember_#{scope}_token"
       end
     end
   end

@@ -20,7 +20,6 @@ module Auth
         :confirmation_token,
         :confirmed_at,
         :confirmation_sent_at,
-        :remember_token,
         :unconfirmed_email,
         :failed_attempts,
         :unlock_token,
@@ -53,26 +52,8 @@ module Auth
         self.class.warden_scope
       end
 
-      # Check if the current object is valid for authentication. This method and
-      # find_for_authentication are the methods used in a Warden::Strategy to check
-      # if a model should be signed in or not.
-      #
-      # However, you should not overwrite this method, you should overwrite active_for_authentication?
-      # and inactive_message instead.
       def valid_for_authentication?
         block_given? ? yield : true
-      end
-
-      def unauthenticated_message
-        :invalid
-      end
-
-      def active_for_authentication?
-        true
-      end
-
-      def inactive_message
-        :inactive
       end
 
       def authenticatable_salt

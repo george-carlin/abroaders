@@ -19,8 +19,6 @@ module Auth
       extend ActiveSupport::Concern
 
       included do
-        after_update :send_password_change_notification, if: :send_password_change_notification?
-
         attr_reader :password, :current_password
         attr_accessor :password_confirmation
       end
@@ -116,11 +114,6 @@ module Auth
         encrypted_password[0, 29] if encrypted_password
       end
 
-      # DEVISETODO this shouldn't be a method on the model
-      def send_password_change_notification
-        send_devise_notification(:password_change)
-      end
-
       protected
 
       # Hashes the password using bcrypt. Custom hash functions should override
@@ -132,15 +125,7 @@ module Auth
         Auth::Encryptor.digest(self.class, password)
       end
 
-      def send_password_change_notification?
-        self.class.send_password_change_notification && encrypted_password_changed?
-      end
-
       module ClassMethods
-        def send_password_change_notification
-          false
-        end
-
         def stretches
           Rails.env.test? ? 1 : 10
         end

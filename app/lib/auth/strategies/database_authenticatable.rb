@@ -17,7 +17,6 @@ module Auth
           success!(resource)
         end
 
-        model.new.password = password if !hashed && Auth.paranoid
         raise(:not_found_in_database) unless resource
       end
     end
