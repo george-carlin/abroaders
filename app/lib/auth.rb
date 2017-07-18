@@ -78,9 +78,9 @@ module Auth
   mattr_accessor :default_scope
   @@default_scope = nil
 
-  # Which formats should be treated as navigational.
-  mattr_accessor :navigational_formats
-  @@navigational_formats = ["*/*", :html]
+  def self.navigational_format?(format)
+    ["*/*", :html].include?(format)
+  end
 
   # The router Devise should use to generate routes. Defaults
   # to :main_app. Should be overridden by engines in order

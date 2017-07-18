@@ -23,7 +23,7 @@ module Auth
       @respond.call(env)
     end
 
-    def self.default_url_options(*_args)
+    def self.default_url_options(*)
       ApplicationController.default_url_options
     end
 
@@ -32,42 +32,25 @@ module Auth
     end
 
     def recall
-      config = Rails.application.config
-
-      header_info = if config.try(:relative_url_root)
-                      base_path = Pathname.new(config.relative_url_root)
-                      full_path = Pathname.new(attempted_path)
-
-                      { "SCRIPT_NAME" => config.relative_url_root,
-                        "PATH_INFO" => '/' + full_path.relative_path_from(base_path).to_s, }
-                    else
-                      { "PATH_INFO" => attempted_path }
-                    end
-
-      header_info.each do |var, value|
-        if request.respond_to?(:set_header)
-          request.set_header(var, value)
-        else
-          env[var] = value
-        end
+      key = 'PATH_INFO'
+      if request.respond_to?(:set_header)
+        request.set_header(key, attempted_path)
+      else
+        env[key] = attempted_path
       end
 
       flash.now[:alert] = i18n_message(:invalid) if is_flashing_format?
-      # self.response = recall_app(warden_options[:recall]).call(env)
-      self.response = recall_app(warden_options[:recall]).call(request.env)
+
+      # e.g. they may have passed 'sessions_controller#new' as the recall action
+      controller, action = warden_options[:recall].split("#")
+      controller_class = "#{controller.camelize}Controller".constantize
+      self.response = controller_class.action(action).call(request.env)
     end
 
     def redirect
       store_location!
-      if is_flashing_format?
-        if flash[:timedout] && flash[:alert]
-          flash.keep(:timedout)
-          flash.keep(:alert)
-        else
-          flash[:alert] = i18n_message
-        end
-      end
-      redirect_to redirect_url
+      flash[:alert] = i18n_message if is_flashing_format?
+      redirect_to scope_url
     end
 
     protected
@@ -95,61 +78,14 @@ module Auth
       end
     end
 
-    def redirect_url
-      if warden_message == :timeout
-        flash[:timedout] = true if is_flashing_format?
-
-        path = if request.get?
-                 attempted_path
-               else
-                 request.referrer
-               end
-
-        path || scope_url
-      else
-        scope_url
-      end
-    end
-
-    def route(scope)
-      :"new_#{scope}_session_url"
-    end
-
     def scope_url
-      opts  = {}
-      route = route(scope)
+      opts = {}
       opts[:format] = request_format unless skip_format?
-
-      config = Rails.application.config
-
-      if config.respond_to?(:relative_url_root)
-        # Rails 4.2 goes into an infinite loop if opts[:script_name] is unset
-        rails_4_2 = (Rails::VERSION::MAJOR >= 4) && (Rails::VERSION::MINOR >= 2)
-        if config.relative_url_root.present? || rails_4_2
-          opts[:script_name] = config.relative_url_root
-        end
-      end
-
-      context = send(:main_app)
-
-      if context.respond_to?(route)
-        context.send(route, opts)
-      elsif respond_to?(:root_url)
-        root_url(opts)
-      else
-        "/"
-      end
+      main_app.send(:"new_#{scope}_session_url", opts)
     end
 
     def skip_format?
       %w(html */*).include? request_format.to_s
-    end
-
-    def recall_app(app)
-      controller, action = app.split("#")
-      controller_name  = ActiveSupport::Inflector.camelize(controller)
-      controller_klass = ActiveSupport::Inflector.constantize("#{controller_name}Controller")
-      controller_klass.action(action)
     end
 
     def warden
@@ -184,14 +120,10 @@ module Auth
       store_location_for(scope, attempted_path) if request.get?
     end
 
-    def is_navigational_format?
-      Auth.navigational_formats.include?(request_format)
-    end
-
     # Check if flash messages should be emitted. Default is to do it on
     # navigational formats
     def is_flashing_format?
-      is_navigational_format?
+      Auth.navigational_format?(request_format)
     end
 
     def request_format

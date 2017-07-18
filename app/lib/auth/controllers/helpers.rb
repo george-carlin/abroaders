@@ -82,39 +82,8 @@ module Auth
         request.env["devise.allow_params_authentication"] = true
       end
 
-      # The default url to be used after signing in. This is used by all Devise
-      # controllers and you can overwrite it in your ApplicationController to
-      # provide a custom hook for a custom resource.
-      #
-      # By default, it first tries to find a valid resource_return_to key in the
-      # session, then it fallbacks to resource_root_path, otherwise it uses the
-      # root path. For a user scope, you can define the default url in
-      # the following way:
-      #
-      #   get '/users' => 'users#index', as: :user_root # creates user_root_path
-      #
-      #   namespace :user do
-      #     root 'users#index' # creates user_root_path
-      #   end
-      #
-      # If the resource root path is not defined, root_path is used. However,
-      # if this default is not enough, you can customize it, for example:
-      #
-      #   def after_sign_in_path_for(resource)
-      #     stored_location_for(resource) ||
-      #       if resource.is_a?(User) && resource.can_publish?
-      #         publisher_url
-      #       else
-      #         super
-      #       end
-      #   end
-      #
-      def after_sign_in_path_for(resource_or_scope)
-        stored_location_for(resource_or_scope) || root_path
-      end
-
-      def after_sign_out_path
-        root_path
+      def after_sign_in_path_for(resource)
+        stored_location_for(resource.warden_scope) || root_path
       end
 
       # Overwrite Rails' handle unverified request to sign out all scopes,

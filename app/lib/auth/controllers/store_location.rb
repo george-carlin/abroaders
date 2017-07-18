@@ -8,13 +8,9 @@ module Auth
     module StoreLocation
       # Returns and delete (if it's navigational format) the url stored in the session for
       # the given scope. Useful for giving redirect backs after sign up:
-      #
-      # Example:
-      #
-      #   redirect_to stored_location_for(:user) || root_path
-      #
-      def stored_location_for(resource_or_scope)
-        session_key = stored_location_key_for(resource_or_scope)
+
+      def stored_location_for(scope)
+        session_key = stored_location_key_for(scope)
 
         if is_navigational_format?
           session.delete(session_key)
@@ -31,8 +27,8 @@ module Auth
       #   store_location_for(:user, dashboard_path)
       #   redirect_to user_omniauth_authorize_path(:facebook)
       #
-      def store_location_for(resource_or_scope, location)
-        session_key = stored_location_key_for(resource_or_scope)
+      def store_location_for(scope, location)
+        session_key = stored_location_key_for(scope)
         uri = parse_uri(location)
         if uri
           path = [uri.path.sub(/\A\/+/, '/'), uri.query].compact.join('?')
@@ -49,8 +45,7 @@ module Auth
         nil
       end
 
-      def stored_location_key_for(resource_or_scope)
-        scope = Auth::Mapping.find_scope!(resource_or_scope)
+      def stored_location_key_for(scope)
         "#{scope}_return_to"
       end
     end
