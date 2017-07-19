@@ -1,3 +1,4 @@
+require 'constants'
 require 'types'
 
 class Registration::EditForm < Reform::Form
@@ -8,7 +9,6 @@ class Registration::EditForm < Reform::Form
   property :password_confirmation, virtual: true
   property :current_password, virtual: true
 
-  EMAIL_REGEXP = Registration::SignUpForm::EMAIL_REGEXP.dup
   PASSWORD_LENGTH = Registration::SignUpForm::PASSWORD_LENGTH.dup
 
   validation do
