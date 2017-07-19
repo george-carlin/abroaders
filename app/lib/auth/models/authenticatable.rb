@@ -109,10 +109,6 @@ module Auth
           [:email]
         end
 
-        def params_authenticatable
-          true
-        end
-
         def serialize_into_session(record)
           [record.to_key, record.authenticatable_salt]
         end
@@ -120,11 +116,6 @@ module Auth
         def serialize_from_session(key, salt)
           record = find_by_id(key)
           record if record && record.authenticatable_salt == salt
-        end
-
-        # TODO this just returns `true`, can we remove it?
-        def params_authenticatable?(_strategy)
-          params_authenticatable
         end
 
         def find_for_authentication(tainted_conditions)

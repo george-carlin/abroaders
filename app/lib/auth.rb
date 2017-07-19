@@ -10,14 +10,6 @@ module Auth
   mattr_accessor :secret_key
   @@secret_key = nil
 
-  # Keys used when authenticating a user.
-  mattr_accessor :authentication_keys
-  @@authentication_keys = [:email]
-
-  # Request keys used when authenticating a user.
-  mattr_accessor :request_keys
-  @@request_keys = []
-
   # Keys that should be case-insensitive.
   mattr_accessor :case_insensitive_keys
   @@case_insensitive_keys = [:email]
@@ -26,37 +18,9 @@ module Auth
   mattr_accessor :strip_whitespace_keys
   @@strip_whitespace_keys = [:email]
 
-  # If params authenticatable is enabled by default.
-  mattr_accessor :params_authenticatable
-  @@params_authenticatable = true
-
-  # Email regex used to validate email formats. It asserts that there are no
-  # @ symbols or whitespaces in either the localpart or the domain, and that
-  # there is a single @ symbol separating the localpart and the domain.
-  # DEVISETODO extract to a dry-type or something similar
-  mattr_accessor :email_regexp
-  @@email_regexp = /\A[^@\s]+@[^@\s]+\z/
-
-  # Range validation for password length
-  # DEVISETODO extract to a dry-type or something similar
-  mattr_accessor :password_length
-  @@password_length = 6..128
-
-  # The time the user will be remembered without asking for credentials again.
-  mattr_accessor :remember_for
-  @@remember_for = 2.weeks
-
   # If true, all the remember me tokens are going to be invalidated when the user signs out.
   mattr_accessor :expire_all_remember_me_on_sign_out
   @@expire_all_remember_me_on_sign_out = true
-
-  # Defines which key will be used when recovering the password for an account
-  mattr_accessor :reset_password_keys
-  @@reset_password_keys = [:email]
-
-  # Time interval you can reset your password with a reset password key
-  mattr_accessor :reset_password_within
-  @@reset_password_within = 6.hours
 
   # The default scope which is used by warden.
   mattr_accessor :default_scope
@@ -72,19 +36,11 @@ module Auth
   mattr_accessor :router_name
   @@router_name = nil
 
-  # Set if we should clean up the CSRF Token on authentication
-  mattr_accessor :clean_up_csrf_token_on_authentication
-  @@clean_up_csrf_token_on_authentication = true
-
   # PRIVATE CONFIGURATION
 
   # Store scopes mappings.
   mattr_reader :mappings
   @@mappings = ActiveSupport::OrderedHash.new
-
-  # OmniAuth configurations.
-  mattr_reader :omniauth_configs
-  @@omniauth_configs = ActiveSupport::OrderedHash.new
 
   # Define a set of modules that are called when a mapping is added.
   mattr_reader :helpers
@@ -119,10 +75,6 @@ module Auth
   def self.ref(arg)
     ActiveSupport::Dependencies.reference(arg)
     Getter.new(arg)
-  end
-
-  def self.omniauth_providers
-    omniauth_configs.keys
   end
 
   # Small method that adds a mapping to Auth.
@@ -218,16 +170,6 @@ module Auth
   #  end
   def self.warden(&block)
     @@warden_config_blocks << block
-  end
-
-  # Specify an OmniAuth provider.
-  #
-  #   config.omniauth :github, APP_ID, APP_SECRET
-  #
-  def self.omniauth(provider, *args)
-    @@helpers << Auth::OmniAuth::UrlHelpers
-    config = Auth::OmniAuth::Config.new(provider, args)
-    @@omniauth_configs[config.strategy_name.to_sym] = config
   end
 
   # Include helpers in the given scope to AC and AV.

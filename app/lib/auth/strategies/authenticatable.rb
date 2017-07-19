@@ -53,13 +53,8 @@ module Auth
       #   * If all authentication keys are present;
       #
       def valid_for_params_auth?
-        params_authenticatable? && valid_params_request? &&
+        valid_params_request? &&
           valid_params? && with_authentication_hash(:params_auth, params_auth_hash)
-      end
-
-      # Check if the model accepts this strategy as params authenticatable.
-      def params_authenticatable?
-        model.params_authenticatable?(authenticatable_name)
       end
 
       # Extract the appropriate subhash for authentication from params.
@@ -114,9 +109,8 @@ module Auth
       end
 
       def request_values
-        keys = request_keys.respond_to?(:keys) ? request_keys.keys : request_keys
-        values = keys.map { |k| self.request.send(k) }
-        Hash[keys.zip(values)]
+        values = request_keys.map { |k| self.request.send(k) }
+        Hash[request_keys.zip(values)]
       end
 
       def parse_authentication_key_values(hash, keys)
