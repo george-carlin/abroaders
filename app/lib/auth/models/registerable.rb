@@ -5,10 +5,6 @@ module Auth
     module Registerable
       extend ActiveSupport::Concern
 
-      def self.required_fields(_klass)
-        []
-      end
-
       module ClassMethods
         # A convenience method that receives both parameters and session to
         # initialize a user. This can be used by OAuth, for example, to send

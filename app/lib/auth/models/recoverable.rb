@@ -21,10 +21,6 @@ module Auth
     module Recoverable
       extend ActiveSupport::Concern
 
-      def self.required_fields(_klass)
-        [:reset_password_sent_at, :reset_password_token]
-      end
-
       included do
         before_update do
           if (respond_to?(:email_changed?) && email_changed?) || encrypted_password_changed?

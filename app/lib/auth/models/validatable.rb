@@ -13,10 +13,6 @@ module Auth
     #   * +password_length+: a range expressing password length. Defaults to 8..72.
     #
     module Validatable
-      def self.required_fields(_klass)
-        []
-      end
-
       def self.included(base)
         base.extend ClassMethods
         base.class_eval do

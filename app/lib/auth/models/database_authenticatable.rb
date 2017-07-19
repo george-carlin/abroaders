@@ -23,10 +23,6 @@ module Auth
         attr_accessor :password_confirmation
       end
 
-      def self.required_fields(klass)
-        [:encrypted_password] + klass.authentication_keys
-      end
-
       # Generates a hashed password based on the given value.
       # For legacy reasons, we use `encrypted_password` to store
       # the hashed password.

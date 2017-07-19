@@ -37,10 +37,6 @@ module Auth
 
       attr_accessor :remember_me
 
-      def self.required_fields(_klass)
-        [:remember_created_at]
-      end
-
       def remember_me!
         self.remember_created_at ||= Time.now.utc
         save(validate: false) if self.changed?

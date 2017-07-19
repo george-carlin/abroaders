@@ -34,10 +34,6 @@ module Auth
         before_validation :strip_whitespace
       end
 
-      def self.required_fields(_klass)
-        []
-      end
-
       # DEVISETODO My addition on top of devise. Devise finds the resource
       # name with code like:
       #
