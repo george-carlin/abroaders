@@ -1,4 +1,4 @@
-# require 'devise/hooks/trackable' DEVISETODO
+require 'auth/hooks/trackable'
 
 module Auth
   module Models
