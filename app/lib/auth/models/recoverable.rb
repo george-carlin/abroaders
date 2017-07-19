@@ -103,7 +103,7 @@ module Auth
       end
 
       def send_reset_password_instructions_notification(token)
-        send_devise_notification(:reset_password_instructions, token, {})
+        send_auth_notification(:reset_password_instructions, token, {})
       end
 
       module ClassMethods
