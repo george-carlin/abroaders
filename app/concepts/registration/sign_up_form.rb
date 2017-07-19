@@ -1,3 +1,5 @@
+require 'constants'
+
 module Registration
   class SignUpForm < Reform::Form
     feature Coercion
@@ -14,7 +16,6 @@ module Registration
 
     unnest :first_name, from: :owner
 
-    EMAIL_REGEXP    = /\A[^@\s]+@[^@\s]+\z/
     PASSWORD_LENGTH = 8..72
 
     def clean_up_passwords

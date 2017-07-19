@@ -10,7 +10,7 @@ RSpec.describe 'admin/people#show card & offer filters', :js, :manual_clean do
     @chase = Bank.find_by_name!('Chase')
     @usb = Bank.find_by_name!('US Bank')
 
-    @currencies = Currency::TYPES.map { |t| create_currency(type: t) }
+    @currencies = Currency::Type.values.map { |t| create_currency(type: t) }
 
     # ensure we have at least one of each sub-type of card product
     @products = [true, false].flat_map do |business|
