@@ -4,7 +4,6 @@ class Account < ApplicationRecord
   include Auth::Models::Rememberable
   include Auth::Models::Recoverable
   include Auth::Models::Registerable
-  include Auth::Models::Validatable
   include Auth::Models::Trackable
 
   def couples?

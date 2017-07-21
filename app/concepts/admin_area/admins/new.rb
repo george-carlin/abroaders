@@ -2,6 +2,8 @@ module AdminArea::Admins
   class New < Trailblazer::Operation
     extend Contract::DSL
 
+    PASSWORD_LENGTH = Registration::SignUpForm::PASSWORD_LENGTH.dup
+
     contract do
       property :email
       property :password
@@ -9,10 +11,10 @@ module AdminArea::Admins
       validation do
         validates :email,
                   presence: true,
-                  format: { with: Admin.email_regexp, allow_blank: true }
+                  format: { with: EMAIL_REGEXP, allow_blank: true }
         validates :password,
                   presence: true,
-                  length: { in: Admin.password_length, allow_blank: true }
+                  length: { in: PASSWORD_LENGTH, allow_blank: true }
       end
     end
 
