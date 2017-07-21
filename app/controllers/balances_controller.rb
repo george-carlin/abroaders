@@ -23,7 +23,13 @@ class BalancesController < AuthenticatedUserController
   # GET /people/:person_id/balances/new
   def new
     run Balance::New
-    render cell(Balance::Cell::New, @form, currencies: Currency.alphabetical, current_account: current_account)
+    render cell(
+      Balance::Cell::New,
+      @model,
+      currencies: Currency.alphabetical,
+      current_account: current_account,
+      form: @form,
+    )
   end
 
   # POST /people/:person_id/balances
@@ -32,13 +38,24 @@ class BalancesController < AuthenticatedUserController
       flash[:success] = 'Created balance!'
       return redirect_to balances_path
     end
-    render cell(Balance::Cell::New, @form, currencies: Currency.alphabetical, current_account: current_account)
+    render cell(
+      Balance::Cell::New,
+      @model,
+      currencies: Currency.alphabetical,
+      current_account: current_account,
+      form: @form,
+    )
   end
 
   # GET /balances/:id
   def edit
     run Balance::Edit
-    render cell(Balance::Cell::Edit, @form, currencies: Currency.alphabetical)
+    render cell(
+      Balance::Cell::Edit,
+      @model,
+      currencies: Currency.alphabetical,
+      form: @form,
+    )
   end
 
   # PUT/PATCH /balances/:id
@@ -47,7 +64,12 @@ class BalancesController < AuthenticatedUserController
       flash[:success] = 'Updated balance!'
       return redirect_to balances_path
     end
-    render cell(Balance::Cell::Edit, @form, currencies: Currency.alphabetical)
+    render cell(
+      Balance::Cell::Edit,
+      @model,
+      currencies: Currency.alphabetical,
+      form: @form,
+    )
   end
 
   # DELETE /balances/:id

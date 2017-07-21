@@ -1,10 +1,15 @@
 module Integrations::AwardWallet
   module Account
     module Cell
-      # @!method self.call(form, options = {})
-      #   @param form [Reform::Form]
+      # @!method self.call(model, options = {})
+      #   @option options [Reform::Form] form
       class Edit < Abroaders::Cell::Base
         include Escaped
+
+        property :display_name
+        alias currency_name display_name
+
+        option :form
 
         def title
           'Edit Award Wallet Account'
@@ -12,16 +17,12 @@ module Integrations::AwardWallet
 
         private
 
-        def currency_name
-          escape!(model.model.display_name)
-        end
-
         def errors
-          cell(Abroaders::Cell::ValidationErrorsAlert, model)
+          cell(Abroaders::Cell::ValidationErrorsAlert, form)
         end
 
         def form_tag(&block)
-          form_for [:integrations, model], &block
+          form_for [:integrations, form], &block
         end
       end
     end

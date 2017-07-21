@@ -3,18 +3,16 @@ module AdminArea
     include Auth::Controllers::SignInOut
 
     def edit
-      render cell(Admin::Cell::Edit, current_admin)
+      run Admin::Edit
+      render cell(Admin::Cell::Edit, @model, form: @form)
     end
 
     def update
-      if current_admin.update_with_password(update_params)
+      run Admin::Update do
         flash[:notice] = I18n.t('devise.registrations.updated')
-        sign_in :admin, current_admin, bypass: true
-        redirect_to edit_admin_registration_path
-      else
-        current_admin.clean_up_passwords
-        render cell(Admin::Cell::Edit, current_admin)
+        sign_in :admin, @model, bypass: true
       end
+      render cell(Admin::Cell::Edit, @model, form: @form)
     end
 
     private
