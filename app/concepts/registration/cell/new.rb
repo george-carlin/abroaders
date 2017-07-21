@@ -1,8 +1,10 @@
 module Registration
   module Cell
-    # @!method self.call(form, options = {})
-    #   @param form [Reform::Form]
+    # @!method self.call(model, options = {})
+    #   @option options [Reform::Form] form
     class New < Abroaders::Cell::Base
+      option :form
+
       def title
         'Sign Up'
       end
@@ -10,11 +12,11 @@ module Registration
       private
 
       def errors
-        cell(Abroaders::Cell::ValidationErrorsAlert, model)
+        cell(Abroaders::Cell::ValidationErrorsAlert, form)
       end
 
       def form_tag(&block)
-        form_for model, url: account_registration_path, html: { role: 'form' }, &block
+        form_for form, url: account_registration_path, html: { role: 'form' }, &block
       end
 
       def link_to_sign_up_with_facebook

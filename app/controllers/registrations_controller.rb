@@ -7,7 +7,7 @@ class RegistrationsController < ApplicationController
 
   def new
     run Registration::New
-    render cell(Registration::Cell::New, @form)
+    render cell(Registration::Cell::New, @model, form: @form)
   end
 
   def create
@@ -18,7 +18,7 @@ class RegistrationsController < ApplicationController
     end
 
     @form.clean_up_passwords
-    render cell(Registration::Cell::New, @form)
+    render cell(Registration::Cell::New, @model, form: @form)
   end
 
   protected

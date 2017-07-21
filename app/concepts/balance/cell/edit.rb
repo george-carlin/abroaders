@@ -1,12 +1,15 @@
 class Balance < Balance.superclass
   module Cell
-    # @!method self.call(form, options = {})
-    #   @param form [Reform::Form]
-    #   @option currencies [Collection<Currency>]
+    # @!method self.call(model, options = {})
+    #   @option options [Reform::Form] form
+    #   @option options [Collection<Currency>] currencies
     class Edit < Abroaders::Cell::Base
       include Escaped
 
+      property :person
+
       option :currencies
+      option :form
 
       def show
         render 'new'
@@ -18,18 +21,12 @@ class Balance < Balance.superclass
 
       private
 
-      delegate :person, to: :balance
-
-      def balance
-        model.model
-      end
-
       def errors
-        cell(Abroaders::Cell::ValidationErrorsAlert, model)
+        cell(Abroaders::Cell::ValidationErrorsAlert, form)
       end
 
       def form_tag(&block)
-        form_for [model], &block
+        form_for [form], &block
       end
     end
   end
