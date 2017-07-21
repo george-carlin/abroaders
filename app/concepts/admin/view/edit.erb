@@ -6,7 +6,7 @@
       </div>
       <%= errors %>
       <div class="panel-body">
-        <%= form_for model, url: admin_registration_path, html: { method: :put } do |f| %>
+        <%= form_tag do |f| %>
           <div class="form-group">
             <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
             <%= f.password_field :password, :autocomplete => "off" %>
