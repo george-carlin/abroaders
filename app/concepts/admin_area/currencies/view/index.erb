@@ -14,6 +14,7 @@
               <th>Name</th>
               <th>Type</th>
               <th>Alliance</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -22,6 +23,7 @@
                 <td><%= escape!(currency.name) %></td>
                 <td><%= escape!(currency.type.capitalize) %></td>
                 <td><%= escape!(currency.alliance_name) %></td>
+                <td><%= link_to 'Edit', edit_admin_currency_path(currency) %></td>
               </tr>
             <% end %>
           </tbody>

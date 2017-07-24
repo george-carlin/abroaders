@@ -1,12 +1,11 @@
 module AdminArea::Currencies
   # @!method self.call(params, options = {})
-  class New < Trailblazer::Operation
+  class Edit < Trailblazer::Operation
     extend Contract::DSL
 
     contract Form
 
-    step Model(Currency, :new)
-    step :random_award_wallet_id
+    step Model(Currency, :find_by)
     step Contract::Build()
 
     private

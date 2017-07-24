@@ -39,5 +39,33 @@ RSpec.describe 'admin currency pages' do
     end
   end
 
-  # TODO admins can edit a currency
+  describe 'edit page' do
+    let(:currency) { create_currency }
+    before { visit edit_admin_currency_path(currency) }
+
+    example 'success' do
+      fill_in :currency_name, with: '   New name   ' # strip whitespace
+      select 'bank', from: :currency_type
+      select 'SkyTeam', from: :currency_alliance_name
+
+      click_button 'Save'
+      currency.reload
+
+      expect(currency.name).to eq 'New name'
+      expect(currency.type).to eq 'bank'
+      expect(currency.alliance_name).to eq 'SkyTeam'
+
+      expect(current_path).to eq admin_currencies_path
+    end
+
+    example 'failure' do
+      fill_in :currency_name, with: ''
+      expect do
+        click_button 'Save'
+        currency.reload
+      end.not_to change { currency.name }
+
+      expect(page).to have_field :currency_name
+    end
+  end
 end

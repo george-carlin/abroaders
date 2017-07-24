@@ -2,19 +2,11 @@ module AdminArea::Currencies
   module Cell
     # @!method self.call(currency, options = {})
     #   @option options [Reform::Form] form
-    class New < Abroaders::Cell::Base
+    class Edit < New
       option :form
 
       def title
-        'New Currency'
-      end
-
-      subclasses_use_parent_view!
-
-      private
-
-      def form_tag(&block)
-        form_for [:admin, form], &block
+        'Edit Currency'
       end
     end
   end

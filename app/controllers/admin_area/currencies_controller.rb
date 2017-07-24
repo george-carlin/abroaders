@@ -18,5 +18,19 @@ module AdminArea
       end
       render cell(Currencies::Cell::New, @model, form: @form)
     end
+
+    def edit
+      run Currencies::Edit
+      render cell(Currencies::Cell::Edit, @model, form: @form)
+    end
+
+    def update
+      run Currencies::Update do
+        flash[:success] = 'Created new currency!'
+        redirect_to admin_currencies_path
+        return
+      end
+      render cell(Currencies::Cell::Edit, @model, form: @form)
+    end
   end
 end
