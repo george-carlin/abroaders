@@ -29,6 +29,12 @@ RSpec.describe 'admin - show offer page' do
     expect(page).to have_content offer.notes
   end
 
+  example "when offer's card product has no currency" do # bug fix
+    card_product.update!(currency: nil)
+    visit route
+    expect(page).to have_content product.name
+  end
+
   example 'verifying', :js do
     visit route
     expect(page).to have_content 'Last reviewed: never'

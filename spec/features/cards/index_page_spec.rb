@@ -101,6 +101,15 @@ RSpec.describe 'as a user viewing my cards' do
     expect(page).to have_selector H, text: "#{companion.first_name}'s Recommendations"
   end
 
+  example 'when recommended a product with no currency' do
+    product = create(:card_product, currency: nil)
+    offer = create_offer(card_product: product)
+    create_card_recommendation(offer: offer, person: owner)
+
+    visit_page # bug fix: previously it was crashing
+    expect(page).to have_content product.name
+  end
+
   context 'as admin logged in as user' do
     let(:skip_login) { true }
 

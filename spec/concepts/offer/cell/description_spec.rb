@@ -7,11 +7,9 @@ RSpec.describe Offer::Cell::Description do
 
     let(:offer) { Offer.new(card_product: product, points_awarded: 7_500) }
 
-    before do
-      # this is necessary because ActiveRecord isn't smart enough for
-      # offer.currency to work like you'd expect unless the records are saved.
-      allow(offer).to receive(:currency).and_return(currency)
-    end
+    # this is necessary because ActiveRecord isn't smart enough for
+    # offer.currency to work like you'd expect unless the records are saved.
+    before { allow(offer).to receive(:currency).and_return(currency) }
 
     let(:rendered) { raw_cell(offer) }
 
@@ -39,6 +37,19 @@ RSpec.describe Offer::Cell::Description do
       offer.condition = 'no_bonus'
       offer.points_awarded = nil
       expect(rendered).to eq ''
+    end
+
+    context 'product has no currecy' do
+      let(:currency) { nil }
+
+      # technically if the product has no currency then the offer must be 'no
+      # bonus' (otherwise it doesn't make sense to have an offer at all), but
+      # for now we're not enforcing this... so just make sure that things don't
+      # come crashing down too heavily.
+      example '' do
+        offer.condition = 'on_first_purchase'
+        expect(rendered).to eq ''
+      end
     end
   end
 end
