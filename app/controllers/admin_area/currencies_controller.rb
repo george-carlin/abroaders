@@ -26,7 +26,7 @@ module AdminArea
 
     def update
       run Currencies::Update do
-        flash[:success] = 'Created new currency!'
+        flash[:success] = 'Updated currency'
         redirect_to admin_currencies_path
         return
       end
