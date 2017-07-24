@@ -182,6 +182,7 @@ Rails.application.routes.draw do
     end
 
     resources :card_accounts, only: [:edit, :update]
+    resources :currencies
 
     # show and edit redirect to the nested action:
     resources :offers, only: [:show, :edit, :index, :update] do

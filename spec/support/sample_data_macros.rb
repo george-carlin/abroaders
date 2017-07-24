@@ -128,15 +128,16 @@ module SampleDataMacros
     def currency(overrides = {})
       n = increment_sequence(:currency)
 
-      attrs = {
-        name: "Currency #{n}",
-        award_wallet_id: "currency #{n}",
-        alliance_name: %w[OneWorld StarAlliance SkyTeam Independent][n % 4],
-        shown_on_survey: true,
-        type: 'airline',
-      }.merge(overrides)
-
-      Currency.create!(attrs)
+      run!(
+        AdminArea::Currencies::Create,
+        currency: {
+          name: "Currency #{n}",
+          award_wallet_id: "currency #{n}",
+          alliance_name: %w[OneWorld StarAlliance SkyTeam Independent][n % 4],
+          shown_on_survey: true,
+          type: 'airline',
+        }.merge(overrides),
+      )['model']
     end
 
     # @option overrides [CardProduct] card_product_id if not provided,

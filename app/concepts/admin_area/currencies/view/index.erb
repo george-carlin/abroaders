@@ -1,0 +1,34 @@
+<div class="hpanel">
+  <div class="panel-heading hbuilt">
+    <h1><%= title %></h1>
+  </div>
+
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-xs-12">
+        <%= link_to 'Add new currency', new_admin_currency_path %>
+
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Alliance</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% model.each do |currency| %>
+              <tr>
+                <td><%= escape!(currency.name) %></td>
+                <td><%= escape!(currency.type.capitalize) %></td>
+                <td><%= escape!(currency.alliance_name) %></td>
+                <td><%= link_to 'Edit', edit_admin_currency_path(currency) %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
