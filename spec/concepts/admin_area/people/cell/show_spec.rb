@@ -187,4 +187,27 @@ RSpec.describe AdminArea::People::Cell::Show do
     expect(rendered).to have "#{wrapper} .card_recommendation_status", 'Declined'
     expect(rendered).to have_selector 'a[data-toggle="tooltip"][title=because]'
   end
+
+  example 'products table' do
+    def offer_selector(offer)
+      "#admin_recommend_offer_#{offer.id}"
+    end
+
+    def product_selector(product)
+      "#admin_recommend_card_product_#{product.id}"
+    end
+
+    currency = create_currency
+    product = create(:card_product, currency: currency)
+    product_with_no_currency = create(:card_product, currency: nil)
+
+    o_0 = create_offer(card_product: product)
+    o_1 = create_offer(card_product: product_with_no_currency)
+
+    rendered = cell(person, card_products: CardProduct.all).()
+    expect(rendered).to have_selector(product_selector(product))
+    expect(rendered).to have_selector(product_selector(product_with_no_currency))
+    expect(rendered).to have_selector(offer_selector(o_0))
+    expect(rendered).to have_selector(offer_selector(o_1))
+  end
 end

@@ -39,7 +39,7 @@ class CardProduct < ApplicationRecord
   validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
   validates_attachment_presence :image
 
-  delegate :name, to: :currency, prefix: true
+  delegate :name, to: :currency, prefix: true, allow_nil: true
   delegate :name, to: :bank, prefix: true
 
   def annual_fee
