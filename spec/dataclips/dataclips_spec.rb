@@ -103,25 +103,32 @@ RSpec.describe 'dataclips' do
         "cards"."nudged_at",
         "cards"."called_at",
         "cards"."offer_id",
-        "offers"."cost",
-        "offers"."days",
-        "offers"."points_awarded",
-        "offers"."spend",
+        "offers"."cost" AS "offer_cost",
+        "offers"."days" AS "offer_days",
+        "offers"."points_awarded" AS "offer_points_awarded",
+        "offers"."spend" AS "offer_spend",
         "cards"."card_product_id",
         "card_products"."name" AS "product_name",
         "card_products"."annual_fee_cents" / 100.0 AS "annual_fee",
         CASE "card_products"."personal" WHEN true THEN 'personal'
-      WHEN false THEN 'business'
-      END AS "bp",
+        WHEN false THEN 'business'
+        END AS "bp",
         "card_products"."bank_id",
         "currencies"."id" AS "currency_id",
-        "currencies"."name" AS "currency_name"
+        "currencies"."name" AS "currency_name",
+        "accounts"."id" AS "account_id",
+        "accounts"."email" AS "account_email",
+        "offers"."partner" AS "offer_partner",
+        "offers"."condition" AS "offer_condition",
+        "people"."first_name" AS "person_first_name",
+        "people"."owner" AS "person_is_owner"
       FROM "cards"
       INNER JOIN "card_products" ON "cards"."card_product_id" = "card_products"."id"
       INNER JOIN "offers" ON "cards"."offer_id" = "offers"."id"
       INNER JOIN "currencies" ON "card_products"."currency_id" = "currencies"."id"
       INNER JOIN "people" ON "cards"."person_id" = "people"."id"
       INNER JOIN "accounts" ON "people"."account_id" = "accounts"."id"
+      WHERE "accounts"."test" = false
       ORDER BY "cards"."id" ASC;
     ]
     expect { ApplicationRecord.connection.execute(sql) }.not_to raise_error
@@ -231,7 +238,9 @@ RSpec.describe 'dataclips' do
         GREATEST("people"."updated_at", "spending_infos"."updated_at") AS "updated_at",
         "people"."account_id"
       FROM "people"
+      JOIN "accounts" ON "people"."account_id" = "accounts"."id"
       LEFT OUTER JOIN "spending_infos" ON "spending_infos"."person_id" = "people"."id"
+      WHERE "accounts"."test" = FALSE
       ORDER BY "people"."id" ASC
     ]
     expect { ApplicationRecord.connection.execute(sql) }.not_to raise_error
