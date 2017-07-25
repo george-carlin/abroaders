@@ -51,6 +51,7 @@ class Offer < ApplicationRecord
   has_many :unresolved_recommendations, -> { recommended.unresolved }, class_name: 'Card'
   # Let's move away from 'unresolved'; 'active' is better terminology.
   alias active_recommendations unresolved_recommendations
+  alias active_recs active_recommendations
 
   has_one :currency, through: :card_product
 
@@ -58,6 +59,10 @@ class Offer < ApplicationRecord
   delegate :name, to: :bank, prefix: true
   delegate :name, to: :card_product, prefix: true
   delegate :name, to: :currency, prefix: true, allow_nil: true
+
+  def alternatives
+    AdminArea::Offers::AlternativesFor.(self)
+  end
 
   # Callbacks
 

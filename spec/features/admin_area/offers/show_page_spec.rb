@@ -138,4 +138,31 @@ RSpec.describe 'admin - show offer page' do
       expect(current_path).to eq admin_offer_path(offer)
     end
   end
+
+  example 'replacing offer of active recs' do
+    recs = Array.new(2) { create_rec(offer: offer) }
+
+    not_active = create_rec(offer: offer)
+    not_active.update!(applied_on: Date.today)
+    _rec_with_different_offer = create_rec(offer: create_offer)
+
+    alt_1 = create_offer(attrs)
+    alt_2 = create_offer(attrs)
+
+    visit route
+
+    expect(offer.active_recommendations.count).to eq 2
+
+    expect(page).to have_field "replacement_offer_id_#{alt_1.id}"
+    expect(page).to have_field "replacement_offer_id_#{alt_2.id}"
+
+    choose "replacement_offer_id_#{alt_2.id}"
+
+    click_button 'Replace offer'
+
+    expect(offer.active_recommendations.count).to eq 0
+    expect(current_path).to eq admin_offer_path(offer)
+
+    expect(recs.all? { |r| r.reload.offer == alt_2 }).to be true
+  end
 end
