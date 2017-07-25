@@ -10,10 +10,15 @@ module AdminArea::Offers
       private
 
       def table_rows
-        cell(Row, collection: model)
+        cell(Row, collection: model).join { |cell, i| cell.show(i) }
       end
 
       class Row < Abroaders::Cell::Base
+        def show(index)
+          @index = index
+          super()
+        end
+
         property :id
         property :cost
         property :last_reviewed_at
@@ -47,6 +52,10 @@ module AdminArea::Offers
           cell(Partner::Cell::FullName, super)
         end
 
+        def replacement_radio_button
+          radio_button_tag :replacement_offer_id, id, @index == 0
+        end
+
         # 'unresolved' recs & 'active' recs = same thing
         def unresolved_recs_count
           # We should probably add a counter cache column for this:
@@ -77,7 +86,7 @@ module AdminArea::Offers
         private
 
         def alternatives
-          @alternatives ||= AlternativesFor.(model)
+          @alternatives ||= model.alternatives
         end
 
         def header

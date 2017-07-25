@@ -56,6 +56,12 @@ module AdminArea
       end
     end
 
+    def replace
+      run Offers::Replace
+      flash[:success] = 'Replace offer of active recs!'
+      redirect_to admin_offer_path(@model)
+    end
+
     def review
       offers = Offer.includes(:card_product).live.order('last_reviewed_at ASC NULLS FIRST')
       render cell(AdminArea::Offers::Cell::Review, offers)

@@ -190,7 +190,7 @@ Rails.application.routes.draw do
         get :review
       end
       member do
-        patch :kill, :verify, :unkill
+        patch :kill, :replace, :unkill, :verify
       end
     end
     resources :destinations, only: :index
