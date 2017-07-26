@@ -138,45 +138,19 @@ RSpec.describe 'dataclips' do
   example 'Accounts' do
     sql = %[
       SELECT
-        "cards"."id",
-        "cards"."person_id",
-        "cards"."recommended_at",
-        "cards"."seen_at",
-        "cards"."clicked_at",
-        "cards"."declined_at",
-        "cards"."applied_on",
-        "cards"."denied_at",
-        "cards"."opened_on",
-        "cards"."called_at",
-        "cards"."redenied_at",
-        "cards"."nudged_at",
-        "cards"."called_at",
-        "cards"."offer_id",
-        "offers"."cost" AS "offer_cost",
-        "offers"."days" AS "offer_days",
-        "offers"."points_awarded" AS "offer_points_awarded",
-        "offers"."spend" AS "offer_spend",
-        "cards"."card_product_id",
-        "card_products"."name" AS "product_name",
-        "card_products"."annual_fee_cents" / 100.0 AS "annual_fee",
-      CASE "card_products"."personal" WHEN true THEN 'personal'
-                                      WHEN false THEN 'business'
-                                      END AS "bp",
-        "card_products"."bank_id",
-        "currencies"."id" AS "currency_id",
-        "currencies"."name" AS "currency_name",
-        "accounts"."id" AS "account_id",
-        "accounts"."email" AS "account_email",
-        "offers"."partner" AS "offer_partner",
-        "offers"."condition" AS "offer_condition"
-      FROM "cards"
-      INNER JOIN "card_products" ON "cards"."card_product_id" = "card_products"."id"
-      INNER JOIN "offers" ON "cards"."offer_id" = "offers"."id"
-      INNER JOIN "currencies" ON "card_products"."currency_id" = "currencies"."id"
-      INNER JOIN "people" ON "cards"."person_id" = "people"."id"
-      INNER JOIN "accounts" ON "people"."account_id" = "accounts"."id"
+        "accounts"."id",
+        "accounts"."email",
+        "accounts"."monthly_spending_usd",
+        "accounts"."onboarding_state",
+        "accounts"."phone_number_us_normalized",
+        CASE WHEN "accounts"."onboarding_state"  = 'complete' THEN true
+                                                              ELSE false
+                                                              END AS "onboarded",
+        "accounts"."updated_at",
+        "accounts"."created_at"
+      FROM "accounts"
       WHERE "accounts"."test" = false
-      ORDER BY "cards"."id" ASC;
+      ORDER BY "accounts"."id" ASC
     ]
     expect { ApplicationRecord.connection.execute(sql) }.not_to raise_error
   end
