@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170711081416) do
+ActiveRecord::Schema.define(version: 20170725182710) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -154,15 +154,15 @@ ActiveRecord::Schema.define(version: 20170711081416) do
 
   create_table "cards", force: :cascade do |t|
     t.integer  "card_product_id"
-    t.integer  "person_id",         null: false
+    t.integer  "person_id",                 null: false
     t.integer  "offer_id"
     t.datetime "recommended_at"
     t.date     "applied_on"
     t.date     "opened_on"
     t.date     "closed_on"
     t.string   "decline_reason"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
     t.datetime "clicked_at"
     t.datetime "declined_at"
     t.datetime "denied_at"
@@ -172,6 +172,7 @@ ActiveRecord::Schema.define(version: 20170711081416) do
     t.datetime "seen_at"
     t.datetime "expired_at"
     t.integer  "recommended_by_id"
+    t.integer  "recommendation_request_id"
     t.index ["recommended_at"], name: "index_cards_on_recommended_at", using: :btree
     t.index ["seen_at"], name: "index_cards_on_seen_at", using: :btree
   end
@@ -341,6 +342,7 @@ ActiveRecord::Schema.define(version: 20170711081416) do
   add_foreign_key "cards", "card_products", on_delete: :restrict
   add_foreign_key "cards", "offers", on_delete: :cascade
   add_foreign_key "cards", "people", on_delete: :cascade
+  add_foreign_key "cards", "recommendation_requests", on_delete: :nullify
   add_foreign_key "destinations", "destinations", column: "parent_id", on_delete: :restrict
   add_foreign_key "flights", "destinations", column: "from_id", on_delete: :restrict
   add_foreign_key "flights", "destinations", column: "to_id", on_delete: :restrict

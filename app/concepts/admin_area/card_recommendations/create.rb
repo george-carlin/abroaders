@@ -19,7 +19,10 @@ module AdminArea
       step :setup_model!
       step Contract::Build()
       step Contract::Validate(key: :card)
-      step Contract::Persist()
+      step Wrap(Abroaders::Transaction) {
+        step Contract::Persist()
+        success :set_rec_request_id!
+      }
 
       private
 
@@ -41,6 +44,12 @@ module AdminArea
           recommended_at: Time.zone.now,
           recommended_by: current_admin,
         )
+      end
+
+      def set_rec_request_id!(model:, person:, **)
+        if (req = person.unresolved_recommendation_request)
+          model.update!(recommendation_request: req)
+        end
       end
     end
   end

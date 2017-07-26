@@ -432,7 +432,11 @@ module SampleDataMacros
       raise "invalid person type '#{person_type}'"
     end
 
-    run!(RecommendationRequest::Create, { person_type: person_type }, 'current_account' => account)
+    run!(
+      RecommendationRequest::Create,
+      { person_type: person_type },
+      'current_account' => account,
+    )['model']
   end
 
   alias create_rec_request create_recommendation_request
