@@ -8,6 +8,7 @@ class Registration::EditForm < Reform::Form
   property :password, virtual: true
   property :password_confirmation, virtual: true
   property :current_password, virtual: true
+  property :phone_number, type: Types::StrippedString.optional
 
   PASSWORD_LENGTH = Registration::SignUpForm::PASSWORD_LENGTH.dup
 
@@ -15,10 +16,9 @@ class Registration::EditForm < Reform::Form
     validates :email, presence: true, format: { with: EMAIL_REGEXP }
     validate(&Account::ValidateEmailUniqueness)
 
-    validates(
-      :password,
-      length: { within: PASSWORD_LENGTH, allow_blank: true },
-    )
+    validates :password, length: { within: PASSWORD_LENGTH, allow_blank: true }
+
+    validates :phone_number, length: { maximum: 20, allow_blank: true }
 
     # http://trailblazer.to/gems/reform/validation.html#confirm-validation
     validate :confirm_password

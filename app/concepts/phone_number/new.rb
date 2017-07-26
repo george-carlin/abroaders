@@ -11,7 +11,7 @@ module PhoneNumber
       property :phone_number, type: Types::StrippedString
 
       validation do
-        required(:phone_number).filled { str? && max_size?(15) }
+        required(:phone_number).filled { str? && max_size?(20) }
       end
     end
 

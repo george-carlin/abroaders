@@ -21,7 +21,7 @@ RSpec.describe 'phone number pages' do
       submit_form
       expect(account.reload.phone_number).to be nil
       expect(page).to have_error_message(
-        "Error: Phone number must be filled and size cannot be greater than 15. "\
+        "Error: Phone number must be filled and size cannot be greater than 20. "\
         "Please click the 'Skip' button if you do not wish to add a phone number",
       )
     end
