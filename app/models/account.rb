@@ -125,9 +125,13 @@ class Account < ApplicationRecord
 
   def normalize_phone_number!
     if phone_number.present?
-      self.phone_number_normalized = PhoneNumber::Normalize.(phone_number)
-    else
-      self.phone_number = nil # nilify blank strings
+      op = PhoneNumber::Normalize
+      self.phone_number_normalized = op.(phone_number)
+      self.phone_number_us_normalized = op::US.(phone_number)
+    else # nilify blank strings
+      self.phone_number = nil
+      self.phone_number_normalized = nil
+      self.phone_number_us_normalized = nil
     end
   end
 end

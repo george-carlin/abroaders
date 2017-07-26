@@ -10,32 +10,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170725182710) do
+ActiveRecord::Schema.define(version: 20170726192829) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "pg_stat_statements"
 
   create_table "accounts", force: :cascade do |t|
-    t.string   "email",                   default: "",              null: false
-    t.string   "encrypted_password",      default: "",              null: false
+    t.string   "email",                      default: "",              null: false
+    t.string   "encrypted_password",         default: "",              null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",           default: 0,               null: false
+    t.integer  "sign_in_count",              default: 0,               null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                                        null: false
-    t.datetime "updated_at",                                        null: false
+    t.datetime "created_at",                                           null: false
+    t.datetime "updated_at",                                           null: false
     t.integer  "monthly_spending_usd"
-    t.string   "onboarding_state",        default: "home_airports", null: false
+    t.string   "onboarding_state",           default: "home_airports", null: false
     t.string   "promo_code"
-    t.boolean  "test",                    default: false,           null: false
+    t.boolean  "test",                       default: false,           null: false
     t.string   "phone_number"
     t.string   "phone_number_normalized"
     t.string   "fb_token"
+    t.string   "phone_number_us_normalized"
     t.index ["email"], name: "index_accounts_on_email", unique: true, using: :btree
     t.index ["fb_token"], name: "index_accounts_on_fb_token", using: :btree
     t.index ["onboarding_state"], name: "index_accounts_on_onboarding_state", using: :btree
