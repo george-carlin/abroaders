@@ -101,14 +101,7 @@ class SpendingSurvey < ApplicationForm
   private
 
   def persist!
-    # some legacy data (users who hadn't completed the onboarding survey at the
-    # time we combined both spending survey pages into one) may already have
-    # spending info present. They'll just have to enter the information again
-    # (it's way too much effort to handle the edge cases otherwise and there's
-    # only a small number of existing users in this sitation), so here we
-    # delete the old spending info and create a new one:
     if require_owner_spending?
-      account.owner.spending_info&.destroy
       account.owner.create_spending_info!(
         business_spending_usd: (owner_business_spending_usd if owner_has_business?),
         credit_score:          owner_credit_score,
@@ -117,7 +110,6 @@ class SpendingSurvey < ApplicationForm
       )
     end
     if require_companion_spending?
-      account.companion.spending_info&.destroy
       account.companion.create_spending_info!(
         business_spending_usd: (companion_business_spending_usd if companion_has_business?),
         credit_score:          companion_credit_score,
