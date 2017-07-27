@@ -6,8 +6,6 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  after_action :warn_if_no_trb
-
   include I18nWithErrorRaising
 
   def dashboard
@@ -76,13 +74,6 @@ class ApplicationController < ActionController::Base
     options['current_account'] = current_account if current_account
     options['current_admin'] = current_admin if current_admin
     options
-  end
-
-  def warn_if_no_trb
-    # Enable this to help in the upgrade to Trailblazer
-    if ENV['WARN_IF_NOT_TRB_OP'] && !@_run_called
-      warn "#{self.class}##{params[:action]} needs upgrading to a TRB operation"
-    end
   end
 
   # Show detailed error output to logged-in admins. Note that this only works
