@@ -73,7 +73,9 @@ RSpec.describe 'dataclips' do
         "currencies"."name" AS "currency_name",
         "card_products"."annual_fee_cents" AS "product_annual_fee_cents",
         "card_products"."network" AS "product_network",
-        "card_products"."type" AS "product_type"
+        "card_products"."type" AS "product_type",
+        "people"."first_name" AS "person_first_name",
+        "people"."owner" AS "person_is_owner"
       FROM "cards"
       INNER JOIN "card_products" ON "cards"."card_product_id" = "card_products"."id"
       INNER JOIN "currencies" ON "card_products"."currency_id" = "currencies"."id"
