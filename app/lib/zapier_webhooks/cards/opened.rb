@@ -23,14 +23,23 @@ module ZapierWebhooks
         raise 'card must have offer' unless card.offer?
         raise 'card must be opened' unless card.opened?
 
+        p_type = card.person.type.capitalize
+
+        tag2 = [
+          card.card_product.id,
+          Offer::Cell::Description.(card.offer),
+          p_type,
+        ].join('-')
+
         Client.post(
           PATH,
           body: {
             data: {
               'email' => card.account.email,
               # This is a weird format, but it's how Erik's setup expects it:
-              'tag' => "#{card.offer.id}-#{card.person.type.capitalize}",
+              'tag' => "#{card.offer.id}-#{p_type}",
               'name' => card.person.first_name,
+              'tag2' => tag2,
             },
           },
         )
