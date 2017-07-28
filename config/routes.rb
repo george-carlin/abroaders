@@ -29,6 +29,15 @@ Rails.application.routes.draw do
 
   # --- EVERYBODY ---
 
+  resources :airports, only: [] do
+    collection { get :typeahead }
+  end
+
+  Destination::TYPES.each do |type|
+    # /airports, /cities, /countries, /regions
+    get type.pluralize, to: "destinations##{type}"
+  end
+
   controller :static_pages do
     get :privacy_policy
     get :terms_and_conditions
@@ -43,8 +52,6 @@ Rails.application.routes.draw do
     get  :type
     post :type, action: :submit_type
   end
-
-  resources :airports, only: [:index]
 
   # balances#new and balances#create are nested under 'people'
   resources :balances, only: [:index, :edit, :update, :destroy]
@@ -195,7 +202,7 @@ Rails.application.routes.draw do
     end
     resources :destinations, only: :index
     Destination::TYPES.each do |type|
-      # airports, cities, countries, etc
+      # /airports, /cities, /countries, /regions
       get type.pluralize, to: "destinations##{type}"
     end
     resources :people, only: :show do

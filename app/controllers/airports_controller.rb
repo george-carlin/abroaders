@@ -1,8 +1,8 @@
 class AirportsController < ApplicationController
-  # 'index' action is required for home airports survey and travel plan
+  # 'typeahead' action is required for home airports survey and travel plan
   # to load airport data for the typeahead
 
-  def index
+  def typeahead
     @airports = Airport.includes(:parent).order(code: :asc)
 
     respond_to do |format|
