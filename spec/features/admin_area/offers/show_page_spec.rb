@@ -35,20 +35,22 @@ RSpec.describe 'admin - show offer page' do
     expect(page).to have_content product.name
   end
 
-  example 'verifying', :js do
+  example 'verifying' do
     visit route
     expect(page).to have_content 'Last reviewed: never'
     click_link 'Verify offer'
     expect(page).to have_content "Last reviewed: #{now.strftime('%D')}"
     expect(offer.reload.last_reviewed_at).to be_within(5.seconds).of(now)
+    expect(current_path).to eq route
   end
 
-  example 'killing', :js do
+  example 'killing' do
     visit route
     expect(page).to have_no_content 'Killed at'
     click_link 'Kill offer'
     expect(page).to have_content "Killed: #{now.strftime('%D')}"
     expect(offer.reload.killed_at).to be_within(5.seconds).of(now)
+    expect(current_path).to eq route
   end
 
   describe 'alternative offers table' do
