@@ -90,6 +90,7 @@ module SampleDataMacros
       n = increment_sequence(:admin)
 
       attrs = {
+        name: "Admin #{n}",
         email: "admin-#{n}@example.com",
         password: 'abroaders123',
         password_confirmation: 'abroaders123',

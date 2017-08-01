@@ -5,8 +5,9 @@ module Seeder
     %w[Erik AJ George].each do |name|
       Admin.create!(
         email: "#{name.downcase}@abroaders.com",
-        password:              "abroaders123",
-        password_confirmation: "abroaders123",
+        name: name,
+        password: 'abroaders123',
+        password_confirmation: 'abroaders123',
       )
     end
     Rails.logger.info "created #{Admin.count} admins"

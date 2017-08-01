@@ -4,12 +4,14 @@ module AdminArea::Admins
 
     contract do
       property :email
+      property :name
       property :password
 
       validation do
         validates :email,
                   presence: true,
                   format: { with: Admin.email_regexp, allow_blank: true }
+        validates :name, presence: true
         validates :password,
                   presence: true,
                   length: { in: Admin.password_length, allow_blank: true }
