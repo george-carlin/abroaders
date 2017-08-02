@@ -1,12 +1,13 @@
 module AdminArea
   class OffersController < AdminController
     def index
-      offers = if params[:card_product_id]
-                 CardProduct.find(params[:card_product_id]).offers
-               else
-                 Offer.includes(:card_product)
-               end
-      render cell(Offers::Cell::Index, offers)
+      if params[:card_product_id]
+        card_product = CardProduct.find(params[:card_product_id])
+        offers = card_product.offers
+      else
+        offers = Offer.includes(:card_product)
+      end
+      render cell(Offers::Cell::Index, offers, card_product: card_product)
     end
 
     def show
@@ -47,24 +48,14 @@ module AdminArea
 
     def kill
       run Offers::Kill
-      respond_to do |f|
-        f.js
-        f.html do
-          flash[:success] = 'Killed offer'
-          redirect_to admin_offer_path(@model)
-        end
-      end
+      flash[:success] = 'Killed offer'
+      redirect_to request.referer
     end
 
     def replace
       run Offers::Replace
       flash[:success] = 'Replace offer of active recs!'
       redirect_to admin_offer_path(@model)
-    end
-
-    def review
-      offers = Offer.includes(:card_product).live.order('last_reviewed_at ASC NULLS FIRST')
-      render cell(AdminArea::Offers::Cell::Review, offers)
     end
 
     def unkill
@@ -76,13 +67,8 @@ module AdminArea
 
     def verify
       run Offers::Verify
-      respond_to do |f|
-        f.js
-        f.html do
-          flash[:success] = 'Verified offer'
-          redirect_to admin_offer_path(@model)
-        end
-      end
+      flash[:success] = 'Verified offer'
+      redirect_to request.referer
     end
   end
 end

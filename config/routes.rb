@@ -193,9 +193,6 @@ Rails.application.routes.draw do
 
     # show and edit redirect to the nested action:
     resources :offers, only: [:show, :edit, :index, :update] do
-      collection do
-        get :review
-      end
       member do
         patch :kill, :replace, :unkill, :verify
       end

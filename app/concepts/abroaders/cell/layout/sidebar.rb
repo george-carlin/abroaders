@@ -72,6 +72,9 @@ module Abroaders::Cell
         end
       end
 
+      # This isn't actually used anymore (see the git history for how it works
+      # and what it does), but I think it's very likely we'll use it again in
+      # the near future, so I'm not removing it for now.
       class NestedLinks < self
         option :controller_class, optional: true
         option :links
