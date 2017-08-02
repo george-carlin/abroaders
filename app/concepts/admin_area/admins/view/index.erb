@@ -8,6 +8,7 @@
       <thead>
         <tr>
           <th>ID</th>
+          <th>Name</th>
           <th>Email</th>
         </tr>
       </thead>
@@ -15,6 +16,7 @@
         <% model.each do |admin| %>
           <tr>
             <td><%= admin.id %></td>
+            <td><%= escape!(admin.name) %></td>
             <td><%= escape!(admin.email) %></td>
           </tr>
         <% end %>
