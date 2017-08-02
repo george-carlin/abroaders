@@ -27,7 +27,7 @@ module ZapierWebhooks
 
         tag2 = [
           card.card_product.id,
-          Offer::Cell::Description.(card.offer),
+          AdminArea::Offers::Cell::Identifier.(card.offer),
           p_type,
         ].join('-')
 
