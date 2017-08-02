@@ -216,6 +216,7 @@ Rails.application.routes.draw do
     end
     resources :card_recommendations
     resources :recommendation_notes, only: [:edit, :update]
+    resources :recommendation_requests
     resource :registration
     resources :travel_plans, only: [:edit, :update]
   end
