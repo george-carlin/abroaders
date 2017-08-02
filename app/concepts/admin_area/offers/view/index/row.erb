@@ -7,10 +7,12 @@
   <td class="offer_live"><%= live %></td>
   <td><%= last_reviewed_at %></td>
   <td class="offer_verification_ctrls">
-    <div class="btn-group">
-      <%= verify_btn %>
-      <%= kill_btn %>
-    </div>
+    <% unless dead? %>
+      <div class="btn-group">
+        <%= verify_btn %>
+        <%= kill_btn %>
+      </div>
+    <% end %>
   </td>
   <td>
     <%= link_to_show(text: 'View') %> |

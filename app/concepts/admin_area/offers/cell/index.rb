@@ -36,6 +36,7 @@ module AdminArea::Offers
         property :cost
         property :bank_name
         property :days
+        property :dead?
         property :last_reviewed_at
         property :link
         property :partner
