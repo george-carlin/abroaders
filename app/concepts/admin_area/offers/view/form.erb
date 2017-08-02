@@ -2,17 +2,13 @@
   <%= errors %>
 
   <div class="form-group">
-    <%= f.label :condition, class: "col-sm-2 control-label" %>
-    <div class="col-sm-10">
-      <%= f.select :condition, options_for_offer_condition_select(f.object) %>
-    </div>
+    <%= f.label :condition %>
+    <%= f.select :condition, options_for_offer_condition_select(f.object) %>
   </div>
 
   <div class="form-group">
-    <%= f.label :partner, class: "col-sm-2 control-label" %>
-    <div class="col-sm-10">
-      <%= f.select :partner, options_for_offer_partner_select(f.object) %>
-    </div>
+    <%= f.label :partner %>
+    <%= f.select :partner, options_for_offer_partner_select(f.object) %>
   </div>
 
   <div
@@ -20,10 +16,8 @@
     class="form-group"
     style="<%= "display:none" if !Offer::Condition.points_awarded?(f.object.condition) %>"
   >
-    <%= f.label :points_awarded, class: "col-sm-2 control-label" %>
-    <div class="col-sm-10">
-      <%= f.number_field :points_awarded, class: "form-control" %>
-    </div>
+    <%= f.label :points_awarded %>
+    <%= f.number_field :points_awarded %>
   </div>
 
   <div
@@ -31,17 +25,13 @@
     class="form-group"
     style="<%= "display:none" if !Offer::Condition.spend?(f.object.condition) %>"
   >
-    <%= f.label :spend, class: "col-sm-2 control-label" %>
-    <div class="col-sm-10">
-      <%= f.number_field :spend, class: "form-control" %>
-    </div>
+    <%= f.label :spend %>
+    <%= f.number_field :spend %>
   </div>
 
   <div id="offer_cost_form_group" class="form-group">
-    <%= f.label :cost, class: "col-sm-2 control-label" %>
-    <div class="col-sm-10">
-      <%= f.number_field :cost, class: "form-control" %>
-    </div>
+    <%= f.label :cost %>
+    <%= f.number_field :cost, class: "form-control" %>
   </div>
 
   <div
@@ -49,48 +39,32 @@
     class="form-group"
     style="<%= "display:none" if !Offer::Condition.days?(f.object.condition) %>"
   >
-    <%= f.label :days, class: "col-sm-2 control-label" %>
-    <div class="col-sm-10">
-      <%= f.number_field :days, class: "form-control" %>
+    <%= f.label :days %>
+    <%= f.number_field :days %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :link %>
+    <%= f.text_field(
+      :link,
+      placeholder: 'Make sure you include the "http://" or "https://"',
+    ) %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :value %>
+    <div class="input-group">
+      <div class="input-group-addon">$</div>
+      <%= f.number_field :value %>
     </div>
   </div>
 
   <div class="form-group">
-    <%= f.label :link, class: "col-sm-2 control-label" %>
-    <div class="col-sm-10">
-      <%= f.text_field :link, class: "form-control",
-        placeholder: 'Make sure you include the "http://" or "https://"' %>
-    </div>
+    <%= f.label :notes %>
+    <%= f.text_area :notes %>
   </div>
 
-  <div class="form-group">
-    <%= f.label :value, class: "col-sm-2 control-label" %>
-    <div class="col-sm-10">
-      <div class="input-group">
-        <div class="input-group-addon">$</div>
-        <%= f.number_field :value, class: 'form-control' %>
-      </div>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <%= f.label :notes, class: "col-sm-2 control-label" %>
-    <div class="col-sm-10">
-      <%= f.text_area :notes, class: "form-control" %>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-      <%= f.submit t("admin.offers.submit"), class: "btn btn-primary" %>
-    </div>
-  </div>
+  <%= f.submit t("admin.offers.submit"), class: "btn btn-primary" %>
+  <%= button_to_unkill  if model.persisted? && model.dead? %>
 <% end %>
 
-<% if model.persisted? && model.dead? %>
-  <div class="row">
-    <div class="col-sm-offset-2 col-sm-10">
-      <%= button_to_unkill %>
-    </div>
-  </div>
-<% end %>
