@@ -39,5 +39,6 @@ RSpec.describe Abroaders::Cell::Layout::Sidebar do
     expect(sidebar).to have_content 'Users'
     expect(sidebar).to have_content 'Manage Admins'
     expect(sidebar).to have_content 'Currencies'
+    expect(sidebar).to have_content 'Rec Requests'
   end
 end

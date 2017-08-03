@@ -7,4 +7,9 @@
   <%= link 'Banks', admin_banks_path, AdminArea::BanksController %>
   <%= link 'Manage Admins', admin_admins_path, AdminArea::AdminsController %>
   <%= link 'Currencies', admin_currencies_path, AdminArea::CurrenciesController %>
+  <%= link(
+    'Rec Requests',
+    admin_recommendation_requests_path,
+    AdminArea::RecommendationRequestsController,
+  ) %>
 <% end %>
