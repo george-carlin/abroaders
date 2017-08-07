@@ -14,35 +14,34 @@ module AdminArea
 
     # GET /admin/cards/new
     def new
-      render cell(CardProducts::Cell::New, CardProduct.new)
+      run CardProducts::New
+      render cell(CardProducts::Cell::New, @model, form: @form)
     end
 
     # POST /admin/cards
     def create
-      product = CardProduct.new(card_product_params)
-
-      if product.save
+      run CardProducts::Create do
         flash[:success] = 'Card product was successfully created.'
-        redirect_to admin_card_product_path(product)
-      else
-        render cell(CardProducts::Cell::New, product)
+        redirect_to admin_card_product_path(@model)
+        return
       end
+      render cell(CardProducts::Cell::New, @model, form: @form)
     end
 
     # GET /admin/cards/1/edit
     def edit
-      product = CardProduct.find(params[:id])
-      render cell(CardProducts::Cell::Edit, product)
+      run CardProducts::Edit
+      render cell(CardProducts::Cell::Edit, @model, form: @form)
     end
 
     # PATCH/PUT /admin/cards/1
     def update
-      product = CardProduct.find(params[:id])
-      if product.update(card_product_params)
-        redirect_to admin_card_product_path(product), notice: 'Card product was successfully updated.'
-      else
-        render cell(CardProducts::Cell::Edit, product)
+      run CardProducts::Update do
+        flash[:success] = 'Card product was successfully updated.'
+        redirect_to admin_card_product_path(@model)
+        return
       end
+      render cell(CardProducts::Cell::Edit, @model, form: @form)
     end
 
     def images
@@ -50,13 +49,6 @@ module AdminArea
     end
 
     private
-
-    def card_product_params
-      params.require(:card_product).permit(
-        :name, :network, :personal, :type, :annual_fee, :bank_id, :currency_id,
-        :shown_on_survey, :image,
-      )
-    end
 
     def check_currencies!
       raise "no Currencies in the database" unless Currency.any?

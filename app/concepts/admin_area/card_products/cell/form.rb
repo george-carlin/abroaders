@@ -4,11 +4,14 @@ module AdminArea
       # The <form> tag on both the Edit and New pages
       #
       # @!method self.call(card_product, options = {})
+      #   @option options [Reform::Form] form
       class Form < Abroaders::Cell::Base
+        option :form
+
         private
 
         def form_tag(&block)
-          form_for [:admin, model], &block
+          form_for [:admin, form], &block
         end
 
         def options_for_network_select
@@ -16,7 +19,7 @@ module AdminArea
             CardProduct::Network.values.map do |network|
               [CardProduct::Cell::Network::NAMES.fetch(network.to_sym), network]
             end,
-            model.network,
+            form.network,
           )
         end
 
@@ -25,7 +28,7 @@ module AdminArea
             CardProduct::Type.values.map do |type|
               [CardProduct::Cell::Type::NAMES.fetch(type.to_sym), type]
             end,
-            model.type,
+            form.type,
           )
         end
       end

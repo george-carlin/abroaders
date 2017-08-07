@@ -35,9 +35,11 @@ class CardProduct < ApplicationRecord
     large:  "350x#{350 / IMAGE_ASPECT_RATIO}>",
     medium: "210x#{210 / IMAGE_ASPECT_RATIO}>",
     small:  "140x#{140 / IMAGE_ASPECT_RATIO}>",
-  }, default_url: "/images/:style/missing.png"
-  validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
-  validates_attachment_presence :image
+  }
+  # file validations are handled in the form object (using the file_validators
+  # gem), but Paperclip requires us to explicitly state that there are no
+  # validations in the model layer
+  do_not_validate_attachment_file_type :image
 
   delegate :name, to: :currency, prefix: true, allow_nil: true
   delegate :name, to: :bank, prefix: true
@@ -48,16 +50,6 @@ class CardProduct < ApplicationRecord
 
   def annual_fee=(annual_fee_dollars)
     self.annual_fee_cents = (annual_fee_dollars.to_f * 100).round
-  end
-
-  # Validations
-
-  with_options presence: true do
-    validates :annual_fee, numericality: { greater_than_or_equal_to: 0 }
-    validates :bank_id
-    validates :name
-    validates :network
-    validates :type
   end
 
   # Associations
