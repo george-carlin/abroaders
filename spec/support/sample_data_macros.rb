@@ -89,11 +89,14 @@ module SampleDataMacros
     def admin(overrides = {})
       n = increment_sequence(:admin)
 
+      avatar = File.open(Rails.root.join('spec', 'support', 'erik.png'))
+
       attrs = {
         name: "Admin #{n}",
         email: "admin-#{n}@example.com",
         password: 'abroaders123',
         password_confirmation: 'abroaders123',
+        avatar: avatar,
       }.merge(overrides)
 
       Admin.create!(attrs)
