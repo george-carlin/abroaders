@@ -5,10 +5,13 @@ RSpec.describe 'new admin page' do
 
   before { visit new_admin_admin_path }
 
+  let(:image_path) { Rails.root.join('spec', 'support', 'erik.png') }
+
   example 'admin adds another admin' do
     fill_in :admin_email, with: 'newadmin@abroaders.com'
     fill_in :admin_name, with: 'Bob'
     fill_in :admin_password, with: 'password123'
+    attach_file :admin_avatar, image_path
 
     expect do
       click_button 'Save'

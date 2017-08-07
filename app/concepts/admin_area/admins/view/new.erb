@@ -22,6 +22,11 @@
         </div>
       <% end %>
 
+      <div class="form-group">
+        <%= f.label :avatar %>
+        <%= f.file_field :avatar %>
+      </div>
+
       <%= f.submit 'Save', class: 'btn btn-success' %>
       <%= link_to 'Back', admin_admins_path, class: 'btn btn-link' %>
     <% end %>

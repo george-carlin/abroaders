@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe 'edit admin page' do
   include_context 'logged in as admin'
 
+  let(:image_path) { Rails.root.join('spec', 'support', 'erik.png') }
   let(:other_admin) { create_admin }
 
   before { visit edit_admin_admin_path(other_admin) }
@@ -10,6 +11,7 @@ RSpec.describe 'edit admin page' do
   example 'admin edit another admin' do
     fill_in :admin_email, with: 'newaddress@abroaders.com'
     fill_in :admin_name, with: 'Bob'
+    attach_file :admin_avatar, image_path
 
     click_button 'Save'
 
