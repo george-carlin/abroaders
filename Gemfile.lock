@@ -163,6 +163,9 @@ GEM
     faraday (0.11.0)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.18)
+    file_validators (2.1.0)
+      activemodel (>= 3.0)
+      mime-types (>= 1.0)
     formatador (0.2.5)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
@@ -506,6 +509,7 @@ DEPENDENCIES
   dry-validation (= 0.10.5)
   factory_girl_rails (~> 4.5.0)
   faker (= 1.7.2)
+  file_validators
   guard-rspec
   httparty (~> 0.13.7)
   inflecto
