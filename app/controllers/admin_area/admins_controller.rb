@@ -26,7 +26,7 @@ module AdminArea
 
     def update
       run Admins::Update do
-        flash[:success] = 'Update admin!'
+        flash[:success] = 'Updated admin!'
         redirect_to admin_admins_path
         return
       end
