@@ -10,6 +10,7 @@
           <th>ID</th>
           <th>Name</th>
           <th>Email</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -18,6 +19,7 @@
             <td><%= admin.id %></td>
             <td><%= escape!(admin.name) %></td>
             <td><%= escape!(admin.email) %></td>
+            <td><%= link_to 'Edit', edit_admin_admin_path(admin.id) %></td>
           </tr>
         <% end %>
       </tbody>

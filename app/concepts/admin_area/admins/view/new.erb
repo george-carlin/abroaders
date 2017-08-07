@@ -1,10 +1,10 @@
 <div class="hpanel">
   <div class="panel-heading">
-    <h1>New Admin</h1>
+    <h1><%= title %></h1>
   </div>
   <%= errors %>
   <div class="panel-body">
-    <%= form_for form, url: admin_admins_path do |f| %>
+    <%= form_for [:admin, form] do |f| %>
       <div class="form-group">
         <%= f.label :email %>
         <%= f.email_field :email %>
@@ -15,12 +15,16 @@
         <%= f.text_field :name %>
       </div>
 
-      <div class="form-group">
-        <%= f.label :password %>
-        <%= f.text_field :password %>
-      </div>
+      <% unless form.persisted? %>
+        <div class="form-group">
+          <%= f.label :password %>
+          <%= f.text_field :password %>
+        </div>
+      <% end %>
 
       <%= f.submit 'Save', class: 'btn btn-success' %>
+      <%= link_to 'Back', admin_admins_path, class: 'btn btn-link' %>
     <% end %>
+
   </div>
 </div>
