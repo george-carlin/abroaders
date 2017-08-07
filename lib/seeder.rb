@@ -8,6 +8,7 @@ module Seeder
         name: name,
         password: 'abroaders123',
         password_confirmation: 'abroaders123',
+        avatar: File.open(Rails.root.join('lib', 'avatars', "#{name.downcase}.jpg")),
       )
     end
     Rails.logger.info "created #{Admin.count} admins"
