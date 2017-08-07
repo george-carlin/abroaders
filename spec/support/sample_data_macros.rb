@@ -92,10 +92,10 @@ module SampleDataMacros
       avatar = File.open(Rails.root.join('spec', 'support', 'erik.png'))
 
       attrs = {
-        name: "Admin #{n}",
+        first_name: 'A.D.',
+        last_name: "Min #{n}",
         email: "admin-#{n}@example.com",
         password: 'abroaders123',
-        password_confirmation: 'abroaders123',
         avatar: avatar,
       }.merge(overrides)
 

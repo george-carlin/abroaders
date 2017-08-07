@@ -10,14 +10,15 @@ RSpec.describe 'edit admin page' do
 
   example 'admin edit another admin' do
     fill_in :admin_email, with: 'newaddress@abroaders.com'
-    fill_in :admin_name, with: 'Bob'
+    fill_in :admin_first_name, with: 'Bob'
+    fill_in :admin_last_name, with: 'Smith'
     attach_file :admin_avatar, image_path
 
     click_button 'Save'
 
     other_admin.reload
     expect(other_admin.email).to eq 'newaddress@abroaders.com'
-    expect(other_admin.name).to eq 'Bob'
+    expect(other_admin.full_name).to eq 'Bob Smith'
 
     expect(current_path).to eq admin_admins_path
     expect(page).to have_content 'newaddress@abroaders.com'
@@ -32,6 +33,6 @@ RSpec.describe 'edit admin page' do
 
     # still shows form:
     expect(page).to have_field :admin_email
-    expect(page).to have_field :admin_name
+    expect(page).to have_field :admin_first_name
   end
 end

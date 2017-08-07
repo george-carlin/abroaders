@@ -10,7 +10,7 @@ RSpec.describe 'admin index page' do
 
     admins.each do |admin|
       expect(page).to have_selector 'td', text: admin.email
-      expect(page).to have_selector 'td', text: admin.name
+      expect(page).to have_selector 'td', text: admin.full_name
     end
   end
 end
