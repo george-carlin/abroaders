@@ -9,7 +9,8 @@ RSpec.describe 'new admin page' do
 
   example 'admin adds another admin' do
     fill_in :admin_email, with: 'newadmin@abroaders.com'
-    fill_in :admin_name, with: 'Bob'
+    fill_in :admin_first_name, with: 'Bob'
+    fill_in :admin_last_name, with: 'Smith'
     fill_in :admin_password, with: 'password123'
     attach_file :admin_avatar, image_path
 
@@ -19,7 +20,7 @@ RSpec.describe 'new admin page' do
 
     admin = Admin.last
     expect(admin.email).to eq 'newadmin@abroaders.com'
-    expect(admin.name).to eq 'Bob'
+    expect(admin.full_name).to eq 'Bob Smith'
     expect(admin.valid_password?('password123')).to be true
 
     expect(current_path).to eq admin_admins_path
@@ -33,7 +34,7 @@ RSpec.describe 'new admin page' do
 
     # still shows form:
     expect(page).to have_field :admin_email
-    expect(page).to have_field :admin_name
+    expect(page).to have_field :admin_first_name
     expect(page).to have_field :admin_password
   end
 end
