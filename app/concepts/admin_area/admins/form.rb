@@ -1,9 +1,13 @@
 module AdminArea::Admins
   class Form < Reform::Form
-    property :email
-    property :first_name
-    property :last_name
+    feature Coercion
+
+    property :email, type: Types::StrippedString
+    property :first_name, type: Types::StrippedString
+    property :last_name, type: Types::StrippedString
     property :avatar
+    property :job_title, type: Types::StrippedString
+    property :bio, type: Types::StrippedString
 
     validates :email,
               presence: true,
