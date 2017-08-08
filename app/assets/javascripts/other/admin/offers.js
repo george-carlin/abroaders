@@ -23,14 +23,4 @@ $(document).ready(function () {
         break;
     }
   });
-
-  $("textarea#offer_user_notes, textarea#offer_notes").summernote({
-    height: 150,
-    toolbar: [
-      ['style', ['bold', 'italic', 'underline', 'clear']],
-      ['font', ['strikethrough', 'superscript', 'subscript']],
-      ['fontsize', ['fontsize']],
-      ['para', ['ul', 'ol', 'paragraph']],
-    ],
-  });
 });
