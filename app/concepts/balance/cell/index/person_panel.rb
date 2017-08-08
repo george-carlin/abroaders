@@ -34,7 +34,7 @@ module Balance::Cell
       end
 
       def link_to_add_new_balance
-        link_to new_person_balance_path(model), class: 'btn btn-success btn-xs' do
+        link_to new_balance_path, class: 'btn btn-success btn-xs' do
           link_to_add_new_balance_text
         end
       end
@@ -80,7 +80,7 @@ module Balance::Cell
             [
               {
                 link: {
-                  href: new_person_balance_path(model),
+                  href: new_balance_path,
                   text: 'Add on Abroaders',
                 },
                 text: t('balance.new_balance_modal.abroaders.text'),

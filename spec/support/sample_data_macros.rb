@@ -121,8 +121,11 @@ module SampleDataMacros
       run!(
         Balance::Create,
         { # defaults:
-          balance: { currency_id: kurrency.id, value: 1 }.merge(overrides),
-          person_id: persun.id,
+          balance: {
+            currency_id: kurrency.id,
+            person_id: persun.id,
+            value: 1,
+          }.merge(overrides),
         },
         'current_account' => persun.account,
       )['model']

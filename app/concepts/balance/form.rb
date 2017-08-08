@@ -5,7 +5,8 @@ class Balance < Balance.superclass
     feature Reform::Form::Coercion
     feature Reform::Form::Dry
 
-    property :value,       type: Types::Form::Int
+    property :person_id, type: Types::Form::Int
+    property :value, type: Types::Form::Int
     property :currency_id, type: Types::Form::Int
 
     validation do
