@@ -1,0 +1,28 @@
+<div class="modal fade hmodal-info" id="rec_recommended_by_bio" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="color-line"></div>
+      <div class="modal-header text-center">
+        <h4 class="modal-title"><%= full_name %></h4>
+        <% if job_title.present? %>
+          <p style="color: #ffffff;"><%= job_title_text %></p>
+        <% end %>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-3">
+            <%= headshot_big %>
+          </div>
+          <div class="col-md-9">
+            <%= bio %>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
