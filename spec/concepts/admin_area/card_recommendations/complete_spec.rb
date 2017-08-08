@@ -85,21 +85,4 @@ RSpec.describe AdminArea::CardRecommendations::Complete do
     person.reload
     expect(person.account.recommendation_notes.count).to eq 0
   end
-
-  example 'ignores other params' do
-    # Tests like this are necessary to make mutation testing pass. Otherwise
-    # when you have methods like this in the operation:
-    #
-    # def my_step(opts, params:, **)
-    #   # whatever
-    # end
-    #
-    # Then mutant will try removing the '**', and the tests will still pass - a
-    # mutation failure.
-    #
-    # Kinda pedantic to bother covering this with tests, but it's nice to make
-    # mutant pass, and it's more future-proof because you never know what might
-    # get passed in as a 2nd object to the op in future changes.
-    op.({ person_id: person.id, recommendation_note: '' }, 'current_admin' => Object.new)
-  end
 end

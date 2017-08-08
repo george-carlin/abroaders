@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-# 100% mutation coverage as of 14/2/17
 RSpec.describe Balance::Update do
   let(:account) { create_account(:onboarded) }
   let(:balance) { create_balance(value: 1234, person: account.owner) }
