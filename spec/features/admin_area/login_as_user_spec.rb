@@ -31,7 +31,7 @@ RSpec.describe 'admin logging in as account' do
 
       # Add a balance for this person, as a smoke test to make sure the admin
       # can do what the user can.
-      visit new_person_balance_path(account.owner)
+      visit new_balance_path
       select currency.name, from: :balance_currency_id
       fill_in :balance_value, with: 2345
 
@@ -50,9 +50,9 @@ RSpec.describe 'admin logging in as account' do
       expect(page).to have_no_content "#{admin.email} as #{account.email}"
 
       # Can't visit person pages
-      visit new_person_balance_path(person)
+      visit new_balance_path
       expect(page).to have_content 'You must sign out'
-      expect(current_path).not_to eq new_person_balance_path(person)
+      expect(current_path).not_to eq new_balance_path
 
       # Signing out as admin too:
       click_sign_out

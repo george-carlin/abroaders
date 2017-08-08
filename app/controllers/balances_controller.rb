@@ -54,6 +54,7 @@ class BalancesController < AuthenticatedUserController
       Balance::Cell::Edit,
       @model,
       currencies: Currency.alphabetical,
+      current_account: current_account,
       form: @form,
     )
   end
@@ -68,6 +69,7 @@ class BalancesController < AuthenticatedUserController
       Balance::Cell::Edit,
       @model,
       currencies: Currency.alphabetical,
+      current_account: current_account,
       form: @form,
     )
   end

@@ -53,8 +53,7 @@ Rails.application.routes.draw do
     post :type, action: :submit_type
   end
 
-  # balances#new and balances#create are nested under 'people'
-  resources :balances, only: [:index, :edit, :update, :destroy]
+  resources :balances
 
   resources :card_recommendations do
     member do
@@ -110,7 +109,7 @@ Rails.application.routes.draw do
   resources :notifications, only: :show
 
   resources :people, only: [] do
-    resources :balances, only: [:new, :create] do
+    resources :balances, only: [] do
       collection do
         get  :survey
         post :survey, action: :save_survey
