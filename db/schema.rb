@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170807230344) do
+ActiveRecord::Schema.define(version: 20170810151747) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -252,6 +252,7 @@ ActiveRecord::Schema.define(version: 20170807230344) do
     t.string   "condition",                         null: false
     t.integer  "value_cents"
     t.text     "user_notes"
+    t.integer  "cards_count",      default: 0,      null: false
     t.index ["card_product_id"], name: "index_offers_on_card_product_id", using: :btree
     t.index ["killed_at"], name: "index_offers_on_killed_at", using: :btree
   end
