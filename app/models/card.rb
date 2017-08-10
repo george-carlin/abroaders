@@ -132,6 +132,19 @@ class Card < ApplicationRecord
   has_one :account, through: :person
   has_one :currency, through: :card_product
 
+  include CustomCounterCache::Model
+  update_counter_cache :card_product,
+                       :recommended_cards_count,
+                       if: -> (card) { card.recommended? }
+
+  alias_method :old_crcc, :callback_recommended_cards_count
+
+  def callback_recommended_cards_count
+    debugger if $asdf
+    puts 'callback called!'
+    old_crcc
+  end
+
   delegate :bank, to: :card_product, allow_nil: true
   delegate :name, to: :bank, prefix: true
 

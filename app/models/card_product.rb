@@ -80,6 +80,11 @@ class CardProduct < ApplicationRecord
     super
   end
 
+  include CustomCounterCache::Model
+  define_counter_cache :recommended_cards_count do |product|
+    product.offers.sum(:cards_count)
+  end
+
   # Scopes
 
   scope :survey, -> { where(shown_on_survey: true) }

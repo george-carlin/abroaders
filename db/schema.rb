@@ -141,21 +141,22 @@ ActiveRecord::Schema.define(version: 20170810151747) do
   end
 
   create_table "card_products", force: :cascade do |t|
-    t.string   "name",                              null: false
-    t.integer  "annual_fee_cents",                  null: false
-    t.boolean  "shown_on_survey",    default: true, null: false
+    t.string   "name",                                   null: false
+    t.integer  "annual_fee_cents",                       null: false
+    t.boolean  "shown_on_survey",         default: true, null: false
     t.integer  "currency_id"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
-    t.integer  "bank_id",                           null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.integer  "bank_id",                                null: false
     t.string   "wallaby_id"
-    t.string   "image_file_name",                   null: false
-    t.string   "image_content_type",                null: false
-    t.integer  "image_file_size",                   null: false
-    t.datetime "image_updated_at",                  null: false
-    t.boolean  "personal",                          null: false
-    t.string   "network",                           null: false
-    t.string   "type",                              null: false
+    t.string   "image_file_name",                        null: false
+    t.string   "image_content_type",                     null: false
+    t.integer  "image_file_size",                        null: false
+    t.datetime "image_updated_at",                       null: false
+    t.boolean  "personal",                               null: false
+    t.string   "network",                                null: false
+    t.string   "type",                                   null: false
+    t.integer  "recommended_cards_count", default: 0,    null: false
     t.index ["bank_id"], name: "index_card_products_on_bank_id", using: :btree
     t.index ["currency_id"], name: "index_card_products_on_currency_id", using: :btree
     t.index ["wallaby_id"], name: "index_card_products_on_wallaby_id", using: :btree

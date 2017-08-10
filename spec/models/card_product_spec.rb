@@ -79,4 +79,24 @@ RSpec.describe CardProduct do
       expect(prod.bp).to eq 'personal'
     end
   end
+
+  example '#recommended_cards_count' do
+    person = create_account.owner
+    prod = create(:card_product)
+    expect(prod.recommended_cards_count).to eq 0
+    acc = create_card_account(person: person, card_product: prod)
+    expect(prod.reload.recommended_cards_count).to eq 0
+    offer = create_offer(card_product: prod)
+    rec_1 = create_rec(offer: offer, person: person)
+    expect(prod.reload.recommended_cards_count).to eq 1
+    rec_2 = create_rec(offer: offer, person: person)
+    expect(prod.reload.recommended_cards_count).to eq 2
+    acc.destroy
+    expect(prod.reload.recommended_cards_count).to eq 2
+    rec_1.destroy
+    # this test fails and I can't figure out why
+    expect(prod.reload.recommended_cards_count).to eq 1
+    rec_2.destroy
+    expect(prod.reload.recommended_cards_count).to eq 0
+  end
 end

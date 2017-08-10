@@ -87,6 +87,8 @@ GEM
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
     concurrent-ruby (1.0.5)
+    custom_counter_cache (0.2.0)
+      rails (>= 4.0)
     database_cleaner (1.5.3)
     debug_inspector (0.0.2)
     declarative (0.0.9)
@@ -447,6 +449,7 @@ DEPENDENCIES
   cells (~> 4.1.7)
   cells-erb (= 0.0.9)
   cells-rails
+  custom_counter_cache
   database_cleaner
   devise (~> 4.1.0)
   disposable
