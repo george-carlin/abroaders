@@ -1,0 +1,15 @@
+<%= headshot %>
+
+<strong><%= full_name %></strong>
+
+<%= job_title_text if job_title.present? %>
+
+<em><strong><%= timestamp %></strong></em>
+
+<% if bio.present? %>
+  <small>
+    <a data-toggle="modal" data-target="#rec_recommended_by_bio">
+      See <%= first_name %>'s bio
+    </a>
+  </small>
+<% end %>

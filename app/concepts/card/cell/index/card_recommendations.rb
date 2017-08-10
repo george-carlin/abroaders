@@ -27,8 +27,26 @@ class Card < Card.superclass
 
         def note
           return '' if recommendation_note.nil?
-          # really this cell should live in the RecommendationNote namespace :/
-          cell(CardRecommendation::Cell::Note, recommendation_note)
+          cell(
+            CardRecommendation::Cell::Note,
+            recommendation_note,
+            recommended_by: recommended_by,
+          )
+        end
+
+        # We're not saving which admin sent the rec *note*, only which admin
+        # sent the individual recs. Eventually we'll want a more complicated
+        # rec note system entirely. For now, use the imperfect solution of
+        # assuming that all recs were recommended by whoever recommended the
+        # *most recent* rec.
+        #
+        # If the Card is a recommendation, then recommended_by should not be
+        # nil.  (When I added the recommended_by column, I updated all legacy
+        # recs to say they were recommended by Erik.) So if this line returns
+        # nil, something's gone wrong:
+        def recommended_by
+          rec = actionable_card_recommendations.max_by(&:recommended_at)
+          rec.recommended_by
         end
 
         # @!method self.call(person, options = {})

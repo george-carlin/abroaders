@@ -13,10 +13,10 @@ class Balance < Balance.superclass
       option :current_account
       option :form
 
+      subclasses_use_parent_view!
+
       def title
-        text = 'Add new balance'
-        text << " for #{escape!(person.first_name)}" if current_account.couples?
-        text
+        'Add new balance'
       end
 
       private
@@ -26,7 +26,11 @@ class Balance < Balance.superclass
       end
 
       def form_tag(&block)
-        form_for [person, form], &block
+        form_for [form], &block
+      end
+
+      def people
+        current_account.people.sort_by(&:type).reverse
       end
     end
   end

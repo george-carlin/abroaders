@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-# 100% mutation coverage as of 14/2/17
 RSpec.describe Balance::Update do
   let(:account) { create_account(:onboarded) }
-  let(:balance) { create_balance(value: 1234, person: account.owner) }
+  let(:owner) { account.owner }
+  let(:balance) { create_balance(value: 1234, person: owner) }
 
   let(:op) { described_class }
 
@@ -44,5 +44,51 @@ RSpec.describe Balance::Update do
         'current_account' => create_account,
       )
     end.to raise_error(ActiveRecord::RecordNotFound)
+  end
+
+  example 'trying to update to an invalid person' do
+    other_person = create_account.owner
+    expect do
+      op.(
+        {
+          balance: { person_id: other_person.id },
+          id: balance.id,
+        },
+        'current_account' => create_account,
+      )
+    end.to raise_error { ActiveRecord::RecordNotFound }
+  end
+
+  describe 'couples account' do
+    let(:account) { create_account(:onboarded, :couples) }
+    let(:companion) { account.companion }
+
+    example 'changing person' do
+      result = op.(
+        {
+          balance: { person_id: companion.id },
+          id: balance.id,
+        },
+        'current_account' => account,
+      )
+
+      expect(result.success?).to be true
+
+      balance.reload
+      expect(balance.person).to eq companion
+    end
+
+    example 'trying to update to an invalid person' do
+      other_person = create_account.owner
+      expect do
+        op.(
+          {
+            balance: { person_id: other_person.id },
+            id: balance.id,
+          },
+          'current_account' => create_account,
+        )
+      end.to raise_error { ActiveRecord::RecordNotFound }
+    end
   end
 end

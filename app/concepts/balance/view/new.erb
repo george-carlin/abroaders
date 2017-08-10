@@ -5,6 +5,13 @@
     <%= errors %>
 
     <%= form_tag do |f| %>
+      <% if current_account.couples? %>
+        <div class="form-group">
+          <%= f.label :person_id %>
+          <%= f.collection_select :person_id, people, :id, :first_name %>
+        </div>
+      <% end %>
+
       <div class="form-group">
         <%= f.label :currency_id %>
         <%= f.collection_select :currency_id, currencies, :id, :name %>

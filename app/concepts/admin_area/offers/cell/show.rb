@@ -21,6 +21,7 @@ module AdminArea
         property :partner
         property :points_awarded
         property :updated_at
+        property :user_notes
         property :value
 
         def title

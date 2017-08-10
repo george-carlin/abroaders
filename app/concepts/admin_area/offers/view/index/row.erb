@@ -1,14 +1,22 @@
 <tr id="offer_<%= id %>" class="offer">
-  <td><%= id %></td>
-  <td><%= link_to_card_product_offers %></td>
-  <td><%= bank_name %></td>
-  <td><%= partner %></td>
-  <td><%= points_awarded %></td>
-  <td><%= spend %></td>
-  <td><%= cost %></td>
-  <td><%= days %></td>
-  <td><%= live %></td>
+  <td><%= link_to_show(text: id) %></td>
+  <td class="offer_card_name">
+    <%= card_product_name_link_to_offers %>
+  </td>
+  <td><%= details %></td>
+  <td class="offer_live"><%= live %></td>
   <td><%= last_reviewed_at %></td>
-  <td><%= link_to 'Show', admin_offer_path(model) %>
-  <td><%= link_to 'Edit', edit_admin_offer_path(model) %>
+  <td class="offer_verification_ctrls">
+    <% unless dead? %>
+      <div class="btn-group">
+        <%= verify_btn %>
+        <%= kill_btn %>
+      </div>
+    <% end %>
+  </td>
+  <td>
+    <%= link_to_show(text: 'View') %> |
+    <%= link_to_link %> |
+    <%= link_to_edit %>
+  </td>
 </tr>

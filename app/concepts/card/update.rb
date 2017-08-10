@@ -32,7 +32,8 @@ class Card < Card.superclass
     end
 
     def trigger_card_opened_webhook(model:, was_unopened:, **)
-      if was_unopened && model.opened? && model.offer?
+      if was_unopened && model.opened? && model.offer? &&
+         model.opened_on >= 15.days.ago
         # Strangely, class-level settings aren't inherited, meaning
         # that when you . Not sure if this
         # is deliberate or on oversight (looking in the TRB source I see that

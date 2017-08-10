@@ -42,6 +42,4 @@ class Currency < ApplicationRecord
 
   scope :alphabetical, -> { order(name: :asc) }
   scope :survey, -> { where(shown_on_survey: true) }
-  # currencies that the admin can filter by on people/show
-  scope :filterable, -> { where(type: "airline") }
 end

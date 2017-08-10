@@ -1,21 +1,55 @@
 <div class="hpanel">
   <div class="panel-heading">
-    <h1>New Admin</h1>
+    <h1><%= title %></h1>
   </div>
   <%= errors %>
   <div class="panel-body">
-    <%= form_for form, url: admin_admins_path do |f| %>
+    <%= form_for [:admin, form] do |f| %>
       <div class="form-group">
         <%= f.label :email %>
         <%= f.email_field :email %>
       </div>
 
       <div class="form-group">
-        <%= f.label :password %>
-        <%= f.text_field :password %>
+        <%= f.label :first_name %>
+        <%= f.text_field :first_name %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :last_name %>
+        <%= f.text_field :last_name %>
+      </div>
+
+      <% unless form.persisted? %>
+        <div class="form-group">
+          <%= f.label :password %>
+          <%= f.text_field :password %>
+        </div>
+      <% end %>
+
+      <div class="form-group">
+        <%= f.label :job_title %>
+        <%= f.text_field :job_title %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :bio %>
+        <p class="help-block">
+          Users can see this, and job title, when viewing information about
+          which admin sent them their recs.
+        </p>
+
+        <%= f.text_area :bio %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :avatar %>
+        <%= f.file_field :avatar %>
       </div>
 
       <%= f.submit 'Save', class: 'btn btn-success' %>
+      <%= link_to 'Back', admin_admins_path, class: 'btn btn-link' %>
     <% end %>
+
   </div>
 </div>

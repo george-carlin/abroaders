@@ -6,7 +6,7 @@
 // an old version of your local `airports` table in your browser's local
 // storage. Running this line in the browser console solved the issue for me:
 //
-//    localStorage.removeItem("__/airports.json__data")
+//    localStorage.removeItem("__/airports/typeahead.json__data")
 //
 
 function airportBloodhound() {
@@ -17,7 +17,7 @@ function airportBloodhound() {
     queryTokenizer: function (q) {
       return Bloodhound.tokenizers.whitespace(diacritics.remove(q));
     },
-    prefetch: "/airports.json",
+    prefetch: "/airports/typeahead.json",
   });
 }
 

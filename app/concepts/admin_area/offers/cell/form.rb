@@ -30,7 +30,7 @@ module AdminArea
           url_models.insert(1, card_product) unless form.persisted?
           form_for(
             url_models,
-            html: { style: 'clear:both;', class: "form-horizontal", role: "form" },
+            html: { style: 'clear:both;', role: 'form' },
             &block
           )
         end

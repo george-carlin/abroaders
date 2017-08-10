@@ -89,10 +89,14 @@ module SampleDataMacros
     def admin(overrides = {})
       n = increment_sequence(:admin)
 
+      avatar = File.open(Rails.root.join('spec', 'support', 'erik.png'))
+
       attrs = {
+        first_name: 'A.D.',
+        last_name: "Min #{n}",
         email: "admin-#{n}@example.com",
         password: 'abroaders123',
-        password_confirmation: 'abroaders123',
+        avatar: avatar,
       }.merge(overrides)
 
       Admin.create!(attrs)
@@ -117,8 +121,11 @@ module SampleDataMacros
       run!(
         Balance::Create,
         { # defaults:
-          balance: { currency_id: kurrency.id, value: 1 }.merge(overrides),
-          person_id: persun.id,
+          balance: {
+            currency_id: kurrency.id,
+            person_id: persun.id,
+            value: 1,
+          }.merge(overrides),
         },
         'current_account' => persun.account,
       )['model']

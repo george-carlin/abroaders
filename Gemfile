@@ -19,6 +19,7 @@ gem 'dry-configurable', '0.3.0'
 gem 'dry-struct', '~> 0.2.0'
 gem 'dry-types', '~> 0.9.4'
 gem 'dry-validation', '0.10.5'
+gem 'file_validators'
 gem 'httparty', '~> 0.13.7'
 gem 'inflecto'
 gem 'jquery-rails', '4.1.1'
@@ -54,12 +55,6 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'factory_girl_rails', '~> 4.5.0'
   gem 'faker', '1.7.2'
-  # mutant depends on unparser, which in turn depends on diff-lcs. diff-lcs
-  # v1.2.5 raises warnings on Ruby 2.4.0, while v1.3 should remove these
-  # warnings, but unfortunately the latest version of unparser depends on
-  # diff-lcs ~>1.2.5, so we can't upgrade to 1.3 for now and we'll just have to
-  # live with the warnings
-  gem 'mutant-rspec'
   gem 'rspec-rails', '~> 3.5.0'
   gem 'rspec-cells'
   gem 'guard-rspec', require: false

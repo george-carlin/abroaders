@@ -12,6 +12,7 @@ module AdminArea
       property :link, type: Types::StrippedString
       property :value, type: Types::Form::Int
       property :notes, type: Types::StrippedString
+      property :user_notes, type: Types::StrippedString
 
       with_options presence: true do
         validates :link

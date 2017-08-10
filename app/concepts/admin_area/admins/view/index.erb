@@ -8,14 +8,22 @@
       <thead>
         <tr>
           <th>ID</th>
+          <th>Name</th>
           <th>Email</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
         <% model.each do |admin| %>
           <tr>
             <td><%= admin.id %></td>
+            <td>
+              <%= image_tag(admin.avatar.url, size: '50x50') %>
+              &nbsp;&nbsp;
+              <%= escape!(admin.full_name) %>
+            </td>
             <td><%= escape!(admin.email) %></td>
+            <td><%= link_to 'Edit', edit_admin_admin_path(admin.id) %></td>
           </tr>
         <% end %>
       </tbody>

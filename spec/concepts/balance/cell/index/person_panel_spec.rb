@@ -21,7 +21,7 @@ RSpec.describe Balance::Cell::Index::PersonPanel do
   example '' do
     rendered = cell(person).()
     # test for link text EXACT match
-    expect(rendered).to have_link 'Add new', href: new_person_balance_path(person)
+    expect(rendered).to have_link 'Add new', href: new_balance_path
     expect(rendered).to have_selector 'h1', text: 'My points'
   end
 
@@ -42,7 +42,7 @@ RSpec.describe Balance::Cell::Index::PersonPanel do
     rendered = cell(person).()
 
     expect(rendered).to have_selector 'h1', text: "Erik's points"
-    expect(rendered).to have_link 'Add new', href: new_person_balance_path(person)
+    expect(rendered).to have_link 'Add new', href: new_balance_path
   end
 
   example 'XSS' do
@@ -54,14 +54,14 @@ RSpec.describe Balance::Cell::Index::PersonPanel do
 
   example 'not connected to award wallet' do
     rendered = cell(person).()
-    expect(rendered).to have_link 'Add new', href: new_person_balance_path(person)
+    expect(rendered).to have_link 'Add new', href: new_balance_path
     expect(rendered).not_to have_button 'Add new'
   end
 
   example 'not connected to award wallet' do
     person.account.build_award_wallet_user(loaded: true)
     rendered = cell(person).()
-    expect(rendered).not_to have_link 'Add new', href: new_person_balance_path(person)
+    expect(rendered).not_to have_link 'Add new', href: new_balance_path
     expect(rendered).to have_button 'Add new'
   end
 end

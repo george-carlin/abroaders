@@ -73,7 +73,9 @@ RSpec.describe 'dataclips' do
         "currencies"."name" AS "currency_name",
         "card_products"."annual_fee_cents" AS "product_annual_fee_cents",
         "card_products"."network" AS "product_network",
-        "card_products"."type" AS "product_type"
+        "card_products"."type" AS "product_type",
+        "people"."first_name" AS "person_first_name",
+        "people"."owner" AS "person_is_owner"
       FROM "cards"
       INNER JOIN "card_products" ON "cards"."card_product_id" = "card_products"."id"
       INNER JOIN "currencies" ON "card_products"."currency_id" = "currencies"."id"
@@ -142,15 +144,26 @@ RSpec.describe 'dataclips' do
         "accounts"."email",
         "accounts"."monthly_spending_usd",
         "accounts"."onboarding_state",
-        "accounts"."phone_number_us_normalized",
-        CASE WHEN "accounts"."onboarding_state"  = 'complete' THEN true
-                                                              ELSE false
-                                                              END AS "onboarded",
+        "accounts"."phone_number_us_normalized" AS "phone_number",
+        CASE WHEN "accounts"."onboarding_state" = 'complete' THEN true
+        ELSE false
+        END AS "onboarded",
         "accounts"."updated_at",
-        "accounts"."created_at"
-      FROM "accounts"
+        "accounts"."created_at",
+        "owners"."id" AS "owner_id",
+        "owners"."first_name" AS "owner_first_name",
+        "companions"."id" AS "companion_id",
+        "companions"."first_name" AS "companion_first_name",
+        "award_wallet_users"."email" AS "award_wallet_email",
+        "award_wallet_users"."agent_id" AS "award_wallet_agent_id"
+        FROM "accounts"
+        LEFT OUTER JOIN "people" "owners" ON "owners"."account_id" = "accounts"."id"
+        AND "owners"."owner" = TRUE
+        LEFT OUTER JOIN "people" "companions" ON "companions"."account_id" = "accounts"."id"
+        AND "companions"."owner" = FALSE
+        LEFT OUTER JOIN "award_wallet_users" ON "award_wallet_users"."account_id" = "accounts"."id"
       WHERE "accounts"."test" = false
-      ORDER BY "accounts"."id" ASC
+      ORDER BY "accounts"."id" ASC;
     ]
     expect { ApplicationRecord.connection.execute(sql) }.not_to raise_error
   end

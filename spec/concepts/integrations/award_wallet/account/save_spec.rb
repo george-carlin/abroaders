@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-# 100% mutation coverage as of 8th Mar 2017
 RSpec.describe Integrations::AwardWallet::Account::Save do
   include AwardWalletMacros
   include SampleDataMacros
