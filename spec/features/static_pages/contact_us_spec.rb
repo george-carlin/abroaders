@@ -8,10 +8,11 @@ RSpec.describe 'contact us page' do
   end
 
   example 'when logged in' do
-    account = create_person(first_name: 'George').account
+    account = create_account(:onboarded)
+    person = account.owner
     login_as_account(account)
     visit contact_us_path
-    expect(page).to have_content 'Hey, George'
+    expect(page).to have_content "Hey, #{person.first_name}"
     expect(page).to have_link 'Schedule a call with us'
   end
 end

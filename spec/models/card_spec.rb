@@ -42,7 +42,7 @@ RSpec.describe Card do
   example "set #card_product to #offer.card_product before save" do
     offer   = create_offer
     product = offer.card_product
-    card = Card.new(card_product: nil, offer: offer, person: create_person)
+    card = Card.new(card_product: nil, offer: offer, person: create_account.owner)
     card.save!
     expect(card.card_product_id).to eq product.id
   end
@@ -52,7 +52,7 @@ RSpec.describe Card do
   describe '.recommended' do
     let(:product) { create(:card_product) }
     let(:offer) { create_offer(card_product: product) }
-    let(:person) { create_person }
+    let(:person) { create_account.owner }
 
     # extend the macro so that we always use the same offer and person,
     # just to avoid making a bunch of unnecessary DB writes

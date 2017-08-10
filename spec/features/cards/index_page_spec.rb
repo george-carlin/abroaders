@@ -55,7 +55,8 @@ RSpec.describe 'as a user viewing my cards' do
     unseen_rec = create_card_recommendation(person_id: owner.id)
     seen_rec = create_card_recommendation(:seen, person_id: owner.id)
     card = create_card_account(person: owner)
-    other_persons_rec = create_card_recommendation(:seen, person_id: create_person.id)
+    other_person = create_account.owner
+    other_persons_rec = create_card_recommendation(:seen, person_id: other_person.id)
 
     # reload these recs here or you get a weird error on Codeship because
     # of CS's date precision

@@ -115,7 +115,7 @@ module SampleDataMacros
       persun = if overrides.key?(:person)
                  overrides.delete(:person)
                else
-                 person
+                 account.owner
                end
 
       run!(
@@ -171,40 +171,6 @@ module SampleDataMacros
         offer: attrs,
         card_product_id: card_product.id,
       )['model']
-    end
-
-    # This method is awful. Maybe it's better to just do something like this?
-    #
-    #   create_account.owner
-    def person(*traits_and_overrides)
-      overrides = if traits_and_overrides.last.is_a?(Hash)
-                    traits_and_overrides.pop
-                  else
-                    {}
-                  end
-      traits = traits_and_overrides
-
-      eligible = traits.include?(:eligible)
-      owner = !traits.include?(:companion)
-
-      if overrides.key?(:account)
-        account = overrides.fetch(:account)
-
-        attrs = {
-          account: account,
-          first_name: owner ? 'Erik' : 'Gabi',
-          owner: owner,
-          eligible: eligible,
-        }.merge(overrides)
-
-        Person.create!(attrs)
-      else
-        person = owner ? self.account.owner : self.account(:couples).companion
-        person.eligible = eligible
-        person.first_name = overrides[:first_name] if overrides.key?(:first_name)
-        person.save! if person.changed?
-        person
-      end
     end
 
     # Create a sample travel plan. Tries to use existing airports from the DB if
@@ -280,7 +246,8 @@ module SampleDataMacros
     end
   end
 
-  def create_account(*traits_and_overrides) Generator.instance.account(*traits_and_overrides)
+  def create_account(*traits_and_overrides)
+    Generator.instance.account(*traits_and_overrides)
   end
 
   %w[admin balance currency travel_plan offer].each do |model_name|
@@ -323,7 +290,7 @@ module SampleDataMacros
                 elsif overrides.key?(:person_id)
                   overrides[:person_id]
                 else
-                  create_person.id
+                  create_account.owner.id
                 end
 
     admin = if overrides.key?(:current_admin)
@@ -408,7 +375,7 @@ module SampleDataMacros
       person = overrides.fetch(:person)
       params[:person_id] = person.id
     else
-      person = create_person
+      person = create_account.owner
     end
 
     if overrides.key?(:closed_on)
@@ -417,21 +384,6 @@ module SampleDataMacros
     end
 
     run!(CardAccount::Create, params, 'current_account' => person.account)['model']
-  end
-
-  def create_person(*traits_and_overrides)
-    Generator.instance.person(*traits_and_overrides)
-  end
-
-  def create_companion(*traits_and_overrides)
-    overrides = if traits_and_overrides.last.is_a?(Hash)
-                  traits_and_overrides.pop
-                else
-                  {}
-                end
-    traits = traits_and_overrides
-    traits.push(:companion)
-    create_person(*traits, overrides)
   end
 
   def create_recommendation_request(person_type, account)

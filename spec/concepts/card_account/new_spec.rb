@@ -20,7 +20,7 @@ RSpec.describe CardAccount::New do
   end
 
   example 'with a person ID for the wrong account' do
-    other_person = create_person
+    other_person = create_account.owner
     expect do
       op.(
         { card_product_id: product.id, person_id: other_person.id },

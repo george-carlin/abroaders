@@ -1,10 +1,15 @@
 require "rails_helper"
 
 RSpec.describe BalancesSurvey do
-  let(:person)  { create_person }
-  let(:account) { person.account }
-  before { account.update!(onboarding_state: "owner_balances") }
+  let(:account) { create_account }
+  let(:person) { account.owner }
+  let(:owner) { person }
   let(:currency) { create_currency }
+
+  before do
+    account.update!(onboarding_state: 'owner_balances')
+    person.reload
+  end
 
   example "saving" do
     survey = described_class.new(person: person)
@@ -19,14 +24,14 @@ RSpec.describe BalancesSurvey do
 
   describe "onboarding flow" do
     example "person is owner and has an eligible companion" do
-      create_companion(:eligible, account: account)
+      account.create_companion!(first_name: 'x', eligible: true)
       survey = described_class.new(person: person)
       survey.save!
       expect(account.reload.onboarding_state).to eq "companion_cards"
     end
 
     example "person is owner and has an ineligible companion" do
-      create_companion(account: account)
+      account.create_companion!(first_name: 'x', eligible: false)
       survey = described_class.new(person: person)
       survey.save!
       expect(account.reload.onboarding_state).to eq "companion_balances"
@@ -47,29 +52,31 @@ RSpec.describe BalancesSurvey do
     end
 
     example "person is companion and eligible" do
-      companion = create_companion(:eligible, account: account)
-      account.update!(onboarding_state: "companion_balances")
+      companion = companion!(account, true)
       survey = described_class.new(person: companion)
       survey.save!
       expect(account.reload.onboarding_state).to eq "spending"
     end
 
     example "person is ineligible companion of eligible owner" do
-      companion = create_companion(account: account)
-      account.update!(onboarding_state: "companion_balances")
-      person.update!(eligible: true)
+      companion = companion!(account, false)
+      owner.update!(eligible: true)
       survey = described_class.new(person: companion)
       survey.save!
       expect(account.reload.onboarding_state).to eq "spending"
     end
 
     example "person is ineligible companion of ineligible owner" do
-      companion = create_companion(account: account)
-      account.update!(onboarding_state: "companion_balances")
-      person.update!(eligible: false)
+      companion = companion!(account, false)
       survey = described_class.new(person: companion)
       survey.save!
       expect(account.reload.onboarding_state).to eq "phone_number"
+    end
+
+    def companion!(account, eligible)
+      account.update!(onboarding_state: 'companion_balances')
+      companion = account.create_companion!(first_name: 'x', eligible: eligible)
+      companion
     end
   end
 end
