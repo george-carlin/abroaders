@@ -1,21 +1,19 @@
 require 'cells_helper'
 
 RSpec.describe SpendingInfo::Cell::Survey do
-  let(:account) { Account.new }
-  let(:owner)   { account.build_owner(first_name: 'Erik', eligible: true) }
+  let(:account) { raise 'define :account in sub-blocks' }
+  let(:owner) { account.owner }
 
   def have_subheader(text)
     have_selector 'h3', text: text
   end
 
   describe '::SoloSurvey' do
+    let(:account) { create_account(:eligible) }
+
     it 'addresses me as "You"' do
-      result = {
-        'current_account' => account,
-        'contract.default' => SpendingSurvey.new(account: account),
-        'eligible_people' => [owner],
-      }
-      rendered = cell(result).()
+      form = SpendingSurvey.new(account: account)
+      rendered = cell(account, form: form).()
       expect(rendered).to have_subheader 'What is your credit score?'
       expect(rendered).to have_subheader 'How much do you spend per month?'
       expect(rendered).to have_subheader 'Do you have a business?'
@@ -31,15 +29,11 @@ RSpec.describe SpendingInfo::Cell::Survey do
   end
 
   describe '::CouplesSurvey' do
-    let!(:companion) { account.build_companion(first_name: 'Gabi', eligible: true) }
+    let(:account) { create_account(:couples, :eligible) }
 
     it 'addresses us by name' do
-      result = {
-        'current_account' => account,
-        'contract.default' => SpendingSurvey.new(account: account),
-        'eligible_people'  => [owner, companion],
-      }
-      rendered = cell(result).()
+      form = SpendingSurvey.new(account: account)
+      rendered = cell(account, form: form).()
       expect(rendered).to have_subheader 'What is Erik\'s credit score?'
       expect(rendered).to have_subheader 'What is Gabi\'s credit score?'
       expect(rendered).to have_subheader 'How much do you spend per month?'

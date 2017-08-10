@@ -209,7 +209,8 @@ class SpendingInfo < SpendingInfo.superclass
         def help_text
           paragraphs = []
           if model.size > 1
-            names = escape!(model.map(&:first_name).join(' and '))
+            people = model.sort_by(&:type).reverse # owner first
+            names = escape!(people.map(&:first_name).join(' and '))
 
             paragraphs.push(
               "Please estimate the <b>combined</b> monthly spending "\
