@@ -235,7 +235,15 @@ module AdminArea
           private
 
           def rows
-            cell(ProductRows, collection: model, person: person)
+            # this isn't ideal, because it makes a SUM() query for every card
+            # product, i.e. we have an N+1 issue. The ideal solution would be
+            # to have a counter_cache-type column called
+            # CardProduct#recommended_cards_count, but this can't be achieved
+            # with the basic counter_cache functionality provided by Rails. I
+            # tried creating it with the custom_counter_cache gem, but couldn't
+            # get it to work - see the recommendation-counter-caches branch
+            products = model.sort_by { |p| p.offers.sum(:cards_count) }.reverse
+            cell(ProductRows, collection: products, person: person)
           end
 
           # Two <tr>s, one with the product information and one with its offers
