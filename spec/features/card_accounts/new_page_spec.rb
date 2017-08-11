@@ -135,7 +135,7 @@ RSpec.describe 'new card account page', :js do
   end
 
   context 'for a couples account' do
-    let!(:person) { create_companion(account: account) }
+    let!(:person) { account.create_companion!(first_name: 'x') }
     let(:product) { @bank_1_products.first }
 
     before do

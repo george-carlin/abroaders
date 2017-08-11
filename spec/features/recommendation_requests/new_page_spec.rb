@@ -119,7 +119,7 @@ RSpec.describe 'new recommendation request page' do
   end
 
   context 'couples account' do
-    let(:companion) { create_companion(:eligible, account: account) }
+    let(:companion) { account.create_companion!(first_name: 'Gabi', eligible: true) }
 
     before do
       create(

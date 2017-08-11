@@ -91,7 +91,7 @@ RSpec.describe SampleDataMacros do
     end
 
     example 'specifying person who is owner' do
-      owner = create_person
+      owner = create_account.owner
       expect do
         card = create_card_account(person: owner)
         expect(card).to be_a(Card)
@@ -231,7 +231,7 @@ RSpec.describe SampleDataMacros do
     end
 
     example 'specifying person' do
-      person = create_person
+      person = create_account.owner
       expect do
         balance = create_balance(person: person)
         expect(balance).to be_an(Balance)
@@ -246,56 +246,6 @@ RSpec.describe SampleDataMacros do
       travel_plan = create_travel_plan
       expect(travel_plan).to be_an(TravelPlan)
     end.to change { TravelPlan.count }.by(1)
-  end
-
-  describe '#create_person' do
-    let(:run_macro) { create_person(*traits) }
-    let(:traits) { [] }
-
-    let(:person) { Person.last }
-
-    it 'creates a person with an account' do
-      expect do
-        person = create_person
-        expect(person).to be_a(Person)
-        expect(person).not_to be_eligible
-        expect(person.type).to eq 'owner'
-      end.to change { Account.count }.by(1).and(change { Person.count }.by(1))
-      expect(SpendingInfo.count).to eq 0
-    end
-
-    example 'with overrides' do
-      expect do
-        person = create_person(first_name: 'George')
-        expect(person).to be_a(Person)
-        expect(person.first_name).to eq 'George'
-      end.to change { Account.count }.by(1).and(change { Person.count }.by(1))
-    end
-
-    example ':eligible' do
-      expect do
-        person = create_person(:eligible)
-        expect(person).to be_a(Person)
-        expect(person).to be_eligible
-        expect(person.type).to eq 'owner'
-      end.to change { Account.count }.by(1).and(change { Person.count }.by(1))
-    end
-
-    example ':companion' do
-      expect do
-        person = create_person(:companion)
-        expect(person).to be_a(Person)
-        expect(person.type).to eq 'companion'
-      end.to change { Account.count }.by(1).and(change { Person.count }.by(2))
-    end
-
-    example '#create_companion alias' do
-      expect do
-        person = create_companion
-        expect(person).to be_a(Person)
-        expect(person.type).to eq 'companion'
-      end.to change { Account.count }.by(1).and(change { Person.count }.by(2))
-    end
   end
 
   example '#kill_offer' do

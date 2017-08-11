@@ -35,7 +35,7 @@ RSpec.describe AdminArea::People::Cell::Show do
     expect(rendered).to have_link 'Erik', href: admin_person_path(person)
 
     # with companion:
-    companion = create_companion(first_name: 'Gabi', account: account)
+    companion = account.create_companion!(first_name: 'Gabi', eligible: true)
     person.reload
     rendered = cell(person, card_products: []).()
     expect(rendered).to have_link 'Erik', href: admin_person_path(person)
