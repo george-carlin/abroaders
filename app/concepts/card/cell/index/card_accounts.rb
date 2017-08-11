@@ -15,11 +15,11 @@ class Card < Card.superclass
 
         def btn_to_add_new
           link_to(
-            'Add New',
             new_card_account_path,
-            class: 'btn btn-primary btn-sm',
-            style: 'float:right; margin-top: 6px',
-          )
+            class: 'btn btn-success btn-xs',
+          ) do
+            "#{fa_icon('plus')} Add New"
+          end
         end
 
         def card_accounts_for_each_person
