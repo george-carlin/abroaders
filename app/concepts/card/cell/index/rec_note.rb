@@ -4,10 +4,7 @@ module Card::Cell
     include Escaped
 
     property :created_at
-
-    option :recommended_by # an Admin
-
-    alias admin recommended_by
+    property :admin
 
     private
 

@@ -5,25 +5,25 @@
     </h1>
 
     <p class="text-center" style="font-weight: 200">
-      <em>
-        Hand-picked from a travel expert.
-        <%= link_to_our_process_modal %>
-      </em>
+      <em>Hand-picked by a travel expert.  <%= link_to_our_process_modal %></em>
     </p>
   </div><!-- panel-heading -->
 
   <div id="card_recommendations" class="panel-body">
-    <%= note %>
+    <div class="row">
+      <% if recommendation_note? %>
+        <div class="col-xs-12 col-sm-6">
+          <%= note %>
+        </div>
+      <% end %>
 
-    <p>
-      Your recommendations will expire after two weeks. Please click “Find My Card”
-      below and complete the application on the bank's website. If you
-      decide not to apply for a card, please click “No Thanks”.
-    </p>
+      <div class="col-xs-12 <%= 'col-sm-6' if recommendation_note? %>">
+        <%= card_recommendations_for_each_person %>
+      </div>
 
-    <hr />
-
-    <%= card_recommendations_for_each_person %>
+      <div class="clearfix">
+      </div>
+    </div>
   </div><!-- .panel-body -->
 </div><!-- .hpanel -->
 

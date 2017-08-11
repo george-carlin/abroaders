@@ -1,47 +1,45 @@
-<div id="card_recommendation_<%= id %>" class="btn-group card_recommendation row">
-  <div class="col-xs-12 col-sm-6 col-md-2">
-    <%= image %>
-  </div>
+<div id="img-container">
+  <div class="image-text">
+    <div class="col-md-4">
+      <%= image %>
+    </div>
 
-  <div class="col-xs-12 col-sm-6 col-md-6">
-    <p>
-      <b>Card Name:</b>
-      <span class="card-account-card-name">
+    <div class="col-md-8">
+      <p class="text-left" style="font-size: 18px; padding-top: 10px;">
         <%= product_name %>
-      </span>
-    </p>
-
-    <p>
-      <b>Bank:</b>
-      <span class="card-account-bank">
-        <%= bank_name %>
-      </span>
-    </p>
-
-    <div class="card_offer">
-      <%= offer_description %>
-    </div><!-- .product-account-offer -->
-  </div>
-
-  <div class="col-xs-12">
+      </p>
+    </div>
     <br>
 
-    <% unless model.applied? %>
-      <div class="card_recommendation_apply_decline_btn_group btn-group">
-        <%= find_card_btn %>
-        <%= decline_btn %>
+    <div class="col-md-12">
+      <br>
+      <p><%= offer_description %></p>
+      <%= offer_user_notes %>
+
+      <% unless model.applied? %>
+        <div class="card_recommendation_apply_decline_btn_group btn-group">
+          <%= find_card_btn %>
+          <%= decline_btn %>
+        </div>
+
+        <%= decline_form %>
+
+        <br />
+        <br />
+      <% end %>
+
+      <div
+        data-react-component="CardApplicationSurvey"
+        data-update-path="<%= card_recommendation_path(model) %>"
+        data-card-account="<%= rec_as_json %>"
+        >
       </div>
-
-      <%= decline_form %>
-
-      <br />
-      <br />
-    <% end %>
-
-    <div
-      data-react-component="CardApplicationSurvey"
-      data-update-path="<%= card_recommendation_path(model) %>"
-      data-card-account="<%= rec_as_json %>"
-    ></div>
-  </div>
+    </div>
 </div>
+
+<% if false %>
+  <%# check the CSS for these classes: %>
+  <span class="card-account-card-name">
+  <span class="card-account-bank">
+  <div class="card_offer">
+<% end %>

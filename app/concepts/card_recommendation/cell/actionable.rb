@@ -11,21 +11,12 @@ class CardRecommendation < CardRecommendation.superclass
 
       # @param rec [CardRecommendation]
       def initialize(rec, options = {})
+        # TODO remove CardRecommendation
         raise 'must be an actionable rec' unless CardRecommendation.new(rec).actionable?
         super
       end
 
       private
-
-      def find_card_btn
-        link_to(
-          'Find My Card',
-          click_card_recommendation_path(model),
-          id:     "card_recommendation_#{id}_find_card_btn",
-          class:  'card_recommendation_find_card_btn btn btn-primary btn-sm',
-          target: '_blank',
-        )
-      end
 
       def decline_btn
         button_tag(
@@ -39,12 +30,32 @@ class CardRecommendation < CardRecommendation.superclass
         cell(DeclineForm, model)
       end
 
+      def find_card_btn
+        link_to(
+          'Find My Card',
+          click_card_recommendation_path(model),
+          id:     "card_recommendation_#{id}_find_card_btn",
+          class:  'card_recommendation_find_card_btn btn btn-primary btn-sm',
+          target: '_blank',
+        )
+      end
+
       def image
-        cell(CardProduct::Cell::Image, card_product, size: '130x81')
+        cell(
+          CardProduct::Cell::Image,
+          card_product,
+          class: 'img-responsive',
+          size: '130x81',
+        )
       end
 
       def offer_description
         cell(Offer::Cell::Description, offer)
+      end
+
+      def offer_user_notes
+        return '' if offer.user_notes.blank?
+        escape!(offer.user_notes)
       end
 
       def product_name
