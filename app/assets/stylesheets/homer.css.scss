@@ -1,4 +1,5 @@
 @import url("//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700");
+@import url("//fonts.googleapis.com/css?family=Open+Sans|Poppins");
 @import 'colors';
 
 // This is based on the Bootstrap theme we bought, which is called 'Homer'.
@@ -227,6 +228,8 @@ body.blank {
 }
 /* Fonts */
 h1, h2, h3, {
+  font-family: "Poppins", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: $headerColor;
   margin-top: 10px;
   margin-bottom: 10px;
   font-weight: 200;
