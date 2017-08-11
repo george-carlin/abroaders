@@ -422,13 +422,18 @@ module SampleDataMacros
     )['model']
   end
 
-  def complete_recs(account_or_person)
+  def complete_recs(account_or_person, admin: nil)
+    admin ||= create_admin
     person = if account_or_person.is_a?(Person)
                account_or_person
              else
                account_or_person.owner
              end
 
-    run!(AdminArea::CardRecommendations::Complete, person_id: person.id)
+    run!(
+      AdminArea::CardRecommendations::Complete,
+      { person_id: person.id },
+      'current_admin' => admin,
+    )
   end
 end

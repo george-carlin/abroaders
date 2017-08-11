@@ -3,8 +3,9 @@ require "rails_helper"
 RSpec.describe 'as a user viewing my cards' do
   subject { page }
 
-  let(:account)   { create_account(:eligible, :onboarded) }
-  let(:owner)     { account.owner }
+  let(:admin) { create_admin }
+  let(:account) { create_account(:eligible, :onboarded) }
+  let(:owner) { account.owner }
   let(:companion) { account.companion }
 
   before { login_as(account) unless skip_login }
@@ -38,8 +39,11 @@ RSpec.describe 'as a user viewing my cards' do
   end
 
   example 'recommendation notes' do
-    account.recommendation_notes.create!(content: 'whatever')
-    account.recommendation_notes.create!(content: "new note\n\nhttp://example.com")
+    account.recommendation_notes.create!(content: 'whatever', admin: admin)
+    account.recommendation_notes.create!(
+      content: "new note\n\nhttp://example.com",
+      admin: admin,
+    )
 
     create_card_recommendation(person_id: owner.id)
     visit_page

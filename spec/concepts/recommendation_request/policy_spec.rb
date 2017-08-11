@@ -4,6 +4,7 @@ RSpec.describe RecommendationRequest::Policy do
   include_context 'create_rec avoids extra records'
 
   let(:account) { create_account(:eligible, :onboarded) }
+  let(:admin) { create_admin }
   let(:person) { account.owner }
 
   describe '#create?' do
@@ -16,7 +17,11 @@ RSpec.describe RecommendationRequest::Policy do
 
       example 'with a resolved rec request' do
         create_rec_request('owner', account)
-        run!(AdminArea::CardRecommendations::Complete, person_id: person.id)
+        run!(
+          AdminArea::CardRecommendations::Complete,
+          { person_id: person.id },
+          'current_admin' => admin,
+        )
         expect(result).to be true
       end
 
