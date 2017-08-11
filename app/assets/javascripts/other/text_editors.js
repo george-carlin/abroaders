@@ -5,6 +5,7 @@ $(document).ready(function () {
       ['style', ['bold', 'italic', 'underline', 'clear']],
       ['font', ['strikethrough', 'superscript', 'subscript']],
       ['fontsize', ['fontsize']],
+      ['link', ['link']],
       ['para', ['ul', 'ol', 'paragraph']],
     ],
   });
