@@ -1,13 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe AdminArea::CardRecommendations::Complete do
+  let(:admin) { create_admin }
   let(:op) { described_class }
 
   let(:account) { create_account(:eligible) }
   let(:person) { account.owner }
 
   example 'success - no note, no rec request' do
-    result = op.(person_id: person.id, recommendation_note: '')
+    result = op.(
+      { person_id: person.id, recommendation_note: '' },
+      'current_admin' => admin,
+    )
 
     expect(result.success?).to be true
     person.reload
@@ -18,14 +22,15 @@ RSpec.describe AdminArea::CardRecommendations::Complete do
 
   example 'success - completing recs with a note' do
     result = op.(
-      person_id: person.id,
-      recommendation_note: 'I like to leave notes',
+      { person_id: person.id, recommendation_note: 'I like to leave notes' },
+      'current_admin' => admin,
     )
 
     expect(result.success?).to be true
     person.reload
     expect(account.recommendation_notes.count).to eq 1
     expect(account.recommendation_notes.last.content).to eq 'I like to leave notes'
+    expect(account.recommendation_notes.last.admin).to eq admin
     expect(result['recommendation_note']).to eq account.recommendation_notes.last
   end
 
@@ -35,7 +40,7 @@ RSpec.describe AdminArea::CardRecommendations::Complete do
     other_account = create_account(:eligible)
     create_rec_request('owner', other_account)
 
-    result = op.(person_id: person.id)
+    result = op.({ person_id: person.id }, 'current_admin' => admin)
     expect(result.success?).to be true
     expect(account.reload.unresolved_recommendation_requests?).to be false
     expect(other_account.reload.unresolved_recommendation_requests?).to be true
@@ -47,7 +52,7 @@ RSpec.describe AdminArea::CardRecommendations::Complete do
 
     expect(account.unresolved_recommendation_requests.count).to be 2
 
-    result = op.(person_id: person.id)
+    result = op.({ person_id: person.id }, 'current_admin' => admin)
     expect(result.success?).to be true
 
     expect(account.unresolved_recommendation_requests.count).to eq 0
@@ -59,7 +64,7 @@ RSpec.describe AdminArea::CardRecommendations::Complete do
 
     expect(account.unresolved_recommendation_requests.count).to eq 1
 
-    result = op.(person_id: person.id)
+    result = op.({ person_id: person.id }, 'current_admin' => admin)
     expect(result.success?).to be true
 
     expect(account.unresolved_recommendation_requests.count).to eq 0
@@ -67,8 +72,8 @@ RSpec.describe AdminArea::CardRecommendations::Complete do
 
   example 'success - note with trailing whitespace' do
     result = op.(
-      person_id: person.id,
-      recommendation_note: '    what   ',
+      { person_id: person.id, recommendation_note: '    what   ' },
+      'current_admin' => admin,
     )
     expect(result.success?).to be true
     person.reload
@@ -77,8 +82,8 @@ RSpec.describe AdminArea::CardRecommendations::Complete do
 
   example "success - note that's only whitespace" do
     result = op.(
-      person_id: person.id,
-      recommendation_note: "     \n \n \t\ \t ",
+      { person_id: person.id, recommendation_note: "     \n \n \t\ \t " },
+      'current_admin' => admin,
     )
     expect(result.success?).to be true
 

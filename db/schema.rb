@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170810151747) do
+ActiveRecord::Schema.define(version: 20170811195546) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -274,7 +274,9 @@ ActiveRecord::Schema.define(version: 20170810151747) do
     t.integer  "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "admin_id",   null: false
     t.index ["account_id"], name: "index_recommendation_notes_on_account_id", using: :btree
+    t.index ["admin_id"], name: "index_recommendation_notes_on_admin_id", using: :btree
   end
 
   create_table "recommendation_requests", force: :cascade do |t|
@@ -363,6 +365,7 @@ ActiveRecord::Schema.define(version: 20170810151747) do
   add_foreign_key "offers", "card_products", on_delete: :cascade
   add_foreign_key "people", "accounts", on_delete: :cascade
   add_foreign_key "recommendation_notes", "accounts", on_delete: :cascade
+  add_foreign_key "recommendation_notes", "admins", on_delete: :restrict
   add_foreign_key "recommendation_requests", "people", on_delete: :cascade
   add_foreign_key "spending_infos", "people", on_delete: :cascade
   add_foreign_key "travel_plans", "accounts", on_delete: :cascade
