@@ -28,7 +28,7 @@ class Card < Card.superclass
         def note
           return '' if recommendation_note.nil?
           cell(
-            CardRecommendation::Cell::Note,
+            RecNote,
             recommendation_note,
             recommended_by: recommended_by,
           )
