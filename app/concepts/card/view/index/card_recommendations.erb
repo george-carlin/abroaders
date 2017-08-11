@@ -1,6 +1,15 @@
 <div class="hpanel">
   <div class="panel-heading hbuilt">
-    <h1>My Recommendations</h1>
+    <h1 class="text-center">
+     <strong>Card Recommendations</strong>
+    </h1>
+
+    <p class="text-center" style="font-weight: 200">
+      <em>
+        Hand-picked from a travel expert.
+        <%= link_to_our_process_modal %>
+      </em>
+    </p>
   </div><!-- panel-heading -->
 
   <div id="card_recommendations" class="panel-body">
@@ -17,3 +26,5 @@
     <%= card_recommendations_for_each_person %>
   </div><!-- .panel-body -->
 </div><!-- .hpanel -->
+
+<%= our_process_modal %>

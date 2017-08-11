@@ -25,6 +25,15 @@ class Card < Card.superclass
           end
         end
 
+        def link_to_our_process_modal
+          link_to(
+            'Learn about our process.',
+            '#',
+            data: { toggle: 'modal', target: '#our-process-modal' },
+            style: "color: #35a7ff;",
+          )
+        end
+
         def note
           return '' if recommendation_note.nil?
           cell(
@@ -32,6 +41,10 @@ class Card < Card.superclass
             recommendation_note,
             recommended_by: recommended_by,
           )
+        end
+
+        def our_process_modal
+          cell(OurProcessModal)
         end
 
         # We're not saving which admin sent the rec *note*, only which admin
