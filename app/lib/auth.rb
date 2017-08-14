@@ -113,13 +113,10 @@ module Auth
       case route
       when TrueClass
         key = module_name
-        value = []
       when Symbol
         key = route
-        value = []
       when Hash
         key = route.keys.first
-        value = route.values.flatten
       else
         raise ArgumentError, ":route should be true, a Symbol or a Hash"
       end
