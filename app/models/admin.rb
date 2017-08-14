@@ -1,4 +1,5 @@
 class Admin < ApplicationRecord
+  include Auth::Models::Authenticatable
   include Paperclip::Glue
 
   # Include default devise modules. Others available are:
