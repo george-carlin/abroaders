@@ -1,3 +1,5 @@
+require 'constants'
+
 module AdminArea::Admins
   class Form < Reform::Form
     feature Coercion
@@ -11,7 +13,7 @@ module AdminArea::Admins
 
     validates :email,
               presence: true,
-              format: { with: Admin.email_regexp, allow_blank: true }
+              format: { with: EMAIL_REGEXP, allow_blank: true }
     validates :first_name, presence: true
     validates :last_name, presence: true
     validates :avatar,
