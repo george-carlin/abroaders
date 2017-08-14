@@ -5,6 +5,11 @@ class Auth::Mailer < ActionMailer::Base
     @token = token
     @scope_name = record.warden_scope
     @resource = instance_variable_set("@#{@scope_name}", record)
+    @password_url = send(
+      "edit_#{resource.warden_scope}_password_url",
+      reset_password_token: @token,
+      locale: I18n.locale
+    )
     mail headers_for(:reset_password_instructions, opts)
   end
 
