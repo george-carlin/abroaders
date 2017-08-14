@@ -3,6 +3,12 @@ module AdminArea::Admins
     class New < Abroaders::Cell::Base
       option :form
 
+      def title
+        'New Admin'
+      end
+
+      subclasses_use_parent_view!
+
       private
 
       def errors

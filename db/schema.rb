@@ -10,32 +10,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170711081416) do
+ActiveRecord::Schema.define(version: 20170811195546) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "pg_stat_statements"
 
   create_table "accounts", force: :cascade do |t|
-    t.string   "email",                   default: "",              null: false
-    t.string   "encrypted_password",      default: "",              null: false
+    t.string   "email",                      default: "",              null: false
+    t.string   "encrypted_password",         default: "",              null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",           default: 0,               null: false
+    t.integer  "sign_in_count",              default: 0,               null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                                        null: false
-    t.datetime "updated_at",                                        null: false
+    t.datetime "created_at",                                           null: false
+    t.datetime "updated_at",                                           null: false
     t.integer  "monthly_spending_usd"
-    t.string   "onboarding_state",        default: "home_airports", null: false
+    t.string   "onboarding_state",           default: "home_airports", null: false
     t.string   "promo_code"
-    t.boolean  "test",                    default: false,           null: false
+    t.boolean  "test",                       default: false,           null: false
     t.string   "phone_number"
     t.string   "phone_number_normalized"
     t.string   "fb_token"
+    t.string   "phone_number_us_normalized"
     t.index ["email"], name: "index_accounts_on_email", unique: true, using: :btree
     t.index ["fb_token"], name: "index_accounts_on_fb_token", using: :btree
     t.index ["onboarding_state"], name: "index_accounts_on_onboarding_state", using: :btree
@@ -66,6 +67,14 @@ ActiveRecord::Schema.define(version: 20170711081416) do
     t.inet     "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.string   "first_name",                          null: false
+    t.string   "avatar_file_name",                    null: false
+    t.string   "avatar_content_type",                 null: false
+    t.integer  "avatar_file_size",                    null: false
+    t.datetime "avatar_updated_at",                   null: false
+    t.string   "last_name",                           null: false
+    t.text     "bio"
+    t.string   "job_title"
     t.index ["email"], name: "index_admins_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
   end
@@ -154,15 +163,15 @@ ActiveRecord::Schema.define(version: 20170711081416) do
 
   create_table "cards", force: :cascade do |t|
     t.integer  "card_product_id"
-    t.integer  "person_id",         null: false
+    t.integer  "person_id",                 null: false
     t.integer  "offer_id"
     t.datetime "recommended_at"
     t.date     "applied_on"
     t.date     "opened_on"
     t.date     "closed_on"
     t.string   "decline_reason"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
     t.datetime "clicked_at"
     t.datetime "declined_at"
     t.datetime "denied_at"
@@ -172,6 +181,7 @@ ActiveRecord::Schema.define(version: 20170711081416) do
     t.datetime "seen_at"
     t.datetime "expired_at"
     t.integer  "recommended_by_id"
+    t.integer  "recommendation_request_id"
     t.index ["recommended_at"], name: "index_cards_on_recommended_at", using: :btree
     t.index ["seen_at"], name: "index_cards_on_seen_at", using: :btree
   end
@@ -241,6 +251,8 @@ ActiveRecord::Schema.define(version: 20170711081416) do
     t.string   "partner",          default: "none", null: false
     t.string   "condition",                         null: false
     t.integer  "value_cents"
+    t.text     "user_notes"
+    t.integer  "cards_count",      default: 0,      null: false
     t.index ["card_product_id"], name: "index_offers_on_card_product_id", using: :btree
     t.index ["killed_at"], name: "index_offers_on_killed_at", using: :btree
   end
@@ -262,7 +274,9 @@ ActiveRecord::Schema.define(version: 20170711081416) do
     t.integer  "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "admin_id",   null: false
     t.index ["account_id"], name: "index_recommendation_notes_on_account_id", using: :btree
+    t.index ["admin_id"], name: "index_recommendation_notes_on_admin_id", using: :btree
   end
 
   create_table "recommendation_requests", force: :cascade do |t|
@@ -341,6 +355,7 @@ ActiveRecord::Schema.define(version: 20170711081416) do
   add_foreign_key "cards", "card_products", on_delete: :restrict
   add_foreign_key "cards", "offers", on_delete: :cascade
   add_foreign_key "cards", "people", on_delete: :cascade
+  add_foreign_key "cards", "recommendation_requests", on_delete: :nullify
   add_foreign_key "destinations", "destinations", column: "parent_id", on_delete: :restrict
   add_foreign_key "flights", "destinations", column: "from_id", on_delete: :restrict
   add_foreign_key "flights", "destinations", column: "to_id", on_delete: :restrict
@@ -350,6 +365,7 @@ ActiveRecord::Schema.define(version: 20170711081416) do
   add_foreign_key "offers", "card_products", on_delete: :cascade
   add_foreign_key "people", "accounts", on_delete: :cascade
   add_foreign_key "recommendation_notes", "accounts", on_delete: :cascade
+  add_foreign_key "recommendation_notes", "admins", on_delete: :restrict
   add_foreign_key "recommendation_requests", "people", on_delete: :cascade
   add_foreign_key "spending_infos", "people", on_delete: :cascade
   add_foreign_key "travel_plans", "accounts", on_delete: :cascade

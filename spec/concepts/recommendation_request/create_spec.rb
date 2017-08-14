@@ -49,7 +49,7 @@ RSpec.describe RecommendationRequest::Create do
   end
 
   context 'couples account' do
-    let!(:companion) { create_companion(account: account, eligible: true) }
+    let!(:companion) { account.create_companion!(first_name: 'x', eligible: true) }
 
     # account.companion returns nil unless you reload:
     before { account.reload }

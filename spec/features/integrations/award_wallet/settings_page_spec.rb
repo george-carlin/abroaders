@@ -13,7 +13,7 @@ RSpec.describe 'award wallet settings page' do
   end
 
   before do
-    create_companion(account: account)
+    account.create_companion!(first_name: 'x')
     visit integrations_award_wallet_settings_path
   end
 

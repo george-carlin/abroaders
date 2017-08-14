@@ -37,9 +37,10 @@ RSpec.describe AdminArea::CardRecommendations::Update do
     expect(rec.decline_reason).to eq 'whatever'
   end
 
-  example 'updating to opened' do
+  example 'updating to opened less than 15 days ago' do
+    date = 14.days.ago.to_date
     rec = create_rec
-    params[:card] = { opened_on: dec_2015 }
+    params[:card] = { opened_on: date }
     params[:id] = rec.id
 
     expect_to_queue_card_opened_webhook_with_id(rec.id)
@@ -47,7 +48,21 @@ RSpec.describe AdminArea::CardRecommendations::Update do
     result = op.(params)
     expect(result.success?).to be true
 
-    expect(result['model'].opened_on).to eq dec_2015
+    expect(result['model'].opened_on).to eq date
+  end
+
+  example 'updating to opened more than 15 days ago' do
+    date = 16.days.ago.to_date
+    rec = create_rec
+    params[:card] = { opened_on: date }
+    params[:id] = rec.id
+
+    expect_not_to_queue_card_opened_webhook
+
+    result = op.(params)
+    expect(result.success?).to be true
+
+    expect(result['model'].opened_on).to eq date
   end
 
   example 'updating when already opened' do

@@ -24,7 +24,7 @@ RSpec.describe CardAccount::Create do
   end
 
   example 'creating a card account - specifying a person-id' do
-    companion = create_companion(account: account)
+    companion = account.create_companion!(first_name: 'x')
     result = op.(
       {
         person_id: companion.id,

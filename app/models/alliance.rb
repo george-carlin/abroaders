@@ -21,10 +21,6 @@ class Alliance < Dry::Struct
     Currency.where(alliance_name: name)
   end
 
-  def filterable_currencies
-    currencies.filterable
-  end
-
   def self.all
     Name.options[:values].map { |n| new(name: n) }
   end

@@ -29,20 +29,28 @@ RSpec.describe 'admin - show offer page' do
     expect(page).to have_content offer.notes
   end
 
-  example 'verifying', :js do
+  example "when offer's card product has no currency" do # bug fix
+    card_product.update!(currency: nil)
+    visit route
+    expect(page).to have_content product.name
+  end
+
+  example 'verifying' do
     visit route
     expect(page).to have_content 'Last reviewed: never'
     click_link 'Verify offer'
     expect(page).to have_content "Last reviewed: #{now.strftime('%D')}"
     expect(offer.reload.last_reviewed_at).to be_within(5.seconds).of(now)
+    expect(current_path).to eq route
   end
 
-  example 'killing', :js do
+  example 'killing' do
     visit route
     expect(page).to have_no_content 'Killed at'
     click_link 'Kill offer'
     expect(page).to have_content "Killed: #{now.strftime('%D')}"
     expect(offer.reload.killed_at).to be_within(5.seconds).of(now)
+    expect(current_path).to eq route
   end
 
   describe 'alternative offers table' do
@@ -131,5 +139,32 @@ RSpec.describe 'admin - show offer page' do
       expect { click_button 'Save' }.to change { rec.reload.updated_at }
       expect(current_path).to eq admin_offer_path(offer)
     end
+  end
+
+  example 'replacing offer of active recs' do
+    recs = Array.new(2) { create_rec(offer: offer) }
+
+    not_active = create_rec(offer: offer)
+    not_active.update!(applied_on: Date.today)
+    _rec_with_different_offer = create_rec(offer: create_offer)
+
+    alt_1 = create_offer(attrs)
+    alt_2 = create_offer(attrs)
+
+    visit route
+
+    expect(offer.active_recommendations.count).to eq 2
+
+    expect(page).to have_field "replacement_offer_id_#{alt_1.id}"
+    expect(page).to have_field "replacement_offer_id_#{alt_2.id}"
+
+    choose "replacement_offer_id_#{alt_2.id}"
+
+    click_button 'Replace offer'
+
+    expect(offer.active_recommendations.count).to eq 0
+    expect(current_path).to eq admin_offer_path(offer)
+
+    expect(recs.all? { |r| r.reload.offer == alt_2 }).to be true
   end
 end

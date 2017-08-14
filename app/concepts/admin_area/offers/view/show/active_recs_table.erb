@@ -1,0 +1,14 @@
+<%= header %>
+<% if any? %>
+  <%= button_tag(
+      'Replace offer',
+      class: 'btn btn-primary btn-xs',
+      data: { confirm: 'Are you sure?' },
+    )
+  %>
+  <div id="offer_active_recs_table">
+    <%= table %>
+  </div>
+<% else %>
+  No active card recommendations
+<% end %>

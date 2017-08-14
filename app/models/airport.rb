@@ -1,3 +1,14 @@
+# For future reference, our original list of airports and cities was based on:
+#
+# https://bitbucket.org/!api/2.0/snippets/georgemillo/y8zMo/8ec4454bc955b27ee278ad92187e046c548312fb/files/snippet.txt
+#
+# and
+#
+# https://bitbucket.org/!api/2.0/snippets/georgemillo/Ad9Mb/1852d0a5ba78f4f061d9cd754c02c627b7e643da/files/file
+#
+# But this original data has been heavily modified (and new entries added.) Our
+# current airport data is mostly based on miles.biz's list of airports (as of
+# 25/10/2016). Keeping the note of the above links for historical reference.
 class Airport < Destination
   IATA_CODE_REGEX = /\A[A-Z]{3}\z/i
 

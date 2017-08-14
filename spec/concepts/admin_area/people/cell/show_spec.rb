@@ -35,7 +35,7 @@ RSpec.describe AdminArea::People::Cell::Show do
     expect(rendered).to have_link 'Erik', href: admin_person_path(person)
 
     # with companion:
-    companion = create_companion(first_name: 'Gabi', account: account)
+    companion = account.create_companion!(first_name: 'Gabi', eligible: true)
     person.reload
     rendered = cell(person, card_products: []).()
     expect(rendered).to have_link 'Erik', href: admin_person_path(person)
@@ -144,49 +144,70 @@ RSpec.describe AdminArea::People::Cell::Show do
   end
 
   example 'person has received recommendations' do
-    skip 'FIXME this test gives false positives'
-    # offer = Offer.new(card_product: card_product)
-    # cards = [
-    #   # new rec:
-    #   Card.new(id: 50, offer: offer, recommended_at: jan, person: person, card_product: card_product),
-    #   # clicked rec:
-    #   Card.new(id: 51, offer: offer, seen_at: jan, recommended_at: mar, clicked_at: oct, card_product: card_product),
-    #   # declined rec:
-    #   Card.new(id: 52, offer: offer, recommended_at: oct, seen_at: mar, declined_at: dec, decline_reason: 'because', card_product: card_product),
-    # ]
+    card_product = create(:card_product)
+    offer = create_offer(card_product: card_product)
+
+    person = create_account.owner
+
+    rec = person.cards.create!(offer: offer, recommended_at: jan)
+    clicked = person.cards.create!(offer: offer, seen_at: jan, recommended_at: mar, clicked_at: oct)
+    declined = person.cards.create!(offer: offer, recommended_at: oct, seen_at: mar, declined_at: dec, decline_reason: 'because')
 
     rendered = cell(person, card_products: []).()
 
-    within '#admin_person_cards_table' do
-      expect(rendered).to have_selector '#card_50'
-      expect(rendered).to have_selector '#card_51'
-      expect(rendered).to have_selector '#card_52'
+    def have(selector, text = nil)
+      have_selector selector, text: text
     end
 
-    within '#card_50' do
-      expect(rendered).to have_selector '.card_status', text: 'Recommended'
-      expect(rendered).to have_selector '.card_recommended_at', text: '01/01/15'
-      expect(rendered).to have_selector '.card_seen_at',        text: '-'
-      expect(rendered).to have_selector '.card_clicked_at',     text: '-'
-      expect(rendered).to have_selector '.card_applied_on',     text: '-'
+    wrapper = '#admin_person_card_recommendations'
+    # debugger
+    expect(rendered).to have "#{wrapper} #card_recommendation_#{rec.id}"
+    expect(rendered).to have "#{wrapper} #card_recommendation_#{clicked.id}"
+    expect(rendered).to have "#{wrapper} #card_recommendation_#{declined.id}"
+
+    wrapper = "#card_recommendation_#{rec.id}"
+    expect(rendered).to have "#{wrapper} .card_recommendation_status", 'Recommended'
+    expect(rendered).to have "#{wrapper} .card_recommendation_recommended_at", '01/01/15'
+    expect(rendered).to have "#{wrapper} .card_recommendation_seen_at", '-'
+    expect(rendered).to have "#{wrapper} .card_recommendation_clicked_at", '-'
+    expect(rendered).to have "#{wrapper} .card_recommendation_applied_on", '-'
+
+    wrapper = "#card_recommendation_#{clicked.id}"
+    expect(rendered).to have "#{wrapper} .card_recommendation_recommended_at", '03/01/15'
+    expect(rendered).to have "#{wrapper} .card_recommendation_seen_at", '01/01/15'
+    expect(rendered).to have "#{wrapper} .card_recommendation_clicked_at", '10/01/15'
+    expect(rendered).to have "#{wrapper} .card_recommendation_applied_on", '-'
+    expect(rendered).to have "#{wrapper} .card_recommendation_status", 'Recommended'
+
+    wrapper = "#card_recommendation_#{declined.id}"
+    expect(rendered).to have "#{wrapper} .card_recommendation_recommended_at", '10/01/15'
+    expect(rendered).to have "#{wrapper} .card_recommendation_seen_at", '03/01/15'
+    expect(rendered).to have "#{wrapper} .card_recommendation_clicked_at", '-'
+    expect(rendered).to have "#{wrapper} .card_recommendation_declined_at", '12/01/15'
+    expect(rendered).to have "#{wrapper} .card_recommendation_status", 'Declined'
+    expect(rendered).to have_selector 'a[data-toggle="tooltip"][title=because]'
+  end
+
+  example 'products table' do
+    def offer_selector(offer)
+      "#admin_recommend_offer_#{offer.id}"
     end
 
-    within '#card_51' do
-      expect(rendered).to have_selector '.card_recommended_at', text: '03/01/15'
-      expect(rendered).to have_selector '.card_seen_at',        text: '01/01/15'
-      expect(rendered).to have_selector '.card_clicked_at',     text: '10/01/15'
-      expect(rendered).to have_selector '.card_applied_on',     text: '-'
-      expect(rendered).to have_selector '.card_status', text: 'Recommended'
+    def product_selector(product)
+      "#admin_recommend_card_product_#{product.id}"
     end
 
-    within '#card_52' do
-      expect(rendered).to have_selector '.card_recommended_at', text: '10/01/15'
-      expect(rendered).to have_selector '.card_seen_at',        text: '03/01/15'
-      expect(rendered).to have_selector '.card_clicked_at',     text: '-'
-      expect(rendered).to have_selector '.card_declined_at',    text: '12/01/15'
-      expect(rendered).to have_selector '.card_status', text: 'Declined'
-      expect(rendered).to have_selector 'a[data-toggle="tooltip"]'
-      expect(find('a[data-toggle="tooltip"]')['title']).to eq 'because'
-    end
+    currency = create_currency
+    product = create(:card_product, currency: currency)
+    product_with_no_currency = create(:card_product, currency: nil)
+
+    o_0 = create_offer(card_product: product)
+    o_1 = create_offer(card_product: product_with_no_currency)
+
+    rendered = cell(person, card_products: CardProduct.all).()
+    expect(rendered).to have_selector(product_selector(product))
+    expect(rendered).to have_selector(product_selector(product_with_no_currency))
+    expect(rendered).to have_selector(offer_selector(o_0))
+    expect(rendered).to have_selector(offer_selector(o_1))
   end
 end

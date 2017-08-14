@@ -36,9 +36,9 @@ RSpec.describe Abroaders::Cell::Layout::Sidebar do
     expect(sidebar).to have_content 'Destinations'
     expect(sidebar).to have_content 'My Account'
     expect(sidebar).to have_content 'Offers'
-    expect(sidebar).to have_content 'View all offers'
-    expect(sidebar).to have_content 'Review live offers'
     expect(sidebar).to have_content 'Users'
     expect(sidebar).to have_content 'Manage Admins'
+    expect(sidebar).to have_content 'Currencies'
+    expect(sidebar).to have_content 'Rec Requests'
   end
 end

@@ -4,7 +4,6 @@ require SPEC_ROOT.join('support', 'sample_data_macros')
 require 'integrations/award_wallet/api_client'
 require 'integrations/award_wallet/error'
 
-# mutation testing passing as of 8/Mar/17
 RSpec.describe Integrations::AwardWallet::APIClient do
   include AwardWalletMacros
   include SampleDataMacros

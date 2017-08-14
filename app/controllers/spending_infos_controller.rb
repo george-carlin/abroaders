@@ -14,33 +14,15 @@ class SpendingInfosController < AuthenticatedUserController
 
   def survey
     @form = SpendingSurvey.new(account: current_account)
-    # fake a real TRB result until we've extracted things to an op
-    warn "#{self.class}##{__method__} needs updating to use a TRB operation"
-    @_result = {
-      'current_account' => current_account,
-      'values_remove_me' => @values,
-      'contract.default' => @form,
-      'eligible_people' => current_account.people.select(&:eligible?),
-      'render_jsx' => true,
-    }
-    render cell(SpendingInfo::Cell::Survey, @_result)
+    render cell(SpendingInfo::Cell::Survey, current_account, form: @form)
   end
 
   def save_survey
-    warn "#{self.class}##{__method__} needs updating to use a TRB operation"
     @form = SpendingSurvey.new(account: current_account)
     if @form.update_attributes(spending_survey_params)
       redirect_to onboarding_survey_path
     else
-      # fake a real TRB result until we've extracted things to an op
-      @_result = {
-        'current_account' => current_account,
-        'values_remove_me' => @values,
-        'contract.default' => @form,
-        'eligible_people' => current_account.people.select(&:eligible?),
-        'render_jsx' => true,
-      }
-      render cell(SpendingInfo::Cell::Survey, @_result)
+      render cell(SpendingInfo::Cell::Survey, current_account, form: @form)
     end
   end
 

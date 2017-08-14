@@ -3,8 +3,9 @@ require "rails_helper"
 RSpec.describe 'as a user viewing my cards' do
   subject { page }
 
-  let(:account)   { create_account(:eligible, :onboarded) }
-  let(:owner)     { account.owner }
+  let(:admin) { create_admin }
+  let(:account) { create_account(:eligible, :onboarded) }
+  let(:owner) { account.owner }
   let(:companion) { account.companion }
 
   before { login_as(account) unless skip_login }
@@ -38,8 +39,11 @@ RSpec.describe 'as a user viewing my cards' do
   end
 
   example 'recommendation notes' do
-    account.recommendation_notes.create!(content: 'whatever')
-    account.recommendation_notes.create!(content: "new note\n\nhttp://example.com")
+    account.recommendation_notes.create!(content: 'whatever', admin: admin)
+    account.recommendation_notes.create!(
+      content: "new note\n\nhttp://example.com",
+      admin: admin,
+    )
 
     create_card_recommendation(person_id: owner.id)
     visit_page
@@ -55,7 +59,8 @@ RSpec.describe 'as a user viewing my cards' do
     unseen_rec = create_card_recommendation(person_id: owner.id)
     seen_rec = create_card_recommendation(:seen, person_id: owner.id)
     card = create_card_account(person: owner)
-    other_persons_rec = create_card_recommendation(:seen, person_id: create_person.id)
+    other_person = create_account.owner
+    other_persons_rec = create_card_recommendation(:seen, person_id: other_person.id)
 
     # reload these recs here or you get a weird error on Codeship because
     # of CS's date precision
@@ -99,6 +104,15 @@ RSpec.describe 'as a user viewing my cards' do
     # has headers with owner's or companion's names:
     expect(page).to have_selector H, text: "#{owner.first_name}'s Recommendations"
     expect(page).to have_selector H, text: "#{companion.first_name}'s Recommendations"
+  end
+
+  example 'when recommended a product with no currency' do
+    product = create(:card_product, currency: nil)
+    offer = create_offer(card_product: product)
+    create_card_recommendation(offer: offer, person: owner)
+
+    visit_page # bug fix: previously it was crashing
+    expect(page).to have_content product.name
   end
 
   context 'as admin logged in as user' do

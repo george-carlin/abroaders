@@ -1,19 +1,16 @@
 class SpendingInfo < SpendingInfo.superclass
   module Cell
-    # @!method self.call(result, opts = {})
-    #   @param result [Trailblazer::Operation::Result]
-    #   @option result [Collection<People>] eligible_people
-    #   @option result [Account] account
-    #   @option result [Reform::Form] contract.default
+    # @!method self.call(current_account, opts = {})
+    #   @option opts [Form] form
     class Survey < Abroaders::Cell::Base
-      extend Abroaders::Cell::Result
       include ::Cell::Builder
 
-      skill :eligible_people
-      skill :account
+      property :eligible_people
 
-      builds do |result|
-        case result['eligible_people'].size
+      option :form
+
+      builds do |current_account|
+        case current_account.eligible_people.size
         when 1 then SoloSurvey
         when 2 then CouplesSurvey
         else raise 'account must have 1 or 2 eligible people'
@@ -54,10 +51,6 @@ class SpendingInfo < SpendingInfo.superclass
             )
           end
         end
-      end
-
-      def form
-        result['contract.default']
       end
 
       def monthly_spending_form_group(form_builder)
@@ -216,7 +209,8 @@ class SpendingInfo < SpendingInfo.superclass
         def help_text
           paragraphs = []
           if model.size > 1
-            names = escape!(model.map(&:first_name).join(' and '))
+            people = model.sort_by(&:type).reverse # owner first
+            names = escape!(people.map(&:first_name).join(' and '))
 
             paragraphs.push(
               "Please estimate the <b>combined</b> monthly spending "\

@@ -58,6 +58,13 @@
           <% end %>
         </dl>
       </div>
+      <% if user_notes.present? %>
+        <div class="col-xs-12">
+          <h3>User-facing notes:</h3>
+          <%= user_notes %>
+          <hr>
+        </div>
+      <% end %>
       <div class="col-xs-12">
         <%= link_to_edit %> |
         <%= link_to_new_offer %> |
@@ -73,15 +80,17 @@
     <hr />
 
     <div class="row">
-      <div class="col-xs-12 col-xl-6">
-        <%= alternatives_table %>
+      <%= form_tag replace_admin_offer_path(model), method: :patch do %>
+        <div class="col-xs-12 col-xl-6">
+          <%= alternatives_table %>
 
-        <hr class="hidden-xl">
-      </div>
+          <hr class="hidden-xl">
+        </div>
 
-      <div class="col-xs-12 col-xl-6">
-        <%= active_recs_table %>
-      </div>
+        <div class="col-xs-12 col-xl-6">
+          <%= active_recs_table %>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

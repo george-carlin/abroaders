@@ -52,7 +52,7 @@ RSpec.describe 'balance index page' do
 
     it 'clicking "Add new"' do
       click_link 'Add new'
-      expect(current_path).to eq new_person_balance_path(owner)
+      expect(current_path).to eq new_balance_path
     end
 
     it 'hides the unnecessary columns in the table' do
@@ -83,7 +83,7 @@ RSpec.describe 'balance index page' do
 
     it 'clicking "Add new"', :js do
       click_button 'Add new'
-      expect(page).to have_link 'Add on Abroaders', href: new_person_balance_path(owner)
+      expect(page).to have_link 'Add on Abroaders', href: new_balance_path
       expect(page).to have_link 'Add on AwardWallet', href: 'https://awardwallet.com/account/select-provider'
     end
 

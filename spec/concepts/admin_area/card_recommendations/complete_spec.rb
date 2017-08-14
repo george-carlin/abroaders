@@ -1,13 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe AdminArea::CardRecommendations::Complete do
+  let(:admin) { create_admin }
   let(:op) { described_class }
 
-  let(:person)  { create_person(:eligible) }
-  let(:account) { person.account }
+  let(:account) { create_account(:eligible) }
+  let(:person) { account.owner }
 
   example 'success - no note, no rec request' do
-    result = op.(person_id: person.id, recommendation_note: '')
+    result = op.(
+      { person_id: person.id, recommendation_note: '' },
+      'current_admin' => admin,
+    )
 
     expect(result.success?).to be true
     person.reload
@@ -18,14 +22,15 @@ RSpec.describe AdminArea::CardRecommendations::Complete do
 
   example 'success - completing recs with a note' do
     result = op.(
-      person_id: person.id,
-      recommendation_note: 'I like to leave notes',
+      { person_id: person.id, recommendation_note: 'I like to leave notes' },
+      'current_admin' => admin,
     )
 
     expect(result.success?).to be true
     person.reload
     expect(account.recommendation_notes.count).to eq 1
     expect(account.recommendation_notes.last.content).to eq 'I like to leave notes'
+    expect(account.recommendation_notes.last.admin).to eq admin
     expect(result['recommendation_note']).to eq account.recommendation_notes.last
   end
 
@@ -35,31 +40,31 @@ RSpec.describe AdminArea::CardRecommendations::Complete do
     other_account = create_account(:eligible)
     create_rec_request('owner', other_account)
 
-    result = op.(person_id: person.id)
+    result = op.({ person_id: person.id }, 'current_admin' => admin)
     expect(result.success?).to be true
     expect(account.reload.unresolved_recommendation_requests?).to be false
     expect(other_account.reload.unresolved_recommendation_requests?).to be true
   end
 
   example 'success - account has two users with unresolved rec requests' do
-    create_companion(:eligible, account: account)
+    account.create_companion!(first_name: 'X', eligible: true)
     create_rec_request('both', account)
 
     expect(account.unresolved_recommendation_requests.count).to be 2
 
-    result = op.(person_id: person.id)
+    result = op.({ person_id: person.id }, 'current_admin' => admin)
     expect(result.success?).to be true
 
     expect(account.unresolved_recommendation_requests.count).to eq 0
   end
 
   example 'success - account has two users, one has unresolved rec req' do
-    create_companion(:eligible, account: account)
+    account.create_companion!(first_name: 'X', eligible: true)
     create_rec_request('companion', account)
 
     expect(account.unresolved_recommendation_requests.count).to eq 1
 
-    result = op.(person_id: person.id)
+    result = op.({ person_id: person.id }, 'current_admin' => admin)
     expect(result.success?).to be true
 
     expect(account.unresolved_recommendation_requests.count).to eq 0
@@ -67,8 +72,8 @@ RSpec.describe AdminArea::CardRecommendations::Complete do
 
   example 'success - note with trailing whitespace' do
     result = op.(
-      person_id: person.id,
-      recommendation_note: '    what   ',
+      { person_id: person.id, recommendation_note: '    what   ' },
+      'current_admin' => admin,
     )
     expect(result.success?).to be true
     person.reload
@@ -77,29 +82,12 @@ RSpec.describe AdminArea::CardRecommendations::Complete do
 
   example "success - note that's only whitespace" do
     result = op.(
-      person_id: person.id,
-      recommendation_note: "     \n \n \t\ \t ",
+      { person_id: person.id, recommendation_note: "     \n \n \t\ \t " },
+      'current_admin' => admin,
     )
     expect(result.success?).to be true
 
     person.reload
     expect(person.account.recommendation_notes.count).to eq 0
-  end
-
-  example 'ignores other params' do
-    # Tests like this are necessary to make mutation testing pass. Otherwise
-    # when you have methods like this in the operation:
-    #
-    # def my_step(opts, params:, **)
-    #   # whatever
-    # end
-    #
-    # Then mutant will try removing the '**', and the tests will still pass - a
-    # mutation failure.
-    #
-    # Kinda pedantic to bother covering this with tests, but it's nice to make
-    # mutant pass, and it's more future-proof because you never know what might
-    # get passed in as a 2nd object to the op in future changes.
-    op.({ person_id: person.id, recommendation_note: '' }, 'current_admin' => Object.new)
   end
 end

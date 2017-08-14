@@ -33,4 +33,17 @@ RSpec.describe Offer do
 
     expect { offer.partner = 'invalid' }.to raise_error(Dry::Types::ConstraintError)
   end
+
+  example 'cards_count' do
+    offer = create_offer
+    expect(offer.cards_count).to eq 0
+    rec_0 = create_card_recommendation(offer: offer)
+    expect(offer.reload.cards_count).to eq 1
+    rec_1 = create_card_recommendation(offer: offer)
+    expect(offer.reload.cards_count).to eq 2
+    rec_0.destroy
+    expect(offer.reload.cards_count).to eq 1
+    rec_1.destroy
+    expect(offer.reload.cards_count).to eq 0
+  end
 end

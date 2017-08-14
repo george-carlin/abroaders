@@ -29,6 +29,15 @@ Rails.application.routes.draw do
 
   # --- EVERYBODY ---
 
+  resources :airports, only: [] do
+    collection { get :typeahead }
+  end
+
+  Destination::TYPES.each do |type|
+    # /airports, /cities, /countries, /regions
+    get type.pluralize, to: "destinations##{type}"
+  end
+
   controller :static_pages do
     get :privacy_policy
     get :terms_and_conditions
@@ -44,10 +53,7 @@ Rails.application.routes.draw do
     post :type, action: :submit_type
   end
 
-  resources :airports, only: [:index]
-
-  # balances#new and balances#create are nested under 'people'
-  resources :balances, only: [:index, :edit, :update, :destroy]
+  resources :balances
 
   resources :card_recommendations do
     member do
@@ -103,7 +109,7 @@ Rails.application.routes.draw do
   resources :notifications, only: :show
 
   resources :people, only: [] do
-    resources :balances, only: [:new, :create] do
+    resources :balances, only: [] do
       collection do
         get  :survey
         post :survey, action: :save_survey
@@ -182,19 +188,17 @@ Rails.application.routes.draw do
     end
 
     resources :card_accounts, only: [:edit, :update]
+    resources :currencies
 
     # show and edit redirect to the nested action:
     resources :offers, only: [:show, :edit, :index, :update] do
-      collection do
-        get :review
-      end
       member do
-        patch :kill, :verify, :unkill
+        patch :kill, :replace, :unkill, :verify
       end
     end
     resources :destinations, only: :index
     Destination::TYPES.each do |type|
-      # airports, cities, countries, etc
+      # /airports, /cities, /countries, /regions
       get type.pluralize, to: "destinations##{type}"
     end
     resources :people, only: :show do
@@ -208,6 +212,7 @@ Rails.application.routes.draw do
     end
     resources :card_recommendations
     resources :recommendation_notes, only: [:edit, :update]
+    resources :recommendation_requests
     resource :registration
     resources :travel_plans, only: [:edit, :update]
   end

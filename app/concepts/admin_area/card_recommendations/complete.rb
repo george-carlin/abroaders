@@ -30,9 +30,14 @@ module AdminArea
         opts['current_account'] = person.account
       end
 
-      def create_rec_note(opts, params:, current_account:, **)
+      def create_rec_note(opts, params:, current_account:, current_admin:, **)
         note = params[:recommendation_note]&.strip
-        current_account.recommendation_notes.create!(content: note) if note.present?
+        if note.present?
+          current_account.recommendation_notes.create!(
+            admin: current_admin,
+            content: note,
+          )
+        end
         opts['recommendation_note'] = current_account.recommendation_notes.last
       end
 

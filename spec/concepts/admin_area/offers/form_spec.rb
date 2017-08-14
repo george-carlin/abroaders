@@ -211,4 +211,25 @@ RSpec.describe AdminArea::Offers::Form do
       expect(offer.spend).to be_nil
     end
   end
+
+  example 'saving admin and user notes' do
+    form = described_class.new(card_product.offers.new(condition: 'on_minimum_spend'))
+    valid = form.validate(
+      cost: 0,
+      days: 90,
+      link: 'http://example.com',
+      notes: 'these are user notes',
+      partner: 'none',
+      points_awarded: 10_000,
+      spend: 1000,
+      user_notes: 'these are admin notes',
+    )
+
+    expect(valid).to be true
+
+    form.save
+    offer = form.model
+    expect(offer.notes).to eq 'these are user notes'
+    expect(offer.user_notes).to eq 'these are admin notes'
+  end
 end
