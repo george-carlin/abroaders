@@ -86,21 +86,6 @@ module Auth
       "/#{@path_prefix}/#{@path}".squeeze("/")
     end
 
-    # Create magic predicates for verifying what module is activated by this map.
-    # Example:
-    #
-    #   def confirmable?
-    #     self.modules.include?(:confirmable)
-    #   end
-    #
-    def self.add_module(m)
-      class_eval <<-METHOD, __FILE__, __LINE__ + 1
-        def #{m}?
-          self.modules.include?(:#{m})
-        end
-      METHOD
-    end
-
     private
 
     def default_failure_app(options)

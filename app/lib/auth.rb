@@ -74,65 +74,6 @@ module Auth
     mapping
   end
 
-  # Register available devise modules. For the standard modules that Devise provides, this method is
-  # called from lib/devise/modules.rb. Third-party modules need to be added explicitly using this method.
-  #
-  # Note that adding a module using this method does not cause it to be used in the authentication
-  # process. That requires that the module be listed in the arguments passed to the 'devise' method
-  # in the model class definition.
-  #
-  # == Options:
-  #
-  #   +model+      - String representing the load path to a custom *model* for this module (to autoload.)
-  #   +controller+ - Symbol representing the name of an existing or custom *controller* for this module.
-  #   +route+      - Symbol representing the named *route* helper for this module.
-  #   +strategy+   - Symbol representing if this module got a custom *strategy*.
-  #   +insert_at+  - Integer representing the order in which this module's model will be included
-  #
-  # All values, except :model, accept also a boolean and will have the same name as the given module
-  # name.
-  #
-  # == Examples:
-  #
-  #   Auth.add_module(:party_module)
-  #   Auth.add_module(:party_module, strategy: true, controller: :sessions)
-  #   Auth.add_module(:party_module, model: 'party_module/model')
-  #   Auth.add_module(:party_module, insert_at: 0)
-  #
-  def self.add_module(module_name, options = {})
-    options.assert_valid_keys(:strategy, :model, :controller, :route, :insert_at)
-
-    ALL.insert (options[:insert_at] || -1), module_name
-
-    if (strategy = options[:strategy])
-      strategy = (strategy == true ? module_name : strategy)
-      STRATEGIES[module_name] = strategy
-    end
-
-    if (route = options[:route])
-      case route
-      when TrueClass
-        key = module_name
-      when Symbol
-        key = route
-      when Hash
-        key = route.keys.first
-      else
-        raise ArgumentError, ":route should be true, a Symbol or a Hash"
-      end
-
-      ROUTES[module_name] = key
-    end
-
-    if options[:model]
-      path = (options[:model] == true ? "devise/models/#{module_name}" : options[:model])
-      camelized = ActiveSupport::Inflector.camelize(module_name.to_s)
-      Auth::Models.send(:autoload, camelized.to_sym, path)
-    end
-
-    Auth::Mapping.add_module module_name
-  end
-
   # Generate a friendly string randomly to be used as token.
   # By default, length is 20 characters.
   def self.friendly_token(length = 20)
