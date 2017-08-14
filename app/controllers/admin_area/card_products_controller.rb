@@ -1,6 +1,6 @@
 module AdminArea
   class CardProductsController < AdminController
-    before_action :check_currencies!, if: "Rails.env.development?"
+    before_action :check_currencies!, if: -> { Rails.env.development? }
 
     # GET /admin/cards
     def index

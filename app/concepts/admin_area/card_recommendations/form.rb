@@ -15,8 +15,8 @@ module AdminArea
       property :opened_on, type: Types::Form::Date
 
       validation do
-        validates :decline_reason, presence: true, if: 'declined_at.present?'
-        validates :decline_reason, absence: true, unless: 'declined_at.present?'
+        validates :decline_reason, presence: true, if: -> { declined_at.present? }
+        validates :decline_reason, absence: true, unless: -> { declined_at.present? }
         validates :recommended_at, presence: true
       end
     end
