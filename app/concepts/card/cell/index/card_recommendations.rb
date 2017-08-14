@@ -43,6 +43,10 @@ class Card < Card.superclass
           cell(OurProcessModal)
         end
 
+        def people
+          @people ||= super.sort_by(&:type).reverse # owner first
+        end
+
         def recommendation_note?
           !recommendation_note.nil?
         end

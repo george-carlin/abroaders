@@ -14,12 +14,12 @@
       <% if recommendation_note? %>
         <div class="col-xs-12 col-sm-6">
           <%= note %>
-        </div>
+        </div><!-- .col-xs-12.col-sm-6 recommendation note -->
       <% end %>
 
       <div class="col-xs-12 <%= 'col-sm-6' if recommendation_note? %>">
         <%= card_recommendations_for_each_person %>
-      </div>
+      </div><!-- .col-xs-12(.col-sm-6) recs for each person -->
 
       <div class="clearfix">
       </div>
