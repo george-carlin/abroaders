@@ -46,7 +46,7 @@ module Auth
       # it exists), and save the record without validations.
       def forget_me!
         return unless persisted?
-        self.remember_created_at = nil if self.class.expire_all_remember_me_on_sign_out
+        self.remember_created_at = nil
         save(validate: false)
       end
 
@@ -108,10 +108,6 @@ module Auth
 
           record = find_by(id: id)
           record if record && record.remember_me?(token, generated_at)
-        end
-
-        def expire_all_remember_me_on_sign_out
-          true
         end
 
         def remember_for

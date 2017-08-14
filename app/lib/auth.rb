@@ -6,9 +6,14 @@ module Auth
   STRATEGIES  = ActiveSupport::OrderedHash.new
   URL_HELPERS = ActiveSupport::OrderedHash.new
 
-  # Secret key used by the key generator
-  mattr_accessor :secret_key
-  @@secret_key = nil
+  def self.secret_key
+    Rails.application.secrets.secret_key_base
+  end
+
+  # How many times to hash a password
+  def self.stretches
+    Rails.env.test? ? 1 : 10
+  end
 
   # Keys that should be case-insensitive.
   mattr_accessor :case_insensitive_keys
@@ -17,10 +22,6 @@ module Auth
   # Keys that should have whitespace stripped.
   mattr_accessor :strip_whitespace_keys
   @@strip_whitespace_keys = [:email]
-
-  # If true, all the remember me tokens are going to be invalidated when the user signs out.
-  mattr_accessor :expire_all_remember_me_on_sign_out
-  @@expire_all_remember_me_on_sign_out = true
 
   # The default scope which is used by warden.
   mattr_accessor :default_scope
@@ -55,12 +56,6 @@ module Auth
   # Stores the token generator
   mattr_accessor :token_generator
   @@token_generator = nil
-
-  # Default way to set up Auth. Run rails generate devise_install to create
-  # a fresh initializer with all configuration values.
-  def self.setup
-    yield self
-  end
 
   class Getter
     def initialize(name)
@@ -155,21 +150,6 @@ module Auth
     end
 
     Auth::Mapping.add_module module_name
-  end
-
-  # Sets warden configuration using a block that will be invoked on warden
-  # initialization.
-  #
-  #  Auth.setup do |config|
-  #    config.allow_unconfirmed_access_for = 2.days
-  #
-  #    config.warden do |manager|
-  #      # Configure warden to use other strategies, like oauth.
-  #      manager.oauth(:twitter)
-  #    end
-  #  end
-  def self.warden(&block)
-    @@warden_config_blocks << block
   end
 
   # A method used internally to complete the setup of warden manager after routes are loaded.

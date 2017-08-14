@@ -5,12 +5,6 @@ module Auth
     # Authenticatable Module, responsible for hashing the password and
     # validating the authenticity of a user while signing in.
     #
-    # == Options
-    #
-    # DatabaseAuthenticatable adds the following options to devise_for:
-    #
-    #   * +stretches+: the cost given to bcrypt.
-    #
     # == Examples
     #
     #    User.find(1).valid_password?('password123')         # returns true/false
@@ -28,12 +22,12 @@ module Auth
       # the hashed password.
       def password=(new_password)
         @password = new_password
-        self.encrypted_password = password_digest(@password) if @password.present?
+        self.encrypted_password = Auth::Encryptor.digest(@password) if @password.present?
       end
 
       # Verifies whether a password (ie from sign in) is the user password.
       def valid_password?(password)
-        Auth::Encryptor.compare(self.class, encrypted_password, password)
+        Auth::Encryptor.compare(encrypted_password, password)
       end
 
       # Set password and password confirmation to nil
@@ -112,20 +106,7 @@ module Auth
 
       protected
 
-      # Hashes the password using bcrypt. Custom hash functions should override
-      # this method to apply their own algorithm.
-      #
-      # See https://github.com/plataformatec/devise-encryptable for examples
-      # of other hashing engines.
-      def password_digest(password)
-        Auth::Encryptor.digest(self.class, password)
-      end
-
       module ClassMethods
-        def stretches
-          Rails.env.test? ? 1 : 10
-        end
-
         # We assume this method already gets the sanitized values from the
         # DatabaseAuthenticatable strategy. If you are using this method on
         # your own, be sure to sanitize the conditions hash to only include
