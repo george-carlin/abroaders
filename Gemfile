@@ -50,7 +50,7 @@ gem 'workflow'
 gem 'dry-logic', '~> 0.4.1'
 
 group :development, :test do
-  gem 'bullet', '5.3.0'
+  gem 'bullet', '~> 5.6.1'
   gem 'byebug'
   gem 'database_cleaner'
   gem 'factory_girl_rails', '~> 4.5.0'
