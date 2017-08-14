@@ -3,7 +3,7 @@
 #
 # There's no actual DB constraint to enforce this, it's only happening at the
 # application layer. Ideally we should add a DB constraint as well but I don't
-# know to validate that an entry is unique across two columns in two separate
+# know how to validate that an entry is unique across two columns in two separate
 # tables?
 #
 # Example usage:
