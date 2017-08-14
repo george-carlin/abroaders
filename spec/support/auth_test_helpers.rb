@@ -35,7 +35,7 @@ module Auth
     #
     # Examples:
     #
-    #   sign_in @user          # sign_in(resource)
+    #   sign_in @user
     #
     def sign_in(resource)
       scope = resource.warden_scope
