@@ -172,25 +172,6 @@ module Auth
     @@warden_config_blocks << block
   end
 
-  # Include helpers in the given scope to AC and AV.
-  # DEVISETODO aren't any including these anyway?
-  def self.include_helpers(scope)
-    ActiveSupport.on_load(:action_controller) do
-      include scope::Helpers if defined?(scope::Helpers)
-      include scope::UrlHelpers
-    end
-
-    ActiveSupport.on_load(:action_view) do
-      include scope::UrlHelpers
-    end
-  end
-
-  # Regenerates url helpers considering Auth.mapping
-  def self.regenerate_helpers!
-    Auth::Controllers::UrlHelpers.remove_helpers!
-    Auth::Controllers::UrlHelpers.generate_helpers!
-  end
-
   # A method used internally to complete the setup of warden manager after routes are loaded.
   # See lib/devise/rails/routes.rb - ActionDispatch::Routing::RouteSet#finalize_with_devise!
   def self.configure_warden! #:nodoc:
