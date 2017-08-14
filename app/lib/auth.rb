@@ -1,10 +1,8 @@
 # rubocop:disable Style/ClassVars
 module Auth
   ALL         = [].freeze
-  CONTROLLERS = ActiveSupport::OrderedHash.new
   ROUTES      = ActiveSupport::OrderedHash.new
   STRATEGIES  = ActiveSupport::OrderedHash.new
-  URL_HELPERS = ActiveSupport::OrderedHash.new
 
   def self.secret_key
     Rails.application.secrets.secret_key_base
@@ -47,11 +45,6 @@ module Auth
   mattr_reader :helpers
   @@helpers = Set.new
   @@helpers << Auth::Controllers::Helpers
-
-  # Private methods to interface with Warden.
-  mattr_accessor :warden_config
-  @@warden_config = nil
-  @@warden_config_blocks = []
 
   # Stores the token generator
   mattr_accessor :token_generator
@@ -116,11 +109,6 @@ module Auth
       STRATEGIES[module_name] = strategy
     end
 
-    if (controller = options[:controller])
-      controller = (controller == true ? module_name : controller)
-      CONTROLLERS[module_name] = controller
-    end
-
     if (route = options[:route])
       case route
       when TrueClass
@@ -136,10 +124,6 @@ module Auth
         raise ArgumentError, ":route should be true, a Symbol or a Hash"
       end
 
-      URL_HELPERS[key] ||= []
-      URL_HELPERS[key].concat(value)
-      URL_HELPERS[key].uniq!
-
       ROUTES[module_name] = key
     end
 
@@ -150,31 +134,6 @@ module Auth
     end
 
     Auth::Mapping.add_module module_name
-  end
-
-  # A method used internally to complete the setup of warden manager after routes are loaded.
-  # See lib/devise/rails/routes.rb - ActionDispatch::Routing::RouteSet#finalize_with_devise!
-  def self.configure_warden! #:nodoc:
-    @@warden_configured ||= begin
-      warden_config.failure_app   = Auth::Delegator.new
-      warden_config.default_scope = Auth.default_scope
-      warden_config.intercept_401 = false
-
-      Auth.mappings.each_value do |mapping|
-        warden_config.scope_defaults mapping.name, strategies: mapping.strategies
-
-        warden_config.serialize_into_session(mapping.name) do |record|
-          mapping.to.serialize_into_session(record)
-        end
-
-        warden_config.serialize_from_session(mapping.name) do |args|
-          mapping.to.serialize_from_session(*args)
-        end
-      end
-
-      @@warden_config_blocks.map { |block| block.call Auth.warden_config }
-      true
-    end
   end
 
   # Generate a friendly string randomly to be used as token.
