@@ -93,21 +93,27 @@ RSpec.describe Abroaders::Cell::ValidationErrorsAlert do
   end
 
   context 'with an ActiveRecord object' do
+    class MyRecord < ActiveRecord::Base
+      self.table_name = 'accounts'
+
+      attr_accessor :email
+      validates :email, presence: true
+    end
+
     example 'no errors' do
-      model = Account.new(email: 'email@email.com')
-      model.password = model.password_confirmation = 'abroaders123'
+      model = MyRecord.new.tap { |m| m.email = 'email@email.com' }
       expect(model.valid?).to be true
 
       expect(described_class.(model).()).to eq ''
     end
 
     example 'unvalidated' do
-      model = Account.new
+      model = MyRecord.new
       expect(described_class.(model).()).to eq ''
     end
 
     example 'with errors' do
-      model = Account.new
+      model = MyRecord.new
       expect(model.valid?).to be false
 
       expect(described_class.(model).()).to include "Email can't be blank"
