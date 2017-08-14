@@ -1,6 +1,3 @@
-# DEVISETODO does this really need to go in an initializer?
-ActionView::Base.include Auth::Controllers::UrlHelpers
-
 Auth.add_mapping :accounts
 Auth.add_mapping :admins
 
