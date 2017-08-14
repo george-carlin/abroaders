@@ -1,6 +1,5 @@
 class ApplicationController < ActionController::Base
   include Abroaders::Controller::Onboarding
-  include Auth::Controllers::UrlHelpers
   include Auth::Controllers::Helpers
 
   # Prevent CSRF attacks by raising an exception.

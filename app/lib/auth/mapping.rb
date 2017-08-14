@@ -28,23 +28,6 @@ module Auth
 
     alias name singular
 
-    # Receives an object and find a scope for it. If a scope cannot be found,
-    # raises an error. If a symbol is given, it's considered to be the scope.
-    # DEVISETODO I've added #warden_scope (class or instance
-    # meth on Account/Admin) but Mapping.find_scope is still used
-    # in a view places (I've simplified the original method from Devise
-    # so that it no longer uses Auth.mappings.) Can I remove find_scope
-    # altogether? Maybe even remove Auth::Mapping altogether?
-    def self.find_scope!(obj)
-      if obj.respond_to?(:warden_scope)
-        obj.warden_scope
-      elsif [String, Symbol].include?(obj.class)
-        obj.to_sym
-      else
-        raise "Could not find a valid mapping for #{obj.inspect}"
-      end
-    end
-
     # devise_for in routes will call this with ':account' or ':admin'
     # as the first option.
     #

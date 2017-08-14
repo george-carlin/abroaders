@@ -35,27 +35,23 @@ module Auth
     #
     # Examples:
     #
-    #   sign_in :user, @user   # sign_in(scope, resource)
     #   sign_in @user          # sign_in(resource)
     #
-    def sign_in(resource_or_scope, resource = nil)
-      scope ||= Auth::Mapping.find_scope!(resource_or_scope)
-      resource ||= resource_or_scope
+    def sign_in(resource)
+      scope = resource.warden_scope
 
       warden.instance_variable_get(:@users).delete(scope)
       warden.session_serializer.store(resource, scope)
     end
 
-    # Sign out a given resource or scope by calling logout on Warden.
-    # This method bypass any warden logout callback.
+    # Sign out a given scope by calling logout on Warden.
+    # This method bypasses any warden logout callback.
     #
     # Examples:
     #
     #   sign_out :user     # sign_out(scope)
-    #   sign_out @user     # sign_out(resource)
     #
-    def sign_out(resource_or_scope)
-      scope = Auth::Mapping.find_scope!(resource_or_scope)
+    def sign_out(scope)
       @controller.instance_variable_set(:"@current_#{scope}", nil)
       user = warden.instance_variable_get(:@users).delete(scope)
       warden.session_serializer.delete(scope, user)

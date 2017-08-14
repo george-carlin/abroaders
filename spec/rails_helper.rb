@@ -74,7 +74,7 @@ RSpec.configure do |config|
   #
   # parent method signature = login_as(user, opts = {})
   def login_as(user, opts = {})
-    opts[:scope] ||= Auth::Mapping.find_scope!(user)
+    opts[:scope] ||= user.warden_scope
     super(user, opts)
   end
 

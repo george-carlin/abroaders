@@ -34,16 +34,6 @@ module Auth
         before_validation :strip_whitespace
       end
 
-      # DEVISETODO My addition on top of devise. Devise finds the resource
-      # name with code like:
-      #
-      #    Auth::Mapping.find_scope!(Account)
-      #    # => :account
-      #    # or:
-      #    Auth::Mapping.find_scope!(Account.last)
-      #    # => :account
-      #
-      # I don't see why it needs to be so complicated
       def warden_scope
         self.class.warden_scope
       end
