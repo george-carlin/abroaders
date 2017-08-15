@@ -2,6 +2,7 @@ class EligibilitiesController < AuthenticatedUserController
   onboard :eligibility, with: [:survey, :save_survey]
 
   def survey
+    render cell(Nationality::Cell::Survey, current_account)
   end
 
   def save_survey
