@@ -1,30 +1,19 @@
-<div id="card_recommendation_<%= id %>" class="btn-group card_recommendation row">
-  <div class="col-xs-12 col-sm-6 col-md-2">
+<div id="card_recommendation_<%= id %>" class="card_recommendation row">
+  <div class="col-xs-12 col-md-4">
     <%= image %>
   </div>
 
-  <div class="col-xs-12 col-sm-6 col-md-6">
-    <p>
-      <b>Card Name:</b>
-      <span class="card-account-card-name">
-        <%= product_name %>
-      </span>
+  <div class="col-xs-12 col-md-8">
+    <p class="text-left" style="font-size: 18px; padding-top: 10px;">
+      <%= product_name %>
     </p>
-
-    <p>
-      <b>Bank:</b>
-      <span class="card-account-bank">
-        <%= bank_name %>
-      </span>
-    </p>
-
-    <div class="card_offer">
-      <%= offer_description %>
-    </div><!-- .product-account-offer -->
   </div>
+  <br>
 
-  <div class="col-xs-12">
+  <div class="col-xs-12 col-md-12">
     <br>
+    <p><%= offer_description %></p>
+    <%= offer_user_notes %>
 
     <% unless model.applied? %>
       <div class="card_recommendation_apply_decline_btn_group btn-group">
@@ -42,6 +31,7 @@
       data-react-component="CardApplicationSurvey"
       data-update-path="<%= card_recommendation_path(model) %>"
       data-card-account="<%= rec_as_json %>"
-    ></div>
-  </div>
+      >
+    </div>
+  </div><!-- col-md-12 -->
 </div>

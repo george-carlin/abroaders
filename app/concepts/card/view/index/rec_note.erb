@@ -1,11 +1,31 @@
-<h3><em><strong>What <%= recommended_by.first_name %> says</strong></em></h3>
+<div class="panel">
+  <div class="panel-heading" style="background: #35a7ff; padding-top: 25px;">
+    <h2 class="lead text-center" style="color: #ffffff;">
+      <%= fa_icon 'pencil' %>
+      Expert Notes
+    </h2>
+  </div>
 
-<blockquote>
-  <p><%= content %></p>
+  <div class="panel-body" style="background: #ffffff; color: grey;">
+    <%= headshot %>
+    <p class="text-center">
+      <em>
+        Travel expert <%= admin_first_name %>,
+        <%= link_to_see_bio %>
+      </em>
+    </p>
 
-  <small></small>
+    <blockquote>
+      <%= content %>
 
-  <%= recommended_by_basic %>
-</blockquote>
+      <small>
+        <strong><%= admin_full_name %></strong>, <%= admin_job_title %>
+        <cite title="" data-original-title="">
+          Abroaders <strong><%= timestamp %></strong>
+        </cite>
+      </small>
+    </blockquote>
+  </div><!-- .panel-body -->
+</div><!-- .panel -->
 
-<%= recommended_by_modal %>
+<%= bio_modal %>

@@ -25,28 +25,30 @@ class Card < Card.superclass
           end
         end
 
-        def note
-          return '' if recommendation_note.nil?
-          cell(
-            RecNote,
-            recommendation_note,
-            recommended_by: recommended_by,
+        def link_to_our_process_modal
+          link_to(
+            'Learn about our process.',
+            '#',
+            data: { toggle: 'modal', target: '#our-process-modal' },
+            style: "color: #35a7ff;",
           )
         end
 
-        # We're not saving which admin sent the rec *note*, only which admin
-        # sent the individual recs. Eventually we'll want a more complicated
-        # rec note system entirely. For now, use the imperfect solution of
-        # assuming that all recs were recommended by whoever recommended the
-        # *most recent* rec.
-        #
-        # If the Card is a recommendation, then recommended_by should not be
-        # nil.  (When I added the recommended_by column, I updated all legacy
-        # recs to say they were recommended by Erik.) So if this line returns
-        # nil, something's gone wrong:
-        def recommended_by
-          rec = actionable_card_recommendations.max_by(&:recommended_at)
-          rec.recommended_by
+        def note
+          return '' unless recommendation_note?
+          cell(RecNote, recommendation_note)
+        end
+
+        def our_process_modal
+          cell(OurProcessModal)
+        end
+
+        def people
+          @people ||= super.sort_by(&:type).reverse # owner first
+        end
+
+        def recommendation_note?
+          !recommendation_note.nil?
         end
 
         # @!method self.call(person, options = {})
