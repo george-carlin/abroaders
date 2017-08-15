@@ -1,15 +1,13 @@
-<% provide :title, "Add Home Aiports" %>
-
 <div class="hpanel home-airports-survey">
   <div class="panel-heading hbuilt">
     <div class="row">
       <div class="col-xs-12 greeting-message">
-        <% if %w[survey save_survey].include?(params[:action]) %>
+        <% if editing %>
+          <h1>Update Home Airports</h1>
+        <% else %>
           <h1>Welcome, traveler!</h1>
 
           <h2>What's your home airport?</h2>
-        <% else %>
-          <h1>Update Home Airports</h1>
         <% end %>
 
         <p>
@@ -22,5 +20,5 @@
     </div><!-- .row -->
   </div>
 
-  <%= render "home_airports/survey_form", survey: @survey %>
+  <%= body %>
 </div>
