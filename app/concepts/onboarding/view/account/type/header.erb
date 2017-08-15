@@ -1,5 +1,33 @@
 <div class="<%= html_classes %>">
-  <h1>How do you want to earn points?</h1>
+  <h2>Account</h2>
 
-  <p><%= text %></p>
+  <p class="lead">
+    Is this account just for you or for you and your partner?
+  </p>
+
+    <a
+      href="#why-we-ask-account-type"
+      type="button"
+      data-toggle="collapse"
+      data-target="#why-we-ask-account-type"
+      aria-expanded="false"
+      aria-controls="#why-we-ask-account-type"
+      style="color: #1fb6ff; font-size: 14px;"
+    >
+      <span class="fa fa-question-circle"></span>
+      <em>Why do we ask?</em>
+    </a>
+</div>
+
+<div class="row">
+  <div class="col-xs-12 col-md-4 col-md-offset-4">
+    <div id="why-we-ask-account-type" class="collapse">
+      <div class="well well-lg">
+        Giving us more information about any specific trips you have planned in
+        the future (especially those 3 or more months away) will help us design
+        a better overall points strategy, both for the specific trips you've
+        already planned and those yet to be planned.
+      </div>
+    </div>
+  </div>
 </div>

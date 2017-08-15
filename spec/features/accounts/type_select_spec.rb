@@ -11,8 +11,8 @@ RSpec.describe 'account type select page', :js, :onboarding do
     visit type_account_path
   end
 
-  let(:solo_btn)    { 'Sign up for solo earning' }
-  let(:couples_btn) { 'Sign up for couples earning' }
+  let(:solo_btn)    { 'Select solo account' }
+  let(:couples_btn) { 'Select couples account' }
 
   def submit_companion_first_name(name)
     fill_in :account_companion_first_name, with: name
