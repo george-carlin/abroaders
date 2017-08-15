@@ -1,0 +1,35 @@
+<div class="row">
+  <div class="col-xs-12">
+    <%= form_tag survey_eligibility_path do %>
+      <% if couples? %>
+        <% couples_h.each do |value, lbl| %>
+          <div class='radio'>
+            <label>
+              <%= radio_button :eligibility_survey, :eligible, value, checked: value == :both %>
+              <%= lbl %>
+            </label>
+          </div>
+        <% end %>
+      <% else %>
+        <div class='radio'>
+          <label>
+            <%= radio_button :eligibility_survey, :eligible, :owner, checked: true %>
+            Yes - I am eligible
+          </label>
+        </div>
+
+        <div class='radio'>
+          <label>
+            <%= radio_button :eligibility_survey, :eligible, :neither %>
+            No - I am not eligible
+          </label>
+        </div>
+      <% end %>
+
+      <button class="btn btn-primary btn-large">
+        <i class="fa fa-check"> </i>
+        Save and continue
+      </button>
+    <% end %>
+  </div>
+</div>
