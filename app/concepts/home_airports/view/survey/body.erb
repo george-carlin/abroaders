@@ -2,8 +2,7 @@
   <p class="helper-message">You can add five airports maximum</p>
   <div class="col-md-9">
 
-    <% path = %w[survey save_survey].include?(params[:action]) ? survey_home_airports_path : overwrite_home_airports_path %>
-    <%= form_tag path, html: { class: "home-airport-survey-form text-center" } do %>
+    <%= form_tag submit_path, html: { class: "home-airport-survey-form text-center" } do %>
       <div class="row">
         <div class="col-xs-12 col-md-4 saved-area" style="visibility:hidden;">
           <p class="title">Saved home airports:</p>
