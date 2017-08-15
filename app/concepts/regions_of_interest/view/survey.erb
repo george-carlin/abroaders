@@ -1,29 +1,55 @@
-<div class="hpanel interest-regions-survey">
-  <div class="panel-heading hbuilt">
-    <div class="greeting-message">
-      <h1>Interested in any of these locations?</h1>
+<div class="interest-regions-survey">
+  <div class="row text-center">
+    <div class="col-xs-12">
+      <h2>Wish List</h2>
 
-      <h4>
-        Select all the regions you would be interested in visiting. We'll save
-        the regions to your profile and alert when there are great deals
-      </h4>
+      <p class="lead">
+        Which regions are you interested in visiting in the future?
+      </p>
+
+      <a
+        href="#why-we-ask-wish list"
+        data-target="#why-we-ask-wish-list"
+        data-toggle="collapse"
+        aria-expanded="false"
+      >
+        <span style="color: #1fb6ff; font-size: 14px;" class="fa fa-question-circle"></span>
+        <span style="color: #1fb6ff; font-size: 14px;"><em>Why do we ask?</em></span>
+      </a>
     </div>
   </div>
 
-  <div class="panel-body">
-    <%= form_tag survey_interest_regions_path, class: "text-center" do |f| %>
-      <div class="row">
-        <%= regions %>
-      </div>
+  <br>
 
-      <div class="row">
-        <div class="col-xs-12">
-          <button class="btn btn-lg btn-primary submit-button">
-            <i class="fa fa-check" aria-hidden="true"></i>
-            Save and continue
-          </button>
+  <div class="row">
+    <div class="col-xs-12 col-md-4 col-md-offset-4">
+      <div id="why-we-ask-wish-list" class="collapse">
+        <div class="well well-lg">
+          Most airlines (with some exceptions) determine pricing based on the
+          formula "from region A to region B", so knowing which regions you may
+          visit in the future helps us craft a larger strategy for you to
+          accrue the best points for your long term travel goals.
         </div>
       </div>
-    <% end %>
-  </div><!-- .panel-body -->
+    </div>
+  </div>
+
+  <%= form_tag survey_interest_regions_path, class: "text-center" do |f| %>
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="row">
+          <%= regions %>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-12">
+            <button class="btn btn-lg btn-primary submit-button">
+              <i class="fa fa-check" aria-hidden="true"></i>
+              Save and continue
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
 </div>

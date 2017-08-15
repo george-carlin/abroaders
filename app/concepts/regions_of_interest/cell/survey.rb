@@ -18,7 +18,7 @@ module RegionsOfInterest
       class RegionInput < Abroaders::Cell::Base
         def show
           <<-HTML
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 region-box">
+            <div class="col-xs-6 col-md-2 region-box">
               #{name_tag}
               #{survey_checkbox_tag}
               #{image}
@@ -40,7 +40,12 @@ module RegionsOfInterest
         end
 
         def name_tag
-          label_tag(checkbox_id, name, class: 'region-name')
+          label_tag(
+            checkbox_id,
+            name,
+            class: 'region-name',
+            style: 'font-size: 16px;',
+          )
         end
 
         def survey_checkbox_tag
