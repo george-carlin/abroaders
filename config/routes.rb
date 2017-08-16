@@ -38,6 +38,8 @@ Rails.application.routes.draw do
     get type.pluralize, to: "destinations##{type}"
   end
 
+  post :support, to: 'support#support'
+
   controller :static_pages do
     get :privacy_policy
     get :terms_and_conditions
