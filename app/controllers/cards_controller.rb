@@ -22,14 +22,14 @@ class CardsController < AuthenticatedUserController
 
   def survey
     @person = load_person
-    redirect_if_onboarding_wrong_person_type!
+    redirect_if_onboarding_wrong_person_type! && return
     survey = CardProduct::Survey.new(person: @person)
     render cell(Card::Cell::Survey, @person, form: survey)
   end
 
   def save_survey
     @person = load_person
-    redirect_if_onboarding_wrong_person_type!
+    redirect_if_onboarding_wrong_person_type! && return
     # There's currently no way that survey_params can be invalid, so this
     # should never fail:
     CardProduct::Survey.new(survey_params.merge(person: @person)).save!
