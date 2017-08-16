@@ -25,7 +25,56 @@
         </cite>
       </small>
     </blockquote>
+
+    <p class="lead text-center">Have a question?</p>
+
+    <p class="text-center">
+      <button class="btn btn-info" data-toggle="modal" data-target="#contact-us-modal" style="background: #35a7ff;">
+        <span class="fa fa-envelope"> </span>
+        Send <%= admin_first_name %> a message
+      </button>
+    </p>
   </div><!-- .panel-body -->
 </div><!-- .panel -->
 
 <%= bio_modal %>
+
+<div
+  aria-hidden="true"
+  class="modal fade hmodal-info"
+  id="contact-us-modal"
+  role="dialog"
+  tabindex="-1"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="color-line" style="background-color: #35a7ff"></div>
+      <div class="modal-header text-center">
+        <%= headshot %>
+        <small class="font-bold text-center">
+          I'm <%= admin_first_name %>, your Abroaders travel expert.
+        </small>
+        <h4 class="modal-title text-center" style="color: #35a7ff;">
+          How can I help?
+        </h4>
+      </div>
+
+      <%= form_tag support_path, method: 'post' do %>
+        <div class="modal-body">
+          <textarea
+            class="form-control"
+            rows="3"
+            name="message"
+            placeholder="Type your message here..."></textarea>
+        </div>
+
+        <div class="modal-footer">
+          <input type="submit" value="Send message" class="btn btn-primary">
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            Close
+          </button>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
