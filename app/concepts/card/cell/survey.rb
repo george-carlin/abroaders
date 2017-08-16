@@ -56,7 +56,7 @@ module Card::Cell
       end
 
       def products
-        cell(CardProduct::Cell::Survey::Product, collection: model[1])
+        cell(Product, collection: model[1])
       end
     end
   end

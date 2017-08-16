@@ -1,8 +1,6 @@
-# TODO really this belongs under the 'cards' concept, not under 'card
-# products'
-class CardProduct < CardProduct.superclass
+class Card < Card.superclass
   module Cell
-    module Survey
+    class Survey < Survey.superclass
       # An individual product on the cards survey. Displays the product's image
       # and has inputs to set the opened and closed dates.
       #
@@ -14,11 +12,11 @@ class CardProduct < CardProduct.superclass
         private
 
         def annual_fee
-          cell(AnnualFee, model)
+          cell(CardProduct::Cell::AnnualFee, model)
         end
 
         def image(size = "180x114")
-          cell(Image, model, size: size)
+          cell(CardProduct::Cell::Image, model, size: size)
         end
 
         def opened_check_box
