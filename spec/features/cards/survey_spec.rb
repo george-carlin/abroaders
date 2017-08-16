@@ -161,8 +161,6 @@ RSpec.describe 'cards survey', :onboarding, :js, :manual_clean do
         expect(page).to have_no_field "cards_survey_#{id}_card_closed_on_year"
       end
 
-      specify "the 'opened at' input has a date range from 10 years ago - this month"
-
       example "checking/unchecking 'I closed the card'" do
         # doesn't initially show closed_on inputs:
         expect(page).to have_field    "cards_survey_#{id}_card_closed"
@@ -184,8 +182,6 @@ RSpec.describe 'cards survey', :onboarding, :js, :manual_clean do
         expect(page).to have_no_field "cards_survey_#{id}_card_closed_on_month"
         expect(page).to have_no_field "cards_survey_#{id}_card_closed_on_year"
       end
-
-      pending "selecting an 'opened at' date hides earlier dates from the 'closed at' input"
     end
 
     describe "selecting some cards" do

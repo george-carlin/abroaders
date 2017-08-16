@@ -23,7 +23,8 @@ class CardsController < AuthenticatedUserController
   def survey
     @person = load_person
     redirect_if_onboarding_wrong_person_type!
-    @survey = CardProduct::Survey.new(person: @person)
+    survey = CardProduct::Survey.new(person: @person)
+    render cell(Card::Cell::Survey, @person, form: survey)
   end
 
   def save_survey

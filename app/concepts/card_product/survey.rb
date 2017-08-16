@@ -6,12 +6,6 @@ class CardProduct < CardProduct.superclass
     # 'card_ids'
     attribute :cards, Array
 
-    def each_section
-      CardProduct.survey.group_by(&:bank).each do |bank, products|
-        yield bank, products.group_by(&:bp)
-      end
-    end
-
     private
 
     def persist!
