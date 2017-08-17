@@ -1,22 +1,13 @@
-<% provide :title, 'Phone Number' %>
-
 <div class="row">
   <div class="hpanel col-xs-12 col-md-6 col-md-offset-3">
-    <% if @form.errors.messages.any? %>
-      <%= cell(
-        Abroaders::Cell::ErrorAlert,
-        nil,
-        content: "Error: Phone number #{@form.errors.messages[:phone_number].to_sentence}. "\
-                 "Please click the 'Skip' button if you do not wish to add a phone "\
-                 "number."
-      ) %>
-    <% end %>
+    <%= errors %>
+
     <div class="panel-body">
       <h2>What's your phone number?</h2>
 
       <hr />
 
-      <%= form_for @form, url: phone_number_path, method: :post do |f| %>
+      <%= form_for form, url: phone_number_path, method: :post do |f| %>
         <p class="help-block">
           <b>Why do we ask for your phone number?</b>
         </p>
@@ -38,9 +29,9 @@
         </button>
 
         <%= link_to(
-          "Skip",
+          'Skip',
           skip_phone_number_path,
-          class: "btn skip-survey-btn",
+          class: 'btn skip-survey-btn',
           data: { method: :post }
         )
         %>
@@ -48,3 +39,4 @@
     </div>
   </div>
 </div>
+
