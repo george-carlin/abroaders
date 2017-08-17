@@ -1,0 +1,14 @@
+<div id="card-survey-confirm-no" class="row text-center" style="display:none;">
+  <div class="col-xs-12">
+    <p><%= you_have %> never had a card that earns points or miles:</p>
+
+    <%= form_tag survey_person_cards_path(model) do %>
+      <div class="btn-group">
+        <%= submit_tag 'Confirm', class: 'btn btn-primary btn-lg' %>
+        <button id="card-survey-confirm-no-back-btn" class="btn btn-default btn-lg">
+          Back
+        </button>
+      </div>
+    <% end %>
+  </div>
+</div>
