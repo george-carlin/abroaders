@@ -26,8 +26,6 @@ module Abroaders
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
 
-    require "modules/auto_strip_attributes"
-
     config.assets.quiet = true
 
     config.generators.jbuilder = false

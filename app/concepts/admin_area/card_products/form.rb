@@ -8,7 +8,7 @@ module AdminArea
       property :personal, type: Types::Form::Bool
       property :currency_id, type: Types::Form::Int
       property :image
-      property :name, type: Types::Form::Int
+      property :name, type: Types::StrippedString
       property :network, type: CardProduct::Network
       property :shown_on_survey, type: Types::Form::Bool
       property :type, type: CardProduct::Type
