@@ -1,27 +1,28 @@
 require 'rails_helper'
 
-RSpec.describe 'cards survey', :onboarding, :js, :manual_clean do
+RSpec.describe 'cards survey', :onboarding, :js do
   subject { page }
 
-  before(:all) do
-    chase = Bank.find_by_name!('Chase')
-    citi  = Bank.find_by_name!('Citibank')
-    @banks = [chase, citi]
-    @visible_products = [
+  let(:chase) { Bank.find_by_name!('Chase') }
+  let(:citi) { Bank.find_by_name!('Citibank') }
+  let(:banks) { [chase, citi] }
+
+  let!(:hidden_product) { create(:card_product, :hidden) }
+
+  let!(:visible_products) do
+    [
       create(:card_product, :business, :visa,       bank: chase, name: 'Card 0'),
       create(:card_product, :personal, :mastercard, bank: chase, name: 'Card 1'),
       create(:card_product, :business, :mastercard, bank: citi,  name: 'Card 2'),
       create(:card_product, :personal, :visa,       bank: citi,  name: 'Card 3'),
       create(:card_product, :personal, :visa,       bank: citi,  name: 'Card 4'),
     ]
-    @hidden_product = create(:card_product, :hidden)
   end
 
-  let(:account) { create_account(onboarding_state: 'owner_cards') }
-  let(:owner)   { account.owner }
+  let(:account) { create_account(:eligible, onboarding_state: 'owner_cards') }
+  let(:owner) { account.owner }
 
   before do
-    owner.update_attributes!(eligible: true)
     login_as account.reload
     visit survey_person_cards_path(owner)
   end
@@ -40,13 +41,13 @@ RSpec.describe 'cards survey', :onboarding, :js, :manual_clean do
   end
 
   def expand_banks
-    @banks.each do |bank|
+    banks.each do |bank|
       click_on bank.name.upcase
       sleep 0.5
     end
   end
 
-  shared_examples 'submitting the form' do
+  shared_examples 'next survey page' do
     it 'takes me to the next stage of the survey' do
       submit_form
       expect(current_path).to eq survey_person_balances_path(owner)
@@ -105,7 +106,7 @@ RSpec.describe 'cards survey', :onboarding, :js, :manual_clean do
 
     it "shows products" do
       # products are grouped by bank, then B/P
-      @banks.each do |bank|
+      banks.each do |bank|
         expect(page).to have_selector "h2", text: bank.name.upcase
         within "#bank-collapse-#{bank.id}" do
           %w[personal business].each do |type|
@@ -122,7 +123,7 @@ RSpec.describe 'cards survey', :onboarding, :js, :manual_clean do
       end
 
       # page has a checkbox for each card product:
-      @visible_products.each do |product|
+      visible_products.each do |product|
         expect(page).to have_field :"cards_survey_#{product.id}_card_opened"
       end
 
@@ -136,11 +137,11 @@ RSpec.describe 'cards survey', :onboarding, :js, :manual_clean do
     end
 
     it "doesn't show cards which the admin has opted to hide" do
-      expect(page).to have_no_selector "#card_product_#{@hidden_product.id}"
+      expect(page).to have_no_selector "#card_product_#{hidden_product.id}"
     end
 
     describe "selecting a card" do
-      let(:selected_product) { @visible_products[0] }
+      let(:selected_product) { visible_products[0] }
       let(:id) { selected_product.id }
 
       before { check_product_opened(selected_product, true) }
@@ -160,8 +161,6 @@ RSpec.describe 'cards survey', :onboarding, :js, :manual_clean do
         expect(page).to have_no_field "cards_survey_#{id}_card_closed_on_month"
         expect(page).to have_no_field "cards_survey_#{id}_card_closed_on_year"
       end
-
-      specify "the 'opened at' input has a date range from 10 years ago - this month"
 
       example "checking/unchecking 'I closed the card'" do
         # doesn't initially show closed_on inputs:
@@ -184,61 +183,52 @@ RSpec.describe 'cards survey', :onboarding, :js, :manual_clean do
         expect(page).to have_no_field "cards_survey_#{id}_card_closed_on_month"
         expect(page).to have_no_field "cards_survey_#{id}_card_closed_on_year"
       end
-
-      pending "selecting an 'opened at' date hides earlier dates from the 'closed at' input"
     end
 
-    describe "selecting some cards" do
-      let(:visible_products) { @visible_products }
-      let(:closed_card) { visible_products.first }
-      let(:open_cards)  { visible_products.drop(1) }
+    describe 'selecting some cards' do
+      let(:closed_prod) { visible_products.first }
+      let(:opened_prod) { visible_products.last }
 
       let(:this_year) { Time.zone.today.year }
-      let(:last_year) { (Time.zone.today.year - 1) }
-      let(:ten_years_ago) { (Time.zone.today.year - 10) }
+      let(:last_year) { this_year - 1 }
 
       before do
-        visible_products.each do |product|
-          check_product_opened(product, true)
-        end
-        select "Jan",     from: "cards_survey_#{open_cards[0].id}_card_opened_on_month"
-        select this_year, from: "cards_survey_#{open_cards[0].id}_card_opened_on_year"
-        select "Mar",     from: "cards_survey_#{open_cards[1].id}_card_opened_on_month"
-        select last_year, from: "cards_survey_#{open_cards[1].id}_card_opened_on_year"
-        select "Nov",     from: "cards_survey_#{closed_card.id}_card_opened_on_month"
-        select ten_years_ago, from: "cards_survey_#{closed_card.id}_card_opened_on_year"
-        check_product_closed(closed_card, true)
-        select "Apr",     from: "cards_survey_#{closed_card.id}_card_closed_on_month"
-        select last_year, from: "cards_survey_#{closed_card.id}_card_closed_on_year"
+        check_product_opened(opened_prod, true)
+        select 'Jan', from: "cards_survey_#{opened_prod.id}_card_opened_on_month"
+        select this_year, from: "cards_survey_#{opened_prod.id}_card_opened_on_year"
+
+        check_product_opened(closed_prod, true)
+        select 'Apr', from: "cards_survey_#{closed_prod.id}_card_opened_on_month"
+        select last_year, from: "cards_survey_#{closed_prod.id}_card_opened_on_year"
+        check_product_closed(closed_prod, true)
+        select 'Nov', from: "cards_survey_#{closed_prod.id}_card_closed_on_month"
+        select last_year, from: "cards_survey_#{closed_prod.id}_card_closed_on_year"
       end
 
-      describe "and submitting the form" do
-        it 'creates the cards to owner' do
+      describe 'and submitting the form' do
+        it 'creates the cards' do
           expect do
             submit_form
-          end.to change { owner.cards.count }.by visible_products.length
+          end.to change { owner.card_accounts.count }.by(2)
 
-          new_accounts = owner.cards
+          expect(owner.card_accounts.count).to eq 2
+          expect(owner.card_accounts.where(closed_on: nil).count).to eq 1
 
-          # the cards have the right products
-          expect(new_accounts.map(&:card_product)).to match_array visible_products
+          open_card = owner.cards.find_by!(card_product_id: opened_prod)
+          closed_card = owner.cards.find_by!(card_product_id: closed_prod)
 
-          # the cards have no offers
-          expect(new_accounts.map(&:offer).compact).to be_empty
+          expect(open_card.offer).to be_nil
+          expect(closed_card.offer).to be_nil
 
-          # the cards have the given opened and closed dates
-          open_acc_0 = new_accounts.find_by(card_product_id: open_cards[0].id)
-          open_acc_1 = new_accounts.find_by(card_product_id: open_cards[1].id)
-          closed_acc = new_accounts.find_by(card_product_id: closed_card.id)
-          expect(open_acc_0.opened_on).to eq Date.new(this_year, 1)
-          expect(open_acc_0.closed_on).to be_nil
-          expect(open_acc_1.opened_on).to eq Date.new(last_year, 3)
-          expect(open_acc_1.closed_on).to be_nil
-          expect(closed_acc.opened_on).to eq Date.new(ten_years_ago, 11)
-          expect(closed_acc.closed_on).to eq Date.new(last_year, 4)
+          # the cards have the right opened and closed dates
+          expect(open_card.opened_on).to eq Date.new(this_year, 1)
+          expect(open_card.closed_on).to be_nil
+
+          expect(closed_card.opened_on).to eq Date.new(last_year, 4)
+          expect(closed_card.closed_on).to eq Date.new(last_year, 11)
         end
 
-        include_examples 'submitting the form'
+        include_examples 'next survey page'
       end
     end # selecting some cards
 
@@ -247,7 +237,7 @@ RSpec.describe 'cards survey', :onboarding, :js, :manual_clean do
         expect { submit_form }.not_to change { Card.count }
       end
 
-      include_examples "submitting the form"
+      include_examples 'next survey page'
     end
   end
 end

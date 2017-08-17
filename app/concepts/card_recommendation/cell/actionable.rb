@@ -55,7 +55,7 @@ class CardRecommendation < CardRecommendation.superclass
 
       def offer_user_notes
         return '' if offer.user_notes.blank?
-        escape!(offer.user_notes)
+        offer.user_notes
       end
 
       def product_name
