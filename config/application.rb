@@ -29,7 +29,6 @@ module Abroaders
     require "modules/auto_strip_attributes"
 
     config.cells.with_assets = [
-      'account/cell/dashboard',
       'admin_area/accounts/cell/index',
       'admin_area/card_recommendations/cell/new',
       'admin_area/banks/cell/filter_panel',
