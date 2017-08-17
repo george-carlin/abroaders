@@ -28,19 +28,6 @@ module Abroaders
 
     require "modules/auto_strip_attributes"
 
-    config.cells.with_assets = [
-      'account/cell/dashboard',
-      'admin_area/accounts/cell/index',
-      'admin_area/card_recommendations/cell/new',
-      'admin_area/banks/cell/filter_panel',
-      'admin_area/people/cell/show',
-      'card_account/cell/new/select_product',
-      'card_recommendation/cell/actionable',
-      'integrations/award_wallet/cell/settings',
-      'loyalty_account/cell/table',
-      'recommendation_request/cell/call_to_action',
-    ]
-
     config.assets.quiet = true
 
     config.generators.jbuilder = false

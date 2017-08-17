@@ -330,3 +330,60 @@ footer.footer {
     color: #cc0000;
   }
 }
+
+#actionable_recommendations_notification_modal {
+  color: white;
+
+  .modal-header {
+    background-color: #35a7ff;
+  }
+}
+
+#admin_accounts_table {
+  th, td {
+    &:first-child {
+      width: 10px;
+    }
+  }
+}
+
+// Actionable Recs:
+
+.card_recommendation_decline {
+  bottom: 1px;
+}
+
+.card_recommendation_decline_reason_wrapper {
+  width: 40%;
+  display: inline-block;
+}
+
+.decline_card_recommendation_error_message {
+  margin-left: 30px;
+  font-size:   0.9em;
+  line-height: 29px;
+}
+
+// admin/people#show bank filter panels
+.admin_area-banks-cell-filter_panel  {
+  padding: 10px;
+
+  hr {
+    margin-top: 3px;
+    margin-bottom: 3px;
+  }
+
+  label {
+    font-weight: normal;
+    display: block;
+  }
+}
+
+// LoyaltyAccount
+.loyalty_account_expiration_date .fa-warning {
+  color: #fca17d;
+}
+
+.loyalty_account_updated_at .fa-warning {
+  color: #fca17d;
+}
