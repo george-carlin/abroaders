@@ -23,17 +23,22 @@ class CardsController < AuthenticatedUserController
   def survey
     @person = load_person
     redirect_if_onboarding_wrong_person_type! && return
-    survey = CardProduct::Survey.new(person: @person)
-    render cell(Card::Cell::Survey, @person, form: survey)
+    redirect_if_onboarding_wrong_person_type! && true
+    form = Card::Survey.new(@person)
+    render cell(Card::Cell::Survey, @person, form: form)
   end
 
   def save_survey
     @person = load_person
     redirect_if_onboarding_wrong_person_type! && return
-    # There's currently no way that survey_params can be invalid, so this
-    # should never fail:
-    CardProduct::Survey.new(survey_params.merge(person: @person)).save!
-    redirect_to onboarding_survey_path
+    form = Card::Survey.new(@person)
+    if form.validate(survey_params)
+      # There's currently no way that survey_params can be invalid
+      form.save
+      redirect_to onboarding_survey_path
+    else
+      raise 'this should never happen!'
+    end
   end
 
   private
@@ -43,10 +48,11 @@ class CardsController < AuthenticatedUserController
   end
 
   def survey_params
-    if params.key?(:cards_survey)
-      params.require(:cards_survey).permit(cards: [:product_id, :opened, :closed, :opened_on_, :closed_on_])
-    else # if they clicked 'I don't have any cards'
-      {}
-    end
+    # key will be nil if they clicked 'I don't have any cards'
+    result = params[:cards_survey] || { cards: [] }
+    # couldn't figure out how to filter out unopened cards from within the form
+    # object, so I'm doing it at the controller level
+    result[:cards].select! { |c| Types::Form::Bool.(c[:opened]) }
+    result
   end
 end

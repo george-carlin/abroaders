@@ -5,7 +5,7 @@
 <div id="card_product_<%= id %>" class="col-xs-12 col-sm-4 col-md-3 col-xl-2">
   <div class="card-survey-checkbox">
     <%= hidden_field_tag(
-      'cards_survey[cards][][product_id]',
+      'cards_survey[cards][][card_product_id]',
       id,
       id: "cards_survey_#{id}_card_product_id",
     ) %>
@@ -21,18 +21,20 @@
 
         <label>Roughly when did you open this card?</label>
         <%= select_tag(
-          "cards_survey[cards][][opened_on_(1i)]",
+          "cards_survey[cards][][opened_on(1i)]",
           options_for_year_select,
           id: "cards_survey_#{id}_card_opened_on_year",
           class: "cards_survey_card_opened_on_year cards_survey_year",
         ) %>
 
         <%= select_tag(
-          "cards_survey[cards][][opened_on_(2i)]",
+          "cards_survey[cards][][opened_on(2i)]",
           options_for_month_select,
           id: "cards_survey_#{id}_card_opened_on_month",
           class: "cards_survey_card_opened_on_month cards_survey_month",
         ) %>
+
+        <%= hidden_field_tag "cards_survey[cards][][opened_on(3i)]", 1 %>
 
         <div class="clearfix"></div>
       </div>
@@ -52,18 +54,20 @@
       <div class="cards_survey_card_closed_on_wrapper">
         <label>Roughly when did you close this card?</label>
         <%= select_tag(
-          "cards_survey[cards][][closed_on_(1i)]",
+          "cards_survey[cards][][closed_on(1i)]",
           options_for_year_select,
           id: "cards_survey_#{id}_card_closed_on_year",
           class: "cards_survey_#{id}_card_closed_on_year cards_survey_year",
         ) %>
 
         <%= select_tag(
-          "cards_survey[cards][][closed_on_(2i)]",
+          "cards_survey[cards][][closed_on(2i)]",
           options_for_month_select,
           id: "cards_survey_#{id}_card_closed_on_month",
           class: "cards_survey_card_closed_on_month cards_survey_month",
         ) %>
+
+        <%= hidden_field_tag "cards_survey[cards][][closed_on(3i)]", 1 %>
 
         <div class="clearfix"></div>
       </div>
