@@ -50,7 +50,8 @@ module AdminArea::CardRecommendations::Cell
 
       # @param recommendation [Card] must be a recommendation
       def initialize(rec, options = {})
-        super(CardRecommendation.new(rec), options)
+        raise unless rec.recommended?
+        super
       end
 
       property :id

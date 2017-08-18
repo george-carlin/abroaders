@@ -165,7 +165,7 @@ RSpec.describe "cards index page - new recommendation", :js do
         click_confirm_btn
         # fails when run late in the day in pre-UTC TZs TZFIXME:
         expect(page).to have_content 'We strongly recommend'
-        expect(CardRecommendation.new(rec).status).to eq 'denied'
+        expect(rec.status).to eq 'denied'
         expect(rec.denied_at).to be_within(5.seconds).of(Time.zone.now)
         expect(rec.applied_on).to eq Time.zone.today
 
@@ -184,7 +184,7 @@ RSpec.describe "cards index page - new recommendation", :js do
         expect_not_to_queue_card_opened_webhook
         click_confirm_btn
         # fails when run late in the day in pre-UTC TZs TZFIXME:
-        expect(CardRecommendation.new(rec).status).to eq "applied"
+        expect(rec.status).to eq 'applied'
         expect(rec.applied_on).to eq Time.zone.today
 
         expect(page).to have_no_link 'Find My Card'

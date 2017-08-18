@@ -139,7 +139,7 @@ RSpec.describe "user cards page - nudgeable cards", :js do
         sleep 1.5 # can't figure out a more elegant solution than this
         rec.reload
 
-        expect(CardRecommendation.new(rec).status).to eq "denied"
+        expect(rec.status).to eq 'denied'
         expect(rec.applied_on).to eq applied_on # unchanged
         expect(rec.denied_at).to be_within(5.seconds).of(Time.zone.now)
         expect(rec.nudged_at).to be_within(5.seconds).of(Time.zone.now)
@@ -158,7 +158,7 @@ RSpec.describe "user cards page - nudgeable cards", :js do
         sleep 1.5 # can't figure out a more elegant solution than this
         rec.reload
 
-        expect(CardRecommendation.new(rec).status).to eq 'applied'
+        expect(rec.status).to eq 'applied'
         expect(rec.applied_on).to eq applied_on # unchanged
         expect(rec.nudged_at).to be_within(5.seconds).of(Time.zone.now)
       end
@@ -206,7 +206,7 @@ RSpec.describe "user cards page - nudgeable cards", :js do
         sleep 1.5 # can't figure out a more elegant solution than this
         rec.reload
 
-        expect(CardRecommendation.new(rec).status).to eq 'denied'
+        expect(rec.status).to eq 'denied'
         expect(rec.denied_at).to be_within(5.seconds).of(Time.zone.now)
         expect(rec.nudged_at).to be_nil
         expect(rec.applied_on).to eq applied_on

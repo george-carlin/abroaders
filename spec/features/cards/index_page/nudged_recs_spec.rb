@@ -72,7 +72,7 @@ RSpec.describe "user cards page - nudged cards", :js do
         sleep 1.5
         rec.reload
 
-        expect(CardRecommendation.new(rec).status).to eq "denied"
+        expect(rec.status).to eq "denied"
         expect(rec.denied_at).to be_within(5.seconds).of(Time.zone.now)
         expect(rec.applied_on).to eq applied_on # unchanged
         expect(rec.nudged_at).to eq nudged_at # unchanged

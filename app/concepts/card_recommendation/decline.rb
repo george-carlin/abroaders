@@ -16,7 +16,7 @@ class CardRecommendation < CardRecommendation.superclass
     end
 
     def rec_is_declinable?(model:, **)
-      CardRecommendation.new(model).unresolved?
+      model.unresolved?
     end
 
     def rec_is_not_declinable!(opts)

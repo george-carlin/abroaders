@@ -94,16 +94,31 @@
 # This design isn't ideal because it means there's duplicate data in the DB,
 # but I couldn't think of a better alternative.
 class Card < ApplicationRecord
-  def recommended?
-    !recommended_at.nil?
-  end
-
   def closed?
     !closed_on.nil?
   end
 
+  def offer?
+    !offer.nil?
+  end
+
   def opened?
     !opened_on.nil?
+  end
+
+  def recommended?
+    !recommended_at.nil?
+  end
+
+  def status
+    # Note: the order of these return statements matters!
+    return 'opened'      if opened?
+    return 'expired'     if expired?
+    return 'declined'    if declined?
+    return 'denied'      unless denied_at.nil?
+    return 'applied'     unless applied_on.nil?
+    return 'recommended' unless recommended_at.nil?
+    raise "couldn't determine recommendation status"
   end
 
   def unclosed?
@@ -114,15 +129,28 @@ class Card < ApplicationRecord
     !opened?
   end
 
-  def offer?
-    !offer.nil?
+  %w[
+    seen_at clicked_at applied_on declined_at denied_at expired_at nudged_at
+    called_at redenied_at
+  ].each do |attr|
+    state = attr.sub(/_at\z/, '').sub(/_on\z/, '') << '?'
+    define_method state do
+      !send(attr).nil?
+    end
+
+    define_method "un#{state}" do
+      send(attr).nil?
+    end
   end
 
-  include CardRecommendation::Predicates
+  def actionable?
+    unopened? && unredenied? && unredenied? && unexpired? && undeclined? &&
+      (undenied? || unnudged?)
+  end
 
-  # Validations
-
-  # Associations
+  def unresolved?
+    unapplied? && unexpired? && undeclined?
+  end
 
   belongs_to :card_product
   belongs_to :offer, counter_cache: true, optional: true
@@ -133,7 +161,7 @@ class Card < ApplicationRecord
   has_one :currency, through: :card_product
 
   delegate :bank, to: :card_product, allow_nil: true
-  delegate :name, to: :bank, prefix: true
+  delegate :name, to: :bank, prefix: true, allow_nil: true
 
   # In reality there should always be a currency present, but if we
   # don't set allow_nil to true it's too much of a PITA to test.
@@ -186,8 +214,6 @@ class Card < ApplicationRecord
   scope :unopened,   -> { where(opened_on: nil) }
   scope :unredenied, -> { where(redenied_at: nil) }
   scope :unseen,     -> { where(seen_at: nil) }
-
-  # compound scopes:
 
   private
 
