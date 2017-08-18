@@ -125,10 +125,10 @@ class Card < ApplicationRecord
   # Associations
 
   belongs_to :card_product
-  belongs_to :offer, counter_cache: true
+  belongs_to :offer, counter_cache: true, optional: true
   belongs_to :person
-  belongs_to :recommended_by, class_name: 'Admin'
-  belongs_to :recommendation_request
+  belongs_to :recommended_by, class_name: 'Admin', optional: true
+  belongs_to :recommendation_request, optional: true
   has_one :account, through: :person
   has_one :currency, through: :card_product
 
