@@ -9,10 +9,9 @@ class CardRecommendation < CardRecommendation.superclass
       property :card_product
       property :offer
 
-      # @param rec [CardRecommendation]
+      # @param rec [Card]
       def initialize(rec, options = {})
-        # TODO remove CardRecommendation
-        raise 'must be an actionable rec' unless CardRecommendation.new(rec).actionable?
+        raise 'must be an actionable rec' unless rec.actionable?
         super
       end
 

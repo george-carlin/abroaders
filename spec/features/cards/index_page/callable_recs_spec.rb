@@ -103,7 +103,7 @@ RSpec.describe "user cards page - callable cards", :js do
         sleep 1.5 # can't figure out a more elegant solution than this
         rec.reload
 
-        expect(CardRecommendation.new(rec).status).to eq 'denied'
+        expect(rec.status).to eq 'denied'
         expect(rec.denied_at).to eq denied_at
         expect(rec.applied_on).to eq applied_on # unchanged
         expect(rec.redenied_at).to be_within(5.seconds).of(Time.zone.now)
@@ -123,7 +123,7 @@ RSpec.describe "user cards page - callable cards", :js do
         sleep 1.5 # can't figure out a more elegant solution than this
         rec.reload
 
-        expect(CardRecommendation.new(rec).status).to eq "denied"
+        expect(rec.status).to eq 'denied'
         expect(rec.denied_at).to eq denied_at
         expect(rec.applied_on).to eq applied_on # unchanged
         expect(rec.called_at).to be_within(5.seconds).of(Time.zone.now)

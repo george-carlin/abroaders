@@ -19,7 +19,7 @@ class CardRecommendationsController < CardsController
   def click
     @model = load_card
 
-    raise 'unapplyable card' unless CardRecommendation.new(@model).unresolved?
+    raise 'unapplyable card' unless @model.unresolved?
 
     # We can't know for sure here if the user has actually applied; the most we
     # can do is note that they've visited this page and (hopefully) been
