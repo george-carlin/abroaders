@@ -1,34 +1,26 @@
-<% provide :title, "Edit Spending for #{@person.first_name}" %>
-
 <div class="row">
   <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
     <div class="hpanel">
       <div class="panel-heading hbuilt">
-        <h1>Edit Spending for <%= @person.first_name %></h1>
+        <h1><%= title %></h1>
       </div><!-- .panel-heading.hbuilt -->
 
-      <%= cell(Abroaders::Cell::ValidationErrorsAlert, @form, model_name: 'information') %>
+      <%= errors %>
 
       <div class="panel-body">
-        <%= form_for @form, url: admin_person_spending_info_path(@person) do |f| %>
+        <%= form_tag do |f| %>
           <div class="form-group">
-            <% if @account.couples? %>
-              <% label_text = "Please estimate the combined monthly spending for #{@model.account.owner.first_name}" \
-                              " and #{@model.account.companion.first_name} that could be charged to a credit card account." %>
-            <% else %>
-              <% label_text = "What is your average monthly spending that could be charged to a credit card account?" %>
-            <% end %>
-            <%= f.label :monthly_spending_usd, label_text %>
+            <%= f.label :monthly_spending_usd, monthly_spending_label_text %>
 
-            <p class="help-block"> You should exclude rent, mortage, and car
-              payments unless you are certain you can use a credit card as
-              the payment method.
+            <p class="help-block">
+              You should exclude rent, mortage, and car payments unless you are
+              certain you can use a credit card as the payment method.
             </p>
+
             <div class="input-group">
               <div class="input-group-addon">$</div>
               <%= f.number_field(
                 :monthly_spending_usd,
-                value: @model.monthly_spending_usd,
                 class: "form-control",
                 placeholder: "Estimated monthly spending"
               ) %>
