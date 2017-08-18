@@ -12,30 +12,24 @@
           <%= link_to_sign_up_with_facebook %>
 
           <br>
-          <p>Fields with a * are required</p>
+
+          <p class='lead text-center'>Or</p>
 
           <%= form_tag do |f| %>
             <div class="form-group required-abr">
-              <%= f.label :email %>
-              <%= f.email_field :email, autofocus: true %>
+              <%= f.email_field :email, autofocus: true, placeholder: 'Email' %>
             </div>
 
             <div class="form-group required-abr">
-              <%= f.label :first_name %>
-              <%= f.text_field :first_name %>
+              <%= f.text_field :first_name, placeholder: 'First name' %>
             </div>
 
             <div class="form-group required-abr">
-              <%= f.label :password %>
-              <p class="help-block">
-                Minimum length <%= minimum_password_length %> characters
-              </p>
-              <%= f.password_field :password %>
+              <%= f.password_field :password, placeholder: 'Password (Minimum Length 8 Characters)' %>
             </div>
 
             <div class="form-group required-abr">
-              <%= f.label :password_confirmation %>
-              <%= f.password_field :password_confirmation %>
+              <%= f.password_field :password_confirmation, placeholder: 'Confirm password' %>
             </div>
 
             <%= f.submit "Sign up", class: "btn btn-primary btn-block" %>
