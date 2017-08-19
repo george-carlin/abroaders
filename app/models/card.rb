@@ -152,7 +152,7 @@ class Card < ApplicationRecord
     unapplied? && unexpired? && undeclined?
   end
 
-  belongs_to :card_product
+  belongs_to :card_product, optional: true
   belongs_to :offer, counter_cache: true, optional: true
   belongs_to :person
   belongs_to :recommended_by, class_name: 'Admin', optional: true
