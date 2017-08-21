@@ -6,7 +6,7 @@ class Flight < ApplicationRecord
 
   # Associations
 
-  belongs_to :travel_plan
+  belongs_to :travel_plan, optional: true
   belongs_to :from, class_name: "Destination"
   belongs_to :to,   class_name: "Destination"
 end

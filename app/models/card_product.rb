@@ -57,7 +57,7 @@ class CardProduct < ApplicationRecord
   has_many :offers
   has_many :recommendable_offers, -> { recommendable }, class_name: 'Offer'
   has_many :cards
-  belongs_to :currency
+  belongs_to :currency, optional: true
 
   def bank
     return nil if bank_id.nil?
