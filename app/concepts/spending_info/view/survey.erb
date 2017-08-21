@@ -1,32 +1,47 @@
 <div class="row">
-  <div class="hpanel <%= col_classes %>">
-    <div class="panel-heading hbuilt text-center">
-      <h1>Spending Information</h1>
+  <div class="<%= col_classes %>">
+    <div class="text-center">
+      <h1 class="text-center"><%= title %></h1>
+
+      <a href="#why-we-ask-spending" data-toggle="collapse" aria-expanded="false">
+        <span style="color: #1fb6ff; font-size: 14px;" class="fa fa-question-circle"></span>
+        <span style="color: #1fb6ff; font-size: 14px;"><em>Why do we ask?</em></span>
+      </a>
     </div>
 
-    <div class="panel-body">
-      <%= form_for form, url: survey_spending_info_path do |f| %>
-        <div class="row">
-          <%= credit_score_form_groups(f) %>
-
-          <%= monthly_spending_form_group(f) %>
-
-          <%= business_spending_form_groups(f) %>
-
-          <div class="clearfix"></div>
-
-          <%= will_apply_for_loan_form_groups(f) %>
-
-          <div class="col-xs-12">
-            <hr style="marginTop: 0" />
-
-            <button class="btn btn-primary btn-lg">
-              <%= fa_icon :check %>
-              Save and continue
-            </button>
-          </div>
+      <div id="why-we-ask-spending" class="collapse">
+        <div class="well well-lg">
+          Our goal is to help you earn the right points from the spending you
+          do anyway. We ask about your credit and spending so we can
+          recommend a rewards card that will maximize your travel savings. If
+          you have a small business, we can help you earn points even faster
+          with your business spending. This information is kept strictly
+          confidential.
         </div>
-      <% end %>
+      </div>
     </div>
+
+    <%= form_for form, url: survey_spending_info_path do |f| %>
+      <div class="row">
+        <%= credit_score_form_groups(f) %>
+
+        <%= monthly_spending_form_group(f) %>
+
+        <%= business_spending_form_groups(f) %>
+
+        <div class="clearfix"></div>
+
+        <%= will_apply_for_loan_form_groups(f) %>
+
+        <div class="col-xs-12">
+          <hr style="marginTop: 0" />
+
+          <button class="btn btn-primary btn-lg">
+            <%= fa_icon :check %>
+            Save and continue
+          </button>
+        </div>
+      </div>
+    <% end %>
   </div>
 </div>
