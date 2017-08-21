@@ -10,6 +10,6 @@
 #
 class AwardWalletOwner < ApplicationRecord
   belongs_to :award_wallet_user
-  belongs_to :person
+  belongs_to :person, optional: true
   has_many :award_wallet_accounts
 end

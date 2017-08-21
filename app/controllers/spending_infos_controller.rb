@@ -28,7 +28,8 @@ class SpendingInfosController < AuthenticatedUserController
 
   def edit
     @model = load_person.spending_info
-    @form  = SpendingInfo::Form.new(@model)
+    @form = SpendingInfo::Form.new(@model)
+    render cell(SpendingInfo::Cell::Edit, @model, form: @form)
   end
 
   def update
@@ -39,7 +40,7 @@ class SpendingInfosController < AuthenticatedUserController
       flash[:success] = 'Updated spending info'
       redirect_to root_path
     else
-      render :edit
+      render cell(SpendingInfo::Cell::Edit, @model, form: @form)
     end
   end
 

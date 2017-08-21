@@ -7,6 +7,7 @@ class RegistrationsController < ApplicationController
 
   def new
     run Registration::New
+    @custom_body_class = 'rio-bg'
     render cell(Registration::Cell::New, @model, form: @form)
   end
 
@@ -18,6 +19,7 @@ class RegistrationsController < ApplicationController
     end
 
     @form.clean_up_passwords
+    @custom_body_class = 'rio-bg'
     render cell(Registration::Cell::New, @model, form: @form)
   end
 

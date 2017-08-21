@@ -23,6 +23,14 @@ module Registration
         cell(Sessions::Cell::FacebookConnectButton).sign_up
       end
 
+      def logo
+        image_tag(
+          'abroaders-logo-white-md.png',
+          alt: 'Abroaders - Sign Up',
+          size: '250x94',
+        )
+      end
+
       def minimum_password_length
         Registration::SignUpForm::PASSWORD_LENGTH.min
       end

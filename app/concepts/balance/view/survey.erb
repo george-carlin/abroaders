@@ -1,23 +1,19 @@
-<% provide :title, "Balances" %>
-
 <%= form_tag do %>
   <div class="hpanel">
     <div class="panel-heading hbuilt">
       <div class="row">
         <div class="col-xs-12">
-          <h1>
-            <%= n "Your", @person %> Existing Balances
-          </h1>
+          <h1><%= title %></h1>
         </div>
       </div>
     </div>
 
-    <% if @survey.errors %>
+    <% if form.errors %>
       <div class="alert alert-danger">
         Could not save balances:
 
         <ul>
-          <% @survey.errors.each do |message| %>
+          <% form.errors.each do |message| %>
             <li><%= message %></li>
           <% end %>
         </ul>
@@ -26,14 +22,14 @@
 
     <div id="balances-survey-initial" class="panel-body">
       <p>
-        We need to know <%= n "your", @person %> existing frequent
-        flyer mile balances, if <%= n "you", @person, true %>
-        <%= n "have", @person %> any, in order to give the best card
+        We need to know <%= n "your", model %> existing frequent
+        flyer mile balances, if <%= n "you", model, true %>
+        <%= n "have", model %> any, in order to give the best card
         recommendations.
       </p>
 
       <p>
-        <%= n "Do", @person %> <%= n "you", @person %> have
+        <%= n "Do", model %> <%= n "you", model %> have
         any points balances greater than 5,000?
       </p>
 
@@ -50,7 +46,7 @@
 
     <div id="balances-survey-confirm-no" class="panel-body" style="display:none;">
       <p>
-        <%= n "You", @person %> <%= n "have", @person %> no points balances
+        <%= n "You", model %> <%= n "have", model %> no points balances
         greater than 5,000:
       </p>
       <div class="btn-group">
@@ -66,16 +62,16 @@
       <p>
         We recommend tracking your balances through
         <%= link_to "AwardWallet.com", "https://awardwallet.com", target: "_blank" %>.
-        If <%= n "you", @person %> already <%= n "have", @person %> an
+        If <%= n "you", model %> already <%= n "have", model %> an
         AwardWallet account, please tell us what email address
-        <%= n "you", @person, true %> used to sign up for it:
+        <%= n "you", model, true %> used to sign up for it:
       </p>
 
       <div class="form-group">
         <%= email_field_tag(
           :balances_survey_award_wallet_email,
-          @survey.award_wallet_email,
-          placeholder: "#{n "Your", @person} login email for AwardWallet"
+          form.award_wallet_email,
+          placeholder: "#{n "Your", model} login email for AwardWallet"
         ) %>
       </div><!-- .form-group -->
 
@@ -84,7 +80,7 @@
         can keep track of your loyalty points automatically. For now, if you
         don't have AwardWallet, please estimate (to the nearest 1,000)
         <% if current_account.couples? %>
-          <b><%= @person.first_name %>'s</b>
+          <b><%= model.first_name %>'s</b>
         <% else %>
           your
         <% end %>
@@ -103,11 +99,11 @@
     <div class="panel-body">
       <div class="balances_survey">
         <h4>
-          What type of points <%= n "do", @person %> <%= n "you", @person %>
+          What type of points <%= n "do", model %> <%= n "you", model %>
           have?
         </h4>
 
-        <% @survey.balances.each do |balance| %>
+        <% form.balances.each do |balance| %>
           <div
             id="currency_<%= balance.currency_id %>"
             class="currency survey_currency"
