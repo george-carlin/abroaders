@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-12">
       <div class="text-center m-b-md">
-        <h4><%= title.upcase %></h4>
+        <%= logo %>
       </div>
       <div class="hpanel">
         <div class="panel-body">
@@ -10,15 +10,15 @@
 
           <br>
 
+          <p class='lead text-center'>Or</p>
+
           <%= form_tag do |f| %>
             <div class="form-group">
-              <%= f.label :email, class: 'control-label' %>
-              <%= f.email_field :email, autofocus: true %>
+              <%= f.email_field :email, autofocus: true, placeholder: 'Email' %>
             </div>
 
             <div class="form-group">
-              <%= f.label :password %>
-              <%= f.password_field :password, autocomplete: 'off', placeholder: '******' %>
+              <%= f.password_field :password, autocomplete: 'off', placeholder: 'Password' %>
             </div>
 
             <div class="checkbox">

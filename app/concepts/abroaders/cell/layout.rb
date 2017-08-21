@@ -12,6 +12,7 @@ module Abroaders
       option :basic, default: false
       option :flash
       option :title
+      option :custom_body_class, optional: true
 
       private
 
@@ -21,6 +22,7 @@ module Abroaders
         result = []
         result << 'blank' unless sidebar?
         result.push('fixed-navbar', 'fixed-sidebar') unless basic?
+        result.push(custom_body_class) if custom_body_class.present?
         result.join(' ')
       end
 

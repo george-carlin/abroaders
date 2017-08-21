@@ -17,6 +17,7 @@ class SessionsController < ApplicationController
                      end
     account = Account.new(sign_in_params)
     account.clean_up_passwords
+    @custom_body_class = 'rio-bg'
     render cell(Sessions::Cell::New, account)
   end
 

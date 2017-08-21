@@ -37,6 +37,14 @@ module Sessions
         cell(Sessions::Cell::FacebookConnectButton).sign_in
       end
 
+      def logo
+        image_tag(
+          'abroaders-logo-white-md.png',
+          alt: 'Abroaders - Sign Up',
+          size: '250x94',
+        )
+      end
+
       class SignInAccount < self
         def title
           'Sign In'
