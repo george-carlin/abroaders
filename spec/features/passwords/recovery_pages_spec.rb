@@ -24,7 +24,7 @@ RSpec.describe 'password recovery pages', :auth do
       # end.to send_email.to(email).with_subject("???")
 
       # show the sign in page, with an alert:
-      expect(page).to have_content 'SIGN IN'
+      expect(current_path).to eq new_account_session_path
       expect(page).to have_info_message 'You will receive an email'
     end
 
