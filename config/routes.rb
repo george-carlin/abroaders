@@ -46,8 +46,6 @@ Rails.application.routes.draw do
     get :contact_us
   end
 
-  get "/styles", to: "application#styles"
-
   # --- LOGGED IN ACCOUNTS ---
 
   resource :account, only: [:edit, :update] do
