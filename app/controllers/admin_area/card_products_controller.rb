@@ -4,12 +4,14 @@ module AdminArea
 
     # GET /admin/cards
     def index
-      @products = CardProduct.all.includes(:offers, :currency).sort_by(&:bank_id)
+      products = CardProduct.all.includes(:offers, :currency).sort_by(&:bank_id)
+      render cell(CardProducts::Cell::Index, products)
     end
 
     # GET /admin/cards/1
     def show
-      @product = CardProduct.includes(:currency).find(params[:id])
+      product = CardProduct.includes(:currency).find(params[:id])
+      render cell(CardProducts::Cell::Show, product)
     end
 
     # GET /admin/cards/new
@@ -45,7 +47,7 @@ module AdminArea
     end
 
     def images
-      @products = CardProduct.all
+      render cell(CardProducts::Cell::Images, CardProduct.all)
     end
 
     private
