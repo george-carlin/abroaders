@@ -85,7 +85,7 @@ class BalancesController < AuthenticatedUserController
   # GET /people/:person_id/balances/survey
   def survey
     @person = load_person
-    redirect_if_onboarding_wrong_person_type!
+    redirect_if_onboarding_wrong_person_type! && return
     form = BalancesSurvey.new(person: @person)
     render cell(Balance::Cell::Survey, @person, form: form)
   end
@@ -93,7 +93,7 @@ class BalancesController < AuthenticatedUserController
   # POST /people/:person_id/balances/survey
   def save_survey
     @person = load_person
-    redirect_if_onboarding_wrong_person_type!
+    redirect_if_onboarding_wrong_person_type! && return
     form = BalancesSurvey.new(person: @person)
     # Bleeargh technical debt
     form.assign_attributes(survey_params)
