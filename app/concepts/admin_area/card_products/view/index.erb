@@ -1,9 +1,7 @@
-<% provide :title, 'Card Products' %>
-
 <div class="hpanel">
   <div class="panel-heading hbuilt">
     <h1 class="font-light m-b-xs">
-      Card Products
+      <%= title %>
     </h1>
     <%= link_to 'Add New', new_admin_card_product_path %>
   </div>
@@ -33,7 +31,7 @@
         </thead>
 
         <tbody>
-          <% @products.each do |product| %>
+          <% model.each do |product| %>
             <tr id="card_product_<%= product.id %>">
               <td><%= product.id %></td>
               <td><%= product.bank_name %></td>
@@ -63,6 +61,6 @@
   </div>
 
   <div class="panel-footer">
-    <%= pluralize @products.size, "card" %>
+    <%= pluralize model.size, "card" %>
   </div>
 </div>

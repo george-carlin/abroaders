@@ -1,8 +1,6 @@
-<% provide :title, "Card Images" %>
-
 <div class="hpanel">
   <div class="panel-heading hbuilt">
-    <h1>Card Images</h1>
+    <h1><%= title %></h1>
   </div>
 
   <div class="panel-body">
@@ -14,7 +12,7 @@
         cellspacing="1"
       >
         <tbody>
-          <% @products.each do |product| %>
+          <% model.each do |product| %>
             <tr id="card_product_<%= product.id %>">
               <td><%= product.bank_name %></td>
               <td><%= link_to product.name, admin_card_product_path(product) %></td>
@@ -28,6 +26,6 @@
   </div>
 
   <div class="panel-footer">
-    <%= pluralize @products.size, "card" %>
+    <%= pluralize model.size, "card" %>
   </div>
 </div>
