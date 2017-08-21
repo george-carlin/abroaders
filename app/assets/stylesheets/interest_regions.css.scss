@@ -22,10 +22,14 @@
     margin-bottom: 50px;
   }
 
+  .region-image-checkbox-wrapper {
+    position: relative;
+  }
+
   .region-name {
     display: inline-block;
     font-family: inherit;
-    font-size: 26px;
+    font-size: 13px;
     font-weight: 200;
     line-height: 1.1;
     margin-bottom: 8px;
@@ -35,5 +39,8 @@
     float: right;
     font-size: 40px;
     margin-top: 2px;
+    position: absolute;
+    right: 5px;
+    top: 5px;
   }
 }

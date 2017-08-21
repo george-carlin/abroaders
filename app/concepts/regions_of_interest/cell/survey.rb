@@ -20,8 +20,10 @@ module RegionsOfInterest
           <<-HTML
             <div class="col-xs-6 col-md-2 region-box">
               #{name_tag}
-              #{survey_checkbox_tag}
-              #{image}
+              <div class="region-image-checkbox-wrapper">
+                #{survey_checkbox_tag}
+                #{image}
+              </div>
             </div>
           HTML
         end
@@ -40,12 +42,7 @@ module RegionsOfInterest
         end
 
         def name_tag
-          label_tag(
-            checkbox_id,
-            name,
-            class: 'region-name',
-            style: 'font-size: 16px;',
-          )
+          label_tag checkbox_id, name, class: 'region-name'
         end
 
         def survey_checkbox_tag
