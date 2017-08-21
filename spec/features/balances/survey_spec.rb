@@ -33,7 +33,7 @@ RSpec.describe 'the balance survey page', :onboarding, :js do
   end
 
   example "initial page layout" do
-    expect(page).to have_title full_title("Balances")
+    expect(page).to have_title full_title('Points and Miles')
     expect(page).to have_no_sidebar
     expect(page).to have_content "Do you have any points balances greater than 5,000?"
     expect(page).to have_link "Yes"

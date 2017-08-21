@@ -86,22 +86,22 @@ class BalancesController < AuthenticatedUserController
   def survey
     @person = load_person
     redirect_if_onboarding_wrong_person_type!
-    @survey     = BalancesSurvey.new(person: @person)
-    @currencies = Currency.survey.order(name: :asc)
+    form = BalancesSurvey.new(person: @person)
+    render cell(Balance::Cell::Survey, @person, form: form)
   end
 
   # POST /people/:person_id/balances/survey
   def save_survey
     @person = load_person
     redirect_if_onboarding_wrong_person_type!
-    @survey = BalancesSurvey.new(person: @person)
+    form = BalancesSurvey.new(person: @person)
     # Bleeargh technical debt
-    @survey.assign_attributes(survey_params)
-    @survey.award_wallet_email = params[:balances_survey_award_wallet_email]
-    if @survey.save
+    form.assign_attributes(survey_params)
+    form.award_wallet_email = params[:balances_survey_award_wallet_email]
+    if form.save
       redirect_to onboarding_survey_path
     else
-      render "survey"
+      render cell(Balance::Cell::Survey, @person, form: form)
     end
   end
 
