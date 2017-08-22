@@ -1,26 +1,32 @@
-<%= form_tag do %>
-  <div class="hpanel">
-    <div class="panel-heading hbuilt">
-      <div class="row">
-        <div class="col-xs-12">
-          <h1><%= title %></h1>
-        </div>
+<div class="hpanel">
+  <div class="panel-heading hbuilt">
+    <div class="row">
+      <div class="col-xs-12">
+        <h1><%= title %></h1>
       </div>
     </div>
+  </div>
 
-    <% if form.errors %>
-      <div class="alert alert-danger">
-        Could not save balances:
+  <% if form.errors.any? %>
+    <div class="alert alert-danger">
+      Could not save balances:
 
-        <ul>
-          <% form.errors.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
+      <ul>
+        <% form.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
 
-    <div id="balances-survey-initial" class="panel-body">
+  <%= form_tag do |f| %>
+    <div
+      id="balances-survey-initial"
+      class="panel-body"
+      <% unless current_panel == 'initial' %>
+        style="display:none;"
+      <% end %>
+    >
       <p>
         We need to know <%= n "your", model %> existing frequent
         flyer mile balances, if <%= n "you", model, true %>
@@ -29,7 +35,8 @@
       </p>
 
       <p>
-        <%= n "Do", model %> <%= n "you", model %> have
+        <%= n "Do", model %>&nbsp;<%= n "you", model %>
+        have
         any points balances greater than 5,000?
       </p>
 
@@ -42,11 +49,11 @@
           No
         </a>
       </div>
-    </div>
+    </div><!-- #balances-survey-initial -->
 
     <div id="balances-survey-confirm-no" class="panel-body" style="display:none;">
       <p>
-        <%= n "You", model %> <%= n "have", model %> no points balances
+        <%= n "You", model %>&nbsp;<%= n "have", model %> no points balances
         greater than 5,000:
       </p>
       <div class="btn-group">
@@ -56,9 +63,15 @@
           Back
         </button>
       </div>
-    </div>
+    </div><!-- #balances-survey-confirm-no -->
 
-    <div id="balances-survey-main-header" class="panel-body" style="display:none;">
+    <div
+      id="balances-survey-main-header"
+      class="panel-body"
+      <% unless current_panel == 'main' %>
+        style="display:none;"
+      <% end %>
+    >
       <p>
         We recommend tracking your balances through
         <%= link_to "AwardWallet.com", "https://awardwallet.com", target: "_blank" %>.
@@ -68,9 +81,8 @@
       </p>
 
       <div class="form-group">
-        <%= email_field_tag(
-          :balances_survey_award_wallet_email,
-          form.award_wallet_email,
+        <%= f.email_field(
+          :award_wallet_email,
           placeholder: "#{n "Your", model} login email for AwardWallet"
         ) %>
       </div><!-- .form-group -->
@@ -93,48 +105,70 @@
         sooner we can help you save money on travel.)
       </p>
     </div><!-- .panel-body -->
-  </div><!-- .hpanel -->
 
-  <div id="balances-survey-main-body" class="hpanel" style="display:none;">
-    <div class="panel-body">
-      <div class="balances_survey">
-        <h4>
-          What type of points <%= n "do", model %> <%= n "you", model %>
-          have?
-        </h4>
+    <div
+      id="balances-survey-main-body"
+      class="hpanel"
+      <% unless current_panel == 'main' %>
+        style="display:none;"
+      <% end %>
+    >
+      <div class="panel-body">
+        <div class="balances_survey">
+          <h4>
+            What type of points
+            <%= n "do", model %>
+            <%= n "you", model %>
+            have?
+          </h4>
 
-        <% form.balances.each do |balance| %>
-          <div
-            id="currency_<%= balance.currency_id %>"
-            class="currency survey_currency"
-          >
-            <div class="row">
-              <div class="col-xs-12 col-sm-6">
-                <div class="checkbox">
-                  <label>
-                    <%= currency_balance_checkbox(balance) %>
-                    <%= balance.currency_name %>
-                  </label>
+          <%= f.fields_for :balances do |balance_form| %>
+            <% balance = balance_form.object %>
+
+            <div
+              id="currency_<%= balance_form.object.model.currency_id %>"
+              class="currency survey_currency"
+              >
+              <div class="row">
+                <div class="col-xs-12 col-sm-6">
+                  <div class="checkbox">
+                    <label>
+                      <%= balance_form.hidden_field :currency_id %>
+                      <%= balance_form.check_box(
+                        :present,
+                        class: "currency_balance_checkbox input-lg",
+                        id:    "currency_#{balance.currency_id}_balance",
+                      ) %>
+                      <%= balance_form.object.currency_name %>
+                    </label>
+                  </div>
                 </div>
-              </div>
-              <div class="col-xs-12 col-sm-6">
-                <%= currency_balance_value_field(balance) %>
-              </div>
-            </div><!-- .row -->
-          </div><!-- .survey_currency -->
-        <% end %>
-      </div><!-- .balances-survey -->
-    </div><!-- .panel-body -->
-  </div><!-- .hpanel -->
+                <div class="col-xs-12 col-sm-6">
+                  <% visible = balance_form.object.present %>
+                  <%= balance_form.number_field(
+                    :value,
+                    id: "currency_#{balance.currency_id}_balance_value",
+                    class: 'currency_balance_value input-sm',
+                    disabled: !visible,
+                    style: visible ? "" : "display:none;",
+                  )%>
+                </div>
+              </div><!-- .row -->
+            </div><!-- .survey_currency -->
+          <% end %>
+        </div><!-- .balances-survey -->
+      </div><!-- .panel-body -->
+    </div><!-- .hpanel -->
 
-  <div id="balances-survey-main-footer" style="display:none;">
-    <div class="row">
-      <div class="col-xs-12">
-        <button class="btn btn-lg btn-primary">
-          <i class="fa fa-check" aria-hidden="true"></i>
-          Save and continue
-        </button>
+    <div id="balances-survey-main-footer" style="display:none;">
+      <div class="row">
+        <div class="col-xs-12">
+          <button class="btn btn-lg btn-primary">
+            <i class="fa fa-check" aria-hidden="true"></i>
+            Save and continue
+          </button>
+        </div>
       </div>
     </div>
-  </div>
-<% end %>
+  <% end %>
+</div><!-- .hpanel -->

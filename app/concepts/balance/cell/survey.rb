@@ -17,30 +17,46 @@ module Balance::Cell
       end
     end
 
+    # WARNING: HORRIBLE HACK ALERT
+    #
+    # override the method in cells-erb-0.0.9/lib/cell/erb/template.rb to ensure
+    # that *nothing* cell gets HTML-escaped. If I don't do this,
+    # f.fields_for doesn't work (everything within the block gets escaped).
+    #
+    # This appears to be an issue with cells-erb and erbse, see:
+    #
+    # https://github.com/trailblazer/cells-erb/issues/2
+    #
+    # I *could* fix this by upgrading to cells-erb 0.1.0 & erbse 0.1.1 but this
+    # breaks a whole bunch of other stuff because there's a bug in these newer
+    # versions which means they can't handle inline conditionals; see:
+    #
+    # https://github.com/apotonick/erbse/issues/4
+    # https://github.com/trailblazer/cells-erb/issues/5
+    #
+    # Overriding 'capture' like this is the least-bad solution I could figure
+    # out after an hour or two of frustration :/
+    def capture(*args)
+      super.html_safe
+    end
+
     private
 
-    def currency_balance_value_field(balance)
-      currency = balance.currency
-      visible  = !balance.value.nil?
-      number_field_tag(
-        "balances[][value]",
-        balance.value,
-        id:    "currency_#{currency.id}_balance_value",
-        class: "currency_balance_value input-sm",
-        placeholder: "What's your balance?",
-        style: visible ? "" : "display:none;",
-        disabled: !visible,
+    def current_panel
+      form.errors.any? ? 'main' : 'initial'
+    end
+
+    def form_tag(&block)
+      form_for(
+        form,
+        method: :post,
+        url: survey_person_balances_path(model),
+        &block
       )
     end
 
-    def currency_balance_checkbox(balance)
-      check_box_tag(
-        "balances[][currency_id]",
-        balance.currency_id,
-        !balance.value.nil?,
-        class: "currency_balance_checkbox input-lg",
-        id:    "currency_#{balance.currency_id}_balance",
-      )
+    class ItemFields < Abroaders::Cell::Base
+      alias balance_form model
     end
   end
 end

@@ -86,7 +86,8 @@ class BalancesController < AuthenticatedUserController
   def survey
     @person = load_person
     redirect_if_onboarding_wrong_person_type! && return
-    form = BalancesSurvey.new(person: @person)
+    form = Balance::Survey.new(@person)
+    form.prepopulate!
     render cell(Balance::Cell::Survey, @person, form: form)
   end
 
@@ -94,26 +95,30 @@ class BalancesController < AuthenticatedUserController
   def save_survey
     @person = load_person
     redirect_if_onboarding_wrong_person_type! && return
-    form = BalancesSurvey.new(person: @person)
-    # Bleeargh technical debt
-    form.assign_attributes(survey_params)
-    form.award_wallet_email = params[:balances_survey_award_wallet_email]
-    if form.save
+
+    form = Balance::Survey.new(@person)
+    if form.validate(survey_params)
+      form.save
       redirect_to onboarding_survey_path
     else
+      form.repopulate!
       render cell(Balance::Cell::Survey, @person, form: form)
     end
   end
 
   private
 
-  def survey_params
-    params.permit(
-      balances: [:currency_id, :value],
-    ).fetch(:balances, [])
-  end
-
   def load_person
     current_account.people.find(params[:person_id])
+  end
+
+  def survey_params
+    p = params[:balance_survey].to_unsafe_hash
+    {
+      award_wallet_email: p[:award_wallet_email],
+      balances: p[:balances_attributes].values.select do |attrs|
+        Types::Form::Bool.(attrs[:present])
+      end,
+    }
   end
 end
