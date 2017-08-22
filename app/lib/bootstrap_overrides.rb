@@ -10,7 +10,7 @@ module BootstrapOverrides
   # See stackoverflow.com/a/18844246/1603071
   [
     :text_field, :email_field, :password_field, :text_area,
-    :text_field_tag, :number_field,
+    :text_field_tag, :number_field, :number_field_tag,
   ].each do |meth|
     define_method(meth) do |name, value = nil, options = {}|
       options[:class] = add_class(options[:class], BOOTSTRAP_CLASS)
