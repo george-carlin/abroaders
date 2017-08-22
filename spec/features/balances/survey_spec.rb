@@ -131,13 +131,4 @@ RSpec.describe 'the balance survey page', :onboarding, :js do
     click_link "Yes"
     expect { submit_form }.not_to change { Balance.count }
   end
-
-  describe "when person is owner, and account has a companion" do
-    before { account.create_companion!(first_name: 'x') }
-
-    it "doesn't send a 'profile complete' email to the admin" do
-      click_link "Yes"
-      expect { submit_form }.not_to change { ApplicationMailer.deliveries.last }
-    end
-  end
 end
