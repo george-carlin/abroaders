@@ -127,16 +127,6 @@ RSpec.describe 'the balance survey page', :onboarding, :js do
     expect { submit_form }.not_to change { Balance.count }
   end
 
-  example "submitting a balance that contains commas" do
-    currency = currencies.first
-    click_link "Yes"
-    currency_check_box(currency).click
-    fill_in balance_field(currency), with: "50,000"
-    expect { submit_form }.to change { owner.balances.count }.by(1)
-    balance = owner.reload.balances.last
-    expect(balance.value).to eq 50_000
-  end
-
   example "clicking 'Yes' then submitting without adding any balances" do
     click_link "Yes"
     expect { submit_form }.not_to change { Balance.count }

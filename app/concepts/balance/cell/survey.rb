@@ -22,7 +22,7 @@ module Balance::Cell
     def currency_balance_value_field(balance)
       currency = balance.currency
       visible  = !balance.value.nil?
-      text_field_tag(
+      number_field_tag(
         "balances[][value]",
         balance.value,
         id:    "currency_#{currency.id}_balance_value",
