@@ -13,6 +13,10 @@ module BootstrapOverrides
     :text_field_tag, :number_field, :number_field_tag,
   ].each do |meth|
     define_method(meth) do |name, value = nil, options = {}|
+      # the parent `number_field_tag` method calls text_field_tag - but it
+      # stringifies the `option` keys first. So we need to make sure that keys
+      # are symbolized.
+      options.symbolize_keys!
       options[:class] = add_class(options[:class], BOOTSTRAP_CLASS)
       super(name, value, options)
     end
