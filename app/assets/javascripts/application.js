@@ -18,6 +18,7 @@
 //= require jquery.tablesorter
 //= require underscore
 //= require metisMenu
+//= require summernote
 //= require typeahead.bundle.js
 //= require jquery.countdown.min.js
 //= require_tree ./other

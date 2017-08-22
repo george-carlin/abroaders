@@ -16,6 +16,7 @@
  *= require metisMenu
  *= require bootstrap-datepicker3
  *= require typeahead
+ *= require summernote
  *= require_tree .
  *= require_self
  */
