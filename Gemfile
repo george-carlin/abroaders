@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.4.1'
 
-gem 'rails', '5.0.2'
+gem 'rails', '5.1.0'
 gem 'trailblazer', '~> 2.0.6'
 gem 'trailblazer-rails', '>= 1.0.0'
 
@@ -11,9 +11,9 @@ gem 'cells-erb', '0.0.9'
 
 gem 'acts_as_tree', '~> 2.4.0'
 gem 'aws-sdk-v1', '1.61.0'
-gem 'browserify-rails', '3.1.0'
-gem 'cells-rails'
-gem 'devise', '~> 4.1.0'
+gem 'browserify-rails', '4.2.0'
+gem 'cells-rails', '0.0.8'
+gem 'devise', '~> 4.3.0'
 gem 'disposable'
 gem 'dry-configurable', '0.3.0'
 gem 'dry-struct', '~> 0.2.0'
@@ -50,7 +50,7 @@ gem 'workflow'
 gem 'dry-logic', '~> 0.4.1'
 
 group :development, :test do
-  gem 'bullet', '5.3.0'
+  gem 'bullet', '~> 5.6.1'
   gem 'byebug'
   gem 'database_cleaner'
   gem 'factory_girl_rails', '~> 4.5.0'
