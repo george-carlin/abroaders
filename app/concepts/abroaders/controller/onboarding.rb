@@ -15,6 +15,7 @@ module Abroaders::Controller
       when "regions_of_interest" then survey_interest_regions_path
       when "account_type"        then type_account_path
       when "eligibility"         then survey_eligibility_path
+      when "award_wallet"        then integrations_award_wallet_survey_path
       when "owner_cards"         then survey_person_cards_path(current_account.owner)
       when "owner_balances"      then survey_person_balances_path(current_account.owner)
       when "companion_cards"     then survey_person_cards_path(current_account.companion)

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170816212015) do
+ActiveRecord::Schema.define(version: 20170817194900) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 20170816212015) do
     t.string "phone_number_normalized"
     t.string "fb_token"
     t.string "phone_number_us_normalized"
+    t.boolean "aw_in_survey", default: false, null: false
     t.index ["email"], name: "index_accounts_on_email", unique: true
     t.index ["fb_token"], name: "index_accounts_on_fb_token"
     t.index ["onboarding_state"], name: "index_accounts_on_onboarding_state"
@@ -263,7 +264,6 @@ ActiveRecord::Schema.define(version: 20170816212015) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "owner", default: true, null: false
-    t.string "award_wallet_email"
     t.boolean "eligible"
     t.index ["account_id", "first_name"], name: "index_people_on_account_id_and_first_name", unique: true
     t.index ["account_id", "owner"], name: "index_people_on_account_id_and_owner", unique: true

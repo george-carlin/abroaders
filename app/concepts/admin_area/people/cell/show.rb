@@ -40,10 +40,6 @@ module AdminArea
           "User has connected their AwardWallet account <b>#{name}</b>. #{link}"
         end
 
-        def award_wallet_email
-          cell(AwardWalletEmail, model)
-        end
-
         def balances_list
           cell(People::Cell::Balances, model)
         end
@@ -141,17 +137,6 @@ module AdminArea
         end
 
         # @param model [Person]
-        class AwardWalletEmail < Abroaders::Cell::Base
-          include Escaped
-
-          property :award_wallet_email
-
-          def show
-            return '' if award_wallet_email.nil?
-            "<p><b>AwardWallet email:</b> #{award_wallet_email}</p>"
-          end
-        end
-
         # @!method self.call(person, opts = {})
         #   @param person [Person]
         class Heading < Abroaders::Cell::Base

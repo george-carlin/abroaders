@@ -14,6 +14,8 @@ RSpec.describe Onboarding::Cell::ProgressBar do
 
   it 'never goes backwards' do
     all_states.each_slice(2) do |state_0, state_1|
+      # there'll be a 'nil' on the end when there's an odd number of states:
+      next if state_1.nil?
       pb_0 = cell(Account.new(onboarding_state: state_0))
       pb_1 = cell(Account.new(onboarding_state: state_1))
 

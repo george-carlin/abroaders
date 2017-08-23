@@ -154,7 +154,6 @@ RSpec.describe 'dataclips' do
         "owners"."first_name" AS "owner_first_name",
         "companions"."id" AS "companion_id",
         "companions"."first_name" AS "companion_first_name",
-        "award_wallet_users"."email" AS "award_wallet_email",
         "award_wallet_users"."agent_id" AS "award_wallet_agent_id"
         FROM "accounts"
         LEFT OUTER JOIN "people" "owners" ON "owners"."account_id" = "accounts"."id"

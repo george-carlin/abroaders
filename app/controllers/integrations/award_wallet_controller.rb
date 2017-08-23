@@ -1,5 +1,7 @@
 module Integrations
   class AwardWalletController < AuthenticatedUserController
+    onboard :award_wallet, with: [:survey, :save_survey]
+
     def callback
       result = run Integrations::AwardWallet::Callback
       if result.success?
@@ -31,6 +33,19 @@ module Integrations
         return
       end
       redirect_to balances_path
+    end
+
+    def survey
+      render cell(Integrations::AwardWallet::Cell::Survey)
+    end
+
+    def save_survey
+      current_account.update!(
+        aw_in_survey: Types::Form::Bool.(params[:aw_in_survey]),
+      )
+      Account::Onboarder.new(current_account).add_award_wallet!
+      current_account.reload
+      redirect_to onboarding_survey_path
     end
 
     def sync

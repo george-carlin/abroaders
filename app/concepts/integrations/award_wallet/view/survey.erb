@@ -1,0 +1,58 @@
+<div class="row text-center">
+  <div class="col-xs-12">
+    <h2><%= title %></h2>
+
+    <p>
+      We recommend tracking your balances through
+      <%= link_to "AwardWallet.com", "https://awardwallet.com", target: "_blank" %>.
+    </p>
+
+    <p>
+      If you already have an AwardWallet account, let us know
+      and we can send you a link to sync AwardWallet with your
+      Abroaders account.
+    </p>
+
+    <p>
+      If not, no worries, you can add your points and miles to
+      Abroaders without signing up for AwardWallet.
+    </p>
+
+    <div id="aw-survey-initial" class="btn-group">
+      <a href="#" id="aw-survey-yes-btn" class="btn btn-lg btn-primary">
+        Yes - I use AwardWallet
+      </a>
+      <a href="#" id="aw-survey-no-btn" class="btn btn-lg btn-default">
+        No - I don't use AwardWallet
+      </a>
+    </div>
+
+    <div id="aw-survey-yes" style="display:none;">
+      <%= form_tag do %>
+        <%= hidden_field_tag :aw_in_survey, 'true' %>
+        <p>You have an AwardWallet account:</p>
+
+        <div class="btn-group">
+          <input type="submit" value="Confirm" class="btn btn-lg btn-primary">
+          <a href="#" class="aw-survey-back btn btn-lg btn-default">
+            Back
+          </a>
+        </div>
+      <% end %>
+    </div>
+
+    <div id="aw-survey-no" style="display:none;">
+      <%= form_tag do %>
+        <%= hidden_field_tag :aw_in_survey, 'false' %>
+        <p>You don't have an AwardWallet account:</p>
+
+        <div class="btn-group">
+          <input type="submit" value="Confirm" class="btn btn-lg btn-primary">
+          <a href="#" class="aw-survey-back btn btn-lg btn-default">
+            Back
+          </a>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
