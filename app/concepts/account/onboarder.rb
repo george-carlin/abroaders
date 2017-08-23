@@ -46,15 +46,16 @@ class Account::Onboarder
       event :add_eligibility, transition_to: :award_wallet
     end
 
-    state :award_wallet do # TODO
-      # event :add_award_wallet, transition_to: :owner_cards,
-      #   if: -> (onboarder) { onboarder.owner.eligible? }
-      # event :add_award_wallet, transition_to: :owner_balances,
-      #   if: -> (onboarder) { !onboarder.account.aw_in_survey? }
-      # event :add_award_wallet, transition_to: :companion_cards,
-      #   if: -> (onboarder) { !onboarder.companion&.eligible? }
-      # event :add_award_wallet, transition_to: :companion_balances,
-      #   if: -> (o) { o.couples? && o.eligible? }
+    state :award_wallet do
+      event :add_award_wallet, transition_to: :owner_cards,
+        if: -> (onb) { onb.owner.eligible? }
+      event :add_award_wallet, transition_to: :owner_balances,
+        if: -> (onb) { !onb.account.aw_in_survey? }
+      event :add_award_wallet, transition_to: :companion_cards,
+        if: -> (onb) { onb.companion&.eligible? }
+      event :add_award_wallet, transition_to: :companion_balances,
+        if: -> (onb) { onb.couples? && !onb.account.aw_in_survey? }
+      event :add_award_wallet, transition_to: :phone_number
     end
 
     state :owner_cards do
