@@ -1,21 +1,42 @@
-<div class="hpanel">
-  <div class="panel-heading hbuilt">
-    <div class="row">
-      <div class="col-xs-12">
-        <h1><%= title %></h1>
-      </div>
-    </div><!-- .row -->
-  </div>
-
-  <%= errors %>
-
-  <div class="panel-body">
-    <p>
-      If you have specific travel goals, we’ll build a plan to help you get
-      there at a big discount. If you aren’t sure where you want to go,
-      we’ll prioritize earning rewards that give you maximum flexibility.
+<div class="row text-center">
+  <div class="col-xs-12">
+    <h2><%= title %></h2>
+    <p class="lead">
+      Do you have any specific trips planned that you haven't booked?
     </p>
 
+    <a
+      href="#why-we-ask-travel-plans"
+      type="button"
+      data-toggle="collapse"
+      data-target="#why-we-ask-travel-plans"
+      aria-expanded="false"
+      aria-controls="#why-we-ask-travel-plans"
+      style="color: #1fb6ff; font-size: 14px;"
+    >
+      <span class="fa fa-question-circle"></span>
+      <em>Why do we ask?</em>
+    </a>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-12 col-md-4 col-md-offset-4">
+    <div id="why-we-ask-travel-plans" class="collapse">
+      <div class="well well-lg">
+        Giving us more information about any specific trips you have planned in
+        the future (especially those 3 or more months away) will help us design
+        a better overall points strategy, both for the specific trips you've
+        already planned and those yet to be planned.
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= errors %>
+
+<div class="row">
+  <div class="col-xs-12">
     <%= form_for form, html: { class: "travel-plan-form" } do |f| %>
       <div class="row">
         <div class="col-xs-12">
@@ -129,5 +150,5 @@
         </div>
       </div>
     <% end %>
-  </div><!-- .panel-body -->
+  </div>
 </div>

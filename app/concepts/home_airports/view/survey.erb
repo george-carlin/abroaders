@@ -1,24 +1,31 @@
-<div class="hpanel home-airports-survey">
-  <div class="panel-heading hbuilt">
-    <div class="row">
-      <div class="col-xs-12 greeting-message">
-        <% if editing %>
-          <h1>Update Home Airports</h1>
-        <% else %>
-          <h1>Welcome, traveler!</h1>
+<div class="home-airports-survey">
+  <div class="row text-center">
+    <div class="col-xs-12">
+      <h2>Home Airports</h2>
 
-          <h2>What's your home airport?</h2>
-        <% end %>
+      <p class="lead">Which airport(s) do you usually depart from?</p>
 
-        <p>
-          Knowing your home airports helps us craft a better overall strategy
-          to maximize rewards. Don’t worry if your upcoming travel plans don’t
-          start at your home airport, we’ll ask about specific travel goals
-          next.
-        </p>
-      </div>
-    </div><!-- .row -->
+      <a href="#why-we-ask-home-airports" data-toggle="collapse" aria-expanded="false">
+        <span style="color: #1fb6ff; font-size: 14px;" class="fa fa-question-circle"></span>
+        <span style="color: #1fb6ff; font-size: 14px;"><em>Why do we ask?</em></span>
+      </a>
+    </div>
   </div>
+
+  <div class="row">
+    <div class="col-xs-12 col-md-4 col-md-offset-4">
+      <div id="why-we-ask-home-airports" class="collapse">
+        <div class="well well-lg">
+          Knowing which airport or airports you usually depart from will help
+          us ensure that we get you the best points for flights out of that
+          airport. This is an important piece of information for us to help
+          you build the best overall points strategy.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <br>
 
   <%= body %>
 </div>

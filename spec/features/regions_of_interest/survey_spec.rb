@@ -21,7 +21,7 @@ RSpec.describe 'regions of interest survey' do
   example 'initial page layout' do
     expect(page).to have_no_sidebar
     expect(page).to have_button 'Save and continue'
-    expect(page).to have_content 'Interested in any of these locations?'
+    expect(page).to have_content 'Wish List'
     regions.each do |region|
       expect(page).to have_content region.name
       expect(page).to have_field "interest_regions_survey_region_ids_#{region.id}"

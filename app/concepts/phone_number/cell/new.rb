@@ -17,6 +17,15 @@ module PhoneNumber
                   "phone number."
         cell(Abroaders::Cell::ErrorAlert, nil, content: content)
       end
+
+      def link_to_skip
+        link_to(
+          'Skip',
+          skip_phone_number_path,
+          class: 'btn skip-survey-btn btn-lg',
+          data: { method: :post },
+        )
+      end
     end
   end
 end

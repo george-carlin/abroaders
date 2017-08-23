@@ -15,7 +15,7 @@ class Card < Card.superclass
           cell(CardProduct::Cell::AnnualFee, model)
         end
 
-        def image(size = "180x114")
+        def image(size = '148x90')
           cell(CardProduct::Cell::Image, model, size: size)
         end
 

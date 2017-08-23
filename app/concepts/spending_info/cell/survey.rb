@@ -53,6 +53,10 @@ class SpendingInfo < SpendingInfo.superclass
         end
       end
 
+      def eligible_people # make sure that the owner is always first:
+        @eligible_people ||= super.sort_by(&:type).reverse
+      end
+
       def monthly_spending_form_group(form_builder)
         cell(MonthlySpendingFormGroup, eligible_people, form_builder: form_builder)
       end

@@ -33,16 +33,6 @@ module Onboarding
           def html_classes
             'col-xs-12 col-md-8 col-md-offset-2 account_type_select_header'
           end
-
-          def text
-            result = 'Abroaders will help you earn the right points for your '
-            result << if destination.nil?
-                        'next trip'
-                      else
-                        "trip to #{destination.name}."
-                      end
-            result
-          end
         end
 
         class Form < Abroaders::Cell::Base

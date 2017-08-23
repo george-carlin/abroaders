@@ -23,7 +23,6 @@ $(document).ready(function () {
     e.preventDefault();
     $("#card-survey-initial").hide();
     $("#card-survey-main-body").show();
-    $("#card-survey-main-header").show();
   });
 
   $("#card-survey-initial-no-btn").click(function (e) {

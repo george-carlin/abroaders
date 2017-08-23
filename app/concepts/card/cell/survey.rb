@@ -1,16 +1,28 @@
 module Card::Cell
+  # model: Person
   class Survey < Abroaders::Cell::Base
-    include NameHelper
+    include Escaped
+
+    property :first_name
+    property :partner?
 
     option :form
 
     def title
-      'Add Cards'
+      partner? ? "#{first_name}'s Cards" : 'Cards'
     end
 
     alias person model
 
     private
+
+    def confirm_no
+      cell(ConfirmNo, model)
+    end
+
+    def initial
+      cell(Initial)
+    end
 
     def sections
       cell(BankSection, collection: CardProduct.survey.group_by(&:bank).to_a)
@@ -58,6 +70,21 @@ module Card::Cell
       def products
         cell(Product, collection: model[1])
       end
+    end
+
+    # model: Person
+    class ConfirmNo < Abroaders::Cell::Base
+      include Escaped
+
+      property :first_name
+      property :partner?
+
+      def you_have
+        partner? ? "#{first_name} has" : 'You have'
+      end
+    end
+
+    class Initial < Abroaders::Cell::Base
     end
   end
 end

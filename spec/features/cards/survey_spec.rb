@@ -58,7 +58,7 @@ RSpec.describe 'cards survey', :onboarding, :js do
   example "initial page layout" do
     expect(page).to have_no_sidebar
     expect(page).to have_content \
-      "Have you ever had a credit card that earns points or miles?"
+      'Do you have any credit cards that earn points or miles?'
     expect(page).to have_button "Yes"
     expect(page).to have_button "No"
     # doesn't initially list cards:
@@ -69,7 +69,7 @@ RSpec.describe 'cards survey', :onboarding, :js do
     click_button "No"
 
     expect(page).to have_no_content \
-      "Have you ever had a credit card that earns points or miles?"
+      'Do you have any credit cards that earn points or miles?'
     expect(page).to have_no_button "Yes"
     expect(page).to have_no_button "No"
     expect(page).to have_content \
@@ -89,7 +89,7 @@ RSpec.describe 'cards survey', :onboarding, :js do
     click_button "No"
     click_button "Back"
     expect(page).to have_content \
-      "Have you ever had a credit card that earns points or miles?"
+      'Do you have any credit cards that earn points or miles?'
     expect(page).to have_button "Yes"
     expect(page).to have_button "No"
     expect(page).to have_no_content \
