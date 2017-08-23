@@ -4,7 +4,9 @@ module Balance::Cell
     include Escaped
     include NameHelper
 
+    property :companion?
     property :first_name
+    property :owner?
     property :partner?
 
     option :form
@@ -55,8 +57,18 @@ module Balance::Cell
       )
     end
 
-    class ItemFields < Abroaders::Cell::Base
-      alias balance_form model
+    def header
+      cell(Header, model, options)
+    end
+
+    class Header < self
+      def question
+        if partner?
+          'Do you currently have any points or miles?'
+        else
+          "Does #{first_name} currently have any points or miles?"
+        end
+      end
     end
   end
 end

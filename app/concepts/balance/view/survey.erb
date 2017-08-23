@@ -1,11 +1,4 @@
-<div class="hpanel">
-  <div class="panel-heading hbuilt">
-    <div class="row">
-      <div class="col-xs-12">
-        <h1><%= title %></h1>
-      </div>
-    </div>
-  </div>
+<%= header %>
 
   <% if form.errors.any? %>
     <div class="alert alert-danger">
@@ -22,24 +15,11 @@
   <%= form_tag do |f| %>
     <div
       id="balances-survey-initial"
-      class="panel-body"
+      class="panel-body text-center"
       <% unless current_panel == 'initial' %>
         style="display:none;"
       <% end %>
     >
-      <p>
-        We need to know <%= n "your", model %> existing frequent
-        flyer mile balances, if <%= n "you", model, true %>
-        <%= n "have", model %> any, in order to give the best card
-        recommendations.
-      </p>
-
-      <p>
-        <%= n "Do", model %>&nbsp;<%= n "you", model %>
-        have
-        any points balances greater than 5,000?
-      </p>
-
       <div class="btn-group">
         <a id="balances-survey-initial-yes-btn" href="#" class="btn btn-primary">
           Yes
@@ -51,7 +31,11 @@
       </div>
     </div><!-- #balances-survey-initial -->
 
-    <div id="balances-survey-confirm-no" class="panel-body" style="display:none;">
+    <div
+      id="balances-survey-confirm-no"
+      class="panel-body text-center"
+      style="display:none;"
+    >
       <p>
         <%= n "You", model %>&nbsp;<%= n "have", model %> no points balances
         greater than 5,000:
@@ -171,4 +155,3 @@
       </div>
     </div>
   <% end %>
-</div><!-- .hpanel -->
