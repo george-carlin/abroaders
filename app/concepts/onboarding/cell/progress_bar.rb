@@ -16,6 +16,8 @@ module Onboarding
           15
         when :account_type, :eligibility
           30
+        when :award_wallet
+          35
         when :owner_cards
           40
         when :owner_balances
@@ -41,7 +43,7 @@ module Onboarding
           1
         when :account_type, :eligibility
           2
-        when :owner_cards, :owner_balances, :companion_cards, :companion_balances
+        when :award_wallet, :owner_cards, :owner_balances, :companion_cards, :companion_balances
           3
         when :spending
           4

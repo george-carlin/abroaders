@@ -77,6 +77,8 @@ Rails.application.routes.draw do
       get :poll
       get :sync
       get :syncing
+      get :survey
+      post :survey, action: :save_survey
 
       resources :owners, only: [] do
         member do
