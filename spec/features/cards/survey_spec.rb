@@ -47,14 +47,6 @@ RSpec.describe 'cards survey', :onboarding, :js do
     end
   end
 
-  shared_examples 'next survey page' do
-    it 'takes me to the next stage of the survey' do
-      submit_form
-      expect(current_path).to eq survey_person_balances_path(owner)
-      expect(account.reload.onboarding_state).to eq 'owner_balances'
-    end
-  end
-
   example "initial page layout" do
     expect(page).to have_no_sidebar
     expect(page).to have_content \
@@ -227,8 +219,6 @@ RSpec.describe 'cards survey', :onboarding, :js do
           expect(closed_card.opened_on).to eq Date.new(last_year, 4)
           expect(closed_card.closed_on).to eq Date.new(last_year, 11)
         end
-
-        include_examples 'next survey page'
       end
     end # selecting some cards
 
@@ -236,8 +226,6 @@ RSpec.describe 'cards survey', :onboarding, :js do
       it "doesn't assign any cards to any account" do
         expect { submit_form }.not_to change { Card.count }
       end
-
-      include_examples 'next survey page'
     end
   end
 end

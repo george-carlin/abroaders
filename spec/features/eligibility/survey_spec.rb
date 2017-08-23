@@ -24,8 +24,8 @@ RSpec.describe "eligibility" do
         click_submit
         expect(account.owner.reload).to be_eligible
         expect(account.companion.reload).to be_eligible
-        expect(account.reload.onboarding_state).to eq "owner_cards"
-        expect(current_path).to eq survey_person_cards_path(account.owner)
+        expect(account.reload.onboarding_state).to eq 'award_wallet'
+        expect(current_path).to eq integrations_award_wallet_survey_path
       end
 
       example "selecting 'owner'" do
@@ -33,8 +33,8 @@ RSpec.describe "eligibility" do
         click_submit
         expect(account.owner.reload).to be_eligible
         expect(account.companion.reload).not_to be_eligible
-        expect(account.reload.onboarding_state).to eq "owner_cards"
-        expect(current_path).to eq survey_person_cards_path(account.owner)
+        expect(account.reload.onboarding_state).to eq 'award_wallet'
+        expect(current_path).to eq integrations_award_wallet_survey_path
       end
 
       example "selecting 'companion'" do
@@ -42,8 +42,8 @@ RSpec.describe "eligibility" do
         click_submit
         expect(account.owner.reload).not_to be_eligible
         expect(account.companion.reload).to be_eligible
-        expect(account.reload.onboarding_state).to eq "owner_balances"
-        expect(current_path).to eq survey_person_balances_path(account.owner)
+        expect(account.reload.onboarding_state).to eq 'award_wallet'
+        expect(current_path).to eq integrations_award_wallet_survey_path
       end
 
       example "selecting 'neither'" do
@@ -51,8 +51,8 @@ RSpec.describe "eligibility" do
         click_submit
         expect(account.owner.reload).not_to be_eligible
         expect(account.companion.reload).not_to be_eligible
-        expect(account.reload.onboarding_state).to eq "owner_balances"
-        expect(current_path).to eq survey_person_balances_path(account.owner)
+        expect(account.reload.onboarding_state).to eq 'award_wallet'
+        expect(current_path).to eq integrations_award_wallet_survey_path
       end
     end
 
@@ -70,16 +70,16 @@ RSpec.describe "eligibility" do
         choose :eligibility_survey_eligible_owner
         click_submit
         expect(account.owner.reload).to be_eligible
-        expect(account.reload.onboarding_state).to eq "owner_cards"
-        expect(current_path).to eq survey_person_cards_path(owner)
+        expect(account.reload.onboarding_state).to eq 'award_wallet'
+        expect(current_path).to eq integrations_award_wallet_survey_path
       end
 
       example "selecting 'owner'" do
         choose :eligibility_survey_eligible_neither
         click_submit
         expect(account.owner.reload).not_to be_eligible
-        expect(account.reload.onboarding_state).to eq "owner_balances"
-        expect(current_path).to eq survey_person_balances_path(owner)
+        expect(account.reload.onboarding_state).to eq 'award_wallet'
+        expect(current_path).to eq integrations_award_wallet_survey_path
       end
     end
   end

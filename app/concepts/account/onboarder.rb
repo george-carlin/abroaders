@@ -18,7 +18,7 @@ class Account::Onboarder
   include Workflow
 
   attr_reader :account
-  delegate :owner, :companion, to: :account
+  delegate :aw_in_survey?, :couples?, :owner, :companion, to: :account
 
   def initialize(account)
     @account = account
@@ -43,13 +43,28 @@ class Account::Onboarder
     end
 
     state :eligibility do
-      event :add_eligibility, transition_to: :owner_cards,
-            if: -> (onboarder) { onboarder.owner.eligible? }
-      event :add_eligibility, transition_to: :owner_balances
+      event :add_eligibility, transition_to: :award_wallet
+    end
+
+    state :award_wallet do # TODO
+      # event :add_award_wallet, transition_to: :owner_cards,
+      #   if: -> (onboarder) { onboarder.owner.eligible? }
+      # event :add_award_wallet, transition_to: :owner_balances,
+      #   if: -> (onboarder) { !onboarder.account.aw_in_survey? }
+      # event :add_award_wallet, transition_to: :companion_cards,
+      #   if: -> (onboarder) { !onboarder.companion&.eligible? }
+      # event :add_award_wallet, transition_to: :companion_balances,
+      #   if: -> (o) { o.couples? && o.eligible? }
     end
 
     state :owner_cards do
-      event :add_owner_cards, transition_to: :owner_balances
+      event :add_owner_cards, transition_to: :owner_balances,
+        if: -> (onb) { !onb.aw_in_survey? }
+      event :add_owner_cards, transition_to: :companion_cards,
+        if: -> (onb) { onb.companion&.eligible? }
+      event :add_owner_cards, transition_to: :companion_balances,
+        if: -> (onb) { onb.companion && !onb.aw_in_survey? }
+      event :add_owner_cards, transition_to: :spending
     end
 
     state :owner_balances do
@@ -63,7 +78,9 @@ class Account::Onboarder
     end
 
     state :companion_cards do
-      event :add_companion_cards, transition_to: :companion_balances
+      event :add_companion_cards, transition_to: :companion_balances,
+        if: -> (onb) { !onb.aw_in_survey? }
+      event :add_companion_cards, transition_to: :spending
     end
 
     state :companion_balances do
