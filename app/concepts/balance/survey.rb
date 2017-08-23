@@ -10,8 +10,6 @@ class Balance::Survey < Reform::Form
     Currency.find(Types::Form::Int.(id)).id
   end
 
-  property :award_wallet_email
-
   collection(
     :balances,
     populate_if_empty: Balance,

@@ -8,7 +8,6 @@ RSpec.describe AdminArea::People::Cell::Show do
     Person.owner.new(
       id: 5,
       account: account,
-      award_wallet_email: aw_email,
       first_name: 'Erik',
     )
   end
@@ -19,7 +18,6 @@ RSpec.describe AdminArea::People::Cell::Show do
     # person's name as the page header
     expect(rendered).to have_selector 'h1', text: 'Erik'
     # award wallet email
-    expect(rendered).to have_content "AwardWallet email: #{aw_email}"
     expect(rendered).to have_content 'User has not added their spending info'
     expect(rendered).to have_content 'User has no upcoming travel plans'
     # no recommendation notes yet:

@@ -76,18 +76,6 @@ RSpec.describe 'the balance survey page', :onboarding, :js do
     end
   end
 
-  example "clicking 'Yes' asks for AwardWallet email" do
-    click_link 'Yup'
-    expect(page).to have_field :balance_survey_award_wallet_email
-  end
-
-  example "providing an award wallet email" do
-    click_link 'Yup'
-    fill_in :balance_survey_award_wallet_email, with: "a@b.com"
-    submit_form
-    expect(owner.reload.award_wallet_email).to eq "a@b.com"
-  end
-
   example "hiding and showing a currency's value input" do
     currency = currencies.first
 

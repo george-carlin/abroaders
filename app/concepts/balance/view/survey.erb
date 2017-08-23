@@ -26,47 +26,6 @@
 
   <%= form_tag do |f| %>
     <div
-      id="balances-survey-main-header"
-      class="panel-body"
-      <% unless current_panel == 'main' %>
-        style="display:none;"
-      <% end %>
-    >
-      <p>
-        We recommend tracking your balances through
-        <%= link_to "AwardWallet.com", "https://awardwallet.com", target: "_blank" %>.
-        If <%= n "you", model %> already <%= n "have", model %> an
-        AwardWallet account, please tell us what email address
-        <%= n "you", model, true %> used to sign up for it:
-      </p>
-
-      <div class="form-group">
-        <%= f.email_field(
-          :award_wallet_email,
-          placeholder: "#{n "Your", model} login email for AwardWallet"
-        ) %>
-      </div><!-- .form-group -->
-
-      <p>
-        We are working on integrating our app with AwardWallet so that we
-        can keep track of your loyalty points automatically. For now, if you
-        don't have AwardWallet, please estimate (to the nearest 1,000)
-        <% if current_account.couples? %>
-          <b><%= model.first_name %>'s</b>
-        <% else %>
-          your
-        <% end %>
-        current balances for the programs below.
-      </p>
-
-      <p>
-        (You can always edit these balances, or add new ones, later - but the sooner
-        and the more accurately we know your existing awards balances, the
-        sooner we can help you save money on travel.)
-      </p>
-    </div><!-- .panel-body -->
-
-    <div
       id="balances-survey-main-body"
       class="hpanel"
       <% unless current_panel == 'main' %>
