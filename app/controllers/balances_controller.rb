@@ -116,7 +116,7 @@ class BalancesController < AuthenticatedUserController
     p = params[:balance_survey].to_unsafe_hash
     {
       award_wallet_email: p[:award_wallet_email],
-      balances: p[:balances_attributes].values.select do |attrs|
+      balances: (p[:balances_attributes]&.values || []).select do |attrs|
         Types::Form::Bool.(attrs[:present])
       end,
     }

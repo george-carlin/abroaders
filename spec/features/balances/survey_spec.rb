@@ -32,12 +32,13 @@ RSpec.describe 'the balance survey page', :onboarding, :js do
     end
   end
 
+  let(:confirmation) { 'You have no existing points or miles balances' }
+
   example "initial page layout" do
     expect(page).to have_title full_title('Points and Miles')
     expect(page).to have_no_sidebar
-    expect(page).to have_content "Do you have any points balances greater than 5,000?"
-    expect(page).to have_link "Yes"
-    expect(page).to have_link "No"
+    expect(page).to have_link 'Yup'
+    expect(page).to have_link 'Nope'
   end
 
   example "doesn't show currencies which has shown_on_survey=false" do
@@ -45,30 +46,28 @@ RSpec.describe 'the balance survey page', :onboarding, :js do
   end
 
   example "clicking 'No' asks for confirmation" do
-    click_link "No"
-    expect(page).to have_no_content "Do you have any points balances greater than 5,000?"
-    expect(page).to have_no_link "Yes"
-    expect(page).to have_no_link "No"
-    expect(page).to have_content "You have no points balances greater than 5,000"
-    expect(page).to have_button "Confirm"
-    expect(page).to have_button "Back"
+    click_link 'Nope'
+    expect(page).to have_no_link 'Yup'
+    expect(page).to have_no_link 'Nope'
+    expect(page).to have_content confirmation
+    expect(page).to have_button 'Confirm'
+    expect(page).to have_link 'Back'
 
-    click_button "Back"
-    expect(page).to have_content "Do you have any points balances greater than 5,000?"
-    expect(page).to have_link "Yes"
-    expect(page).to have_link "No"
-    expect(page).to have_no_content "You have no points balances greater than 5,000"
+    click_link 'Back'
+    expect(page).to have_link 'Yup'
+    expect(page).to have_link 'Nope'
+    expect(page).to have_no_content confirmation
     expect(page).to have_no_button "Confirm"
-    expect(page).to have_no_button "Back"
+    expect(page).to have_no_link "Back"
   end
 
   example "clicking 'No' and confirming" do
-    click_link "No"
+    click_link 'Nope'
     expect { click_button "Confirm" }.not_to change { Balance.count }
   end
 
   example "clicking 'Yes' shows list of currencies" do
-    click_link "Yes"
+    click_link 'Yup'
     currencies.each do |currency|
       expect(page).to have_content currency.name
       within_currency(currency) do
@@ -78,12 +77,12 @@ RSpec.describe 'the balance survey page', :onboarding, :js do
   end
 
   example "clicking 'Yes' asks for AwardWallet email" do
-    click_link "Yes"
+    click_link 'Yup'
     expect(page).to have_field :balance_survey_award_wallet_email
   end
 
   example "providing an award wallet email" do
-    click_link "Yes"
+    click_link 'Yup'
     fill_in :balance_survey_award_wallet_email, with: "a@b.com"
     submit_form
     expect(owner.reload.award_wallet_email).to eq "a@b.com"
@@ -92,7 +91,7 @@ RSpec.describe 'the balance survey page', :onboarding, :js do
   example "hiding and showing a currency's value input" do
     currency = currencies.first
 
-    click_link "Yes"
+    click_link 'Yup'
 
     currency_check_box(currency).click
     within_currency(currency) do
@@ -105,7 +104,7 @@ RSpec.describe 'the balance survey page', :onboarding, :js do
 
   example "submitting a balance" do
     currency = currencies.first
-    click_link "Yes"
+    click_link 'Yup'
     currency_check_box(currency).click
     fill_in balance_field(currency), with: 50_000
     fill_in balance_field(currency), with: 50_000
@@ -118,7 +117,7 @@ RSpec.describe 'the balance survey page', :onboarding, :js do
 
   example "clicking 'submit' after unchecking a balance" do
     currency = currencies.first
-    click_link "Yes"
+    click_link 'Yup'
     currency_check_box(currency).click
     fill_in balance_field(currency), with: 50_000
     # Uncheck the box and the text field will be hidden
@@ -128,7 +127,7 @@ RSpec.describe 'the balance survey page', :onboarding, :js do
   end
 
   example "clicking 'Yes' then submitting without adding any balances" do
-    click_link "Yes"
+    click_link 'Yup'
     expect { submit_form }.not_to change { Balance.count }
   end
 end

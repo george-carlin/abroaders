@@ -8,6 +8,7 @@ module Balance::Cell
     property :first_name
     property :owner?
     property :partner?
+    property :type
 
     option :form
 
@@ -44,6 +45,10 @@ module Balance::Cell
 
     private
 
+    def confirm_no
+      cell(ConfirmNo, model, options)
+    end
+
     def current_panel
       form.errors.any? ? 'main' : 'initial'
     end
@@ -61,14 +66,30 @@ module Balance::Cell
       cell(Header, model, options)
     end
 
+    def initial
+      cell(Initial, model, options)
+    end
+
+    class ConfirmNo < self
+      private
+
+      def body
+        you_have = partner? ? "#{first_name} has" : "You have"
+        "#{you_have} no existing points or miles balances"
+      end
+    end
+
     class Header < self
       def question
         if partner?
-          'Do you currently have any points or miles?'
-        else
           "Does #{first_name} currently have any points or miles?"
+        else
+          'Do you currently have any points or miles?'
         end
       end
+    end
+
+    class Initial < self
     end
   end
 end

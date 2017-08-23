@@ -1,0 +1,27 @@
+<%= form_tag do |f| %>
+  <div id="balances-survey-initial"
+    class="text-center"
+    <% unless current_panel == 'initial' %>
+      style="display:none;"
+    <% end %>
+  >
+    <div class="btn-group">
+      <a
+        id="balances-survey-initial-yes-btn"
+        data-person-type="<%= type %>"
+        href="#"
+        class="btn btn-primary btn-lg"
+      >
+        Yup
+      </a>
+
+      <a
+        id="balances-survey-initial-no-btn"
+        href="#"
+        class="btn btn-default btn-lg"
+      >
+        Nope
+      </a>
+    </div><!-- .btn-group -->
+  </div><!-- #balances-survey-initial -->
+<% end %>

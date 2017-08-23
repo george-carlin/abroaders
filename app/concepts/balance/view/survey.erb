@@ -12,43 +12,19 @@
     </div>
   <% end %>
 
+<div class="row">
+  <div class="col-xs-12">
+    <%= initial %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-12">
+    <%= confirm_no %>
+  </div>
+</div>
+
   <%= form_tag do |f| %>
-    <div
-      id="balances-survey-initial"
-      class="panel-body text-center"
-      <% unless current_panel == 'initial' %>
-        style="display:none;"
-      <% end %>
-    >
-      <div class="btn-group">
-        <a id="balances-survey-initial-yes-btn" href="#" class="btn btn-primary">
-          Yes
-        </a>
-
-        <a id="balances-survey-initial-no-btn" href="#" class="btn btn-default">
-          No
-        </a>
-      </div>
-    </div><!-- #balances-survey-initial -->
-
-    <div
-      id="balances-survey-confirm-no"
-      class="panel-body text-center"
-      style="display:none;"
-    >
-      <p>
-        <%= n "You", model %>&nbsp;<%= n "have", model %> no points balances
-        greater than 5,000:
-      </p>
-      <div class="btn-group">
-        <%= submit_tag "Confirm", class: "btn btn-primary" %>
-
-        <button id="balances-survey-confirm-no-back-btn" class="btn btn-default">
-          Back
-        </button>
-      </div>
-    </div><!-- #balances-survey-confirm-no -->
-
     <div
       id="balances-survey-main-header"
       class="panel-body"
