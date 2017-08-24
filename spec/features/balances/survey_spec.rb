@@ -116,12 +116,12 @@ RSpec.describe 'the balance survey page', :onboarding, :js do
 
   example 'failed submit' do
     currency = currencies.first
-    other_currencies = currencies - [ currency ]
+    other_currencies = currencies - [currency]
 
     click_link 'Yup'
     currency_check_box(currency).click
     fill_in balance_field(currency), with: -1
-    expect { submit_form }.not_to change { [ Balance.count, current_path ] }
+    expect { submit_form }.not_to change { [Balance.count, current_path] }
     # balance form should still be visible with the fields unchanged:
     other_currencies.each do |curr|
       expect(page).to have_field "currency_#{curr.id}_balance", checked: false

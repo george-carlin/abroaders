@@ -48,7 +48,7 @@ RSpec.describe Balance::Survey do
     expect(bal.present).to be true
 
     expect(other_bals.all? { |b| b.value.blank? }).to be true
-    expect(other_bals.none? { |b| b.present }).to be true
+    expect(other_bals.none?(&:present)).to be true
   end
 
   example 'invalid - missing value' do
