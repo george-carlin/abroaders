@@ -2,7 +2,6 @@ module Balance::Cell
   # model: a Person
   class Survey < Abroaders::Cell::Base
     include Escaped
-    include NameHelper
 
     property :companion?
     property :first_name
