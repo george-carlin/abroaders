@@ -39,20 +39,26 @@ class Balance::Survey < Reform::Form
   end
 
   def prepopulate_balances!(*_args)
-    Currency.survey.order(name: :asc).each do |currency|
+    currencies.each do |currency|
       self.balances << model.balances.build(currency: currency)
     end
   end
 
+  # hackhackhackhack :(
   def repopulate!
     existing_bals = self.balances.dup
     self.balances = []
-    Currency.survey.order(name: :asc).each do |currency|
-      new_bal = model.balances.build(currency: currency)
+    currencies.each do |currency|
+      self.balances.append(model.balances.build(currency: currency))
+
       if (existing = existing_bals.detect { |b| b.currency_id == currency.id })
-        new_bal.value = existing.value
+        self.balances[-1].present = true
+        self.balances[-1].value = existing.value
       end
-      self.balances << new_bal
     end
+  end
+
+  def currencies
+    Currency.survey.order(name: :asc)
   end
 end

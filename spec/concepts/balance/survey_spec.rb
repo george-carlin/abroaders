@@ -41,7 +41,14 @@ RSpec.describe Balance::Survey do
     form.validate(balances: [{ value: -1, currency_id: currency.id }])
     form.repopulate!
     expect(form.balances.length).to eq 3
-    expect(form.balances.detect { |b| b.currency_id == currency.id }.value).to eq(-1)
+    bal, other_bals = form.balances.partition { |b| b.currency_id == currency.id }
+    bal = bal[0]
+
+    expect(bal.value).to eq(-1)
+    expect(bal.present).to be true
+
+    expect(other_bals.all? { |b| b.value.blank? }).to be true
+    expect(other_bals.none? { |b| b.present }).to be true
   end
 
   example 'invalid - missing value' do

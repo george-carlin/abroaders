@@ -2,13 +2,9 @@
 
   <% if form.errors.any? %>
     <div class="alert alert-danger">
-      Could not save balances:
+      <p>Couldn't save your points.</p>
 
-      <ul>
-        <% form.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
+      <p>All points balances must be greater than or equal to 0</p>
     </div>
   <% end %>
 
