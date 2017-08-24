@@ -53,6 +53,10 @@ module Balance::Cell
       form.errors.any? ? 'main' : 'initial'
     end
 
+    def fields_for_balance(form_object)
+      cell(BalanceFields, form_object)
+    end
+
     def form_tag(&block)
       form_for(
         form,
