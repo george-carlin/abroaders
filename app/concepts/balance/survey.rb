@@ -42,13 +42,6 @@ class Balance::Survey < Reform::Form
     end
   end
 
-  # def prepopulate!
-  #   existing_ids = self.balances.map(&:currency_id).sort
-  #   Currency.survey.where.not(id: existing_ids).each do |curr|
-  #     self.balances << Balance.new(person: model, currency_id: curr.id)
-  #   end
-  # end
-
   def prepopulate_balances!(*_args)
     Currency.survey.order(name: :asc).each do |currency|
       self.balances << model.balances.build(currency: currency)
