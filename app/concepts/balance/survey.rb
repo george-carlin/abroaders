@@ -25,10 +25,6 @@ class Balance::Survey < Reform::Form
                 less_than_or_equal_to: PSQL_MAX_INT,
               },
               presence: true
-
-    def currency_name
-      Currency.find(currency_id).name
-    end
   end
 
   def save(*)
