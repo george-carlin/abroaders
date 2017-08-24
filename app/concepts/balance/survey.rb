@@ -38,6 +38,10 @@ class Balance::Survey < Reform::Form
     end
   end
 
+  def grouped_balances
+    balances.group_by { |b| b.model.currency.type }
+  end
+
   def prepopulate_balances!(*_args)
     currencies.each do |currency|
       self.balances << model.balances.build(currency: currency)

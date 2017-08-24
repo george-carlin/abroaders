@@ -1,19 +1,30 @@
 <div
   id="balances-survey-main"
+  class="balances_survey"
   <% unless current_panel == 'main' %>
     style="display:none;"
   <% end %>
 >
   <%= form_tag do |f| %>
-    <div class="balances_survey">
-      <h4><%= header %></h4>
+    <div class="row text-center">
+      <div class="col-xs-12">
+        <h4><%= header %></h4>
+      </div>
+    </div>
 
-      <%= f.fields_for :balances do |balance_form| %>
-        <%= fields_for_balance(balance_form) %>
+    <div class="row">
+      <% f.object.grouped_balances.each do |curr_type, balances| %>
+        <div class="col-xs-12 col-sm-6 col-md-4">
+          <h3><%= curr_type.capitalize.pluralize %></h3>
+
+          <%= f.fields_for :balances, balances do |balance_form| %>
+            <%= fields_for_balance(balance_form) %>
+          <% end %>
+        </div>
       <% end %>
     </div><!-- .balances-survey -->
 
-    <div class="row">
+    <div class="row text-center">
       <div class="col-xs-12">
         <button class="btn btn-lg btn-primary">
           <i class="fa fa-check" aria-hidden="true"></i>
