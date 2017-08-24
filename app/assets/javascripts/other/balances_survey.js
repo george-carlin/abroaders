@@ -16,9 +16,7 @@ $(document).ready(function () {
   $("#balances-survey-initial-yes-btn").click(function (e) {
     e.preventDefault();
     $("#balances-survey-initial").hide();
-    $("#balances-survey-main-body").show();
-    $("#balances-survey-main-header").show();
-    $("#balances-survey-main-footer").show();
+    $("#balances-survey-main").show();
   });
 
   $("#balances-survey-initial-no-btn").click(function (e) {

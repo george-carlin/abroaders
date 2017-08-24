@@ -1,0 +1,56 @@
+<div
+  id="balances-survey-main"
+  <% unless current_panel == 'main' %>
+    style="display:none;"
+  <% end %>
+>
+  <%= form_tag do |f| %>
+    <div class="balances_survey">
+      <h4><%= header %></h4>
+
+      <%= f.fields_for :balances do |balance_form| %>
+        <% balance = balance_form.object %>
+
+        <div
+          id="currency_<%= balance_form.object.model.currency_id %>"
+          class="currency survey_currency"
+        >
+          <div class="row">
+            <div class="col-xs-12 col-sm-6">
+              <div class="checkbox">
+                <label>
+                  <%= balance_form.hidden_field :currency_id %>
+                  <%= balance_form.check_box(
+                    :present,
+                    class: "currency_balance_checkbox input-lg",
+                    id:    "currency_#{balance.currency_id}_balance",
+                  ) %>
+                  <%= balance_form.object.currency_name %>
+                </label>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-6">
+              <% visible = balance_form.object.present %>
+              <%= balance_form.number_field(
+                :value,
+                id: "currency_#{balance.currency_id}_balance_value",
+                class: 'currency_balance_value input-sm',
+                disabled: !visible,
+                style: visible ? "" : "display:none;",
+              )%>
+            </div>
+          </div><!-- .row -->
+        </div><!-- .survey_currency -->
+      <% end %>
+    </div><!-- .balances-survey -->
+
+    <div class="row">
+      <div class="col-xs-12">
+        <button class="btn btn-lg btn-primary">
+          <i class="fa fa-check" aria-hidden="true"></i>
+          Save and continue
+        </button>
+      </div>
+    </div>
+  <% end # form_tag %>
+</div>

@@ -70,6 +70,10 @@ module Balance::Cell
       cell(Initial, model, options)
     end
 
+    def main
+      cell(Main, model, options)
+    end
+
     class ConfirmNo < self
       private
 
@@ -90,6 +94,13 @@ module Balance::Cell
     end
 
     class Initial < self
+    end
+
+    class Main < self
+      def header
+        do_you = partner? ? "does #{first_name}" : 'do you'
+        "What type of points #{do_you} have?"
+      end
     end
   end
 end
