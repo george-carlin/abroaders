@@ -8,27 +8,6 @@
   }
 }
 
-.skip-survey-btn {
-  border-color: rgb(255, 121, 121) !important;
-  color: rgb(255, 121, 121);
-
-  &:hover {
-    color: rgb(255, 121, 121);
-  }
-
-  &:active {
-    background-color: #f0f0f0;
-    color: rgb(255, 121, 121);
-  }
-
-  &:focus {
-    color: rgb(255, 121, 121);
-    outline: none;
-    border-color: rgb(255, 121, 121);
-    box-shadow: 0 0 10px rgb(255, 121, 121);
-  }
-}
-
 .type-radio {
   padding-bottom: 15px;
 
