@@ -38,12 +38,13 @@ RSpec.describe 'the sign in page', :auth do
 
     expect(page).to have_no_selector '#sign_out_link'
     expect(page).to have_no_content email
-    expect(page).to have_content 'Sign in'
+    expect(current_path).to eq new_account_session_path
   end
 
   example 'invalid sign in' do
-    submit_form
-    expect(page).to have_content 'Sign in'
+    expect do
+      submit_form
+    end.not_to change { current_path }
     expect(page).to have_no_selector '#sign_out_link'
     expect(page).to have_no_content email
   end
