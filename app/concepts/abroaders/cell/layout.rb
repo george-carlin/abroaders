@@ -12,7 +12,6 @@ module Abroaders
       option :basic, default: false
       option :flash
       option :title
-      option :custom_body_class, optional: true
 
       private
 
@@ -21,8 +20,11 @@ module Abroaders
       def body_classes
         result = []
         result << 'blank' unless sidebar?
-        result.push('fixed-navbar', 'fixed-sidebar') unless basic?
-        result.push(custom_body_class) if custom_body_class.present?
+        if basic?
+          result.push('basic')
+        else
+          result.push('fixed-navbar', 'fixed-sidebar')
+        end
         result.join(' ')
       end
 
@@ -31,6 +33,7 @@ module Abroaders
       end
 
       def footer
+        return '' if basic?
         cell(Footer)
       end
 
@@ -39,6 +42,7 @@ module Abroaders
       end
 
       def navbar
+        return '' if basic?
         cell(
           Navbar,
           nil,
@@ -63,6 +67,7 @@ module Abroaders
       end
 
       def sidebar
+        return '' if basic?
         @sidebar ||= cell(
           Sidebar,
           nil,

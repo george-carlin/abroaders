@@ -61,7 +61,7 @@ RSpec.describe 'password recovery pages', :auth do
     # it wasn't when I wrote this test, as I found out the hard way from a
     # user). CBA to write a full spec now.
     it 'looks okay' do
-      expect(page).to have_content 'CHANGE YOUR PASSWORD'
+      expect(page).to have_content 'Change Your Password'
     end
   end
 end

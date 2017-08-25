@@ -1,6 +1,8 @@
 module Password
   module Cell
     class Edit < Abroaders::Cell::Base
+      include Abroaders::LogoHelper
+
       def title
         'Update Password'
       end

@@ -5,6 +5,7 @@ module Sessions
     # @!method self.call(user)
     #   @param user [Admin|Account]
     class New < Abroaders::Cell::Base
+      include Abroaders::LogoHelper
       include ::Cell::Builder
 
       builds do |user|

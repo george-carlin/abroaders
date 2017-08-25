@@ -1,5 +1,7 @@
 module Registration::Cell
   class Edit < Abroaders::Cell::Base
+    include Abroaders::LogoHelper
+
     option :form
 
     def title
