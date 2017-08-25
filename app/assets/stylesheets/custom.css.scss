@@ -383,3 +383,12 @@ footer.footer {
 .loyalty_account_updated_at .fa-warning {
   color: #fca17d;
 }
+
+body.basic {
+  background: linear-gradient(
+                rgba(0, 0, 0, 0.7),
+                rgba(0, 0, 0, 0.7)
+              ),
+              url(/rio.jpg);
+  background-size: cover;
+}
