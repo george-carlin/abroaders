@@ -33,6 +33,7 @@ module Abroaders
       end
 
       def footer
+        return '' if basic?
         cell(Footer)
       end
 
@@ -41,6 +42,7 @@ module Abroaders
       end
 
       def navbar
+        return '' if basic?
         cell(
           Navbar,
           nil,
@@ -65,6 +67,7 @@ module Abroaders
       end
 
       def sidebar
+        return '' if basic?
         @sidebar ||= cell(
           Sidebar,
           nil,

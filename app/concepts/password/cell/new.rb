@@ -1,6 +1,8 @@
 module Password
   module Cell
     class New < Abroaders::Cell::Base
+      include Abroaders::LogoHelper
+
       def title
         'Reset Password'
       end

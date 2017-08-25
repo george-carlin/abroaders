@@ -2,13 +2,16 @@
   <div class="row">
     <div class="col-md-12">
       <div class="text-center m-b-md">
-        <h4>CHANGE YOUR PASSWORD</h4>
+        <%= logo %>
       </div>
-
       <div class="hpanel">
         <%= errors %>
 
         <div class="panel-body">
+          <div class="text-center m-b-md">
+            <h4>Change Your Password</h4>
+          </div>
+
           <%= form_for model, url: accounts_password_path, method: :put, html: { role: "form" } do |f| %>
             <%= f.hidden_field :reset_password_token %>
 

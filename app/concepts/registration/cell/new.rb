@@ -3,6 +3,8 @@ module Registration
     # @!method self.call(model, options = {})
     #   @option options [Reform::Form] form
     class New < Abroaders::Cell::Base
+      include Abroaders::LogoHelper
+
       option :form
 
       def title
@@ -21,14 +23,6 @@ module Registration
 
       def link_to_sign_up_with_facebook
         cell(Sessions::Cell::FacebookConnectButton).sign_up
-      end
-
-      def logo
-        image_tag(
-          'abroaders-logo-white-md.png',
-          alt: 'Abroaders - Sign Up',
-          size: '250x94',
-        )
       end
 
       def minimum_password_length
