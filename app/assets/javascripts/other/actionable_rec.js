@@ -7,9 +7,9 @@ $(document).ready(function () {
 
   $('.card_recommendation_decline_confirm_btn').click(function (e) {
     var $rec = $(this).closest('.card_recommendation');
-    $field  = $rec.find('.card_recommendation_decline_reason');
-    $errMsg = $rec.find('.decline_card_recommendation_error_message');
-    $declineReasonWrapper = $rec.find('.card_recommendation_decline_reason_wrapper');
+    var $field  = $rec.find('.card_recommendation_decline_reason');
+    var $errMsg = $rec.find('.decline_card_recommendation_error_message');
+    var $declineReasonWrapper = $rec.find('.card_recommendation_decline_reason_wrapper');
     if (!$field.val().trim()) {
       e.preventDefault();
       $errMsg.show();

@@ -19,6 +19,8 @@ $(document).ready(function () {
     $owner.find(".LoadingSpinner").hide();
     $success.css('visibility', 'visible');
 
-    window.setTimeout(function() { $success.css('visibility', 'hidden') }, 2000);
+    window.setTimeout(function () {
+      $success.css('visibility', 'hidden');
+    }, 2000);
   });
 });
