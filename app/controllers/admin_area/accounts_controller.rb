@@ -14,7 +14,11 @@ module AdminArea
 
     def search
       run Accounts::Search
-      render cell(Accounts::Cell::Search, result)
+      render cell(
+        Accounts::Cell::Search,
+        result['collection'],
+        query: result['query'],
+      )
     end
 
     def inspect

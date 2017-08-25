@@ -4,8 +4,8 @@
   </div>
 
   <div class="panel-body">
-    <% if collection.any? %>
-      Showing <%= pluralize collection.size, 'result' %> for '<%= query %>':
+    <% if model.any? %>
+      Showing <%= pluralize model.size, 'result' %> for '<%= query %>':
       <table
         id="admin_accounts_table"
         class="accounts table table-striped"

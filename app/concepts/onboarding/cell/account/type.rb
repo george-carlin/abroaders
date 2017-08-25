@@ -2,8 +2,6 @@ module Onboarding
   module Cell
     module Account
       class Type < Abroaders::Cell::Base
-        extend Abroaders::Cell::Result
-
         # the user's next destination
         option :destination
 
