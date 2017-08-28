@@ -1,6 +1,6 @@
 <li class="<%= 'active' if active %>" aria-expanded="active">
   <%= link_to '#', 'aria-expanded': true do %>
-    <span class="nav-label"><%= title %></span>
+    <span class="nav-label"><%= title_with_icon %></span>
     <span class="fa arrow"></span>
   <% end %>
   <%= content_tag :ul, class: "nav nav-second-level", "aria-expanded": active do %>
