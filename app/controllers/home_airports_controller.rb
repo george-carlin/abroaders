@@ -39,7 +39,7 @@ class HomeAirportsController < AuthenticatedUserController
 
     if form.validate(params[:home_airports_survey])
       form.save
-      redirect_to home_airports_path
+      redirect_to travel_plans_path
     else # it's impossible to submit an invalid form through the web interface
       raise 'this should never happen!'
     end

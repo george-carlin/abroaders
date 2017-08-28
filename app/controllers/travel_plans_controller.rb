@@ -3,7 +3,7 @@ class TravelPlansController < AuthenticatedUserController
 
   def index
     travel_plans = current_account.travel_plans.includes_destinations
-    render cell(TravelPlan::Cell::Index, travel_plans)
+    render cell(TravelPlan::Cell::Index, travel_plans, account: current_account)
   end
 
   def new
