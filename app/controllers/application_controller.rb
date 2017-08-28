@@ -42,16 +42,6 @@ class ApplicationController < ActionController::Base
     super
   end
 
-  # Pass in current account or admin as cell context.
-  def cell(klass, model = nil, options = {})
-    return super if (current_account || current_admin).nil?
-    options[:context] ||= {}
-    options[:context][:current_account] = current_account
-    options[:context][:current_admin] = current_admin
-
-    super(klass, model, options)
-  end
-
   # Since upgrading to Ruby 2.4.0, rails prints warnings EVERYWHERE with
   # messages along the lines of "forwarding to private method
   # (Controller)#protect_against_forgery?". It seems that

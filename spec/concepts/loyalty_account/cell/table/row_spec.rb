@@ -14,7 +14,7 @@ RSpec.describe LoyaltyAccount::Cell::Table::Row do
 
   it 'for an Abroaders balance' do
     # when current account is not connected to AwardWallet:
-    rendered = cell(la).()
+    rendered = cell(la, account: current_account).()
 
     expect(rendered).to have_content 'Sterling'
     expect(rendered).to have_content '1,234'
@@ -31,7 +31,8 @@ RSpec.describe LoyaltyAccount::Cell::Table::Row do
 
   it 'avoids XSS attacks' do
     balance.currency.name = '<hacker>'
-    expect(raw_cell(la)).to include('&lt;hacker&gt;')
+    rendered = raw_cell(la, account: current_account)
+    expect(rendered).to include('&lt;hacker&gt;')
   end
 
   context 'when current account is connected to AwardWallet' do
@@ -40,7 +41,7 @@ RSpec.describe LoyaltyAccount::Cell::Table::Row do
     end
 
     it 'shows all columns for Abroaders balances' do
-      rendered = cell(la).()
+      rendered = cell(la, account: current_account).()
 
       expect(rendered).to have_selector 'td', count: 7
       # these columns are shown for all accounts
@@ -72,7 +73,7 @@ RSpec.describe LoyaltyAccount::Cell::Table::Row do
       let(:la) { LoyaltyAccount.build(awa) }
 
       example '' do
-        rendered = cell(la).()
+        rendered = cell(la, account: current_account).()
         expect(rendered).to have_content 'My currency'
         expect(rendered).to have_content '4,321'
         expect(rendered).to have_content 'GeorgeMillo'
@@ -93,7 +94,7 @@ RSpec.describe LoyaltyAccount::Cell::Table::Row do
 
       example 'for an American Airlines balance' do
         awa.display_name = 'American Airlines (AAdvantage)'
-        rendered = cell(la).()
+        rendered = cell(la, account: current_account).()
         expect(rendered).to have_selector '.SpanWithTooltip'
         expect(rendered).to have_selector(
           '.loyalty_account_balance',
@@ -104,7 +105,7 @@ RSpec.describe LoyaltyAccount::Cell::Table::Row do
 
       example 'with unknown last_retrieve_date' do
         awa.last_retrieve_date = nil
-        rendered = cell(la).()
+        rendered = cell(la, account: current_account).()
         expect(rendered).to have_content 'Unknown'
       end
     end

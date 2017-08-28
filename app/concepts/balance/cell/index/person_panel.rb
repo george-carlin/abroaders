@@ -49,7 +49,11 @@ module Balance::Cell
 
       def rows
         if loyalty_accounts.any?
-          cell(LoyaltyAccount::Cell::Table, loyalty_accounts)
+          cell(
+            LoyaltyAccount::Cell::Table,
+            loyalty_accounts,
+            account: model,
+          )
         else
           'No points balances'
         end

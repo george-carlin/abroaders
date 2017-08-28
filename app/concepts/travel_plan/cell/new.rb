@@ -3,6 +3,10 @@ module TravelPlan::Cell
   class New < Abroaders::Cell::Base
     subclasses_use_parent_view!
 
+    property :account
+
+    delegate :onboarded?, to: :account
+
     option :form
 
     def title

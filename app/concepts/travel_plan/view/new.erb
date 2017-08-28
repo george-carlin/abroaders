@@ -136,8 +136,8 @@
                 &nbsp;Save my travel plan
               <% end %>
             </div>
-            <% unless current_account.onboarded? %>
-              <div class="col-xs-12 col-md-6">
+            <% unless onboarded? %>
+              <div class="col-xs-12 col-sm-6">
                 <%= link_to(
                   "I don't have specific plans",
                   skip_survey_travel_plans_path,

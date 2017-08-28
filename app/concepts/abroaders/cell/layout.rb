@@ -13,6 +13,9 @@ module Abroaders
       option :flash
       option :title
 
+      option :current_account
+      option :current_admin
+
       private
 
       alias basic? basic

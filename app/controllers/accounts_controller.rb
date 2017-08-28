@@ -22,7 +22,11 @@ class AccountsController < AuthenticatedUserController
 
   def type
     run Account::Type
-    render cell(Account::Cell::Type, nil, destination: result['model'])
+    render cell(
+      Account::Cell::Type,
+      current_account,
+      destination: result['model'],
+    )
   end
 
   def submit_type

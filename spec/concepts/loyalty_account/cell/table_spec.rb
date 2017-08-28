@@ -13,7 +13,7 @@ RSpec.describe LoyaltyAccount::Cell::Table do
     let(:current_account) { create_account(:onboarded) }
 
     example 'when current account is not connected to AW' do
-      rendered = cell([], context: { current_account: current_account }).()
+      rendered = cell([], account: current_account).()
 
       expect(headers(rendered)).to eq [
         'Award Program',
@@ -25,7 +25,7 @@ RSpec.describe LoyaltyAccount::Cell::Table do
 
     example 'when current account is connected to AW' do
       setup_award_wallet_user_from_sample_data(current_account)
-      rendered = cell([], context: { current_account: current_account }).()
+      rendered = cell([], account: current_account).()
 
       expect(headers(rendered)).to eq [
         'Award Program',

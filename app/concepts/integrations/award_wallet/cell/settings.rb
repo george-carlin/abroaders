@@ -24,7 +24,7 @@ module Integrations::AwardWallet
       end
 
       def owner_settings
-        cell(ForOwner, collection: owners, account: current_account).join('<hr>') do |cell, i|
+        cell(ForOwner, collection: owners, account: model).join('<hr>') do |cell, i|
           cell.show(index: i)
         end
       end
