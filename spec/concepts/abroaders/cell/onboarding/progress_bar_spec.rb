@@ -1,6 +1,6 @@
 require 'cells_helper'
 
-RSpec.describe Onboarding::Cell::ProgressBar do
+RSpec.describe Abroaders::Cell::Onboarding::ProgressBar do
   let(:all_states) { Account::Onboarder.workflow_spec.states.keys - [:complete] }
 
   it 'has a valid value for every possible onboarding state' do

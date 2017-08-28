@@ -58,7 +58,7 @@ module Abroaders
 
       def progress_bar
         return '' if basic?
-        cell(Onboarding::Cell::ProgressBar, current_account)
+        cell(Abroaders::Cell::Onboarding::ProgressBar, current_account)
       end
 
       def rec_alert

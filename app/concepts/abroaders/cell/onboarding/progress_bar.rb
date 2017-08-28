@@ -1,5 +1,5 @@
-module Onboarding
-  module Cell
+module Abroaders::Cell
+  module Onboarding
     # @!method self.call(account, options = {})
     #   @param account [Account] currently logged-in account
     class ProgressBar < Abroaders::Cell::Base

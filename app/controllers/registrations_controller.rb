@@ -2,7 +2,7 @@ class RegistrationsController < ApplicationController
   prepend_before_action :require_no_authentication, only: [:new, :create]
 
   layout 'basic'
-  include Onboarding
+  include Abroaders::Controller::Onboarding
   include Auth::Controllers::SignInOut
 
   def new
