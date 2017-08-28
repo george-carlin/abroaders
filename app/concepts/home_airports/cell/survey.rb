@@ -10,7 +10,7 @@ module HomeAirports::Cell
     private
 
     def body
-      cell(Body, model, form: form)
+      cell(Body, model, options)
     end
 
     class Body < Abroaders::Cell::Base
