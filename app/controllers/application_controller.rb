@@ -5,6 +5,18 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
+  # Return the existing layout, or set a new one. ATM the only
+  # alternative layout we have is 'basic'
+  #
+  # This overrides the 'normal' Rails way of setting layouts
+  def self.layout(value = nil)
+    if value.blank?
+      @layout
+    else
+      @layout = value
+    end
+  end
+
   include I18nWithErrorRaising
 
   def dashboard
@@ -19,29 +31,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # Extend `render` (which is already being extended by the trailblazer-rails
-  # gem to allow Cells to be rendered directly without going through the
-  # ActionView layer) so that if you're directly rendering a cell from the
-  # controller and the cell responds to `title` (that's as an instance method,
-  # not a class method - `render` deals with instances of the cell, not the
-  # cell's class), then the return value of `title` will be stored in an ivar
-  # `@cell_title`. This ivar will be used later by TitleHelper to fill the
-  # page's <title> tag.
-  #
-  # This is the solution, for now, to how we can provide custom <title>s for
-  # cell-based pages when the <title> tag itself lives in an ActionView
-  # template. (The standard AV approach with `provide` doesn't work, or at
-  # least I couldn't get it to work.) This is kinda hacky but I can't see a
-  # better way for now. If we ever manage to completely remove the ActionView
-  # layer and use Cells for everything including the layout, we can probably
-  # remove this override:
-  def render(cell = nil, opts = {}, *, &block)
-    if cell.is_a?(::Cell::ViewModel) && cell.respond_to?(:title)
-      @cell_title = cell.title
-    end
-    super
-  end
-
   # Since upgrading to Ruby 2.4.0, rails prints warnings EVERYWHERE with
   # messages along the lines of "forwarding to private method
   # (Controller)#protect_against_forgery?". It seems that
@@ -54,11 +43,29 @@ class ApplicationController < ActionController::Base
 
   private
 
+  # cells has an existing system for 'layout' cells, with syntax like
+  # this: `cell(MyCell, layout: MyLayout)`. However, I found this lacking
+  # for a few reasons:
+  #
+  # 1. No way to pass options to the layout cell except by using context
+  # 2. No good way to pass data (e.g. the page title) from the inner
+  #    cell to the layout.
+  #
+  # This solution is a bit hacky but it gets the job done.
+  def cell(klass, model = nil, options = {})
+    cell_with_layout = super(
+      Abroaders::Cell::Layout,
+      super(klass, model, options),
+      basic: self.class.layout == 'basic',
+      flash: flash,
+      current_account: current_account,
+      current_admin: current_admin,
+    )
+    { html: cell_with_layout }
+  end
+
   # Pass these options by default into Trailblazer operations when calling
   # them with 'run'.
-  #
-  # This needs to live here rather than AuthenticatedUserController so that
-  # 'current_account' will be set in Account::Dashboard
   def _run_options(options)
     options['current_account'] = current_account if current_account
     options['current_admin'] = current_admin if current_admin

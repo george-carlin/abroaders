@@ -10,11 +10,9 @@ module Abroaders
     #   @option options [String] title the page title
     class Layout < Abroaders::Cell::Base
       option :basic, default: false
-      option :flash
-      option :title
-
       option :current_account
       option :current_admin
+      option :flash
 
       private
 
@@ -85,6 +83,10 @@ module Abroaders
 
       def third_party_scripts
         cell(ThirdPartyScripts)
+      end
+
+      def title
+        model.respond_to?(:title) ? model.title : ''
       end
 
       def wrapper(&block)

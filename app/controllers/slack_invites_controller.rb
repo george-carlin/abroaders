@@ -11,9 +11,8 @@
 #   https://ruby.unicorn.tv/screencasts/automatically-send-slack-invitations
 #   https://levels.io/slack-typeform-auto-invite-sign-ups/
 #
-class SlackInvitesController < ApplicationController
+class SlackInvitesController < ActionController::Base
   layout "slack_invites"
-  skip_before_action :verify_authenticity_token
 
   def new
     @community = "Abroaders Community"
