@@ -55,14 +55,26 @@ module Abroaders::Cell
         end
       end
 
-      def nested_links(title, links, controller_class = nil)
-        cell(NestedLinks, nil, title: title, links: links, controller_class: controller_class)
+      def nested_links(title, links, controller_class: nil, icon: nil)
+        cell(
+          NestedLinks,
+          nil,
+          controller_class: controller_class,
+          icon: icon,
+          links: links,
+          title: title,
+        )
       end
 
       class AccountSidebar < self
-        def link_to_financials
-          return '' unless current_account.people.any?(&:eligible)
-          link 'My Financials', spending_info_path, 'dollar', SpendingInfosController
+        private
+
+        def links_to_my_profile
+          sub_links = { 'Email & Password' => edit_account_path }
+          if current_account.people.any?(&:eligible)
+            sub_links['Spending & Credit'] = spending_info_path
+          end
+          nested_links 'My Profile', sub_links, icon: 'gear'
         end
       end
 
@@ -72,13 +84,11 @@ module Abroaders::Cell
         end
       end
 
-      # This isn't actually used anymore (see the git history for how it works
-      # and what it does), but I think it's very likely we'll use it again in
-      # the near future, so I'm not removing it for now.
       class NestedLinks < self
         option :controller_class, optional: true
         option :links
         option :title
+        option :icon, optional: true
 
         def show
           render
@@ -96,6 +106,10 @@ module Abroaders::Cell
 
         def link_tags
           links.map { |text, href| cell(Link).show(text, href) }.join
+        end
+
+        def title_with_icon
+          icon.nil? ? title : "#{fa_icon(icon)} #{title}"
         end
       end
     end

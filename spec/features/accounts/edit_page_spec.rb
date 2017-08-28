@@ -16,13 +16,15 @@ RSpec.describe 'edit account page' do
     visit edit_account_path
   end
 
+  let(:submit_form) { click_button 'Save Account Settings' }
+
   example 'success' do
     fill_in :account_email, with: 'mynewemail@example.com'
     fill_in :account_password, with: 'new_password'
     fill_in :account_password_confirmation, with: 'new_password'
     fill_in :account_current_password, with: current_pw
     fill_in :account_phone_number, with: '(985) 563-7565'
-    click_button 'Save'
+    submit_form
 
     expect(page).to have_success_message
     account.reload
@@ -41,7 +43,7 @@ RSpec.describe 'edit account page' do
 
   example 'removing phone number' do
     fill_in :account_phone_number, with: '  '
-    click_button 'Save'
+    submit_form
 
     expect(page).to have_success_message
     account.reload
@@ -58,7 +60,7 @@ RSpec.describe 'edit account page' do
     fill_in :account_current_password, with: 'wrong!'
 
     expect do
-      click_button 'Save'
+      submit_form
       account.reload
     end.not_to change { account.email }
 
@@ -76,7 +78,4 @@ RSpec.describe 'edit account page' do
     expect(account.email).to eq 'mynewemail@example.com'
     expect(account.valid_password?('abroaders123')).to be true
   end
-
-  # TODO - can update person names (remember that person names must be unique
-  # per account)
 end
