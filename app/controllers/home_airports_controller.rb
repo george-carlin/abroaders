@@ -18,10 +18,6 @@ class HomeAirportsController < AuthenticatedUserController
     end
   end
 
-  def index
-    render cell(HomeAirports::Cell::Index, current_account.home_airports)
-  end
-
   def edit
     form = HomeAirports::Survey.new(current_account)
     render cell(HomeAirports::Cell::Survey, current_account, form: form, editing: true)

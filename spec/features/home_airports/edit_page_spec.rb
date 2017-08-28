@@ -27,6 +27,6 @@ RSpec.describe 'home airports survey', :js do
     submit_form
     account.reload
     expect(account.home_airports).to match_array(new_has)
-    expect(current_path).to eq home_airports_path
+    expect(current_path).to eq travel_plans_path
   end
 end
