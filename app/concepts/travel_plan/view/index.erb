@@ -1,14 +1,13 @@
 <div class="hpanel">
-  <div class="panel-heading hbuilt">
+  <div class="panel-heading hbuilt text-center">
     <h1>
+      <%= fa_icon 'plane' %>
       Travel Plans
 
-      <%= link_to(
-        'Add new',
-        new_travel_plan_path,
-        class: 'btn btn-primary btn-sm',
-        style: 'float: right; margin-top: 6px;',
-      ) %>
+      <%= link_to new_travel_plan_path, class: 'btn btn-success btn-xs' do %>
+        <%= fa_icon 'plus' %>
+        Add new
+      <% end %>
     </h1>
   </div>
 
