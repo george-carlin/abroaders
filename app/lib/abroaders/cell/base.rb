@@ -58,12 +58,6 @@ module Abroaders
         request.cookie_jar
       end
 
-      %w[account admin].each do |user|
-        define_method "current_#{user}" do
-          context && context[:"current_#{user}"]
-        end
-      end
-
       def flash
         request.flash
       end

@@ -1,6 +1,8 @@
 <%= cell(
   Abroaders::Cell::Layout,
   yield,
+  current_account: current_account,
+  current_admin: current_admin,
   flash: flash,
   title: title(yield(:title)),
 ) %>

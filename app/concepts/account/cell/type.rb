@@ -1,4 +1,5 @@
 module Account::Cell
+  # model: Account (the current account)
   class Type < Abroaders::Cell::Base
     # the user's next destination
     option :destination
@@ -7,8 +8,8 @@ module Account::Cell
       content_tag :div, id: 'account_type_forms' do
         content_tag :div, class: 'row' do
           cell(Header, nil, destination: destination).to_s +
-            cell(Account::Cell::Type::SoloForm).to_s +
-            cell(Account::Cell::Type::CouplesForm).to_s
+            cell(Account::Cell::Type::SoloForm, model).to_s +
+            cell(Account::Cell::Type::CouplesForm, model).to_s
         end
       end
     end
@@ -31,14 +32,19 @@ module Account::Cell
       end
     end
 
+    # model: Account (the current account)
     class Form < Abroaders::Cell::Base
+      include Escaped
+
+      property :owner_first_name
+
       private
 
       def form_tag(&block)
         super(
           type_account_path,
           class: html_classes,
-          data: { owner_first_name: current_account.owner_first_name },
+          data: { owner_first_name: owner_first_name },
           id: html_id,
           &block
         )

@@ -72,7 +72,11 @@ class Balance < Balance.superclass
         private
 
         def table
-          cell(LoyaltyAccount::Cell::Table, unassigned_loyalty_accounts)
+          cell(
+            LoyaltyAccount::Cell::Table,
+            unassigned_loyalty_accounts,
+            account: model,
+          )
         end
       end
     end

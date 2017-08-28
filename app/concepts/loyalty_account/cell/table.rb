@@ -4,7 +4,10 @@ class LoyaltyAccount < LoyaltyAccount.superclass
     #
     # @!method self.call(loyalty_accounts, options = {})
     #   @param loyalty_accounts [Collection<LoyaltyAccount>]
+    #   @option account [Account]
     class Table < ::Abroaders::Cell::Base
+      option :account
+
       private
 
       def headers
@@ -21,7 +24,11 @@ class LoyaltyAccount < LoyaltyAccount.superclass
       end
 
       def rows
-        cell(Row, collection: model.sort_by(&:currency_name))
+        cell(
+          Row,
+          account: account,
+          collection: model.sort_by(&:currency_name),
+        )
       end
 
       #  when this returns true, a few of the columns in the table won't be
@@ -30,7 +37,7 @@ class LoyaltyAccount < LoyaltyAccount.superclass
       #  date, a 'login' name or an owner, there's no point displaying the
       #  columns because they'll be blank for all rows.
       def simple
-        !current_account.award_wallet?
+        !account.award_wallet?
       end
 
       # A <tr> for a loyalty_account on the page. Displays the balance's value
@@ -40,9 +47,12 @@ class LoyaltyAccount < LoyaltyAccount.superclass
       #
       # @!method self.call(loyalty_account, opts = {})
       #   @param loyalty_account [LoyaltyAccount]
+      #   @option account [Account]
       class Row < ::Abroaders::Cell::Base
         include ::Cell::Builder
         include Escaped
+
+        option :account
 
         builds do |loyalty_account|
           case loyalty_account.source
@@ -105,7 +115,7 @@ class LoyaltyAccount < LoyaltyAccount.superclass
         end
 
         def simple
-          !current_account.award_wallet?
+          !account.award_wallet?
         end
 
         class AwardWallet < self
