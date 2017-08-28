@@ -1,14 +1,13 @@
 module Integrations::AwardWallet
   module Cell
+    # model: current account
     class Settings < Abroaders::Cell::Base
-      extend Abroaders::Cell::Result
       include ActionView::Helpers::FormOptionsHelper
       include BootstrapOverrides
       include Escaped
 
-      skill :current_account
-      skill :owners
-      skill :user
+      option :owners # array of AwardWalletOwners
+      option :user # AwardWalletUser
 
       def title
         'AwardWallet settings'

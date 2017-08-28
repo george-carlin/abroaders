@@ -29,7 +29,12 @@ module Integrations
 
     def settings
       run AwardWallet::Settings do |result|
-        render cell(AwardWallet::Cell::Settings, result)
+        render cell(
+          AwardWallet::Cell::Settings,
+          current_account,
+          owners: result['owners'],
+          user: result['user'],
+        )
         return
       end
       redirect_to balances_path

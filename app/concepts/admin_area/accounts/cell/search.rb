@@ -1,12 +1,10 @@
 module AdminArea
   module Accounts
     module Cell
+      # model: array of Accounts
       class Search < Abroaders::Cell::Base
-        extend Abroaders::Cell::Result
         include Kaminari::Cells
         include Escaped
-
-        skill :collection
 
         def title
           'Accounts Search Results'
@@ -19,7 +17,7 @@ module AdminArea
         end
 
         def paginated_accounts
-          @paginated_accounts ||= collection.page(page).per(50)
+          @paginated_accounts ||= model.page(page).per(50)
         end
 
         def paginator
@@ -27,11 +25,11 @@ module AdminArea
         end
 
         def query
-          escape!(result['query'])
+          escape!(options.fetch(:query))
         end
 
         def table_rows
-          cell(AdminArea::Accounts::Cell::Index::TableRow, collection: paginated_accounts)
+          cell(Index::TableRow, collection: paginated_accounts)
         end
       end
     end
