@@ -5,7 +5,7 @@ module Registration::Cell
     option :form
 
     def title
-      'Edit Account Settings'
+      'Email & Password Settings'
     end
 
     private
@@ -16,6 +16,10 @@ module Registration::Cell
 
     def form_tag(&block)
       form_for form, as: :account, url: account_path, html: { role: 'form' }, &block
+    end
+
+    def submit_btn(f)
+      f.submit 'Save Account Settings', class: 'btn btn-primary btn-lg'
     end
   end
 end
