@@ -18,7 +18,7 @@
       Abroaders without signing up for AwardWallet.
     </p>
 
-    <div id="aw-survey-initial" class="btn-group">
+    <div id="aw-survey-initial">
       <a href="#" id="aw-survey-yes-btn" class="btn btn-lg btn-primary">
         Yes - I use AwardWallet
       </a>
@@ -32,12 +32,10 @@
         <%= hidden_field_tag :aw_in_survey, 'true' %>
         <p>You have an AwardWallet account:</p>
 
-        <div class="btn-group">
-          <input type="submit" value="Confirm" class="btn btn-lg btn-primary">
-          <a href="#" class="aw-survey-back btn btn-lg btn-default">
-            Back
-          </a>
-        </div>
+        <input type="submit" value="Confirm" class="btn btn-lg btn-primary">
+        <a href="#" class="aw-survey-back btn btn-lg btn-default">
+          Back
+        </a>
       <% end %>
     </div>
 
@@ -46,12 +44,10 @@
         <%= hidden_field_tag :aw_in_survey, 'false' %>
         <p>You don't have an AwardWallet account:</p>
 
-        <div class="btn-group">
-          <input type="submit" value="Confirm" class="btn btn-lg btn-primary">
-          <a href="#" class="aw-survey-back btn btn-lg btn-default">
-            Back
-          </a>
-        </div>
+        <input type="submit" value="Confirm" class="btn btn-lg btn-primary">
+        <a href="#" class="aw-survey-back btn btn-lg btn-default">
+          Back
+        </a>
       <% end %>
     </div>
   </div>

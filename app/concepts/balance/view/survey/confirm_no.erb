@@ -4,16 +4,14 @@
   <%= form_tag do |f| %>
     <%= f.hidden_field :award_wallet_onboarding, value: false %>
 
-    <div class="btn-group">
-      <%= submit_tag "Confirm", class: "btn btn-primary btn-lg" %>
+    <%= submit_tag 'Confirm', class: 'btn btn-primary btn-lg' %>
 
-      <a
-        id="balances-survey-confirm-no-back-btn"
-        href='#'
-        class="btn btn-lg btn-default"
-      >
-        Back
-      </a>
-    </div>
+    <a
+      id="balances-survey-confirm-no-back-btn"
+      href='#'
+      class="btn btn-lg btn-default"
+    >
+      Back
+    </a>
   <% end %>
 </div><!-- #balances-survey-confirm-no -->
