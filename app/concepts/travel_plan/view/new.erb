@@ -130,19 +130,19 @@
       <div class="row">
         <div class="col-xs-12 col-md-7 col-lg-6">
           <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="col-xs-12 col-md-6">
               <%= f.button type: "submit", class: "btn-primary btn-block form-control" do %>
                 <span class="fa fa-check"></span>
                 &nbsp;Save my travel plan
               <% end %>
             </div>
             <% unless current_account.onboarded? %>
-              <div class="col-xs-12 col-sm-6">
+              <div class="col-xs-12 col-md-6">
                 <%= link_to(
                   "I don't have specific plans",
                   skip_survey_travel_plans_path,
                   method: :patch,
-                  class: "btn btn-block skip-survey-btn form-control",
+                  class: 'btn btn-default btn-block',
                 ) %>
               </div>
             <% end %>
