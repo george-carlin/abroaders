@@ -21,7 +21,7 @@ module Card::Cell
     end
 
     def initial
-      cell(Initial)
+      cell(Initial, model)
     end
 
     def sections
@@ -84,7 +84,18 @@ module Card::Cell
       end
     end
 
+    # model: Person
     class Initial < Abroaders::Cell::Base
+      include Escaped
+
+      property :first_name
+      property :partner?
+
+      private
+
+      def do_you
+        partner? ? "Does #{first_name}" : 'Do you'
+      end
     end
   end
 end
