@@ -1,27 +1,19 @@
-<div class="row hpanel">
-  <div class="panel-body col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
-    <div class="greeting-message">
-      <h1>Are you ready to apply for rewards cards in the next two weeks? </h1>
-      <hr />
-    </div>
+<div class="row text-center">
+  <div class="col-xs-12">
+    <h2>Card Recommendations</h2>
 
-    <p class="helper-text">
-      Credit card offers change frequently, so we want to make sure we create
-      your custom plan when you’re ready to take action. If you’re ready now,
-      your travel expert will have your recommendations ready in 1-2 business days.
-      If not, don’t worry. We’ll remind you later.   
-    </p>
+    <p class="lead text-center">Want a personalized rewards card recommendation? </p>
+  </div>
 
-    <%= form_tag survey_readiness_path do %>
-      <%= radio_for_both %>
-      <%= radio_for_owner %>
-      <%= radio_for_companion %>
-      <%= radio_for_neither %>
+  <%= form_tag survey_readiness_path do %>
+    <%= radio_for_both %>
+    <%= radio_for_owner %>
+    <%= radio_for_companion %>
+    <%= radio_for_neither %>
 
-      <button class="btn btn-lg btn-primary">
-        <i class="fa fa-check" aria-hidden="true"> </i>
-        Save and continue
-      </button>
-    <% end %>
-  </div><!-- .panel-body -->
-</div>
+    <button class="btn btn-lg btn-primary">
+      <i class="fa fa-check" aria-hidden="true"> </i>
+      Save and continue
+    </button>
+  <% end %>
+</div><!-- .panel-body -->
