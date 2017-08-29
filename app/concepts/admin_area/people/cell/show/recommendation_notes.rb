@@ -22,15 +22,12 @@ module AdminArea
           end
 
           class ListItem < Abroaders::Cell::Base
+            property :content
             property :created_at
 
             option :person
 
             private
-
-            def content
-              cell(RecommendationNote::Cell::FormattedContent, model)
-            end
 
             def link_to_edit
               link_to 'Edit', edit_admin_recommendation_note_path(model, person_id: person.id)

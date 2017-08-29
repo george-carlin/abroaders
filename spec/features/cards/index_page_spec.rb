@@ -48,11 +48,8 @@ RSpec.describe 'as a user viewing my cards' do
     create_card_recommendation(person_id: owner.id)
     visit_page
     # shows most recent recommendation note only:
-    expect(page).to have_content    'new note'
+    expect(page).to have_content 'new note'
     expect(page).to have_no_content 'whatever'
-    # formats note properly:
-    expect(page).to have_selector 'p', text: /\Anew note\z/
-    expect(page).to have_link 'http://example.com', href: 'http://example.com'
   end
 
   example "marking recs as 'seen'" do

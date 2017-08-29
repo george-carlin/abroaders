@@ -1,5 +1,7 @@
 $(document).ready(function () {
-  $("textarea#offer_user_notes, textarea#offer_notes, textarea#admin_bio").summernote({
+  var textareas = "textarea#offer_user_notes, textarea#offer_notes," +
+                  "textarea#admin_bio, textarea#recommendation_note";
+  $(textareas).summernote({
     height: 150,
     toolbar: [
       ['style', ['bold', 'italic', 'underline', 'clear']],

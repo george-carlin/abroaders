@@ -330,7 +330,6 @@ GEM
       redis (~> 3.3)
       resque (~> 1.26)
       rufus-scheduler (~> 3.2)
-    rinku (2.0.2)
     rspec (3.5.0)
       rspec-core (~> 3.5.0)
       rspec-expectations (~> 3.5.0)
@@ -483,7 +482,6 @@ DEPENDENCIES
   reform-rails
   resque
   resque-scheduler (= 4.2.1)
-  rinku
   rspec-cells
   rspec-rails (~> 3.5.0)
   rubocop (~> 0.43.0)

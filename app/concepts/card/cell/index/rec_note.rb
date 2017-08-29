@@ -6,16 +6,14 @@ module Card::Cell
     property :created_at
     property :admin
 
+    delegate :content, to: :model # unescaped
+
     private
 
     %w[full_name first_name job_title].each do |method|
       define_method "admin_#{method}" do
         escape!(admin.send(method))
       end
-    end
-
-    def content
-      cell(RecommendationNote::Cell::FormattedContent, model)
     end
 
     def headshot
