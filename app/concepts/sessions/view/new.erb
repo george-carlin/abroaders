@@ -6,11 +6,15 @@
       </div>
       <div class="hpanel">
         <div class="panel-body">
-          <%= link_to_sign_in_with_facebook %>
+          <% if model.is_a?(Admin) %>
+            <h3 class="text-center">Sign In As Admin</h3>
+          <% else %>
+            <%= link_to_sign_in_with_facebook %>
 
-          <br>
+            <br>
 
-          <p class='lead text-center'>Or</p>
+            <p class='lead text-center'>Or</p>
+          <% end %>
 
           <%= form_tag do |f| %>
             <div class="form-group">
