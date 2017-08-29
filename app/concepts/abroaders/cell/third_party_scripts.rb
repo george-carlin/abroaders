@@ -14,6 +14,9 @@ module Abroaders
     #
     # 2. Add the string 'my_script' to the arraw in the #show method below
     class ThirdPartyScripts < Abroaders::Cell::Base
+      option :current_account
+      option :current_admin
+
       def show
         return '' if ENV['DISABLE_THIRD_PARTY_SCRIPTS']
         %w[

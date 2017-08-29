@@ -84,7 +84,11 @@ module Abroaders
       end
 
       def third_party_scripts
-        cell(ThirdPartyScripts)
+        cell(
+          ThirdPartyScripts,
+          model,
+          options,
+        )
       end
 
       def wrapper(&block)
