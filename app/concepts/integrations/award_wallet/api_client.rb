@@ -19,6 +19,19 @@ module Integrations
     # trivial to implement new endpoints in future.
     #
     # Note that the returned hash will have string keys, not symbol keys
+    #
+    # NOTE: Since October 2017, the AwardWallet API only accepts requests from
+    # a whitelist of IPs. Since Heroku apps don't normally have static IPs,
+    # I've had to use an add-on called Fixie (https://elements.heroku.com/addons/fixie)
+    # to simulate them. The IPs used by the live app are:
+    #
+    #   54.173.229.200
+    #   54.175.230.252
+    #
+    # If you're doing development work using the AW API, you'll probably
+    # want to add your own local IP to the whitelist too. You can do it here:
+    #
+    # https://business.awardwallet.com/profile/api
     class APIClient
       include HTTParty
 
