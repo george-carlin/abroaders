@@ -1,6 +1,29 @@
 # README
 
-NOTE as of 24th April 2017: This document is horribly out-of-date; I've barely updated it in months and a lot has changed since then. Take everything you read in here with a pinch of salt.
+Welcome to the Abroaders web app! Here's what you need to know:
+
+## Getting Started
+
+```
+git clone git@github.com:georgemillo/abroaders.git
+cd abroaders
+cp config/database.yml.sample  config/database.yml
+# Edit database.yml with your local PostgreSQL settings, as necessary
+bin/setup
+```
+
+Note that `bin/setup` is intended for *nix operating systems. There's no
+guarantee that it will work on Windows. If you're on Windows, look in
+`bin/setup` and figure out what the equivalent steps are for your OS. (If you
+want to write a similar script that will work on Windows - `bin/setup.exe`? -
+be my guest)
+
+Have a look inside the `bin/setup` script if you have problems, or want to
+learn more about what's going on.
+
+Tell me (George) immediately if `bin/setup` doesn't work smoothly for you!
+There may be some steps that I've missed and it's important I keep the script
+updated and working well for every new developer.
 
 ## Dependencies
 
@@ -16,108 +39,17 @@ can be found in `app/assets/javascripts/README.md`.) If you have node and NPM
 installed on your machine, running `npm install` should be enough to make
 everything work for you for now.
 
+Honestly, our NPM/front-end set up is a crappy solution that I hacked together
+in the early days of the app and never got around to coming up with something
+better. In the long run, we're probably better off ditching the asset pipeline
+entirely and using an NPM-like setup for the entire front-end (perhaps using
+Yarn?) 
+
 You'll also need imagemagick installed for the
 [paperclip](https://github.com/thoughtbot/paperclip) gem to work correctly.
 
 If you're on a Mac, I recommend installing [Homebrew](http://brew.sh/) and
 using that to install packages such as imagemagick.
-
-## Getting Started
-
-```
-git clone git@github.com:georgemillo/abroaders.git
-cd abroaders
-cp config/database.yml.sample  config/database.yml
-# Edit database.yml with your local PostgreSQL settings, as necessary
-bin/setup
-```
-
-Note that `bin/setup` is intended for *nix operating systems. There's no
-guarantee that it will work on Windows. If you're on Windows, look in
-`bin/setup` and figure out what the equivalent steps are for your OS. (If you
-want to write a similar script that will work on Windows - `bin/setup.exe`? - be
-my guest)
-
-Have a look inside the `bin/setup` script if you have problems, or want to
-learn more about what's going on.
-
-Tell me (George) immediately if `bin/setup` doesn't work smoothly for you!
-There may be some steps that I've missed and it's important I keep the script
-updated and working well for every new developer.
-
-The setup script should also seed your database with some sample data,
-including some admin accounts: `george@abroaders.com`, `erik@abroaders.com`,
-and `aj@abroaders.com`, all of which have the password `abroaders123`. Remember
-that admins sign in at `/admin/sign_in`, while non-admins sign in at
-`/sign_in`.
-
-We use the gem [figaro](https://github.com/laserlemon/figaro) to manage ENV
-variable settings. With Figaro, your ENV variables are stored in the file
-`config/application.yml`, which is gitignored. The setup script will create a
-basic application.yml file for you which should contain all the ENV info
-you need for basic development.
-
-## Workflow + Branching model
-
-The `production` branch is the latest commit that's live and deployed to Heroku.
-
-The `master` branch contains the current state of deployment. In theory,
-features shouldn't be merged into `master` until they're finished, approved,
-and ready to deploy. This means that `master` should always have a green test
-suite.
-
-When you start working on a new feature:
-
-1. Click **Start** on the Pivotal Tracker story.
-2. Fork a new branch off of `master`:
-
-        git checkout master
-        git checkout -b my-branch
-
-3. Perform all work on this new branch. Keep pushing to Github at regular
-   intervals.
-
-When you're done with the story:
-
-1. Click 'Finish' on Pivotal.
-2. Push your final work to Github, and open a new pull request. You'll usually
-   want your PR to target `master`. If not, I'll say so on PT.
-      - Side note: for some big features, we'll want to break things down
-        into multiple stories on PT, but it won't make sense to deploy the
-        changes to production until *all* the related PT stories are complete.
-        In this case we'll want to create an intermediary branch called e.g.
-        `name-of-feature` and the 'intermediary' stories will be merged into
-        this branch, not `master` (because, remember, `master` should be
-        deployable at any time and shouldn't contain half-finished features).
-        When the entire feature is completed we'll then merge `name-of-feature`
-        into `master`.
-3. Click 'Deliver' on Pivotal. ('Delivered' stories = there's currently a PR
-   on Github awaiting feedback.) Post a comment on the Pivotal story with
-   a link to the pull request on GitHub.
-4. I'll have a look at the PR. If it looks good, I'll merge it and accept the
-   story on Pivotal. If I spot problems, I'll decline the story on Pivotal and
-   give you feedback.
-
-### Completing features + deployment
-
-- If a story is *Accepted* on PT, that should mean that the feature is
-  finished, merged into `master`, and the test suite on `master` is passing.
-- When merging a feature into `master`, note the number of the PT story and the
-  the Github pull request in the commit message of the merge commit. (This is
-  so we can easily find it later if we're looking at old commits and think 'why
-  did we do it this way?' so want to see any discussion that took place on GH
-  and PT.)
-- When merging new features, always add a merge commit (i.e. don't allow
-  fast-forwards). You can ensure this by passing `--no-ff` to `git merge`.
-  These makes the git history easier to follow and makes it easier to revert
-  changes.
-- To deploy to production, just merge the `master` branch into `production`
-  and push `production` to GitHub. Codeship will then pull `production` from
-  GitHub and, if the test suite passes, it will deploy it automatically to
-
-Note that our workflow/branching/deployment procedure has evolved and changed
-over the app's lifespan, and we haven't always followed our own rules
-perfectly, so some older commits won't have followed the above procedures.
 
 ## General
 
@@ -224,7 +156,14 @@ perfectly, so some older commits won't have followed the above procedures.
 
 ## Trailblazer
 
-We're using [Trailblazer 2](http://trailblazer.to) on top of Rails.
+We're using [Trailblazer 2](http://trailblazer.to) on top of Rails. Make sure
+you familiarise yourself with how Trailblazer works because it's integral to
+our setup. There are many cases where we completely ignore the "Rails way"
+(gasp!) and follow Trailblazer conventions instead.
+
+We still have a few old things lying around from before we made the switch
+to Trailblazer - such as my crappy 'form objects' abstraction in app/forms.
+These oldies are considered deprecated and should eventually be removed.
 
 ### File Structure
 
@@ -243,13 +182,73 @@ For a concept called `user` within `app/concepts`, add dirs `cell`, `view`, and
 
 ### Operations
 
-All business logic should live in operations. TODO expand.
+All business logic should live in operations. I heard it from Nick Sutterer (creator of Trailblazer) himself: an operation is anything that change's an app's state.
 
 - Operation names should follow the format `Concept::Operations::Verb`. (TODO we should probably change `Operations` to the singular to match `Concept::Cell`.)
 
 ### Cells
 
-See [the Cells wiki page on GitHub](https://github.com/georgemillo/abroaders/wiki/Cells-notes-and-best-practices).
+Some general notes (by no means complete):
+
+- Cells inherit from `Trailblazer::Cell`, not `Cell::ViewModel`.
+
+- All cells live within `app/concepts` and are nested within a module called `Cell`, e.g. `Person::Cell::Show`.
+
+- Document a Cell's `.call` method like so:
+
+        class Widget < Widget.superclass
+          module Cell
+            # A description of what the cell is for and what it renders
+            #
+            # @!method self.call(model, opts = {})
+            #   @param model [Widget]
+            #   @option opts [String] name
+            class List < Trailblazer::Cell
+              ...
+
+- Remember that, unlike Rails views, Cells don't escape HTML automatically, so make sure that all user-generated content is escaped before it gets displayed on the page. See [HTML Escaping](http://trailblazer.to/gems/cells/api.html#html-escaping) in the Cells docs. If the `Escape` module won't cut it for whatever reason, you can escape things with `ERB::Util.html_escape`.
+
+- Any code which directly references one of the cell's dependencies (such as another nested cell), or the `options` hash, should be put in the `.rb` file for the cell rather than in the `.erb` file for the view:
+
+        # BAD:
+        # view:
+        <% if options[:flag] %>
+          <%= cell(OtherCell) %>
+        <% end %>
+
+        # GOOD:
+        # cell:
+        def other
+          if options[:flag]
+            cell(OtherCell)
+          else
+            ''
+          end
+        end
+
+        # view:
+        <%= other %>
+
+When it's all in the `.rb` file, you can scan or search the file to get a quick idea of its dependencies and of what the possible `options` are. If you put them in the view you could easily miss them. (Of course, the dependencies and the available options should also be explicitly documented, but keeping everything within one file reduces the chances of making a mistake in the documentation or letting the docs become out-of-date.)
+
+## Testing Cells
+
+- Stick `require 'cells_helper'` at the top of files which test cells. This file loads the Rails environment (in future hopefully we can obviate the need for this), and adds some extra RSpec configuration to specs which it determines to be 'cell specs'. It considers a spec to be a cell spec if it meets any of these criteria:
+
+1. the file path contains the exact word 'cell' or 'cells', or
+2. the spec is marked with `type: :cell`.
+
+For all cell specs, the helper then:
+
+- Includes the macros from the `rspec-cells` gem (such as `cell`). Note that this also gives access to Capybara methods like `have_content`, `have_link` etc.
+
+- Includes our custom macros from `Abroaders::RSpec::CellMacros`, which is also defined in `cell_helper` (take a look).
+
+- Most of the time you'll want to render cells in tests using the `show` macro, which assumes that the `described_class` is the cell that you want to test.
+
+- Note that negative matchers like `have_no_link` aren't available in cell specs, but it doesn't matter because you don't need them - unlike in feature specs, you can just write `expect(...).not_to have_link(...)` and it won't slow anything down because there's no AJAX to worry about.
+
+- If a cell needs to use the app's route helpers, you probably want to add the line `controller RelevantController` to your spec file.
 
 ## Rails
 
@@ -285,7 +284,6 @@ See [the Cells wiki page on GitHub](https://github.com/georgemillo/abroaders/wik
 - Arrange the standard `resources` methods in this order:
 
         class ExampleController < ApplicationController
-
           def index
           end
 
@@ -334,8 +332,8 @@ See [the Cells wiki page on GitHub](https://github.com/georgemillo/abroaders/wik
         end
 
     *Don't* use `before_action` to initialize instance variables. This is a
-    common Rails pattern, done in the sake of repitition, but it sucks because
-    it hides too much and makes the code less clear, not more.
+    common Rails pattern, done to redce repetition, but it sucks because
+    it hides too much and makes the code *less* clear, not more.
 
     If you want to extract repetitive code that loads data from the DB, put it
     in a private method with a name that starts with `load_`.
@@ -398,54 +396,6 @@ See [the Cells wiki page on GitHub](https://github.com/georgemillo/abroaders/wik
 
         # (The same logic should also be added to `create`)
 
-### Concepts
-
-As well as the standard Rails concepts (models, controllers, views, etc,)
-we have some extra top level folders in `/app`. They're mostly based on
-[this excellent article from Code Climate](blog.codeclimate.com/blog/2012/10/17/7-ways-to-decompose-fat-activerecord-models/).
-
-#### `forms`
-
-TODO - this will be removed soon in favour of Trailblazer
-
-#### `jobs`
-
-See `app/jobs/README.md`
-
-### Views + Layouts
-
-We're using a Bootstrap theme that we bought. Most views should have a structure
-like this:
-
-```
-<div class='hpanel'>
-  <div class='panel-heading hbuilt'>
-    My header
-  </div>
-  <div class='panel-body'>
-    My freakin' sweet content
-  </div>
-</div>
-```
-
-Remove the 'hbuilt' class from the `panel-heading` div and it'll lose the
-white background.
-
-Don't wrap the `hpanel` in any `row`/`col-*`-class divs, unless it's to
-make the `hpanel` use less than the full width of the screen. A good
-set of col classes to use is:
-`col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2`. `hpanel`
-doesn't affect width at all, so don't be afraid to stick `hpanel` and `col-*`
-classes on the same div>
-
-You can put `row`/`col-*-` divs within `panel-heading` and `panel-body`, but
-you don't have to.
-
-The original Bootstrap theme (which is called 'homer') uses a header panel on
-some pages with a class called `normalheader`, but don't use that in our app.
-The theme also provides a `panel-footer` class which you can stick at the
-bottom of an hpanel; use it sparingly.
-
 ### Emails
 
 - Remember to add a plain text `.txt(.erb)` email template as well as the
@@ -453,18 +403,3 @@ bottom of an hpanel; use it sparingly.
 
 - Emails will usually be enqueued as background jobs using `deliver_later`,
   so see everything in `app/jobs/README.md` regarding background jobs.
-
-# Third Party Scripts
-
-If we have a `<script>` tag from a third party that we want to drop into our app:
-
-1.  Put it in a new view in `app/views/shared/third_party_scripts`.
-2.  Stick the view name in the array at the top of
-    `app/views/shared/third_party_scripts.rb`
-
-The script will now be output at the bottom of the `<body>` tag.
-
-Note that if you add a new layout (at the time of writing we just have
-`application.html.erb` and `basic.html.erb`), you'll need to add the line `<%=
-render "shared/third_party_scripts" %>` to the bottom of the `<body>` tag if
-you want the scripts to be included.

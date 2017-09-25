@@ -5,12 +5,6 @@ Some general guidelines for how we test:
 - We use RSpec, not minitest. Run the specs using the `rspec` command. But you
   already knew that.
 
-- Feature specs are the most important part of the test suite. Every user
-  action in the app should be covered by a feature spec unless there's a good
-  reason not to.  Lower-level testing (e.g. testing models) is helpful too, but
-  it's not worth the time to add a detailed spec for every little one-line
-  method.
-
 - Generally, follow the guidelines at [betterspecs.org](http://betterspecs.org/).
   The only one I disagree with is that "A spec description should never be
   longer than 40 characters". Sure, keep your spec descriptions short when
@@ -162,9 +156,8 @@ Some general guidelines for how we test:
         expect(page).to have_no_selector "#card_1"
         expect(page).to have_no_link "Click me"
 
-    Using `not_to` as above will slow down the tests dramatically. Read
-    [this article](https://blog.codeship.com/faster-rails-tests/) to understand
-    why.
+   Using `not_to` as above can slow down the tests dramatically. Read
+   [this article](https://blog.codeship.com/faster-rails-tests/) to understand
+   why.
 
 - Don't use "within" in cell specs, it doesn't work :/
-
