@@ -66,11 +66,17 @@ module Integrations
         private
 
         def query(path)
-          raw_response = get(
-            path,
-            headers: { 'X-Authentication' => api_key },
-          ).body
-          response = JSON.parse(raw_response)
+          options = { headers: { 'X-Authentication' => api_key } }
+          if Rails.env.production?
+            fixie = URI.parse ENV['FIXIE_URL']
+            options.merge!(
+              http_proxyaddr: fixie.host,
+              http_proxyport: fixie.port,
+              http_proxyuser: fixie.user,
+              http_proxypass: fixie.password
+            )
+          end
+          response = JSON.parse(get(path, options).body)
           raise(Error, response.fetch('error')) if response['error']
           Abroaders::Util.underscore_keys(response, true)
         end
